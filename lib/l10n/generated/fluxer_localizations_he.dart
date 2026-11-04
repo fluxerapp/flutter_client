@@ -950,8 +950,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count חברים';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount חברים',
+      one: '$formattedCount חבר',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1050,9 +1056,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get embedThemeWebOnly => 'אפשר לייבא ערכות נושא רק באינטרנט או במחשב.';
-
-  @override
-  String get embedThemeImport => 'ייבוא ערכת נושא';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1387,7 +1390,13 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count חברים';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count חברים',
+      one: '$count חבר',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1777,6 +1786,48 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       locale: localeName,
       other: '$count קהילות',
       one: 'קהילה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'מצא את המדבקה המושלמת';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'אין מדבקות זמינות';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'הצטרף לקהילה שיש בה מדבקות כדי להשתמש בהן כאן.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'אין מדבקות זמינות';
+
+  @override
+  String get stickerPickerEmptyHereBody => 'אין מדבקות זמינות בשיחה הזו.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'לא נמצאו מדבקות';
+
+  @override
+  String get stickerPickerNoResultsBody => 'נסה מונח חיפוש אחר.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'שחרר $stickerCount מ-$communityCount עם Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מדבקות',
+      two: '$count מדבקות',
+      one: 'מדבקה אחת',
     );
     return '$_temp0';
   }
@@ -4747,7 +4798,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'בחר בין מראה כהה, פחם או בהיר.';
+      'בחר בין מראה המערכת, כהה, פחם או בהיר.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'טווח דינמי רחב';
@@ -5261,6 +5312,62 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'נדרש שם.';
+
+  @override
+  String get savedMediaEdit => 'עריכה';
+
+  @override
+  String get savedMediaEditTitle => 'עריכת מדיה שמורה';
+
+  @override
+  String get savedMediaDeleteTitle => 'מחיקת מדיה שמורה';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'להסיר את \"$name\" מהמדיה השמורה שלך?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'לא ניתן היה למחוק את המדיה השמורה.';
+
+  @override
+  String get savedMediaSearchHint => 'חיפוש מדיה שמורה';
+
+  @override
+  String get savedMediaUnavailableTitle => 'המדיה השמורה אינה זמינה';
+
+  @override
+  String get savedMediaUnavailableBody => 'נסה שוב בעוד רגע.';
+
+  @override
+  String get savedMediaEmptyTitle => 'אין מדיה שמורה';
+
+  @override
+  String get savedMediaEmptyBody => 'שמור מדיה מהודעות כדי לראות אותה כאן.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'אין תוצאות';
+
+  @override
+  String get savedMediaNoResultsBody => 'נסה מונח חיפוש או מסנן אחר.';
+
+  @override
+  String get savedMediaFilterAll => 'הכל';
+
+  @override
+  String get savedMediaFilterImages => 'תמונות';
+
+  @override
+  String get savedMediaFilterVideos => 'סרטונים';
+
+  @override
+  String get savedMediaFilterAudio => 'שמע';
+
+  @override
+  String get savedMediaFilterGifs => 'קובצי GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6076,6 +6183,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'סגירה';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'פקדי שיחה קולית';
 
   @override
   String get voiceConnectionDisconnected => 'מנותק';
@@ -7261,6 +7371,21 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatMessageDebug => 'ניפוי באגים בהודעה';
 
   @override
+  String get messageAlertNote => 'הערה';
+
+  @override
+  String get messageAlertTip => 'טיפ';
+
+  @override
+  String get messageAlertImportant => 'חשוב';
+
+  @override
+  String get messageAlertWarning => 'אזהרה';
+
+  @override
+  String get messageAlertCaution => 'זהירות';
+
+  @override
   String get chatMessageDebugSheetTitle => 'ניפוי באגים בהודעה';
 
   @override
@@ -7527,6 +7652,16 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatReplyMentionOff => 'כבוי';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'בתגובה ל-$authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'הועבר מ-$source';
+  }
+
+  @override
   String get chatReplyCancel => 'ביטול תגובה';
 
   @override
@@ -7603,6 +7738,23 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'סגירה';
+
+  @override
+  String get videoPlayerPlay => 'הפעל';
+
+  @override
+  String get videoPlayerPause => 'השהה';
+
+  @override
+  String get videoPlayerVolume => 'עוצמת קול';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'מהירות הפעלה ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'מסך מלא';
 
   @override
   String get chatAttachmentVideoToggleControls => 'הצג/הסתר פקדי וידאו';
@@ -8565,6 +8717,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => 'הגדרות התראות, מושתק';
 
   @override
+  String get channelHeaderOpenDetails => 'פתיחת פרטי הערוץ';
+
+  @override
   String get channelDetailsSearchTitle => 'חיפוש';
 
   @override
@@ -9253,6 +9408,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'סגור את בורר הקבצים המצורפים';
+
+  @override
+  String get composerSendMessage => 'שליחת הודעה';
 
   @override
   String get chatAttachmentPanelPhotos => 'תמונות';
@@ -11079,6 +11237,16 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'הוספת חיפוש תמונה הפוך';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'חיפוש באמצעות $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'תרגום באמצעות $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'יש להפעיל לפחות ספק אחד לחיפוש תמונות הפוך למטה.';
 
@@ -11180,6 +11348,12 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'יומני אפליקציה';
+
+  @override
+  String get userSettingsTitle => 'הגדרות';
+
+  @override
+  String get userSettingsCopyAppInfo => 'העתקת פרטי האפליקציה';
 
   @override
   String get userSettingsNavDeveloperTools => 'כלי מפתחים';
@@ -11520,9 +11694,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get instanceConnectionRequired => 'התחבר/י לשרת כדי להיכנס';
 
   @override
-  String get comingSoon => 'בקרוב';
-
-  @override
   String get guildNavbarDirectMessages => 'הודעות פרטיות';
 
   @override
@@ -11611,9 +11782,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'קהילות';
-
-  @override
-  String get discoveryApps => 'אפליקציות';
 
   @override
   String get discoveryJoinErrorGenericTitle => 'לא ניתן להצטרף לקהילה זו';
@@ -11724,6 +11892,76 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'תיבת דואר נכנס';
+
+  @override
+  String get friendsPageTitle => 'החברים שלי';
+
+  @override
+  String get friendsActiveNowTitle => 'פעילים כעת';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'בינתיים שקט כאן...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'כשחברים פעילים בערוצים קוליים, הפעילות שלהם תופיע כאן.';
+
+  @override
+  String get friendsTabOnline => 'מחובר';
+
+  @override
+  String get friendsTabAll => 'הכל';
+
+  @override
+  String get friendsTabPending => 'בהמתנה';
+
+  @override
+  String get friendsTabBlocked => 'חסומים';
+
+  @override
+  String get friendsSearchOnline => 'חיפוש חברים מחוברים';
+
+  @override
+  String get friendsSearchAll => 'חיפוש חברים';
+
+  @override
+  String get friendsSearchPending => 'חיפוש בקשות ממתינות';
+
+  @override
+  String get friendsSearchBlocked => 'חיפוש משתמשים חסומים';
+
+  @override
+  String get friendsEmptySearchTitle => 'אין חברים שתואמים לחיפוש זה';
+
+  @override
+  String get friendsEmptySearchBody => 'נסה שם אחר או בדוק את האיות.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'אין חברים מחוברים';
+
+  @override
+  String get friendsEmptyOnlineBody => 'כשהם יתחברו, הם יופיעו ממש כאן.';
+
+  @override
+  String get friendsEmptyAllTitle => 'אין חברים עדיין';
+
+  @override
+  String get friendsEmptyAllBody => 'במקום שאליו אנחנו הולכים, צריך עוד חברים.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'אין בקשות ממתינות';
+
+  @override
+  String get friendsEmptyPendingBody => 'בקשות חברות ממתינות יופיעו כאן.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'לא חסמת אף אחד.';
+
+  @override
+  String get friendsOutgoingStatus => 'בקשת חברות יוצאת';
+
+  @override
+  String get friendsBlockedStatus => 'חסום';
 
   @override
   String get profileRemoveFriend => 'הסר חבר';
@@ -12000,6 +12238,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'הושבת עד $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'מושתק';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -14827,6 +15068,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'הודעות פרטיות';
+
+  @override
+  String get dmListFriendsButton => 'חברים';
 
   @override
   String get keybindsSearchShortcuts => 'חיפוש קיצורי דרך';

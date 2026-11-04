@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 104;
+const int _expectedSchemaVersion = 106;
 
 const int _guardedBaselineVersion = 67;
 
@@ -533,6 +533,38 @@ void main() {
       expect(_tableColumns(raw, 'dm_channels'), contains('nsfw'));
       final DmChannel? row = await db.dmChannelDao.getDmChannelById('d1');
       expect(row?.nsfw, isFalse);
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('upgrade from 105 keeps recent instances without a url', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 105);
+      raw
+        ..execute('ALTER TABLE recent_instances DROP COLUMN url')
+        ..execute(
+          'INSERT INTO recent_instances (domain, name, last_used) '
+          "VALUES ('192.168.1.20', 'Home', 1700000000)",
+        );
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+
+      final List<RecentInstance> rows = await db.recentInstancesDao
+          .getRecentInstances();
+      expect(rows.single.domain, '192.168.1.20');
+      expect(rows.single.url, isNull);
+      await db.recentInstancesDao.touchRecentInstance(
+        domain: '192.168.1.20',
+        name: 'Home',
+        url: 'http://192.168.1.20:8080',
+      );
+      expect(
+        (await db.recentInstancesDao.getRecentInstances()).single.url,
+        'http://192.168.1.20:8080',
+      );
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

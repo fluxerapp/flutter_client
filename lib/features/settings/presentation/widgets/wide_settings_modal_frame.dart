@@ -74,6 +74,7 @@ Future<void> showWideSettingsBottomSheet(
     isScrollControlled: true,
     useSafeArea: true,
     backgroundColor: Colors.transparent,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     sheetAnimationStyle: fluxerBottomSheetAnimationStyle(context),
     constraints: BoxConstraints(maxWidth: maxModalWidth),
     builder: (BuildContext sheetContext) {

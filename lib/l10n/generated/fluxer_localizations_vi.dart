@@ -960,8 +960,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count thành viên';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount thành viên';
   }
 
   @override
@@ -1061,9 +1061,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Bạn chỉ có thể nhập chủ đề trên web hoặc máy tính.';
-
-  @override
-  String get embedThemeImport => 'Nhập chủ đề';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1795,6 +1792,48 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       locale: localeName,
       other: '$count cộng đồng',
       one: '1 cộng đồng',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Tìm nhãn dán ưng ý';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Không có nhãn dán nào';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Tham gia một cộng đồng có nhãn dán để dùng chúng tại đây.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Không có nhãn dán nào';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Không có nhãn dán nào dùng được trong cuộc trò chuyện này.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Không tìm thấy nhãn dán nào';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Hãy thử từ khóa tìm kiếm khác.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Mở khóa $stickerCount từ $communityCount với Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nhãn dán',
+      one: '1 nhãn dán',
     );
     return '$_temp0';
   }
@@ -4789,7 +4828,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Chọn giao diện tối, than hoặc sáng.';
+      'Chọn giao diện hệ thống, tối, than hoặc sáng.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Dải tương phản động cao';
@@ -5312,6 +5351,63 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Tên là bắt buộc.';
+
+  @override
+  String get savedMediaEdit => 'Chỉnh sửa';
+
+  @override
+  String get savedMediaEditTitle => 'Chỉnh sửa media đã lưu';
+
+  @override
+  String get savedMediaDeleteTitle => 'Xóa media đã lưu';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Xóa \"$name\" khỏi media đã lưu của bạn?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Không thể xóa media đã lưu.';
+
+  @override
+  String get savedMediaSearchHint => 'Tìm kiếm media đã lưu';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Media đã lưu không khả dụng';
+
+  @override
+  String get savedMediaUnavailableBody => 'Thử lại sau giây lát.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Chưa có media đã lưu';
+
+  @override
+  String get savedMediaEmptyBody => 'Lưu media từ tin nhắn để xem tại đây.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Không có kết quả';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Hãy thử từ khóa tìm kiếm hoặc bộ lọc khác.';
+
+  @override
+  String get savedMediaFilterAll => 'Tất cả';
+
+  @override
+  String get savedMediaFilterImages => 'Hình ảnh';
+
+  @override
+  String get savedMediaFilterVideos => 'Video';
+
+  @override
+  String get savedMediaFilterAudio => 'Âm thanh';
+
+  @override
+  String get savedMediaFilterGifs => 'Ảnh GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6139,6 +6235,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Bỏ qua';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Điều khiển cuộc gọi thoại';
 
   @override
   String get voiceConnectionDisconnected => 'Đã ngắt kết nối';
@@ -7351,6 +7450,21 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageDebug => 'Gỡ lỗi tin nhắn';
 
   @override
+  String get messageAlertNote => 'Ghi chú';
+
+  @override
+  String get messageAlertTip => 'Mẹo';
+
+  @override
+  String get messageAlertImportant => 'Quan trọng';
+
+  @override
+  String get messageAlertWarning => 'Cảnh báo';
+
+  @override
+  String get messageAlertCaution => 'Thận trọng';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Gỡ lỗi tin nhắn';
 
   @override
@@ -7624,6 +7738,16 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatReplyMentionOff => 'TẮT';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Đang trả lời $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Chuyển tiếp từ $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Hủy trả lời';
 
   @override
@@ -7700,6 +7824,23 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Bỏ qua';
+
+  @override
+  String get videoPlayerPlay => 'Phát';
+
+  @override
+  String get videoPlayerPause => 'Tạm dừng';
+
+  @override
+  String get videoPlayerVolume => 'Âm lượng';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Tốc độ phát ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Toàn màn hình';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8678,6 +8819,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Cài đặt thông báo, tắt tiếng';
 
   @override
+  String get channelHeaderOpenDetails => 'Mở chi tiết kênh';
+
+  @override
   String get channelDetailsSearchTitle => 'Tìm kiếm';
 
   @override
@@ -9384,6 +9528,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Đóng trình chọn tệp đính kèm';
+
+  @override
+  String get composerSendMessage => 'Gửi tin nhắn';
 
   @override
   String get chatAttachmentPanelPhotos => 'Ảnh';
@@ -11248,6 +11395,16 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Thêm tìm kiếm hình ảnh ngược';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Tìm kiếm bằng $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Dịch bằng $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Bật ít nhất một nhà cung cấp tìm kiếm hình ảnh ngược bên dưới.';
 
@@ -11352,6 +11509,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Nhật ký ứng dụng';
+
+  @override
+  String get userSettingsTitle => 'Cài đặt';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Sao chép thông tin ứng dụng';
 
   @override
   String get userSettingsNavDeveloperTools => 'Công cụ nhà phát triển';
@@ -11694,9 +11857,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get instanceConnectionRequired => 'Kết nối với máy chủ để đăng nhập';
 
   @override
-  String get comingSoon => 'Sắp ra mắt';
-
-  @override
   String get guildNavbarDirectMessages => 'Tin nhắn trực tiếp';
 
   @override
@@ -11786,9 +11946,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Cộng đồng';
-
-  @override
-  String get discoveryApps => 'Ứng dụng';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11906,6 +12063,81 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Hộp thư đến';
+
+  @override
+  String get friendsPageTitle => 'Bạn bè của tôi';
+
+  @override
+  String get friendsActiveNowTitle => 'Đang hoạt động';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Hiện tại khá yên tĩnh...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Khi bạn bè đang hoạt động trong kênh thoại, hoạt động của họ sẽ hiển thị ở đây.';
+
+  @override
+  String get friendsTabOnline => 'Trực tuyến';
+
+  @override
+  String get friendsTabAll => 'Tất cả';
+
+  @override
+  String get friendsTabPending => 'Đang chờ';
+
+  @override
+  String get friendsTabBlocked => 'Đã chặn';
+
+  @override
+  String get friendsSearchOnline => 'Tìm bạn bè đang online';
+
+  @override
+  String get friendsSearchAll => 'Tìm bạn bè';
+
+  @override
+  String get friendsSearchPending => 'Tìm kiếm yêu cầu đang chờ';
+
+  @override
+  String get friendsSearchBlocked => 'Tìm người dùng bị chặn';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Không có người bạn nào khớp với tìm kiếm đó';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Thử tên khác hoặc kiểm tra lại chính tả.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Không có bạn bè nào trực tuyến';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Khi họ trực tuyến, họ sẽ xuất hiện ngay tại đây.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Chưa có bạn bè nào';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Nơi chúng ta sắp đến cần thêm nhiều bạn bè.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Không có yêu cầu đang chờ';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Các lời mời kết bạn đang chờ sẽ hiển thị ở đây.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Bạn chưa chặn ai.';
+
+  @override
+  String get friendsOutgoingStatus => 'Đã gửi lời mời kết bạn';
+
+  @override
+  String get friendsBlockedStatus => 'Đã chặn';
 
   @override
   String get profileRemoveFriend => 'Hủy kết bạn';
@@ -12190,6 +12422,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Tắt tiếng cho đến $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Đã tắt thông báo';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15061,6 +15296,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Tin nhắn trực tiếp';
+
+  @override
+  String get dmListFriendsButton => 'Bạn bè';
 
   @override
   String get keybindsSearchShortcuts => 'Tìm kiếm phím tắt';

@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} membri",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} membru} few{{formattedCount} membri} other{{formattedCount} de membri}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Poți importa teme doar pe web sau pe desktop.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importă temă",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Vizionar (pe viață {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1557,7 +1556,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} membri",
+    "dmGroupMemberCount": "{count, plural, one{{count} membru} few{{count} membri} other{{count} de membri}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Alege între aspectul întunecat, cărbune sau luminos.",
+    "lookAndFeelThemeSectionDescription": "Alege între aspectul sistemului, întunecat, cărbune sau luminos.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Trimite mesajul",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotografii",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Căutare inversă implicită a imaginii",
     "advancedSettingDefaultReverseImageSearchDescription": "Alege serviciul de căutare inversă a imaginilor folosit implicit la căutarea unei imagini.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Căutare inversă a imaginii încorporată",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Activează sau dezactivează furnizorii încorporați de căutare inversă a imaginilor. Furnizorii activați apar în meniul contextual al imaginilor, avatarurilor, bannerelor, stickerelor și emoji-urilor.",
     "advancedSettingCustomReverseImageSearchLabel": "Căutare inversă personalizată a imaginii",
     "advancedSettingCustomReverseImageSearchDescription": "Adaugă propriii furnizori de căutare inversă de imagini cu un model URL personalizat. Folosește '{url}' ca placeholder pentru URL-ul imaginii.",
     "advancedSettingAddReverseImageSearchLabel": "Adaugă căutare inversă a imaginii",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "În curând",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Mesaje directe",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Comunități",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplicații",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nu te-ai putut alătura acestei comunități",
     "@discoveryJoinErrorGenericTitle": {
@@ -18145,14 +18139,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer s-a închis neașteptat. Partajarea datelor anonime despre blocări și erori ne ajută să remediem problemele mai repede.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Rapoartele includ jurnale de blocare, erori și date de bază despre performanță. Nu sunt partajate cu terți și poți dezactiva această opțiune oricând.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Ca să activezi mai târziu, deschide Setări → Avansat → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18166,10 +18152,6 @@
     "observabilityReportingConsentAgree": "Trimite rapoarte de blocare",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nu vreau să activez",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Trimite feedback",
     "@userSettingsGiveFeedback": {

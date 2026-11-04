@@ -34,7 +34,9 @@ class VoiceCallJoinEmptyState extends ConsumerWidget {
       dmViewModelProvider.select((s) => s.conversations),
     );
     final DmConversation? dm = findDmById(conversations, channelId);
-    final String headline = dm?.displayName ?? l10n.dmVoiceFullscreenTitle;
+    final String headline = dm == null
+        ? l10n.dmVoiceFullscreenTitle
+        : dmConversationDisplayName(l10n, dm);
     final bool canJoinVoice = dm != null && canStartDmCall(dm);
 
     return VoiceJoinEmptyState(

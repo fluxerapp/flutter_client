@@ -43,13 +43,13 @@ class QuickSwitcherChannelResolver {
     return candidateToQuickSwitcherResult(
       QuickSwitcherUserCandidate(
         id: conversation.recipientId,
-        title: conversation.displayName,
+        title: dmConversationDisplayName(l10n, conversation),
         subtitle: conversation.recipientUsername ?? conversation.recipientName,
         userId: conversation.recipientId,
         dmChannelId: conversation.id,
         avatar: conversation.recipientAvatar,
         searchValues: <String>[
-          conversation.displayName,
+          conversation.rawDisplayName,
           conversation.recipientName,
           if (conversation.recipientUsername != null)
             conversation.recipientUsername!,

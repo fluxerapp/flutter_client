@@ -922,8 +922,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count명 멤버';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount명 멤버';
   }
 
   @override
@@ -1020,9 +1020,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get embedThemeWebOnly => '테마는 웹 또는 데스크톱에서만 가져올 수 있습니다.';
-
-  @override
-  String get embedThemeImport => '테마 가져오기';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1734,6 +1731,47 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       locale: localeName,
       other: '커뮤니티 $count개',
       one: '커뮤니티 1개',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => '원하는 스티커를 찾아보세요';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '사용할 수 있는 스티커 없음';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      '스티커가 있는 커뮤니티에 참여하면 여기에서 사용할 수 있습니다.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '사용할 수 있는 스티커 없음';
+
+  @override
+  String get stickerPickerEmptyHereBody => '이 대화에서 사용할 수 있는 스티커가 없습니다.';
+
+  @override
+  String get stickerPickerNoResultsTitle => '스티커를 찾을 수 없습니다';
+
+  @override
+  String get stickerPickerNoResultsBody => '다른 검색어를 사용해 보세요.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutonium으로 $communityCount의 $stickerCount를 사용해 보세요.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '스티커 $count개',
+      one: '스티커 1개',
     );
     return '$_temp0';
   }
@@ -4637,7 +4675,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      '어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.';
+      '시스템, 어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.';
 
   @override
   String get lookAndFeelHdrSectionTitle => '높은 동적 범위';
@@ -5134,6 +5172,62 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => '이름을 입력해 주세요.';
+
+  @override
+  String get savedMediaEdit => '편집';
+
+  @override
+  String get savedMediaEditTitle => '저장된 미디어 편집';
+
+  @override
+  String get savedMediaDeleteTitle => '저장된 미디어 삭제';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '저장된 미디어에서 \"$name\"을(를) 삭제할까요?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '저장된 미디어를 삭제하지 못했습니다.';
+
+  @override
+  String get savedMediaSearchHint => '저장된 미디어 검색';
+
+  @override
+  String get savedMediaUnavailableTitle => '저장된 미디어를 사용할 수 없음';
+
+  @override
+  String get savedMediaUnavailableBody => '잠시 후에 다시 시도해 주세요.';
+
+  @override
+  String get savedMediaEmptyTitle => '저장된 미디어 없음';
+
+  @override
+  String get savedMediaEmptyBody => '메시지의 미디어를 저장하면 여기에 표시됩니다.';
+
+  @override
+  String get savedMediaNoResultsTitle => '결과 없음';
+
+  @override
+  String get savedMediaNoResultsBody => '다른 검색어나 필터를 사용해 보세요.';
+
+  @override
+  String get savedMediaFilterAll => '전체';
+
+  @override
+  String get savedMediaFilterImages => '이미지';
+
+  @override
+  String get savedMediaFilterVideos => '동영상';
+
+  @override
+  String get savedMediaFilterAudio => '오디오';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'GIF 즐겨찾기를 어떻게 저장할까요?';
@@ -5911,6 +6005,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => '닫기';
+
+  @override
+  String get voiceCallControlsSheetLabel => '음성 통화 컨트롤';
 
   @override
   String get voiceConnectionDisconnected => '연결 끊김';
@@ -7065,6 +7162,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageDebug => '메시지 디버그';
 
   @override
+  String get messageAlertNote => '메모';
+
+  @override
+  String get messageAlertTip => '팁';
+
+  @override
+  String get messageAlertImportant => '중요';
+
+  @override
+  String get messageAlertWarning => '경고';
+
+  @override
+  String get messageAlertCaution => '주의';
+
+  @override
   String get chatMessageDebugSheetTitle => '메시지 디버그';
 
   @override
@@ -7324,6 +7436,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatReplyMentionOff => '꺼짐';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '$authorName님에게 답장 중';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '$source에서 전달됨';
+  }
+
+  @override
   String get chatReplyCancel => '답장 취소';
 
   @override
@@ -7399,6 +7521,23 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => '닫기';
+
+  @override
+  String get videoPlayerPlay => '재생';
+
+  @override
+  String get videoPlayerPause => '일시 정지';
+
+  @override
+  String get videoPlayerVolume => '볼륨';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '재생 속도 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '전체 화면';
 
   @override
   String get chatAttachmentVideoToggleControls => '동영상 컨트롤 토글';
@@ -8335,6 +8474,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => '알림 설정, 음소거됨';
 
   @override
+  String get channelHeaderOpenDetails => '채널 세부 정보 열기';
+
+  @override
   String get channelDetailsSearchTitle => '검색';
 
   @override
@@ -8997,6 +9139,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => '첨부 파일 선택 창 닫기';
+
+  @override
+  String get composerSendMessage => '메시지 보내기';
 
   @override
   String get chatAttachmentPanelPhotos => '사진';
@@ -10756,6 +10901,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedSettingAddReverseImageSearchLabel => '역방향 이미지 검색 추가';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '$engine(으)로 검색';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '$engine(으)로 번역';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       '아래에서 역방향 이미지 검색 제공자를 1개 이상 사용 설정하세요.';
 
@@ -10851,6 +11006,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => '앱 로그';
+
+  @override
+  String get userSettingsTitle => '설정';
+
+  @override
+  String get userSettingsCopyAppInfo => '앱 정보 복사';
 
   @override
   String get userSettingsNavDeveloperTools => '개발자 도구';
@@ -11188,9 +11349,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get instanceConnectionRequired => '로그인하려면 인스턴스에 연결하세요';
 
   @override
-  String get comingSoon => '출시 예정';
-
-  @override
   String get guildNavbarDirectMessages => 'DM';
 
   @override
@@ -11279,9 +11437,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => '커뮤니티';
-
-  @override
-  String get discoveryApps => '앱';
 
   @override
   String get discoveryJoinErrorGenericTitle => '이 커뮤니티에 참여할 수 없습니다';
@@ -11391,6 +11546,75 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => '받은 메시지함';
+
+  @override
+  String get friendsPageTitle => '내 친구';
+
+  @override
+  String get friendsActiveNowTitle => '활동 중';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '지금은 조용하네요...';
+
+  @override
+  String get friendsActiveNowEmptyBody => '친구가 음성 채널에서 활동하면 여기에 표시됩니다.';
+
+  @override
+  String get friendsTabOnline => '온라인';
+
+  @override
+  String get friendsTabAll => '전체';
+
+  @override
+  String get friendsTabPending => '대기 중';
+
+  @override
+  String get friendsTabBlocked => '차단됨';
+
+  @override
+  String get friendsSearchOnline => '온라인 친구 검색';
+
+  @override
+  String get friendsSearchAll => '친구 검색';
+
+  @override
+  String get friendsSearchPending => '대기 중인 요청 검색';
+
+  @override
+  String get friendsSearchBlocked => '차단된 사용자 검색';
+
+  @override
+  String get friendsEmptySearchTitle => '검색 결과와 일치하는 친구가 없습니다';
+
+  @override
+  String get friendsEmptySearchBody => '다른 이름을 시도하거나 철자를 확인해 주세요.';
+
+  @override
+  String get friendsEmptyOnlineTitle => '온라인 상태인 친구가 없습니다';
+
+  @override
+  String get friendsEmptyOnlineBody => '온라인 상태가 되면 여기에 표시됩니다.';
+
+  @override
+  String get friendsEmptyAllTitle => '아직 친구가 없습니다';
+
+  @override
+  String get friendsEmptyAllBody => '새로운 친구를 더 많이 만나보세요.';
+
+  @override
+  String get friendsEmptyPendingTitle => '대기 중인 요청이 없어요';
+
+  @override
+  String get friendsEmptyPendingBody => '대기 중인 친구 요청이 여기에 표시됩니다.';
+
+  @override
+  String get friendsEmptyBlockedBody => '차단한 사람이 없습니다.';
+
+  @override
+  String get friendsOutgoingStatus => '보낸 친구 요청';
+
+  @override
+  String get friendsBlockedStatus => '차단됨';
 
   @override
   String get profileRemoveFriend => '친구 삭제';
@@ -11661,6 +11885,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return '$formattedDate까지 음소거됨';
   }
+
+  @override
+  String get channelMutedHint => '음소거됨';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -14412,6 +14639,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'DM';
+
+  @override
+  String get dmListFriendsButton => '친구';
 
   @override
   String get keybindsSearchShortcuts => '단축키 검색';

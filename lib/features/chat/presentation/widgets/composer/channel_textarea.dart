@@ -1231,22 +1231,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required Widget recordingChild,
     required Widget idleChild,
   }) {
-    return FluxerConstrainedUiTextScale(
-      child: AnimatedSwitcher(
-        duration: context.motion.panel,
-        switchInCurve: context.motion.emphasizedCurve,
-        switchOutCurve: context.motion.curve,
-        layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
-          return Stack(
-            alignment: Alignment.bottomCenter,
-            clipBehavior: Clip.none,
-            children: <Widget>[...previousChildren, ?currentChild],
-          );
-        },
-        child: KeyedSubtree(
-          key: ValueKey<bool>(recording),
-          child: recording ? recordingChild : idleChild,
-        ),
+    return AnimatedSwitcher(
+      duration: context.motion.panel,
+      switchInCurve: context.motion.emphasizedCurve,
+      switchOutCurve: context.motion.curve,
+      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+        return Stack(
+          alignment: Alignment.bottomCenter,
+          clipBehavior: Clip.none,
+          children: <Widget>[...previousChildren, ?currentChild],
+        );
+      },
+      child: KeyedSubtree(
+        key: ValueKey<bool>(recording),
+        child: recording
+            ? FluxerConstrainedUiTextScale(child: recordingChild)
+            : idleChild,
       ),
     );
   }

@@ -953,8 +953,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count สมาชิก';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount สมาชิก';
   }
 
   @override
@@ -1054,9 +1054,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'นำเข้าธีมได้เฉพาะบนเว็บหรือเดสก์ท็อปเท่านั้น';
-
-  @override
-  String get embedThemeImport => 'นำเข้าธีม';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1783,6 +1780,48 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       locale: localeName,
       other: '$count ชุมชน',
       one: '1 ชุมชน',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'ค้นหาสติกเกอร์ที่ถูกใจ';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'ไม่มีสติกเกอร์';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'เข้าร่วมคอมมูนิตี้ที่มีสติกเกอร์เพื่อใช้สติกเกอร์ที่นี่';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'ไม่มีสติกเกอร์';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'ไม่มีสติกเกอร์ที่ใช้ได้ในการสนทนานี้';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'ไม่พบสติกเกอร์';
+
+  @override
+  String get stickerPickerNoResultsBody => 'ลองใช้คำค้นหาอื่น';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'ปลดล็อก$stickerCountจาก$communityCountด้วย Plutonium';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'สติกเกอร์ $count รายการ',
+      one: 'สติกเกอร์ 1 รายการ',
     );
     return '$_temp0';
   }
@@ -4765,7 +4804,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'เลือกระหว่างรูปลักษณ์แบบมืด, ถ่าน, หรือสว่าง';
+      'เลือกระหว่างรูปลักษณ์ตามระบบ มืด ถ่าน หรือสว่าง';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'ช่วงไดนามิกสูง';
@@ -5285,6 +5324,62 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'ต้องระบุชื่อ';
+
+  @override
+  String get savedMediaEdit => 'แก้ไข';
+
+  @override
+  String get savedMediaEditTitle => 'แก้ไขสื่อที่บันทึกไว้';
+
+  @override
+  String get savedMediaDeleteTitle => 'ลบสื่อที่บันทึกไว้';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'นำ \"$name\" ออกจากสื่อที่บันทึกไว้ใช่หรือไม่';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'ลบสื่อที่บันทึกไว้ไม่ได้';
+
+  @override
+  String get savedMediaSearchHint => 'ค้นหาสื่อที่บันทึกไว้';
+
+  @override
+  String get savedMediaUnavailableTitle => 'สื่อที่บันทึกไว้ไม่พร้อมใช้งาน';
+
+  @override
+  String get savedMediaUnavailableBody => 'ลองอีกครั้งในอีกสักครู่';
+
+  @override
+  String get savedMediaEmptyTitle => 'ไม่มีสื่อที่บันทึกไว้';
+
+  @override
+  String get savedMediaEmptyBody => 'บันทึกสื่อจากข้อความเพื่อให้แสดงที่นี่';
+
+  @override
+  String get savedMediaNoResultsTitle => 'ไม่พบผลลัพธ์';
+
+  @override
+  String get savedMediaNoResultsBody => 'ลองใช้คำค้นหาหรือตัวกรองอื่น';
+
+  @override
+  String get savedMediaFilterAll => 'ทั้งหมด';
+
+  @override
+  String get savedMediaFilterImages => 'รูปภาพ';
+
+  @override
+  String get savedMediaFilterVideos => 'วิดีโอ';
+
+  @override
+  String get savedMediaFilterAudio => 'เสียง';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6103,6 +6198,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'ปิด';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'ตัวควบคุมการโทรด้วยเสียง';
 
   @override
   String get voiceConnectionDisconnected => 'ตัดการเชื่อมต่อแล้ว';
@@ -7304,6 +7402,21 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageDebug => 'ดีบักข้อความ';
 
   @override
+  String get messageAlertNote => 'โน้ต';
+
+  @override
+  String get messageAlertTip => 'เคล็ดลับ';
+
+  @override
+  String get messageAlertImportant => 'สำคัญ';
+
+  @override
+  String get messageAlertWarning => 'คำเตือน';
+
+  @override
+  String get messageAlertCaution => 'ข้อควรระวัง';
+
+  @override
   String get chatMessageDebugSheetTitle => 'ดีบักข้อความ';
 
   @override
@@ -7574,6 +7687,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatReplyMentionOff => 'ปิด';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'กำลังตอบกลับ $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'ส่งต่อจาก $source';
+  }
+
+  @override
   String get chatReplyCancel => 'ยกเลิกตอบกลับ';
 
   @override
@@ -7650,6 +7773,23 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'ปิด';
+
+  @override
+  String get videoPlayerPlay => 'เล่น';
+
+  @override
+  String get videoPlayerPause => 'หยุดชั่วคราว';
+
+  @override
+  String get videoPlayerVolume => 'ระดับเสียง';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'ความเร็วในการเล่น ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'เต็มหน้าจอ';
 
   @override
   String get chatAttachmentVideoToggleControls => 'สลับการควบคุมวิดีโอ';
@@ -8617,6 +8757,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'การตั้งค่าการแจ้งเตือน, ปิดเสียง';
 
   @override
+  String get channelHeaderOpenDetails => 'เปิดรายละเอียดช่อง';
+
+  @override
   String get channelDetailsSearchTitle => 'ค้นหา';
 
   @override
@@ -9307,6 +9450,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'ปิดตัวเลือกไฟล์แนบ';
+
+  @override
+  String get composerSendMessage => 'ส่งข้อความ';
 
   @override
   String get chatAttachmentPanelPhotos => 'รูปภาพ';
@@ -11155,6 +11301,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'เพิ่มการค้นหารูปภาพย้อนกลับ';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'ค้นหาด้วย $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'แปลด้วย $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'เปิดใช้งานผู้ให้บริการค้นหารูปภาพย้อนกลับอย่างน้อยหนึ่งรายการด้านล่าง';
 
@@ -11256,6 +11412,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'บันทึกแอป';
+
+  @override
+  String get userSettingsTitle => 'การตั้งค่า';
+
+  @override
+  String get userSettingsCopyAppInfo => 'คัดลอกข้อมูลแอป';
 
   @override
   String get userSettingsNavDeveloperTools => 'เครื่องมือสำหรับนักพัฒนา';
@@ -11598,9 +11760,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'เชื่อมต่อกับอินสแตนซ์เพื่อลงชื่อเข้าใช้';
 
   @override
-  String get comingSoon => 'เร็วๆ นี้';
-
-  @override
   String get guildNavbarDirectMessages => 'ข้อความส่วนตัว';
 
   @override
@@ -11689,9 +11848,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'คอมมูนิตี้';
-
-  @override
-  String get discoveryApps => 'แอป';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11807,6 +11963,77 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'กล่องข้อความ';
+
+  @override
+  String get friendsPageTitle => 'เพื่อนของฉัน';
+
+  @override
+  String get friendsActiveNowTitle => 'กำลังใช้งานอยู่';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'ตอนนี้เงียบจังเลย...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'เมื่อเพื่อนของคุณกำลังใช้งานช่องเสียง กิจกรรมของพวกเขาจะแสดงที่นี่';
+
+  @override
+  String get friendsTabOnline => 'ออนไลน์';
+
+  @override
+  String get friendsTabAll => 'ทั้งหมด';
+
+  @override
+  String get friendsTabPending => 'รอดำเนินการ';
+
+  @override
+  String get friendsTabBlocked => 'ถูกบล็อก';
+
+  @override
+  String get friendsSearchOnline => 'ค้นหาเพื่อนที่ออนไลน์';
+
+  @override
+  String get friendsSearchAll => 'ค้นหาเพื่อน';
+
+  @override
+  String get friendsSearchPending => 'ค้นหาคำขอที่รอดำเนินการ';
+
+  @override
+  String get friendsSearchBlocked => 'ค้นหาผู้ใช้ที่ถูกบล็อก';
+
+  @override
+  String get friendsEmptySearchTitle => 'ไม่มีเพื่อนที่ตรงกับการค้นหานี้';
+
+  @override
+  String get friendsEmptySearchBody => 'ลองใช้ชื่ออื่นหรือตรวจสอบการสะกด';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'ไม่มีเพื่อนออนไลน์';
+
+  @override
+  String get friendsEmptyOnlineBody => 'เมื่อเพื่อนออนไลน์ จะมาปรากฏตรงนี้';
+
+  @override
+  String get friendsEmptyAllTitle => 'ยังไม่มีเพื่อน';
+
+  @override
+  String get friendsEmptyAllBody => 'ไปที่ไหนก็ต้องมีเพื่อนเยอะๆ';
+
+  @override
+  String get friendsEmptyPendingTitle => 'ไม่มีคำขอที่รอดำเนินการ';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'คำขอเป็นเพื่อนที่รอดำเนินการจะแสดงที่นี่';
+
+  @override
+  String get friendsEmptyBlockedBody => 'คุณยังไม่ได้บล็อกใคร';
+
+  @override
+  String get friendsOutgoingStatus => 'คำขอเป็นเพื่อนที่ส่งไปแล้ว';
+
+  @override
+  String get friendsBlockedStatus => 'ถูกบล็อก';
 
   @override
   String get profileRemoveFriend => 'ลบเพื่อน';
@@ -12085,6 +12312,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'ปิดเสียงจนถึง $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'ปิดเสียงอยู่';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -14918,6 +15148,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'ข้อความส่วนตัว';
+
+  @override
+  String get dmListFriendsButton => 'เพื่อน';
 
   @override
   String get keybindsSearchShortcuts => 'ค้นหาปุ่มลัด';

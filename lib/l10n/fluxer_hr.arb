@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} članova",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} član} few{{formattedCount} člana} other{{formattedCount} članova}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Teme možeš uvesti samo na webu ili na računalu.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Uvezi temu",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Vizionar (doživotni {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1557,7 +1556,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} člana",
+    "dmGroupMemberCount": "{count, plural, one{{count} član} few{{count} člana} other{{count} članova}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Odaberite između tamnog, ugljenog ili svijetlog izgleda.",
+    "lookAndFeelThemeSectionDescription": "Odaberite izgled sustava ili tamni, ugljeni ili svijetli izgled.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Pošalji poruku",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotografije",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Zadana obrnuta pretraga slika",
     "advancedSettingDefaultReverseImageSearchDescription": "Odaberite koju uslugu obrnutog pretraživanja slika želite koristiti kao zadanu pri pretraživanju slike.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Ugrađena obrnuta pretraga slika",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Omogućite ili onemogućite ugrađene pružatelje usluga obrnutog pretraživanja slika. Omogućeni pružatelji pojavljuju se u kontekstnom izborniku slika, avatara, natpisa, naljepnica i emojija.",
     "advancedSettingCustomReverseImageSearchLabel": "Prilagođena obrnuta pretraga slika",
     "advancedSettingCustomReverseImageSearchDescription": "Dodajte vlastite pružatelje pretraživanja slika unazad s prilagođenim uzorkom URL-a. Upotrijebite '{url}' kao zamjenu za URL slike.",
     "advancedSettingAddReverseImageSearchLabel": "Dodaj obrnuto pretraživanje slika",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Uskoro",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Izravne poruke",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Zajednice",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplikacije",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nije moguće pridružiti se ovoj zajednici",
     "@discoveryJoinErrorGenericTitle": {
@@ -18153,14 +18147,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer se neočekivano zatvorio. Dijeljenje anonimnih podataka o rušenjima i pogreškama pomaže nam brže ispraviti probleme.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Izvješća sadrže zapise o rušenjima, pogreške i osnovne podatke o performansama. Ne dijele se s trećim stranama i možete ih isključiti u bilo kojem trenutku.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Da biste to kasnije uključili, otvorite Postavke → Napredno → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18174,10 +18160,6 @@
     "observabilityReportingConsentAgree": "Šalji izvješća o rušenju",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Ne želim uključiti",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Pošalji povratne informacije",
     "@userSettingsGiveFeedback": {

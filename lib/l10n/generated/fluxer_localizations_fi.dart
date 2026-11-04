@@ -961,8 +961,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count jäsentä';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount jäsentä',
+      one: '$formattedCount jäsen',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1062,9 +1068,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Voit tuoda teemoja vain verkossa tai työpöydällä.';
-
-  @override
-  String get embedThemeImport => 'Tuo teema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1405,7 +1408,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count jäsentä';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jäsentä',
+      one: '$count jäsen',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1800,6 +1809,49 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       locale: localeName,
       other: '$count yhteisöä',
       one: '1 yhteisö',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Etsi täydellinen tarra';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Tarroja ei ole saatavilla';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Liity yhteisöön, jossa on tarroja, niin voit käyttää niitä täällä.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Tarroja ei ole saatavilla';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Tässä keskustelussa ei ole käytettävissä tarroja.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Tarroja ei löytynyt';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Kokeile toista hakusanaa.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutoniumilla käyttöösi avautuu $stickerCount ($communityCount).';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tarraa',
+      one: '1 tarra',
     );
     return '$_temp0';
   }
@@ -4811,7 +4863,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Valitse tumman, hiilenmustan tai vaalean ulkoasun välillä.';
+      'Valitse järjestelmän, tumman, hiilenmustan tai vaalean ulkoasun välillä.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Laaja dynaaminen alue';
@@ -5335,6 +5387,65 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Nimi on pakollinen.';
+
+  @override
+  String get savedMediaEdit => 'Muokkaa';
+
+  @override
+  String get savedMediaEditTitle => 'Muokkaa tallennettua mediaa';
+
+  @override
+  String get savedMediaDeleteTitle => 'Poista tallennettu media';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Poistetaanko ”$name” tallennetusta mediastasi?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Tallennettua mediaa ei voitu poistaa.';
+
+  @override
+  String get savedMediaSearchHint => 'Hae tallennettuja medioita';
+
+  @override
+  String get savedMediaUnavailableTitle =>
+      'Tallennettu media ei ole saatavilla';
+
+  @override
+  String get savedMediaUnavailableBody => 'Yritä hetken kuluttua uudelleen.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Ei tallennettuja medioita';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Tallenna mediaa viesteistä, niin se näkyy täällä.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Ei tuloksia';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Kokeile toista hakusanaa tai suodatinta.';
+
+  @override
+  String get savedMediaFilterAll => 'Kaikki';
+
+  @override
+  String get savedMediaFilterImages => 'Kuvat';
+
+  @override
+  String get savedMediaFilterVideos => 'Videot';
+
+  @override
+  String get savedMediaFilterAudio => 'Ääni';
+
+  @override
+  String get savedMediaFilterGifs => 'GIFit';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6159,6 +6270,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Poista';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Puhelun hallinta';
 
   @override
   String get voiceConnectionDisconnected => 'Yhteys katkaistu';
@@ -7366,6 +7480,21 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatMessageDebug => 'Viestin virheenkorjaus';
 
   @override
+  String get messageAlertNote => 'Huomautus';
+
+  @override
+  String get messageAlertTip => 'Vinkki';
+
+  @override
+  String get messageAlertImportant => 'Tärkeää';
+
+  @override
+  String get messageAlertWarning => 'Varoitus';
+
+  @override
+  String get messageAlertCaution => 'Huomio';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Viestin virheenkorjaus';
 
   @override
@@ -7641,6 +7770,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatReplyMentionOff => 'POIS';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Vastataan käyttäjälle $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Välitetty kohteesta $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Peruuta vastaus';
 
   @override
@@ -7717,6 +7856,23 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Sulje';
+
+  @override
+  String get videoPlayerPlay => 'Toista';
+
+  @override
+  String get videoPlayerPause => 'Keskeytä';
+
+  @override
+  String get videoPlayerVolume => 'Äänenvoimakkuus';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Toistonopeus ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Koko näyttö';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8700,6 +8856,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Ilmoitusasetukset, mykistetty';
 
   @override
+  String get channelHeaderOpenDetails => 'Avaa kanavan tiedot';
+
+  @override
   String get channelDetailsSearchTitle => 'Haku';
 
   @override
@@ -9400,6 +9559,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Sulje liitteiden valitsin';
+
+  @override
+  String get composerSendMessage => 'Lähetä viesti';
 
   @override
   String get chatAttachmentPanelPhotos => 'Kuvat';
@@ -11260,6 +11422,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Lisää käänteinen kuvahaku';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Hae palvelulla $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Käännä palvelulla $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Ota alta käyttöön vähintään yksi käänteisen kuvahaun palvelu.';
 
@@ -11361,6 +11533,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Sovelluksen lokit';
+
+  @override
+  String get userSettingsTitle => 'Asetukset';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopioi sovelluksen tiedot';
 
   @override
   String get userSettingsNavDeveloperTools => 'Kehittäjän työkalut';
@@ -11705,9 +11883,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get instanceConnectionRequired => 'Yhdistä instanssiin kirjautuaksesi';
 
   @override
-  String get comingSoon => 'Tulossa pian';
-
-  @override
   String get guildNavbarDirectMessages => 'Yksityisviestit';
 
   @override
@@ -11797,9 +11972,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Yhteisöt';
-
-  @override
-  String get discoveryApps => 'Sovellukset';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11916,6 +12088,80 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Saapuneet';
+
+  @override
+  String get friendsPageTitle => 'Kaverini';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktiiviset nyt';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Hiljaista toistaiseksi...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Kun kaverit ovat aktiivisia äänikanavilla, heidän toimintansa näkyy täällä.';
+
+  @override
+  String get friendsTabOnline => 'Paikalla';
+
+  @override
+  String get friendsTabAll => 'Kaikki';
+
+  @override
+  String get friendsTabPending => 'Odottaa';
+
+  @override
+  String get friendsTabBlocked => 'Estetyt';
+
+  @override
+  String get friendsSearchOnline => 'Hae paikalla olevia kavereita';
+
+  @override
+  String get friendsSearchAll => 'Hae kavereita';
+
+  @override
+  String get friendsSearchPending => 'Hae odottavia pyyntöjä';
+
+  @override
+  String get friendsSearchBlocked => 'Hae estettyjä käyttäjiä';
+
+  @override
+  String get friendsEmptySearchTitle => 'Hakua vastaavia kavereita ei löytynyt';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Kokeile toista nimeä tai tarkista kirjoitusasu.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Ei kavereita paikalla';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Kun he tulevat online-tilaan, he näkyvät tässä.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Ei vielä kavereita';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Tarvitsemme lisää kavereita sinne, minne olemme menossa.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Ei odottavia pyyntöjä';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Tässä näkyvät odottavat kaveripyynnöt.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Et ole estänyt ketään.';
+
+  @override
+  String get friendsOutgoingStatus => 'Lähetetty kaveripyyntö';
+
+  @override
+  String get friendsBlockedStatus => 'Estetty';
 
   @override
   String get profileRemoveFriend => 'Poista kaveri';
@@ -12198,6 +12444,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Mykistetty asti $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Mykistetty';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15084,6 +15333,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Yksityisviestit';
+
+  @override
+  String get dmListFriendsButton => 'Kaverit';
 
   @override
   String get keybindsSearchShortcuts => 'Hae pikanäppäimiä';

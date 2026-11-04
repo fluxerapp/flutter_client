@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Μέλη",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Μέλος} other{{formattedCount} Μέλη}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Μπορείς να εισαγάγεις θέματα μόνο στο web ή στον υπολογιστή.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Εισαγωγή θέματος",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Ρυθμίσεις απορρήτου",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} Μέλη",
+    "dmGroupMemberCount": "{count, plural, one{{count} Μέλος} other{{count} Μέλη}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Επιλέξτε μεταξύ σκούρου, ανθρακί ή φωτεινού θέματος.",
+    "lookAndFeelThemeSectionDescription": "Επιλέξτε μεταξύ θέματος συστήματος, σκούρου, ανθρακί ή φωτεινού θέματος.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Σύντομα",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Απευθείας μηνύματα",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Κοινότητες",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Εφαρμογές",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Δεν ήταν δυνατή η συμμετοχή σε αυτήν την κοινότητα",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Αποστολή μηνύματος",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Φωτογραφίες",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Προεπιλεγμένη αντίστροφη αναζήτηση εικόνας",
     "advancedSettingDefaultReverseImageSearchDescription": "Επιλέξτε ποια υπηρεσία αντίστροφης αναζήτησης εικόνων θα χρησιμοποιείται από προεπιλογή κατά την αναζήτηση μιας εικόνας.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Ενσωματωμένη αντίστροφη αναζήτηση εικόνας",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στο μενού περιβάλλοντος εικόνων, avatar, banner, αυτοκόλλητων και emoji.",
     "advancedSettingCustomReverseImageSearchLabel": "Προσαρμοσμένη αντίστροφη αναζήτηση εικόνων",
     "advancedSettingCustomReverseImageSearchDescription": "Προσθέστε τους δικούς σας παρόχους αναζήτησης εικόνων με ένα προσαρμοσμένο μοτίβο URL. Χρησιμοποιήστε το '{url}' ως σύμβολο κράτησης θέσης για τη διεύθυνση URL της εικόνας.",
     "advancedSettingAddReverseImageSearchLabel": "Προσθήκη αντίστροφης αναζήτησης εικόνων",
@@ -18149,14 +18143,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Το Fluxer έκλεισε απροσδόκητα. Η κοινοποίηση ανώνυμων δεδομένων σφαλμάτων μάς βοηθά να διορθώνουμε τα προβλήματα πιο γρήγορα.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα και βασικά δεδομένα απόδοσης. Δεν κοινοποιούνται σε τρίτους και μπορείτε να τις απενεργοποιήσετε ανά πάσα στιγμή.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Για να το ενεργοποιήσετε αργότερα, ανοίξτε Ρυθμίσεις → Για προχωρημένους → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18170,10 +18156,6 @@
     "observabilityReportingConsentAgree": "Αποστολή αναφορών σφαλμάτων",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Δεν θέλω να το ενεργοποιήσω",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Αποστολή σχολίων",
     "@userSettingsGiveFeedback": {

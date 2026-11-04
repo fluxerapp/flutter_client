@@ -957,8 +957,14 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count medlemmer';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount medlemmer',
+      one: '$formattedCount medlem',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1059,9 +1065,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Du kan kun importere temaer på web eller computer.';
-
-  @override
-  String get embedThemeImport => 'Importer tema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1401,7 +1404,13 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count medlemmer';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count medlemmer',
+      one: '$count medlem',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1794,6 +1803,49 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       locale: localeName,
       other: '$count fællesskaber',
       one: '1 fællesskab',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Find det perfekte klistermærke';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Ingen klistermærker tilgængelige';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Deltag i et fællesskab med klistermærker for at bruge dem her.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Ingen klistermærker tilgængelige';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Der er ingen klistermærker tilgængelige i denne samtale.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Ingen klistermærker fundet';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Prøv et andet søgeord.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Lås op for $stickerCount fra $communityCount med Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count klistermærker',
+      one: '1 klistermærke',
     );
     return '$_temp0';
   }
@@ -4793,7 +4845,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Vælg mellem mørk, kulfarvet eller lys udseende.';
+      'Vælg systemets udseende eller et mørkt, kulsort eller lyst udseende.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Stort dynamikområde';
@@ -5317,6 +5369,63 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Navn er påkrævet.';
+
+  @override
+  String get savedMediaEdit => 'Rediger';
+
+  @override
+  String get savedMediaEditTitle => 'Rediger gemte medier';
+
+  @override
+  String get savedMediaDeleteTitle => 'Slet gemte medier';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Vil du fjerne \"$name\" fra dine gemte medier?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Kunne ikke slette gemte medier.';
+
+  @override
+  String get savedMediaSearchHint => 'Søg i gemte medier';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Gemte medier er ikke tilgængelige';
+
+  @override
+  String get savedMediaUnavailableBody => 'Prøv igen om et øjeblik.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Ingen gemte medier';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Gem medier fra beskeder for at se dem her.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Ingen resultater';
+
+  @override
+  String get savedMediaNoResultsBody => 'Prøv et andet søgeord eller filter.';
+
+  @override
+  String get savedMediaFilterAll => 'Alle';
+
+  @override
+  String get savedMediaFilterImages => 'Billeder';
+
+  @override
+  String get savedMediaFilterVideos => 'Videoer';
+
+  @override
+  String get savedMediaFilterAudio => 'Lyd';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF\'er';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6138,6 +6247,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Luk';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Styring af taleopkald';
 
   @override
   String get voiceConnectionDisconnected => 'Afbrudt';
@@ -7346,6 +7458,21 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatMessageDebug => 'Fejlfind besked';
 
   @override
+  String get messageAlertNote => 'Bemærk';
+
+  @override
+  String get messageAlertTip => 'Tip';
+
+  @override
+  String get messageAlertImportant => 'Vigtigt';
+
+  @override
+  String get messageAlertWarning => 'Advarsel';
+
+  @override
+  String get messageAlertCaution => 'Pas på';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Fejlfind besked';
 
   @override
@@ -7623,6 +7750,16 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatReplyMentionOff => 'FRA';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Svarer $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Videresendt fra $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Annuller svar';
 
   @override
@@ -7699,6 +7836,23 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Luk';
+
+  @override
+  String get videoPlayerPlay => 'Afspil';
+
+  @override
+  String get videoPlayerPause => 'Sæt på pause';
+
+  @override
+  String get videoPlayerVolume => 'Lydstyrke';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Afspilningshastighed ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Fuld skærm';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Skift video-kontroller';
@@ -8680,6 +8834,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Notifikationsindstillinger, slået fra';
 
   @override
+  String get channelHeaderOpenDetails => 'Åbn kanaldetaljer';
+
+  @override
   String get channelDetailsSearchTitle => 'Søg';
 
   @override
@@ -9384,6 +9541,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Luk vedhæftningsvælger';
+
+  @override
+  String get composerSendMessage => 'Send besked';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotos';
@@ -11237,6 +11397,16 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Tilføj omvendt billedsøgning';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Søg med $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Oversæt med $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Aktivér mindst én udbyder af omvendt billedsøgning herunder.';
 
@@ -11340,6 +11510,12 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'App-logfiler';
+
+  @override
+  String get userSettingsTitle => 'Indstillinger';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopiér appoplysninger';
 
   @override
   String get userSettingsNavDeveloperTools => 'Udviklerværktøjer';
@@ -11686,9 +11862,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Opret forbindelse til instansen for at logge ind';
 
   @override
-  String get comingSoon => 'Kommer snart';
-
-  @override
   String get guildNavbarDirectMessages => 'Direkte beskeder';
 
   @override
@@ -11779,9 +11952,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Fællesskaber';
-
-  @override
-  String get discoveryApps => 'Apps';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11899,6 +12069,78 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Indbakke';
+
+  @override
+  String get friendsPageTitle => 'Mine venner';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktiv nu';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Her er stille lige nu...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Når venner er aktive i talekanaler, vises deres aktivitet her.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Alle';
+
+  @override
+  String get friendsTabPending => 'Afventer';
+
+  @override
+  String get friendsTabBlocked => 'Blokeret';
+
+  @override
+  String get friendsSearchOnline => 'Søg blandt online venner';
+
+  @override
+  String get friendsSearchAll => 'Søg venner';
+
+  @override
+  String get friendsSearchPending => 'Søg i ventende anmodninger';
+
+  @override
+  String get friendsSearchBlocked => 'Søg blandt blokerede brugere';
+
+  @override
+  String get friendsEmptySearchTitle => 'Ingen venner matcher søgningen';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Prøv et andet navn, eller tjek din stavning.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Ingen venner online';
+
+  @override
+  String get friendsEmptyOnlineBody => 'Når de kommer online, vises de her.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Ingen venner endnu';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Hvor vi skal hen, får vi brug for flere venner.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Ingen ventende anmodninger';
+
+  @override
+  String get friendsEmptyPendingBody => 'Ventende venneanmodninger vises her.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Du har ikke blokeret nogen.';
+
+  @override
+  String get friendsOutgoingStatus => 'Udgående venneanmodning';
+
+  @override
+  String get friendsBlockedStatus => 'Blokeret';
 
   @override
   String get profileRemoveFriend => 'Fjern ven';
@@ -12187,6 +12429,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Muted indtil $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Lydløs';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15068,6 +15313,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Direkte beskeder';
+
+  @override
+  String get dmListFriendsButton => 'Venner';
 
   @override
   String get keybindsSearchShortcuts => 'Søg genveje';

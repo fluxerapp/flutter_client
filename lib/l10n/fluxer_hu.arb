@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} tag",
+    "embedInviteMembers": "{formattedCount} tag",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Témákat csak weben vagy asztali gépen importálhatsz.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Téma importálása",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Adatvédelmi beállítások",
     "@privacySettings": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Válassz a sötét, a szénszínű vagy a világos megjelenés között.",
+    "lookAndFeelThemeSectionDescription": "Válassz a rendszer, a sötét, a szénszínű vagy a világos megjelenés között.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Hamarosan",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Közvetlen üzenetek",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Közösségek",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Alkalmazások",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nem sikerült csatlakozni ehhez a közösséghez",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Üzenet küldése",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Képek",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Alapértelmezett fordított képkeresés",
     "advancedSettingDefaultReverseImageSearchDescription": "Válaszd ki, melyik fordított képkereső szolgáltatást használja az alkalmazás alapértelmezetten, amikor képet keresel.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Beépített fordított képkeresés",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Beépített fordított képkereső szolgáltatók engedélyezése vagy letiltása. Az engedélyezett szolgáltatók megjelennek a képek, profilképek, borítóképek, matricák és emojik helyi menüjében.",
     "advancedSettingCustomReverseImageSearchLabel": "Egyéni fordított képkeresés",
     "advancedSettingCustomReverseImageSearchDescription": "Adjon hozzá saját fordított képkereső szolgáltatókat egyéni URL-mintával. Használja a '{url}' helyőrzőt a kép URL-jéhez.",
     "advancedSettingAddReverseImageSearchLabel": "Fordított képkeresés hozzáadása",
@@ -18140,14 +18134,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "A Fluxer váratlanul bezárult. Az anonim összeomlási és hibaadatok megosztása segít gyorsabban kijavítanunk a problémákat.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "A jelentések összeomlási naplókat, hibákat és alapvető teljesítményadatokat tartalmaznak. Nem osztjuk meg őket harmadik féllel, és bármikor kikapcsolhatod ezt.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Ha később szeretnéd bekapcsolni, nyisd meg a Beállítások → Speciális → {reportingToggle} menüt.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18161,10 +18147,6 @@
     "observabilityReportingConsentAgree": "Összeomlási jelentések küldése",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nem szeretném bekapcsolni",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Visszajelzés küldése",
     "@userSettingsGiveFeedback": {

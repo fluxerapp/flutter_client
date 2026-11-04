@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} 位成员",
+    "embedInviteMembers": "{formattedCount} 位成员",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "只能在网页版或桌面版导入主题。",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "导入主题",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "隐私设置",
     "@privacySettings": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "在深色、煤黑色或浅色外观之间进行选择。",
+    "lookAndFeelThemeSectionDescription": "在系统、深色、煤黑色或浅色外观之间进行选择。",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "即将推出",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "私信",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "社区",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "应用",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "无法加入此社区",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "发送消息",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "照片",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "默认反向图片搜索",
     "advancedSettingDefaultReverseImageSearchDescription": "选择搜索图片时默认使用的反向图片搜索服务。",
     "advancedSettingBuiltInReverseImageSearchLabel": "内置反向图片搜索",
-    "advancedSettingBuiltInReverseImageSearchDescription": "启用或停用内置反向图片搜索提供方。已启用的提供方会显示在图片、头像、横幅、贴纸和表情的上下文菜单中。",
     "advancedSettingCustomReverseImageSearchLabel": "自定义反向图片搜索",
     "advancedSettingCustomReverseImageSearchDescription": "添加自定义网址模式的自定义反向图片搜索提供商。使用“{url}”作为图片网址的占位符。",
     "advancedSettingAddReverseImageSearchLabel": "添加反向图片搜索",
@@ -18156,14 +18150,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer 意外关闭。共享匿名的崩溃和错误数据可帮助我们更快地修复问题。",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "报告包含崩溃日志、错误和基本性能数据。这些数据不会与第三方共享，你可以随时关闭此功能。",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "如需稍后启用，请打开“设置 → 高级 → {reportingToggle}”。",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18177,10 +18163,6 @@
     "observabilityReportingConsentAgree": "发送崩溃报告",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "暂不启用",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "提供反馈",
     "@userSettingsGiveFeedback": {

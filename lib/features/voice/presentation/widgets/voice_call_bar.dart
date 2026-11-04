@@ -57,9 +57,13 @@ class VoiceCallBar extends ConsumerWidget {
     return findDmById(conversations, channelId);
   }
 
-  String _privateSubtitle(DmConversation? dm, String? channelId) {
+  String _privateSubtitle(
+    FluxerLocalizations l10n,
+    DmConversation? dm,
+    String? channelId,
+  ) {
     if (dm != null) {
-      return dm.displayName;
+      return dmConversationDisplayName(l10n, dm);
     }
     return channelId ?? '';
   }
@@ -182,7 +186,7 @@ class VoiceCallBar extends ConsumerWidget {
         voice: voice,
         isGroup: dm?.isGroup ?? false,
       );
-      subtitle = _privateSubtitle(dm, voice.channelId);
+      subtitle = _privateSubtitle(l10n, dm, voice.channelId);
     }
     final String? connectionId = voice.activeConnectionId;
     final VoiceState? selfVoiceState = connectionId == null

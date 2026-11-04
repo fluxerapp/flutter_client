@@ -964,8 +964,14 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count членове';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount членове',
+      one: '$formattedCount член',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1065,9 +1071,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Темите могат да се импортират само в уеб или настолната версия.';
-
-  @override
-  String get embedThemeImport => 'Импортиране на тема';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1409,7 +1412,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count членове';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count членове',
+      one: '$count член',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1805,6 +1814,48 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       locale: localeName,
       other: '$count общности',
       one: '1 общност',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Намери идеалния стикер';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Няма налични стикери';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Присъедини се към общност със стикери, за да ги използваш тук.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Няма налични стикери';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'В този разговор няма налични стикери.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Няма намерени стикери';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Опитай с друга дума за търсене.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Отключи $stickerCount от $communityCount с Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count стикера',
+      one: '1 стикер',
     );
     return '$_temp0';
   }
@@ -4830,7 +4881,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Изберете между тъмен, въглищен или светъл изглед.';
+      'Изберете между системен, тъмен, въглищен или светъл изглед.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Висок динамичен обхват';
@@ -5359,6 +5410,65 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Името е задължително.';
+
+  @override
+  String get savedMediaEdit => 'Редактиране';
+
+  @override
+  String get savedMediaEditTitle => 'Редактиране на запазена медия';
+
+  @override
+  String get savedMediaDeleteTitle => 'Изтриване на запазена медия';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Да премахнем ли „$name“ от запазените ти медии?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'Запазената медия не можа да бъде изтрита.';
+
+  @override
+  String get savedMediaSearchHint => 'Търсене в запазени медии';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Запазените медии не са налични';
+
+  @override
+  String get savedMediaUnavailableBody => 'Опитай отново след малко.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Няма запазени медии';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Запазвай медии от съобщения, за да ги виждаш тук.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Няма резултати';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Опитай с друга дума за търсене или друг филтър.';
+
+  @override
+  String get savedMediaFilterAll => 'Всички';
+
+  @override
+  String get savedMediaFilterImages => 'Изображения';
+
+  @override
+  String get savedMediaFilterVideos => 'Видеоклипове';
+
+  @override
+  String get savedMediaFilterAudio => 'Аудио';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF файлове';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6192,6 +6302,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Затвори';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Контроли на гласовия разговор';
 
   @override
   String get voiceConnectionDisconnected => 'Прекъснато';
@@ -7413,6 +7526,21 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get chatMessageDebug => 'Отстраняване на грешки в съобщението';
 
   @override
+  String get messageAlertNote => 'Бележка';
+
+  @override
+  String get messageAlertTip => 'Съвет';
+
+  @override
+  String get messageAlertImportant => 'Важно';
+
+  @override
+  String get messageAlertWarning => 'Предупреждение';
+
+  @override
+  String get messageAlertCaution => 'Внимание';
+
+  @override
   String get chatMessageDebugSheetTitle =>
       'Отстраняване на грешки в съобщението';
 
@@ -7693,6 +7821,16 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get chatReplyMentionOff => 'ИЗКЛ.';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'В отговор на $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Препратено от $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Отказ на отговора';
 
   @override
@@ -7769,6 +7907,23 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Затвори';
+
+  @override
+  String get videoPlayerPlay => 'Пусни';
+
+  @override
+  String get videoPlayerPause => 'Пауза';
+
+  @override
+  String get videoPlayerVolume => 'Сила на звука';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Скорост на възпроизвеждане ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Цял екран';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8764,6 +8919,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Настройки на известията, заглушено';
 
   @override
+  String get channelHeaderOpenDetails => 'Отваряне на подробностите за канала';
+
+  @override
   String get channelDetailsSearchTitle => 'Търсене';
 
   @override
@@ -9464,6 +9622,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get composerCloseAttachmentPanel =>
       'Затвори селектора за прикачени файлове';
+
+  @override
+  String get composerSendMessage => 'Изпрати съобщението';
 
   @override
   String get chatAttachmentPanelPhotos => 'Снимки';
@@ -11362,6 +11523,16 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Добавяне на търсене по изображение';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Търсене с $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Превод с $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Активирай поне един доставчик на обратно търсене на изображения по-долу.';
 
@@ -11467,6 +11638,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Дневници на приложението';
+
+  @override
+  String get userSettingsTitle => 'Настройки';
+
+  @override
+  String get userSettingsCopyAppInfo =>
+      'Копиране на информацията за приложението';
 
   @override
   String get userSettingsNavDeveloperTools => 'Инструменти за разработчици';
@@ -11813,9 +11991,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Свържете се с инстанцията, за да влезете';
 
   @override
-  String get comingSoon => 'Скоро';
-
-  @override
   String get guildNavbarDirectMessages => 'Директни съобщения';
 
   @override
@@ -11905,9 +12080,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Общности';
-
-  @override
-  String get discoveryApps => 'Приложения';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -12024,6 +12196,81 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Входящи';
+
+  @override
+  String get friendsPageTitle => 'Моите приятели';
+
+  @override
+  String get friendsActiveNowTitle => 'Активни сега';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Засега е тихо...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Когато приятелите са активни в гласовите канали, тяхната активност ще се показва тук.';
+
+  @override
+  String get friendsTabOnline => 'Онлайн';
+
+  @override
+  String get friendsTabAll => 'Всички';
+
+  @override
+  String get friendsTabPending => 'В изчакване';
+
+  @override
+  String get friendsTabBlocked => 'Блокирани';
+
+  @override
+  String get friendsSearchOnline => 'Търсене на приятели онлайн';
+
+  @override
+  String get friendsSearchAll => 'Търсене на приятели';
+
+  @override
+  String get friendsSearchPending => 'Търсене на чакащи покани';
+
+  @override
+  String get friendsSearchBlocked => 'Търсене на блокирани потребители';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Няма приятели, които да отговарят на търсенето';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Опитай с друго име или провери правописа.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Няма приятели онлайн';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Когато влязат онлайн, ще се появят тук.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Все още нямаш приятели';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Там, накъдето отиваме, ни трябват още приятели.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Няма чакащи покани';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Чакащите покани за приятелство се показват тук.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Не си блокирал никого.';
+
+  @override
+  String get friendsOutgoingStatus => 'Изходяща покана за приятелство';
+
+  @override
+  String get friendsBlockedStatus => 'Блокиран';
 
   @override
   String get profileRemoveFriend => 'Премахване от приятели';
@@ -12314,6 +12561,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Заглушен до $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Заглушено';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15224,6 +15474,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Директни съобщения';
+
+  @override
+  String get dmListFriendsButton => 'Приятели';
 
   @override
   String get keybindsSearchShortcuts => 'Търсене на клавишни комбинации';

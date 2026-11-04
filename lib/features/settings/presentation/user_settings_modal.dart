@@ -153,7 +153,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
   }) async {
     await FluxerPageSheet.showScrollable<void>(
       context,
-      title: 'Settings',
+      title: FluxerLocalizations.of(context).userSettingsTitle,
       presentation: FluxerPageSheetPresentation.root,
       builder: (sheetContext, scrollController, close) =>
           _MobileSettingsNavBody(
@@ -581,16 +581,20 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     );
   }
 
-  Widget _buildCloseButton({Color? color}) => InkWell(
-    onTap: () => Navigator.of(context).pop(),
-    borderRadius: BorderRadius.circular(20),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: PhosphorIcon(
-        PhosphorIconsBold.x,
-        size: 18,
-        color: color ?? context.colors.interactiveNormal,
+  Widget _buildCloseButton({Color? color}) => Semantics(
+    button: true,
+    label: FluxerLocalizations.of(context).uiClose,
+    child: InkWell(
+      onTap: () => Navigator.of(context).pop(),
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: PhosphorIcon(
+          PhosphorIconsBold.x,
+          size: 18,
+          color: color ?? context.colors.interactiveNormal,
+        ),
       ),
     ),
   );
@@ -729,6 +733,8 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
+              showAppLogs:
+                  settingsState.developerMode || AppBuildConfig.isCanary,
               onOpenWhatsNew: () => unawaited(_openWhatsNew()),
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onGiveFeedback: () => unawaited(_openFeedback()),
@@ -818,7 +824,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
   }
 
   void _openAppLogs() {
-    unawaited(pushTalkerLogScreen(context));
+    unawaited(
+      pushTalkerLogScreen(
+        context,
+        title: FluxerLocalizations.of(context).userSettingsNavAppLogs,
+      ),
+    );
   }
 
   Future<void> _logout() async {
@@ -1144,7 +1155,7 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
         }
         final Widget buildInfo = Semantics(
           button: true,
-          label: 'Copy app info',
+          label: l10n.userSettingsCopyAppInfo,
           child: FluxerGestureDetector(
             onTap: () => _copyBuildInfoToClipboard(context, info),
             child: Text(

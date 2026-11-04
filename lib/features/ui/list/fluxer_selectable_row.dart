@@ -100,7 +100,15 @@ class _FluxerSelectableRowState extends State<FluxerSelectableRow> {
     );
 
     if (widget.semanticLabel == null) {
-      return row;
+      if (widget.onTap == null) {
+        return row;
+      }
+      return Semantics(
+        container: true,
+        button: true,
+        selected: widget.isSelected,
+        child: row,
+      );
     }
 
     return Semantics(

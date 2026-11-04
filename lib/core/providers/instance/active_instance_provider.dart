@@ -55,6 +55,9 @@ class ActiveInstance extends _$ActiveInstance {
         .touchRecentInstance(
           domain: snapshot.displayDomain,
           name: snapshot.instanceDisplayName,
+          url: _normalizer.describeApiEndpoint(
+            _normalizer.normalizeEndpoint(input),
+          ),
         );
   }
 

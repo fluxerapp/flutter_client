@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/domain/registration_result.dart';
@@ -374,6 +375,7 @@ class _PendingApprovalAuthRepository implements AuthRepository {
   Future<RegistrationResult> register({
     required String? email,
     required String password,
+    required FluxerThemeMode theme,
     String? dateOfBirth,
     String? username,
     String? displayName,

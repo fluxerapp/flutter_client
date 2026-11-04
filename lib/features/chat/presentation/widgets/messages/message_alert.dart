@@ -1,17 +1,17 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum AlertType {
-  note(label: 'Note', icon: PhosphorIconsFill.info),
-  tip(label: 'Tip', icon: PhosphorIconsFill.lightbulbFilament),
-  important(label: 'Important', icon: PhosphorIconsFill.warning),
-  warning(label: 'Warning', icon: PhosphorIconsFill.warningOctagon),
-  caution(label: 'Caution', icon: PhosphorIconsFill.warningCircle);
+  note(icon: PhosphorIconsFill.info),
+  tip(icon: PhosphorIconsFill.lightbulbFilament),
+  important(icon: PhosphorIconsFill.warning),
+  warning(icon: PhosphorIconsFill.warningOctagon),
+  caution(icon: PhosphorIconsFill.warningCircle);
 
-  const AlertType({required this.label, required this.icon});
+  const AlertType({required this.icon});
 
-  final String label;
   final IconData icon;
 
   Color accentColor(BuildContext context) {
@@ -24,6 +24,16 @@ enum AlertType {
       AlertType.caution => colors.alertCaution,
     };
   }
+}
+
+String alertTypeLabel(FluxerLocalizations l10n, AlertType type) {
+  return switch (type) {
+    AlertType.note => l10n.messageAlertNote,
+    AlertType.tip => l10n.messageAlertTip,
+    AlertType.important => l10n.messageAlertImportant,
+    AlertType.warning => l10n.messageAlertWarning,
+    AlertType.caution => l10n.messageAlertCaution,
+  };
 }
 
 class MessageAlert extends StatelessWidget {
@@ -66,7 +76,7 @@ class MessageAlert extends StatelessWidget {
                       Icon(type.icon, size: 16, color: accent),
                       const SizedBox(width: 6),
                       Text(
-                        type.label,
+                        alertTypeLabel(FluxerLocalizations.of(context), type),
                         style: style.copyWith(
                           color: accent,
                           fontWeight: FontWeight.w600,

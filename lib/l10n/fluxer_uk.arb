@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} учасників",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} учасник} few{{formattedCount} учасники} many{{formattedCount} учасників} other{{formattedCount} учасника}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Теми можна імпортувати лише у вебверсії або на комп'ютері.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Імпортувати тему",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Налаштування приватності",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} учасників",
+    "dmGroupMemberCount": "{count, plural, one{{count} учасник} few{{count} учасники} many{{count} учасників} other{{count} учасника}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Виберіть між темною, вугільною або світлою темою.",
+    "lookAndFeelThemeSectionDescription": "Виберіть між системною, темною, вугільною або світлою темою.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Незабаром",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Особисті повідомлення",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Спільноти",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Застосунки",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Не вдалося приєднатися до цієї спільноти",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Надіслати повідомлення",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Фотографії",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14819,7 +14814,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Зворотний пошук зображень за замовчуванням",
     "advancedSettingDefaultReverseImageSearchDescription": "Виберіть сервіс зворотного пошуку зображень, який використовуватиметься за замовчуванням під час пошуку зображення.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Вбудований зворотний пошук зображень",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з'являються в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.",
     "advancedSettingCustomReverseImageSearchLabel": "Власний зворотний пошук зображень",
     "advancedSettingCustomReverseImageSearchDescription": "Додайте власні пошукові системи для зворотного пошуку зображень із шаблоном URL. Використовуйте '{url}' як заповнювач для URL зображення.",
     "advancedSettingAddReverseImageSearchLabel": "Додати зворотний пошук зображень",
@@ -18144,14 +18138,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer несподівано закрився. Анонімні дані про збої та помилки допомагають нам швидше виправляти проблеми.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Звіти містять журнали збоїв, помилки та базові дані про продуктивність. Вони не передаються третім сторонам, і ви можете будь-коли це вимкнути.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Щоб увімкнути пізніше, відкрийте Налаштування → Розширені → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18165,10 +18151,6 @@
     "observabilityReportingConsentAgree": "Надсилати звіти про збої",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Не вмикати",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Залишити відгук",
     "@userSettingsGiveFeedback": {

@@ -968,8 +968,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count tag';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount tag';
   }
 
   @override
@@ -1069,9 +1069,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Témákat csak weben vagy asztali gépen importálhatsz.';
-
-  @override
-  String get embedThemeImport => 'Téma importálása';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1813,6 +1810,50 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       locale: localeName,
       other: '$count közösséget',
       one: '1 közösséget',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Találd meg a tökéletes matricát';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Nincsenek elérhető matricák';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Csatlakozz egy matricákkal rendelkező közösséghez, hogy itt használhasd őket.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nincsenek elérhető matricák';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Ebben a beszélgetésben nincsenek elérhető matricák.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nem található matrica';
+
+  @override
+  String get stickerPickerNoResultsBody =>
+      'Próbálj meg egy másik keresőkifejezést.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Oldd fel a Plutoniummal: $stickerCount $communityCount kínálatából.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matrica',
+      one: '1 matrica',
     );
     return '$_temp0';
   }
@@ -4842,7 +4883,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Válassz a sötét, a szénszínű vagy a világos megjelenés között.';
+      'Válassz a rendszer, a sötét, a szénszínű vagy a világos megjelenés között.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Nagy dinamikatartomány';
@@ -5369,6 +5410,64 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Név megadása kötelező.';
+
+  @override
+  String get savedMediaEdit => 'Szerkesztés';
+
+  @override
+  String get savedMediaEditTitle => 'Mentett média szerkesztése';
+
+  @override
+  String get savedMediaDeleteTitle => 'Mentett média törlése';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Eltávolítod a(z) „$name” elemet a mentett médiáid közül?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Nem sikerült törölni a mentett médiát.';
+
+  @override
+  String get savedMediaSearchHint => 'Mentett média keresése';
+
+  @override
+  String get savedMediaUnavailableTitle => 'A mentett média nem érhető el';
+
+  @override
+  String get savedMediaUnavailableBody => 'Próbáld újra egy kis idő múlva.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nincs mentett média';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Ments médiát az üzenetekből, hogy itt lásd.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nincs találat';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Próbálj meg egy másik keresőkifejezést vagy szűrőt.';
+
+  @override
+  String get savedMediaFilterAll => 'Összes';
+
+  @override
+  String get savedMediaFilterImages => 'Képek';
+
+  @override
+  String get savedMediaFilterVideos => 'Videók';
+
+  @override
+  String get savedMediaFilterAudio => 'Hang';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF-ek';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6194,6 +6293,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Elvetés';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Hanghívás vezérlői';
 
   @override
   String get voiceConnectionDisconnected => 'Kapcsolat megszakadt';
@@ -7418,6 +7520,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageDebug => 'Üzenet hibakeresése';
 
   @override
+  String get messageAlertNote => 'Megjegyzés';
+
+  @override
+  String get messageAlertTip => 'Tipp';
+
+  @override
+  String get messageAlertImportant => 'Fontos';
+
+  @override
+  String get messageAlertWarning => 'Figyelem';
+
+  @override
+  String get messageAlertCaution => 'Figyelem';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Üzenet hibakeresése';
 
   @override
@@ -7695,6 +7812,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatReplyMentionOff => 'KI';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Válasz neki: $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Továbbítva innen: $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Válasz visszavonása';
 
   @override
@@ -7771,6 +7898,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Elvetés';
+
+  @override
+  String get videoPlayerPlay => 'Lejátszás';
+
+  @override
+  String get videoPlayerPause => 'Szüneteltetés';
+
+  @override
+  String get videoPlayerVolume => 'Hangerő';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Lejátszási sebesség: ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Teljes képernyő';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8759,6 +8903,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Értesítési beállítások, némítva';
 
   @override
+  String get channelHeaderOpenDetails => 'Csatorna részleteinek megnyitása';
+
+  @override
   String get channelDetailsSearchTitle => 'Keresés';
 
   @override
@@ -9466,6 +9613,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Mellékletválasztó bezárása';
+
+  @override
+  String get composerSendMessage => 'Üzenet küldése';
 
   @override
   String get chatAttachmentPanelPhotos => 'Képek';
@@ -11352,6 +11502,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Fordított képkeresés hozzáadása';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Keresés ezzel: $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Fordítás ezzel: $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Engedélyezz legalább egy fordított képkereső szolgáltatót alább.';
 
@@ -11457,6 +11617,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Alkalmazásnaplók';
+
+  @override
+  String get userSettingsTitle => 'Beállítások';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Alkalmazásadatok másolása';
 
   @override
   String get userSettingsNavDeveloperTools => 'Fejlesztői eszközök';
@@ -11804,9 +11970,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Csatlakozz az instanchoz a bejelentkezéshez';
 
   @override
-  String get comingSoon => 'Hamarosan';
-
-  @override
   String get guildNavbarDirectMessages => 'Közvetlen üzenetek';
 
   @override
@@ -11897,9 +12060,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Közösségek';
-
-  @override
-  String get discoveryApps => 'Alkalmazások';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -12017,6 +12177,81 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Beérkezett üzenetek';
+
+  @override
+  String get friendsPageTitle => 'Ismerőseim';
+
+  @override
+  String get friendsActiveNowTitle => 'Most aktívak';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Most csend van...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Amikor az ismerősök aktívak a hangcsatornákon, a tevékenységük itt fog megjelenni.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Összes';
+
+  @override
+  String get friendsTabPending => 'Függőben';
+
+  @override
+  String get friendsTabBlocked => 'Letiltva';
+
+  @override
+  String get friendsSearchOnline => 'Online ismerősök keresése';
+
+  @override
+  String get friendsSearchAll => 'Ismerősök keresése';
+
+  @override
+  String get friendsSearchPending => 'Függőben lévő ismerősjelölések keresése';
+
+  @override
+  String get friendsSearchBlocked => 'Letiltott felhasználók keresése';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nincs a keresésnek megfelelő ismerős';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Próbálj meg egy másik nevet, vagy ellenőrizd a helyesírást.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nincs online ismerős';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Amikor online lesznek, itt fognak megjelenni.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Még nincsenek ismerőseid';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Ahová tartunk, ott több ismerősre lesz szükségünk.';
+
+  @override
+  String get friendsEmptyPendingTitle =>
+      'Nincsenek függőben lévő ismerősjelölések';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'A függőben lévő ismerősjelölések itt jelennek meg.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Még senkit sem tiltottál le.';
+
+  @override
+  String get friendsOutgoingStatus => 'Kimenő ismerősjelölés';
+
+  @override
+  String get friendsBlockedStatus => 'Letiltva';
 
   @override
   String get profileRemoveFriend => 'Eltávolítás az ismerősök közül';
@@ -12303,6 +12538,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Némítva eddig: $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Némítva';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15201,6 +15439,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Közvetlen üzenetek';
+
+  @override
+  String get dmListFriendsButton => 'Ismerősök';
 
   @override
   String get keybindsSearchShortcuts => 'Billentyűparancsok keresése';

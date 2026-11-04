@@ -317,7 +317,9 @@ class ChannelHeader extends ConsumerWidget {
                     : Semantics(
                         key: const ValueKey<String>('channel-title'),
                         button: true,
-                        label: 'Open channel details',
+                        label: FluxerLocalizations.of(
+                          context,
+                        ).channelHeaderOpenDetails,
                         child: InkWell(
                           onTap: () => _openDetails(
                             context,
@@ -627,7 +629,14 @@ class ChannelHeader extends ConsumerWidget {
           channelGuildId: channel?.guildId,
           isDm: dm != null,
         ),
-        nickname: channel?.name ?? dm?.displayName,
+        nickname:
+            channel?.name ??
+            (dm == null
+                ? null
+                : dmConversationDisplayName(
+                    FluxerLocalizations.of(context),
+                    dm,
+                  )),
       );
     }
     if (!context.mounted) {

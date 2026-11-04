@@ -234,7 +234,7 @@ class _GuildInviteCard extends StatelessWidget {
                 const _StatDot(online: false),
                 const SizedBox(width: 4),
                 Text(
-                  l10n.embedInviteMembers(memberStr),
+                  l10n.embedInviteMembers(invite.memberCount, memberStr),
                   style: context.textStyles.embedFooter.copyWith(
                     color: context.colors.textTertiaryMuted,
                   ),
@@ -372,7 +372,10 @@ class _GroupDmInviteCard extends StatelessWidget {
             const _StatDot(online: false),
             const SizedBox(width: 4),
             Text(
-              l10n.embedInviteMembers(_formatInviteCount(memberCount)),
+              l10n.embedInviteMembers(
+                memberCount,
+                _formatInviteCount(memberCount),
+              ),
               style: context.textStyles.embedFooter.copyWith(
                 color: context.colors.textTertiaryMuted,
               ),

@@ -921,8 +921,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count メンバー';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount メンバー';
   }
 
   @override
@@ -1019,9 +1019,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get embedThemeWebOnly => 'テーマはウェブ版またはデスクトップ版でのみインポートできます。';
-
-  @override
-  String get embedThemeImport => 'テーマをインポート';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1733,6 +1730,47 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       locale: localeName,
       other: 'コミュニティ$count個',
       one: 'コミュニティ1個',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'ぴったりのスタンプを見つけよう';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '使えるスタンプがありません';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'スタンプのあるコミュニティに参加すると、ここで使えるようになります。';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '使えるスタンプがありません';
+
+  @override
+  String get stickerPickerEmptyHereBody => 'この会話で使えるスタンプはありません。';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'スタンプが見つかりませんでした';
+
+  @override
+  String get stickerPickerNoResultsBody => '別のキーワードで検索してみてください。';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutoniumで$communityCountの$stickerCountをアンロック。';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'スタンプ$count個',
+      one: 'スタンプ1個',
     );
     return '$_temp0';
   }
@@ -4632,7 +4670,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'ダーク、コール、ライトのいずれかの外観を選択してください。';
+      'システム、ダーク、コール、ライトのいずれかの外観を選択してください。';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'ハイダイナミックレンジ';
@@ -5128,6 +5166,62 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => '名前は必須です。';
+
+  @override
+  String get savedMediaEdit => '編集';
+
+  @override
+  String get savedMediaEditTitle => '保存済みメディアを編集';
+
+  @override
+  String get savedMediaDeleteTitle => '保存済みメディアを削除';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '「$name」を保存済みメディアから削除しますか？';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '保存済みメディアを削除できませんでした。';
+
+  @override
+  String get savedMediaSearchHint => '保存済みメディアを検索';
+
+  @override
+  String get savedMediaUnavailableTitle => '保存済みメディアを利用できません';
+
+  @override
+  String get savedMediaUnavailableBody => 'しばらくしてからもう一度お試しください。';
+
+  @override
+  String get savedMediaEmptyTitle => '保存済みメディアはありません';
+
+  @override
+  String get savedMediaEmptyBody => 'メッセージのメディアを保存すると、ここに表示されます。';
+
+  @override
+  String get savedMediaNoResultsTitle => '結果なし';
+
+  @override
+  String get savedMediaNoResultsBody => '別のキーワードやフィルターを試してください。';
+
+  @override
+  String get savedMediaFilterAll => 'すべて';
+
+  @override
+  String get savedMediaFilterImages => '画像';
+
+  @override
+  String get savedMediaFilterVideos => '動画';
+
+  @override
+  String get savedMediaFilterAudio => 'オーディオ';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'GIFの「お気に入り」をどのように保存しますか？';
@@ -5913,6 +6007,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => '閉じる';
+
+  @override
+  String get voiceCallControlsSheetLabel => '通話コントロール';
 
   @override
   String get voiceConnectionDisconnected => '切断されました';
@@ -7070,6 +7167,21 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageDebug => 'メッセージをデバッグ';
 
   @override
+  String get messageAlertNote => 'メモ';
+
+  @override
+  String get messageAlertTip => 'ヒント';
+
+  @override
+  String get messageAlertImportant => '重要';
+
+  @override
+  String get messageAlertWarning => '警告';
+
+  @override
+  String get messageAlertCaution => '注意';
+
+  @override
   String get chatMessageDebugSheetTitle => 'メッセージをデバッグ';
 
   @override
@@ -7331,6 +7443,16 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatReplyMentionOff => 'オフ';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '$authorNameに返信中';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '$sourceから転送';
+  }
+
+  @override
   String get chatReplyCancel => '返信をキャンセル';
 
   @override
@@ -7406,6 +7528,23 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => '閉じる';
+
+  @override
+  String get videoPlayerPlay => '再生';
+
+  @override
+  String get videoPlayerPause => '一時停止';
+
+  @override
+  String get videoPlayerVolume => '音量';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '再生速度 $speed倍';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '全画面表示';
 
   @override
   String get chatAttachmentVideoToggleControls => '動画コントロールの切り替え';
@@ -8344,6 +8483,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => '通知設定、ミュート中';
 
   @override
+  String get channelHeaderOpenDetails => 'チャンネルの詳細を開く';
+
+  @override
   String get channelDetailsSearchTitle => '検索';
 
   @override
@@ -9007,6 +9149,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => '添付ファイルピッカーを閉じる';
+
+  @override
+  String get composerSendMessage => 'メッセージを送信';
 
   @override
   String get chatAttachmentPanelPhotos => '写真';
@@ -10772,6 +10917,16 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get advancedSettingAddReverseImageSearchLabel => '画像検索を追加';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '$engineで検索';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '$engineで翻訳';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       '以下の画像検索プロバイダーを1つ以上有効にしてください。';
 
@@ -10867,6 +11022,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'アプリログ';
+
+  @override
+  String get userSettingsTitle => '設定';
+
+  @override
+  String get userSettingsCopyAppInfo => 'アプリ情報をコピー';
 
   @override
   String get userSettingsNavDeveloperTools => '開発者ツール';
@@ -11203,9 +11364,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get instanceConnectionRequired => 'サインインするにはインスタンスに接続してください';
 
   @override
-  String get comingSoon => '近日公開';
-
-  @override
   String get guildNavbarDirectMessages => 'ダイレクトメッセージ';
 
   @override
@@ -11294,9 +11452,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'コミュニティ';
-
-  @override
-  String get discoveryApps => 'アプリ';
 
   @override
   String get discoveryJoinErrorGenericTitle => 'このコミュニティに参加できませんでした';
@@ -11407,6 +11562,75 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => '受信箱';
+
+  @override
+  String get friendsPageTitle => '友達';
+
+  @override
+  String get friendsActiveNowTitle => 'オンライン中';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '今は静かです…';
+
+  @override
+  String get friendsActiveNowEmptyBody => '友達がボイスチャンネルでアクティブになると、ここに表示されます。';
+
+  @override
+  String get friendsTabOnline => 'オンライン';
+
+  @override
+  String get friendsTabAll => 'すべて';
+
+  @override
+  String get friendsTabPending => '保留中';
+
+  @override
+  String get friendsTabBlocked => 'ブロック中';
+
+  @override
+  String get friendsSearchOnline => 'オンラインの友達を検索';
+
+  @override
+  String get friendsSearchAll => '友達を検索';
+
+  @override
+  String get friendsSearchPending => '保留中のリクエストを検索';
+
+  @override
+  String get friendsSearchBlocked => 'ブロックしたユーザーを検索';
+
+  @override
+  String get friendsEmptySearchTitle => '検索条件に一致する友達はいません';
+
+  @override
+  String get friendsEmptySearchBody => '別の名前を試すか、スペルを確認してください。';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'オンラインの友達はいません';
+
+  @override
+  String get friendsEmptyOnlineBody => 'オンラインになるとここに表示されます。';
+
+  @override
+  String get friendsEmptyAllTitle => 'まだ友達がいません';
+
+  @override
+  String get friendsEmptyAllBody => 'もっと友達を増やしましょう。';
+
+  @override
+  String get friendsEmptyPendingTitle => '保留中のリクエストはありません';
+
+  @override
+  String get friendsEmptyPendingBody => '保留中の友達リクエストがここに表示されます。';
+
+  @override
+  String get friendsEmptyBlockedBody => 'まだ誰もブロックしていません。';
+
+  @override
+  String get friendsOutgoingStatus => '送信済みの友達リクエスト';
+
+  @override
+  String get friendsBlockedStatus => 'ブロック中';
 
   @override
   String get profileRemoveFriend => '友達から削除';
@@ -11677,6 +11901,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return '$formattedDateまでミュート中';
   }
+
+  @override
+  String get channelMutedHint => 'ミュート中';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -14426,6 +14653,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'ダイレクトメッセージ';
+
+  @override
+  String get dmListFriendsButton => '友達';
 
   @override
   String get keybindsSearchShortcuts => 'ショートカットを検索';

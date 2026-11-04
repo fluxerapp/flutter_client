@@ -969,8 +969,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count учасників';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount учасника',
+      many: '$formattedCount учасників',
+      few: '$formattedCount учасники',
+      one: '$formattedCount учасник',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1071,9 +1079,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Теми можна імпортувати лише у вебверсії або на комп\'ютері.';
-
-  @override
-  String get embedThemeImport => 'Імпортувати тему';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1416,7 +1421,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count учасників';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count учасника',
+      many: '$count учасників',
+      few: '$count учасники',
+      one: '$count учасник',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1811,6 +1824,50 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       locale: localeName,
       other: '$count спільноти',
       one: '1 спільнота',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Знайдіть ідеальний стікер';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Немає доступних стікерів';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Приєднайтеся до спільноти зі стікерами, щоб використовувати їх тут.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Немає доступних стікерів';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'У цій розмові немає доступних стікерів.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Стікерів не знайдено';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Спробуйте інший пошуковий запит.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Отримайте $stickerCount ($communityCount) з Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count стікера',
+      many: '$count стікерів',
+      few: '$count стікери',
+      one: '$count стікер',
     );
     return '$_temp0';
   }
@@ -4832,7 +4889,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Виберіть між темною, вугільною або світлою темою.';
+      'Виберіть між системною, темною, вугільною або світлою темою.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Високий динамічний діапазон';
@@ -5360,6 +5417,64 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Введіть назву.';
+
+  @override
+  String get savedMediaEdit => 'Редагувати';
+
+  @override
+  String get savedMediaEditTitle => 'Редагувати збережені медіа';
+
+  @override
+  String get savedMediaDeleteTitle => 'Видалити збережені медіа';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Видалити «$name» зі збережених медіа?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Не вдалося видалити збережені медіа.';
+
+  @override
+  String get savedMediaSearchHint => 'Пошук збережених медіа';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Збережені медіа недоступні';
+
+  @override
+  String get savedMediaUnavailableBody => 'Спробуйте ще раз за мить.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Немає збережених медіа';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Зберігайте медіа з повідомлень, щоб бачити їх тут.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Немає результатів';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Спробуйте інший пошуковий запит або фільтр.';
+
+  @override
+  String get savedMediaFilterAll => 'Усі';
+
+  @override
+  String get savedMediaFilterImages => 'Зображення';
+
+  @override
+  String get savedMediaFilterVideos => 'Відео';
+
+  @override
+  String get savedMediaFilterAudio => 'Аудіо';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF-файли';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6190,6 +6305,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Закрити';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Керування голосовим дзвінком';
 
   @override
   String get voiceConnectionDisconnected => 'Від\'єднано';
@@ -7419,6 +7537,21 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessageDebug => 'Налагодження повідомлення';
 
   @override
+  String get messageAlertNote => 'Примітка';
+
+  @override
+  String get messageAlertTip => 'Підказка';
+
+  @override
+  String get messageAlertImportant => 'Важливо';
+
+  @override
+  String get messageAlertWarning => 'Попередження';
+
+  @override
+  String get messageAlertCaution => 'Обережно';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Налагодження повідомлення';
 
   @override
@@ -7696,6 +7829,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatReplyMentionOff => 'ВИМК.';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Відповідь для $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Переслано з $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Скасувати відповідь';
 
   @override
@@ -7773,6 +7916,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Закрити';
+
+  @override
+  String get videoPlayerPlay => 'Відтворити';
+
+  @override
+  String get videoPlayerPause => 'Пауза';
+
+  @override
+  String get videoPlayerVolume => 'Гучність';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Швидкість відтворення ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'На весь екран';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8761,6 +8921,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Налаштування сповіщень, вимкнено звук';
 
   @override
+  String get channelHeaderOpenDetails => 'Відкрити відомості про канал';
+
+  @override
   String get channelDetailsSearchTitle => 'Пошук';
 
   @override
@@ -9466,6 +9629,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Закрити вибір файлів';
+
+  @override
+  String get composerSendMessage => 'Надіслати повідомлення';
 
   @override
   String get chatAttachmentPanelPhotos => 'Фотографії';
@@ -11347,6 +11513,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Додати зворотний пошук зображень';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Шукати в $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Перекласти в $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Увімкніть принаймні один сервіс зворотного пошуку зображень нижче.';
 
@@ -11452,6 +11628,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Журнали програми';
+
+  @override
+  String get userSettingsTitle => 'Налаштування';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Копіювати відомості про застосунок';
 
   @override
   String get userSettingsNavDeveloperTools => 'Інструменти розробника';
@@ -11798,9 +11980,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Підключіться до екземпляра, щоб увійти';
 
   @override
-  String get comingSoon => 'Незабаром';
-
-  @override
   String get guildNavbarDirectMessages => 'Особисті повідомлення';
 
   @override
@@ -11890,9 +12069,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Спільноти';
-
-  @override
-  String get discoveryApps => 'Застосунки';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -12009,6 +12185,81 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Вхідні';
+
+  @override
+  String get friendsPageTitle => 'Мої друзі';
+
+  @override
+  String get friendsActiveNowTitle => 'Зараз активні';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Зараз тут тихо...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Коли друзі активні в голосових каналах, їхня активність відображатиметься тут.';
+
+  @override
+  String get friendsTabOnline => 'Онлайн';
+
+  @override
+  String get friendsTabAll => 'Усі';
+
+  @override
+  String get friendsTabPending => 'Очікує';
+
+  @override
+  String get friendsTabBlocked => 'Заблоковані';
+
+  @override
+  String get friendsSearchOnline => 'Шукати друзів онлайн';
+
+  @override
+  String get friendsSearchAll => 'Пошук друзів';
+
+  @override
+  String get friendsSearchPending => 'Пошук очікуваних запитів';
+
+  @override
+  String get friendsSearchBlocked => 'Пошук заблокованих користувачів';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Немає друзів, які відповідають цьому пошуку';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Спробуйте інше ім\'я або перевірте правопис.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Немає друзів онлайн';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Щойно вони з\'являться онлайн, ви побачите їх тут.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Друзів ще немає';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Там, куди ми прямуємо, нам потрібно більше друзів.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Немає очікуваних запитів';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Тут відображаються запити на додавання в друзі, які очікують на розгляд.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Ви нікого не заблокували.';
+
+  @override
+  String get friendsOutgoingStatus => 'Вихідний запит на додавання в друзі';
+
+  @override
+  String get friendsBlockedStatus => 'Заблоковано';
 
   @override
   String get profileRemoveFriend => 'Видалити з друзів';
@@ -12296,6 +12547,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Вимкнено до $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Сповіщення вимкнено';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15180,6 +15434,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Особисті повідомлення';
+
+  @override
+  String get dmListFriendsButton => 'Друзі';
 
   @override
   String get keybindsSearchShortcuts => 'Пошук комбінацій клавіш';

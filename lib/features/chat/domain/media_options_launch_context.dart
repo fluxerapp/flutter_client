@@ -12,6 +12,7 @@ class MediaOptionsLaunchContext {
     this.filename,
     this.downloadUrl,
     this.contentHash,
+    this.reverseImageSearchUrl,
   });
 
   factory MediaOptionsLaunchContext.fromVideoLaunchContext(
@@ -41,6 +42,7 @@ class MediaOptionsLaunchContext {
       filename: item.filename,
       downloadUrl: item.downloadUrl,
       contentHash: item.contentHash,
+      reverseImageSearchUrl: item.downloadUrl ?? item.url,
     );
   }
 
@@ -51,6 +53,7 @@ class MediaOptionsLaunchContext {
   final String? filename;
   final String? downloadUrl;
   final String? contentHash;
+  final String? reverseImageSearchUrl;
 
   String? get downloadFilename => attachmentId == null ? null : filename;
 

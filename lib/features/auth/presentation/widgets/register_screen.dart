@@ -793,10 +793,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
             Row(
               children: [
-                Text(
-                  l10n.registerHaveAccount,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textTertiary,
+                Flexible(
+                  child: Text(
+                    l10n.registerHaveAccount,
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textTertiary,
+                    ),
                   ),
                 ),
                 FluxerTextLink(

@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/services/upload_keep_alive.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
+import 'package:fluxer_app/features/settings/utils/bundled_licenses.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -79,6 +80,7 @@ void _runFluxerApp(ProviderContainer container) {
 
 Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerAppZoomBinding.ensureInitialized();
+  registerBundledLicenses();
   await trustBundledRootCertificates();
   installAppForegroundSessionLifecycleBinding();
   unawaited(ApplePushService.installReplyHandler());

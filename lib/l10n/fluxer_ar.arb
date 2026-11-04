@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} عضو",
+    "embedInviteMembers": "{count, plural, zero{{formattedCount} عضو} one{عضو واحد} two{عضوان} few{{formattedCount} أعضاء} many{{formattedCount} عضوًا} other{{formattedCount} عضو}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "يمكنك استيراد السمات على الويب أو سطح المكتب فقط.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "استيراد السمة",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "إعدادات الخصوصية",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} أعضاء",
+    "dmGroupMemberCount": "{count, plural, zero{{count} عضو} one{عضو واحد} two{عضوان} few{{count} أعضاء} many{{count} عضوًا} other{{count} عضو}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "اختر بين المظهر الداكن أو الفحمي أو الفاتح.",
+    "lookAndFeelThemeSectionDescription": "اختر بين مظهر النظام أو المظهر الداكن أو الفحمي أو الفاتح.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "قريبًا",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "الرسائل المباشرة",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "المجتمعات",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "التطبيقات",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "تعذّر الانضمام إلى هذا المجتمع",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "إرسال الرسالة",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "صور",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "البحث العكسي الافتراضي عن الصور",
     "advancedSettingDefaultReverseImageSearchDescription": "اختر خدمة البحث العكسي عن الصور التي تُستخدم افتراضيًا عند البحث عن صورة.",
     "advancedSettingBuiltInReverseImageSearchLabel": "البحث العكسي عن الصور المضمّن",
-    "advancedSettingBuiltInReverseImageSearchDescription": "تفعيل أو تعطيل مزوّدي البحث العكسي عن الصور المدمجين. يظهر المزوّدون المفعّلون في قائمة السياق للصور والصور الرمزية واللافتات والملصقات والرموز التعبيرية.",
     "advancedSettingCustomReverseImageSearchLabel": "البحث العكسي المخصص عن الصور",
     "advancedSettingCustomReverseImageSearchDescription": "أضف مزودي بحث الصور العكسية الخاصين بك بنمط عنوان URL مخصص. استخدم \"{url}\" كعنصر نائب لرابط الصورة.",
     "advancedSettingAddReverseImageSearchLabel": "إضافة بحث عكسي بالصور",
@@ -18136,14 +18130,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "أُغلق Fluxer بشكل غير متوقع. تساعدنا مشاركة بيانات الأعطال والأخطاء المجهولة على إصلاح المشكلات بشكل أسرع.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "تتضمن التقارير سجلات الأعطال والأخطاء وبيانات الأداء الأساسية. لا تتم مشاركتها مع أطراف ثالثة ويمكنك إيقاف هذا في أي وقت.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "للتفعيل لاحقًا، افتح الإعدادات ← متقدم ← {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18157,10 +18143,6 @@
     "observabilityReportingConsentAgree": "إرسال تقارير الأعطال",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "لا أريد التفعيل",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "إرسال ملاحظات",
     "@userSettingsGiveFeedback": {

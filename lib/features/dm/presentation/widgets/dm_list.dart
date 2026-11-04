@@ -322,7 +322,9 @@ class _DMListState extends ConsumerState<DMList> {
                           _buildNavButton(
                             context,
                             icon: PhosphorIconsFill.users,
-                            label: 'Friends',
+                            label: FluxerLocalizations.of(
+                              context,
+                            ).dmListFriendsButton,
                             isSelected: isFriends,
                             badgeCount:
                                 ref
@@ -1182,13 +1184,17 @@ class _DMListState extends ConsumerState<DMList> {
         );
       case _DmAction.favoriteDm:
         final repository = ref.read(favoriteChannelsRepositoryProvider);
+        final String favoriteNickname = dmConversationDisplayName(
+          FluxerLocalizations.of(context),
+          convo,
+        );
         if (await repository.isFavorite(convo.id)) {
           await repository.removeChannel(convo.id);
         } else {
           await repository.addChannel(
             channelId: convo.id,
             guildId: favoriteDmGuildId,
-            nickname: convo.displayName,
+            nickname: favoriteNickname,
           );
         }
       case _DmAction.mute15Min:
@@ -1255,13 +1261,10 @@ class _DMListState extends ConsumerState<DMList> {
         if (!mounted) {
           break;
         }
-        final l10n = FluxerLocalizations.of(context);
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmRemoveFriendConfirmTitle,
-          description: l10n.dmRemoveFriendConfirmDescription(
-            convo.displayNameWith(rel?.nickname),
-          ),
+          description: l10n.dmRemoveFriendConfirmDescription(displayName),
           confirmLabel: l10n.dmRemoveFriend,
           isDanger: true,
           onConfirm: () {
@@ -1316,13 +1319,10 @@ class _DMListState extends ConsumerState<DMList> {
         if (!mounted) {
           break;
         }
-        final l10n = FluxerLocalizations.of(context);
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmBlockConfirmTitle,
-          description: l10n.dmBlockConfirmDescription(
-            convo.displayNameWith(rel?.nickname),
-          ),
+          description: l10n.dmBlockConfirmDescription(displayName),
           confirmLabel: l10n.dmBlock,
           isDanger: true,
           onConfirm: () {
@@ -1340,13 +1340,10 @@ class _DMListState extends ConsumerState<DMList> {
         if (!mounted) {
           break;
         }
-        final l10n = FluxerLocalizations.of(context);
         await FluxerConfirmModal.show(
           context,
           title: l10n.userProfileUnblockConfirmTitle,
-          description: l10n.userProfileUnblockConfirmDescription(
-            convo.displayNameWith(rel?.nickname),
-          ),
+          description: l10n.userProfileUnblockConfirmDescription(displayName),
           confirmLabel: l10n.dmUnblock,
           onConfirm: () {
             unawaited(
@@ -1372,14 +1369,12 @@ class _DMListState extends ConsumerState<DMList> {
         if (!mounted) {
           break;
         }
-        final l10n = FluxerLocalizations.of(context);
-        final String closeName = convo.displayNameWith(rel?.nickname);
         final confirmed = await FluxerConfirmModal.show(
           context,
           title: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDmConfirmTitle,
           description: convo.isGroup
-              ? l10n.channelDetailsLeaveGroupDescription(closeName)
-              : l10n.dmCloseDmConfirmDescription(closeName),
+              ? l10n.channelDetailsLeaveGroupDescription(displayName)
+              : l10n.dmCloseDmConfirmDescription(displayName),
           confirmLabel: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
           isDanger: true,
           onConfirm: () {

@@ -924,11 +924,6 @@ class _GuildListItemState extends State<_GuildListItem>
     final guildId = widget.guild!.id;
     final GuildSettingsTab? settingsTab = guildSettingsTabForAction(action);
     if (settingsTab != null) {
-      if (isGuildSettingsTabComingSoon(settingsTab)) {
-        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-        widget.onShowToast?.call(FluxerToast(message: l10n.comingSoon));
-        return;
-      }
       final bool isTouchPrimary = ProviderScope.containerOf(
         context,
       ).read(inputModalityProvider);

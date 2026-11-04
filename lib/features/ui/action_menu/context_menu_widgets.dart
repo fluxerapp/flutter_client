@@ -151,7 +151,6 @@ class ContextMenuItem extends StatefulWidget {
   final bool isDanger;
   final bool isDisabled;
   final VoidCallback onTap;
-  final VoidCallback? onDisabledTap;
 
   const ContextMenuItem({
     required this.label,
@@ -160,7 +159,6 @@ class ContextMenuItem extends StatefulWidget {
     this.icon,
     this.isDanger = false,
     this.isDisabled = false,
-    this.onDisabledTap,
     super.key,
   });
 
@@ -205,9 +203,7 @@ class _ContextMenuItemState extends State<ContextMenuItem> {
           : SystemMouseCursors.click,
       child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: widget.isDisabled
-            ? (widget.onDisabledTap ?? widget.onTap)
-            : widget.onTap,
+        onTap: widget.onTap,
         child: Container(
           constraints: const BoxConstraints(minHeight: 36),
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),

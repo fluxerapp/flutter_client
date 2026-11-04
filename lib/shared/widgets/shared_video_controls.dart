@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 
@@ -35,6 +36,7 @@ class SharedVideoControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return MouseRegion(
       onHover: (_) => onShowControls(),
       child: Stack(
@@ -90,6 +92,9 @@ class SharedVideoControls extends StatelessWidget {
                             height: 28,
                           ),
                           padding: EdgeInsets.zero,
+                          tooltip: isPlaying
+                              ? l10n.videoPlayerPause
+                              : l10n.videoPlayerPlay,
                           onPressed: onTogglePlayPause,
                           icon: Icon(
                             isPlaying
@@ -105,17 +110,27 @@ class SharedVideoControls extends StatelessWidget {
                           onVolumeChanged: onVolumeChanged,
                         ),
                         const Spacer(),
-                        TextButton(
-                          onPressed: onCyclePlaybackRate,
-                          style: TextButton.styleFrom(
-                            minimumSize: const Size(36, 28),
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                        Semantics(
+                          label: l10n.videoPlayerPlaybackSpeed(
+                            playbackRate.toString(),
                           ),
-                          child: Text(
-                            '${playbackRate}x',
-                            style: context.textStyles.smallText.copyWith(
-                              color: colors.textOnBrandPrimary,
-                              fontSize: 11,
+                          excludeSemantics: true,
+                          button: true,
+                          onTap: onCyclePlaybackRate,
+                          child: TextButton(
+                            onPressed: onCyclePlaybackRate,
+                            style: TextButton.styleFrom(
+                              minimumSize: const Size(36, 28),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                            ),
+                            child: Text(
+                              '${playbackRate}x',
+                              style: context.textStyles.smallText.copyWith(
+                                color: colors.textOnBrandPrimary,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
                         ),
@@ -125,6 +140,7 @@ class SharedVideoControls extends StatelessWidget {
                             height: 28,
                           ),
                           padding: EdgeInsets.zero,
+                          tooltip: l10n.videoPlayerFullScreen,
                           onPressed: onToggleFullscreen,
                           icon: Icon(
                             Icons.fullscreen_rounded,

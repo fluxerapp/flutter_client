@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Członków",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Członek} few{{formattedCount} Członkowie} many{{formattedCount} Członków} other{{formattedCount} Członka}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Motywy można importować tylko w przeglądarce lub na komputerze.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importuj motyw",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Ustawienia prywatności",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} członków",
+    "dmGroupMemberCount": "{count, plural, one{{count} członek} few{{count} członkowie} many{{count} członków} other{{count} członka}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Wybierz między ciemnym, węglowym lub jasnym wyglądem.",
+    "lookAndFeelThemeSectionDescription": "Wybierz między systemowym, ciemnym, węglowym lub jasnym wyglądem.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Wkrótce",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Wiadomości prywatne",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Społeczności",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplikacje",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nie udało się dołączyć do tej społeczności",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Wyślij wiadomość",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Zdjęcia",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14819,7 +14814,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Domyślne wyszukiwanie obrazem",
     "advancedSettingDefaultReverseImageSearchDescription": "Wybierz domyślną usługę wyszukiwania obrazem, która będzie używana podczas wyszukiwania obrazu.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Wbudowane wyszukiwanie obrazem",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Włącz lub wyłącz wbudowanych dostawców wyszukiwania obrazem. Włączeni dostawcy pojawią się w menu kontekstowym obrazów, awatarów, banerów, naklejek i emoji.",
     "advancedSettingCustomReverseImageSearchLabel": "Własne wyszukiwanie obrazem",
     "advancedSettingCustomReverseImageSearchDescription": "Dodaj własnych dostawców wyszukiwania obrazem wstecz z niestandardowym wzorcem adresu URL. Użyj `{url}` jako symbolu zastępczego dla adresu URL obrazu.",
     "advancedSettingAddReverseImageSearchLabel": "Dodaj wyszukiwanie obrazem",
@@ -18148,14 +18142,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer nieoczekiwanie się zamknął. Udostępnienie anonimowych danych o awariach i błędach pomoże nam szybciej naprawiać problemy.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Raporty zawierają dzienniki awarii, błędy i podstawowe dane o wydajności. Nie są udostępniane podmiotom trzecim, a tę opcję możesz wyłączyć w dowolnym momencie.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Aby włączyć to później, otwórz Ustawienia → Zaawansowane → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18169,10 +18155,6 @@
     "observabilityReportingConsentAgree": "Wysyłaj raporty o awariach",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nie chcę włączać",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Prześlij opinię",
     "@userSettingsGiveFeedback": {

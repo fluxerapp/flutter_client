@@ -964,8 +964,14 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count Membros';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount Membros',
+      one: '$formattedCount Membro',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1066,9 +1072,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Só é possível importar temas na web ou no desktop.';
-
-  @override
-  String get embedThemeImport => 'Importar tema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1409,7 +1412,13 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count membros';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count membros',
+      one: '$count membro',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1805,6 +1814,49 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       locale: localeName,
       other: '$count comunidades',
       one: '1 comunidade',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Encontre a figurinha perfeita';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Nenhuma figurinha disponível';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Entre em uma comunidade com figurinhas para usá-las aqui.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nenhuma figurinha disponível';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Nenhuma figurinha está disponível nesta conversa.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nenhuma figurinha encontrada';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Tente outro termo de pesquisa.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Desbloqueie $stickerCount de $communityCount com Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count figurinhas',
+      one: '1 figurinha',
     );
     return '$_temp0';
   }
@@ -4819,7 +4871,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Escolha entre aparência escura, carvão ou clara.';
+      'Escolha entre a aparência do sistema, escura, carvão ou clara.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Alto alcance dinâmico';
@@ -5348,6 +5400,66 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'O nome é obrigatório.';
+
+  @override
+  String get savedMediaEdit => 'Editar';
+
+  @override
+  String get savedMediaEditTitle => 'Editar mídia salva';
+
+  @override
+  String get savedMediaDeleteTitle => 'Excluir mídia salva';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Remover \"$name\" das suas mídias salvas?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'Não foi possível excluir a mídia salva.';
+
+  @override
+  String get savedMediaSearchHint => 'Pesquisar mídias salvas';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Mídias salvas indisponíveis';
+
+  @override
+  String get savedMediaUnavailableBody =>
+      'Tente novamente em alguns instantes.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nenhuma mídia salva';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Salve mídias das mensagens para vê-las aqui.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nenhum resultado';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Tente outro termo de pesquisa ou filtro.';
+
+  @override
+  String get savedMediaFilterAll => 'Todas';
+
+  @override
+  String get savedMediaFilterImages => 'Imagens';
+
+  @override
+  String get savedMediaFilterVideos => 'Vídeos';
+
+  @override
+  String get savedMediaFilterAudio => 'Áudio';
+
+  @override
+  String get savedMediaFilterGifs => 'GIFs';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6173,6 +6285,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Dispensar';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Controles da chamada de voz';
 
   @override
   String get voiceConnectionDisconnected => 'Desconectado';
@@ -7386,6 +7501,21 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get chatMessageDebug => 'Depurar mensagem';
 
   @override
+  String get messageAlertNote => 'Nota';
+
+  @override
+  String get messageAlertTip => 'Dica';
+
+  @override
+  String get messageAlertImportant => 'Importante';
+
+  @override
+  String get messageAlertWarning => 'Aviso';
+
+  @override
+  String get messageAlertCaution => 'Atenção';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Depurar mensagem';
 
   @override
@@ -7661,6 +7791,16 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get chatReplyMentionOff => 'Desativado';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Respondendo a $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Encaminhada de $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Cancelar resposta';
 
   @override
@@ -7737,6 +7877,23 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Fechar';
+
+  @override
+  String get videoPlayerPlay => 'Reproduzir';
+
+  @override
+  String get videoPlayerPause => 'Pausar';
+
+  @override
+  String get videoPlayerVolume => 'Volume';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Velocidade de reprodução ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Tela cheia';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Alternar controles de vídeo';
@@ -8723,6 +8880,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Configurações de notificação, silenciado';
 
   @override
+  String get channelHeaderOpenDetails => 'Abrir detalhes do canal';
+
+  @override
   String get channelDetailsSearchTitle => 'Pesquisar';
 
   @override
@@ -9428,6 +9588,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Fechar seletor de anexos';
+
+  @override
+  String get composerSendMessage => 'Enviar mensagem';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotos';
@@ -11310,6 +11473,16 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Adicionar pesquisa reversa de imagens';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Pesquisar com $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Traduzir com $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Ative pelo menos um provedor de pesquisa reversa de imagens abaixo.';
 
@@ -11417,6 +11590,12 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Logs do Aplicativo';
+
+  @override
+  String get userSettingsTitle => 'Configurações';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Copiar informações do app';
 
   @override
   String get userSettingsNavDeveloperTools => 'Ferramentas do Desenvolvedor';
@@ -11762,9 +11941,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Conecte-se à instância para fazer login';
 
   @override
-  String get comingSoon => 'Em breve';
-
-  @override
   String get guildNavbarDirectMessages => 'Mensagens Diretas';
 
   @override
@@ -11855,9 +12031,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Comunidades';
-
-  @override
-  String get discoveryApps => 'Aplicativos';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11975,6 +12148,81 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Caixa de entrada';
+
+  @override
+  String get friendsPageTitle => 'Meus amigos';
+
+  @override
+  String get friendsActiveNowTitle => 'Ativos agora';
+
+  @override
+  String get friendsActiveNowEmptyTitle =>
+      'Está tudo tranquilo por enquanto...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Quando seus amigos estiverem ativos em canais de voz, a atividade deles aparecerá aqui.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Todos';
+
+  @override
+  String get friendsTabPending => 'Pendente';
+
+  @override
+  String get friendsTabBlocked => 'Bloqueados';
+
+  @override
+  String get friendsSearchOnline => 'Procurar amigos online';
+
+  @override
+  String get friendsSearchAll => 'Pesquisar amigos';
+
+  @override
+  String get friendsSearchPending => 'Buscar solicitações pendentes';
+
+  @override
+  String get friendsSearchBlocked => 'Pesquisar usuários bloqueados';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nenhum amigo corresponde à pesquisa';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Tente outro nome ou verifique a ortografia.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nenhum amigo online';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Quando eles ficarem online, aparecerão bem aqui.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Nenhum amigo ainda';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Para onde vamos, precisamos de mais amigos.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Nenhum pedido pendente';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Os pedidos de amizade pendentes aparecem aqui.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Você não bloqueou ninguém.';
+
+  @override
+  String get friendsOutgoingStatus => 'Pedido de amizade enviado';
+
+  @override
+  String get friendsBlockedStatus => 'Bloqueado';
 
   @override
   String get profileRemoveFriend => 'Remover amigo';
@@ -12261,6 +12509,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Silenciado até $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Silenciado';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15152,6 +15403,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => 'Mensagens diretas';
 
   @override
+  String get dmListFriendsButton => 'Amigos';
+
+  @override
   String get keybindsSearchShortcuts => 'Pesquisar atalhos';
 
   @override
@@ -17730,8 +17984,14 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count Membros';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount Membros',
+      one: '$formattedCount Membro',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -17832,9 +18092,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get embedThemeWebOnly =>
       'Só é possível importar temas na web ou no desktop.';
-
-  @override
-  String get embedThemeImport => 'Importar tema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -18175,7 +18432,13 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count membros';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count membros',
+      one: '$count membro',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -18571,6 +18834,49 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       locale: localeName,
       other: '$count comunidades',
       one: '1 comunidade',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Encontre a figurinha perfeita';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Nenhuma figurinha disponível';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Entre em uma comunidade com figurinhas para usá-las aqui.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nenhuma figurinha disponível';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Nenhuma figurinha está disponível nesta conversa.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nenhuma figurinha encontrada';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Tente outro termo de pesquisa.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Desbloqueie $stickerCount de $communityCount com Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count figurinhas',
+      one: '1 figurinha',
     );
     return '$_temp0';
   }
@@ -21583,7 +21889,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Escolha entre aparência escura, carvão ou clara.';
+      'Escolha entre a aparência do sistema, escura, carvão ou clara.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Alto alcance dinâmico';
@@ -22110,6 +22416,66 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get savedMediaNameRequired => 'O nome é obrigatório.';
+
+  @override
+  String get savedMediaEdit => 'Editar';
+
+  @override
+  String get savedMediaEditTitle => 'Editar mídia salva';
+
+  @override
+  String get savedMediaDeleteTitle => 'Excluir mídia salva';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Remover \"$name\" das suas mídias salvas?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'Não foi possível excluir a mídia salva.';
+
+  @override
+  String get savedMediaSearchHint => 'Pesquisar mídias salvas';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Mídias salvas indisponíveis';
+
+  @override
+  String get savedMediaUnavailableBody =>
+      'Tente novamente em alguns instantes.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nenhuma mídia salva';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Salve mídias das mensagens para vê-las aqui.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nenhum resultado';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Tente outro termo de pesquisa ou filtro.';
+
+  @override
+  String get savedMediaFilterAll => 'Todas';
+
+  @override
+  String get savedMediaFilterImages => 'Imagens';
+
+  @override
+  String get savedMediaFilterVideos => 'Vídeos';
+
+  @override
+  String get savedMediaFilterAudio => 'Áudio';
+
+  @override
+  String get savedMediaFilterGifs => 'GIFs';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -22937,6 +23303,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get voiceConnectionDismiss => 'Dispensar';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Controles da chamada de voz';
 
   @override
   String get voiceConnectionDisconnected => 'Desconectado';
@@ -24154,6 +24523,21 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get chatMessageDebug => 'Depurar mensagem';
 
   @override
+  String get messageAlertNote => 'Nota';
+
+  @override
+  String get messageAlertTip => 'Dica';
+
+  @override
+  String get messageAlertImportant => 'Importante';
+
+  @override
+  String get messageAlertWarning => 'Aviso';
+
+  @override
+  String get messageAlertCaution => 'Atenção';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Depurar mensagem';
 
   @override
@@ -24432,6 +24816,16 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get chatReplyMentionOff => 'DESATIVADO';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Respondendo a $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Encaminhada de $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Cancelar resposta';
 
   @override
@@ -24508,6 +24902,23 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get mediaViewerDismissBackdrop => 'Dispensar';
+
+  @override
+  String get videoPlayerPlay => 'Reproduzir';
+
+  @override
+  String get videoPlayerPause => 'Pausar';
+
+  @override
+  String get videoPlayerVolume => 'Volume';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Velocidade de reprodução ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Tela cheia';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Alternar controles de vídeo';
@@ -25498,6 +25909,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Configurações de notificação, silenciado';
 
   @override
+  String get channelHeaderOpenDetails => 'Abrir detalhes do canal';
+
+  @override
   String get channelDetailsSearchTitle => 'Pesquisar';
 
   @override
@@ -26205,6 +26619,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get composerCloseAttachmentPanel => 'Fechar seletor de anexos';
+
+  @override
+  String get composerSendMessage => 'Enviar mensagem';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotos';
@@ -28086,6 +28503,16 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Adicionar pesquisa de imagem reversa';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Pesquisar com $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Traduzir com $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Ative pelo menos um provedor de pesquisa de imagem reversa abaixo.';
 
@@ -28190,6 +28617,12 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get userSettingsNavAppLogs => 'Logs do Aplicativo';
+
+  @override
+  String get userSettingsTitle => 'Configurações';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Copiar informações do app';
 
   @override
   String get userSettingsNavDeveloperTools => 'Ferramentas do desenvolvedor';
@@ -28534,9 +28967,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Conecte-se à instância para fazer login';
 
   @override
-  String get comingSoon => 'Em breve';
-
-  @override
   String get guildNavbarDirectMessages => 'Mensagens diretas';
 
   @override
@@ -28627,9 +29057,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get discoveryCommunities => 'Comunidades';
-
-  @override
-  String get discoveryApps => 'Aplicativos';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -28747,6 +29174,81 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get friendsOpenInbox => 'Caixa de entrada';
+
+  @override
+  String get friendsPageTitle => 'Meus amigos';
+
+  @override
+  String get friendsActiveNowTitle => 'Ativos agora';
+
+  @override
+  String get friendsActiveNowEmptyTitle =>
+      'Está tudo tranquilo por enquanto...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Quando seus amigos estiverem ativos em canais de voz, a atividade deles aparecerá aqui.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Todos';
+
+  @override
+  String get friendsTabPending => 'Pendente';
+
+  @override
+  String get friendsTabBlocked => 'Bloqueados';
+
+  @override
+  String get friendsSearchOnline => 'Procurar amigos online';
+
+  @override
+  String get friendsSearchAll => 'Pesquisar amigos';
+
+  @override
+  String get friendsSearchPending => 'Buscar solicitações pendentes';
+
+  @override
+  String get friendsSearchBlocked => 'Pesquisar usuários bloqueados';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nenhum amigo corresponde à pesquisa';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Tente outro nome ou verifique a ortografia.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nenhum amigo online';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Quando eles ficarem online, aparecerão bem aqui.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Nenhum amigo ainda';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Para onde vamos, precisamos de mais amigos.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Nenhum pedido pendente';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Os pedidos de amizade pendentes aparecem aqui.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Você não bloqueou ninguém.';
+
+  @override
+  String get friendsOutgoingStatus => 'Pedido de amizade enviado';
+
+  @override
+  String get friendsBlockedStatus => 'Bloqueado';
 
   @override
   String get profileRemoveFriend => 'Remover amigo';
@@ -29034,6 +29536,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Silenciado até $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Silenciado';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -31925,6 +32430,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get dmListDirectMessagesTitle => 'Mensagens diretas';
+
+  @override
+  String get dmListFriendsButton => 'Amigos';
 
   @override
   String get keybindsSearchShortcuts => 'Pesquisar atalhos';

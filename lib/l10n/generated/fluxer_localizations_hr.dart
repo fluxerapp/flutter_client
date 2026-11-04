@@ -965,8 +965,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count članova';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount članova',
+      few: '$formattedCount člana',
+      one: '$formattedCount član',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1067,9 +1074,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Teme možeš uvesti samo na webu ili na računalu.';
-
-  @override
-  String get embedThemeImport => 'Uvezi temu';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1408,7 +1412,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count člana';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count članova',
+      few: '$count člana',
+      one: '$count član',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1804,6 +1815,51 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       locale: localeName,
       other: '$count zajednica',
       one: '1 zajednica',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Pronađite savršenu naljepnicu';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Nema dostupnih naljepnica';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Pridružite se zajednici s naljepnicama kako biste ih mogli koristiti ovdje.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nema dostupnih naljepnica';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'U ovom razgovoru nema dostupnih naljepnica.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nema pronađenih naljepnica';
+
+  @override
+  String get stickerPickerNoResultsBody =>
+      'Pokušajte s drugim pojmom za pretraživanje.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Otključajte $stickerCount iz $communityCount uz Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count naljepnica',
+      few: '$count naljepnice',
+      one: '$count naljepnicu',
     );
     return '$_temp0';
   }
@@ -4812,7 +4868,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Odaberite između tamnog, ugljenog ili svijetlog izgleda.';
+      'Odaberite izgled sustava ili tamni, ugljeni ili svijetli izgled.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Visoki dinamički raspon';
@@ -5337,6 +5393,65 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Naziv je obavezan.';
+
+  @override
+  String get savedMediaEdit => 'Uredi';
+
+  @override
+  String get savedMediaEditTitle => 'Uredi spremljene medije';
+
+  @override
+  String get savedMediaDeleteTitle => 'Izbriši spremljene medije';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Ukloniti „$name“ iz spremljenih medija?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'Nije moguće izbrisati spremljeni medij.';
+
+  @override
+  String get savedMediaSearchHint => 'Pretražite spremljene medije';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Spremljeni mediji nisu dostupni';
+
+  @override
+  String get savedMediaUnavailableBody => 'Pokušajte ponovno za trenutak.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nema spremljenih medija';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Spremite medije iz poruka kako biste ih vidjeli ovdje.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nema rezultata';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Pokušajte s drugim pojmom za pretraživanje ili filtrom.';
+
+  @override
+  String get savedMediaFilterAll => 'Sve';
+
+  @override
+  String get savedMediaFilterImages => 'Slike';
+
+  @override
+  String get savedMediaFilterVideos => 'Videozapisi';
+
+  @override
+  String get savedMediaFilterAudio => 'Zvuk';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF-ovi';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6163,6 +6278,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Odbaci';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Kontrole glasovnog poziva';
 
   @override
   String get voiceConnectionDisconnected => 'Prekinuta veza';
@@ -7373,6 +7491,21 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageDebug => 'Otklanjanje pogrešaka poruke';
 
   @override
+  String get messageAlertNote => 'Bilješka';
+
+  @override
+  String get messageAlertTip => 'Savjet';
+
+  @override
+  String get messageAlertImportant => 'Važno';
+
+  @override
+  String get messageAlertWarning => 'Upozorenje';
+
+  @override
+  String get messageAlertCaution => 'Oprez';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Otklanjanje pogrešaka poruke';
 
   @override
@@ -7649,6 +7782,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatReplyMentionOff => 'ISKLJ.';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Odgovor korisniku $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Proslijeđeno iz $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Poništi odgovor';
 
   @override
@@ -7725,6 +7868,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Odbaci';
+
+  @override
+  String get videoPlayerPlay => 'Reproduciraj';
+
+  @override
+  String get videoPlayerPause => 'Pauziraj';
+
+  @override
+  String get videoPlayerVolume => 'Glasnoća';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Brzina reprodukcije ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Cijeli zaslon';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8713,6 +8873,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Postavke obavijesti, utišano';
 
   @override
+  String get channelHeaderOpenDetails => 'Otvori pojedinosti kanala';
+
+  @override
   String get channelDetailsSearchTitle => 'Pretraživanje';
 
   @override
@@ -9412,6 +9575,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Zatvori odabir privitaka';
+
+  @override
+  String get composerSendMessage => 'Pošalji poruku';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotografije';
@@ -11283,6 +11449,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Dodaj obrnuto pretraživanje slika';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Pretraži pomoću $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Prevedi pomoću $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Omogućite barem jednog pružatelja obrnutog pretraživanja slika u nastavku.';
 
@@ -11385,6 +11561,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Dnevnici aplikacije';
+
+  @override
+  String get userSettingsTitle => 'Postavke';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopiraj podatke o aplikaciji';
 
   @override
   String get userSettingsNavDeveloperTools => 'Alati za razvojne programere';
@@ -11727,9 +11909,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get instanceConnectionRequired => 'Poveži se s instancom za prijavu';
 
   @override
-  String get comingSoon => 'Uskoro';
-
-  @override
   String get guildNavbarDirectMessages => 'Izravne poruke';
 
   @override
@@ -11818,9 +11997,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Zajednice';
-
-  @override
-  String get discoveryApps => 'Aplikacije';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11938,6 +12114,81 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Pristigla pošta';
+
+  @override
+  String get friendsPageTitle => 'Moji prijatelji';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktivno sada';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Zasad je mirno...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Kada su prijatelji aktivni u glasovnim kanalima, njihova će se aktivnost prikazati ovdje.';
+
+  @override
+  String get friendsTabOnline => 'Na mreži';
+
+  @override
+  String get friendsTabAll => 'Sve';
+
+  @override
+  String get friendsTabPending => 'Na čekanju';
+
+  @override
+  String get friendsTabBlocked => 'Blokirano';
+
+  @override
+  String get friendsSearchOnline => 'Pretražite prijatelje na mreži';
+
+  @override
+  String get friendsSearchAll => 'Pretražite prijatelje';
+
+  @override
+  String get friendsSearchPending => 'Pretražite zahtjeve na čekanju';
+
+  @override
+  String get friendsSearchBlocked => 'Pretražite blokirane korisnike';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Nijedan prijatelj ne odgovara pretrazi';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Pokušajte s drugim imenom ili provjerite pravopis.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nema prijatelja na mreži';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Kada dođu na mrežu, pojavit će se ovdje.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Još nema prijatelja';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Tamo kamo idemo trebat će nam više prijatelja.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Nema zahtjeva na čekanju';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Ovdje se prikazuju zahtjevi za prijateljstvo na čekanju.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Niste nikoga blokirali.';
+
+  @override
+  String get friendsOutgoingStatus => 'Poslan zahtjev za prijateljstvo';
+
+  @override
+  String get friendsBlockedStatus => 'Blokirano';
 
   @override
   String get profileRemoveFriend => 'Ukloni prijatelja';
@@ -12220,6 +12471,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Iskljuceno do $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Utišano';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15112,6 +15366,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Izravne poruke';
+
+  @override
+  String get dmListFriendsButton => 'Prijatelji';
 
   @override
   String get keybindsSearchShortcuts => 'Pretražite prečace';

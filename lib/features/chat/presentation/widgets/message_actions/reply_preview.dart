@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/mention_reply_preference_utils.dart';
+import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -444,25 +445,28 @@ class ReplyInputBar extends ConsumerWidget {
     final bool canMention = guildId.isNotEmpty && !isOwnMessage && !isWebhook;
     final bool shouldMention = shouldReplyMention && canMention;
     final Color activeMentionColor = context.colors.markupMentionText;
-    final Widget title = RichText(
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(
+    final TextStyle replyingToStyle = context.textStyles.bodySmall.copyWith(
+      color: context.colors.textPrimaryMuted,
+    );
+    final List<String> replyingToParts = l10n
+        .chatReplyingTo(kTypingIndicatorNamePlaceholder)
+        .split(kTypingIndicatorNamePlaceholder);
+    final Widget title = Text.rich(
+      TextSpan(
         style: context.textStyles.bodySmall,
         children: [
-          TextSpan(
-            text: 'Replying to ',
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textPrimaryMuted,
-            ),
-          ),
+          TextSpan(text: replyingToParts.first, style: replyingToStyle),
           TextSpan(
             text: replyAuthorDisplay.displayName,
             style: context.textStyles.categoryName.copyWith(
               color: context.colors.textChat,
             ),
           ),
+          if (replyingToParts.length > 1)
+            TextSpan(text: replyingToParts[1], style: replyingToStyle),
         ],
       ),
+      overflow: TextOverflow.ellipsis,
     );
     final Color inactiveMentionColor = wideComposerAction
         ? context.colors.textPrimaryMuted

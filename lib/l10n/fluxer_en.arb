@@ -1266,11 +1266,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Members",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Member} other{{formattedCount} Members}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1404,11 +1407,7 @@
     },
     "embedThemeWebOnly": "You can only import themes on web or desktop.",
     "@embedThemeWebOnly": {
-        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Import theme",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
+        "description": "Subtitle on a shared theme link card. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (lifetime {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -2364,6 +2363,55 @@
     "emojiPlutoniumUpsellCommunity": "{count, plural, =1{1 community} other{{count} communities}}",
     "@emojiPlutoniumUpsellCommunity": {
         "description": "Community count label in upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "stickerPickerSearchHint": "Find the perfect sticker",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "No stickers available",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Join a community with stickers to use them here.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "No stickers available",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "No stickers are available in this conversation.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "No stickers found",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Try a different search term.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Unlock {stickerCount} from {communityCount} with Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 sticker} other{{count} stickers}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -6178,7 +6226,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Choose between dark, coal, or light appearance.",
+    "lookAndFeelThemeSectionDescription": "Choose between system, dark, coal, or light appearance.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6779,6 +6827,83 @@
     "savedMediaNameRequired": "Name is required.",
     "@savedMediaNameRequired": {
         "description": "Validation error when saved media name is empty."
+    },
+    "savedMediaEdit": "Edit",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Edit saved media",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Delete saved media",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Remove \"{name}\" from your saved media?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Couldn't delete saved media.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Search saved media",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Saved media unavailable",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Try again in a moment.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "No saved media",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Save media from messages to see it here.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "No results",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Try a different search term or filter.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "All",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Images",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Videos",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Audio",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIFs",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
     },
     "gifFavoriteFirstTimeTitle": "How should we save your GIF favorites?",
     "@gifFavoriteFirstTimeTitle": {
@@ -7839,6 +7964,10 @@
     "voiceConnectionDismiss": "Dismiss",
     "@voiceConnectionDismiss": {
         "description": "Button that dismisses the failed voice connection status banner."
+    },
+    "voiceCallControlsSheetLabel": "Voice call controls",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
     },
     "voiceConnectionDisconnected": "Disconnected",
     "@voiceConnectionDisconnected": {
@@ -9328,6 +9457,26 @@
     "@chatMessageDebug": {
         "description": "Developer-mode action label that opens a JSON viewer for the underlying message data."
     },
+    "messageAlertNote": "Note",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Tip",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Important",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Warning",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Caution",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
     "chatMessageDebugSheetTitle": "Debug message",
     "@chatMessageDebugSheetTitle": {
         "description": "Title for the developer-mode message debug sheet that shows raw message JSON."
@@ -9668,6 +9817,24 @@
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
+    "chatReplyingTo": "Replying to {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Forwarded from {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
     "chatReplyCancel": "Cancel reply",
     "@chatReplyCancel": {
         "description": "Accessible label for the cancel-reply button in the reply bar."
@@ -9782,6 +9949,31 @@
     "mediaViewerDismissBackdrop": "Dismiss",
     "@mediaViewerDismissBackdrop": {
         "description": "Accessibility label for dismissing the media viewer by tapping the backdrop."
+    },
+    "videoPlayerPlay": "Play",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Pause",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Volume",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Playback speed {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Full screen",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
     },
     "chatAttachmentVideoToggleControls": "Toggle video controls",
     "@chatAttachmentVideoToggleControls": {
@@ -11034,6 +11226,10 @@
     "@channelHeaderNotificationSettingsMuted": {
         "description": "Toolbar button label for notification settings when the channel is muted."
     },
+    "channelHeaderOpenDetails": "Open channel details",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
     "channelDetailsSearchTitle": "Search",
     "@channelDetailsSearchTitle": {
         "description": "Title for the channel search bottom sheet."
@@ -11924,6 +12120,10 @@
     "composerCloseAttachmentPanel": "Close attachment picker",
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
+    },
+    "composerSendMessage": "Send message",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
     },
     "chatAttachmentPanelPhotos": "Photos",
     "@chatAttachmentPanelPhotos": {
@@ -13268,11 +13468,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.",
+    "observabilityReportingConsentSubtitle": "Fluxer closed unexpectedly. Sending a crash report helps us find and fix the problem faster.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.",
+    "observabilityReportingConsentBody": "Reports include crash logs, errors, performance data, network request timings and the screens and taps that led up to a problem, linked to a random ID for this install. They never include message content, and they go only to Fluxer's own error tracker. You can turn this off at any time.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -13290,7 +13490,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Don't want to enable",
+    "observabilityReportingConsentDecline": "Don't ask again",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -13425,10 +13625,28 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Default reverse image search",
     "advancedSettingDefaultReverseImageSearchDescription": "Choose which reverse image search service is used by default when searching an image.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Built-in reverse image search",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Enable or disable built-in reverse image search providers. Enabled providers appear in the options of images.",
     "advancedSettingCustomReverseImageSearchLabel": "Custom reverse image search",
     "advancedSettingCustomReverseImageSearchDescription": "Add your own reverse image search providers with a custom URL pattern. Use '{url}' as a placeholder for the image URL.",
     "advancedSettingAddReverseImageSearchLabel": "Add reverse image search",
+    "searchProviderSearchWith": "Search with {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Translate with {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
     "advancedSettingEnableAtLeastOneReverseImageSearchLabel": "Enable at least one reverse image search provider below.",
     "advancedSettingRemoveReverseImageSearchLabel": "Remove reverse image search",
     "advancedSettingAddSearchEngineTitle": "Add search engine",
@@ -13468,6 +13686,14 @@
     "userSettingsNavAppLogs": "App logs",
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
+    },
+    "userSettingsTitle": "Settings",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Copy app info",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
     },
     "userSettingsNavDeveloperTools": "Developer tools",
     "@userSettingsNavDeveloperTools": {
@@ -13518,7 +13744,7 @@
             }
         }
     },
-    "userSettingsNavLogOut": "Log out",
+    "userSettingsNavLogOut": "Sign out",
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -13926,10 +14152,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Coming soon",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Direct messages",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -14040,10 +14262,6 @@
     "discoveryCommunities": "Communities",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Apps",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Couldn't join this community",
     "@discoveryJoinErrorGenericTitle": {
@@ -14182,6 +14400,98 @@
     "friendsOpenInbox": "Inbox",
     "@friendsOpenInbox": {
         "description": "Screen reader label for the friends list inbox button."
+    },
+    "friendsPageTitle": "My friends",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Active now",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "It's quiet for now...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "When friends are active in voice channels, their activity will appear here.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "All",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Pending",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Blocked",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Search online friends",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Search friends",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Search pending requests",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Search blocked users",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "No friends match that search",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Try another name or check your spelling.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "No friends online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "When they come online, they'll appear right here.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "No friends yet",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Where we're going, we need more friends.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "No pending requests",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Pending friend requests show up here.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "You haven't blocked anyone.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Outgoing friend request",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Blocked",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
     },
     "profileRemoveFriend": "Remove friend",
     "@profileRemoveFriend": {
@@ -14546,6 +14856,10 @@
                 "type": "String"
             }
         }
+    },
+    "channelMutedHint": "Muted",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
     },
     "guildNavbarStaffOnlyAccessible": "Only accessible to {productName} staff",
     "@guildNavbarStaffOnlyAccessible": {
@@ -18150,6 +18464,10 @@
     "dmListDirectMessagesTitle": "Direct messages",
     "@dmListDirectMessagesTitle": {
         "description": "Desktop section header for the DM conversation list."
+    },
+    "dmListFriendsButton": "Friends",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
     },
     "keybindsSearchShortcuts": "Search shortcuts",
     "@keybindsSearchShortcuts": {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
@@ -48,8 +49,7 @@ class _DmEmbeddedVoiceCallPanelState
     );
     final dm = findDmById(conversations, widget.channelId);
     final String title =
-        dm?.displayName ??
-        dm?.recipientName ??
+        (dm == null ? null : dmConversationDisplayName(l10n, dm)) ??
         l10n.dmVoiceEmbeddedFallbackTitle;
     return ChatSurfaceTheme(
       builder: (BuildContext context) {

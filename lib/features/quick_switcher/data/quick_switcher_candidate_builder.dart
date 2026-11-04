@@ -59,7 +59,7 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
             avatar: convo.recipientAvatar,
             searchValues: <String>[
               resolvedName,
-              convo.displayName,
+              convo.rawDisplayName,
               convo.recipientName,
               if (convo.recipientUsername != null) convo.recipientUsername!,
               convo.id,

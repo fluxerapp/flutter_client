@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
+import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -108,7 +109,10 @@ class FriendsList extends ConsumerWidget {
           size: 24,
         ),
         SizedBox(width: context.layout.s2),
-        Text('My Friends', style: context.textStyles.channelName),
+        Text(
+          FluxerLocalizations.of(context).friendsPageTitle,
+          style: context.textStyles.channelName,
+        ),
         SizedBox(width: context.layout.s4),
         VerticalDivider(
           color: context.colors.backgroundModifierAccent,
@@ -125,15 +129,24 @@ class FriendsList extends ConsumerWidget {
                 _tabButton(
                   context,
                   ref,
-                  'Online',
+                  _tabLabel(FluxerLocalizations.of(context), FriendsTab.online),
                   FriendsTab.online,
                   activeTab,
                 ),
-                _tabButton(context, ref, 'All', FriendsTab.all, activeTab),
                 _tabButton(
                   context,
                   ref,
-                  'Pending',
+                  _tabLabel(FluxerLocalizations.of(context), FriendsTab.all),
+                  FriendsTab.all,
+                  activeTab,
+                ),
+                _tabButton(
+                  context,
+                  ref,
+                  _tabLabel(
+                    FluxerLocalizations.of(context),
+                    FriendsTab.pending,
+                  ),
                   FriendsTab.pending,
                   activeTab,
                 ),
@@ -272,34 +285,34 @@ class FriendsList extends ConsumerWidget {
       top: context.layout.s3,
     ),
     child: PickerSearchInput.inline(
-      hintText: _searchHint(activeTab),
+      hintText: _searchHint(FluxerLocalizations.of(context), activeTab),
       onChanged: ref.read(dmViewModelProvider.notifier).updateSearch,
     ),
   );
 
-  String _tabLabel(FriendsTab tab) {
+  String _tabLabel(FluxerLocalizations l10n, FriendsTab tab) {
     switch (tab) {
       case FriendsTab.online:
-        return 'Online';
+        return l10n.friendsTabOnline;
       case FriendsTab.all:
-        return 'All';
+        return l10n.friendsTabAll;
       case FriendsTab.pending:
-        return 'Pending';
+        return l10n.friendsTabPending;
       case FriendsTab.blocked:
-        return 'Blocked';
+        return l10n.friendsTabBlocked;
     }
   }
 
-  String _searchHint(FriendsTab tab) {
+  String _searchHint(FluxerLocalizations l10n, FriendsTab tab) {
     switch (tab) {
       case FriendsTab.online:
-        return 'Search online friends';
+        return l10n.friendsSearchOnline;
       case FriendsTab.all:
-        return 'Search friends';
+        return l10n.friendsSearchAll;
       case FriendsTab.pending:
-        return 'Search pending requests';
+        return l10n.friendsSearchPending;
       case FriendsTab.blocked:
-        return 'Search blocked users';
+        return l10n.friendsSearchBlocked;
     }
   }
 
@@ -308,7 +321,7 @@ class FriendsList extends ConsumerWidget {
     required FriendsTab activeTab,
     required int friendCount,
   }) {
-    final label = _tabLabel(activeTab);
+    final label = _tabLabel(FluxerLocalizations.of(context), activeTab);
     return Padding(
       padding: EdgeInsets.only(
         left: context.layout.s4,
@@ -345,7 +358,7 @@ class FriendsList extends ConsumerWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Active Now',
+              FluxerLocalizations.of(context).friendsActiveNowTitle,
               style: context.textStyles.channelName.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -373,17 +386,14 @@ class FriendsList extends ConsumerWidget {
                   ),
                   SizedBox(height: context.layout.s3),
                   Text(
-                    "It's quiet for now...",
+                    FluxerLocalizations.of(context).friendsActiveNowEmptyTitle,
                     style: context.textStyles.channelName.copyWith(
                       color: context.colors.textSecondary,
                     ),
                   ),
                   SizedBox(height: context.layout.s3),
                   Text(
-                    'When friends are active '
-                    'in voice channels, their '
-                    'activity will appear '
-                    'here.',
+                    FluxerLocalizations.of(context).friendsActiveNowEmptyBody,
                     textAlign: TextAlign.center,
                     style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textTertiary,
@@ -420,7 +430,11 @@ class FriendsList extends ConsumerWidget {
               ),
               SizedBox(height: context.layout.s4),
               Text(
-                _emptyTitle(activeTab: activeTab, searchQuery: searchQuery),
+                _emptyTitle(
+                  FluxerLocalizations.of(context),
+                  activeTab: activeTab,
+                  searchQuery: searchQuery,
+                ),
                 style: context.textStyles.heading,
               ),
               SizedBox(height: context.layout.s2),
@@ -428,6 +442,7 @@ class FriendsList extends ConsumerWidget {
                 constraints: const BoxConstraints(maxWidth: 448),
                 child: Text(
                   _emptySubtitle(
+                    FluxerLocalizations.of(context),
                     activeTab: activeTab,
                     searchQuery: searchQuery,
                   ),
@@ -452,198 +467,198 @@ class FriendsList extends ConsumerWidget {
     );
   }
 
-  Widget _buildFriendTile(BuildContext context, WidgetRef ref, Friend friend) =>
-      DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: context.colors.borderColor.withValues(alpha: 0.5),
-            ),
+  Widget _buildFriendTile(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) => DecoratedBox(
+    decoration: BoxDecoration(
+      border: Border(
+        top: BorderSide(
+          color: context.colors.borderColor.withValues(alpha: 0.5),
+        ),
+      ),
+    ),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(6),
+        hoverColor: context.colors.backgroundModifierHover,
+        onTap: () =>
+            unawaited(FluxerUserProfileSheet.show(context, userId: friend.id)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: context.layout.s3,
+            horizontal: context.layout.s4,
+          ),
+          child: Row(
+            children: [
+              FluxerAvatar.userPresence(
+                fallbackText: friend.displayName,
+                userId: friend.id,
+                imageUrl: FluxerMediaUrl.userAvatar(
+                  userId: friend.id,
+                  hash: friend.avatar,
+                ),
+                avatarColor: friend.avatarColor,
+                size: 36,
+              ),
+              SizedBox(width: context.layout.s3),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      friend.displayName,
+                      style: context.textStyles.channelName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 1),
+                    if (friend.friendStatus == FriendStatus.accepted &&
+                        hasVisibleCustomStatus(friend.customStatus))
+                      CustomStatusDisplay(
+                        stored: friend.customStatus,
+                        maxLines: 1,
+                        emojiSize: 14,
+                      )
+                    else
+                      Text(
+                        _statusText(FluxerLocalizations.of(context), friend),
+                        style: context.textStyles.timestamp.copyWith(
+                          color: friend.status == 'offline'
+                              ? context.colors.textTertiary
+                              : context.colors.textPrimaryMuted.withValues(
+                                  alpha: 0.85,
+                                ),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
+              ),
+              if (friend.friendStatus == FriendStatus.accepted) ...[
+                FluxerButton.circleAlt(
+                  icon: PhosphorIconsFill.chatCircle,
+                  size: FluxerButtonSize.compact,
+                  semanticLabel: FluxerLocalizations.of(
+                    context,
+                  ).friendsMessageFriend,
+                  onPressed: () =>
+                      unawaited(_openFriendChat(context, ref, friend)),
+                ),
+                SizedBox(width: context.layout.s2),
+                FluxerButton.circleAlt(
+                  icon: PhosphorIconsBold.dotsThreeVertical,
+                  size: FluxerButtonSize.compact,
+                  semanticLabel: FluxerLocalizations.of(
+                    context,
+                  ).friendsFriendActions,
+                  onPressed: () =>
+                      unawaited(_openFriendMenu(context, ref, friend)),
+                ),
+              ],
+              if (friend.friendStatus == FriendStatus.pendingIncoming) ...[
+                FluxerButton.circle(
+                  icon: PhosphorIconsBold.check,
+                  size: FluxerButtonSize.compact,
+                  semanticLabel: FluxerLocalizations.of(
+                    context,
+                  ).friendsAcceptRequest,
+                  onPressed: () => unawaited(
+                    _runRelationshipAction(
+                      context,
+                      ref,
+                      ApiErrorAction.acceptFriendRequest,
+                      () => ref
+                          .read(friendRepositoryProvider)
+                          .acceptFriendRequest(friend.id),
+                    ),
+                  ),
+                ),
+                SizedBox(width: context.layout.s2),
+                FluxerButton.circle(
+                  icon: PhosphorIconsBold.x,
+                  variant: FluxerButtonVariant.dangerPrimary,
+                  size: FluxerButtonSize.compact,
+                  semanticLabel: FluxerLocalizations.of(
+                    context,
+                  ).friendsDeclineRequest,
+                  onPressed: () => unawaited(
+                    _confirmRemoveRelationship(context, ref, friend),
+                  ),
+                ),
+              ],
+              if (friend.friendStatus == FriendStatus.pendingOutgoing) ...[
+                FluxerButton.circleAlt(
+                  icon: PhosphorIconsBold.x,
+                  size: FluxerButtonSize.compact,
+                  semanticLabel: FluxerLocalizations.of(
+                    context,
+                  ).friendsCancelRequest,
+                  onPressed: () => unawaited(
+                    _confirmCancelOutgoingRequest(context, ref, friend),
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(6),
-            hoverColor: context.colors.backgroundModifierHover,
-            onTap: () => unawaited(
-              FluxerUserProfileSheet.show(context, userId: friend.id),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: context.layout.s3,
-                horizontal: context.layout.s4,
-              ),
-              child: Row(
-                children: [
-                  FluxerAvatar.userPresence(
-                    fallbackText: friend.displayName,
-                    userId: friend.id,
-                    imageUrl: FluxerMediaUrl.userAvatar(
-                      userId: friend.id,
-                      hash: friend.avatar,
-                    ),
-                    avatarColor: friend.avatarColor,
-                    size: 36,
-                  ),
-                  SizedBox(width: context.layout.s3),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          friend.displayName,
-                          style: context.textStyles.channelName,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 1),
-                        if (friend.friendStatus == FriendStatus.accepted &&
-                            hasVisibleCustomStatus(friend.customStatus))
-                          CustomStatusDisplay(
-                            stored: friend.customStatus,
-                            maxLines: 1,
-                            emojiSize: 14,
-                          )
-                        else
-                          Text(
-                            _statusText(friend),
-                            style: context.textStyles.timestamp.copyWith(
-                              color: friend.status == 'offline'
-                                  ? context.colors.textTertiary
-                                  : context.colors.textPrimaryMuted.withValues(
-                                      alpha: 0.85,
-                                    ),
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (friend.friendStatus == FriendStatus.accepted) ...[
-                    FluxerButton.circleAlt(
-                      icon: PhosphorIconsFill.chatCircle,
-                      size: FluxerButtonSize.compact,
-                      semanticLabel: FluxerLocalizations.of(
-                        context,
-                      ).friendsMessageFriend,
-                      onPressed: () =>
-                          unawaited(_openFriendChat(context, ref, friend)),
-                    ),
-                    SizedBox(width: context.layout.s2),
-                    FluxerButton.circleAlt(
-                      icon: PhosphorIconsBold.dotsThreeVertical,
-                      size: FluxerButtonSize.compact,
-                      semanticLabel: FluxerLocalizations.of(
-                        context,
-                      ).friendsFriendActions,
-                      onPressed: () =>
-                          unawaited(_openFriendMenu(context, ref, friend)),
-                    ),
-                  ],
-                  if (friend.friendStatus == FriendStatus.pendingIncoming) ...[
-                    FluxerButton.circle(
-                      icon: PhosphorIconsBold.check,
-                      size: FluxerButtonSize.compact,
-                      semanticLabel: FluxerLocalizations.of(
-                        context,
-                      ).friendsAcceptRequest,
-                      onPressed: () => unawaited(
-                        _runRelationshipAction(
-                          context,
-                          ref,
-                          ApiErrorAction.acceptFriendRequest,
-                          () => ref
-                              .read(friendRepositoryProvider)
-                              .acceptFriendRequest(friend.id),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: context.layout.s2),
-                    FluxerButton.circle(
-                      icon: PhosphorIconsBold.x,
-                      variant: FluxerButtonVariant.dangerPrimary,
-                      size: FluxerButtonSize.compact,
-                      semanticLabel: FluxerLocalizations.of(
-                        context,
-                      ).friendsDeclineRequest,
-                      onPressed: () => unawaited(
-                        _confirmRemoveRelationship(context, ref, friend),
-                      ),
-                    ),
-                  ],
-                  if (friend.friendStatus == FriendStatus.pendingOutgoing) ...[
-                    FluxerButton.circleAlt(
-                      icon: PhosphorIconsBold.x,
-                      size: FluxerButtonSize.compact,
-                      semanticLabel: FluxerLocalizations.of(
-                        context,
-                      ).friendsCancelRequest,
-                      onPressed: () => unawaited(
-                        _confirmCancelOutgoingRequest(context, ref, friend),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 
-  String _emptyTitle({
+  String _emptyTitle(
+    FluxerLocalizations l10n, {
     required FriendsTab activeTab,
     required String searchQuery,
   }) {
     if (searchQuery.isNotEmpty) {
-      return 'No friends match your search';
+      return l10n.friendsEmptySearchTitle;
     }
     switch (activeTab) {
       case FriendsTab.online:
-        return 'No friends online';
+        return l10n.friendsEmptyOnlineTitle;
       case FriendsTab.all:
-        return 'No friends yet';
+        return l10n.friendsEmptyAllTitle;
       case FriendsTab.pending:
-        return 'No Pending Requests';
+        return l10n.friendsEmptyPendingTitle;
       case FriendsTab.blocked:
-        return 'No blocked users';
+        return l10n.blockedUsersEmptyTitle;
     }
   }
 
-  String _emptySubtitle({
+  String _emptySubtitle(
+    FluxerLocalizations l10n, {
     required FriendsTab activeTab,
     required String searchQuery,
   }) {
     if (searchQuery.isNotEmpty) {
-      return 'Try another name or check your '
-          'spelling.';
+      return l10n.friendsEmptySearchBody;
     }
     switch (activeTab) {
       case FriendsTab.online:
-        return 'When your friends come online, '
-            "they'll appear right here.";
+        return l10n.friendsEmptyOnlineBody;
       case FriendsTab.all:
-        return "Where we're going, we need "
-            'more friends.';
+        return l10n.friendsEmptyAllBody;
       case FriendsTab.pending:
-        return 'No one has sent you a friend '
-            'request yet.';
+        return l10n.friendsEmptyPendingBody;
       case FriendsTab.blocked:
-        return "You haven't blocked anyone.";
+        return l10n.friendsEmptyBlockedBody;
     }
   }
 
-  String _statusText(Friend friend) {
+  String _statusText(FluxerLocalizations l10n, Friend friend) {
     switch (friend.friendStatus) {
       case FriendStatus.accepted:
-        return friend.status[0].toUpperCase() + friend.status.substring(1);
+        return presenceStatusLabel(friend.status, l10n);
       case FriendStatus.pendingIncoming:
-        return 'Incoming Friend Request';
+        return l10n.addFriendIncomingStatus;
       case FriendStatus.pendingOutgoing:
-        return 'Outgoing Friend Request';
+        return l10n.friendsOutgoingStatus;
       case FriendStatus.blocked:
-        return 'Blocked';
+        return l10n.friendsBlockedStatus;
     }
   }
 

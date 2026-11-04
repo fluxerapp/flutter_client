@@ -957,8 +957,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count सदस्य';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount सदस्य';
   }
 
   @override
@@ -1059,9 +1059,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'आप थीम केवल वेब या डेस्कटॉप पर इंपोर्ट कर सकते हैं।';
-
-  @override
-  String get embedThemeImport => 'थीम इंपोर्ट करें';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1796,6 +1793,48 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       locale: localeName,
       other: '$count समुदाय',
       one: '1 समुदाय',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'सही स्टिकर ढूंढें';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'कोई स्टिकर उपलब्ध नहीं';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'स्टिकर वाली किसी कम्युनिटी से जुड़ें, ताकि आप उन्हें यहाँ इस्तेमाल कर सकें।';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'कोई स्टिकर उपलब्ध नहीं';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'इस बातचीत में कोई स्टिकर उपलब्ध नहीं है।';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'कोई स्टिकर नहीं मिला';
+
+  @override
+  String get stickerPickerNoResultsBody => 'कोई दूसरा सर्च शब्द आज़माएँ।';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutonium के साथ $communityCount से $stickerCount अनलॉक करें।';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count स्टिकर',
+      one: '1 स्टिकर',
     );
     return '$_temp0';
   }
@@ -4801,7 +4840,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'डार्क, कोल या लाइट अपीयरेंस में से चुनें।';
+      'सिस्टम, डार्क, कोल या लाइट अपीयरेंस में से चुनें।';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'हाई डायनामिक रेंज';
@@ -5321,6 +5360,65 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'नाम ज़रूरी है।';
+
+  @override
+  String get savedMediaEdit => 'एडिट करें';
+
+  @override
+  String get savedMediaEditTitle => 'सेव किया गया मीडिया एडिट करें';
+
+  @override
+  String get savedMediaDeleteTitle => 'सेव किया गया मीडिया मिटाएँ';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '\"$name\" को अपने सेव किए गए मीडिया से हटाएँ?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'सेव किया गया मीडिया मिटाया नहीं जा सका।';
+
+  @override
+  String get savedMediaSearchHint => 'सेव किया गया मीडिया खोजें';
+
+  @override
+  String get savedMediaUnavailableTitle => 'सेव किया गया मीडिया उपलब्ध नहीं है';
+
+  @override
+  String get savedMediaUnavailableBody => 'कुछ देर में फिर से कोशिश करें।';
+
+  @override
+  String get savedMediaEmptyTitle => 'कोई सेव किया गया मीडिया नहीं';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'मैसेज से मीडिया सेव करें, ताकि वह यहाँ दिखे।';
+
+  @override
+  String get savedMediaNoResultsTitle => 'कोई परिणाम नहीं';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'कोई दूसरा सर्च शब्द या फ़िल्टर आज़माएँ।';
+
+  @override
+  String get savedMediaFilterAll => 'सभी';
+
+  @override
+  String get savedMediaFilterImages => 'इमेज';
+
+  @override
+  String get savedMediaFilterVideos => 'वीडियो';
+
+  @override
+  String get savedMediaFilterAudio => 'ऑडियो';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6141,6 +6239,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'खारिज करें';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'वॉइस कॉल कंट्रोल';
 
   @override
   String get voiceConnectionDisconnected => 'डिस्कनेक्ट हो गया';
@@ -7348,6 +7449,21 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatMessageDebug => 'मैसेज डीबग करें';
 
   @override
+  String get messageAlertNote => 'नोट';
+
+  @override
+  String get messageAlertTip => 'टिप';
+
+  @override
+  String get messageAlertImportant => 'ज़रूरी';
+
+  @override
+  String get messageAlertWarning => 'चेतावनी';
+
+  @override
+  String get messageAlertCaution => 'सावधान';
+
+  @override
   String get chatMessageDebugSheetTitle => 'मैसेज डीबग करें';
 
   @override
@@ -7624,6 +7740,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatReplyMentionOff => 'बंद';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '$authorName को जवाब दे रहे हैं';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '$source से फ़ॉरवर्ड किया गया';
+  }
+
+  @override
   String get chatReplyCancel => 'जवाब रद्द करें';
 
   @override
@@ -7700,6 +7826,23 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'खारिज करें';
+
+  @override
+  String get videoPlayerPlay => 'चलाएँ';
+
+  @override
+  String get videoPlayerPause => 'रोकें';
+
+  @override
+  String get videoPlayerVolume => 'वॉल्यूम';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'प्लेबैक स्पीड ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'फ़ुल स्क्रीन';
 
   @override
   String get chatAttachmentVideoToggleControls => 'वीडियो कंट्रोल टॉगल करें';
@@ -8676,6 +8819,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => 'सूचना सेटिंग, म्यूट';
 
   @override
+  String get channelHeaderOpenDetails => 'चैनल की जानकारी खोलें';
+
+  @override
   String get channelDetailsSearchTitle => 'खोजें';
 
   @override
@@ -9382,6 +9528,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'अटैचमेंट पिकर बंद करें';
+
+  @override
+  String get composerSendMessage => 'संदेश भेजें';
 
   @override
   String get chatAttachmentPanelPhotos => 'फ़ोटो';
@@ -11223,6 +11372,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'रिवर्स इमेज सर्च जोड़ें';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '$engine से खोजें';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '$engine से अनुवाद करें';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'नीचे कम से कम एक रिवर्स इमेज सर्च प्रोवाइडर चालू करें।';
 
@@ -11325,6 +11484,12 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'ऐप लॉग';
+
+  @override
+  String get userSettingsTitle => 'सेटिंग्स';
+
+  @override
+  String get userSettingsCopyAppInfo => 'ऐप की जानकारी कॉपी करें';
 
   @override
   String get userSettingsNavDeveloperTools => 'डेवलपर टूल';
@@ -11670,9 +11835,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'साइन इन करने के लिए इंस्टेंस से कनेक्ट करें';
 
   @override
-  String get comingSoon => 'जल्द आ रहा है';
-
-  @override
   String get guildNavbarDirectMessages => 'डायरेक्ट मैसेज';
 
   @override
@@ -11763,9 +11925,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'कम्युनिटी';
-
-  @override
-  String get discoveryApps => 'ऐप्स';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11883,6 +12042,78 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'इनबॉक्स';
+
+  @override
+  String get friendsPageTitle => 'मेरे दोस्त';
+
+  @override
+  String get friendsActiveNowTitle => 'अभी सक्रिय';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'अभी सन्नाटा है...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'जब दोस्त वॉइस चैनल में सक्रिय होंगे, तो उनकी गतिविधि यहां दिखेगी।';
+
+  @override
+  String get friendsTabOnline => 'ऑनलाइन';
+
+  @override
+  String get friendsTabAll => 'सभी';
+
+  @override
+  String get friendsTabPending => 'लंबित';
+
+  @override
+  String get friendsTabBlocked => 'ब्लॉक किए गए';
+
+  @override
+  String get friendsSearchOnline => 'ऑनलाइन दोस्तों को खोजें';
+
+  @override
+  String get friendsSearchAll => 'दोस्त खोजें';
+
+  @override
+  String get friendsSearchPending => 'लंबित रिक्वेस्ट खोजें';
+
+  @override
+  String get friendsSearchBlocked => 'ब्लॉक किए गए यूज़र खोजें';
+
+  @override
+  String get friendsEmptySearchTitle => 'इस खोज से कोई दोस्त मेल नहीं खाता';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'कोई दूसरा नाम आज़माएँ या अपनी स्पेलिंग जाँचें।';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'कोई दोस्त ऑनलाइन नहीं';
+
+  @override
+  String get friendsEmptyOnlineBody => 'जब वे ऑनलाइन आएंगे, तो यहीं दिखेंगे।';
+
+  @override
+  String get friendsEmptyAllTitle => 'अभी कोई दोस्त नहीं';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'जहाँ हम जा रहे हैं, वहाँ हमें और दोस्त चाहिए।';
+
+  @override
+  String get friendsEmptyPendingTitle => 'कोई लंबित रिक्वेस्ट नहीं';
+
+  @override
+  String get friendsEmptyPendingBody => 'लंबित फ्रेंड रिक्वेस्ट यहां दिखेंगी।';
+
+  @override
+  String get friendsEmptyBlockedBody => 'आपने किसी को ब्लॉक नहीं किया है।';
+
+  @override
+  String get friendsOutgoingStatus => 'भेजी गई फ्रेंड रिक्वेस्ट';
+
+  @override
+  String get friendsBlockedStatus => 'ब्लॉक किया गया';
 
   @override
   String get profileRemoveFriend => 'दोस्त हटाएँ';
@@ -12165,6 +12396,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return '$formattedDate तक म्यूट किया गया';
   }
+
+  @override
+  String get channelMutedHint => 'म्यूट किया गया';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15034,6 +15268,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'डायरेक्ट मैसेज';
+
+  @override
+  String get dmListFriendsButton => 'दोस्त';
 
   @override
   String get keybindsSearchShortcuts => 'शॉर्टकट खोजें';

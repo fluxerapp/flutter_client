@@ -63,7 +63,7 @@ Future<void> showDuplicateGroupConfirmModal(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                channel.displayName,
+                                dmConversationDisplayName(l10n, channel),
                                 style: dialogContext.textStyles.username
                                     .copyWith(
                                       color: dialogContext.colors.textPrimary,

@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} narių",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} narys} few{{formattedCount} nariai} many{{formattedCount} nario} other{{formattedCount} narių}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Temas galima importuoti tik žiniatinklyje arba kompiuteryje.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importuoti temą",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Privatumo nustatymai",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} nariai",
+    "dmGroupMemberCount": "{count, plural, one{{count} narys} few{{count} nariai} many{{count} nario} other{{count} narių}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Pasirinkite tamsią, anglies arba šviesią išvaizdą.",
+    "lookAndFeelThemeSectionDescription": "Pasirinkite sistemos, tamsią, anglies arba šviesią išvaizdą.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Netrukus",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Tiesioginės žinutės",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Bendruomenės",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Programos",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nepavyko prisijungti prie šios bendruomenės",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Siųsti žinutę",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Nuotraukos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Numatytoji atvirkštinė vaizdų paieška",
     "advancedSettingDefaultReverseImageSearchDescription": "Pasirinkite, kuri atvirkštinės vaizdų paieškos paslauga bus naudojama pagal numatytuosius nustatymus ieškant vaizdo.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Integruota atvirkštinė vaizdų paieška",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Įjunkite arba išjunkite integruotas atvirkštinės vaizdų paieškos paslaugas. Įjungtos paslaugos rodomos kontekstiniame paveikslėlių, avatarų, reklamjuosčių, lipdukų ir jaustukų meniu.",
     "advancedSettingCustomReverseImageSearchLabel": "Pasirinktinė atvirkštinė vaizdų paieška",
     "advancedSettingCustomReverseImageSearchDescription": "Pridėkite savo atvirkštinės vaizdo paieškos paslaugų teikėjus su pasirinktiniu URL šablonu. Naudokite '{url}' kaip vaizdo URL vietos rezervavimo simbolį.",
     "advancedSettingAddReverseImageSearchLabel": "Pridėti atvirkštinę vaizdų paiešką",
@@ -18144,14 +18138,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer netikėtai užsidarė. Anoniminių gedimų ir klaidų duomenų bendrinimas padeda mums greičiau ištaisyti problemas.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Ataskaitose yra gedimų žurnalai, klaidos ir pagrindiniai našumo duomenys. Jos neperduodamos trečiosioms šalims, ir šią funkciją galite bet kada išjungti.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Norėdami įjungti vėliau, atidarykite Nustatymai → Išplėstiniai → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18165,10 +18151,6 @@
     "observabilityReportingConsentAgree": "Siųsti gedimų ataskaitas",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nenoriu įjungti",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Pateikti atsiliepimą",
     "@userSettingsGiveFeedback": {

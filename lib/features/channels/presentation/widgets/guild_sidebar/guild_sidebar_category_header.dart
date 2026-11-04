@@ -110,7 +110,9 @@ class _CategoryHeader extends ConsumerWidget {
       guildId,
       category.id,
     );
-    final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
+    final String? mutedHint = isMuted
+        ? formatMutedHintText(muteConfig, l10n)
+        : null;
     final bool developerMode = ref
         .read(userSettingsViewModelProvider)
         .developerMode;

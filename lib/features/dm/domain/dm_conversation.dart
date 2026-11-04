@@ -116,7 +116,7 @@ class DmConversation {
 
   bool get isPersonalNotes => isDmPersonalNotesType(type);
 
-  String get displayName {
+  String get rawDisplayName {
     if (isPersonalNotes) {
       return 'Personal Notes';
     }
@@ -133,7 +133,7 @@ class DmConversation {
     String? currentUserDisplayName,
   }) {
     if (isPersonalNotes) {
-      return displayName;
+      return l10n?.personalNotesTitle ?? rawDisplayName;
     }
     if (isGroup) {
       if (l10n != null) {
@@ -144,11 +144,11 @@ class DmConversation {
           currentUserDisplayName: currentUserDisplayName,
         );
       }
-      return displayName;
+      return rawDisplayName;
     }
     return resolveDisplayName(
       friendNickname: friendNickname,
-      username: displayName,
+      username: rawDisplayName,
     );
   }
 
@@ -271,4 +271,14 @@ class DmConversation {
       return null;
     }
   }
+}
+
+String dmConversationDisplayName(FluxerLocalizations l10n, DmConversation dm) {
+  if (dm.isPersonalNotes) {
+    return l10n.personalNotesTitle;
+  }
+  if (dm.isGroup) {
+    return dm.name ?? l10n.guildNavbarGroupDm;
+  }
+  return dm.recipientName;
 }

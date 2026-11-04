@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -39,6 +40,7 @@ Future<MessageAction?> showMessageContextMenu(
 
   return Navigator.of(context).push<MessageAction>(
     _ContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
       message: message,
@@ -64,6 +66,7 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
   final String? quickReactionGuildId;
 
   _ContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.message,
@@ -85,7 +88,7 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(
@@ -230,6 +233,9 @@ class _ContextMenuPage extends ConsumerWidget {
     final bool showSuppressEmbedsButton = ref.watch(
       appearancePreferencesProvider.select((s) => s.showSuppressEmbedsButton),
     );
+    final bool developerMode = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.developerMode),
+    );
 
     final bool canReact = !message.isSending && permissions.canAddReactions;
 
@@ -319,17 +325,17 @@ class _ContextMenuPage extends ConsumerWidget {
         onTap: () => pop(MessageAction.pin),
       ),
       _MenuItem(
-        label: 'Bookmark Message',
+        label: l10n.chatMessageBookmark,
         icon: PhosphorIconsBold.bookmarkSimple,
         onTap: () => pop(MessageAction.bookmark),
       ),
       _MenuItem(
-        label: 'Mark as Unread',
+        label: l10n.chatMessageMarkAsUnread,
         icon: PhosphorIconsBold.envelopeSimple,
         onTap: () => pop(MessageAction.markAsUnread),
       ),
       _MenuItem(
-        label: 'Copy Message Link',
+        label: l10n.chatMessageCopyMessageLink,
         icon: PhosphorIconsBold.link,
         onTap: () => pop(MessageAction.copyMessageLink),
       ),
@@ -352,13 +358,14 @@ class _ContextMenuPage extends ConsumerWidget {
         ),
       ],
       const _MenuDivider(),
+      if (developerMode)
+        _MenuItem(
+          label: l10n.chatMessageDebug,
+          icon: PhosphorIconsFill.bug,
+          onTap: () => pop(MessageAction.debugMessage),
+        ),
       _MenuItem(
-        label: 'Debug Message',
-        icon: PhosphorIconsFill.bug,
-        onTap: () {},
-      ),
-      _MenuItem(
-        label: 'Copy Message ID',
+        label: l10n.chatMessageCopyMessageId,
         icon: PhosphorIconsBold.hash,
         onTap: () => pop(MessageAction.copyMessageId),
       ),

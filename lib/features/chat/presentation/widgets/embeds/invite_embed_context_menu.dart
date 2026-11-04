@@ -30,6 +30,7 @@ Future<InviteEmbedContextMenuAction?> showInviteEmbedContextMenu(
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   return Navigator.of(context).push<InviteEmbedContextMenuAction>(
     _InviteEmbedContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: localPosition,
       overlaySize: overlay.size,
       l10n: l10n,
@@ -43,6 +44,7 @@ Future<InviteEmbedContextMenuAction?> showInviteEmbedContextMenu(
 class _InviteEmbedContextMenuRoute
     extends PopupRoute<InviteEmbedContextMenuAction> {
   _InviteEmbedContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.l10n,
@@ -68,7 +70,7 @@ class _InviteEmbedContextMenuRoute
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildTransitions(

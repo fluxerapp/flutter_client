@@ -48,8 +48,6 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_webhooks_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -238,16 +236,20 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     );
   }
 
-  Widget _buildCloseButton(BuildContext context) => InkWell(
-    onTap: () => context.pop(),
-    borderRadius: BorderRadius.circular(20),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: PhosphorIcon(
-        PhosphorIconsBold.x,
-        size: 18,
-        color: context.colors.interactiveNormal,
+  Widget _buildCloseButton(BuildContext context) => Semantics(
+    button: true,
+    label: FluxerLocalizations.of(context).uiClose,
+    child: InkWell(
+      onTap: () => context.pop(),
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: PhosphorIcon(
+          PhosphorIconsBold.x,
+          size: 18,
+          color: context.colors.interactiveNormal,
+        ),
       ),
     ),
   );
@@ -277,12 +279,6 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     for (final GuildSettingsTab tab in visibleTabs) {
       if (guildSettingsTabTitle(l10n, tab) != label) {
         continue;
-      }
-      if (isGuildSettingsTabComingSoon(tab)) {
-        ref
-            .read(toastProvider.notifier)
-            .show(FluxerToast(message: l10n.comingSoon));
-        return;
       }
       if (tab == GuildSettingsTab.members) {
         context.pop();
@@ -314,30 +310,6 @@ class GuildSettingsTabBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-
-    if (isGuildSettingsTabComingSoon(tab)) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            PhosphorIcon(
-              PhosphorIconsFill.clockCountdown,
-              size: 64,
-              color: context.colors.textPrimaryMuted,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.comingSoon,
-              style: context.textStyles.heading.copyWith(
-                color: context.colors.textPrimaryMuted,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
     return switch (tab) {
       GuildSettingsTab.overview => GuildSettingsAsyncBody<GuildSettingsDetails>(
         value: ref.watch(guildSettingsOverviewProvider(guildId)),

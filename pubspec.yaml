@@ -210,12 +210,12 @@ flutter:
     - assets/images/icons/
     - assets/images/icons/channels/
     - assets/images/connections/
-    - assets/images/browsers/
     - assets/images/app_icon_previews/ios/
     - assets/images/app_icon_previews/android/
     - assets/emojis.json
     - assets/emoji-sprites/
     - assets/certificates/
+    - assets/licenses/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Anggota",
+    "embedInviteMembers": "{formattedCount} Anggota",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Kamu hanya bisa mengimpor tema di web atau desktop.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Impor tema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (seumur hidup {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Pilih antara tampilan gelap, batu bara, atau terang.",
+    "lookAndFeelThemeSectionDescription": "Pilih antara tampilan sistem, gelap, batu bara, atau terang.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Kirim pesan",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Foto",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Pencarian gambar terbalik default",
     "advancedSettingDefaultReverseImageSearchDescription": "Pilih layanan pencarian gambar terbalik yang digunakan secara default saat mencari gambar.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Pencarian gambar terbalik bawaan",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Aktifkan atau nonaktifkan penyedia pencarian gambar terbalik bawaan. Penyedia yang diaktifkan akan muncul di menu konteks gambar, avatar, banner, stiker, dan emoji.",
     "advancedSettingCustomReverseImageSearchLabel": "Pencarian gambar terbalik khusus",
     "advancedSettingCustomReverseImageSearchDescription": "Tambahkan penyedia pencarian gambar terbalik Anda sendiri dengan pola URL kustom. Gunakan '{url}' sebagai placeholder untuk URL gambar.",
     "advancedSettingAddReverseImageSearchLabel": "Tambahkan pencarian gambar terbalik",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Segera hadir",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Pesan langsung",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Komunitas",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplikasi",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Tidak dapat bergabung dengan komunitas ini",
     "@discoveryJoinErrorGenericTitle": {
@@ -18145,14 +18139,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer tertutup secara tiba-tiba. Membagikan data crash dan error secara anonim membantu kami memperbaiki masalah lebih cepat.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Laporan berisi log crash, error, dan data performa dasar. Laporan tidak dibagikan ke pihak ketiga dan Anda dapat menonaktifkannya kapan saja.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Untuk mengaktifkannya nanti, buka Pengaturan → Lanjutan → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18166,10 +18152,6 @@
     "observabilityReportingConsentAgree": "Kirim laporan crash",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Tidak ingin mengaktifkan",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Beri masukan",
     "@userSettingsGiveFeedback": {

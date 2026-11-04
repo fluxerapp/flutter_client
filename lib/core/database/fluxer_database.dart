@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 104;
+  int get schemaVersion => 106;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1641,6 +1641,29 @@ class FluxerDatabase extends _$FluxerDatabase {
         )) {
           await m.addColumn(dmChannels, dmChannels.nsfw);
         }
+      }
+      if (from < 105 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'user_preferences',
+            columnName: userPreferencesTable.systemThemeChosenLocally.name,
+          )) {
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.systemThemeChosenLocally,
+        );
+        await m.database.customStatement(
+          'UPDATE user_preferences SET system_theme_chosen_locally = 1 '
+          "WHERE theme = 'system'",
+        );
+      }
+      if (from < 106 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'recent_instances',
+            columnName: recentInstances.url.name,
+          )) {
+        await m.addColumn(recentInstances, recentInstances.url);
       }
     },
   );

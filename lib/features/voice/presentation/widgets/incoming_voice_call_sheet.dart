@@ -30,7 +30,7 @@ String _resolveSheetHeaderTitle({
     return name.isNotEmpty ? name : l10n.incomingVoiceCallTitle;
   }
   if (dm != null) {
-    return dm.displayName;
+    return dmConversationDisplayName(l10n, dm);
   }
   return l10n.incomingVoiceCallTitle;
 }

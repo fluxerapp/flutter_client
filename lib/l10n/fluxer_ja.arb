@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} メンバー",
+    "embedInviteMembers": "{formattedCount} メンバー",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "テーマはウェブ版またはデスクトップ版でのみインポートできます。",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "テーマをインポート",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "プライバシー設定",
     "@privacySettings": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "ダーク、コール、ライトのいずれかの外観を選択してください。",
+    "lookAndFeelThemeSectionDescription": "システム、ダーク、コール、ライトのいずれかの外観を選択してください。",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "近日公開",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "ダイレクトメッセージ",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "コミュニティ",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "アプリ",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "このコミュニティに参加できませんでした",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "メッセージを送信",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "写真",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "デフォルトの画像検索",
     "advancedSettingDefaultReverseImageSearchDescription": "画像を検索する際に、どの画像検索サービスをデフォルトで使用するかを選択します。",
     "advancedSettingBuiltInReverseImageSearchLabel": "内蔵の画像検索",
-    "advancedSettingBuiltInReverseImageSearchDescription": "内蔵の画像検索プロバイダーを有効または無効にします。有効なプロバイダーは、画像、アバター、バナー、スタンプ、絵文字のコンテキストメニューに表示されます。",
     "advancedSettingCustomReverseImageSearchLabel": "カスタム画像検索",
     "advancedSettingCustomReverseImageSearchDescription": "カスタムURLパターンで独自の画像検索プロバイダーを追加します。画像URLのプレースホルダーとして「{url}」を使用してください。",
     "advancedSettingAddReverseImageSearchLabel": "画像検索を追加",
@@ -18140,14 +18134,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxerが予期せず終了しました。匿名のクラッシュとエラーのデータを共有していただくと、問題をより早く修正できます。",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "レポートにはクラッシュログ、エラー、基本的なパフォーマンスデータが含まれます。第三者と共有されることはなく、いつでもオフにできます。",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "後で有効にするには、設定 → 詳細設定 → {reportingToggle}を開いてください。",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18161,10 +18147,6 @@
     "observabilityReportingConsentAgree": "クラッシュレポートを送信",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "有効にしない",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "フィードバックを送る",
     "@userSettingsGiveFeedback": {
