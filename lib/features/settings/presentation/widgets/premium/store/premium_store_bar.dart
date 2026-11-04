@@ -418,7 +418,7 @@ class _PurchaseTerms extends ConsumerWidget {
       color: style.inkMuted,
     );
     return InstanceLegalAgreementText(
-      prefix: l10n.premiumDisclaimerAgreementPrefix,
+      message: l10n.premiumDisclaimerAgreement,
       baseStyle: muted,
       linkStyle: muted.copyWith(color: style.accent),
     );

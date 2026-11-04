@@ -261,12 +261,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get nagbarEnableMfa => '启用双重验证';
 
   @override
-  String get nagbarTermsAcceptance => '我们已更新条款。请查看并接受，以继续使用。';
-
-  @override
-  String get nagbarReviewTerms => '查看条款';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return '加入 $communityName，与团队聊天并获取最新资讯。';
   }
@@ -304,7 +298,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get logInWithPasskey => '使用密匙登录';
 
   @override
-  String get loginLegalAgreementPrefix => '登录即表示你同意 ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '登录即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '登录即表示你同意<terms>服务条款</terms>。',
+      'other': '登录即表示你同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -823,16 +824,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get registerYear => '年';
 
   @override
-  String get registerConsentPrefix => '我同意';
-
-  @override
-  String get registerConsentTerms => '服务条款';
-
-  @override
-  String get registerConsentAnd => '和';
-
-  @override
-  String get registerConsentPrivacy => '隐私政策';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>',
+      'terms': '我同意<terms>服务条款</terms>',
+      'other': '我同意<privacy>隐私政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9285,13 +9284,34 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => '退款最近一次购买';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '购买即表示您同意我们的 ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '购买即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '购买即表示你同意<terms>服务条款</terms>。',
+      'other': '购买即表示你同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '购买即表示您同意我们的 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '购买时，你已同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '购买时，你已同意<terms>服务条款</terms>。',
+      'other': '购买时，你已同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 和 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>服务条款</terms>和<privacy>隐私政策</privacy>',
+      'terms': '<terms>服务条款</terms>',
+      'other': '<privacy>隐私政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10259,7 +10279,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      '报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告不包含实例名称、ID 或消息内容。';
+      '报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告会关联到此次安装的随机 ID，不包含你的账号 ID、实例名称或消息内容。';
 
   @override
   String get observabilityReportingConsentTitle => '帮助修复崩溃';
@@ -10774,6 +10794,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => '应用日志';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 应用隐私政策';
 
   @override
   String get userSettingsTitle => '设置';
@@ -16053,12 +16076,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get nagbarEnableMfa => '啟用 2FA';
 
   @override
-  String get nagbarTermsAcceptance => '我們更新了條款。請閱讀並接受，以便繼續使用。';
-
-  @override
-  String get nagbarReviewTerms => '檢視條款';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return '加入「$communityName」與團隊聊天，並隨時掌握最新資訊。';
   }
@@ -16096,7 +16113,14 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get logInWithPasskey => '使用通行金鑰登入';
 
   @override
-  String get loginLegalAgreementPrefix => '登入即表示您同意 ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '登入即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '登入即表示您同意<terms>服務條款</terms>。',
+      'other': '登入即表示您同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -16615,16 +16639,14 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get registerYear => '年';
 
   @override
-  String get registerConsentPrefix => '我同意';
-
-  @override
-  String get registerConsentTerms => '服務條款';
-
-  @override
-  String get registerConsentAnd => '與';
-
-  @override
-  String get registerConsentPrivacy => '隱私權政策';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '我同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>',
+      'terms': '我同意<terms>服務條款</terms>',
+      'other': '我同意<privacy>隱私權政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -25075,13 +25097,34 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get premiumSelfServeRefundButton => '退款最新購買項目';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '購買即表示您同意我們的 ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '購買即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '購買即表示您同意<terms>服務條款</terms>。',
+      'other': '購買即表示您同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '購買即表示您同意我們的 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '購買時，您已同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '購買時，您已同意<terms>服務條款</terms>。',
+      'other': '購買時，您已同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 和 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>服務條款</terms>和<privacy>隱私權政策</privacy>',
+      'terms': '<terms>服務條款</terms>',
+      'other': '<privacy>隱私權政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -26052,7 +26095,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get advancedCrashReportingDescription =>
-      '即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。';
+      '即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告會連結到這次安裝的隨機 ID，不包含您的帳號 ID、伺服器名稱或訊息內容。';
 
   @override
   String get observabilityReportingConsentTitle => '協助修正當機問題';
@@ -26568,6 +26611,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsNavAppLogs => '應用程式記錄';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 應用程式隱私權政策';
 
   @override
   String get userSettingsTitle => '設定';

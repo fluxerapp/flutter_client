@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Я согласен с ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Условия использования",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " и ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Политика конфиденциальности",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Я принимаю <terms>Условия использования</terms> и <privacy>Политику конфиденциальности</privacy>} terms{Я принимаю <terms>Условия использования</terms>} other{Я принимаю <privacy>Политику конфиденциальности</privacy>}}",
     "registerConfirmPassword": "Подтвердите пароль",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Политика конфиденциальности приложения Fluxer",
     "userSettingsNavDeveloperTools": "Инструменты разработчика",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11039,14 +11025,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Мы обновили наши условия. Пожалуйста, ознакомьтесь с ними и примите, чтобы продолжить.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Просмотреть условия",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "dmOwnersGroup": "Группа {resolvedName}",
     "@dmOwnersGroup": {
         "description": "Fallback title when the current user is the only participant in a group DM.",
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Ваши последние счета. Чтобы изменить способ оплаты подписки, добавьте или выберите его на портале оплаты и сделайте его основным.",
     "premiumManagePaymentMethods": "Управление способами оплаты",
     "premiumSelfServeRefundButton": "Вернуть последний платёж",
-    "premiumDisclaimerAgreementPrefix": "Приобретая, вы соглашаетесь с нашими ",
-    "premiumDisclaimerAgreementPastPrefix": "Приобретая, вы согласились с нашими ",
-    "premiumDisclaimerAgreementMiddle": " и ",
+    "premiumDisclaimerAgreement": "{links, select, both{Совершая покупку, вы принимаете <terms>Условия использования</terms> и <privacy>Политику конфиденциальности</privacy>.} terms{Совершая покупку, вы принимаете <terms>Условия использования</terms>.} other{Совершая покупку, вы принимаете <privacy>Политику конфиденциальности</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Совершив покупку, вы приняли <terms>Условия использования</terms> и <privacy>Политику конфиденциальности</privacy>.} terms{Совершив покупку, вы приняли <terms>Условия использования</terms>.} other{Совершив покупку, вы приняли <privacy>Политику конфиденциальности</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Условия использования</terms> и <privacy>Политика конфиденциальности</privacy>} terms{<terms>Условия использования</terms>} other{<privacy>Политика конфиденциальности</privacy>}}",
     "premiumActiveUntil": "Активно до {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18130,7 +18108,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Отчеты отправляются в систему отслеживания ошибок Fluxer, даже если вы вошли в другой экземпляр. Они не содержат названий экземпляров, ID и содержимого сообщений.",
+    "advancedCrashReportingDescription": "Отчеты отправляются в систему отслеживания ошибок Fluxer, даже если вы вошли в другой экземпляр. Они привязаны к случайному ID этой установки и не содержат ID вашего аккаунта, названий экземпляров и содержимого сообщений.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Входя в аккаунт, вы принимаете ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Входя в аккаунт, вы принимаете <terms>Условия использования</terms> и <privacy>Политику конфиденциальности</privacy>.} terms{Входя в аккаунт, вы принимаете <terms>Условия использования</terms>.} other{Входя в аккаунт, вы принимаете <privacy>Политику конфиденциальности</privacy>.}}",
     "mfaPasskeyUnavailable": "Ключи доступа с этого экземпляра не работают в этом приложении, а других способов проверки у вашего аккаунта нет. Войдите через веб-версию.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

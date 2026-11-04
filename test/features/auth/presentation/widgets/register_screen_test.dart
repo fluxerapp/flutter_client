@@ -61,7 +61,12 @@ void main() {
 
     expect(find.byType(FluxerCheckbox), findsOneWidget);
     expect(find.text(testL10n.registerConsentBuiltInRules), findsOneWidget);
-    expect(find.text(testL10n.registerConsentTerms), findsNothing);
+    expect(
+      tester
+          .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
+          .where((FluxerTextLink link) => link.url != null),
+      isEmpty,
+    );
     expect(_submitButton(tester).onPressed, isNull);
 
     await tester.ensureVisible(find.byType(FluxerCheckbox));
@@ -130,8 +135,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(FluxerCheckbox), findsOneWidget);
-    expect(find.text(testL10n.registerConsentTerms), findsOneWidget);
-    expect(find.text(testL10n.registerConsentPrivacy), findsNothing);
+    expect(
+      tester
+          .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
+          .map((FluxerTextLink link) => link.url)
+          .nonNulls,
+      <String>['https://self.example/terms'],
+    );
   });
 
   testWidgets('blocks submit with a notice when registration is closed', (

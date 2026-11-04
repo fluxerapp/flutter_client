@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_dart/export.dart';
 
 /// Instance URLs from `/.well-known/fluxer`, with compile-time fallbacks until loaded.
@@ -15,6 +16,7 @@ abstract final class InstanceEndpoints {
   static String invite = defaultInvite;
   static String gift = defaultGift;
   static String webApp = defaultWebApp;
+  static String marketing = InstanceConstants.defaultMarketingBaseUrl;
   static String api = '';
   static String gateway = '';
   static bool selfHosted = false;
@@ -29,6 +31,10 @@ abstract final class InstanceEndpoints {
     invite = _normalizeBaseUrl(endpoints.invite, fallback: defaultInvite);
     gift = _normalizeBaseUrl(endpoints.gift, fallback: defaultGift);
     webApp = _normalizeBaseUrl(endpoints.webapp, fallback: defaultWebApp);
+    marketing = _normalizeBaseUrl(
+      endpoints.marketing,
+      fallback: InstanceConstants.defaultMarketingBaseUrl,
+    );
     final String resolvedApi = endpoints.apiClient.isNotEmpty
         ? endpoints.apiClient
         : endpoints.api;
@@ -58,6 +64,7 @@ abstract final class InstanceEndpoints {
     invite = defaultInvite;
     gift = defaultGift;
     webApp = defaultWebApp;
+    marketing = InstanceConstants.defaultMarketingBaseUrl;
     api = '';
     gateway = '';
     selfHosted = false;

@@ -272,13 +272,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Ota 2FA käyttöön';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Olemme päivittäneet käyttöehtomme. Tarkista ja hyväksy ne jatkaaksesi.';
-
-  @override
-  String get nagbarReviewTerms => 'Tarkista ehdot';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Liity yhteisöön $communityName, niin voit jutella tiimin kanssa ja pysyä ajan tasalla.';
   }
@@ -317,7 +310,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get logInWithPasskey => 'Kirjaudu sisään tunnusavaimella';
 
   @override
-  String get loginLegalAgreementPrefix => 'Kirjautumalla sisään hyväksyt ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Kirjautumalla sisään hyväksyt <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.',
+      'terms': 'Kirjautumalla sisään hyväksyt <terms>käyttöehdot</terms>.',
+      'other':
+          'Kirjautumalla sisään hyväksyt <privacy>tietosuojakäytännön</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -865,16 +867,15 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get registerYear => 'Vuosi';
 
   @override
-  String get registerConsentPrefix => 'Hyväksyn ';
-
-  @override
-  String get registerConsentTerms => 'Käyttöehdot';
-
-  @override
-  String get registerConsentAnd => ' ja ';
-
-  @override
-  String get registerConsentPrivacy => 'Tietosuojakäytäntö';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Hyväksyn <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>',
+      'terms': 'Hyväksyn <terms>käyttöehdot</terms>',
+      'other': 'Hyväksyn <privacy>tietosuojakäytännön</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9901,14 +9902,37 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Palauta viimeisin ostos';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Ostamalla hyväksyt meidän ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ostamalla hyväksyt <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.',
+      'terms': 'Ostamalla hyväksyt <terms>käyttöehdot</terms>.',
+      'other': 'Ostamalla hyväksyt <privacy>tietosuojakäytännön</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Ostamalla hyväksyit meidän ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ostamalla hyväksyit <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.',
+      'terms': 'Ostamalla hyväksyit <terms>käyttöehdot</terms>.',
+      'other': 'Ostamalla hyväksyit <privacy>tietosuojakäytännön</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' ja ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Käyttöehdot</terms> ja <privacy>Tietosuojakäytäntö</privacy>',
+      'terms': '<terms>Käyttöehdot</terms>',
+      'other': '<privacy>Tietosuojakäytäntö</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10958,7 +10982,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Raportit menevät Fluxerin virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne eivät sisällä instanssien nimiä, tunnuksia tai viestien sisältöä.';
+      'Raportit menevät Fluxerin virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne on liitetty tämän asennuksen satunnaiseen tunnukseen, eivätkä ne sisällä tilisi tunnusta, instanssien nimiä tai viestien sisältöä.';
 
   @override
   String get observabilityReportingConsentTitle => 'Auta korjaamaan kaatumisia';
@@ -11533,6 +11557,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Sovelluksen lokit';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer-sovelluksen tietosuojakäytäntö';
 
   @override
   String get userSettingsTitle => 'Asetukset';

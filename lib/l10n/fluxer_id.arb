@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Kami telah memperbarui persyaratan kami. Harap tinjau dan terima untuk melanjutkan.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Tinjau persyaratan",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Gabung ke {communityName} untuk mengobrol dengan tim dan mengikuti kabar terbaru.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Saya setuju dengan ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Ketentuan layanan",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " dan ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Kebijakan privasi",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Saya menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>} terms{Saya menyetujui <terms>Ketentuan layanan</terms>} other{Saya menyetujui <privacy>Kebijakan privasi</privacy>}}",
     "registerConfirmPassword": "Konfirmasi kata sandi",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Tagihan terbaru Anda. Untuk mengubah metode pembayaran langganan Anda, tambahkan atau pilih salah satu di portal penagihan dan jadikan itu default.",
     "premiumManagePaymentMethods": "Kelola metode pembayaran",
     "premiumSelfServeRefundButton": "Kembalikan pembelian terakhir",
-    "premiumDisclaimerAgreementPrefix": "Dengan membeli, Anda menyetujui ",
-    "premiumDisclaimerAgreementPastPrefix": "Dengan membeli, Anda menyetujui ",
-    "premiumDisclaimerAgreementMiddle": " dan ",
+    "premiumDisclaimerAgreement": "{links, select, both{Dengan membeli, Anda menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.} terms{Dengan membeli, Anda menyetujui <terms>Ketentuan layanan</terms>.} other{Dengan membeli, Anda menyetujui <privacy>Kebijakan privasi</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Dengan membeli, Anda telah menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.} terms{Dengan membeli, Anda telah menyetujui <terms>Ketentuan layanan</terms>.} other{Dengan membeli, Anda telah menyetujui <privacy>Kebijakan privasi</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>} terms{<terms>Ketentuan layanan</terms>} other{<privacy>Kebijakan privasi</privacy>}}",
     "premiumActiveUntil": "Aktif hingga {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Kebijakan privasi aplikasi Fluxer",
     "userSettingsNavDeveloperTools": "Alat pengembang",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18131,7 +18109,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Laporan dikirim ke pelacak error Fluxer, bahkan saat Anda masuk ke instance lain. Laporan tidak menyertakan nama instance, ID, atau isi pesan.",
+    "advancedCrashReportingDescription": "Laporan dikirim ke pelacak error Fluxer, bahkan saat Anda masuk ke instance lain. Laporan ditautkan ke ID acak untuk instalasi ini dan tidak menyertakan ID akun Anda, nama instance, atau isi pesan.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Dengan masuk, kamu menyetujui ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Dengan masuk, Anda menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.} terms{Dengan masuk, Anda menyetujui <terms>Ketentuan layanan</terms>.} other{Dengan masuk, Anda menyetujui <privacy>Kebijakan privasi</privacy>.}}",
     "mfaPasskeyUnavailable": "Passkey dari instance ini tidak berfungsi di aplikasi ini, dan akunmu tidak punya metode verifikasi lain. Masuklah melalui web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

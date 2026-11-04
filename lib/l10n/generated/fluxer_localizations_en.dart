@@ -273,13 +273,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Enable 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
-
-  @override
-  String get nagbarReviewTerms => 'Review terms';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Join $communityName to chat with the team and stay up to date.';
   }
@@ -318,7 +311,17 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
-  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By signing in, you agree to the <terms>Terms of service</terms>.',
+      'other':
+          'By signing in, you agree to the <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -864,16 +867,15 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get registerYear => 'Year';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
-
-  @override
-  String get registerConsentTerms => 'Terms of service';
-
-  @override
-  String get registerConsentAnd => ' and ';
-
-  @override
-  String get registerConsentPrivacy => 'Privacy policy';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': 'I agree to the <terms>Terms of service</terms>',
+      'other': 'I agree to the <privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9830,15 +9832,41 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Refund latest purchase';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'By purchasing, you agree to our ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agree to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agree to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'By purchasing, you agreed to our ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agreed to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agreed to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' and ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': '<terms>Terms of service</terms>',
+      'other': '<privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10875,7 +10903,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help fix crashes';
@@ -11444,6 +11472,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'App logs';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer app privacy policy';
 
   @override
   String get userSettingsTitle => 'Settings';
@@ -17051,13 +17083,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get nagbarEnableMfa => 'Enable 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
-
-  @override
-  String get nagbarReviewTerms => 'Review terms';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Join $communityName to chat with the team and stay up to date.';
   }
@@ -17096,7 +17121,17 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
-  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By signing in, you agree to the <terms>Terms of service</terms>.',
+      'other':
+          'By signing in, you agree to the <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -17642,16 +17677,15 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get registerYear => 'Year';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
-
-  @override
-  String get registerConsentTerms => 'Terms of service';
-
-  @override
-  String get registerConsentAnd => ' and ';
-
-  @override
-  String get registerConsentPrivacy => 'Privacy policy';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': 'I agree to the <terms>Terms of service</terms>',
+      'other': 'I agree to the <privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -26600,15 +26634,41 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get premiumSelfServeRefundButton => 'Refund latest purchase';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'By purchasing, you agree to our ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agree to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agree to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'By purchasing, you agreed to our ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agreed to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agreed to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' and ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': '<terms>Terms of service</terms>',
+      'other': '<privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -27645,7 +27705,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help fix crashes';
@@ -28214,6 +28274,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsNavAppLogs => 'App logs';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer app privacy policy';
 
   @override
   String get userSettingsTitle => 'Settings';
@@ -33820,13 +33884,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get nagbarEnableMfa => 'Enable 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
-
-  @override
-  String get nagbarReviewTerms => 'Review terms';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Join $communityName to chat with the team and stay up to date.';
   }
@@ -33865,7 +33922,17 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
-  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By signing in, you agree to the <terms>Terms of service</terms>.',
+      'other':
+          'By signing in, you agree to the <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -34411,16 +34478,15 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get registerYear => 'Year';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
-
-  @override
-  String get registerConsentTerms => 'Terms of service';
-
-  @override
-  String get registerConsentAnd => ' and ';
-
-  @override
-  String get registerConsentPrivacy => 'Privacy policy';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': 'I agree to the <terms>Terms of service</terms>',
+      'other': 'I agree to the <privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -43369,15 +43435,41 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get premiumSelfServeRefundButton => 'Refund latest purchase';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'By purchasing, you agree to our ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agree to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agree to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'By purchasing, you agreed to our ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+      'terms':
+          'By purchasing, you agreed to our <terms>Terms of service</terms>.',
+      'other':
+          'By purchasing, you agreed to our <privacy>Privacy policy</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' and ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
+      'terms': '<terms>Terms of service</terms>',
+      'other': '<privacy>Privacy policy</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -44414,7 +44506,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help fix crashes';
@@ -44983,6 +45075,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsNavAppLogs => 'App logs';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer app privacy policy';
 
   @override
   String get userSettingsTitle => 'Settings';

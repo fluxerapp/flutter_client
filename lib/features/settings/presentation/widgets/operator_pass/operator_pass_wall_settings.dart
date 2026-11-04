@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/operator_pass/operator_pass_wall_name_field.dart';
@@ -132,6 +133,9 @@ class _OperatorPassWallSettingsState
     final bool selfHosted = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.selfHosted),
     );
+    final bool purchaseLinksAllowed = ref.watch(
+      externalPurchaseLinksAllowedProvider,
+    );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final textStyles = context.textStyles;
@@ -162,7 +166,9 @@ class _OperatorPassWallSettingsState
             !_optOut &&
             (_sendChanges == listing.keepAsIs ||
                 _releaseListOptIn != listing.releaseListOptIn);
-        final Uri? infoUri = operatorPassInfoUri(selfHosted: selfHosted);
+        final Uri? infoUri = purchaseLinksAllowed
+            ? operatorPassInfoUri(selfHosted: selfHosted)
+            : null;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

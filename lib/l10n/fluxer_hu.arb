@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Elfogadom a ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Szolgáltatási feltételek",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " és a ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Adatvédelmi irányelvek",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Elfogadom a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>} terms{Elfogadom a <terms>Szolgáltatási feltételeket</terms>} other{Elfogadom az <privacy>Adatvédelmi irányelveket</privacy>}}",
     "registerConfirmPassword": "Jelszó megerősítése",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "A Fluxer alkalmazás adatvédelmi irányelvei",
     "userSettingsNavDeveloperTools": "Fejlesztői eszközök",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -9912,10 +9898,6 @@
     "@nagbarManageSubscription": {
         "description": "Nagbar CTA that opens the billing portal."
     },
-    "nagbarTermsAcceptance": "Frissítettük a feltételeinket. Kérjük, tekintse át és fogadja el őket a folytatáshoz.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "nagbarVisionaryMfa": "Engedélyezd a kétfaktoros hitelesítést a Visionary-fiókod védelméhez.",
     "@nagbarVisionaryMfa": {
         "description": "Visionary MFA nagbar body."
@@ -9923,10 +9905,6 @@
     "nagbarEnableMfa": "Engedélyezd a 2FA-t",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarReviewTerms": "Feltételek áttekintése",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarPushNotification": "Engedélyezd az értesítéseket, hogy ne maradj le az üzenetekről és a megemlítésekről.",
     "@nagbarPushNotification": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "A legutóbbi számláid. Az előfizetésed fizetési módjának módosításához adj hozzá vagy válassz ki egyet a számlázási portálon, és állítsd be alapértelmezettként.",
     "premiumManagePaymentMethods": "Fizetési módok kezelése",
     "premiumSelfServeRefundButton": "Legutóbbi vásárlás visszatérítése",
-    "premiumDisclaimerAgreementPrefix": "A vásárlással elfogadja a következőket ",
-    "premiumDisclaimerAgreementPastPrefix": "A vásárlással elfogadta a következőket ",
-    "premiumDisclaimerAgreementMiddle": " és ",
+    "premiumDisclaimerAgreement": "{links, select, both{A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.} terms{A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms>.} other{A vásárlással elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.} terms{A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms>.} other{A vásárlással elfogadtad az <privacy>Adatvédelmi irányelveket</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Szolgáltatási feltételek</terms> és <privacy>Adatvédelmi irányelvek</privacy>} terms{<terms>Szolgáltatási feltételek</terms>} other{<privacy>Adatvédelmi irányelvek</privacy>}}",
     "premiumActiveUntil": "Aktív: {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18126,7 +18104,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Nem tartalmaznak példányneveket, azonosítókat vagy üzenettartalmat.",
+    "advancedCrashReportingDescription": "A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Egy ehhez a telepítéshez tartozó véletlenszerű azonosítóhoz kapcsolódnak, és nem tartalmazzák a fiókod azonosítóját, a példányneveket vagy az üzenettartalmat.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "A bejelentkezéssel elfogadod a következőt: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.} terms{A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms>.} other{A bejelentkezéssel elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.}}",
     "mfaPasskeyUnavailable": "Ennek a példánynak a jelszókulcsai nem működnek ebben az alkalmazásban, és a fiókodhoz nincs más ellenőrzési mód. Jelentkezz be inkább a weben.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

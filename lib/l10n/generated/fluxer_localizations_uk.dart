@@ -277,13 +277,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Увімкнути двофакторну автентифікацію';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Ми оновили наші умови. Будь ласка, перегляньте їх та прийміть, щоб продовжити.';
-
-  @override
-  String get nagbarReviewTerms => 'Переглянути умови';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Приєднуйтеся до спільноти «$communityName», щоб спілкуватися з командою та бути в курсі подій.';
   }
@@ -323,7 +316,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get logInWithPasskey => 'Увійти за допомогою ключа доступу';
 
   @override
-  String get loginLegalAgreementPrefix => 'Входячи, ви погоджуєтеся з ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Входячи, ви погоджуєтеся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.',
+      'terms':
+          'Входячи, ви погоджуєтеся з <terms>Умовами використання</terms>.',
+      'other':
+          'Входячи, ви погоджуєтеся з <privacy>Політикою конфіденційності</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -873,16 +876,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get registerYear => 'Рік';
 
   @override
-  String get registerConsentPrefix => 'Я погоджуюся з ';
-
-  @override
-  String get registerConsentTerms => 'Умови використання';
-
-  @override
-  String get registerConsentAnd => ' та ';
-
-  @override
-  String get registerConsentPrivacy => 'Політика конфіденційності';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Я погоджуюся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>',
+      'terms': 'Я погоджуюся з <terms>Умовами використання</terms>',
+      'other': 'Я погоджуюся з <privacy>Політикою конфіденційності</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9972,15 +9974,40 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Повернути останню покупку';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Купуючи, ви погоджуєтеся з нашими ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Купуючи, ви погоджуєтеся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.',
+      'terms':
+          'Купуючи, ви погоджуєтеся з <terms>Умовами використання</terms>.',
+      'other':
+          'Купуючи, ви погоджуєтеся з <privacy>Політикою конфіденційності</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Купуючи, ви погодилися з нашими ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Купуючи, ви погодилися з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.',
+      'terms': 'Купуючи, ви погодилися з <terms>Умовами використання</terms>.',
+      'other':
+          'Купуючи, ви погодилися з <privacy>Політикою конфіденційності</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' та ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Умови використання</terms> та <privacy>Політика конфіденційності</privacy>',
+      'terms': '<terms>Умови використання</terms>',
+      'other': '<privacy>Політика конфіденційності</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -11037,7 +11064,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Звіти надходять до системи відстеження помилок Fluxer, навіть якщо ви ввійшли на іншому екземплярі. Вони не містять назв екземплярів, ID чи вмісту повідомлень.';
+      'Звіти надходять до системи відстеження помилок Fluxer, навіть якщо ви ввійшли на іншому екземплярі. Вони прив\'язані до випадкового ID цього встановлення й не містять ID вашого облікового запису, назв екземплярів чи вмісту повідомлень.';
 
   @override
   String get observabilityReportingConsentTitle => 'Допоможіть виправити збої';
@@ -11628,6 +11655,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Журнали програми';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Політика конфіденційності застосунку Fluxer';
 
   @override
   String get userSettingsTitle => 'Налаштування';

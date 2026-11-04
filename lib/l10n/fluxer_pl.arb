@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Zgadzam się na ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Warunki korzystania z usługi",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " i ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Polityka prywatności",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Akceptuję <terms>Warunki korzystania z usługi</terms> i <privacy>Politykę prywatności</privacy>} terms{Akceptuję <terms>Warunki korzystania z usługi</terms>} other{Akceptuję <privacy>Politykę prywatności</privacy>}}",
     "registerConfirmPassword": "Potwierdź hasło",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Polityka prywatności aplikacji Fluxer",
     "userSettingsNavDeveloperTools": "Narzędzia deweloperskie",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10120,10 +10106,6 @@
             }
         }
     },
-    "nagbarTermsAcceptance": "Zaktualizowaliśmy nasze warunki. Przejrzyj je i zaakceptuj, aby kontynuować.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "voiceParticipantMenuUserVolume": "Głośność użytkownika",
     "@voiceParticipantMenuUserVolume": {
         "description": "Voice participant context menu slider label for per-user volume."
@@ -11062,10 +11044,6 @@
     "nagbarEnableMfa": "Włącz 2FA",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarReviewTerms": "Przejrzyj warunki",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarGuildMembershipCta": "Dołącz do {communityName}, aby rozmawiać z zespołem i być na bieżąco.",
     "@nagbarGuildMembershipCta": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Twoje ostatnie faktury. Aby zmienić metodę płatności dla swojej subskrypcji, dodaj lub wybierz jedną w portalu rozliczeniowym i ustaw ją jako domyślną.",
     "premiumManagePaymentMethods": "Zarządzaj metodami płatności",
     "premiumSelfServeRefundButton": "Zwróć najnowszy zakup",
-    "premiumDisclaimerAgreementPrefix": "Kupując, zgadzasz się na nasze ",
-    "premiumDisclaimerAgreementPastPrefix": "Kupując, zgadzasz się na nasze ",
-    "premiumDisclaimerAgreementMiddle": " i ",
+    "premiumDisclaimerAgreement": "{links, select, both{Kupując, akceptujesz <terms>Warunki korzystania z usługi</terms> i <privacy>Politykę prywatności</privacy>.} terms{Kupując, akceptujesz <terms>Warunki korzystania z usługi</terms>.} other{Kupując, akceptujesz <privacy>Politykę prywatności</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Dokonując zakupu, zaakceptowano <terms>Warunki korzystania z usługi</terms> i <privacy>Politykę prywatności</privacy>.} terms{Dokonując zakupu, zaakceptowano <terms>Warunki korzystania z usługi</terms>.} other{Dokonując zakupu, zaakceptowano <privacy>Politykę prywatności</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Warunki korzystania z usługi</terms> i <privacy>Polityka prywatności</privacy>} terms{<terms>Warunki korzystania z usługi</terms>} other{<privacy>Polityka prywatności</privacy>}}",
     "premiumActiveUntil": "Aktywne do {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18134,7 +18112,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Raporty trafiają do systemu śledzenia błędów Fluxera, nawet gdy korzystasz z innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości.",
+    "advancedCrashReportingDescription": "Raporty trafiają do systemu śledzenia błędów Fluxera, nawet gdy korzystasz z innej instancji. Są powiązane z losowym identyfikatorem tej instalacji i nie zawierają identyfikatora Twojego konta, nazw instancji ani treści wiadomości.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Logując się, akceptujesz ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Logując się, akceptujesz <terms>Warunki korzystania z usługi</terms> i <privacy>Politykę prywatności</privacy>.} terms{Logując się, akceptujesz <terms>Warunki korzystania z usługi</terms>.} other{Logując się, akceptujesz <privacy>Politykę prywatności</privacy>.}}",
     "mfaPasskeyUnavailable": "Klucze dostępu z tej instancji nie działają w tej aplikacji, a Twoje konto nie ma innej metody weryfikacji. Zaloguj się zamiast tego w przeglądarce.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

@@ -273,13 +273,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get nagbarEnableMfa => 'הפעל אימות דו-שלבי';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'עדכנו את התנאים שלנו. אנא עיין וקבל אותם כדי להמשיך.';
-
-  @override
-  String get nagbarReviewTerms => 'בדוק תנאים';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'הצטרף ל-$communityName כדי לשוחח עם הצוות ולהישאר מעודכן.';
   }
@@ -318,7 +311,15 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get logInWithPasskey => 'התחבר באמצעות מפתח גישה';
 
   @override
-  String get loginLegalAgreementPrefix => 'בהתחברות, אתה מאשר את ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.',
+      'terms': 'בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms>.',
+      'other': 'בהתחברות, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -861,16 +862,15 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get registerYear => 'שנה';
 
   @override
-  String get registerConsentPrefix => 'אני מסכים/ה ל- ';
-
-  @override
-  String get registerConsentTerms => 'תנאי שירות';
-
-  @override
-  String get registerConsentAnd => ' וגם ';
-
-  @override
-  String get registerConsentPrivacy => 'מדיניות פרטיות';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'אני מסכים/ה ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>',
+      'terms': 'אני מסכים/ה ל<terms>תנאי השירות</terms>',
+      'other': 'אני מסכים/ה ל<privacy>מדיניות הפרטיות</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9747,13 +9747,36 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'החזר רכישה אחרונה';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'במסירת רכישה, אתה מסכים ל ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'ברכישה, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.',
+      'terms': 'ברכישה, אתה מסכים ל<terms>תנאי השירות</terms>.',
+      'other': 'ברכישה, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => 'במסירת רכישה, הסכמת ל ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'ברכישה, הסכמת ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.',
+      'terms': 'ברכישה, הסכמת ל<terms>תנאי השירות</terms>.',
+      'other': 'ברכישה, הסכמת ל<privacy>מדיניות הפרטיות</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' וגם ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>תנאי שירות</terms> ו<privacy>מדיניות פרטיות</privacy>',
+      'terms': '<terms>תנאי שירות</terms>',
+      'other': '<privacy>מדיניות פרטיות</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10779,7 +10802,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם לא כוללים שמות מופעים, מזהים או תוכן הודעות.';
+      'הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם מקושרים למזהה אקראי של ההתקנה הזו ולא כוללים את מזהה החשבון שלך, שמות מופעים או תוכן הודעות.';
 
   @override
   String get observabilityReportingConsentTitle => 'עזור לתקן קריסות';
@@ -11348,6 +11371,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'יומני אפליקציה';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'מדיניות הפרטיות של אפליקציית Fluxer';
 
   @override
   String get userSettingsTitle => 'הגדרות';

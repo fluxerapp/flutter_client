@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Jeg accepterer ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Servicevilkår",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " og ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Fortrolighedspolitik",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Jeg accepterer <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>} terms{Jeg accepterer <terms>Servicevilkårene</terms>} other{Jeg accepterer <privacy>Fortrolighedspolitikken</privacy>}}",
     "registerConfirmPassword": "Bekræft adgangskode",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fortrolighedspolitik for Fluxer-appen",
     "userSettingsNavDeveloperTools": "Udviklerværktøjer",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10923,14 +10909,6 @@
             }
         }
     },
-    "nagbarTermsAcceptance": "Vi har opdateret vores vilkår. Gennemgå og accepter dem for at fortsætte.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Gennemgå vilkår",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarPushNotification": "Aktivér notifikationer, så du ikke går glip af beskeder og omtaler.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Dine seneste fakturaer. For at ændre betalingsmetoden for dit abonnement, skal du tilføje eller vælge en i faktureringsportalen og gøre den til standard.",
     "premiumManagePaymentMethods": "Administrer betalingsmetoder",
     "premiumSelfServeRefundButton": "Tilbagebetal seneste køb",
-    "premiumDisclaimerAgreementPrefix": "Ved køb accepterer du vores ",
-    "premiumDisclaimerAgreementPastPrefix": "Ved køb accepterede du vores ",
-    "premiumDisclaimerAgreementMiddle": " og ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ved at købe accepterer du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at købe accepterer du <terms>Servicevilkårene</terms>.} other{Ved at købe accepterer du <privacy>Fortrolighedspolitikken</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ved at købe accepterede du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at købe accepterede du <terms>Servicevilkårene</terms>.} other{Ved at købe accepterede du <privacy>Fortrolighedspolitikken</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Servicevilkår</terms> og <privacy>Fortrolighedspolitik</privacy>} terms{<terms>Servicevilkår</terms>} other{<privacy>Fortrolighedspolitik</privacy>}}",
     "premiumActiveUntil": "Aktiv indtil {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18115,7 +18093,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapporter sendes til Fluxers fejlsporing, også når du er logget ind på en anden instans. De indeholder ikke instansnavne, id'er eller beskedindhold.",
+    "advancedCrashReportingDescription": "Rapporter sendes til Fluxers fejlsporing, også når du er logget ind på en anden instans. De er knyttet til et tilfældigt id for denne installation og indeholder ikke dit konto-id, instansnavne eller beskedindhold.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Ved at logge ind accepterer du ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Ved at logge ind accepterer du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at logge ind accepterer du <terms>Servicevilkårene</terms>.} other{Ved at logge ind accepterer du <privacy>Fortrolighedspolitikken</privacy>.}}",
     "mfaPasskeyUnavailable": "Adgangsnøgler fra denne instans virker ikke i denne app, og din konto har ingen anden bekræftelsesmetode. Log ind på nettet i stedet.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

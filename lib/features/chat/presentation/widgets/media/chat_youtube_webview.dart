@@ -28,6 +28,7 @@ class ChatYouTubeWebView extends StatelessWidget {
       ),
       gestureRecognizers: _gestureRecognizers,
       initialSettings: InAppWebViewSettings(
+        incognito: true,
         mediaPlaybackRequiresUserGesture: false,
         allowsInlineMediaPlayback: true,
         supportZoom: false,

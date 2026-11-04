@@ -1,6 +1,5 @@
 enum NagbarType {
   corruptedInstallation,
-  termsAcceptance,
   scheduledMaintenance,
   unclaimedAccount,
   emailVerification,

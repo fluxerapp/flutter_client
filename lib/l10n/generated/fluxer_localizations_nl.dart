@@ -273,13 +273,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Schakel 2FA in';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'We hebben onze voorwaarden bijgewerkt. Lees ze door en ga akkoord om verder te gaan.';
-
-  @override
-  String get nagbarReviewTerms => 'Bekijk de voorwaarden';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Word lid van $communityName om met het team te chatten en op de hoogte te blijven.';
   }
@@ -318,8 +311,17 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get logInWithPasskey => 'Log in met een wachtleutel';
 
   @override
-  String get loginLegalAgreementPrefix =>
-      'Door je aan te melden ga je akkoord met de ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door in te loggen ga je akkoord met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -865,16 +867,15 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get registerYear => 'Jaar';
 
   @override
-  String get registerConsentPrefix => 'Ik ga akkoord met de ';
-
-  @override
-  String get registerConsentTerms => 'Gebruiksvoorwaarden';
-
-  @override
-  String get registerConsentAnd => ' en ';
-
-  @override
-  String get registerConsentPrivacy => 'Privacybeleid';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ik ga akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>',
+      'terms': 'Ik ga akkoord met de <terms>Servicevoorwaarden</terms>',
+      'other': 'Ik ga akkoord met het <privacy>Privacybeleid</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9936,15 +9937,41 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Laatste aankoop terugbetalen';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Door te kopen, ga je akkoord met onze ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door te kopen ga je akkoord met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Door te kopen, ging u akkoord met onze ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door te kopen ben je akkoord gegaan met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' en ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Gebruiksvoorwaarden</terms> en <privacy>Privacybeleid</privacy>',
+      'terms': '<terms>Gebruiksvoorwaarden</terms>',
+      'other': '<privacy>Privacybeleid</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10994,7 +11021,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze bevatten geen instantienamen, ID\'s of berichtinhoud.';
+      'Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze zijn gekoppeld aan een willekeurige ID voor deze installatie en bevatten geen account-ID, instantienamen of berichtinhoud.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help crashes op te lossen';
@@ -11575,6 +11602,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'App-logboeken';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Privacybeleid van de Fluxer-app';
 
   @override
   String get userSettingsTitle => 'Instellingen';

@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_guild_badges_provider.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum FluxerGuildBadgeKind { partnered, verified, discoverable }
 
@@ -155,14 +158,14 @@ class _BuiltInGuildBadge extends StatelessWidget {
       .toList(growable: false);
 }
 
-class _CustomGuildBadge extends StatelessWidget {
+class _CustomGuildBadge extends ConsumerWidget {
   const _CustomGuildBadge({required this.badge, required this.size});
 
   final InstanceGuildBadgeSchema badge;
   final double size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final String imageUrl = customBadgeImageUrl(badge.assetUrl);
     final Widget image = CachedNetworkImage(
       imageUrl: imageUrl,
@@ -174,8 +177,12 @@ class _CustomGuildBadge extends StatelessWidget {
     );
 
     final String? href = badge.href?.trim();
-    final Widget child = href != null && href.isNotEmpty
-        ? GestureDetector(onTap: () => launchUrl(Uri.parse(href)), child: image)
+    final bool linkAllowed = ref.watch(externalPurchaseLinksAllowedProvider);
+    final Widget child = href != null && href.isNotEmpty && linkAllowed
+        ? GestureDetector(
+            onTap: () => unawaited(handleExternalLinkTap(context, href)),
+            child: image,
+          )
         : image;
 
     final String? description = badge.description?.trim();

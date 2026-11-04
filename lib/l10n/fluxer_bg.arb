@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Актуализирахме нашите условия. Моля, прегледайте ги и ги приемете, за да продължите.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Преглед на условията",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Присъедини се към {communityName}, за да разговаряш с екипа и да си в крак с новостите.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Съгласен съм с ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Общи условия",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " и ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Политика за поверителност",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Съгласен съм с <terms>Условията за ползване</terms> и <privacy>Политиката за поверителност</privacy>} terms{Съгласен съм с <terms>Условията за ползване</terms>} other{Съгласен съм с <privacy>Политиката за поверителност</privacy>}}",
     "registerConfirmPassword": "Потвърди паролата",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Вашите скорошни фактури. За да промените начина на плащане на абонамента си, добавете или изберете такъв в портала за фактуриране и го направете основен.",
     "premiumManagePaymentMethods": "Управление на методите за плащане",
     "premiumSelfServeRefundButton": "Възстановяване на последната покупка",
-    "premiumDisclaimerAgreementPrefix": "С покупката се съгласявате с нашите ",
-    "premiumDisclaimerAgreementPastPrefix": "С покупката се съгласихте с нашите ",
-    "premiumDisclaimerAgreementMiddle": " и ",
+    "premiumDisclaimerAgreement": "{links, select, both{С покупката приемаш <terms>Условията за ползване</terms> и <privacy>Политиката за поверителност</privacy>.} terms{С покупката приемаш <terms>Условията за ползване</terms>.} other{С покупката приемаш <privacy>Политиката за поверителност</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{С покупката си прие <terms>Условията за ползване</terms> и <privacy>Политиката за поверителност</privacy>.} terms{С покупката си прие <terms>Условията за ползване</terms>.} other{С покупката си прие <privacy>Политиката за поверителност</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Общи условия</terms> и <privacy>Политика за поверителност</privacy>} terms{<terms>Общи условия</terms>} other{<privacy>Политика за поверителност</privacy>}}",
     "premiumActiveUntil": "Активно до {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Политика за поверителност на приложението Fluxer",
     "userSettingsNavDeveloperTools": "Инструменти за разработчици",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18143,7 +18121,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Отчетите отиват в системата за проследяване на грешки на Fluxer, дори когато си влязъл в друга инстанция. Те не съдържат имена на инстанции, идентификатори или съдържание на съобщения.",
+    "advancedCrashReportingDescription": "Отчетите отиват в системата за проследяване на грешки на Fluxer, дори когато си влязъл в друга инстанция. Те са свързани със случаен идентификатор за тази инсталация и не съдържат идентификатора на акаунта ти, имена на инстанции или съдържание на съобщения.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "С влизането се съгласяваш с ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{С влизането приемаш <terms>Условията за ползване</terms> и <privacy>Политиката за поверителност</privacy>.} terms{С влизането приемаш <terms>Условията за ползване</terms>.} other{С влизането приемаш <privacy>Политиката за поверителност</privacy>.}}",
     "mfaPasskeyUnavailable": "Ключовете за достъп от тази инстанция не работят в това приложение, а акаунтът ти няма друг метод за потвърждение. Влез през уеб версията.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

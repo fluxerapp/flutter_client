@@ -12,6 +12,7 @@ class AppForegroundSessionBootstrapResult {
 }
 
 AppForegroundSessionBootstrapResult? _bootstrapResult;
+_AppForegroundSessionLifecycleObserver? _lifecycleObserver;
 
 AppForegroundSessionBootstrapResult get cachedAppForegroundSessionBootstrap =>
     _bootstrapResult ??
@@ -20,40 +21,41 @@ AppForegroundSessionBootstrapResult get cachedAppForegroundSessionBootstrap =>
 Future<AppForegroundSessionBootstrapResult>
 bootstrapAppForegroundSession() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final bool hadForegroundCrash =
-      preferences.getBool(kAppForegroundSessionActiveKey) ?? false;
-  await preferences.setBool(kAppForegroundSessionActiveKey, true);
-  _bootstrapResult = AppForegroundSessionBootstrapResult(
-    hadForegroundCrash: hadForegroundCrash,
-  );
-  return _bootstrapResult!;
-}
-
-Future<void> setAppForegroundSessionActive({required bool active}) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.setBool(kAppForegroundSessionActiveKey, active);
-}
-
-void installAppForegroundSessionLifecycleBinding() {
+  final AppForegroundSessionBootstrapResult result =
+      AppForegroundSessionBootstrapResult(
+        hadForegroundCrash:
+            preferences.getBool(kAppForegroundSessionActiveKey) ?? false,
+      );
+  _bootstrapResult = result;
   final WidgetsBinding binding = WidgetsBinding.instance;
-  if (binding.lifecycleState == AppLifecycleState.resumed) {
-    unawaited(setAppForegroundSessionActive(active: true));
+  final _AppForegroundSessionLifecycleObserver? previousObserver =
+      _lifecycleObserver;
+  if (previousObserver != null) {
+    binding.removeObserver(previousObserver);
   }
-  binding.addObserver(_AppForegroundSessionLifecycleObserver());
+  final _AppForegroundSessionLifecycleObserver observer =
+      _AppForegroundSessionLifecycleObserver(preferences);
+  _lifecycleObserver = observer;
+  binding.addObserver(observer);
+  await observer.record(binding.lifecycleState);
+  return result;
 }
 
 class _AppForegroundSessionLifecycleObserver extends WidgetsBindingObserver {
+  _AppForegroundSessionLifecycleObserver(this._preferences);
+
+  final SharedPreferences _preferences;
+
+  Future<void> record(AppLifecycleState? state) async {
+    final bool active = state == AppLifecycleState.resumed;
+    if (_preferences.getBool(kAppForegroundSessionActiveKey) == active) {
+      return;
+    }
+    await _preferences.setBool(kAppForegroundSessionActiveKey, active);
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        unawaited(setAppForegroundSessionActive(active: true));
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        unawaited(setAppForegroundSessionActive(active: false));
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.hidden:
-        break;
-    }
+    unawaited(record(state));
   }
 }

@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Sutinku su ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Paslaugų teikimo sąlygos",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " ir ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Privatumo politika",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Sutinku su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>} terms{Sutinku su <terms>Paslaugų teikimo sąlygomis</terms>} other{Sutinku su <privacy>Privatumo politika</privacy>}}",
     "registerConfirmPassword": "Patvirtinti slaptažodį",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer programėlės privatumo politika",
     "userSettingsNavDeveloperTools": "Kūrėjo įrankiai",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10836,10 +10822,6 @@
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
     },
-    "nagbarReviewTerms": "Peržiūrėti terminus",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Prisijunkite prie „{communityName}“, kad galėtumėte bendrauti su komanda ir gauti naujausią informaciją.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -11163,10 +11145,6 @@
     "nagbarEnableMfa": "Įjungti 2FA",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarTermsAcceptance": "Atnaujinome mūsų sąlygas. Peržiūrėkite jas ir sutikite, kad galėtumėte tęsti.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
     },
     "nagbarEnableNotifications": "Įjungti pranešimus",
     "@nagbarEnableNotifications": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Jūsų naujausios sąskaitos faktūros. Norėdami pakeisti savo prenumeratos mokėjimo būdą, pridėkite arba pasirinkite jį atsiskaitymo portale ir nustatykite kaip numatytąjį.",
     "premiumManagePaymentMethods": "Tvarkyti mokėjimo būdus",
     "premiumSelfServeRefundButton": "Grąžinti naujausią pirkinį",
-    "premiumDisclaimerAgreementPrefix": "Pirkdami sutinkate su mūsų ",
-    "premiumDisclaimerAgreementPastPrefix": "Pirkdami sutikote su mūsų ",
-    "premiumDisclaimerAgreementMiddle": " ir ",
+    "premiumDisclaimerAgreement": "{links, select, both{Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.} terms{Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.} other{Pirkdami sutinkate su <privacy>Privatumo politika</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.} terms{Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms>.} other{Pirkdami sutikote su <privacy>Privatumo politika</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Paslaugų teikimo sąlygos</terms> ir <privacy>Privatumo politika</privacy>} terms{<terms>Paslaugų teikimo sąlygos</terms>} other{<privacy>Privatumo politika</privacy>}}",
     "premiumActiveUntil": "Aktyvus iki {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18130,7 +18108,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jose nėra egzempliorių pavadinimų, ID ar žinučių turinio.",
+    "advancedCrashReportingDescription": "Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jos susietos su atsitiktiniu šio įdiegimo ID, ir jose nėra jūsų paskyros ID, egzempliorių pavadinimų ar žinučių turinio.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Prisijungdami sutinkate su ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.} terms{Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.} other{Prisijungdami sutinkate su <privacy>Privatumo politika</privacy>.}}",
     "mfaPasskeyUnavailable": "Šios instancijos prieigos raktai šioje programėlėje neveikia, o jūsų paskyra neturi kito patvirtinimo būdo. Prisijunkite žiniatinklyje.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

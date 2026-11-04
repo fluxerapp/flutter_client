@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "我同意",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "服務條款",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": "與",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "隱私權政策",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{我同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>} terms{我同意<terms>服務條款</terms>} other{我同意<privacy>隱私權政策</privacy>}}",
     "registerConfirmPassword": "確認密碼",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer 應用程式隱私權政策",
     "userSettingsNavDeveloperTools": "開發人員工具",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11202,14 +11188,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "我們更新了條款。請閱讀並接受，以便繼續使用。",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "檢視條款",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "加入「{communityName}」與團隊聊天，並隨時掌握最新資訊。",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "您近期的發票。若要更改訂閱的付款方式，請在帳單入口網站中新增或選擇一種並設為預設。",
     "premiumManagePaymentMethods": "管理付款方式",
     "premiumSelfServeRefundButton": "退款最新購買項目",
-    "premiumDisclaimerAgreementPrefix": "購買即表示您同意我們的 ",
-    "premiumDisclaimerAgreementPastPrefix": "購買即表示您同意我們的 ",
-    "premiumDisclaimerAgreementMiddle": " 和 ",
+    "premiumDisclaimerAgreement": "{links, select, both{購買即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。} terms{購買即表示您同意<terms>服務條款</terms>。} other{購買即表示您同意<privacy>隱私權政策</privacy>。}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{購買時，您已同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。} terms{購買時，您已同意<terms>服務條款</terms>。} other{購買時，您已同意<privacy>隱私權政策</privacy>。}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>服務條款</terms>和<privacy>隱私權政策</privacy>} terms{<terms>服務條款</terms>} other{<privacy>隱私權政策</privacy>}}",
     "premiumActiveUntil": "有效期限至 {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18138,7 +18116,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。",
+    "advancedCrashReportingDescription": "即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告會連結到這次安裝的隨機 ID，不包含您的帳號 ID、伺服器名稱或訊息內容。",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "登入即表示您同意 ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{登入即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。} terms{登入即表示您同意<terms>服務條款</terms>。} other{登入即表示您同意<privacy>隱私權政策</privacy>。}}",
     "mfaPasskeyUnavailable": "此伺服器的通行金鑰無法在本應用程式中使用，而您的帳號沒有其他驗證方式。請改用網頁版登入。",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

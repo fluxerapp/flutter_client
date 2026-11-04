@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "We hebben onze voorwaarden bijgewerkt. Lees ze door en ga akkoord om verder te gaan.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Bekijk de voorwaarden",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Word lid van {communityName} om met het team te chatten en op de hoogte te blijven.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Ik ga akkoord met de ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Gebruiksvoorwaarden",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " en ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Privacybeleid",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Ik ga akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>} terms{Ik ga akkoord met de <terms>Servicevoorwaarden</terms>} other{Ik ga akkoord met het <privacy>Privacybeleid</privacy>}}",
     "registerConfirmPassword": "Wachtwoord bevestigen",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Je recente facturen. Om de betaalmethode voor je abonnement te wijzigen, voeg je er een toe of kies je er een in de facturatieportal en stel je deze in als standaard.",
     "premiumManagePaymentMethods": "Betaalmethoden beheren",
     "premiumSelfServeRefundButton": "Laatste aankoop terugbetalen",
-    "premiumDisclaimerAgreementPrefix": "Door te kopen, ga je akkoord met onze ",
-    "premiumDisclaimerAgreementPastPrefix": "Door te kopen, ging u akkoord met onze ",
-    "premiumDisclaimerAgreementMiddle": " en ",
+    "premiumDisclaimerAgreement": "{links, select, both{Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.} terms{Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms>.} other{Door te kopen ga je akkoord met het <privacy>Privacybeleid</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.} terms{Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms>.} other{Door te kopen ben je akkoord gegaan met het <privacy>Privacybeleid</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Gebruiksvoorwaarden</terms> en <privacy>Privacybeleid</privacy>} terms{<terms>Gebruiksvoorwaarden</terms>} other{<privacy>Privacybeleid</privacy>}}",
     "premiumActiveUntil": "Actief tot {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Privacybeleid van de Fluxer-app",
     "userSettingsNavDeveloperTools": "Ontwikkelaarstools",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18116,7 +18094,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze bevatten geen instantienamen, ID's of berichtinhoud.",
+    "advancedCrashReportingDescription": "Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze zijn gekoppeld aan een willekeurige ID voor deze installatie en bevatten geen account-ID, instantienamen of berichtinhoud.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Door je aan te melden ga je akkoord met de ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.} terms{Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms>.} other{Door in te loggen ga je akkoord met het <privacy>Privacybeleid</privacy>.}}",
     "mfaPasskeyUnavailable": "Passkeys van deze instantie werken niet in deze app en je account heeft geen andere verificatiemethode. Meld je in plaats daarvan aan op het web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

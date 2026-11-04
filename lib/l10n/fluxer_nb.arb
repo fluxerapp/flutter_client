@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Jeg godtar ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Vilkår for bruk",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " og ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Personvernregler",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Jeg godtar <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>} terms{Jeg godtar <terms>vilkårene for bruk</terms>} other{Jeg godtar <privacy>personvernreglene</privacy>}}",
     "registerConfirmPassword": "Bekreft passord",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Personvernregler for Fluxer-appen",
     "userSettingsNavDeveloperTools": "Utviklerverktøy",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10002,10 +9988,6 @@
     "@notificationsMentionPreferenceSyncFailed": {
         "description": "Toast shown when mention preference update fails."
     },
-    "nagbarTermsAcceptance": "Vi har oppdatert vilkårene våre. Vennligst les og godta dem for å fortsette.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "guildNavbarChannelTypeSelection": "Valg av kanaltype",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
@@ -11065,10 +11047,6 @@
     "nagbarEnableMfa": "Aktiver totrinnsbekreftelse",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarReviewTerms": "Se gjennom vilkårene",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarJoinCommunity": "Bli med i {communityName}",
     "@nagbarJoinCommunity": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Dine siste fakturaer. For å endre betalingsmåten for abonnementet ditt, legg til eller velg en i faktureringsportalen og sett den som standard.",
     "premiumManagePaymentMethods": "Administrer betalingsmåter",
     "premiumSelfServeRefundButton": "Refunder siste kjøp",
-    "premiumDisclaimerAgreementPrefix": "Ved å kjøpe godtar du våre ",
-    "premiumDisclaimerAgreementPastPrefix": "Ved kjøp godtok du våre ",
-    "premiumDisclaimerAgreementMiddle": " og ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ved å kjøpe godtar du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.} terms{Ved å kjøpe godtar du <terms>vilkårene for bruk</terms>.} other{Ved å kjøpe godtar du <privacy>personvernreglene</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ved å kjøpe godtok du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.} terms{Ved å kjøpe godtok du <terms>vilkårene for bruk</terms>.} other{Ved å kjøpe godtok du <privacy>personvernreglene</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Vilkår for bruk</terms> og <privacy>Personvernregler</privacy>} terms{<terms>Vilkår for bruk</terms>} other{<privacy>Personvernregler</privacy>}}",
     "premiumActiveUntil": "Aktiv til {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18131,7 +18109,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapportene går til Fluxers feilsporing, også når du er logget inn på en annen instans. De inneholder ikke instansnavn, ID-er eller meldingsinnhold.",
+    "advancedCrashReportingDescription": "Rapportene går til Fluxers feilsporing, også når du er logget inn på en annen instans. De er knyttet til en tilfeldig ID for denne installasjonen og inneholder ikke konto-ID-en din, instansnavn eller meldingsinnhold.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Ved å logge inn godtar du ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Ved å logge inn godtar du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.} terms{Ved å logge inn godtar du <terms>vilkårene for bruk</terms>.} other{Ved å logge inn godtar du <privacy>personvernreglene</privacy>.}}",
     "mfaPasskeyUnavailable": "Passnøkler fra denne instansen fungerer ikke i denne appen, og kontoen din har ingen annen bekreftelsesmetode. Logg inn på nettet i stedet.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

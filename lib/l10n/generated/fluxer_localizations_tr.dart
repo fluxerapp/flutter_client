@@ -273,13 +273,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get nagbarEnableMfa => '2FA\'yı etkinleştir';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Şartlarımızı güncelledik. Devam etmek için lütfen inceleyip kabul edin.';
-
-  @override
-  String get nagbarReviewTerms => 'Şartları incele';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Ekiple sohbet etmek ve güncel kalmak için $communityName topluluğuna katılın.';
   }
@@ -318,8 +311,17 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get logInWithPasskey => 'Parolana ile giriş yap';
 
   @override
-  String get loginLegalAgreementPrefix =>
-      'Giriş yaparak şunları kabul etmiş olursunuz: ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Giriş yaparak <terms>Hizmet Şartları</terms>\'nı ve <privacy>Gizlilik Politikası</privacy>\'nı kabul etmiş olursunuz.',
+      'terms':
+          'Giriş yaparak <terms>Hizmet Şartları</terms>\'nı kabul etmiş olursunuz.',
+      'other':
+          'Giriş yaparak <privacy>Gizlilik Politikası</privacy>\'nı kabul etmiş olursunuz.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -866,16 +868,15 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get registerYear => 'Yıl';
 
   @override
-  String get registerConsentPrefix => 'Kabul ediyorum';
-
-  @override
-  String get registerConsentTerms => 'Hizmet Şartları';
-
-  @override
-  String get registerConsentAnd => ' ve ';
-
-  @override
-  String get registerConsentPrivacy => 'Gizlilik politikası';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Hizmet Şartları</terms>\'nı ve <privacy>Gizlilik Politikası</privacy>\'nı kabul ediyorum',
+      'terms': '<terms>Hizmet Şartları</terms>\'nı kabul ediyorum',
+      'other': '<privacy>Gizlilik Politikası</privacy>\'nı kabul ediyorum',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9875,15 +9876,41 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Son satın almayı iade et';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Satın alarak şunları kabul etmiş olursunuz ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Satın alarak <terms>Hizmet Şartları</terms>\'nı ve <privacy>Gizlilik Politikası</privacy>\'nı kabul etmiş olursunuz.',
+      'terms':
+          'Satın alarak <terms>Hizmet Şartları</terms>\'nı kabul etmiş olursunuz.',
+      'other':
+          'Satın alarak <privacy>Gizlilik Politikası</privacy>\'nı kabul etmiş olursunuz.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Satın alarak şunları kabul etmiş olursunuz ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Satın alırken <terms>Hizmet Şartları</terms>\'nı ve <privacy>Gizlilik Politikası</privacy>\'nı kabul ettiniz.',
+      'terms':
+          'Satın alırken <terms>Hizmet Şartları</terms>\'nı kabul ettiniz.',
+      'other':
+          'Satın alırken <privacy>Gizlilik Politikası</privacy>\'nı kabul ettiniz.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' ve ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Hizmet Şartları</terms> ve <privacy>Gizlilik politikası</privacy>',
+      'terms': '<terms>Hizmet Şartları</terms>',
+      'other': '<privacy>Gizlilik politikası</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10933,7 +10960,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Raporlar, başka bir kuruluma giriş yapmış olsanız bile Fluxer\'ın hata izleyicisine gider. Kurulum adlarını, kimlikleri veya mesaj içeriğini içermez.';
+      'Raporlar, başka bir kuruluma giriş yapmış olsanız bile Fluxer\'ın hata izleyicisine gider. Bu kuruluma ait rastgele bir kimlikle ilişkilendirilir ve hesap kimliğinizi, kurulum adlarını veya mesaj içeriğini içermez.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11512,6 +11539,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Uygulama Günlükleri';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer uygulaması gizlilik politikası';
 
   @override
   String get userSettingsTitle => 'Ayarlar';

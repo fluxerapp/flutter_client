@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Kabul ediyorum",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Hizmet Şartları",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " ve ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Gizlilik politikası",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{<terms>Hizmet Şartları</terms>'nı ve <privacy>Gizlilik Politikası</privacy>'nı kabul ediyorum} terms{<terms>Hizmet Şartları</terms>'nı kabul ediyorum} other{<privacy>Gizlilik Politikası</privacy>'nı kabul ediyorum}}",
     "registerConfirmPassword": "Parolayı onayla",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer uygulaması gizlilik politikası",
     "userSettingsNavDeveloperTools": "Geliştirici araçları",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11213,10 +11199,6 @@
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
     },
-    "nagbarReviewTerms": "Şartları incele",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Ekiple sohbet etmek ve güncel kalmak için {communityName} topluluğuna katılın.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -11487,10 +11469,6 @@
     "nagbarEnableMfa": "2FA'yı etkinleştir",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarTermsAcceptance": "Şartlarımızı güncelledik. Devam etmek için lütfen inceleyip kabul edin.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
     },
     "nagbarPushNotification": "Mesajları ve bahsetmeleri kaçırmamak için bildirimleri etkinleştirin.",
     "@nagbarPushNotification": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Son faturalarınız. Aboneliğinizin ödeme yöntemini değiştirmek için fatura portalına bir tane ekleyin veya seçin ve varsayılan yapın.",
     "premiumManagePaymentMethods": "Ödeme yöntemlerini yönet",
     "premiumSelfServeRefundButton": "Son satın almayı iade et",
-    "premiumDisclaimerAgreementPrefix": "Satın alarak şunları kabul etmiş olursunuz ",
-    "premiumDisclaimerAgreementPastPrefix": "Satın alarak şunları kabul etmiş olursunuz ",
-    "premiumDisclaimerAgreementMiddle": " ve ",
+    "premiumDisclaimerAgreement": "{links, select, both{Satın alarak <terms>Hizmet Şartları</terms>'nı ve <privacy>Gizlilik Politikası</privacy>'nı kabul etmiş olursunuz.} terms{Satın alarak <terms>Hizmet Şartları</terms>'nı kabul etmiş olursunuz.} other{Satın alarak <privacy>Gizlilik Politikası</privacy>'nı kabul etmiş olursunuz.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Satın alırken <terms>Hizmet Şartları</terms>'nı ve <privacy>Gizlilik Politikası</privacy>'nı kabul ettiniz.} terms{Satın alırken <terms>Hizmet Şartları</terms>'nı kabul ettiniz.} other{Satın alırken <privacy>Gizlilik Politikası</privacy>'nı kabul ettiniz.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Hizmet Şartları</terms> ve <privacy>Gizlilik politikası</privacy>} terms{<terms>Hizmet Şartları</terms>} other{<privacy>Gizlilik politikası</privacy>}}",
     "premiumActiveUntil": "{date} tarihine kadar aktif",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18122,7 +18100,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Raporlar, başka bir kuruluma giriş yapmış olsanız bile Fluxer'ın hata izleyicisine gider. Kurulum adlarını, kimlikleri veya mesaj içeriğini içermez.",
+    "advancedCrashReportingDescription": "Raporlar, başka bir kuruluma giriş yapmış olsanız bile Fluxer'ın hata izleyicisine gider. Bu kuruluma ait rastgele bir kimlikle ilişkilendirilir ve hesap kimliğinizi, kurulum adlarını veya mesaj içeriğini içermez.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Giriş yaparak şunları kabul etmiş olursunuz: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Giriş yaparak <terms>Hizmet Şartları</terms>'nı ve <privacy>Gizlilik Politikası</privacy>'nı kabul etmiş olursunuz.} terms{Giriş yaparak <terms>Hizmet Şartları</terms>'nı kabul etmiş olursunuz.} other{Giriş yaparak <privacy>Gizlilik Politikası</privacy>'nı kabul etmiş olursunuz.}}",
     "mfaPasskeyUnavailable": "Bu kurulumun geçiş anahtarları bu uygulamada çalışmaz ve hesabınızda başka bir doğrulama yöntemi yok. Bunun yerine web'de giriş yapın.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

@@ -273,13 +273,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Ενεργοποίηση 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Ενημερώσαμε τους όρους μας. Παρακαλούμε, ελέγξτε τους και αποδεχτείτε τους για να συνεχίσετε.';
-
-  @override
-  String get nagbarReviewTerms => 'Αναθεώρηση όρων';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Εγγραφείτε στην κοινότητα $communityName για να συνομιλήσετε με την ομάδα και να μείνετε ενημερωμένοι.';
   }
@@ -318,7 +311,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get logInWithPasskey => 'Σύνδεση με κλειδί πρόσβασης';
 
   @override
-  String get loginLegalAgreementPrefix => 'Συνδεόμενοι, αποδέχεστε τους ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Συνδεόμενοι, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.',
+      'terms':
+          'Συνδεόμενοι, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms>.',
+      'other':
+          'Συνδεόμενοι, αποδέχεστε την <privacy>Πολιτική απορρήτου</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -870,16 +873,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get registerYear => 'Έτος';
 
   @override
-  String get registerConsentPrefix => 'Συμφωνώ με τους ';
-
-  @override
-  String get registerConsentTerms => 'Όροι παροχής υπηρεσιών';
-
-  @override
-  String get registerConsentAnd => ' και ';
-
-  @override
-  String get registerConsentPrivacy => 'Πολιτική απορρήτου';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Συμφωνώ με τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>',
+      'terms': 'Συμφωνώ με τους <terms>Όρους παροχής υπηρεσιών</terms>',
+      'other': 'Συμφωνώ με την <privacy>Πολιτική απορρήτου</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -10008,15 +10010,41 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Επιστροφή χρημάτων τελευταίας αγοράς';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Με την αγορά, συμφωνείτε με τους ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Με την αγορά, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.',
+      'terms':
+          'Με την αγορά, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms>.',
+      'other':
+          'Με την αγορά, αποδέχεστε την <privacy>Πολιτική απορρήτου</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Με την αγορά, συμφωνήσατε με τους ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Με την αγορά, αποδεχτήκατε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.',
+      'terms':
+          'Με την αγορά, αποδεχτήκατε τους <terms>Όρους παροχής υπηρεσιών</terms>.',
+      'other':
+          'Με την αγορά, αποδεχτήκατε την <privacy>Πολιτική απορρήτου</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' και ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Όροι παροχής υπηρεσιών</terms> και <privacy>Πολιτική απορρήτου</privacy>',
+      'terms': '<terms>Όροι παροχής υπηρεσιών</terms>',
+      'other': '<privacy>Πολιτική απορρήτου</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -11076,7 +11104,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Οι αναφορές αποστέλλονται στο σύστημα παρακολούθησης σφαλμάτων του Fluxer, ακόμα και όταν είστε συνδεδεμένοι σε άλλη παρουσία. Δεν περιλαμβάνουν ονόματα παρουσιών, αναγνωριστικά ή περιεχόμενο μηνυμάτων.';
+      'Οι αναφορές αποστέλλονται στο σύστημα παρακολούθησης σφαλμάτων του Fluxer, ακόμα και όταν είστε συνδεδεμένοι σε άλλη παρουσία. Συνδέονται με ένα τυχαίο αναγνωριστικό αυτής της εγκατάστασης και δεν περιλαμβάνουν το αναγνωριστικό του λογαριασμού σας, ονόματα παρουσιών ή περιεχόμενο μηνυμάτων.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11673,6 +11701,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Αρχεία Καταγραφής Εφαρμογής';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Πολιτική απορρήτου της εφαρμογής Fluxer';
 
   @override
   String get userSettingsTitle => 'Ρυθμίσεις';

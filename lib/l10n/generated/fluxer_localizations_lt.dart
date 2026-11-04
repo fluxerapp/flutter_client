@@ -277,13 +277,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Įjungti 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Atnaujinome mūsų sąlygas. Peržiūrėkite jas ir sutikite, kad galėtumėte tęsti.';
-
-  @override
-  String get nagbarReviewTerms => 'Peržiūrėti terminus';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Prisijunkite prie „$communityName“, kad galėtumėte bendrauti su komanda ir gauti naujausią informaciją.';
   }
@@ -322,7 +315,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get logInWithPasskey => 'Prisijungti naudojant slaptažidinį';
 
   @override
-  String get loginLegalAgreementPrefix => 'Prisijungdami sutinkate su ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other':
+          'Prisijungdami sutinkate su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -871,16 +874,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get registerYear => 'Metai';
 
   @override
-  String get registerConsentPrefix => 'Sutinku su ';
-
-  @override
-  String get registerConsentTerms => 'Paslaugų teikimo sąlygos';
-
-  @override
-  String get registerConsentAnd => ' ir ';
-
-  @override
-  String get registerConsentPrivacy => 'Privatumo politika';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Sutinku su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>',
+      'terms': 'Sutinku su <terms>Paslaugų teikimo sąlygomis</terms>',
+      'other': 'Sutinku su <privacy>Privatumo politika</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9984,14 +9986,39 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Grąžinti naujausią pirkinį';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Pirkdami sutinkate su mūsų ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other': 'Pirkdami sutinkate su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Pirkdami sutikote su mūsų ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other': 'Pirkdami sutikote su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' ir ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Paslaugų teikimo sąlygos</terms> ir <privacy>Privatumo politika</privacy>',
+      'terms': '<terms>Paslaugų teikimo sąlygos</terms>',
+      'other': '<privacy>Privatumo politika</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -11047,7 +11074,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jose nėra egzempliorių pavadinimų, ID ar žinučių turinio.';
+      'Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jos susietos su atsitiktiniu šio įdiegimo ID, ir jose nėra jūsų paskyros ID, egzempliorių pavadinimų ar žinučių turinio.';
 
   @override
   String get observabilityReportingConsentTitle => 'Padėkite taisyti gedimus';
@@ -11632,6 +11659,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Programos žurnalai';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer programėlės privatumo politika';
 
   @override
   String get userSettingsTitle => 'Nustatymai';

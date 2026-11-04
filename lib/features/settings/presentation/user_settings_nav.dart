@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
@@ -40,6 +41,14 @@ bool userSettingsShowHelpNav(WidgetRef ref) {
   );
 }
 
+bool userSettingsShowFluxerAppPrivacyNav(WidgetRef ref) {
+  return !userSettingsShowHelpNav(ref);
+}
+
+bool userSettingsShowWhatsNewNav(WidgetRef ref) {
+  return ref.watch(externalPurchaseLinksAllowedProvider);
+}
+
 bool userSettingsShowJoinFluxerLabsNav(WidgetRef ref) {
   if (!(AppBuildConfig.isBeta || AppBuildConfig.isCanary)) {
     return false;
@@ -55,11 +64,13 @@ class UserSettingsDesktopNavEntry {
     this.leading,
     this.isSeparator = false,
     this.isLogout = false,
+    this.isAppLogs = false,
     this.isJoinFluxerLabs = false,
     this.isGiveFeedback = false,
     this.isHelp = false,
     this.isWhatsNew = false,
     this.isPrivacyPolicy = false,
+    this.isFluxerAppPrivacyPolicy = false,
     this.isTermsOfService = false,
   });
 
@@ -79,6 +90,9 @@ class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry.logout()
     : this._(icon: PhosphorIconsFill.signOut, isLogout: true);
 
+  const UserSettingsDesktopNavEntry.appLogs()
+    : this._(icon: PhosphorIconsFill.list, isAppLogs: true);
+
   const UserSettingsDesktopNavEntry.joinFluxerLabs()
     : this._(icon: PhosphorIconsFill.testTube, isJoinFluxerLabs: true);
 
@@ -94,6 +108,9 @@ class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry.privacyPolicy()
     : this._(icon: PhosphorIconsFill.lockKey, isPrivacyPolicy: true);
 
+  const UserSettingsDesktopNavEntry.fluxerAppPrivacyPolicy()
+    : this._(icon: PhosphorIconsFill.lockKey, isFluxerAppPrivacyPolicy: true);
+
   const UserSettingsDesktopNavEntry.termsOfService()
     : this._(icon: PhosphorIconsFill.fileText, isTermsOfService: true);
 
@@ -103,11 +120,13 @@ class UserSettingsDesktopNavEntry {
   final Widget? leading;
   final bool isSeparator;
   final bool isLogout;
+  final bool isAppLogs;
   final bool isJoinFluxerLabs;
   final bool isGiveFeedback;
   final bool isHelp;
   final bool isWhatsNew;
   final bool isPrivacyPolicy;
+  final bool isFluxerAppPrivacyPolicy;
   final bool isTermsOfService;
 
   SettingsSidebarItem toSidebarItem(FluxerLocalizations l10n) {
@@ -126,6 +145,9 @@ class UserSettingsDesktopNavEntry {
         isDestructive: true,
       );
     }
+    if (isAppLogs) {
+      return SettingsSidebarItem(l10n.userSettingsNavAppLogs, icon: icon);
+    }
     if (isJoinFluxerLabs) {
       return SettingsSidebarItem(l10n.userSettingsJoinFluxerLabs, icon: icon);
     }
@@ -141,6 +163,12 @@ class UserSettingsDesktopNavEntry {
     if (isPrivacyPolicy) {
       return SettingsSidebarItem(l10n.premiumPrivacyPolicy, icon: icon);
     }
+    if (isFluxerAppPrivacyPolicy) {
+      return SettingsSidebarItem(
+        l10n.userSettingsNavFluxerAppPrivacyPolicy,
+        icon: icon,
+      );
+    }
     if (isTermsOfService) {
       return SettingsSidebarItem(l10n.premiumTermsOfService, icon: icon);
     }
@@ -154,6 +182,9 @@ class UserSettingsDesktopNavEntry {
   String displayLabel(FluxerLocalizations l10n) {
     if (isLogout) {
       return l10n.userSettingsNavLogOut;
+    }
+    if (isAppLogs) {
+      return l10n.userSettingsNavAppLogs;
     }
     if (isJoinFluxerLabs) {
       return l10n.userSettingsJoinFluxerLabs;
@@ -169,6 +200,9 @@ class UserSettingsDesktopNavEntry {
     }
     if (isPrivacyPolicy) {
       return l10n.premiumPrivacyPolicy;
+    }
+    if (isFluxerAppPrivacyPolicy) {
+      return l10n.userSettingsNavFluxerAppPrivacyPolicy;
     }
     if (isTermsOfService) {
       return l10n.premiumTermsOfService;
@@ -302,9 +336,12 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showHelp,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showAppLogs = false,
   bool showGifts = true,
   bool showPrivacyPolicy = false,
+  bool showFluxerAppPrivacyPolicy = false,
   bool showTerms = false,
+  bool showWhatsNew = true,
 }) => [
   ..._userSettingsDesktopNavYourAccount,
   if (showBilling)
@@ -326,13 +363,16 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
       leading: SettingsFluxerLogoIcon(),
     ),
   ..._userSettingsDesktopNavAfterLanguageAndTime,
+  if (showAppLogs) const UserSettingsDesktopNavEntry.appLogs(),
   if (AppBuildConfig.isCanary) ..._userSettingsDesktopNavStaffOnly,
   if (showHelp) const UserSettingsDesktopNavEntry.help(),
-  const UserSettingsDesktopNavEntry.whatsNew(),
+  if (showWhatsNew) const UserSettingsDesktopNavEntry.whatsNew(),
   if (showGiveFeedback) const UserSettingsDesktopNavEntry.giveFeedback(),
   if (showJoinFluxerLabs) const UserSettingsDesktopNavEntry.joinFluxerLabs(),
   ..._userSettingsDesktopNavAppLicenses,
   if (showPrivacyPolicy) const UserSettingsDesktopNavEntry.privacyPolicy(),
+  if (showFluxerAppPrivacyPolicy)
+    const UserSettingsDesktopNavEntry.fluxerAppPrivacyPolicy(),
   if (showTerms) const UserSettingsDesktopNavEntry.termsOfService(),
   ..._userSettingsDesktopNavLogout,
 ];
@@ -344,7 +384,9 @@ int? indexForUserSettingsSection(
   required bool showHelp,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showAppLogs = false,
   bool showGifts = true,
+  bool showWhatsNew = true,
 }) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
     return null;
@@ -359,10 +401,12 @@ int? indexForUserSettingsSection(
   final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
     showBilling: showBilling,
     showGifts: showGifts,
+    showWhatsNew: showWhatsNew,
     showGiveFeedback: showGiveFeedback,
     showHelp: showHelp,
     showJoinFluxerLabs: showJoinFluxerLabs,
     isTouchPrimary: isTouchPrimary,
+    showAppLogs: showAppLogs,
   );
   for (var i = 0; i < nav.length; i++) {
     if (nav[i].section == section) {
@@ -423,7 +467,9 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required bool isTouchPrimary,
   bool showGifts = true,
   VoidCallback? onOpenPrivacyPolicy,
+  VoidCallback? onOpenFluxerAppPrivacyPolicy,
   VoidCallback? onOpenTerms,
+  bool showWhatsNew = true,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -508,11 +554,12 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
             icon: PhosphorIconsFill.question,
             onTap: onOpenHelp,
           ),
-        FluxerSettingsNavItem(
-          label: l10n.userSettingsNavWhatsNew,
-          icon: PhosphorIconsFill.megaphone,
-          onTap: onOpenWhatsNew,
-        ),
+        if (showWhatsNew)
+          FluxerSettingsNavItem(
+            label: l10n.userSettingsNavWhatsNew,
+            icon: PhosphorIconsFill.megaphone,
+            onTap: onOpenWhatsNew,
+          ),
         if (showGiveFeedback)
           FluxerSettingsNavItem(
             label: l10n.userSettingsGiveFeedback,
@@ -531,6 +578,12 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
             label: l10n.premiumPrivacyPolicy,
             icon: PhosphorIconsFill.lockKey,
             onTap: onOpenPrivacyPolicy,
+          ),
+        if (onOpenFluxerAppPrivacyPolicy != null)
+          FluxerSettingsNavItem(
+            label: l10n.userSettingsNavFluxerAppPrivacyPolicy,
+            icon: PhosphorIconsFill.lockKey,
+            onTap: onOpenFluxerAppPrivacyPolicy,
           ),
         if (onOpenTerms != null)
           FluxerSettingsNavItem(

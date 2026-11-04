@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Συμφωνώ με τους ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Όροι παροχής υπηρεσιών",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " και ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Πολιτική απορρήτου",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Συμφωνώ με τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>} terms{Συμφωνώ με τους <terms>Όρους παροχής υπηρεσιών</terms>} other{Συμφωνώ με την <privacy>Πολιτική απορρήτου</privacy>}}",
     "registerConfirmPassword": "Επιβεβαίωση κωδικού πρόσβασης",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Πολιτική απορρήτου της εφαρμογής Fluxer",
     "userSettingsNavDeveloperTools": "Εργαλεία προγραμματιστή",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10640,10 +10626,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Ενημερώσαμε τους όρους μας. Παρακαλούμε, ελέγξτε τους και αποδεχτείτε τους για να συνεχίσετε.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "nagbarEnableNotifications": "Ενεργοποίηση ειδοποιήσεων",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
@@ -11127,10 +11109,6 @@
                 "type": "String"
             }
         }
-    },
-    "nagbarReviewTerms": "Αναθεώρηση όρων",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarJoinCommunity": "Συμμετοχή στο {communityName}",
     "@nagbarJoinCommunity": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Τα πρόσφατα τιμολόγιά σας. Για να αλλάξετε τον τρόπο πληρωμής για τη συνδρομή σας, προσθέστε ή επιλέξτε έναν στην πύλη χρεώσεων και ορίστε τον ως προεπιλογή.",
     "premiumManagePaymentMethods": "Διαχείριση τρόπων πληρωμής",
     "premiumSelfServeRefundButton": "Επιστροφή χρημάτων τελευταίας αγοράς",
-    "premiumDisclaimerAgreementPrefix": "Με την αγορά, συμφωνείτε με τους ",
-    "premiumDisclaimerAgreementPastPrefix": "Με την αγορά, συμφωνήσατε με τους ",
-    "premiumDisclaimerAgreementMiddle": " και ",
+    "premiumDisclaimerAgreement": "{links, select, both{Με την αγορά, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.} terms{Με την αγορά, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms>.} other{Με την αγορά, αποδέχεστε την <privacy>Πολιτική απορρήτου</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Με την αγορά, αποδεχτήκατε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.} terms{Με την αγορά, αποδεχτήκατε τους <terms>Όρους παροχής υπηρεσιών</terms>.} other{Με την αγορά, αποδεχτήκατε την <privacy>Πολιτική απορρήτου</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Όροι παροχής υπηρεσιών</terms> και <privacy>Πολιτική απορρήτου</privacy>} terms{<terms>Όροι παροχής υπηρεσιών</terms>} other{<privacy>Πολιτική απορρήτου</privacy>}}",
     "premiumActiveUntil": "Ενεργό έως {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18135,7 +18113,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Οι αναφορές αποστέλλονται στο σύστημα παρακολούθησης σφαλμάτων του Fluxer, ακόμα και όταν είστε συνδεδεμένοι σε άλλη παρουσία. Δεν περιλαμβάνουν ονόματα παρουσιών, αναγνωριστικά ή περιεχόμενο μηνυμάτων.",
+    "advancedCrashReportingDescription": "Οι αναφορές αποστέλλονται στο σύστημα παρακολούθησης σφαλμάτων του Fluxer, ακόμα και όταν είστε συνδεδεμένοι σε άλλη παρουσία. Συνδέονται με ένα τυχαίο αναγνωριστικό αυτής της εγκατάστασης και δεν περιλαμβάνουν το αναγνωριστικό του λογαριασμού σας, ονόματα παρουσιών ή περιεχόμενο μηνυμάτων.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Συνδεόμενοι, αποδέχεστε τους ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Συνδεόμενοι, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms> και την <privacy>Πολιτική απορρήτου</privacy>.} terms{Συνδεόμενοι, αποδέχεστε τους <terms>Όρους παροχής υπηρεσιών</terms>.} other{Συνδεόμενοι, αποδέχεστε την <privacy>Πολιτική απορρήτου</privacy>.}}",
     "mfaPasskeyUnavailable": "Τα κλειδιά πρόσβασης από αυτήν την παρουσία δεν λειτουργούν σε αυτήν την εφαρμογή και ο λογαριασμός σας δεν έχει άλλη μέθοδο επαλήθευσης. Συνδεθείτε από το web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

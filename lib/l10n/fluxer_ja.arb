@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "同意する",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "利用規約",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": "と",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "プライバシーポリシー",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意します} terms{<terms>利用規約</terms>に同意します} other{<privacy>プライバシーポリシー</privacy>に同意します}}",
     "registerConfirmPassword": "パスワード（確認）",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxerアプリのプライバシーポリシー",
     "userSettingsNavDeveloperTools": "開発者ツール",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -9486,10 +9472,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "利用規約を更新しました。続行するには、内容を確認して同意してください。",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "systemCallJoinTheCall": "通話に参加",
     "@systemCallJoinTheCall": {
         "description": "Call-to-action button label on an in-progress call system message."
@@ -10754,10 +10736,6 @@
                 "type": "String"
             }
         }
-    },
-    "nagbarReviewTerms": "利用規約を確認",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarGuildMembershipCta": "{communityName}に参加して、チームとチャットしながら最新情報をチェックしましょう。",
     "@nagbarGuildMembershipCta": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "サブスクリプションの支払い方法を変更するには、請求ポータルで支払い方法を追加または選択し、デフォルトに設定してください。",
     "premiumManagePaymentMethods": "支払い方法を管理",
     "premiumSelfServeRefundButton": "最新の購入を返金",
-    "premiumDisclaimerAgreementPrefix": "購入することで、お客様は当社の ",
-    "premiumDisclaimerAgreementPastPrefix": "購入することで、お客様は当社の ",
-    "premiumDisclaimerAgreementMiddle": " と ",
+    "premiumDisclaimerAgreement": "{links, select, both{購入すると、<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。} terms{購入すると、<terms>利用規約</terms>に同意したものとみなされます。} other{購入すると、<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{購入時に、<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意しています。} terms{購入時に、<terms>利用規約</terms>に同意しています。} other{購入時に、<privacy>プライバシーポリシー</privacy>に同意しています。}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>} terms{<terms>利用規約</terms>} other{<privacy>プライバシーポリシー</privacy>}}",
     "premiumActiveUntil": "{date}まで有効",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18126,7 +18104,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "レポートは、別のインスタンスにサインインしている場合でも、Fluxerのエラートラッカーに送信されます。インスタンス名、ID、メッセージの内容は含まれません。",
+    "advancedCrashReportingDescription": "レポートは、別のインスタンスにサインインしている場合でも、Fluxerのエラートラッカーに送信されます。レポートはこのインストールのランダムなIDに紐づけられ、アカウントID、インスタンス名、メッセージの内容は含まれません。",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "サインインすると、次に同意したものとみなされます: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{サインインすると、<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。} terms{サインインすると、<terms>利用規約</terms>に同意したものとみなされます。} other{サインインすると、<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。}}",
     "mfaPasskeyUnavailable": "このインスタンスのパスキーはこのアプリでは使えません。また、アカウントにほかの認証方法がありません。代わりにウェブでサインインしてください。",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

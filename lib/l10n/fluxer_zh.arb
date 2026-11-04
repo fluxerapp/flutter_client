@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "我同意",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "服务条款",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": "和",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "隐私政策",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>} terms{我同意<terms>服务条款</terms>} other{我同意<privacy>隐私政策</privacy>}}",
     "registerConfirmPassword": "确认密码",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer 应用隐私政策",
     "userSettingsNavDeveloperTools": "开发者工具",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11118,14 +11104,6 @@
     "@nagbarGiftInventoryOne": {
         "description": "Gift inventory nagbar when one unread gift exists."
     },
-    "nagbarTermsAcceptance": "我们已更新条款。请查看并接受，以继续使用。",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "查看条款",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarPushNotification": "开启通知，以免错过消息和提及。",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "您最近的账单。要更改订阅的付款方式，请在账单门户中添加或选择一种并将其设为默认。",
     "premiumManagePaymentMethods": "管理付款方式",
     "premiumSelfServeRefundButton": "退款最近一次购买",
-    "premiumDisclaimerAgreementPrefix": "购买即表示您同意我们的 ",
-    "premiumDisclaimerAgreementPastPrefix": "购买即表示您同意我们的 ",
-    "premiumDisclaimerAgreementMiddle": " 和 ",
+    "premiumDisclaimerAgreement": "{links, select, both{购买即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。} terms{购买即表示你同意<terms>服务条款</terms>。} other{购买即表示你同意<privacy>隐私政策</privacy>。}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{购买时，你已同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。} terms{购买时，你已同意<terms>服务条款</terms>。} other{购买时，你已同意<privacy>隐私政策</privacy>。}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>服务条款</terms>和<privacy>隐私政策</privacy>} terms{<terms>服务条款</terms>} other{<privacy>隐私政策</privacy>}}",
     "premiumActiveUntil": "在此之前有效 {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18142,7 +18120,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告不包含实例名称、ID 或消息内容。",
+    "advancedCrashReportingDescription": "报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告会关联到此次安装的随机 ID，不包含你的账号 ID、实例名称或消息内容。",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "登录即表示你同意 ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{登录即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。} terms{登录即表示你同意<terms>服务条款</terms>。} other{登录即表示你同意<privacy>隐私政策</privacy>。}}",
     "mfaPasskeyUnavailable": "此实例的通行密钥在此应用中无法使用，且你的账号没有其他验证方式。请改为在网页版登录。",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

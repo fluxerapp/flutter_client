@@ -273,13 +273,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Aktiver totrinnsbekreftelse';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Vi har oppdatert vilkårene våre. Vennligst les og godta dem for å fortsette.';
-
-  @override
-  String get nagbarReviewTerms => 'Se gjennom vilkårene';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Bli med i $communityName for å chatte med teamet og holde deg oppdatert.';
   }
@@ -318,7 +311,16 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get logInWithPasskey => 'Logg inn med en passnøkkel';
 
   @override
-  String get loginLegalAgreementPrefix => 'Ved å logge inn godtar du ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ved å logge inn godtar du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.',
+      'terms': 'Ved å logge inn godtar du <terms>vilkårene for bruk</terms>.',
+      'other':
+          'Ved å logge inn godtar du <privacy>personvernreglene</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -863,16 +865,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get registerYear => 'År';
 
   @override
-  String get registerConsentPrefix => 'Jeg godtar ';
-
-  @override
-  String get registerConsentTerms => 'Vilkår for bruk';
-
-  @override
-  String get registerConsentAnd => ' og ';
-
-  @override
-  String get registerConsentPrivacy => 'Personvernregler';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Jeg godtar <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>',
+      'terms': 'Jeg godtar <terms>vilkårene for bruk</terms>',
+      'other': 'Jeg godtar <privacy>personvernreglene</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9898,13 +9899,37 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Refunder siste kjøp';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Ved å kjøpe godtar du våre ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ved å kjøpe godtar du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.',
+      'terms': 'Ved å kjøpe godtar du <terms>vilkårene for bruk</terms>.',
+      'other': 'Ved å kjøpe godtar du <privacy>personvernreglene</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => 'Ved kjøp godtok du våre ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ved å kjøpe godtok du <terms>vilkårene for bruk</terms> og <privacy>personvernreglene</privacy>.',
+      'terms': 'Ved å kjøpe godtok du <terms>vilkårene for bruk</terms>.',
+      'other': 'Ved å kjøpe godtok du <privacy>personvernreglene</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' og ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Vilkår for bruk</terms> og <privacy>Personvernregler</privacy>',
+      'terms': '<terms>Vilkår for bruk</terms>',
+      'other': '<privacy>Personvernregler</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10945,7 +10970,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Rapportene går til Fluxers feilsporing, også når du er logget inn på en annen instans. De inneholder ikke instansnavn, ID-er eller meldingsinnhold.';
+      'Rapportene går til Fluxers feilsporing, også når du er logget inn på en annen instans. De er knyttet til en tilfeldig ID for denne installasjonen og inneholder ikke konto-ID-en din, instansnavn eller meldingsinnhold.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11523,6 +11548,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'App-logger';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Personvernregler for Fluxer-appen';
 
   @override
   String get userSettingsTitle => 'Innstillinger';

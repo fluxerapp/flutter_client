@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Souhlasím s ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Podmínky služby",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " a ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Zásady ochrany osobních údajů",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Souhlasím s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>} terms{Souhlasím s <terms>Podmínkami služby</terms>} other{Souhlasím s <privacy>Zásadami ochrany osobních údajů</privacy>}}",
     "registerConfirmPassword": "Potvrďte heslo",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Zásady ochrany osobních údajů aplikace Fluxer",
     "userSettingsNavDeveloperTools": "Nástroje pro vývojáře",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10597,14 +10583,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Aktualizovali jsme naše podmínky. Chcete-li pokračovat, zkontrolujte je a přijměte je.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Zkontrolovat podmínky",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarPushNotification": "Povolte oznámení, abyste nepřišli o zprávy a zmínky.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Vaše nedávné faktury. Pokud chcete změnit způsob platby pro své předplatné, přidejte nebo vyberte jeden v platebním portálu a nastavte jej jako výchozí.",
     "premiumManagePaymentMethods": "Spravovat platební metody",
     "premiumSelfServeRefundButton": "Vrátit poslední nákup",
-    "premiumDisclaimerAgreementPrefix": "Zakoupením souhlasíte s našimi ",
-    "premiumDisclaimerAgreementPastPrefix": "Zakoupením jste souhlasili s našimi ",
-    "premiumDisclaimerAgreementMiddle": " a ",
+    "premiumDisclaimerAgreement": "{links, select, both{Zakoupením souhlasíte s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.} terms{Zakoupením souhlasíte s <terms>Podmínkami služby</terms>.} other{Zakoupením souhlasíte s <privacy>Zásadami ochrany osobních údajů</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Zakoupením jste souhlasili s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.} terms{Zakoupením jste souhlasili s <terms>Podmínkami služby</terms>.} other{Zakoupením jste souhlasili s <privacy>Zásadami ochrany osobních údajů</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Podmínky služby</terms> a <privacy>Zásady ochrany osobních údajů</privacy>} terms{<terms>Podmínky služby</terms>} other{<privacy>Zásady ochrany osobních údajů</privacy>}}",
     "premiumActiveUntil": "Aktivní do {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18122,7 +18100,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Zprávy se odesílají do systému sledování chyb Fluxeru, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv.",
+    "advancedCrashReportingDescription": "Zprávy se odesílají do systému sledování chyb Fluxeru, i když jste přihlášeni k jiné instanci. Jsou propojené s náhodným ID této instalace a neobsahují ID vašeho účtu, názvy instancí ani obsah zpráv.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Přihlášením souhlasíte s ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Přihlášením souhlasíte s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.} terms{Přihlášením souhlasíte s <terms>Podmínkami služby</terms>.} other{Přihlášením souhlasíte s <privacy>Zásadami ochrany osobních údajů</privacy>.}}",
     "mfaPasskeyUnavailable": "Přístupové klíče z této instance v této aplikaci nefungují a váš účet nemá žádný jiný způsob ověření. Přihlaste se místo toho na webu.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

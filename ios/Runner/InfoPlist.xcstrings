@@ -843,205 +843,205 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يحفظ Fluxer الصور ومقاطع الفيديو في مكتبتك عندما تختار حفظها من دردشة."
+            "value" : "يحفظ Fluxer في مكتبتك عندما تختار حفظ صورة أو مقطع فيديو من دردشة، أو حفظ عدة الاسترداد كصورة."
           }
         },
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer запазва снимки и видеоклипове в библиотеката ти, когато избереш да ги запазиш от чат."
+            "value" : "Fluxer запазва в библиотеката ти, когато избереш да запазиш снимка или видеоклип от чат или комплекта си за възстановяване като изображение."
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer ukládá fotky a videa do vaší knihovny, když se je rozhodnete uložit z chatu."
+            "value" : "Fluxer ukládá do vaší knihovny, když se rozhodnete uložit fotku nebo video z chatu nebo sadu pro obnovení jako obrázek."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer gemmer billeder og videoer i dit bibliotek, når du vælger at gemme dem fra en chat."
+            "value" : "Fluxer gemmer i dit bibliotek, når du vælger at gemme et billede eller en video fra en chat eller dit gendannelsessæt som et billede."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer speichert Fotos und Videos in deiner Mediathek, wenn du sie aus einem Chat speichern möchtest."
+            "value" : "Fluxer speichert in deiner Mediathek, wenn du ein Foto oder Video aus einem Chat oder dein Wiederherstellungskit als Bild speichern möchtest."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Το Fluxer αποθηκεύει φωτογραφίες και βίντεο στη βιβλιοθήκη σας όταν επιλέγετε να τα αποθηκεύσετε από μια συνομιλία."
+            "value" : "Το Fluxer αποθηκεύει στη βιβλιοθήκη σας όταν επιλέγετε να αποθηκεύσετε μια φωτογραφία ή ένα βίντεο από μια συνομιλία ή το κιτ ανάκτησής σας ως εικόνα."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer saves photos and videos to your library when you choose to save them from a chat."
+            "value" : "Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer saves photos and videos to your library when you choose to save them from a chat."
+            "value" : "Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer guarda fotos y vídeos en tu fototeca cuando decides guardarlos desde un chat."
+            "value" : "Fluxer guarda en tu fototeca cuando decides guardar una foto o un vídeo de un chat, o tu kit de recuperación como imagen."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer guarda fotos y videos en tu fototeca cuando eliges guardarlos desde un chat."
+            "value" : "Fluxer guarda en tu fototeca cuando eliges guardar una foto o un video de un chat, o tu kit de recuperación como imagen."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer tallentaa kuvia ja videoita kirjastoosi, kun valitset tallentaa ne keskustelusta."
+            "value" : "Fluxer tallentaa kirjastoosi, kun valitset tallentaa kuvan tai videon keskustelusta tai palautussarjasi kuvana."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer enregistre des photos et des vidéos dans votre photothèque quand vous choisissez de les enregistrer depuis une discussion."
+            "value" : "Fluxer enregistre dans votre photothèque quand vous choisissez d'enregistrer une photo ou une vidéo d'une discussion, ou votre kit de récupération sous forme d'image."
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer שומר תמונות וסרטונים בספרייה שלך כשאתה בוחר לשמור אותם מצ'אט."
+            "value" : "Fluxer שומר בספרייה שלך כשאתה בוחר לשמור תמונה או סרטון מצ'אט, או את ערכת השחזור שלך כתמונה."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "जब आप किसी चैट से फ़ोटो और वीडियो सेव करना चुनते हैं, तब Fluxer उन्हें आपकी लाइब्रेरी में सेव करता है।"
+            "value" : "जब आप किसी चैट से कोई फ़ोटो या वीडियो, या अपनी रिकवरी किट को छवि के रूप में सेव करना चुनते हैं, तब Fluxer उसे आपकी लाइब्रेरी में सेव करता है।"
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer sprema fotografije i videozapise u vašu biblioteku kada ih odlučite spremiti iz razgovora."
+            "value" : "Fluxer sprema u vašu biblioteku kada odlučite spremiti fotografiju ili videozapis iz razgovora ili svoj komplet za oporavak kao sliku."
           }
         },
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A Fluxer akkor ment fotókat és videókat a könyvtáradba, amikor egy csevegésből a mentésüket választod."
+            "value" : "A Fluxer akkor ment a könyvtáradba, amikor egy fotó vagy videó mentését választod egy csevegésből, vagy a helyreállító készleted mentését képként."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer menyimpan foto dan video ke galerimu saat kamu memilih untuk menyimpannya dari chat."
+            "value" : "Fluxer menyimpan ke galerimu saat kamu memilih untuk menyimpan foto atau video dari chat, atau kit pemulihanmu sebagai gambar."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer salva foto e video nella tua libreria quando scegli di salvarli da una chat."
+            "value" : "Fluxer salva nella tua libreria quando scegli di salvare una foto o un video da una chat, oppure il tuo kit di recupero come immagine."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxerは、チャットから写真や動画を保存することを選んだときに、それらをライブラリに保存します。"
+            "value" : "チャットの写真や動画、またはリカバリーキットの画像を保存することを選んだときに、Fluxerはそれをライブラリに保存します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "채팅에서 사진과 동영상을 저장하기로 선택하면 Fluxer가 보관함에 저장합니다."
+            "value" : "채팅의 사진이나 동영상, 또는 복구 키트 이미지를 저장하기로 선택하면 Fluxer가 보관함에 저장합니다."
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer išsaugo nuotraukas ir vaizdo įrašus jūsų bibliotekoje, kai pasirenkate juos išsaugoti iš pokalbio."
+            "value" : "Fluxer išsaugo jūsų bibliotekoje, kai pasirenkate išsaugoti nuotrauką ar vaizdo įrašą iš pokalbio arba savo atkūrimo rinkinį kaip vaizdą."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer lagrer bilder og videoer i biblioteket ditt når du velger å lagre dem fra en chat."
+            "value" : "Fluxer lagrer i biblioteket ditt når du velger å lagre et bilde eller en video fra en chat, eller gjenopprettingssettet ditt som et bilde."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer bewaart foto's en video's in je bibliotheek wanneer je ervoor kiest ze vanuit een chat op te slaan."
+            "value" : "Fluxer bewaart in je bibliotheek wanneer je ervoor kiest een foto of video uit een chat, of je herstelkit als afbeelding, op te slaan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer zapisuje zdjęcia i filmy w Twojej bibliotece, gdy zdecydujesz się zapisać je z czatu."
+            "value" : "Fluxer zapisuje w Twojej bibliotece, gdy zdecydujesz się zapisać zdjęcie lub film z czatu albo swój zestaw odzyskiwania jako obraz."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Fluxer salva fotos e vídeos na sua biblioteca quando você escolhe salvá-los de um chat."
+            "value" : "O Fluxer salva na sua biblioteca quando você escolhe salvar uma foto ou um vídeo de um chat, ou o seu kit de recuperação como imagem."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer salvează fotografii și videoclipuri în biblioteca ta când alegi să le salvezi dintr-un chat."
+            "value" : "Fluxer salvează în biblioteca ta când alegi să salvezi o fotografie sau un videoclip dintr-un chat, ori kitul tău de recuperare ca imagine."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer сохраняет фото и видео в вашу медиатеку, когда вы решаете сохранить их из чата."
+            "value" : "Fluxer сохраняет в вашу медиатеку, когда вы решаете сохранить фото или видео из чата либо комплект восстановления в виде изображения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer sparar bilder och videor i ditt bibliotek när du väljer att spara dem från en chatt."
+            "value" : "Fluxer sparar i ditt bibliotek när du väljer att spara en bild eller video från en chatt, eller ditt återställningskit som en bild."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer บันทึกรูปภาพและวิดีโอลงในคลังของคุณเมื่อคุณเลือกบันทึกจากแชท"
+            "value" : "Fluxer บันทึกลงในคลังของคุณเมื่อคุณเลือกบันทึกรูปภาพหรือวิดีโอจากแชท หรือบันทึกชุดกู้คืนของคุณเป็นรูปภาพ"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer, bir sohbetten kaydetmeyi seçtiğiniz fotoğrafları ve videoları arşivinize kaydeder."
+            "value" : "Fluxer, bir sohbetteki fotoğraf veya videoyu ya da kurtarma kitinizi görsel olarak kaydetmeyi seçtiğinizde arşivinize kaydeder."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer зберігає фото й відео у вашу медіатеку, коли ви вирішуєте зберегти їх із чату."
+            "value" : "Fluxer зберігає у вашу медіатеку, коли ви вирішуєте зберегти фото чи відео з чату або комплект відновлення як зображення."
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxer lưu ảnh và video vào thư viện của bạn khi bạn chọn lưu chúng từ cuộc trò chuyện."
+            "value" : "Fluxer lưu vào thư viện của bạn khi bạn chọn lưu ảnh hoặc video từ cuộc trò chuyện, hoặc lưu bộ dụng cụ khôi phục của bạn dưới dạng hình ảnh."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当你选择从聊天中保存照片和视频时，Fluxer 会将它们保存到你的图库。"
+            "value" : "当你选择保存聊天中的照片或视频，或将恢复工具包保存为图片时，Fluxer 会将其保存到你的图库。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當您選擇從聊天中儲存照片和影片時，Fluxer 會將它們儲存到您的圖庫。"
+            "value" : "當您選擇儲存聊天中的照片或影片，或將復原工具組儲存為圖片時，Fluxer 會將其儲存到您的圖庫。"
           }
         }
       }

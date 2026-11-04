@@ -256,7 +256,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Fluxer uses motion data to move the animated star background when you tilt your device.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Fluxer saves photos and videos to your library when you choose to save them from a chat.</string>
+	<string>Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Fluxer shows your photos and videos in the attachment panel so you can choose which ones to send in a chat.</string>
 	<key>NSUserActivityTypes</key>

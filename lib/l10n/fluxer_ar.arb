@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "أوافق على ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "شروط الخدمة",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " و ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "سياسة الخصوصية",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{أوافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>} terms{أوافق على <terms>شروط الخدمة</terms>} other{أوافق على <privacy>سياسة الخصوصية</privacy>}}",
     "registerConfirmPassword": "تأكيد كلمة المرور",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "سياسة خصوصية تطبيق Fluxer",
     "userSettingsNavDeveloperTools": "أدوات المطور",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10605,10 +10591,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "لقد قمنا بتحديث شروطنا. يُرجى مراجعتها وقبولها للمتابعة.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "nagbarGuildMembershipCta": "انضم إلى {communityName} للدردشة مع الفريق والبقاء على اطلاع دائم.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -10708,10 +10690,6 @@
     "nagbarViewGiftInventory": "عرض مخزون الهدايا",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
-    },
-    "nagbarReviewTerms": "مراجعة الشروط",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarPremiumExpired": "انتهت صلاحية اشتراكك في {productName}. جدّده الآن للاحتفاظ بمزاياك.",
     "@nagbarPremiumExpired": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "فواتيرك الأخيرة. لتغيير طريقة الدفع لاشتراكك، أضف واحدة أو اخترها في بوابة الفوترة واجعلها الافتراضية.",
     "premiumManagePaymentMethods": "إدارة طرق الدفع",
     "premiumSelfServeRefundButton": "استرداد آخر عملية شراء",
-    "premiumDisclaimerAgreementPrefix": "بإتمام عملية الشراء، أنت توافق على ",
-    "premiumDisclaimerAgreementPastPrefix": "بشرائك، تكون قد وافقت على ",
-    "premiumDisclaimerAgreementMiddle": " و ",
+    "premiumDisclaimerAgreement": "{links, select, both{بإتمام الشراء، فإنك توافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.} terms{بإتمام الشراء، فإنك توافق على <terms>شروط الخدمة</terms>.} other{بإتمام الشراء، فإنك توافق على <privacy>سياسة الخصوصية</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{بإتمام الشراء، فقد وافقت على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.} terms{بإتمام الشراء، فقد وافقت على <terms>شروط الخدمة</terms>.} other{بإتمام الشراء، فقد وافقت على <privacy>سياسة الخصوصية</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>} terms{<terms>شروط الخدمة</terms>} other{<privacy>سياسة الخصوصية</privacy>}}",
     "premiumActiveUntil": "نشط حتى {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18122,7 +18100,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Fluxer، حتى عندما تكون مسجّلًا الدخول إلى مثيل آخر. لا تتضمن أسماء المثيلات أو المعرّفات أو محتوى الرسائل.",
+    "advancedCrashReportingDescription": "تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Fluxer، حتى عندما تكون مسجّلًا الدخول إلى مثيل آخر. ترتبط بمعرّف عشوائي لهذا التثبيت، ولا تتضمن معرّف حسابك أو أسماء المثيلات أو محتوى الرسائل.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "بتسجيل الدخول، أنت توافق على ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{بتسجيل الدخول، فإنك توافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.} terms{بتسجيل الدخول، فإنك توافق على <terms>شروط الخدمة</terms>.} other{بتسجيل الدخول، فإنك توافق على <privacy>سياسة الخصوصية</privacy>.}}",
     "mfaPasskeyUnavailable": "مفاتيح المرور من هذا المثيل لا تعمل في هذا التطبيق، وليس لحسابك أي طريقة تحقق أخرى. سجّل الدخول عبر الويب بدلاً من ذلك.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

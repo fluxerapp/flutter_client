@@ -126,9 +126,17 @@ void main() {
         profileBadgeLinkAllowed(
           externalPurchaseLinksAllowed: false,
           officialInstance: true,
-          badge: linked('staff'),
+          badge: _badge(kind: 'staff', href: 'https://fluxer.com/careers'),
         ),
         isTrue,
+      );
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: false,
+          officialInstance: true,
+          badge: _badge(kind: 'custom', href: 'https://fluxer.com/plutonium'),
+        ),
+        isFalse,
       );
       expect(
         profileBadgeLinkAllowed(

@@ -275,13 +275,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Activează autentificarea în doi pași';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Am actualizat termenii. Te rugăm să îi revizuiești și să îi accepți pentru a continua.';
-
-  @override
-  String get nagbarReviewTerms => 'Revizuiește termenii';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Alătură-te $communityName pentru a discuta cu echipa și a fi la curent cu noutățile.';
   }
@@ -320,8 +313,17 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get logInWithPasskey => 'Autentificare cu o cheie de acces';
 
   @override
-  String get loginLegalAgreementPrefix =>
-      'Prin autentificare, ești de acord cu ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Conectându-te, ești de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.',
+      'terms':
+          'Conectându-te, ești de acord cu <terms>Termenii serviciului</terms>.',
+      'other':
+          'Conectându-te, ești de acord cu <privacy>Politica de confidențialitate</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -873,16 +875,16 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get registerYear => 'An';
 
   @override
-  String get registerConsentPrefix => 'Sunt de acord cu ';
-
-  @override
-  String get registerConsentTerms => 'Termeni și condiții';
-
-  @override
-  String get registerConsentAnd => ' și ';
-
-  @override
-  String get registerConsentPrivacy => 'Politica de confidențialitate';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Sunt de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>',
+      'terms': 'Sunt de acord cu <terms>Termenii serviciului</terms>',
+      'other':
+          'Sunt de acord cu <privacy>Politica de confidențialitate</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9954,15 +9956,41 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Restituie ultima achiziție';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Prin achiziționare, ești de acord cu termenii noștri ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Prin cumpărare, ești de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.',
+      'terms':
+          'Prin cumpărare, ești de acord cu <terms>Termenii serviciului</terms>.',
+      'other':
+          'Prin cumpărare, ești de acord cu <privacy>Politica de confidențialitate</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Prin achiziționare, ați fost de acord cu ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Prin cumpărare, ai fost de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.',
+      'terms':
+          'Prin cumpărare, ai fost de acord cu <terms>Termenii serviciului</terms>.',
+      'other':
+          'Prin cumpărare, ai fost de acord cu <privacy>Politica de confidențialitate</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' și ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Termeni și condiții</terms> și <privacy>Politica de confidențialitate</privacy>',
+      'terms': '<terms>Termeni și condiții</terms>',
+      'other': '<privacy>Politica de confidențialitate</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -11018,7 +11046,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Rapoartele ajung la sistemul de urmărire a erorilor al Fluxer, chiar dacă ești conectat la o altă instanță. Nu includ nume de instanțe, ID-uri sau conținutul mesajelor.';
+      'Rapoartele ajung la sistemul de urmărire a erorilor al Fluxer, chiar dacă ești conectat la o altă instanță. Sunt asociate cu un ID aleatoriu al acestei instalări și nu includ ID-ul contului tău, nume de instanțe sau conținutul mesajelor.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11611,6 +11639,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Jurnale aplicație';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Politica de confidențialitate a aplicației Fluxer';
 
   @override
   String get userSettingsTitle => 'Setări';

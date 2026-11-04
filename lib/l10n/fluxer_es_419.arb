@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Acepto los ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Términos del servicio",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " y ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Política de privacidad",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Acepto los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy>} terms{Acepto los <terms>Términos del servicio</terms>} other{Acepto la <privacy>Política de privacidad</privacy>}}",
     "registerConfirmPassword": "Confirmar contraseña",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6082,6 +6067,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Política de privacidad de la app Fluxer",
     "userSettingsNavDeveloperTools": "Herramientas de desarrollador",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -9554,7 +9540,7 @@
     "premiumMonthly": "Mensual",
     "premiumSubscriptionCanceling": "Cancelando",
     "keybindActionCancel": "Cancelar",
-    "premiumDisclaimerAgreementMiddle": " y ",
+    "instanceLegalLinksList": "{links, select, both{<terms>Términos del servicio</terms> y <privacy>Política de privacidad</privacy>} terms{<terms>Términos del servicio</terms>} other{<privacy>Política de privacidad</privacy>}}",
     "privacyDashboardRetry": "Reintentar",
     "@privacyDashboardRetry": {
         "description": "Retry button on privacy dashboard error state."
@@ -10417,10 +10403,6 @@
     "@savedMessagesRemoveTooltip": {
         "description": "Tooltip for removing a saved message bookmark."
     },
-    "nagbarReviewTerms": "Revisar términos",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarJoinCommunity": "Unirse a {communityName}",
     "@nagbarJoinCommunity": {
         "description": "Official community membership nagbar CTA.",
@@ -10792,10 +10774,6 @@
     "nagbarEnableMfa": "Activar 2FA",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarTermsAcceptance": "Hemos actualizado nuestros términos. Revísalos y acéptalos para continuar.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
     },
     "nagbarPushNotification": "Activa las notificaciones para no perderte mensajes y menciones.",
     "@nagbarPushNotification": {
@@ -14011,8 +13989,8 @@
     "premiumPurchaseHistoryDescription": "Tus facturas recientes. Para cambiar el método de pago de tu suscripción, agrega o elige uno en el portal de facturación y haz que sea el predeterminado.",
     "premiumManagePaymentMethods": "Administrar métodos de pago",
     "premiumSelfServeRefundButton": "Reembolsar última compra",
-    "premiumDisclaimerAgreementPrefix": "Al comprar, aceptas nuestros ",
-    "premiumDisclaimerAgreementPastPrefix": "Al comprar, aceptaste nuestros ",
+    "premiumDisclaimerAgreement": "{links, select, both{Al comprar, aceptas los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy>.} terms{Al comprar, aceptas los <terms>Términos del servicio</terms>.} other{Al comprar, aceptas la <privacy>Política de privacidad</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Al comprar, aceptaste los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy>.} terms{Al comprar, aceptaste los <terms>Términos del servicio</terms>.} other{Al comprar, aceptaste la <privacy>Política de privacidad</privacy>.}}",
     "premiumActiveUntil": "Activo hasta el {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18121,7 +18099,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Los informes se envían al sistema de seguimiento de errores de Fluxer, incluso si iniciaste sesión en otra instancia. No incluyen nombres de instancias, ID ni el contenido de los mensajes.",
+    "advancedCrashReportingDescription": "Los informes se envían al sistema de seguimiento de errores de Fluxer, incluso si iniciaste sesión en otra instancia. Están vinculados a un ID aleatorio de esta instalación y no incluyen el ID de tu cuenta, nombres de instancias ni el contenido de los mensajes.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18893,10 +18871,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Al iniciar sesión, aceptas los ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Al iniciar sesión, aceptas los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy>.} terms{Al iniciar sesión, aceptas los <terms>Términos del servicio</terms>.} other{Al iniciar sesión, aceptas la <privacy>Política de privacidad</privacy>.}}",
     "mfaPasskeyUnavailable": "Las llaves de acceso de esta instancia no funcionan en esta app, y tu cuenta no tiene otro método de verificación. Inicia sesión en la web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

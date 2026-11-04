@@ -1,4 +1,3 @@
-import 'package:fluxer_app/core/constants/policy_constants.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
@@ -193,10 +192,6 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
   );
   return NagbarConditions(
     canShowCorruptedInstallation: false,
-    canShowTermsAcceptance: _needsTermsAcceptance(
-      privateUser: privateUser,
-      isSelfHosted: isSelfHosted,
-    ),
     canShowScheduledMaintenance: canShowScheduledMaintenance,
     userIsUnclaimed: userIsUnclaimed,
     userNeedsVerification: userNeedsVerification,
@@ -226,12 +221,6 @@ Future<List<NagbarState>> visibleNagbars(Ref ref) async {
       type: NagbarType.corruptedInstallation,
       priority: -10,
       visible: conditions.canShowCorruptedInstallation,
-      dismissible: false,
-    ),
-    NagbarState(
-      type: NagbarType.termsAcceptance,
-      priority: -5,
-      visible: conditions.canShowTermsAcceptance,
       dismissible: false,
     ),
     NagbarState(
@@ -332,42 +321,6 @@ Future<List<NagbarState>> visibleNagbars(Ref ref) async {
     ),
   ];
   return selectVisibleNagbars(nagbars);
-}
-
-bool _needsTermsAcceptance({
-  required UserPrivateResponse? privateUser,
-  required bool isSelfHosted,
-}) {
-  if (privateUser == null || isSelfHosted) {
-    return false;
-  }
-  if (kTermsOfServiceLastUpdated == null && kPrivacyPolicyLastUpdated == null) {
-    return false;
-  }
-  final DateTime? termsAgreedAt = _parseDate(privateUser.termsAgreedAt);
-  final DateTime? privacyAgreedAt = _parseDate(privateUser.privacyAgreedAt);
-  final bool termsOutdated =
-      kTermsOfServiceLastUpdated != null &&
-      (termsAgreedAt == null ||
-          termsAgreedAt.toUtc().toIso8601String().compareTo(
-                kTermsOfServiceLastUpdated!,
-              ) <
-              0);
-  final bool privacyOutdated =
-      kPrivacyPolicyLastUpdated != null &&
-      (privacyAgreedAt == null ||
-          privacyAgreedAt.toUtc().toIso8601String().compareTo(
-                kPrivacyPolicyLastUpdated!,
-              ) <
-              0);
-  return termsOutdated || privacyOutdated;
-}
-
-DateTime? _parseDate(String? value) {
-  if (value == null || value.isEmpty) {
-    return null;
-  }
-  return DateTime.tryParse(value);
 }
 
 bool _canShowPremiumGracePeriod({

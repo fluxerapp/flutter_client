@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Jag godkänner ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Användarvillkor",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " och ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Integritetspolicy",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Jag godkänner <terms>användarvillkoren</terms> och <privacy>integritetspolicyn</privacy>} terms{Jag godkänner <terms>användarvillkoren</terms>} other{Jag godkänner <privacy>integritetspolicyn</privacy>}}",
     "registerConfirmPassword": "Bekräfta lösenord",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer-appens integritetspolicy",
     "userSettingsNavDeveloperTools": "Utvecklarverktyg",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10145,14 +10131,6 @@
     "nagbarEnableMfa": "Aktivera 2FA",
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
-    },
-    "nagbarTermsAcceptance": "Vi har uppdaterat våra villkor. Läs igenom och godkänn dem för att fortsätta.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Granska villkoren",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "audioAndVideoDefaultDeviceLabel": "Standard",
     "@audioAndVideoDefaultDeviceLabel": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Dina senaste fakturor. För att ändra betalningsmetod för din prenumeration, lägg till eller välj en i faktureringsportalen och gör den till standard.",
     "premiumManagePaymentMethods": "Hantera betalningsmetoder",
     "premiumSelfServeRefundButton": "Återbetala senaste köpet",
-    "premiumDisclaimerAgreementPrefix": "Genom att köpa godkänner du våra ",
-    "premiumDisclaimerAgreementPastPrefix": "Genom att köpa godkände du våra ",
-    "premiumDisclaimerAgreementMiddle": " och ",
+    "premiumDisclaimerAgreement": "{links, select, both{Genom att köpa godkänner du <terms>användarvillkoren</terms> och <privacy>integritetspolicyn</privacy>.} terms{Genom att köpa godkänner du <terms>användarvillkoren</terms>.} other{Genom att köpa godkänner du <privacy>integritetspolicyn</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Genom att köpa godkände du <terms>användarvillkoren</terms> och <privacy>integritetspolicyn</privacy>.} terms{Genom att köpa godkände du <terms>användarvillkoren</terms>.} other{Genom att köpa godkände du <privacy>integritetspolicyn</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Användarvillkor</terms> och <privacy>Integritetspolicy</privacy>} terms{<terms>Användarvillkor</terms>} other{<privacy>Integritetspolicy</privacy>}}",
     "premiumActiveUntil": "Aktiv till {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18122,7 +18100,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapporterna skickas till Fluxers felspårning, även när du är inloggad på en annan instans. De innehåller inga instansnamn, ID:n eller meddelandeinnehåll.",
+    "advancedCrashReportingDescription": "Rapporterna skickas till Fluxers felspårning, även när du är inloggad på en annan instans. De är kopplade till ett slumpmässigt ID för den här installationen och innehåller inte ditt konto-ID, instansnamn eller meddelandeinnehåll.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Genom att logga in godkänner du ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Genom att logga in godkänner du <terms>användarvillkoren</terms> och <privacy>integritetspolicyn</privacy>.} terms{Genom att logga in godkänner du <terms>användarvillkoren</terms>.} other{Genom att logga in godkänner du <privacy>integritetspolicyn</privacy>.}}",
     "mfaPasskeyUnavailable": "Lösennycklar från den här instansen fungerar inte i den här appen, och ditt konto har ingen annan verifieringsmetod. Logga in på webben i stället.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

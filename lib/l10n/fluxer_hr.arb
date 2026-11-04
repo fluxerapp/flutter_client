@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Ažurirali smo naše uvjete. Pregledajte ih i prihvatite kako biste nastavili.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Pregledaj uvjete",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Pridružite se zajednici {communityName} kako biste razgovarali s timom i bili u tijeku.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Slažem se s ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Uvjeti pružanja usluge",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " i ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Pravila privatnosti",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Slažem se s <terms>Uvjetima pružanja usluge</terms> i <privacy>Pravilima privatnosti</privacy>} terms{Slažem se s <terms>Uvjetima pružanja usluge</terms>} other{Slažem se s <privacy>Pravilima privatnosti</privacy>}}",
     "registerConfirmPassword": "Potvrdite lozinku",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Vaši nedavni računi. Da biste promijenili način plaćanja pretplate, dodajte ili odaberite jedan u portalu za naplatu i postavite ga kao zadani.",
     "premiumManagePaymentMethods": "Upravljanje načinima plaćanja",
     "premiumSelfServeRefundButton": "Vrati zadnju kupnju",
-    "premiumDisclaimerAgreementPrefix": "Kupnjom prihvaćate naše ",
-    "premiumDisclaimerAgreementPastPrefix": "Kupnjom ste prihvatili naše ",
-    "premiumDisclaimerAgreementMiddle": " i ",
+    "premiumDisclaimerAgreement": "{links, select, both{Kupnjom prihvaćate <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.} terms{Kupnjom prihvaćate <terms>Uvjete pružanja usluge</terms>.} other{Kupnjom prihvaćate <privacy>Pravila privatnosti</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Kupnjom ste prihvatili <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.} terms{Kupnjom ste prihvatili <terms>Uvjete pružanja usluge</terms>.} other{Kupnjom ste prihvatili <privacy>Pravila privatnosti</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Uvjeti pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>} terms{<terms>Uvjeti pružanja usluge</terms>} other{<privacy>Pravila privatnosti</privacy>}}",
     "premiumActiveUntil": "Aktivno do {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Pravila privatnosti aplikacije Fluxer",
     "userSettingsNavDeveloperTools": "Alati za razvojne programere",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18139,7 +18117,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Izvješća idu u Fluxerov sustav za praćenje pogrešaka, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.",
+    "advancedCrashReportingDescription": "Izvješća idu u Fluxerov sustav za praćenje pogrešaka, čak i kada ste prijavljeni na drugu instancu. Povezana su s nasumičnim ID-om ove instalacije i ne sadrže ID vašeg računa, nazive instanci ni sadržaj poruka.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Prijavom prihvaćate ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Prijavom prihvaćate <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.} terms{Prijavom prihvaćate <terms>Uvjete pružanja usluge</terms>.} other{Prijavom prihvaćate <privacy>Pravila privatnosti</privacy>.}}",
     "mfaPasskeyUnavailable": "Pristupni ključevi s ove instance ne rade u ovoj aplikaciji, a vaš račun nema drugi način provjere. Umjesto toga prijavite se na webu.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

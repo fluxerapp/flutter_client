@@ -273,13 +273,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Engedélyezd a 2FA-t';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Frissítettük a feltételeinket. Kérjük, tekintse át és fogadja el őket a folytatáshoz.';
-
-  @override
-  String get nagbarReviewTerms => 'Feltételek áttekintése';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Csatlakozz a(z) $communityName közösséghez, hogy beszélgethess a csapattal és naprakész maradj.';
   }
@@ -318,8 +311,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get logInWithPasskey => 'Bejelentkezés kulcstartóval';
 
   @override
-  String get loginLegalAgreementPrefix =>
-      'A bejelentkezéssel elfogadod a következőt: ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A bejelentkezéssel elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -872,16 +874,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerYear => 'Év';
 
   @override
-  String get registerConsentPrefix => 'Elfogadom a ';
-
-  @override
-  String get registerConsentTerms => 'Szolgáltatási feltételek';
-
-  @override
-  String get registerConsentAnd => ' és a ';
-
-  @override
-  String get registerConsentPrivacy => 'Adatvédelmi irányelvek';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Elfogadom a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>',
+      'terms': 'Elfogadom a <terms>Szolgáltatási feltételeket</terms>',
+      'other': 'Elfogadom az <privacy>Adatvédelmi irányelveket</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9960,15 +9961,41 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Legutóbbi vásárlás visszatérítése';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'A vásárlással elfogadja a következőket ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A vásárlással elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'A vásárlással elfogadta a következőket ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A vásárlással elfogadtad az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' és ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Szolgáltatási feltételek</terms> és <privacy>Adatvédelmi irányelvek</privacy>',
+      'terms': '<terms>Szolgáltatási feltételek</terms>',
+      'other': '<privacy>Adatvédelmi irányelvek</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -11030,7 +11057,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Nem tartalmaznak példányneveket, azonosítókat vagy üzenettartalmat.';
+      'A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Egy ehhez a telepítéshez tartozó véletlenszerű azonosítóhoz kapcsolódnak, és nem tartalmazzák a fiókod azonosítóját, a példányneveket vagy az üzenettartalmat.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11617,6 +11644,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Alkalmazásnaplók';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'A Fluxer alkalmazás adatvédelmi irányelvei';
 
   @override
   String get userSettingsTitle => 'Beállítások';

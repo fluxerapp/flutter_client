@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "עדכנו את התנאים שלנו. אנא עיין וקבל אותם כדי להמשיך.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "בדוק תנאים",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "הצטרף ל-{communityName} כדי לשוחח עם הצוות ולהישאר מעודכן.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "אני מסכים/ה ל- ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "תנאי שירות",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " וגם ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "מדיניות פרטיות",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{אני מסכים/ה ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>} terms{אני מסכים/ה ל<terms>תנאי השירות</terms>} other{אני מסכים/ה ל<privacy>מדיניות הפרטיות</privacy>}}",
     "registerConfirmPassword": "אישור סיסמה",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "החשבוניות האחרונות שלך. כדי לשנות את אמצעי התשלום עבור המנוי שלך, הוסף או בחר אחד בפורטל החיוב והפוך אותו לברירת מחדל.",
     "premiumManagePaymentMethods": "ניהול אמצעי תשלום",
     "premiumSelfServeRefundButton": "החזר רכישה אחרונה",
-    "premiumDisclaimerAgreementPrefix": "במסירת רכישה, אתה מסכים ל ",
-    "premiumDisclaimerAgreementPastPrefix": "במסירת רכישה, הסכמת ל ",
-    "premiumDisclaimerAgreementMiddle": " וגם ",
+    "premiumDisclaimerAgreement": "{links, select, both{ברכישה, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{ברכישה, אתה מסכים ל<terms>תנאי השירות</terms>.} other{ברכישה, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{ברכישה, הסכמת ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{ברכישה, הסכמת ל<terms>תנאי השירות</terms>.} other{ברכישה, הסכמת ל<privacy>מדיניות הפרטיות</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>תנאי שירות</terms> ו<privacy>מדיניות פרטיות</privacy>} terms{<terms>תנאי שירות</terms>} other{<privacy>מדיניות פרטיות</privacy>}}",
     "premiumActiveUntil": "פעיל עד {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "מדיניות הפרטיות של אפליקציית Fluxer",
     "userSettingsNavDeveloperTools": "כלי מפתחים",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18143,7 +18121,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם לא כוללים שמות מופעים, מזהים או תוכן הודעות.",
+    "advancedCrashReportingDescription": "הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם מקושרים למזהה אקראי של ההתקנה הזו ולא כוללים את מזהה החשבון שלך, שמות מופעים או תוכן הודעות.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "בהתחברות, אתה מאשר את ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms>.} other{בהתחברות, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.}}",
     "mfaPasskeyUnavailable": "מפתחות גישה מהמופע הזה לא עובדים באפליקציה הזו, ואין לחשבון שלך שיטת אימות אחרת. התחבר דרך האתר במקום זאת.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
