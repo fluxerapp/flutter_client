@@ -189,7 +189,7 @@ void main() {
     });
   });
 
-  test('flags a wrong password when the sheet re-prompts', () async {
+  test('flags a wrong password, then closing reports a cancellation', () async {
     final adapter = _SudoAdapter(<_Reply>[_sudoRequired, _invalidPassword]);
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = adapter;
@@ -208,7 +208,7 @@ void main() {
 
     await expectLater(
       dio.post<dynamic>('/users/@me/delete'),
-      throwsA(isA<DioException>()),
+      throwsA(predicate<Object>(isSudoCancellation)),
     );
 
     expect(challenges, hasLength(2));

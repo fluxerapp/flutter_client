@@ -2232,67 +2232,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get operatorPassHideCount => 'Skjul hvor mange Operator Pass du har';
 
   @override
-  String get operatorPassWallTitle => 'Operators-veggen';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Slik fungerer veggen';
-
-  @override
-  String get operatorPassWallNotListed => 'Ikke oppført.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'På veggen';
-
-  @override
-  String get operatorPassWallLive => 'Publisert';
-
-  @override
-  String get operatorPassWallHidden => 'Skjult av teamet vårt foreløpig.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Hvorfor?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Ikke på veggen mens fordelene dine er fjernet.';
-
-  @override
-  String get operatorPassTermsLink => 'Vilkår for Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profilendringer til veggen';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Legg til navnet mitt i den årlige Operators-listen';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Én gang i året publiserer vi en liste over Operators i merknadene til en Fluxer-utgivelse og i kildekoden. Navnet ditt på veggen kommer bare med hvis du slår på dette.';
-
-  @override
-  String get operatorPassWallSave => 'Lagre';
-
-  @override
-  String get operatorPassWallSaved => 'Lagret.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Kunne ikke lagre. Prøv igjen.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Navn på veggen';
-
-  @override
-  String get operatorPassWallDontListMe => 'Ikke før meg opp';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Skriv inn et navn, eller huk av for «Ikke før meg opp».';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Bruk 32 tegn eller færre.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maks 10 MB. Anbefalt: 512×512 piksler. Animerte avatarer (GIF) krever Plutonium.';
 
@@ -7765,6 +7704,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Videresendt fra $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Videresendt';
+
+  @override
+  String get chatForwardedFromLabel => 'Videresendt fra';
 
   @override
   String get chatReplyCancel => 'Avbryt svar';
@@ -16949,4 +16894,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Kjøp er blokkert for denne kontoen.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Får ikke kontakt med $domain. Sjekk internettforbindelsen din og prøv igjen.';
+  }
 }

@@ -102,6 +102,7 @@ Widget mobileSidebarForLocation(
     child: SafeArea(
       bottom: false,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
             padding: EdgeInsetsDirectional.only(end: peekContentInset),

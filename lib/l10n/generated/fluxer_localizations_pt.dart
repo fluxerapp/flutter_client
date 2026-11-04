@@ -2242,69 +2242,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get operatorPassHideCount => 'Ocultar quantos Operator Pass você tem';
 
   @override
-  String get operatorPassWallTitle => 'Mural de Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Como funciona o mural';
-
-  @override
-  String get operatorPassWallNotListed => 'Não listado.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'No mural';
-
-  @override
-  String get operatorPassWallLive => 'Publicado';
-
-  @override
-  String get operatorPassWallHidden => 'Oculto pela nossa equipe por enquanto.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Por quê?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Fora do mural enquanto seus benefícios estiverem removidos.';
-
-  @override
-  String get operatorPassTermsLink => 'Termos do Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Enviar alterações de perfil para o mural';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Adicionar meu nome à lista anual de Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Uma vez por ano, publicamos uma lista de Operators nas notas de uma versão do Fluxer e no código-fonte dela. Seu nome no mural só aparece nela se você ativar esta opção.';
-
-  @override
-  String get operatorPassWallSave => 'Salvar';
-
-  @override
-  String get operatorPassWallSaved => 'Salvo.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Não foi possível salvar. Tente novamente.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nome no mural';
-
-  @override
-  String get operatorPassWallDontListMe => 'Não me listar';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Digite um nome ou marque Não me listar.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use no máximo 32 caracteres.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Máx. 10MB. Recomendado: 512×512px. Avatares animados (GIF) exigem Plutonium.';
 
@@ -7800,6 +7737,12 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Encaminhada de $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Encaminhada';
+
+  @override
+  String get chatForwardedFromLabel => 'Encaminhada de';
 
   @override
   String get chatReplyCancel => 'Cancelar resposta';
@@ -17055,6 +16998,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'O checkout está bloqueado para esta conta.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Não foi possível se conectar a $domain. Verifique sua conexão com a internet e tente novamente.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -19290,69 +19238,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get operatorPassHideCount => 'Ocultar quantos Operator Pass você tem';
-
-  @override
-  String get operatorPassWallTitle => 'Mural de Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Como funciona o mural';
-
-  @override
-  String get operatorPassWallNotListed => 'Não listado.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'No mural';
-
-  @override
-  String get operatorPassWallLive => 'Publicado';
-
-  @override
-  String get operatorPassWallHidden => 'Oculto pela nossa equipe por enquanto.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Por quê?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Fora do mural enquanto seus benefícios estiverem removidos.';
-
-  @override
-  String get operatorPassTermsLink => 'Termos do Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Enviar alterações de perfil para o mural';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Adicionar meu nome à lista anual de Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Uma vez por ano, publicamos uma lista de Operators nas notas de uma versão do Fluxer e no código-fonte dela. Seu nome no mural só aparece nela se você ativar esta opção.';
-
-  @override
-  String get operatorPassWallSave => 'Salvar';
-
-  @override
-  String get operatorPassWallSaved => 'Salvo.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Não foi possível salvar. Tente novamente.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nome no mural';
-
-  @override
-  String get operatorPassWallDontListMe => 'Não me listar';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Digite um nome ou marque Não me listar.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use no máximo 32 caracteres.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -24856,6 +24741,12 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String chatForwardedFrom(String source) {
     return 'Encaminhada de $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Encaminhada';
+
+  @override
+  String get chatForwardedFromLabel => 'Encaminhada de';
 
   @override
   String get chatReplyCancel => 'Cancelar resposta';
@@ -34118,4 +34009,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'A finalização da compra está bloqueada para esta conta.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Não foi possível se conectar a $domain. Verifique sua conexão com a internet e tente novamente.';
+  }
 }

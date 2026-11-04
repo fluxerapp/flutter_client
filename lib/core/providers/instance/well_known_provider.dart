@@ -57,11 +57,17 @@ class WellKnown extends _$WellKnown {
       state = AsyncData<WellKnownFluxerResponse>(response);
       await _persistSnapshot(response);
     } on InstanceDiscoveryException catch (error, stackTrace) {
+      if (!ref.mounted) {
+        return;
+      }
       if (silent && state.hasValue && !_isCompatibilityFailure(error)) {
         return;
       }
       state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
     } on Object catch (error, stackTrace) {
+      if (!ref.mounted) {
+        return;
+      }
       if (silent && state.hasValue) {
         return;
       }

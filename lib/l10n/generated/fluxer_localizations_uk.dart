@@ -2258,69 +2258,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Приховати, скільки у вас пропусків Operator Pass';
 
   @override
-  String get operatorPassWallTitle => 'Стіна Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Як працює стіна';
-
-  @override
-  String get operatorPassWallNotListed => 'Немає на стіні.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'На стіні';
-
-  @override
-  String get operatorPassWallLive => 'Опубліковано';
-
-  @override
-  String get operatorPassWallHidden => 'Тимчасово приховано нашою командою.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Чому?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Не показується на стіні, поки ваші переваги скасовано.';
-
-  @override
-  String get operatorPassTermsLink => 'Умови Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Надсилати зміни профілю на стіну';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Додати моє ім\'я до щорічного списку Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Раз на рік ми публікуємо список Operators у примітках до випуску Fluxer і в його вихідному коді. Ваше ім\'я на стіні потрапить до нього, лише якщо ви це ввімкнете.';
-
-  @override
-  String get operatorPassWallSave => 'Зберегти';
-
-  @override
-  String get operatorPassWallSaved => 'Збережено.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Не вдалося зберегти. Спробуйте ще раз.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Ім\'я на стіні';
-
-  @override
-  String get operatorPassWallDontListMe => 'Не показувати мене';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Введіть ім\'я або позначте «Не показувати мене».';
-
-  @override
-  String get operatorPassWallNameTooLong =>
-      'Використовуйте не більше 32 символів.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Макс. 10 МБ. Рекомендовано: 512×512px. Анімовані аватари (GIF) потребують Plutonium.';
 
@@ -7839,6 +7776,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Переслано з $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Переслано';
+
+  @override
+  String get chatForwardedFromLabel => 'Переслано з';
 
   @override
   String get chatReplyCancel => 'Скасувати відповідь';
@@ -17104,4 +17047,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Оформлення замовлення для цього облікового запису заблоковано.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Не вдається підключитися до $domain. Перевірте з\'єднання з інтернетом і спробуйте ще раз.';
+  }
 }

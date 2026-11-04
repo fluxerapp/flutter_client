@@ -2220,68 +2220,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Sembunyikan jumlah Operator Pass yang kamu punya';
 
   @override
-  String get operatorPassWallTitle => 'Dinding Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Cara kerja dinding';
-
-  @override
-  String get operatorPassWallNotListed => 'Tidak dicantumkan.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Di dinding';
-
-  @override
-  String get operatorPassWallLive => 'Tayang';
-
-  @override
-  String get operatorPassWallHidden =>
-      'Disembunyikan oleh tim kami untuk saat ini.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Mengapa?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Tidak ditampilkan di dinding selama keuntunganmu dicabut.';
-
-  @override
-  String get operatorPassTermsLink => 'Ketentuan Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Kirim perubahan profil ke dinding';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Tambahkan nama saya ke daftar Operators tahunan';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Setahun sekali, kami menerbitkan daftar Operators di catatan rilis Fluxer dan di kode sumbernya. Namamu di dinding hanya masuk ke daftar itu jika kamu mengaktifkan ini.';
-
-  @override
-  String get operatorPassWallSave => 'Simpan';
-
-  @override
-  String get operatorPassWallSaved => 'Disimpan.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Tidak dapat menyimpan. Coba lagi.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nama di dinding';
-
-  @override
-  String get operatorPassWallDontListMe => 'Jangan cantumkan saya';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Masukkan nama, atau centang \"Jangan cantumkan saya\".';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Gunakan 32 karakter atau kurang.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maks 10MB. Rekomendasi: 512×512px. Avatar animasi (GIF) memerlukan Plutonium.';
 
@@ -7744,6 +7682,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Diteruskan dari $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Diteruskan';
+
+  @override
+  String get chatForwardedFromLabel => 'Diteruskan dari';
 
   @override
   String get chatReplyCancel => 'Batalkan balasan';
@@ -16927,4 +16871,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Pembayaran diblokir untuk akun ini.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Tidak dapat terhubung ke $domain. Periksa koneksi internetmu, lalu coba lagi.';
+  }
 }

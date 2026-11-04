@@ -389,6 +389,13 @@ Future<MatureMediaPolicy> matureMediaPolicy(
   );
 }
 
+bool watchMatureContentGateUp(WidgetRef ref, String channelId) {
+  final AsyncValue<bool> gate = ref.watch(
+    shouldShowMatureContentGateProvider(channelId),
+  );
+  return gate.hasError || (gate.value ?? true);
+}
+
 bool watchMatureChannelLocked(WidgetRef ref, String channelId) {
   final MatureAccess access = ref.watch(
     sensitiveContentProvider.select((SensitiveContentState s) => s.access),

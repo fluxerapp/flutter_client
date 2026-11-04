@@ -2238,69 +2238,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get operatorPassHideCount => 'Dölj hur många Operator Pass du har';
 
   @override
-  String get operatorPassWallTitle => 'Operators-väggen';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Så fungerar väggen';
-
-  @override
-  String get operatorPassWallNotListed => 'Inte listad.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'På väggen';
-
-  @override
-  String get operatorPassWallLive => 'Publicerat';
-
-  @override
-  String get operatorPassWallHidden => 'Dold av vårt team tills vidare.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Varför?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Borttaget från väggen medan dina förmåner är borttagna.';
-
-  @override
-  String get operatorPassTermsLink => 'Villkor för Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Skicka profiländringar till väggen';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Lägg till mitt namn i den årliga Operators-listan';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'En gång om året publicerar vi en lista över Operators i versionsanteckningarna för en Fluxer-version och i dess källkod. Ditt väggnamn finns bara med om du aktiverar det här.';
-
-  @override
-  String get operatorPassWallSave => 'Spara';
-
-  @override
-  String get operatorPassWallSaved => 'Sparad.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Det gick inte att spara. Försök igen.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Namn på väggen';
-
-  @override
-  String get operatorPassWallDontListMe => 'Lista mig inte';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Ange ett namn eller markera ”Lista mig inte”.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Använd högst 32 tecken.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max 10MB. Rekommenderas: 512×512px. Animerade avatarer (GIF) kräver Plutonium.';
 
@@ -7782,6 +7719,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Vidarebefordrat från $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Vidarebefordrat';
+
+  @override
+  String get chatForwardedFromLabel => 'Vidarebefordrat från';
 
   @override
   String get chatReplyCancel => 'Avbryt svar';
@@ -16980,4 +16923,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Kassan är blockerad för det här kontot.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Det går inte att ansluta till $domain. Kontrollera din internetanslutning och försök igen.';
+  }
 }

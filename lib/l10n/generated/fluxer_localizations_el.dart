@@ -2257,69 +2257,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Απόκρυψη του αριθμού των Operator Pass που έχετε';
 
   @override
-  String get operatorPassWallTitle => 'Τοίχος Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Πώς λειτουργεί ο τοίχος';
-
-  @override
-  String get operatorPassWallNotListed => 'Δεν εμφανίζεται στον τοίχο.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Στον τοίχο';
-
-  @override
-  String get operatorPassWallLive => 'Δημοσιευμένο';
-
-  @override
-  String get operatorPassWallHidden => 'Κρυφό από την ομάδα μας προς το παρόν.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Γιατί;';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Εκτός τοίχου όσο τα προνόμιά σας έχουν αφαιρεθεί.';
-
-  @override
-  String get operatorPassTermsLink => 'Όροι του Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Αποστολή αλλαγών προφίλ στον τοίχο';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Προσθήκη του ονόματός μου στην ετήσια λίστα των Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Μία φορά τον χρόνο δημοσιεύουμε μια λίστα με τους Operators στις σημειώσεις μιας έκδοσης του Fluxer και στον πηγαίο κώδικά της. Το όνομά σας στον τοίχο μπαίνει σε αυτήν μόνο αν το ενεργοποιήσετε.';
-
-  @override
-  String get operatorPassWallSave => 'Αποθήκευση';
-
-  @override
-  String get operatorPassWallSaved => 'Αποθηκεύτηκε.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Δεν ήταν δυνατή η αποθήκευση. Δοκιμάστε ξανά.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Όνομα στον τοίχο';
-
-  @override
-  String get operatorPassWallDontListMe => 'Να μην εμφανίζομαι';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Εισαγάγετε ένα όνομα ή επιλέξτε «Να μην εμφανίζομαι».';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Χρησιμοποιήστε έως 32 χαρακτήρες.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Μέγιστο 10MB. Συνιστάται: 512×512px. Οι κινούμενες εικόνες προφίλ (GIF) απαιτούν Plutonium.';
 
@@ -7854,6 +7791,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Προωθήθηκε από $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Προωθήθηκε';
+
+  @override
+  String get chatForwardedFromLabel => 'Προωθήθηκε από';
 
   @override
   String get chatReplyCancel => 'Ακύρωση απάντησης';
@@ -17205,4 +17148,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Η ολοκλήρωση αγοράς έχει αποκλειστεί για αυτόν τον λογαριασμό.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Δεν είναι δυνατή η σύνδεση με το $domain. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο και δοκιμάστε ξανά.';
+  }
 }

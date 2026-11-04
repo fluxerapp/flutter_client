@@ -25,10 +25,12 @@ import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_header_buttons.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -70,11 +72,12 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         targetId != null &&
         (ref.watch(channelUnreadProvider(targetId)).value?.hasUnreadPins ??
             false);
-    final bool showPins = shouldShowPinsForContext(channel: channel, dm: dm);
-    final bool showSearch = shouldShowSearchForContext(
-      channel: channel,
-      dm: dm,
-    );
+    final bool matureGateUp =
+        targetId != null && watchMatureContentGateUp(ref, targetId);
+    final bool showPins =
+        !matureGateUp && shouldShowPinsForContext(channel: channel, dm: dm);
+    final bool showSearch =
+        !matureGateUp && shouldShowSearchForContext(channel: channel, dm: dm);
     final bool showMembers = shouldShowMemberListToggle(
       channel: channel,
       dm: dm,
@@ -283,7 +286,13 @@ class _FavoriteStarButton extends ConsumerWidget {
           isDm: dm != null,
         ),
         nickname:
-            channel?.name ??
+            (channel == null
+                ? null
+                : readThreadTitleText(
+                    ref,
+                    channel!,
+                    FluxerLocalizations.of(context),
+                  )) ??
             (dm == null
                 ? null
                 : dmConversationDisplayName(

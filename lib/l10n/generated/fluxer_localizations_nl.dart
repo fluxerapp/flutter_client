@@ -2241,69 +2241,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get operatorPassHideCount => 'Verberg hoeveel Operator Passes je hebt';
 
   @override
-  String get operatorPassWallTitle => 'Operators-muur';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Hoe de muur werkt';
-
-  @override
-  String get operatorPassWallNotListed => 'Niet vermeld.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Op de muur';
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String get operatorPassWallHidden => 'Tijdelijk verborgen door ons team.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Waarom?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Niet op de muur zolang je voordelen zijn ingetrokken.';
-
-  @override
-  String get operatorPassTermsLink => 'Voorwaarden van de Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Profielwijzigingen naar de muur sturen';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Mijn naam toevoegen aan de jaarlijkse Operators-lijst';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Eén keer per jaar publiceren we een lijst met Operators in de releaseopmerkingen van een Fluxer-release en in de broncode ervan. Je naam op de muur staat er alleen op als je dit inschakelt.';
-
-  @override
-  String get operatorPassWallSave => 'Opslaan';
-
-  @override
-  String get operatorPassWallSaved => 'Opgeslagen.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Kon niet opslaan. Probeer het opnieuw.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Naam op de muur';
-
-  @override
-  String get operatorPassWallDontListMe => 'Mij niet vermelden';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Voer een naam in of vink \"Mij niet vermelden\" aan.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Gebruik maximaal 32 tekens.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max. 10 MB. Aanbevolen: 512×512px. Geanimeerde avatars (GIF) vereisen Plutonium.';
 
@@ -7797,6 +7734,12 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Doorgestuurd vanuit $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Doorgestuurd';
+
+  @override
+  String get chatForwardedFromLabel => 'Doorgestuurd vanuit';
 
   @override
   String get chatReplyCancel => 'Antwoord annuleren';
@@ -17042,4 +16985,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Afrekenen is geblokkeerd voor dit account.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Kan geen verbinding maken met $domain. Controleer je internetverbinding en probeer het opnieuw.';
+  }
 }

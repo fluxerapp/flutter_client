@@ -238,8 +238,13 @@ class _CodeEntryState extends ConsumerState<_CodeEntry>
   }
 
   void _toggleBackupCode() {
+    _codeFocusNode.unfocus();
     setState(() => _backupCode = !_backupCode);
-    _codeFocusNode.requestFocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _codeFocusNode.requestFocus();
+      }
+    });
   }
 
   @override

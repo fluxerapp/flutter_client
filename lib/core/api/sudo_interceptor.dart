@@ -170,7 +170,7 @@ class SudoInterceptor extends Interceptor {
 
         if (credentials == null || credentials.isEmpty) {
           talker.debug('[SudoInterceptor] User cancelled verification');
-          handler.next(lastError);
+          handler.next(err);
           return;
         }
 

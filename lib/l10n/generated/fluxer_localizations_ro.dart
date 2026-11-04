@@ -2255,70 +2255,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get operatorPassHideCount => 'Ascunde câte Operator Pass-uri ai';
 
   @override
-  String get operatorPassWallTitle => 'Peretele Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Cum funcționează peretele';
-
-  @override
-  String get operatorPassWallNotListed => 'Neafișat.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Pe perete';
-
-  @override
-  String get operatorPassWallLive => 'Publicat';
-
-  @override
-  String get operatorPassWallHidden => 'Ascuns de echipa noastră deocamdată.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'De ce?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Scos de pe perete cât timp beneficiile tale sunt retrase.';
-
-  @override
-  String get operatorPassTermsLink => 'Termenii Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Trimite modificările de profil pe perete';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Adaugă-mi numele în lista anuală de Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'O dată pe an publicăm o listă de Operators în notele unei versiuni Fluxer și în codul ei sursă. Numele tău de pe perete apare în ea doar dacă activezi această opțiune.';
-
-  @override
-  String get operatorPassWallSave => 'Salvează';
-
-  @override
-  String get operatorPassWallSaved => 'Salvat.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Nu am putut salva. Încearcă din nou.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Numele de pe perete';
-
-  @override
-  String get operatorPassWallDontListMe => 'Nu mă afișa';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Introdu un nume sau bifează „Nu mă afișa”.';
-
-  @override
-  String get operatorPassWallNameTooLong =>
-      'Folosește cel mult 32 de caractere.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maxim 10 MB. Recomandat: 512×512 px. Avatarele animate (GIF) necesită Plutonium.';
 
@@ -7820,6 +7756,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Redirecționat din $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Redirecționat';
+
+  @override
+  String get chatForwardedFromLabel => 'Redirecționat din';
 
   @override
   String get chatReplyCancel => 'Anulează răspunsul';
@@ -17104,4 +17046,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Finalizarea comenzii este blocată pentru acest cont.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nu se poate realiza conexiunea la $domain. Verifică conexiunea la internet și încearcă din nou.';
+  }
 }

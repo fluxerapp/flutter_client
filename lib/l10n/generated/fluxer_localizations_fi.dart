@@ -2237,69 +2237,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get operatorPassHideCount => 'Piilota Operator Passiesi määrä';
 
   @override
-  String get operatorPassWallTitle => 'Operators-seinä';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Miten seinä toimii';
-
-  @override
-  String get operatorPassWallNotListed => 'Ei listattu.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Seinällä';
-
-  @override
-  String get operatorPassWallLive => 'Julkaistu';
-
-  @override
-  String get operatorPassWallHidden =>
-      'Tiimimme on piilottanut tämän toistaiseksi.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Miksi?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Poissa seinältä niin kauan kuin etusi on poistettu.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass -ehdot';
-
-  @override
-  String get operatorPassWallSendChanges => 'Lähetä profiilimuutokset seinälle';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Lisää nimeni vuosittaiseen Operators-listaan';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Kerran vuodessa julkaisemme Operators-listan erään Fluxer-julkaisun julkaisutiedoissa ja sen lähdekoodissa. Seinänimesi on listalla vain, jos otat tämän käyttöön.';
-
-  @override
-  String get operatorPassWallSave => 'Tallenna';
-
-  @override
-  String get operatorPassWallSaved => 'Tallennettu.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Tallennus epäonnistui. Yritä uudelleen.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nimi seinällä';
-
-  @override
-  String get operatorPassWallDontListMe => 'Älä listaa minua';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Anna nimi tai valitse ”Älä listaa minua”.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Käytä enintään 32 merkkiä.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max 10MB. Suositus: 512×512px. Animoitu avatar (GIF) vaatii Plutoniumin.';
 
@@ -7779,6 +7716,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Välitetty kohteesta $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Välitetty';
+
+  @override
+  String get chatForwardedFromLabel => 'Välitetty kohteesta';
 
   @override
   String get chatReplyCancel => 'Peruuta vastaus';
@@ -16972,4 +16915,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Ostaminen on estetty tällä tilillä.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Yhteyttä palveluun $domain ei saada. Tarkista internetyhteytesi ja yritä uudelleen.';
+  }
 }

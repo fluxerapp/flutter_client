@@ -2261,70 +2261,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Slėpti, kiek turite Operator Pass leidimų';
 
   @override
-  String get operatorPassWallTitle => 'Operators siena';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Kaip veikia siena';
-
-  @override
-  String get operatorPassWallNotListed => 'Nerodoma sienoje.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Sienoje';
-
-  @override
-  String get operatorPassWallLive => 'Rodoma';
-
-  @override
-  String get operatorPassWallHidden => 'Mūsų komanda laikinai paslėpė.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Kodėl?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Nerodoma sienoje, kol jūsų privalumai pašalinti.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass sąlygos';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Siųsti profilio pakeitimus į sieną';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Įtraukti mano vardą į metinį Operators sąrašą';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Kartą per metus Operators sąrašą skelbiame Fluxer leidimo pastabose ir jo šaltinio kode. Jūsų vardas iš sienos jame bus tik tada, jei tai įjungsite.';
-
-  @override
-  String get operatorPassWallSave => 'Išsaugoti';
-
-  @override
-  String get operatorPassWallSaved => 'Išsaugota.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Nepavyko išsaugoti. Bandykite dar kartą.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Vardas sienoje';
-
-  @override
-  String get operatorPassWallDontListMe => 'Neįtraukti manęs';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Įveskite vardą arba pažymėkite „Neįtraukti manęs“.';
-
-  @override
-  String get operatorPassWallNameTooLong =>
-      'Naudokite ne daugiau kaip 32 simbolius.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Daugiausiai 10MB. Rekomenduojama: 512×512px. Animaciniams avatarams (GIF) reikia Plutonium.';
 
@@ -7860,6 +7796,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Persiųsta iš $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Persiųsta';
+
+  @override
+  String get chatForwardedFromLabel => 'Persiųsta iš';
 
   @override
   String get chatReplyCancel => 'Atšaukti atsakymą';
@@ -17097,4 +17039,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Apmokėjimas šiai paskyrai užblokuotas.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nepavyksta prisijungti prie $domain. Patikrinkite interneto ryšį ir bandykite dar kartą.';
+  }
 }

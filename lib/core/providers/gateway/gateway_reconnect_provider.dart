@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -551,16 +552,30 @@ void gatewayReconnectBannerListener(Ref ref) {
         state == GatewayState.reconnecting;
   }
 
-  ref.listen<bool>(gatewayConnectionFailedProvider, (
-    bool? previous,
-    bool next,
-  ) {
-    if (!next) {
-      return;
-    }
-    clearPendingReconnectBanner();
-    hideBanner();
-  });
+  ref
+    ..listen<bool>(gatewayConnectionFailedProvider, (
+      bool? previous,
+      bool next,
+    ) {
+      if (!next) {
+        return;
+      }
+      clearPendingReconnectBanner();
+      hideBanner();
+    })
+    ..listen<StartupGatewayFallback>(startupGatewayFallbackProvider, (
+      StartupGatewayFallback? previous,
+      StartupGatewayFallback next,
+    ) {
+      if (next != StartupGatewayFallback.cachedShell ||
+          connection.state == GatewayState.connected ||
+          ref.read(gatewayConnectionFailedProvider)) {
+        return;
+      }
+      clearPendingReconnectBanner();
+      reconnectBannerShown = true;
+      ref.read(gatewayReconnectBannerProvider.notifier).showReconnecting();
+    });
 
   final subscription = connection.stateChanges.listen((GatewayState state) {
     if (ref.read(gatewayConnectionFailedProvider)) {
@@ -571,12 +586,20 @@ void gatewayReconnectBannerListener(Ref ref) {
     }
     final GatewayState? prior = previousState;
     previousState = state;
+    final bool isConnected = state == GatewayState.connected;
+    if (isConnected) {
+      clearPendingReconnectBanner();
+      if (reconnectBannerShown) {
+        reconnectBannerShown = false;
+        ref.read(gatewayReconnectBannerProvider.notifier).showConnected();
+      }
+      return;
+    }
     if (prior == null) {
       return;
     }
     final bool wasConnected = prior == GatewayState.connected;
     final bool isReconnecting = isReconnectingState(state);
-    final bool isConnected = state == GatewayState.connected;
     if (wasConnected && isReconnecting) {
       final GatewayReconnectBanner banner = ref.read(
         gatewayReconnectBannerProvider.notifier,
@@ -601,16 +624,6 @@ void gatewayReconnectBannerListener(Ref ref) {
           ref.read(gatewayReconnectBannerProvider.notifier).showReconnecting();
         });
       }
-    }
-    if (isConnected && isReconnectingState(prior)) {
-      clearPendingReconnectBanner();
-      if (reconnectBannerShown) {
-        reconnectBannerShown = false;
-        ref.read(gatewayReconnectBannerProvider.notifier).showConnected();
-      }
-    }
-    if (isConnected) {
-      reconnectBannerShown = false;
     }
   });
 

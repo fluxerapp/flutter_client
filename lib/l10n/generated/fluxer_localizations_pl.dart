@@ -2267,69 +2267,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Ukryj, ile masz przepustek Operator Pass';
 
   @override
-  String get operatorPassWallTitle => 'Ściana Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Jak działa ściana';
-
-  @override
-  String get operatorPassWallNotListed => 'Nie jest na liście.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Na ścianie';
-
-  @override
-  String get operatorPassWallLive => 'Widoczna';
-
-  @override
-  String get operatorPassWallHidden => 'Tymczasowo ukryte przez nasz zespół.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Dlaczego?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Poza ścianą, dopóki Twoje korzyści są odebrane.';
-
-  @override
-  String get operatorPassTermsLink => 'Warunki Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Przesyłaj zmiany profilu na ścianę';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Dodaj moją nazwę do corocznej listy Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Raz w roku publikujemy listę Operators w informacjach o wydaniu Fluxer i w jego kodzie źródłowym. Twoja nazwa ze ściany znajdzie się na niej tylko wtedy, gdy to włączysz.';
-
-  @override
-  String get operatorPassWallSave => 'Zapisz';
-
-  @override
-  String get operatorPassWallSaved => 'Zapisano.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Nie udało się zapisać. Spróbuj ponownie.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nazwa na ścianie';
-
-  @override
-  String get operatorPassWallDontListMe => 'Nie umieszczaj mnie na liście';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Wpisz nazwę lub zaznacz „Nie umieszczaj mnie na liście”.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Użyj maksymalnie 32 znaków.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maks. 10 MB. Zalecane: 512×512 px. Animowane awatary (GIF) wymagają Plutonium.';
 
@@ -7855,6 +7792,12 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Przekazano dalej z: $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Przekazano dalej';
+
+  @override
+  String get chatForwardedFromLabel => 'Przekazano dalej z:';
 
   @override
   String get chatReplyCancel => 'Anuluj odpowiedź';
@@ -17127,4 +17070,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Płatność jest zablokowana dla tego konta.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nie można połączyć się z $domain. Sprawdź połączenie z internetem i spróbuj ponownie.';
+  }
 }

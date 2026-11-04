@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_navigator_observer.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -167,6 +168,7 @@ GoRouter fluxerRouter(Ref ref) {
       (_, _) => refreshNotifier.notify(),
     )
     ..listen(gatewayReadyProvider, (_, _) => refreshNotifier.notify())
+    ..listen(startupGatewayFallbackProvider, (_, _) => refreshNotifier.notify())
     ..listen(splashExitAllowedProvider, (_, _) => refreshNotifier.notify())
     ..listen(appStartupProvider, (_, _) => refreshNotifier.notify())
     ..listen(accountManagerProvider, (_, _) => refreshNotifier.notify())
@@ -253,8 +255,12 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
+      final bool showCachedShell =
+          ref.read(startupGatewayFallbackProvider) ==
+          StartupGatewayFallback.cachedShell;
       if (isAuthenticated &&
           !isGatewayReady &&
+          !showCachedShell &&
           !isOnReconnecting &&
           !isAddingAccount) {
         if (!isOnLoading) {

@@ -2095,64 +2095,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get operatorPassHideCount => '隐藏你拥有的 Operator Pass 数量';
 
   @override
-  String get operatorPassWallTitle => 'Operators 墙';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Operators 墙说明';
-
-  @override
-  String get operatorPassWallNotListed => '未列出';
-
-  @override
-  String get operatorPassWallOnTheWall => '在墙上';
-
-  @override
-  String get operatorPassWallLive => '已上墙';
-
-  @override
-  String get operatorPassWallHidden => '暂时由我们团队隐藏。';
-
-  @override
-  String get operatorPassWallHiddenWhy => '为什么？';
-
-  @override
-  String get operatorPassWallRemoved => '你的权益被移除期间，你不会显示在墙上。';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass 条款';
-
-  @override
-  String get operatorPassWallSendChanges => '将个人资料更改同步到 Operators 墙';
-
-  @override
-  String get operatorPassWallReleaseList => '将我的名字加入年度 Operators 名单';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      '我们每年会在一个 Fluxer 版本的发布说明及其源代码中公布一份 Operators 名单。只有开启此选项，你在墙上的名字才会出现在名单中。';
-
-  @override
-  String get operatorPassWallSave => '保存';
-
-  @override
-  String get operatorPassWallSaved => '已保存。';
-
-  @override
-  String get operatorPassWallSaveFailed => '保存失败。请重试。';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => '在墙上显示的名字';
-
-  @override
-  String get operatorPassWallDontListMe => '不要列出我';
-
-  @override
-  String get operatorPassWallNameRequired => '请输入一个名字，或勾选“不要列出我”。';
-
-  @override
-  String get operatorPassWallNameTooLong => '请使用不超过 32 个字符。';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG、PNG、WebP。最大 10MB。推荐：512×512px。动态头像 (GIF) 需要 Plutonium。';
 
@@ -7287,6 +7229,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return '转发自 $source';
   }
+
+  @override
+  String get chatForwardedLabel => '已转发';
+
+  @override
+  String get chatForwardedFromLabel => '转发自';
 
   @override
   String get chatReplyCancel => '取消回复';
@@ -15817,6 +15765,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '此账号已被限制结账。';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '无法连接到 $domain。请检查你的网络连接，然后重试。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -17906,64 +17859,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get operatorPassHideCount => '隱藏您擁有的 Operator Pass 數量';
-
-  @override
-  String get operatorPassWallTitle => 'Operators 牆';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Operators 牆說明';
-
-  @override
-  String get operatorPassWallNotListed => '未列出';
-
-  @override
-  String get operatorPassWallOnTheWall => '在牆上';
-
-  @override
-  String get operatorPassWallLive => '已上牆';
-
-  @override
-  String get operatorPassWallHidden => '暫時由我們團隊隱藏。';
-
-  @override
-  String get operatorPassWallHiddenWhy => '為什麼？';
-
-  @override
-  String get operatorPassWallRemoved => '您的福利遭移除期間，您不會出現在牆上。';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass 條款';
-
-  @override
-  String get operatorPassWallSendChanges => '將個人檔案變更同步到 Operators 牆';
-
-  @override
-  String get operatorPassWallReleaseList => '將我的名字加入年度 Operators 名單';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      '我們每年會在某個 Fluxer 版本的版本說明和原始碼中公布一份 Operators 名單。只有在您開啟此選項時，您在牆上的名字才會列入其中。';
-
-  @override
-  String get operatorPassWallSave => '儲存';
-
-  @override
-  String get operatorPassWallSaved => '已儲存。';
-
-  @override
-  String get operatorPassWallSaveFailed => '儲存失敗。請再試一次。';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => '在牆上顯示的名字';
-
-  @override
-  String get operatorPassWallDontListMe => '不要列出我';
-
-  @override
-  String get operatorPassWallNameRequired => '請輸入名字，或勾選「不要列出我」。';
-
-  @override
-  String get operatorPassWallNameTooLong => '請使用不超過 32 個字元。';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -23103,6 +22998,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String chatForwardedFrom(String source) {
     return '轉寄自 $source';
   }
+
+  @override
+  String get chatForwardedLabel => '已轉寄';
+
+  @override
+  String get chatForwardedFromLabel => '轉寄自';
 
   @override
   String get chatReplyCancel => '取消回覆';
@@ -31642,4 +31543,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '此帳號的結帳功能已遭封鎖。';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '無法連線到 $domain。請檢查您的網路連線，然後再試一次。';
+  }
 }
