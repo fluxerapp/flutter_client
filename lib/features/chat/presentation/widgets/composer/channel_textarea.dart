@@ -90,6 +90,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/advanced_pref
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -1203,6 +1204,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final String channelId = _composerDisplayChannelId();
     final Channel? channel = resolveGuildChannel(ref, channelId);
     if (channel != null) {
+      if (channel.isThread &&
+          threadOwnerBlocked(channel, ref.read(blockedUserIdsProvider))) {
+        return readThreadTitleText(ref, channel, l10n);
+      }
       return l10n.channelComposerHint(channel.name);
     }
     final ComposerWatch? dm = ref.read(composerWatchProvider(channelId));

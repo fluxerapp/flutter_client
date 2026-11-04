@@ -30,6 +30,7 @@ class NagbarContainer extends ConsumerWidget {
         }
         return Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: nagbars
               .map((NagbarState nagbar) => _buildNagbar(context, nagbar.type))
               .toList(),

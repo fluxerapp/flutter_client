@@ -42,11 +42,6 @@ class DmViewState {
                   f.status != 'offline',
             )
             .toList();
-        if (filtered.isEmpty) {
-          filtered = friendsList
-              .where((f) => f.friendStatus == FriendStatus.accepted)
-              .toList();
-        }
       case FriendsTab.all:
         filtered = friendsList
             .where((f) => f.friendStatus == FriendStatus.accepted)

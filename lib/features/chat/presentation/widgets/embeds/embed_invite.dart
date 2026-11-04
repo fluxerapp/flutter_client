@@ -220,24 +220,17 @@ class _GuildInviteCard extends StatelessWidget {
         stats: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
+              spacing: 10,
+              runSpacing: 2,
               children: [
-                const _StatDot(online: true),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.embedInviteOnline(onlineStr),
-                  style: context.textStyles.embedFooter.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                  ),
+                _InviteStat(
+                  online: true,
+                  label: l10n.embedInviteOnline(onlineStr),
                 ),
-                const SizedBox(width: 10),
-                const _StatDot(online: false),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.embedInviteMembers(invite.memberCount, memberStr),
-                  style: context.textStyles.embedFooter.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                  ),
+                _InviteStat(
+                  online: false,
+                  label: l10n.embedInviteMembers(invite.memberCount, memberStr),
                 ),
               ],
             ),
@@ -367,20 +360,12 @@ class _GroupDmInviteCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
-        stats: Row(
-          children: [
-            const _StatDot(online: false),
-            const SizedBox(width: 4),
-            Text(
-              l10n.embedInviteMembers(
-                memberCount,
-                _formatInviteCount(memberCount),
-              ),
-              style: context.textStyles.embedFooter.copyWith(
-                color: context.colors.textTertiaryMuted,
-              ),
-            ),
-          ],
+        stats: _InviteStat(
+          online: false,
+          label: l10n.embedInviteMembers(
+            memberCount,
+            _formatInviteCount(memberCount),
+          ),
         ),
         footer: FluxerButton.primary(
           onPressed: isAlreadyJoined
@@ -391,6 +376,32 @@ class _GroupDmInviteCard extends StatelessWidget {
               : l10n.embedInviteJoinGroup,
         ),
       ),
+    );
+  }
+}
+
+class _InviteStat extends StatelessWidget {
+  const _InviteStat({required this.online, required this.label});
+
+  final bool online;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _StatDot(online: online),
+        const SizedBox(width: 4),
+        Flexible(
+          child: Text(
+            label,
+            style: context.textStyles.embedFooter.copyWith(
+              color: context.colors.textTertiaryMuted,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

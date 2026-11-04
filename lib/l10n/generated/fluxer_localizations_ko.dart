@@ -2134,65 +2134,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get operatorPassHideCount => 'Operator Pass 개수 숨기기';
 
   @override
-  String get operatorPassWallTitle => 'Operators 벽';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Operators 벽 안내';
-
-  @override
-  String get operatorPassWallNotListed => '목록에 표시되지 않음.';
-
-  @override
-  String get operatorPassWallOnTheWall => '벽에 표시 중';
-
-  @override
-  String get operatorPassWallLive => '게시됨';
-
-  @override
-  String get operatorPassWallHidden => '저희 팀에서 임시로 숨김 처리했습니다.';
-
-  @override
-  String get operatorPassWallHiddenWhy => '왜 그런가요?';
-
-  @override
-  String get operatorPassWallRemoved => '혜택이 제거된 동안에는 벽에 표시되지 않습니다.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass 약관';
-
-  @override
-  String get operatorPassWallSendChanges => '프로필 변경 사항을 벽에 보내기';
-
-  @override
-  String get operatorPassWallReleaseList => '연간 Operators 목록에 내 이름 추가';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      '저희는 매년 한 번 Fluxer 릴리스 노트와 소스 코드에 Operators 목록을 공개합니다. 이 설정을 켠 경우에만 벽에 표시할 이름이 목록에 포함됩니다.';
-
-  @override
-  String get operatorPassWallSave => '저장';
-
-  @override
-  String get operatorPassWallSaved => '저장되었습니다.';
-
-  @override
-  String get operatorPassWallSaveFailed => '저장하지 못했습니다. 다시 시도해 주세요.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => '벽에 표시할 이름';
-
-  @override
-  String get operatorPassWallDontListMe => '목록에 표시하지 않기';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      '이름을 입력하거나 \"목록에 표시하지 않기\"를 선택하세요.';
-
-  @override
-  String get operatorPassWallNameTooLong => '32자 이하로 입력하세요.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. 최대 10MB. 권장: 512×512px. 애니메이션 아바타(GIF)에는 Plutonium이 필요합니다.';
 
@@ -7444,6 +7385,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return '$source에서 전달됨';
   }
+
+  @override
+  String get chatForwardedLabel => '전달됨';
+
+  @override
+  String get chatForwardedFromLabel => '전달 출처';
 
   @override
   String get chatReplyCancel => '답장 취소';
@@ -16169,4 +16116,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '이 계정의 결제가 차단되었습니다.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '$domain에 연결할 수 없습니다. 인터넷 연결을 확인한 후 다시 시도해 주세요.';
+  }
 }

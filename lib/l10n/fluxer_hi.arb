@@ -19154,136 +19154,6 @@
     "@operatorPassHideCount": {
         "description": "Switch to hide Operator Pass count on the badge."
     },
-    "operatorPassWallTitle": "Operators वॉल",
-    "@operatorPassWallTitle": {
-        "description": "Heading for Operators' wall settings."
-    },
-    "operatorPassWallHowItWorks": "वॉल कैसे काम करती है",
-    "@operatorPassWallHowItWorks": {
-        "description": "Link to Operator Pass wall help."
-    },
-    "operatorPassWallNotListed": "सूचीबद्ध नहीं है।",
-    "@operatorPassWallNotListed": {
-        "description": "Status when not on the Operators' wall."
-    },
-    "operatorPassWallOnTheWall": "वॉल पर",
-    "@operatorPassWallOnTheWall": {
-        "description": "Label for the live wall entry."
-    },
-    "operatorPassWallInReview": "समीक्षा में",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "{date} तक",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallLive": "लाइव",
-    "@operatorPassWallLive": {
-        "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "अस्वीकार किया गया: {name}। {reason}।",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "टीम का नोट: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallHidden": "हमारी टीम द्वारा अभी के लिए छिपाया गया।",
-    "@operatorPassWallHidden": {
-        "description": "Wall listing hidden by staff."
-    },
-    "operatorPassWallHiddenWhy": "क्यों?",
-    "@operatorPassWallHiddenWhy": {
-        "description": "Link after hidden wall status."
-    },
-    "operatorPassWallRemoved": "जब तक आपके फ़ायदे हटे हुए हैं, तब तक वॉल से हटाया गया।",
-    "@operatorPassWallRemoved": {
-        "description": "Wall listing removed when benefits are removed."
-    },
-    "operatorPassTermsLink": "Operator Pass की शर्तें",
-    "@operatorPassTermsLink": {
-        "description": "Link to Operator Pass terms."
-    },
-    "operatorPassWallSendChanges": "प्रोफ़ाइल परिवर्तन वॉल पर भेजें",
-    "@operatorPassWallSendChanges": {
-        "description": "Switch to send profile changes to the wall."
-    },
-    "operatorPassWallReleaseList": "मेरा नाम सालाना Operators सूची में जोड़ें",
-    "@operatorPassWallReleaseList": {
-        "description": "Switch for yearly Operators list opt-in."
-    },
-    "operatorPassWallReleaseListHint": "साल में एक बार, हम किसी Fluxer रिलीज़ के नोट्स और उसके सोर्स कोड में Operators की एक सूची प्रकाशित करते हैं। आपका वॉल नाम उसमें तभी होगा जब आप इसे चालू करेंगे।",
-    "@operatorPassWallReleaseListHint": {
-        "description": "Hint for yearly Operators list opt-in."
-    },
-    "operatorPassWallSave": "सेव करें",
-    "@operatorPassWallSave": {
-        "description": "Save Operators' wall settings."
-    },
-    "operatorPassWallSaved": "सेव हो गया।",
-    "@operatorPassWallSaved": {
-        "description": "Toast after saving wall settings."
-    },
-    "operatorPassWallSaveFailed": "सेव नहीं हो सका। दोबारा कोशिश करें।",
-    "@operatorPassWallSaveFailed": {
-        "description": "Toast when wall settings save fails."
-    },
-    "operatorPassWallNameSettingsLabel": "वॉल पर नाम",
-    "@operatorPassWallNameSettingsLabel": {
-        "description": "Label for wall name field in settings."
-    },
-    "operatorPassWallNameHint": "नए नाम लाइव होने से पहले हम उन्हें जाँचते हैं।",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
-    "operatorPassWallDontListMe": "मुझे सूची में न दिखाएँ",
-    "@operatorPassWallDontListMe": {
-        "description": "Opt out of the Operators' wall."
-    },
-    "operatorPassWallNameRequired": "कोई नाम डालें, या \"मुझे सूची में न दिखाएँ\" चुनें।",
-    "@operatorPassWallNameRequired": {
-        "description": "Validation when wall name is empty."
-    },
-    "operatorPassWallNameTooLong": "32 या उससे कम अक्षर इस्तेमाल करें।",
-    "@operatorPassWallNameTooLong": {
-        "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "कम्युनिटी दिशानिर्देशों का उल्लंघन करता है",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "किसी और होने का दिखावा करता है",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "किसी नाम या इमेज का बिना अधिकार के इस्तेमाल करता है",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "कम उम्र के यूज़र्स के लिए उपयुक्त नहीं",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "ऐप के इस वर्ज़न में Plutonium नहीं खरीदा जा सकता।",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
@@ -19591,6 +19461,14 @@
                 "type": "String"
             }
         }
+    },
+    "chatForwardedLabel": "फ़ॉरवर्ड किया गया",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "फ़ॉरवर्ड का स्रोत",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
     },
     "videoPlayerPlay": "चलाएँ",
     "@videoPlayerPlay": {
@@ -20003,5 +19881,15 @@
     "forumReportPost": "पोस्ट की रिपोर्ट करें",
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "{domain} से कनेक्ट नहीं हो पा रहा है। अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

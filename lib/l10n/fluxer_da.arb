@@ -19137,136 +19137,6 @@
     "@operatorPassHideCount": {
         "description": "Switch to hide Operator Pass count on the badge."
     },
-    "operatorPassWallTitle": "Operators-væggen",
-    "@operatorPassWallTitle": {
-        "description": "Heading for Operators' wall settings."
-    },
-    "operatorPassWallHowItWorks": "Sådan fungerer væggen",
-    "@operatorPassWallHowItWorks": {
-        "description": "Link to Operator Pass wall help."
-    },
-    "operatorPassWallNotListed": "Ikke på væggen.",
-    "@operatorPassWallNotListed": {
-        "description": "Status when not on the Operators' wall."
-    },
-    "operatorPassWallOnTheWall": "På væggen",
-    "@operatorPassWallOnTheWall": {
-        "description": "Label for the live wall entry."
-    },
-    "operatorPassWallInReview": "Under gennemgang",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "senest {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallLive": "Synlig",
-    "@operatorPassWallLive": {
-        "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Afvist: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Besked fra teamet: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallHidden": "Skjult af vores team indtil videre.",
-    "@operatorPassWallHidden": {
-        "description": "Wall listing hidden by staff."
-    },
-    "operatorPassWallHiddenWhy": "Hvorfor?",
-    "@operatorPassWallHiddenWhy": {
-        "description": "Link after hidden wall status."
-    },
-    "operatorPassWallRemoved": "Fjernet fra væggen, så længe dine fordele er fjernet.",
-    "@operatorPassWallRemoved": {
-        "description": "Wall listing removed when benefits are removed."
-    },
-    "operatorPassTermsLink": "Vilkår for Operator Pass",
-    "@operatorPassTermsLink": {
-        "description": "Link to Operator Pass terms."
-    },
-    "operatorPassWallSendChanges": "Send profilændringer til væggen",
-    "@operatorPassWallSendChanges": {
-        "description": "Switch to send profile changes to the wall."
-    },
-    "operatorPassWallReleaseList": "Tilføj mit navn til den årlige Operators-liste",
-    "@operatorPassWallReleaseList": {
-        "description": "Switch for yearly Operators list opt-in."
-    },
-    "operatorPassWallReleaseListHint": "Én gang om året offentliggør vi en liste over Operators i noterne til en Fluxer-udgivelse og i dens kildekode. Dit navn på væggen kommer kun med på listen, hvis du slår dette til.",
-    "@operatorPassWallReleaseListHint": {
-        "description": "Hint for yearly Operators list opt-in."
-    },
-    "operatorPassWallSave": "Gem",
-    "@operatorPassWallSave": {
-        "description": "Save Operators' wall settings."
-    },
-    "operatorPassWallSaved": "Gemt.",
-    "@operatorPassWallSaved": {
-        "description": "Toast after saving wall settings."
-    },
-    "operatorPassWallSaveFailed": "Kunne ikke gemme. Prøv igen.",
-    "@operatorPassWallSaveFailed": {
-        "description": "Toast when wall settings save fails."
-    },
-    "operatorPassWallNameSettingsLabel": "Navn på væggen",
-    "@operatorPassWallNameSettingsLabel": {
-        "description": "Label for wall name field in settings."
-    },
-    "operatorPassWallNameHint": "Vi tjekker nye navne, før de bliver synlige.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
-    "operatorPassWallDontListMe": "Vis mig ikke",
-    "@operatorPassWallDontListMe": {
-        "description": "Opt out of the Operators' wall."
-    },
-    "operatorPassWallNameRequired": "Indtast et navn, eller vælg \"Vis mig ikke\".",
-    "@operatorPassWallNameRequired": {
-        "description": "Validation when wall name is empty."
-    },
-    "operatorPassWallNameTooLong": "Brug højst 32 tegn.",
-    "@operatorPassWallNameTooLong": {
-        "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "Bryder retningslinjerne for fællesskabet",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Udgiver sig for at være en anden",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Bruger et navn eller billede uden rettighederne til det",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Ikke egnet til yngre brugere",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Plutonium kan ikke købes i denne version af appen.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
@@ -19574,6 +19444,14 @@
                 "type": "String"
             }
         }
+    },
+    "chatForwardedLabel": "Videresendt",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "Videresendt fra",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
     },
     "videoPlayerPlay": "Afspil",
     "@videoPlayerPlay": {
@@ -19986,5 +19864,15 @@
     "forumReportPost": "Anmeld opslag",
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "Kan ikke oprette forbindelse til {domain}. Tjek din internetforbindelse, og prøv igen.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

@@ -3,18 +3,24 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
+import 'package:drift/native.dart';
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -217,9 +223,7 @@ void main() {
         wellKnownProvider.overrideWith(_FakeWellKnown.new),
         appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
         authTokenStorageProvider.overrideWithValue(tokens),
-        fluxerClientProvider.overrideWithValue(
-          FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
-        ),
+        fluxerDioProvider.overrideWithValue(dio),
         authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
       ],
     );
@@ -287,9 +291,7 @@ void main() {
         wellKnownProvider.overrideWith(_FakeWellKnown.new),
         appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
         authTokenStorageProvider.overrideWithValue(tokens),
-        fluxerClientProvider.overrideWithValue(
-          FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
-        ),
+        fluxerDioProvider.overrideWithValue(dio),
         authenticatedSessionBindingsProvider.overrideWith((Ref ref) {
           bindCalled = true;
           boundBeforeUsersMe = !releaseUsersMe.isCompleted;
@@ -328,9 +330,7 @@ void main() {
           wellKnownProvider.overrideWith(_FakeWellKnown.new),
           appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
           authTokenStorageProvider.overrideWithValue(tokens),
-          fluxerClientProvider.overrideWithValue(
-            FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
-          ),
+          fluxerDioProvider.overrideWithValue(dio),
           authenticatedSessionBindingsProvider.overrideWith((Ref ref) {
             bindCount++;
           }),
@@ -444,6 +444,139 @@ void main() {
     );
   });
 
+  test(
+    'a hanging API opens the cached shell after the timeout and READY takes over',
+    () {
+      fakeAsync((FakeAsync async) {
+        final FluxerDatabase db = FluxerDatabase.forTesting(
+          NativeDatabase.memory(),
+        );
+        final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+        unawaited(db.authSessionDao.saveSessionMetadata(userId: 'user-1'));
+        unawaited(tokens.saveToken(userId: 'user-1', token: 'token-1'));
+        unawaited(
+          db.userSettingsDao.upsertSettings(
+            UserSettingsTableCompanion.insert(userId: 'user-1', data: '{}'),
+          ),
+        );
+        async.flushMicrotasks();
+        final Completer<void> releaseUsersMe = Completer<void>();
+        final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = _HoldingUsersMeAdapter(
+            statusCode: 503,
+            release: releaseUsersMe,
+          );
+        final container = ProviderContainer(
+          retry: (int retryCount, Object error) => null,
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            wellKnownProvider.overrideWith(_FakeWellKnown.new),
+            appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+            authTokenStorageProvider.overrideWithValue(tokens),
+            fluxerDioProvider.overrideWithValue(dio),
+            authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
+            gatewayConnectivityCheckProvider.overrideWithValue(
+              () async => true,
+            ),
+          ],
+        );
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
+        container.listen(appStartupProvider, (_, _) {});
+
+        async.elapse(const Duration(seconds: 1));
+        expect(container.read(appStartupProvider), isA<AsyncLoading<void>>());
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.none,
+        );
+
+        async.elapse(kStartupGatewayFallbackDelay);
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.cachedShell,
+        );
+        expect(container.read(appStartupProvider), isA<AsyncData<void>>());
+        expect(container.read(authStateProvider), isTrue);
+        expect(container.read(currentUserIdProvider), 'user-1');
+
+        container.read(gatewayReadyProvider.notifier).setReady();
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.none,
+        );
+        expect(container.read(appStartupProvider), isA<AsyncData<void>>());
+
+        releaseUsersMe.complete();
+        async.elapse(const Duration(seconds: 1));
+        container.dispose();
+        unawaited(db.close());
+        async.elapse(const Duration(seconds: 1));
+      });
+    },
+  );
+
+  test(
+    'a 502 with cached data opens the cached shell before the gateway timer',
+    () {
+      fakeAsync((FakeAsync async) {
+        final FluxerDatabase db = FluxerDatabase.forTesting(
+          NativeDatabase.memory(),
+        );
+        final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+        unawaited(db.authSessionDao.saveSessionMetadata(userId: 'user-1'));
+        unawaited(tokens.saveToken(userId: 'user-1', token: 'token-1'));
+        unawaited(
+          db.userSettingsDao.upsertSettings(
+            UserSettingsTableCompanion.insert(userId: 'user-1', data: '{}'),
+          ),
+        );
+        async.flushMicrotasks();
+        final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = const _UsersMeAdapter(statusCode: 502);
+        dio.interceptors.add(RetryInterceptor(dio: dio));
+        final container = ProviderContainer(
+          retry: (int retryCount, Object error) => null,
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            wellKnownProvider.overrideWith(_FakeWellKnown.new),
+            appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+            authTokenStorageProvider.overrideWithValue(tokens),
+            fluxerDioProvider.overrideWithValue(dio),
+            authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
+            gatewayConnectivityCheckProvider.overrideWithValue(
+              () async => true,
+            ),
+          ],
+        );
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
+        container.listen(appStartupProvider, (_, _) {});
+
+        async.elapse(const Duration(milliseconds: 200));
+        expect(container.read(appStartupProvider), isA<AsyncData<void>>());
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.cachedShell,
+        );
+        expect(container.read(authStateProvider), isTrue);
+
+        container.read(gatewayReadyProvider.notifier).setReady();
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.none,
+        );
+
+        async.elapse(kStartupGatewayFallbackDelay);
+        expect(
+          container.read(startupGatewayFallbackProvider),
+          StartupGatewayFallback.none,
+        );
+        container.dispose();
+        unawaited(db.close());
+        async.elapse(const Duration(seconds: 1));
+      });
+    },
+  );
+
   test('401 against another host does not expire the session', () async {
     final db = openTestDatabase();
     final MapAuthTokenStorage tokens = MapAuthTokenStorage();
@@ -512,9 +645,7 @@ ProviderContainer _startupContainer({
       wellKnownProvider.overrideWith(_FakeWellKnown.new),
       appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
       authTokenStorageProvider.overrideWithValue(tokens),
-      fluxerClientProvider.overrideWithValue(
-        FluxerClient(dio, baseUrl: apiBaseUrl),
-      ),
+      fluxerDioProvider.overrideWithValue(dio),
       authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
     ],
   );

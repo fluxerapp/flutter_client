@@ -2207,66 +2207,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get operatorPassHideCount => 'הסתרת מספר ה-Operator Pass שיש לך';
 
   @override
-  String get operatorPassWallTitle => 'קיר ה-Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'איך הקיר עובד';
-
-  @override
-  String get operatorPassWallNotListed => 'לא מופיע ברשימה.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'בקיר';
-
-  @override
-  String get operatorPassWallLive => 'פורסם';
-
-  @override
-  String get operatorPassWallHidden => 'מוסתר על ידי הצוות שלנו לעת עתה.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'למה?';
-
-  @override
-  String get operatorPassWallRemoved => 'הוסר מהקיר כל עוד ההטבות שלך הוסרו.';
-
-  @override
-  String get operatorPassTermsLink => 'תנאי Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'שלח שינויים בפרופיל לקיר';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'הוסף את השם שלי לרשימת ה-Operators השנתית';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'פעם בשנה אנחנו מפרסמים רשימה של Operators בהערות של גרסת Fluxer ובקוד המקור שלה. השם שלך בקיר יופיע בה רק אם תפעיל את האפשרות הזו.';
-
-  @override
-  String get operatorPassWallSave => 'שמירה';
-
-  @override
-  String get operatorPassWallSaved => 'נשמר.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'לא ניתן היה לשמור. נסה שוב.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'שם בקיר';
-
-  @override
-  String get operatorPassWallDontListMe => 'אל תציגו אותי ברשימה';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'הזן שם, או סמן \"אל תציגו אותי ברשימה\".';
-
-  @override
-  String get operatorPassWallNameTooLong => 'השתמש ב-32 תווים לכל היותר.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. מקסימום 10MB. מומלץ: 512×512px. אווטארים מונפשים (GIF) דורשים Plutonium.';
 
@@ -7660,6 +7600,12 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'הועבר מ-$source';
   }
+
+  @override
+  String get chatForwardedLabel => 'הועבר';
+
+  @override
+  String get chatForwardedFromLabel => 'הועבר מ־';
 
   @override
   String get chatReplyCancel => 'ביטול תגובה';
@@ -16672,4 +16618,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'התשלום חסום עבור חשבון זה.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'אין אפשרות להתחבר אל $domain. כדאי לבדוק את החיבור לאינטרנט ולנסות שוב.';
+  }
 }

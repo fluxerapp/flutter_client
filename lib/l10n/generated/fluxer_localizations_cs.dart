@@ -2250,67 +2250,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get operatorPassHideCount => 'Skrýt, kolik máte Operator Passů';
 
   @override
-  String get operatorPassWallTitle => 'Zeď Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Jak zeď funguje';
-
-  @override
-  String get operatorPassWallNotListed => 'Nejste na zdi.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Na zdi';
-
-  @override
-  String get operatorPassWallLive => 'Zveřejněno';
-
-  @override
-  String get operatorPassWallHidden => 'Prozatím skryto naším týmem.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Proč?';
-
-  @override
-  String get operatorPassWallRemoved => 'Mimo zeď, dokud máte odebrané výhody.';
-
-  @override
-  String get operatorPassTermsLink => 'Podmínky Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Posílat změny profilu na zeď';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Přidat mé jméno do každoročního seznamu Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Jednou ročně zveřejňujeme seznam Operators v poznámkách k vydání Fluxeru a v jeho zdrojovém kódu. Vaše jméno na zdi v něm bude, jen pokud tuto možnost zapnete.';
-
-  @override
-  String get operatorPassWallSave => 'Uložit';
-
-  @override
-  String get operatorPassWallSaved => 'Uloženo.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Nepodařilo se uložit. Zkuste to znovu.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Jméno na zdi';
-
-  @override
-  String get operatorPassWallDontListMe => 'Neuvádět mě';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Zadejte jméno, nebo zaškrtněte „Neuvádět mě“.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Použijte nejvýše 32 znaků.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max 10 MB. Doporučeno: 512×512px. Animované avatary (GIF) vyžadují Plutonium.';
 
@@ -7801,6 +7740,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Přeposláno z $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Přeposláno';
+
+  @override
+  String get chatForwardedFromLabel => 'Přeposláno z';
 
   @override
   String get chatReplyCancel => 'Zrušit odpověď';
@@ -17014,4 +16959,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Nákup je pro tento účet zablokován.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nelze se připojit k $domain. Zkontrolujte připojení k internetu a zkuste to znovu.';
+  }
 }

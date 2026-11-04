@@ -19154,136 +19154,6 @@
     "@operatorPassHideCount": {
         "description": "Switch to hide Operator Pass count on the badge."
     },
-    "operatorPassWallTitle": "קיר ה-Operators",
-    "@operatorPassWallTitle": {
-        "description": "Heading for Operators' wall settings."
-    },
-    "operatorPassWallHowItWorks": "איך הקיר עובד",
-    "@operatorPassWallHowItWorks": {
-        "description": "Link to Operator Pass wall help."
-    },
-    "operatorPassWallNotListed": "לא מופיע ברשימה.",
-    "@operatorPassWallNotListed": {
-        "description": "Status when not on the Operators' wall."
-    },
-    "operatorPassWallOnTheWall": "בקיר",
-    "@operatorPassWallOnTheWall": {
-        "description": "Label for the live wall entry."
-    },
-    "operatorPassWallInReview": "בבדיקה",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "עד {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallLive": "פורסם",
-    "@operatorPassWallLive": {
-        "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "נדחה: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "הערה מהצוות: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallHidden": "מוסתר על ידי הצוות שלנו לעת עתה.",
-    "@operatorPassWallHidden": {
-        "description": "Wall listing hidden by staff."
-    },
-    "operatorPassWallHiddenWhy": "למה?",
-    "@operatorPassWallHiddenWhy": {
-        "description": "Link after hidden wall status."
-    },
-    "operatorPassWallRemoved": "הוסר מהקיר כל עוד ההטבות שלך הוסרו.",
-    "@operatorPassWallRemoved": {
-        "description": "Wall listing removed when benefits are removed."
-    },
-    "operatorPassTermsLink": "תנאי Operator Pass",
-    "@operatorPassTermsLink": {
-        "description": "Link to Operator Pass terms."
-    },
-    "operatorPassWallSendChanges": "שלח שינויים בפרופיל לקיר",
-    "@operatorPassWallSendChanges": {
-        "description": "Switch to send profile changes to the wall."
-    },
-    "operatorPassWallReleaseList": "הוסף את השם שלי לרשימת ה-Operators השנתית",
-    "@operatorPassWallReleaseList": {
-        "description": "Switch for yearly Operators list opt-in."
-    },
-    "operatorPassWallReleaseListHint": "פעם בשנה אנחנו מפרסמים רשימה של Operators בהערות של גרסת Fluxer ובקוד המקור שלה. השם שלך בקיר יופיע בה רק אם תפעיל את האפשרות הזו.",
-    "@operatorPassWallReleaseListHint": {
-        "description": "Hint for yearly Operators list opt-in."
-    },
-    "operatorPassWallSave": "שמירה",
-    "@operatorPassWallSave": {
-        "description": "Save Operators' wall settings."
-    },
-    "operatorPassWallSaved": "נשמר.",
-    "@operatorPassWallSaved": {
-        "description": "Toast after saving wall settings."
-    },
-    "operatorPassWallSaveFailed": "לא ניתן היה לשמור. נסה שוב.",
-    "@operatorPassWallSaveFailed": {
-        "description": "Toast when wall settings save fails."
-    },
-    "operatorPassWallNameSettingsLabel": "שם בקיר",
-    "@operatorPassWallNameSettingsLabel": {
-        "description": "Label for wall name field in settings."
-    },
-    "operatorPassWallNameHint": "אנחנו בודקים שמות חדשים לפני שהם מתפרסמים.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
-    "operatorPassWallDontListMe": "אל תציגו אותי ברשימה",
-    "@operatorPassWallDontListMe": {
-        "description": "Opt out of the Operators' wall."
-    },
-    "operatorPassWallNameRequired": "הזן שם, או סמן \"אל תציגו אותי ברשימה\".",
-    "@operatorPassWallNameRequired": {
-        "description": "Validation when wall name is empty."
-    },
-    "operatorPassWallNameTooLong": "השתמש ב-32 תווים לכל היותר.",
-    "@operatorPassWallNameTooLong": {
-        "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "מפר את הנחיות הקהילה",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "מתחזה למישהו אחר",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "משתמש בשם או בתמונה בלי הזכויות עליהם",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "לא מתאים למשתמשים צעירים",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "אי אפשר לקנות Plutonium בגרסה הזו של האפליקציה.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
@@ -19591,6 +19461,14 @@
                 "type": "String"
             }
         }
+    },
+    "chatForwardedLabel": "הועבר",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "הועבר מ־",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
     },
     "videoPlayerPlay": "הפעל",
     "@videoPlayerPlay": {
@@ -20003,5 +19881,15 @@
     "forumReportPost": "דיווח על פוסט",
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "אין אפשרות להתחבר אל {domain}. כדאי לבדוק את החיבור לאינטרנט ולנסות שוב.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

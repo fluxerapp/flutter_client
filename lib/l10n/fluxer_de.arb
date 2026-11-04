@@ -19137,136 +19137,6 @@
     "@operatorPassHideCount": {
         "description": "Switch to hide Operator Pass count on the badge."
     },
-    "operatorPassWallTitle": "Operators-Wand",
-    "@operatorPassWallTitle": {
-        "description": "Heading for Operators' wall settings."
-    },
-    "operatorPassWallHowItWorks": "So funktioniert die Wand",
-    "@operatorPassWallHowItWorks": {
-        "description": "Link to Operator Pass wall help."
-    },
-    "operatorPassWallNotListed": "Nicht aufgeführt.",
-    "@operatorPassWallNotListed": {
-        "description": "Status when not on the Operators' wall."
-    },
-    "operatorPassWallOnTheWall": "Auf der Wand",
-    "@operatorPassWallOnTheWall": {
-        "description": "Label for the live wall entry."
-    },
-    "operatorPassWallInReview": "In Prüfung",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "bis {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallLive": "Sichtbar",
-    "@operatorPassWallLive": {
-        "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Abgelehnt: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Hinweis vom Team: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallHidden": "Vorübergehend von unserem Team ausgeblendet.",
-    "@operatorPassWallHidden": {
-        "description": "Wall listing hidden by staff."
-    },
-    "operatorPassWallHiddenWhy": "Warum?",
-    "@operatorPassWallHiddenWhy": {
-        "description": "Link after hidden wall status."
-    },
-    "operatorPassWallRemoved": "Nicht auf der Wand, solange deine Vorteile entzogen sind.",
-    "@operatorPassWallRemoved": {
-        "description": "Wall listing removed when benefits are removed."
-    },
-    "operatorPassTermsLink": "Bedingungen für den Operator Pass",
-    "@operatorPassTermsLink": {
-        "description": "Link to Operator Pass terms."
-    },
-    "operatorPassWallSendChanges": "Profiländerungen an die Wand senden",
-    "@operatorPassWallSendChanges": {
-        "description": "Switch to send profile changes to the wall."
-    },
-    "operatorPassWallReleaseList": "Meinen Namen zur jährlichen Operators-Liste hinzufügen",
-    "@operatorPassWallReleaseList": {
-        "description": "Switch for yearly Operators list opt-in."
-    },
-    "operatorPassWallReleaseListHint": "Einmal im Jahr veröffentlichen wir eine Liste der Operators in den Versionshinweisen eines Fluxer-Releases und in seinem Quellcode. Dein Name auf der Wand steht nur darauf, wenn du diese Option aktivierst.",
-    "@operatorPassWallReleaseListHint": {
-        "description": "Hint for yearly Operators list opt-in."
-    },
-    "operatorPassWallSave": "Speichern",
-    "@operatorPassWallSave": {
-        "description": "Save Operators' wall settings."
-    },
-    "operatorPassWallSaved": "Gespeichert.",
-    "@operatorPassWallSaved": {
-        "description": "Toast after saving wall settings."
-    },
-    "operatorPassWallSaveFailed": "Speichern fehlgeschlagen. Versuche es erneut.",
-    "@operatorPassWallSaveFailed": {
-        "description": "Toast when wall settings save fails."
-    },
-    "operatorPassWallNameSettingsLabel": "Name auf der Wand",
-    "@operatorPassWallNameSettingsLabel": {
-        "description": "Label for wall name field in settings."
-    },
-    "operatorPassWallNameHint": "Wir prüfen neue Namen, bevor sie sichtbar werden.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
-    "operatorPassWallDontListMe": "Mich nicht aufführen",
-    "@operatorPassWallDontListMe": {
-        "description": "Opt out of the Operators' wall."
-    },
-    "operatorPassWallNameRequired": "Gib einen Namen ein oder wähle „Mich nicht aufführen“.",
-    "@operatorPassWallNameRequired": {
-        "description": "Validation when wall name is empty."
-    },
-    "operatorPassWallNameTooLong": "Verwende höchstens 32 Zeichen.",
-    "@operatorPassWallNameTooLong": {
-        "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "Verstößt gegen die Community-Richtlinien",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Gibt sich als jemand anderes aus",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Verwendet einen Namen oder ein Bild ohne die Rechte daran",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Nicht für jüngere Nutzer geeignet",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Plutonium kann in dieser Version der App nicht gekauft werden.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
@@ -19574,6 +19444,14 @@
                 "type": "String"
             }
         }
+    },
+    "chatForwardedLabel": "Weitergeleitet",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "Weitergeleitet aus",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
     },
     "videoPlayerPlay": "Wiedergabe",
     "@videoPlayerPlay": {
@@ -19986,5 +19864,15 @@
     "forumReportPost": "Beitrag melden",
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "Keine Verbindung zu {domain}. Prüfe deine Internetverbindung und versuche es erneut.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

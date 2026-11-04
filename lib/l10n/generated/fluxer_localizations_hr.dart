@@ -2245,68 +2245,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get operatorPassHideCount => 'Sakrij koliko Operator Passova imate';
 
   @override
-  String get operatorPassWallTitle => 'Zid Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Kako zid funkcionira';
-
-  @override
-  String get operatorPassWallNotListed => 'Niste na zidu.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Na zidu';
-
-  @override
-  String get operatorPassWallLive => 'Objavljeno';
-
-  @override
-  String get operatorPassWallHidden => 'Naš tim ga je privremeno sakrio.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Zašto?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Niste na zidu dok su vam pogodnosti uklonjene.';
-
-  @override
-  String get operatorPassTermsLink => 'Uvjeti za Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Šalji promjene profila na zid';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Dodaj moje ime na godišnji popis Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Jednom godišnje objavljujemo popis Operators u bilješkama izdanja Fluxera i u njegovu izvornom kodu. Vaše ime sa zida nalazi se na tom popisu samo ako uključite ovu opciju.';
-
-  @override
-  String get operatorPassWallSave => 'Spremi';
-
-  @override
-  String get operatorPassWallSaved => 'Spremljeno.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Spremanje nije uspjelo. Pokušajte ponovno.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Ime na zidu';
-
-  @override
-  String get operatorPassWallDontListMe => 'Ne prikazuj me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Unesite ime ili označite „Ne prikazuj me“.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Upotrijebite najviše 32 znaka.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maksimalno 10 MB. Preporučeno: 512×512 px. Animiranih avatara (GIF) zahtijeva Plutonium.';
 
@@ -7790,6 +7728,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Proslijeđeno iz $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Proslijeđeno';
+
+  @override
+  String get chatForwardedFromLabel => 'Proslijeđeno iz';
 
   @override
   String get chatReplyCancel => 'Poništi odgovor';
@@ -17014,4 +16958,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Plaćanje je blokirano za ovaj račun.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nije moguće povezati se s $domain. Provjerite internetsku vezu i pokušajte ponovno.';
+  }
 }

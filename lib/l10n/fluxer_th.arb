@@ -19137,136 +19137,6 @@
     "@operatorPassHideCount": {
         "description": "Switch to hide Operator Pass count on the badge."
     },
-    "operatorPassWallTitle": "กำแพง Operators",
-    "@operatorPassWallTitle": {
-        "description": "Heading for Operators' wall settings."
-    },
-    "operatorPassWallHowItWorks": "กำแพงทำงานอย่างไร",
-    "@operatorPassWallHowItWorks": {
-        "description": "Link to Operator Pass wall help."
-    },
-    "operatorPassWallNotListed": "ไม่แสดงรายการ",
-    "@operatorPassWallNotListed": {
-        "description": "Status when not on the Operators' wall."
-    },
-    "operatorPassWallOnTheWall": "บนกำแพง",
-    "@operatorPassWallOnTheWall": {
-        "description": "Label for the live wall entry."
-    },
-    "operatorPassWallInReview": "กำลังตรวจสอบ",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "ภายใน {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallLive": "แสดงอยู่",
-    "@operatorPassWallLive": {
-        "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "ถูกปฏิเสธ: {name} {reason}",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "หมายเหตุจากทีม: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallHidden": "ซ่อนไว้โดยทีมงานของเราในตอนนี้",
-    "@operatorPassWallHidden": {
-        "description": "Wall listing hidden by staff."
-    },
-    "operatorPassWallHiddenWhy": "ทำไม",
-    "@operatorPassWallHiddenWhy": {
-        "description": "Link after hidden wall status."
-    },
-    "operatorPassWallRemoved": "ไม่แสดงบนกำแพงในระหว่างที่สิทธิประโยชน์ของคุณถูกระงับ",
-    "@operatorPassWallRemoved": {
-        "description": "Wall listing removed when benefits are removed."
-    },
-    "operatorPassTermsLink": "ข้อกำหนด Operator Pass",
-    "@operatorPassTermsLink": {
-        "description": "Link to Operator Pass terms."
-    },
-    "operatorPassWallSendChanges": "ส่งการเปลี่ยนแปลงโปรไฟล์ไปยังกำแพง",
-    "@operatorPassWallSendChanges": {
-        "description": "Switch to send profile changes to the wall."
-    },
-    "operatorPassWallReleaseList": "เพิ่มชื่อของฉันในรายชื่อ Operators ประจำปี",
-    "@operatorPassWallReleaseList": {
-        "description": "Switch for yearly Operators list opt-in."
-    },
-    "operatorPassWallReleaseListHint": "ปีละครั้ง เราจะเผยแพร่รายชื่อ Operators ในบันทึกประจำรุ่นของ Fluxer และในซอร์สโค้ดของรุ่นนั้น ชื่อบนกำแพงของคุณจะอยู่ในรายชื่อนี้ก็ต่อเมื่อคุณเปิดตัวเลือกนี้",
-    "@operatorPassWallReleaseListHint": {
-        "description": "Hint for yearly Operators list opt-in."
-    },
-    "operatorPassWallSave": "บันทึก",
-    "@operatorPassWallSave": {
-        "description": "Save Operators' wall settings."
-    },
-    "operatorPassWallSaved": "บันทึกแล้ว",
-    "@operatorPassWallSaved": {
-        "description": "Toast after saving wall settings."
-    },
-    "operatorPassWallSaveFailed": "บันทึกไม่สำเร็จ ลองอีกครั้ง",
-    "@operatorPassWallSaveFailed": {
-        "description": "Toast when wall settings save fails."
-    },
-    "operatorPassWallNameSettingsLabel": "ชื่อบนกำแพง",
-    "@operatorPassWallNameSettingsLabel": {
-        "description": "Label for wall name field in settings."
-    },
-    "operatorPassWallNameHint": "เราตรวจสอบชื่อใหม่ก่อนที่จะแสดง",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
-    "operatorPassWallDontListMe": "ไม่ต้องแสดงชื่อฉัน",
-    "@operatorPassWallDontListMe": {
-        "description": "Opt out of the Operators' wall."
-    },
-    "operatorPassWallNameRequired": "ป้อนชื่อ หรือเลือก \"ไม่ต้องแสดงชื่อฉัน\"",
-    "@operatorPassWallNameRequired": {
-        "description": "Validation when wall name is empty."
-    },
-    "operatorPassWallNameTooLong": "ใช้ไม่เกิน 32 ตัวอักษร",
-    "@operatorPassWallNameTooLong": {
-        "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "ละเมิดหลักเกณฑ์ของคอมมูนิตี้",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "แอบอ้างเป็นบุคคลอื่น",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "ใช้ชื่อหรือรูปภาพโดยไม่มีสิทธิ์",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "ไม่เหมาะสำหรับผู้ใช้ที่อายุน้อย",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "ไม่สามารถซื้อ Plutonium ในแอปเวอร์ชันนี้ได้",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
@@ -19574,6 +19444,14 @@
                 "type": "String"
             }
         }
+    },
+    "chatForwardedLabel": "ส่งต่อแล้ว",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "ส่งต่อจาก",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
     },
     "videoPlayerPlay": "เล่น",
     "@videoPlayerPlay": {
@@ -19986,5 +19864,15 @@
     "forumReportPost": "รายงานโพสต์",
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "เชื่อมต่อกับ {domain} ไม่ได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

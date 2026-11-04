@@ -2245,68 +2245,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get operatorPassHideCount => 'Nascondi quanti Operator Pass hai';
 
   @override
-  String get operatorPassWallTitle => 'Bacheca degli Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Come funziona la bacheca';
-
-  @override
-  String get operatorPassWallNotListed => 'Non in elenco.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Nella bacheca';
-
-  @override
-  String get operatorPassWallLive => 'Pubblicato';
-
-  @override
-  String get operatorPassWallHidden => 'Nascosto dal nostro team per ora.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Perché?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Fuori dalla bacheca finché i tuoi vantaggi sono rimossi.';
-
-  @override
-  String get operatorPassTermsLink => 'Termini dell\'Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Invia le modifiche al profilo alla bacheca';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Aggiungi il mio nome all\'elenco annuale degli Operators';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Una volta all\'anno pubblichiamo un elenco degli Operators nelle note di una release di Fluxer e nel suo codice sorgente. Il tuo nome nella bacheca compare nell\'elenco solo se attivi questa opzione.';
-
-  @override
-  String get operatorPassWallSave => 'Salva';
-
-  @override
-  String get operatorPassWallSaved => 'Salvato.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Impossibile salvare. Riprova.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Nome nella bacheca';
-
-  @override
-  String get operatorPassWallDontListMe => 'Non elencarmi';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Inserisci un nome o seleziona Non elencarmi.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Usa al massimo 32 caratteri.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max 10MB. Consigliato: 512×512px. Avatar animati (GIF) richiedono Plutonium.';
 
@@ -7809,6 +7747,12 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Inoltrato da $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Inoltrato';
+
+  @override
+  String get chatForwardedFromLabel => 'Inoltrato da';
 
   @override
   String get chatReplyCancel => 'Annulla risposta';
@@ -17074,4 +17018,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'I pagamenti sono bloccati per questo account.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Impossibile connettersi a $domain. Controlla la connessione a Internet e riprova.';
+  }
 }

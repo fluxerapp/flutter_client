@@ -1,8 +1,26 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 
 void main() {
+  test('flagged favorites show only with 18+ access', () {
+    final memes = [_meme(id: '1'), _meme(id: '2', nsfw: true)];
+    for (final MatureAccess access in MatureAccess.values) {
+      expect(
+        visibleFavoriteMemes(memes, access: access).map((meme) => meme.id),
+        access == MatureAccess.allowed ? ['1', '2'] : ['1'],
+      );
+    }
+    expect(
+      FavoriteMeme.fromJson(<String, Object?>{
+        ..._meme(id: '3').toJson(),
+        'nsfw': true,
+      }).nsfw,
+      isTrue,
+    );
+  });
+
   test('filterFavoriteMemes filters by media type', () {
     final memes = [
       _meme(id: '1'),
@@ -124,6 +142,7 @@ FavoriteMeme _meme({
   String filename = 'meme.png',
   String contentType = 'image/png',
   bool isGifv = false,
+  bool nsfw = false,
 }) => FavoriteMeme(
   id: id,
   userId: 'user-1',
@@ -142,4 +161,5 @@ FavoriteMeme _meme({
   url: 'https://cdn.example/$filename',
   klipySlug: null,
   tenorSlugId: null,
+  nsfw: nsfw,
 );

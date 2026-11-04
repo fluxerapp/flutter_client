@@ -2247,68 +2247,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Annak elrejtése, hány Operator Passod van';
 
   @override
-  String get operatorPassWallTitle => 'Operators-fal';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Hogyan működik a fal';
-
-  @override
-  String get operatorPassWallNotListed => 'Nem szerepel a falon.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'A falon';
-
-  @override
-  String get operatorPassWallLive => 'Kint van';
-
-  @override
-  String get operatorPassWallHidden => 'Csapatunk egyelőre elrejtette.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Miért?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Nincs a falon, amíg az előnyeid el vannak távolítva.';
-
-  @override
-  String get operatorPassTermsLink => 'Az Operator Pass feltételei';
-
-  @override
-  String get operatorPassWallSendChanges => 'Profilváltozások küldése a falra';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Nevem felvétele az éves Operators-listára';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Évente egyszer közzétesszük az Operators listáját egy Fluxer-kiadás megjegyzéseiben és a forráskódjában. A falon szereplő neved csak akkor kerül rá, ha ezt bekapcsolod.';
-
-  @override
-  String get operatorPassWallSave => 'Mentés';
-
-  @override
-  String get operatorPassWallSaved => 'Mentve.';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'Nem sikerült a mentés. Próbáld újra.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Név a falon';
-
-  @override
-  String get operatorPassWallDontListMe => 'Ne szerepeljek rajta';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Adj meg egy nevet, vagy jelöld be a „Ne szerepeljek rajta” lehetőséget.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Legfeljebb 32 karaktert használj.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max. 10 MB. Ajánlott: 512×512px. Animált profilképek (GIF) Plutoniumot igényelnek.';
 
@@ -7821,6 +7759,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Továbbítva innen: $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Továbbítva';
+
+  @override
+  String get chatForwardedFromLabel => 'Továbbítva innen:';
 
   @override
   String get chatReplyCancel => 'Válasz visszavonása';
@@ -17097,4 +17041,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Ennél a fióknál le van tiltva a fizetés.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nem sikerült csatlakozni ehhez: $domain. Ellenőrizd az internetkapcsolatot, és próbáld újra.';
+  }
 }

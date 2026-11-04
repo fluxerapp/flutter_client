@@ -86,6 +86,7 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_root_scaffold.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -345,7 +346,13 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
           isDm: dm != null,
         ),
         nickname:
-            channel?.name ??
+            (channel == null
+                ? null
+                : readThreadTitleText(
+                    ref,
+                    channel,
+                    FluxerLocalizations.of(context),
+                  )) ??
             (dm == null
                 ? null
                 : dmConversationDisplayName(

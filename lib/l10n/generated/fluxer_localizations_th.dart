@@ -2202,68 +2202,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get operatorPassHideCount => 'ซ่อนจำนวน Operator Pass ที่คุณมี';
 
   @override
-  String get operatorPassWallTitle => 'กำแพง Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'กำแพงทำงานอย่างไร';
-
-  @override
-  String get operatorPassWallNotListed => 'ไม่แสดงรายการ';
-
-  @override
-  String get operatorPassWallOnTheWall => 'บนกำแพง';
-
-  @override
-  String get operatorPassWallLive => 'แสดงอยู่';
-
-  @override
-  String get operatorPassWallHidden => 'ซ่อนไว้โดยทีมงานของเราในตอนนี้';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'ทำไม';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'ไม่แสดงบนกำแพงในระหว่างที่สิทธิประโยชน์ของคุณถูกระงับ';
-
-  @override
-  String get operatorPassTermsLink => 'ข้อกำหนด Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'ส่งการเปลี่ยนแปลงโปรไฟล์ไปยังกำแพง';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'เพิ่มชื่อของฉันในรายชื่อ Operators ประจำปี';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'ปีละครั้ง เราจะเผยแพร่รายชื่อ Operators ในบันทึกประจำรุ่นของ Fluxer และในซอร์สโค้ดของรุ่นนั้น ชื่อบนกำแพงของคุณจะอยู่ในรายชื่อนี้ก็ต่อเมื่อคุณเปิดตัวเลือกนี้';
-
-  @override
-  String get operatorPassWallSave => 'บันทึก';
-
-  @override
-  String get operatorPassWallSaved => 'บันทึกแล้ว';
-
-  @override
-  String get operatorPassWallSaveFailed => 'บันทึกไม่สำเร็จ ลองอีกครั้ง';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'ชื่อบนกำแพง';
-
-  @override
-  String get operatorPassWallDontListMe => 'ไม่ต้องแสดงชื่อฉัน';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'ป้อนชื่อ หรือเลือก \"ไม่ต้องแสดงชื่อฉัน\"';
-
-  @override
-  String get operatorPassWallNameTooLong => 'ใช้ไม่เกิน 32 ตัวอักษร';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. สูงสุด 10MB. แนะนำ: 512×512px. อวาตาร์เคลื่อนไหว (GIF) ต้องใช้ Plutonium';
 
@@ -7696,6 +7634,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'ส่งต่อจาก $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'ส่งต่อแล้ว';
+
+  @override
+  String get chatForwardedFromLabel => 'ส่งต่อจาก';
 
   @override
   String get chatReplyCancel => 'ยกเลิกตอบกลับ';
@@ -16752,4 +16696,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'การชำระเงินถูกบล็อกสำหรับบัญชีนี้';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'เชื่อมต่อกับ $domain ไม่ได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง';
+  }
 }

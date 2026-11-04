@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -30,6 +31,7 @@ Future<void> signOutCurrentAccount(
       ..invalidate(gatewayReconnectBannerListenerProvider)
       ..invalidate(gatewayReconnectBannerProvider)
       ..invalidate(gatewayConnectionFailedProvider)
+      ..invalidate(startupGatewayFallbackProvider)
       ..invalidate(connectivityListenerProvider)
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)

@@ -20,14 +20,22 @@ double _reconnectMarkBounce(double t) {
   return clamped < 1 ? (1 - clamped) * clamped * 4 : 0;
 }
 
-Size _measureLabel(BuildContext context, String text, TextStyle style) {
+const int _labelMaxLines = 3;
+
+Size _measureLabel(
+  BuildContext context,
+  String text,
+  TextStyle style,
+  double maxWidth,
+) {
   final DefaultTextStyle defaults = DefaultTextStyle.of(context);
   final TextPainter painter = TextPainter(
     text: TextSpan(text: text, style: defaults.style.merge(style)),
     textDirection: Directionality.of(context),
     textScaler: MediaQuery.textScalerOf(context),
-    maxLines: 1,
-  )..layout();
+    maxLines: _labelMaxLines,
+    ellipsis: '\u2026',
+  )..layout(maxWidth: maxWidth);
   final Size size = painter.size;
   painter.dispose();
   return size;
@@ -324,21 +332,14 @@ class _GatewayReconnectBannerState
                                   children: [
                                     ?mark,
                                     SizedBox(width: layout.s3),
-                                    _PhaseLabel(
-                                      progress: _labelController.value,
-                                      reconnectingMessage: reconnectingMessage,
-                                      connectedMessage: connectedMessage,
-                                      reconnectingStyle: reconnectingStyle,
-                                      connectedStyle: connectedStyle,
-                                      reconnectingSize: _measureLabel(
-                                        context,
-                                        reconnectingMessage,
-                                        reconnectingStyle,
-                                      ),
-                                      connectedSize: _measureLabel(
-                                        context,
-                                        connectedMessage,
-                                        connectedStyle,
+                                    Flexible(
+                                      child: _PhaseLabel(
+                                        progress: _labelController.value,
+                                        reconnectingMessage:
+                                            reconnectingMessage,
+                                        connectedMessage: connectedMessage,
+                                        reconnectingStyle: reconnectingStyle,
+                                        connectedStyle: connectedStyle,
                                       ),
                                     ),
                                   ],
@@ -372,8 +373,6 @@ class _PhaseLabel extends StatelessWidget {
     required this.connectedMessage,
     required this.reconnectingStyle,
     required this.connectedStyle,
-    required this.reconnectingSize,
-    required this.connectedSize,
   });
 
   final double progress;
@@ -381,8 +380,6 @@ class _PhaseLabel extends StatelessWidget {
   final String connectedMessage;
   final TextStyle reconnectingStyle;
   final TextStyle connectedStyle;
-  final Size reconnectingSize;
-  final Size connectedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -392,38 +389,55 @@ class _PhaseLabel extends StatelessWidget {
     );
     final TextStyle connectedStyle = defaults.style.merge(this.connectedStyle);
     final double t = Curves.easeInOutCubic.transform(progress);
-    return SizedBox(
-      width:
-          (lerpDouble(reconnectingSize.width, connectedSize.width, t) ??
-                  connectedSize.width)
-              .ceilToDouble(),
-      child: ClipRect(
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            if (t < 1)
-              Opacity(
-                opacity: 1 - t,
-                child: Text(
-                  reconnectingMessage,
-                  style: reconnectingStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-            if (t > 0)
-              Opacity(
-                opacity: t,
-                child: Text(
-                  connectedMessage,
-                  style: connectedStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Size reconnectingSize = _measureLabel(
+          context,
+          reconnectingMessage,
+          reconnectingStyle,
+          constraints.maxWidth,
+        );
+        final Size connectedSize = _measureLabel(
+          context,
+          connectedMessage,
+          connectedStyle,
+          constraints.maxWidth,
+        );
+        return SizedBox(
+          width:
+              (lerpDouble(reconnectingSize.width, connectedSize.width, t) ??
+                      connectedSize.width)
+                  .ceilToDouble()
+                  .clamp(0, constraints.maxWidth),
+          child: ClipRect(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                if (t < 1)
+                  Opacity(
+                    opacity: 1 - t,
+                    child: Text(
+                      reconnectingMessage,
+                      style: reconnectingStyle,
+                      maxLines: _labelMaxLines,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                if (t > 0)
+                  Opacity(
+                    opacity: t,
+                    child: Text(
+                      connectedMessage,
+                      style: connectedStyle,
+                      maxLines: _labelMaxLines,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

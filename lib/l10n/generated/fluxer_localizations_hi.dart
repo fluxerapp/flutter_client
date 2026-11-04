@@ -2219,70 +2219,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'छिपाएँ कि आपके पास कितने Operator Pass हैं';
 
   @override
-  String get operatorPassWallTitle => 'Operators वॉल';
-
-  @override
-  String get operatorPassWallHowItWorks => 'वॉल कैसे काम करती है';
-
-  @override
-  String get operatorPassWallNotListed => 'सूचीबद्ध नहीं है।';
-
-  @override
-  String get operatorPassWallOnTheWall => 'वॉल पर';
-
-  @override
-  String get operatorPassWallLive => 'लाइव';
-
-  @override
-  String get operatorPassWallHidden =>
-      'हमारी टीम द्वारा अभी के लिए छिपाया गया।';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'क्यों?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'जब तक आपके फ़ायदे हटे हुए हैं, तब तक वॉल से हटाया गया।';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass की शर्तें';
-
-  @override
-  String get operatorPassWallSendChanges => 'प्रोफ़ाइल परिवर्तन वॉल पर भेजें';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'मेरा नाम सालाना Operators सूची में जोड़ें';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'साल में एक बार, हम किसी Fluxer रिलीज़ के नोट्स और उसके सोर्स कोड में Operators की एक सूची प्रकाशित करते हैं। आपका वॉल नाम उसमें तभी होगा जब आप इसे चालू करेंगे।';
-
-  @override
-  String get operatorPassWallSave => 'सेव करें';
-
-  @override
-  String get operatorPassWallSaved => 'सेव हो गया।';
-
-  @override
-  String get operatorPassWallSaveFailed =>
-      'सेव नहीं हो सका। दोबारा कोशिश करें।';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'वॉल पर नाम';
-
-  @override
-  String get operatorPassWallDontListMe => 'मुझे सूची में न दिखाएँ';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'कोई नाम डालें, या \"मुझे सूची में न दिखाएँ\" चुनें।';
-
-  @override
-  String get operatorPassWallNameTooLong =>
-      '32 या उससे कम अक्षर इस्तेमाल करें।';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. अधिकतम 10MB. अनुशंसित: 512×512px. एनिमेटेड अवतार (GIF) के लिए Plutonium की आवश्यकता होती है।';
 
@@ -7749,6 +7685,12 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return '$source से फ़ॉरवर्ड किया गया';
   }
+
+  @override
+  String get chatForwardedLabel => 'फ़ॉरवर्ड किया गया';
+
+  @override
+  String get chatForwardedFromLabel => 'फ़ॉरवर्ड का स्रोत';
 
   @override
   String get chatReplyCancel => 'जवाब रद्द करें';
@@ -16890,4 +16832,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'इस अकाउंट के लिए चेकआउट ब्लॉक है।';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '$domain से कनेक्ट नहीं हो पा रहा है। अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।';
+  }
 }

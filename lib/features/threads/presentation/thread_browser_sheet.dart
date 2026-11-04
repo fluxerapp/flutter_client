@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
@@ -24,7 +25,13 @@ Future<void> showThreadBrowserSheet(
   BuildContext context,
   WidgetRef hostRef,
   Channel parent,
-) {
+) async {
+  final bool gateUp = await hostRef
+      .read(shouldShowMatureContentGateProvider(parent.id).future)
+      .catchError((Object _) => true);
+  if (gateUp || !context.mounted) {
+    return;
+  }
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadBrowserTitle,
@@ -98,7 +105,8 @@ class _CreateThreadButton extends ConsumerWidget {
     final ThreadActor? actor = ref.watch(
       parentThreadActorProvider(parent.guildId, parent.id),
     );
-    if (!canStartThreadIn(parent, actor)) {
+    if (watchMatureContentGateUp(ref, parent.id) ||
+        !canStartThreadIn(parent, actor)) {
       return const SizedBox.shrink();
     }
     return FluxerButton.primary(
@@ -498,6 +506,9 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
     final ThreadSearchState search = ref.watch(
       threadSearchProvider(_searchParent),
     );
+    if (watchMatureContentGateUp(ref, parent.id)) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[

@@ -2245,66 +2245,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get operatorPassHideCount => 'إخفاء عدد Operator Pass لديك';
 
   @override
-  String get operatorPassWallTitle => 'جدار Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'كيف يعمل الجدار';
-
-  @override
-  String get operatorPassWallNotListed => 'غير مدرج.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'على الجدار';
-
-  @override
-  String get operatorPassWallLive => 'منشور';
-
-  @override
-  String get operatorPassWallHidden => 'مخفي بواسطة فريقنا حاليًا.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'لماذا؟';
-
-  @override
-  String get operatorPassWallRemoved => 'خارج الجدار ما دامت مزاياك مُزالة.';
-
-  @override
-  String get operatorPassTermsLink => 'شروط Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'إرسال تغييرات الملف الشخصي إلى الجدار';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'أضف اسمي إلى قائمة Operators السنوية';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'مرة واحدة في السنة، ننشر قائمة بأسماء Operators في ملاحظات أحد إصدارات Fluxer وفي شيفرته المصدرية. لن يظهر اسمك على الجدار فيها إلا إذا فعّلت هذا الخيار.';
-
-  @override
-  String get operatorPassWallSave => 'حفظ';
-
-  @override
-  String get operatorPassWallSaved => 'تم الحفظ.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'لم نتمكن من الحفظ. حاول مرة أخرى.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'الاسم على الجدار';
-
-  @override
-  String get operatorPassWallDontListMe => 'لا تدرجني';
-
-  @override
-  String get operatorPassWallNameRequired => 'أدخل اسمًا، أو حدّد «لا تدرجني».';
-
-  @override
-  String get operatorPassWallNameTooLong => 'استخدم 32 حرفًا أو أقل.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG، PNG، WebP. بحد أقصى 10 ميجابايت. موصى به: 512×512 بكسل. تتطلب الصور الرمزية المتحركة (GIF) Plutonium.';
 
@@ -7732,6 +7672,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'مُعاد توجيهها من $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'تمت إعادة توجيهها';
+
+  @override
+  String get chatForwardedFromLabel => 'مُعاد توجيهها من';
 
   @override
   String get chatReplyCancel => 'إلغاء الرد';
@@ -16846,4 +16792,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'تم حظر الدفع لهذا الحساب.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'تعذّر الاتصال بـ $domain. تحقّق من اتصالك بالإنترنت ثم حاول مرة أخرى.';
+  }
 }

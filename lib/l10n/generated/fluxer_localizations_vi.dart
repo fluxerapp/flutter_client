@@ -2217,67 +2217,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get operatorPassHideCount => 'Ẩn số lượng Operator Pass bạn có';
 
   @override
-  String get operatorPassWallTitle => 'Bức tường Operators';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Cách bức tường hoạt động';
-
-  @override
-  String get operatorPassWallNotListed => 'Không hiển thị.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Trên bức tường';
-
-  @override
-  String get operatorPassWallLive => 'Đang hiển thị';
-
-  @override
-  String get operatorPassWallHidden => 'Nhóm của chúng tôi đã tạm ẩn mục này.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Tại sao?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Không hiển thị trên bức tường trong thời gian quyền lợi của bạn bị gỡ bỏ.';
-
-  @override
-  String get operatorPassTermsLink => 'Điều khoản Operator Pass';
-
-  @override
-  String get operatorPassWallSendChanges => 'Gửi thay đổi hồ sơ lên bức tường';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Thêm tên tôi vào danh sách Operators hằng năm';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Mỗi năm một lần, chúng tôi công bố danh sách Operators trong ghi chú phát hành của một bản Fluxer và trong mã nguồn của bản đó. Tên trên bức tường của bạn chỉ có trong danh sách nếu bạn bật tùy chọn này.';
-
-  @override
-  String get operatorPassWallSave => 'Lưu';
-
-  @override
-  String get operatorPassWallSaved => 'Đã lưu.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Không thể lưu. Thử lại.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Tên trên bức tường';
-
-  @override
-  String get operatorPassWallDontListMe => 'Không hiển thị tôi';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Nhập tên, hoặc chọn \"Không hiển thị tôi\".';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Dùng tối đa 32 ký tự.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Tối đa 10MB. Khuyến nghị: 512×512px. Ảnh đại diện động (GIF) yêu cầu Plutonium.';
 
@@ -7748,6 +7687,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Chuyển tiếp từ $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'Đã chuyển tiếp';
+
+  @override
+  String get chatForwardedFromLabel => 'Chuyển tiếp từ';
 
   @override
   String get chatReplyCancel => 'Hủy trả lời';
@@ -16919,4 +16864,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Thanh toán bị chặn cho tài khoản này.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Không thể kết nối tới $domain. Hãy kiểm tra kết nối internet của bạn rồi thử lại.';
+  }
 }

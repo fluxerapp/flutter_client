@@ -2223,68 +2223,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get operatorPassHideCount => 'Operator Pass sayısını gizle';
 
   @override
-  String get operatorPassWallTitle => 'Operators duvarı';
-
-  @override
-  String get operatorPassWallHowItWorks => 'Duvarın çalışma şekli';
-
-  @override
-  String get operatorPassWallNotListed => 'Listelenmedi.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'Duvarda';
-
-  @override
-  String get operatorPassWallLive => 'Yayında';
-
-  @override
-  String get operatorPassWallHidden => 'Ekibimiz tarafından şimdilik gizlendi.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Neden?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Ayrıcalıklarınız kaldırıldığı sürece duvarda değilsiniz.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass şartları';
-
-  @override
-  String get operatorPassWallSendChanges =>
-      'Profil değişikliklerini duvara gönder';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Adımı yıllık Operators listesine ekle';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Yılda bir kez, Operators listesini bir Fluxer sürümünün notlarında ve kaynak kodunda yayımlıyoruz. Duvardaki adınız yalnızca bunu açarsanız listede yer alır.';
-
-  @override
-  String get operatorPassWallSave => 'Kaydet';
-
-  @override
-  String get operatorPassWallSaved => 'Kaydedildi.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Kaydedilemedi. Tekrar deneyin.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Duvardaki ad';
-
-  @override
-  String get operatorPassWallDontListMe => 'Beni listeleme';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Bir ad girin veya “Beni listeleme” seçeneğini işaretleyin.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'En fazla 32 karakter kullanın.';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maksimum 10MB. Önerilen: 512×512px. Animasyonlu avatarlar (GIF) Plutonium gerektirir.';
 
@@ -7752,6 +7690,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String chatForwardedFrom(String source) {
     return 'Şuradan iletildi: $source';
   }
+
+  @override
+  String get chatForwardedLabel => 'İletildi';
+
+  @override
+  String get chatForwardedFromLabel => 'Şuradan iletildi:';
 
   @override
   String get chatReplyCancel => 'Yanıtlamayı iptal et';
@@ -16906,4 +16850,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Bu hesap için ödeme engellendi.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '$domain adresine bağlanılamıyor. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+  }
 }

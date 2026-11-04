@@ -3752,120 +3752,6 @@ abstract class FluxerLocalizations {
   /// **'Hide how many Operator Passes you have'**
   String get operatorPassHideCount;
 
-  /// Heading for Operators' wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Operators\' wall'**
-  String get operatorPassWallTitle;
-
-  /// Link to Operator Pass wall help.
-  ///
-  /// In en, this message translates to:
-  /// **'How the wall works'**
-  String get operatorPassWallHowItWorks;
-
-  /// Status when not on the Operators' wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Not listed.'**
-  String get operatorPassWallNotListed;
-
-  /// Label for the live wall entry.
-  ///
-  /// In en, this message translates to:
-  /// **'On the wall'**
-  String get operatorPassWallOnTheWall;
-
-  /// Status when a wall name is live.
-  ///
-  /// In en, this message translates to:
-  /// **'Live'**
-  String get operatorPassWallLive;
-
-  /// Wall listing hidden by staff.
-  ///
-  /// In en, this message translates to:
-  /// **'Hidden by our team for now.'**
-  String get operatorPassWallHidden;
-
-  /// Link after hidden wall status.
-  ///
-  /// In en, this message translates to:
-  /// **'Why?'**
-  String get operatorPassWallHiddenWhy;
-
-  /// Wall listing removed when benefits are removed.
-  ///
-  /// In en, this message translates to:
-  /// **'Off the wall while your benefits are removed.'**
-  String get operatorPassWallRemoved;
-
-  /// Link to Operator Pass terms.
-  ///
-  /// In en, this message translates to:
-  /// **'Operator Pass terms'**
-  String get operatorPassTermsLink;
-
-  /// Switch to send profile changes to the wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Send profile changes to the wall'**
-  String get operatorPassWallSendChanges;
-
-  /// Switch for yearly Operators list opt-in.
-  ///
-  /// In en, this message translates to:
-  /// **'Add my name to the yearly Operators list'**
-  String get operatorPassWallReleaseList;
-
-  /// Hint for yearly Operators list opt-in.
-  ///
-  /// In en, this message translates to:
-  /// **'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.'**
-  String get operatorPassWallReleaseListHint;
-
-  /// Save Operators' wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get operatorPassWallSave;
-
-  /// Toast after saving wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Saved.'**
-  String get operatorPassWallSaved;
-
-  /// Toast when wall settings save fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t save. Try again.'**
-  String get operatorPassWallSaveFailed;
-
-  /// Label for wall name field in settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Name on the wall'**
-  String get operatorPassWallNameSettingsLabel;
-
-  /// Opt out of the Operators' wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t list me'**
-  String get operatorPassWallDontListMe;
-
-  /// Validation when wall name is empty.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a name, or check Don\'t list me.'**
-  String get operatorPassWallNameRequired;
-
-  /// Validation when wall name is too long.
-  ///
-  /// In en, this message translates to:
-  /// **'Use 32 characters or fewer.'**
-  String get operatorPassWallNameTooLong;
-
   /// Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars.
   ///
   /// In en, this message translates to:
@@ -12522,6 +12408,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Forwarded from {source}'**
   String chatForwardedFrom(String source);
+
+  /// Label at the top of a forwarded message when the source is not shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded'**
+  String get chatForwardedLabel;
+
+  /// Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded from'**
+  String get chatForwardedFromLabel;
 
   /// Accessible label for the cancel-reply button in the reply bar.
   ///
@@ -27825,6 +27723,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Checkout is blocked for this account.'**
   String get premiumCheckoutBlockedBodySelfHosted;
+
+  /// Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t connect to {domain}. Check your internet connection and try again.'**
+  String splashGatewayUnreachable(String domain);
 }
 
 class _FluxerLocalizationsDelegate
