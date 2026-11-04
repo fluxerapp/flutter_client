@@ -6132,6 +6132,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => 'נדרשת הרשאת מצלמה עבור וידאו.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'אפשר גישה למיקרופון כדי לבטל את ההשתקה בשיחה הזו.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'לא ניתן היה להתחיל שיתוף מסך. נסה שוב.';
 

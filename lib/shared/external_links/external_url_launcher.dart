@@ -188,3 +188,16 @@ Future<bool> openExternalUrl(
   }
   return launchInDefaultWebBrowser(uri, browser);
 }
+
+Future<bool> openInBrowserOnly(
+  Uri uri, {
+  DefaultWebBrowser browser = DefaultWebBrowser.inApp,
+}) async {
+  if (!isFluxerNativeMobileOs || !_canOpenInSafariView(uri)) {
+    return openExternalUrl(uri, browser: browser);
+  }
+  if (await launchInSpecificBrowser(uri, browser)) {
+    return true;
+  }
+  return _openInAppBrowser(uri);
+}

@@ -6173,6 +6173,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => 'إذن الكاميرا مطلوب للفيديو.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'اسمح بالوصول إلى الميكروفون لإلغاء الكتم في هذه المكالمة.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'تعذر بدء مشاركة الشاشة. يرجى المحاولة مرة أخرى.';
 

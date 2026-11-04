@@ -6205,6 +6205,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Video için kamera izni gereklidir.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Bu aramada sesinizi açmak için mikrofon erişimine izin verin.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Ekran paylaşımı başlatılamadı. Lütfen tekrar deneyin.';
 

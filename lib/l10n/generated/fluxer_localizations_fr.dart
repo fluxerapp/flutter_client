@@ -6299,6 +6299,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'La permission de la caméra est requise pour la vidéo.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Autorisez l\'accès au micro pour réactiver votre micro dans cet appel.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Impossible de démarrer le partage d\'écran. Veuillez réessayer.';
 

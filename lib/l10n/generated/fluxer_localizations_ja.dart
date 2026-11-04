@@ -5965,6 +5965,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => 'ビデオにはカメラの権限が必要です。';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'この通話でミュートを解除するには、マイクへのアクセスを許可してください。';
+
+  @override
   String get voiceErrorScreenShareToggle => '画面共有を開始できませんでした。もう一度お試しください。';
 
   @override

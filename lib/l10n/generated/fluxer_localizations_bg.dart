@@ -6250,6 +6250,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Необходим е достъп до камерата за видео.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Разреши достъп до микрофона, за да включиш звука си в този разговор.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Не успяхме да стартираме споделянето на екрана. Моля, опитайте отново.';
 

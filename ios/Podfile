@@ -51,21 +51,6 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
       config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'i386 x86_64'
-      definitions = config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] || ['$(inherited)']
-      definitions = [definitions].flatten
-      unless definitions.include?('PERMISSION_NOTIFICATIONS=1')
-        definitions << 'PERMISSION_NOTIFICATIONS=1'
-      end
-      unless definitions.include?('PERMISSION_MICROPHONE=1')
-        definitions << 'PERMISSION_MICROPHONE=1'
-      end
-      unless definitions.include?('PERMISSION_CAMERA=1')
-        definitions << 'PERMISSION_CAMERA=1'
-      end
-      unless definitions.include?('PERMISSION_PHOTOS=1')
-        definitions << 'PERMISSION_PHOTOS=1'
-      end
-      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = definitions
     end
   end
 

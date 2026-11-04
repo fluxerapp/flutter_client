@@ -6260,6 +6260,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Uprawnienia do kamery są wymagane do przesyłania wideo.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Zezwól na dostęp do mikrofonu, aby wyłączyć wyciszenie w tej rozmowie.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nie udało się rozpocząć udostępniania ekranu. Spróbuj ponownie.';
 

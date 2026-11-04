@@ -6179,6 +6179,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Camera permission is required for video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Allow microphone access to unmute in this call.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Couldn\'t start screen sharing. Please try again.';
 
@@ -22541,6 +22545,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Camera permission is required for video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Allow microphone access to unmute in this call.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Couldn\'t start screen sharing. Please try again.';
 
@@ -38900,6 +38908,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get voiceCameraPermissionRequired =>
       'Camera permission is required for video.';
+
+  @override
+  String get voiceMicPermissionRequired =>
+      'Allow microphone access to unmute in this call.';
 
   @override
   String get voiceErrorScreenShareToggle =>

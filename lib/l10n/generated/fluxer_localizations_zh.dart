@@ -5851,6 +5851,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => '视频需要摄像头权限。';
 
   @override
+  String get voiceMicPermissionRequired => '请允许访问麦克风，以便在此通话中取消静音。';
+
+  @override
   String get voiceErrorScreenShareToggle => '无法开始屏幕共享。请重试。';
 
   @override
@@ -21251,6 +21254,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceCameraPermissionRequired => '視訊需要相機權限。';
+
+  @override
+  String get voiceMicPermissionRequired => '請允許存取麥克風，才能在此通話中解除靜音。';
 
   @override
   String get voiceErrorScreenShareToggle => '無法開始螢幕分享。請再試一次。';

@@ -6214,6 +6214,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Kameratillstånd krävs för video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Ge åtkomst till mikrofonen för att slå på mikrofonen i det här samtalet.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Kunde inte starta skärmdelning. Försök igen.';
 

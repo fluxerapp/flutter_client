@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/push_notification_permission_status_provider.dart';
+import 'package:fluxer_app/features/shell/utils/enable_push_notifications.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -35,16 +34,22 @@ class UserNotificationsPermissionBanner extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FluxerWarningAlert(
-              title: l10n.notificationsPermissionDeniedTitle,
-              message: l10n.systemPermissionNotificationsMessage(
-                ref.watch(
-                  instanceRuntimeConfigProvider.select(
-                    (config) => config.productName,
+            if (requiresSystemSettings)
+              FluxerWarningAlert(
+                title: l10n.notificationsPermissionDeniedTitle,
+                message: l10n.systemPermissionNotificationsMessage(
+                  ref.watch(
+                    instanceRuntimeConfigProvider.select(
+                      (config) => config.productName,
+                    ),
                   ),
                 ),
+              )
+            else
+              FluxerWarningAlert(
+                variant: FluxerAlertVariant.info,
+                message: l10n.nagbarPushNotification,
               ),
-            ),
             SizedBox(height: layout.s2),
             Align(
               alignment: AlignmentDirectional.centerStart,
@@ -53,17 +58,10 @@ class UserNotificationsPermissionBanner extends ConsumerWidget {
                 label: requiresSystemSettings
                     ? l10n.nagbarOpenSettings
                     : l10n.nagbarEnableNotifications,
-                onPressedAsync: () async {
-                  await ensureSystemPermission(
-                    context,
-                    SystemPermissionKind.notifications,
-                  );
-                  ref
-                    ..invalidate(pushNotificationPermissionGrantedProvider)
-                    ..invalidate(
-                      pushNotificationRequiresSystemSettingsProvider,
-                    );
-                },
+                onPressedAsync: () => enablePushNotifications(
+                  context,
+                  requiresSystemSettings: requiresSystemSettings,
+                ),
               ),
             ),
             SizedBox(height: layout.s3),

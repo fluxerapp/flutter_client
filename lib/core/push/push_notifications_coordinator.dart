@@ -121,11 +121,13 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   Future<void> _runBootstrap() async {
     try {
       ref.read(fcmNotificationTapBindingProvider);
-      final bool granted = await requestPushNotificationPermission();
-      if (kDebugMode) {
-        debugPrint(
-          '[PushNotificationsCoordinator] notification permission: $granted',
-        );
+      if (defaultTargetPlatform != TargetPlatform.iOS) {
+        final bool granted = await requestPushNotificationPermission();
+        if (kDebugMode) {
+          debugPrint(
+            '[PushNotificationsCoordinator] notification permission: $granted',
+          );
+        }
       }
       await _localPush.ensureInitialized(
         onNotificationTap: ref

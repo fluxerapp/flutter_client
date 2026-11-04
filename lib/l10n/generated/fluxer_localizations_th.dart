@@ -6159,6 +6159,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ต้องได้รับอนุญาตจากกล้องสำหรับวิดีโอ';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'อนุญาตการเข้าถึงไมโครโฟนเพื่อเปิดเสียงในการโทรนี้';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'ไม่สามารถเริ่มแชร์หน้าจอได้ โปรดลองอีกครั้ง';
 

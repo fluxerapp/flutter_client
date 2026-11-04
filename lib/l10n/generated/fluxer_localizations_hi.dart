@@ -6195,6 +6195,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'वीडियो के लिए कैमरा अनुमति आवश्यक है।';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'इस कॉल में अनम्यूट करने के लिए माइक्रोफ़ोन एक्सेस की अनुमति दें।';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'स्क्रीन शेयरिंग शुरू नहीं हो सकी। कृपया पुनः प्रयास करें।';
 

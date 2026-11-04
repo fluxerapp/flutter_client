@@ -6272,6 +6272,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Απαιτείται άδεια κάμερας για βίντεο.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Επιτρέψτε την πρόσβαση στο μικρόφωνο για να καταργήσετε τη σίγαση σε αυτήν την κλήση.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Δεν ήταν δυνατή η εκκίνηση της κοινής χρήσης οθόνης. Προσπαθήστε ξανά.';
 

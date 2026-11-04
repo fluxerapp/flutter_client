@@ -6226,6 +6226,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Cameratoestemming is vereist voor video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Geef toegang tot je microfoon om het dempen in dit gesprek op te heffen.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Kon het delen van het scherm niet starten. Probeer het opnieuw.';
 

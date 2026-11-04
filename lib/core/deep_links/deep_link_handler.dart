@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.
 import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_link_parser.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -27,6 +28,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'deep_link_handler.g.dart';
+
+final RegExp _userIdPattern = RegExp(r'^[0-9]{1,20}$');
 
 @Riverpod(keepAlive: true)
 class DeepLinkHandler extends _$DeepLinkHandler {
@@ -66,6 +69,10 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     talker.info('[DeepLink] Received: ${sanitizeDeepLinkForLog(uri)}');
 
     if (_tryDeferOAuthDeepLinkToBrowser(uri)) {
+      return;
+    }
+
+    if (_tryDeferOtherInstanceLinkToBrowser(uri)) {
       return;
     }
 
@@ -109,7 +116,23 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       '[DeepLink] Deferring OAuth URL to browser: ${sanitizeDeepLinkForLog(uri)}',
     );
     final browser = ref.read(defaultAppsPreferencesProvider);
-    unawaited(openExternalUrl(uri, browser: browser));
+    unawaited(openInBrowserOnly(uri, browser: browser));
+    return true;
+  }
+
+  bool _tryDeferOtherInstanceLinkToBrowser(Uri uri) {
+    if (!isOfficialLinkForOtherInstance(
+      uri,
+      instanceWebAppBase: ref.read(instanceWebAppBaseUrlProvider),
+    )) {
+      return false;
+    }
+    talker.info(
+      '[DeepLink] Opening link for another instance in browser: '
+      '${sanitizeDeepLinkForLog(uri)}',
+    );
+    final browser = ref.read(defaultAppsPreferencesProvider);
+    unawaited(openInBrowserOnly(uri, browser: browser));
     return true;
   }
 
@@ -230,7 +253,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
         }
         router.go(RoutePaths.giftLink(segments[1]));
       case 'users' when segments.length >= 2:
-        talker.info('[DeepLink] User profile: ${segments[1]}');
+        _handleUserProfileDeepLink(segments[1]);
       case 'settings' when segments.length >= 2 && segments[1] == 'user':
         _handleUserSettingsDeepLink(uri);
       case 'notifications' when segments.length == 1:
@@ -242,6 +265,21 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       default:
         talker.warning('[DeepLink] Unknown deep link path: ${uri.path}');
     }
+  }
+
+  void _handleUserProfileDeepLink(String userId) {
+    if (!_userIdPattern.hasMatch(userId)) {
+      talker.warning('[DeepLink] Ignored user link with invalid id');
+      return;
+    }
+    final BuildContext? context = rootNavigatorKey.currentContext;
+    if (context == null || !context.mounted) {
+      talker.warning(
+        '[DeepLink] Cannot open user profile: no navigator context',
+      );
+      return;
+    }
+    unawaited(FluxerUserProfileSheet.show(context, userId: userId));
   }
 
   void _handleUserSettingsDeepLink(Uri uri) {

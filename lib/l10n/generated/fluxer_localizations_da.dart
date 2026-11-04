@@ -6194,6 +6194,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Kameratilladelse er påkrævet for video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Giv adgang til mikrofonen for at slå mikrofonen til i dette opkald.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Kunne ikke starte skærmdeling. Prøv igen.';
 

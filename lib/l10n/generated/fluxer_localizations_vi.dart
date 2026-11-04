@@ -6195,6 +6195,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Cần có quyền truy cập camera để sử dụng video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Cho phép truy cập micrô để bật tiếng trong cuộc gọi này.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Không thể bắt đầu chia sẻ màn hình. Vui lòng thử lại.';
 

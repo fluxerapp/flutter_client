@@ -6240,6 +6240,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Este necesară permisiunea camerei pentru video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Permite accesul la microfon pentru a-ți activa sunetul în acest apel.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nu am putut porni partajarea ecranului. Te rugăm să încerci din nou.';
 
