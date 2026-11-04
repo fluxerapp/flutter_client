@@ -4414,6 +4414,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Den här communityn med vuxet innehåll är inte tillgänglig för ditt konto.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Den här kategorin med vuxet innehåll är inte tillgänglig för ditt konto.';
 

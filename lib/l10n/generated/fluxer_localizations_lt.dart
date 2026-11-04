@@ -4437,6 +4437,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Ši brandaus turinio bendruomenė nepasiekiama jūsų paskyrai.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Ši brandaus turinio kategorija nepasiekiama jūsų paskyrai.';
 

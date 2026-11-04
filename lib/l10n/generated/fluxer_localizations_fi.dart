@@ -4423,6 +4423,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä aikuisille tarkoitettu yhteisö ei ole käytettävissä tililläsi.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Tämä aikuisille tarkoitettu kategoria ei ole käytettävissä tililläsi.';
 

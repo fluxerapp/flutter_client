@@ -630,13 +630,9 @@ class VoiceSession extends _$VoiceSession {
     }
     _preJoinPermissionsInFlight = true;
     bool joinMicrophoneGranted = false;
-    bool joinCameraGranted = false;
     try {
       joinMicrophoneGranted = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.microphone,
-      );
-      joinCameraGranted = await requestVoiceJoinMediaPermissionGranted(
-        SystemPermissionKind.camera,
       );
     } finally {
       _preJoinPermissionsInFlight = false;
@@ -645,7 +641,7 @@ class VoiceSession extends _$VoiceSession {
       return false;
     }
     _lastConnectRequestAt = now;
-    _startWithVideoAfterConnect = initialSelfVideo && joinCameraGranted;
+    _startWithVideoAfterConnect = initialSelfVideo;
     final local = ref.read(localVoiceStateProvider);
     bool resolvedSelfMute = initialSelfDeaf || initialSelfMute;
     bool resolvedSelfDeaf = initialSelfDeaf;
@@ -708,7 +704,6 @@ class VoiceSession extends _$VoiceSession {
       clearError: true,
       guildId: _expectedGuildId,
       channelId: channelId,
-      joinCameraGranted: joinCameraGranted,
     );
     _joinTiming = VoiceJoinTiming(channelId: channelId);
     _joinTiming?.mark('opcode');
@@ -2041,9 +2036,6 @@ class VoiceSession extends _$VoiceSession {
     if (_togglingVideo || !_hasTransport()) {
       return;
     }
-    if (!state.joinCameraGranted) {
-      return;
-    }
     final SystemPermissionOutcome cameraOutcome = await requestSystemPermission(
       SystemPermissionKind.camera,
     );
@@ -2600,9 +2592,6 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (nextVideo) {
-      if (!state.joinCameraGranted) {
-        return;
-      }
       final bool camOk = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.camera,
       );
@@ -2610,7 +2599,6 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       if (!camOk) {
-        state = state.copyWith(joinCameraGranted: false);
         return;
       }
     }

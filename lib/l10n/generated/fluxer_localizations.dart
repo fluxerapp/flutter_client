@@ -7130,6 +7130,12 @@ abstract class FluxerLocalizations {
   /// **'This mature community is not available to your account.'**
   String get matureCommunityUnavailableBody;
 
+  /// Body when mature access must be enabled on web or desktop instead of in the iOS app.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.'**
+  String get matureContentIosWebOptInBody;
+
   /// Body when a minor cannot access a mature category.
   ///
   /// In en, this message translates to:

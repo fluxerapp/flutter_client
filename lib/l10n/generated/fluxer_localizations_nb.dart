@@ -4408,6 +4408,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Dette fellesskapet med voksent innhold er ikke tilgjengelig for kontoen din.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Denne kategorien med voksent innhold er ikke tilgjengelig for kontoen din.';
 

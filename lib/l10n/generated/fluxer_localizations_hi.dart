@@ -4410,6 +4410,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'यह वयस्क कम्युनिटी आपके अकाउंट के लिए उपलब्ध नहीं है।';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'यह वयस्क श्रेणी आपके अकाउंट के लिए उपलब्ध नहीं है।';
 

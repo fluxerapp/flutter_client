@@ -4402,6 +4402,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Cộng đồng có nội dung người lớn này không khả dụng với tài khoản của bạn.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Danh mục có nội dung người lớn này không khả dụng với tài khoản của bạn.';
 

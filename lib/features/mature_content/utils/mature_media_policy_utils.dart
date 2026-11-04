@@ -58,6 +58,7 @@ MatureContentGateReason resolveChannelGateReason({
   required ResolvedMatureGateContext context,
   required bool nsfwAllowed,
   required MatureContentAgreementsState agreements,
+  bool allowInAppConsent = true,
 }) {
   final bool hasWarning =
       context.effectiveWarningLevel == contentWarningLevelContentWarning;
@@ -65,7 +66,7 @@ MatureContentGateReason resolveChannelGateReason({
     return MatureContentGateReason.none;
   }
   if (!agreements.isLoaded) {
-    return MatureContentGateReason.consentRequired;
+    return _pendingConsentReason(allowInAppConsent: allowInAppConsent);
   }
   if (context.effectiveMatureContent && !nsfwAllowed) {
     return MatureContentGateReason.minorBlocked;
@@ -73,5 +74,13 @@ MatureContentGateReason resolveChannelGateReason({
   if (hasMatureContentAgreement(agreements: agreements, context: context)) {
     return MatureContentGateReason.none;
   }
-  return MatureContentGateReason.consentRequired;
+  return _pendingConsentReason(allowInAppConsent: allowInAppConsent);
+}
+
+MatureContentGateReason _pendingConsentReason({
+  required bool allowInAppConsent,
+}) {
+  return allowInAppConsent
+      ? MatureContentGateReason.consentRequired
+      : MatureContentGateReason.webOptInRequired;
 }

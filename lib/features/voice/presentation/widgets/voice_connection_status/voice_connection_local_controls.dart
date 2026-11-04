@@ -36,8 +36,7 @@ class VoiceConnectionLocalControls extends ConsumerWidget {
         .watch(videoCameraCapabilityProvider)
         .maybeWhen(data: (bool value) => value, orElse: () => false);
     final bool canVideo = hasCamera && _canUseVideo(ref, voice.channelId);
-    final bool canToggleCamera =
-        isConnected && canVideo && voice.joinCameraGranted;
+    final bool canToggleCamera = isConnected && canVideo;
 
     final List<Widget> controls = <Widget>[];
     if (hasCamera) {

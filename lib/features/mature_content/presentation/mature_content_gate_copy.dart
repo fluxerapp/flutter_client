@@ -36,6 +36,16 @@ MatureContentGateCopy resolveMatureContentGateCopy({
       canProceed: false,
     );
   }
+  if (reason == MatureContentGateReason.webOptInRequired) {
+    return MatureContentGateCopy(
+      title: context.effectiveMatureContent
+          ? _matureTitle(l10n, context.scope)
+          : _contentWarningTitle(l10n, context.scope),
+      body: l10n.matureContentIosWebOptInBody,
+      primaryButtonLabel: null,
+      canProceed: false,
+    );
+  }
   if (!context.effectiveMatureContent) {
     return MatureContentGateCopy(
       title: _contentWarningTitle(l10n, context.scope),

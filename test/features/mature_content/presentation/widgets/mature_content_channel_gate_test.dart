@@ -36,6 +36,26 @@ void main() {
     scopeId: 'channel-2',
   );
 
+  testWidgets('shows web opt-in copy without proceed on iOS', (tester) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        overrides: [
+          matureContentGateReasonProvider(
+            'channel-1',
+          ).overrideWith((ref) => MatureContentGateReason.webOptInRequired),
+          matureGateContextProvider(
+            'channel-1',
+          ).overrideWith((ref) => matureContext),
+        ],
+        child: const MatureContentChannelGate(channelId: 'channel-1'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Mature channel'), findsOneWidget);
+    expect(find.text('Proceed'), findsNothing);
+    expect(find.text('Cancel'), findsOneWidget);
+  });
+
   testWidgets('shows mature channel copy when consent is required', (
     tester,
   ) async {

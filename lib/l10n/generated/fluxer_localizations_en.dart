@@ -4397,6 +4397,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'This mature community is not available to your account.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'This mature category is not available to your account.';
 

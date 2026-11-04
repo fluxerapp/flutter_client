@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/build/app_build_environment.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_consent_sheet.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
@@ -418,7 +420,8 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
                 ),
               ],
             ),
-          if (Platform.isIOS)
+          if (Platform.isIOS &&
+              AppBuildConfig.environment != AppBuildEnvironment.stable)
             FluxerSettingsSection(
               sectionId: 'developer-tools-sandbox-purchases',
               title: 'App Store purchases',

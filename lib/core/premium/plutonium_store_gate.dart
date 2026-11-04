@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/build/app_build_environment.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/app_store_distribution.dart';
@@ -34,6 +35,7 @@ bool resolvePremiumStorePurchasesEnabled({
   required bool officialInstance,
   required AppStoreDistribution appStoreDistribution,
   required bool sandboxPurchases,
+  required bool iosStableBuild,
   required bool iosBetaOrCanaryBuild,
 }) {
   if (!officialInstance) {
@@ -50,6 +52,7 @@ bool resolvePremiumStorePurchasesEnabled({
         resolveAppStorePurchaseDistribution(
           distribution: appStoreDistribution,
           sandboxPurchases: sandboxPurchases,
+          iosStableBuild: iosStableBuild,
         );
   }
   return false;
@@ -58,10 +61,11 @@ bool resolvePremiumStorePurchasesEnabled({
 bool resolveAppStorePurchaseDistribution({
   required AppStoreDistribution distribution,
   required bool sandboxPurchases,
+  required bool iosStableBuild,
 }) {
   return switch (distribution) {
     AppStoreDistribution.production => true,
-    AppStoreDistribution.testflight => sandboxPurchases,
+    AppStoreDistribution.testflight => iosStableBuild || sandboxPurchases,
     AppStoreDistribution.development || AppStoreDistribution.unknown => false,
   };
 }
@@ -95,6 +99,10 @@ bool resolvePremiumBillingNavVisible({
 final premiumStorePurchasesEnabledProvider = Provider<bool>((Ref ref) {
   final bool officialInstance = ref.watch(isActiveInstanceOfficialProvider);
   final bool appStore = Platform.isIOS && officialInstance;
+  final bool iosStableBuild =
+      AppBuildConfig.environment == AppBuildEnvironment.stable;
+  final bool developerSandboxPurchases =
+      ref.watch(sandboxStorePurchasesProvider).value ?? false;
   return resolvePremiumStorePurchasesEnabled(
     isAndroid: Platform.isAndroid,
     isIOS: Platform.isIOS,
@@ -104,8 +112,8 @@ final premiumStorePurchasesEnabledProvider = Provider<bool>((Ref ref) {
         ? ref.watch(appStoreDistributionProvider).value ??
               AppStoreDistribution.unknown
         : AppStoreDistribution.unknown,
-    sandboxPurchases:
-        appStore && (ref.watch(sandboxStorePurchasesProvider).value ?? false),
+    sandboxPurchases: appStore && !iosStableBuild && developerSandboxPurchases,
+    iosStableBuild: iosStableBuild,
     iosBetaOrCanaryBuild: AppBuildConfig.isBeta || AppBuildConfig.isCanary,
   );
 });

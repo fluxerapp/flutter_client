@@ -4448,6 +4448,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a felnőtt tartalmú közösség nem érhető el a fiókod számára.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Ez a felnőtt tartalmú kategória nem érhető el a fiókod számára.';
 

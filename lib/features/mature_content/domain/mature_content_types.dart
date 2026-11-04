@@ -10,7 +10,12 @@ enum ClientSensitiveMediaFilterLevel {
   };
 }
 
-enum MatureContentGateReason { none, consentRequired, minorBlocked }
+enum MatureContentGateReason {
+  none,
+  consentRequired,
+  webOptInRequired,
+  minorBlocked,
+}
 
 enum MatureContentAgreementScope { channel, category, guild }
 

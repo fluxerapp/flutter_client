@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -148,7 +149,9 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
               heroArtAsset: heroAsset,
               title: l10n.userSettingsNavFluxerPlutonium,
               scrollController: _scrollController,
-              footer: selfHosted ? null : const _DonateLine(),
+              footer: selfHosted || defaultTargetPlatform == TargetPlatform.iOS
+                  ? null
+                  : const _DonateLine(),
               highlights: const PremiumStoreHeroHighlights(),
             ),
             const PremiumStoreMarketingSections(),

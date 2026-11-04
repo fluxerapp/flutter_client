@@ -5669,6 +5669,10 @@
     "@matureCommunityUnavailableBody": {
         "description": "Body when a minor cannot access a mature community."
     },
+    "matureContentIosWebOptInBody": "Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+    },
     "matureCategoryUnavailableBody": "This mature category is not available to your account.",
     "@matureCategoryUnavailableBody": {
         "description": "Body when a minor cannot access a mature category."

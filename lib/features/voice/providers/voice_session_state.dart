@@ -19,7 +19,6 @@ class VoiceSessionState {
     this.e2eeKey,
     this.connectFailed = false,
     this.connectFailedTarget,
-    this.joinCameraGranted = true,
   });
 
   final bool isConnecting;
@@ -35,7 +34,6 @@ class VoiceSessionState {
   final String? e2eeKey;
   final bool connectFailed;
   final VoiceConnectFailedTarget? connectFailedTarget;
-  final bool joinCameraGranted;
 
   bool get isInVoice =>
       (isConnecting || isConnected) &&
@@ -63,7 +61,6 @@ class VoiceSessionState {
     String? e2eeKey,
     bool? connectFailed,
     VoiceConnectFailedTarget? connectFailedTarget,
-    bool? joinCameraGranted,
     bool clearError = false,
     bool clearRoom = false,
     bool clearE2eeKey = false,
@@ -93,8 +90,6 @@ class VoiceSessionState {
       connectFailedTarget: clearConnectFailedTarget
           ? null
           : (connectFailedTarget ?? this.connectFailedTarget),
-      joinCameraGranted:
-          clearChannel || (joinCameraGranted ?? this.joinCameraGranted),
     );
   }
 }
