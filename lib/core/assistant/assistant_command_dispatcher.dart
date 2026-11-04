@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/assistant/assistant_command_result.dart';
 import 'package:fluxer_app/core/assistant/assistant_entity_index.dart';
 import 'package:fluxer_app/core/assistant/assistant_spoken.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
@@ -82,8 +83,14 @@ class AssistantCommandDispatcher {
       if (!_ref.mounted) {
         return false;
       }
-      if (readAssistantCommandSnapshot(_ref).isNavigationReady) {
+      final AssistantCommandSnapshot snapshot = readAssistantCommandSnapshot(
+        _ref,
+      );
+      if (snapshot.isNavigationReady) {
         return true;
+      }
+      if (snapshot.isSignedOut) {
+        return false;
       }
     }
     return false;
@@ -309,6 +316,7 @@ AssistantCommandSnapshot readAssistantCommandSnapshot(Ref ref) {
   final AssistantEntityIndex index = ref.read(assistantEntityIndexProvider);
   return AssistantCommandSnapshot(
     authenticated: ref.read(authStateProvider),
+    startupPending: ref.read(appStartupProvider).isLoading,
     gatewayReady: ref.read(gatewayReadyProvider),
     connectionFailed: ref.read(gatewayConnectionFailedProvider),
     inVoice: ref.read(voiceSessionProvider).isInVoice,

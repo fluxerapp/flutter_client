@@ -72,8 +72,8 @@ struct JoinVoiceIntent: AppIntent {
     }
     let communityName = guild?.name ?? channel.guildName
     let prompt = communityName.isEmpty
-      ? "Join \(channel.name)?"
-      : "Join \(channel.name) in \(communityName)?"
+      ? String(localized: "Join \(channel.name)?")
+      : String(localized: "Join \(channel.name) in \(communityName)?")
     try await confirmAssistantAction(prompt)
     await AssistantCommandRunner.open([
       "type": "voiceJoin",
@@ -100,7 +100,9 @@ struct StartDmCallIntent: AppIntent {
   func perform() async throws -> some IntentResult {
     let name = friend.name.trimmingCharacters(in: .whitespacesAndNewlines)
     try await confirmAssistantAction(
-      name.isEmpty ? "Start this call?" : "Call \(name) on Fluxer?"
+      name.isEmpty
+        ? String(localized: "Start this call?")
+        : String(localized: "Call \(name) on Fluxer?")
     )
     AssistantPendingCommand.queueCall(friendId: friend.id)
     return .result()

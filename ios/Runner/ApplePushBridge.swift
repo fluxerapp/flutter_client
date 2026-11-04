@@ -94,6 +94,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       identifier: PushNotificationPayload.messageReplyCategoryId,
       actions: [reply],
       intentIdentifiers: ["INSendMessageIntent"],
+      hiddenPreviewsBodyPlaceholder: NSLocalizedString("PUSH_NEW_MESSAGE", comment: ""),
       options: []
     )
     DispatchQueue.main.async {

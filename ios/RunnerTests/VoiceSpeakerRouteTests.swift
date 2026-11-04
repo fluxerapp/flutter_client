@@ -1,5 +1,6 @@
 import AVFAudio
 import XCTest
+@testable import Runner
 
 final class VoiceSpeakerRouteTests: XCTestCase {
   func testSpeakerClearsToTheLoudspeaker() {

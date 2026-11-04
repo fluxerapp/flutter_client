@@ -93,10 +93,9 @@ private extension SampleHandler {
             if let error = error {
                 self?.finishBroadcastWithError(error)
             } else {
-                // the displayed failure message is more user friendly when using NSError instead of Error
-                let JMScreenSharingStopped = 10001
-                let customError = NSError(domain: RPRecordingErrorDomain, code: JMScreenSharingStopped, userInfo: [NSLocalizedDescriptionKey: "Screen sharing stopped"])
-                self?.finishBroadcastWithError(customError)
+                self?.finishBroadcastWithError(
+                    Self.broadcastError(code: 10001, key: "BROADCAST_STOPPED", english: "Screen sharing stopped.")
+                )
             }
         }
     }
@@ -106,20 +105,40 @@ private extension SampleHandler {
         let timer = DispatchSource.makeTimerSource(queue: queue)
         connectTimer?.cancel()
         connectTimer = timer
+        let deadline = DispatchTime.now() + .seconds(10)
         timer.schedule(deadline: .now(), repeating: .milliseconds(100), leeway: .milliseconds(500))
         timer.setEventHandler { [weak self] in
-            self?.connectionOpenAttempts += 1
-            guard self?.clientConnection?.open() == true else {
-                if let attempts = self?.connectionOpenAttempts, attempts % 10 == 0 {
-                    os_log(.debug, log: broadcastLogger, "waiting for socket open, attempts=%{public}d", attempts)
-                }
+            guard let self else {
+                timer.cancel()
                 return
             }
-            os_log(.debug, log: broadcastLogger, "socket opened after %{public}d attempts", self?.connectionOpenAttempts ?? 0)
-
+            self.connectionOpenAttempts += 1
+            if self.clientConnection?.open() == true {
+                os_log(.debug, log: broadcastLogger, "socket opened after %{public}d attempts", self.connectionOpenAttempts)
+                timer.cancel()
+                return
+            }
+            guard DispatchTime.now() >= deadline else {
+                return
+            }
             timer.cancel()
+            os_log(.error, log: broadcastLogger, "no call to share into after %{public}d attempts", self.connectionOpenAttempts)
+            self.finishBroadcastWithError(
+                Self.broadcastError(
+                    code: 10002,
+                    key: "BROADCAST_NO_CALL",
+                    english: "Join a call in Fluxer before you share your screen."
+                )
+            )
         }
-
         timer.resume()
+    }
+
+    static func broadcastError(code: Int, key: String, english: String) -> NSError {
+        NSError(
+            domain: RPRecordingErrorDomain,
+            code: code,
+            userInfo: [NSLocalizedDescriptionKey: NativeStrings.text(key, english)]
+        )
     }
 }

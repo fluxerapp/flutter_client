@@ -65,6 +65,8 @@ ChannelE2eeStatus computeChannelE2eeStatus({
   );
   return computeChannelE2eeStatusFromStates(
     connectedStates: connected,
-    emptyChannelStatus: emptyChannelStatus,
+    emptyChannelStatus: guildId == null
+        ? ChannelE2eeStatus.none
+        : emptyChannelStatus,
   );
 }

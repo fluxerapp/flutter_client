@@ -18,8 +18,6 @@ const EventChannel _voiceSpeakerRouteEventsChannel = EventChannel(
 
 const Duration _kNativeRouteSyncDebounce = Duration(milliseconds: 200);
 
-const Duration _kNativeRoutePickerFollowUpDelay = Duration(milliseconds: 400);
-
 bool showNativeVoiceAudioRoutePicker() {
   return defaultTargetPlatform == TargetPlatform.iOS;
 }
@@ -50,35 +48,6 @@ Future<void> clearNativeVoiceOutputRouteHold() async {
     await _voiceSpeakerRouteChannel.invokeMethod<void>('clearRouteHold');
   } on Object {
     return;
-  }
-}
-
-Map<String, double>? voiceRoutePickerAnchorArguments(Rect? anchor) {
-  if (anchor == null) {
-    return null;
-  }
-  return <String, double>{
-    'x': anchor.left,
-    'y': anchor.top,
-    'width': anchor.width,
-    'height': anchor.height,
-  };
-}
-
-Future<String?> presentNativeVoiceRoutePicker({Rect? anchor}) async {
-  if (defaultTargetPlatform != TargetPlatform.iOS) {
-    return null;
-  }
-  try {
-    final Map<String, double>? anchorArgs = voiceRoutePickerAnchorArguments(
-      anchor,
-    );
-    return await _voiceSpeakerRouteChannel.invokeMethod<String>(
-      'presentRoutePicker',
-      anchorArgs == null ? null : <String, Object>{'anchor': anchorArgs},
-    );
-  } on Object {
-    return null;
   }
 }
 
@@ -115,34 +84,6 @@ Future<void> syncVoiceSettingsFromNativeRoute({
   if (current.inputDeviceId != kDefaultVoiceDeviceId) {
     await settingsNotifier.setInputDeviceId(kDefaultVoiceDeviceId);
   }
-}
-
-Future<void> syncVoiceSettingsAfterNativeRoutePicker({
-  required VoiceSettings settingsNotifier,
-  required VoiceSettingsState currentBeforePicker,
-  String? pickedRouteName,
-  VoiceSettingsState Function()? readCurrentState,
-}) async {
-  if (pickedRouteName != null && pickedRouteName.isNotEmpty) {
-    await syncVoiceSettingsFromNativeRoute(
-      settingsNotifier: settingsNotifier,
-      current: currentBeforePicker,
-      route: voiceOutputRouteFromName(pickedRouteName),
-    );
-    return;
-  }
-  await syncVoiceSettingsFromNativeRoute(
-    settingsNotifier: settingsNotifier,
-    current: currentBeforePicker,
-  );
-  if (readCurrentState == null) {
-    return;
-  }
-  await Future<void>.delayed(_kNativeRoutePickerFollowUpDelay);
-  await syncVoiceSettingsFromNativeRoute(
-    settingsNotifier: settingsNotifier,
-    current: readCurrentState(),
-  );
 }
 
 Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {

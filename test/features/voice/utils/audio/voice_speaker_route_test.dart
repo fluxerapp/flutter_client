@@ -20,34 +20,6 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  group('presentNativeVoiceRoutePicker', () {
-    test('invokes presentRoutePicker on iOS', () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      String? method;
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(channel, (MethodCall call) async {
-            method = call.method;
-            return 'speaker';
-          });
-      final String? picked = await presentNativeVoiceRoutePicker();
-      expect(method, 'presentRoutePicker');
-      expect(picked, 'speaker');
-    });
-
-    test('is a no-op on Android', () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      var called = false;
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(channel, (MethodCall call) async {
-            called = true;
-            return null;
-          });
-      final String? picked = await presentNativeVoiceRoutePicker();
-      expect(called, isFalse);
-      expect(picked, isNull);
-    });
-  });
-
   group('readNativeActiveVoiceOutputRoute', () {
     test('maps activeRoute response on iOS', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;

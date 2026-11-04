@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -1175,6 +1176,9 @@ class VoiceSession extends _$VoiceSession {
     List<VoiceP2pConnectionReportsRequestReports> reports,
   ) async {
     if (!ref.mounted) {
+      return;
+    }
+    if (isFluxerNativeMobileOs && !ref.read(observabilityReportingProvider)) {
       return;
     }
     try {

@@ -232,6 +232,45 @@ class RunnerTests: XCTestCase {
     XCTAssertNil(PushNotificationPayload.resolveSpeakableGroupName(title: "Alice"))
   }
 
+  func testStructuredGuildPushNamesTheAuthorAndTheChannel() {
+    let userInfo: [AnyHashable: Any] = [
+      "data": [
+        "author_name": "peer",
+        "conversation_kind": "guild",
+        "conversation_name": "general",
+        "guild_name": "Test Guild",
+      ],
+    ]
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: userInfo,
+        title: "peer (#general, Test Guild)"
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "#general, Test Guild")
+    )
+  }
+
+  func testLegacyGuildTitleStillSplitsAuthorAndChannel() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: ["channel_id": "1"],
+        title: "peer (#general, Test Guild)"
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "general")
+    )
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: ["channel_id": "2", "parent_id": "1", "channel_name": "ideas"],
+        title: "a (#ideas, #general, Guild)"
+      ),
+      PushConversationIdentity(senderName: "a", groupName: "#ideas, #general, Guild")
+    )
+  }
+
+  func testNoTitleAndNoAuthorGivesNoIdentity() {
+    XCTAssertNil(PushNotificationPayload.resolveConversationIdentity(from: [:], title: ""))
+  }
+
   func testMessageIsCoveredByAckKeepsNewerMessages() {
     XCTAssertFalse(
       PushNotificationPayload.messageIsCoveredByAck(messageId: "200", upToMessageId: "100")

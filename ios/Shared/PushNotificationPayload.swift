@@ -1,6 +1,11 @@
 import Foundation
 import UserNotifications
 
+struct PushConversationIdentity: Equatable {
+  let senderName: String
+  let groupName: String?
+}
+
 enum PushNotificationPayload {
   static let messageReplyCategoryId = "fluxer_message"
   static let messageReplyActionId = "fluxer_reply"
@@ -77,6 +82,78 @@ enum PushNotificationPayload {
     return nil
   }
 
+  static func resolveConversationIdentity(
+    from userInfo: [AnyHashable: Any],
+    title: String
+  ) -> PushConversationIdentity? {
+    if payloadText("preview_kind", in: userInfo) == "mature" {
+      return nil
+    }
+    if let author = payloadText("author_name", in: userInfo) {
+      return PushConversationIdentity(
+        senderName: author,
+        groupName: structuredGroupName(from: userInfo)
+      )
+    }
+    let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+      return nil
+    }
+    let groupName = resolveSpeakableGroupName(title: trimmed, userInfo: userInfo)
+    guard groupName != nil, let open = trimmed.range(of: " (", options: .backwards) else {
+      return PushConversationIdentity(senderName: trimmed, groupName: nil)
+    }
+    return PushConversationIdentity(
+      senderName: String(trimmed[..<open.lowerBound]),
+      groupName: groupName
+    )
+  }
+
+  private static func structuredGroupName(from userInfo: [AnyHashable: Any]) -> String? {
+    let name = payloadText("conversation_name", in: userInfo)
+    switch payloadText("conversation_kind", in: userInfo) {
+    case "guild":
+      guard let name else {
+        return payloadText("guild_name", in: userInfo)
+      }
+      guard let guild = payloadText("guild_name", in: userInfo) else {
+        return "#\(name)"
+      }
+      return NativeStrings.format("PUSH_CHANNEL_IN_COMMUNITY", "#%1$@, %2$@", name, guild)
+    case "group_dm":
+      return name ?? NativeStrings.text("PUSH_GROUP_DM", "Group DM")
+    default:
+      return nil
+    }
+  }
+
+  static func localizedPreviewBody(from userInfo: [AnyHashable: Any]) -> String? {
+    let arg = payloadText("preview_arg", in: userInfo)
+    switch payloadText("preview_kind", in: userInfo) {
+    case "sticker":
+      return arg.map { NativeStrings.format("PUSH_PREVIEW_STICKER_NAMED", "Sticker: %@", $0) }
+        ?? NativeStrings.text("PUSH_PREVIEW_STICKER", "Sticker")
+    case "stickers":
+      return arg.map {
+        NativeStrings.format(
+          "PUSH_PREVIEW_STICKERS_NAMED",
+          "Stickers: %@",
+          ListFormatter.localizedString(byJoining: $0.components(separatedBy: "\n"))
+        )
+      } ?? NativeStrings.text("PUSH_PREVIEW_STICKERS", "Stickers")
+    case "attachment":
+      return arg.map { NativeStrings.format("PUSH_PREVIEW_ATTACHMENT_NAMED", "Attachment: %@", $0) }
+        ?? NativeStrings.text("PUSH_PREVIEW_ATTACHMENT", "Attachment")
+    case "mature":
+      if payloadText("conversation_kind", in: userInfo) == "group_dm" {
+        return NativeStrings.text("PUSH_PREVIEW_MATURE_GROUP_DM", "Message in an 18+ group DM")
+      }
+      return NativeStrings.text("PUSH_PREVIEW_MATURE", "Message in an 18+ channel")
+    default:
+      return nil
+    }
+  }
+
   static func resolveSpeakableGroupName(
     title: String,
     userInfo: [AnyHashable: Any]
@@ -95,7 +172,7 @@ enum PushNotificationPayload {
 
   static func resolveSpeakableGroupName(title: String) -> String? {
     if title.hasSuffix(" (Group DM)") {
-      return "Group DM"
+      return NativeStrings.text("PUSH_GROUP_DM", "Group DM")
     }
     guard let open = title.range(of: " (#", options: .backwards),
       let comma = title.range(of: ", ", range: open.upperBound..<title.endIndex),
