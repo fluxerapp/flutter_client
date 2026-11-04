@@ -286,6 +286,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
+  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Continue with $provider';
   }
@@ -820,6 +823,12 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get registerDateOfBirth => 'Date of birth';
 
   @override
+  String get registerDateOfBirthDone => 'Done';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Not set';
+
+  @override
   String get registerMonth => 'Month';
 
   @override
@@ -839,6 +848,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Privacy policy';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.';
 
   @override
   String get registerConfirmPassword => 'Confirm password';
@@ -4223,6 +4236,11 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Couldn\'t download attachment';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName needs access to your photo library to save this attachment.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Attachment expired';
 
   @override
@@ -4348,7 +4366,15 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Reveal';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealLabel => 'Reveal sensitive media';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Sensitive media is hidden on iPhone and iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Sensitive media is hidden for your account.';
 
   @override
   String get matureContentTitle => 'Mature content';
@@ -4411,6 +4437,25 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'This mature channel is not available to your account.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Due to mature content laws where you are, mature content is not available from here.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Message in an 18+ channel';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer isn\'t available on this account';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.';
+
+  @override
   String get matureContentProceedButton => 'Proceed';
 
   @override
@@ -4442,6 +4487,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Save';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6097,6 +6146,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'View profile';
 
   @override
+  String get voiceParticipantMenuReport => 'Report';
+
+  @override
   String get voiceParticipantMenuFocus => 'Focus this person';
 
   @override
@@ -6221,6 +6273,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Your stream is live for participants.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video from someone you blocked';
 
   @override
   String get voiceLiveBadge => 'Live';
@@ -7224,6 +7280,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Report profile';
 
   @override
+  String get reportFlowTitleCommunity => 'Report community';
+
+  @override
   String get reportFlowSummaryTitle => 'Check your report';
 
   @override
@@ -7246,7 +7305,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Message you\'re reporting';
 
   @override
-  String get reportFlowSelectedUser => 'Profile you\'re reporting';
+  String get reportFlowSelectedPerson => 'Person you\'re reporting';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Community you\'re reporting';
 
   @override
   String get reportFlowReportCategory => 'Your answers';
@@ -7273,6 +7335,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'The $productName safety team will review your report. We won\'t reveal that it came from you.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'The administrators of this instance will review your report. We won\'t reveal that it came from you.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7321,6 +7387,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'You\'ve already reported this profile today.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'You\'ve already reported this community.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11149,6 +11219,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Feature flags';
 
   @override
+  String get userSettingsNavHelp => 'Help and support';
+
+  @override
   String get userSettingsNavWhatsNew => 'What\'s new';
 
   @override
@@ -12034,6 +12107,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Copy community ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Report community';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15437,6 +15513,12 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'The original message was deleted.';
 
   @override
+  String get forumPostBlockedAuthor => 'Post from someone you blocked';
+
+  @override
+  String get threadBlockedAuthor => 'Thread from someone you blocked';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15483,6 +15565,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumReportPost => 'Report post';
 
   @override
   String get forumCopyPostLink => 'Copy link';
@@ -16660,6 +16745,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
+  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Continue with $provider';
   }
@@ -17194,6 +17282,12 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get registerDateOfBirth => 'Date of birth';
 
   @override
+  String get registerDateOfBirthDone => 'Done';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Not set';
+
+  @override
   String get registerMonth => 'Month';
 
   @override
@@ -17213,6 +17307,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get registerConsentPrivacy => 'Privacy policy';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.';
 
   @override
   String get registerConfirmPassword => 'Confirm password';
@@ -20593,6 +20691,11 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Couldn\'t download attachment';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName needs access to your photo library to save this attachment.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Attachment expired';
 
   @override
@@ -20718,7 +20821,15 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get matureMediaRevealButton => 'Reveal';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealLabel => 'Reveal sensitive media';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Sensitive media is hidden on iPhone and iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Sensitive media is hidden for your account.';
 
   @override
   String get matureContentTitle => 'Mature content';
@@ -20777,6 +20888,25 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'This mature channel is not available to your account.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Due to mature content laws where you are, mature content is not available from here.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Message in an 18+ channel';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer isn\'t available on this account';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.';
+
+  @override
   String get matureContentProceedButton => 'Proceed';
 
   @override
@@ -20808,6 +20938,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get sensitiveContentSaveButton => 'Save';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -22463,6 +22597,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get voiceParticipantMenuViewProfile => 'View profile';
 
   @override
+  String get voiceParticipantMenuReport => 'Report';
+
+  @override
   String get voiceParticipantMenuFocus => 'Focus this person';
 
   @override
@@ -22587,6 +22724,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Your stream is live for participants.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video from someone you blocked';
 
   @override
   String get voiceLiveBadge => 'Live';
@@ -23590,6 +23731,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get reportFlowTitleUserProfile => 'Report profile';
 
   @override
+  String get reportFlowTitleCommunity => 'Report community';
+
+  @override
   String get reportFlowSummaryTitle => 'Check your report';
 
   @override
@@ -23612,7 +23756,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get reportFlowSelectedMessage => 'Message you\'re reporting';
 
   @override
-  String get reportFlowSelectedUser => 'Profile you\'re reporting';
+  String get reportFlowSelectedPerson => 'Person you\'re reporting';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Community you\'re reporting';
 
   @override
   String get reportFlowReportCategory => 'Your answers';
@@ -23639,6 +23786,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String reportFlowThankYouBody(String productName) {
     return 'The $productName safety team will review your report. We won\'t reveal that it came from you.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'The administrators of this instance will review your report. We won\'t reveal that it came from you.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -23687,6 +23838,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'You\'ve already reported this profile today.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'You\'ve already reported this community.';
 
   @override
   String get reportFlowRateLimited =>
@@ -27515,6 +27670,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get userSettingsNavFeatureFlags => 'Feature flags';
 
   @override
+  String get userSettingsNavHelp => 'Help and support';
+
+  @override
   String get userSettingsNavWhatsNew => 'What\'s new';
 
   @override
@@ -28400,6 +28558,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get guildMenuCopyCommunityId => 'Copy community ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Report community';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -31802,6 +31963,12 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get forumPostStarterDeleted => 'The original message was deleted.';
 
   @override
+  String get forumPostBlockedAuthor => 'Post from someone you blocked';
+
+  @override
+  String get threadBlockedAuthor => 'Thread from someone you blocked';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -31848,6 +32015,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumReportPost => 'Report post';
 
   @override
   String get forumCopyPostLink => 'Copy link';
@@ -33025,6 +33195,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
+  String get loginLegalAgreementPrefix => 'By signing in, you agree to the ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Continue with $provider';
   }
@@ -33559,6 +33732,12 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get registerDateOfBirth => 'Date of birth';
 
   @override
+  String get registerDateOfBirthDone => 'Done';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Not set';
+
+  @override
   String get registerMonth => 'Month';
 
   @override
@@ -33578,6 +33757,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get registerConsentPrivacy => 'Privacy policy';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.';
 
   @override
   String get registerConfirmPassword => 'Confirm password';
@@ -36958,6 +37141,11 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Couldn\'t download attachment';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName needs access to your photo library to save this attachment.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Attachment expired';
 
   @override
@@ -37083,7 +37271,15 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get matureMediaRevealButton => 'Reveal';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealLabel => 'Reveal sensitive media';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Sensitive media is hidden on iPhone and iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Sensitive media is hidden for your account.';
 
   @override
   String get matureContentTitle => 'Mature content';
@@ -37142,6 +37338,25 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'This mature channel is not available to your account.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Due to mature content laws where you are, mature content is not available from here.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Message in an 18+ channel';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer isn\'t available on this account';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.';
+
+  @override
   String get matureContentProceedButton => 'Proceed';
 
   @override
@@ -37173,6 +37388,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get sensitiveContentSaveButton => 'Save';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -38828,6 +39047,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get voiceParticipantMenuViewProfile => 'View profile';
 
   @override
+  String get voiceParticipantMenuReport => 'Report';
+
+  @override
   String get voiceParticipantMenuFocus => 'Focus this person';
 
   @override
@@ -38952,6 +39174,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Your stream is live for participants.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video from someone you blocked';
 
   @override
   String get voiceLiveBadge => 'Live';
@@ -39955,6 +40181,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get reportFlowTitleUserProfile => 'Report profile';
 
   @override
+  String get reportFlowTitleCommunity => 'Report community';
+
+  @override
   String get reportFlowSummaryTitle => 'Check your report';
 
   @override
@@ -39977,7 +40206,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get reportFlowSelectedMessage => 'Message you\'re reporting';
 
   @override
-  String get reportFlowSelectedUser => 'Profile you\'re reporting';
+  String get reportFlowSelectedPerson => 'Person you\'re reporting';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Community you\'re reporting';
 
   @override
   String get reportFlowReportCategory => 'Your answers';
@@ -40004,6 +40236,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String reportFlowThankYouBody(String productName) {
     return 'The $productName safety team will review your report. We won\'t reveal that it came from you.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'The administrators of this instance will review your report. We won\'t reveal that it came from you.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -40052,6 +40288,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'You\'ve already reported this profile today.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'You\'ve already reported this community.';
 
   @override
   String get reportFlowRateLimited =>
@@ -43880,6 +44120,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get userSettingsNavFeatureFlags => 'Feature flags';
 
   @override
+  String get userSettingsNavHelp => 'Help and support';
+
+  @override
   String get userSettingsNavWhatsNew => 'What\'s new';
 
   @override
@@ -44765,6 +45008,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get guildMenuCopyCommunityId => 'Copy community ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Report community';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -48168,6 +48414,12 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get forumPostStarterDeleted => 'The original message was deleted.';
 
   @override
+  String get forumPostBlockedAuthor => 'Post from someone you blocked';
+
+  @override
+  String get threadBlockedAuthor => 'Thread from someone you blocked';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -48214,6 +48466,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumReportPost => 'Report post';
 
   @override
   String get forumCopyPostLink => 'Copy link';

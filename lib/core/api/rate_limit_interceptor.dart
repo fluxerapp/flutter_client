@@ -46,7 +46,9 @@ class RateLimitPacer {
       global: isGlobalRateLimit(headers: response.headers, data: response.data),
       note: _messageFromBody(response.data),
     );
-    _pacing[_pathKey(options)] = hit;
+    if (!options.uri.path.contains('/reports/')) {
+      _pacing[_pathKey(options)] = hit;
+    }
     if (hit.global) {
       _pacing[_globalKey(options)] = hit;
     }

@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -19,6 +21,10 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
     final vm = ref.read(
       privacyDashboardViewModelProvider(readAccountUserId(ref)).notifier,
     );
+    final SensitiveContentState sensitive = ref.watch(sensitiveContentProvider);
+    final bool showLocked = sensitive.showLocked;
+    final bool adultDmChoices = state.isAdult && !showLocked;
+    final bool guildEditable = state.isAdult && !showLocked;
 
     final adultFilterItems = <FluxerRadioItem<int>>[
       FluxerRadioItem(value: 0, label: l10n.sensitiveContentFilterShow),
@@ -43,7 +49,7 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
             FluxerRadioGroup<int>(
               label: l10n.sensitiveContentFriendDmLabel,
               value: state.effectiveFriendDmFilter,
-              items: state.isAdult ? adultFilterItems : minorFriendFilterItems,
+              items: adultDmChoices ? adultFilterItems : minorFriendFilterItems,
               onChanged: vm.editFriendDmFilter,
             ),
             Opacity(
@@ -53,15 +59,17 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
                 child: FluxerRadioGroup<int>(
                   label: l10n.sensitiveContentNonFriendDmLabel,
                   value: state.effectiveNonFriendDmFilter,
-                  items: adultFilterItems,
+                  items: adultDmChoices
+                      ? adultFilterItems
+                      : minorFriendFilterItems,
                   onChanged: vm.editNonFriendDmFilter,
                 ),
               ),
             ),
             Opacity(
-              opacity: state.isAdult ? 1 : 0.5,
+              opacity: guildEditable ? 1 : 0.5,
               child: IgnorePointer(
-                ignoring: !state.isAdult,
+                ignoring: !guildEditable,
                 child: FluxerRadioGroup<int>(
                   label: l10n.sensitiveContentGuildLabel,
                   value: state.effectiveGuildFilter,
@@ -70,6 +78,13 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
                 ),
               ),
             ),
+            if (sensitive.access == MatureAccess.appLocked)
+              Text(
+                l10n.sensitiveContentAppLockedHint,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
             if (state.isSensitiveContentDirty)
               Row(
                 children: [

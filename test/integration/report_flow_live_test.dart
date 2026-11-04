@@ -138,6 +138,12 @@ Future<void> _submit(
       steps: walk.steps,
       locale: locale,
     ),
+    ReportFlowTargetType.guild => client.repository.submitGuild(
+      guildId: seed.guildId,
+      revisionHash: walk.flow.revisionHash,
+      steps: walk.steps,
+      locale: locale,
+    ),
   };
 }
 

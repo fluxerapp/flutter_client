@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
 import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
@@ -26,6 +29,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -257,10 +261,49 @@ class VoiceParticipantContextMenu {
           },
         );
 
-    if (capabilities.isScreenShareTile) {
-      return groups;
+    if (!capabilities.isScreenShareTile) {
+      _addRoleAndModerationGroups(
+        groups: groups,
+        context: context,
+        ref: ref,
+        target: target,
+        l10n: l10n,
+        close: close,
+        roleMenuState: roleMenuState,
+      );
     }
+    if (!capabilities.isCurrentUser) {
+      final IarUserContext reportContext = _reportContext(ref, target);
+      groups.add(
+        VoiceParticipantMenuGroup(
+          entries: <VoiceParticipantMenuEntry>[
+            VoiceParticipantMenuActionEntry(
+              label: l10n.voiceParticipantMenuReport,
+              icon: PhosphorIconsFill.flag,
+              isDanger: true,
+              onPressed: () {
+                close();
+                unawaited(openReportFlow(context, iarContext: reportContext));
+              },
+            ),
+          ],
+        ),
+      );
+    }
+    return groups;
+  }
 
+  static void _addRoleAndModerationGroups({
+    required List<VoiceParticipantMenuGroup> groups,
+    required BuildContext context,
+    required WidgetRef ref,
+    required VoiceParticipantMenuTarget target,
+    required FluxerLocalizations l10n,
+    required VoidCallback close,
+    required GuildMemberMenuState? roleMenuState,
+  }) {
+    final String? guildId = target.guildId;
+    final String userId = target.participant.userId;
     if ((roleMenuState?.shouldShowRolesSubmenu ?? false) && guildId != null) {
       final GuildMemberMenuState menuState = roleMenuState!;
       groups.add(
@@ -310,8 +353,36 @@ class VoiceParticipantContextMenu {
         groups.add(VoiceParticipantMenuGroup(entries: moderationEntries));
       }
     }
+  }
 
-    return groups;
+  static IarUserContext _reportContext(
+    WidgetRef ref,
+    VoiceParticipantMenuTarget target,
+  ) {
+    final String userId = target.participant.userId;
+    final database.User? user = target.participant.user;
+    final GuildUserDisplay? display = watchGuildScopedUserDisplay(
+      ref: ref,
+      userId: userId,
+      guildId: target.guildId,
+      currentUserId: ref.watch(currentUserIdProvider),
+    );
+    return IarUserContext(
+      userId: userId,
+      username: user == null
+          ? userId
+          : formatUserTag(
+              user.username,
+              user.discriminator,
+              uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+              bot: user.bot,
+            ),
+      displayName:
+          display?.displayName ?? user?.globalName ?? user?.username ?? userId,
+      avatarUrl: display?.avatarUrl,
+      avatarColor: display?.avatarColor,
+      guildId: target.guildId,
+    );
   }
 
   static String _voiceParticipantUsername(

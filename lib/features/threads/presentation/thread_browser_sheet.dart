@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart'
 import 'package:fluxer_app/features/threads/providers/thread_search_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -246,7 +247,7 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
         size: 20,
         color: context.colors.textPrimaryMuted,
       ),
-      title: thread.name,
+      title: watchThreadTitleText(ref, thread, l10n),
       subtitle: l10n.threadMessageCount(thread.messageCount ?? 0),
       trailing: joined
           ? PhosphorIcon(

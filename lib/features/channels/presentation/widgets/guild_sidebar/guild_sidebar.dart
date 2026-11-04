@@ -69,6 +69,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/route_guild_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';

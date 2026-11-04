@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
@@ -280,6 +281,7 @@ Future<_Harness> _pump(
     ProviderScope(
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(database),
+        blockedUserIdsProvider.overrideWithValue(const <String>{}),
         threadsRepositoryProvider.overrideWithValue(
           _ThreadsRepository(database),
         ),

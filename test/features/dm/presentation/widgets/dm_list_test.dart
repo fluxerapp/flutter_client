@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -903,6 +904,7 @@ void main() {
         lastMessage: 'ping',
         lastMessageTime: DateTime.utc(2026),
         unreadCount: 3,
+        nsfw: false,
       );
 
       await tester.pumpWidget(
@@ -972,6 +974,7 @@ void main() {
         lastMessage: 'ping',
         lastMessageTime: DateTime.utc(2026),
         unreadCount: 12,
+        nsfw: false,
       );
 
       await tester.pumpWidget(
@@ -1320,6 +1323,7 @@ List<Override> _buildOverrides({
       () => _FakeUnreadDmChannels(unreadDms),
     ),
     fluxerDatabaseProvider.overrideWithValue(db),
+    blockedUserIdsProvider.overrideWithValue(const <String>{}),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsStatusProvider.overrideWithValue(null),
     ..._userPresenceOverrides(

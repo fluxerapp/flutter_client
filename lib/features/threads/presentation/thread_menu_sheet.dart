@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.da
 import 'package:fluxer_app/features/threads/presentation/thread_settings_sheet.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -23,7 +24,11 @@ Future<void> showThreadMenuSheet(
 ) {
   return FluxerBottomSheet.show<void>(
     context,
-    title: thread.name,
+    title: readThreadTitleText(
+      hostRef,
+      thread,
+      FluxerLocalizations.of(context),
+    ),
     variant: FluxerBottomSheetVariant.menu,
     builder: (sheetContext, close) => _ThreadMenuBody(
       threadId: thread.id,

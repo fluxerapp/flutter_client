@@ -4795,6 +4795,15 @@
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
     },
+    "chatAttachmentDownloadPhotosAccessToast": "{productName} cần quyền truy cập vào thư viện ảnh của bạn để lưu tệp đính kèm này.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
     "chatAttachmentExpiredTooltip": "Tệp đính kèm đã hết hạn",
     "@chatAttachmentExpiredTooltip": {
         "description": "Tooltip when a file attachment link is no longer available."
@@ -4929,10 +4938,6 @@
     "matureMediaRevealButton": "Hiện",
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
-    },
-    "matureMediaRevealHint": "Nhấn để xem",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
     },
     "matureContentTitle": "Nội dung người lớn",
     "@matureContentTitle": {
@@ -7088,6 +7093,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "Video từ người bạn đã chặn",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "Trực tiếp",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -8197,9 +8206,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Hồ sơ bạn đang báo cáo",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Người bạn đang báo cáo",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "Câu trả lời của bạn",
     "@reportFlowReportCategory": {
@@ -19586,6 +19595,10 @@
     "@matureMediaAppLockedLabel": {
         "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
     },
+    "matureMediaMinorLockedLabel": "Phương tiện nhạy cảm bị ẩn đối với tài khoản của bạn.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
     "matureContentAppLockedBody": "Nội dung 18+ đang tắt trên iPhone và iPad. Để xem các cộng đồng và kênh được đánh dấu 18+ tại đây, hãy mở Fluxer trên web hoặc trên máy tính, vào \"Quyền riêng tư\" trong phần cài đặt và bật \"Cho phép nội dung 18+ trên iPhone và iPad\".",
     "@matureContentAppLockedBody": {
         "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
@@ -20169,6 +20182,10 @@
     "forumPostBlockedAuthor": "Bài đăng từ người bạn đã chặn",
     "@forumPostBlockedAuthor": {
         "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Luồng từ người bạn đã chặn",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
     },
     "forumReportPost": "Báo cáo bài đăng",
     "@forumReportPost": {

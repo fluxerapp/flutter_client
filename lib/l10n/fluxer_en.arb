@@ -384,6 +384,10 @@
     "@logInWithPasskey": {
         "description": "Secondary login using a passkey."
     },
+    "loginLegalAgreementPrefix": "By signing in, you agree to the ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
     "continueWithSso": "Continue with {provider}",
     "@continueWithSso": {
         "description": "Button label that starts single sign-on.",
@@ -1071,6 +1075,14 @@
     "@registerDateOfBirth": {
         "description": "Label for the date of birth field."
     },
+    "registerDateOfBirthDone": "Done",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Not set",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
     "registerMonth": "Month",
     "@registerMonth": {
         "description": "Placeholder for the month select."
@@ -1098,6 +1110,10 @@
     "registerConsentPrivacy": "Privacy policy",
     "@registerConsentPrivacy": {
         "description": "Privacy Policy link text in the consent checkbox."
+    },
+    "registerConsentBuiltInRules": "I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
     },
     "registerConfirmPassword": "Confirm password",
     "@registerConfirmPassword": {
@@ -5469,6 +5485,15 @@
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
     },
+    "chatAttachmentDownloadPhotosAccessToast": "{productName} needs access to your photo library to save this attachment.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
     "chatAttachmentExpiredTooltip": "Attachment expired",
     "@chatAttachmentExpiredTooltip": {
         "description": "Tooltip when a file attachment link is no longer available."
@@ -5604,9 +5629,17 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "Click to reveal",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
+    "matureMediaRevealLabel": "Reveal sensitive media",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Sensitive media is hidden on iPhone and iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "Sensitive media is hidden for your account.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
     },
     "matureContentTitle": "Mature content",
     "@matureContentTitle": {
@@ -5676,6 +5709,26 @@
     "@matureChannelUnavailableBody": {
         "description": "Body when a minor cannot access a mature channel."
     },
+    "matureContentAppLockedBody": "18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Due to mature content laws where you are, mature content is not available from here.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Message in an 18+ channel",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer isn't available on this account",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
     "matureContentProceedButton": "Proceed",
     "@matureContentProceedButton": {
         "description": "Primary action on mature content gates."
@@ -5719,6 +5772,10 @@
     "sensitiveContentSaveButton": "Save",
     "@sensitiveContentSaveButton": {
         "description": "Save button for sensitive content settings."
+    },
+    "sensitiveContentAppLockedHint": "To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
     },
     "chatUploadingAttachmentsSummary": "Uploading {count, plural, =1{1 file} other{{count} files}}",
     "@chatUploadingAttachmentsSummary": {
@@ -7804,6 +7861,10 @@
     "@voiceParticipantMenuViewProfile": {
         "description": "Voice participant context menu item to open the user's profile."
     },
+    "voiceParticipantMenuReport": "Report",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
     "voiceParticipantMenuFocus": "Focus this person",
     "@voiceParticipantMenuFocus": {
         "description": "Voice participant context menu item to pin a participant tile in focus layout."
@@ -7957,6 +8018,10 @@
     "voiceOwnScreenShareSubtitle": "Your stream is live for participants.",
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
+    },
+    "voiceBlockedParticipantVideoHidden": "Video from someone you blocked",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
     },
     "voiceLiveBadge": "Live",
     "@voiceLiveBadge": {
@@ -9183,6 +9248,10 @@
     "@reportFlowTitleUserProfile": {
         "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
+    "reportFlowTitleCommunity": "Report community",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
     "reportFlowSummaryTitle": "Check your report",
     "@reportFlowSummaryTitle": {
         "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
@@ -9213,9 +9282,13 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Profile you're reporting",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Person you're reporting",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
+    },
+    "reportFlowSelectedCommunity": "Community you're reporting",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
     },
     "reportFlowReportCategory": "Your answers",
     "@reportFlowReportCategory": {
@@ -9254,6 +9327,10 @@
                 "example": "Fluxer"
             }
         }
+    },
+    "reportFlowThankYouBodySelfHosted": "The administrators of this instance will review your report. We won't reveal that it came from you.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
     },
     "reportFlowThankYouNoReportBody": "Thanks for telling us. This doesn't break our rules on its own, so we didn't send a report. If it targets someone or uses slurs, report it again and choose Abusive or harmful content.",
     "@reportFlowThankYouNoReportBody": {
@@ -9312,6 +9389,10 @@
     "reportFlowAlreadyReportedProfile": "You've already reported this profile today.",
     "@reportFlowAlreadyReportedProfile": {
         "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
+    },
+    "reportFlowAlreadyReportedCommunity": "You've already reported this community.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
     },
     "reportFlowRateLimited": "You're sending reports too quickly. Try again later.",
     "@reportFlowRateLimited": {
@@ -13280,6 +13361,10 @@
     "@userSettingsNavFeatureFlags": {
         "description": "User settings navigation item for staff feature flags."
     },
+    "userSettingsNavHelp": "Help and support",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
     "userSettingsNavWhatsNew": "What's new",
     "@userSettingsNavWhatsNew": {
         "description": "User settings navigation item for release notes."
@@ -14438,6 +14523,10 @@
     "guildMenuCopyCommunityId": "Copy community ID",
     "@guildMenuCopyCommunityId": {
         "description": "Guild menu action to copy the community ID."
+    },
+    "guildMenuReportCommunity": "Report community",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
     },
     "guildMenuMutedUntil": "Until {formattedTime}",
     "@guildMenuMutedUntil": {
@@ -18306,6 +18395,14 @@
     "@forumPostStarterDeleted": {
         "description": "Forum and media channel UI."
     },
+    "forumPostBlockedAuthor": "Post from someone you blocked",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Thread from someone you blocked",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
     "forumPostSnippet": "{author}: {content}",
     "@forumPostSnippet": {
         "description": "Forum and media channel UI.",
@@ -18363,6 +18460,10 @@
     "forumMarkPostRead": "Mark as read",
     "@forumMarkPostRead": {
         "description": "Forum and media channel UI."
+    },
+    "forumReportPost": "Report post",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     },
     "forumCopyPostLink": "Copy link",
     "@forumCopyPostLink": {

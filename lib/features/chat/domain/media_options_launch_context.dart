@@ -60,15 +60,12 @@ class MediaOptionsLaunchContext {
 
 String? _videoDownloadUrl(ChatFullscreenVideoLaunchContext context) {
   final Attachment? attachment = context.attachment;
-  if (attachment != null) {
-    return attachmentEffectiveDownloadUrl(
-      url: attachment.url,
-      isExpired: attachment.expired ?? false,
-      proxyUrl: attachment.proxyUrl,
-    );
-  }
-  if (context.isYouTubeEmbed) {
+  if (attachment == null) {
     return null;
   }
-  return context.source.directMediaUrl;
+  return attachmentEffectiveDownloadUrl(
+    url: attachment.url,
+    isExpired: attachment.expired ?? false,
+    proxyUrl: attachment.proxyUrl,
+  );
 }

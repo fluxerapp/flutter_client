@@ -277,6 +277,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get logInWithPasskey => 'パスキーでログイン';
 
   @override
+  String get loginLegalAgreementPrefix => 'サインインすると、次に同意したものとみなされます: ';
+
+  @override
   String continueWithSso(String provider) {
     return '$providerで続行';
   }
@@ -790,6 +793,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get registerDateOfBirth => '生年月日';
 
   @override
+  String get registerDateOfBirthDone => '完了';
+
+  @override
+  String get registerDateOfBirthNotSet => '未設定';
+
+  @override
   String get registerMonth => '月';
 
   @override
@@ -809,6 +818,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'プライバシーポリシー';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'このインスタンスは不快なコンテンツや迷惑なユーザーを一切許容しないこと、そして管理者がこれらのルールに違反するコンテンツやアカウントを削除できることに同意します。';
 
   @override
   String get registerConfirmPassword => 'パスワード（確認）';
@@ -4080,6 +4093,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => '添付ファイルをダウンロードできませんでした';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'この添付ファイルを保存するには、$productNameにフォトライブラリへのアクセスを許可する必要があります。';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '添付ファイルの有効期限が切れました';
 
   @override
@@ -4205,7 +4223,15 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get matureMediaRevealButton => '表示';
 
   @override
-  String get matureMediaRevealHint => 'クリックして表示';
+  String get matureMediaRevealLabel => 'センシティブなメディアを表示';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'iPhoneとiPadではセンシティブなメディアは非表示になっています。';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'あなたのアカウントでは、センシティブなメディアは非表示になっています。';
 
   @override
   String get matureContentTitle => '成人向けコンテンツ';
@@ -4266,6 +4292,24 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get matureChannelUnavailableBody => 'この成人向けチャンネルは、あなたのアカウントでは利用できません。';
 
   @override
+  String get matureContentAppLockedBody =>
+      'iPhoneとiPadでは18歳以上向けコンテンツがオフになっています。18歳以上向けに指定されたコミュニティやチャンネルをここで見るには、ウェブまたはデスクトップでFluxerを開き、設定の「プライバシー」で「iPhoneとiPadで18歳以上向けコンテンツを許可」をオンにしてください。';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'お住まいの地域の成人向けコンテンツに関する法律により、この場所からは成人向けコンテンツを利用できません。';
+
+  @override
+  String get matureMessageHiddenPreview => '18歳以上向けチャンネルのメッセージ';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'このアカウントではFluxerを利用できません';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Apple Accountで共有された年齢層は13歳未満です。Fluxerは13歳以上の方のみご利用いただけます。';
+
+  @override
   String get matureContentProceedButton => '進む';
 
   @override
@@ -4297,6 +4341,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => '保存';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'ここで「表示」を選ぶには、ウェブまたはデスクトップでFluxerを開き、設定の「プライバシー」で「iPhoneとiPadで18歳以上向けコンテンツを許可」をオンにしてください。';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -5885,6 +5933,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'プロフィールを見る';
 
   @override
+  String get voiceParticipantMenuReport => '報告';
+
+  @override
   String get voiceParticipantMenuFocus => 'この人にフォーカス';
 
   @override
@@ -6002,6 +6053,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => 'あなたのストリームは参加者に公開されています。';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => 'ブロックしたユーザーの映像';
 
   @override
   String get voiceLiveBadge => 'ライブ';
@@ -6971,6 +7025,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'プロフィールを報告';
 
   @override
+  String get reportFlowTitleCommunity => 'コミュニティを報告';
+
+  @override
   String get reportFlowSummaryTitle => '報告内容の確認';
 
   @override
@@ -6992,7 +7049,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get reportFlowSelectedMessage => '報告するメッセージ';
 
   @override
-  String get reportFlowSelectedUser => '報告するプロフィール';
+  String get reportFlowSelectedPerson => '報告する相手';
+
+  @override
+  String get reportFlowSelectedCommunity => '報告するコミュニティ';
 
   @override
   String get reportFlowReportCategory => 'あなたの回答';
@@ -7019,6 +7079,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productNameの安全チームがあなたの報告を確認します。あなたからの報告であることは明かしません。';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'このインスタンスの管理者があなたの報告を確認します。あなたからの報告であることは明かしません。';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7064,6 +7128,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get reportFlowAlreadyReportedProfile => 'このプロフィールは本日すでに報告済みです。';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => 'このコミュニティはすでに報告済みです。';
 
   @override
   String get reportFlowRateLimited => '報告の送信間隔が短すぎます。しばらくしてからもう一度お試しください。';
@@ -10736,6 +10803,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => '機能フラグ';
 
   @override
+  String get userSettingsNavHelp => 'ヘルプとサポート';
+
+  @override
   String get userSettingsNavWhatsNew => '新機能';
 
   @override
@@ -11602,6 +11672,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'コミュニティIDをコピー';
+
+  @override
+  String get guildMenuReportCommunity => 'コミュニティを報告';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -14882,6 +14955,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get forumPostStarterDeleted => '元のメッセージは削除されました。';
 
   @override
+  String get forumPostBlockedAuthor => 'ブロックしたユーザーの投稿';
+
+  @override
+  String get threadBlockedAuthor => 'ブロックしたユーザーのスレッド';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author：$content';
   }
@@ -14928,6 +15007,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => '既読にする';
+
+  @override
+  String get forumReportPost => '投稿を報告';
 
   @override
   String get forumCopyPostLink => 'リンクをコピー';

@@ -91,6 +91,47 @@ void main() {
   );
 
   test(
+    'reads the live well-known of the active instance, not its cached copy',
+    () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          instanceSelectorProvider.overrideWith(_ResolvedInstanceSelector.new),
+          instanceRuntimeConfigProvider.overrideWithValue(
+            InstanceRuntimeConfig.fromWellKnown(
+              wellKnownFixture(
+                media: 'https://a.example/media',
+                staticCdn: 'https://a.example/static',
+                accountIdentity: 'username',
+              ),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      await container.read(instanceSelectorProvider.future);
+      container
+          .read(activeInstanceProvider.notifier)
+          .applySnapshot(
+            InstanceConfigSnapshot(
+              apiBaseUrl: 'https://a.example/api',
+              gatewayUrl: 'wss://a.example/gateway',
+              displayDomain: 'a.example',
+              wellKnown: wellKnownFixture(
+                media: 'https://a.example/media',
+                staticCdn: 'https://a.example/static',
+                accountIdentity: 'email',
+              ),
+            ),
+          );
+
+      expect(
+        container.read(authInstanceRuntimeConfigProvider).usernameSignIn,
+        isTrue,
+      );
+    },
+  );
+
+  test(
     'falls back to global runtime when the auth snapshot has no well-known',
     () {
       final ProviderContainer container = ProviderContainer(

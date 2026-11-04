@@ -62,7 +62,7 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.users.deleteCurrentUserAccount(
-        body: const SudoVerificationSchema(),
+        body: const UserAccountDeleteRequest(),
       );
 
       if (mounted) {

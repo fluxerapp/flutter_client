@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -120,6 +121,7 @@ class _GuildInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: true,
           canCopyChannelId: true,
+          canReport: true,
         );
     if (action == null || !context.mounted) {
       return;
@@ -129,6 +131,12 @@ class _GuildInviteCard extends StatelessWidget {
       action: action,
       guildId: invite.guild.id,
       channelId: invite.channel.id,
+      reportTarget: IarGuildContext(
+        guildId: invite.guild.id,
+        name: invite.guild.name,
+        iconUrl: _iconUrl,
+        inviteCode: code,
+      ),
     );
   }
 
@@ -291,6 +299,7 @@ class _GroupDmInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: false,
           canCopyChannelId: true,
+          canReport: false,
         );
     if (action == null || !context.mounted) {
       return;

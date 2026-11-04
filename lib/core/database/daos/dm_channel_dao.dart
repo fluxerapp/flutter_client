@@ -25,6 +25,11 @@ class DmChannelDao extends DatabaseAccessor<FluxerDatabase>
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
+  Stream<DmChannel?> watchDmChannel(String channelId) =>
+      (select(dmChannels)..where((d) => d.id.equals(channelId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
+
   Future<List<DmChannel>> getDmChannels() => (select(
     dmChannels,
   )..orderBy([(d) => OrderingTerm.desc(d.lastMessageTime)])).get();

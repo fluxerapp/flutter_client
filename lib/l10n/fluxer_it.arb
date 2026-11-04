@@ -3967,10 +3967,6 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "Fai clic per mostrare",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
-    },
     "matureContentTitle": "Contenuti per adulti",
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
@@ -5202,6 +5198,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "Video di qualcuno che hai bloccato",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "In diretta",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -5640,9 +5640,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Profilo che stai segnalando",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Persona che stai segnalando",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "Le tue risposte",
     "@reportFlowReportCategory": {
@@ -12388,6 +12388,15 @@
     "chatAttachmentDownloadFailedToast": "Impossibile scaricare l'allegato",
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
+    },
+    "chatAttachmentDownloadPhotosAccessToast": "{productName} ha bisogno di accedere alla tua libreria foto per salvare questo allegato.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "chatTextualPreviewExpandLines": "{count, plural, one{Espandi ({count} riga)} other{Espandi ({count} righe)}}",
     "@chatTextualPreviewExpandLines": {
@@ -19569,6 +19578,10 @@
     "@matureMediaAppLockedLabel": {
         "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
     },
+    "matureMediaMinorLockedLabel": "I contenuti multimediali sensibili sono nascosti per il tuo account.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
     "matureContentAppLockedBody": "I contenuti 18+ sono disattivati su iPhone e iPad. Per vedere qui le community e i canali contrassegnati come 18+, apri Fluxer sul web o su desktop, vai su \"Privacy\" nelle impostazioni e attiva \"Consenti contenuti 18+ su iPhone e iPad\".",
     "@matureContentAppLockedBody": {
         "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
@@ -20152,6 +20165,10 @@
     "forumPostBlockedAuthor": "Post di qualcuno che hai bloccato",
     "@forumPostBlockedAuthor": {
         "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Thread di qualcuno che hai bloccato",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
     },
     "forumReportPost": "Segnala post",
     "@forumReportPost": {

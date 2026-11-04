@@ -237,7 +237,7 @@ class _ChannelTile extends ConsumerWidget {
     final bool developerMode = ref
         .read(userSettingsViewModelProvider)
         .developerMode;
-    final bool nsfwAllowed = ref.read(sensitiveContentProvider).nsfwAllowed;
+    final MatureAccess matureAccess = ref.read(sensitiveContentProvider).access;
     final bool hasAgreedToMatureContent = ref
         .read(matureContentAgreementsProvider)
         .agreedChannelIds
@@ -256,7 +256,7 @@ class _ChannelTile extends ConsumerWidget {
       isFavorite: isFavorite,
       isMuted: isMuted,
       developerMode: developerMode,
-      nsfwAllowed: nsfwAllowed,
+      matureAccess: matureAccess,
       hasAgreedToMatureContent: hasAgreedToMatureContent,
       voiceChannelJoinRequiresDoubleClick: ref.read(
         advancedPreferencesProvider.select(

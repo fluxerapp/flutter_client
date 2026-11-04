@@ -6,7 +6,10 @@ import 'package:fluxer_app/features/mature_content/providers/sensitive_content_p
 
 class _FakeSensitive extends SensitiveContent {
   @override
-  SensitiveContentState build() => const SensitiveContentState();
+  SensitiveContentState build() => const SensitiveContentState(
+    access: MatureAccess.allowed,
+    showLocked: false,
+  );
 }
 
 class _FakeAgreements extends MatureContentAgreements {
@@ -39,6 +42,9 @@ void main() {
         sensitiveContentProvider.overrideWith(_FakeSensitive.new),
         matureContentAgreementsProvider.overrideWith(_FakeAgreements.new),
         matureGateContextProvider('channel-1').overrideWith((ref) => gate),
+        matureGroupDmProvider(
+          'channel-1',
+        ).overrideWith((ref) => Stream<bool>.value(false)),
       ],
     );
   }

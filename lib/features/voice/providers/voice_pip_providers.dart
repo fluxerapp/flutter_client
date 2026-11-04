@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
@@ -208,6 +209,40 @@ final voicePipFeaturedHasVideoProvider = Provider<bool>((Ref ref) {
   for (final VoicePipCandidate tile in tiles) {
     if (tile.tileId == featured) {
       return tile.hasVideo;
+    }
+  }
+  return false;
+});
+
+final voicePipFeaturedBlockedProvider = Provider<bool>((Ref ref) {
+  final String? featured = ref.watch(voicePipFeaturedTileIdProvider);
+  final parsed = featured == null
+      ? null
+      : parseVoiceParticipantTileId(featured);
+  if (parsed == null) {
+    return false;
+  }
+  final String? key = voiceSessionParticipantsKey(
+    ref.watch(voiceSessionProvider),
+  );
+  if (key == null) {
+    return false;
+  }
+  for (final VoiceChannelParticipantData participant in ref.watch(
+    voiceChannelParticipantsProvider(key),
+  )) {
+    if (voiceParticipantTileId(
+          voice: participant.voice,
+          userId: participant.userId,
+          source: parsed.source,
+        ) ==
+        featured) {
+      return participant.userId != ref.watch(currentUserIdProvider) &&
+          ref.watch(
+            blockedUserIdsProvider.select(
+              (Set<String> ids) => ids.contains(participant.userId),
+            ),
+          );
     }
   }
   return false;

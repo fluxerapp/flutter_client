@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
+import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placeholder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_cached_video_track.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
@@ -56,6 +57,12 @@ class VoicePipVideo extends ConsumerWidget {
       return const ColoredBox(color: Color(0xFF111111));
     }
     final String? me = ref.watch(currentUserIdProvider);
+    if (ref.watch(voicePipFeaturedBlockedProvider)) {
+      return const VoiceBlockedParticipantPlaceholder(
+        cornerRadius: 0,
+        showLabel: false,
+      );
+    }
     final VoiceMediaParticipant? participant = resolveVoiceParticipant(
       media: voice.media,
       voice: match.voice,

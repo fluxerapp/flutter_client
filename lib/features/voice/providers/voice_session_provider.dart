@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
@@ -180,6 +181,10 @@ class VoiceSession extends _$VoiceSession {
     }
 
     ref
+      ..listen<Set<String>>(
+        blockedUserIdsProvider,
+        (_, _) => unawaited(applyAllParticipantVolumes()),
+      )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
         VoiceSettingsState next,
@@ -3644,7 +3649,7 @@ class VoiceSession extends _$VoiceSession {
         userId: userId,
       ),
       outputVolumePercent: settings.outputVolume,
-      locallyMuted: settings.participantLocalMutes[userId] ?? false,
+      locallyMuted: _effectiveLocalMutes(settings)[userId] ?? false,
     );
   }
 
@@ -3653,8 +3658,15 @@ class VoiceSession extends _$VoiceSession {
     await applyAllParticipantVolumesToMedia(
       media: state.media,
       participantVolumes: settings.participantVolumes,
-      participantLocalMutes: settings.participantLocalMutes,
+      participantLocalMutes: _effectiveLocalMutes(settings),
       outputVolumePercent: settings.outputVolume,
+    );
+  }
+
+  Map<String, bool> _effectiveLocalMutes(VoiceSettingsState settings) {
+    return effectiveParticipantLocalMutes(
+      participantLocalMutes: settings.participantLocalMutes,
+      blockedUserIds: ref.read(blockedUserIdsProvider),
     );
   }
 
@@ -3684,7 +3696,7 @@ class VoiceSession extends _$VoiceSession {
           userId: userId,
         ),
         outputVolumePercent: settings.outputVolume,
-        locallyMuted: settings.participantLocalMutes[userId] ?? false,
+        locallyMuted: _effectiveLocalMutes(settings)[userId] ?? false,
       );
     } on Object catch (error) {
       talker.warning('[Voice] Failed to apply participant volume: $error');

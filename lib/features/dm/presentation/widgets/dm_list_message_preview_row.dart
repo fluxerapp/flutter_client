@@ -3,7 +3,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/dm_list_message_preview.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -32,7 +34,31 @@ class DmListTileSubtext extends ConsumerWidget {
       ),
     );
     if (shouldShowDmMessagePreview(mode: previewMode, hasUnread: hasUnread)) {
+      if (conversation.isGroup &&
+          conversation.lastMessageId != null &&
+          watchMatureChannelLocked(ref, conversation.id)) {
+        return Text(
+          FluxerLocalizations.of(context).matureMessageHiddenPreview,
+          style: style,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        );
+      }
       final String? authorId = conversation.lastMessageAuthorId;
+      if (authorId != null &&
+          authorId != currentUserId &&
+          ref.watch(
+            blockedUserIdsProvider.select(
+              (Set<String> ids) => ids.contains(authorId),
+            ),
+          )) {
+        return Text(
+          FluxerLocalizations.of(context).chatBlockedMessagesCollapsed(1),
+          style: style,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        );
+      }
       final String? authorFriendNickname =
           authorId != null && authorId.isNotEmpty && authorId != currentUserId
           ? ref.watch(

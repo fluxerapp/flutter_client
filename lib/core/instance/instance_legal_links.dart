@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -61,6 +63,8 @@ class InstanceLegalAgreementText extends ConsumerWidget {
     this.textAlign = TextAlign.center,
     this.baseStyle,
     this.linkStyle,
+    this.forSignIn = false,
+    this.padding = EdgeInsets.zero,
     super.key,
   });
 
@@ -68,15 +72,16 @@ class InstanceLegalAgreementText extends ConsumerWidget {
   final TextAlign textAlign;
   final TextStyle? baseStyle;
   final TextStyle? linkStyle;
+  final bool forSignIn;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? termsUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.termsUrl),
+    final InstanceConfigSnapshot instance = ref.watch(
+      forSignIn ? authInstanceSnapshotProvider : activeInstanceProvider,
     );
-    final String? privacyUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.privacyUrl),
-    );
+    final String? termsUrl = instance.termsUrl;
+    final String? privacyUrl = instance.privacyUrl;
     if (termsUrl == null && privacyUrl == null) {
       return const SizedBox.shrink();
     }
@@ -92,7 +97,7 @@ class InstanceLegalAgreementText extends ConsumerWidget {
     final TextStyle links =
         linkStyle ?? muted.copyWith(color: context.colors.textLink);
 
-    return Text.rich(
+    final Widget text = Text.rich(
       TextSpan(
         style: muted,
         children: [
@@ -110,6 +115,9 @@ class InstanceLegalAgreementText extends ConsumerWidget {
       ),
       textAlign: textAlign,
     );
+    return padding == EdgeInsets.zero
+        ? text
+        : Padding(padding: padding, child: text);
   }
 }
 

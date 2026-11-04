@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 
 class GroupMemberInfo {
   final String id;
@@ -151,14 +152,21 @@ class DmConversation {
     );
   }
 
-  String? get recipientTag {
-    if (recipientUsername == null || recipientUsername!.isEmpty) {
+  String? recipientTag({required bool uniqueUsernames}) {
+    final String? username = recipientUsername;
+    if (username == null || username.isEmpty) {
       return null;
     }
-    if (recipientDiscriminator == null || recipientDiscriminator!.isEmpty) {
-      return recipientUsername;
+    final String? discriminator = recipientDiscriminator;
+    if (discriminator == null || discriminator.isEmpty) {
+      return username;
     }
-    return '$recipientUsername#$recipientDiscriminator';
+    return formatUserTag(
+      username,
+      discriminator,
+      uniqueUsernames: uniqueUsernames,
+      bot: isBot,
+    );
   }
 
   int get memberCount => recipientCount;

@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placeholder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_cached_video_track.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_tracks_builder.dart';
@@ -40,6 +41,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     this.mirrorCamera = false,
     this.omitVideoTrack = false,
     this.subscribeQuality = kVoiceCameraSubscribeQuality,
+    this.blocked = false,
     super.key,
   });
 
@@ -62,6 +64,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
   final bool mirrorCamera;
   final bool omitVideoTrack;
   final VideoQuality subscribeQuality;
+  final bool blocked;
 
   @override
   State<VoiceParticipantMediaTile> createState() =>
@@ -135,14 +138,16 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
     final VoiceMediaParticipant? participant = _resolveParticipant();
     final bool screenShare =
         widget.tileSource == VoiceParticipantTileSource.screenShare;
-    final bool wanted = screenShare
-        ? shouldSubscribeRemoteScreenShare(
-            isActiveScreenShare: widget.isActiveScreenShare,
-          )
-        : shouldSubscribeRemoteCamera(
-            tileVisible: _tileVisible,
-            omitVideoTrack: widget.omitVideoTrack,
-          );
+    final bool wanted =
+        !widget.blocked &&
+        (screenShare
+            ? shouldSubscribeRemoteScreenShare(
+                isActiveScreenShare: widget.isActiveScreenShare,
+              )
+            : shouldSubscribeRemoteCamera(
+                tileVisible: _tileVisible,
+                omitVideoTrack: widget.omitVideoTrack,
+              ));
     if (participant == null || !wanted) {
       _releaseClaim();
       return;
@@ -173,6 +178,15 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.blocked) {
+      return VisibilityDetector(
+        key: _visibilityKey,
+        onVisibilityChanged: _onVisibilityChanged,
+        child: VoiceBlockedParticipantPlaceholder(
+          cornerRadius: widget.videoCornerRadius,
+        ),
+      );
+    }
     final VoiceMediaParticipant? participant = _resolveParticipant();
     final bool isScreenShareTile =
         widget.tileSource == VoiceParticipantTileSource.screenShare;

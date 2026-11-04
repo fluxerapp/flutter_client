@@ -22,9 +22,17 @@ bool isMatureSearchChannel({
 
 MessageSearchQuery applyMatureContentToSearchQuery(
   MessageSearchQuery query, {
+  required bool matureAllowed,
   required bool includeNsfw,
 }) {
-  if (!includeNsfw || (query.parsed.includeNsfw ?? false)) {
+  final bool? requested = query.parsed.includeNsfw;
+  if (!matureAllowed) {
+    if (requested ?? false) {
+      return query.copyWith(parsed: query.parsed.copyWith(includeNsfw: false));
+    }
+    return query;
+  }
+  if (!includeNsfw || (requested ?? false)) {
     return query;
   }
   return query.copyWith(parsed: query.parsed.copyWith(includeNsfw: true));

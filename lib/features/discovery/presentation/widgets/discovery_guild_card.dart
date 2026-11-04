@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_gui
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
@@ -78,6 +79,11 @@ class DiscoveryGuildCard extends ConsumerWidget {
       guildId: guild.id,
       iconHash: guild.icon,
     );
+    final IarGuildContext reportTarget = IarGuildContext(
+      guildId: guild.id,
+      name: guild.name,
+      iconUrl: iconUrl,
+    );
     final String onlineCount = NumberFormat.decimalPattern(
       Localizations.localeOf(context).toString(),
     ).format(guild.onlineCount);
@@ -103,7 +109,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
                           context,
                           ref,
                           details.globalPosition,
-                          guild.id,
+                          reportTarget,
                         ),
                       );
                     },
@@ -233,7 +239,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
                   tooltip: l10n.chatMessageMore,
                   onPressed: (Offset position) {
                     unawaited(
-                      _showContextMenu(context, ref, position, guild.id),
+                      _showContextMenu(context, ref, position, reportTarget),
                     );
                   },
                 ),
@@ -248,7 +254,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Offset position,
-    String guildId,
+    IarGuildContext guild,
   ) async {
     final DiscoveryGuildCardAction? action =
         await showDiscoveryGuildContextMenu(context, position: position);
@@ -258,7 +264,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
     await handleDiscoveryGuildCardAction(
       context: context,
       action: action,
-      guildId: guildId,
+      guild: guild,
     );
     if (!context.mounted) {
       return;
@@ -274,6 +280,8 @@ class DiscoveryGuildCard extends ConsumerWidget {
                 variant: FluxerToastVariant.success,
               ),
             );
+      case DiscoveryGuildCardAction.report:
+        return;
     }
   }
 

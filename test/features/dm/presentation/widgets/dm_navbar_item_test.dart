@@ -162,6 +162,7 @@ void main() {
                 lastMessage: '',
                 lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
                 unreadCount: 2,
+                nsfw: false,
               ),
             ],
             unreadChannelIds: const {'1000000000000000001'},

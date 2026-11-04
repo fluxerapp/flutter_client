@@ -33,7 +33,7 @@ class InstanceCompatibilityGate extends ConsumerWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        IgnorePointer(child: child),
+        ExcludeSemantics(child: IgnorePointer(child: child)),
         Positioned.fill(child: _InstanceCompatibilityScreen(issue: issue)),
       ],
     );

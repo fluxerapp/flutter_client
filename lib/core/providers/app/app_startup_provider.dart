@@ -47,7 +47,6 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
-import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -366,11 +365,6 @@ class AppStartup extends _$AppStartup {
       ref
           .read(currentUserPrivateReadProvider(readAccountUserId(ref)).notifier)
           .apply(validatedUser);
-      unawaited(
-        ref
-            .read(sensitiveContentProvider.notifier)
-            .hydrateFromLocal(validatedUser: validatedUser),
-      );
     } else {
       unawaited(ref.read(userSettingsViewModelProvider.notifier).loadProfile());
       unawaited(
@@ -380,7 +374,6 @@ class AppStartup extends _$AppStartup {
             )
             .refresh(),
       );
-      unawaited(ref.read(sensitiveContentProvider.notifier).hydrateFromLocal());
     }
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
     final String? token = ref.read(fluxerAuthTokenProvider);

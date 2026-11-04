@@ -14,6 +14,22 @@ String? getUrlHostname(String? url) {
   return host;
 }
 
+const Set<String> _youTubeEmbedHosts = <String>{
+  'youtube.com',
+  'www.youtube.com',
+  'youtube-nocookie.com',
+  'www.youtube-nocookie.com',
+};
+
+bool isYouTubeEmbedNavigation(Uri uri) {
+  if (uri.scheme == 'about') {
+    return true;
+  }
+  return uri.scheme == 'https' &&
+      _youTubeEmbedHosts.contains(uri.host.toLowerCase()) &&
+      uri.path.startsWith('/embed/');
+}
+
 bool isYouTubeEmbed(Embed embed) {
   return getUrlHostname(embed.providerUrl) == kYouTubeProviderHostname;
 }

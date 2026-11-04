@@ -276,6 +276,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get logInWithPasskey => '使用密匙登录';
 
   @override
+  String get loginLegalAgreementPrefix => '登录即表示你同意 ';
+
+  @override
   String continueWithSso(String provider) {
     return '使用 $provider 继续';
   }
@@ -779,6 +782,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get registerDateOfBirth => '出生日期';
 
   @override
+  String get registerDateOfBirthDone => '完成';
+
+  @override
+  String get registerDateOfBirthNotSet => '未设置';
+
+  @override
   String get registerMonth => '月';
 
   @override
@@ -798,6 +807,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => '隐私政策';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      '我同意：此实例对令人反感的内容和滥用行为的用户零容忍，其管理员可以移除违反这些规则的内容和账号。';
 
   @override
   String get registerConfirmPassword => '确认密码';
@@ -4016,6 +4029,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => '无法下载附件';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName 需要访问你的照片图库才能保存此附件。';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '附件已过期';
 
   @override
@@ -4141,7 +4159,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureMediaRevealButton => '显示';
 
   @override
-  String get matureMediaRevealHint => '点击显示';
+  String get matureMediaRevealLabel => '显示敏感媒体';
+
+  @override
+  String get matureMediaAppLockedLabel => '敏感媒体在 iPhone 和 iPad 上已隐藏。';
+
+  @override
+  String get matureMediaMinorLockedLabel => '你的账号已隐藏敏感媒体。';
 
   @override
   String get matureContentTitle => '成人内容';
@@ -4196,6 +4220,23 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureChannelUnavailableBody => '你的账号无法访问此成人频道。';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ 内容在 iPhone 和 iPad 上已关闭。如需在这里查看标记为 18+ 的社区和频道，请在网页版或桌面版上打开 Fluxer，前往设置中的“隐私”，然后开启“允许在 iPhone 和 iPad 上显示 18+ 内容”。';
+
+  @override
+  String get matureContentRegionLockedBody => '由于你所在地区的成人内容法规，在此处无法访问成人内容。';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 频道中的消息';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '此账号无法使用 Fluxer';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '你的 Apple Account 共享的年龄范围低于 13 岁。Fluxer 仅面向 13 岁及以上的用户。';
+
+  @override
   String get matureContentProceedButton => '继续';
 
   @override
@@ -4227,6 +4268,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => '保存';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '如需在这里选择“显示”，请在网页版或桌面版上打开 Fluxer，前往设置中的“隐私”，然后开启“允许在 iPhone 和 iPad 上显示 18+ 内容”。';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -5771,6 +5816,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => '查看个人资料';
 
   @override
+  String get voiceParticipantMenuReport => '举报';
+
+  @override
   String get voiceParticipantMenuFocus => '聚焦此人';
 
   @override
@@ -5887,6 +5935,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => '你的流对参与者直播中。';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '来自你已屏蔽用户的视频';
 
   @override
   String get voiceLiveBadge => '直播中';
@@ -6822,6 +6873,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => '举报个人资料';
 
   @override
+  String get reportFlowTitleCommunity => '举报社区';
+
+  @override
   String get reportFlowSummaryTitle => '检查你的举报';
 
   @override
@@ -6842,7 +6896,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get reportFlowSelectedMessage => '你要举报的消息';
 
   @override
-  String get reportFlowSelectedUser => '你正在举报的个人资料';
+  String get reportFlowSelectedPerson => '你正在举报的人';
+
+  @override
+  String get reportFlowSelectedCommunity => '你要举报的社区';
 
   @override
   String get reportFlowReportCategory => '你的回答';
@@ -6869,6 +6926,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productName 安全团队将审核你的举报。我们不会透露举报人是你。';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted => '此实例的管理员将审核你的举报。我们不会透露举报来自你。';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -6912,6 +6972,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get reportFlowAlreadyReportedProfile => '你今天已经举报过此个人资料了。';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '你已举报过此社区。';
 
   @override
   String get reportFlowRateLimited => '你发送举报的速度过快。请稍后再试。';
@@ -10495,6 +10558,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => '功能标志';
 
   @override
+  String get userSettingsNavHelp => '帮助与支持';
+
+  @override
   String get userSettingsNavWhatsNew => '新功能';
 
   @override
@@ -11352,6 +11418,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => '复制社区 ID';
+
+  @override
+  String get guildMenuReportCommunity => '举报社区';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -14557,6 +14626,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get forumPostStarterDeleted => '原始消息已被删除。';
 
   @override
+  String get forumPostBlockedAuthor => '来自你已屏蔽用户的帖子';
+
+  @override
+  String get threadBlockedAuthor => '来自你已屏蔽用户的子区';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author：$content';
   }
@@ -14603,6 +14678,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => '标为已读';
+
+  @override
+  String get forumReportPost => '举报帖子';
 
   @override
   String get forumCopyPostLink => '复制链接';
@@ -15684,6 +15762,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get logInWithPasskey => '使用通行金鑰登入';
 
   @override
+  String get loginLegalAgreementPrefix => '登入即表示您同意 ';
+
+  @override
   String continueWithSso(String provider) {
     return '透過 $provider 繼續';
   }
@@ -16187,6 +16268,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get registerDateOfBirth => '出生日期';
 
   @override
+  String get registerDateOfBirthDone => '完成';
+
+  @override
+  String get registerDateOfBirthNotSet => '未設定';
+
+  @override
   String get registerMonth => '月';
 
   @override
@@ -16206,6 +16293,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get registerConsentPrivacy => '隱私權政策';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      '我同意此伺服器對令人反感的內容或濫用行為的使用者採取零容忍，且其管理員可以移除違反這些規則的內容和帳號。';
 
   @override
   String get registerConfirmPassword => '確認密碼';
@@ -19424,6 +19515,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatAttachmentDownloadFailedToast => '無法下載附件';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName 需要存取您的相片圖庫才能儲存此附件。';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '附件已過期';
 
   @override
@@ -19549,7 +19645,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get matureMediaRevealButton => '顯示';
 
   @override
-  String get matureMediaRevealHint => '點擊顯示';
+  String get matureMediaRevealLabel => '顯示敏感媒體';
+
+  @override
+  String get matureMediaAppLockedLabel => '敏感媒體在 iPhone 和 iPad 上已隱藏。';
+
+  @override
+  String get matureMediaMinorLockedLabel => '您的帳號已隱藏敏感媒體。';
 
   @override
   String get matureContentTitle => '成人內容';
@@ -19600,6 +19702,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get matureChannelUnavailableBody => '您的帳號無法使用此成人頻道。';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ 內容在 iPhone 和 iPad 上已關閉。如要在這裡查看標示為 18+ 的社群和頻道，請在網頁版或桌面版開啟 Fluxer，前往設定中的「隱私」，並開啟「在 iPhone 和 iPad 上允許 18+ 內容」。';
+
+  @override
+  String get matureContentRegionLockedBody => '由於您所在地區的成人內容相關法律，無法在此地區使用成人內容。';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 頻道中的訊息';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '此帳號無法使用 Fluxer';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '您的 Apple Account 分享的年齡範圍未滿 13 歲。Fluxer 僅供 13 歲以上的使用者使用。';
+
+  @override
   String get matureContentProceedButton => '繼續';
 
   @override
@@ -19631,6 +19750,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get sensitiveContentSaveButton => '儲存';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '如要在這裡選擇「顯示」，請在網頁版或桌面版開啟 Fluxer，前往設定中的「隱私」，並開啟「在 iPhone 和 iPad 上允許 18+ 內容」。';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -21176,6 +21299,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceParticipantMenuViewProfile => '查看個人檔案';
 
   @override
+  String get voiceParticipantMenuReport => '檢舉';
+
+  @override
   String get voiceParticipantMenuFocus => '聚焦此人';
 
   @override
@@ -21292,6 +21418,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceOwnScreenShareSubtitle => '您的串流對參與者直播中。';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '來自您已封鎖之使用者的影像';
 
   @override
   String get voiceLiveBadge => '直播中';
@@ -22230,6 +22359,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get reportFlowTitleUserProfile => '檢舉個人檔案';
 
   @override
+  String get reportFlowTitleCommunity => '檢舉社群';
+
+  @override
   String get reportFlowSummaryTitle => '檢查您的檢舉';
 
   @override
@@ -22250,7 +22382,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get reportFlowSelectedMessage => '您要檢舉的訊息';
 
   @override
-  String get reportFlowSelectedUser => '您要檢舉的個人檔案';
+  String get reportFlowSelectedPerson => '您要檢舉的使用者';
+
+  @override
+  String get reportFlowSelectedCommunity => '您要檢舉的社群';
 
   @override
   String get reportFlowReportCategory => '您的回答';
@@ -22277,6 +22412,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String reportFlowThankYouBody(String productName) {
     return '$productName 安全團隊會審核您的檢舉。我們不會透露是您檢舉的。';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted => '此伺服器的管理員會審核您的檢舉。我們不會透露是您檢舉的。';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -22320,6 +22458,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get reportFlowAlreadyReportedProfile => '您今天已經檢舉過這個個人檔案了。';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '您已經檢舉過這個社群了。';
 
   @override
   String get reportFlowRateLimited => '您傳送檢舉的速度太快了。請稍後再試。';
@@ -25904,6 +26045,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get userSettingsNavFeatureFlags => '功能旗標';
 
   @override
+  String get userSettingsNavHelp => '說明與支援';
+
+  @override
   String get userSettingsNavWhatsNew => '最新功能';
 
   @override
@@ -26762,6 +26906,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildMenuCopyCommunityId => '複製社群 ID';
+
+  @override
+  String get guildMenuReportCommunity => '檢舉社群';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -29972,6 +30119,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get forumPostStarterDeleted => '原始訊息已被刪除。';
 
   @override
+  String get forumPostBlockedAuthor => '來自您已封鎖之使用者的貼文';
+
+  @override
+  String get threadBlockedAuthor => '來自您已封鎖之使用者的討論串';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author：$content';
   }
@@ -30018,6 +30171,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get forumMarkPostRead => '標示為已讀';
+
+  @override
+  String get forumReportPost => '檢舉貼文';
 
   @override
   String get forumCopyPostLink => '複製連結';

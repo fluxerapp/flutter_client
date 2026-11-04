@@ -18,6 +18,7 @@ class ReportFlowTargetPreview extends StatelessWidget {
       IarMessageContext(:final message, :final guildId) =>
         _ReportFlowMessagePreview(message: message, guildId: guildId),
       final IarUserContext user => ReportFlowUserCard(user: user),
+      final IarGuildContext guild => ReportFlowGuildCard(guild: guild),
     };
   }
 }
@@ -85,6 +86,45 @@ class _ReportFlowMessagePreviewState extends State<_ReportFlowMessagePreview> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ReportFlowGuildCard extends StatelessWidget {
+  const ReportFlowGuildCard({required this.guild, super.key});
+
+  final IarGuildContext guild;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final layout = context.layout;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundSecondary,
+        borderRadius: layout.radiusLg,
+        border: Border.all(color: colors.backgroundHeaderSecondary),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(layout.s3),
+        child: Row(
+          children: [
+            FluxerGuildIconAvatar(name: guild.name, imageUrl: guild.iconUrl),
+            SizedBox(width: layout.s3),
+            Expanded(
+              child: Text(
+                guild.name,
+                style: context.textStyles.bodyMedium.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );

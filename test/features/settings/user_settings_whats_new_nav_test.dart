@@ -14,6 +14,7 @@ void main() {
     final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
       showBilling: false,
       showGiveFeedback: false,
+      showHelp: false,
       showJoinFluxerLabs: false,
       isTouchPrimary: true,
     );
@@ -39,9 +40,11 @@ void main() {
           onOpenWhatsNew: () => opened++,
           onJoinFluxerLabs: () {},
           onGiveFeedback: () {},
+          onOpenHelp: () {},
           onLogout: () {},
           showBilling: false,
           showGiveFeedback: false,
+          showHelp: false,
           showJoinFluxerLabs: false,
           isTouchPrimary: true,
         );

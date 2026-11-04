@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
@@ -196,6 +197,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     super.initState();
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? sectionIndex = widget.initialSection == null
@@ -205,6 +207,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
             showBilling: showBilling,
             showGifts: userSettingsShowGiftBillingNav(ref),
             showGiveFeedback: showGiveFeedback,
+            showHelp: showHelp,
             showJoinFluxerLabs: showJoinFluxerLabs,
             isTouchPrimary: isTouchPrimary,
           );
@@ -249,6 +252,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final state = ref.watch(userSettingsViewModelProvider);
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsDesktopNavEntry> desktopNav =
@@ -256,6 +260,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
           showGiveFeedback: showGiveFeedback,
+          showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
         );
@@ -443,6 +448,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_openFeedback());
       return;
     }
+    if (entry.isHelp) {
+      unawaited(_openHelp());
+      return;
+    }
     if (entry.isWhatsNew) {
       unawaited(_openWhatsNew());
       return;
@@ -465,6 +474,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
   }
 
+  Future<void> _openHelp() async {
+    await handleExternalLinkTap(context, InstanceConstants.helpCenterUrl);
+  }
+
   Future<void> _openWhatsNew() async {
     await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
   }
@@ -479,6 +492,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     }
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? index = indexForUserSettingsSection(
@@ -486,6 +500,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       showBilling: showBilling,
       showGifts: userSettingsShowGiftBillingNav(ref),
       showGiveFeedback: showGiveFeedback,
+      showHelp: showHelp,
       showJoinFluxerLabs: showJoinFluxerLabs,
       isTouchPrimary: isTouchPrimary,
     );
@@ -555,6 +570,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       onNavigateSection: (UserSettingsSection target) {
         final bool showBilling = userSettingsShowBillingNav(ref);
         final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+        final bool showHelp = userSettingsShowHelpNav(ref);
         final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
         final bool isTouchPrimary = ref.read(inputModalityProvider);
         final int? index = indexForUserSettingsSection(
@@ -562,6 +578,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
           showGiveFeedback: showGiveFeedback,
+          showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
         );
@@ -663,6 +680,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final layout = context.layout;
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
@@ -716,10 +734,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onOpenWhatsNew: () => unawaited(_openWhatsNew()),
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onGiveFeedback: () => unawaited(_openFeedback()),
+              onOpenHelp: () => unawaited(_openHelp()),
               onLogout: _logout,
               showBilling: showBilling,
               showGifts: userSettingsShowGiftBillingNav(ref),
               showGiveFeedback: showGiveFeedback,
+              showHelp: showHelp,
               showJoinFluxerLabs: showJoinFluxerLabs,
               isTouchPrimary: isTouchPrimary,
             ),
@@ -776,6 +796,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 
   Future<void> _openFeedback() async {
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
+  }
+
+  Future<void> _openHelp() async {
+    await handleExternalLinkTap(context, InstanceConstants.helpCenterUrl);
   }
 
   Future<void> _openWhatsNew() async {

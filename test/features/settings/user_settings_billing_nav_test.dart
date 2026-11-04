@@ -39,6 +39,7 @@ void main() {
           buildUserSettingsDesktopNav(
             showBilling: false,
             showGiveFeedback: false,
+            showHelp: false,
             showJoinFluxerLabs: false,
             isTouchPrimary: false,
           );
@@ -46,6 +47,7 @@ void main() {
           buildUserSettingsDesktopNav(
             showBilling: true,
             showGiveFeedback: false,
+            showHelp: false,
             showJoinFluxerLabs: false,
             isTouchPrimary: false,
           );
@@ -74,6 +76,7 @@ void main() {
       final touchNav = buildUserSettingsDesktopNav(
         showBilling: false,
         showGiveFeedback: false,
+        showHelp: false,
         showJoinFluxerLabs: false,
         isTouchPrimary: true,
       );
@@ -85,6 +88,7 @@ void main() {
       final pointerNav = buildUserSettingsDesktopNav(
         showBilling: false,
         showGiveFeedback: false,
+        showHelp: false,
         showJoinFluxerLabs: false,
         isTouchPrimary: false,
       );
@@ -104,6 +108,7 @@ void main() {
           UserSettingsSection.giftsAndCodes,
           showBilling: false,
           showGiveFeedback: false,
+          showHelp: false,
           showJoinFluxerLabs: false,
           isTouchPrimary: false,
         ),
@@ -117,6 +122,7 @@ void main() {
           UserSettingsSection.shortcuts,
           showBilling: false,
           showGiveFeedback: false,
+          showHelp: false,
           showJoinFluxerLabs: false,
           isTouchPrimary: true,
         ),

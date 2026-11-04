@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
-import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -18,13 +17,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/embeds/invite_embed_context_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
-import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_context_menu.dart';
-import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
@@ -174,15 +170,6 @@ Future<void> _longPressMessage(
   await tester.pump(const Duration(seconds: 1));
 }
 
-Iterable<GuildMenuEntry> _flatten(Iterable<GuildMenuEntry> entries) sync* {
-  for (final GuildMenuEntry entry in entries) {
-    yield entry;
-    if (entry is GuildMenuSubmenu) {
-      yield* _flatten(entry.children);
-    }
-  }
-}
-
 Set<String> _libFilesContaining(Pattern pattern) {
   return Directory('lib')
       .listSync(recursive: true)
@@ -194,103 +181,10 @@ Set<String> _libFilesContaining(Pattern pattern) {
       .toSet();
 }
 
-const String _profileActionsSheetPath =
-    'lib/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
-
 void main() {
   final FluxerLocalizations l10n = testL10n;
 
-  group('community reports', () {
-    test('the guild menu has no report action', () {
-      expect(
-        GuildAction.values.where((action) => action.name.contains('report')),
-        isEmpty,
-      );
-      for (final bool isTouchPrimary in <bool>[false, true]) {
-        final List<GuildMenuGroup> groups = buildGuildMenuGroups(
-          l10n: l10n,
-          hasUnread: true,
-          isMuted: false,
-          isOwner: false,
-          permissions: Permission.viewChannel.value,
-          locale: 'en_US',
-          use12Hour: true,
-          developerMode: true,
-          isTouchPrimary: isTouchPrimary,
-        );
-        final Iterable<String> labels = _flatten(groups.expand((g) => g)).map(
-          (entry) => switch (entry) {
-            GuildMenuAction(:final label) => label,
-            GuildMenuSubmenu(:final label) => label,
-            GuildMenuCheckbox(:final label) => label,
-          },
-        );
-        expect(labels, isNotEmpty);
-        expect(labels.where((label) => label.contains('Report')), isEmpty);
-      }
-    });
-
-    testWidgets('the discovery card menu only copies the community id', (
-      tester,
-    ) async {
-      expect(DiscoveryGuildCardAction.values, <DiscoveryGuildCardAction>[
-        DiscoveryGuildCardAction.copyId,
-      ]);
-      await tester.pumpWidget(
-        _app(
-          _launcher(
-            (context, _) => showDiscoveryGuildContextMenu(
-              context,
-              position: const Offset(10, 10),
-            ),
-          ),
-        ),
-      );
-      await _openLauncher(tester);
-
-      expect(find.text(l10n.guildMenuCopyCommunityId), findsOneWidget);
-      expect(find.textContaining('Report'), findsNothing);
-    });
-
-    testWidgets('the invite embed menu has no report item', (tester) async {
-      expect(
-        InviteEmbedContextMenuAction.values,
-        <InviteEmbedContextMenuAction>[
-          InviteEmbedContextMenuAction.copyGuildId,
-          InviteEmbedContextMenuAction.copyChannelId,
-        ],
-      );
-      await tester.pumpWidget(
-        _app(
-          _launcher(
-            (context, _) => showInviteEmbedContextMenu(
-              context,
-              position: const Offset(10, 10),
-              canCopyGuildId: true,
-              canCopyChannelId: true,
-            ),
-          ),
-        ),
-      );
-      await _openLauncher(tester);
-
-      expect(find.text(l10n.guildMenuCopyCommunityId), findsOneWidget);
-      expect(find.text(l10n.dmCopyChannelId), findsOneWidget);
-      expect(find.textContaining('Report'), findsNothing);
-    });
-
-    test('no in-app code path files a community report', () {
-      expect(_libFilesContaining('reportGuild('), isEmpty);
-      expect(_libFilesContaining('IarGuildContext'), isEmpty);
-      expect(_libFilesContaining('showReportGuildFlow'), isEmpty);
-      expect(
-        File(
-          'lib/features/moderation/presentation/iar_report_guild.dart',
-        ).existsSync(),
-        isFalse,
-      );
-    });
-
+  group('report routes', () {
     test('in-app reports only use the report flow routes', () {
       expect(_libFilesContaining('/reports/message'), isEmpty);
       expect(_libFilesContaining('/reports/user'), isEmpty);
@@ -324,21 +218,6 @@ void main() {
         expect(find.text(l10n.userProfileReportUserProfile), findsNothing);
       },
     );
-
-    test('Report profile lives only in the profile actions sheet', () {
-      expect(_libFilesContaining('userProfileReportUserProfile'), <String>{
-        _profileActionsSheetPath,
-      });
-      expect(
-        _libFilesContaining(
-          RegExp(r'IarUserContext\('),
-        ).where((path) => !path.startsWith('lib/features/moderation/')).toSet(),
-        <String>{_profileActionsSheetPath},
-      );
-      expect(_libFilesContaining('canReportUserProfile: true'), <String>{
-        'lib/features/profile/presentation/widgets/user_profile_view.dart',
-      });
-    });
   });
 
   group('webhook and bot messages', () {

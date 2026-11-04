@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -2461,6 +2462,13 @@ class _VoiceParticipantCard extends ConsumerWidget {
         (VoiceSettingsState s) => s.shouldMirrorOwnCamera,
       ),
     );
+    final bool blocked =
+        data.userId != currentUserId &&
+        ref.watch(
+          blockedUserIdsProvider.select(
+            (Set<String> ids) => ids.contains(data.userId),
+          ),
+        );
     final String speakingIdentity = participant?.identity ?? data.userId;
     final BorderRadius radius = BorderRadius.circular(edgeToEdge ? 0 : 12);
     final Color streamSurface = context.colors.backgroundPrimary;
@@ -2498,6 +2506,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
           tileHeight: tileHeight,
           devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
         ),
+        blocked: blocked,
       ),
     );
     final StringBuffer semantics = StringBuffer(display);

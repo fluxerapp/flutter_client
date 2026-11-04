@@ -285,6 +285,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get logInWithPasskey => 'Đăng nhập bằng khóa truy cập';
 
   @override
+  String get loginLegalAgreementPrefix => 'Khi đăng nhập, bạn đồng ý với ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Tiếp tục với $provider';
   }
@@ -821,6 +824,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get registerDateOfBirth => 'Ngày sinh';
 
   @override
+  String get registerDateOfBirthDone => 'Xong';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Chưa đặt';
+
+  @override
   String get registerMonth => 'Tháng';
 
   @override
@@ -840,6 +849,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Chính sách quyền riêng tư';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Tôi đồng ý rằng máy chủ này không dung thứ nội dung phản cảm hoặc người dùng lạm dụng, và quản trị viên của máy chủ có thể xóa nội dung và tài khoản vi phạm các quy tắc này.';
 
   @override
   String get registerConfirmPassword => 'Xác nhận mật khẩu';
@@ -4228,6 +4241,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Không thể tải xuống tệp đính kèm';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName cần quyền truy cập vào thư viện ảnh của bạn để lưu tệp đính kèm này.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Tệp đính kèm đã hết hạn';
 
   @override
@@ -4353,7 +4371,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Hiện';
 
   @override
-  String get matureMediaRevealHint => 'Nhấn để xem';
+  String get matureMediaRevealLabel => 'Hiện phương tiện nhạy cảm';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Phương tiện nhạy cảm bị ẩn trên iPhone và iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Phương tiện nhạy cảm bị ẩn đối với tài khoản của bạn.';
 
   @override
   String get matureContentTitle => 'Nội dung người lớn';
@@ -4416,6 +4442,25 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Kênh có nội dung người lớn này không khả dụng với tài khoản của bạn.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'Nội dung 18+ đang tắt trên iPhone và iPad. Để xem các cộng đồng và kênh được đánh dấu 18+ tại đây, hãy mở Fluxer trên web hoặc trên máy tính, vào \"Quyền riêng tư\" trong phần cài đặt và bật \"Cho phép nội dung 18+ trên iPhone và iPad\".';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Do luật về nội dung người lớn tại nơi bạn ở, nội dung người lớn không khả dụng từ đây.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Tin nhắn trong kênh 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer không khả dụng cho tài khoản này';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Khoảng độ tuổi mà Apple Account của bạn chia sẻ là dưới 13 tuổi. Fluxer chỉ dành cho người từ 13 tuổi trở lên.';
+
+  @override
   String get matureContentProceedButton => 'Tiếp tục';
 
   @override
@@ -4448,6 +4493,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Lưu';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Để chọn \"Hiển thị\" tại đây, hãy mở Fluxer trên web hoặc trên máy tính, vào \"Quyền riêng tư\" trong phần cài đặt và bật \"Cho phép nội dung 18+ trên iPhone và iPad\".';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6112,6 +6161,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Xem hồ sơ';
 
   @override
+  String get voiceParticipantMenuReport => 'Báo cáo';
+
+  @override
   String get voiceParticipantMenuFocus => 'Tập trung vào người này';
 
   @override
@@ -6237,6 +6289,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Luồng của bạn đang hoạt động cho những người tham gia.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => 'Video từ người bạn đã chặn';
 
   @override
   String get voiceLiveBadge => 'Trực tiếp';
@@ -7255,6 +7310,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Báo cáo hồ sơ';
 
   @override
+  String get reportFlowTitleCommunity => 'Báo cáo cộng đồng';
+
+  @override
   String get reportFlowSummaryTitle => 'Kiểm tra báo cáo của bạn';
 
   @override
@@ -7277,7 +7335,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Tin nhắn bạn đang báo cáo';
 
   @override
-  String get reportFlowSelectedUser => 'Hồ sơ bạn đang báo cáo';
+  String get reportFlowSelectedPerson => 'Người bạn đang báo cáo';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Cộng đồng bạn đang báo cáo';
 
   @override
   String get reportFlowReportCategory => 'Câu trả lời của bạn';
@@ -7304,6 +7365,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Đội ngũ an toàn của $productName sẽ xem xét báo cáo của bạn. Chúng tôi sẽ không tiết lộ báo cáo này đến từ bạn.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Quản trị viên của máy chủ này sẽ xem xét báo cáo của bạn. Chúng tôi sẽ không tiết lộ báo cáo này đến từ bạn.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7351,6 +7416,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Bạn đã báo cáo hồ sơ này hôm nay.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Bạn đã báo cáo cộng đồng này rồi.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11221,6 +11290,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Cờ tính năng';
 
   @override
+  String get userSettingsNavHelp => 'Trợ giúp và hỗ trợ';
+
+  @override
   String get userSettingsNavWhatsNew => 'Có gì mới';
 
   @override
@@ -12116,6 +12188,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Sao chép ID cộng đồng';
+
+  @override
+  String get guildMenuReportCommunity => 'Báo cáo cộng đồng';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15546,6 +15621,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Tin nhắn gốc đã bị xóa.';
 
   @override
+  String get forumPostBlockedAuthor => 'Bài đăng từ người bạn đã chặn';
+
+  @override
+  String get threadBlockedAuthor => 'Luồng từ người bạn đã chặn';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15591,6 +15672,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Đánh dấu đã đọc';
+
+  @override
+  String get forumReportPost => 'Báo cáo bài đăng';
 
   @override
   String get forumCopyPostLink => 'Sao chép liên kết';

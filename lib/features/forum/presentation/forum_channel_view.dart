@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.da
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_posts_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -424,10 +425,19 @@ class _ForumPostItem extends ConsumerWidget {
       ),
       unreadCount: unreadCount,
       hasUnread: hasUnread,
+      authorBlocked:
+          post.ownerId != null &&
+          ref.watch(blockedUserIdsProvider).contains(post.ownerId),
     );
     void open() => unawaited(openForumPost(context, ref, post));
     void actions() => unawaited(
-      showForumPostActionsSheet(context, ref, forum: forum, post: post),
+      showForumPostActionsSheet(
+        context,
+        ref,
+        forum: forum,
+        post: post,
+        title: forumPostTitleText(data, FluxerLocalizations.of(context)),
+      ),
     );
     if (gallery) {
       return ForumPostTile(data: data, onTap: open, onLongPress: actions);

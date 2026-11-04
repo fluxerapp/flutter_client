@@ -70,6 +70,7 @@ void main() {
       expect(
         applyMatureContentToSearchQuery(
           query(),
+          matureAllowed: true,
           includeNsfw: true,
         ).parsed.includeNsfw,
         isTrue,
@@ -80,6 +81,7 @@ void main() {
       final MessageSearchQuery original = query();
       final MessageSearchQuery result = applyMatureContentToSearchQuery(
         original,
+        matureAllowed: true,
         includeNsfw: false,
       );
 
@@ -93,15 +95,28 @@ void main() {
       expect(
         applyMatureContentToSearchQuery(
           original,
+          matureAllowed: true,
           includeNsfw: true,
         ).parsed.includeNsfw,
         isTrue,
       );
     });
 
+    test('forces a typed nsfw:true off when 18+ access is not allowed', () {
+      final MessageSearchQuery prepared = applyMatureContentToSearchQuery(
+        query(rawQuery: 'hello nsfw:true'),
+        matureAllowed: false,
+        includeNsfw: false,
+      );
+
+      expect(prepared.parsed.includeNsfw, isFalse);
+      expect(buildGlobalSearchMessagesRequest(prepared).includeNsfw, isFalse);
+    });
+
     test('maps included nsfw onto the global search request', () {
       final MessageSearchQuery prepared = applyMatureContentToSearchQuery(
         query(),
+        matureAllowed: true,
         includeNsfw: true,
       );
 

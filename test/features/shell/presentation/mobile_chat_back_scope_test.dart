@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/shell_popup_route_observer.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
@@ -288,7 +289,10 @@ GoRouter _routerFor(
 
 ProviderContainer _containerFor(GoRouter router) {
   final container = ProviderContainer(
-    overrides: [fluxerRouterProvider.overrideWithValue(router)],
+    overrides: [
+      fluxerRouterProvider.overrideWithValue(router),
+      blockedUserIdsProvider.overrideWithValue(const <String>{}),
+    ],
   );
   addTearDown(container.dispose);
   return container;

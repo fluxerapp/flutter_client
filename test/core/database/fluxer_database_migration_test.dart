@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 103;
+const int _expectedSchemaVersion = 104;
 
 const int _guardedBaselineVersion = 67;
 
@@ -510,6 +510,29 @@ void main() {
       expect(roles.single.name, 'Mods');
       expect(roles.single.icon, isNull);
       expect(roles.single.unicodeEmoji, isNull);
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('upgrade from 103 adds the DM channel nsfw column', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 103);
+      raw
+        ..execute('ALTER TABLE dm_channels DROP COLUMN nsfw')
+        ..execute(
+          "INSERT INTO dm_channels (id, type, recipient_id) VALUES ('d1', 3, 'u1')",
+        );
+      expect(_userVersion(raw), 103);
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.customSelect('SELECT 1').get();
+
+      expect(_tableColumns(raw, 'dm_channels'), contains('nsfw'));
+      final DmChannel? row = await db.dmChannelDao.getDmChannelById('d1');
+      expect(row?.nsfw, isFalse);
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

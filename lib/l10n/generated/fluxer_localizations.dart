@@ -542,6 +542,12 @@ abstract class FluxerLocalizations {
   /// **'Log in with a passkey'**
   String get logInWithPasskey;
 
+  /// Text before the Terms of service link under the sign-in button. The trailing space separates it from the link.
+  ///
+  /// In en, this message translates to:
+  /// **'By signing in, you agree to the '**
+  String get loginLegalAgreementPrefix;
+
   /// Button label that starts single sign-on.
   ///
   /// In en, this message translates to:
@@ -1490,6 +1496,18 @@ abstract class FluxerLocalizations {
   /// **'Date of birth'**
   String get registerDateOfBirth;
 
+  /// Button that closes the date of birth wheel on iPhone and iPad.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get registerDateOfBirthDone;
+
+  /// VoiceOver value of the date of birth field before a date is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get registerDateOfBirthNotSet;
+
   /// Placeholder for the month select.
   ///
   /// In en, this message translates to:
@@ -1531,6 +1549,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Privacy policy'**
   String get registerConsentPrivacy;
+
+  /// Sign-up consent checkbox text on an instance that has no terms or privacy policy links.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.'**
+  String get registerConsentBuiltInRules;
 
   /// Label for the confirm password field on the register screen.
   ///
@@ -6890,6 +6914,12 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t download attachment'**
   String get chatAttachmentDownloadFailedToast;
 
+  /// Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an "Open settings" action.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your photo library to save this attachment.'**
+  String chatAttachmentDownloadPhotosAccessToast(String productName);
+
   /// Tooltip when a file attachment link is no longer available.
   ///
   /// In en, this message translates to:
@@ -7040,11 +7070,23 @@ abstract class FluxerLocalizations {
   /// **'Reveal'**
   String get matureMediaRevealButton;
 
-  /// Accessibility label for the mature media reveal button.
+  /// Accessibility label for the button that reveals blurred sensitive media.
   ///
   /// In en, this message translates to:
-  /// **'Click to reveal'**
-  String get matureMediaRevealHint;
+  /// **'Reveal sensitive media'**
+  String get matureMediaRevealLabel;
+
+  /// Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive media is hidden on iPhone and iPad.'**
+  String get matureMediaAppLockedLabel;
+
+  /// Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive media is hidden for your account.'**
+  String get matureMediaMinorLockedLabel;
 
   /// Title for mature content gates and warnings.
   ///
@@ -7148,6 +7190,36 @@ abstract class FluxerLocalizations {
   /// **'This mature channel is not available to your account.'**
   String get matureChannelUnavailableBody;
 
+  /// Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch.
+  ///
+  /// In en, this message translates to:
+  /// **'18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
+  String get matureContentAppLockedBody;
+
+  /// Body of the gate shown in place of an 18+ community or channel when local law blocks it.
+  ///
+  /// In en, this message translates to:
+  /// **'Due to mature content laws where you are, mature content is not available from here.'**
+  String get matureContentRegionLockedBody;
+
+  /// Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device.
+  ///
+  /// In en, this message translates to:
+  /// **'Message in an 18+ channel'**
+  String get matureMessageHiddenPreview;
+
+  /// Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer isn\'t available on this account'**
+  String get ageRangeUnderMinimumTitle;
+
+  /// Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.'**
+  String get ageRangeUnderMinimumBody;
+
   /// Primary action on mature content gates.
   ///
   /// In en, this message translates to:
@@ -7213,6 +7285,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get sensitiveContentSaveButton;
+
+  /// Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels.
+  ///
+  /// In en, this message translates to:
+  /// **'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
+  String get sensitiveContentAppLockedHint;
 
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///
@@ -9927,6 +10005,12 @@ abstract class FluxerLocalizations {
   /// **'View profile'**
   String get voiceParticipantMenuViewProfile;
 
+  /// Voice participant menu item that opens the report flow for that person.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get voiceParticipantMenuReport;
+
   /// Voice participant context menu item to pin a participant tile in focus layout.
   ///
   /// In en, this message translates to:
@@ -10142,6 +10226,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Your stream is live for participants.'**
   String get voiceOwnScreenShareSubtitle;
+
+  /// Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Video from someone you blocked'**
+  String get voiceBlockedParticipantVideoHidden;
 
   /// Compact LIVE indicator on a screen-share tile (shown uppercase).
   ///
@@ -11767,6 +11857,12 @@ abstract class FluxerLocalizations {
   /// **'Report profile'**
   String get reportFlowTitleUserProfile;
 
+  /// Report sheet title while the community report flow loads.
+  ///
+  /// In en, this message translates to:
+  /// **'Report community'**
+  String get reportFlowTitleCommunity;
+
   /// Report flow: title of the last screen, where the reporter reviews the report before sending it.
   ///
   /// In en, this message translates to:
@@ -11803,11 +11899,17 @@ abstract class FluxerLocalizations {
   /// **'Message you\'re reporting'**
   String get reportFlowSelectedMessage;
 
-  /// Report flow: heading above the card of the reported user on the first screen and the report summary screen.
+  /// Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile.
   ///
   /// In en, this message translates to:
-  /// **'Profile you\'re reporting'**
-  String get reportFlowSelectedUser;
+  /// **'Person you\'re reporting'**
+  String get reportFlowSelectedPerson;
+
+  /// Report sheet heading above the card of the community being reported.
+  ///
+  /// In en, this message translates to:
+  /// **'Community you\'re reporting'**
+  String get reportFlowSelectedCommunity;
 
   /// Report flow: heading above the list of answers the reporter picked, on the report summary screen.
   ///
@@ -11856,6 +11958,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'The {productName} safety team will review your report. We won\'t reveal that it came from you.'**
   String reportFlowThankYouBody(String productName);
+
+  /// Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports.
+  ///
+  /// In en, this message translates to:
+  /// **'The administrators of this instance will review your report. We won\'t reveal that it came from you.'**
+  String get reportFlowThankYouBodySelfHosted;
 
   /// Report flow: body of the thank-you screen when the chosen answer does not send a report. "Abusive or harmful content" is the name of an option on the first screen of the message report form.
   ///
@@ -11934,6 +12042,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve already reported this profile today.'**
   String get reportFlowAlreadyReportedProfile;
+
+  /// Report sheet note when the reporter already reported this community.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already reported this community.'**
+  String get reportFlowAlreadyReportedCommunity;
 
   /// Report flow: note on the report summary screen when the reporter sent too many reports.
   ///
@@ -18461,6 +18575,12 @@ abstract class FluxerLocalizations {
   /// **'Feature flags'**
   String get userSettingsNavFeatureFlags;
 
+  /// User settings navigation item that opens the help center on the official instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Help and support'**
+  String get userSettingsNavHelp;
+
   /// User settings navigation item for release notes.
   ///
   /// In en, this message translates to:
@@ -20050,6 +20170,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Copy community ID'**
   String get guildMenuCopyCommunityId;
+
+  /// Community menu item that opens the community report flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Report community'**
+  String get guildMenuReportCommunity;
 
   /// Guild menu hint showing when a community mute expires.
   ///
@@ -25648,6 +25774,18 @@ abstract class FluxerLocalizations {
   /// **'The original message was deleted.'**
   String get forumPostStarterDeleted;
 
+  /// Forum post card title shown instead of the real title when the post author is blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Post from someone you blocked'**
+  String get forumPostBlockedAuthor;
+
+  /// Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread from someone you blocked'**
+  String get threadBlockedAuthor;
+
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
@@ -25707,6 +25845,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Mark as read'**
   String get forumMarkPostRead;
+
+  /// Forum post actions item that reports the post's first message.
+  ///
+  /// In en, this message translates to:
+  /// **'Report post'**
+  String get forumReportPost;
 
   /// Forum and media channel UI.
   ///

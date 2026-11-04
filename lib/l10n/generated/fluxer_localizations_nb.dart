@@ -286,6 +286,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get logInWithPasskey => 'Logg inn med en passnøkkel';
 
   @override
+  String get loginLegalAgreementPrefix => 'Ved å logge inn godtar du ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Fortsett med $provider';
   }
@@ -819,6 +822,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get registerDateOfBirth => 'Fødselsdato';
 
   @override
+  String get registerDateOfBirthDone => 'Ferdig';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Ikke angitt';
+
+  @override
   String get registerMonth => 'Måned';
 
   @override
@@ -838,6 +847,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Personvernregler';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Jeg godtar at denne instansen har nulltoleranse for støtende innhold og krenkende brukere, og at administratorene kan fjerne innhold og kontoer som bryter disse reglene.';
 
   @override
   String get registerConfirmPassword => 'Bekreft passord';
@@ -4231,6 +4244,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Kunne ikke laste ned vedlegg';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName trenger tilgang til bildebiblioteket ditt for å lagre dette vedlegget.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Vedlegg utløpt';
 
   @override
@@ -4357,7 +4375,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Vis';
 
   @override
-  String get matureMediaRevealHint => 'Trykk for å vise';
+  String get matureMediaRevealLabel => 'Vis sensitive medier';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Sensitive medier er skjult på iPhone og iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Sensitive medier er skjult for kontoen din.';
 
   @override
   String get matureContentTitle => 'Voksent innhold';
@@ -4421,6 +4447,25 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Denne kanalen med voksent innhold er ikke tilgjengelig for kontoen din.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+-innhold er slått av på iPhone og iPad. For å se fellesskap og kanaler merket 18+ her, åpne Fluxer på nettet eller på datamaskinen, gå til «Personvern» i innstillingene og slå på «Tillat 18+-innhold på iPhone og iPad».';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'På grunn av lover om innhold for voksne der du befinner deg, er innhold for voksne ikke tilgjengelig herfra.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Melding i en 18+-kanal';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer er ikke tilgjengelig på denne kontoen';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Aldersgruppen som Apple Account deler, er under 13 år. Fluxer er bare for personer som er 13 år eller eldre.';
+
+  @override
   String get matureContentProceedButton => 'Fortsett';
 
   @override
@@ -4452,6 +4497,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Lagre';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'For å velge «Vis» her, åpne Fluxer på nettet eller på datamaskinen, gå til «Personvern» i innstillingene og slå på «Tillat 18+-innhold på iPhone og iPad».';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6117,6 +6166,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Vis profil';
 
   @override
+  String get voiceParticipantMenuReport => 'Rapporter';
+
+  @override
   String get voiceParticipantMenuFocus => 'Fokuser på denne personen';
 
   @override
@@ -6243,6 +6295,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Strømmen din er live for deltakerne.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video fra noen du har blokkert';
 
   @override
   String get voiceLiveBadge => 'Direkte';
@@ -7255,6 +7311,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Rapporter profil';
 
   @override
+  String get reportFlowTitleCommunity => 'Rapporter fellesskap';
+
+  @override
   String get reportFlowSummaryTitle => 'Se over rapporten din';
 
   @override
@@ -7278,7 +7337,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Meldingen du rapporterer';
 
   @override
-  String get reportFlowSelectedUser => 'Profilen du rapporterer';
+  String get reportFlowSelectedPerson => 'Personen du rapporterer';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Fellesskapet du rapporterer';
 
   @override
   String get reportFlowReportCategory => 'Dine svar';
@@ -7305,6 +7367,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Sikkerhetsteamet hos $productName vil gjennomgå rapporten din. Vi vil ikke avsløre at den kom fra deg.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Administratorene av denne instansen går gjennom rapporten din. Vi avslører ikke at den kom fra deg.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7352,6 +7418,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Du har allerede rapportert denne profilen i dag.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Du har allerede rapportert dette fellesskapet.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11219,6 +11289,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Funksjonsflagg';
 
   @override
+  String get userSettingsNavHelp => 'Hjelp og brukerstøtte';
+
+  @override
   String get userSettingsNavWhatsNew => 'Nyheter';
 
   @override
@@ -12116,6 +12189,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Kopier fellesskaps-ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Rapporter fellesskap';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15554,6 +15630,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Den opprinnelige meldingen ble slettet.';
 
   @override
+  String get forumPostBlockedAuthor => 'Innlegg fra noen du har blokkert';
+
+  @override
+  String get threadBlockedAuthor => 'Tråd fra noen du har blokkert';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15600,6 +15682,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Merk som lest';
+
+  @override
+  String get forumReportPost => 'Rapporter innlegg';
 
   @override
   String get forumCopyPostLink => 'Kopier lenke';

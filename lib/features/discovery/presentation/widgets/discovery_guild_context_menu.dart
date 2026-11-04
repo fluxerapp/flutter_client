@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum DiscoveryGuildCardAction { copyId }
+enum DiscoveryGuildCardAction { copyId, report }
 
 Future<DiscoveryGuildCardAction?> showDiscoveryGuildContextMenu(
   BuildContext context, {
@@ -70,7 +72,9 @@ class _DiscoveryGuildContextMenuRoute
     Animation<double> secondaryAnimation,
   ) {
     const double menuWidth = kContextMenuWidth;
-    const double menuHeight = 56;
+    const double itemHeight = 40;
+    final double menuHeight =
+        DiscoveryGuildCardAction.values.length * itemHeight + 16;
     double left = position.dx;
     double top = position.dy;
     if (left + menuWidth > overlaySize.width) {
@@ -98,6 +102,13 @@ class _DiscoveryGuildContextMenuRoute
                 onTap: () =>
                     Navigator.of(context).pop(DiscoveryGuildCardAction.copyId),
               ),
+              ContextMenuItem(
+                label: l10n.guildMenuReportCommunity,
+                icon: PhosphorIconsBold.flag,
+                isDanger: true,
+                onTap: () =>
+                    Navigator.of(context).pop(DiscoveryGuildCardAction.report),
+              ),
             ],
           ),
         ),
@@ -109,10 +120,12 @@ class _DiscoveryGuildContextMenuRoute
 Future<void> handleDiscoveryGuildCardAction({
   required BuildContext context,
   required DiscoveryGuildCardAction action,
-  required String guildId,
+  required IarGuildContext guild,
 }) async {
   switch (action) {
     case DiscoveryGuildCardAction.copyId:
-      await Clipboard.setData(ClipboardData(text: guildId));
+      await Clipboard.setData(ClipboardData(text: guild.guildId));
+    case DiscoveryGuildCardAction.report:
+      await openReportFlow(context, iarContext: guild);
   }
 }

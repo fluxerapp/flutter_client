@@ -504,6 +504,7 @@ String? _detailsSubtitle({
   required FluxerLocalizations l10n,
   required Channel? channel,
   required DmConversation? dm,
+  required bool uniqueUsernames,
 }) {
   if (dm != null) {
     if (dm.isPersonalNotes) {
@@ -512,7 +513,7 @@ String? _detailsSubtitle({
     if (dm.isGroup) {
       return l10n.channelDetailsGroupDmSubtitle(dm.memberCount);
     }
-    return dm.recipientTag ??
+    return dm.recipientTag(uniqueUsernames: uniqueUsernames) ??
         (dm.isSystem ? l10n.channelDetailsSystemMessage : null);
   }
   if (channel != null) {

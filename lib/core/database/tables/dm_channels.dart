@@ -16,6 +16,7 @@ class DmChannels extends Table {
   DateTimeColumn get lastMessageTime =>
       dateTime().withDefault(currentDateAndTime)();
   IntColumn get unreadCount => integer().withDefault(const Constant(0))();
+  BoolColumn get nsfw => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
@@ -31,6 +32,7 @@ class PrivacyDashboardViewState {
     this.sensitiveContentNonFriendDmFilter = 0,
     this.sensitiveContentGuildFilter = 0,
     this.isAdult = false,
+    this.showLocked = true,
     this.editedFriendDmFilter,
     this.editedNonFriendDmFilter,
     this.editedGuildFilter,
@@ -53,6 +55,7 @@ class PrivacyDashboardViewState {
   final int sensitiveContentNonFriendDmFilter;
   final int sensitiveContentGuildFilter;
   final bool isAdult;
+  final bool showLocked;
 
   final int? editedFriendDmFilter;
   final int? editedNonFriendDmFilter;
@@ -93,14 +96,17 @@ class PrivacyDashboardViewState {
           privacy.GroupDmAddPermissionFlag.guildMembers !=
       0;
 
-  int get effectiveFriendDmFilter =>
-      editedFriendDmFilter ?? sensitiveContentFriendDmFilter;
+  int _displayFilter(int value) => showLocked && value == 0 ? 1 : value;
 
-  int get effectiveNonFriendDmFilter =>
-      editedNonFriendDmFilter ?? sensitiveContentNonFriendDmFilter;
+  int get effectiveFriendDmFilter =>
+      _displayFilter(editedFriendDmFilter ?? sensitiveContentFriendDmFilter);
+
+  int get effectiveNonFriendDmFilter => _displayFilter(
+    editedNonFriendDmFilter ?? sensitiveContentNonFriendDmFilter,
+  );
 
   int get effectiveGuildFilter =>
-      editedGuildFilter ?? sensitiveContentGuildFilter;
+      _displayFilter(editedGuildFilter ?? sensitiveContentGuildFilter);
 
   bool get isSensitiveContentDirty =>
       (editedFriendDmFilter != null &&
@@ -128,6 +134,7 @@ class PrivacyDashboardViewState {
     int? sensitiveContentNonFriendDmFilter,
     int? sensitiveContentGuildFilter,
     bool? isAdult,
+    bool? showLocked,
     Object? editedFriendDmFilter = _sentinel,
     Object? editedNonFriendDmFilter = _sentinel,
     Object? editedGuildFilter = _sentinel,
@@ -159,6 +166,7 @@ class PrivacyDashboardViewState {
       sensitiveContentGuildFilter:
           sensitiveContentGuildFilter ?? this.sensitiveContentGuildFilter,
       isAdult: isAdult ?? this.isAdult,
+      showLocked: showLocked ?? this.showLocked,
       editedFriendDmFilter: editedFriendDmFilter == _sentinel
           ? this.editedFriendDmFilter
           : editedFriendDmFilter as int?,
@@ -178,8 +186,18 @@ class PrivacyDashboardViewState {
 class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
   @override
   PrivacyDashboardViewState build(String accountUserId) {
+    ref.listen<bool>(
+      sensitiveContentProvider.select(
+        (SensitiveContentState sensitive) => sensitive.showLocked,
+      ),
+      (bool? previous, bool next) {
+        state = state.copyWith(showLocked: next);
+      },
+    );
     unawaited(loadSettings());
-    return const PrivacyDashboardViewState();
+    return PrivacyDashboardViewState(
+      showLocked: ref.read(sensitiveContentProvider).showLocked,
+    );
   }
 
   Future<void> loadSettings() async {
@@ -403,44 +421,37 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
 
     try {
       final client = ref.read(fluxerClientProvider);
-      if (state.isAdult) {
-        await client.users.updateCurrentUserSettings(
-          body: UserSettingsUpdateRequest(
-            sensitiveContentFriendDmFilter:
-                SensitiveMediaFilterLevelInput.fromJson(
-                  state.effectiveFriendDmFilter,
-                ),
-            sensitiveContentNonFriendDmFilter:
-                SensitiveMediaFilterLevelInput.fromJson(
-                  state.effectiveNonFriendDmFilter,
-                ),
-            sensitiveContentGuildFilter:
-                SensitiveMediaGuildFilterLevelInput.fromJson(
-                  state.effectiveGuildFilter,
-                ),
-          ),
-        );
-      } else {
-        await client.users.updateCurrentUserSettings(
-          body: UserSettingsUpdateRequest(
-            sensitiveContentFriendDmFilter:
-                SensitiveMediaFilterLevelInput.fromJson(
-                  state.effectiveFriendDmFilter,
-                ),
-          ),
-        );
-      }
+      final int? friendDmFilter = state.editedFriendDmFilter;
+      final int? nonFriendDmFilter = state.isAdult
+          ? state.editedNonFriendDmFilter
+          : null;
+      final int? guildFilter = state.isAdult ? state.editedGuildFilter : null;
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(
+          sensitiveContentFriendDmFilter: friendDmFilter == null
+              ? null
+              : SensitiveMediaFilterLevelInput.fromJson(friendDmFilter),
+          sensitiveContentNonFriendDmFilter: nonFriendDmFilter == null
+              ? null
+              : SensitiveMediaFilterLevelInput.fromJson(nonFriendDmFilter),
+          sensitiveContentGuildFilter: guildFilter == null
+              ? null
+              : SensitiveMediaGuildFilterLevelInput.fromJson(guildFilter),
+        ),
+      );
 
       state = state.copyWith(
-        sensitiveContentFriendDmFilter: state.effectiveFriendDmFilter,
-        sensitiveContentNonFriendDmFilter: state.effectiveNonFriendDmFilter,
-        sensitiveContentGuildFilter: state.effectiveGuildFilter,
+        sensitiveContentFriendDmFilter:
+            friendDmFilter ?? state.sensitiveContentFriendDmFilter,
+        sensitiveContentNonFriendDmFilter:
+            nonFriendDmFilter ?? state.sensitiveContentNonFriendDmFilter,
+        sensitiveContentGuildFilter:
+            guildFilter ?? state.sensitiveContentGuildFilter,
         editedFriendDmFilter: null,
         editedNonFriendDmFilter: null,
         editedGuildFilter: null,
         isSavingSensitiveContent: false,
       );
-      unawaited(ref.read(sensitiveContentProvider.notifier).load());
     } on Object catch (e, st) {
       talker.error('Failed to save sensitive content settings', e, st);
       state = state.copyWith(isSavingSensitiveContent: false);

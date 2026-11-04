@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_menu_data.dart';
 import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import '../../../helpers/test_l10n.dart';
 
 List<ChannelMenuAction> _flattenChannelMenuActions(
@@ -108,7 +109,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -128,7 +129,7 @@ void main() {
           isFavorite: false,
           isMuted: false,
           developerMode: false,
-          nsfwAllowed: true,
+          matureAccess: MatureAccess.allowed,
           hasAgreedToMatureContent: false,
           voiceChannelJoinRequiresDoubleClick: false,
         );
@@ -149,7 +150,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -199,7 +200,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: false,
+        matureAccess: MatureAccess.minor,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -219,7 +220,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: true,
       );
@@ -245,7 +246,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: true,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: true,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -273,7 +274,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -305,7 +306,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: false,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -353,7 +354,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: true,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: false,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -375,7 +376,7 @@ void main() {
         isFavorite: false,
         isMuted: false,
         developerMode: true,
-        nsfwAllowed: true,
+        matureAccess: MatureAccess.allowed,
         hasAgreedToMatureContent: true,
         voiceChannelJoinRequiresDoubleClick: false,
       );
@@ -414,7 +415,7 @@ void main() {
           isFavorite: false,
           isMuted: false,
           developerMode: false,
-          nsfwAllowed: true,
+          matureAccess: MatureAccess.allowed,
           hasAgreedToMatureContent: false,
           voiceChannelJoinRequiresDoubleClick: false,
         );

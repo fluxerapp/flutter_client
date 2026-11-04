@@ -8,6 +8,7 @@ abstract final class InstanceConstants {
   static const String defaultMarketingBaseUrl = 'https://fluxer.app';
   static const String defaultTermsUrl = 'https://fluxer.com/terms';
   static const String defaultPrivacyUrl = 'https://fluxer.com/privacy';
+  static const String helpCenterUrl = 'https://fluxer.com/help';
   static const String defaultProductName = 'Fluxer';
   static const String defaultPremiumProductName = 'Plutonium';
   static const int maxRecentInstances = 5;
