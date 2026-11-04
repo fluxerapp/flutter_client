@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/domain/privacy_permission.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/privacy_dm_confirmation_sheet.dart';
@@ -14,9 +15,13 @@ class PrivacyConnectionsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(privacyDashboardViewModelProvider);
+    final state = ref.watch(
+      privacyDashboardViewModelProvider(watchAccountUserId(ref)),
+    );
     final l10n = FluxerLocalizations.of(context);
-    final vm = ref.read(privacyDashboardViewModelProvider.notifier);
+    final vm = ref.read(
+      privacyDashboardViewModelProvider(readAccountUserId(ref)).notifier,
+    );
 
     return FluxerSettingsSection(
       sectionId: 'connections',
@@ -115,7 +120,9 @@ class PrivacyConnectionsSection extends ConsumerWidget {
         .guilds
         .map((guild) => guild.id)
         .toList();
-    final vm = ref.read(privacyDashboardViewModelProvider.notifier);
+    final vm = ref.read(
+      privacyDashboardViewModelProvider(readAccountUserId(ref)).notifier,
+    );
 
     if (guildIds.isEmpty) {
       if (isBots) {

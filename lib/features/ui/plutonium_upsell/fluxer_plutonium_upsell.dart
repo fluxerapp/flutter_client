@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/build/app_build_config.dart';
-import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/icons/plutonium_product_icon.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -74,7 +72,8 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
                   if (child != null) ...[SizedBox(height: layout.s2), child!],
                   SizedBox(height: layout.s2),
                   FluxerButton.inverted(
-                    onPressed: onButtonPressed ?? () => _openPlutonium(context),
+                    onPressed:
+                        onButtonPressed ?? () => _openPlutonium(context, ref),
                     label: buttonLabel ?? l10n.getPlutonium,
                     size: buttonSize,
                   ),
@@ -101,11 +100,9 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
     );
   }
 
-  void _openPlutonium(BuildContext context) {
-    if (AppBuildConfig.isOssWebCheckout || isPremiumStorePageActive()) {
-      unawaited(
-        openUserBillingSettings(context, UserSettingsSection.fluxerPlutonium),
-      );
+  void _openPlutonium(BuildContext context, WidgetRef ref) {
+    if (userSettingsShowBillingNav(ref)) {
+      unawaited(openPlutoniumCommerce(context, ref));
       return;
     }
     unawaited(handleExternalLinkTap(context, _kPlutoniumUrl));

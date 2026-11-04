@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -142,7 +143,9 @@ void main() {
 
       final String key = memberListDesiredRangesKey(_guildId, _channelId);
       container
-          .read(memberListViewportProvider.notifier)
+          .read(
+            memberListViewportProvider(readAccountUserId(container)).notifier,
+          )
           .setSubscribedRanges(
             guildId: _guildId,
             channelId: _channelId,
@@ -150,13 +153,17 @@ void main() {
           );
 
       expect(
-        container.read(memberListDesiredRangesProvider).containsKey(key),
+        container
+            .read(memberListDesiredRangesProvider(readAccountUserId(container)))
+            .containsKey(key),
         isTrue,
         reason: 'tab content should register desired ranges while mounted',
       );
       expect(
         container
-            .read(memberListViewportProvider.notifier)
+            .read(
+              memberListViewportProvider(readAccountUserId(container)).notifier,
+            )
             .getList(guildId: _guildId, channelId: _channelId),
         isNotNull,
       );
@@ -170,13 +177,17 @@ void main() {
         reason: 'closing the sheet must not throw during dispose',
       );
       expect(
-        container.read(memberListDesiredRangesProvider).containsKey(key),
+        container
+            .read(memberListDesiredRangesProvider(readAccountUserId(container)))
+            .containsKey(key),
         isFalse,
         reason: 'dispose should clear the desired ranges for the channel',
       );
       expect(
         container
-            .read(memberListViewportProvider.notifier)
+            .read(
+              memberListViewportProvider(readAccountUserId(container)).notifier,
+            )
             .getList(guildId: _guildId, channelId: _channelId),
         isNull,
         reason: 'dispose should clear the viewport list for the channel',

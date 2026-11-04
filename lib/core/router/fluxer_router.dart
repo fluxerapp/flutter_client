@@ -105,7 +105,7 @@ class CurrentUserId extends _$CurrentUserId {
 @Riverpod(keepAlive: true)
 class CurrentUserPremiumType extends _$CurrentUserPremiumType {
   @override
-  int build() => 0;
+  int build(String accountUserId) => 0;
 
   void set(int type) {
     if (state == type) {

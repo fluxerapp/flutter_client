@@ -5,6 +5,10 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
@@ -16,6 +20,10 @@ import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_pro
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
+
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import '../../../../helpers/instance_runtime_config_override.dart';
+import '../../../../helpers/open_test_database.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -82,7 +90,10 @@ void main() {
     f.client.progressTicks = 500;
     int updates = 0;
     f.container.listen<List<PendingAttachment>>(
-      cloudUploadControllerProvider('channel-1').select((s) => s.items),
+      cloudUploadControllerProvider(
+        readAccountUserId(f.container),
+        'channel-1',
+      ).select((s) => s.items),
       (_, _) => updates += 1,
     );
     await f.addFile();
@@ -171,15 +182,25 @@ class _Fixture {
   final _FakeUploadClient client;
   final Directory tempDir;
 
-  CloudUploadController get controller =>
-      container.read(cloudUploadControllerProvider('channel-1').notifier);
+  CloudUploadController get controller => container.read(
+    cloudUploadControllerProvider(
+      readAccountUserId(container),
+      'channel-1',
+    ).notifier,
+  );
 
-  List<PendingAttachment> get composerItems =>
-      container.read(cloudUploadControllerProvider('channel-1')).items;
+  List<PendingAttachment> get composerItems => container
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
+      )
+      .items;
 
   double? progressFor(String nonce) {
     final MessageUploadSession? session = container.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(container)),
     )[nonce];
     return session == null
         ? null
@@ -191,8 +212,15 @@ class _Fixture {
       apiDio: Dio(),
       uploadDio: Dio(),
     );
+    final FluxerDatabase database = openTestDatabase();
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
+        fluxerDatabaseProvider.overrideWithValue(database),
+        currentUserIdProvider.overrideWithValue('test-user-id'),
+        advancedPreferencesProvider.overrideWithValue(
+          const AdvancedPreferencesState(),
+        ),
         maxAttachmentFileBytesProvider.overrideWithValue(maxFileBytes),
         attachmentUploadClientProvider.overrideWithValue(client),
       ],

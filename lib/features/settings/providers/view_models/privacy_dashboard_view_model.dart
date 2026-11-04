@@ -177,16 +177,20 @@ class PrivacyDashboardViewState {
 @Riverpod(keepAlive: true)
 class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
   @override
-  PrivacyDashboardViewState build() {
+  PrivacyDashboardViewState build(String accountUserId) {
     unawaited(loadSettings());
     return const PrivacyDashboardViewState();
   }
 
   Future<void> loadSettings() async {
+    final String boundUserId = accountUserId;
     try {
       final client = ref.read(fluxerClientProvider);
       final settings = await client.users.getCurrentUserSettings();
       final user = await client.users.getCurrentUser();
+      if (!ref.mounted || boundUserId != accountUserId) {
+        return;
+      }
 
       state = state.copyWith(
         isLoading: false,
@@ -208,6 +212,9 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
         isAdult: user.nsfwAllowed,
       );
     } on Object catch (e, st) {
+      if (!ref.mounted || boundUserId != accountUserId) {
+        return;
+      }
       talker.error('Failed to load privacy settings', e, st);
       state = state.copyWith(isLoading: false, error: e.toString());
     }

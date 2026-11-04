@@ -182,7 +182,7 @@ void main() {
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
           currentUserIdProvider.overrideWithValue('me'),
-          channelLastMessageIndexProvider.overrideWithValue(index),
+          channelLastMessageIndexProvider('me').overrideWithValue(index),
         ],
       );
       addTearDown(container.dispose);

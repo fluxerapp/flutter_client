@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -55,7 +56,9 @@ Future<void> _fetchPremiumState(Ref ref, String? requestedUserId) async {
     if (ref.read(currentUserIdProvider) != requestedUserId) {
       return;
     }
-    ref.read(currentUserEntitlementsProvider.notifier).applyPremiumState(state);
+    ref
+        .read(currentUserEntitlementsProvider(readAccountUserId(ref)).notifier)
+        .applyPremiumState(state);
   } on Object catch (error, stackTrace) {
     talker.error('Premium state fetch failed', error, stackTrace);
   }

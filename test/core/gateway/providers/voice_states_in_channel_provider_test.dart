@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+const _testAccountUserId = 'test-user-id';
 
 void main() {
   ProviderContainer makeContainer() {
@@ -29,10 +32,12 @@ void main() {
     'voiceStatesInChannel returns only states for the requested channel',
     () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk([
-        voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
-        voiceState(userId: 'u2', channelId: 'B', guildId: 'g1'),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk([
+            voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
+            voiceState(userId: 'u2', channelId: 'B', guildId: 'g1'),
+          ]);
 
       final List<VoiceState> states = container.read(
         voiceStatesInChannelProvider('g1', 'A'),
@@ -46,7 +51,7 @@ void main() {
   test('voiceStatesInChannel ignores unrelated channel updates', () {
     final ProviderContainer container = makeContainer();
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'));
 
     int notifyCount = 0;
@@ -58,7 +63,7 @@ void main() {
     expect(notifyCount, 1);
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(voiceState(userId: 'u2', channelId: 'B', guildId: 'g1'));
     expect(notifyCount, 1);
   });
@@ -66,7 +71,7 @@ void main() {
   test('voiceStatesInChannel reflects new participants in its channel', () {
     final ProviderContainer container = makeContainer();
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'));
     expect(
       container.read(voiceStatesInChannelProvider('g1', 'A')),
@@ -74,7 +79,7 @@ void main() {
     );
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'));
     expect(
       container.read(voiceStatesInChannelProvider('g1', 'A')),
@@ -92,7 +97,7 @@ void main() {
       channelId: channelId,
     );
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(
           const VoiceState(
             userId: userId,
@@ -101,12 +106,14 @@ void main() {
           ),
         );
     expect(
-      container.read(voiceStatesMapProvider).containsKey(syntheticKey),
+      container
+          .read(voiceStatesMapProvider(_testAccountUserId))
+          .containsKey(syntheticKey),
       isTrue,
     );
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(
           const VoiceState(
             userId: userId,
@@ -117,7 +124,9 @@ void main() {
           ),
         );
 
-    final Map<String, VoiceState> map = container.read(voiceStatesMapProvider);
+    final Map<String, VoiceState> map = container.read(
+      voiceStatesMapProvider(_testAccountUserId),
+    );
     expect(map.containsKey(syntheticKey), isFalse);
     expect(map['conn-2']?.selfDeaf, isTrue);
   });
@@ -128,7 +137,7 @@ void main() {
     const String channelId = 'A';
     const String connectionId = 'conn-synthetic';
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(
           const VoiceState(
             userId: userId,
@@ -137,10 +146,13 @@ void main() {
             connectionId: connectionId,
           ),
         );
-    expect(container.read(voiceStatesMapProvider), isNotEmpty);
+    expect(
+      container.read(voiceStatesMapProvider(_testAccountUserId)),
+      isNotEmpty,
+    );
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(
           const VoiceState(
             userId: userId,
@@ -149,6 +161,6 @@ void main() {
           ),
         );
 
-    expect(container.read(voiceStatesMapProvider), isEmpty);
+    expect(container.read(voiceStatesMapProvider(_testAccountUserId)), isEmpty);
   });
 }

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
@@ -41,9 +42,11 @@ class CloudUploadController extends _$CloudUploadController {
   final Set<String> _sentSendBodies = <String>{};
   final Set<String> _stagedPaths = <String>{};
   String _channelId = '';
+  String _accountUserId = '';
 
   @override
-  CloudComposerAttachments build(String channelId) {
+  CloudComposerAttachments build(String accountUserId, String channelId) {
+    _accountUserId = accountUserId;
     _channelId = channelId;
     ref.onDispose(() {
       for (final _AttachmentUpload upload in _uploads.values) {
@@ -196,7 +199,7 @@ class CloudUploadController extends _$CloudUploadController {
     );
     state = CloudComposerAttachments.empty;
     ref
-        .read(messageUploadSessionsProvider.notifier)
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
         .createSession(
           nonce: nonce,
           channelId: _channelId,
@@ -207,12 +210,14 @@ class CloudUploadController extends _$CloudUploadController {
 
   void returnClaim(String nonce) {
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       return;
     }
-    ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
+    ref
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
+        .removeSession(nonce);
     state = CloudComposerAttachments(<PendingAttachment>[
       ...session.attachments,
       ...state.items,
@@ -244,7 +249,7 @@ class CloudUploadController extends _$CloudUploadController {
       return;
     }
     ref
-        .read(messageUploadSessionsProvider.notifier)
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
         .updateSendingProgress(nonce, progress * 100);
   }
 
@@ -264,13 +269,15 @@ class CloudUploadController extends _$CloudUploadController {
     _sentSendBodies.remove(nonce);
     _sendProgressAtMs.remove(nonce);
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       return;
     }
     _discardFiles(session.attachments);
-    ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
+    ref
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
+        .removeSession(nonce);
   }
 
   Future<PreparedAttachments> prepareSessionForSend({
@@ -278,7 +285,7 @@ class CloudUploadController extends _$CloudUploadController {
     required bool favoriteMemePayload,
   }) async {
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       throw const MessageUploadSendCancelledException();
@@ -304,7 +311,7 @@ class CloudUploadController extends _$CloudUploadController {
     }
     try {
       ref
-          .read(messageUploadSessionsProvider.notifier)
+          .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
           .updateSessionAttachments(
             nonce,
             session.attachments,
@@ -336,7 +343,7 @@ class CloudUploadController extends _$CloudUploadController {
       talker.warning('[CloudUpload] prepareSessionForSend error: $e\n$st');
       _fallbackResetSessionUploadsForMultipartSend(nonce);
       final List<PendingAttachment>? reset = ref
-          .read(messageUploadSessionsProvider)[nonce]
+          .read(messageUploadSessionsProvider(readAccountUserId(ref)))[nonce]
           ?.attachments;
       if (reset == null) {
         throw const MessageUploadSendCancelledException();
@@ -350,7 +357,7 @@ class CloudUploadController extends _$CloudUploadController {
 
   List<PendingAttachment> _requireSessionAttachments(String nonce) {
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       throw const MessageUploadSendCancelledException();
@@ -363,7 +370,7 @@ class CloudUploadController extends _$CloudUploadController {
     int attachmentId,
   ) async {
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       return;
@@ -519,7 +526,9 @@ class CloudUploadController extends _$CloudUploadController {
 
   MessageUploadSession? _sessionHolding(int attachmentId) {
     for (final MessageUploadSession session
-        in ref.read(messageUploadSessionsProvider).values) {
+        in ref
+            .read(messageUploadSessionsProvider(readAccountUserId(ref)))
+            .values) {
       if (session.channelId == _channelId &&
           session.attachments.any(
             (PendingAttachment e) => e.id == attachmentId,
@@ -550,7 +559,7 @@ class CloudUploadController extends _$CloudUploadController {
       return;
     }
     ref
-        .read(messageUploadSessionsProvider.notifier)
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
         .updateSessionAttachments(
           session.nonce,
           session.attachments
@@ -564,13 +573,13 @@ class CloudUploadController extends _$CloudUploadController {
 
   void _fallbackResetSessionUploadsForMultipartSend(String nonce) {
     final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(ref)),
     )[nonce];
     if (session == null) {
       return;
     }
     ref
-        .read(messageUploadSessionsProvider.notifier)
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
         .updateSessionAttachments(
           nonce,
           session.attachments
@@ -694,7 +703,7 @@ class CloudUploadController extends _$CloudUploadController {
       return validation;
     }
     ref
-        .read(messageUploadSessionsProvider.notifier)
+        .read(messageUploadSessionsProvider(readAccountUserId(ref)).notifier)
         .createSession(
           nonce: nonce,
           channelId: _channelId,

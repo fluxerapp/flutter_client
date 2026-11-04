@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -157,17 +158,19 @@ Future<ChannelMessagePermissions> channelMessagePermissions(
     ..watch(guildListViewModelProvider)
     ..watch(guildRolePermissionsIdentityProvider(guildId))
     ..watch(
-      channelPermissionCacheProvider.select(
-        (ChannelPermissionCaches caches) => caches.effective[channelId],
-      ),
+      channelPermissionCacheProvider(
+        watchAccountUserId(ref),
+      ).select((ChannelPermissionCaches caches) => caches.effective[channelId]),
     );
   await ref
-      .read(channelPermissionCacheProvider.notifier)
+      .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
       .rebuildChannel(channelId);
   final int? bits = ref
-      .read(channelPermissionCacheProvider.notifier)
+      .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
       .getChannelBits(channelId);
-  final GuildSync guildSync = ref.read(guildSyncProvider.notifier);
+  final GuildSync guildSync = ref.read(
+    guildSyncProvider(readAccountUserId(ref)).notifier,
+  );
   if (memberIdentity.value != null) {
     guildSync.ownMemberPresent(guildId);
   }
@@ -239,12 +242,12 @@ ChannelMessagePermissions? syncChannelMessagePermissions(
   }
   final int? cachedBits = watch
       ? ref.watch(
-          channelPermissionCacheProvider.select(
+          channelPermissionCacheProvider(watchAccountUserId(ref)).select(
             (ChannelPermissionCaches caches) => caches.effective[channelId],
           ),
         )
       : ref.read(
-          channelPermissionCacheProvider.select(
+          channelPermissionCacheProvider(watchAccountUserId(ref)).select(
             (ChannelPermissionCaches caches) => caches.effective[channelId],
           ),
         );

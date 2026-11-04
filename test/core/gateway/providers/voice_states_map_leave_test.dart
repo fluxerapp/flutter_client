@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+const _testAccountUserId = 'test-user-id';
 
 void main() {
   ProviderContainer makeContainer() {
@@ -28,7 +31,7 @@ void main() {
       final ProviderContainer container = makeContainer();
       const String connectionId = 'conn-mobile';
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .update(
             const VoiceState(
               userId: 'self',
@@ -37,10 +40,13 @@ void main() {
               connectionId: connectionId,
             ),
           );
-      expect(container.read(voiceStatesMapProvider), isNotEmpty);
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)),
+        isNotEmpty,
+      );
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .update(
             const VoiceState(
               userId: 'self',
@@ -49,7 +55,10 @@ void main() {
             ),
           );
 
-      expect(container.read(voiceStatesMapProvider), isEmpty);
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)),
+        isEmpty,
+      );
     });
 
     test('removes synthetic key when leave matches nested connectionId', () {
@@ -62,7 +71,7 @@ void main() {
         channelId: channelId,
       );
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .update(
             const VoiceState(
               userId: userId,
@@ -72,16 +81,20 @@ void main() {
             ),
           );
       expect(
-        container.read(voiceStatesMapProvider).containsKey(syntheticKey),
+        container
+            .read(voiceStatesMapProvider(_testAccountUserId))
+            .containsKey(syntheticKey),
         isFalse,
       );
       expect(
-        container.read(voiceStatesMapProvider).containsKey(connectionId),
+        container
+            .read(voiceStatesMapProvider(_testAccountUserId))
+            .containsKey(connectionId),
         isTrue,
       );
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .update(
             const VoiceState(
               userId: userId,
@@ -90,29 +103,37 @@ void main() {
             ),
           );
 
-      expect(container.read(voiceStatesMapProvider), isEmpty);
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)),
+        isEmpty,
+      );
     });
 
     test('leaves unrelated connections in the same channel', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk([
-        voiceState(
-          userId: 'self',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-mobile',
-        ),
-        voiceState(
-          userId: 'self',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-desktop',
-        ),
-      ]);
-      expect(container.read(voiceStatesMapProvider), hasLength(2));
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk([
+            voiceState(
+              userId: 'self',
+              channelId: 'voice-1',
+              guildId: 'g1',
+              connectionId: 'conn-mobile',
+            ),
+            voiceState(
+              userId: 'self',
+              channelId: 'voice-1',
+              guildId: 'g1',
+              connectionId: 'conn-desktop',
+            ),
+          ]);
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)),
+        hasLength(2),
+      );
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .update(
             const VoiceState(
               userId: 'self',
@@ -122,7 +143,7 @@ void main() {
           );
 
       final Map<String, VoiceState> map = container.read(
-        voiceStatesMapProvider,
+        voiceStatesMapProvider(_testAccountUserId),
       );
       expect(map, hasLength(1));
       expect(map.containsKey('conn-desktop'), isTrue);
@@ -131,29 +152,31 @@ void main() {
   group('VoiceStatesMap guild snapshot', () {
     test('replaceGuild drops states the snapshot no longer lists', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
-        voiceState(
-          userId: 'left',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-left',
-        ),
-        voiceState(
-          userId: 'stayed',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-stayed',
-        ),
-        voiceState(
-          userId: 'other',
-          channelId: 'voice-9',
-          guildId: 'g2',
-          connectionId: 'conn-other',
-        ),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk(<VoiceState>[
+            voiceState(
+              userId: 'left',
+              channelId: 'voice-1',
+              guildId: 'g1',
+              connectionId: 'conn-left',
+            ),
+            voiceState(
+              userId: 'stayed',
+              channelId: 'voice-1',
+              guildId: 'g1',
+              connectionId: 'conn-stayed',
+            ),
+            voiceState(
+              userId: 'other',
+              channelId: 'voice-9',
+              guildId: 'g2',
+              connectionId: 'conn-other',
+            ),
+          ]);
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .replaceGuild('g1', <VoiceState>[
             voiceState(
               userId: 'stayed',
@@ -170,7 +193,7 @@ void main() {
           ]);
 
       final Map<String, VoiceState> state = container.read(
-        voiceStatesMapProvider,
+        voiceStatesMapProvider(_testAccountUserId),
       );
       expect(state.keys.toSet(), <String>{
         'conn-stayed',
@@ -182,28 +205,31 @@ void main() {
 
     test('replaceGuild with an empty snapshot empties only that guild', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
-        voiceState(
-          userId: 'left',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-left',
-        ),
-        voiceState(
-          userId: 'other',
-          channelId: 'voice-9',
-          guildId: 'g2',
-          connectionId: 'conn-other',
-        ),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk(<VoiceState>[
+            voiceState(
+              userId: 'left',
+              channelId: 'voice-1',
+              guildId: 'g1',
+              connectionId: 'conn-left',
+            ),
+            voiceState(
+              userId: 'other',
+              channelId: 'voice-9',
+              guildId: 'g2',
+              connectionId: 'conn-other',
+            ),
+          ]);
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .replaceGuild('g1', const <VoiceState>[]);
 
-      expect(container.read(voiceStatesMapProvider).keys.toSet(), <String>{
-        'conn-other',
-      });
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)).keys.toSet(),
+        <String>{'conn-other'},
+      );
     });
   });
 }

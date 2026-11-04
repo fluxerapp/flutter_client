@@ -32,11 +32,49 @@ jobs:
           NODUS_APP: fluxer
         run: bash .github/scripts/fetch_nodus_android_build_number.sh
 
+  sync-android-release-version:
+    name: Sync Android version on beta branch
+    needs:
+      - draft-release
+      - allocate-android-build-number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+
+      - name: Checkout beta
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: beta
+          token: ${{ steps.create-token.outputs.token }}
+          persist-credentials: true
+
+      - name: Resolve beta version name
+        id: beta_version_name
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+        run: bash .github/scripts/resolve_beta_version_name.sh
+
+      - name: Commit Android release version
+        env:
+          VERSION_NAME: ${{ steps.beta_version_name.outputs.version_name }}
+          BUILD_NUMBER: ${{ needs.allocate-android-build-number.outputs.build_number }}
+          FLUXER_CI_APP_USER_ID: ${{ vars.FLUXER_CI_APP_USER_ID }}
+        run: bash .github/scripts/sync_beta_android_release_version.sh
+
   android-fcm:
     name: Android FCM build
     needs:
       - draft-release
       - allocate-android-build-number
+      - sync-android-release-version
     uses: ./.github/workflows/android-beta-fcm.yml
     with:
       android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
@@ -47,6 +85,7 @@ jobs:
     needs:
       - draft-release
       - allocate-android-build-number
+      - sync-android-release-version
     uses: ./.github/workflows/android-beta-oss.yml
     with:
       android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}

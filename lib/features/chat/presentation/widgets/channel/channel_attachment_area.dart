@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
@@ -29,7 +30,7 @@ class ChannelAttachmentArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<PendingAttachment> attachments = ref
-        .watch(cloudUploadControllerProvider(channelId))
+        .watch(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
         .items;
     final Widget body = attachments.isNotEmpty
         ? _AttachmentAreaBody(channelId: channelId, attachments: attachments)
@@ -74,7 +75,12 @@ class _AttachmentAreaBody extends ConsumerWidget {
             itemCount: attachments.length,
             onReorderItem: (int oldIndex, int newIndex) {
               ref
-                  .read(cloudUploadControllerProvider(channelId).notifier)
+                  .read(
+                    cloudUploadControllerProvider(
+                      readAccountUserId(ref),
+                      channelId,
+                    ).notifier,
+                  )
                   .reorderAttachments(oldIndex, newIndex);
             },
             proxyDecorator:
@@ -232,6 +238,7 @@ class _AttachmentChip extends ConsumerWidget {
                                 ref
                                     .read(
                                       cloudUploadControllerProvider(
+                                        readAccountUserId(ref),
                                         channelId,
                                       ).notifier,
                                     )
@@ -262,6 +269,7 @@ class _AttachmentChip extends ConsumerWidget {
                               onPressed: () => ref
                                   .read(
                                     cloudUploadControllerProvider(
+                                      readAccountUserId(ref),
                                       channelId,
                                     ).notifier,
                                   )

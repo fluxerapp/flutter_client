@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart' show StateProvider;
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -457,12 +457,20 @@ void main() {
         addTearDown(container.dispose);
 
         await container
-            .read(channelPermissionCacheProvider.notifier)
+            .read(
+              channelPermissionCacheProvider(
+                readAccountUserId(container),
+              ).notifier,
+            )
             .rebuildChannel(channelId);
 
         expect(
           container
-              .read(channelPermissionCacheProvider.notifier)
+              .read(
+                channelPermissionCacheProvider(
+                  readAccountUserId(container),
+                ).notifier,
+              )
               .getChannelBits(channelId),
           isNotNull,
         );
@@ -511,12 +519,20 @@ void main() {
         addTearDown(container.dispose);
 
         await container
-            .read(channelPermissionCacheProvider.notifier)
+            .read(
+              channelPermissionCacheProvider(
+                readAccountUserId(container),
+              ).notifier,
+            )
             .rebuildChannel(channelId);
 
         expect(
           container
-              .read(channelPermissionCacheProvider.notifier)
+              .read(
+                channelPermissionCacheProvider(
+                  readAccountUserId(container),
+                ).notifier,
+              )
               .getChannelBits(channelId),
           isNull,
         );
@@ -828,10 +844,18 @@ void main() {
       addTearDown(container.dispose);
 
       await container
-          .read(channelPermissionCacheProvider.notifier)
+          .read(
+            channelPermissionCacheProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .rebuildChannel(channelId);
       final int? bits = container
-          .read(channelPermissionCacheProvider.notifier)
+          .read(
+            channelPermissionCacheProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .getChannelBits(channelId);
       expect(bits, isNotNull);
 
@@ -891,10 +915,18 @@ void main() {
       addTearDown(container.dispose);
 
       await container
-          .read(channelPermissionCacheProvider.notifier)
+          .read(
+            channelPermissionCacheProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .rebuildChannel(channelId);
       final int? bits = container
-          .read(channelPermissionCacheProvider.notifier)
+          .read(
+            channelPermissionCacheProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .getChannelBits(channelId);
       expect(bits, isNotNull);
 
@@ -1030,7 +1062,11 @@ void main() {
       addTearDown(container.dispose);
 
       container
-          .read(channelPermissionCacheProvider.notifier)
+          .read(
+            channelPermissionCacheProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .cacheEffectiveBits(
             channelId: channelId,
             outcome: (
@@ -1219,7 +1255,7 @@ void main() {
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
-          guildSyncProvider.overrideWith(() => guildSync),
+          guildSyncProvider(userId).overrideWith(() => guildSync),
         ],
       );
       addTearDown(container.dispose);
@@ -1245,7 +1281,11 @@ void main() {
         );
 
         container
-            .read(channelPermissionCacheProvider.notifier)
+            .read(
+              channelPermissionCacheProvider(
+                readAccountUserId(container),
+              ).notifier,
+            )
             .cacheEffectiveBits(
               channelId: 'channel_other',
               outcome: (

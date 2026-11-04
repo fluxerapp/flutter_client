@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
@@ -38,7 +39,7 @@ class ThreadMemberLists extends _$ThreadMemberLists {
   }
 
   @override
-  Map<String, List<ThreadMemberEntry>> build() =>
+  Map<String, List<ThreadMemberEntry>> build(String accountUserId) =>
       const <String, List<ThreadMemberEntry>>{};
 
   void apply(ThreadMemberListUpdateEvent event) {
@@ -66,14 +67,16 @@ class ThreadMemberLists extends _$ThreadMemberLists {
 @riverpod
 List<ThreadMemberEntry>? threadMemberList(Ref ref, String threadId) =>
     ref.watch(
-      threadMemberListsProvider.select(
-        (Map<String, List<ThreadMemberEntry>> lists) => lists[threadId],
-      ),
+      threadMemberListsProvider(
+        watchAccountUserId(ref),
+      ).select((Map<String, List<ThreadMemberEntry>> lists) => lists[threadId]),
     );
 
 @riverpod
 void threadMemberListSubscription(Ref ref, String guildId, String threadId) {
-  final ThreadMemberLists lists = ref.read(threadMemberListsProvider.notifier);
+  final ThreadMemberLists lists = ref.read(
+    threadMemberListsProvider(readAccountUserId(ref)).notifier,
+  );
   GatewayConnection? subscribedConnection;
 
   void send(GatewayConnection connection, List<String> threadIds) {
@@ -93,7 +96,9 @@ void threadMemberListSubscription(Ref ref, String guildId, String threadId) {
       subscribedConnection = null;
       return;
     }
-    ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+    ref
+        .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+        .syncIfNeeded(guildId);
     send(connection, lists.subscribe(guildId, threadId));
     subscribedConnection = connection;
   }

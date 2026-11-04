@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sess
 void main() {
   late List<Object> calls;
   late bool claimedElsewhere;
+  late bool externalCallActive;
   late Completer<void>? setActiveGate;
 
   AppMediaAudioSession buildSession({
@@ -30,12 +31,14 @@ void main() {
         calls.add(active ? 'active' : 'inactive');
       },
       isClaimedElsewhere: () => claimedElsewhere,
+      isExternalCallActive: () async => externalCallActive,
     );
   }
 
   setUp(() {
     calls = <Object>[];
     claimedElsewhere = false;
+    externalCallActive = false;
     setActiveGate = null;
   });
 
@@ -168,6 +171,22 @@ void main() {
     });
 
     test(
+      'an external system call keeps the session through foreground changes',
+      () async {
+        final AppMediaAudioSession session = buildSession(
+          platform: AppAudioSessionPlatform.ios,
+        );
+        externalCallActive = true;
+
+        await session.configure();
+        await session.setForeground(foreground: true);
+        await session.setForeground(foreground: false);
+
+        expect(calls, isEmpty);
+      },
+    );
+
+    test(
       'a quick foreground then background settles on the released session',
       () async {
         final AppMediaAudioSession session = buildSession(
@@ -230,6 +249,39 @@ void main() {
       expect(calls, isEmpty);
     });
 
+    test('an external system call leaves call audio alone on resume', () async {
+      final AppMediaAudioSession session = buildSession(
+        platform: AppAudioSessionPlatform.android,
+      );
+      externalCallActive = true;
+
+      await session.setForeground(foreground: true);
+      await session.setForeground(foreground: false);
+      await session.setForeground(foreground: true);
+
+      expect(calls, isEmpty);
+    });
+
+    test(
+      'syncForegroundSession applies media after an external call ends',
+      () async {
+        final AppMediaAudioSession session = buildSession(
+          platform: AppAudioSessionPlatform.android,
+        );
+        externalCallActive = true;
+        await session.setForeground(foreground: true);
+        expect(calls, isEmpty);
+
+        externalCallActive = false;
+        await session.syncForegroundSession();
+
+        expect(calls, <Object>[
+          kAppMediaAudioContext,
+          kAppMediaAudioSessionConfig,
+        ]);
+      },
+    );
+
     test('the app session counts a joined call as holding the audio', () async {
       ChatAttachmentAudioSession.instance.resetForTest();
       addTearDown(ChatAttachmentAudioSession.instance.resetForTest);
@@ -252,6 +304,7 @@ void main() {
         await session.setForeground(foreground: true);
         await session.setForeground(foreground: false);
         claimedElsewhere = false;
+        externalCallActive = false;
 
         await session.setForeground(foreground: true);
 

@@ -3524,6 +3524,24 @@ abstract class FluxerLocalizations {
   /// **'Show {badgeLabel} on your profile'**
   String profileBadgesShowOnProfile(String badgeLabel);
 
+  /// Short count of profile badges not shown inline, opens the full list.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String profileBadgesOverflowButton(int count);
+
+  /// Tooltip for the overflow control that opens every profile badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all badges'**
+  String get profileBadgesShowAllTooltip;
+
+  /// Screen reader label for the profile badge overflow control.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {+{count} more badge, show all} other {+{count} more badges, show all}}'**
+  String profileBadgesShowAllSemantic(int count);
+
   /// Note under the Visionary ID row when its visibility switch is disabled.
   ///
   /// In en, this message translates to:
@@ -7111,6 +7129,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This mature community is not available to your account.'**
   String get matureCommunityUnavailableBody;
+
+  /// Body when mature access must be enabled on web or desktop instead of in the iOS app.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.'**
+  String get matureContentIosWebOptInBody;
 
   /// Body when a minor cannot access a mature category.
   ///

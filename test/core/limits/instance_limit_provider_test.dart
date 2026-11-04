@@ -115,6 +115,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
         collectDateOfBirth: true,
       ),
     ),
+    agePolicy: InstanceAgePolicySchema(geos: []),
   );
 }
 

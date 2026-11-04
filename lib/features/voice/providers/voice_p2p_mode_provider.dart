@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
@@ -30,7 +31,7 @@ VoiceChannelMode voiceChannelModeFor(
   required String channelId,
 }) {
   return ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) =>
           _voiceChannelModeIn(map, guildId: guildId, channelId: channelId),
     ),
@@ -49,7 +50,7 @@ VoiceChannelMode activeVoiceChannelMode(Ref ref) {
     return VoiceChannelMode.empty;
   }
   return ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) =>
           _voiceChannelModeIn(map, guildId: guildId, channelId: channelId),
     ),

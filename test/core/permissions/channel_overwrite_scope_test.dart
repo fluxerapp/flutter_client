@@ -6,7 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -65,10 +67,13 @@ Future<ChannelPermissionCache> _cacheFor(FluxerDatabase db) async {
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
       userSettingsViewModelProvider.overrideWith(_Settings.new),
+      currentUserIdProvider.overrideWithValue(_userId),
     ],
   );
   addTearDown(container.dispose);
-  return container.read(channelPermissionCacheProvider.notifier);
+  return container.read(
+    channelPermissionCacheProvider(readAccountUserId(container)).notifier,
+  );
 }
 
 void main() {

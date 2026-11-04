@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -17,6 +18,8 @@ void channelListGatewayRecoveryListener(Ref ref) {
       return;
     }
     ref.read(channelListViewModelProvider.notifier).loadActiveGuild(guildId);
-    ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId, force: true);
+    ref
+        .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+        .syncIfNeeded(guildId, force: true);
   });
 }

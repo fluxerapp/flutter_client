@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -81,6 +82,25 @@ void main() {
         ]),
         isTrue,
       );
+    });
+
+    testWidgets('shows overflow control when maxVisible exceeded', (
+      tester,
+    ) async {
+      final List<ProfileBadgeResponse> many =
+          List<ProfileBadgeResponse>.generate(
+            8,
+            (int i) => _badge(kind: 'custom_$i', asset: 'abc$i'),
+          );
+      await tester.pumpWidget(
+        _buildApp(
+          UserProfileBadges(
+            badges: many,
+            maxVisible: kProfileBadgesCompactMaxVisible,
+          ),
+        ),
+      );
+      expect(find.text('+1'), findsOneWidget);
     });
   });
 }

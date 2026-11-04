@@ -4,6 +4,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
@@ -23,6 +25,7 @@ class UserProfileHeader extends ConsumerWidget {
     this.isSystem = false,
     this.isCurrentUser = false,
     this.onDisplayNameTap,
+    this.profileBadgeMaxVisible,
     super.key,
   });
 
@@ -37,6 +40,7 @@ class UserProfileHeader extends ConsumerWidget {
   final bool isSystem;
   final bool isCurrentUser;
   final VoidCallback? onDisplayNameTap;
+  final int? profileBadgeMaxVisible;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,6 +51,8 @@ class UserProfileHeader extends ConsumerWidget {
     final bool showPronouns =
         pronounsTrimmed != null && pronounsTrimmed.isNotEmpty;
     final bool showUserTag = isBot || isSystem;
+    final int badgeMaxVisible =
+        profileBadgeMaxVisible ?? _defaultBadgeMaxVisible(context);
     final TextStyle displayNameStyle = textStyles.heading.copyWith(
       color: colors.textPrimary,
       fontSize: 24,
@@ -105,7 +111,7 @@ class UserProfileHeader extends ConsumerWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              UserProfileBadges(badges: badges),
+              UserProfileBadges(badges: badges, maxVisible: badgeMaxVisible),
             ],
           ),
         ],
@@ -121,5 +127,15 @@ class UserProfileHeader extends ConsumerWidget {
           UserProfileCustomStatus(text: customStatus),
       ],
     );
+  }
+
+  static int _defaultBadgeMaxVisible(BuildContext context) {
+    if (FluxerBottomSheet.isInSheet(context)) {
+      return kProfileBadgesCompactMaxVisible;
+    }
+    if (isDesktopLayout(context)) {
+      return kProfileBadgesWideMaxVisible;
+    }
+    return kProfileBadgesCompactMaxVisible;
   }
 }

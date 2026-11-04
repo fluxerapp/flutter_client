@@ -1,10 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_member_list_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+const _testAccountUserId = 'test-user-id';
 
 class _NoGuildSync extends GuildSync {
   @override
@@ -33,7 +37,8 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           gatewayConnectionProvider.overrideWithValue(connection),
-          guildSyncProvider.overrideWith(_NoGuildSync.new),
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          guildSyncProvider(_testAccountUserId).overrideWith(_NoGuildSync.new),
         ],
       );
       addTearDown(container.dispose);
@@ -50,7 +55,11 @@ void main() {
       expect(first?.active, isTrue);
       expect(first?.sync, isTrue);
 
-      container.read(threadMemberListsProvider.notifier).clearAll();
+      container
+          .read(
+            threadMemberListsProvider(readAccountUserId(container)).notifier,
+          )
+          .clearAll();
       container.read(gatewayFullRecoveryProvider.notifier).bump();
       await Future<void>.delayed(Duration.zero);
       expect(connection.sent, hasLength(2));
@@ -62,7 +71,7 @@ void main() {
     final ProviderContainer container = ProviderContainer();
     addTearDown(container.dispose);
     final ThreadMemberLists lists = container.read(
-      threadMemberListsProvider.notifier,
+      threadMemberListsProvider(readAccountUserId(container)).notifier,
     );
 
     expect(lists.subscribe('g1', 'a'), <String>['a']);

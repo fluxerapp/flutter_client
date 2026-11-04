@@ -16,6 +16,7 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
@@ -126,13 +127,15 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     }
 
     await ref
-        .read(guildPermissionsProvider.notifier)
+        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
         .refreshPermissions(guild.id);
     if (!context.mounted) {
       return;
     }
 
-    final int permissions = ref.read(guildPermissionsProvider)[guild.id] ?? 0;
+    final int permissions =
+        ref.read(guildPermissionsProvider(readAccountUserId(ref)))[guild.id] ??
+        0;
     if (canOpenGuildSettingsForRef(
       ref: ref,
       permissions: permissions,

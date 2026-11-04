@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/constants/policy_constants.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -104,7 +105,7 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
     userSettingsViewModelProvider,
   );
   final UserPrivateResponse? privateUser = ref.watch(
-    currentUserPrivateReadProvider,
+    currentUserPrivateReadProvider(readAccountUserId(ref)),
   );
   final ServiceStatusMaintenance? maintenance = ref.watch(
     serviceStatusMaintenanceReadProvider,

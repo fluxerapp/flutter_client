@@ -10,13 +10,15 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+
+import '../../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 
 const String _body = 'hi \u{1F600} \u{1F44B}\u{1F3FD} \u2764\uFE0F';
 
@@ -26,12 +28,11 @@ Widget _app({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      emojiRegistryLoadedProvider.overrideWith((ref) => registryLoaded),
-      androidAnimatorDurationDisabledProvider.overrideWith(
-        (ref) => Stream<bool>.value(false),
-      ),
-    ],
+    overrides: coreTestProviderOverrides(
+      extra: [
+        emojiRegistryLoadedProvider.overrideWith((ref) => registryLoaded),
+      ],
+    ),
     child: MaterialApp(
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         FluxerLocalizations.delegate,
@@ -86,6 +87,7 @@ void main() {
       show.value = true;
       await tester.pump();
       expect(find.byType(CachedEmojiAssetImage), findsNWidgets(3));
+      await releaseTestWidgetTree(tester);
     },
   );
 }

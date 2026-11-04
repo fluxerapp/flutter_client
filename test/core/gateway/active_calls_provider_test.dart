@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,51 +16,63 @@ void main() {
     });
 
     test('updateCall resets pendingRingUserIds from ringing payload', () {
-      container.read(activeCallsProvider.notifier)
+      container.read(activeCallsProvider(readAccountUserId(container)).notifier)
         ..createCall('channel-1', ringing: <String>['user-1', 'user-2'])
         ..updateCall('channel-1', ringing: <String>['user-2']);
 
-      final CallState? call = container.read(activeCallsProvider)['channel-1'];
+      final CallState? call = container.read(
+        activeCallsProvider(readAccountUserId(container)),
+      )['channel-1'];
       expect(call?.pendingRingUserIds, {'user-2'});
       expect(call?.ringing, ['user-2']);
     });
 
     test('updateCall with empty ringing clears pendingRingUserIds', () {
-      container.read(activeCallsProvider.notifier)
+      container.read(activeCallsProvider(readAccountUserId(container)).notifier)
         ..createCall('channel-1', ringing: <String>['user-1'])
         ..updateCall('channel-1', ringing: <String>[]);
 
-      final CallState? call = container.read(activeCallsProvider)['channel-1'];
+      final CallState? call = container.read(
+        activeCallsProvider(readAccountUserId(container)),
+      )['channel-1'];
       expect(call?.pendingRingUserIds, isEmpty);
       expect(call?.ringing, isEmpty);
     });
 
     test('updateCall without ringing keeps existing pendingRingUserIds', () {
-      container.read(activeCallsProvider.notifier)
+      container.read(activeCallsProvider(readAccountUserId(container)).notifier)
         ..createCall('channel-1', ringing: <String>['user-1'])
         ..updateCall('channel-1', region: 'us-east');
 
-      final CallState? call = container.read(activeCallsProvider)['channel-1'];
+      final CallState? call = container.read(
+        activeCallsProvider(readAccountUserId(container)),
+      )['channel-1'];
       expect(call?.pendingRingUserIds, {'user-1'});
       expect(call?.region, 'us-east');
     });
 
     test('removeUserFromPendingRing clears one user', () {
-      container.read(activeCallsProvider.notifier)
+      container.read(activeCallsProvider(readAccountUserId(container)).notifier)
         ..createCall('channel-1', ringing: <String>['user-1', 'user-2'])
         ..removeUserFromPendingRing(channelId: 'channel-1', userId: 'user-1');
 
-      final CallState? call = container.read(activeCallsProvider)['channel-1'];
+      final CallState? call = container.read(
+        activeCallsProvider(readAccountUserId(container)),
+      )['channel-1'];
       expect(call?.pendingRingUserIds, {'user-2'});
     });
 
     test('createCall seeds pendingRingUserIds from ringing', () {
       container
-          .read(activeCallsProvider.notifier)
+          .read(activeCallsProvider(readAccountUserId(container)).notifier)
           .createCall('channel-1', ringing: <String>['user-1']);
 
       expect(
-        container.read(activeCallsProvider)['channel-1']?.pendingRingUserIds,
+        container
+            .read(
+              activeCallsProvider(readAccountUserId(container)),
+            )['channel-1']
+            ?.pendingRingUserIds,
         <String>{'user-1'},
       );
     });

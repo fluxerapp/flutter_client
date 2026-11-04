@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -229,7 +230,9 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
       );
       return;
     }
-    final existing = ref.read(connectionsViewModelProvider).connections;
+    final existing = ref
+        .read(connectionsViewModelProvider(readAccountUserId(ref)))
+        .connections;
     final sdkType = _type.sdkType;
     final isDuplicate = existing.any(
       (c) => c.type == sdkType && c.name.toLowerCase() == identifier,
@@ -239,7 +242,9 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
       return;
     }
 
-    final vm = ref.read(connectionsViewModelProvider.notifier);
+    final vm = ref.read(
+      connectionsViewModelProvider(readAccountUserId(ref)).notifier,
+    );
     setState(() => _error = null);
 
     if (_type == _ConnectionType.bluesky) {
@@ -583,7 +588,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     final l10n = FluxerLocalizations.of(context);
     try {
       await ref
-          .read(connectionsViewModelProvider.notifier)
+          .read(connectionsViewModelProvider(readAccountUserId(ref)).notifier)
           .verifyAndCreate(_verification!.initiationToken);
       if (mounted) {
         widget.close();

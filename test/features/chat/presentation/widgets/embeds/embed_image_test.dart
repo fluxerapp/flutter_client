@@ -14,9 +14,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
+
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: coreTestProviderOverrides(),
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

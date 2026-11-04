@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -147,7 +148,11 @@ void main() {
             return;
           }
           capturedRef!
-              .read(voiceStatesMapProvider.notifier)
+              .read(
+                voiceStatesMapProvider(
+                  readAccountUserId(capturedRef!),
+                ).notifier,
+              )
               .update(
                 VoiceState(
                   userId: _userId,
@@ -165,7 +170,9 @@ void main() {
         );
 
         capturedRef!
-            .read(voiceStatesMapProvider.notifier)
+            .read(
+              voiceStatesMapProvider(readAccountUserId(capturedRef!)).notifier,
+            )
             .update(
               VoiceState(
                 userId: _userId,
@@ -232,7 +239,7 @@ void main() {
             return;
           }
           ref
-              .read(voiceStatesMapProvider.notifier)
+              .read(voiceStatesMapProvider(readAccountUserId(ref)).notifier)
               .update(
                 VoiceState(
                   userId: _userId,
@@ -383,7 +390,11 @@ Future<VoiceJoinResult?> _runJoinFromHarness(
 
   if (initialVoiceStates != null && capturedRef != null) {
     for (final VoiceState vs in initialVoiceStates.values) {
-      capturedRef!.read(voiceStatesMapProvider.notifier).update(vs);
+      capturedRef!
+          .read(
+            voiceStatesMapProvider(readAccountUserId(capturedRef!)).notifier,
+          )
+          .update(vs);
     }
   }
 

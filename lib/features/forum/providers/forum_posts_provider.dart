@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/misc.dart'
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
@@ -295,7 +296,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
         case ForumSearchPage():
           _attempts.remove(kind);
           ref
-              .read(forumFirstMessagesProvider.notifier)
+              .read(forumFirstMessagesProvider(readAccountUserId(ref)).notifier)
               .putAll(outcome.firstMessages);
           state = state.withList(
             kind,
@@ -415,7 +416,7 @@ final StreamProviderFamily<ForumStoredPosts, String> forumStoredPostsProvider =
     ) {
       final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
       final ChannelLastMessageIndex lastMessageIndex = ref.watch(
-        channelLastMessageIndexProvider,
+        channelLastMessageIndexProvider(readAccountUserId(ref)),
       );
       Set<String> postIds = const <String>{};
       return mergeVoidStreams(<Stream<dynamic>>[

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -11,15 +10,19 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class ForumFirstMessages extends Notifier<Map<String, Message?>> {
+part 'forum_first_messages_provider.g.dart';
+
+@Riverpod(keepAlive: true)
+class ForumFirstMessages extends _$ForumFirstMessages {
   final Set<String> _requested = <String>{};
   final Map<String, ({String guildId, Set<String> ids})> _pending =
       <String, ({String guildId, Set<String> ids})>{};
   Timer? _flushTimer;
 
   @override
-  Map<String, Message?> build() {
+  Map<String, Message?> build(String accountUserId) {
     final StreamSubscription<MessageRealtimeEvent> subscription = ref
         .watch(messageRealtimeBusProvider)
         .stream
@@ -231,9 +234,3 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
     state = const <String, Message?>{};
   }
 }
-
-final NotifierProvider<ForumFirstMessages, Map<String, Message?>>
-forumFirstMessagesProvider =
-    NotifierProvider<ForumFirstMessages, Map<String, Message?>>(
-      ForumFirstMessages.new,
-    );

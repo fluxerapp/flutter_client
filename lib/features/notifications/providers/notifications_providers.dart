@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
@@ -118,7 +119,7 @@ NotificationsRepository notificationsRepository(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
-UnreadInboxCardCache unreadInboxCardCache(Ref ref) {
+UnreadInboxCardCache unreadInboxCardCache(Ref ref, String accountUserId) {
   return UnreadInboxCardCache(
     database: ref.watch(fluxerDatabaseProvider),
     repository: ref.watch(notificationsRepositoryProvider),
@@ -127,7 +128,9 @@ UnreadInboxCardCache unreadInboxCardCache(Ref ref) {
 
 @Riverpod(keepAlive: true)
 UnreadInboxView unreadInboxView(Ref ref) {
-  final UnreadInboxCardCache cache = ref.watch(unreadInboxCardCacheProvider);
+  final UnreadInboxCardCache cache = ref.watch(
+    unreadInboxCardCacheProvider(watchAccountUserId(ref)),
+  );
   final UnreadInboxView view = UnreadInboxView(loadCard: cache.load);
   ref.onDispose(view.dispose);
   return view;
@@ -138,7 +141,7 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
   final FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final ChannelLastMessageIndex lastMessageIndex = ref.watch(
-    channelLastMessageIndexProvider,
+    channelLastMessageIndexProvider(readAccountUserId(ref)),
   );
   final Stream<void> tick = mergeVoidStreams(<Stream<dynamic>>[
     db.readStateDao.watchReadStates(),

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -162,9 +163,9 @@ void main() {
       isDm: false,
       seedAckCandidate: null,
     );
-    container.read(channelLastMessageIndexProvider).applyBatch(<String, String>{
-      otherId: otherNew,
-    });
+    container
+        .read(channelLastMessageIndexProvider(readAccountUserId(container)))
+        .applyBatch(<String, String>{otherId: otherNew});
     await _settle();
 
     expect(snapshot()?.mentionCount, 2, reason: 'mentioned channel');

@@ -200,9 +200,6 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
     final bool isDeafened = selfVs?.selfDeaf ?? false;
     final bool isVideoOn = selfVs?.selfVideo ?? false;
     final bool isScreenSharing = selfVs?.selfStream ?? false;
-    final bool joinCameraGranted = ref.watch(
-      voiceSessionProvider.select((VoiceSessionState s) => s.joinCameraGranted),
-    );
     final bool canScreenShare =
         this.canScreenShare ??
         ref
@@ -265,7 +262,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
         tooltip: l10n.voiceControlVideo,
         icon: PhosphorIconsFill.videoCamera,
         toggled: isVideoOn,
-        onPressed: isConnected && joinCameraGranted
+        onPressed: isConnected
             ? () {
                 onControlPressed(() {
                   unawaited(

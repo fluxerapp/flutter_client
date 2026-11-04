@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
-import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/fluxer_tag_change_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/profile_badge_settings_section.dart';
@@ -21,7 +20,6 @@ import 'package:fluxer_app/features/settings/presentation/widgets/profile_previe
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
-import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/icons/plutonium_product_icon.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
@@ -238,36 +236,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  void _showPlutoniumSheet(BuildContext context) {
-    if (userSettingsShowBillingNav(ref)) {
-      unawaited(
-        openUserBillingSettings(context, UserSettingsSection.fluxerPlutonium),
-      );
-      return;
-    }
-    final l10n = FluxerLocalizations.of(context);
-    unawaited(
-      FluxerBottomSheet.show<void>(
-        context,
-        title: l10n.plutoniumNotAvailableTitle,
-        builder: (sheetContext, _) => Padding(
-          padding: EdgeInsets.fromLTRB(
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            0,
-          ),
-          child: Text(
-            l10n.plutoniumNotAvailableBody,
-            style: sheetContext.textStyles.bodyMedium.copyWith(
-              color: sheetContext.colors.textSecondary,
-            ),
-          ),
         ),
       ),
     );
@@ -717,7 +685,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     return FluxerPlutoniumUpsell(
       text: l10n.perGuildPremiumUpsellText,
       buttonSize: FluxerButtonSize.small,
-      onButtonPressed: () => _showPlutoniumSheet(context),
+      onButtonPressed: () => unawaited(openPlutoniumCommerce(context, ref)),
     );
   }
 
@@ -1044,7 +1012,8 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           FluxerPlutoniumUpsell(
             text: l10n.bannerPlutoniumUpsell,
             buttonSize: FluxerButtonSize.small,
-            onButtonPressed: () => _showPlutoniumSheet(context),
+            onButtonPressed: () =>
+                unawaited(openPlutoniumCommerce(context, ref)),
           ),
         ],
       );

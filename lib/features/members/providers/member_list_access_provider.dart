@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -46,24 +47,24 @@ MemberListAccess _resolveMemberListAccess(
       : ref.read(currentUserIdProvider);
   final int? permissionBits = watch
       ? ref.watch(
-          channelPermissionCacheProvider.select(
-            (ChannelPermissionCaches cache) => cache[channelId],
-          ),
+          channelPermissionCacheProvider(
+            watchAccountUserId(ref),
+          ).select((ChannelPermissionCaches cache) => cache[channelId]),
         )
       : ref.read(
-          channelPermissionCacheProvider.select(
-            (ChannelPermissionCaches cache) => cache[channelId],
-          ),
+          channelPermissionCacheProvider(
+            watchAccountUserId(ref),
+          ).select((ChannelPermissionCaches cache) => cache[channelId]),
         );
   final bool permissionBitsResolved = watch
       ? ref.watch(
-          channelPermissionCacheProvider.select(
+          channelPermissionCacheProvider(watchAccountUserId(ref)).select(
             (ChannelPermissionCaches cache) =>
                 cache.hasEffectiveBits(channelId),
           ),
         )
       : ref.read(
-          channelPermissionCacheProvider.select(
+          channelPermissionCacheProvider(watchAccountUserId(ref)).select(
             (ChannelPermissionCaches cache) =>
                 cache.hasEffectiveBits(channelId),
           ),

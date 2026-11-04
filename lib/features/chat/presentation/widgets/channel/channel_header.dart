@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
@@ -540,11 +541,13 @@ class ChannelHeader extends ConsumerWidget {
     }
     if (channel != null) {
       final int? effectivePermissionBits = ref.watch(
-        channelPermissionCacheProvider.select((m) => m[channel.id]),
+        channelPermissionCacheProvider(
+          watchAccountUserId(ref),
+        ).select((m) => m[channel.id]),
       );
       final VoiceSessionState voice = ref.watch(voiceSessionProvider);
       final Map<String, VoiceState> voiceStates = ref.watch(
-        voiceStatesMapProvider,
+        voiceStatesMapProvider(readAccountUserId(ref)),
       );
       final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
       final Guild? guild = ref

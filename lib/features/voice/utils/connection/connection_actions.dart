@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -136,7 +137,7 @@ Future<bool> _waitForOtherConnectionsCleared({
   final DateTime deadline = DateTime.now().add(_kOtherDeviceDisconnectTimeout);
   while (DateTime.now().isBefore(deadline)) {
     final Map<String, VoiceState> voiceStates = container.read(
-      voiceStatesMapProvider,
+      voiceStatesMapProvider(readAccountUserId(container)),
     );
     final String? localConnectionId = container
         .read(voiceSessionProvider)
@@ -179,7 +180,9 @@ int _otherVoiceConnectionCount({
 }) {
   return occupiedVoiceConnectionsForJoinLimit(
     voiceStates: voiceStatesForChannel(
-      voiceStates: container.read(voiceStatesMapProvider),
+      voiceStates: container.read(
+        voiceStatesMapProvider(readAccountUserId(container)),
+      ),
       channelId: channelId,
       guildId: guildId == null || guildId.isEmpty ? null : guildId,
     ),
@@ -311,7 +314,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final VoiceSessionState session = container.read(voiceSessionProvider);
   final Map<String, VoiceState> voiceStates = container.read(
-    voiceStatesMapProvider,
+    voiceStatesMapProvider(readAccountUserId(container)),
   );
   final SelfVoiceConnectionsForJoin partitioned =
       partitionSelfVoiceConnectionsForJoin(

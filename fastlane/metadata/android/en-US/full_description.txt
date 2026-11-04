@@ -1,0 +1,11 @@
+Fluxer is an open source chat app for friends, groups and communities. Text, voice, video and screen sharing in one place, with no ads and nothing tracking you.
+
+Talk one to one, in a group chat, or in a community organised into channels. Give people roles with the permissions they need, and moderate it yourself.
+
+Choose who can message you, call you or see your profile. Block and report anyone.
+
+Host Fluxer yourself for your family, school, business or friends, or use fluxer.app. The app signs in to either.
+
+Fluxer and Fluxer mobile are in open public beta, so things are still being polished.
+
+GitHub beta APKs include optional crash reporting when you opt in. F-Droid builds do not include crash reporting.

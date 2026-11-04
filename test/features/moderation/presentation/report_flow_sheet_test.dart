@@ -12,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -242,10 +243,11 @@ class _Harness {
           androidAnimatorDurationDisabledProvider.overrideWith(
             (ref) => Stream<bool>.value(false),
           ),
+          currentUserIdProvider.overrideWithValue('test-user'),
           userSettingsViewModelProvider.overrideWith(() => settings),
-          webauthnCredentialsViewModelProvider.overrideWithValue(
-            const WebauthnCredentialsViewState(),
-          ),
+          webauthnCredentialsViewModelProvider(
+            'test-user',
+          ).overrideWithValue(const WebauthnCredentialsViewState()),
           use12HourTimeFormatProvider.overrideWithValue(false),
           fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
           contextualGuildIdProvider.overrideWithValue(null),

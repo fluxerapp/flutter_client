@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -180,7 +181,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       orderedIds: _indicatorOrder,
     )..attach();
     final GuildPermissions permissions = ref.read(
-      guildPermissionsProvider.notifier,
+      guildPermissionsProvider(readAccountUserId(ref)).notifier,
     );
     final List<GuildNavbarItem> initialItems = ref.read(
       organizedGuildListProvider,
@@ -461,7 +462,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       ) {
         if (previous != next) {
           final GuildPermissions permissions = ref.read(
-            guildPermissionsProvider.notifier,
+            guildPermissionsProvider(readAccountUserId(ref)).notifier,
           );
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) {
@@ -866,7 +867,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final muteState = ref.watch(guildMuteProvider(guild.id)).value;
         final voiceActivity = ref.watch(guildVoiceActivityProvider(guild.id));
         final permissions = ref.watch(
-          guildPermissionsProvider.select((s) => s[guild.id] ?? 0),
+          guildPermissionsProvider(
+            watchAccountUserId(ref),
+          ).select((s) => s[guild.id] ?? 0),
         );
         final invitesPaused =
             guild.features.contains('INVITES_DISABLED') &&
@@ -904,7 +907,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
             );
           },
           onMenuOpened: () {
-            ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
+            ref
+                .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+                .syncIfNeeded(guild.id);
           },
           resolveMenuPermissions: () =>
               _resolveGuildMenuPermissions(ref, guild.id),

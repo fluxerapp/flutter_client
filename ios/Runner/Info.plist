@@ -246,7 +246,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Take photos to send in a chat.</string>
+	<string>Fluxer uses the camera when you take a photo to send or turn on video in a call.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Fluxer does not use your location. A bundled library references location APIs, which requires this entry for App Store submission.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

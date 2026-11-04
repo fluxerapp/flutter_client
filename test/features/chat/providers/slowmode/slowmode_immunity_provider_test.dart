@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 
 import '../../../../helpers/open_test_database.dart';
@@ -12,6 +13,7 @@ import 'gated_rebuild_permission_cache.dart';
 
 const String _channelId = 'channel-1';
 const String _guildId = 'guild-1';
+const String _testAccountUserId = 'test-user-id';
 
 void main() {
   test('an immunity build disposed during its rebuild resolves without a '
@@ -29,9 +31,10 @@ void main() {
     final ProviderContainer container = ProviderContainer(
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(database),
-        channelPermissionCacheProvider.overrideWith(
-          () => GatedRebuildPermissionCache(gate),
-        ),
+        currentUserIdProvider.overrideWithValue(_testAccountUserId),
+        channelPermissionCacheProvider(
+          _testAccountUserId,
+        ).overrideWith(() => GatedRebuildPermissionCache(gate)),
       ],
     );
     addTearDown(container.dispose);

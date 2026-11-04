@@ -5,7 +5,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -19,6 +18,7 @@ import 'package:fluxer_app/features/notifications/providers/notifications_provid
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../helpers/core_test_provider_overrides.dart';
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 
@@ -47,6 +47,7 @@ void main() {
 
     expect(find.text('Mentions'), findsOneWidget);
     expect(find.byType(MentionsEmptyState), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('mentions from blocked authors stay out of the feed', (
@@ -128,11 +129,13 @@ Widget _wrap({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: <Override>[
-      fluxerDatabaseProvider.overrideWithValue(db),
-      blockedUserIdsProvider.overrideWithValue(blockedUserIds),
-      ...overrides,
-    ],
+    overrides: coreTestProviderOverrides(
+      database: db,
+      extra: <Override>[
+        blockedUserIdsProvider.overrideWithValue(blockedUserIds),
+        ...overrides,
+      ],
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

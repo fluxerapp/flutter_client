@@ -2519,7 +2519,7 @@ List<Override> _buildOverrides({
     for (final entry in unreadStreams.entries)
       channelUnreadProvider(entry.key).overrideWith((ref) => entry.value),
     guildReadStateProvider.overrideWithValue(guildReadState),
-    guildPermissionsProvider.overrideWith(
+    guildPermissionsProvider('me').overrideWith(
       () => _FakeGuildPermissions(<String, int>{_guildId: guildPermissions}),
     ),
   ];
@@ -2531,7 +2531,7 @@ class _FakeGuildPermissions extends GuildPermissions {
   final Map<String, int> _initial;
 
   @override
-  Map<String, int> build() => _initial;
+  Map<String, int> build(String accountUserId) => _initial;
 
   @override
   Future<void> refreshPermissions(String guildId) async {}

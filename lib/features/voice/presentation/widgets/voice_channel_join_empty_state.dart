@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -47,7 +48,9 @@ class VoiceChannelJoinEmptyState extends ConsumerWidget {
     final int? effectivePermissionBits = channel == null
         ? null
         : ref.watch(
-            channelPermissionCacheProvider.select((m) => m[channel!.id]),
+            channelPermissionCacheProvider(
+              watchAccountUserId(ref),
+            ).select((m) => m[channel!.id]),
           );
     final ChannelE2eeStatus e2eeStatus = ref.watch(
       voiceChannelE2eeStatusProvider(

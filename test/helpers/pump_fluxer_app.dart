@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -7,7 +8,10 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import 'core_test_provider_overrides.dart';
 import 'instance_runtime_config_override.dart';
+import 'message_item_test_overrides.dart';
+import 'test_account_user_id.dart';
 import 'test_l10n.dart';
 
 Widget pumpFluxerApp({
@@ -21,7 +25,12 @@ Widget pumpFluxerApp({
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     retry: retry,
-    overrides: <Override>[instanceRuntimeConfigOverride(), ...overrides],
+    overrides: mergeProviderOverrides(<Override>[
+      instanceRuntimeConfigOverride(),
+      currentUserIdProvider.overrideWithValue(kTestAccountUserId),
+      ...messageItemTestProviderOverrides(),
+      ...overrides,
+    ]),
     child: MaterialApp(
       locale: locale,
       localizationsDelegates: fluxerLocalizationsDelegates,

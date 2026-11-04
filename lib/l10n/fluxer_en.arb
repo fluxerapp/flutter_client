@@ -2622,6 +2622,28 @@
             }
         }
     },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Show all badges",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} more badge, show all} other {+{count} more badges, show all}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "profileBadgesVisionaryNumberNote": "Shown only when your Visionary badge is visible and not masked.",
     "@profileBadgesVisionaryNumberNote": {
         "description": "Note under the Visionary ID row when its visibility switch is disabled."
@@ -5646,6 +5668,10 @@
     "matureCommunityUnavailableBody": "This mature community is not available to your account.",
     "@matureCommunityUnavailableBody": {
         "description": "Body when a minor cannot access a mature community."
+    },
+    "matureContentIosWebOptInBody": "Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "matureCategoryUnavailableBody": "This mature category is not available to your account.",
     "@matureCategoryUnavailableBody": {

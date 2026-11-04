@@ -10,7 +10,9 @@ import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
+import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -138,15 +140,15 @@ class VoiceCallKitCoordinatorLogic {
           ),
         );
       })
-      ..listen<Map<String, CallState>>(activeCallsProvider, (
-        Map<String, CallState>? _,
-        Map<String, CallState> next,
-      ) {
-        if (_sessions.isEmpty) {
-          return;
-        }
-        _scheduleSync(() => _syncStaleCallKitSessions(next));
-      })
+      ..listen<Map<String, CallState>>(
+        activeCallsProvider(readAccountUserId(_ref)),
+        (Map<String, CallState>? _, Map<String, CallState> next) {
+          if (_sessions.isEmpty) {
+            return;
+          }
+          _scheduleSync(() => _syncStaleCallKitSessions(next));
+        },
+      )
       ..listen<VoiceSessionState>(voiceSessionProvider, (
         VoiceSessionState? previous,
         VoiceSessionState next,
@@ -180,20 +182,21 @@ class VoiceCallKitCoordinatorLogic {
         }
         _scheduleSync(() => _syncForegroundChange(isForeground: next));
       })
-      ..listen<Map<String, VoiceState>>(voiceStatesMapProvider, (
-        Map<String, VoiceState>? previous,
-        Map<String, VoiceState> next,
-      ) {
-        if (_interruptedChannelIdPendingLeave != null) {
-          _scheduleSync(_leaveInterruptedVoiceSessionIfNeeded);
-        }
-        if (_sessions.isEmpty) {
-          return;
-        }
-        _scheduleSync(
-          () => _syncCallKitMuteFromVoiceStates(previous: previous, next: next),
-        );
-      })
+      ..listen<Map<String, VoiceState>>(
+        voiceStatesMapProvider(readAccountUserId(_ref)),
+        (Map<String, VoiceState>? previous, Map<String, VoiceState> next) {
+          if (_interruptedChannelIdPendingLeave != null) {
+            _scheduleSync(_leaveInterruptedVoiceSessionIfNeeded);
+          }
+          if (_sessions.isEmpty) {
+            return;
+          }
+          _scheduleSync(
+            () =>
+                _syncCallKitMuteFromVoiceStates(previous: previous, next: next),
+          );
+        },
+      )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
         VoiceSettingsState next,
@@ -376,27 +379,36 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  bool _shouldApplySpeakerOutput() {
-    return shouldApplySpeakerOutputWhileInVoice(
+  Future<bool> _shouldApplySpeakerOutput() async {
+    if (!shouldApplySpeakerOutputWhileInVoice(
       hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
       isInVoice: _voiceCallKitVoiceSnapshot(
         _ref.read(voiceSessionProvider),
       ).isInVoice,
-    );
+    )) {
+      return false;
+    }
+    if (await isExternalSystemVoiceCallActive()) {
+      return false;
+    }
+    return true;
   }
 
   Future<void> _applySpeakerOutputAndRetry({required String reason}) async {
-    if (!_shouldApplySpeakerOutput()) {
+    if (!await _shouldApplySpeakerOutput()) {
       return;
     }
     await _applySpeakerOutputForCallKitAudioSession(reason: reason);
+    if (!await _shouldApplySpeakerOutput()) {
+      return;
+    }
     _scheduleSpeakerOutputReapply();
   }
 
   Future<void> _applySpeakerOutputForCallKitAudioSession({
     required String reason,
   }) async {
-    if (!_shouldApplySpeakerOutput()) {
+    if (!await _shouldApplySpeakerOutput()) {
       return;
     }
     try {
@@ -798,7 +810,7 @@ class VoiceCallKitCoordinatorLogic {
       return;
     }
     final List<String> stale = _sessions.incomingRingChannelIdsAbsentFrom(
-      _ref.read(activeCallsProvider).keys.toSet(),
+      _ref.read(activeCallsProvider(readAccountUserId(_ref))).keys.toSet(),
     );
     final String? activeUserId = _ref.read(currentUserIdProvider);
     final String? pendingChannelId = _ref
@@ -833,7 +845,9 @@ class VoiceCallKitCoordinatorLogic {
       _sessions.markIncomingPresented(channelId);
       return;
     }
-    final CallState? callState = _ref.read(activeCallsProvider)[channelId];
+    final CallState? callState = _ref.read(
+      activeCallsProvider(readAccountUserId(_ref)),
+    )[channelId];
     final String? messageId = callState?.messageId;
     final String callKitId = _sessions.registerSession(
       channelId: channelId,
@@ -907,7 +921,9 @@ class VoiceCallKitCoordinatorLogic {
     }
     await _ensureAndroidPermissions();
     await _enterCallKitAudioOwnership();
-    final CallState? callState = _ref.read(activeCallsProvider)[channelId];
+    final CallState? callState = _ref.read(
+      activeCallsProvider(readAccountUserId(_ref)),
+    )[channelId];
     final String callKitId = _sessions.registerSession(
       channelId: channelId,
       messageId: callState?.messageId,
@@ -1147,7 +1163,9 @@ class VoiceCallKitCoordinatorLogic {
       _ref.read(voiceSessionProvider),
     );
     final bool selfInChannelOnServer = selfVoiceStateInChannel(
-      voiceStates: _ref.read(voiceStatesMapProvider).values,
+      voiceStates: _ref
+          .read(voiceStatesMapProvider(readAccountUserId(_ref)))
+          .values,
       currentUserId: _ref.read(currentUserIdProvider),
       channelId: interruptedChannelId,
     );

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
@@ -12,12 +13,15 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 
+import '../../../../helpers/instance_runtime_config_override.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   ProviderContainer createContainer() {
     return ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
         advancedPreferencesProvider.overrideWith(_TestAdvancedPreferences.new),
       ],
@@ -29,7 +33,12 @@ void main() {
       final ProviderContainer container = createContainer();
       addTearDown(container.dispose);
       final FileUploadValidationResult result = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(
               XFile.fromData(
@@ -41,7 +50,10 @@ void main() {
           ]);
       expect(result.isValid, isTrue);
       final CloudComposerAttachments attachments = container.read(
-        cloudUploadControllerProvider('channel-1'),
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
       );
       expect(attachments.items, hasLength(1));
       expect(attachments.items.single.filename, 'photo.jpg');
@@ -68,13 +80,21 @@ void main() {
       final ProviderContainer container = createContainer();
       addTearDown(container.dispose);
       final FileUploadValidationResult result = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(XFile(pickerFile.path, mimeType: 'image/jpeg')),
           ]);
       expect(result.isValid, isTrue);
       final CloudComposerAttachments attachments = container.read(
-        cloudUploadControllerProvider('channel-1'),
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
       );
       expect(attachments.items.single.filename, 'vacation.jpg');
       expect(attachments.items.single.file.path, pickerFile.path);
@@ -90,13 +110,21 @@ void main() {
       final ProviderContainer container = createContainer();
       addTearDown(container.dispose);
       final FileUploadValidationResult result = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(XFile(pickerFile.path, mimeType: 'image/jpeg')),
           ]);
       expect(result.isValid, isTrue);
       final CloudComposerAttachments attachments = container.read(
-        cloudUploadControllerProvider('channel-1'),
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
       );
       expect(attachments.items.single.filename, 'image.jpg');
       expect(
@@ -110,7 +138,12 @@ void main() {
       final ProviderContainer container = createContainer();
       addTearDown(container.dispose);
       final FileUploadValidationResult result = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(
               XFile.fromData(
@@ -129,7 +162,10 @@ void main() {
           ]);
       expect(result.isValid, isTrue);
       final CloudComposerAttachments attachments = container.read(
-        cloudUploadControllerProvider('channel-1'),
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
       );
       expect(attachments.items, hasLength(2));
       expect(attachments.items.map((item) => item.filename).toList(), <String>[
@@ -148,7 +184,12 @@ void main() {
       final ProviderContainer container = createContainer();
       addTearDown(container.dispose);
       final FileUploadValidationResult result = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(
               XFile.fromData(
@@ -161,7 +202,10 @@ void main() {
           ]);
       expect(result.isValid, isTrue);
       final CloudComposerAttachments attachments = container.read(
-        cloudUploadControllerProvider('channel-1'),
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
       );
       expect(attachments.items.single.galleryAssetId, 'asset-99');
     });

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/channels/domain/channel_sidebar_icon_connect_bits.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,9 +10,9 @@ part 'channel_sidebar_icon_connect_bits_provider.g.dart';
 @riverpod
 Future<int?> channelSidebarIconConnectBits(Ref ref, String channelId) async {
   final int? cachedBits = ref.watch(
-    channelPermissionCacheProvider.select(
-      (ChannelPermissionCaches caches) => caches[channelId],
-    ),
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[channelId]),
   );
   if (cachedBits != null) {
     return cachedBits;

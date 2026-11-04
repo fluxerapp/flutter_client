@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
@@ -39,7 +40,9 @@ void main() {
   });
 
   test('sync requested before the socket connects is sent after READY', () {
-    final GuildSync guildSync = container.read(guildSyncProvider.notifier);
+    final GuildSync guildSync = container.read(
+      guildSyncProvider(readAccountUserId(container)).notifier,
+    );
     connection.current = GatewayState.connecting;
     guildSync.syncIfNeeded('g1');
     expect(connection.syncedGuildIds, isEmpty);
@@ -53,16 +56,17 @@ void main() {
   });
 
   test('own member resync is sent when the guild was already synced', () {
-    final GuildSync guildSync = container.read(guildSyncProvider.notifier)
-      ..syncIfNeeded('g1')
-      ..requestOwnMemberSync('g1');
+    final GuildSync guildSync =
+        container.read(guildSyncProvider(readAccountUserId(container)).notifier)
+          ..syncIfNeeded('g1')
+          ..requestOwnMemberSync('g1');
 
     expect(guildSync.state, <String>{'g1'});
     expect(connection.syncedGuildIds, <String>['g1', 'g1']);
   });
 
   test('repeated own member requests send one resync', () {
-    container.read(guildSyncProvider.notifier)
+    container.read(guildSyncProvider(readAccountUserId(container)).notifier)
       ..requestOwnMemberSync('g1')
       ..requestOwnMemberSync('g1');
 
@@ -70,7 +74,7 @@ void main() {
   });
 
   test('own member lost again after being seen sends another resync', () {
-    container.read(guildSyncProvider.notifier)
+    container.read(guildSyncProvider(readAccountUserId(container)).notifier)
       ..requestOwnMemberSync('g1')
       ..ownMemberPresent('g1')
       ..requestOwnMemberSync('g1');

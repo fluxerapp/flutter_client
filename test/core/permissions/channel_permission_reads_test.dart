@@ -3,6 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+
+const String _testAccountUserId = 'test-user-id';
 
 void main() {
   group('readEffectiveGuildChannelPermissionBits', () {
@@ -11,7 +14,8 @@ void main() {
       final int cachedBits = Permission.viewChannel.value;
       final ProviderContainer container = ProviderContainer(
         overrides: [
-          channelPermissionCacheProvider.overrideWith(
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          channelPermissionCacheProvider(_testAccountUserId).overrideWith(
             () => _FixedChannelPermissionCache(
               effective: <String, int>{channelId: cachedBits},
             ),
@@ -35,7 +39,8 @@ void main() {
       final int cachedBits = Permission.connect.value;
       final ProviderContainer container = ProviderContainer(
         overrides: [
-          channelPermissionCacheProvider.overrideWith(
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          channelPermissionCacheProvider(_testAccountUserId).overrideWith(
             () => _FixedChannelPermissionCache(
               local: <String, int>{channelId: cachedBits},
             ),
@@ -64,6 +69,6 @@ class _FixedChannelPermissionCache extends ChannelPermissionCache {
   final Map<String, int> local;
 
   @override
-  ChannelPermissionCaches build() =>
+  ChannelPermissionCaches build(String accountUserId) =>
       ChannelPermissionCaches(effective: effective, local: local);
 }

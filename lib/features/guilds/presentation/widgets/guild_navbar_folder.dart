@@ -374,7 +374,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         final muteState = ref.watch(guildMuteProvider(guild.id)).value;
         final voiceActivity = ref.watch(guildVoiceActivityProvider(guild.id));
         final permissions = ref.watch(
-          guildPermissionsProvider.select((s) => s[guild.id] ?? 0),
+          guildPermissionsProvider(
+            watchAccountUserId(ref),
+          ).select((s) => s[guild.id] ?? 0),
         );
         final invitesPaused =
             guild.features.contains('INVITES_DISABLED') &&
@@ -440,7 +442,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               );
             },
             onMenuOpened: () {
-              ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
+              ref
+                  .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+                  .syncIfNeeded(guild.id);
             },
             resolveMenuPermissions: () =>
                 _resolveGuildMenuPermissions(ref, guild.id),
@@ -684,8 +688,11 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
 }
 
 Future<int> _resolveGuildMenuPermissions(WidgetRef ref, String guildId) async {
-  await ref.read(guildPermissionsProvider.notifier).refreshPermissions(guildId);
-  return ref.read(guildPermissionsProvider)[guildId] ?? 0;
+  await ref
+      .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+      .refreshPermissions(guildId);
+  return ref.read(guildPermissionsProvider(readAccountUserId(ref)))[guildId] ??
+      0;
 }
 
 Future<bool> _resolveGuildCanInvite(WidgetRef ref, String guildId) async {
@@ -780,7 +787,8 @@ Widget _buildGuildMenuActionItem({
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final unread = ref.read(guildReadStateProvider)[guild.id];
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
-  final permissions = ref.read(guildPermissionsProvider)[guild.id] ?? 0;
+  final permissions =
+      ref.read(guildPermissionsProvider(readAccountUserId(ref)))[guild.id] ?? 0;
   final String? currentUserId = ref.read(currentUserIdProvider);
   final bool developerMode = ref.read(
     userSettingsViewModelProvider.select((s) => s.developerMode),
@@ -798,7 +806,9 @@ Widget _buildGuildMenuActionItem({
     developerMode: developerMode,
     onTap: () {},
     onMenuOpened: () {
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(guild.id);
     },
     onMarkAsRead: () {
       unawaited(

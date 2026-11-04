@@ -91,19 +91,18 @@ class RouteStateNotifier extends _$RouteStateNotifier {
       if (!ref.mounted) {
         return;
       }
-      if (SchedulerBinding.instance.schedulerPhase ==
-          SchedulerPhase.persistentCallbacks) {
-        if (scheduled) {
-          return;
-        }
-        scheduled = true;
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          scheduled = false;
-          apply();
-        });
+      if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.idle) {
+        apply();
         return;
       }
-      apply();
+      if (scheduled) {
+        return;
+      }
+      scheduled = true;
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        scheduled = false;
+        apply();
+      });
     }
 
     router.routerDelegate.addListener(listener);
