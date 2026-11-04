@@ -94,12 +94,33 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Csatlakoztatva';
 
   @override
+  String get gatewayOfflineToast =>
+      'Nincs internetkapcsolat. A Fluxer újracsatlakozik, amint újra online leszel.';
+
+  @override
   String get sessionExpiredToast =>
       'A munkamenet lejárt. Kérlek, jelentkezz be újra.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'A fiókod $date napján törlődik. Ha előtte bejelentkezel, a törlés megszakad.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'A fiókod törlése ütemezve van. Ha a törlés napja előtt bejelentkezel, a törlés megszakad.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Most töröljük a fiókodat. Ha a fiókodhoz tartozik e-mail-cím, e-mailt küldünk, amikor elkészült.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Most töröljük a fiókodat.';
+
+  @override
+  String get accountDisabledNotice =>
+      'A fiókod inaktiválva van. Jelentkezz be újra, amikor használni szeretnéd.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Szia, $displayName! Erősítsd meg az e-mail-címedet.';
   }
+
+  @override
+  String get verificationResendEmail => 'E-mail újraküldése';
+
+  @override
+  String get verificationEmailSent =>
+      'Ellenőrző e-mail elküldve. Nézd meg a beérkező üzeneteidet.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Túl sok ellenőrző e-mailt kértél. Kérjük, várj egy kicsit, majd próbáld újra.';
 
   @override
   String get nagbarOpenSettings => 'Beállítások megnyitása';
@@ -387,6 +419,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Próbálj másik módszert';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Ennek a példánynak a jelszókulcsai nem működnek ebben az alkalmazásban, és a fiókodhoz nincs más ellenőrzési mód. Jelentkezz be inkább a weben.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Biztonsági kulcs vagy jelszókulcs használata';
 
@@ -527,78 +563,68 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get signOut => 'Kijelentkezés';
 
   @override
-  String get suspendedPermanentTitle => 'Fiók véglegesen felfüggesztve';
-
-  @override
   String get suspendedTemporaryTitle => 'Fiók felfüggesztve';
 
   @override
-  String get suspendedPermanentDescription =>
-      'A fiókod véglegesen felfüggesztésre került a Szolgáltatási Feltételek megsértése miatt.';
+  String get suspendedBannedTitle => 'Fiók véglegesen felfüggesztve';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'A fiókod ideiglenesen felfüggesztésre került. A felfüggesztési időszak végeztével újra hozzáférhetsz a fiókodhoz.';
+  String get suspendedClosedTitle => 'Fiók lezárva';
 
   @override
-  String get suspendedIssuedAt => 'Kiadva';
+  String get suspendedWhatHappened => 'Mi történt';
 
   @override
-  String get suspendedEndsAt => 'Vége';
+  String get suspendedWhy => 'Miért';
 
   @override
-  String get suspendedDuration => 'Időtartam';
+  String get suspendedHowWeDecided => 'Hogyan döntöttünk';
 
   @override
-  String get suspendedPermanent => 'Végleges';
+  String get suspendedHowToAppeal => 'Így fellebbezhetsz';
 
   @override
-  String get suspendedReason => 'Ok (indoklás)';
-
-  @override
-  String get suspendedAppealDeadline => 'Fellebbezési határidő';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'A fiókod törlése ekkor lesz ütemezve: $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Megjegyzés a csapatunktól: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Frissítések keresése';
+  String suspendedDecisionId(String decisionId) {
+    return 'Döntésazonosító: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Újrapróbálkozás $seconds mp múlva';
+  String suspendedRule(String title) {
+    return 'Szabály: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, és add meg a felhasználónevedet.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, legkésőbb $deadline napjáig. Add meg a döntésazonosítót és a felhasználónevedet. A fellebbezés ingyenes, és mindegyiket egy ember vizsgálja meg.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, legkésőbb $deadline napjáig. Ha tudsz, a fiókodhoz tartozó e-mail-címről írj, és add meg a döntésazonosítót. A fellebbezés ingyenes, és mindegyiket egy ember vizsgálja meg.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Ha azt szeretnéd, hogy töröljük a fiókodat és az adataidat, írj e-mailt ide: $email a fiókodhoz tartozó címről.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Ha azt szeretnéd, hogy töröljük a fiókodat és az adataidat, írj e-mailt ide: $email, és add meg a felhasználónevedet.';
   }
 
   @override
   String get suspendedBackToLogin => 'Vissza a bejelentkezéshez';
-
-  @override
-  String get suspendedAppealTitle => 'Fellebbezés';
-
-  @override
-  String get suspendedAppealHint =>
-      'Magyarázd el, miért kellene felülvizsgálni a felfüggesztésedet (minimum 50 karakter)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Fellebbezés küldése';
-
-  @override
-  String get suspendedAppealPending => 'Felülvizsgálat alatt';
-
-  @override
-  String get suspendedAppealAccepted => 'Fellebbezés elfogadva';
-
-  @override
-  String get suspendedAppealRejected => 'Fellebbezés elutasítva';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'A fellebbezésedet elfogadtuk, és a fiókod helyreállítva.';
-
-  @override
-  String get suspendedSignIn => 'Bejelentkezés a fiókodba';
 
   @override
   String get forgotPasswordTitle => 'Elfelejtetted a jelszavad?';
@@ -2332,6 +2358,39 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get sudoWrongPassword => 'A jelszó helytelen. Próbáld újra.';
 
   @override
+  String get sudoEmailCodeSend => 'Küldj egy kódot e-mailben';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Elküldtünk egy 6 jegyű kódot az e-mail-címedre.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Az e-mailben kapott kód';
+
+  @override
+  String get sudoEmailCodeResend => 'Küldj egy új kódot';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Jelentkezz be újra, hogy megerősítsd, hogy te vagy az.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Jelentkezz be újra';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Bejelentkezés ezzel: $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Egy másik fiókba jelentkeztél be. Azzal a fiókkal jelentkezz be, amelyet itt használsz.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Ennek a példánynak a jelszókulcsai nem működnek ebben az alkalmazásban. Használd a hitelesítő alkalmazásodat vagy egy biztonsági kódot, vagy erősítsd meg a weben.';
+
+  @override
   String get securityAccountTitle => 'Fiók';
 
   @override
@@ -2681,6 +2740,58 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ideiglenesen inaktiválhatod a fiókodat. Később újraaktiválhatod, ha bejelentkezel.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Fiókod és személyes adataid törlése. Az üzeneteidet is törölheted.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'A fiókod, a profilod és a személyes adataid törlődnek. Azok az üzenetek, amelyeket nem törölsz, ott maradnak, ahová küldted őket, a neved és a profilod nélkül.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Az üzeneteim törlése is';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'A fiókoddal együtt törli az összes üzenetet, amelyet DM-ekben, csoportos beszélgetésekben és közösségekben küldtél.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Ha meg szeretnél tartani egy másolatot az adataidról, előbb kérj exportot itt: $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Törlés 14 nap múlva';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'A 14 nap alatt bejelentkezéssel megszakíthatod a törlést.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Törlés ütemezése';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'A fiókod a példány várakozási ideje után törlődik. Ha előtte bejelentkezel, a törlés megszakad.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Törlés most';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Most törlöd a fiókodat?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'A fiókod azonnal törlődik, és nem állítható vissza.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'A Plutonium-előfizetésedet az Apple számlázza. A fiókod törlése nem mondja le, ezért előbb mondd le az App Store-ban.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'A Plutonium-előfizetésedet a Google Play számlázza. A fiókod törlése nem mondja le, ezért előbb mondd le a Google Playen.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'A fiókod letiltása minden munkamenetből kiléptet. Bármikor újra aktiválhatod a fiókodat, ha újra bejelentkezel.';
 
@@ -2688,49 +2799,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Fiók törlése';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Véglegesen törli a fiókodat és minden kapcsolódó adatot. Ez nem vonható vissza.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'A fiók nem törölhető';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Nem törölheted a fiókodat, amíg közösségek tulajdonosa vagy. Először ruházd át a következő közösségek tulajdonjogát:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Ezeknek a közösségeknek te vagy a tulajdonosa. A fiókod törlése előtt mindegyiket töröld, vagy add át egy másik tagnak.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'és még $count ';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'A tulajdonjog átruházásához menj a $settingsPath menüpontra, és használd a tulajdonjog átruházása opciót.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Biztosan törölni szeretnéd a fiókodat? Ezzel a művelettel végleges törlésre jelölöd a fiókodat.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'A törlési folyamatot 14 napon belül visszavonhatod';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      '14 nap múlva fiókod véglegesen törlődik';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'A törlés feldolgozása után nem tudod visszaállítani a fiókodhoz való hozzáférést';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'A fiókod törlése után nem tudod törölni a küldött üzeneteidet';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Ha exportálni szeretnéd az adataidat, vagy először törölni szeretnéd az üzeneteidet, kérjük, mielőtt folytatnád, keresd fel az Adatvédelmi irányítópultot a Felhasználói beállításokban.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Koppints egy közösségre a beállításai megnyitásához. A „Közösség törlése” legalul található. Az átadáshoz nyisd meg a „Tagok” részt, koppints egy tagra, koppints a profilján a három pontra, és válaszd a „Tulajdonjog átruházása” lehetőséget.';
 
   @override
   String get claimAccountTitle => 'Fejezd be a fiókod regisztrációját';
@@ -2754,9 +2831,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'A fiókregisztráció sikeresen befejeződött';
-
-  @override
-  String get importantInformation => 'Fontos információ:';
 
   @override
   String get genericError => 'Hiba történt';
@@ -11688,6 +11762,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return 'A(z) $domain a Fluxer újabb verzióját futtatja, mint ez az alkalmazás. Frissítsd az alkalmazást, majd próbáld újra.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return 'A(z) $domain nem használ biztonságos kapcsolatot (https). A Fluxer csak a helyi hálózatodon lévő példányokhoz csatlakozik http-n keresztül.';
   }
 
   @override

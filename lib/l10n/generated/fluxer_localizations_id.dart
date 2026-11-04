@@ -93,12 +93,33 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Terhubung';
 
   @override
+  String get gatewayOfflineToast =>
+      'Kamu sedang offline. Fluxer akan terhubung kembali saat kamu online lagi.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesi Anda telah kedaluwarsa. Silakan masuk lagi.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Akunmu akan dihapus pada $date. Masuk sebelum tanggal itu akan membatalkan penghapusan.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Akunmu dijadwalkan untuk dihapus. Masuk sebelum tanggal penghapusan akan membatalkannya.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Kami sedang menghapus akunmu sekarang. Jika akunmu punya alamat email, kami akan mengirim email kepadamu setelah selesai.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Kami sedang menghapus akunmu sekarang.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Akunmu dinonaktifkan. Masuk lagi kapan pun kamu ingin menggunakannya.';
 
   @override
   String splashStartupFailed(String error) {
@@ -151,6 +172,17 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hai $displayName, mohon verifikasi alamat emailmu.';
   }
+
+  @override
+  String get verificationResendEmail => 'Kirim ulang email';
+
+  @override
+  String get verificationEmailSent =>
+      'Email verifikasi telah dikirim. Periksa kotak masukmu.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Kamu sudah terlalu banyak meminta email verifikasi. Tunggu sebentar lalu coba lagi.';
 
   @override
   String get nagbarOpenSettings => 'Buka pengaturan';
@@ -384,6 +416,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Coba metode lain';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Passkey dari instance ini tidak berfungsi di aplikasi ini, dan akunmu tidak punya metode verifikasi lain. Masuklah melalui web.';
+
+  @override
   String get mfaUseSecurityKey => 'Coba kunci keamanan/passkey saja';
 
   @override
@@ -521,78 +557,68 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get signOut => 'Keluar';
 
   @override
-  String get suspendedPermanentTitle => 'Akun Ditangguhkan Permanen';
-
-  @override
   String get suspendedTemporaryTitle => 'Akun Ditangguhkan';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Akun Anda telah ditangguhkan secara permanen karena melanggar Ketentuan Layanan kami.';
+  String get suspendedBannedTitle => 'Akun diblokir';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Akun Anda telah ditangguhkan sementara. Anda akan dapat mengakses akun Anda setelah periode penangguhan berakhir.';
+  String get suspendedClosedTitle => 'Akun ditutup';
 
   @override
-  String get suspendedIssuedAt => 'Dikeluarkan';
+  String get suspendedWhatHappened => 'Apa yang terjadi';
 
   @override
-  String get suspendedEndsAt => 'Berakhir';
+  String get suspendedWhy => 'Alasan';
 
   @override
-  String get suspendedDuration => 'Durasi';
+  String get suspendedHowWeDecided => 'Cara kami memutuskan';
 
   @override
-  String get suspendedPermanent => 'Permanen';
+  String get suspendedHowToAppeal => 'Cara mengajukan banding';
 
   @override
-  String get suspendedReason => 'Alasan';
-
-  @override
-  String get suspendedAppealDeadline => 'Batas Waktu Banding';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Akun Anda dijadwalkan untuk dihapus pada $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Catatan dari tim kami: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Cek pembaruan';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID keputusan: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Periksa lagi dalam ${seconds}d';
+  String suspendedRule(String title) {
+    return 'Aturan: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Jika menurutmu keputusan ini keliru, kirim email ke $email dan sertakan nama penggunamu.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Jika menurutmu keputusan ini keliru, kirim email ke $email paling lambat $deadline. Sertakan ID keputusan dan nama penggunamu. Banding tidak dipungut biaya, dan setiap banding ditinjau oleh seorang manusia.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Jika menurutmu keputusan ini keliru, kirim email ke $email paling lambat $deadline. Jika bisa, kirim dari alamat email yang terdaftar di akunmu, dan sertakan ID keputusan. Banding tidak dipungut biaya, dan setiap banding ditinjau oleh seorang manusia.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Untuk meminta kami menghapus akun dan datamu, kirim email ke $email dari alamat yang terdaftar di akunmu.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Untuk meminta kami menghapus akun dan datamu, kirim email ke $email dan sertakan nama penggunamu.';
   }
 
   @override
   String get suspendedBackToLogin => 'Kembali ke Login';
-
-  @override
-  String get suspendedAppealTitle => 'Ajukan banding';
-
-  @override
-  String get suspendedAppealHint =>
-      'Jelaskan mengapa penangguhan Anda harus dipertimbangkan kembali (minimal 50 karakter)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Kirim Banding';
-
-  @override
-  String get suspendedAppealPending => 'Menunggu Tinjauan';
-
-  @override
-  String get suspendedAppealAccepted => 'Banding Diterima';
-
-  @override
-  String get suspendedAppealRejected => 'Banding Ditolak';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Banding Anda telah diterima dan akun Anda telah dipulihkan.';
-
-  @override
-  String get suspendedSignIn => 'Masuk ke Akun Anda';
 
   @override
   String get forgotPasswordTitle => 'Lupa kata sandimu?';
@@ -2306,6 +2332,39 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get sudoWrongPassword => 'Kata sandi salah. Coba lagi.';
 
   @override
+  String get sudoEmailCodeSend => 'Kirim kode ke email saya';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Kami telah mengirim kode 6 digit ke alamat emailmu.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kode dari email';
+
+  @override
+  String get sudoEmailCodeResend => 'Kirim kode baru';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Masuk lagi untuk mengonfirmasi bahwa ini memang kamu.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Masuk lagi';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Masuk dengan $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Kamu masuk ke akun lain. Masuk dengan akun yang kamu gunakan di sini.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Passkey dari instance ini tidak berfungsi di aplikasi ini. Gunakan aplikasi autentikator atau kode cadangan, atau konfirmasi melalui web.';
+
+  @override
   String get securityAccountTitle => 'Akun';
 
   @override
@@ -2653,6 +2712,58 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Nonaktifkan akunmu untuk sementara. Kamu bisa mengaktifkannya lagi nanti dengan masuk kembali.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Hapus akun dan data pribadimu. Kamu juga bisa menghapus pesan-pesanmu.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Akun, profil, dan data pribadimu akan dihapus. Pesan yang tidak kamu hapus tetap berada di tempat kamu mengirimnya, tanpa nama atau profilmu.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Hapus juga pesan saya';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Menghapus setiap pesan yang kamu kirim di DM, DM grup, dan komunitas, bersama dengan akunmu.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Untuk menyimpan salinan datamu, minta ekspor di $privacyDashboard terlebih dahulu.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Hapus dalam 14 hari';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Kamu bisa membatalkannya dengan masuk selama 14 hari itu.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Jadwalkan penghapusan';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Akunmu akan dihapus setelah masa tunggu instance ini. Masuk sebelum itu akan membatalkannya.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Hapus sekarang';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Hapus akunmu sekarang?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Akunmu akan langsung dihapus dan tidak dapat dipulihkan.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Langganan Plutonium-mu ditagih oleh Apple. Menghapus akun tidak membatalkannya, jadi batalkan dulu di App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Langganan Plutonium-mu ditagih oleh Google Play. Menghapus akun tidak membatalkannya, jadi batalkan dulu di Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Menonaktifkan akun Anda akan mengeluarkan Anda dari semua sesi. Anda dapat mengaktifkan kembali akun Anda kapan saja dengan masuk lagi.';
 
@@ -2660,49 +2771,15 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Hapus akun';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Hapus permanen akunmu dan semua data terkait. Tindakan ini tidak dapat dibatalkan.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Tidak bisa menghapus akun';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Kamu tidak dapat menghapus akun selama masih memiliki komunitas. Transfer kepemilikan komunitas berikut terlebih dahulu:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Kamu memiliki komunitas-komunitas ini. Hapus masing-masing, atau serahkan ke anggota lain, sebelum kamu menghapus akunmu.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'dan $count lainnya';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Untuk mentransfer kepemilikan, buka $settingsPath dan gunakan opsi transfer kepemilikan.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Yakin ingin menghapus akunmu? Tindakan ini akan menjadwalkan akunmu untuk dihapus secara permanen.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Kamu dapat membatalkan proses penghapusan dalam 14 hari';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Setelah 14 hari, akunmu akan dihapus secara permanen';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Setelah penghapusan diproses, kamu tidak bisa memulihkan akses ke akunmu';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Anda tidak akan bisa menghapus pesan terkirim setelah akun Anda dihapus';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Jika Anda ingin mengekspor data atau menghapus pesan terlebih dahulu, silakan kunjungi bagian Dasbor Privasi di Pengaturan Pengguna sebelum melanjutkan.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Ketuk komunitas untuk membuka pengaturannya. \"Hapus komunitas\" ada di bagian bawah. Untuk menyerahkannya, buka \"Anggota\", ketuk seorang anggota, ketuk tiga titik di profilnya, lalu pilih \"Transfer kepemilikan\".';
 
   @override
   String get claimAccountTitle => 'Klaim akunmu';
@@ -2726,9 +2803,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Akun berhasil diklaim';
-
-  @override
-  String get importantInformation => 'Informasi penting:';
 
   @override
   String get genericError => 'Terjadi kesalahan';
@@ -11573,6 +11647,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain menjalankan versi Fluxer yang lebih baru daripada aplikasi ini. Perbarui aplikasi, lalu coba lagi.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain tidak menggunakan koneksi aman (https). Fluxer hanya terhubung melalui http ke instance di jaringan lokalmu.';
   }
 
   @override

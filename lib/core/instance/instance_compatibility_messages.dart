@@ -13,6 +13,8 @@ String instanceCompatibilityBody(
       return l10n.instanceOutdatedForClient(domain);
     case InstanceDiscoveryFailureReason.requiresNewerClient:
       return l10n.instanceRequiresNewerClient(domain);
+    case InstanceDiscoveryFailureReason.insecureConnection:
+      return l10n.instanceInsecureConnection(domain);
   }
 }
 

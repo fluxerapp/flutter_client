@@ -94,12 +94,33 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Verbonden';
 
   @override
+  String get gatewayOfflineToast =>
+      'Je bent offline. Fluxer maakt opnieuw verbinding zodra je weer online bent.';
+
+  @override
   String get sessionExpiredToast =>
       'Je sessie is verlopen. Meld je opnieuw aan.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Je account wordt op $date verwijderd. Als je je voor die datum aanmeldt, wordt de verwijdering geannuleerd.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Je account staat gepland voor verwijdering. Als je je voor de verwijderingsdatum aanmeldt, wordt de verwijdering geannuleerd.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'We verwijderen je account nu. Als je account een e-mailadres heeft, sturen we je een e-mail zodra het klaar is.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'We verwijderen je account nu.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Je account is uitgeschakeld. Meld je opnieuw aan wanneer je het weer wilt gebruiken.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hé $displayName, verifieer je e-mailadres.';
   }
+
+  @override
+  String get verificationResendEmail => 'E-mail opnieuw verzenden';
+
+  @override
+  String get verificationEmailSent =>
+      'Verificatie-e-mail verzonden. Controleer je inbox.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Je hebt te veel verificatie-e-mails aangevraagd. Wacht even en probeer het opnieuw.';
 
   @override
   String get nagbarOpenSettings => 'Instellingen openen';
@@ -386,6 +418,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Probeer een andere methode';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Passkeys van deze instantie werken niet in deze app en je account heeft geen andere verificatiemethode. Meld je in plaats daarvan aan op het web.';
+
+  @override
   String get mfaUseSecurityKey => 'Beveiligingssleutel/passkey gebruiken';
 
   @override
@@ -523,78 +559,68 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get signOut => 'Uitloggen';
 
   @override
-  String get suspendedPermanentTitle => 'Account permanent geschorst';
-
-  @override
   String get suspendedTemporaryTitle => 'Account tijdelijk geschorst';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Uw account is permanent geschorst wegens schending van onze Servicevoorwaarden.';
+  String get suspendedBannedTitle => 'Account verbannen';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Uw account is tijdelijk geschorst. U krijgt weer toegang tot uw account zodra de schorsingsperiode is beëindigd.';
+  String get suspendedClosedTitle => 'Account gesloten';
 
   @override
-  String get suspendedIssuedAt => 'Uitgegeven';
+  String get suspendedWhatHappened => 'Wat er is gebeurd';
 
   @override
-  String get suspendedEndsAt => 'Eindigt';
+  String get suspendedWhy => 'Waarom';
 
   @override
-  String get suspendedDuration => 'Duur';
+  String get suspendedHowWeDecided => 'Zo hebben we besloten';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedHowToAppeal => 'Zo maak je bezwaar';
 
   @override
-  String get suspendedReason => 'Reden';
-
-  @override
-  String get suspendedAppealDeadline => 'Uiterste datum voor beroep';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Uw account is gepland voor verwijdering op $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Opmerking van ons team: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Controleren op updates';
+  String suspendedDecisionId(String decisionId) {
+    return 'Beslissings-ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Opnieuw controleren over ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regel: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur een e-mail naar $email en vermeld je gebruikersnaam.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur uiterlijk $deadline een e-mail naar $email. Vermeld de beslissings-ID en je gebruikersnaam. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur uiterlijk $deadline een e-mail naar $email. Mail indien mogelijk vanaf het e-mailadres van je account en vermeld de beslissings-ID. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar $email vanaf het adres van je account.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar $email en vermeld je gebruikersnaam.';
   }
 
   @override
   String get suspendedBackToLogin => 'Terug naar login';
-
-  @override
-  String get suspendedAppealTitle => 'Beroep';
-
-  @override
-  String get suspendedAppealHint =>
-      'Leg uit waarom je schorsing heroverwogen moet worden (minimaal 50 tekens)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Verstuur beroep';
-
-  @override
-  String get suspendedAppealPending => 'In behandeling';
-
-  @override
-  String get suspendedAppealAccepted => 'Beroep geaccepteerd';
-
-  @override
-  String get suspendedAppealRejected => 'Beroep afgewezen';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Je beroep is geaccepteerd en je account is hersteld.';
-
-  @override
-  String get suspendedSignIn => 'Meld je aan bij je account';
 
   @override
   String get forgotPasswordTitle => 'Wachtwoord vergeten?';
@@ -2317,6 +2343,39 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Dit wachtwoord klopt niet. Probeer het opnieuw.';
 
   @override
+  String get sudoEmailCodeSend => 'Code per e-mail sturen';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'We hebben een 6-cijferige code naar je e-mailadres gestuurd.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Code uit de e-mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Nieuwe code sturen';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Meld je opnieuw aan om te bevestigen dat jij het bent.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Opnieuw aanmelden';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Aanmelden met $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Je hebt je aangemeld bij een ander account. Meld je aan met het account dat je hier gebruikt.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Passkeys van deze instantie werken niet in deze app. Gebruik je authenticatie-app of een back-upcode, of bevestig op het web.';
+
+  @override
   String get securityAccountTitle => 'Account';
 
   @override
@@ -2663,6 +2722,58 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Je account tijdelijk uitschakelen. Je kunt het later opnieuw activeren door weer in te loggen.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Verwijder je account en persoonsgegevens. Je kunt ook je berichten verwijderen.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Je account, profiel en persoonsgegevens worden verwijderd. Berichten die je niet verwijdert, blijven staan waar je ze hebt verstuurd, zonder je naam of profiel.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Ook mijn berichten verwijderen';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Verwijdert samen met je account alle berichten die je hebt verstuurd in DM\'s, groeps-DM\'s en communities.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Wil je een kopie van je gegevens bewaren? Vraag dan eerst een export aan in het $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Over 14 dagen verwijderen';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Je kunt dit annuleren door je binnen die 14 dagen aan te melden.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Verwijdering plannen';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Je account wordt verwijderd na de wachttijd van deze instantie. Als je je daarvoor aanmeldt, wordt de verwijdering geannuleerd.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Nu verwijderen';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Je account nu verwijderen?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Je account wordt direct verwijderd en kan niet worden hersteld.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Je Plutonium-abonnement wordt gefactureerd door Apple. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in de App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Je Plutonium-abonnement wordt gefactureerd door Google Play. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Uw account uitschakelen logt u uit bij alle sessies. U kunt uw account op elk moment opnieuw inschakelen door opnieuw in te loggen.';
 
@@ -2670,50 +2781,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Account verwijderen';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Verwijder je account en alle bijbehorende gegevens permanent. Deze actie kan niet ongedaan worden gemaakt.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Account kan niet worden verwijderd';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Je kunt je account niet verwijderen zolang je eigenaar bent van communities. Draag eerst het eigendom over van de volgende communities:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Je bent eigenaar van deze communities. Verwijder ze allemaal of draag ze over aan een ander lid voordat je je account verwijdert.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'en $count meer';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Om het eigendom over te dragen, ga naar $settingsPath en gebruik de optie \'eigendom overdragen\'.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Weet je zeker dat je je account wilt verwijderen? Hiermee wordt de definitieve verwijdering van je account ingepland.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Je kunt het verwijderingsproces binnen 14 dagen annuleren';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Na 14 dagen wordt je account permanent verwijderd';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Zodra de verwijdering is verwerkt, kun je geen toegang meer krijgen tot je account';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Verzonden berichten kunnen niet meer worden verwijderd nadat je account is verwijderd';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Als je je gegevens wilt exporteren of je berichten eerst wilt verwijderen, ga dan naar de sectie Privacy Dashboard in Gebruikersinstellingen voordat je verdergaat.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Tik op een community om de instellingen te openen. \"Community verwijderen\" staat onderaan. Om een community over te dragen, open je \"Leden\", tik je op een lid, tik je op de drie puntjes in het profiel en kies je \"Eigendom overdragen\".';
 
   @override
   String get claimAccountTitle => 'Voltooi de registratie van je account';
@@ -2737,9 +2814,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Registratie van account voltooid';
-
-  @override
-  String get importantInformation => 'Belangrijke informatie:';
 
   @override
   String get genericError => 'Er is een fout opgetreden';
@@ -11634,6 +11708,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain draait een nieuwere versie van Fluxer dan deze app. Werk de app bij en probeer het opnieuw.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain gebruikt geen beveiligde verbinding (https). Fluxer maakt alleen via http verbinding met instanties op je lokale netwerk.';
   }
 
   @override

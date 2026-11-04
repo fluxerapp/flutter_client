@@ -96,11 +96,32 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Povezano';
 
   @override
+  String get gatewayOfflineToast =>
+      'Niste povezani s internetom. Fluxer će se ponovno povezati kada se vratite na mrežu.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesija vam je istekla. Molimo vas da se ponovno prijavite.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Vaš će račun biti izbrisan $date. Ako se prijavite prije toga, brisanje se otkazuje.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Vaš je račun zakazan za brisanje. Ako se prijavite prije datuma brisanja, brisanje se otkazuje.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Sada brišemo vaš račun. Ako vaš račun ima adresu e-pošte, javit ćemo vam e-poštom kada brisanje završi.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => 'Sada brišemo vaš račun.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Vaš je račun deaktiviran. Prijavite se ponovno kad god ga želite koristiti.';
 
   @override
   String splashStartupFailed(String error) {
@@ -153,6 +174,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hej $displayName, molimo potvrdite svoju adresu e-pošte.';
   }
+
+  @override
+  String get verificationResendEmail => 'Ponovno pošalji e-poštu';
+
+  @override
+  String get verificationEmailSent =>
+      'E-pošta za potvrdu poslana. Provjerite svoju pristiglu poštu.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Previše ste puta zatražili e-poštu za potvrdu. Pričekajte trenutak pa pokušajte ponovno.';
 
   @override
   String get nagbarOpenSettings => 'Otvori postavke';
@@ -386,6 +418,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Isprobaj drugu metodu';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Pristupni ključevi s ove instance ne rade u ovoj aplikaciji, a vaš račun nema drugi način provjere. Umjesto toga prijavite se na webu.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Pokušajte sa sigurnosnim ključem / pristupnim ključem';
 
@@ -524,78 +560,68 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get signOut => 'Odjava';
 
   @override
-  String get suspendedPermanentTitle => 'Račun trajno suspendiran';
-
-  @override
   String get suspendedTemporaryTitle => 'Račun suspendiran';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Vaš je račun trajno suspendiran zbog kršenja naših Uvjeta pružanja usluge.';
+  String get suspendedBannedTitle => 'Račun trajno blokiran';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Vaš je račun privremeno suspendiran. Moći ćete pristupiti svom računu nakon što razdoblje suspenzije završi.';
+  String get suspendedClosedTitle => 'Račun zatvoren';
 
   @override
-  String get suspendedIssuedAt => 'Izdano';
+  String get suspendedWhatHappened => 'Što se dogodilo';
 
   @override
-  String get suspendedEndsAt => 'Završava';
+  String get suspendedWhy => 'Zašto';
 
   @override
-  String get suspendedDuration => 'Trajanje';
+  String get suspendedHowWeDecided => 'Kako smo odlučili';
 
   @override
-  String get suspendedPermanent => 'Trajno';
+  String get suspendedHowToAppeal => 'Kako uložiti žalbu';
 
   @override
-  String get suspendedReason => 'Razlog';
-
-  @override
-  String get suspendedAppealDeadline => 'Rok za žalbu';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Vaš je račun zakazan za brisanje $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Napomena našeg tima: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Provjeri ažuriranja';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID odluke: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Ponovno provjeri za ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Pravilo: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Ako mislite da smo pogriješili, pošaljite e-poruku na $email i navedite svoje korisničko ime.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Ako mislite da smo pogriješili, pošaljite e-poruku na $email do $deadline. Navedite ID odluke i svoje korisničko ime. Žalbe su besplatne i svaku pregledava osoba.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Ako mislite da smo pogriješili, pošaljite e-poruku na $email do $deadline. Ako možete, pišite s adrese e-pošte povezane s vašim računom i navedite ID odluke. Žalbe su besplatne i svaku pregledava osoba.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Ako želite da izbrišemo vaš račun i podatke, pošaljite e-poruku na $email s adrese povezane s vašim računom.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Ako želite da izbrišemo vaš račun i podatke, pošaljite e-poruku na $email i navedite svoje korisničko ime.';
   }
 
   @override
   String get suspendedBackToLogin => 'Natrag na prijavu';
-
-  @override
-  String get suspendedAppealTitle => 'Žalba';
-
-  @override
-  String get suspendedAppealHint =>
-      'Objasnite zašto bi vaša suspenzija trebala biti ponovno razmotrena (najmanje 50 znakova)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Pošalji žalbu';
-
-  @override
-  String get suspendedAppealPending => 'Na čekanju za pregled';
-
-  @override
-  String get suspendedAppealAccepted => 'Žalba prihvaćena';
-
-  @override
-  String get suspendedAppealRejected => 'Odbijena žalba';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Vaš zahtjev je prihvaćen i vaš račun je ponovno aktiviran.';
-
-  @override
-  String get suspendedSignIn => 'Prijavi se na svoj račun';
 
   @override
   String get forgotPasswordTitle => 'Zaboravili ste lozinku?';
@@ -2316,6 +2342,39 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get sudoWrongPassword => 'Lozinka nije točna. Pokušajte ponovno.';
 
   @override
+  String get sudoEmailCodeSend => 'Pošalji mi kod e-poštom';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Poslali smo 6-znamenkasti kôd na vašu adresu e-pošte.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kôd iz e-pošte';
+
+  @override
+  String get sudoEmailCodeResend => 'Pošalji novi kod';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Prijavite se ponovno kako biste potvrdili da ste to vi.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Ponovno se prijavi';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Prijava putem $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Prijavio si se na drugi račun. Prijavi se računom koji ovdje koristiš.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Pristupni ključevi s ove instance ne rade u ovoj aplikaciji. Upotrijebite aplikaciju za provjeru autentičnosti ili rezervni kôd ili potvrdite na webu.';
+
+  @override
   String get securityAccountTitle => 'Račun';
 
   @override
@@ -2664,6 +2723,58 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Privremeno deaktivirajte svoj račun. Možete ga kasnije ponovno aktivirati prijavom.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Izbrišite svoj račun i osobne podatke. Možete izbrisati i svoje poruke.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Vaš račun, profil i osobni podaci se brišu. Poruke koje ne izbrišete ostaju ondje gdje ste ih poslali, bez vašeg imena ili profila.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Izbriši i moje poruke';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Zajedno s vašim računom briše svaku poruku koju ste poslali u izravnim porukama, grupnim izravnim porukama i zajednicama.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Ako želite zadržati kopiju svojih podataka, najprije zatražite izvoz na stranici $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Izbriši za 14 dana';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Brisanje možete otkazati tako da se prijavite tijekom tih 14 dana.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Zakaži brisanje';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Vaš se račun briše nakon razdoblja čekanja ove instance. Ako se prijavite prije toga, brisanje se otkazuje.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Izbriši odmah';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Izbrisati račun odmah?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Vaš se račun odmah briše i ne može se vratiti.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Vašu pretplatu na Plutonium naplaćuje Apple. Brisanje računa ne otkazuje pretplatu, stoga je najprije otkažite u App Storeu.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Vašu pretplatu na Plutonium naplaćuje Google Play. Brisanje računa ne otkazuje pretplatu, stoga je najprije otkažite na Google Playu.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Onemogućavanje vašeg računa odjavit će vas sa svih sesija. Račun možete ponovno omogućiti u bilo kojem trenutku ponovnom prijavom.';
 
@@ -2671,50 +2782,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Izbriši račun';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Trajno izbrišite svoj račun i sve povezane podatke. Ova se radnja ne može poništiti.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Nije moguće izbrisati račun';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Ne možete izbrisati svoj račun dok ste vlasnik zajednica. Prvo prenesite vlasništvo nad sljedećim zajednicama:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Vlasnik ste ovih zajednica. Prije brisanja računa izbrišite svaku od njih ili je predajte drugom članu.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'i još $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Za prijenos vlasništva, idite na $settingsPath i upotrijebite opciju prijenosa vlasništva.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Jeste li sigurni da želite izbrisati svoj račun? Ovom radnjom vaš će račun biti zakazan za trajno brisanje.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Brisanje možete otkazati u roku od 14 dana';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Nakon 14 dana vaš će račun biti trajno izbrisan';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Nakon obrade brisanja nećete moći vratiti pristup svom računu';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Nećete moći izbrisati poslane poruke nakon što izbrišete račun';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Ako želite izvesti svoje podatke ili izbrisati svoje poruke, molimo posjetite odjeljak Nadzorna ploča za privatnost u Korisničkim postavkama prije nastavka.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Dodirnite zajednicu kako biste otvorili njezine postavke. „Izbriši zajednicu“ nalazi se na dnu. Da biste je predali, otvorite „Članovi“, dodirnite člana, dodirnite tri točke na njegovu profilu i odaberite „Prijenos vlasništva“.';
 
   @override
   String get claimAccountTitle => 'Preuzmite svoj račun';
@@ -2738,9 +2815,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Račun uspješno preuzet';
-
-  @override
-  String get importantInformation => 'Važne informacije:';
 
   @override
   String get genericError => 'Dogodila se pogreška';
@@ -11612,6 +11686,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain koristi noviju verziju Fluxera od ove aplikacije. Ažurirajte aplikaciju pa pokušajte ponovno.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain ne koristi sigurnu vezu (https). Fluxer se putem http povezuje samo s instancama u vašoj lokalnoj mreži.';
   }
 
   @override

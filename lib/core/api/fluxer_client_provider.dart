@@ -13,12 +13,18 @@ import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/sudo_dialog.dart';
 import 'package:fluxer_app/core/api/sudo_interceptor.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_dio.dart';
 import 'package:fluxer_app/core/observability/measure_http_policy.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/data/auth_repository.dart';
+import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -119,6 +125,9 @@ Dio _buildFluxerDio({
             : declaredAgeGateNavigatorKey,
         dio: dio,
         challenge: challenge,
+        passkeysSupported: passkeysSupportedFor(instanceSnapshot.apiBaseUrl),
+        reauthenticateWithSso: () => _reauthenticateWithSso(container),
+        ssoProviderName: instanceSnapshot.ssoConfig?.displayName,
       ),
     ),
   );
@@ -136,6 +145,40 @@ Dio _buildFluxerDio({
     );
   }
   return dio;
+}
+
+Future<bool?> _reauthenticateWithSso(ProviderContainer container) async {
+  final AuthRepository repository = container.read(authRepositoryProvider);
+  try {
+    final SsoStartResponse start = await repository.startSso(
+      redirectUri: 'fluxer://auth/sso/callback',
+    );
+    final Uri callback = await container
+        .read(ssoAuthServiceProvider)
+        .authenticate(authorizationUrl: start.authorizationUrl);
+    final String? code = callback.queryParameters['code'];
+    final String? state = callback.queryParameters['state'];
+    if (code == null || code.isEmpty || state == null || state.isEmpty) {
+      return null;
+    }
+    final ({String token, String userId})? session = await repository
+        .completeSsoReauth(code: code, state: state);
+    if (session == null) {
+      return null;
+    }
+    if (session.userId != container.read(currentUserIdProvider)) {
+      return false;
+    }
+    container.read(gatewayConnectionProvider).setToken(session.token);
+    container.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
+    await repository.persistRotatedToken(session.token);
+    return true;
+  } on SsoAuthCancelledException {
+    return null;
+  } on Exception catch (error) {
+    talker.warning('[Sudo] SSO re-authentication failed: $error');
+    return null;
+  }
 }
 
 @Riverpod(keepAlive: true)

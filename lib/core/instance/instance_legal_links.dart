@@ -1,11 +1,14 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
 class InstanceLegalLinks extends ConsumerWidget {
   const InstanceLegalLinks({
@@ -21,17 +24,15 @@ class InstanceLegalLinks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? termsUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.termsUrl),
+    final InstanceConfigSnapshot instance = ref.watch(
+      refreshedActiveInstanceProvider,
     );
-    final String? privacyUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.privacyUrl),
-    );
+    final String? termsUrl = instance.termsUrl;
+    final String? privacyUrl = instance.privacyUrl;
     if (termsUrl == null && privacyUrl == null) {
       return const SizedBox.shrink();
     }
 
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted =
         baseStyle ??
         context.textStyles.timestamp.copyWith(
@@ -40,18 +41,11 @@ class InstanceLegalLinks extends ConsumerWidget {
     final TextStyle links =
         linkStyle ?? muted.copyWith(color: context.colors.textLink);
 
-    return Text.rich(
-      TextSpan(
-        style: muted,
-        children: _legalLinkSpans(
-          l10n: l10n,
-          termsUrl: termsUrl,
-          privacyUrl: privacyUrl,
-          linkStyle: links,
-          termsLabel: l10n.premiumTermsOfService,
-          privacyLabel: l10n.premiumPrivacyPolicy,
-        ),
-      ),
+    return _LegalLinksText(
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
+      baseStyle: muted,
+      linkStyle: links,
       textAlign: textAlign,
     );
   }
@@ -78,7 +72,9 @@ class InstanceLegalAgreementText extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final InstanceConfigSnapshot instance = ref.watch(
-      forSignIn ? authInstanceSnapshotProvider : activeInstanceProvider,
+      forSignIn
+          ? authInstanceLegalSnapshotProvider
+          : refreshedActiveInstanceProvider,
     );
     final String? termsUrl = instance.termsUrl;
     final String? privacyUrl = instance.privacyUrl;
@@ -86,7 +82,6 @@ class InstanceLegalAgreementText extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted =
         baseStyle ??
         context.textStyles.timestamp.copyWith(
@@ -97,23 +92,14 @@ class InstanceLegalAgreementText extends ConsumerWidget {
     final TextStyle links =
         linkStyle ?? muted.copyWith(color: context.colors.textLink);
 
-    final Widget text = Text.rich(
-      TextSpan(
-        style: muted,
-        children: [
-          TextSpan(text: prefix),
-          ..._legalLinkSpans(
-            l10n: l10n,
-            termsUrl: termsUrl,
-            privacyUrl: privacyUrl,
-            linkStyle: links,
-            termsLabel: l10n.premiumTermsOfService,
-            privacyLabel: l10n.premiumPrivacyPolicy,
-          ),
-          const TextSpan(text: '.'),
-        ],
-      ),
+    final Widget text = _LegalLinksText(
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
+      baseStyle: muted,
+      linkStyle: links,
       textAlign: textAlign,
+      prefix: prefix,
+      suffix: '.',
     );
     return padding == EdgeInsets.zero
         ? text
@@ -121,40 +107,78 @@ class InstanceLegalAgreementText extends ConsumerWidget {
   }
 }
 
-List<InlineSpan> _legalLinkSpans({
-  required FluxerLocalizations l10n,
-  required String? termsUrl,
-  required String? privacyUrl,
-  required TextStyle linkStyle,
-  required String termsLabel,
-  required String privacyLabel,
-}) {
-  return [
-    if (termsUrl != null)
-      WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
-        child: MediaQuery.withNoTextScaling(
-          child: FluxerTextLink(
-            text: termsLabel,
-            url: termsUrl,
-            style: linkStyle,
-          ),
-        ),
+class _LegalLinksText extends StatefulWidget {
+  const _LegalLinksText({
+    required this.termsUrl,
+    required this.privacyUrl,
+    required this.baseStyle,
+    required this.linkStyle,
+    required this.textAlign,
+    this.prefix = '',
+    this.suffix = '',
+  });
+
+  final String? termsUrl;
+  final String? privacyUrl;
+  final TextStyle baseStyle;
+  final TextStyle linkStyle;
+  final TextAlign textAlign;
+  final String prefix;
+  final String suffix;
+
+  @override
+  State<_LegalLinksText> createState() => _LegalLinksTextState();
+}
+
+class _LegalLinksTextState extends State<_LegalLinksText> {
+  late final TapGestureRecognizer _termsRecognizer = TapGestureRecognizer()
+    ..onTap = () => _open(widget.termsUrl);
+  late final TapGestureRecognizer _privacyRecognizer = TapGestureRecognizer()
+    ..onTap = () => _open(widget.privacyUrl);
+
+  void _open(String? url) {
+    if (url != null) {
+      unawaited(handleExternalLinkTap(context, url));
+    }
+  }
+
+  @override
+  void dispose() {
+    _termsRecognizer.dispose();
+    _privacyRecognizer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? termsUrl = widget.termsUrl;
+    final String? privacyUrl = widget.privacyUrl;
+    return Text.rich(
+      TextSpan(
+        style: widget.baseStyle,
+        children: [
+          if (widget.prefix.isNotEmpty) TextSpan(text: widget.prefix),
+          if (termsUrl != null)
+            TextSpan(
+              text: l10n.premiumTermsOfService,
+              style: widget.linkStyle,
+              recognizer: _termsRecognizer,
+              mouseCursor: SystemMouseCursors.click,
+            ),
+          if (termsUrl != null && privacyUrl != null)
+            TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
+          if (privacyUrl != null)
+            TextSpan(
+              text: l10n.premiumPrivacyPolicy,
+              style: widget.linkStyle,
+              recognizer: _privacyRecognizer,
+              mouseCursor: SystemMouseCursors.click,
+            ),
+          if (widget.suffix.isNotEmpty) TextSpan(text: widget.suffix),
+        ],
       ),
-    if (termsUrl != null && privacyUrl != null)
-      TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
-    if (privacyUrl != null)
-      WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
-        child: MediaQuery.withNoTextScaling(
-          child: FluxerTextLink(
-            text: privacyLabel,
-            url: privacyUrl,
-            style: linkStyle,
-          ),
-        ),
-      ),
-  ];
+      textAlign: widget.textAlign,
+    );
+  }
 }

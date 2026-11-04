@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/sudo_interceptor.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/recovery_kit/domain/recovery_kit.dart';
@@ -18,14 +18,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
-
-bool isSudoCancellation(Object error) {
-  if (error is! DioException || error.response?.statusCode != 403) {
-    return false;
-  }
-  final Object? data = error.response?.data;
-  return data is Map && data['code'] == 'SUDO_MODE_REQUIRED';
-}
 
 class RecoveryKitSettingsSubsection extends ConsumerStatefulWidget {
   const RecoveryKitSettingsSubsection({super.key});

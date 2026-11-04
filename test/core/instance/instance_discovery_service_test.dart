@@ -215,6 +215,39 @@ void main() {
       expect(snapshot.displayDomain, InstanceConstants.defaultInstanceInputUrl);
     });
 
+    test('rejects http for public hosts when the flag is on', () async {
+      final _CountingAdapter adapter = _CountingAdapter();
+      final InstanceDiscoveryService service = InstanceDiscoveryService(
+        dio: Dio()..httpClientAdapter = adapter,
+        rejectPublicCleartext: true,
+      );
+
+      await expectLater(
+        service.connectToEndpoint('http://chat.example.com'),
+        throwsA(
+          predicate<InstanceDiscoveryException>(
+            (InstanceDiscoveryException error) =>
+                error.reason ==
+                InstanceDiscoveryFailureReason.insecureConnection,
+          ),
+        ),
+      );
+      expect(adapter.requests, 0);
+    });
+
+    test('allows http for public hosts when the flag is off', () async {
+      final InstanceDiscoveryService service = InstanceDiscoveryService(
+        dio: buildDio(responseJson: buildDiscovery()),
+        rejectPublicCleartext: false,
+      );
+
+      final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
+        'http://chat.example.com',
+      );
+
+      expect(snapshot.apiBaseUrl, 'https://chat.example.com/v1');
+    });
+
     test(
       'connectToEndpoint resolves official api_public from well-known',
       () async {
@@ -347,6 +380,23 @@ class _DiscoveryAdapter implements HttpClientAdapter {
         },
       ),
     );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _CountingAdapter implements HttpClientAdapter {
+  int requests = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requests++;
+    return ResponseBody.fromString('{}', 404);
   }
 
   @override

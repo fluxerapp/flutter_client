@@ -93,12 +93,33 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get gatewayConnectedToast => 'कनेक्ट हो गया';
 
   @override
+  String get gatewayOfflineToast =>
+      'आप ऑफ़लाइन हैं। आपके फिर से ऑनलाइन आने पर Fluxer अपने आप कनेक्ट हो जाएगा।';
+
+  @override
   String get sessionExpiredToast =>
       'आपका सत्र समाप्त हो गया है। कृपया पुनः साइन इन करें।';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'आपका अकाउंट $date को मिटा दिया जाएगा। उससे पहले साइन इन करने पर मिटाना रद्द हो जाता है।';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'आपका अकाउंट मिटाने के लिए शेड्यूल किया गया है। मिटाने की तारीख से पहले साइन इन करने पर यह रद्द हो जाता है।';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'हम अभी आपका अकाउंट मिटा रहे हैं। अगर आपके अकाउंट में ईमेल पता है, तो काम पूरा होने पर हम आपको ईमेल करेंगे।';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'हम अभी आपका अकाउंट मिटा रहे हैं।';
+
+  @override
+  String get accountDisabledNotice =>
+      'आपका अकाउंट डिसेबल है। जब भी आप इसका इस्तेमाल करना चाहें, फिर से साइन इन करें।';
 
   @override
   String splashStartupFailed(String error) {
@@ -151,6 +172,17 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'नमस्ते $displayName, कृपया अपना ईमेल पता वेरिफ़ाई करें।';
   }
+
+  @override
+  String get verificationResendEmail => 'ईमेल फिर से भेजें';
+
+  @override
+  String get verificationEmailSent =>
+      'वेरिफ़िकेशन ईमेल भेजा गया है। अपना इनबॉक्स देखें।';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'आपने बहुत ज़्यादा वेरिफ़िकेशन ईमेल का अनुरोध किया है। कृपया कुछ देर इंतज़ार करें और फिर से कोशिश करें।';
 
   @override
   String get nagbarOpenSettings => 'सेटिंग्स खोलें';
@@ -385,6 +417,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'कोई और तरीका आज़माएँ';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'इस इंस्टेंस की पासकी इस ऐप में काम नहीं करतीं, और आपके अकाउंट में वेरिफ़िकेशन का कोई दूसरा तरीका नहीं है। इसके बजाय वेब पर साइन इन करें।';
+
+  @override
   String get mfaUseSecurityKey => 'इसके बजाय सुरक्षा कुंजी/पासकी आज़माएँ';
 
   @override
@@ -521,78 +557,68 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get signOut => 'साइन आउट करें';
 
   @override
-  String get suspendedPermanentTitle => 'खाता स्थायी रूप से निलंबित';
-
-  @override
   String get suspendedTemporaryTitle => 'खाता निलंबित';
 
   @override
-  String get suspendedPermanentDescription =>
-      'आपके खाते को हमारी सेवा की शर्तों का उल्लंघन करने के कारण स्थायी रूप से निलंबित कर दिया गया है।';
+  String get suspendedBannedTitle => 'अकाउंट बैन किया गया';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'आपका खाता अस्थायी रूप से निलंबित कर दिया गया है। निलंबन अवधि समाप्त होने के बाद आप अपने खाते तक पहुँचने में सक्षम होंगे।';
+  String get suspendedClosedTitle => 'अकाउंट बंद किया गया';
 
   @override
-  String get suspendedIssuedAt => 'जारी';
+  String get suspendedWhatHappened => 'क्या हुआ';
 
   @override
-  String get suspendedEndsAt => 'समाप्त';
+  String get suspendedWhy => 'वजह';
 
   @override
-  String get suspendedDuration => 'अवधि';
+  String get suspendedHowWeDecided => 'हमने फैसला कैसे लिया';
 
   @override
-  String get suspendedPermanent => 'स्थायी';
+  String get suspendedHowToAppeal => 'अपील कैसे करें';
 
   @override
-  String get suspendedReason => 'वजह';
-
-  @override
-  String get suspendedAppealDeadline => 'अपील की समय सीमा';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'आपका खाता $date को हटाने के लिए निर्धारित है।';
+  String suspendedNoteFromTeam(String statement) {
+    return 'हमारी टीम का नोट: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'अपडेट देखें';
+  String suspendedDecisionId(String decisionId) {
+    return 'फैसला ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '$seconds सेकंड में फिर से जांचें';
+  String suspendedRule(String title) {
+    return 'नियम: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'अगर आपको लगता है कि हमसे गलती हुई है, तो $email पर ईमेल करें और अपना यूज़रनेम शामिल करें।';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'अगर आपको लगता है कि हमसे गलती हुई है, तो $deadline तक $email पर ईमेल करें। फैसला ID और अपना यूज़रनेम शामिल करें। अपील मुफ़्त है, और हर अपील की समीक्षा एक व्यक्ति करता है।';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'अगर आपको लगता है कि हमसे गलती हुई है, तो $deadline तक $email पर ईमेल करें। हो सके तो अपने अकाउंट वाले ईमेल पते से लिखें, और फैसला ID शामिल करें। अपील मुफ़्त है, और हर अपील की समीक्षा एक व्यक्ति करता है।';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'हमसे अपना अकाउंट और डेटा मिटाने के लिए कहने के लिए, अपने अकाउंट वाले पते से $email पर ईमेल करें।';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'हमसे अपना अकाउंट और डेटा मिटाने के लिए कहने के लिए, $email पर ईमेल करें और अपना यूज़रनेम शामिल करें।';
   }
 
   @override
   String get suspendedBackToLogin => 'लॉगिन पर वापस जाएं';
-
-  @override
-  String get suspendedAppealTitle => 'अपील';
-
-  @override
-  String get suspendedAppealHint =>
-      'अपने निलंबन पर पुनर्विचार करने के कारण बताएं (न्यूनतम 50 अक्षर)…';
-
-  @override
-  String get suspendedAppealSubmit => 'अपील सबमिट करें';
-
-  @override
-  String get suspendedAppealPending => 'समीक्षा के लिए लंबित';
-
-  @override
-  String get suspendedAppealAccepted => 'अपील स्वीकार की गई';
-
-  @override
-  String get suspendedAppealRejected => 'अपील अस्वीकृत';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'आपकी अपील स्वीकार कर ली गई है और आपका खाता बहाल कर दिया गया है।';
-
-  @override
-  String get suspendedSignIn => 'अपने खाते में साइन इन करें';
 
   @override
   String get forgotPasswordTitle => 'पासवर्ड भूल गए?';
@@ -2308,6 +2334,39 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get sudoWrongPassword => 'यह पासवर्ड गलत है। फिर से कोशिश करें।';
 
   @override
+  String get sudoEmailCodeSend => 'मुझे एक कोड ईमेल करें';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'हमने आपके ईमेल पते पर 6 अंकों का कोड भेजा है।';
+
+  @override
+  String get sudoEmailCodeLabel => 'ईमेल में आया कोड';
+
+  @override
+  String get sudoEmailCodeResend => 'नया कोड भेजें';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'यह पक्का करने के लिए कि यह आप ही हैं, फिर से साइन इन करें।';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'फिर से साइन इन करें';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '$provider से साइन इन करें';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'आपने किसी दूसरे खाते में साइन इन किया। उसी खाते से साइन इन करें जिसका आप यहाँ उपयोग कर रहे हैं।';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'इस इंस्टेंस की पासकी इस ऐप में काम नहीं करतीं। अपना ऑथेंटिकेटर ऐप या बैकअप कोड इस्तेमाल करें, या वेब पर पुष्टि करें।';
+
+  @override
   String get securityAccountTitle => 'अकाउंट';
 
   @override
@@ -2656,6 +2715,58 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'अपना अकाउंट कुछ समय के लिए बंद करें। आप बाद में फिर से साइन इन करके इसे चालू कर सकते हैं।';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'अपना अकाउंट और निजी डेटा मिटाएँ। आप अपने मैसेज भी मिटा सकते हैं।';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'आपका अकाउंट, प्रोफ़ाइल और निजी डेटा मिटा दिया जाता है। जो मैसेज आप नहीं मिटाते, वे जहाँ भेजे गए थे वहीं रहते हैं, लेकिन आपके नाम या प्रोफ़ाइल के बिना।';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'मेरे मैसेज भी मिटाएँ';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'आपके अकाउंट के साथ, DM, ग्रुप DM और कम्युनिटी में आपके भेजे गए हर मैसेज को मिटा देता है।';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'अपने डेटा की कॉपी रखने के लिए, पहले $privacyDashboard में एक्सपोर्ट का अनुरोध करें।';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 दिनों में मिटाएँ';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'आप इन 14 दिनों के दौरान साइन इन करके इसे रद्द कर सकते हैं।';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'मिटाना शेड्यूल करें';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'इस इंस्टेंस की इंतज़ार अवधि के बाद आपका अकाउंट मिटा दिया जाता है। उससे पहले साइन इन करने पर यह रद्द हो जाता है।';
+
+  @override
+  String get dangerZoneDeleteNow => 'अभी मिटाएँ';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'अपना अकाउंट अभी मिटाएँ?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'आपका अकाउंट तुरंत मिटा दिया जाता है और इसे वापस नहीं पाया जा सकता।';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'आपकी Plutonium सदस्यता का बिल Apple देता है। अकाउंट मिटाने से यह रद्द नहीं होती, इसलिए पहले इसे App Store में रद्द करें।';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'आपकी Plutonium सदस्यता का बिल Google Play देता है। अकाउंट मिटाने से यह रद्द नहीं होती, इसलिए पहले इसे Google Play में रद्द करें।';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'आपका अकाउंट डिसेबल करने पर आपको सभी सेशन से लॉग आउट कर दिया जाएगा। आप कभी भी दोबारा लॉग इन करके अपना अकाउंट फिर से इनेबल कर सकते हैं।';
 
@@ -2663,50 +2774,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'अकाउंट मिटाएँ';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'अपना अकाउंट और उससे जुड़ा सारा डेटा हमेशा के लिए मिटा दें। इस कार्रवाई को पहले जैसा नहीं किया जा सकता।';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'अकाउंट नहीं मिटाया जा सकता';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'जब तक आप किसी कम्युनिटी के मालिक हैं, तब तक आप अपना अकाउंट नहीं मिटा सकते। पहले इन कम्युनिटी का स्वामित्व ट्रांसफ़र करें:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'आप इन कम्युनिटी के मालिक हैं। अपना अकाउंट मिटाने से पहले, हर एक को मिटाएँ या किसी दूसरे सदस्य को सौंप दें।';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'और $count अधिक';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'स्वामित्व हस्तांतरित करने के लिए, $settingsPath पर जाएं और स्वामित्व हस्तांतरित करें विकल्प का उपयोग करें।';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'क्या आप वाकई अपना अकाउंट मिटाना चाहते हैं? इस कार्रवाई से आपका अकाउंट हमेशा के लिए मिटाने के लिए शेड्यूल हो जाएगा।';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'आप 14 दिनों के अंदर डिलीट करने की प्रक्रिया को रद्द कर सकते हैं';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      '14 दिनों के बाद, आपका अकाउंट हमेशा के लिए मिटा दिया जाएगा';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'एक बार डिलीट होने के बाद, आप अपने अकाउंट का एक्सेस वापस नहीं पा सकेंगे';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'आपका अकाउंट डिलीट होने के बाद आप अपने भेजे गए मैसेज डिलीट नहीं कर पाएँगे';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'अगर आप अपना डेटा एक्सपोर्ट करना चाहते हैं या पहले अपने मैसेज डिलीट करना चाहते हैं, तो आगे बढ़ने से पहले कृपया यूज़र सेटिंग्स में प्राइवेसी डैशबोर्ड सेक्शन पर जाएं।';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'किसी कम्युनिटी की सेटिंग्स खोलने के लिए उस पर टैप करें। \"कम्युनिटी मिटाएँ\" सबसे नीचे है। इसे किसी और को देने के लिए, \"सदस्य\" खोलें, किसी सदस्य पर टैप करें, उसकी प्रोफ़ाइल पर तीन बिंदुओं पर टैप करें और \"स्वामित्व ट्रांसफ़र करें\" चुनें।';
 
   @override
   String get claimAccountTitle => 'अपना अकाउंट क्लेम करें';
@@ -2730,9 +2807,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'अकाउंट सफलतापूर्वक क्लेम किया गया';
-
-  @override
-  String get importantInformation => 'ज़रूरी जानकारी:';
 
   @override
   String get genericError => 'एक त्रुटि हुई';
@@ -11553,6 +11627,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain पर Fluxer का ऐसा वर्शन चलता है जो इस ऐप से नया है। ऐप अपडेट करें और फिर से कोशिश करें।';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain सुरक्षित कनेक्शन (https) का इस्तेमाल नहीं करता। Fluxer, http पर सिर्फ़ आपके लोकल नेटवर्क के इंस्टेंस से कनेक्ट होता है।';
   }
 
   @override

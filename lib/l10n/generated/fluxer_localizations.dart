@@ -251,17 +251,47 @@ abstract class FluxerLocalizations {
   /// **'Connected'**
   String get gatewayConnectedToast;
 
+  /// Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Fluxer reconnects when you\'re back online.'**
+  String get gatewayOfflineToast;
+
   /// Toast shown when the stored session is rejected by the server and the user is signed out to the login screen.
   ///
   /// In en, this message translates to:
   /// **'Your session has expired. Please sign in again.'**
   String get sessionExpiredToast;
 
+  /// Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted on {date}. Signing in before then cancels the deletion.'**
+  String accountDeletionScheduledNotice(String date);
+
+  /// Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is scheduled for deletion. Signing in before the deletion date cancels it.'**
+  String get accountDeletionScheduledNoticeNoDate;
+
+  /// Notice on the sign-in screen after the person chose "Delete now" for their account.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re deleting your account now. If your account has an email address, we\'ll email you when it\'s done.'**
+  String get accountDeletionImmediateNotice;
+
   /// Notice on the sign-in screen after the person chose "Delete now" for their account, on an instance that does not send email.
   ///
   /// In en, this message translates to:
   /// **'We\'re deleting your account now.'**
   String get accountDeletionImmediateNoticeNoEmail;
+
+  /// Notice on the sign-in screen after the person disabled their account.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is disabled. Sign in again whenever you want to use it.'**
+  String get accountDisabledNotice;
 
   /// Error message on the splash screen when app startup fails.
   ///
@@ -346,6 +376,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Hey {displayName}, please verify your email address.'**
   String nagbarEmailVerificationMessage(String displayName);
+
+  /// Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and "Security & login".
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get verificationResendEmail;
+
+  /// Toast after the verification email was sent again.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent. Check your inbox.'**
+  String get verificationEmailSent;
+
+  /// Toast when the verification email was resent too often.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve requested too many verification emails. Please wait a moment and try again.'**
+  String get verificationEmailRateLimited;
 
   /// Nagbar CTA that opens user settings.
   ///
@@ -716,6 +764,12 @@ abstract class FluxerLocalizations {
   /// **'Try another method'**
   String get mfaTryAnotherMethod;
 
+  /// Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method.
+  ///
+  /// In en, this message translates to:
+  /// **'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in on the web instead.'**
+  String get mfaPasskeyUnavailable;
+
   /// Link to switch to WebAuthn from code entry.
   ///
   /// In en, this message translates to:
@@ -974,137 +1028,101 @@ abstract class FluxerLocalizations {
   /// **'Sign out'**
   String get signOut;
 
-  /// Title when account is permanently banned.
-  ///
-  /// In en, this message translates to:
-  /// **'Account permanently suspended'**
-  String get suspendedPermanentTitle;
-
   /// Title when account is temporarily suspended.
   ///
   /// In en, this message translates to:
   /// **'Account suspended'**
   String get suspendedTemporaryTitle;
 
-  /// Description for permanent suspension.
+  /// Title of the sign-in screen for an account suspended with no end date.
   ///
   /// In en, this message translates to:
-  /// **'Your account has been permanently suspended for violating our terms of service.'**
-  String get suspendedPermanentDescription;
+  /// **'Account banned'**
+  String get suspendedBannedTitle;
 
-  /// Description for temporary suspension.
+  /// Title of the sign-in screen for an account that is closed and will be deleted.
   ///
   /// In en, this message translates to:
-  /// **'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.'**
-  String get suspendedTemporaryDescription;
+  /// **'Account closed'**
+  String get suspendedClosedTitle;
 
-  /// Label for when the ban was issued.
+  /// Heading on the account restriction screen above what the team did and what it means.
   ///
   /// In en, this message translates to:
-  /// **'Issued'**
-  String get suspendedIssuedAt;
+  /// **'What happened'**
+  String get suspendedWhatHappened;
 
-  /// Label for when a temporary ban ends.
+  /// Heading on the account restriction screen above the rule that was broken and the findings.
   ///
   /// In en, this message translates to:
-  /// **'Ends'**
-  String get suspendedEndsAt;
+  /// **'Why'**
+  String get suspendedWhy;
 
-  /// Label for ban duration.
+  /// Heading on the account restriction screen above how the case came to the team and who decided it.
   ///
   /// In en, this message translates to:
-  /// **'Duration'**
-  String get suspendedDuration;
+  /// **'How we decided'**
+  String get suspendedHowWeDecided;
 
-  /// Value shown for permanent ban duration.
+  /// Heading on the account restriction screen above the appeal instructions.
   ///
   /// In en, this message translates to:
-  /// **'Permanent'**
-  String get suspendedPermanent;
+  /// **'How to appeal'**
+  String get suspendedHowToAppeal;
 
-  /// Label for ban reason.
+  /// Line on the account restriction screen with a note the team wrote to the account holder.
   ///
   /// In en, this message translates to:
-  /// **'Reason'**
-  String get suspendedReason;
+  /// **'Note from our team: {statement}'**
+  String suspendedNoteFromTeam(String statement);
 
-  /// Label for appeal deadline date.
+  /// Reference line on the account restriction screen. People quote this ID when they appeal.
   ///
   /// In en, this message translates to:
-  /// **'Appeal deadline'**
-  String get suspendedAppealDeadline;
+  /// **'Decision ID: {decisionId}'**
+  String suspendedDecisionId(String decisionId);
 
-  /// Warning about scheduled account deletion.
+  /// Shows the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.
   ///
   /// In en, this message translates to:
-  /// **'Your account is scheduled for deletion on {date}.'**
-  String suspendedDeletionWarning(String date);
+  /// **'Rule: {title}'**
+  String suspendedRule(String title);
 
-  /// Button to recheck ban status.
+  /// Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.
   ///
   /// In en, this message translates to:
-  /// **'Check for updates'**
-  String get suspendedRecheck;
+  /// **'If you think we got this wrong, email {email} and include your username.'**
+  String suspendedAppealNoDeadline(String email);
 
-  /// Recheck button with cooldown timer.
+  /// Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.
   ///
   /// In en, this message translates to:
-  /// **'Check again in {seconds}s'**
-  String suspendedRecheckCooldown(int seconds);
+  /// **'If you think we got this wrong, email {email} by {deadline}. Include the decision ID and your username. Appeals are free, and a person reviews each one.'**
+  String suspendedAppealNoEmail(String email, String deadline);
+
+  /// Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.
+  ///
+  /// In en, this message translates to:
+  /// **'If you think we got this wrong, email {email} by {deadline}. Write from the email address on your account if you can, and include the decision ID. Appeals are free, and a person reviews each one.'**
+  String suspendedAppealWithEmail(String email, String deadline);
+
+  /// Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To ask us to delete your account and data, email {email} from the address on your account.'**
+  String suspendedDeletionRequest(String email);
+
+  /// Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To ask us to delete your account and data, email {email} and include your username.'**
+  String suspendedDeletionRequestNoEmail(String email);
 
   /// Button to return to login screen.
   ///
   /// In en, this message translates to:
   /// **'Back to login'**
   String get suspendedBackToLogin;
-
-  /// Title for the appeal section.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal'**
-  String get suspendedAppealTitle;
-
-  /// Placeholder text for the appeal textarea.
-  ///
-  /// In en, this message translates to:
-  /// **'Explain why your suspension should be reconsidered (minimum 50 characters)...'**
-  String get suspendedAppealHint;
-
-  /// Button to submit an appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Submit appeal'**
-  String get suspendedAppealSubmit;
-
-  /// Badge for appeal with pending status.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending review'**
-  String get suspendedAppealPending;
-
-  /// Badge for accepted appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal accepted'**
-  String get suspendedAppealAccepted;
-
-  /// Badge for rejected appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal rejected'**
-  String get suspendedAppealRejected;
-
-  /// Message when appeal is accepted.
-  ///
-  /// In en, this message translates to:
-  /// **'Your appeal has been accepted and your account has been reinstated.'**
-  String get suspendedAppealAcceptedDescription;
-
-  /// Button to sign in after appeal is accepted.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to your account'**
-  String get suspendedSignIn;
 
   /// Title for the forgot password screen.
   ///
@@ -3992,6 +4010,60 @@ abstract class FluxerLocalizations {
   /// **'That password is wrong. Try again.'**
   String get sudoWrongPassword;
 
+  /// Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address.
+  ///
+  /// In en, this message translates to:
+  /// **'Email me a code'**
+  String get sudoEmailCodeSend;
+
+  /// Shown in the identity check sheet after the code was sent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to your email address.'**
+  String get sudoEmailCodeSent;
+
+  /// Label of the code field in the identity check sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Code from the email'**
+  String get sudoEmailCodeLabel;
+
+  /// Link in the identity check sheet that sends another email code.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code'**
+  String get sudoEmailCodeResend;
+
+  /// Text in the identity check sheet for accounts that sign in with the instance's single sign-on.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to confirm it\'s you.'**
+  String get sudoSsoReauthHint;
+
+  /// Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get sudoSsoReauthButtonGeneric;
+
+  /// Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with {provider}'**
+  String sudoSsoReauthButton(String provider);
+
+  /// Error in the identity check sheet when the single sign-on returned another account.
+  ///
+  /// In en, this message translates to:
+  /// **'You signed in to a different account. Sign in with the account you\'re using here.'**
+  String get sudoSsoReauthWrongAccount;
+
+  /// Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Passkeys from this instance don\'t work in this app. Use your authenticator app or a backup code, or confirm on the web.'**
+  String get sudoPasskeyUnavailable;
+
   /// Top-level Account section heading in Security & Login settings.
   ///
   /// In en, this message translates to:
@@ -4592,6 +4664,90 @@ abstract class FluxerLocalizations {
   /// **'Temporarily disable your account. You can reactivate it later by signing back in.'**
   String get dangerZoneDisableDescription;
 
+  /// Description of the "Delete account" row in "Security & login" and in settings search.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account and personal data. You can delete your messages too.'**
+  String get dangerZoneDeleteEntryDescription;
+
+  /// First paragraph of the delete account sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account, profile and personal data are deleted. Messages you don\'t delete stay where you sent them, without your name or profile.'**
+  String get dangerZoneDeleteIntro;
+
+  /// Switch label in the delete account sheet. Off by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Also delete my messages'**
+  String get dangerZoneDeleteMessagesLabel;
+
+  /// Hint under the "Also delete my messages" switch in the delete account sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes every message you sent in DMs, group DMs and communities, together with your account.'**
+  String get dangerZoneDeleteMessagesHint;
+
+  /// Line in the delete account sheet. privacyDashboard is the "Privacy dashboard" settings page name, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep a copy of your data, request an export in the {privacyDashboard} first.'**
+  String dangerZoneDeleteExportHint(String privacyDashboard);
+
+  /// Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete in 14 days'**
+  String get dangerZoneDeleteLater;
+
+  /// Line in the delete account sheet on the official instance, about the 14-day grace period.
+  ///
+  /// In en, this message translates to:
+  /// **'You can cancel by signing in during the 14 days.'**
+  String get dangerZoneDeleteLaterHint;
+
+  /// Button in the delete account sheet on self-hosted instances, whose grace period the app does not know.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule deletion'**
+  String get dangerZoneDeleteSchedule;
+
+  /// Line in the delete account sheet on self-hosted instances.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is deleted after this instance\'s waiting period. Signing in before then cancels it.'**
+  String get dangerZoneDeleteScheduleHint;
+
+  /// Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete now'**
+  String get dangerZoneDeleteNow;
+
+  /// Title of the confirmation sheet after tapping "Delete now".
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account now?'**
+  String get dangerZoneDeleteNowConfirmTitle;
+
+  /// Body of the confirmation sheet after tapping "Delete now".
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is deleted right away and can\'t be recovered.'**
+  String get dangerZoneDeleteNowConfirmBody;
+
+  /// Notice in the delete account sheet when the Plutonium subscription was bought in the App Store.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription is billed by Apple. Deleting your account doesn\'t cancel it, so cancel it in the App Store first.'**
+  String get dangerZoneDeleteAppStoreBilling;
+
+  /// Notice in the delete account sheet when the Plutonium subscription was bought in Google Play.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription is billed by Google Play. Deleting your account doesn\'t cancel it, so cancel it in Google Play first.'**
+  String get dangerZoneDeleteGooglePlayBilling;
+
   /// Confirmation description for account disable.
   ///
   /// In en, this message translates to:
@@ -4604,71 +4760,23 @@ abstract class FluxerLocalizations {
   /// **'Delete account'**
   String get dangerZoneDeleteTitle;
 
-  /// Description for account delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Permanently delete your account and all associated data. This action cannot be undone.'**
-  String get dangerZoneDeleteDescription;
-
   /// Title for the guild ownership warning modal when trying to delete account.
   ///
   /// In en, this message translates to:
   /// **'Cannot delete account'**
   String get dangerZoneDeleteCannotDeleteAccount;
 
-  /// Warning message shown when user owns communities and tries to delete account.
+  /// Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account.
   ///
   /// In en, this message translates to:
-  /// **'You cannot delete your account while you own communities. Transfer ownership of the following communities first:'**
-  String get dangerZoneDeleteOwnsCommunities;
+  /// **'You own these communities. Delete each one, or give it to another member, before you delete your account.'**
+  String get dangerZoneDeleteOwnsCommunitiesList;
 
-  /// Shown when user owns more than 3 communities.
+  /// Help under the list of owned communities. Quotes the "Delete community", "Members" and "Transfer ownership" labels exactly.
   ///
   /// In en, this message translates to:
-  /// **'and {count} more'**
-  String dangerZoneDeleteAndXMore(int count);
-
-  /// Instructions for transferring community ownership.
-  ///
-  /// In en, this message translates to:
-  /// **'To transfer ownership, go to {settingsPath} and use the transfer ownership option.'**
-  String dangerZoneDeleteTransferInstructions(String settingsPath);
-
-  /// Confirmation description for account delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.'**
-  String get dangerZoneDeleteConfirmDescription;
-
-  /// First bullet point in delete confirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'You can cancel the deletion process within 14 days'**
-  String get dangerZoneDeleteBullet1;
-
-  /// Second bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'After 14 days, your account will be permanently deleted'**
-  String get dangerZoneDeleteBullet2;
-
-  /// Third bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'Once deletion is processed, you cannot recover access to your account'**
-  String get dangerZoneDeleteBullet3;
-
-  /// Fourth bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'You will not be able to delete your sent messages after your account is deleted'**
-  String get dangerZoneDeleteBullet4;
-
-  /// Disclaimer about data export before deletion.
-  ///
-  /// In en, this message translates to:
-  /// **'If you want to export your data or delete your messages first, please visit the Privacy dashboard section in User settings before proceeding.'**
-  String get dangerZoneDeleteDisclaimer;
+  /// **'Tap a community to open its settings. \"Delete community\" is at the bottom. To give it away, open \"Members\", tap a member, tap the three dots on their profile and choose \"Transfer ownership\".'**
+  String get dangerZoneDeleteOwnedCommunitiesHelp;
 
   /// Title for claim account sheet.
   ///
@@ -4711,12 +4819,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Account claimed successfully'**
   String get claimAccountSuccess;
-
-  /// Header for important information section.
-  ///
-  /// In en, this message translates to:
-  /// **'Important information:'**
-  String get importantInformation;
 
   /// Generic fallback error message.
   ///
@@ -19102,6 +19204,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{domain} runs a newer version of Fluxer than this app. Update the app, then try again.'**
   String instanceRequiresNewerClient(String domain);
+
+  /// Error when adding an instance whose address uses http on the public internet. domain is the instance address.
+  ///
+  /// In en, this message translates to:
+  /// **'{domain} doesn\'t use a secure connection (https). Fluxer connects over http only to instances on your local network.'**
+  String instanceInsecureConnection(String domain);
 
   /// Title on the full-screen instance compatibility blocker.
   ///

@@ -96,12 +96,33 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Conectat';
 
   @override
+  String get gatewayOfflineToast =>
+      'Ești offline. Fluxer se reconectează când revii online.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesiunea ta a expirat. Te rugăm să te autentifici din nou.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Contul tău va fi șters pe $date. Dacă te autentifici înainte de această dată, ștergerea se anulează.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Contul tău este programat pentru ștergere. Dacă te autentifici înainte de data ștergerii, aceasta se anulează.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Îți ștergem contul acum. Dacă ai o adresă de e-mail în cont, îți trimitem un e-mail când ștergerea este gata.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Îți ștergem contul acum.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Contul tău este dezactivat. Autentifică-te din nou oricând vrei să-l folosești.';
 
   @override
   String splashStartupFailed(String error) {
@@ -154,6 +175,17 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Salut, $displayName, te rugăm să-ți verifici adresa de e-mail.';
   }
+
+  @override
+  String get verificationResendEmail => 'Retrimite e-mailul';
+
+  @override
+  String get verificationEmailSent =>
+      'E-mailul de verificare a fost trimis. Verifică-ți căsuța de e-mail.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Ai solicitat prea multe e-mailuri de verificare. Așteaptă un moment și încearcă din nou.';
 
   @override
   String get nagbarOpenSettings => 'Deschide setările';
@@ -388,6 +420,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Încearcă altă metodă';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Cheile de acces de pe această instanță nu funcționează în această aplicație, iar contul tău nu are altă metodă de verificare. Autentifică-te pe web.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Încearcă în schimb o cheie de securitate / cheie de acces';
 
@@ -526,78 +562,68 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get signOut => 'Deconectare';
 
   @override
-  String get suspendedPermanentTitle => 'Cont suspendat permanent';
-
-  @override
   String get suspendedTemporaryTitle => 'Cont suspendat';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Contul tău a fost suspendat permanent pentru încălcarea Termenilor și Condițiilor noastre.';
+  String get suspendedBannedTitle => 'Cont suspendat permanent';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Contul tău a fost suspendat temporar. Vei putea accesa contul după ce perioada de suspendare se încheie.';
+  String get suspendedClosedTitle => 'Cont închis';
 
   @override
-  String get suspendedIssuedAt => 'Efectuat';
+  String get suspendedWhatHappened => 'Ce s-a întâmplat';
 
   @override
-  String get suspendedEndsAt => 'Sfârșit';
+  String get suspendedWhy => 'De ce';
 
   @override
-  String get suspendedDuration => 'Durată';
+  String get suspendedHowWeDecided => 'Cum am decis';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedHowToAppeal => 'Cum poți contesta decizia';
 
   @override
-  String get suspendedReason => 'Motiv';
-
-  @override
-  String get suspendedAppealDeadline => 'Termen limită pentru apel';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Contul tău este programat pentru ștergere pe $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Notă de la echipa noastră: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Caută actualizări';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID decizie: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Verifică din nou în ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regulă: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Dacă crezi că am greșit, scrie-ne la $email și include numele tău de utilizator.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Dacă crezi că am greșit, scrie-ne la $email până pe $deadline. Include ID-ul deciziei și numele tău de utilizator. Contestațiile sunt gratuite și fiecare este analizată de o persoană.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Dacă crezi că am greșit, scrie-ne la $email până pe $deadline. Scrie de pe adresa de e-mail asociată contului tău, dacă poți, și include ID-ul deciziei. Contestațiile sunt gratuite și fiecare este analizată de o persoană.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Pentru a ne cere să îți ștergem contul și datele, scrie-ne la $email de pe adresa asociată contului tău.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Pentru a ne cere să îți ștergem contul și datele, scrie-ne la $email și include numele tău de utilizator.';
   }
 
   @override
   String get suspendedBackToLogin => 'Înapoi la autentificare';
-
-  @override
-  String get suspendedAppealTitle => 'Apel';
-
-  @override
-  String get suspendedAppealHint =>
-      'Explică de ce suspendarea ta ar trebui reanalizată (minimum 50 de caractere)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Trimite apel';
-
-  @override
-  String get suspendedAppealPending => 'În așteptarea revizuirii';
-
-  @override
-  String get suspendedAppealAccepted => 'Apel acceptat';
-
-  @override
-  String get suspendedAppealRejected => 'Apel respins';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Apelul tău a fost acceptat și contul tău a fost reactivat.';
-
-  @override
-  String get suspendedSignIn => 'Autentifică-te în contul tău';
 
   @override
   String get forgotPasswordTitle => 'Ai uitat parola?';
@@ -2327,6 +2353,39 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get sudoWrongPassword => 'Parola este greșită. Încearcă din nou.';
 
   @override
+  String get sudoEmailCodeSend => 'Trimite-mi un cod prin e-mail';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Am trimis un cod de 6 cifre la adresa ta de e-mail.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Codul din e-mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Trimite un cod nou';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Autentifică-te din nou pentru a confirma că ești tu.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Autentifică-te din nou';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Autentifică-te cu $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Te-ai autentificat într-un alt cont. Autentifică-te cu contul pe care îl folosești aici.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Cheile de acces de pe această instanță nu funcționează în această aplicație. Folosește aplicația de autentificare sau un cod de rezervă, ori confirmă pe web.';
+
+  @override
   String get securityAccountTitle => 'Cont';
 
   @override
@@ -2677,6 +2736,58 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Dezactivează-ți temporar contul. Îl poți reactiva mai târziu, conectându-te din nou.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Șterge-ți contul și datele personale. Poți șterge și mesajele.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Contul, profilul și datele tale personale sunt șterse. Mesajele pe care nu le ștergi rămân unde le-ai trimis, fără numele sau profilul tău.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Șterge și mesajele mele';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Șterge, odată cu contul, toate mesajele pe care le-ai trimis în DM-uri, DM-uri de grup și comunități.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Pentru a păstra o copie a datelor tale, solicită mai întâi un export din $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Șterge peste 14 zile';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Poți anula ștergerea autentificându-te în cele 14 zile.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Programează ștergerea';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Contul tău este șters după perioada de așteptare a acestei instanțe. Dacă te autentifici înainte, ștergerea se anulează.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Șterge acum';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Îți ștergi contul acum?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Contul tău este șters imediat și nu poate fi recuperat.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Abonamentul tău Plutonium este facturat de Apple. Ștergerea contului nu îl anulează, așa că anulează-l mai întâi în App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Abonamentul tău Plutonium este facturat de Google Play. Ștergerea contului nu îl anulează, așa că anulează-l mai întâi în Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Dezactivarea contului te va deconecta din toate sesiunile. Îți poți reactiva contul oricând, reconectându-te.';
 
@@ -2684,49 +2795,15 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Șterge contul';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Șterge definitiv contul și toate datele asociate. Această acțiune nu poate fi anulată.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Nu se poate șterge contul';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Nu poți șterge contul cât timp deții comunități. Transferă mai întâi proprietatea următoarelor comunități:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Deții aceste comunități. Șterge-le pe fiecare sau cedează-le altui membru înainte să îți ștergi contul.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'și încă $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Pentru a transfera proprietatea, accesează $settingsPath și folosește opțiunea de transferare a proprietății.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Sigur dorești să-ți ștergi contul? Această acțiune va programa contul tău pentru ștergere permanentă.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Poți anula procesul de ștergere în decurs de 14 zile';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'După 14 zile, contul tău va fi șters definitiv';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'După procesarea ștergerii, nu vei mai putea recupera accesul la contul tău';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Nu vei putea șterge mesajele trimise după ce îți ștergi contul';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Dacă dorești să-ți exporti datele sau să-ți ștergi mesajele mai întâi, te rugăm să vizitezi secțiunea Panoul de confidențialitate din Setările utilizatorului înainte de a continua.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Atinge o comunitate pentru a-i deschide setările. „Șterge comunitatea” se află în partea de jos. Pentru a o ceda, deschide „Membri”, atinge un membru, atinge cele trei puncte de pe profilul lui și alege „Transferă proprietatea”.';
 
   @override
   String get claimAccountTitle => 'Revendică-ți contul';
@@ -2750,9 +2827,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Cont revendicat cu succes';
-
-  @override
-  String get importantInformation => 'Informații importante:';
 
   @override
   String get genericError => 'A apărut o eroare';
@@ -11665,6 +11739,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain rulează o versiune Fluxer mai nouă decât această aplicație. Actualizează aplicația, apoi încearcă din nou.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain nu folosește o conexiune securizată (https). Fluxer se conectează prin http doar la instanțele din rețeaua ta locală.';
   }
 
   @override

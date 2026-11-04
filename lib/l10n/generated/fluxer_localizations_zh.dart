@@ -90,10 +90,29 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get gatewayConnectedToast => '已连接';
 
   @override
+  String get gatewayOfflineToast => '你已离线。恢复联网后，Fluxer 会自动重新连接。';
+
+  @override
   String get sessionExpiredToast => '您的会话已过期。请重新登录。';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return '你的账号将于 $date 被删除。在此之前登录即可取消删除。';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      '你的账号已计划删除。在删除日期之前登录即可取消删除。';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '我们正在删除你的账号。如果你的账号绑定了邮箱地址，删除完成后我们会发邮件通知你。';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => '我们正在删除你的账号。';
+
+  @override
+  String get accountDisabledNotice => '你的账号已停用。想要使用时，随时重新登录即可。';
 
   @override
   String splashStartupFailed(String error) {
@@ -146,6 +165,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return '嘿，$displayName，请验证你的邮箱地址。';
   }
+
+  @override
+  String get verificationResendEmail => '重新发送邮件';
+
+  @override
+  String get verificationEmailSent => '验证邮件已发送。请检查你的收件箱。';
+
+  @override
+  String get verificationEmailRateLimited => '你请求的验证邮件过多。请稍候片刻，然后重试。';
 
   @override
   String get nagbarOpenSettings => '打开设置';
@@ -371,6 +399,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get mfaTryAnotherMethod => '尝试其他方式';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '此实例的通行密钥在此应用中无法使用，且你的账号没有其他验证方式。请改为在网页版登录。';
+
+  @override
   String get mfaUseSecurityKey => '改用安全密钥/通行密钥';
 
   @override
@@ -504,74 +536,68 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get signOut => '退出登录';
 
   @override
-  String get suspendedPermanentTitle => '账户永久封禁';
-
-  @override
   String get suspendedTemporaryTitle => '账户暂停';
 
   @override
-  String get suspendedPermanentDescription => '您的账户因违反我们的服务条款而被永久封禁。';
+  String get suspendedBannedTitle => '账号已被永久封禁';
 
   @override
-  String get suspendedTemporaryDescription => '您的账户已被暂时封禁。封禁期结束后，您将能够访问您的账户。';
+  String get suspendedClosedTitle => '账号已关闭';
 
   @override
-  String get suspendedIssuedAt => '生效时间';
+  String get suspendedWhatHappened => '发生了什么';
 
   @override
-  String get suspendedEndsAt => '结束时间';
+  String get suspendedWhy => '原因';
 
   @override
-  String get suspendedDuration => '封禁时长';
+  String get suspendedHowWeDecided => '我们如何做出决定';
 
   @override
-  String get suspendedPermanent => '永久';
+  String get suspendedHowToAppeal => '如何申诉';
 
   @override
-  String get suspendedReason => '原因';
-
-  @override
-  String get suspendedAppealDeadline => '申诉截止日期';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '您的账户定于 $date 删除。';
+  String suspendedNoteFromTeam(String statement) {
+    return '团队留言：$statement';
   }
 
   @override
-  String get suspendedRecheck => '检查更新';
+  String suspendedDecisionId(String decisionId) {
+    return '决定 ID：$decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '请 $seconds 秒后再试';
+  String suspendedRule(String title) {
+    return '规则：$title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '如果你认为我们的决定有误，请发送邮件至 $email，并附上你的用户名。';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '如果你认为我们的决定有误，请在 $deadline 之前发送邮件至 $email，并附上决定 ID 和你的用户名。申诉免费，每一份申诉都会由专人审核。';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '如果你认为我们的决定有误，请在 $deadline 之前发送邮件至 $email。如果可以，请使用你账号绑定的邮箱地址发送，并附上决定 ID。申诉免费，每一份申诉都会由专人审核。';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '如需请求我们删除你的账号和数据，请使用你账号绑定的邮箱地址发送邮件至 $email。';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '如需请求我们删除你的账号和数据，请发送邮件至 $email，并附上你的用户名。';
   }
 
   @override
   String get suspendedBackToLogin => '返回登录';
-
-  @override
-  String get suspendedAppealTitle => '申诉';
-
-  @override
-  String get suspendedAppealHint => '说明您认为应重新考虑此次封禁的原因（至少 50 个字符）...';
-
-  @override
-  String get suspendedAppealSubmit => '提交申诉';
-
-  @override
-  String get suspendedAppealPending => '审核中';
-
-  @override
-  String get suspendedAppealAccepted => '申诉已接受';
-
-  @override
-  String get suspendedAppealRejected => '申诉已拒绝';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '您的申诉已被接受，您的账户已恢复。';
-
-  @override
-  String get suspendedSignIn => '登录您的账户';
 
   @override
   String get forgotPasswordTitle => '忘记密码？';
@@ -2179,6 +2205,36 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get sudoWrongPassword => '密码不正确。请重试。';
 
   @override
+  String get sudoEmailCodeSend => '通过邮件向我发送验证码';
+
+  @override
+  String get sudoEmailCodeSent => '我们已向你的邮箱地址发送了一个 6 位数验证码。';
+
+  @override
+  String get sudoEmailCodeLabel => '邮件中的验证码';
+
+  @override
+  String get sudoEmailCodeResend => '发送新验证码';
+
+  @override
+  String get sudoSsoReauthHint => '请重新登录以确认是你本人。';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '重新登录';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '使用 $provider 登录';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount => '你登录的是另一个账号。请使用你在这里使用的账号登录。';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '此实例的通行密钥在此应用中无法使用。请使用你的身份验证器应用或备用码，或在网页版上确认。';
+
+  @override
   String get securityAccountTitle => '账号';
 
   @override
@@ -2501,6 +2557,54 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dangerZoneDisableDescription => '暂时停用你的账号。之后重新登录即可恢复。';
 
   @override
+  String get dangerZoneDeleteEntryDescription => '删除你的账号和个人数据。你也可以同时删除你的消息。';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '你的账号、个人资料和个人数据将被删除。你未删除的消息会保留在原处，但不再显示你的名字或个人资料。';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '同时删除我的消息';
+
+  @override
+  String get dangerZoneDeleteMessagesHint => '删除账号时，一并删除你在私信、群聊和社区中发送的所有消息。';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '如需保留一份数据副本，请先在$privacyDashboard中申请导出。';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 天后删除';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '在这 14 天内登录即可取消删除。';
+
+  @override
+  String get dangerZoneDeleteSchedule => '计划删除';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      '你的账号将在此实例的等待期结束后被删除。在此之前登录即可取消删除。';
+
+  @override
+  String get dangerZoneDeleteNow => '立即删除';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '立即删除你的账号？';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '你的账号将被立即删除，且无法恢复。';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '你的 Plutonium 订阅由 Apple 计费。删除账号不会取消该订阅，因此请先在 App Store 中取消订阅。';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '你的 Plutonium 订阅由 Google Play 计费。删除账号不会取消该订阅，因此请先在 Google Play 中取消订阅。';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '禁用您的账号将使您退出所有会话。您可以通过再次登录随时重新启用您的账号。';
 
@@ -2508,42 +2612,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => '删除账号';
 
   @override
-  String get dangerZoneDeleteDescription => '永久删除你的账号和所有相关数据。此操作无法撤销。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '无法删除账号';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities => '你还拥有社区，无法删除账号。请先转让以下社区的所有权：';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '你是以下社区的所有者。在删除账号之前，请删除每个社区，或将其转让给其他成员。';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '及另外 $count 个';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '要转移所有权，请前往 $settingsPath 并使用转移所有权选项。';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription => '确定要删除你的账号吗？此操作将安排永久删除你的账号。';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '你可以在 14 天内取消删除流程';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14 天后，你的账号将被永久删除';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '删除处理完成后，你将无法再访问自己的账号';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '删除账号后，您将无法删除您发送的消息';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '如果您想先导出数据或删除消息，请在继续操作前访问用户设置中的隐私中心。';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '点按一个社区以打开其设置。“删除社区”位于底部。如需转让，请打开“成员”，点按一位成员，点按其个人资料上的三个点，然后选择“转让所有权”。';
 
   @override
   String get claimAccountTitle => '认领你的账号';
@@ -2566,9 +2643,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => '账号认领成功';
-
-  @override
-  String get importantInformation => '重要信息：';
 
   @override
   String get genericError => '发生错误';
@@ -10843,6 +10917,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain 未使用安全连接（https）。Fluxer 仅通过 http 连接你本地网络中的实例。';
+  }
+
+  @override
   String get instanceCompatibilityTitle => '无法使用此实例';
 
   @override
@@ -15576,10 +15655,28 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get gatewayConnectedToast => '已連線';
 
   @override
+  String get gatewayOfflineToast => '您目前離線。恢復連線後，Fluxer 會自動重新連線。';
+
+  @override
   String get sessionExpiredToast => '您的連線已過期。請重新登入。';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return '您的帳號將於 $date 刪除。在此之前登入即可取消刪除。';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate => '您的帳號已排定刪除。在刪除日期之前登入即可取消。';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '我們正在刪除您的帳號。如果您的帳號有電子郵件地址，完成後我們會寄電子郵件通知您。';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => '我們正在刪除您的帳號。';
+
+  @override
+  String get accountDisabledNotice => '您的帳號已停用。想再使用時，隨時重新登入即可。';
 
   @override
   String splashStartupFailed(String error) {
@@ -15632,6 +15729,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String nagbarEmailVerificationMessage(String displayName) {
     return '嗨，$displayName，請驗證您的電子郵件地址。';
   }
+
+  @override
+  String get verificationResendEmail => '重寄驗證信';
+
+  @override
+  String get verificationEmailSent => '驗證電子郵件已寄出。請檢查您的收件匣。';
+
+  @override
+  String get verificationEmailRateLimited => '您已要求傳送太多驗證電子郵件。請稍候片刻再試一次。';
 
   @override
   String get nagbarOpenSettings => '開啟設定';
@@ -15857,6 +15963,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get mfaTryAnotherMethod => '嘗試其他方式';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '此伺服器的通行金鑰無法在本應用程式中使用，而您的帳號沒有其他驗證方式。請改用網頁版登入。';
+
+  @override
   String get mfaUseSecurityKey => '改用安全金鑰或通行金鑰';
 
   @override
@@ -15990,74 +16100,68 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get signOut => '登出';
 
   @override
-  String get suspendedPermanentTitle => '帳號永久停權';
-
-  @override
   String get suspendedTemporaryTitle => '帳號停權';
 
   @override
-  String get suspendedPermanentDescription => '您的帳號因違反我們的服務條款已被永久停權。';
+  String get suspendedBannedTitle => '帳號已遭永久停權';
 
   @override
-  String get suspendedTemporaryDescription => '您的帳號已被暫時停權。停權期間結束後，您將可以存取您的帳號。';
+  String get suspendedClosedTitle => '帳號已關閉';
 
   @override
-  String get suspendedIssuedAt => '生效日期';
+  String get suspendedWhatHappened => '發生了什麼事';
 
   @override
-  String get suspendedEndsAt => '結束日期';
+  String get suspendedWhy => '原因';
 
   @override
-  String get suspendedDuration => '停權期間';
+  String get suspendedHowWeDecided => '我們如何做出決定';
 
   @override
-  String get suspendedPermanent => '永久';
+  String get suspendedHowToAppeal => '如何申訴';
 
   @override
-  String get suspendedReason => '原因';
-
-  @override
-  String get suspendedAppealDeadline => '申訴截止日期';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '您的帳戶預計於 $date 刪除。';
+  String suspendedNoteFromTeam(String statement) {
+    return '團隊留言：$statement';
   }
 
   @override
-  String get suspendedRecheck => '檢查更新';
+  String suspendedDecisionId(String decisionId) {
+    return '決定 ID：$decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '請在 $seconds 秒後再試';
+  String suspendedRule(String title) {
+    return '規則：$title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '如果您認為我們判斷有誤，請寄電子郵件至 $email，並附上您的使用者名稱。';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '如果您認為我們判斷有誤，請在 $deadline 前寄電子郵件至 $email，並附上決定 ID 和您的使用者名稱。申訴不收取任何費用，每一件申訴都會由專人審核。';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '如果您認為我們判斷有誤，請在 $deadline 前寄電子郵件至 $email。如果可以，請使用您帳號上的電子郵件地址寄信，並附上決定 ID。申訴不收取任何費用，每一件申訴都會由專人審核。';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '如要請我們刪除您的帳號和資料，請使用您帳號上的電子郵件地址寄信至 $email。';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '如要請我們刪除您的帳號和資料，請寄電子郵件至 $email，並附上您的使用者名稱。';
   }
 
   @override
   String get suspendedBackToLogin => '返回登入';
-
-  @override
-  String get suspendedAppealTitle => '申訴';
-
-  @override
-  String get suspendedAppealHint => '請說明為何應重新考慮您的停權（至少 50 個字元）...';
-
-  @override
-  String get suspendedAppealSubmit => '提交申訴';
-
-  @override
-  String get suspendedAppealPending => '審核中';
-
-  @override
-  String get suspendedAppealAccepted => '申訴已接受';
-
-  @override
-  String get suspendedAppealRejected => '申訴已駁回';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '您的申訴已獲接受，帳戶已恢復。';
-
-  @override
-  String get suspendedSignIn => '登入您的帳戶';
 
   @override
   String get forgotPasswordTitle => '忘記密碼？';
@@ -17662,6 +17766,36 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get sudoWrongPassword => '密碼不正確。請再試一次。';
 
   @override
+  String get sudoEmailCodeSend => '寄驗證碼到我的電子郵件';
+
+  @override
+  String get sudoEmailCodeSent => '我們已將 6 位數驗證碼寄到您的電子郵件地址。';
+
+  @override
+  String get sudoEmailCodeLabel => '電子郵件中的驗證碼';
+
+  @override
+  String get sudoEmailCodeResend => '傳送新驗證碼';
+
+  @override
+  String get sudoSsoReauthHint => '請重新登入以確認是您本人。';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '再次登入';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '使用 $provider 登入';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount => '你登入的是另一個帳號。請使用你在這裡使用的帳號登入。';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '此伺服器的通行金鑰無法在本應用程式中使用。請使用您的驗證器應用程式或備用碼，或改在網頁版上確認。';
+
+  @override
   String get securityAccountTitle => '帳號';
 
   @override
@@ -17984,6 +18118,54 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get dangerZoneDisableDescription => '暫時停用您的帳號。之後登入即可重新啟用。';
 
   @override
+  String get dangerZoneDeleteEntryDescription => '刪除您的帳號和個人資料。您也可以一併刪除您的訊息。';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '您的帳號、個人檔案和個人資料都會被刪除。您沒有刪除的訊息會保留在您傳送的位置，但不會顯示您的名稱或個人檔案。';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '同時刪除我的訊息';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      '連同您的帳號，一併刪除您在私訊、群組私訊和社群中傳送過的每一則訊息。';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '如要保留一份您的資料，請先在$privacyDashboard中申請匯出。';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 天後刪除';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '在這 14 天內登入即可取消。';
+
+  @override
+  String get dangerZoneDeleteSchedule => '排定刪除';
+
+  @override
+  String get dangerZoneDeleteScheduleHint => '您的帳號會在此伺服器的等待期結束後刪除。在此之前登入即可取消。';
+
+  @override
+  String get dangerZoneDeleteNow => '立即刪除';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '要立即刪除您的帳號嗎？';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '您的帳號會立即刪除，且無法復原。';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '您的 Plutonium 訂閱由 Apple 收費。刪除帳號並不會取消訂閱，因此請先在 App Store 中取消。';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '您的 Plutonium 訂閱由 Google Play 收費。刪除帳號並不會取消訂閱，因此請先在 Google Play 中取消。';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '停用您的帳號將會登出所有裝置。您可以隨時透過再次登入來重新啟用您的帳號。';
 
@@ -17991,42 +18173,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get dangerZoneDeleteTitle => '刪除帳號';
 
   @override
-  String get dangerZoneDeleteDescription => '永久刪除您的帳號和所有相關資料。此動作無法復原。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '無法刪除帳號';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities => '您擁有社群時無法刪除帳號。請先轉移以下社群的擁有權：';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '您是這些社群的擁有者。刪除帳號前，請先刪除每個社群，或將其轉讓給其他成員。';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '及另外 $count 個';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '若要轉移所有權，請前往 $settingsPath 並使用轉移所有權選項。';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription => '確定要刪除帳號嗎？此動作會將您的帳號排定永久刪除。';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '您可以在 14 天內取消刪除程序';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14 天後，您的帳號將會被永久刪除';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '刪除程序一旦完成，您將無法再存取您的帳號';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '刪除帳號後，您將無法刪除您已傳送的訊息';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '如果您想匯出資料或先刪除您的訊息，請在繼續之前前往使用者設定中的隱私權儀表板。';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '點一下社群即可開啟其設定。「刪除社群」位於最下方。如要轉讓社群，請開啟「成員」，點一下某位成員，點一下其個人檔案上的三個點，然後選擇「轉移擁有權」。';
 
   @override
   String get claimAccountTitle => '認領您的帳號';
@@ -18050,9 +18205,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get claimAccountSuccess => '帳號認領成功';
-
-  @override
-  String get importantInformation => '重要資訊：';
 
   @override
   String get genericError => '發生錯誤';
@@ -26327,6 +26479,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain 執行的 Fluxer 版本比這個應用程式新。請更新應用程式後再試一次。';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain 未使用安全連線（https）。Fluxer 只會透過 http 連線到您區域網路中的伺服器。';
   }
 
   @override

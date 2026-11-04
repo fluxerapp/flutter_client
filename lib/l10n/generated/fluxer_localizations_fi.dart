@@ -94,11 +94,32 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Yhdistetty';
 
   @override
+  String get gatewayOfflineToast =>
+      'Olet offline-tilassa. Fluxer yhdistää uudelleen, kun olet taas verkossa.';
+
+  @override
   String get sessionExpiredToast =>
       'Istuntosi on vanhentunut. Kirjaudu sisään uudelleen.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Tilisi poistetaan $date. Jos kirjaudut sisään ennen sitä, poisto peruuntuu.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Tilisi on ajastettu poistettavaksi. Jos kirjaudut sisään ennen poistopäivää, poisto peruuntuu.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Poistamme tiliäsi nyt. Jos tililläsi on sähköpostiosoite, lähetämme sinulle sähköpostia, kun poisto on valmis.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => 'Poistamme tiliäsi nyt.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Tilisi on poistettu käytöstä. Kirjaudu uudelleen sisään, kun haluat käyttää sitä.';
 
   @override
   String splashStartupFailed(String error) {
@@ -151,6 +172,17 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hei $displayName, vahvista sähköpostiosoitteesi.';
   }
+
+  @override
+  String get verificationResendEmail => 'Lähetä sähköposti uudelleen';
+
+  @override
+  String get verificationEmailSent =>
+      'Vahvistussähköposti lähetetty. Tarkista saapuneet-kansiosi.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Olet pyytänyt liian monta vahvistussähköpostia. Odota hetki ja yritä uudelleen.';
 
   @override
   String get nagbarOpenSettings => 'Avaa asetukset';
@@ -384,6 +416,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Kokeile toista menetelmää';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Tämän instanssin pääsyavaimet eivät toimi tässä sovelluksessa, eikä tililläsi ole muuta vahvistustapaa. Kirjaudu sen sijaan sisään verkossa.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Käytä mieluummin turva-avainta tai pääsyavainta';
 
@@ -521,78 +557,68 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get signOut => 'Kirjaudu ulos';
 
   @override
-  String get suspendedPermanentTitle => 'Tili pysyvästi estetty';
-
-  @override
   String get suspendedTemporaryTitle => 'Tili estetty';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Tilisi on pysyvästi estetty käyttöehtojemme rikkomisen vuoksi.';
+  String get suspendedBannedTitle => 'Tili jäädytetty pysyvästi';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Tilisi on väliaikaisesti estetty. Voit käyttää tiliäsi, kun estoaika päättyy.';
+  String get suspendedClosedTitle => 'Tili suljettu';
 
   @override
-  String get suspendedIssuedAt => 'Myönnetty';
+  String get suspendedWhatHappened => 'Mitä tapahtui';
 
   @override
-  String get suspendedEndsAt => 'Päättyy';
+  String get suspendedWhy => 'Miksi';
 
   @override
-  String get suspendedDuration => 'Kesto';
+  String get suspendedHowWeDecided => 'Miten päätimme';
 
   @override
-  String get suspendedPermanent => 'Pysyvä';
+  String get suspendedHowToAppeal => 'Näin valitat päätöksestä';
 
   @override
-  String get suspendedReason => 'Syy';
-
-  @override
-  String get suspendedAppealDeadline => 'Valitusmääräaika';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Tilisi poistetaan suunnitellusti $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Tiimimme huomautus: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Tarkista päivitykset';
+  String suspendedDecisionId(String decisionId) {
+    return 'Päätöksen tunnus: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Tarkista uudelleen ${seconds}s kuluttua';
+  String suspendedRule(String title) {
+    return 'Sääntö: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Jos uskot, että teimme virheen, lähetä sähköpostia osoitteeseen $email ja mainitse käyttäjänimesi.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Jos uskot, että teimme virheen, lähetä sähköpostia osoitteeseen $email viimeistään $deadline. Mainitse päätöksen tunnus ja käyttäjänimesi. Valittaminen on maksutonta, ja ihminen käy jokaisen valituksen läpi.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Jos uskot, että teimme virheen, lähetä sähköpostia osoitteeseen $email viimeistään $deadline. Lähetä viesti tilisi sähköpostiosoitteesta, jos voit, ja mainitse päätöksen tunnus. Valittaminen on maksutonta, ja ihminen käy jokaisen valituksen läpi.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Jos haluat pyytää meitä poistamaan tilisi ja tietosi, lähetä sähköpostia osoitteeseen $email tilisi sähköpostiosoitteesta.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Jos haluat pyytää meitä poistamaan tilisi ja tietosi, lähetä sähköpostia osoitteeseen $email ja mainitse käyttäjänimesi.';
   }
 
   @override
   String get suspendedBackToLogin => 'Takaisin kirjautumiseen';
-
-  @override
-  String get suspendedAppealTitle => 'Valitus';
-
-  @override
-  String get suspendedAppealHint =>
-      'Selitä, miksi käyttösulku tulisi harkita uudelleen (vähintään 50 merkkiä)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Lähetä valitus';
-
-  @override
-  String get suspendedAppealPending => 'Odottaa tarkistusta';
-
-  @override
-  String get suspendedAppealAccepted => 'Valitus hyväksytty';
-
-  @override
-  String get suspendedAppealRejected => 'Valitus hylätty';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Valituksesi on hyväksytty ja tilisi on palautettu.';
-
-  @override
-  String get suspendedSignIn => 'Kirjaudu tilillesi';
 
   @override
   String get forgotPasswordTitle => 'Unohditko salasanasi?';
@@ -2312,6 +2338,39 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get sudoWrongPassword => 'Salasana on väärä. Yritä uudelleen.';
 
   @override
+  String get sudoEmailCodeSend => 'Lähetä minulle koodi sähköpostitse';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Lähetimme 6-numeroisen koodin sähköpostiosoitteeseesi.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Sähköpostin koodi';
+
+  @override
+  String get sudoEmailCodeResend => 'Lähetä uusi koodi';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Vahvista henkilöllisyytesi kirjautumalla uudelleen sisään.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Kirjaudu uudelleen sisään';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Kirjaudu palvelulla $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Kirjauduit eri tilille. Kirjaudu tilillä, jota käytät täällä.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Tämän instanssin pääsyavaimet eivät toimi tässä sovelluksessa. Käytä tunnistussovellusta tai varmuuskoodia tai vahvista verkossa.';
+
+  @override
   String get securityAccountTitle => 'Tili';
 
   @override
@@ -2659,6 +2718,58 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Poista tilisi käytöstä väliaikaisesti. Voit ottaa sen uudelleen käyttöön kirjautumalla sisään myöhemmin.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Poista tilisi ja henkilötietosi. Voit poistaa myös viestisi.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Tilisi, profiilisi ja henkilötietosi poistetaan. Viestit, joita et poista, jäävät sinne, minne lähetit ne, ilman nimeäsi tai profiiliasi.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Poista myös viestini';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Poistaa tilisi mukana jokaisen viestin, jonka olet lähettänyt yksityisviesteissä, ryhmäkeskusteluissa ja yhteisöissä.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Jos haluat säilyttää kopion tiedoistasi, pyydä ensin tietojen vienti kohdassa $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Poista 14 päivän kuluttua';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Voit perua poiston kirjautumalla sisään näiden 14 päivän aikana.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Ajasta poisto';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Tilisi poistetaan tämän instanssin odotusajan jälkeen. Jos kirjaudut sisään ennen sitä, poisto peruuntuu.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Poista nyt';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Poistetaanko tilisi nyt?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Tilisi poistetaan heti, eikä sitä voi palauttaa.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Plutonium-tilauksesi laskuttaa Apple. Tilin poistaminen ei peru tilausta, joten peru se ensin App Storessa.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Plutonium-tilauksesi laskuttaa Google Play. Tilin poistaminen ei peru tilausta, joten peru se ensin Google Playssa.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Tilin käytöstä poistaminen kirjaa sinut ulos kaikista istunnoista. Voit ottaa tilisi uudelleen käyttöön milloin tahansa kirjautumalla sisään uudelleen.';
 
@@ -2666,49 +2777,15 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Poista tili';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Poista tilisi ja kaikki siihen liittyvät tiedot pysyvästi. Tätä toimintoa ei voi kumota.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Tiliä ei voi poistaa';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Et voi poistaa tiliäsi, jos omistat yhteisöjä. Siirrä ensin seuraavien yhteisöjen omistajuus:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Omistat nämä yhteisöt. Poista jokainen niistä tai anna se toiselle jäsenelle ennen kuin poistat tilisi.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'ja $count muuta';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Siirrä omistajuus siirtymällä kohtaan $settingsPath ja käyttämällä siirrä omistajuus -vaihtoehtoa.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Haluatko varmasti poistaa tilisi? Tilisi merkitään poistettavaksi pysyvästi.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Voit peruuttaa poistoprosessin 14 päivän kuluessa';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Tilisi poistetaan pysyvästi 14 päivän kuluttua';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Kun poisto on käsitelty, et voi enää palauttaa pääsyä tilillesi';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Et voi poistaa lähettämiäsi viestejä tilisi poistamisen jälkeen';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Jos haluat viedä tietosi tai poistaa viestisi ensin, käy Tietosuojapaneeli-osiossa Käyttäjäasetuksissa ennen jatkamista.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Avaa yhteisön asetukset napauttamalla yhteisöä. ”Poista yhteisö” on alareunassa. Jos haluat antaa yhteisön pois, avaa ”Jäsenet”, napauta jäsentä, napauta hänen profiilinsa kolmea pistettä ja valitse ”Siirrä omistajuus”.';
 
   @override
   String get claimAccountTitle => 'Viimeistele tilisi rekisteröinti';
@@ -2732,9 +2809,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Tili lunastettu';
-
-  @override
-  String get importantInformation => 'Tärkeää tietoa:';
 
   @override
   String get genericError => 'Tapahtui virhe';
@@ -11590,6 +11664,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain käyttää uudempaa Fluxer-versiota kuin tämä sovellus. Päivitä sovellus ja yritä sitten uudelleen.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain ei käytä suojattua yhteyttä (https). Fluxer muodostaa http-yhteyden vain lähiverkkosi instansseihin.';
   }
 
   @override

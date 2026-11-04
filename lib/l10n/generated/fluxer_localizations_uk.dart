@@ -98,12 +98,33 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Підключено';
 
   @override
+  String get gatewayOfflineToast =>
+      'Ви офлайн. Fluxer підключиться знову, щойно з\'явиться мережа.';
+
+  @override
   String get sessionExpiredToast =>
       'Ваш сеанс завершився. Будь ласка, увійдіть знову.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Ваш обліковий запис буде видалено $date. Якщо ви увійдете до цієї дати, видалення буде скасовано.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Ваш обліковий запис заплановано до видалення. Якщо ви увійдете до дати видалення, його буде скасовано.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Ми видаляємо ваш обліковий запис просто зараз. Якщо до облікового запису прив\'язана адреса електронної пошти, ми надішлемо вам лист, коли все буде готово.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Ми видаляємо ваш обліковий запис просто зараз.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Ваш обліковий запис вимкнено. Увійдіть знову, коли захочете ним скористатися.';
 
   @override
   String splashStartupFailed(String error) {
@@ -156,6 +177,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Привіт, $displayName! Будь ласка, підтвердьте свою електронну адресу.';
   }
+
+  @override
+  String get verificationResendEmail => 'Надіслати лист повторно';
+
+  @override
+  String get verificationEmailSent =>
+      'Лист із підтвердженням надіслано. Перевірте свою поштову скриньку.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Ви надіслали забагато листів для підтвердження. Зачекайте трохи й спробуйте знову.';
 
   @override
   String get nagbarOpenSettings => 'Відкрити налаштування';
@@ -390,6 +422,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Спробувати інший метод';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Ключі доступу з цього екземпляра не працюють у цьому застосунку, а інших способів перевірки у вашому обліковому записі немає. Натомість увійдіть у вебверсії.';
+
+  @override
   String get mfaUseSecurityKey => 'Спробувати ключ безпеки / ключ доступу';
 
   @override
@@ -528,78 +564,68 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get signOut => 'Вийти';
 
   @override
-  String get suspendedPermanentTitle => 'Обліковий запис назавжди заблоковано';
-
-  @override
   String get suspendedTemporaryTitle => 'Обліковий запис заблоковано';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Ваш обліковий запис назавжди заблоковано за порушення наших Умов обслуговування.';
+  String get suspendedBannedTitle => 'Акаунт заблоковано';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Ваш обліковий запис тимчасово заблоковано. Ви зможете отримати доступ до свого облікового запису після закінчення періоду блокування.';
+  String get suspendedClosedTitle => 'Акаунт закрито';
 
   @override
-  String get suspendedIssuedAt => 'Видано';
+  String get suspendedWhatHappened => 'Що сталося';
 
   @override
-  String get suspendedEndsAt => 'Закінчується';
+  String get suspendedWhy => 'Чому';
 
   @override
-  String get suspendedDuration => 'Тривалість';
+  String get suspendedHowWeDecided => 'Як ми ухвалили рішення';
 
   @override
-  String get suspendedPermanent => 'Назавжди';
+  String get suspendedHowToAppeal => 'Як оскаржити рішення';
 
   @override
-  String get suspendedReason => 'Причина';
-
-  @override
-  String get suspendedAppealDeadline => 'Термін апеляції';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Ваш обліковий запис заплановано до видалення $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Коментар нашої команди: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Перевірити наявність оновлень';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID рішення: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Спробуйте через $seconds сек.';
+  String suspendedRule(String title) {
+    return 'Правило: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Якщо ви вважаєте, що ми помилилися, напишіть на $email і вкажіть своє ім\'я користувача.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Якщо ви вважаєте, що ми помилилися, напишіть на $email не пізніше $deadline. Вкажіть ID рішення та своє ім\'я користувача. Оскарження безкоштовне, і кожне з них розглядає людина.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Якщо ви вважаєте, що ми помилилися, напишіть на $email не пізніше $deadline. Якщо можете, пишіть з адреси електронної пошти вашого облікового запису та вкажіть ID рішення. Оскарження безкоштовне, і кожне з них розглядає людина.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Щоб попросити нас видалити ваш обліковий запис і дані, напишіть на $email з адреси вашого облікового запису.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Щоб попросити нас видалити ваш обліковий запис і дані, напишіть на $email і вкажіть своє ім\'я користувача.';
   }
 
   @override
   String get suspendedBackToLogin => 'Назад до входу';
-
-  @override
-  String get suspendedAppealTitle => 'Апеляція';
-
-  @override
-  String get suspendedAppealHint =>
-      'Поясніть, чому вашу відсторонення слід переглянути (мінімум 50 символів)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Подати апеляцію';
-
-  @override
-  String get suspendedAppealPending => 'Очікує розгляду';
-
-  @override
-  String get suspendedAppealAccepted => 'Апеляцію прийнято';
-
-  @override
-  String get suspendedAppealRejected => 'Апеляцію відхилено';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Вашу апеляцію прийнято, і ваш обліковий запис відновлено.';
-
-  @override
-  String get suspendedSignIn => 'Увійти до свого облікового запису';
 
   @override
   String get forgotPasswordTitle => 'Забули пароль?';
@@ -2326,6 +2352,38 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get sudoWrongPassword => 'Неправильний пароль. Спробуйте ще раз.';
 
   @override
+  String get sudoEmailCodeSend => 'Надіслати код на електронну пошту';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Ми надіслали 6-значний код на вашу адресу електронної пошти.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Код із листа';
+
+  @override
+  String get sudoEmailCodeResend => 'Надіслати новий код';
+
+  @override
+  String get sudoSsoReauthHint => 'Увійдіть знову, щоб підтвердити, що це ви.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Увійти знову';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Увійти через $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Ти увійшов в інший обліковий запис. Увійди в обліковий запис, який використовуєш тут.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Ключі доступу з цього екземпляра не працюють у цьому застосунку. Скористайтеся програмою-автентифікатором або резервним кодом чи підтвердьте у вебверсії.';
+
+  @override
   String get securityAccountTitle => 'Обліковий запис';
 
   @override
@@ -2673,6 +2731,59 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Тимчасово деактивувати обліковий запис. Ви зможете відновити його пізніше, увійшовши знову.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Видаліть свій обліковий запис і персональні дані. Ви також можете видалити свої повідомлення.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Ваш обліковий запис, профіль і персональні дані буде видалено. Повідомлення, які ви не видалите, залишаться там, де ви їх надіслали, без вашого імені чи профілю.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Також видалити мої повідомлення';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Разом з обліковим записом видаляє всі повідомлення, які ви надіслали в особистих повідомленнях, групових чатах і спільнотах.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Щоб зберегти копію своїх даних, спершу надішліть запит на експорт у розділі $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Видалити через 14 днів';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Ви можете скасувати видалення, увійшовши протягом цих 14 днів.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Запланувати видалення';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Ваш обліковий запис буде видалено після періоду очікування цього екземпляра. Якщо ви увійдете раніше, видалення буде скасовано.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Видалити зараз';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle =>
+      'Видалити обліковий запис зараз?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Ваш обліковий запис буде видалено одразу, і його не можна буде відновити.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Оплату вашої підписки Plutonium здійснює Apple. Видалення облікового запису не скасовує її, тому спершу скасуйте підписку в App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Оплату вашої підписки Plutonium здійснює Google Play. Видалення облікового запису не скасовує її, тому спершу скасуйте підписку в Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Вимкнення вашого облікового запису призведе до виходу з усіх сесій. Ви можете повторно активувати свій обліковий запис будь-коли, увійшовши знову.';
 
@@ -2680,50 +2791,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Видалити обліковий запис';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Безповоротно видалити свій обліковий запис та всі пов\'язані дані. Цю дію не можна скасувати.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Неможливо видалити обліковий запис';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Ви не можете видалити свій обліковий запис, поки володієте спільнотами. Спочатку передайте право власності на такі спільноти:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Ви власник цих спільнот. Перш ніж видалити обліковий запис, видаліть кожну з них або передайте її іншому учаснику.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'та ще $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Щоб передати право власності, перейдіть до $settingsPath і скористайтеся опцією передачі права власності.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Ви впевнені, що хочете видалити свій обліковий запис? Ця дія запланує остаточне видалення вашого облікового запису.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Ви можете скасувати видалення протягом 14 днів';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Через 14 днів ваш обліковий запис буде остаточно видалено';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Після обробки запиту на видалення ви не зможете відновити доступ до свого облікового запису';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Ви не зможете видалити надіслані повідомлення після видалення облікового запису';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Якщо ви хочете експортувати свої дані або спочатку видалити повідомлення, відвідайте розділ Панель конфіденційності в Налаштуваннях користувача перед продовженням.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Торкніться спільноти, щоб відкрити її налаштування. Кнопка «Видалити спільноту» внизу. Щоб передати спільноту, відкрийте «Учасники», торкніться учасника, торкніться трьох крапок у його профілі й виберіть «Передати право власності».';
 
   @override
   String get claimAccountTitle => 'Зареєструйте свій обліковий запис';
@@ -2747,9 +2824,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Обліковий запис успішно зареєстровано';
-
-  @override
-  String get importantInformation => 'Важлива інформація:';
 
   @override
   String get genericError => 'Виникла помилка';
@@ -11681,6 +11755,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain використовує новішу версію Fluxer, ніж цей застосунок. Оновіть застосунок і спробуйте ще раз.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain не використовує захищене з\'єднання (https). Fluxer підключається через http лише до екземплярів у вашій локальній мережі.';
   }
 
   @override

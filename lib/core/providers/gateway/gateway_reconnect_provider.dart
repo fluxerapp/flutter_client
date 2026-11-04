@@ -112,6 +112,35 @@ Future<bool> _hasAnyConnectivity() async {
   return results.any((ConnectivityResult r) => r != ConnectivityResult.none);
 }
 
+final Provider<Future<bool> Function()> gatewayConnectivityCheckProvider =
+    Provider<Future<bool> Function()>((Ref ref) => _hasAnyConnectivity);
+
+@Riverpod(keepAlive: true)
+class GatewayDeviceOffline extends _$GatewayDeviceOffline {
+  @override
+  bool build() => false;
+
+  void setOffline({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
+}
+
+@Riverpod(keepAlive: true)
+class AccountClosureInFlight extends _$AccountClosureInFlight {
+  @override
+  bool build() => false;
+
+  void setInFlight({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
+}
+
 bool shouldKeepGatewayConnectedForVoiceFromState({
   required bool isInVoice,
   required List<String> pendingIncomingChannelIds,
@@ -241,6 +270,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         .setInFlight(value: false);
     ref.read(serverReachableProvider.notifier).setReachable(value: true);
     ref.read(gatewayConnectionFailedProvider.notifier).reset();
+    ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: false);
   }
 
   void markFailed() {
@@ -262,7 +292,8 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
   Future<void> handlePossibleSessionExpiry() async {
     if (sessionExpiryProbeInFlight ||
         !ref.read(authStateProvider) ||
-        ref.read(accountManagerProvider).isSwitching) {
+        ref.read(accountManagerProvider).isSwitching ||
+        ref.read(accountClosureInFlightProvider)) {
       return;
     }
     sessionExpiryProbeInFlight = true;
@@ -289,6 +320,22 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       return kGatewayResumeReconnectFailureTimeout;
     }
     return kGatewayReconnectFailureTimeout;
+  }
+
+  Future<void> markFailedUnlessOffline(void Function() retryLater) async {
+    final bool online = await ref.read(gatewayConnectivityCheckProvider)();
+    if (!ref.mounted ||
+        !ref.read(appUiForegroundProvider) ||
+        connection.state == GatewayState.connected) {
+      return;
+    }
+    if (!online) {
+      talker.warning('[Gateway] Reconnect timeout while the device is offline');
+      ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: true);
+      retryLater();
+      return;
+    }
+    markFailed();
   }
 
   void scheduleFailureTimeout() {
@@ -324,7 +371,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         }
         failureTimeoutPasses = 0;
         talker.warning('[Gateway] Reconnect failure timeout reached');
-        markFailed();
+        unawaited(markFailedUnlessOffline(scheduleFailureTimeout));
       }
     });
   }
@@ -366,6 +413,10 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       case GatewayState.disconnected:
         reconnectingState = null;
       case GatewayState.failed:
+        if (ref.read(accountClosureInFlightProvider)) {
+          talker.info('[Gateway] Gateway closed after the account was closed');
+          return;
+        }
         talker.error('[Gateway] Fatal gateway close');
         markFailed();
         unawaited(handlePossibleSessionExpiry());
@@ -587,6 +638,9 @@ Raw<StreamSubscription<List<ConnectivityResult>>?> connectivityListener(
     final bool hasConnection = results.any(
       (ConnectivityResult r) => r != ConnectivityResult.none,
     );
+    if (hasConnection) {
+      ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: false);
+    }
     if (!hasConnection || connection.state == GatewayState.connected) {
       clearDebounce();
       return;

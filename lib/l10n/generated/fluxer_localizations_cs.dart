@@ -98,11 +98,32 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Připojeno';
 
   @override
+  String get gatewayOfflineToast =>
+      'Jste offline. Fluxer se znovu připojí, jakmile budete zase online.';
+
+  @override
   String get sessionExpiredToast =>
       'Vaše relace vypršela. Přihlaste se prosím znovu.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Váš účet bude smazán $date. Pokud se do té doby přihlásíte, smazání se zruší.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Smazání vašeho účtu je naplánováno. Pokud se přihlásíte před datem smazání, smazání se zruší.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Váš účet právě mažeme. Pokud má váš účet e-mailovou adresu, pošleme vám e-mail, až bude hotovo.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => 'Váš účet právě mažeme.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Váš účet je deaktivovaný. Až ho budete chtít znovu používat, stačí se přihlásit.';
 
   @override
   String splashStartupFailed(String error) {
@@ -155,6 +176,17 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Zdravíme, $displayName! Ověřte prosím svou e-mailovou adresu.';
   }
+
+  @override
+  String get verificationResendEmail => 'Znovu odeslat e-mail';
+
+  @override
+  String get verificationEmailSent =>
+      'Ověřovací e-mail byl odeslán. Zkontrolujte si doručenou poštu.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Vyžádali jste si příliš mnoho ověřovacích e-mailů. Počkejte chvíli a zkuste to znovu.';
 
   @override
   String get nagbarOpenSettings => 'Otevřít nastavení';
@@ -388,6 +420,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Zkusit jinou metodu';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Přístupové klíče z této instance v této aplikaci nefungují a váš účet nemá žádný jiný způsob ověření. Přihlaste se místo toho na webu.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Zkusit místo toho bezpečnostní klíč / přístupový klíč';
 
@@ -524,78 +560,68 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get signOut => 'Odhlásit se';
 
   @override
-  String get suspendedPermanentTitle => 'Účet trvale pozastaven';
-
-  @override
   String get suspendedTemporaryTitle => 'Účet pozastaven';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Váš účet byl trvale pozastaven za porušení našich Podmínek služby.';
+  String get suspendedBannedTitle => 'Účet zablokován';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Váš účet byl dočasně pozastaven. K účtu budete mít přístup po skončení období pozastavení.';
+  String get suspendedClosedTitle => 'Účet zrušen';
 
   @override
-  String get suspendedIssuedAt => 'Vydáno';
+  String get suspendedWhatHappened => 'Co se stalo';
 
   @override
-  String get suspendedEndsAt => 'Končí';
+  String get suspendedWhy => 'Proč';
 
   @override
-  String get suspendedDuration => 'Doba trvání';
+  String get suspendedHowWeDecided => 'Jak jsme rozhodli';
 
   @override
-  String get suspendedPermanent => 'Trvale';
+  String get suspendedHowToAppeal => 'Jak se odvolat';
 
   @override
-  String get suspendedReason => 'Důvod';
-
-  @override
-  String get suspendedAppealDeadline => 'Termín odvolání';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Váš účet je naplánován ke smazání $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Poznámka od našeho týmu: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Zkontrolovat aktualizace';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID rozhodnutí: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Zkusit znovu za ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Pravidlo: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Pokud si myslíte, že jsme se zmýlili, napište na $email a uveďte své uživatelské jméno.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Pokud si myslíte, že jsme se zmýlili, napište na $email do $deadline. Uveďte ID rozhodnutí a své uživatelské jméno. Odvolání je zdarma a každé posoudí člověk.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Pokud si myslíte, že jsme se zmýlili, napište na $email do $deadline. Pokud můžete, pište z e-mailové adresy svého účtu a uveďte ID rozhodnutí. Odvolání je zdarma a každé posoudí člověk.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Pokud chcete požádat o smazání svého účtu a dat, napište na $email z adresy svého účtu.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Pokud chcete požádat o smazání svého účtu a dat, napište na $email a uveďte své uživatelské jméno.';
   }
 
   @override
   String get suspendedBackToLogin => 'Zpět na přihlášení';
-
-  @override
-  String get suspendedAppealTitle => 'Odvolání';
-
-  @override
-  String get suspendedAppealHint =>
-      'Vysvětlete, proč by mělo být vaše pozastavení přezkoumáno (minimálně 50 znaků)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Odeslat odvolání';
-
-  @override
-  String get suspendedAppealPending => 'Čeká na přezkoumání';
-
-  @override
-  String get suspendedAppealAccepted => 'Odvolání přijato';
-
-  @override
-  String get suspendedAppealRejected => 'Odvolání zamítnuto';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Vaše odvolání bylo přijato a váš účet byl obnoven.';
-
-  @override
-  String get suspendedSignIn => 'Přihlásit se ke svému účtu';
 
   @override
   String get forgotPasswordTitle => 'Zapomněli jste heslo?';
@@ -2314,6 +2340,39 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get sudoWrongPassword => 'Heslo není správné. Zkuste to znovu.';
 
   @override
+  String get sudoEmailCodeSend => 'Poslat mi kód e-mailem';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Na vaši e-mailovou adresu jsme poslali šestimístný kód.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kód z e-mailu';
+
+  @override
+  String get sudoEmailCodeResend => 'Odeslat nový kód';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Přihlaste se znovu a potvrďte, že jste to vy.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Přihlásit se znovu';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Přihlásit se přes $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Přihlásil ses k jinému účtu. Přihlas se účtem, který tu používáš.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Přístupové klíče z této instance v této aplikaci nefungují. Použijte aplikaci pro ověřování nebo záložní kód, nebo to potvrďte na webu.';
+
+  @override
   String get securityAccountTitle => 'Účet';
 
   @override
@@ -2661,6 +2720,58 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Dočasně deaktivovat účet. Později ho můžete znovu aktivovat přihlášením.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Smažte svůj účet a osobní údaje. Smazat můžete i své zprávy.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Váš účet, profil a osobní údaje budou smazány. Zprávy, které nesmažete, zůstanou tam, kam jste je poslali, bez vašeho jména a profilu.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Smazat i mé zprávy';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Spolu s vaším účtem smaže všechny zprávy, které jste poslali v přímých zprávách, skupinových konverzacích a komunitách.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Pokud si chcete ponechat kopii svých dat, nejprve si vyžádejte export v sekci $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Smazat za 14 dní';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Smazání můžete zrušit tím, že se během těchto 14 dní přihlásíte.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Naplánovat smazání';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Váš účet bude smazán po čekací době této instance. Pokud se do té doby přihlásíte, smazání se zruší.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Smazat hned';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Smazat účet hned teď?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Váš účet bude okamžitě smazán a nepůjde obnovit.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Vaše předplatné Plutonium účtuje Apple. Smazáním účtu se předplatné nezruší, proto ho nejprve zrušte v App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Vaše předplatné Plutonium účtuje Google Play. Smazáním účtu se předplatné nezruší, proto ho nejprve zrušte v Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Deaktivace vašeho účtu vás odhlásí ze všech relací. Svůj účet můžete kdykoli znovu aktivovat přihlášením.';
 
@@ -2668,48 +2779,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Smazat účet';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Trvale smazat váš účet a všechna související data. Tuto akci nelze vrátit zpět.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Účet nelze smazat';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Nemůžete smazat svůj účet, pokud vlastníte komunity. Nejprve převeďte vlastnictví těchto komunit:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Vlastníte tyto komunity. Než smažete svůj účet, každou z nich smažte nebo ji předejte jinému členovi.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'a ještě $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Chcete-li přenést vlastnictví, přejděte na $settingsPath a použijte možnost přenosu vlastnictví.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Opravdu chcete smazat svůj účet? Tato akce naplánuje trvalé smazání vašeho účtu.';
-
-  @override
-  String get dangerZoneDeleteBullet1 => 'Smazání účtu můžete zrušit do 14 dnů';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Po 14 dnech bude váš účet trvale smazán';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Po smazání už nebude možné obnovit přístup k vašemu účtu';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Po smazání účtu nebudete moci smazat své odeslané zprávy';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Pokud chcete nejprve exportovat svá data nebo smazat zprávy, navštivte prosím sekci Dashboard ochrany soukromí v Nastavení uživatele, než budete pokračovat.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Klepnutím na komunitu otevřete její nastavení. Možnost „Smazat komunitu“ najdete úplně dole. Pokud ji chcete předat, otevřete „Členové“, klepněte na člena, klepněte na tři tečky v jeho profilu a vyberte „Převést vlastnictví“.';
 
   @override
   String get claimAccountTitle => 'Dokončit registraci účtu';
@@ -2733,9 +2811,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Registrace účtu byla úspěšně dokončena';
-
-  @override
-  String get importantInformation => 'Důležité informace:';
 
   @override
   String get genericError => 'Došlo k chybě';
@@ -11620,6 +11695,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain používá novější verzi Fluxeru než tato aplikace. Aktualizujte aplikaci a zkuste to znovu.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain nepoužívá zabezpečené připojení (https). Fluxer se přes http připojuje jen k instancím ve vaší místní síti.';
   }
 
   @override

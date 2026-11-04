@@ -91,10 +91,30 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get gatewayConnectedToast => '接続済み';
 
   @override
+  String get gatewayOfflineToast => 'オフラインです。オンラインに戻るとFluxerは自動的に再接続します。';
+
+  @override
   String get sessionExpiredToast => 'セッションの有効期限が切れました。もう一度サインインしてください。';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'アカウントは$dateに削除されます。それまでにサインインすると、削除はキャンセルされます。';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'アカウントの削除が予定されています。削除日までにサインインすると、削除はキャンセルされます。';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'アカウントを削除しています。アカウントにメールアドレスが登録されている場合は、完了時にメールでお知らせします。';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => 'アカウントを削除しています。';
+
+  @override
+  String get accountDisabledNotice =>
+      'アカウントは無効になっています。使いたいときはいつでも、もう一度サインインしてください。';
 
   @override
   String splashStartupFailed(String error) {
@@ -147,6 +167,16 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return '$displayNameさん、メールアドレスの確認をお願いします。';
   }
+
+  @override
+  String get verificationResendEmail => 'メールを再送';
+
+  @override
+  String get verificationEmailSent => '確認メールを送信しました。受信トレイをご確認ください。';
+
+  @override
+  String get verificationEmailRateLimited =>
+      '確認メールの送信回数が多すぎます。しばらく待ってからもう一度お試しください。';
 
   @override
   String get nagbarOpenSettings => '設定を開く';
@@ -373,6 +403,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get mfaTryAnotherMethod => '別の方法を試す';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'このインスタンスのパスキーはこのアプリでは使えません。また、アカウントにほかの認証方法がありません。代わりにウェブでサインインしてください。';
+
+  @override
   String get mfaUseSecurityKey => 'セキュリティキー/パスキーを試す';
 
   @override
@@ -506,75 +540,68 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get signOut => 'サインアウト';
 
   @override
-  String get suspendedPermanentTitle => 'アカウントが永久に停止されました';
-
-  @override
   String get suspendedTemporaryTitle => 'アカウントが停止されました';
 
   @override
-  String get suspendedPermanentDescription => '利用規約への違反により、アカウントは永久に停止されました。';
+  String get suspendedBannedTitle => 'アカウントは永久停止されています';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'アカウントは一時的に停止されました。停止期間が終了すると、アカウントにアクセスできるようになります。';
+  String get suspendedClosedTitle => 'アカウントは閉鎖されています';
 
   @override
-  String get suspendedIssuedAt => '発行日';
+  String get suspendedWhatHappened => '措置の内容';
 
   @override
-  String get suspendedEndsAt => '終了日';
+  String get suspendedWhy => '理由';
 
   @override
-  String get suspendedDuration => '期間';
+  String get suspendedHowWeDecided => '判断の経緯';
 
   @override
-  String get suspendedPermanent => '永久';
+  String get suspendedHowToAppeal => '異議申し立ての方法';
 
   @override
-  String get suspendedReason => '理由';
-
-  @override
-  String get suspendedAppealDeadline => '異議申し立て期限';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'アカウントは$dateに削除される予定です。';
+  String suspendedNoteFromTeam(String statement) {
+    return 'チームからのコメント: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'アップデートを確認';
+  String suspendedDecisionId(String decisionId) {
+    return '決定ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '$seconds秒後に再確認';
+  String suspendedRule(String title) {
+    return 'ルール: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '判断が誤っていると思われる場合は、ユーザー名を記載して$emailまでメールでご連絡ください。';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '判断が誤っていると思われる場合は、$deadlineまでに$emailへメールでご連絡ください。決定IDとユーザー名を記載してください。異議申し立ては無料で、1件ずつ担当者が確認します。';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '判断が誤っていると思われる場合は、$deadlineまでに$emailへメールでご連絡ください。できればアカウントに登録されたメールアドレスから送信し、決定IDを記載してください。異議申し立ては無料で、1件ずつ担当者が確認します。';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'アカウントとデータの削除を依頼するには、アカウントに登録されたメールアドレスから$emailへメールを送ってください。';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'アカウントとデータの削除を依頼するには、ユーザー名を記載して$emailへメールを送ってください。';
   }
 
   @override
   String get suspendedBackToLogin => 'ログインに戻る';
-
-  @override
-  String get suspendedAppealTitle => '異議申し立て';
-
-  @override
-  String get suspendedAppealHint => 'アカウント停止の再検討理由を説明してください（最低50文字）...';
-
-  @override
-  String get suspendedAppealSubmit => '異議申し立てを送信';
-
-  @override
-  String get suspendedAppealPending => '審査待ち';
-
-  @override
-  String get suspendedAppealAccepted => '異議申し立て承認済み';
-
-  @override
-  String get suspendedAppealRejected => '異議申し立て却下';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '異議申し立てが承認され、アカウントが復元されました。';
-
-  @override
-  String get suspendedSignIn => 'アカウントにサインイン';
 
   @override
   String get forgotPasswordTitle => 'パスワードをお忘れですか？';
@@ -2211,6 +2238,37 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get sudoWrongPassword => 'パスワードが正しくありません。もう一度お試しください。';
 
   @override
+  String get sudoEmailCodeSend => 'コードをメールで送信';
+
+  @override
+  String get sudoEmailCodeSent => 'メールアドレスに6桁のコードを送信しました。';
+
+  @override
+  String get sudoEmailCodeLabel => 'メールに記載されたコード';
+
+  @override
+  String get sudoEmailCodeResend => '新しいコードを送信';
+
+  @override
+  String get sudoSsoReauthHint => '本人確認のため、もう一度サインインしてください。';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'もう一度サインイン';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '$providerでサインイン';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      '別のアカウントでサインインしました。ここで使っているアカウントでサインインしてください。';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'このインスタンスのパスキーはこのアプリでは使えません。認証アプリかバックアップコードを使うか、ウェブで確認してください。';
+
+  @override
   String get securityAccountTitle => 'アカウント';
 
   @override
@@ -2541,6 +2599,56 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'アカウントを一時的に停止します。再度ログインすると、いつでも再開できます。';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'アカウントと個人データを削除します。メッセージも削除できます。';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'アカウント、プロフィール、個人データが削除されます。削除しなかったメッセージは、名前やプロフィールが外された状態で送信した場所に残ります。';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'メッセージも削除する';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'アカウントと一緒に、DM、グループDM、コミュニティで送信したすべてのメッセージを削除します。';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'データのコピーを残すには、先に$privacyDashboardでエクスポートをリクエストしてください。';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14日後に削除';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '14日以内にサインインすると、キャンセルできます。';
+
+  @override
+  String get dangerZoneDeleteSchedule => '削除を予約';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'アカウントは、このインスタンスの待機期間が過ぎると削除されます。それまでにサインインすると、削除はキャンセルされます。';
+
+  @override
+  String get dangerZoneDeleteNow => '今すぐ削除';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'アカウントを今すぐ削除しますか？';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => 'アカウントはすぐに削除され、復元できません。';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'PlutoniumのサブスクリプションはAppleから請求されています。アカウントを削除してもサブスクリプションはキャンセルされないため、先にApp Storeでキャンセルしてください。';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'PlutoniumのサブスクリプションはGoogle Playから請求されています。アカウントを削除してもサブスクリプションはキャンセルされないため、先にGoogle Playでキャンセルしてください。';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'アカウントを無効にすると、すべてのセッションからログアウトされます。再度ログインすることで、いつでもアカウントを再有効化できます。';
 
@@ -2548,45 +2656,15 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'アカウントを削除';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'アカウントと関連データをすべて完全に削除します。この操作は元に戻せません。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'アカウントを削除できません';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'コミュニティを所有している間は、アカウントを削除できません。まず、以下のコミュニティの所有権を譲渡してください:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'あなたは以下のコミュニティのオーナーです。アカウントを削除する前に、各コミュニティを削除するか、別のメンバーに譲ってください。';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '$count件その他';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '所有権を譲渡するには、$settingsPathに移動し、所有権譲渡オプションを使用してください。';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      '本当にアカウントを削除しますか？この操作により、アカウントの完全な削除が予約されます。';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '14日以内であれば、削除処理をキャンセルできます';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14日後にアカウントは完全に削除されます';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '一度削除されたアカウントは復元できません';
-
-  @override
-  String get dangerZoneDeleteBullet4 => 'アカウントが削除された後、送信したメッセージを削除することはできません';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'データをエクスポートしたい場合や、先にメッセージを削除したい場合は、続行する前にユーザー設定のプライバシーダッシュボードセクションにアクセスしてください。';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'コミュニティをタップすると設定が開きます。「コミュニティを削除」は一番下にあります。譲るには、「メンバー」を開いてメンバーをタップし、プロフィールの3つの点をタップして「所有権を移行」を選んでください。';
 
   @override
   String get claimAccountTitle => 'アカウントを登録';
@@ -2610,9 +2688,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'アカウントを登録しました';
-
-  @override
-  String get importantInformation => '重要事項:';
 
   @override
   String get genericError => 'エラーが発生しました';
@@ -11088,6 +11163,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domainはこのアプリより新しいバージョンのFluxerを使用しています。アプリを更新してから、もう一度お試しください。';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domainは安全な接続（https）を使用していません。Fluxerがhttpで接続するのは、ローカルネットワーク上のインスタンスだけです。';
   }
 
   @override

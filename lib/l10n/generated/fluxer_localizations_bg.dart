@@ -94,12 +94,33 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Свързан';
 
   @override
+  String get gatewayOfflineToast =>
+      'Нямаш интернет връзка. Fluxer ще се свърже отново, когато връзката се възстанови.';
+
+  @override
   String get sessionExpiredToast =>
       'Вашата сесия е изтекла. Моля, влезте отново.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Акаунтът ти ще бъде изтрит на $date. Ако влезеш преди това, изтриването се отменя.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Акаунтът ти е насрочен за изтриване. Ако влезеш преди датата на изтриване, то се отменя.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Изтриваме акаунта ти сега. Ако акаунтът ти има имейл адрес, ще ти изпратим имейл, когато приключим.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Изтриваме акаунта ти сега.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Акаунтът ти е деактивиран. Влез отново, когато искаш да го използваш.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Здравей, $displayName, потвърди имейл адреса си.';
   }
+
+  @override
+  String get verificationResendEmail => 'Изпрати имейла отново';
+
+  @override
+  String get verificationEmailSent =>
+      'Изпратен е имейл за потвърждение. Провери входящата си поща.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Поиска твърде много имейли за потвърждение. Изчакай малко и опитай отново.';
 
   @override
   String get nagbarOpenSettings => 'Отваряне на настройките';
@@ -385,6 +417,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Опитай друг метод';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Ключовете за достъп от тази инстанция не работят в това приложение, а акаунтът ти няма друг метод за потвърждение. Влез през уеб версията.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Опитай със защитен ключ / ключ за достъп вместо това';
 
@@ -523,78 +559,68 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get signOut => 'Изход';
 
   @override
-  String get suspendedPermanentTitle => 'Акаунтът е перманентно блокиран';
-
-  @override
   String get suspendedTemporaryTitle => 'Акаунтът е временно блокиран';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Вашият акаунт е перманентно блокиран за нарушаване на нашите Условия за ползване.';
+  String get suspendedBannedTitle => 'Акаунтът е блокиран';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Вашият акаунт е временно блокиран. Ще можете да влезете в акаунта си, след като периодът на блокиране приключи.';
+  String get suspendedClosedTitle => 'Акаунтът е закрит';
 
   @override
-  String get suspendedIssuedAt => 'Издадено';
+  String get suspendedWhatHappened => 'Какво се случи';
 
   @override
-  String get suspendedEndsAt => 'Край';
+  String get suspendedWhy => 'Защо';
 
   @override
-  String get suspendedDuration => 'Продължителност';
+  String get suspendedHowWeDecided => 'Как решихме';
 
   @override
-  String get suspendedPermanent => 'Постоянно';
+  String get suspendedHowToAppeal => 'Как да обжалваш';
 
   @override
-  String get suspendedReason => 'Причина';
-
-  @override
-  String get suspendedAppealDeadline => 'Краен срок за обжалване';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Профилът ви е насрочен за изтриване на $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Бележка от нашия екип: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Проверка за актуализации';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID на решението: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Провери отново след $seconds сек.';
+  String suspendedRule(String title) {
+    return 'Правило: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Ако смяташ, че сме сгрешили, пиши на $email и посочи потребителското си име.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Ако смяташ, че сме сгрешили, пиши на $email до $deadline. Посочи ID на решението и потребителското си име. Обжалването е безплатно и всяка жалба се преглежда от човек.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Ако смяташ, че сме сгрешили, пиши на $email до $deadline. Ако можеш, пиши от имейл адреса на акаунта си и посочи ID на решението. Обжалването е безплатно и всяка жалба се преглежда от човек.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'За да поискаш да изтрием акаунта и данните ти, пиши на $email от адреса на акаунта си.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'За да поискаш да изтрием акаунта и данните ти, пиши на $email и посочи потребителското си име.';
   }
 
   @override
   String get suspendedBackToLogin => 'Обратно към влизане';
-
-  @override
-  String get suspendedAppealTitle => 'Жалба';
-
-  @override
-  String get suspendedAppealHint =>
-      'Обяснете защо мярката ви трябва да бъде преразгледана (минимум 50 знака)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Изпрати обжалване';
-
-  @override
-  String get suspendedAppealPending => 'Чака преглед';
-
-  @override
-  String get suspendedAppealAccepted => 'Прието обжалване';
-
-  @override
-  String get suspendedAppealRejected => 'Отхвърлена жалба';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Вашата жалба е приета и акаунтът ви е възстановен.';
-
-  @override
-  String get suspendedSignIn => 'Влезте в профила си';
 
   @override
   String get forgotPasswordTitle => 'Забравена парола?';
@@ -2321,6 +2347,37 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get sudoWrongPassword => 'Паролата е грешна. Опитай отново.';
 
   @override
+  String get sudoEmailCodeSend => 'Изпрати ми код по имейл';
+
+  @override
+  String get sudoEmailCodeSent => 'Изпратихме 6-цифрен код на имейл адреса ти.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Код от имейла';
+
+  @override
+  String get sudoEmailCodeResend => 'Изпрати нов код';
+
+  @override
+  String get sudoSsoReauthHint => 'Влез отново, за да потвърдиш, че си ти.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Влез отново';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Вход с $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Влезе в различен акаунт. Влез с акаунта, който използваш тук.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Ключовете за достъп от тази инстанция не работят в това приложение. Използвай приложението си за удостоверяване или резервен код, или потвърди през уеб версията.';
+
+  @override
   String get securityAccountTitle => 'Акаунт';
 
   @override
@@ -2668,6 +2725,59 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Деактивирай временно акаунта си. Можеш да го активираш отново по-късно, като влезеш пак.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Изтрий акаунта и личните си данни. Можеш да изтриеш и съобщенията си.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Акаунтът, профилът и личните ти данни се изтриват. Съобщенията, които не изтриеш, остават там, където си ги изпратил, без името или профила ти.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Изтрий и съобщенията ми';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Изтрива всяко съобщение, което си изпратил в DM, групови DM и общности, заедно с акаунта ти.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'За да запазиш копие на данните си, първо поискай експорт от $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Изтриване след 14 дни';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Можеш да отмениш, като влезеш в рамките на 14-те дни.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Насрочване на изтриване';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Акаунтът ти се изтрива след периода на изчакване на тази инстанция. Ако влезеш преди това, изтриването се отменя.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Изтриване сега';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle =>
+      'Да изтрием ли акаунта ти сега?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Акаунтът ти се изтрива веднага и не може да бъде възстановен.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Абонаментът ти за Plutonium се таксува от Apple. Изтриването на акаунта не го отменя, затова първо го откажи в App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Абонаментът ти за Plutonium се таксува от Google Play. Изтриването на акаунта не го отменя, затова първо го откажи в Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Деактивирането на акаунта ви ще ви отпише от всички сесии. Можете да активирате акаунта си отново по всяко време, като влезете отново.';
 
@@ -2675,50 +2785,16 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Изтриване на акаунт';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Изтрий завинаги акаунта си и всички свързани данни. Това действие не може да бъде отменено.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Акаунтът не може да бъде изтрит';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Не можеш да изтриеш акаунта си, докато притежаваш общности. Първо прехвърли собствеността върху следните общности:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Ти притежаваш тези общности. Изтрий всяка от тях или я предай на друг член, преди да изтриеш акаунта си.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'и още $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'За да прехвърлите собствеността, отидете на $settingsPath и използвайте опцията за прехвърляне на собствеността.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Наистина ли искаш да изтриеш акаунта си? Акаунтът ти ще бъде насрочен за окончателно изтриване.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Можеш да отмениш процеса по изтриване до 14 дни';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'След 14 дни акаунтът ти ще бъде изтрит завинаги';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'След като изтриването бъде обработено, няма да можеш да възстановиш достъпа до акаунта си';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Няма да можете да изтриете изпратените си съобщения, след като акаунтът ви бъде изтрит';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Ако искате да експортирате данните си или да изтриете съобщенията си първо, моля, посетете секцията „Табло за поверителност“ в Настройките на потребителя, преди да продължите.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Докосни общност, за да отвориш настройките ѝ. „Изтриване на общност“ е най-долу. За да я предадеш, отвори „Членове“, докосни член, докосни трите точки в профила му и избери „Прехвърляне на собствеността“.';
 
   @override
   String get claimAccountTitle => 'Заяви акаунта си';
@@ -2742,9 +2818,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Акаунтът е заявен успешно';
-
-  @override
-  String get importantInformation => 'Важна информация:';
 
   @override
   String get genericError => 'Възникна грешка';
@@ -11697,6 +11770,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain използва по-нова версия на Fluxer от това приложение. Обнови приложението и опитай отново.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain не използва защитена връзка (https). Fluxer се свързва през http само с инстанции в локалната ти мрежа.';
   }
 
   @override

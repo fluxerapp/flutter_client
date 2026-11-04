@@ -59,6 +59,8 @@ class UserSettingsDesktopNavEntry {
     this.isGiveFeedback = false,
     this.isHelp = false,
     this.isWhatsNew = false,
+    this.isPrivacyPolicy = false,
+    this.isTermsOfService = false,
   });
 
   const UserSettingsDesktopNavEntry.separator([UserSettingsNavGroup? group])
@@ -89,6 +91,12 @@ class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry.whatsNew()
     : this._(icon: PhosphorIconsFill.megaphone, isWhatsNew: true);
 
+  const UserSettingsDesktopNavEntry.privacyPolicy()
+    : this._(icon: PhosphorIconsFill.lockKey, isPrivacyPolicy: true);
+
+  const UserSettingsDesktopNavEntry.termsOfService()
+    : this._(icon: PhosphorIconsFill.fileText, isTermsOfService: true);
+
   final UserSettingsNavGroup? group;
   final UserSettingsSection? section;
   final IconData? icon;
@@ -99,6 +107,8 @@ class UserSettingsDesktopNavEntry {
   final bool isGiveFeedback;
   final bool isHelp;
   final bool isWhatsNew;
+  final bool isPrivacyPolicy;
+  final bool isTermsOfService;
 
   SettingsSidebarItem toSidebarItem(FluxerLocalizations l10n) {
     if (isSeparator) {
@@ -128,6 +138,12 @@ class UserSettingsDesktopNavEntry {
     if (isWhatsNew) {
       return SettingsSidebarItem(l10n.userSettingsNavWhatsNew, icon: icon);
     }
+    if (isPrivacyPolicy) {
+      return SettingsSidebarItem(l10n.premiumPrivacyPolicy, icon: icon);
+    }
+    if (isTermsOfService) {
+      return SettingsSidebarItem(l10n.premiumTermsOfService, icon: icon);
+    }
     return SettingsSidebarItem(
       userSettingsSectionLabel(l10n, section!),
       icon: icon,
@@ -150,6 +166,12 @@ class UserSettingsDesktopNavEntry {
     }
     if (isWhatsNew) {
       return l10n.userSettingsNavWhatsNew;
+    }
+    if (isPrivacyPolicy) {
+      return l10n.premiumPrivacyPolicy;
+    }
+    if (isTermsOfService) {
+      return l10n.premiumTermsOfService;
     }
     return userSettingsSectionLabel(l10n, section!);
   }
@@ -281,6 +303,8 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
   bool showGifts = true,
+  bool showPrivacyPolicy = false,
+  bool showTerms = false,
 }) => [
   ..._userSettingsDesktopNavYourAccount,
   if (showBilling)
@@ -308,6 +332,8 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   if (showGiveFeedback) const UserSettingsDesktopNavEntry.giveFeedback(),
   if (showJoinFluxerLabs) const UserSettingsDesktopNavEntry.joinFluxerLabs(),
   ..._userSettingsDesktopNavAppLicenses,
+  if (showPrivacyPolicy) const UserSettingsDesktopNavEntry.privacyPolicy(),
+  if (showTerms) const UserSettingsDesktopNavEntry.termsOfService(),
   ..._userSettingsDesktopNavLogout,
 ];
 
@@ -395,6 +421,8 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
   bool showGifts = true,
+  VoidCallback? onOpenPrivacyPolicy,
+  VoidCallback? onOpenTerms,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -496,6 +524,18 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
             onTap: onJoinFluxerLabs,
           ),
         link(UserSettingsSection.appLicenses, PhosphorIconsFill.scroll),
+        if (onOpenPrivacyPolicy != null)
+          FluxerSettingsNavItem(
+            label: l10n.premiumPrivacyPolicy,
+            icon: PhosphorIconsFill.lockKey,
+            onTap: onOpenPrivacyPolicy,
+          ),
+        if (onOpenTerms != null)
+          FluxerSettingsNavItem(
+            label: l10n.premiumTermsOfService,
+            icon: PhosphorIconsFill.fileText,
+            onTap: onOpenTerms,
+          ),
         FluxerSettingsNavItem(
           label: l10n.userSettingsNavLogOut,
           icon: PhosphorIconsFill.signOut,

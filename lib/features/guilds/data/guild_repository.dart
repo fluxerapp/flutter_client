@@ -136,6 +136,33 @@ class GuildRepository {
         .toList(growable: false);
   }
 
+  Future<List<Guild>> fetchOwnedGuilds(String userId) async {
+    const int pageSize = 200;
+    final List<Guild> owned = <Guild>[];
+    String? after;
+    while (true) {
+      final List<GuildResponse> page = await _client.guilds.listGuilds(
+        after: after,
+      );
+      owned.addAll(
+        page
+            .where((GuildResponse guild) => guild.ownerId == userId)
+            .map(
+              (GuildResponse guild) => Guild(
+                id: guild.id,
+                name: guild.name,
+                icon: guild.icon,
+                ownerId: guild.ownerId,
+              ),
+            ),
+      );
+      if (page.length < pageSize) {
+        return owned;
+      }
+      after = page.last.id;
+    }
+  }
+
   Future<Guild> getServer(String guildId) async {
     try {
       final guild = await _client.guilds.getGuild(guildId: guildId);
