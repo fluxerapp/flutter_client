@@ -10,8 +10,6 @@ final class VoipRegistry: NSObject {
   private var registry: PKPushRegistry?
   private var pushDelegate: VoipPushDelegate?
   private var pendingTokenHex: String?
-  private let completionLock = NSLock()
-  private var parkedCompletions: [ObjectIdentifier: [() -> Void]] = [:]
 
   func start() {
     if registry != nil {
@@ -80,29 +78,8 @@ final class VoipRegistry: NSObject {
       completion()
       return
     }
-    let payloadId = ObjectIdentifier(payload)
-    completionLock.lock()
-    if parkedCompletions[payloadId] != nil {
-      parkedCompletions[payloadId]?.append(completion)
-      completionLock.unlock()
-      return
-    }
-    parkedCompletions[payloadId] = []
-    completionLock.unlock()
     NSLog("[CallKit] voip payload")
-    reporter.handle(payload: payload) { [weak self] in
-      guard let self else {
-        completion()
-        return
-      }
-      self.completionLock.lock()
-      let parked = self.parkedCompletions.removeValue(forKey: payloadId) ?? []
-      self.completionLock.unlock()
-      completion()
-      for parkedCompletion in parked {
-        parkedCompletion()
-      }
-    }
+    reporter.handle(payload: payload, completion: completion)
   }
 }
 

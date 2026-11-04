@@ -66,6 +66,19 @@ class AssistantBridge {
     }
   }
 
+  Future<void> deleteInteractions() async {
+    if (!isAssistantChannelSupported()) {
+      return;
+    }
+    try {
+      await _channel.invokeMethod<void>('deleteInteractions');
+    } on MissingPluginException {
+      return;
+    } on PlatformException catch (error) {
+      talker.warning('[Assistant] Failed to delete interactions: $error');
+    }
+  }
+
   Future<Object?> _onMethodCall(MethodCall call) async {
     if (call.method != 'runCommand') {
       throw PlatformException(code: 'unimplemented', message: call.method);

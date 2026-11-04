@@ -20,7 +20,7 @@ enum PresenceStatusOption: String, AppEnum {
 struct SetPresenceStatusIntent: AppIntent {
   static var title: LocalizedStringResource = "Set Status"
   static var description = IntentDescription("Set your Fluxer status.")
-  static var openAppWhenRun = false
+  static var openAppWhenRun = true
 
   @Parameter(title: "Status", requestValueDialog: IntentDialog("Which status?"))
   var status: PresenceStatusOption
@@ -30,10 +30,10 @@ struct SetPresenceStatusIntent: AppIntent {
   }
 
   func perform() async throws -> some IntentResult & ProvidesDialog {
-    .result(dialog: await AssistantCommandRunner.speak([
+    .result(dialog: await AssistantCommandRunner.run([
       "type": "presenceSetStatus",
       "status": status.rawValue,
-    ]))
+    ], openApp: true))
   }
 }
 
@@ -42,7 +42,7 @@ struct SetCustomStatusIntent: AppIntent {
   static var description = IntentDescription(
     "Set your Fluxer custom status. Leave it blank to clear."
   )
-  static var openAppWhenRun = false
+  static var openAppWhenRun = true
 
   @Parameter(title: "Status", requestValueDialog: IntentDialog("What should your status say?"))
   var text: String?
@@ -53,9 +53,9 @@ struct SetCustomStatusIntent: AppIntent {
 
   func perform() async throws -> some IntentResult & ProvidesDialog {
     let value = text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-    return .result(dialog: await AssistantCommandRunner.speak([
+    return .result(dialog: await AssistantCommandRunner.run([
       "type": "presenceSetCustomStatus",
       "text": value,
-    ]))
+    ], openApp: true))
   }
 }

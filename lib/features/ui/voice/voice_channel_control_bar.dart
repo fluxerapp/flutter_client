@@ -433,6 +433,7 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
       enabled: enabled,
       child: Tooltip(
         message: widget.tooltip,
+        excludeFromSemantics: true,
         child: FluxerGestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: (_) => _setPressed(true),

@@ -1,6 +1,7 @@
 import AppIntents
 import Flutter
 import Foundation
+import Intents
 
 final class AssistantBridge: NSObject {
   static let shared = AssistantBridge()
@@ -8,7 +9,7 @@ final class AssistantBridge: NSObject {
   private static let methodChannelName = "fluxer_app/assistant"
   static let readyWaitNanoseconds: UInt64 = 20_000_000_000
   private static let pollNanoseconds: UInt64 = 50_000_000
-  private static let fallbackSpoken = "Fluxer could not complete that."
+  private static var fallbackSpoken: String { String(localized: "Fluxer could not complete that.") }
 
   private var methodChannel: FlutterMethodChannel?
   private var isRegisteredWithEngine = false
@@ -69,6 +70,12 @@ final class AssistantBridge: NSObject {
       result(nil)
     case "takePending":
       result(AssistantPendingCommand.takeIfAccount(call.arguments as? String))
+    case "deleteInteractions":
+      INInteraction.deleteAll { _ in
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
     default:
       result(FlutterMethodNotImplemented)
     }

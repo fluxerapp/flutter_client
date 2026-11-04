@@ -69,6 +69,9 @@ class AssistantBinding {
         String? previous,
         String? next,
       ) {
+        if (previous != null && previous.isNotEmpty && previous != next) {
+          unawaited(_bridge?.deleteInteractions());
+        }
         if (next == null || next.isEmpty) {
           unawaited(_clear());
           return;

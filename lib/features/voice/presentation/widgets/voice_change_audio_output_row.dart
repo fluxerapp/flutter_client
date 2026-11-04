@@ -1,32 +1,17 @@
-import 'dart:async';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
-import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Key kVoiceChangeAudioOutputKey = Key('voice-change-audio-output');
-
-final GlobalKey voiceChangeAudioOutputRowKey = GlobalKey();
-
-Rect? voiceChangeAudioOutputRowAnchor() {
-  final BuildContext? context = voiceChangeAudioOutputRowKey.currentContext;
-  if (context == null) {
-    return null;
-  }
-  final RenderObject? renderObject = context.findRenderObject();
-  if (renderObject is! RenderBox || !renderObject.hasSize) {
-    return null;
-  }
-  final Offset origin = renderObject.localToGlobal(Offset.zero);
-  return origin & renderObject.size;
-}
 
 String voiceOutputRouteLabel(FluxerLocalizations l10n, VoiceOutputRoute route) {
   switch (route) {
@@ -39,23 +24,67 @@ String voiceOutputRouteLabel(FluxerLocalizations l10n, VoiceOutputRoute route) {
   }
 }
 
-Future<void> openNativeVoiceAudioRoutePicker(WidgetRef ref) async {
-  ref.read(voiceIosNativeRouteSyncProvider);
-  final VoiceSettings settingsNotifier = ref.read(
-    voiceSettingsProvider.notifier,
-  );
-  final VoiceSettingsState currentBeforePicker = ref.read(
-    voiceSettingsProvider,
-  );
-  final String? pickedRoute = await presentNativeVoiceRoutePicker(
-    anchor: voiceChangeAudioOutputRowAnchor(),
-  );
-  await syncVoiceSettingsAfterNativeRoutePicker(
-    settingsNotifier: settingsNotifier,
-    currentBeforePicker: currentBeforePicker,
-    pickedRouteName: pickedRoute,
-    readCurrentState: () => ref.read(voiceSettingsProvider),
-  );
+class _NativeRoutePickerOverlay extends ConsumerStatefulWidget {
+  const _NativeRoutePickerOverlay({
+    required this.label,
+    required this.value,
+    required this.child,
+  });
+
+  final String label;
+  final String value;
+  final Widget child;
+
+  @override
+  ConsumerState<_NativeRoutePickerOverlay> createState() =>
+      _NativeRoutePickerOverlayState();
+}
+
+class _NativeRoutePickerOverlayState
+    extends ConsumerState<_NativeRoutePickerOverlay> {
+  MethodChannel? _channel;
+
+  void _onCreated(int id) {
+    _channel = MethodChannel('fluxer_app/voice_route_picker/$id');
+    _sendValue();
+  }
+
+  void _sendValue() {
+    _channel?.invokeMethod<void>('setValue', widget.value).ignore();
+  }
+
+  @override
+  void didUpdateWidget(_NativeRoutePickerOverlay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      _sendValue();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool inCall = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.isInVoice),
+    );
+    return Stack(
+      children: <Widget>[
+        ExcludeSemantics(child: widget.child),
+        Positioned.fill(
+          child: UiKitView(
+            key: ValueKey<String>('$inCall-${widget.label}'),
+            viewType: 'fluxer_app/voice_route_picker',
+            creationParams: <String, Object>{
+              'inCall': inCall,
+              'label': widget.label,
+              'value': widget.value,
+            },
+            creationParamsCodec: const StandardMessageCodec(),
+            onPlatformViewCreated: _onCreated,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class VoiceChangeAudioOutputSettingsRow extends ConsumerWidget {
@@ -69,15 +98,20 @@ class VoiceChangeAudioOutputSettingsRow extends ConsumerWidget {
     ref.watch(voiceIosNativeRouteSyncProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final VoiceOutputRoute route = ref.watch(voiceSettingsProvider).outputRoute;
-    return KeyedSubtree(
-      key: voiceChangeAudioOutputRowKey,
+    final String routeLabel = voiceOutputRouteLabel(l10n, route);
+    return _NativeRoutePickerOverlay(
+      label: l10n.voiceChangeAudioOutputLabel,
+      value: routeLabel,
       child: FluxerSettingsConfigureRow(
         key: kVoiceChangeAudioOutputKey,
         title: l10n.voiceChangeAudioOutputLabel,
-        description: voiceOutputRouteLabel(l10n, route),
-        onConfigure: () {
-          unawaited(openNativeVoiceAudioRoutePicker(ref));
-        },
+        description: routeLabel,
+        onConfigure: () {},
+        trailing: PhosphorIcon(
+          PhosphorIconsBold.caretRight,
+          size: 16,
+          color: context.colors.textSecondary,
+        ),
       ),
     );
   }
@@ -94,9 +128,11 @@ class VoiceChangeAudioOutputPanelRow extends ConsumerWidget {
     ref.watch(voiceIosNativeRouteSyncProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final VoiceOutputRoute route = ref.watch(voiceSettingsProvider).outputRoute;
+    final String routeLabel = voiceOutputRouteLabel(l10n, route);
     final colors = context.colors;
-    return KeyedSubtree(
-      key: voiceChangeAudioOutputRowKey,
+    return _NativeRoutePickerOverlay(
+      label: l10n.voiceChangeAudioOutputLabel,
+      value: routeLabel,
       child: FluxerListRow(
         key: kVoiceChangeAudioOutputKey,
         leading: SizedBox(
@@ -111,15 +147,12 @@ class VoiceChangeAudioOutputPanelRow extends ConsumerWidget {
           ),
         ),
         title: l10n.voiceChangeAudioOutputLabel,
-        subtitle: voiceOutputRouteLabel(l10n, route),
+        subtitle: routeLabel,
         trailing: PhosphorIcon(
           PhosphorIconsBold.caretRight,
           size: 18,
           color: colors.textPrimaryMuted,
         ),
-        onTap: () {
-          unawaited(openNativeVoiceAudioRoutePicker(ref));
-        },
       ),
     );
   }

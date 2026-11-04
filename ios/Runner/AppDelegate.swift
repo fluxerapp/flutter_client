@@ -171,6 +171,12 @@ import flutter_callkit_incoming
     VoiceSpeakerRouteBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    if let routePicker = engineBridge.pluginRegistry.registrar(forPlugin: "VoiceRoutePicker") {
+      routePicker.register(
+        VoiceRoutePickerViewFactory(messenger: routePicker.messenger()),
+        withId: "fluxer_app/voice_route_picker"
+      )
+    }
     UploadKeepAliveBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
