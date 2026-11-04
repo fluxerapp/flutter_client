@@ -6251,6 +6251,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A videóhoz kamerahasználati engedély szükséges.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Engedélyezd a mikrofonhoz való hozzáférést, hogy feloldhasd a némítást ebben a hívásban.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nem sikerült elindítani a képernyőmegosztást. Kérlek, próbáld újra.';
 

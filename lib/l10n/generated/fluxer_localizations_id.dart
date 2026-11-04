@@ -6195,6 +6195,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Izin kamera diperlukan untuk video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Izinkan akses mikrofon untuk membuka suara di panggilan ini.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Tidak dapat memulai berbagi layar. Coba lagi.';
 

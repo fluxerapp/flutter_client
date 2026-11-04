@@ -631,10 +631,16 @@ class VoiceSession extends _$VoiceSession {
     }
     _preJoinPermissionsInFlight = true;
     bool joinMicrophoneGranted = false;
+    bool joinCameraGranted = false;
     try {
       joinMicrophoneGranted = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.microphone,
       );
+      if (initialSelfVideo) {
+        joinCameraGranted = await requestVoiceJoinMediaPermissionGranted(
+          SystemPermissionKind.camera,
+        );
+      }
     } finally {
       _preJoinPermissionsInFlight = false;
     }
@@ -642,7 +648,7 @@ class VoiceSession extends _$VoiceSession {
       return false;
     }
     _lastConnectRequestAt = now;
-    _startWithVideoAfterConnect = initialSelfVideo;
+    _startWithVideoAfterConnect = joinCameraGranted;
     final local = ref.read(localVoiceStateProvider);
     bool resolvedSelfMute = initialSelfDeaf || initialSelfMute;
     bool resolvedSelfDeaf = initialSelfDeaf;
@@ -2434,6 +2440,35 @@ class VoiceSession extends _$VoiceSession {
         );
   }
 
+  Future<bool> _ensureSystemPermissionForVoice(
+    SystemPermissionKind kind, {
+    required String deniedErrorCode,
+  }) async {
+    final SystemPermissionOutcome outcome;
+    try {
+      outcome = await requestSystemPermission(kind);
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[Voice] Permission $kind failed: $error',
+        error,
+        stackTrace,
+      );
+      return false;
+    }
+    if (outcome == SystemPermissionOutcome.granted) {
+      if (state.errorMessage == deniedErrorCode) {
+        state = state.copyWith(clearError: true);
+      }
+      return true;
+    }
+    if (outcome == SystemPermissionOutcome.requiresSettings) {
+      await ensureSystemPermission(resolveSystemPermissionContext(null), kind);
+      return false;
+    }
+    state = state.copyWith(errorMessage: deniedErrorCode);
+    return false;
+  }
+
   void clearError() {
     if (state.errorMessage == null && !state.connectFailed) {
       return;
@@ -2487,8 +2522,9 @@ class VoiceSession extends _$VoiceSession {
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
     if (!nextMute) {
-      final bool micGranted = await requestVoiceJoinMediaPermissionGranted(
+      final bool micGranted = await _ensureSystemPermissionForVoice(
         SystemPermissionKind.microphone,
+        deniedErrorCode: kVoiceSessionErrorMicPermission,
       );
       if (!ref.mounted || !micGranted) {
         return;
@@ -2577,13 +2613,11 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (nextVideo) {
-      final bool camOk = await requestVoiceJoinMediaPermissionGranted(
+      final bool camOk = await _ensureSystemPermissionForVoice(
         SystemPermissionKind.camera,
+        deniedErrorCode: kVoiceSessionErrorCameraPermission,
       );
-      if (!ref.mounted) {
-        return;
-      }
-      if (!camOk) {
+      if (!ref.mounted || !camOk) {
         return;
       }
     }

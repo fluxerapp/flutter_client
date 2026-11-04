@@ -5965,6 +5965,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => '동영상 통화를 위해 카메라 권한이 필요합니다.';
 
   @override
+  String get voiceMicPermissionRequired => '이 통화에서 음소거를 해제하려면 마이크 접근을 허용하세요.';
+
+  @override
   String get voiceErrorScreenShareToggle => '화면 공유를 시작할 수 없습니다. 다시 시도해 주세요.';
 
   @override

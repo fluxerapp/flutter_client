@@ -96,7 +96,7 @@ String resolveVoiceSessionErrorMessage(
     case kVoiceSessionErrorDirectCallNotEligible:
       return l10n.directVoiceCallNotEligible;
     case kVoiceSessionErrorMicPermission:
-      return l10n.voiceMessageMicPermissionDenied;
+      return l10n.voiceMicPermissionRequired;
     case kVoiceSessionErrorTransportFailed:
       return l10n.voiceJoinCallFailed;
     case kVoiceSessionErrorMultiDeviceDisconnectFailed:

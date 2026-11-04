@@ -10071,6 +10071,12 @@ abstract class FluxerLocalizations {
   /// **'Camera permission is required for video.'**
   String get voiceCameraPermissionRequired;
 
+  /// Shown in the call bar when the user tries to unmute and microphone access was denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow microphone access to unmute in this call.'**
+  String get voiceMicPermissionRequired;
+
   /// Error shown when toggling screen sharing fails for an unknown reason.
   ///
   /// In en, this message translates to:

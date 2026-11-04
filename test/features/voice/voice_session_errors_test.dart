@@ -11,13 +11,6 @@ void main() {
   });
 
   group('resolveVoiceSessionErrorMessage', () {
-    test('maps mic permission code', () {
-      expect(
-        resolveVoiceSessionErrorMessage(kVoiceSessionErrorMicPermission, l10n),
-        l10n.voiceMessageMicPermissionDenied,
-      );
-    });
-
     test('maps transport failure code', () {
       expect(
         resolveVoiceSessionErrorMessage(

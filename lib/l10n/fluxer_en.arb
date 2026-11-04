@@ -7905,6 +7905,10 @@
     "@voiceCameraPermissionRequired": {
         "description": "Error when the user enables video but camera access is denied."
     },
+    "voiceMicPermissionRequired": "Allow microphone access to unmute in this call.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
     "voiceErrorScreenShareToggle": "Couldn't start screen sharing. Please try again.",
     "@voiceErrorScreenShareToggle": {
         "description": "Error shown when toggling screen sharing fails for an unknown reason."

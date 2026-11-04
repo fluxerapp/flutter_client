@@ -1,4 +1,5 @@
 require "yaml"
+require_relative "ios_bundle_check"
 
 default_platform(:ios)
 
@@ -370,6 +371,7 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
     upload_measure_ios_dsyms
     maximum_attempts = 3
     attempt_index = 1
@@ -503,6 +505,7 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
     upload_measure_ios_dsyms
     changelog = "Build from GitHub Actions run: #{ENV['GITHUB_SERVER_URL']}/#{ENV['GITHUB_REPOSITORY']}/actions/runs/#{ENV['GITHUB_RUN_ID']}"
 
@@ -631,6 +634,7 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
     upload_measure_ios_dsyms
     maximum_attempts = 3
     attempt_index = 1

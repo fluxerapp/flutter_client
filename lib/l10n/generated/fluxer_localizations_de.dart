@@ -6263,6 +6263,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Kamera-Berechtigung ist für Video erforderlich.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Erlaube den Mikrofonzugriff, um in diesem Anruf die Stummschaltung aufzuheben.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Bildschirmfreigabe konnte nicht gestartet werden. Bitte versuche es erneut.';
 

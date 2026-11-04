@@ -6245,6 +6245,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Для відео потрібен дозвіл на використання камери.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Дозвольте доступ до мікрофона, щоб увімкнути його в цьому дзвінку.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Не вдалося розпочати демонстрацію екрана. Спробуйте ще раз.';
 

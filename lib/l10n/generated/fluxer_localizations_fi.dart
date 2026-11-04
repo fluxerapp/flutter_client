@@ -6214,6 +6214,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Kameran käyttöoikeus vaaditaan videota varten.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Salli mikrofonin käyttö, jotta voit poistaa mykistyksen tässä puhelussa.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Näytönjaon käynnistäminen epäonnistui. Yritä uudelleen.';
 

@@ -6270,6 +6270,10 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Se requiere permiso de cámara para el vídeo.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Permite el acceso al micrófono para quitar el silencio en esta llamada.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'No se pudo iniciar el uso compartido de pantalla. Inténtalo de nuevo.';
 
@@ -22955,6 +22959,10 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get voiceCameraPermissionRequired =>
       'Necesitas permitir el acceso a la cámara para el video.';
+
+  @override
+  String get voiceMicPermissionRequired =>
+      'Permite el acceso al micrófono para desactivar el silencio en esta llamada.';
 
   @override
   String get voiceErrorScreenShareToggle =>

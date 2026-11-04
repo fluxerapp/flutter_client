@@ -6219,6 +6219,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Potrebna je dozvola za kameru za video.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Dopustite pristup mikrofonu kako biste uključili mikrofon u ovom pozivu.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nismo mogli pokrenuti dijeljenje zaslona. Molimo pokušajte ponovno.';
 

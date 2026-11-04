@@ -23,6 +23,8 @@ import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.da
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/notification/permission.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
@@ -90,6 +92,7 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/providers/nagbar/push_notification_permission_status_provider.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -5081,6 +5084,9 @@ class ChatViewModel extends _$ChatViewModel {
             favoriteMemeId: favoriteMemeId,
             tts: tts,
           );
+          if (consumed) {
+            unawaited(_askForPushPermissionAfterSend());
+          }
         } finally {
           if (!consumed && claimNonce != null) {
             _returnClaim(claimNonce);
@@ -5090,6 +5096,27 @@ class ChatViewModel extends _$ChatViewModel {
     } finally {
       _preparingSendKeys.remove(key);
     }
+  }
+
+  Future<void> _askForPushPermissionAfterSend() async {
+    final bool asked;
+    try {
+      asked = await requestPushNotificationPermissionAfterFirstSend();
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[ChatViewModel] push permission after send failed',
+        error,
+        stackTrace,
+      );
+      return;
+    }
+    if (!asked || !ref.mounted) {
+      return;
+    }
+    ref
+      ..invalidate(pushNotificationPermissionGrantedProvider)
+      ..invalidate(pushNotificationRequiresSystemSettingsProvider);
+    unawaited(ref.read(apnsMobileDeviceRegistrationProvider.notifier).sync());
   }
 
   Future<void> _afterPreparingSends(Future<void> Function() prepare) {

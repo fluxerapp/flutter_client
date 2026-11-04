@@ -6281,6 +6281,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Vaizdo įrašui reikalingas kameros leidimas.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Leiskite prieigą prie mikrofono, kad šiame skambutyje galėtumėte įjungti mikrofoną.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nepavyko pradėti ekrano bendrinimo. Pabandykite dar kartą.';
 

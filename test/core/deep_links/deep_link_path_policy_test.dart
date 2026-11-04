@@ -127,6 +127,60 @@ void main() {
     });
   });
 
+  group('isOfficialLinkForOtherInstance', () {
+    test('sends official links to the browser on a self-hosted instance', () {
+      for (final String url in <String>[
+        'https://fluxer.com/invite/abcd',
+        'https://FLUXER.APP/channels/@me',
+        'https://canary.fluxer.com/gift/xyz',
+        'https://fluxer.gg/abcd',
+      ]) {
+        expect(
+          isOfficialLinkForOtherInstance(
+            Uri.parse(url),
+            instanceWebAppBase: 'https://chat.example.org',
+          ),
+          isTrue,
+          reason: url,
+        );
+      }
+    });
+
+    test('routes official links in the app on an official instance', () {
+      for (final String base in <String>[
+        'https://fluxer.com/app',
+        'https://web.fluxer.app',
+        'https://web.canary.fluxer.com',
+      ]) {
+        expect(
+          isOfficialLinkForOtherInstance(
+            Uri.parse('https://fluxer.com/invite/abcd'),
+            instanceWebAppBase: base,
+          ),
+          isFalse,
+          reason: base,
+        );
+      }
+    });
+
+    test('ignores own instance links and app protocol links', () {
+      for (final String url in <String>[
+        'https://chat.example.org/invite/abcd',
+        'fluxer://invite/abcd',
+        '/channels/@me',
+      ]) {
+        expect(
+          isOfficialLinkForOtherInstance(
+            Uri.parse(url),
+            instanceWebAppBase: 'https://chat.example.org',
+          ),
+          isFalse,
+          reason: url,
+        );
+      }
+    });
+  });
+
   group('normalizeDeepLinkPath', () {
     test('trims trailing slashes and preserves root', () {
       expect(normalizeDeepLinkPath('/channels/@me/'), '/channels/@me');
