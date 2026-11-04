@@ -966,8 +966,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count narių';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount narių',
+      many: '$formattedCount nario',
+      few: '$formattedCount nariai',
+      one: '$formattedCount narys',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1068,9 +1076,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Temas galima importuoti tik žiniatinklyje arba kompiuteryje.';
-
-  @override
-  String get embedThemeImport => 'Importuoti temą';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1416,7 +1421,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count nariai';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count narių',
+      many: '$count nario',
+      few: '$count nariai',
+      one: '$count narys',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1812,6 +1825,50 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       locale: localeName,
       other: '$count bendruomenės',
       one: '1 bendruomenė',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Raskite tobulą lipduką';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Nėra prieinamų lipdukų';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Prisijunkite prie bendruomenės su lipdukais, kad galėtumėte juos naudoti čia.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nėra prieinamų lipdukų';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Šiame pokalbyje lipdukų naudoti negalima.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Lipdukų nerasta';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Pabandykite kitą paieškos žodį.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Atrakinkite $stickerCount iš $communityCount su Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lipdukų',
+      many: '$count lipduko',
+      few: '$count lipdukus',
+      one: '$count lipduką',
     );
     return '$_temp0';
   }
@@ -4831,7 +4888,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Pasirinkite tamsią, anglies arba šviesią išvaizdą.';
+      'Pasirinkite sistemos, tamsią, anglies arba šviesią išvaizdą.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Didelis dinaminis diapazonas';
@@ -5358,6 +5415,64 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Būtina nurodyti pavadinimą.';
+
+  @override
+  String get savedMediaEdit => 'Redaguoti';
+
+  @override
+  String get savedMediaEditTitle => 'Redaguoti išsaugotą mediją';
+
+  @override
+  String get savedMediaDeleteTitle => 'Ištrinti išsaugotą mediją';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Pašalinti „$name“ iš išsaugotos medijos?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Nepavyko ištrinti išsaugotos medijos.';
+
+  @override
+  String get savedMediaSearchHint => 'Ieškoti išsaugotos medijos';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Išsaugota medija nepasiekiama';
+
+  @override
+  String get savedMediaUnavailableBody => 'Bandyti dar kartą po akimirkos.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nėra išsaugotos medijos';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Išsaugokite mediją iš žinučių, kad ji būtų rodoma čia.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nėra rezultatų';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Pabandykite kitą paieškos žodį arba filtrą.';
+
+  @override
+  String get savedMediaFilterAll => 'Visi';
+
+  @override
+  String get savedMediaFilterImages => 'Vaizdai';
+
+  @override
+  String get savedMediaFilterVideos => 'Vaizdo įrašai';
+
+  @override
+  String get savedMediaFilterAudio => 'Garsas';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF\'ai';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6225,6 +6340,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Atmesti';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Balso skambučio valdikliai';
 
   @override
   String get voiceConnectionDisconnected => 'Atjungta';
@@ -7441,6 +7559,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageDebug => 'Derinti žinutę';
 
   @override
+  String get messageAlertNote => 'Pastaba';
+
+  @override
+  String get messageAlertTip => 'Patarimas';
+
+  @override
+  String get messageAlertImportant => 'Svarbu';
+
+  @override
+  String get messageAlertWarning => 'Įspėjimas';
+
+  @override
+  String get messageAlertCaution => 'Atsargiai';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Derinti žinutę';
 
   @override
@@ -7717,6 +7850,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatReplyMentionOff => 'IŠJUNGTA';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Atsakoma $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Persiųsta iš $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Atšaukti atsakymą';
 
   @override
@@ -7793,6 +7936,23 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Atmesti';
+
+  @override
+  String get videoPlayerPlay => 'Leisti';
+
+  @override
+  String get videoPlayerPause => 'Pristabdyti';
+
+  @override
+  String get videoPlayerVolume => 'Garsumas';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Atkūrimo greitis ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Visas ekranas';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Perjungti vaizdo valdiklius';
@@ -8776,6 +8936,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pranešimų nustatymai, nutildyta';
 
   @override
+  String get channelHeaderOpenDetails => 'Atidaryti kanalo informaciją';
+
+  @override
   String get channelDetailsSearchTitle => 'Ieškoti';
 
   @override
@@ -9479,6 +9642,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Uždaryti priedų pasirinkiklį';
+
+  @override
+  String get composerSendMessage => 'Siųsti žinutę';
 
   @override
   String get chatAttachmentPanelPhotos => 'Nuotraukos';
@@ -11352,6 +11518,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pridėti atvirkštinę vaizdų paiešką';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Ieškoti su $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Versti su $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Įjunkite bent vieną toliau nurodytą atvirkštinės vaizdų paieškos teikėją.';
 
@@ -11456,6 +11632,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Programos žurnalai';
+
+  @override
+  String get userSettingsTitle => 'Nustatymai';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopijuoti programėlės informaciją';
 
   @override
   String get userSettingsNavDeveloperTools => 'Kūrėjo įrankiai';
@@ -11803,9 +11985,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Norint prisijungti, reikia prisijungti prie serverio';
 
   @override
-  String get comingSoon => 'Netrukus';
-
-  @override
   String get guildNavbarDirectMessages => 'Tiesioginės žinutės';
 
   @override
@@ -11896,9 +12075,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Bendruomenės';
-
-  @override
-  String get discoveryApps => 'Programos';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -12016,6 +12192,78 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Gauta';
+
+  @override
+  String get friendsPageTitle => 'Mano draugai';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktyvūs dabar';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Kol kas ramu...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Kai draugai bus aktyvūs balso kanaluose, jų veikla bus rodoma čia.';
+
+  @override
+  String get friendsTabOnline => 'Prisijungęs';
+
+  @override
+  String get friendsTabAll => 'Visi';
+
+  @override
+  String get friendsTabPending => 'Laukiama';
+
+  @override
+  String get friendsTabBlocked => 'Užblokuoti';
+
+  @override
+  String get friendsSearchOnline => 'Ieškoti prisijungusių draugų';
+
+  @override
+  String get friendsSearchAll => 'Ieškoti draugų';
+
+  @override
+  String get friendsSearchPending => 'Ieškoti laukiančių užklausų';
+
+  @override
+  String get friendsSearchBlocked => 'Ieškoti užblokuotų naudotojų';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nėra draugų, atitinkančių paiešką';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Pabandykite kitą vardą arba patikrinkite rašybą.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nėra prisijungusių draugų';
+
+  @override
+  String get friendsEmptyOnlineBody => 'Kai jie prisijungs, jie atsiras čia.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Dar nėra draugų';
+
+  @override
+  String get friendsEmptyAllBody => 'Ten, kur einame, reikia daugiau draugų.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Nėra laukiančių užklausų';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Čia rodomos laukiančios draugystės užklausos.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Nieko neužblokavote.';
+
+  @override
+  String get friendsOutgoingStatus => 'Išsiųsta draugystės užklausa';
+
+  @override
+  String get friendsBlockedStatus => 'Užblokuotas';
 
   @override
   String get profileRemoveFriend => 'Pašalinti draugą';
@@ -12300,6 +12548,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Nutildyta iki $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Nutildyta';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15193,6 +15444,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Tiesioginės žinutės';
+
+  @override
+  String get dmListFriendsButton => 'Draugai';
 
   @override
   String get keybindsSearchShortcuts => 'Ieškoti sparčiųjų klavišų';

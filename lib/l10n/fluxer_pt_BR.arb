@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Membros",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Membro} other{{formattedCount} Membros}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Só é possível importar temas na web ou no desktop.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importar tema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Configurações de privacidade",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} membros",
+    "dmGroupMemberCount": "{count, plural, one{{count} membro} other{{count} membros}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Escolha entre aparência escura, carvão ou clara.",
+    "lookAndFeelThemeSectionDescription": "Escolha entre a aparência do sistema, escura, carvão ou clara.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Em breve",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Mensagens diretas",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Comunidades",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplicativos",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Não foi possível entrar nesta comunidade",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Enviar mensagem",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Pesquisa reversa de imagem padrão",
     "advancedSettingDefaultReverseImageSearchDescription": "Escolha qual serviço de busca reversa de imagem será usado por padrão ao pesquisar uma imagem.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Pesquisa de imagem reversa integrada",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ative ou desative os provedores de busca reversa de imagem integrados. Os provedores ativados aparecem no menu de contexto de imagens, avatares, banners, figurinhas e emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Pesquisa de imagem reversa personalizada",
     "advancedSettingCustomReverseImageSearchDescription": "Adicione seus próprios provedores de pesquisa reversa de imagens com um padrão de URL personalizado. Use '{url}' como um espaço reservado para o URL da imagem.",
     "advancedSettingAddReverseImageSearchLabel": "Adicionar pesquisa de imagem reversa",
@@ -18124,14 +18118,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "O Fluxer fechou inesperadamente. Compartilhar dados anônimos de falhas e erros nos ajuda a corrigir problemas mais rápido.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Os relatórios incluem registros de falhas, erros e dados básicos de desempenho. Eles não são compartilhados com terceiros e você pode desativar isso a qualquer momento.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Para ativar depois, abra Configurações → Avançado → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18145,10 +18131,6 @@
     "observabilityReportingConsentAgree": "Enviar relatórios de falhas",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Não quero ativar",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Enviar feedback",
     "@userSettingsGiveFeedback": {

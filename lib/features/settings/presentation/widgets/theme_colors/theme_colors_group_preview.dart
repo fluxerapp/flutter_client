@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -405,7 +406,10 @@ class _PreviewMessageAlert extends StatelessWidget {
                   children: [
                     Icon(type.icon, size: 16, color: accent),
                     const SizedBox(width: 6),
-                    Text(type.label, style: titleStyle),
+                    Text(
+                      alertTypeLabel(FluxerLocalizations.of(context), type),
+                      style: titleStyle,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),

@@ -101,7 +101,7 @@ Future<void> navigateToDmChannelContent({
 }
 
 void navigateToDmFriendsContent(BuildContext context) {
-  navigateToContent(context, RoutePaths.me);
+  navigateToContent(context, RoutePaths.meFriends);
 }
 
 Future<void> navigateToGuildChannelContent({

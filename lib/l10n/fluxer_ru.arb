@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} участников",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} участник} few{{formattedCount} участника} many{{formattedCount} участников} other{{formattedCount} участника}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Темы можно импортировать только в веб-версии или на компьютере.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Импортировать тему",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Настройки конфиденциальности",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} участников",
+    "dmGroupMemberCount": "{count, plural, one{{count} участник} few{{count} участника} many{{count} участников} other{{count} участника}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Выберите темное, угольное или светлое оформление.",
+    "lookAndFeelThemeSectionDescription": "Выберите системное, темное, угольное или светлое оформление.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Скоро",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Личные сообщения",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Сообщества",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Приложения",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Не удалось присоединиться к этому сообществу",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Отправить сообщение",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Фотографии",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Поиск по изображению по умолчанию",
     "advancedSettingDefaultReverseImageSearchDescription": "Выберите сервис, который будет использоваться по умолчанию для поиска по изображению.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Встроенный поиск по изображению",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Включите или отключите встроенные сервисы обратного поиска изображений. Включенные сервисы будут отображаться в контекстном меню изображений, аватаров, баннеров, стикеров и эмодзи.",
     "advancedSettingCustomReverseImageSearchLabel": "Пользовательский поиск по изображению",
     "advancedSettingCustomReverseImageSearchDescription": "Добавьте свои собственные провайдеры обратного поиска изображений с пользовательским шаблоном URL. Используйте «{url}» в качестве заполнителя для URL-адреса изображения.",
     "advancedSettingAddReverseImageSearchLabel": "Добавить обратный поиск по изображению",
@@ -18144,14 +18138,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer неожиданно закрылся. Анонимные данные о сбоях и ошибках помогут нам быстрее исправлять проблемы.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Отчеты содержат журналы сбоев, ошибки и базовые данные о производительности. Они не передаются третьим лицам, и вы можете отключить их в любое время.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Чтобы включить позже, откройте Настройки → Дополнительно → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18165,10 +18151,6 @@
     "observabilityReportingConsentAgree": "Отправлять отчеты о сбоях",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Не включать",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Оставить отзыв",
     "@userSettingsGiveFeedback": {

@@ -152,10 +152,12 @@ class _EmailEntryView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  l10n.needAccountPrompt,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textTertiary,
+                Flexible(
+                  child: Text(
+                    l10n.needAccountPrompt,
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textTertiary,
+                    ),
                   ),
                 ),
                 FluxerTextLink(

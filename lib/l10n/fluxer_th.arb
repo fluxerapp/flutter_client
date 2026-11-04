@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} สมาชิก",
+    "embedInviteMembers": "{formattedCount} สมาชิก",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "นำเข้าธีมได้เฉพาะบนเว็บหรือเดสก์ท็อปเท่านั้น",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "นำเข้าธีม",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "การตั้งค่าความเป็นส่วนตัว",
     "@privacySettings": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "เลือกระหว่างรูปลักษณ์แบบมืด, ถ่าน, หรือสว่าง",
+    "lookAndFeelThemeSectionDescription": "เลือกระหว่างรูปลักษณ์ตามระบบ มืด ถ่าน หรือสว่าง",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "เร็วๆ นี้",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "ข้อความส่วนตัว",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "คอมมูนิตี้",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "แอป",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "ไม่สามารถเข้าร่วมคอมมูนิตี้นี้ได้",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "ส่งข้อความ",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "รูปภาพ",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "การค้นหารูปภาพย้อนกลับเริ่มต้น",
     "advancedSettingDefaultReverseImageSearchDescription": "เลือกบริการค้นหารูปภาพย้อนกลับที่จะใช้เป็นค่าเริ่มต้นเมื่อค้นหารูปภาพ",
     "advancedSettingBuiltInReverseImageSearchLabel": "ค้นหารูปภาพย้อนกลับในตัว",
-    "advancedSettingBuiltInReverseImageSearchDescription": "เปิดหรือปิดผู้ให้บริการค้นหารูปภาพย้อนกลับในตัว ผู้ให้บริการที่เปิดใช้งานจะปรากฏในเมนูบริบทของรูปภาพ, รูปโปรไฟล์, แบนเนอร์, สติกเกอร์ และอิโมจิ",
     "advancedSettingCustomReverseImageSearchLabel": "ค้นหารูปภาพย้อนกลับแบบกำหนดเอง",
     "advancedSettingCustomReverseImageSearchDescription": "เพิ่มผู้ให้บริการค้นหารูปภาพย้อนกลับของคุณเองด้วยรูปแบบ URL ที่กำหนดเอง ใช้ '{url}' เป็นตัวยึดตำแหน่งสำหรับ URL ของรูปภาพ",
     "advancedSettingAddReverseImageSearchLabel": "เพิ่มการค้นหารูปภาพย้อนกลับ",
@@ -18144,14 +18138,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer ปิดตัวลงโดยไม่คาดคิด การแชร์ข้อมูลข้อขัดข้องและข้อผิดพลาดแบบไม่ระบุตัวตนช่วยให้เราแก้ไขปัญหาได้เร็วขึ้น",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "รายงานประกอบด้วยบันทึกข้อขัดข้อง ข้อผิดพลาด และข้อมูลประสิทธิภาพพื้นฐาน รายงานจะไม่ถูกแชร์กับบุคคลที่สาม และคุณสามารถปิดตัวเลือกนี้ได้ทุกเมื่อ",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "หากต้องการเปิดใช้งานภายหลัง ให้ไปที่ การตั้งค่า → ขั้นสูง → {reportingToggle}",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18165,10 +18151,6 @@
     "observabilityReportingConsentAgree": "ส่งรายงานข้อขัดข้อง",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "ไม่ต้องการเปิดใช้งาน",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "ส่งความคิดเห็น",
     "@userSettingsGiveFeedback": {

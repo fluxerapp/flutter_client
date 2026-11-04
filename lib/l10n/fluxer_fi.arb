@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} jäsentä",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} jäsen} other{{formattedCount} jäsentä}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Voit tuoda teemoja vain verkossa tai työpöydällä.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Tuo teema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Tietosuoja-asetukset",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} jäsentä",
+    "dmGroupMemberCount": "{count, plural, one{{count} jäsen} other{{count} jäsentä}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Valitse tumman, hiilenmustan tai vaalean ulkoasun välillä.",
+    "lookAndFeelThemeSectionDescription": "Valitse järjestelmän, tumman, hiilenmustan tai vaalean ulkoasun välillä.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Tulossa pian",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Yksityisviestit",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Yhteisöt",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Sovellukset",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Yhteisöön liittyminen epäonnistui",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Lähetä viesti",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Kuvat",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Oletusarvoinen käänteinen kuvahaku",
     "advancedSettingDefaultReverseImageSearchDescription": "Valitse oletuspalvelu, jota käytetään kuvan käänteisessä kuvahaussa.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Sisäänrakennettu käänteinen kuvahaku",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ota käyttöön tai poista käytöstä sisäänrakennetut käänteisen kuvahaun tarjoajat. Käytössä olevat tarjoajat näkyvät kuvien, avatarien, bannerien, tarrojen ja emojien pikavalikossa.",
     "advancedSettingCustomReverseImageSearchLabel": "Mukautettu käänteinen kuvahaku",
     "advancedSettingCustomReverseImageSearchDescription": "Lisää omat käänteisen kuvahaun tarjoajasi mukautetulla URL-mallilla. Käytä `{url}` paikkamerkkinä kuvan URL-osoitteelle.",
     "advancedSettingAddReverseImageSearchLabel": "Lisää käänteinen kuvahaku",
@@ -18136,14 +18130,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer sulkeutui odottamatta. Nimettömien kaatumis- ja virhetietojen jakaminen auttaa meitä korjaamaan ongelmat nopeammin.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Raportit sisältävät kaatumislokeja, virheitä ja perustason suorituskykytietoja. Niitä ei jaeta kolmansille osapuolille, ja voit poistaa tämän käytöstä milloin tahansa.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Voit ottaa tämän käyttöön myöhemmin kohdassa Asetukset → Lisäasetukset → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18157,10 +18143,6 @@
     "observabilityReportingConsentAgree": "Lähetä kaatumisraportteja",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "En halua ottaa käyttöön",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Anna palautetta",
     "@userSettingsGiveFeedback": {

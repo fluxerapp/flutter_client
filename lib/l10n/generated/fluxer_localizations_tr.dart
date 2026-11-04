@@ -961,8 +961,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count Üye';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount Üye';
   }
 
   @override
@@ -1062,9 +1062,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Temaları yalnızca web veya masaüstünde içe aktarabilirsin.';
-
-  @override
-  String get embedThemeImport => 'Temayı içe aktar';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1797,6 +1794,49 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       locale: localeName,
       other: '$count topluluk',
       one: '1 topluluk',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Mükemmel çıkartmayı bul';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Kullanılabilir çıkartma yok';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Çıkartmaları burada kullanmak için çıkartması olan bir topluluğa katılın.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Kullanılabilir çıkartma yok';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Bu sohbette kullanılabilir çıkartma yok.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Çıkartma bulunamadı';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Farklı bir arama terimi deneyin.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutonium ile $communityCount içinden $stickerCount kullanın.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count çıkartma',
+      one: '1 çıkartma',
     );
     return '$_temp0';
   }
@@ -4801,7 +4841,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Koyu, kömür veya açık görünüm arasında seçim yapın.';
+      'Sistem, koyu, kömür veya açık görünüm arasında seçim yapın.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Yüksek dinamik aralık';
@@ -5329,6 +5369,64 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Ad gerekli.';
+
+  @override
+  String get savedMediaEdit => 'Düzenle';
+
+  @override
+  String get savedMediaEditTitle => 'Kayıtlı medyayı düzenle';
+
+  @override
+  String get savedMediaDeleteTitle => 'Kayıtlı medyayı sil';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '“$name” kayıtlı medyanızdan kaldırılsın mı?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Kayıtlı medya silinemedi.';
+
+  @override
+  String get savedMediaSearchHint => 'Kayıtlı medyada ara';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Kayıtlı medya kullanılamıyor';
+
+  @override
+  String get savedMediaUnavailableBody => 'Birazdan tekrar deneyin.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Kayıtlı medya yok';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Burada görmek için mesajlardaki medyayı kaydedin.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Sonuç bulunamadı';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Farklı bir arama terimi veya filtre deneyin.';
+
+  @override
+  String get savedMediaFilterAll => 'Tümü';
+
+  @override
+  String get savedMediaFilterImages => 'Görseller';
+
+  @override
+  String get savedMediaFilterVideos => 'Videolar';
+
+  @override
+  String get savedMediaFilterAudio => 'Ses';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF\'ler';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6151,6 +6249,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Kapat';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Sesli arama kontrolleri';
 
   @override
   String get voiceConnectionDisconnected => 'Bağlantı kesildi';
@@ -7353,6 +7454,21 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageDebug => 'Mesajda hata ayıkla';
 
   @override
+  String get messageAlertNote => 'Not';
+
+  @override
+  String get messageAlertTip => 'İpucu';
+
+  @override
+  String get messageAlertImportant => 'Önemli';
+
+  @override
+  String get messageAlertWarning => 'Uyarı';
+
+  @override
+  String get messageAlertCaution => 'Dikkat';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Mesajda hata ayıkla';
 
   @override
@@ -7627,6 +7743,16 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatReplyMentionOff => 'KAPALI';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '$authorName adlı kişiye yanıt veriliyor';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Şuradan iletildi: $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Yanıtlamayı iptal et';
 
   @override
@@ -7703,6 +7829,23 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Kapat';
+
+  @override
+  String get videoPlayerPlay => 'Oynat';
+
+  @override
+  String get videoPlayerPause => 'Duraklat';
+
+  @override
+  String get videoPlayerVolume => 'Ses düzeyi';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Oynatma hızı ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Tam ekran';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8682,6 +8825,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bildirim ayarları, sessizde';
 
   @override
+  String get channelHeaderOpenDetails => 'Kanal ayrıntılarını aç';
+
+  @override
   String get channelDetailsSearchTitle => 'Ara';
 
   @override
@@ -9390,6 +9536,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Ekleri kapat';
+
+  @override
+  String get composerSendMessage => 'Mesaj gönder';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotoğraflar';
@@ -11251,6 +11400,16 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Ters görsel arama ekle';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '$engine ile ara';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '$engine ile çevir';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Aşağıdan en az bir ters görsel arama sağlayıcısını etkinleştirin.';
 
@@ -11353,6 +11512,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Uygulama Günlükleri';
+
+  @override
+  String get userSettingsTitle => 'Ayarlar';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Uygulama bilgilerini kopyala';
 
   @override
   String get userSettingsNavDeveloperTools => 'Geliştirici araçları';
@@ -11698,9 +11863,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Giriş yapmak için kuruluma bağlanın';
 
   @override
-  String get comingSoon => 'Çok yakında';
-
-  @override
   String get guildNavbarDirectMessages => 'Doğrudan mesajlar';
 
   @override
@@ -11790,9 +11952,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Topluluklar';
-
-  @override
-  String get discoveryApps => 'Uygulamalar';
 
   @override
   String get discoveryJoinErrorGenericTitle => 'Bu topluluğa katılamadınız';
@@ -11906,6 +12065,79 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Gelen kutusu';
+
+  @override
+  String get friendsPageTitle => 'Arkadaşlarım';
+
+  @override
+  String get friendsActiveNowTitle => 'Şu an aktif';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Şimdilik sessiz...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Arkadaşlarınız sesli kanallarda aktif olduğunda etkinlikleri burada görünür.';
+
+  @override
+  String get friendsTabOnline => 'Çevrimiçi';
+
+  @override
+  String get friendsTabAll => 'Tümü';
+
+  @override
+  String get friendsTabPending => 'Beklemede';
+
+  @override
+  String get friendsTabBlocked => 'Engellendi';
+
+  @override
+  String get friendsSearchOnline => 'Çevrimiçi arkadaş ara';
+
+  @override
+  String get friendsSearchAll => 'Arkadaş ara';
+
+  @override
+  String get friendsSearchPending => 'Bekleyen istekleri ara';
+
+  @override
+  String get friendsSearchBlocked => 'Engellenen kullanıcılarda ara';
+
+  @override
+  String get friendsEmptySearchTitle => 'Bu aramaya uyan arkadaş bulunamadı';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Başka bir ad deneyin veya yazımınızı kontrol edin.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Çevrimiçi arkadaş yok';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Çevrimiçi olduklarında burada görünecekler.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Henüz arkadaş yok';
+
+  @override
+  String get friendsEmptyAllBody => 'Gideceğimiz yere daha çok arkadaş lazım.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Bekleyen istek yok';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Bekleyen arkadaşlık istekleri burada görünür.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Kimseyi engellemediniz.';
+
+  @override
+  String get friendsOutgoingStatus => 'Giden arkadaşlık isteği';
+
+  @override
+  String get friendsBlockedStatus => 'Engellendi';
 
   @override
   String get profileRemoveFriend => 'Arkadaşlıktan çıkar';
@@ -12188,6 +12420,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return '$formattedDate tarihine kadar sessize alındı';
   }
+
+  @override
+  String get channelMutedHint => 'Sessize alındı';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15049,6 +15284,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Doğrudan mesajlar';
+
+  @override
+  String get dmListFriendsButton => 'Arkadaşlar';
 
   @override
   String get keybindsSearchShortcuts => 'Kısayolları ara';

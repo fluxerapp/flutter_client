@@ -233,7 +233,9 @@ class _ChannelTile extends ConsumerWidget {
         ref.read(mutedChannelIdsProvider(guildId)).value ?? const <String>{};
     final bool isMuted = mutedIds.contains(channel.id);
     final muteConfig = await _loadChannelMuteConfig(ref, guildId, channel.id);
-    final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
+    final String? mutedHint = isMuted
+        ? formatMutedHintText(muteConfig, l10n)
+        : null;
     final bool developerMode = ref
         .read(userSettingsViewModelProvider)
         .developerMode;

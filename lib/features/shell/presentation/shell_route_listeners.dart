@@ -60,6 +60,7 @@ class ShellRouteListeners extends ConsumerStatefulWidget {
 class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   int _distributorPickerAttempts = 0;
   bool _deferredObservabilityReportingConsent = false;
+  bool _deferredPushRelayConsent = false;
   @override
   void initState() {
     super.initState();
@@ -240,6 +241,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         ref.read(isActiveInstanceOfficialProvider)) {
       return;
     }
+    if (ref
+        .read(observabilityReportingPromptProvider.notifier)
+        .isPresentationInFlight) {
+      _deferredPushRelayConsent = true;
+      return;
+    }
     final BuildContext? rootContext = rootNavigatorKey.currentContext;
     if (rootContext == null || !rootContext.mounted) {
       if (attempt >= 60) {
@@ -367,7 +374,21 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       );
     } finally {
       promptNotifier.endPresentation();
+      _scheduleDeferredPushRelayConsent();
     }
+  }
+
+  void _scheduleDeferredPushRelayConsent() {
+    if (!_deferredPushRelayConsent || !mounted) {
+      return;
+    }
+    _deferredPushRelayConsent = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _schedulePushRelayConsentPrompt();
+    });
   }
 
   void _presentHomeQuickAction(HomeQuickAction action, {bool retried = false}) {

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_legacy_endpoint_migrator.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
@@ -155,9 +156,19 @@ class AuthRepository {
     }
   }
 
+  RegisterRequestThemeTheme _registerTheme(FluxerThemeMode mode) =>
+      switch (mode) {
+        FluxerThemeMode.dark => RegisterRequestThemeTheme.dark,
+        FluxerThemeMode.darkLegacy => RegisterRequestThemeTheme.darkLegacy,
+        FluxerThemeMode.coal => RegisterRequestThemeTheme.coal,
+        FluxerThemeMode.light => RegisterRequestThemeTheme.light,
+        FluxerThemeMode.system => RegisterRequestThemeTheme.system,
+      };
+
   Future<RegistrationResult> register({
     required String? email,
     required String password,
+    required FluxerThemeMode theme,
     String? dateOfBirth,
     String? username,
     String? displayName,
@@ -179,6 +190,7 @@ class AuthRepository {
               : null,
           inviteCode: JsonNullable.of(inviteCode),
           registrationUrlCode: JsonNullable.of(registrationUrlCode),
+          theme: _registerTheme(theme),
         ),
       );
 

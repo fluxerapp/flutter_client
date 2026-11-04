@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -30,7 +31,12 @@ class NativeTitlebar extends ConsumerWidget {
     final config = router.routerDelegate.currentConfiguration;
     final location = config.isNotEmpty ? config.last.matchedLocation : '/';
     final activeGuildId = ref.watch(activeGuildIdProvider);
-    final title = _resolveTitle(guilds, location, activeGuildId);
+    final title = _resolveTitle(
+      FluxerLocalizations.of(context),
+      guilds,
+      location,
+      activeGuildId,
+    );
     final bool showCustomWindowChrome = !Platform.isMacOS;
 
     return Material(
@@ -105,15 +111,16 @@ class NativeTitlebar extends ConsumerWidget {
   }
 
   String _resolveTitle(
+    FluxerLocalizations l10n,
     List<Guild> guilds,
     String location,
     String? activeGuildId,
   ) {
     if (location.startsWith('/channels/@me')) {
-      return 'Direct Messages';
+      return l10n.dmListDirectMessagesTitle;
     }
     if (location.startsWith('/channels/@favorites')) {
-      return 'Favorites';
+      return l10n.favoritesTitle;
     }
     if (activeGuildId != null) {
       final guild = guilds.where((g) => g.id == activeGuildId).firstOrNull;

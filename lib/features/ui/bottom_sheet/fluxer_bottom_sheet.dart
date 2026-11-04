@@ -116,7 +116,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
       to: navigator.context,
     ),
     isScrollControlled: true,
-    barrierLabel: localizations.scrimLabel,
+    barrierLabel: localizations.modalBarrierDismissLabel,
     barrierOnTapHint: localizations.scrimOnTapHint(
       localizations.bottomSheetLabel,
     ),

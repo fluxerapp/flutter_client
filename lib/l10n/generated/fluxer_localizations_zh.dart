@@ -905,8 +905,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count 位成员';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount 位成员';
   }
 
   @override
@@ -1002,9 +1002,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get embedThemeWebOnly => '只能在网页版或桌面版导入主题。';
-
-  @override
-  String get embedThemeImport => '导入主题';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1705,6 +1702,45 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       locale: localeName,
       other: '$count 个社群',
       one: '1 个社群',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => '搜索贴纸';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '没有可用的贴纸';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody => '加入一个有贴纸的社区，即可在这里使用贴纸。';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '没有可用的贴纸';
+
+  @override
+  String get stickerPickerEmptyHereBody => '此对话中没有可用的贴纸。';
+
+  @override
+  String get stickerPickerNoResultsTitle => '未找到贴纸';
+
+  @override
+  String get stickerPickerNoResultsBody => '请尝试其他搜索词。';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return '使用 Plutonium 解锁来自 $communityCount的 $stickerCount。';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个贴纸',
     );
     return '$_temp0';
   }
@@ -4555,7 +4591,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get lookAndFeelThemeSectionTitle => '主题';
 
   @override
-  String get lookAndFeelThemeSectionDescription => '在深色、煤黑色或浅色外观之间进行选择。';
+  String get lookAndFeelThemeSectionDescription => '在系统、深色、煤黑色或浅色外观之间进行选择。';
 
   @override
   String get lookAndFeelHdrSectionTitle => '高动态范围';
@@ -5037,6 +5073,62 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => '名称为必填项。';
+
+  @override
+  String get savedMediaEdit => '编辑';
+
+  @override
+  String get savedMediaEditTitle => '编辑已保存媒体';
+
+  @override
+  String get savedMediaDeleteTitle => '删除已保存媒体';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '要从已保存媒体中移除“$name”吗？';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '无法删除已保存媒体。';
+
+  @override
+  String get savedMediaSearchHint => '搜索已保存媒体';
+
+  @override
+  String get savedMediaUnavailableTitle => '已保存媒体不可用';
+
+  @override
+  String get savedMediaUnavailableBody => '请稍后重试。';
+
+  @override
+  String get savedMediaEmptyTitle => '没有已保存媒体';
+
+  @override
+  String get savedMediaEmptyBody => '保存消息中的媒体后，它们会显示在这里。';
+
+  @override
+  String get savedMediaNoResultsTitle => '无结果';
+
+  @override
+  String get savedMediaNoResultsBody => '请尝试其他搜索词或筛选条件。';
+
+  @override
+  String get savedMediaFilterAll => '全部';
+
+  @override
+  String get savedMediaFilterImages => '图片';
+
+  @override
+  String get savedMediaFilterVideos => '视频';
+
+  @override
+  String get savedMediaFilterAudio => '音频';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => '我们应该如何保存您收藏的 GIF？';
@@ -5795,6 +5887,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => '关闭';
+
+  @override
+  String get voiceCallControlsSheetLabel => '语音通话控制';
 
   @override
   String get voiceConnectionDisconnected => '已断开连接';
@@ -6917,6 +7012,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageDebug => '调试消息';
 
   @override
+  String get messageAlertNote => '备注';
+
+  @override
+  String get messageAlertTip => '提示';
+
+  @override
+  String get messageAlertImportant => '重要';
+
+  @override
+  String get messageAlertWarning => '警告';
+
+  @override
+  String get messageAlertCaution => '注意';
+
+  @override
   String get chatMessageDebugSheetTitle => '调试消息';
 
   @override
@@ -7170,6 +7280,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatReplyMentionOff => '关';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '正在回复 $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '转发自 $source';
+  }
+
+  @override
   String get chatReplyCancel => '取消回复';
 
   @override
@@ -7245,6 +7365,23 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => '关闭';
+
+  @override
+  String get videoPlayerPlay => '播放';
+
+  @override
+  String get videoPlayerPause => '暂停';
+
+  @override
+  String get videoPlayerVolume => '音量';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '播放速度 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '全屏';
 
   @override
   String get chatAttachmentVideoToggleControls => '切换视频控件';
@@ -8158,6 +8295,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => '通知设置，已静音';
 
   @override
+  String get channelHeaderOpenDetails => '打开频道详情';
+
+  @override
   String get channelDetailsSearchTitle => '搜索';
 
   @override
@@ -8813,6 +8953,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => '关闭附件选择器';
+
+  @override
+  String get composerSendMessage => '发送消息';
 
   @override
   String get chatAttachmentPanelPhotos => '照片';
@@ -10527,6 +10670,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get advancedSettingAddReverseImageSearchLabel => '添加反向图片搜索';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '使用 $engine 搜索';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '使用 $engine 翻译';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       '请至少启用一个反向图片搜索提供方。';
 
@@ -10621,6 +10774,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => '应用日志';
+
+  @override
+  String get userSettingsTitle => '设置';
+
+  @override
+  String get userSettingsCopyAppInfo => '复制应用信息';
 
   @override
   String get userSettingsNavDeveloperTools => '开发者工具';
@@ -10954,9 +11113,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get instanceConnectionRequired => '连接到实例后才能登录';
 
   @override
-  String get comingSoon => '即将推出';
-
-  @override
   String get guildNavbarDirectMessages => '私信';
 
   @override
@@ -11044,9 +11200,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => '社区';
-
-  @override
-  String get discoveryApps => '应用';
 
   @override
   String get discoveryJoinErrorGenericTitle => '无法加入此社区';
@@ -11155,6 +11308,75 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => '收件箱';
+
+  @override
+  String get friendsPageTitle => '我的好友';
+
+  @override
+  String get friendsActiveNowTitle => '当前活跃';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '暂时很安静…';
+
+  @override
+  String get friendsActiveNowEmptyBody => '当好友在语音频道中活跃时，他们的动态会显示在这里。';
+
+  @override
+  String get friendsTabOnline => '在线';
+
+  @override
+  String get friendsTabAll => '全部';
+
+  @override
+  String get friendsTabPending => '待处理';
+
+  @override
+  String get friendsTabBlocked => '已屏蔽';
+
+  @override
+  String get friendsSearchOnline => '搜索在线好友';
+
+  @override
+  String get friendsSearchAll => '搜索好友';
+
+  @override
+  String get friendsSearchPending => '搜索待处理请求';
+
+  @override
+  String get friendsSearchBlocked => '搜索已屏蔽用户';
+
+  @override
+  String get friendsEmptySearchTitle => '没有匹配该搜索的好友';
+
+  @override
+  String get friendsEmptySearchBody => '请尝试其他名称或检查拼写。';
+
+  @override
+  String get friendsEmptyOnlineTitle => '没有在线的好友';
+
+  @override
+  String get friendsEmptyOnlineBody => '他们上线后，会在这里显示。';
+
+  @override
+  String get friendsEmptyAllTitle => '暂无好友';
+
+  @override
+  String get friendsEmptyAllBody => '前方路漫漫，多交好友才好走。';
+
+  @override
+  String get friendsEmptyPendingTitle => '没有待处理的请求';
+
+  @override
+  String get friendsEmptyPendingBody => '待处理的好友请求会显示在这里。';
+
+  @override
+  String get friendsEmptyBlockedBody => '你还没有屏蔽任何人。';
+
+  @override
+  String get friendsOutgoingStatus => '发出的好友请求';
+
+  @override
+  String get friendsBlockedStatus => '已屏蔽';
 
   @override
   String get profileRemoveFriend => '删除好友';
@@ -11422,6 +11644,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return '静音至 $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => '已静音';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -14114,6 +14339,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => '私信';
 
   @override
+  String get dmListFriendsButton => '好友';
+
+  @override
   String get keybindsSearchShortcuts => '搜索快捷键';
 
   @override
@@ -16465,8 +16693,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count 位成員';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount 位成員';
   }
 
   @override
@@ -16562,9 +16790,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get embedThemeWebOnly => '只能在網頁版或桌面版匯入主題。';
-
-  @override
-  String get embedThemeImport => '匯入主題';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -17265,6 +17490,46 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       locale: localeName,
       other: '$count 個社群',
       one: '1 個社群',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => '尋找最適合的貼圖';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '沒有可用的貼圖';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody => '加入有貼圖的社群，就能在這裡使用貼圖。';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '沒有可用的貼圖';
+
+  @override
+  String get stickerPickerEmptyHereBody => '此對話中沒有可用的貼圖。';
+
+  @override
+  String get stickerPickerNoResultsTitle => '找不到貼圖';
+
+  @override
+  String get stickerPickerNoResultsBody => '請試試其他搜尋字詞。';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return '使用 Plutonium 解鎖 $communityCount中的 $stickerCount。';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 張貼圖',
+      one: '1 張貼圖',
     );
     return '$_temp0';
   }
@@ -20115,7 +20380,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get lookAndFeelThemeSectionTitle => '主題';
 
   @override
-  String get lookAndFeelThemeSectionDescription => '在深色、煤炭黑或淺色外觀之間選擇。';
+  String get lookAndFeelThemeSectionDescription => '在系統、深色、煤炭黑或淺色外觀之間選擇。';
 
   @override
   String get lookAndFeelHdrSectionTitle => '高動態範圍';
@@ -20598,6 +20863,62 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get savedMediaNameRequired => '請輸入名稱。';
+
+  @override
+  String get savedMediaEdit => '編輯';
+
+  @override
+  String get savedMediaEditTitle => '編輯已儲存的媒體';
+
+  @override
+  String get savedMediaDeleteTitle => '刪除已儲存的媒體';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '要將「$name」從已儲存的媒體中移除嗎？';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '無法刪除已儲存的媒體。';
+
+  @override
+  String get savedMediaSearchHint => '搜尋已儲存的媒體';
+
+  @override
+  String get savedMediaUnavailableTitle => '無法使用已儲存的媒體';
+
+  @override
+  String get savedMediaUnavailableBody => '請稍後再試一次。';
+
+  @override
+  String get savedMediaEmptyTitle => '沒有已儲存的媒體';
+
+  @override
+  String get savedMediaEmptyBody => '儲存訊息中的媒體，就會顯示在這裡。';
+
+  @override
+  String get savedMediaNoResultsTitle => '沒有結果';
+
+  @override
+  String get savedMediaNoResultsBody => '請試試其他搜尋字詞或篩選條件。';
+
+  @override
+  String get savedMediaFilterAll => '全部';
+
+  @override
+  String get savedMediaFilterImages => '圖片';
+
+  @override
+  String get savedMediaFilterVideos => '影片';
+
+  @override
+  String get savedMediaFilterAudio => '音訊';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'GIF 收藏要如何儲存？';
@@ -21356,6 +21677,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceConnectionDismiss => '關閉';
+
+  @override
+  String get voiceCallControlsSheetLabel => '語音通話控制項';
 
   @override
   String get voiceConnectionDisconnected => '已中斷連線';
@@ -22481,6 +22805,21 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatMessageDebug => '偵錯訊息';
 
   @override
+  String get messageAlertNote => '備註';
+
+  @override
+  String get messageAlertTip => '提示';
+
+  @override
+  String get messageAlertImportant => '重要';
+
+  @override
+  String get messageAlertWarning => '警告';
+
+  @override
+  String get messageAlertCaution => '注意';
+
+  @override
   String get chatMessageDebugSheetTitle => '偵錯訊息';
 
   @override
@@ -22734,6 +23073,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatReplyMentionOff => '關閉';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '正在回覆 $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '轉寄自 $source';
+  }
+
+  @override
   String get chatReplyCancel => '取消回覆';
 
   @override
@@ -22809,6 +23158,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get mediaViewerDismissBackdrop => '關閉';
+
+  @override
+  String get videoPlayerPlay => '播放';
+
+  @override
+  String get videoPlayerPause => '暫停';
+
+  @override
+  String get videoPlayerVolume => '音量';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '播放速度 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '全螢幕';
 
   @override
   String get chatAttachmentVideoToggleControls => '切換影片控制項';
@@ -23721,6 +24087,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get channelHeaderNotificationSettingsMuted => '通知設定，已靜音';
 
   @override
+  String get channelHeaderOpenDetails => '開啟頻道詳細資料';
+
+  @override
   String get channelDetailsSearchTitle => '搜尋';
 
   @override
@@ -24375,6 +24744,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get composerCloseAttachmentPanel => '關閉附件選擇器';
+
+  @override
+  String get composerSendMessage => '傳送訊息';
 
   @override
   String get chatAttachmentPanelPhotos => '相片';
@@ -26092,6 +26464,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get advancedSettingAddReverseImageSearchLabel => '新增以圖搜圖';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return '使用 $engine 搜尋';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '使用 $engine 翻譯';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       '請至少啟用一個反向圖片搜尋服務。';
 
@@ -26186,6 +26568,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsNavAppLogs => '應用程式記錄';
+
+  @override
+  String get userSettingsTitle => '設定';
+
+  @override
+  String get userSettingsCopyAppInfo => '複製應用程式資訊';
 
   @override
   String get userSettingsNavDeveloperTools => '開發人員工具';
@@ -26519,9 +26907,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get instanceConnectionRequired => '請先連線到伺服器才能登入';
 
   @override
-  String get comingSoon => '即將推出';
-
-  @override
   String get guildNavbarDirectMessages => '私訊';
 
   @override
@@ -26610,9 +26995,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get discoveryCommunities => '社群';
-
-  @override
-  String get discoveryApps => '應用程式';
 
   @override
   String get discoveryJoinErrorGenericTitle => '無法加入此社群';
@@ -26721,6 +27103,75 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get friendsOpenInbox => '收件匣';
+
+  @override
+  String get friendsPageTitle => '我的好友';
+
+  @override
+  String get friendsActiveNowTitle => '目前在線上';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '目前很安靜…';
+
+  @override
+  String get friendsActiveNowEmptyBody => '當好友在語音頻道中活動時，他們的動態會顯示在這裡。';
+
+  @override
+  String get friendsTabOnline => '線上';
+
+  @override
+  String get friendsTabAll => '全部';
+
+  @override
+  String get friendsTabPending => '待處理';
+
+  @override
+  String get friendsTabBlocked => '已封鎖';
+
+  @override
+  String get friendsSearchOnline => '搜尋線上好友';
+
+  @override
+  String get friendsSearchAll => '搜尋好友';
+
+  @override
+  String get friendsSearchPending => '搜尋待處理的好友邀請';
+
+  @override
+  String get friendsSearchBlocked => '搜尋已封鎖的使用者';
+
+  @override
+  String get friendsEmptySearchTitle => '沒有好友符合搜尋條件';
+
+  @override
+  String get friendsEmptySearchBody => '請再試另一個名稱或檢查您的拼字。';
+
+  @override
+  String get friendsEmptyOnlineTitle => '沒有在線上的好友';
+
+  @override
+  String get friendsEmptyOnlineBody => '他們上線時，就會顯示在這裡。';
+
+  @override
+  String get friendsEmptyAllTitle => '還沒有好友';
+
+  @override
+  String get friendsEmptyAllBody => '我們要去的地方，需要更多好友。';
+
+  @override
+  String get friendsEmptyPendingTitle => '沒有待處理的邀請';
+
+  @override
+  String get friendsEmptyPendingBody => '待處理的好友邀請會顯示在這裡。';
+
+  @override
+  String get friendsEmptyBlockedBody => '您還沒有封鎖任何人。';
+
+  @override
+  String get friendsOutgoingStatus => '已送出的好友邀請';
+
+  @override
+  String get friendsBlockedStatus => '已封鎖';
 
   @override
   String get profileRemoveFriend => '移除好友';
@@ -26988,6 +27439,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String guildNavbarMutedUntil(String formattedDate) {
     return '静音至 $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => '已靜音';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -29682,6 +30136,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get dmListDirectMessagesTitle => '私訊';
+
+  @override
+  String get dmListFriendsButton => '好友';
 
   @override
   String get keybindsSearchShortcuts => '搜尋快速鍵';

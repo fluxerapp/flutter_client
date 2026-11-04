@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/account/lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
@@ -377,6 +378,7 @@ class LoginViewModel extends _$LoginViewModel {
           .register(
             email: email,
             password: password,
+            theme: ref.read(themePreferenceProvider).mode,
             dateOfBirth: dateOfBirth,
             username: username,
             displayName: displayName,

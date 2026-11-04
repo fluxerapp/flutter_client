@@ -29,15 +29,6 @@ class DiscoverySidebar extends StatelessWidget {
             textStyles: textStyles,
             colors: colors,
           ),
-          const SizedBox(height: 4),
-          _DiscoverySidebarItem(
-            label: l10n.discoveryApps,
-            icon: PhosphorIconsBold.appWindow,
-            isDisabled: true,
-            comingSoonLabel: l10n.comingSoon,
-            textStyles: textStyles,
-            colors: colors,
-          ),
         ],
       ),
     );
@@ -51,66 +42,42 @@ class _DiscoverySidebarItem extends StatelessWidget {
     required this.textStyles,
     required this.colors,
     this.isActive = false,
-    this.isDisabled = false,
-    this.comingSoonLabel,
   });
 
   final String label;
   final IconData icon;
   final bool isActive;
-  final bool isDisabled;
-  final String? comingSoonLabel;
   final FluxerTextTheme textStyles;
   final FluxerColorTheme colors;
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = isDisabled
-        ? colors.textTertiaryMuted
-        : isActive
+    final Color textColor = isActive
         ? colors.textPrimary
         : colors.textSecondary;
     final Color backgroundColor = isActive
         ? colors.backgroundModifierSelected
         : Colors.transparent;
-    return Opacity(
-      opacity: isDisabled ? 0.6 : 1,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Row(
-          children: <Widget>[
-            PhosphorIcon(icon, size: 18, color: textColor),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                label,
-                style: textStyles.bodyMedium.copyWith(
-                  color: textColor,
-                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        children: <Widget>[
+          PhosphorIcon(icon, size: 18, color: textColor),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              label,
+              style: textStyles.bodyMedium.copyWith(
+                color: textColor,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
               ),
             ),
-            if (comingSoonLabel != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: colors.backgroundModifierAccent,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  comingSoonLabel!,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textTertiaryMuted,
-                    fontSize: 10,
-                  ),
-                ),
-              ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

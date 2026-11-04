@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} членове",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} член} other{{formattedCount} членове}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Темите могат да се импортират само в уеб или настолната версия.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Импортиране на тема",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Визионер (доживотно {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1557,7 +1556,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} членове",
+    "dmGroupMemberCount": "{count, plural, one{{count} член} other{{count} членове}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Изберете между тъмен, въглищен или светъл изглед.",
+    "lookAndFeelThemeSectionDescription": "Изберете между системен, тъмен, въглищен или светъл изглед.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Изпрати съобщението",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Снимки",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Търсене по изображение по подразбиране",
     "advancedSettingDefaultReverseImageSearchDescription": "Избери коя услуга за обратно търсене на изображения да се използва по подразбиране, когато търсиш изображение.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Вградено търсене по изображение",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Активирай или деактивирай вградените доставчици за обратно търсене на изображения. Активираните доставчици се показват в контекстното меню на изображения, аватари, банери, стикери и емоджита.",
     "advancedSettingCustomReverseImageSearchLabel": "Персонализирано търсене по изображение",
     "advancedSettingCustomReverseImageSearchDescription": "Добавете свои собствени доставчици за търсене по изображение с персонализиран шаблон за URL адрес. Използвайте '{url}' като заместител на URL адреса на изображението.",
     "advancedSettingAddReverseImageSearchLabel": "Добавяне на търсене по изображение",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Скоро",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Директни съобщения",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Общности",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Приложения",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Неуспешно присъединяване към общността",
     "@discoveryJoinErrorGenericTitle": {
@@ -18157,14 +18151,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer се затвори неочаквано. Споделянето на анонимни данни за сривове и грешки ни помага да оправяме проблемите по-бързо.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Отчетите съдържат журнали на сривове, грешки и основни данни за производителността. Те не се споделят с трети страни и можеш да изключиш това по всяко време.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "За да го включиш по-късно, отвори Настройки → Разширени → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18178,10 +18164,6 @@
     "observabilityReportingConsentAgree": "Изпращане на отчети за сривове",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Не искам да включвам",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Изпрати отзив",
     "@userSettingsGiveFeedback": {

@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} thành viên",
+    "embedInviteMembers": "{formattedCount} thành viên",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Bạn chỉ có thể nhập chủ đề trên web hoặc máy tính.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Nhập chủ đề",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (trọn đời {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Chọn giao diện tối, than hoặc sáng.",
+    "lookAndFeelThemeSectionDescription": "Chọn giao diện hệ thống, tối, than hoặc sáng.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Gửi tin nhắn",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Ảnh",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Tìm kiếm hình ảnh ngược mặc định",
     "advancedSettingDefaultReverseImageSearchDescription": "Chọn dịch vụ tìm kiếm hình ảnh ngược được dùng làm mặc định khi tìm kiếm một hình ảnh.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Tìm kiếm hình ảnh ngược tích hợp",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Bật hoặc tắt các nhà cung cấp tìm kiếm hình ảnh ngược tích hợp. Các nhà cung cấp được bật sẽ xuất hiện trong menu ngữ cảnh của hình ảnh, ảnh đại diện, ảnh bìa, nhãn dán và biểu tượng cảm xúc.",
     "advancedSettingCustomReverseImageSearchLabel": "Tìm kiếm hình ảnh ngược tùy chỉnh",
     "advancedSettingCustomReverseImageSearchDescription": "Thêm nhà cung cấp tìm kiếm hình ảnh đảo ngược của riêng bạn với một mẫu URL tùy chỉnh. Sử dụng '{url}' làm trình giữ chỗ cho URL hình ảnh.",
     "advancedSettingAddReverseImageSearchLabel": "Thêm tìm kiếm hình ảnh ngược",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Sắp ra mắt",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Tin nhắn trực tiếp",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Cộng đồng",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Ứng dụng",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Không thể tham gia cộng đồng này",
     "@discoveryJoinErrorGenericTitle": {
@@ -18161,14 +18155,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer đã đóng đột ngột. Chia sẻ dữ liệu sự cố và lỗi ẩn danh giúp chúng tôi khắc phục sự cố nhanh hơn.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Báo cáo bao gồm nhật ký sự cố, lỗi và dữ liệu hiệu năng cơ bản. Chúng không được chia sẻ với bên thứ ba và bạn có thể tắt tính năng này bất cứ lúc nào.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Để bật sau, hãy mở Cài đặt → Nâng cao → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18182,10 +18168,6 @@
     "observabilityReportingConsentAgree": "Gửi báo cáo sự cố",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Không muốn bật",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Gửi phản hồi",
     "@userSettingsGiveFeedback": {

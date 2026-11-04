@@ -64,6 +64,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_route_gate.dart';
+import 'package:fluxer_app/features/ui/background/starfield_dark_theme.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
@@ -324,14 +325,15 @@ GoRouter fluxerRouter(Ref ref) {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return shellInstantTransitionPage(
             key: state.pageKey,
-            child: const SplashScreen(),
+            child: const StarfieldDarkTheme(child: SplashScreen()),
           );
         },
       ),
       GoRoute(
         path: '/login',
         name: RouteNames.login,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) =>
+            const StarfieldDarkTheme(child: LoginScreen()),
       ),
       GoRoute(
         path: '/reconnecting',
@@ -699,7 +701,7 @@ GoRouter fluxerRouter(Ref ref) {
                     return null;
                   }
                   return resolveDmRootRedirect(
-                    fullPath: state.uri.path,
+                    uri: state.uri,
                     db: ref.read(fluxerDatabaseProvider),
                   );
                 },

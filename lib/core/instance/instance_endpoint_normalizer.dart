@@ -47,9 +47,20 @@ class InstanceEndpointNormalizer {
       return InstanceConstants.defaultInstanceInputUrl;
     }
     try {
-      final Uri url = Uri.parse(endpoint);
+      final String trimmed = endpoint.trim();
+      final Uri url = Uri.parse(
+        _schemePrefixPattern.hasMatch(trimmed) ? trimmed : 'https://$trimmed',
+      );
       final String path = url.path == '/api' ? '' : url.path;
-      return '${url.host}$path';
+      final bool bareHost = url.scheme == 'https' && !url.hasPort;
+      final String origin = bareHost
+          ? url.host
+          : Uri(
+              scheme: url.scheme,
+              host: url.host,
+              port: url.hasPort ? url.port : null,
+            ).toString();
+      return '$origin$path';
     } on FormatException {
       return endpoint;
     }

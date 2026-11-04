@@ -210,16 +210,20 @@ class _ChannelSettingsDesktopLayout extends StatelessWidget {
                         style: context.textStyles.heading,
                       ),
                       const Spacer(),
-                      InkWell(
-                        onTap: () => context.pop(),
-                        borderRadius: BorderRadius.circular(20),
-                        child: SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: PhosphorIcon(
-                            PhosphorIconsBold.x,
-                            size: 18,
-                            color: context.colors.interactiveNormal,
+                      Semantics(
+                        button: true,
+                        label: l10n.uiClose,
+                        child: InkWell(
+                          onTap: () => context.pop(),
+                          borderRadius: BorderRadius.circular(20),
+                          child: SizedBox(
+                            width: 36,
+                            height: 36,
+                            child: PhosphorIcon(
+                              PhosphorIconsBold.x,
+                              size: 18,
+                              color: context.colors.interactiveNormal,
+                            ),
                           ),
                         ),
                       ),

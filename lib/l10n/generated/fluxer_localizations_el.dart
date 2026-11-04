@@ -966,8 +966,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count Μέλη';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount Μέλη',
+      one: '$formattedCount Μέλος',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1070,9 +1076,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Μπορείς να εισαγάγεις θέματα μόνο στο web ή στον υπολογιστή.';
-
-  @override
-  String get embedThemeImport => 'Εισαγωγή θέματος';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1413,7 +1416,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Μέλη';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Μέλη',
+      one: '$count Μέλος',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1811,6 +1820,51 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       locale: localeName,
       other: '$count κοινότητες',
       one: '1 κοινότητα',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Βρες το τέλειο αυτοκόλλητο';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Δεν υπάρχουν διαθέσιμα αυτοκόλλητα';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Γίνετε μέλος μιας κοινότητας με αυτοκόλλητα για να τα χρησιμοποιείτε εδώ.';
+
+  @override
+  String get stickerPickerEmptyHereTitle =>
+      'Δεν υπάρχουν διαθέσιμα αυτοκόλλητα';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Δεν υπάρχουν διαθέσιμα αυτοκόλλητα σε αυτήν τη συνομιλία.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Δεν βρέθηκαν αυτοκόλλητα';
+
+  @override
+  String get stickerPickerNoResultsBody =>
+      'Δοκιμάστε έναν διαφορετικό όρο αναζήτησης.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Ξεκλειδώστε $stickerCount από $communityCount με το Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count αυτοκόλλητα',
+      one: '1 αυτοκόλλητο',
     );
     return '$_temp0';
   }
@@ -4852,7 +4906,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Επιλέξτε μεταξύ σκούρου, ανθρακί ή φωτεινού θέματος.';
+      'Επιλέξτε μεταξύ θέματος συστήματος, σκούρου, ανθρακί ή φωτεινού θέματος.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Υψηλό δυναμικό εύρος';
@@ -5385,6 +5439,66 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Απαιτείται όνομα.';
+
+  @override
+  String get savedMediaEdit => 'Επεξεργασία';
+
+  @override
+  String get savedMediaEditTitle => 'Επεξεργασία αποθηκευμένων πολυμέσων';
+
+  @override
+  String get savedMediaDeleteTitle => 'Διαγραφή αποθηκευμένων πολυμέσων';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Αφαίρεση του «$name» από τα αποθηκευμένα πολυμέσα σας;';
+  }
+
+  @override
+  String get savedMediaDeleteFailed =>
+      'Δεν ήταν δυνατή η διαγραφή των αποθηκευμένων πολυμέσων.';
+
+  @override
+  String get savedMediaSearchHint => 'Αναζήτηση αποθηκευμένων πολυμέσων';
+
+  @override
+  String get savedMediaUnavailableTitle =>
+      'Τα αποθηκευμένα πολυμέσα δεν είναι διαθέσιμα';
+
+  @override
+  String get savedMediaUnavailableBody => 'Δοκιμάστε ξανά σε λίγο.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Δεν υπάρχουν αποθηκευμένα πολυμέσα';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Αποθηκεύστε πολυμέσα από μηνύματα για να τα βλέπετε εδώ.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Κανένα αποτέλεσμα';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Δοκιμάστε έναν διαφορετικό όρο αναζήτησης ή φίλτρο.';
+
+  @override
+  String get savedMediaFilterAll => 'Όλα';
+
+  @override
+  String get savedMediaFilterImages => 'Εικόνες';
+
+  @override
+  String get savedMediaFilterVideos => 'Βίντεο';
+
+  @override
+  String get savedMediaFilterAudio => 'Ήχος';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6217,6 +6331,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Παράβλεψη';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Χειριστήρια φωνητικής κλήσης';
 
   @override
   String get voiceConnectionDisconnected => 'Αποσυνδέθηκε';
@@ -7436,6 +7553,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageDebug => 'Εντοπισμός σφαλμάτων μηνύματος';
 
   @override
+  String get messageAlertNote => 'Σημείωση';
+
+  @override
+  String get messageAlertTip => 'Συμβουλή';
+
+  @override
+  String get messageAlertImportant => 'Σημαντικό';
+
+  @override
+  String get messageAlertWarning => 'Προειδοποίηση';
+
+  @override
+  String get messageAlertCaution => 'Προσοχή';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Εντοπισμός σφαλμάτων μηνύματος';
 
   @override
@@ -7712,6 +7844,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatReplyMentionOff => 'ΑΝΕΝΕΡΓΟ';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Απάντηση στον/στην $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Προωθήθηκε από $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Ακύρωση απάντησης';
 
   @override
@@ -7788,6 +7930,23 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Παράβλεψη';
+
+  @override
+  String get videoPlayerPlay => 'Αναπαραγωγή';
+
+  @override
+  String get videoPlayerPause => 'Παύση';
+
+  @override
+  String get videoPlayerVolume => 'Ένταση';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Ταχύτητα αναπαραγωγής ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Πλήρης οθόνη';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Εναλλαγή ελέγχων βίντεο';
@@ -8784,6 +8943,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ρυθμίσεις ειδοποιήσεων, σε σίγαση';
 
   @override
+  String get channelHeaderOpenDetails => 'Άνοιγμα λεπτομερειών καναλιού';
+
+  @override
   String get channelDetailsSearchTitle => 'Αναζήτηση';
 
   @override
@@ -9500,6 +9662,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Κλείσιμο συλλογής συνημμένων';
+
+  @override
+  String get composerSendMessage => 'Αποστολή μηνύματος';
 
   @override
   String get chatAttachmentPanelPhotos => 'Φωτογραφίες';
@@ -11393,6 +11558,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Προσθήκη αντίστροφης αναζήτησης εικόνων';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Αναζήτηση με $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Μετάφραση με $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Ενεργοποιήστε τουλάχιστον έναν πάροχο αντίστροφης αναζήτησης εικόνων παρακάτω.';
 
@@ -11498,6 +11673,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Αρχεία Καταγραφής Εφαρμογής';
+
+  @override
+  String get userSettingsTitle => 'Ρυθμίσεις';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Αντιγραφή πληροφοριών εφαρμογής';
 
   @override
   String get userSettingsNavDeveloperTools => 'Εργαλεία προγραμματιστή';
@@ -11846,9 +12027,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Συνδεθείτε στην παρουσία για να συνδεθείτε';
 
   @override
-  String get comingSoon => 'Σύντομα';
-
-  @override
   String get guildNavbarDirectMessages => 'Απευθείας μηνύματα';
 
   @override
@@ -11939,9 +12117,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Κοινότητες';
-
-  @override
-  String get discoveryApps => 'Εφαρμογές';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -12059,6 +12234,80 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Εισερχόμενα';
+
+  @override
+  String get friendsPageTitle => 'Οι φίλοι μου';
+
+  @override
+  String get friendsActiveNowTitle => 'Ενεργοί τώρα';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Έχει ησυχία τώρα...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Όταν οι φίλοι σου είναι ενεργοί σε φωνητικά κανάλια, η δραστηριότητά τους θα εμφανίζεται εδώ.';
+
+  @override
+  String get friendsTabOnline => 'Σε σύνδεση';
+
+  @override
+  String get friendsTabAll => 'Όλα';
+
+  @override
+  String get friendsTabPending => 'Σε εκκρεμότητα';
+
+  @override
+  String get friendsTabBlocked => 'Μπλοκαρισμένοι';
+
+  @override
+  String get friendsSearchOnline => 'Αναζήτηση συνδεδεμένων φίλων';
+
+  @override
+  String get friendsSearchAll => 'Αναζήτηση φίλων';
+
+  @override
+  String get friendsSearchPending => 'Αναζήτηση αιτημάτων σε εκκρεμότητα';
+
+  @override
+  String get friendsSearchBlocked => 'Αναζήτηση μπλοκαρισμένων χρηστών';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Κανένας φίλος δεν ταιριάζει με αυτήν την αναζήτηση';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Δοκιμάστε άλλο όνομα ή ελέγξτε την ορθογραφία.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Κανένας φίλος σε σύνδεση';
+
+  @override
+  String get friendsEmptyOnlineBody => 'Όταν συνδεθούν, θα εμφανιστούν εδώ.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Δεν υπάρχουν φίλοι ακόμα';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Εκεί που πάμε, χρειαζόμαστε περισσότερους φίλους.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Δεν υπάρχουν αιτήματα σε αναμονή';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Τα εκκρεμή αιτήματα φιλίας εμφανίζονται εδώ.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Δεν έχετε μπλοκάρει κανέναν.';
+
+  @override
+  String get friendsOutgoingStatus => 'Εξερχόμενο αίτημα φιλίας';
+
+  @override
+  String get friendsBlockedStatus => 'Μπλοκαρισμένος';
 
   @override
   String get profileRemoveFriend => 'Κατάργηση φίλου';
@@ -12347,6 +12596,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Σε σίγαση έως $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Σε σίγαση';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15261,6 +15513,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Απευθείας μηνύματα';
+
+  @override
+  String get dmListFriendsButton => 'Φίλοι';
 
   @override
   String get keybindsSearchShortcuts => 'Αναζήτηση συντομεύσεων';

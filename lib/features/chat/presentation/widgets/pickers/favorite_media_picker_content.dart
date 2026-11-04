@@ -103,6 +103,7 @@ class _FavoriteMediaPickerContentState
   }
 
   void _showActions(FavoriteMeme meme) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
@@ -113,7 +114,7 @@ class _FavoriteMediaPickerContentState
           child: FluxerMenuGroup(
             children: [
               FluxerBottomSheetMenuItem(
-                label: 'Edit',
+                label: l10n.savedMediaEdit,
                 icon: PhosphorIconsFill.pencilSimple,
                 onTap: () {
                   close();
@@ -121,7 +122,7 @@ class _FavoriteMediaPickerContentState
                 },
               ),
               FluxerBottomSheetMenuItem(
-                label: 'Delete',
+                label: l10n.delete,
                 icon: PhosphorIconsFill.trash,
                 isDanger: true,
                 onTap: () {
@@ -139,7 +140,7 @@ class _FavoriteMediaPickerContentState
   Future<void> _showEditSheet(FavoriteMeme meme) {
     return FluxerBottomSheet.show<void>(
       context,
-      title: 'Edit saved media',
+      title: FluxerLocalizations.of(context).savedMediaEditTitle,
       builder: (sheetContext, close) =>
           _FavoriteMediaEditSheet(meme: meme, close: close),
     );
@@ -148,7 +149,7 @@ class _FavoriteMediaPickerContentState
   Future<void> _showDeleteSheet(FavoriteMeme meme) {
     return FluxerBottomSheet.show<void>(
       context,
-      title: 'Delete saved media',
+      title: FluxerLocalizations.of(context).savedMediaDeleteTitle,
       builder: (sheetContext, close) =>
           _FavoriteMediaDeleteSheet(meme: meme, close: close),
     );
@@ -158,12 +159,13 @@ class _FavoriteMediaPickerContentState
   Widget build(BuildContext context) {
     final memes = ref.watch(favoriteMemesProvider);
 
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Column(
       children: [
         _wrapSearchHeader(
           PickerSearchInput(
             controller: _searchController,
-            hintText: 'Search saved media',
+            hintText: l10n.savedMediaSearchHint,
             horizontalPadding: widget.searchHorizontalPadding ?? 12,
             topPadding: widget.searchTopPadding ?? 12,
             bottomPadding: widget.searchBottomPadding ?? 8,
@@ -179,10 +181,10 @@ class _FavoriteMediaPickerContentState
           child: memes.when(
             data: _buildBody,
             loading: () => const _FavoriteMediaSkeleton(),
-            error: (_, _) => const _FavoriteMediaEmptyState(
+            error: (_, _) => _FavoriteMediaEmptyState(
               icon: PhosphorIconsDuotone.smileySad,
-              title: 'Saved Media Unavailable',
-              description: 'Try again in a moment.',
+              title: l10n.savedMediaUnavailableTitle,
+              description: l10n.savedMediaUnavailableBody,
             ),
           ),
         ),
@@ -199,11 +201,12 @@ class _FavoriteMediaPickerContentState
   }
 
   Widget _buildBody(List<FavoriteMeme> allMemes) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (allMemes.isEmpty) {
-      return const _FavoriteMediaEmptyState(
+      return _FavoriteMediaEmptyState(
         icon: PhosphorIconsDuotone.smileySad,
-        title: 'No Saved Media',
-        description: 'Save some media from messages to get started!',
+        title: l10n.savedMediaEmptyTitle,
+        description: l10n.savedMediaEmptyBody,
       );
     }
 
@@ -220,10 +223,10 @@ class _FavoriteMediaPickerContentState
       );
     }
     if (filtered.isEmpty) {
-      return const _FavoriteMediaEmptyState(
+      return _FavoriteMediaEmptyState(
         icon: PhosphorIconsDuotone.smileySad,
-        title: 'No Results',
-        description: 'Try a different search term or filter',
+        title: l10n.savedMediaNoResultsTitle,
+        description: l10n.savedMediaNoResultsBody,
       );
     }
 
@@ -244,27 +247,32 @@ class _FilterPills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final options =
         <({FavoriteMemeMediaFilter filter, String label, IconData? icon})>[
-          (filter: FavoriteMemeMediaFilter.all, label: 'All', icon: null),
+          (
+            filter: FavoriteMemeMediaFilter.all,
+            label: l10n.savedMediaFilterAll,
+            icon: null,
+          ),
           (
             filter: FavoriteMemeMediaFilter.images,
-            label: 'Images',
+            label: l10n.savedMediaFilterImages,
             icon: PhosphorIconsFill.image,
           ),
           (
             filter: FavoriteMemeMediaFilter.videos,
-            label: 'Videos',
+            label: l10n.savedMediaFilterVideos,
             icon: PhosphorIconsFill.videoCamera,
           ),
           (
             filter: FavoriteMemeMediaFilter.audio,
-            label: 'Audio',
+            label: l10n.savedMediaFilterAudio,
             icon: PhosphorIconsFill.musicNote,
           ),
           (
             filter: FavoriteMemeMediaFilter.gifs,
-            label: 'GIFs',
+            label: l10n.savedMediaFilterGifs,
             icon: PhosphorIconsFill.gif,
           ),
         ];
@@ -419,7 +427,11 @@ class _FavoriteMediaDeleteSheetState
       }
     } on Object {
       if (mounted) {
-        setState(() => _errorText = 'Could not delete saved media.');
+        setState(
+          () => _errorText = FluxerLocalizations.of(
+            context,
+          ).savedMediaDeleteFailed,
+        );
       }
     }
   }
@@ -428,6 +440,7 @@ class _FavoriteMediaDeleteSheetState
   Widget build(BuildContext context) {
     final layout = context.layout;
     final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     return FluxerBottomSheetContent(
       scrollable: false,
@@ -436,7 +449,7 @@ class _FavoriteMediaDeleteSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Remove "${widget.meme.name}" from your saved media?',
+            l10n.savedMediaDeleteConfirm(widget.meme.name),
             style: context.textStyles.bodySmall.copyWith(
               color: colors.textSecondary,
             ),
@@ -452,9 +465,12 @@ class _FavoriteMediaDeleteSheetState
             ),
           ],
           SizedBox(height: layout.s4),
-          FluxerButton.dangerPrimary(label: 'Delete', onPressedAsync: _delete),
+          FluxerButton.dangerPrimary(
+            label: l10n.delete,
+            onPressedAsync: _delete,
+          ),
           SizedBox(height: layout.s2),
-          FluxerButton.secondary(label: 'Cancel', onPressed: widget.close),
+          FluxerButton.secondary(label: l10n.cancel, onPressed: widget.close),
         ],
       ),
     );
@@ -850,10 +866,14 @@ class _FavoriteMediaTile extends StatelessWidget {
                       ),
                     ),
                     if (meme.mediaType == FavoriteMemeMediaType.gif)
-                      const Positioned(
+                      Positioned(
                         left: 8,
                         top: 8,
-                        child: _MediaBadge(label: 'GIF'),
+                        child: _MediaBadge(
+                          label: FluxerLocalizations.of(
+                            context,
+                          ).savedMediaGifBadge,
+                        ),
                       ),
                     Positioned(
                       left: 8,

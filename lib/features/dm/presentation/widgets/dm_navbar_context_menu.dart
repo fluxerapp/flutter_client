@@ -52,6 +52,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
 
   return Navigator.of(context).push<DmNavbarAction>(
     _DmNavbarContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
       hasUnread: hasUnread,
@@ -173,6 +174,7 @@ class _DmNavbarContextMenuRoute extends PopupRoute<DmNavbarAction> {
   final bool isGroupDm;
 
   _DmNavbarContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.hasUnread,
@@ -193,7 +195,7 @@ class _DmNavbarContextMenuRoute extends PopupRoute<DmNavbarAction> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(

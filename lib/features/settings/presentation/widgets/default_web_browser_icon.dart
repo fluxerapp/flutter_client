@@ -1,4 +1,3 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -34,39 +33,15 @@ class DefaultWebBrowserIcon extends StatelessWidget {
         size: 22,
         color: context.colors.textPrimary,
       ),
-      DefaultWebBrowser.safari => Image.asset(
-        _assetPath(browser),
-        width: size.width,
-        height: size.height,
-        fit: BoxFit.contain,
-      ),
-      DefaultWebBrowser.qwant => SvgPicture.asset(
-        _assetPath(browser),
-        width: size.width,
-        height: size.height,
-        colorFilter: ColorFilter.mode(
-          context.colors.textPrimary,
-          BlendMode.srcIn,
-        ),
-      ),
+      DefaultWebBrowser.safari ||
       DefaultWebBrowser.chrome ||
       DefaultWebBrowser.firefox ||
-      DefaultWebBrowser.duckDuckGo => SvgPicture.asset(
-        _assetPath(browser),
-        width: size.width,
-        height: size.height,
+      DefaultWebBrowser.duckDuckGo ||
+      DefaultWebBrowser.qwant => PhosphorIcon(
+        PhosphorIconsFill.globeSimple,
+        size: 22,
+        color: context.colors.textPrimary,
       ),
-    };
-  }
-
-  static String _assetPath(DefaultWebBrowser browser) {
-    return switch (browser) {
-      DefaultWebBrowser.chrome => 'assets/images/browsers/chrome.svg',
-      DefaultWebBrowser.firefox => 'assets/images/browsers/firefox.svg',
-      DefaultWebBrowser.duckDuckGo => 'assets/images/browsers/duckduckgo.svg',
-      DefaultWebBrowser.safari => 'assets/images/browsers/safari.png',
-      DefaultWebBrowser.qwant => 'assets/images/browsers/qwant.svg',
-      _ => throw StateError('No asset for $browser'),
     };
   }
 }

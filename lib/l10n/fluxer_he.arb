@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} חברים",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} חבר} other{{formattedCount} חברים}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "אפשר לייבא ערכות נושא רק באינטרנט או במחשב.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "ייבוא ערכת נושא",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (לכל החיים עם {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1557,7 +1556,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} חברים",
+    "dmGroupMemberCount": "{count, plural, one{{count} חבר} other{{count} חברים}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "בחר בין מראה כהה, פחם או בהיר.",
+    "lookAndFeelThemeSectionDescription": "בחר בין מראה המערכת, כהה, פחם או בהיר.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "שליחת הודעה",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "תמונות",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "חיפוש תמונה הפוך כברירת מחדל",
     "advancedSettingDefaultReverseImageSearchDescription": "בחר באיזה שירות חיפוש תמונות הפוך להשתמש כברירת מחדל בעת חיפוש תמונה.",
     "advancedSettingBuiltInReverseImageSearchLabel": "חיפוש תמונות הפוך מובנה",
-    "advancedSettingBuiltInReverseImageSearchDescription": "הפעלה או השבתה של ספקי חיפוש תמונה הפוך מובנים. ספקים מופעלים יופיעו בתפריט ההקשר של תמונות, אווטארים, באנרים, מדבקות ואימוג'י.",
     "advancedSettingCustomReverseImageSearchLabel": "חיפוש תמונה הפוך מותאם אישית",
     "advancedSettingCustomReverseImageSearchDescription": "הוסף ספקי חיפוש תמונה הפוך משלך עם תבנית URL מותאמת אישית. השתמש ב-'{url}' כמחליף לכתובת ה-URL של התמונה.",
     "advancedSettingAddReverseImageSearchLabel": "הוספת חיפוש תמונה הפוך",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "בקרוב",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "הודעות פרטיות",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "קהילות",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "אפליקציות",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "לא ניתן להצטרף לקהילה זו",
     "@discoveryJoinErrorGenericTitle": {
@@ -18157,14 +18151,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer נסגרה באופן לא צפוי. שיתוף נתוני קריסות ושגיאות אנונימיים עוזר לנו לתקן בעיות מהר יותר.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "הדוחות כוללים יומני קריסה, שגיאות ונתוני ביצועים בסיסיים. הם לא משותפים עם צדדים שלישיים, ואפשר לכבות זאת בכל עת.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "כדי להפעיל מאוחר יותר, פתח הגדרות ← מתקדם ← {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18178,10 +18164,6 @@
     "observabilityReportingConsentAgree": "שליחת דוחות קריסה",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "לא מעוניין להפעיל",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "שליחת משוב",
     "@userSettingsGiveFeedback": {

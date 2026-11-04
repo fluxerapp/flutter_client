@@ -282,7 +282,14 @@ class _FavoriteStarButton extends ConsumerWidget {
           channelGuildId: channel?.guildId,
           isDm: dm != null,
         ),
-        nickname: channel?.name ?? dm?.displayName,
+        nickname:
+            channel?.name ??
+            (dm == null
+                ? null
+                : dmConversationDisplayName(
+                    FluxerLocalizations.of(context),
+                    dm!,
+                  )),
       );
     }
     if (!context.mounted) {

@@ -23,6 +23,7 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
   Future<List<RecentInstance>> touchRecentInstance({
     required String domain,
     String? name,
+    String? url,
   }) async {
     final String normalizedDomain = domain.trim().toLowerCase();
     if (normalizedDomain.isEmpty) {
@@ -32,6 +33,7 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
       RecentInstancesCompanion.insert(
         domain: normalizedDomain,
         name: Value(name),
+        url: Value(url),
         lastUsed: Value(DateTime.now()),
       ),
     );
@@ -66,6 +68,7 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
       RecentInstancesCompanion.insert(
         domain: to,
         name: Value(row.name),
+        url: Value(row.url),
         lastUsed: Value(row.lastUsed),
       ),
     );

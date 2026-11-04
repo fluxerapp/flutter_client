@@ -1703,8 +1703,8 @@ abstract class FluxerLocalizations {
   /// Total member count on the invite embed card.
   ///
   /// In en, this message translates to:
-  /// **'{count} Members'**
-  String embedInviteMembers(String count);
+  /// **'{count, plural, one{{formattedCount} Member} other{{formattedCount} Members}}'**
+  String embedInviteMembers(int count, String formattedCount);
 
   /// Title when an invite is expired or invalid.
   ///
@@ -1874,17 +1874,11 @@ abstract class FluxerLocalizations {
   /// **'Shared theme'**
   String get embedThemeTitle;
 
-  /// Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client.
+  /// Subtitle on a shared theme link card. Themes can only be imported on web or desktop.
   ///
   /// In en, this message translates to:
   /// **'You can only import themes on web or desktop.'**
   String get embedThemeWebOnly;
-
-  /// Disabled button on a shared theme link embed. Themes can only be imported on web or desktop.
-  ///
-  /// In en, this message translates to:
-  /// **'Import theme'**
-  String get embedThemeImport;
 
   /// Gift duration title for a lifetime Visionary entitlement.
   ///
@@ -3127,6 +3121,60 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 community} other{{count} communities}}'**
   String emojiPlutoniumUpsellCommunity(int count);
+
+  /// Placeholder of the search field in the sticker picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the perfect sticker'**
+  String get stickerPickerSearchHint;
+
+  /// Title shown in the sticker picker when none of the user's communities have stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers available'**
+  String get stickerPickerEmptyNoCommunitiesTitle;
+
+  /// Body shown in the sticker picker when none of the user's communities have stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a community with stickers to use them here.'**
+  String get stickerPickerEmptyNoCommunitiesBody;
+
+  /// Title shown in the sticker picker when no stickers can be used in the current conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers available'**
+  String get stickerPickerEmptyHereTitle;
+
+  /// Body shown in the sticker picker when no stickers can be used in the current conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers are available in this conversation.'**
+  String get stickerPickerEmptyHereBody;
+
+  /// Title shown in the sticker picker when the search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers found'**
+  String get stickerPickerNoResultsTitle;
+
+  /// Body shown in the sticker picker when the search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term.'**
+  String get stickerPickerNoResultsBody;
+
+  /// Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {stickerCount} from {communityCount} with Plutonium.'**
+  String stickerPlutoniumUpsellText(String stickerCount, String communityCount);
+
+  /// Sticker count label in the sticker picker upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 sticker} other{{count} stickers}}'**
+  String stickerPlutoniumUpsellStickerCount(int count);
 
   /// Title of the external link warning modal.
   ///
@@ -7775,7 +7823,7 @@ abstract class FluxerLocalizations {
   /// Section description for theme selection.
   ///
   /// In en, this message translates to:
-  /// **'Choose between dark, coal, or light appearance.'**
+  /// **'Choose between system, dark, coal, or light appearance.'**
   String get lookAndFeelThemeSectionDescription;
 
   /// Appearance section title for HDR image and video display.
@@ -8650,6 +8698,114 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Name is required.'**
   String get savedMediaNameRequired;
+
+  /// Action in the saved media item menu that opens the edit sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get savedMediaEdit;
+
+  /// Title of the sheet for editing a saved media item.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit saved media'**
+  String get savedMediaEditTitle;
+
+  /// Title of the sheet that confirms deleting a saved media item.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete saved media'**
+  String get savedMediaDeleteTitle;
+
+  /// Confirmation text in the delete saved media sheet. {name} is the saved item's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove \"{name}\" from your saved media?'**
+  String savedMediaDeleteConfirm(String name);
+
+  /// Error shown when deleting a saved media item fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete saved media.'**
+  String get savedMediaDeleteFailed;
+
+  /// Placeholder of the search field in the saved media picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Search saved media'**
+  String get savedMediaSearchHint;
+
+  /// Title shown in the saved media picker when the list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved media unavailable'**
+  String get savedMediaUnavailableTitle;
+
+  /// Body shown in the saved media picker when the list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a moment.'**
+  String get savedMediaUnavailableBody;
+
+  /// Title shown in the saved media picker when nothing has been saved yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved media'**
+  String get savedMediaEmptyTitle;
+
+  /// Body shown in the saved media picker when nothing has been saved yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save media from messages to see it here.'**
+  String get savedMediaEmptyBody;
+
+  /// Title shown in the saved media picker when the search or filter matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get savedMediaNoResultsTitle;
+
+  /// Body shown in the saved media picker when the search or filter matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term or filter.'**
+  String get savedMediaNoResultsBody;
+
+  /// Saved media picker filter that shows every item.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get savedMediaFilterAll;
+
+  /// Saved media picker filter that shows only images.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get savedMediaFilterImages;
+
+  /// Saved media picker filter that shows only videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get savedMediaFilterVideos;
+
+  /// Saved media picker filter that shows only audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get savedMediaFilterAudio;
+
+  /// Saved media picker filter that shows only GIFs.
+  ///
+  /// In en, this message translates to:
+  /// **'GIFs'**
+  String get savedMediaFilterGifs;
+
+  /// Small badge on a saved media tile that marks it as a GIF.
+  ///
+  /// In en, this message translates to:
+  /// **'GIF'**
+  String get savedMediaGifBadge;
 
   /// Title for the first-time GIF favorite storage prompt.
   ///
@@ -9944,6 +10100,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get voiceConnectionDismiss;
+
+  /// Accessibility label of the drag handle on the voice call controls sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice call controls'**
+  String get voiceCallControlsSheetLabel;
 
   /// Voice connection status when not connected.
   ///
@@ -11899,6 +12061,36 @@ abstract class FluxerLocalizations {
   /// **'Debug message'**
   String get chatMessageDebug;
 
+  /// Label at the top of a "> [!NOTE]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get messageAlertNote;
+
+  /// Label at the top of a "> [!TIP]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get messageAlertTip;
+
+  /// Label at the top of a "> [!IMPORTANT]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get messageAlertImportant;
+
+  /// Label at the top of a "> [!WARNING]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get messageAlertWarning;
+
+  /// Label at the top of a "> [!CAUTION]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Caution'**
+  String get messageAlertCaution;
+
   /// Title for the developer-mode message debug sheet that shows raw message JSON.
   ///
   /// In en, this message translates to:
@@ -12349,6 +12541,18 @@ abstract class FluxerLocalizations {
   /// **'OFF'**
   String get chatReplyMentionOff;
 
+  /// Text above the composer while replying to a message. {authorName} is the author of the message being replied to.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {authorName}'**
+  String chatReplyingTo(String authorName);
+
+  /// Line above a forwarded message. {source} is where the message was forwarded from.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded from {source}'**
+  String chatForwardedFrom(String source);
+
   /// Accessible label for the cancel-reply button in the reply bar.
   ///
   /// In en, this message translates to:
@@ -12486,6 +12690,36 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get mediaViewerDismissBackdrop;
+
+  /// Accessibility label of the play button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get videoPlayerPlay;
+
+  /// Accessibility label of the pause button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get videoPlayerPause;
+
+  /// Accessibility label of the volume button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get videoPlayerVolume;
+
+  /// Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback speed {speed}x'**
+  String videoPlayerPlaybackSpeed(String speed);
+
+  /// Accessibility label of the full screen button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get videoPlayerFullScreen;
 
   /// Accessibility label for the tap surface that shows or hides inline video playback controls.
   ///
@@ -14121,6 +14355,12 @@ abstract class FluxerLocalizations {
   /// **'Notification settings, muted'**
   String get channelHeaderNotificationSettingsMuted;
 
+  /// Accessibility label of the channel title in the channel header, which opens the channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Open channel details'**
+  String get channelHeaderOpenDetails;
+
   /// Title for the channel search bottom sheet.
   ///
   /// In en, this message translates to:
@@ -15332,6 +15572,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Close attachment picker'**
   String get composerCloseAttachmentPanel;
+
+  /// Accessibility label and tooltip for the composer button that sends the message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send message'**
+  String get composerSendMessage;
 
   /// Label for the native photo picker action on the attachment panel.
   ///
@@ -17748,13 +17994,13 @@ abstract class FluxerLocalizations {
   /// Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.'**
+  /// **'Fluxer closed unexpectedly. Sending a crash report helps us find and fix the problem faster.'**
   String get observabilityReportingConsentSubtitle;
 
   /// Body copy on the post-crash crash reporting opt-in sheet explaining what is collected.
   ///
   /// In en, this message translates to:
-  /// **'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.'**
+  /// **'Reports include crash logs, errors, performance data, network request timings and the screens and taps that led up to a problem, linked to a random ID for this install. They never include message content, and they go only to Fluxer\'s own error tracker. You can turn this off at any time.'**
   String get observabilityReportingConsentBody;
 
   /// Hint on the post-crash crash reporting opt-in sheet for finding the setting later.
@@ -17772,7 +18018,7 @@ abstract class FluxerLocalizations {
   /// Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t want to enable'**
+  /// **'Don\'t ask again'**
   String get observabilityReportingConsentDecline;
 
   /// Button label that opens a dedicated advanced settings modal.
@@ -18474,7 +18720,7 @@ abstract class FluxerLocalizations {
   /// No description provided for @advancedSettingBuiltInReverseImageSearchDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.'**
+  /// **'Enable or disable built-in reverse image search providers. Enabled providers appear in the options of images.'**
   String get advancedSettingBuiltInReverseImageSearchDescription;
 
   /// No description provided for @advancedSettingCustomReverseImageSearchLabel.
@@ -18494,6 +18740,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Add reverse image search'**
   String get advancedSettingAddReverseImageSearchLabel;
+
+  /// Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.
+  ///
+  /// In en, this message translates to:
+  /// **'Search with {engine}'**
+  String searchProviderSearchWith(String engine);
+
+  /// Menu action that translates the selected text with a translation provider. {engine} is the provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate with {engine}'**
+  String searchProviderTranslateWith(String engine);
 
   /// No description provided for @advancedSettingEnableAtLeastOneReverseImageSearchLabel.
   ///
@@ -18659,6 +18917,18 @@ abstract class FluxerLocalizations {
   /// **'App logs'**
   String get userSettingsNavAppLogs;
 
+  /// Title of the user settings sheet on phones.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get userSettingsTitle;
+
+  /// Accessibility label of the app version footer in settings, which copies the app info when tapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy app info'**
+  String get userSettingsCopyAppInfo;
+
   /// User settings navigation item for staff developer tools.
   ///
   /// In en, this message translates to:
@@ -18728,7 +18998,7 @@ abstract class FluxerLocalizations {
   /// User settings navigation item to sign out of the account.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Sign out'**
   String get userSettingsNavLogOut;
 
   /// Title of the confirmation shown before logging out from user settings.
@@ -19271,12 +19541,6 @@ abstract class FluxerLocalizations {
   /// **'Connect to the instance to sign in'**
   String get instanceConnectionRequired;
 
-  /// Generic toast when a feature is not yet available.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get comingSoon;
-
   /// Label for the direct messages entry in the guild navbar.
   ///
   /// In en, this message translates to:
@@ -19426,12 +19690,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Communities'**
   String get discoveryCommunities;
-
-  /// Explore sidebar section label for apps.
-  ///
-  /// In en, this message translates to:
-  /// **'Apps'**
-  String get discoveryApps;
 
   /// Title of the generic join error dialog on the Explore page.
   ///
@@ -19624,6 +19882,144 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Inbox'**
   String get friendsOpenInbox;
+
+  /// Title of the friends page on tablets and desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'My friends'**
+  String get friendsPageTitle;
+
+  /// Heading of the active now panel on the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Active now'**
+  String get friendsActiveNowTitle;
+
+  /// Title shown in the active now panel when no friends are in voice channels.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s quiet for now...'**
+  String get friendsActiveNowEmptyTitle;
+
+  /// Body shown in the active now panel when no friends are in voice channels.
+  ///
+  /// In en, this message translates to:
+  /// **'When friends are active in voice channels, their activity will appear here.'**
+  String get friendsActiveNowEmptyBody;
+
+  /// Friends page tab that lists online friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get friendsTabOnline;
+
+  /// Friends page tab that lists all friends.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get friendsTabAll;
+
+  /// Friends page tab that lists pending friend requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get friendsTabPending;
+
+  /// Friends page tab that lists blocked users.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get friendsTabBlocked;
+
+  /// Search placeholder on the online tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search online friends'**
+  String get friendsSearchOnline;
+
+  /// Search placeholder on the all tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get friendsSearchAll;
+
+  /// Search placeholder on the pending tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search pending requests'**
+  String get friendsSearchPending;
+
+  /// Search placeholder on the blocked tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search blocked users'**
+  String get friendsSearchBlocked;
+
+  /// Title shown on the friends page when the search matches nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends match that search'**
+  String get friendsEmptySearchTitle;
+
+  /// Body shown on the friends page when the search matches nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another name or check your spelling.'**
+  String get friendsEmptySearchBody;
+
+  /// Title shown on the online tab of the friends page when no friends are online.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends online'**
+  String get friendsEmptyOnlineTitle;
+
+  /// Body shown on the online tab of the friends page when no friends are online.
+  ///
+  /// In en, this message translates to:
+  /// **'When they come online, they\'ll appear right here.'**
+  String get friendsEmptyOnlineBody;
+
+  /// Title shown on the all tab of the friends page when the user has no friends.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends yet'**
+  String get friendsEmptyAllTitle;
+
+  /// Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely.
+  ///
+  /// In en, this message translates to:
+  /// **'Where we\'re going, we need more friends.'**
+  String get friendsEmptyAllBody;
+
+  /// Title shown on the pending tab of the friends page when there are no requests.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending requests'**
+  String get friendsEmptyPendingTitle;
+
+  /// Body shown on the pending tab of the friends page when there are no requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending friend requests show up here.'**
+  String get friendsEmptyPendingBody;
+
+  /// Body shown on the blocked tab of the friends page when no users are blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t blocked anyone.'**
+  String get friendsEmptyBlockedBody;
+
+  /// Status line under a user on the friends page when the current user sent them a friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Outgoing friend request'**
+  String get friendsOutgoingStatus;
+
+  /// Status line under a blocked user on the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get friendsBlockedStatus;
 
   /// Screen reader label for removing a friend from a profile.
   ///
@@ -20140,6 +20536,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Muted until {formattedDate}'**
   String guildNavbarMutedUntil(String formattedDate);
+
+  /// Hint under a channel or category in the notification menu when it is muted with no end time.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted'**
+  String get channelMutedHint;
 
   /// Guild tooltip when the community is staff-only.
   ///
@@ -24795,6 +25197,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Direct messages'**
   String get dmListDirectMessagesTitle;
+
+  /// Button at the top of the direct messages list that opens the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get dmListFriendsButton;
 
   /// Placeholder for the shortcuts settings search field.
   ///

@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} सदस्य",
+    "embedInviteMembers": "{formattedCount} सदस्य",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "आप थीम केवल वेब या डेस्कटॉप पर इंपोर्ट कर सकते हैं।",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "थीम इंपोर्ट करें",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "विज़नरी (लाइफटाइम {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "डार्क, कोल या लाइट अपीयरेंस में से चुनें।",
+    "lookAndFeelThemeSectionDescription": "सिस्टम, डार्क, कोल या लाइट अपीयरेंस में से चुनें।",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "संदेश भेजें",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "फ़ोटो",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "डिफ़ॉल्ट रिवर्स इमेज सर्च",
     "advancedSettingDefaultReverseImageSearchDescription": "चुनें कि इमेज सर्च करने के लिए डिफ़ॉल्ट रूप से किस रिवर्स इमेज सर्च सेवा का उपयोग किया जाता है।",
     "advancedSettingBuiltInReverseImageSearchLabel": "बिल्ट-इन रिवर्स इमेज सर्च",
-    "advancedSettingBuiltInReverseImageSearchDescription": "बिल्ट-इन रिवर्स इमेज सर्च प्रोवाइडर को चालू या बंद करें। चालू किए गए प्रोवाइडर इमेज, अवतार, बैनर, स्टिकर और इमोजी के कॉन्टेक्स्ट मेन्यू में दिखेंगे।",
     "advancedSettingCustomReverseImageSearchLabel": "कस्टम रिवर्स इमेज सर्च",
     "advancedSettingCustomReverseImageSearchDescription": "अपनी कस्टम यूआरएल पैटर्न के साथ रिवर्स इमेज सर्च प्रोवाइडर जोड़ें। इमेज यूआरएल के लिए प्लेसहोल्डर के रूप में '{url}' का उपयोग करें।",
     "advancedSettingAddReverseImageSearchLabel": "रिवर्स इमेज सर्च जोड़ें",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "जल्द आ रहा है",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "डायरेक्ट मैसेज",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "कम्युनिटी",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "ऐप्स",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "इस कम्युनिटी में शामिल नहीं हो सके",
     "@discoveryJoinErrorGenericTitle": {
@@ -18161,14 +18155,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer अचानक बंद हो गया। गुमनाम क्रैश और एरर डेटा शेयर करने से हमें समस्याएँ जल्दी ठीक करने में मदद मिलती है।",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "रिपोर्ट में क्रैश लॉग, एरर और बुनियादी परफ़ॉर्मेंस डेटा शामिल होता है। ये किसी तीसरे पक्ष के साथ शेयर नहीं की जातीं और आप इसे कभी भी बंद कर सकते हैं।",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "बाद में चालू करने के लिए, सेटिंग्स → एडवांस → {reportingToggle} खोलें।",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18182,10 +18168,6 @@
     "observabilityReportingConsentAgree": "क्रैश रिपोर्ट भेजें",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "चालू नहीं करना है",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "फ़ीडबैक दें",
     "@userSettingsGiveFeedback": {

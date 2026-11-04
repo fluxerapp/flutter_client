@@ -2,6 +2,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:intl/intl.dart';
 
 class MuteSelection {
   const MuteSelection({this.durationSeconds});
@@ -30,49 +31,29 @@ String muteDurationLabel(int seconds, FluxerLocalizations l10n) {
     28800 => l10n.dmMuteFor8Hours,
     86400 => l10n.dmMuteFor24Hours,
     259200 => l10n.dmMuteFor3Days,
-    _ => 'For ${seconds ~/ 60} minutes',
+    _ => throw ArgumentError.value(seconds, 'seconds'),
   };
 }
 
-String? formatMutedHintText(ChannelOverridesMuteConfig? config) {
+String? formatMutedHintText(
+  ChannelOverridesMuteConfig? config,
+  FluxerLocalizations l10n,
+) {
   if (config == null) {
     return null;
   }
   final Object? endTimeValue = config.endTime;
   final String? endTimeStr = endTimeValue is String ? endTimeValue : null;
   if (endTimeStr == null) {
-    return 'Muted';
+    return l10n.channelMutedHint;
   }
   final end = DateTime.tryParse(endTimeStr)?.toLocal();
   if (end == null) {
-    return 'Muted';
+    return l10n.channelMutedHint;
   }
-  return 'Muted until ${_formatMuteEnd(end)}';
-}
-
-String _formatMuteEnd(DateTime t) {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  final hour12 = t.hour > 12
-      ? t.hour - 12
-      : t.hour == 0
-      ? 12
-      : t.hour;
-  final minute = t.minute.toString().padLeft(2, '0');
-  final period = t.hour >= 12 ? 'PM' : 'AM';
-  return '${months[t.month - 1]} ${t.day}, ${t.year} $hour12:$minute $period';
+  return l10n.guildNavbarMutedUntil(
+    DateFormat.yMMMd(l10n.localeName).add_jm().format(end),
+  );
 }
 
 class MuteDurationSheetBody extends StatelessWidget {

@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
@@ -891,6 +892,7 @@ void main() {
         final RegistrationResult result = await approvalRepository.register(
           email: 'user@example.com',
           password: 'hunter2hunter2',
+          theme: FluxerThemeMode.system,
           dateOfBirth: '1990-01-02',
         );
 

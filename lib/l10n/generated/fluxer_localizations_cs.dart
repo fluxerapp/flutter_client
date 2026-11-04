@@ -963,8 +963,16 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count členů';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount členů',
+      many: '$formattedCount člena',
+      few: '$formattedCount členové',
+      one: '$formattedCount člen',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1065,9 +1073,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Motivy lze importovat pouze na webu nebo v počítači.';
-
-  @override
-  String get embedThemeImport => 'Importovat motiv';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1406,7 +1411,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count členů';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count členů',
+      many: '$count člena',
+      few: '$count členové',
+      one: '$count člen',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1804,6 +1817,52 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       locale: localeName,
       other: '$count komunity',
       one: '1 komunita',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Najděte perfektní samolepku';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Žádné samolepky nejsou k dispozici';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Připojte se ke komunitě se samolepkami, abyste je tu mohli používat.';
+
+  @override
+  String get stickerPickerEmptyHereTitle =>
+      'Žádné samolepky nejsou k dispozici';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'V této konverzaci nejsou k dispozici žádné samolepky.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nebyly nalezeny žádné samolepky';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Zkuste jiný hledaný výraz.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Odemkněte $stickerCount z $communityCount s Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count samolepek',
+      many: '$count samolepky',
+      few: '$count samolepky',
+      one: '1 samolepku',
     );
     return '$_temp0';
   }
@@ -4813,7 +4872,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Vyberte si mezi tmavým, uhlovým nebo světlým vzhledem.';
+      'Vyberte si mezi systémovým, tmavým, uhlovým nebo světlým vzhledem.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Vysoký dynamický rozsah';
@@ -5338,6 +5397,63 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Je potřeba zadat název.';
+
+  @override
+  String get savedMediaEdit => 'Upravit';
+
+  @override
+  String get savedMediaEditTitle => 'Upravit uložená média';
+
+  @override
+  String get savedMediaDeleteTitle => 'Smazat uložená média';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Odebrat „$name“ z uložených médií?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Uložená média se nepodařilo smazat.';
+
+  @override
+  String get savedMediaSearchHint => 'Hledat uložená média';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Uložená média nejsou k dispozici';
+
+  @override
+  String get savedMediaUnavailableBody => 'Zkuste to znovu za chvíli.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Žádná uložená média';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Uložte si média ze zpráv a zobrazí se tady.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Žádné výsledky';
+
+  @override
+  String get savedMediaNoResultsBody => 'Zkuste jiný hledaný výraz nebo filtr.';
+
+  @override
+  String get savedMediaFilterAll => 'Vše';
+
+  @override
+  String get savedMediaFilterImages => 'Obrázky';
+
+  @override
+  String get savedMediaFilterVideos => 'Videa';
+
+  @override
+  String get savedMediaFilterAudio => 'Zvuk';
+
+  @override
+  String get savedMediaFilterGifs => 'GIFy';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6162,6 +6278,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Zavřít';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Ovládání hlasového hovoru';
 
   @override
   String get voiceConnectionDisconnected => 'Odpojeno';
@@ -7384,6 +7503,21 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageDebug => 'Ladit zprávu';
 
   @override
+  String get messageAlertNote => 'Poznámka';
+
+  @override
+  String get messageAlertTip => 'Tip';
+
+  @override
+  String get messageAlertImportant => 'Důležité';
+
+  @override
+  String get messageAlertWarning => 'Upozornění';
+
+  @override
+  String get messageAlertCaution => 'Upozornění';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Ladit zprávu';
 
   @override
@@ -7658,6 +7792,16 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatReplyMentionOff => 'VYP';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Odpověď uživateli $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Přeposláno z $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Zrušit odpověď';
 
   @override
@@ -7734,6 +7878,23 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Zavřít';
+
+  @override
+  String get videoPlayerPlay => 'Přehrát';
+
+  @override
+  String get videoPlayerPause => 'Pozastavit';
+
+  @override
+  String get videoPlayerVolume => 'Hlasitost';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Rychlost přehrávání $speed×';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Celá obrazovka';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8717,6 +8878,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nastavení oznámení, ztlumeno';
 
   @override
+  String get channelHeaderOpenDetails => 'Otevřít podrobnosti kanálu';
+
+  @override
   String get channelDetailsSearchTitle => 'Hledat';
 
   @override
@@ -9422,6 +9586,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Zavřít výběr příloh';
+
+  @override
+  String get composerSendMessage => 'Odeslat zprávu';
 
   @override
   String get chatAttachmentPanelPhotos => 'Fotky';
@@ -11288,6 +11455,16 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Přidat vyhledávání podle obrázku';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Hledat pomocí $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Přeložit pomocí $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Níže zapněte alespoň jednoho poskytovatele vyhledávání podle obrázku.';
 
@@ -11393,6 +11570,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Protokoly aplikace';
+
+  @override
+  String get userSettingsTitle => 'Nastavení';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopírovat informace o aplikaci';
 
   @override
   String get userSettingsNavDeveloperTools => 'Nástroje pro vývojáře';
@@ -11737,9 +11920,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Pro přihlášení se připojte k instanci';
 
   @override
-  String get comingSoon => 'Již brzy';
-
-  @override
   String get guildNavbarDirectMessages => 'Přímé zprávy';
 
   @override
@@ -11828,9 +12008,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Komunity';
-
-  @override
-  String get discoveryApps => 'Aplikace';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11947,6 +12124,79 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Doručené';
+
+  @override
+  String get friendsPageTitle => 'Moji přátelé';
+
+  @override
+  String get friendsActiveNowTitle => 'Právě aktivní';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Teď je tu klid...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Když jsou přátelé aktivní v hlasových kanálech, jejich aktivita se zobrazí zde.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Vše';
+
+  @override
+  String get friendsTabPending => 'Čekající';
+
+  @override
+  String get friendsTabBlocked => 'Blokováno';
+
+  @override
+  String get friendsSearchOnline => 'Hledat online přátele';
+
+  @override
+  String get friendsSearchAll => 'Hledat přátele';
+
+  @override
+  String get friendsSearchPending => 'Hledat čekající žádosti';
+
+  @override
+  String get friendsSearchBlocked => 'Hledat blokované uživatele';
+
+  @override
+  String get friendsEmptySearchTitle => 'Žádní přátelé neodpovídají hledání';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Zkuste jiné jméno nebo zkontrolujte pravopis.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Žádní přátelé nejsou online';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Až budou online, zobrazí se přímo tady.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Zatím žádní přátelé';
+
+  @override
+  String get friendsEmptyAllBody => 'Kam jdeme, tam potřebujeme víc přátel.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Žádné čekající žádosti';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Žádosti o přátelství čekající na vyřízení se zobrazí zde.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Nikoho jste nezablokovali.';
+
+  @override
+  String get friendsOutgoingStatus => 'Odeslaná žádost o přátelství';
+
+  @override
+  String get friendsBlockedStatus => 'Blokováno';
 
   @override
   String get profileRemoveFriend => 'Odebrat z přátel';
@@ -12226,6 +12476,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Ztlumeno do $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Ztlumeno';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15105,6 +15358,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Přímé zprávy';
+
+  @override
+  String get dmListFriendsButton => 'Přátelé';
 
   @override
   String get keybindsSearchShortcuts => 'Hledat zkratky';

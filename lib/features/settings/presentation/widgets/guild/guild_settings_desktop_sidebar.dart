@@ -31,7 +31,6 @@ List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
       SettingsSidebarItem(
         guildSettingsTabTitle(l10n, tab),
         icon: guildSettingsTabIcon(tab),
-        isDisabled: isGuildSettingsTabComingSoon(tab),
       ),
     );
   }

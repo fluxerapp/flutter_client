@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
@@ -511,7 +512,9 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
       _AddGuildModalView.landing => AddGuildLandingView(
         onCreateTap: () => _push(_AddGuildModalView.create),
         onJoinTap: () => _push(_AddGuildModalView.join),
-        onImportTap: () => _push(_AddGuildModalView.importUrl),
+        onImportTap: Platform.isIOS
+            ? null
+            : () => _push(_AddGuildModalView.importUrl),
       ),
       _AddGuildModalView.create => AddGuildCreateView(
         key: _createViewKey,
@@ -655,6 +658,7 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
                     onPressed: _close,
                     icon: PhosphorIconsBold.x,
                     isSquare: true,
+                    semanticLabel: l10n.uiClose,
                   ),
                 ),
               ),

@@ -1,15 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 
 import '../../helpers/test_l10n.dart';
 
 void main() {
-  test('patch notes live on the marketing site', () {
-    expect(ExternalUrls.fluxerPatchNotes, 'https://fluxer.app/patch-notes');
-  });
-
   test("desktop nav lists what's new as a link, not a page", () {
     final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
       showBilling: false,
@@ -37,6 +32,7 @@ void main() {
           l10n: testL10n,
           onOpenSection: (_) => fail('opened a settings page'),
           onOpenAppLogs: () {},
+          showAppLogs: false,
           onOpenWhatsNew: () => opened++,
           onJoinFluxerLabs: () {},
           onGiveFeedback: () {},

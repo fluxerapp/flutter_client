@@ -233,6 +233,9 @@ class InstanceSelector extends _$InstanceSelector {
             .touchRecentInstance(
               domain: snapshot.displayDomain,
               name: snapshot.instanceDisplayName,
+              url: _normalizer.describeApiEndpoint(
+                _normalizer.normalizeEndpoint(url),
+              ),
             );
         if (connectId != _connectSeq) {
           return false;
@@ -280,14 +283,15 @@ class InstanceSelector extends _$InstanceSelector {
         '${error.message}',
       );
       state = AsyncData(
-        current.copyWith(
-          instanceUrl: url,
-          status: InstanceDiscoveryStatus.error,
-          requiresDiscovery: true,
-          errorMessage: error.reason == null ? error.message : null,
-          discoveryFailureReason: error.reason,
-          clearPendingSnapshot: true,
-        ),
+        current
+            .copyWith(clearError: true)
+            .copyWith(
+              instanceUrl: url,
+              status: InstanceDiscoveryStatus.error,
+              requiresDiscovery: true,
+              discoveryFailureReason: error.reason,
+              clearPendingSnapshot: true,
+            ),
       );
       return false;
     } on Object catch (error, stackTrace) {

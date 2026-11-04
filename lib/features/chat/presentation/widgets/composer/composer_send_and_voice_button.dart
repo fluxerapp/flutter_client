@@ -156,7 +156,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                     icon: PhosphorIconsBold.arrowUp,
                     iconSize: 20,
                     size: FluxerButtonSize.small,
-                    semanticLabel: l10n.permissionSendMessages,
+                    semanticLabel: l10n.composerSendMessage,
                     onPressed: sendOnPressed,
                   ),
                 )
@@ -183,7 +183,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                       size: 20,
                     ),
                     color: context.colors.interactiveNormal,
-                    tooltip: l10n.permissionSendMessages,
+                    tooltip: l10n.composerSendMessage,
                     onPressed: sendOnPressed,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(
@@ -205,7 +205,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
               key: const ValueKey<String>('send'),
               enabled: sendVisuallyEnabled,
               child: MobileComposerSendButton(
-                semanticLabel: l10n.permissionSendMessages,
+                semanticLabel: l10n.composerSendMessage,
                 onPressed: sendOnPressed,
               ),
             )

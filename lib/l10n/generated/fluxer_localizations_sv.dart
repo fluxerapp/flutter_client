@@ -961,8 +961,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count medlemmar';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount medlemmar',
+      one: '$formattedCount medlem',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1063,9 +1069,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Du kan bara importera teman på webben eller datorn.';
-
-  @override
-  String get embedThemeImport => 'Importera tema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1406,7 +1409,13 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count medlemmar';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count medlemmar',
+      one: '$count medlem',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1802,6 +1811,49 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       locale: localeName,
       other: '$count communities',
       one: '1 community',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Hitta det perfekta klistermärket';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Inga klistermärken tillgängliga';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Gå med i en community med klistermärken för att använda dem här.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Inga klistermärken tillgängliga';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Det finns inga klistermärken tillgängliga i den här konversationen.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Inga klistermärken hittades';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Prova ett annat sökord.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Lås upp $stickerCount från $communityCount med Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count klistermärken',
+      one: '1 klistermärke',
     );
     return '$_temp0';
   }
@@ -4805,7 +4857,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Välj mellan mörkt, kolsvart eller ljust utseende.';
+      'Välj systemets utseende eller ett mörkt, kolsvart eller ljust utseende.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Högt dynamiskt omfång';
@@ -5329,6 +5381,64 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Namn krävs.';
+
+  @override
+  String get savedMediaEdit => 'Redigera';
+
+  @override
+  String get savedMediaEditTitle => 'Redigera sparat medieobjekt';
+
+  @override
+  String get savedMediaDeleteTitle => 'Ta bort sparat medieobjekt';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Ta bort ”$name” från dina sparade medier?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Kunde inte ta bort sparat medieobjekt.';
+
+  @override
+  String get savedMediaSearchHint => 'Sök sparade medier';
+
+  @override
+  String get savedMediaUnavailableTitle =>
+      'Sparade medier är inte tillgängliga';
+
+  @override
+  String get savedMediaUnavailableBody => 'Försök igen om en liten stund.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Inga sparade medier';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Spara medier från meddelanden för att se dem här.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Inga resultat';
+
+  @override
+  String get savedMediaNoResultsBody => 'Prova ett annat sökord eller filter.';
+
+  @override
+  String get savedMediaFilterAll => 'Alla';
+
+  @override
+  String get savedMediaFilterImages => 'Bilder';
+
+  @override
+  String get savedMediaFilterVideos => 'Videor';
+
+  @override
+  String get savedMediaFilterAudio => 'Ljud';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF:ar';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6158,6 +6268,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Stäng';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Kontroller för röstsamtal';
 
   @override
   String get voiceConnectionDisconnected => 'Frånkopplad';
@@ -7369,6 +7482,21 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessageDebug => 'Felsök meddelande';
 
   @override
+  String get messageAlertNote => 'Anteckning';
+
+  @override
+  String get messageAlertTip => 'Tips';
+
+  @override
+  String get messageAlertImportant => 'Viktigt';
+
+  @override
+  String get messageAlertWarning => 'Varning';
+
+  @override
+  String get messageAlertCaution => 'Varning';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Felsök meddelande';
 
   @override
@@ -7644,6 +7772,16 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatReplyMentionOff => 'AV';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Svarar $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Vidarebefordrat från $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Avbryt svar';
 
   @override
@@ -7720,6 +7858,23 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Stäng';
+
+  @override
+  String get videoPlayerPlay => 'Spela upp';
+
+  @override
+  String get videoPlayerPause => 'Pausa';
+
+  @override
+  String get videoPlayerVolume => 'Volym';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Uppspelningshastighet ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Helskärm';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Visa/dölj videokontroller';
@@ -8702,6 +8857,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Aviseringsinställningar, avstängd';
 
   @override
+  String get channelHeaderOpenDetails => 'Öppna kanalinformation';
+
+  @override
   String get channelDetailsSearchTitle => 'Sök';
 
   @override
@@ -9409,6 +9567,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Stäng bilageväljaren';
+
+  @override
+  String get composerSendMessage => 'Skicka meddelande';
 
   @override
   String get chatAttachmentPanelPhotos => 'Bilder';
@@ -11262,6 +11423,16 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Lägg till omvänd bildsökning';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Sök med $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Översätt med $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Aktivera minst en leverantör för omvänd bildsökning nedan.';
 
@@ -11364,6 +11535,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Apploggar';
+
+  @override
+  String get userSettingsTitle => 'Inställningar';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopiera appinformation';
 
   @override
   String get userSettingsNavDeveloperTools => 'Utvecklarverktyg';
@@ -11710,9 +11887,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Anslut till instansen för att logga in';
 
   @override
-  String get comingSoon => 'Kommer snart';
-
-  @override
   String get guildNavbarDirectMessages => 'Direktmeddelanden';
 
   @override
@@ -11803,9 +11977,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Communities';
-
-  @override
-  String get discoveryApps => 'Appar';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11923,6 +12094,77 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Inkorg';
+
+  @override
+  String get friendsPageTitle => 'Mina vänner';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktiva nu';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Det är lugnt just nu...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'När vänner är aktiva i röstkanaler visas deras aktivitet här.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Alla';
+
+  @override
+  String get friendsTabPending => 'Väntande';
+
+  @override
+  String get friendsTabBlocked => 'Blockerade';
+
+  @override
+  String get friendsSearchOnline => 'Sök bland onlinevänner';
+
+  @override
+  String get friendsSearchAll => 'Sök vänner';
+
+  @override
+  String get friendsSearchPending => 'Sök bland väntande förfrågningar';
+
+  @override
+  String get friendsSearchBlocked => 'Sök bland blockerade användare';
+
+  @override
+  String get friendsEmptySearchTitle => 'Inga vänner matchar sökningen';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Prova ett annat namn eller kontrollera stavningen.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Inga vänner online';
+
+  @override
+  String get friendsEmptyOnlineBody => 'När de är online visas de här.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Inga vänner än';
+
+  @override
+  String get friendsEmptyAllBody => 'Där vi ska, behöver vi fler vänner.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Inga väntande förfrågningar';
+
+  @override
+  String get friendsEmptyPendingBody => 'Väntande vänförfrågningar visas här.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Du har inte blockerat någon.';
+
+  @override
+  String get friendsOutgoingStatus => 'Utgående vänförfrågan';
+
+  @override
+  String get friendsBlockedStatus => 'Blockerad';
 
   @override
   String get profileRemoveFriend => 'Ta bort vän';
@@ -12210,6 +12452,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Tystad till $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Tystad';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15094,6 +15339,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Direktmeddelanden';
+
+  @override
+  String get dmListFriendsButton => 'Vänner';
 
   @override
   String get keybindsSearchShortcuts => 'Sök genvägar';

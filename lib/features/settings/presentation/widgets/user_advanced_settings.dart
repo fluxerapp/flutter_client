@@ -163,8 +163,9 @@ class UserAdvancedSettings extends ConsumerWidget {
               ),
               FluxerSettingsConfigureRow(
                 title: l10n.advancedSettingVoiceChannelJoinBehaviorLabel,
-                description:
-                    l10n.advancedSettingVoiceChannelJoinBehaviorDescription,
+                description: showKeyboardShortcutAdvancedSettings(context)
+                    ? l10n.advancedSettingVoiceChannelJoinBehaviorDescription
+                    : l10n.advancedSettingConfirmBeforeJoiningVoiceLabel,
                 configureLabel: l10n.advancedSettingsConfigure,
                 onConfigure: () => showAdvancedVoiceJoinSheet(context),
               ),

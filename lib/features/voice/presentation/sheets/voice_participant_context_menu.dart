@@ -97,6 +97,9 @@ class VoiceParticipantContextMenu {
     final Offset local = overlay.globalToLocal(position);
     await Navigator.of(context).push<void>(
       _VoiceParticipantContextMenuRoute(
+        barrierLabel: MaterialLocalizations.of(
+          context,
+        ).modalBarrierDismissLabel,
         position: local,
         overlaySize: overlay.size,
         target: target,
@@ -628,6 +631,7 @@ class _VoiceParticipantContextMenuPanelState
 
 class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
   _VoiceParticipantContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.target,
@@ -649,7 +653,7 @@ class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(

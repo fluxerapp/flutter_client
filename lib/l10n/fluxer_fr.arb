@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} membres",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} membre} other{{formattedCount} membres}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Tu peux importer des thèmes uniquement sur le web ou sur ordinateur.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importer le thème",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Paramètres de confidentialité",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} membres",
+    "dmGroupMemberCount": "{count, plural, one{{count} membre} other{{count} membres}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Choisissez entre une apparence sombre, anthracite ou claire.",
+    "lookAndFeelThemeSectionDescription": "Choisissez l'apparence du système ou une apparence sombre, anthracite ou claire.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Bientôt disponible",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Messages privés",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Communautés",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Applications",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Impossible de rejoindre cette communauté",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Envoyer le message",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Photos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Recherche d'image inversée par défaut",
     "advancedSettingDefaultReverseImageSearchDescription": "Choisissez le service de recherche d'images inversée utilisé par défaut lors de la recherche d'une image.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Recherche d'image inversée intégrée",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Activez ou désactivez les fournisseurs de recherche d’images inversée intégrés. Les fournisseurs activés apparaissent dans le menu contextuel des images, avatars, bannières, stickers et emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Recherche d'image inversée personnalisée",
     "advancedSettingCustomReverseImageSearchDescription": "Ajoutez vos propres fournisseurs de recherche d'images inversées avec un modèle d'URL personnalisé. Utilisez '{url}' comme espace réservé pour l'URL de l'image.",
     "advancedSettingAddReverseImageSearchLabel": "Ajouter une recherche d'image inversée",
@@ -18132,14 +18126,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer s'est fermé de manière inattendue. Partager des données anonymes de plantage et d'erreur nous aide à corriger les problèmes plus rapidement.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Les rapports incluent les journaux de plantage, les erreurs et des données de performances de base. Ils ne sont pas partagés avec des tiers et vous pouvez désactiver cette option à tout moment.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Pour l'activer plus tard, ouvrez Paramètres → Avancé → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18153,10 +18139,6 @@
     "observabilityReportingConsentAgree": "Envoyer les rapports de plantage",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Ne pas activer",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Donner votre avis",
     "@userSettingsGiveFeedback": {

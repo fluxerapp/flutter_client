@@ -410,6 +410,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required FluxerLocalizations l10n,
   required void Function(UserSettingsSection section) onOpenSection,
   required VoidCallback onOpenAppLogs,
+  required bool showAppLogs,
   required VoidCallback onOpenWhatsNew,
   required VoidCallback onJoinFluxerLabs,
   required VoidCallback onGiveFeedback,
@@ -482,11 +483,12 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
       label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.developer),
       items: [
         link(UserSettingsSection.applications, PhosphorIconsBold.code),
-        FluxerSettingsNavItem(
-          label: l10n.userSettingsNavAppLogs,
-          icon: PhosphorIconsFill.list,
-          onTap: onOpenAppLogs,
-        ),
+        if (showAppLogs)
+          FluxerSettingsNavItem(
+            label: l10n.userSettingsNavAppLogs,
+            icon: PhosphorIconsFill.list,
+            onTap: onOpenAppLogs,
+          ),
       ],
     ),
     if (AppBuildConfig.isCanary)

@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Üye",
+    "embedInviteMembers": "{formattedCount} Üye",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Temaları yalnızca web veya masaüstünde içe aktarabilirsin.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Temayı içe aktar",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Gizlilik ayarları",
     "@privacySettings": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Koyu, kömür veya açık görünüm arasında seçim yapın.",
+    "lookAndFeelThemeSectionDescription": "Sistem, koyu, kömür veya açık görünüm arasında seçim yapın.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Çok yakında",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Doğrudan mesajlar",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Topluluklar",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Uygulamalar",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Bu topluluğa katılamadınız",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Mesaj gönder",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotoğraflar",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Varsayılan ters görsel arama",
     "advancedSettingDefaultReverseImageSearchDescription": "Bir görseli ararken hangi ters görsel arama hizmetinin varsayılan olarak kullanılacağını seçin.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Yerleşik ters görsel arama",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Yerleşik tersine görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkinleştirilen sağlayıcılar, görsellerin, avatarların, banner'ların, çıkartmaların ve emojilerin bağlam menüsünde görünür.",
     "advancedSettingCustomReverseImageSearchLabel": "Özel ters görsel arama",
     "advancedSettingCustomReverseImageSearchDescription": "Özel bir URL deseniyle kendi ters görsel arama sağlayıcılarınızı ekleyin. Görsel URL'si için yer tutucu olarak '{url}' kullanın.",
     "advancedSettingAddReverseImageSearchLabel": "Ters görsel arama ekle",
@@ -18136,14 +18130,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer beklenmedik şekilde kapandı. Anonim çökme ve hata verilerini paylaşmak, sorunları daha hızlı düzeltmemize yardımcı olur.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Raporlar çökme günlüklerini, hataları ve temel performans verilerini içerir. Üçüncü taraflarla paylaşılmaz ve bu ayarı istediğiniz zaman kapatabilirsiniz.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Daha sonra etkinleştirmek için Ayarlar → Gelişmiş → {reportingToggle} yolunu izleyin.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18157,10 +18143,6 @@
     "observabilityReportingConsentAgree": "Çökme raporları gönder",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Etkinleştirmek istemiyorum",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Geri bildirim ver",
     "@userSettingsGiveFeedback": {

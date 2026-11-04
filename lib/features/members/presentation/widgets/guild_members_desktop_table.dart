@@ -313,7 +313,10 @@ class _GuildMembersDesktopTableState
       return _MembersTableEmptyState(message: l10n.guildMembersEmptySearch);
     }
     if (state.showTableProgress && state.members.isEmpty) {
-      return const SizedBox.expand();
+      if (state.indexing) {
+        return _MembersTableEmptyState(message: l10n.guildMembersIndexing);
+      }
+      return const Center(child: FluxerLoadingSpinner());
     }
     return ListView.builder(
       controller: _tableScrollController,

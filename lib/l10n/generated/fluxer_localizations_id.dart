@@ -956,8 +956,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count Anggota';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount Anggota';
   }
 
   @override
@@ -1057,9 +1057,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get embedThemeWebOnly =>
       'Kamu hanya bisa mengimpor tema di web atau desktop.';
-
-  @override
-  String get embedThemeImport => 'Impor tema';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1793,6 +1790,47 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       locale: localeName,
       other: '$count komunitas',
       one: '1 komunitas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get stickerPickerSearchHint => 'Cari stiker yang pas';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Tidak ada stiker';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Gabung ke komunitas yang punya stiker untuk menggunakannya di sini.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Tidak ada stiker';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Tidak ada stiker yang tersedia di percakapan ini.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Tidak ada stiker yang ditemukan';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Coba kata pencarian lain.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Buka $stickerCount dari $communityCount dengan Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stiker',
     );
     return '$_temp0';
   }
@@ -4795,7 +4833,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Pilih antara tampilan gelap, batu bara, atau terang.';
+      'Pilih antara tampilan sistem, gelap, batu bara, atau terang.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Rentang dinamis tinggi';
@@ -5317,6 +5355,63 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Nama wajib diisi.';
+
+  @override
+  String get savedMediaEdit => 'Edit';
+
+  @override
+  String get savedMediaEditTitle => 'Edit media tersimpan';
+
+  @override
+  String get savedMediaDeleteTitle => 'Hapus media tersimpan';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Hapus \"$name\" dari media tersimpanmu?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Tidak dapat menghapus media tersimpan.';
+
+  @override
+  String get savedMediaSearchHint => 'Cari media tersimpan';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Media tersimpan tidak tersedia';
+
+  @override
+  String get savedMediaUnavailableBody => 'Coba lagi sebentar lagi.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Tidak ada media tersimpan';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Simpan media dari pesan untuk melihatnya di sini.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Tidak ada hasil';
+
+  @override
+  String get savedMediaNoResultsBody => 'Coba kata pencarian atau filter lain.';
+
+  @override
+  String get savedMediaFilterAll => 'Semua';
+
+  @override
+  String get savedMediaFilterImages => 'Gambar';
+
+  @override
+  String get savedMediaFilterVideos => 'Video';
+
+  @override
+  String get savedMediaFilterAudio => 'Audio';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6140,6 +6235,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get voiceConnectionDismiss => 'Tutup';
+
+  @override
+  String get voiceCallControlsSheetLabel => 'Kontrol panggilan suara';
 
   @override
   String get voiceConnectionDisconnected => 'Terputus';
@@ -7350,6 +7448,21 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageDebug => 'Pesan debug';
 
   @override
+  String get messageAlertNote => 'Catatan';
+
+  @override
+  String get messageAlertTip => 'Tips';
+
+  @override
+  String get messageAlertImportant => 'Penting';
+
+  @override
+  String get messageAlertWarning => 'Peringatan';
+
+  @override
+  String get messageAlertCaution => 'Perhatian';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Pesan debug';
 
   @override
@@ -7621,6 +7734,16 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatReplyMentionOff => 'NONAKTIF';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Membalas $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Diteruskan dari $source';
+  }
+
+  @override
   String get chatReplyCancel => 'Batalkan balasan';
 
   @override
@@ -7697,6 +7820,23 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Tutup';
+
+  @override
+  String get videoPlayerPlay => 'Putar';
+
+  @override
+  String get videoPlayerPause => 'Jeda';
+
+  @override
+  String get videoPlayerVolume => 'Volume';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Kecepatan putar ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Layar penuh';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Beralih kontrol video';
@@ -8679,6 +8819,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Pengaturan notifikasi, dibisukan';
 
   @override
+  String get channelHeaderOpenDetails => 'Buka detail saluran';
+
+  @override
   String get channelDetailsSearchTitle => 'Cari';
 
   @override
@@ -9383,6 +9526,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get composerCloseAttachmentPanel => 'Tutup pemilih lampiran';
+
+  @override
+  String get composerSendMessage => 'Kirim pesan';
 
   @override
   String get chatAttachmentPanelPhotos => 'Foto';
@@ -11240,6 +11386,16 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Tambahkan pencarian gambar terbalik';
 
   @override
+  String searchProviderSearchWith(String engine) {
+    return 'Cari dengan $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Terjemahkan dengan $engine';
+  }
+
+  @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
       'Aktifkan setidaknya satu penyedia pencarian gambar terbalik di bawah.';
 
@@ -11343,6 +11499,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Log Aplikasi';
+
+  @override
+  String get userSettingsTitle => 'Pengaturan';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Salin info aplikasi';
 
   @override
   String get userSettingsNavDeveloperTools => 'Alat pengembang';
@@ -11689,9 +11851,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get instanceConnectionRequired => 'Hubungkan ke instance untuk masuk';
 
   @override
-  String get comingSoon => 'Segera hadir';
-
-  @override
   String get guildNavbarDirectMessages => 'Pesan langsung';
 
   @override
@@ -11780,9 +11939,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Komunitas';
-
-  @override
-  String get discoveryApps => 'Aplikasi';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11900,6 +12056,80 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Kotak masuk';
+
+  @override
+  String get friendsPageTitle => 'Teman saya';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktif sekarang';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Lagi sepi nih...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Saat teman-teman aktif di saluran suara, aktivitas mereka akan muncul di sini.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Semua';
+
+  @override
+  String get friendsTabPending => 'Tertunda';
+
+  @override
+  String get friendsTabBlocked => 'Diblokir';
+
+  @override
+  String get friendsSearchOnline => 'Cari teman online';
+
+  @override
+  String get friendsSearchAll => 'Cari teman';
+
+  @override
+  String get friendsSearchPending => 'Cari permintaan tertunda';
+
+  @override
+  String get friendsSearchBlocked => 'Cari pengguna yang diblokir';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Tidak ada teman yang cocok dengan pencarian itu';
+
+  @override
+  String get friendsEmptySearchBody => 'Coba nama lain atau periksa ejaanmu.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Tidak ada teman yang online';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Saat mereka online, mereka akan muncul di sini.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Belum ada teman';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Ke mana pun kita pergi, kita butuh lebih banyak teman.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Tidak ada permintaan tertunda';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Permintaan pertemanan tertunda akan muncul di sini.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Kamu belum memblokir siapa pun.';
+
+  @override
+  String get friendsOutgoingStatus => 'Permintaan pertemanan keluar';
+
+  @override
+  String get friendsBlockedStatus => 'Diblokir';
 
   @override
   String get profileRemoveFriend => 'Hapus teman';
@@ -12184,6 +12414,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String guildNavbarMutedUntil(String formattedDate) {
     return 'Dibisukan hingga $formattedDate';
   }
+
+  @override
+  String get channelMutedHint => 'Dibisukan';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
@@ -15055,6 +15288,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Pesan langsung';
+
+  @override
+  String get dmListFriendsButton => 'Teman';
 
   @override
   String get keybindsSearchShortcuts => 'Cari pintasan';

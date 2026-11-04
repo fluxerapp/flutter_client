@@ -460,7 +460,10 @@ class _GuildInviteContent extends ConsumerWidget {
               badgeIds: localGuild?.badgeIds ?? invite.guild.badgeIds,
               subtitle: l10n.inviteAcceptTitle,
               onlineLabel: l10n.embedInviteOnline(onlineStr),
-              membersLabel: l10n.embedInviteMembers(memberStr),
+              membersLabel: l10n.embedInviteMembers(
+                invite.memberCount,
+                memberStr,
+              ),
             ),
             if (pausedMessage != null) ...<Widget>[
               const SizedBox(height: 12),
@@ -647,6 +650,7 @@ class _GroupDmInviteContent extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           l10n.embedInviteMembers(
+            invite.memberCount,
             _GuildInviteContent._formatCount(invite.memberCount),
           ),
           textAlign: TextAlign.center,

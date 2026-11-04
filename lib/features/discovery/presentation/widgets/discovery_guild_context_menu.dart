@@ -24,6 +24,7 @@ Future<DiscoveryGuildCardAction?> showDiscoveryGuildContextMenu(
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   return Navigator.of(context).push<DiscoveryGuildCardAction>(
     _DiscoveryGuildContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: localPosition,
       overlaySize: overlay.size,
       l10n: l10n,
@@ -34,6 +35,7 @@ Future<DiscoveryGuildCardAction?> showDiscoveryGuildContextMenu(
 class _DiscoveryGuildContextMenuRoute
     extends PopupRoute<DiscoveryGuildCardAction> {
   _DiscoveryGuildContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.l10n,
@@ -53,7 +55,7 @@ class _DiscoveryGuildContextMenuRoute
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildTransitions(

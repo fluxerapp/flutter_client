@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Miembros",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Miembro} other{{formattedCount} Miembros}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Solo puedes importar temas en la web o en el escritorio.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importar tema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Configuración de privacidad",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} Miembros",
+    "dmGroupMemberCount": "{count, plural, one{{count} Miembro} other{{count} Miembros}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Escoge el aspecto oscuro, carbón o claro.",
+    "lookAndFeelThemeSectionDescription": "Escoge el aspecto del sistema, oscuro, carbón o claro.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6358,10 +6357,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Próximamente",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Mensajes directos",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6472,10 +6467,6 @@
     "discoveryCommunities": "Comunidades",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplicaciones",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "No pudiste unirte a esta comunidad",
     "@discoveryJoinErrorGenericTitle": {
@@ -13947,6 +13938,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Enviar mensaje",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14681,7 +14676,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Búsqueda inversa de imágenes predeterminada",
     "advancedSettingDefaultReverseImageSearchDescription": "Elige qué servicio de búsqueda inversa de imágenes se usa por defecto al buscar una imagen.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Búsqueda inversa de imágenes integrada",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Activa o desactiva los proveedores de búsqueda inversa de imágenes integrados. Los proveedores activados aparecen en el menú contextual de imágenes, avatares, banners, stickers y emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Búsqueda inversa de imágenes personalizada",
     "advancedSettingCustomReverseImageSearchDescription": "Agrega tus propios proveedores de búsqueda inversa de imágenes con un patrón de URL personalizado. Usa '{url}' como marcador de posición para la URL de la imagen.",
     "advancedSettingAddReverseImageSearchLabel": "Agregar búsqueda inversa de imágenes",
@@ -18135,14 +18129,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer se cerró inesperadamente. Compartir datos anónimos de fallos y errores nos ayuda a solucionar los problemas más rápido.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Los informes incluyen registros de fallos, errores y datos básicos de rendimiento. No se comparten con terceros y puedes desactivar esta opción en cualquier momento.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Para activarlo más tarde, abre Configuración → Avanzado → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18156,10 +18142,6 @@
     "observabilityReportingConsentAgree": "Enviar informes de fallos",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "No quiero activarlo",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Enviar comentarios",
     "@userSettingsGiveFeedback": {

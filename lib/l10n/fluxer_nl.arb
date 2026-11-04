@@ -985,11 +985,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} leden",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} lid} other{{formattedCount} leden}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1124,10 +1127,6 @@
     "embedThemeWebOnly": "Je kunt thema's alleen op het web of de desktop importeren.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Thema importeren",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionair (lifetime {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1557,7 +1556,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} leden",
+    "dmGroupMemberCount": "{count, plural, one{{count} lid} other{{count} leden}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -5184,7 +5183,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Kies tussen een donker, steenkool of licht uiterlijk.",
+    "lookAndFeelThemeSectionDescription": "Kies het systeemuiterlijk of een donker, steenkool of licht uiterlijk.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -10387,6 +10386,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Bericht verzenden",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Foto's",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -11647,7 +11650,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Standaard omgekeerd zoeken naar afbeeldingen",
     "advancedSettingDefaultReverseImageSearchDescription": "Kies welke zoekmachine voor omgekeerd zoeken standaard wordt gebruikt bij het zoeken naar een afbeelding.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Ingebouwd omgekeerd zoeken naar afbeeldingen",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Schakel ingebouwde providers voor omgekeerd zoeken naar afbeeldingen in of uit. Ingeschakelde providers verschijnen in het contextmenu van afbeeldingen, avatars, banners, stickers en emoji.",
     "advancedSettingCustomReverseImageSearchLabel": "Aangepast omgekeerd zoeken naar afbeeldingen",
     "advancedSettingCustomReverseImageSearchDescription": "Voeg je eigen providers voor omgekeerd zoeken op afbeeldingen toe met een aangepast URL-patroon. Gebruik '{url}' als placeholder voor de afbeeldings-URL.",
     "advancedSettingAddReverseImageSearchLabel": "Omgekeerd zoeken naar afbeeldingen toevoegen",
@@ -12051,10 +12053,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Binnenkort beschikbaar",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Directe berichten",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12165,10 +12163,6 @@
     "discoveryCommunities": "Communities",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Apps",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Kon geen lid worden van deze community",
     "@discoveryJoinErrorGenericTitle": {
@@ -18130,14 +18124,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer is onverwacht afgesloten. Door anonieme crash- en foutgegevens te delen, help je ons problemen sneller op te lossen.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Rapporten bevatten crashlogs, fouten en basisgegevens over prestaties. Ze worden niet gedeeld met derden en je kunt dit op elk moment uitschakelen.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Om dit later in te schakelen, open je Instellingen → Geavanceerd → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18151,10 +18137,6 @@
     "observabilityReportingConsentAgree": "Crashrapporten sturen",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Niet inschakelen",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Feedback geven",
     "@userSettingsGiveFeedback": {

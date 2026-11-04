@@ -88,6 +88,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
   return Navigator.of(context).push<FolderMenuAction>(
     _FolderContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
       folderName: folderName,
@@ -99,6 +100,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
 class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   _FolderContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.folderName,
@@ -122,7 +124,7 @@ class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(

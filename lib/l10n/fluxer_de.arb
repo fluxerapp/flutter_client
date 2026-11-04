@@ -765,11 +765,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Mitglieder",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Mitglied} other{{formattedCount} Mitglieder}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -854,10 +857,6 @@
     "embedThemeWebOnly": "Du kannst Designs nur im Web oder auf dem Desktop importieren.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Design importieren",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Datenschutzeinstellungen",
     "@privacySettings": {
@@ -1098,7 +1097,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} Mitglieder",
+    "dmGroupMemberCount": "{count, plural, one{{count} Mitglied} other{{count} Mitglieder}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -4212,7 +4211,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Wähle zwischen dunkler, kohlefarbener oder heller Darstellung.",
+    "lookAndFeelThemeSectionDescription": "Wähle die Systemdarstellung oder eine dunkle, kohlefarbene oder helle Darstellung.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -6378,10 +6377,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Demnächst verfügbar",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Direktnachrichten",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6492,10 +6487,6 @@
     "discoveryCommunities": "Communitys",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Apps",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Dieser Community konnte nicht beigetreten werden",
     "@discoveryJoinErrorGenericTitle": {
@@ -14238,6 +14229,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Nachricht senden",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14811,7 +14806,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Standard-Rückwärtssuche für Bilder",
     "advancedSettingDefaultReverseImageSearchDescription": "Wähle, welcher Dienst standardmäßig für die Bilderrückwärtssuche verwendet wird.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Integrierte Bilderrückwärtssuche",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Integrierte Anbieter für die Bilderrückwärtssuche aktivieren oder deaktivieren. Aktivierte Anbieter erscheinen im Kontextmenü von Bildern, Avataren, Bannern, Stickern und Emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Benutzerdefinierte Bilderrückwärtssuche",
     "advancedSettingCustomReverseImageSearchDescription": "Füge eigene Anbieter für die umgekehrte Bildersuche mit einem benutzerdefinierten URL-Muster hinzu. Verwende '{url}' als Platzhalter für die Bild-URL.",
     "advancedSettingAddReverseImageSearchLabel": "Rückwärtssuche für Bilder hinzufügen",
@@ -18112,14 +18106,6 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer wurde unerwartet beendet. Wenn du anonyme Absturz- und Fehlerdaten teilst, können wir Probleme schneller beheben.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Berichte enthalten Absturzprotokolle, Fehler und grundlegende Leistungsdaten. Sie werden nicht an Dritte weitergegeben und du kannst dies jederzeit deaktivieren.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
     "observabilityReportingConsentEnableLater": "Um dies später zu aktivieren, öffne Einstellungen → Erweitert → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
         "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
@@ -18133,10 +18119,6 @@
     "observabilityReportingConsentAgree": "Absturzberichte senden",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nicht aktivieren",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Feedback geben",
     "@userSettingsGiveFeedback": {

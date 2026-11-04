@@ -55,6 +55,7 @@ class ChannelSettingsNavPage extends ConsumerWidget {
                   automaticallyImplyLeading: false,
                   leading: showsInAppShellBackButton(context)
                       ? IconButton(
+                          tooltip: l10n.back,
                           icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
                           onPressed: () => context.pop(),
                         )

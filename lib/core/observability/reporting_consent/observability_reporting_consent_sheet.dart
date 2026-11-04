@@ -7,8 +7,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);
-  final colors = context.colors;
-  final textStyles = context.textStyles;
 
   return FluxerBottomSheet.show<bool>(
     context,
@@ -16,9 +14,13 @@ Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
     isDismissible: false,
     enableDrag: false,
     title: l10n.observabilityReportingConsentTitle,
-    subtitle: Text(
-      l10n.observabilityReportingConsentSubtitle,
-      style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+    subtitle: Builder(
+      builder: (BuildContext subtitleContext) => Text(
+        l10n.observabilityReportingConsentSubtitle,
+        style: subtitleContext.textStyles.bodySmall.copyWith(
+          color: subtitleContext.colors.textSecondary,
+        ),
+      ),
     ),
     builder: (sheetContext, close) =>
         _ObservabilityReportingConsentSheetContent(
