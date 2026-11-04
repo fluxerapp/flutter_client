@@ -94,6 +94,10 @@
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
     },
+    "accountDeletionImmediateNoticeNoEmail": "We're deleting your account now.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
     "splashStartupFailed": "Failed to start: {error}",
     "@splashStartupFailed": {
         "description": "Error message on the splash screen when app startup fails.",
@@ -238,9 +242,30 @@
             }
         }
     },
+    "nagbarPremiumGracePeriodNoAction": "Your {productName} subscription failed to renew. You keep your {productName} perks until {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
     "nagbarPremiumExpired": "Your {productName} subscription has expired. Renew now to keep your perks.",
     "@nagbarPremiumExpired": {
         "description": "Premium expired nagbar body.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Your {productName} subscription has expired.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
         "placeholders": {
             "productName": {
                 "type": "String"
@@ -494,6 +519,14 @@
     "mfaUseSecurityKey": "Try security key / passkey instead",
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
+    },
+    "mfaUseBackupCode": "Use a backup code",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Use a code from your authenticator app",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
     },
     "accountSelectorTitle": "Choose an account",
     "@accountSelectorTitle": {
@@ -1419,6 +1452,10 @@
     "giftAcceptAlreadyClaimed": "This gift has already been claimed.",
     "@giftAcceptAlreadyClaimed": {
         "description": "Help text on the gift accept modal when already redeemed."
+    },
+    "giftAcceptLifetimeNotInApp": "This gift can't be claimed in the iOS app. You can claim it in the desktop app.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
     },
     "giftAcceptMaybeLater": "Maybe later",
     "@giftAcceptMaybeLater": {
@@ -2832,9 +2869,9 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "In-app purchases are not available on this platform yet. Stay tuned — coming soon!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
+    "plutoniumNotSoldHere": "Plutonium can't be bought in this version of the app.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
     "profilePreviewLabel": "Preview",
     "@profilePreviewLabel": {
@@ -2925,6 +2962,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "That password is wrong. Try again.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Account",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2940,6 +2981,10 @@
     "securitySectionDescription": "Protect your account with two-factor authentication and passkeys",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Protect your account with two-factor authentication",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "Email settings",
     "@securityLoginEmailSectionTitle": {
@@ -8128,6 +8173,16 @@
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
     },
+    "characterCounterTooLongToast": "Messages can be up to {maxLength} characters. Shorten this one to send it.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} characters left. Get {productName} to write up to {premiumMaxLength} characters.",
     "@characterCounterRemainingPlutoniumUpsell": {
         "description": "Character counter tooltip with a Plutonium upsell when nearing the limit.",
@@ -12072,6 +12127,14 @@
     "storePlutoniumFilesBody": "Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.",
     "storePlutoniumStreamTitle": "Stream in 4K at 60 FPS",
     "storePlutoniumStreamBody": "Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.",
+    "storePlutoniumStreamTitleIos": "Stream in higher quality",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Share your screen or camera in up to 1080p at 60 frames per second in the app, and in up to 4K at 60 in the desktop app. Free accounts stream in up to 720p at 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
     "storePlutoniumManageHeading": "Your subscription",
     "storePlutoniumCompareTitle": "Compare Free and Plutonium",
     "storePlutoniumCompareMobileNote": "Not all of these features are in the mobile app. Some are only available on desktop.",
@@ -12094,7 +12157,15 @@
     "storePlutoniumCompareThemes": "Custom themes for the app",
     "storePlutoniumVideoFree": "Up to 720p at 30 FPS",
     "storePlutoniumVideoPlutonium": "Up to 4K at 60 FPS",
+    "storePlutoniumVideoPlutoniumIos": "Up to 1080p at 60 FPS in the app, up to 4K at 60 FPS on desktop",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
     "storePlutoniumTagFootnote": "You can only pick a tag that nobody else with the same username already has. Usernames aren't case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.",
+    "storePlutoniumTagFootnoteIos": "You can only pick a tag that nobody else with the same username already has. Usernames aren't case sensitive, so Mina#4821 and mina#4821 count as the same.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
     "storePlutoniumLearnVisionary": "Learn more about Visionary.",
     "storePlutoniumDonatePrompt": "Just want to support Fluxer's open source development? ",
     "storePlutoniumDonateLink": "Donate instead.",
@@ -12107,11 +12178,39 @@
     "storePlutoniumHighlightsMore": "And more",
     "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
     "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumAppleEula": "Apple's standard Terms of Use (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
     "storePlutoniumRestorePurchases": "Restore purchases",
     "@storePlutoniumRestorePurchases": {
         "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
     },
+    "storePlutoniumRestoreDone": "Your Plutonium subscription was restored.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "There's no Plutonium subscription to restore for this Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Couldn't restore purchases. Try again in a moment.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
     "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
+    "storePlutoniumOwnedByOtherAccount": "The Apple Account on this device already pays for Plutonium on a different Fluxer account.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium wasn't added",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "The App Store confirmed your purchase, but Plutonium couldn't be added to this account. Tap \"Restore purchases\" to try again, or contact support if it still doesn't work.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
     "storePlutoniumSavePercent": "Save {percent}%",
     "@storePlutoniumSavePercent": {
         "placeholders": {
@@ -12121,7 +12220,18 @@
         }
     },
     "storePlutoniumWaiting": "Purchase received. Plutonium will show here once it activates.",
-    "storePlutoniumUnavailable": "Subscriptions in the app aren't available on this device yet.",
+    "storePlutoniumApprovalPending": "Your purchase is waiting for approval. Plutonium is added to your account once it's approved.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Couldn't load Plutonium plans. Check your connection and try again.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Try again",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
     "storePlutoniumVisionaryStatus": "Visionary already includes permanent access, so a recurring subscription isn't needed.",
     "userSettingsNavPrivacyDashboard": "Privacy dashboard",
     "@userSettingsNavPrivacyDashboard": {

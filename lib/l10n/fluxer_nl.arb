@@ -420,6 +420,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Back-upcode gebruiken",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Code uit authenticatie-app gebruiken",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Kies een account",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -2575,10 +2583,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "In-app aankopen zijn nog niet beschikbaar op dit platform. Houd ons in de gaten — binnenkort beschikbaar!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Voorbeeld",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2672,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Dit wachtwoord klopt niet. Probeer het opnieuw.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Account",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2691,10 @@
     "securitySectionDescription": "Beveilig je account met tweefactorauthenticatie en passkeys",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Beveilig je account met tweefactorauthenticatie",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "E-mailinstellingen",
     "@securityLoginEmailSectionTitle": {
@@ -7229,6 +7241,16 @@
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
     },
+    "characterCounterTooLongToast": "Berichten mogen maximaal {maxLength} tekens lang zijn. Maak dit bericht korter om het te versturen.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
     "characterCounterRemainingPlutoniumUpsell": "Nog {remaining} tekens over. Krijg {productName} om tot {premiumMaxLength} tekens te schrijven.",
     "@characterCounterRemainingPlutoniumUpsell": {
         "description": "Character counter tooltip with a Plutonium upsell when nearing the limit.",
@@ -10914,7 +10936,6 @@
         }
     },
     "storePlutoniumWaiting": "Aankoop ontvangen. Plutonium verschijnt hier zodra het is geactiveerd.",
-    "storePlutoniumUnavailable": "Abonnementen in de app zijn nog niet beschikbaar op dit apparaat.",
     "storePlutoniumVisionaryStatus": "Visionary omvat al permanente toegang, dus een terugkerend abonnement is niet nodig.",
     "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
     "@userSettingsNavPrivacyDashboard": {
@@ -18983,5 +19004,1174 @@
     "animatedImageUseStatic": "Upload in plaats daarvan een statische afbeelding.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Je bent offline. Fluxer maakt opnieuw verbinding zodra je weer online bent.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Je account wordt op {date} verwijderd. Als je je voor die datum aanmeldt, wordt de verwijdering geannuleerd.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Je account staat gepland voor verwijdering. Als je je voor de verwijderingsdatum aanmeldt, wordt de verwijdering geannuleerd.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "We verwijderen je account nu. Als je account een e-mailadres heeft, sturen we je een e-mail zodra het klaar is.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "We verwijderen je account nu.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Je account is uitgeschakeld. Meld je opnieuw aan wanneer je het weer wilt gebruiken.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "E-mail opnieuw verzenden",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "Verificatie-e-mail verzonden. Controleer je inbox.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Je hebt te veel verificatie-e-mails aangevraagd. Wacht even en probeer het opnieuw.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Je {productName}-abonnement kon niet worden verlengd. Je behoudt je {productName}-voordelen tot {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Je {productName}-abonnement is verlopen.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreementPrefix": "Door je aan te melden ga je akkoord met de ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
+    "mfaPasskeyUnavailable": "Passkeys van deze instantie werken niet in deze app en je account heeft geen andere verificatiemethode. Meld je in plaats daarvan aan op het web.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Account verbannen",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Account gesloten",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Wat er is gebeurd",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Waarom",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Zo hebben we besloten",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Zo maak je bezwaar",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Opmerking van ons team: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "Beslissings-ID: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Regel: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Denk je dat we een fout hebben gemaakt? Stuur een e-mail naar {email} en vermeld je gebruikersnaam.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Denk je dat we een fout hebben gemaakt? Stuur uiterlijk {deadline} een e-mail naar {email}. Vermeld de beslissings-ID en je gebruikersnaam. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Denk je dat we een fout hebben gemaakt? Stuur uiterlijk {deadline} een e-mail naar {email}. Mail indien mogelijk vanaf het e-mailadres van je account en vermeld de beslissings-ID. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar {email} vanaf het adres van je account.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar {email} en vermeld je gebruikersnaam.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Klaar",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Niet ingesteld",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Ik ga ermee akkoord dat deze instantie geen enkele tolerantie heeft voor aanstootgevende inhoud of gebruikers die zich misdragen, en dat de beheerders inhoud en accounts kunnen verwijderen die deze regels overtreden.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Dit cadeau kan niet worden ingewisseld in de iOS-app. Je kunt het inwisselen in de desktop-app.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Vind de perfecte sticker",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Geen stickers beschikbaar",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Word lid van een community met stickers om ze hier te gebruiken.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Geen stickers beschikbaar",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "Er zijn geen stickers beschikbaar in dit gesprek.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Geen stickers gevonden",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Probeer een andere zoekterm.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Ontgrendel {stickerCount} uit {communityCount} met Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 sticker} other{{count} stickers}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Badges",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Kies welke badges anderen op je profiel zien.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Je hebt nog geen badges.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Je badges konden niet worden geladen.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "{badgeLabel} op je profiel tonen",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Alle badges tonen",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {nog +{count} badge, alles tonen} other {nog +{count} badges, alles tonen}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Alleen zichtbaar als je Visionary-badge zichtbaar is en niet als abonnement wordt weergegeven.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass sinds {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Badge op mijn profiel tonen",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Verberg sinds wanneer je je {operatorPassName} hebt",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Verberg hoeveel Operator Passes je hebt",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "operatorPassWallTitle": "Operators-muur",
+    "@operatorPassWallTitle": {
+        "description": "Heading for Operators' wall settings."
+    },
+    "operatorPassWallHowItWorks": "Hoe de muur werkt",
+    "@operatorPassWallHowItWorks": {
+        "description": "Link to Operator Pass wall help."
+    },
+    "operatorPassWallNotListed": "Niet vermeld.",
+    "@operatorPassWallNotListed": {
+        "description": "Status when not on the Operators' wall."
+    },
+    "operatorPassWallOnTheWall": "Op de muur",
+    "@operatorPassWallOnTheWall": {
+        "description": "Label for the live wall entry."
+    },
+    "operatorPassWallInReview": "Wordt beoordeeld",
+    "@operatorPassWallInReview": {
+        "description": "Label for a pending wall name."
+    },
+    "operatorPassWallReviewBy": "uiterlijk {date}",
+    "@operatorPassWallReviewBy": {
+        "description": "Review due date label.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallLive": "Live",
+    "@operatorPassWallLive": {
+        "description": "Status when a wall name is live."
+    },
+    "operatorPassWallDeclined": "Afgewezen: {name}. {reason}.",
+    "@operatorPassWallDeclined": {
+        "description": "Declined wall name status.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "reason": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallTeamNote": "Opmerking van het team: {note}",
+    "@operatorPassWallTeamNote": {
+        "description": "Team note on a declined wall name.",
+        "placeholders": {
+            "note": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallHidden": "Tijdelijk verborgen door ons team.",
+    "@operatorPassWallHidden": {
+        "description": "Wall listing hidden by staff."
+    },
+    "operatorPassWallHiddenWhy": "Waarom?",
+    "@operatorPassWallHiddenWhy": {
+        "description": "Link after hidden wall status."
+    },
+    "operatorPassWallRemoved": "Niet op de muur zolang je voordelen zijn ingetrokken.",
+    "@operatorPassWallRemoved": {
+        "description": "Wall listing removed when benefits are removed."
+    },
+    "operatorPassTermsLink": "Voorwaarden van de Operator Pass",
+    "@operatorPassTermsLink": {
+        "description": "Link to Operator Pass terms."
+    },
+    "operatorPassWallSendChanges": "Profielwijzigingen naar de muur sturen",
+    "@operatorPassWallSendChanges": {
+        "description": "Switch to send profile changes to the wall."
+    },
+    "operatorPassWallReleaseList": "Mijn naam toevoegen aan de jaarlijkse Operators-lijst",
+    "@operatorPassWallReleaseList": {
+        "description": "Switch for yearly Operators list opt-in."
+    },
+    "operatorPassWallReleaseListHint": "Eén keer per jaar publiceren we een lijst met Operators in de releaseopmerkingen van een Fluxer-release en in de broncode ervan. Je naam op de muur staat er alleen op als je dit inschakelt.",
+    "@operatorPassWallReleaseListHint": {
+        "description": "Hint for yearly Operators list opt-in."
+    },
+    "operatorPassWallSave": "Opslaan",
+    "@operatorPassWallSave": {
+        "description": "Save Operators' wall settings."
+    },
+    "operatorPassWallSaved": "Opgeslagen.",
+    "@operatorPassWallSaved": {
+        "description": "Toast after saving wall settings."
+    },
+    "operatorPassWallSaveFailed": "Kon niet opslaan. Probeer het opnieuw.",
+    "@operatorPassWallSaveFailed": {
+        "description": "Toast when wall settings save fails."
+    },
+    "operatorPassWallNameSettingsLabel": "Naam op de muur",
+    "@operatorPassWallNameSettingsLabel": {
+        "description": "Label for wall name field in settings."
+    },
+    "operatorPassWallNameHint": "We controleren nieuwe namen voordat ze live gaan.",
+    "@operatorPassWallNameHint": {
+        "description": "Hint under wall name field."
+    },
+    "operatorPassWallDontListMe": "Mij niet vermelden",
+    "@operatorPassWallDontListMe": {
+        "description": "Opt out of the Operators' wall."
+    },
+    "operatorPassWallNameRequired": "Voer een naam in of vink \"Mij niet vermelden\" aan.",
+    "@operatorPassWallNameRequired": {
+        "description": "Validation when wall name is empty."
+    },
+    "operatorPassWallNameTooLong": "Gebruik maximaal 32 tekens.",
+    "@operatorPassWallNameTooLong": {
+        "description": "Validation when wall name is too long."
+    },
+    "operatorPassWallDeclineGuidelines": "Overtreedt de communityrichtlijnen",
+    "@operatorPassWallDeclineGuidelines": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineImpersonation": "Doet zich voor als iemand anders",
+    "@operatorPassWallDeclineImpersonation": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineRights": "Gebruikt een naam of afbeelding zonder de rechten erop",
+    "@operatorPassWallDeclineRights": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineAge": "Niet geschikt voor jongere gebruikers",
+    "@operatorPassWallDeclineAge": {
+        "description": "Decline reason for wall name."
+    },
+    "plutoniumNotSoldHere": "Plutonium kan niet worden gekocht in deze versie van de app.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Code per e-mail sturen",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "We hebben een 6-cijferige code naar je e-mailadres gestuurd.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Code uit de e-mail",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Nieuwe code sturen",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Meld je opnieuw aan om te bevestigen dat jij het bent.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Opnieuw aanmelden",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Aanmelden met {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Je hebt je aangemeld bij een ander account. Meld je aan met het account dat je hier gebruikt.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Passkeys van deze instantie werken niet in deze app. Gebruik je authenticatie-app of een back-upcode, of bevestig op het web.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Verwijder je account en persoonsgegevens. Je kunt ook je berichten verwijderen.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Je account, profiel en persoonsgegevens worden verwijderd. Berichten die je niet verwijdert, blijven staan waar je ze hebt verstuurd, zonder je naam of profiel.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Ook mijn berichten verwijderen",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Verwijdert samen met je account alle berichten die je hebt verstuurd in DM's, groeps-DM's en communities.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Wil je een kopie van je gegevens bewaren? Vraag dan eerst een export aan in het {privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Over 14 dagen verwijderen",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Je kunt dit annuleren door je binnen die 14 dagen aan te melden.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Verwijdering plannen",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Je account wordt verwijderd na de wachttijd van deze instantie. Als je je daarvoor aanmeldt, wordt de verwijdering geannuleerd.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Nu verwijderen",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Je account nu verwijderen?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Je account wordt direct verwijderd en kan niet worden hersteld.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Je Plutonium-abonnement wordt gefactureerd door Apple. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in de App Store.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Je Plutonium-abonnement wordt gefactureerd door Google Play. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in Google Play.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Je bent eigenaar van deze communities. Verwijder ze allemaal of draag ze over aan een ander lid voordat je je account verwijdert.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Tik op een community om de instellingen te openen. \"Community verwijderen\" staat onderaan. Om een community over te dragen, open je \"Leden\", tik je op een lid, tik je op de drie puntjes in het profiel en kies je \"Eigendom overdragen\".",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Gevoelige media tonen",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Gevoelige media zijn verborgen op iPhone en iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "18+-inhoud staat uit op iPhone en iPad. Om communities en kanalen die als 18+ zijn gemarkeerd hier te bekijken, open je Fluxer op het web of in de desktop-app, ga je in je instellingen naar \"Privacy\" en schakel je \"18+-inhoud toestaan op iPhone en iPad\" in.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Door de wetgeving over inhoud voor volwassenen op je locatie is inhoud voor volwassenen hier niet beschikbaar.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Bericht in een 18+-kanaal",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer is niet beschikbaar voor dit account",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "De leeftijdscategorie die je Apple Account deelt, is jonger dan 13. Fluxer is alleen voor mensen van 13 jaar en ouder.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Om hier \"Tonen\" te kiezen, open je Fluxer op het web of in de desktop-app, ga je in je instellingen naar \"Privacy\" en schakel je \"18+-inhoud toestaan op iPhone en iPad\" in.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Bewerken",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Opgeslagen media bewerken",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Opgeslagen media verwijderen",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "\"{name}\" verwijderen uit je opgeslagen media?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Kon opgeslagen media niet verwijderen.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Opgeslagen media zoeken",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Opgeslagen media niet beschikbaar",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Probeer het over een ogenblik opnieuw.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Geen opgeslagen media",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Sla media uit berichten op om ze hier te zien.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Geen resultaten",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Probeer een andere zoekterm of een ander filter.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Alles",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Afbeeldingen",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Video's",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Audio",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF's",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Bediening spraakoproep",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Melden",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Audio-uitvoer wijzigen",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Geef toegang tot je microfoon om het dempen in dit gesprek op te heffen.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Notitie",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Tip",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Belangrijk",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Waarschuwing",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Let op",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Community melden",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Community die je meldt",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "De beheerders van deze instantie bekijken je melding. We maken niet bekend dat de melding van jou komt.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Je hebt deze community al gemeld.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Antwoord op {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Doorgestuurd vanuit {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerPlay": "Afspelen",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Pauzeren",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Volume",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Afspeelsnelheid {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Volledig scherm",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Kanaaldetails openen",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Stream in 4K met 60 FPS",
+    "storePlutoniumStreamBody": "Deel je scherm of camera in maximaal 4K met 60 beelden per seconde. Gratis accounts streamen in maximaal 720p met 30.",
+    "storePlutoniumStreamTitleIos": "Stream in hogere kwaliteit",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Deel je scherm of camera in de app in maximaal 1080p met 60 beelden per seconde, en in de desktop-app in maximaal 4K met 60. Gratis accounts streamen in maximaal 720p met 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Je abonnement",
+    "storePlutoniumVideoPlutoniumIos": "Tot 1080p bij 60 FPS in de app, tot 4K bij 60 FPS op desktop",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Je kunt alleen een tag kiezen die niemand anders met dezelfde gebruikersnaam al heeft. Gebruikersnamen zijn niet hoofdlettergevoelig, dus Mina#4821 en mina#4821 tellen als hetzelfde.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Standaardgebruiksvoorwaarden van Apple (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Je Plutonium-abonnement is hersteld.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Er is geen Plutonium-abonnement om te herstellen voor dit Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Kon aankopen niet herstellen. Probeer het over een ogenblik opnieuw.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Het Apple Account op dit apparaat betaalt al voor Plutonium op een ander Fluxer-account.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium is niet toegevoegd",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "De App Store heeft je aankoop bevestigd, maar Plutonium kon niet aan dit account worden toegevoegd. Tik op \"Aankopen herstellen\" om het opnieuw te proberen, of neem contact op met support als het nog steeds niet werkt.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Je aankoop wacht op goedkeuring. Plutonium wordt aan je account toegevoegd zodra de aankoop is goedgekeurd.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Kon de Plutonium-abonnementen niet laden. Controleer je verbinding en probeer het opnieuw.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Opnieuw proberen",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer is onverwacht afgesloten. Als je een crashrapport stuurt, kunnen we het probleem sneller vinden en oplossen.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Rapporten bevatten crashlogs, fouten, prestatiegegevens, timings van netwerkverzoeken en de schermen en tikken die tot een probleem hebben geleid, gekoppeld aan een willekeurige ID voor deze installatie. Ze bevatten nooit berichtinhoud en gaan alleen naar de eigen foutentracker van Fluxer. Je kunt dit op elk moment uitschakelen.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Niet meer vragen",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "advancedSettingSplashQuotesLabel": "Citaten op het welkomstscherm",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Toon een willekeurig citaat op het welkomstscherm. Wordt niet gesynchroniseerd tussen apparaten.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Schakel ingebouwde providers voor omgekeerd zoeken naar afbeeldingen in of uit. Ingeschakelde providers verschijnen in de opties van afbeeldingen.",
+    "searchProviderSearchWith": "Zoeken met {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Vertalen met {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Instellingen",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "App-info kopiëren",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Hulp en ondersteuning",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} gebruikt geen beveiligde verbinding (https). Fluxer maakt alleen via http verbinding met instanties op je lokale netwerk.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Mijn vrienden",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Nu actief",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Het is nu stil...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Als vrienden actief zijn in spraakkanalen, verschijnt hun activiteit hier.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Alles",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "In behandeling",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Geblokkeerd",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Online vrienden zoeken",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Vrienden zoeken",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Openstaande verzoeken zoeken",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Geblokkeerde gebruikers zoeken",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Geen vrienden gevonden die overeenkomen met de zoekopdracht",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Probeer een andere naam of controleer je spelling.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Geen vrienden online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Als ze online komen, verschijnen ze hier.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Nog geen vrienden",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Waar we naartoe gaan, hebben we meer vrienden nodig.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Geen openstaande verzoeken",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Openstaande vriendschapsverzoeken verschijnen hier.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Je hebt niemand geblokkeerd.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Uitgaand vriendschapsverzoek",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Geblokkeerd",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Gedempt",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Community melden",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Rolpictogram",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Upload een afbeelding of kies een emoji. Naast de naam van leden staat het pictogram van hun hoogste rol met een pictogram.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Minimaal {minimumSize}, maximaal {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Rolpictogram uploaden",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Huidig rolpictogram, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Huidig rolpictogram, geüploade afbeelding",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Emoji kiezen",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Afbeelding uploaden",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Pictogram verwijderen",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Geanimeerde pictogrammen worden niet ondersteund. Gebruik een statische afbeelding.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Dit bestandstype wordt niet ondersteund. Ondersteunde typen zijn {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Deze afbeelding kon niet worden geladen. Probeer een andere.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Zo worden berichten weergegeven",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Rolpictogram, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Rolpictogram bijsnijden",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Pictogram opslaan",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Bijsnijden overslaan",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Bijsnijden van pictogram mislukt. Probeer het opnieuw.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Sleep om het rolpictogram te verplaatsen en gebruik het scrollwiel of een knijpbeweging om te zoomen. De aanbevolen minimale grootte is {minimumWidth}×{minimumHeight} pixels.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Het rolpictogram ingesteld op {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Het rolpictogram gewijzigd van {oldEmoji} naar {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Het rolpictogram verwijderd",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Een aangepast rolpictogram ingesteld",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Het aangepaste rolpictogram gewijzigd",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Het aangepaste rolpictogram is verwijderd",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Vrienden",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Post van iemand die je hebt geblokkeerd",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "forumReportPost": "Post melden",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     }
 }

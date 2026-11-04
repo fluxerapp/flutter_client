@@ -420,6 +420,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Използвай резервен код",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Използвай код от приложението за удостоверяване",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Избери акаунт",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -2575,10 +2583,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Покупки в приложението все още не са налични на тази платформа. Следете ни — скоро ще бъдат налични!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Преглед",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2672,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Паролата е грешна. Опитай отново.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Акаунт",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2691,10 @@
     "securitySectionDescription": "Защитете акаунта си с двуфакторна автентикация и passkeys",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Защитете акаунта си с двуфакторна автентикация",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "Имейл настройки",
     "@securityLoginEmailSectionTitle": {
@@ -7229,6 +7241,16 @@
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
     },
+    "characterCounterTooLongToast": "Съобщенията могат да са до {maxLength} знака. Съкрати това съобщение, за да го изпратиш.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} символа остават. Вземете {productName}, за да пишете до {premiumMaxLength} символа.",
     "@characterCounterRemainingPlutoniumUpsell": {
         "description": "Character counter tooltip with a Plutonium upsell when nearing the limit.",
@@ -10914,7 +10936,6 @@
         }
     },
     "storePlutoniumWaiting": "Покупката е получена. Plutonium ще се покаже тук, след като се активира.",
-    "storePlutoniumUnavailable": "Абонаментите в приложението все още не са налични на това устройство.",
     "storePlutoniumVisionaryStatus": "Visionary вече включва постоянен достъп, така че не е необходим повтарящ се абонамент.",
     "userSettingsNavPrivacyDashboard": "Табло за поверителност",
     "@userSettingsNavPrivacyDashboard": {
@@ -18983,5 +19004,1174 @@
     "animatedImageUseStatic": "Вместо това качи статично изображение.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Нямаш интернет връзка. Fluxer ще се свърже отново, когато връзката се възстанови.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Акаунтът ти ще бъде изтрит на {date}. Ако влезеш преди това, изтриването се отменя.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Акаунтът ти е насрочен за изтриване. Ако влезеш преди датата на изтриване, то се отменя.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Изтриваме акаунта ти сега. Ако акаунтът ти има имейл адрес, ще ти изпратим имейл, когато приключим.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Изтриваме акаунта ти сега.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Акаунтът ти е деактивиран. Влез отново, когато искаш да го използваш.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Изпрати имейла отново",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "Изпратен е имейл за потвърждение. Провери входящата си поща.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Поиска твърде много имейли за потвърждение. Изчакай малко и опитай отново.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Абонаментът ти за {productName} не успя да се поднови. Запазваш предимствата на {productName} до {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Абонаментът ти за {productName} изтече.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreementPrefix": "С влизането се съгласяваш с ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
+    "mfaPasskeyUnavailable": "Ключовете за достъп от тази инстанция не работят в това приложение, а акаунтът ти няма друг метод за потвърждение. Влез през уеб версията.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Акаунтът е блокиран",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Акаунтът е закрит",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Какво се случи",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Защо",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Как решихме",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Как да обжалваш",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Бележка от нашия екип: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "ID на решението: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Правило: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Ако смяташ, че сме сгрешили, пиши на {email} и посочи потребителското си име.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Ако смяташ, че сме сгрешили, пиши на {email} до {deadline}. Посочи ID на решението и потребителското си име. Обжалването е безплатно и всяка жалба се преглежда от човек.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Ако смяташ, че сме сгрешили, пиши на {email} до {deadline}. Ако можеш, пиши от имейл адреса на акаунта си и посочи ID на решението. Обжалването е безплатно и всяка жалба се преглежда от човек.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "За да поискаш да изтрием акаунта и данните ти, пиши на {email} от адреса на акаунта си.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "За да поискаш да изтрием акаунта и данните ти, пиши на {email} и посочи потребителското си име.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Готово",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Не е зададено",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Съгласявам се, че тази инстанция не толерира неприемливо съдържание или потребители, които злоупотребяват, и че администраторите ѝ могат да премахват съдържание и акаунти, които нарушават тези правила.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Този подарък не може да бъде получен в приложението за iOS. Можеш да го получиш в настолното приложение.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Намери идеалния стикер",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Няма налични стикери",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Присъедини се към общност със стикери, за да ги използваш тук.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Няма налични стикери",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "В този разговор няма налични стикери.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Няма намерени стикери",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Опитай с друга дума за търсене.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Отключи {stickerCount} от {communityCount} с Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 стикер} other{{count} стикера}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Значки",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Избери кои значки виждат другите в профила ти.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Все още нямаш значки.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Значките ти не можаха да се заредят.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Показване на {badgeLabel} в профила ти",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Покажи всички значки",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} още значка, покажи всички} other {+{count} още значки, покажи всички}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Показва се само когато значката ти Visionary е видима и не е маскирана като абонамент.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass от {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Показване на значката в профила ми",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Скрий кога получи своя {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Скрий колко пропуска Operator Pass имаш",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "operatorPassWallTitle": "Стената Operators",
+    "@operatorPassWallTitle": {
+        "description": "Heading for Operators' wall settings."
+    },
+    "operatorPassWallHowItWorks": "Как работи стената",
+    "@operatorPassWallHowItWorks": {
+        "description": "Link to Operator Pass wall help."
+    },
+    "operatorPassWallNotListed": "Не е на стената.",
+    "@operatorPassWallNotListed": {
+        "description": "Status when not on the Operators' wall."
+    },
+    "operatorPassWallOnTheWall": "На стената",
+    "@operatorPassWallOnTheWall": {
+        "description": "Label for the live wall entry."
+    },
+    "operatorPassWallInReview": "В преглед",
+    "@operatorPassWallInReview": {
+        "description": "Label for a pending wall name."
+    },
+    "operatorPassWallReviewBy": "до {date}",
+    "@operatorPassWallReviewBy": {
+        "description": "Review due date label.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallLive": "Публикувано",
+    "@operatorPassWallLive": {
+        "description": "Status when a wall name is live."
+    },
+    "operatorPassWallDeclined": "Отхвърлено: {name}. {reason}.",
+    "@operatorPassWallDeclined": {
+        "description": "Declined wall name status.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "reason": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallTeamNote": "Бележка от екипа: {note}",
+    "@operatorPassWallTeamNote": {
+        "description": "Team note on a declined wall name.",
+        "placeholders": {
+            "note": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallHidden": "Скрит от нашия екип засега.",
+    "@operatorPassWallHidden": {
+        "description": "Wall listing hidden by staff."
+    },
+    "operatorPassWallHiddenWhy": "Защо?",
+    "@operatorPassWallHiddenWhy": {
+        "description": "Link after hidden wall status."
+    },
+    "operatorPassWallRemoved": "Извън стената, докато предимствата ти са премахнати.",
+    "@operatorPassWallRemoved": {
+        "description": "Wall listing removed when benefits are removed."
+    },
+    "operatorPassTermsLink": "Условия за Operator Pass",
+    "@operatorPassTermsLink": {
+        "description": "Link to Operator Pass terms."
+    },
+    "operatorPassWallSendChanges": "Изпращай промените в профила към стената",
+    "@operatorPassWallSendChanges": {
+        "description": "Switch to send profile changes to the wall."
+    },
+    "operatorPassWallReleaseList": "Добави името ми в годишния списък на Operators",
+    "@operatorPassWallReleaseList": {
+        "description": "Switch for yearly Operators list opt-in."
+    },
+    "operatorPassWallReleaseListHint": "Веднъж годишно публикуваме списък с Operators в бележките към версия на Fluxer и в нейния изходен код. Името ти от стената е в него само ако включиш това.",
+    "@operatorPassWallReleaseListHint": {
+        "description": "Hint for yearly Operators list opt-in."
+    },
+    "operatorPassWallSave": "Запазване",
+    "@operatorPassWallSave": {
+        "description": "Save Operators' wall settings."
+    },
+    "operatorPassWallSaved": "Запазено.",
+    "@operatorPassWallSaved": {
+        "description": "Toast after saving wall settings."
+    },
+    "operatorPassWallSaveFailed": "Не успяхме да запазим. Опитай отново.",
+    "@operatorPassWallSaveFailed": {
+        "description": "Toast when wall settings save fails."
+    },
+    "operatorPassWallNameSettingsLabel": "Име на стената",
+    "@operatorPassWallNameSettingsLabel": {
+        "description": "Label for wall name field in settings."
+    },
+    "operatorPassWallNameHint": "Проверяваме новите имена, преди да бъдат публикувани.",
+    "@operatorPassWallNameHint": {
+        "description": "Hint under wall name field."
+    },
+    "operatorPassWallDontListMe": "Не ме включвай",
+    "@operatorPassWallDontListMe": {
+        "description": "Opt out of the Operators' wall."
+    },
+    "operatorPassWallNameRequired": "Въведи име или отметни „Не ме включвай“.",
+    "@operatorPassWallNameRequired": {
+        "description": "Validation when wall name is empty."
+    },
+    "operatorPassWallNameTooLong": "Използвай най-много 32 знака.",
+    "@operatorPassWallNameTooLong": {
+        "description": "Validation when wall name is too long."
+    },
+    "operatorPassWallDeclineGuidelines": "Нарушава насоките на общността",
+    "@operatorPassWallDeclineGuidelines": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineImpersonation": "Представя се за някой друг",
+    "@operatorPassWallDeclineImpersonation": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineRights": "Използва име или изображение без права върху тях",
+    "@operatorPassWallDeclineRights": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineAge": "Неподходящо за по-млади потребители",
+    "@operatorPassWallDeclineAge": {
+        "description": "Decline reason for wall name."
+    },
+    "plutoniumNotSoldHere": "Plutonium не може да бъде закупен в тази версия на приложението.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Изпрати ми код по имейл",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Изпратихме 6-цифрен код на имейл адреса ти.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Код от имейла",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Изпрати нов код",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Влез отново, за да потвърдиш, че си ти.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Влез отново",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Вход с {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Влезе в различен акаунт. Влез с акаунта, който използваш тук.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Ключовете за достъп от тази инстанция не работят в това приложение. Използвай приложението си за удостоверяване или резервен код, или потвърди през уеб версията.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Изтрий акаунта и личните си данни. Можеш да изтриеш и съобщенията си.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Акаунтът, профилът и личните ти данни се изтриват. Съобщенията, които не изтриеш, остават там, където си ги изпратил, без името или профила ти.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Изтрий и съобщенията ми",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Изтрива всяко съобщение, което си изпратил в DM, групови DM и общности, заедно с акаунта ти.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "За да запазиш копие на данните си, първо поискай експорт от {privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Изтриване след 14 дни",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Можеш да отмениш, като влезеш в рамките на 14-те дни.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Насрочване на изтриване",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Акаунтът ти се изтрива след периода на изчакване на тази инстанция. Ако влезеш преди това, изтриването се отменя.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Изтриване сега",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Да изтрием ли акаунта ти сега?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Акаунтът ти се изтрива веднага и не може да бъде възстановен.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Абонаментът ти за Plutonium се таксува от Apple. Изтриването на акаунта не го отменя, затова първо го откажи в App Store.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Абонаментът ти за Plutonium се таксува от Google Play. Изтриването на акаунта не го отменя, затова първо го откажи в Google Play.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Ти притежаваш тези общности. Изтрий всяка от тях или я предай на друг член, преди да изтриеш акаунта си.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Докосни общност, за да отвориш настройките ѝ. „Изтриване на общност“ е най-долу. За да я предадеш, отвори „Членове“, докосни член, докосни трите точки в профила му и избери „Прехвърляне на собствеността“.",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Покажи чувствителната медия",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Чувствителната медия е скрита на iPhone и iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "Съдържанието 18+ е изключено на iPhone и iPad. За да виждаш тук общности и канали, маркирани с 18+, отвори Fluxer в уеб версията или в настолното приложение, отиди в „Поверителност“ в настройките си и включи „Разрешаване на съдържание 18+ на iPhone и iPad“.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Поради законите за съдържание за възрастни там, където се намираш, съдържанието за възрастни не е достъпно оттук.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Съобщение в канал 18+",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer не е достъпен за този акаунт",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "Възрастовият диапазон, споделен от твоя Apple Account, е под 13 години. Fluxer е само за хора на 13 и повече години.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "За да избереш „Показване“ тук, отвори Fluxer в уеб версията или в настолното приложение, отиди в „Поверителност“ в настройките си и включи „Разрешаване на съдържание 18+ на iPhone и iPad“.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Редактиране",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Редактиране на запазена медия",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Изтриване на запазена медия",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Да премахнем ли „{name}“ от запазените ти медии?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Запазената медия не можа да бъде изтрита.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Търсене в запазени медии",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Запазените медии не са налични",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Опитай отново след малко.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Няма запазени медии",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Запазвай медии от съобщения, за да ги виждаш тук.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Няма резултати",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Опитай с друга дума за търсене или друг филтър.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Всички",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Изображения",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Видеоклипове",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Аудио",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF файлове",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Контроли на гласовия разговор",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Докладване",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Смяна на аудио изхода",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Разреши достъп до микрофона, за да включиш звука си в този разговор.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Мащаб {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Бележка",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Съвет",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Важно",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Предупреждение",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Внимание",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Докладване на общност",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Общност, която докладваш",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Администраторите на тази инстанция ще прегледат сигнала ти. Няма да разкриваме, че идва от теб.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Вече си подал сигнал за тази общност.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "В отговор на {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Препратено от {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerPlay": "Пусни",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Пауза",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Сила на звука",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Скорост на възпроизвеждане {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Цял екран",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Отваряне на подробностите за канала",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Стриймвай в 4K при 60 FPS",
+    "storePlutoniumStreamBody": "Споделяйте екрана или камерата си в резолюция до 4K при 60 кадъра в секунда. Безплатните акаунти стриймват до 720p при 30.",
+    "storePlutoniumStreamTitleIos": "Стриймвай с по-високо качество",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Споделяй екрана или камерата си до 1080p при 60 кадъра в секунда в приложението и до 4K при 60 в настолното приложение. Безплатните акаунти стриймват до 720p при 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Твоят абонамент",
+    "storePlutoniumVideoPlutoniumIos": "До 1080p при 60 FPS в приложението, до 4K при 60 FPS на компютър",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Можеш да избереш само таг, който никой друг със същото потребителско име още няма. Потребителските имена не правят разлика между главни и малки букви, така че Mina#4821 и mina#4821 се смятат за едно и също.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Стандартните условия за ползване на Apple (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Абонаментът ти за Plutonium е възстановен.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Няма абонамент за Plutonium за възстановяване за този Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Покупките не можаха да бъдат възстановени. Опитай отново след малко.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Apple Account на това устройство вече плаща за Plutonium на друг акаунт във Fluxer.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium не беше добавен",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store потвърди покупката ти, но Plutonium не можа да бъде добавен към този акаунт. Докосни „Възстановяване на покупките“, за да опиташ отново, или се свържи с поддръжката, ако пак не работи.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Покупката ти чака одобрение. Plutonium ще бъде добавен към акаунта ти, след като бъде одобрена.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Плановете за Plutonium не можаха да се заредят. Провери връзката си и опитай отново.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Опитай отново",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer се затвори неочаквано. Изпращането на отчет за срив ни помага да открием и оправим проблема по-бързо.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Отчетите съдържат дневници на сривове, грешки, данни за производителността, времена на мрежовите заявки и екраните и докосванията, довели до проблема, свързани със случаен ID за тази инсталация. Те никога не съдържат съдържание на съобщения и отиват само в собствената система за проследяване на грешки на Fluxer. Можеш да изключиш това по всяко време.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Не питай отново",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "advancedSettingSplashQuotesLabel": "Цитати на началния екран",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Показва случаен цитат на началния екран. Не се синхронизира между устройствата.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Включи или изключи вградените услуги за търсене по изображение. Включените услуги се показват в опциите на изображенията.",
+    "searchProviderSearchWith": "Търсене с {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Превод с {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Настройки",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Копиране на информацията за приложението",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Помощ и поддръжка",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} не използва защитена връзка (https). Fluxer се свързва през http само с инстанции в локалната ти мрежа.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Моите приятели",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Активни сега",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Засега е тихо...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Когато приятелите са активни в гласовите канали, тяхната активност ще се показва тук.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Онлайн",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Всички",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "В изчакване",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Блокирани",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Търсене на приятели онлайн",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Търсене на приятели",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Търсене на чакащи покани",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Търсене на блокирани потребители",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Няма приятели, които да отговарят на търсенето",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Опитай с друго име или провери правописа.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Няма приятели онлайн",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Когато влязат онлайн, ще се появят тук.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Все още нямаш приятели",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Там, накъдето отиваме, ни трябват още приятели.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Няма чакащи покани",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Чакащите покани за приятелство се показват тук.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Не си блокирал никого.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Изходяща покана за приятелство",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Блокиран",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Заглушено",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Докладване на общност",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Икона на ролята",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Качи изображение или избери емоджи. До името на всеки член се показва иконата на най-високата му роля, която има икона.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Поне {minimumSize}, до {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Качване на икона на ролята",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Текуща икона на ролята, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Текуща икона на ролята, качено изображение",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Избери емоджи",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Качване на изображение",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Премахване на икона",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Анимираните икони не се поддържат. Използвай статично изображение.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Този тип файл не се поддържа. Поддържаните типове са {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Това изображение не може да се зареди. Опитай с друго.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Така изглеждат съобщенията",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Икона на ролята, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Изрязване на икона на роля",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Запазване на иконата",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Пропусни изрязването",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Неуспешно изрязване на иконата. Опитай отново.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Плъзни, за да преместиш иконата на ролята, и използвай колелцето на мишката или щипка, за да мащабираш. Препоръчителният минимален размер е {minimumWidth}×{minimumHeight} пиксела.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Зададе иконата на ролята на {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Смени иконата на ролята от {oldEmoji} на {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Премахна иконата на ролята",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Зададе персонализирана икона за ролята",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Променена е персонализираната икона на ролята",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Премахна персонализираната икона на ролята",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Приятели",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Публикация от човек, когото си блокирал",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "forumReportPost": "Докладване на публикацията",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     }
 }

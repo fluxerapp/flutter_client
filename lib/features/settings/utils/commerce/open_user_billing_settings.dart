@@ -46,7 +46,7 @@ Future<void> showPlutoniumUnavailableSheet(
         0,
       ),
       child: Text(
-        l10n.plutoniumNotAvailableBody,
+        l10n.plutoniumNotSoldHere,
         style: sheetContext.textStyles.bodyMedium.copyWith(
           color: sheetContext.colors.textSecondary,
         ),

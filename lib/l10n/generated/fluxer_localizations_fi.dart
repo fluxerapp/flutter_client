@@ -98,6 +98,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Istuntosi on vanhentunut. Kirjaudu sisään uudelleen.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail => 'Poistamme tiliäsi nyt.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Käynnistys epäonnistui: $error';
   }
@@ -184,8 +187,21 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '$productName-tilauksesi uusiminen epäonnistui. Säilytät $productName-etusi $graceDate asti.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Tilauksesi $productName on päättynyt. Uusi tilaus nyt säilyttääksesi edut.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '$productName-tilauksesi on päättynyt.';
   }
 
   @override
@@ -367,6 +383,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Käytä mieluummin turva-avainta tai pääsyavainta';
+
+  @override
+  String get mfaUseBackupCode => 'Käytä varakoodia';
+
+  @override
+  String get mfaUseAuthenticatorCode => 'Käytä tunnistussovelluksen koodia';
 
   @override
   String get accountSelectorTitle => 'Valitse tili';
@@ -1095,6 +1117,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Tämä lahja on jo lunastettu.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Tätä lahjaa ei voi lunastaa iOS-sovelluksessa. Voit lunastaa sen työpöytäsovelluksessa.';
 
   @override
   String get giftAcceptMaybeLater => 'Ehkä myöhemmin';
@@ -2014,22 +2040,21 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get emojiPickerTitle => 'Hymiöt';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Merkit';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Valitse, mitkä merkit muut näkevät profiilissasi.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Sinulla ei ole vielä merkkejä.';
 
   @override
-  String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+  String get profileBadgesSettingsLoadFailed => 'Merkkejäsi ei voitu ladata.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Näytä $badgeLabel profiilissasi';
   }
 
   @override
@@ -2038,22 +2063,22 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Näytä kaikki merkit';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count merkkiä lisää, näytä kaikki',
+      one: '+$count merkki lisää, näytä kaikki',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Näkyy vain, kun Visionary-merkkisi on näkyvissä eikä näy tavallisena tilauksena.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium-merkin yksityisyys';
@@ -2105,80 +2130,82 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass $since alkaen';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Näytä merkki profiilissani';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Piilota, milloin sait $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => 'Piilota Operator Passiesi määrä';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators-seinä';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Miten seinä toimii';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Ei listattu.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Seinällä';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Julkaistu';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden =>
+      'Tiimimme on piilottanut tämän toistaiseksi.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Miksi?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Poissa seinältä niin kauan kuin etusi on poistettu.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Operator Pass -ehdot';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => 'Lähetä profiilimuutokset seinälle';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Lisää nimeni vuosittaiseen Operators-listaan';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Kerran vuodessa julkaisemme Operators-listan erään Fluxer-julkaisun julkaisutiedoissa ja sen lähdekoodissa. Seinänimesi on listalla vain, jos otat tämän käyttöön.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Tallenna';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Tallennettu.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Tallennus epäonnistui. Yritä uudelleen.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Nimi seinällä';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Älä listaa minua';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Anna nimi tai valitse ”Älä listaa minua”.';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Käytä enintään 32 merkkiä.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2195,8 +2222,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Sovelluksen sisäiset ostokset eivät ole vielä saatavilla tällä alustalla. Pysy kuulolla – tulossa pian!';
+  String get plutoniumNotSoldHere =>
+      'Plutoniumia ei voi ostaa tässä sovellusversiossa.';
 
   @override
   String get profilePreviewLabel => 'Esikatselu';
@@ -2269,6 +2296,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Vahvistus epäonnistui. Yritä uudelleen.';
 
   @override
+  String get sudoWrongPassword => 'Salasana on väärä. Yritä uudelleen.';
+
+  @override
   String get securityAccountTitle => 'Tili';
 
   @override
@@ -2281,6 +2311,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Suojaa tilisi kaksivaiheisella todennuksella ja tunnistautumisavaimilla';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Suojaa tilisi kaksivaiheisella todennuksella';
 
   @override
   String get securityLoginEmailSectionTitle => 'Sähköpostiasetukset';
@@ -6146,7 +6180,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Kuulokkeet';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Vaihda äänilähtöä';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Näytä vain videot';
@@ -6209,7 +6243,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Zoomaus $scale';
   }
 
   @override
@@ -6369,6 +6403,15 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Viesti on liian pitkä';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Viestin enimmäispituus on $maxLengthString merkkiä. Lyhennä tätä viestiä, jotta voit lähettää sen.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9751,14 +9794,21 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Jaa täyspitkiä videoita ja suuria tiedostoja pienentämättä niitä ensin. Ilmaisilla tileillä voi lähettää enintään 25 Mt.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Striimaa 4K-laatuisena 60 FPS:llä';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Jaa näyttösi tai kamerasi jopa 4K-tarkkuudella 60 kuvaa sekunnissa. Ilmaiset tilit striimaavat jopa 720p-tarkkuudella 30 kuvaa sekunnissa.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Striimaa paremmalla laadulla';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Jaa näyttösi tai kamerasi sovelluksessa jopa 1080p-tarkkuudella 60 kuvaa sekunnissa ja työpöytäsovelluksessa jopa 4K-tarkkuudella 60 kuvaa sekunnissa. Ilmaiset tilit striimaavat jopa 720p-tarkkuudella 30 kuvaa sekunnissa.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Tilauksesi';
 
   @override
   String get storePlutoniumCompareTitle => 'Vertaa ilmaista ja Plutoniumia';
@@ -9835,8 +9885,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Jopa 4K 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Sovelluksessa jopa 1080p 60 FPS:llä, työpöydällä jopa 4K 60 FPS:llä';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Voit valita vain tunnisteen, jota kenelläkään muulla samalla käyttäjänimellä ei vielä ole. Käyttäjänimissä isoilla ja pienillä kirjaimilla ei ole eroa, joten Mina#4821 ja mina#4821 lasketaan samaksi. Tunniste #0000 on varattu Fluxer Visionary -jäsenille.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Voit valita vain tunnisteen, jota kenelläkään muulla samalla käyttäjänimellä ei vielä ole. Käyttäjänimissä isoilla ja pienillä kirjaimilla ei ole eroa, joten Mina#4821 ja mina#4821 lasketaan samaksi.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Lue lisää Visionarysta.';
@@ -9883,11 +9941,37 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Uusiutuu automaattisesti App Storen kautta, kunnes peruutat tilauksen.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Applen vakiomuotoiset käyttöehdot (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Palauta ostot';
+
+  @override
+  String get storePlutoniumRestoreDone => 'Plutonium-tilauksesi palautettiin.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Tällä Apple Accountilla ei ole palautettavaa Plutonium-tilausta.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Ostoja ei voitu palauttaa. Yritä hetken kuluttua uudelleen.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Sinulla on jo Fluxer Plutonium -tilaus.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Tämän laitteen Apple Account maksaa jo Plutoniumista toisella Fluxer-tilillä.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutoniumia ei lisätty';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store vahvisti ostoksesi, mutta Plutoniumia ei voitu lisätä tälle tilille. Yritä uudelleen napauttamalla ”Palauta ostot” tai ota yhteyttä tukeen, jos se ei vieläkään toimi.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9899,8 +9983,15 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Ostos vastaanotettu. Plutonium näkyy tässä, kun se aktivoituu.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Sovelluksen sisäiset tilaukset eivät ole vielä saatavilla tällä laitteella.';
+  String get storePlutoniumApprovalPending =>
+      'Ostoksesi odottaa hyväksyntää. Plutonium lisätään tilillesi, kun osto on hyväksytty.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Plutonium-tilausvaihtoehtoja ei voitu ladata. Tarkista yhteytesi ja yritä uudelleen.';
+
+  @override
+  String get storePlutoniumRetry => 'Yritä uudelleen';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10564,11 +10655,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer sulkeutui odottamatta. Nimettömien kaatumis- ja virhetietojen jakaminen auttaa meitä korjaamaan ongelmat nopeammin.';
+      'Fluxer sulkeutui odottamatta. Kaatumisraportin lähettäminen auttaa meitä löytämään ja korjaamaan ongelman nopeammin.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Raportit sisältävät kaatumislokeja, virheitä ja perustason suorituskykytietoja. Niitä ei jaeta kolmansille osapuolille, ja voit poistaa tämän käytöstä milloin tahansa.';
+      'Raportit sisältävät kaatumislokeja, virheitä, suorituskykytietoja, verkkopyyntöjen ajoituksia sekä näkymät ja napautukset, jotka johtivat ongelmaan, ja ne yhdistetään tämän asennuksen satunnaiseen tunnukseen. Ne eivät koskaan sisällä viestien sisältöä, ja ne menevät vain Fluxerin omaan virheenseurantaan. Voit poistaa tämän käytöstä milloin tahansa.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10579,7 +10670,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Lähetä kaatumisraportteja';
 
   @override
-  String get observabilityReportingConsentDecline => 'En halua ottaa käyttöön';
+  String get observabilityReportingConsentDecline => 'Älä kysy uudelleen';
 
   @override
   String get advancedSettingsConfigure => 'Määritä';
@@ -10648,11 +10739,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Loitonna logoa, kun poistut aloitusnäytöstä';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Aloitusnäytön lainaukset';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Näytä satunnainen lainaus aloitusnäytössä. Ei synkronoidu laitteiden välillä.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Näppäimistövihjeet';
@@ -11005,7 +11096,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Ota käyttöön tai poista käytöstä sisäänrakennetut käänteisen kuvahaun tarjoajat. Käytössä olevat tarjoajat näkyvät kuvien, avatarien, bannerien, tarrojen ja emojien pikavalikossa.';
+      'Ota sisäänrakennettuja käänteisen kuvahaun palveluja käyttöön tai poista niitä käytöstä. Käytössä olevat palvelut näkyvät kuvien valinnoissa.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12142,11 +12233,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Roolin kuvake';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Lataa kuva tai valitse emoji. Jäsenen nimen vieressä näkyy hänen korkeimman sellaisen roolinsa kuvake, jolla on kuvake.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12154,68 +12245,69 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Vähintään $minimumSize, enintään $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Lataa roolin kuvake';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Roolin nykyinen kuvake, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Roolin nykyinen kuvake, ladattu kuva';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Valitse emoji';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Lataa kuva';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Poista kuvake';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Animoituja kuvakkeita ei tueta. Käytä staattista kuvaa.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Tätä tiedostotyyppiä ei tueta. Tuetut tyypit ovat $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Kuvaa ei voitu ladata. Kokeile toista.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Näin viestit näkyvät';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Roolin kuvake, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Rajaa roolin kuvake';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Tallenna kuvake';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Ohita rajaus';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Kuvakkeen rajaus epäonnistui. Yritä uudelleen.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Siirrä roolin kuvaketta vetämällä ja zoomaa vierityspyörällä tai nipistämällä. Suositeltu vähimmäiskoko on $minimumWidth×$minimumHeight pikseliä.';
   }
 
   @override
@@ -13584,25 +13676,26 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Roolin kuvakkeeksi asetettiin $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Muutettiin roolin kuvake muodosta $oldEmoji muotoon $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Poistettu roolin kuvake';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => 'Asetettu mukautettu roolikuvake';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => 'Muutettu mukautettu roolikuvake';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Poistettu mukautettu roolikuvake';
 
   @override
   String auditLogOptionChannel(String value) {

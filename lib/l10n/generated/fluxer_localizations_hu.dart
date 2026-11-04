@@ -98,6 +98,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A munkamenet lejárt. Kérlek, jelentkezz be újra.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Most töröljük a fiókodat.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Indítás sikertelen: $error';
   }
@@ -184,8 +188,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'A(z) $productName előfizetésed nem újult meg. A(z) $productName előnyeid $graceDate napjáig megmaradnak.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'A(z) $productName előfizetésed lejárt. Újítsd meg most, hogy megtartsd a kedvezményeket.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'A(z) $productName előfizetésed lejárt.';
   }
 
   @override
@@ -368,6 +385,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Biztonsági kulcs vagy jelszókulcs használata';
+
+  @override
+  String get mfaUseBackupCode => 'Biztonsági mentési kód használata';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Kód használata a hitelesítő alkalmazásból';
 
   @override
   String get accountSelectorTitle => 'Fiók kiválasztása';
@@ -1100,6 +1124,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ezt az ajándékot már beváltották.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Ez az ajándék nem igényelhető az iOS-alkalmazásban. Az asztali alkalmazásban igényelheted.';
 
   @override
   String get giftAcceptMaybeLater => 'Talán később';
@@ -2026,22 +2054,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Jelvények';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Válaszd ki, mely jelvényeket látják mások a profilodon.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Még nincs egy jelvényed sem.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Nem sikerült betölteni a jelvényeidet.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '$badgeLabel megjelenítése a profilodon';
   }
 
   @override
@@ -2050,22 +2078,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Az összes jelvény megjelenítése';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count további jelvény, az összes megjelenítése',
+      one: '+$count további jelvény, az összes megjelenítése',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Csak akkor látszik, ha a Visionary-jelvényed látható, és nem normál előfizetésként jelenik meg.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium jelvény adatvédelme';
@@ -2120,80 +2148,83 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass ezóta: $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile =>
+      'Jelvény megjelenítése a profilomon';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Annak elrejtése, mikor kaptad meg az $operatorPassName-t';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount =>
+      'Annak elrejtése, hány Operator Passod van';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators-fal';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Hogyan működik a fal';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Nem szerepel a falon.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'A falon';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Kint van';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Csapatunk egyelőre elrejtette.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Miért?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Nincs a falon, amíg az előnyeid el vannak távolítva.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Az Operator Pass feltételei';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => 'Profilváltozások küldése a falra';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Nevem felvétele az éves Operators-listára';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Évente egyszer közzétesszük az Operators listáját egy Fluxer-kiadás megjegyzéseiben és a forráskódjában. A falon szereplő neved csak akkor kerül rá, ha ezt bekapcsolod.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Mentés';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Mentve.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Nem sikerült a mentés. Próbáld újra.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Név a falon';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Ne szerepeljek rajta';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Adj meg egy nevet, vagy jelöld be a „Ne szerepeljek rajta” lehetőséget.';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Legfeljebb 32 karaktert használj.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2210,8 +2241,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Az alkalmazáson belüli vásárlások még nem érhetők el ezen a platformon. Maradj velünk – hamarosan!';
+  String get plutoniumNotSoldHere =>
+      'A Plutonium nem vásárolható meg az alkalmazás ezen verziójában.';
 
   @override
   String get profilePreviewLabel => 'Előnézet';
@@ -2284,6 +2315,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A hitelesítés sikertelen volt. Kérlek, próbáld újra.';
 
   @override
+  String get sudoWrongPassword => 'A jelszó helytelen. Próbáld újra.';
+
+  @override
   String get securityAccountTitle => 'Fiók';
 
   @override
@@ -2296,6 +2330,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Védje meg fiókodat kétfaktoros hitelesítéssel és jelszavaimáddal';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Védd meg a fiókodat kétfaktoros hitelesítéssel';
 
   @override
   String get securityLoginEmailSectionTitle => 'E-mail beállítások';
@@ -6179,7 +6217,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Fejhallgató';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Hangkimenet módosítása';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Csak a videók megjelenítése';
@@ -6243,7 +6281,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Nagyítás: $scale';
   }
 
   @override
@@ -6405,6 +6443,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Az üzenet túl hosszú';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Az üzenetek legfeljebb $maxLengthString karakteresek lehetnek. Rövidítsd le ezt az üzenetet, hogy elküldhesd.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9818,14 +9865,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ossz meg teljes hosszúságú videókat és nagy fájlokat anélkül, hogy előbb lekicsinyítenéd őket. Az ingyenes fiókok legfeljebb 25 MB-ot küldhetnek.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle =>
+      'Streamelj 4K felbontásban, 60 FPS sebességgel';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Oszd meg a képernyődet vagy a kamerádat akár 4K felbontásban, 60 képkocka/másodperc sebességgel. Az ingyenes fiókok 720p felbontásban, 30 képkocka/másodperc sebességgel streamelnek.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Streamelj jobb minőségben';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Oszd meg a képernyődet vagy a kamerádat akár 1080p felbontásban, 60 képkocka/másodperc sebességgel az alkalmazásban, és akár 4K felbontásban, 60 képkocka/másodperc sebességgel az asztali alkalmazásban. Az ingyenes fiókok legfeljebb 720p felbontásban, 30 képkocka/másodperc sebességgel streamelnek.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Az előfizetésed';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9903,8 +9958,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Akár 4K felbontás 60 FPS sebességgel';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Akár 1080p 60 FPS-sel az alkalmazásban, akár 4K 60 FPS-sel asztali gépen';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Csak olyan címkét választhatsz, amellyel még senki más nem rendelkezik ugyanazzal a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít. A #0000 címke a Fluxer Visionary tagok számára van fenntartva.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Csak olyan címkét választhatsz, amely még senkinél sincs meg ugyanezzel a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Tudj meg többet a Visionaryról.';
@@ -9951,11 +10014,38 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Az Apple általános felhasználási feltételei (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Vásárlások visszaállítása';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'A Plutonium-előfizetésed visszaállítva.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Ehhez az Apple Accounthoz nincs visszaállítható Plutonium-előfizetés.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Nem sikerült visszaállítani a vásárlásokat. Próbáld újra egy kicsit később.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Már van Fluxer Plutonium előfizetésed.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Az ezen az eszközön lévő Apple Account már egy másik Fluxer-fiók Plutonium-előfizetését fizeti.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'A Plutonium nem lett hozzáadva';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'Az App Store megerősítette a vásárlásodat, de a Plutoniumot nem sikerült hozzáadni ehhez a fiókhoz. Az újrapróbáláshoz koppints a „Vásárlások visszaállítása” gombra, vagy ha továbbra sem működik, lépj kapcsolatba az ügyfélszolgálattal.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9967,8 +10057,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Vásárlás megérkezett. A Plutonium itt jelenik meg, amint aktiválódik.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Az alkalmazáson belüli előfizetések még nem érhetők el ezen az eszközön.';
+  String get storePlutoniumApprovalPending =>
+      'A vásárlásod jóváhagyásra vár. A jóváhagyás után a Plutonium hozzáadódik a fiókodhoz.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Nem sikerült betölteni a Plutonium-csomagokat. Ellenőrizd a kapcsolatodat, és próbáld újra.';
+
+  @override
+  String get storePlutoniumRetry => 'Újra';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10642,11 +10739,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'A Fluxer váratlanul bezárult. Az anonim összeomlási és hibaadatok megosztása segít gyorsabban kijavítanunk a problémákat.';
+      'A Fluxer váratlanul bezárult. Egy összeomlási jelentés elküldésével segítesz nekünk gyorsabban megtalálni és kijavítani a problémát.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'A jelentések összeomlási naplókat, hibákat és alapvető teljesítményadatokat tartalmaznak. Nem osztjuk meg őket harmadik féllel, és bármikor kikapcsolhatod ezt.';
+      'A jelentések összeomlási naplókat, hibákat, teljesítményadatokat, hálózati kérések időzítéseit, valamint a problémához vezető képernyőket és koppintásokat tartalmaznak, ehhez a telepítéshez tartozó véletlenszerű azonosítóhoz kapcsolva. Üzenettartalmat soha nem tartalmaznak, és csak a Fluxer saját hibakövető rendszerébe kerülnek. Ezt bármikor kikapcsolhatod.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10658,8 +10755,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Összeomlási jelentések küldése';
 
   @override
-  String get observabilityReportingConsentDecline =>
-      'Nem szeretném bekapcsolni';
+  String get observabilityReportingConsentDecline => 'Ne kérdezze többet';
 
   @override
   String get advancedSettingsConfigure => 'Beállítás';
@@ -10728,11 +10824,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A logó kicsinyítése a kezdőképernyőről való kilépéskor';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Idézetek az indítóképernyőn';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Egy véletlenszerű idézet megjelenítése az indítóképernyőn. Nem szinkronizálódik az eszközök között.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Billentyűzetsúgók';
@@ -11091,7 +11187,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Beépített fordított képkereső szolgáltatók engedélyezése vagy letiltása. Az engedélyezett szolgáltatók megjelennek a képek, profilképek, borítóképek, matricák és emojik helyi menüjében.';
+      'A beépített fordított képkereső szolgáltatók be- vagy kikapcsolása. A bekapcsolt szolgáltatók a képek beállításai között jelennek meg.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12242,11 +12338,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Szerepkör ikonja';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Tölts fel egy képet, vagy válassz egy emojit. A tagoknál a legmagasabb olyan szerepkörük ikonja látszik, amelynek van ikonja.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12254,68 +12350,69 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Legalább $minimumSize, legfeljebb $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Szerepkör ikonjának feltöltése';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'A szerepkör jelenlegi ikonja, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'A szerepkör jelenlegi ikonja, feltöltött kép';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Emoji kiválasztása';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Kép feltöltése';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Ikon eltávolítása';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Az animált ikonok nem támogatottak. Használj statikus képet.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Ez a fájltípus nem támogatott. Támogatott típusok: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Ezt a képet nem sikerült betölteni. Próbálj meg egy másikat.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Így jelennek meg az üzenetek';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Szerepkör ikonja, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Szerepkör ikonjának körbevágása';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Ikon mentése';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Körbevágás kihagyása';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Nem sikerült körbevágni az ikont. Próbáld újra.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Húzd a szerepkör ikonját az áthelyezéshez, és használd a görgőt vagy a csippentést a nagyításhoz. Az ajánlott minimális méret $minimumWidth×$minimumHeight képpont.';
   }
 
   @override
@@ -13687,25 +13784,28 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'A szerepkör ikonja erre lett beállítva: $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Megváltoztatta a szerepkör ikonját erről: $oldEmoji erre: $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Eltávolítva a szerepkör ikonja';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Beállított egy egyéni szerepkörikont';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Megváltoztatta az egyéni szerepkör ikonját';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Eltávolítva az egyéni szerepkör ikonja';
 
   @override
   String auditLogOptionChannel(String value) {

@@ -79,13 +79,16 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
     );
     final bool voiceDisabled =
         !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
-    final VoidCallback? sendOnPressed = !hasSendable || isOverCharacterLimit
+    final VoidCallback? sendOnPressed = !hasSendable
         ? null
         : perms.isComposerEnabled
         ? onSend
         : onNoSendPermission;
     final bool sendVisuallyEnabled =
-        perms.isComposerEnabled && sendOnPressed != null && !isSlowmodeBlocked;
+        perms.isComposerEnabled &&
+        sendOnPressed != null &&
+        !isOverCharacterLimit &&
+        !isSlowmodeBlocked;
     final bool voiceVisuallyEnabled = !voiceDisabled;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final FluxerButtonSize voiceSize = useHoldToRecord

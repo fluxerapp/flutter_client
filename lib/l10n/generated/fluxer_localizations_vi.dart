@@ -97,6 +97,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Phiên của bạn đã hết hạn. Vui lòng đăng nhập lại.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Chúng tôi đang xóa tài khoản của bạn.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Không thể khởi động: $error';
   }
@@ -183,8 +187,21 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Gói đăng ký $productName của bạn không gia hạn được. Bạn vẫn giữ các đặc quyền $productName cho đến $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Gói đăng ký $productName của bạn đã hết hạn. Gia hạn ngay để giữ các đặc quyền.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Gói đăng ký $productName của bạn đã hết hạn.';
   }
 
   @override
@@ -365,6 +382,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get mfaUseSecurityKey => 'Thử dùng khóa bảo mật / khóa truy cập';
+
+  @override
+  String get mfaUseBackupCode => 'Dùng mã dự phòng';
+
+  @override
+  String get mfaUseAuthenticatorCode => 'Dùng mã từ ứng dụng xác thực';
 
   @override
   String get accountSelectorTitle => 'Chọn một tài khoản';
@@ -1092,6 +1115,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Món quà này đã được nhận.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Không thể nhận quà tặng này trong ứng dụng iOS. Bạn có thể nhận quà trong ứng dụng máy tính.';
 
   @override
   String get giftAcceptMaybeLater => 'Để sau';
@@ -2003,22 +2030,22 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get emojiPickerTitle => 'Biểu tượng cảm xúc';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Huy hiệu';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Chọn những huy hiệu người khác thấy trên hồ sơ của bạn.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Bạn chưa có huy hiệu nào.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Không thể tải huy hiệu của bạn.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Hiển thị $badgeLabel trên hồ sơ của bạn';
   }
 
   @override
@@ -2027,22 +2054,22 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Hiện tất cả huy hiệu';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count huy hiệu nữa, hiện tất cả',
+      one: '+$count huy hiệu nữa, hiện tất cả',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Chỉ hiển thị khi huy hiệu Visionary của bạn đang hiện và không hiển thị dưới dạng gói đăng ký.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Quyền riêng tư Huy hiệu Plutonium';
@@ -2094,80 +2121,81 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Có Operator Pass từ $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile =>
+      'Hiển thị huy hiệu trên hồ sơ của tôi';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Ẩn thời điểm bạn có $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => 'Ẩn số lượng Operator Pass bạn có';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Bức tường Operators';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Cách bức tường hoạt động';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Không hiển thị.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Trên bức tường';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Đang hiển thị';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Nhóm của chúng tôi đã tạm ẩn mục này.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Tại sao?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Không hiển thị trên bức tường trong thời gian quyền lợi của bạn bị gỡ bỏ.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Điều khoản Operator Pass';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => 'Gửi thay đổi hồ sơ lên bức tường';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Thêm tên tôi vào danh sách Operators hằng năm';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Mỗi năm một lần, chúng tôi công bố danh sách Operators trong ghi chú phát hành của một bản Fluxer và trong mã nguồn của bản đó. Tên trên bức tường của bạn chỉ có trong danh sách nếu bạn bật tùy chọn này.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Lưu';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Đã lưu.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed => 'Không thể lưu. Thử lại.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Tên trên bức tường';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Không hiển thị tôi';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Nhập tên, hoặc chọn \"Không hiển thị tôi\".';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Dùng tối đa 32 ký tự.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2184,8 +2212,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Tính năng mua hàng trong ứng dụng chưa khả dụng trên nền tảng này. Hãy theo dõi — sắp ra mắt!';
+  String get plutoniumNotSoldHere =>
+      'Không thể mua Plutonium trong phiên bản ứng dụng này.';
 
   @override
   String get profilePreviewLabel => 'Xem trước';
@@ -2256,6 +2284,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get sudoVerificationFailed => 'Xác minh thất bại. Vui lòng thử lại.';
 
   @override
+  String get sudoWrongPassword => 'Mật khẩu không đúng. Vui lòng thử lại.';
+
+  @override
   String get securityAccountTitle => 'Tài khoản';
 
   @override
@@ -2268,6 +2299,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Bảo vệ tài khoản của bạn bằng xác thực hai yếu tố và khóa truy cập';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Bảo vệ tài khoản của bạn bằng xác thực hai yếu tố';
 
   @override
   String get securityLoginEmailSectionTitle => 'Cài đặt email';
@@ -6126,7 +6161,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Tai nghe';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Đổi đầu ra âm thanh';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Chỉ hiển thị video';
@@ -6189,7 +6224,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Thu phóng $scale';
   }
 
   @override
@@ -6351,6 +6386,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Tin nhắn quá dài';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Tin nhắn có thể dài tối đa $maxLengthString ký tự. Hãy rút ngắn tin nhắn này để gửi.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9734,14 +9778,22 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Chia sẻ video dài và tệp lớn mà không cần nén trước. Tài khoản miễn phí có thể gửi tối đa 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Phát trực 4K ở 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Chia sẻ màn hình hoặc camera của bạn ở độ phân giải lên đến 4K, 60 khung hình/giây. Tài khoản miễn phí truyền phát ở độ phân giải lên đến 720p, 30 khung hình/giây.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos =>
+      'Phát trực tiếp chất lượng cao hơn';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Chia sẻ màn hình hoặc camera của bạn ở độ phân giải lên đến 1080p, 60 khung hình/giây trong ứng dụng, và lên đến 4K, 60 khung hình/giây trong ứng dụng máy tính. Tài khoản miễn phí truyền phát ở độ phân giải lên đến 720p, 30 khung hình/giây.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Gói đăng ký của bạn';
 
   @override
   String get storePlutoniumCompareTitle => 'So sánh gói Miễn phí và Plutonium';
@@ -9818,8 +9870,16 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Lên đến 4K ở 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Lên đến 1080p ở 60 FPS trong ứng dụng, lên đến 4K ở 60 FPS trên máy tính';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Bạn chỉ có thể chọn một thẻ mà chưa có ai khác có cùng tên người dùng. Tên người dùng không phân biệt chữ hoa chữ thường, vì vậy Mina#4821 và mina#4821 được tính là giống nhau. Thẻ #0000 được dành riêng cho thành viên Fluxer Visionary.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Bạn chỉ có thể chọn thẻ mà chưa ai khác có cùng tên người dùng đang dùng. Tên người dùng không phân biệt chữ hoa, chữ thường, nên Mina#4821 và mina#4821 được tính là một.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Tìm hiểu thêm về Visionary.';
@@ -9866,11 +9926,38 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tự động gia hạn qua App Store cho đến khi bạn hủy.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Điều khoản sử dụng tiêu chuẩn của Apple (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Khôi phục giao dịch mua';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Đã khôi phục gói đăng ký Plutonium của bạn.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Không có gói đăng ký Plutonium nào để khôi phục cho Apple Account này.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Không thể khôi phục giao dịch mua. Hãy thử lại sau giây lát.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Bạn đã có gói đăng ký Fluxer Plutonium.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Apple Account trên thiết bị này đã thanh toán Plutonium cho một tài khoản Fluxer khác.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Chưa thêm được Plutonium';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store đã xác nhận giao dịch mua của bạn, nhưng không thể thêm Plutonium vào tài khoản này. Nhấn \"Khôi phục giao dịch mua\" để thử lại, hoặc liên hệ bộ phận hỗ trợ nếu vẫn không được.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9882,8 +9969,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Đã nhận giao dịch mua. Plutonium sẽ hiển thị ở đây sau khi được kích hoạt.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Tính năng đăng ký trong ứng dụng chưa khả dụng trên thiết bị này.';
+  String get storePlutoniumApprovalPending =>
+      'Giao dịch mua của bạn đang chờ phê duyệt. Plutonium sẽ được thêm vào tài khoản của bạn sau khi được phê duyệt.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Không thể tải các gói Plutonium. Hãy kiểm tra kết nối và thử lại.';
+
+  @override
+  String get storePlutoniumRetry => 'Thử lại';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10551,11 +10645,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer đã đóng đột ngột. Chia sẻ dữ liệu sự cố và lỗi ẩn danh giúp chúng tôi khắc phục sự cố nhanh hơn.';
+      'Fluxer đã đóng đột ngột. Gửi báo cáo sự cố giúp chúng tôi tìm và sửa vấn đề nhanh hơn.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Báo cáo bao gồm nhật ký sự cố, lỗi và dữ liệu hiệu năng cơ bản. Chúng không được chia sẻ với bên thứ ba và bạn có thể tắt tính năng này bất cứ lúc nào.';
+      'Báo cáo bao gồm nhật ký sự cố, lỗi, dữ liệu hiệu suất, thời gian của các yêu cầu mạng, cùng các màn hình và thao tác chạm dẫn đến sự cố, được liên kết với một ID ngẫu nhiên cho bản cài đặt này. Báo cáo không bao giờ chứa nội dung tin nhắn và chỉ được gửi đến hệ thống theo dõi lỗi riêng của Fluxer. Bạn có thể tắt tính năng này bất cứ lúc nào.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10566,7 +10660,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Gửi báo cáo sự cố';
 
   @override
-  String get observabilityReportingConsentDecline => 'Không muốn bật';
+  String get observabilityReportingConsentDecline => 'Không hỏi lại';
 
   @override
   String get advancedSettingsConfigure => 'Cấu hình';
@@ -10634,11 +10728,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Thu nhỏ logo khi rời khỏi màn hình chờ';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel =>
+      'Câu trích dẫn trên màn hình chờ';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Hiển thị một câu trích dẫn ngẫu nhiên trên màn hình chờ. Không đồng bộ giữa các thiết bị.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Gợi ý bàn phím';
@@ -10991,7 +11086,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Bật hoặc tắt các nhà cung cấp tìm kiếm hình ảnh ngược tích hợp. Các nhà cung cấp được bật sẽ xuất hiện trong menu ngữ cảnh của hình ảnh, ảnh đại diện, ảnh bìa, nhãn dán và biểu tượng cảm xúc.';
+      'Bật hoặc tắt các nhà cung cấp tìm kiếm hình ảnh ngược tích hợp. Các nhà cung cấp đã bật sẽ xuất hiện trong tùy chọn của hình ảnh.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12132,11 +12227,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Biểu tượng vai trò';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Tải lên một hình ảnh hoặc chọn biểu tượng cảm xúc. Bên cạnh tên thành viên sẽ hiển thị biểu tượng của vai trò cao nhất có biểu tượng.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12144,68 +12239,69 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Tối thiểu $minimumSize, tối đa $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Tải biểu tượng vai trò lên';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Biểu tượng vai trò hiện tại, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Biểu tượng vai trò hiện tại, ảnh đã tải lên';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Chọn biểu tượng cảm xúc';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Tải ảnh lên';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Xóa biểu tượng';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Không hỗ trợ biểu tượng động. Vui lòng sử dụng ảnh tĩnh.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Không hỗ trợ loại tệp này. Các loại được hỗ trợ: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Không thể tải hình ảnh này. Hãy thử hình khác.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Đây là cách tin nhắn hiển thị';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Biểu tượng vai trò, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Cắt ảnh biểu tượng vai trò';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Lưu biểu tượng';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Bỏ qua cắt ảnh';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Cắt biểu tượng không thành công. Vui lòng thử lại.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Kéo để định vị lại biểu tượng vai trò và dùng con lăn chuột hoặc chụm để thu phóng. Kích thước tối thiểu được đề xuất là $minimumWidth×$minimumHeight pixel.';
   }
 
   @override
@@ -13562,25 +13658,28 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Đã đặt biểu tượng vai trò thành $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Đã đổi biểu tượng vai trò từ $oldEmoji thành $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Đã xóa biểu tượng vai trò';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Đã đặt biểu tượng tùy chỉnh cho vai trò';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Đã thay đổi biểu tượng tùy chỉnh của vai trò';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Đã xóa biểu tượng tùy chỉnh của vai trò';
 
   @override
   String auditLogOptionChannel(String value) {

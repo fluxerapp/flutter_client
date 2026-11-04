@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -101,6 +102,12 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
   }
 
   void _openPlutonium(BuildContext context, WidgetRef ref) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      if (ref.read(premiumBillingNavVisibleProvider)) {
+        unawaited(openPlutoniumCommerce(context, ref));
+      }
+      return;
+    }
     if (userSettingsShowBillingNav(ref)) {
       unawaited(openPlutoniumCommerce(context, ref));
       return;

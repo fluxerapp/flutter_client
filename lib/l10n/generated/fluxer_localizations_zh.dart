@@ -93,6 +93,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get sessionExpiredToast => '您的会话已过期。请重新登录。';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail => '我们正在删除你的账号。';
+
+  @override
   String splashStartupFailed(String error) {
     return '启动失败：$error';
   }
@@ -179,8 +182,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '你的 $productName 订阅续订失败。你可以继续享有 $productName 权益，直到 $graceDate。';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return '您的 $productName 订阅已过期。立即续订以保留您的会员权益。';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '你的 $productName 订阅已过期。';
   }
 
   @override
@@ -353,6 +369,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get mfaUseSecurityKey => '改用安全密钥/通行密钥';
+
+  @override
+  String get mfaUseBackupCode => '使用备用码';
+
+  @override
+  String get mfaUseAuthenticatorCode => '使用身份验证器应用中的代码';
 
   @override
   String get accountSelectorTitle => '选择一个账号';
@@ -1033,6 +1055,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => '此礼物已被领取。';
+
+  @override
+  String get giftAcceptLifetimeNotInApp => '此礼物无法在 iOS 应用中领取，但可以在桌面应用中领取。';
 
   @override
   String get giftAcceptMaybeLater => '以后再说';
@@ -1898,22 +1923,20 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get emojiPickerTitle => '表情';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => '徽章';
 
   @override
-  String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+  String get profileBadgesSettingsDescription => '选择其他人在你的个人资料中能看到哪些徽章。';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => '你还没有任何徽章。';
 
   @override
-  String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+  String get profileBadgesSettingsLoadFailed => '无法加载你的徽章。';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '在你的个人资料中显示 $badgeLabel';
   }
 
   @override
@@ -1922,22 +1945,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => '显示所有徽章';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '还有 +$count 个徽章，显示全部',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      '仅在你的 Visionary 徽章可见且未显示为普通订阅时显示。';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隐私';
@@ -1984,80 +2006,77 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return '自 $since 起拥有 Operator Pass';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => '在我的个人资料中显示徽章';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return '隐藏你获得 $operatorPassName 的时间';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => '隐藏你拥有的 Operator Pass 数量';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators 墙';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Operators 墙说明';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => '未列出';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => '在墙上';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => '已上墙';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => '暂时由我们团队隐藏。';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => '为什么？';
 
   @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+  String get operatorPassWallRemoved => '你的权益被移除期间，你不会显示在墙上。';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Operator Pass 条款';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => '将个人资料更改同步到 Operators 墙';
 
   @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+  String get operatorPassWallReleaseList => '将我的名字加入年度 Operators 名单';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      '我们每年会在一个 Fluxer 版本的发布说明及其源代码中公布一份 Operators 名单。只有开启此选项，你在墙上的名字才会出现在名单中。';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => '保存';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => '已保存。';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed => '保存失败。请重试。';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => '在墙上显示的名字';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => '不要列出我';
 
   @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+  String get operatorPassWallNameRequired => '请输入一个名字，或勾选“不要列出我”。';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => '请使用不超过 32 个字符。';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2073,7 +2092,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody => '应用内购买在此平台暂不可用。敬请期待 — 即将推出！';
+  String get plutoniumNotSoldHere => '此版本的应用无法购买 Plutonium。';
 
   @override
   String get profilePreviewLabel => '预览';
@@ -2144,6 +2163,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get sudoVerificationFailed => '验证失败。请重试。';
 
   @override
+  String get sudoWrongPassword => '密码不正确。请重试。';
+
+  @override
   String get securityAccountTitle => '账号';
 
   @override
@@ -2154,6 +2176,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get securitySectionDescription => '使用双重验证和通行密钥保护你的账号';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys => '使用双重验证保护你的账号';
 
   @override
   String get securityLoginEmailSectionTitle => '电子邮件设置';
@@ -5794,7 +5819,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '耳机';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => '更改音频输出';
 
   @override
   String get voicePanelOnlyShowVideosLabel => '仅显示视频';
@@ -5851,7 +5876,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return '缩放 $scale';
   }
 
   @override
@@ -6006,6 +6031,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => '消息太长';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return '消息最多可包含 $maxLengthString 个字符。请缩短此消息后再发送。';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9158,14 +9192,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumFilesBody => '分享完整视频和大型文件，无需压缩。免费帐户最多可发送 25 MB。';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => '以 60 FPS 流式传输 4K';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      '与朋友分享屏幕或摄像头，最高可达 4K 60fps。免费账户最高可达 720p 30fps。';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => '以更高画质直播';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      '在应用中以最高 1080p、每秒 60 帧共享你的屏幕或摄像头，在桌面应用中最高可达 4K、60 帧。免费账号最高可以 720p、30 帧直播。';
+
+  @override
+  String get storePlutoniumManageHeading => '你的订阅';
 
   @override
   String get storePlutoniumCompareTitle => '比较免费版和 Plutonium';
@@ -9231,8 +9272,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => '最高 4K，60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      '应用中最高 1080p，60 FPS；桌面版最高 4K，60 FPS';
+
+  @override
   String get storePlutoniumTagFootnote =>
       '你只能选择其他同名用户尚未使用的标签。用户名不区分大小写，因此 Mina#4821 和 mina#4821 视为相同。#0000 标签专供 Fluxer Visionary 成员使用。';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      '你只能选择没有其他同名用户使用过的标签。用户名不区分大小写，因此 Mina#4821 和 mina#4821 视为相同。';
 
   @override
   String get storePlutoniumLearnVisionary => '了解 Visionary 详情。';
@@ -9271,10 +9320,34 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumRenewsThroughAppStore => '通过 App Store 自动续订，直到你取消。';
 
   @override
+  String get storePlutoniumAppleEula => 'Apple 标准使用条款（EULA）';
+
+  @override
   String get storePlutoniumRestorePurchases => '恢复购买';
 
   @override
+  String get storePlutoniumRestoreDone => '你的 Plutonium 订阅已恢复。';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      '此 Apple Account 没有可恢复的 Plutonium 订阅。';
+
+  @override
+  String get storePlutoniumRestoreFailed => '无法恢复购买。请稍后重试。';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '你已拥有 Fluxer Plutonium 订阅。';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      '此设备上的 Apple Account 已在另一个 Fluxer 账号上为 Plutonium 付费。';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => '未能添加 Plutonium';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store 已确认你的购买，但无法将 Plutonium 添加到此账号。请点按“恢复购买”重试，如果仍然无效，请联系支持团队。';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9285,7 +9358,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumWaiting => '已收到购买。Plutonium 激活后将在此处显示。';
 
   @override
-  String get storePlutoniumUnavailable => '此设备暂不支持应用内订阅。';
+  String get storePlutoniumApprovalPending =>
+      '你的购买正在等待批准。批准后，Plutonium 将添加到你的账号。';
+
+  @override
+  String get storePlutoniumLoadFailed => '无法加载 Plutonium 方案。请检查你的网络连接，然后重试。';
+
+  @override
+  String get storePlutoniumRetry => '重试';
 
   @override
   String get storePlutoniumVisionaryStatus => 'Visionary 已包含永久访问权限，因此无需重复订阅。';
@@ -9903,11 +9983,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer 意外关闭。共享匿名的崩溃和错误数据可帮助我们更快地修复问题。';
+      'Fluxer 意外关闭。发送崩溃报告可以帮助我们更快地找到并修复问题。';
 
   @override
   String get observabilityReportingConsentBody =>
-      '报告包含崩溃日志、错误和基本性能数据。这些数据不会与第三方共享，你可以随时关闭此功能。';
+      '报告包含崩溃日志、错误、性能数据、网络请求耗时，以及导致问题的界面和点按操作，并关联到此次安装的随机 ID。报告绝不包含消息内容，且只会发送到 Fluxer 自己的错误追踪系统。你可以随时关闭此功能。';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -9918,7 +9998,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => '发送崩溃报告';
 
   @override
-  String get observabilityReportingConsentDecline => '暂不启用';
+  String get observabilityReportingConsentDecline => '不再询问';
 
   @override
   String get advancedSettingsConfigure => '配置';
@@ -9980,11 +10060,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '离开启动屏时缩小 Logo';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => '启动画面语录';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      '在启动画面上显示一条随机语录。不会在设备间同步。';
 
   @override
   String get advancedSettingKeyboardHintsLabel => '键盘提示';
@@ -10293,7 +10373,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      '启用或停用内置反向图片搜索提供方。已启用的提供方会显示在图片、头像、横幅、贴纸和表情的上下文菜单中。';
+      '启用或停用内置的反向图片搜索服务。已启用的服务会显示在图片的选项中。';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel => '自定义反向图片搜索';
@@ -11381,11 +11461,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => '身份组图标';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      '上传图片或选择表情。成员名字旁会显示其最高的、带有图标的身份组的图标。';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -11393,68 +11473,64 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats。至少 $minimumSize，不超过 $maxSize。';
   }
 
   @override
-  String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+  String get guildSettingsRolesRoleIconUploadAccessibility => '上传身份组图标';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return '当前身份组图标，$emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      '当前身份组图标，已上传的图片';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => '选择表情';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => '上传图片';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => '移除图标';
 
   @override
-  String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+  String get guildSettingsRolesRoleIconAnimatedError => '不支持使用动态图标。请使用静态图片。';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return '不支持此文件类型。支持的类型为 $formats。';
   }
 
   @override
-  String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+  String get guildSettingsRolesRoleIconLoadError => '无法加载此图片。请换一张试试。';
 
   @override
-  String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+  String get guildSettingsRolesRoleIconUsagePreviewMessage => '消息显示效果';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return '身份组图标，$roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => '裁剪身份组图标';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => '保存图标';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => '跳过裁剪';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed => '裁剪图标失败。请重试。';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return '拖动可调整身份组图标位置，滚动鼠标滚轮或双指开合可缩放。建议的最小尺寸为 $minimumWidth×$minimumHeight 像素。';
   }
 
   @override
@@ -12732,25 +12808,25 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return '将身份组图标设置为 $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return '将身份组图标从 $oldEmoji 更改为 $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => '移除了身份组图标';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => '设置了自定义身份组图标';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => '更改了自定义身份组图标';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => '移除了自定义身份组图标';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -15422,6 +15498,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get sessionExpiredToast => '您的連線已過期。請重新登入。';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail => '我們正在刪除您的帳號。';
+
+  @override
   String splashStartupFailed(String error) {
     return '啟動失敗：$error';
   }
@@ -15508,8 +15587,21 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '您的 $productName 訂閱續訂失敗。您可以繼續享有 $productName 福利直到 $graceDate。';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return '您的 $productName 訂閱已過期。立即續訂以保留您的福利。';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '您的 $productName 訂閱已過期。';
   }
 
   @override
@@ -15682,6 +15774,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get mfaUseSecurityKey => '改用安全金鑰或通行金鑰';
+
+  @override
+  String get mfaUseBackupCode => '使用備用碼';
+
+  @override
+  String get mfaUseAuthenticatorCode => '使用驗證器應用程式的代碼';
 
   @override
   String get accountSelectorTitle => '選擇帳號';
@@ -16358,6 +16456,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get giftAcceptAlreadyClaimed => '這個禮物已經被領取了。';
+
+  @override
+  String get giftAcceptLifetimeNotInApp => '此禮物無法在 iOS 應用程式中領取，但可以在桌面應用程式中領取。';
 
   @override
   String get giftAcceptMaybeLater => '稍後再說';
@@ -17223,6 +17324,46 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get emojiPickerTitle => '表情符號';
 
   @override
+  String get profileBadgesSettingsTitle => '徽章';
+
+  @override
+  String get profileBadgesSettingsDescription => '選擇其他人在您的個人檔案中能看到哪些徽章。';
+
+  @override
+  String get profileBadgesSettingsEmpty => '您還沒有任何徽章。';
+
+  @override
+  String get profileBadgesSettingsLoadFailed => '無法載入您的徽章。';
+
+  @override
+  String profileBadgesShowOnProfile(String badgeLabel) {
+    return '在您的個人檔案中顯示 $badgeLabel';
+  }
+
+  @override
+  String profileBadgesOverflowButton(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get profileBadgesShowAllTooltip => '顯示所有徽章';
+
+  @override
+  String profileBadgesShowAllSemantic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '還有 +$count 個徽章，顯示全部',
+      one: '還有 +$count 個徽章，顯示全部',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileBadgesVisionaryNumberNote =>
+      '僅在您的 Visionary 徽章可見且未顯示為訂閱時顯示。';
+
+  @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隱私設定';
 
   @override
@@ -17263,6 +17404,83 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get hideVisionaryIdDescription => '移除您的 Visionary ID 徽章';
 
   @override
+  String get operatorPassName => 'Operator Pass';
+
+  @override
+  String operatorPassSince(String since) {
+    return '自 $since 起擁有 Operator Pass';
+  }
+
+  @override
+  String get operatorPassShowBadgeOnProfile => '在我的個人檔案上顯示徽章';
+
+  @override
+  String operatorPassHideDate(String operatorPassName) {
+    return '隱藏您獲得 $operatorPassName 的時間';
+  }
+
+  @override
+  String get operatorPassHideCount => '隱藏您擁有的 Operator Pass 數量';
+
+  @override
+  String get operatorPassWallTitle => 'Operators 牆';
+
+  @override
+  String get operatorPassWallHowItWorks => 'Operators 牆說明';
+
+  @override
+  String get operatorPassWallNotListed => '未列出';
+
+  @override
+  String get operatorPassWallOnTheWall => '在牆上';
+
+  @override
+  String get operatorPassWallLive => '已上牆';
+
+  @override
+  String get operatorPassWallHidden => '暫時由我們團隊隱藏。';
+
+  @override
+  String get operatorPassWallHiddenWhy => '為什麼？';
+
+  @override
+  String get operatorPassWallRemoved => '您的福利遭移除期間，您不會出現在牆上。';
+
+  @override
+  String get operatorPassTermsLink => 'Operator Pass 條款';
+
+  @override
+  String get operatorPassWallSendChanges => '將個人檔案變更同步到 Operators 牆';
+
+  @override
+  String get operatorPassWallReleaseList => '將我的名字加入年度 Operators 名單';
+
+  @override
+  String get operatorPassWallReleaseListHint =>
+      '我們每年會在某個 Fluxer 版本的版本說明和原始碼中公布一份 Operators 名單。只有在您開啟此選項時，您在牆上的名字才會列入其中。';
+
+  @override
+  String get operatorPassWallSave => '儲存';
+
+  @override
+  String get operatorPassWallSaved => '已儲存。';
+
+  @override
+  String get operatorPassWallSaveFailed => '儲存失敗。請再試一次。';
+
+  @override
+  String get operatorPassWallNameSettingsLabel => '在牆上顯示的名字';
+
+  @override
+  String get operatorPassWallDontListMe => '不要列出我';
+
+  @override
+  String get operatorPassWallNameRequired => '請輸入名字，或勾選「不要列出我」。';
+
+  @override
+  String get operatorPassWallNameTooLong => '請使用不超過 32 個字元。';
+
+  @override
   String get avatarDescriptionNonPremium =>
       'JPEG、PNG、WebP。上限 10MB。建議：512×512px。動態頭像 (GIF) 需要 Plutonium。';
 
@@ -17276,7 +17494,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody => '應用程式內購買在此平台尚未開放。敬請期待 — 即將推出！';
+  String get plutoniumNotSoldHere => '此版本的應用程式無法購買 Plutonium。';
 
   @override
   String get profilePreviewLabel => '預覽';
@@ -17347,6 +17565,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get sudoVerificationFailed => '驗證失敗。請再試一次。';
 
   @override
+  String get sudoWrongPassword => '密碼不正確。請再試一次。';
+
+  @override
   String get securityAccountTitle => '帳號';
 
   @override
@@ -17357,6 +17578,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get securitySectionDescription => '使用雙重驗證和通行金鑰保護您的帳號';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys => '使用雙重驗證保護您的帳號';
 
   @override
   String get securityLoginEmailSectionTitle => '電子郵件設定';
@@ -20997,6 +21221,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceOutputRouteHeadset => '耳機';
 
   @override
+  String get voiceChangeAudioOutputLabel => '變更音訊輸出';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => '只顯示影片';
 
   @override
@@ -21048,6 +21275,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceScreenShareExitFullscreenTooltip => '結束全螢幕';
+
+  @override
+  String voiceVideoZoomLevel(String scale) {
+    return '縮放 $scale';
+  }
 
   @override
   String get voiceOwnScreenShareTitle => '您正在廣播';
@@ -21201,6 +21433,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get characterCounterTooLong => '訊息過長';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return '訊息最多可包含 $maxLengthString 個字元。請縮短此訊息後再傳送。';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -24353,6 +24594,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumFilesBody => '分享完整長度的影片和大型檔案，無需先壓縮。免費帳戶最多可傳送 25 MB。';
 
   @override
+  String get storePlutoniumStreamTitle => '以 60 FPS 串流 4K 畫質';
+
+  @override
+  String get storePlutoniumStreamBody =>
+      '分享你的畫面或鏡頭，最高可達 4K 60fps。免費帳號最高串流 720p 30fps。';
+
+  @override
+  String get storePlutoniumStreamTitleIos => '以更高畫質串流';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      '在應用程式中以最高 1080p、每秒 60 格分享您的螢幕或鏡頭，在桌面應用程式中則最高可達 4K、60 格。免費帳號最高以 720p、30 格串流。';
+
+  @override
+  String get storePlutoniumManageHeading => '您的訂閱';
+
+  @override
   String get storePlutoniumCompareTitle => '比較免費版與 Plutonium';
 
   @override
@@ -24417,8 +24675,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumVideoPlutonium => '最高 4K，60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      '應用程式中最高 1080p，60 FPS；桌面版最高 4K，60 FPS';
+
+  @override
   String get storePlutoniumTagFootnote =>
       '您只能選擇沒有其他使用者名稱相同的人使用的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。#0000 標籤保留給 Fluxer Visionary 會員。';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      '您只能選擇沒有其他相同使用者名稱的人使用過的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。';
 
   @override
   String get storePlutoniumLearnVisionary => '深入了解 Visionary。';
@@ -24458,10 +24724,34 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '透過 App Store 自動續訂，直到您取消為止。';
 
   @override
+  String get storePlutoniumAppleEula => 'Apple 標準使用條款（EULA）';
+
+  @override
   String get storePlutoniumRestorePurchases => '還原購買項目';
 
   @override
+  String get storePlutoniumRestoreDone => '已還原您的 Plutonium 訂閱。';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      '此 Apple Account 沒有可還原的 Plutonium 訂閱。';
+
+  @override
+  String get storePlutoniumRestoreFailed => '無法還原購買項目。請稍後再試一次。';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '您已經有 Fluxer Plutonium 訂閱了。';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      '此裝置上的 Apple Account 已在另一個 Fluxer 帳號上支付 Plutonium。';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => '未能新增 Plutonium';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store 已確認您的購買，但無法將 Plutonium 新增至此帳號。請點一下「還原購買項目」再試一次，如果仍然無法使用，請聯絡客服。';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -24472,7 +24762,14 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumWaiting => '已收到購買。Plutonium 啟用後將會顯示於此。';
 
   @override
-  String get storePlutoniumUnavailable => '此裝置尚不支援應用程式內訂閱。';
+  String get storePlutoniumApprovalPending =>
+      '您的購買正在等待核准。核准後，Plutonium 就會新增至您的帳號。';
+
+  @override
+  String get storePlutoniumLoadFailed => '無法載入 Plutonium 方案。請檢查您的網路連線，然後再試一次。';
+
+  @override
+  String get storePlutoniumRetry => '再試一次';
 
   @override
   String get storePlutoniumVisionaryStatus => 'Visionary 已包含永久存取權，因此不需要定期訂閱。';
@@ -25091,11 +25388,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer 意外關閉。分享匿名的當機和錯誤資料，可以幫助我們更快修正問題。';
+      'Fluxer 意外關閉了。傳送當機報告可以幫助我們更快找出並修正問題。';
 
   @override
   String get observabilityReportingConsentBody =>
-      '報告包含當機記錄、錯誤和基本效能資料。這些資料不會與第三方分享，您也可以隨時關閉此功能。';
+      '報告內容包括當機記錄、錯誤、效能資料、網路請求時間，以及問題發生前的畫面和點按操作，並連結到此次安裝的隨機 ID。報告絕不包含訊息內容，而且只會傳送到 Fluxer 自己的錯誤追蹤系統。您可以隨時關閉此功能。';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -25106,7 +25403,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get observabilityReportingConsentAgree => '傳送當機報告';
 
   @override
-  String get observabilityReportingConsentDecline => '我不想啟用';
+  String get observabilityReportingConsentDecline => '不要再詢問';
 
   @override
   String get advancedSettingsConfigure => '設定';
@@ -25166,6 +25463,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String get advancedSettingMobileSplashZoomAnimationDescription =>
       '縮放標誌以在離開啟動畫面時縮小';
+
+  @override
+  String get advancedSettingSplashQuotesLabel => '啟動畫面名言';
+
+  @override
+  String get advancedSettingSplashQuotesDescription =>
+      '在啟動畫面上顯示一則隨機名言。不會在裝置間同步。';
 
   @override
   String get advancedSettingKeyboardHintsLabel => '鍵盤提示';
@@ -25475,7 +25779,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      '啟用或停用內建的以圖搜圖服務供應商。已啟用的供應商會顯示在圖片、大頭貼、橫幅、貼圖和表情符號的操作選單中。';
+      '啟用或停用內建的以圖搜圖服務。已啟用的服務會顯示在圖片的選項中。';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel => '自訂以圖搜圖';
@@ -26561,6 +26865,79 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String guildSettingsRolesAllowMentionsHelper(String permission) {
     return '擁有「$permission」權限的成員可以隨時提及角色，不受此設定影響。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIcon => '身分組圖示';
+
+  @override
+  String get guildSettingsRolesRoleIconHelper =>
+      '上傳圖片或選擇表情符號。成員名稱旁會顯示其擁有圖示的最高身分組的圖示。';
+
+  @override
+  String guildSettingsRolesRoleIconUploadHint(
+    String formats,
+    String minimumSize,
+    String maxSize,
+  ) {
+    return '$formats。至少 $minimumSize，不超過 $maxSize。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconUploadAccessibility => '上傳身分組圖示';
+
+  @override
+  String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
+    return '目前的身分組圖示，$emojiName';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
+      '目前的身分組圖示，已上傳的圖片';
+
+  @override
+  String get guildSettingsRolesRoleIconChooseEmoji => '選擇表情符號';
+
+  @override
+  String get guildSettingsRolesRoleIconUploadImage => '上傳圖片';
+
+  @override
+  String get guildSettingsRolesRoleIconRemove => '移除圖示';
+
+  @override
+  String get guildSettingsRolesRoleIconAnimatedError => '不支援動態圖示。請使用靜態圖片。';
+
+  @override
+  String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
+    return '不支援此檔案類型。支援的類型為 $formats。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconLoadError => '無法載入此圖片。請換一張試試。';
+
+  @override
+  String get guildSettingsRolesRoleIconUsagePreviewMessage => '訊息顯示方式';
+
+  @override
+  String roleIconAccessibilityLabel(String roleName) {
+    return '身分組圖示，$roleName';
+  }
+
+  @override
+  String get roleIconCropTitle => '裁切身分組圖示';
+
+  @override
+  String get roleIconCropSave => '儲存圖示';
+
+  @override
+  String get roleIconCropSkip => '略過裁切';
+
+  @override
+  String get roleIconCropFailed => '裁切圖示失敗。請再試一次。';
+
+  @override
+  String roleIconCropDescription(int minimumWidth, int minimumHeight) {
+    return '拖曳以重新調整身分組圖示的位置，並使用滾輪或雙指縮放。建議的最小尺寸為 $minimumWidth×$minimumHeight 像素。';
   }
 
   @override
@@ -27837,6 +28214,28 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String auditLogChangeRemovedRoles(String roles) {
     return '已移除 $roles。';
   }
+
+  @override
+  String auditLogChangeRoleEmojiSet(String emoji) {
+    return '將身分組圖示設為 $emoji';
+  }
+
+  @override
+  String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
+    return '將身分組圖示從 $oldEmoji 變更為 $newEmoji';
+  }
+
+  @override
+  String get auditLogChangeRoleEmojiRemoved => '已移除身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconSet => '設定自訂身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconChanged => '變更了自訂身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconRemoved => '已移除自訂身分組圖示';
 
   @override
   String auditLogOptionChannel(String value) {

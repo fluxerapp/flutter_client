@@ -257,6 +257,12 @@ abstract class FluxerLocalizations {
   /// **'Your session has expired. Please sign in again.'**
   String get sessionExpiredToast;
 
+  /// Notice on the sign-in screen after the person chose "Delete now" for their account, on an instance that does not send email.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re deleting your account now.'**
+  String get accountDeletionImmediateNoticeNoEmail;
+
   /// Error message on the splash screen when app startup fails.
   ///
   /// In en, this message translates to:
@@ -389,11 +395,23 @@ abstract class FluxerLocalizations {
   /// **'Your subscription failed to renew, but you still have access to {productName} perks until {graceDate}. Take action now or you\'ll lose all perks.'**
   String nagbarPremiumGracePeriod(String productName, String graceDate);
 
+  /// Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {productName} subscription failed to renew. You keep your {productName} perks until {graceDate}.'**
+  String nagbarPremiumGracePeriodNoAction(String productName, String graceDate);
+
   /// Premium expired nagbar body.
   ///
   /// In en, this message translates to:
   /// **'Your {productName} subscription has expired. Renew now to keep your perks.'**
   String nagbarPremiumExpired(String productName);
+
+  /// Premium expired nagbar body when the bar has no button.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {productName} subscription has expired.'**
+  String nagbarPremiumExpiredNoAction(String productName);
 
   /// Nagbar CTA that opens the billing portal.
   ///
@@ -697,6 +715,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Try security key / passkey instead'**
   String get mfaUseSecurityKey;
+
+  /// Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a backup code'**
+  String get mfaUseBackupCode;
+
+  /// Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a code from your authenticator app'**
+  String get mfaUseAuthenticatorCode;
 
   /// Title for the account selector on the login screen.
   ///
@@ -1915,6 +1945,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This gift has already been claimed.'**
   String get giftAcceptAlreadyClaimed;
+
+  /// Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there.
+  ///
+  /// In en, this message translates to:
+  /// **'This gift can\'t be claimed in the iOS app. You can claim it in the desktop app.'**
+  String get giftAcceptLifetimeNotInApp;
 
   /// Secondary dismiss button on the gift accept modal.
   ///
@@ -3794,11 +3830,11 @@ abstract class FluxerLocalizations {
   /// **'Plutonium'**
   String get plutoniumNotAvailableTitle;
 
-  /// Body text for the Plutonium not-available-yet bottom sheet.
+  /// Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build.
   ///
   /// In en, this message translates to:
-  /// **'In-app purchases are not available on this platform yet. Stay tuned — coming soon!'**
-  String get plutoniumNotAvailableBody;
+  /// **'Plutonium can\'t be bought in this version of the app.'**
+  String get plutoniumNotSoldHere;
 
   /// Label shown above the profile preview card in settings.
   ///
@@ -3926,6 +3962,12 @@ abstract class FluxerLocalizations {
   /// **'Verification failed. Please try again.'**
   String get sudoVerificationFailed;
 
+  /// Error in the identity check sheet when the password is wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'That password is wrong. Try again.'**
+  String get sudoWrongPassword;
+
   /// Top-level Account section heading in Security & Login settings.
   ///
   /// In en, this message translates to:
@@ -3949,6 +3991,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Protect your account with two-factor authentication and passkeys'**
   String get securitySectionDescription;
+
+  /// Description for the Security section heading when passkeys are not available on the instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect your account with two-factor authentication'**
+  String get securitySectionDescriptionNoPasskeys;
 
   /// Title for email settings section in Security & Login.
   ///
@@ -10359,6 +10407,12 @@ abstract class FluxerLocalizations {
   /// **'Message is too long'**
   String get characterCounterTooLong;
 
+  /// Toast shown when the user taps Send on a message over the character limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages can be up to {maxLength} characters. Shorten this one to send it.'**
+  String characterCounterTooLongToast(int maxLength);
+
   /// Character counter tooltip with a Plutonium upsell when nearing the limit.
   ///
   /// In en, this message translates to:
@@ -16011,6 +16065,18 @@ abstract class FluxerLocalizations {
   /// **'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.'**
   String get storePlutoniumStreamBody;
 
+  /// Title of the streaming perk on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream in higher quality'**
+  String get storePlutoniumStreamTitleIos;
+
+  /// Body of the streaming perk on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen or camera in up to 1080p at 60 frames per second in the app, and in up to 4K at 60 in the desktop app. Free accounts stream in up to 720p at 30.'**
+  String get storePlutoniumStreamBodyIos;
+
   /// No description provided for @storePlutoniumManageHeading.
   ///
   /// In en, this message translates to:
@@ -16143,11 +16209,23 @@ abstract class FluxerLocalizations {
   /// **'Up to 4K at 60 FPS'**
   String get storePlutoniumVideoPlutonium;
 
+  /// Plutonium cell of the video quality row in the iOS Plutonium comparison table.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 1080p at 60 FPS in the app, up to 4K at 60 FPS on desktop'**
+  String get storePlutoniumVideoPlutoniumIos;
+
   /// No description provided for @storePlutoniumTagFootnote.
   ///
   /// In en, this message translates to:
   /// **'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.'**
   String get storePlutoniumTagFootnote;
+
+  /// Footnote about the custom tag on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same.'**
+  String get storePlutoniumTagFootnoteIos;
 
   /// No description provided for @storePlutoniumLearnVisionary.
   ///
@@ -16221,17 +16299,59 @@ abstract class FluxerLocalizations {
   /// **'Renews automatically through the App Store until you cancel.'**
   String get storePlutoniumRenewsThroughAppStore;
 
+  /// Link under the iOS Plutonium buttons to Apple's standard end user licence agreement.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple\'s standard Terms of Use (EULA)'**
+  String get storePlutoniumAppleEula;
+
   /// Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID.
   ///
   /// In en, this message translates to:
   /// **'Restore purchases'**
   String get storePlutoniumRestorePurchases;
 
+  /// Toast after "Restore purchases" on the iOS Plutonium page found and restored a subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription was restored.'**
+  String get storePlutoniumRestoreDone;
+
+  /// Toast after "Restore purchases" on the iOS Plutonium page found nothing to restore.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no Plutonium subscription to restore for this Apple Account.'**
+  String get storePlutoniumRestoreNothing;
+
+  /// Toast when "Restore purchases" on the iOS Plutonium page failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t restore purchases. Try again in a moment.'**
+  String get storePlutoniumRestoreFailed;
+
   /// No description provided for @storePlutoniumAlreadySubscribed.
   ///
   /// In en, this message translates to:
   /// **'You already have a Fluxer Plutonium subscription.'**
   String get storePlutoniumAlreadySubscribed;
+
+  /// Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account.
+  ///
+  /// In en, this message translates to:
+  /// **'The Apple Account on this device already pays for Plutonium on a different Fluxer account.'**
+  String get storePlutoniumOwnedByOtherAccount;
+
+  /// Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Plutonium wasn\'t added'**
+  String get storePlutoniumClaimFailedTitle;
+
+  /// Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'The App Store confirmed your purchase, but Plutonium couldn\'t be added to this account. Tap \"Restore purchases\" to try again, or contact support if it still doesn\'t work.'**
+  String get storePlutoniumClaimFailedBody;
 
   /// No description provided for @storePlutoniumSavePercent.
   ///
@@ -16245,11 +16365,23 @@ abstract class FluxerLocalizations {
   /// **'Purchase received. Plutonium will show here once it activates.'**
   String get storePlutoniumWaiting;
 
-  /// No description provided for @storePlutoniumUnavailable.
+  /// Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy.
   ///
   /// In en, this message translates to:
-  /// **'Subscriptions in the app aren\'t available on this device yet.'**
-  String get storePlutoniumUnavailable;
+  /// **'Your purchase is waiting for approval. Plutonium is added to your account once it\'s approved.'**
+  String get storePlutoniumApprovalPending;
+
+  /// Message on the Plutonium page when the plans failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load Plutonium plans. Check your connection and try again.'**
+  String get storePlutoniumLoadFailed;
+
+  /// Button on the Plutonium page that loads the plans again after a failure.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get storePlutoniumRetry;
 
   /// No description provided for @storePlutoniumVisionaryStatus.
   ///

@@ -98,6 +98,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Sesjonen din er utløpt. Vennligst logg inn igjen.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Vi sletter kontoen din nå.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Kunne ikke starte: $error';
   }
@@ -184,8 +188,21 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '$productName-abonnementet ditt ble ikke fornyet. Du beholder $productName-fordelene dine til $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Abonnementet ditt på $productName har utløpt. Forny nå for å beholde fordelene dine.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '$productName-abonnementet ditt har utløpt.';
   }
 
   @override
@@ -366,6 +383,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get mfaUseSecurityKey => 'Prøv sikkerhetsnøkkel / passnøkkel i stedet';
+
+  @override
+  String get mfaUseBackupCode => 'Bruk en backupkode';
+
+  @override
+  String get mfaUseAuthenticatorCode => 'Bruk en kode fra autentiseringsappen';
 
   @override
   String get accountSelectorTitle => 'Velg en konto';
@@ -1093,6 +1116,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Denne gaven er allerede hentet.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Denne gaven kan ikke løses inn i iOS-appen. Du kan løse den inn i skrivebordsappen.';
 
   @override
   String get giftAcceptMaybeLater => 'Kanskje senere';
@@ -2007,22 +2034,22 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Merker';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Velg hvilke merker andre ser på profilen din.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Du har ingen merker ennå.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Merkene dine kunne ikke lastes inn.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Vis $badgeLabel på profilen din';
   }
 
   @override
@@ -2031,22 +2058,22 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Vis alle merker';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count merker til, vis alle',
+      one: '+$count merke til, vis alle',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Vises bare når Visionary-merket ditt er synlig og ikke vises som et vanlig abonnement.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Personvern for Plutonium-merke';
@@ -2098,80 +2125,80 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass siden $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Vis merket på profilen min';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Skjul når du fikk $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => 'Skjul hvor mange Operator Pass du har';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators-veggen';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Slik fungerer veggen';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Ikke oppført.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'På veggen';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Publisert';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Skjult av teamet vårt foreløpig.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Hvorfor?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Ikke på veggen mens fordelene dine er fjernet.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Vilkår for Operator Pass';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => 'Send profilendringer til veggen';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Legg til navnet mitt i den årlige Operators-listen';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Én gang i året publiserer vi en liste over Operators i merknadene til en Fluxer-utgivelse og i kildekoden. Navnet ditt på veggen kommer bare med hvis du slår på dette.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Lagre';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Lagret.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed => 'Kunne ikke lagre. Prøv igjen.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Navn på veggen';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Ikke før meg opp';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Skriv inn et navn, eller huk av for «Ikke før meg opp».';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Bruk 32 tegn eller færre.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2188,8 +2215,8 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Kjøp i appen er ennå ikke tilgjengelig på denne plattformen. Følg med – kommer snart!';
+  String get plutoniumNotSoldHere =>
+      'Plutonium kan ikke kjøpes i denne versjonen av appen.';
 
   @override
   String get profilePreviewLabel => 'Forhåndsvisning';
@@ -2261,6 +2288,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get sudoVerificationFailed => 'Bekreftelse mislyktes. Prøv igjen.';
 
   @override
+  String get sudoWrongPassword => 'Passordet er feil. Prøv igjen.';
+
+  @override
   String get securityAccountTitle => 'Konto';
 
   @override
@@ -2273,6 +2303,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Beskytt kontoen din med tofaktorautentisering og passnøkler';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Beskytt kontoen din med tofaktorautentisering';
 
   @override
   String get securityLoginEmailSectionTitle => 'E-postinnstillinger';
@@ -6133,7 +6167,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Hodetelefoner';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Endre lydutgang';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Vis kun video';
@@ -6358,6 +6392,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Meldingen er for lang';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Meldinger kan være på opptil $maxLengthString tegn. Gjør denne meldingen kortere for å sende den.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9747,14 +9790,21 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Del videoer i full lengde og store filer uten å krympe dem først. Gratis kontoer kan sende opptil 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Strøm i 4K med 60 bilder per sekund';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Del skjermen eller kameraet ditt i opptil 4K med 60 bilder per sekund. Gratis kontoer strømmer i opptil 720p med 30.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Strøm i høyere kvalitet';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Del skjermen eller kameraet i opptil 1080p med 60 bilder per sekund i appen, og i opptil 4K med 60 i skrivebordsappen. Gratis kontoer strømmer i opptil 720p med 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Abonnementet ditt';
 
   @override
   String get storePlutoniumCompareTitle => 'Sammenlign Gratis og Plutonium';
@@ -9828,8 +9878,16 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Opptil 4K ved 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Opptil 1080p med 60 FPS i appen, opptil 4K med 60 FPS på datamaskin';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Du kan bare velge en tag som ingen andre med samme brukernavn allerede har. Brukernavn skiller ikke mellom store og små bokstaver, så Mina#4821 og mina#4821 regnes som det samme. Taggen #0000 er reservert for Fluxer Visionary-medlemmer.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Du kan bare velge en tag som ingen andre med samme brukernavn allerede har. Brukernavn skiller ikke mellom store og små bokstaver, så Mina#4821 og mina#4821 regnes som det samme.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Lær mer om Visionary.';
@@ -9876,11 +9934,37 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Fornyes automatisk via App Store til du sier opp.';
 
   @override
+  String get storePlutoniumAppleEula => 'Apples standard bruksvilkår (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Gjenopprett kjøp';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Plutonium-abonnementet ditt er gjenopprettet.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Det finnes ikke noe Plutonium-abonnement å gjenopprette for denne Apple Account.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Kunne ikke gjenopprette kjøp. Prøv igjen om litt.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Du har allerede et Fluxer Plutonium-abonnement.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Apple Account på denne enheten betaler allerede for Plutonium på en annen Fluxer-konto.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium ble ikke lagt til';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store bekreftet kjøpet ditt, men Plutonium kunne ikke legges til på denne kontoen. Trykk på «Gjenopprett kjøp» for å prøve igjen, eller kontakt brukerstøtten hvis det fortsatt ikke fungerer.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9892,8 +9976,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Kjøpet er mottatt. Plutonium vises her når det er aktivert.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Abonnementer i appen er ikke tilgjengelige på denne enheten ennå.';
+  String get storePlutoniumApprovalPending =>
+      'Kjøpet ditt venter på godkjenning. Plutonium legges til på kontoen din når det er godkjent.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Kunne ikke laste inn Plutonium-abonnementer. Sjekk tilkoblingen din og prøv igjen.';
+
+  @override
+  String get storePlutoniumRetry => 'Prøv igjen';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10553,11 +10644,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer ble avsluttet uventet. Hvis du deler anonyme krasj- og feildata, kan vi rette problemer raskere.';
+      'Fluxer ble avsluttet uventet. Å sende en krasjrapport hjelper oss å finne og rette problemet raskere.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Rapportene inneholder krasjlogger, feil og grunnleggende ytelsesdata. De deles ikke med tredjeparter, og du kan slå dette av når som helst.';
+      'Rapportene inneholder krasjlogger, feil, ytelsesdata, tidsbruk for nettverksforespørsler og skjermene og trykkene som førte frem til et problem, knyttet til en tilfeldig ID for denne installasjonen. De inneholder aldri meldingsinnhold, og de sendes bare til Fluxers egen feilsporing. Du kan slå dette av når som helst.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10568,7 +10659,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Send krasjrapporter';
 
   @override
-  String get observabilityReportingConsentDecline => 'Nei takk';
+  String get observabilityReportingConsentDecline => 'Ikke spør igjen';
 
   @override
   String get advancedSettingsConfigure => 'Konfigurer';
@@ -10637,11 +10728,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Skaler ut logoen når du forlater startskjermen';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Sitater på oppstartsskjermen';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Vis et tilfeldig sitat på oppstartsskjermen. Synkroniseres ikke mellom enheter.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Tastaturtips';
@@ -10993,7 +11084,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Aktiver eller deaktiver innebygde leverandører for omvendt bildesøk. Aktiverte leverandører vises i kontekstmenyen for bilder, avatarer, bannere, klistremerker og emojier.';
+      'Slå innebygde leverandører av omvendt bildesøk av eller på. Aktiverte leverandører vises i alternativene for bilder.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12136,11 +12227,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Rolleikon';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Last opp et bilde eller velg en emoji. Ved navnet til et medlem vises ikonet til medlemmets høyeste rolle med et ikon.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12148,68 +12239,68 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Minst $minimumSize, opptil $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Last opp rolleikon';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Gjeldende rolleikon, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Gjeldende rolleikon, opplastet bilde';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Velg emoji';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Last opp bilde';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Fjern ikon';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Animerte ikoner støttes ikke. Bruk et statisk bilde.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Denne filtypen støttes ikke. Støttede typer er $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Bildet kunne ikke lastes inn. Prøv et annet.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Slik vises meldinger';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Rolleikon, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Beskjær rolleikon';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Lagre ikon';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Hopp over beskjæring';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed => 'Kunne ikke beskjære ikonet. Prøv igjen.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Dra for å flytte rolleikonet og bruk rullehjulet eller klyp for å zoome. Anbefalt minimumsstørrelse er $minimumWidth×$minimumHeight piksler.';
   }
 
   @override
@@ -13570,25 +13661,25 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Satte rolleikonet til $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Endret rolleikonet fra $oldEmoji til $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Fjernet rolleikonet';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => 'Satte et egendefinert rolleikon';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => 'Endret egendefinert rolleikon';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => 'Fjernet egendefinert rolleikon';
 
   @override
   String auditLogOptionChannel(String value) {

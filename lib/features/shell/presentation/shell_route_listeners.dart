@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
@@ -11,6 +12,7 @@ import 'package:fluxer_app/core/observability/reporting_consent/observability_re
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_logic.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
+import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -40,6 +42,7 @@ import 'package:fluxer_app/features/members/providers/member_list_viewport_provi
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -509,6 +512,10 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     ref
       ..watch(pushNotificationsCoordinatorProvider)
       ..watch(appIconBadgeCoordinatorProvider);
+    if (defaultTargetPlatform == TargetPlatform.iOS &&
+        ref.watch(premiumStorePurchasesEnabledProvider)) {
+      ref.listen(premiumStoreProvider, (_, _) {});
+    }
     return widget.child;
   }
 }

@@ -420,6 +420,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Upotrijebi rezervni kod",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Upotrijebi kod iz aplikacije za provjeru autentičnosti",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Odaberite račun",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -2575,10 +2583,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Kupnje unutar aplikacije još nisu dostupne na ovoj platformi. Pratite nas — uskoro!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Pretpregled",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2672,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Lozinka nije točna. Pokušajte ponovno.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Račun",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2691,10 @@
     "securitySectionDescription": "Zaštitite svoj račun dvofaktorskom provjerom i passkeyevima",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Zaštitite svoj račun dvofaktorskom provjerom",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "Postavke e-pošte",
     "@securityLoginEmailSectionTitle": {
@@ -7229,6 +7241,16 @@
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
     },
+    "characterCounterTooLongToast": "Poruke mogu imati najviše {maxLength} znakova. Skratite ovu poruku kako biste je poslali.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} znakova preostalo. Nabavite {productName} za pisanje do {premiumMaxLength} znakova.",
     "@characterCounterRemainingPlutoniumUpsell": {
         "description": "Character counter tooltip with a Plutonium upsell when nearing the limit.",
@@ -10914,7 +10936,6 @@
         }
     },
     "storePlutoniumWaiting": "Primili smo kupnju. Plutonium će se prikazati ovdje nakon aktivacije.",
-    "storePlutoniumUnavailable": "Pretplate u aplikaciji još nisu dostupne na ovom uređaju.",
     "storePlutoniumVisionaryStatus": "Visionary već uključuje trajni pristup, tako da ponavljajuća pretplata nije potrebna.",
     "userSettingsNavPrivacyDashboard": "Nadzorna ploča privatnosti",
     "@userSettingsNavPrivacyDashboard": {
@@ -18983,5 +19004,1174 @@
     "animatedImageUseStatic": "Umjesto toga prenesite statičnu sliku.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Niste povezani s internetom. Fluxer će se ponovno povezati kada se vratite na mrežu.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Vaš će račun biti izbrisan {date}. Ako se prijavite prije toga, brisanje se otkazuje.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Vaš je račun zakazan za brisanje. Ako se prijavite prije datuma brisanja, brisanje se otkazuje.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Sada brišemo vaš račun. Ako vaš račun ima adresu e-pošte, javit ćemo vam e-poštom kada brisanje završi.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Sada brišemo vaš račun.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Vaš je račun deaktiviran. Prijavite se ponovno kad god ga želite koristiti.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Ponovno pošalji e-poštu",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "E-pošta za potvrdu poslana. Provjerite svoju pristiglu poštu.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Previše ste puta zatražili e-poštu za potvrdu. Pričekajte trenutak pa pokušajte ponovno.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Vaša pretplata na {productName} nije obnovljena. Pogodnosti za {productName} zadržavate do {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Vaša pretplata na {productName} je istekla.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreementPrefix": "Prijavom prihvaćate ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
+    "mfaPasskeyUnavailable": "Pristupni ključevi s ove instance ne rade u ovoj aplikaciji, a vaš račun nema drugi način provjere. Umjesto toga prijavite se na webu.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Račun trajno blokiran",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Račun zatvoren",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Što se dogodilo",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Zašto",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Kako smo odlučili",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Kako uložiti žalbu",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Napomena našeg tima: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "ID odluke: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Pravilo: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Ako mislite da smo pogriješili, pošaljite e-poruku na {email} i navedite svoje korisničko ime.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Ako mislite da smo pogriješili, pošaljite e-poruku na {email} do {deadline}. Navedite ID odluke i svoje korisničko ime. Žalbe su besplatne i svaku pregledava osoba.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Ako mislite da smo pogriješili, pošaljite e-poruku na {email} do {deadline}. Ako možete, pišite s adrese e-pošte povezane s vašim računom i navedite ID odluke. Žalbe su besplatne i svaku pregledava osoba.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Ako želite da izbrišemo vaš račun i podatke, pošaljite e-poruku na {email} s adrese povezane s vašim računom.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Ako želite da izbrišemo vaš račun i podatke, pošaljite e-poruku na {email} i navedite svoje korisničko ime.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Gotovo",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Nije postavljeno",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Prihvaćam da ova instanca ne tolerira neprimjeren sadržaj ni korisnike koji zlostavljaju druge te da njezini administratori mogu ukloniti sadržaj i račune koji krše ta pravila.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Ovaj poklon nije moguće preuzeti u iOS aplikaciji. Možete ga preuzeti u desktop aplikaciji.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Pronađite savršenu naljepnicu",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Nema dostupnih naljepnica",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Pridružite se zajednici s naljepnicama kako biste ih mogli koristiti ovdje.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Nema dostupnih naljepnica",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "U ovom razgovoru nema dostupnih naljepnica.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Nema pronađenih naljepnica",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Pokušajte s drugim pojmom za pretraživanje.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Otključajte {stickerCount} iz {communityCount} uz Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, one{{count} naljepnicu} few{{count} naljepnice} other{{count} naljepnica}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Značke",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Odaberite koje značke drugi vide na vašem profilu.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Još nemate nijednu značku.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Vaše značke nije moguće učitati.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Prikaži {badgeLabel} na vašem profilu",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Prikaži sve značke",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {Još +{count} značka, prikaži sve} few {Još +{count} značke, prikaži sve} other {Još +{count} znački, prikaži sve}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Prikazuje se samo kada je vaša značka Visionary vidljiva i nije maskirana kao pretplata.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass od {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Prikaži značku na mom profilu",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Sakrij od kada imate {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Sakrij koliko Operator Passova imate",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "operatorPassWallTitle": "Zid Operators",
+    "@operatorPassWallTitle": {
+        "description": "Heading for Operators' wall settings."
+    },
+    "operatorPassWallHowItWorks": "Kako zid funkcionira",
+    "@operatorPassWallHowItWorks": {
+        "description": "Link to Operator Pass wall help."
+    },
+    "operatorPassWallNotListed": "Niste na zidu.",
+    "@operatorPassWallNotListed": {
+        "description": "Status when not on the Operators' wall."
+    },
+    "operatorPassWallOnTheWall": "Na zidu",
+    "@operatorPassWallOnTheWall": {
+        "description": "Label for the live wall entry."
+    },
+    "operatorPassWallInReview": "U pregledu",
+    "@operatorPassWallInReview": {
+        "description": "Label for a pending wall name."
+    },
+    "operatorPassWallReviewBy": "do {date}",
+    "@operatorPassWallReviewBy": {
+        "description": "Review due date label.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallLive": "Objavljeno",
+    "@operatorPassWallLive": {
+        "description": "Status when a wall name is live."
+    },
+    "operatorPassWallDeclined": "Odbijeno: {name}. {reason}.",
+    "@operatorPassWallDeclined": {
+        "description": "Declined wall name status.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "reason": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallTeamNote": "Napomena tima: {note}",
+    "@operatorPassWallTeamNote": {
+        "description": "Team note on a declined wall name.",
+        "placeholders": {
+            "note": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallHidden": "Naš tim ga je privremeno sakrio.",
+    "@operatorPassWallHidden": {
+        "description": "Wall listing hidden by staff."
+    },
+    "operatorPassWallHiddenWhy": "Zašto?",
+    "@operatorPassWallHiddenWhy": {
+        "description": "Link after hidden wall status."
+    },
+    "operatorPassWallRemoved": "Niste na zidu dok su vam pogodnosti uklonjene.",
+    "@operatorPassWallRemoved": {
+        "description": "Wall listing removed when benefits are removed."
+    },
+    "operatorPassTermsLink": "Uvjeti za Operator Pass",
+    "@operatorPassTermsLink": {
+        "description": "Link to Operator Pass terms."
+    },
+    "operatorPassWallSendChanges": "Šalji promjene profila na zid",
+    "@operatorPassWallSendChanges": {
+        "description": "Switch to send profile changes to the wall."
+    },
+    "operatorPassWallReleaseList": "Dodaj moje ime na godišnji popis Operators",
+    "@operatorPassWallReleaseList": {
+        "description": "Switch for yearly Operators list opt-in."
+    },
+    "operatorPassWallReleaseListHint": "Jednom godišnje objavljujemo popis Operators u bilješkama izdanja Fluxera i u njegovu izvornom kodu. Vaše ime sa zida nalazi se na tom popisu samo ako uključite ovu opciju.",
+    "@operatorPassWallReleaseListHint": {
+        "description": "Hint for yearly Operators list opt-in."
+    },
+    "operatorPassWallSave": "Spremi",
+    "@operatorPassWallSave": {
+        "description": "Save Operators' wall settings."
+    },
+    "operatorPassWallSaved": "Spremljeno.",
+    "@operatorPassWallSaved": {
+        "description": "Toast after saving wall settings."
+    },
+    "operatorPassWallSaveFailed": "Spremanje nije uspjelo. Pokušajte ponovno.",
+    "@operatorPassWallSaveFailed": {
+        "description": "Toast when wall settings save fails."
+    },
+    "operatorPassWallNameSettingsLabel": "Ime na zidu",
+    "@operatorPassWallNameSettingsLabel": {
+        "description": "Label for wall name field in settings."
+    },
+    "operatorPassWallNameHint": "Nova imena provjeravamo prije nego što se objave.",
+    "@operatorPassWallNameHint": {
+        "description": "Hint under wall name field."
+    },
+    "operatorPassWallDontListMe": "Ne prikazuj me",
+    "@operatorPassWallDontListMe": {
+        "description": "Opt out of the Operators' wall."
+    },
+    "operatorPassWallNameRequired": "Unesite ime ili označite „Ne prikazuj me“.",
+    "@operatorPassWallNameRequired": {
+        "description": "Validation when wall name is empty."
+    },
+    "operatorPassWallNameTooLong": "Upotrijebite najviše 32 znaka.",
+    "@operatorPassWallNameTooLong": {
+        "description": "Validation when wall name is too long."
+    },
+    "operatorPassWallDeclineGuidelines": "Krši smjernice zajednice",
+    "@operatorPassWallDeclineGuidelines": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineImpersonation": "Lažno se predstavlja kao netko drugi",
+    "@operatorPassWallDeclineImpersonation": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineRights": "Koristi ime ili sliku bez prava na njih",
+    "@operatorPassWallDeclineRights": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineAge": "Nije prikladno za mlađe korisnike",
+    "@operatorPassWallDeclineAge": {
+        "description": "Decline reason for wall name."
+    },
+    "plutoniumNotSoldHere": "Plutonium nije moguće kupiti u ovoj verziji aplikacije.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Pošalji mi kod e-poštom",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Poslali smo 6-znamenkasti kôd na vašu adresu e-pošte.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Kôd iz e-pošte",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Pošalji novi kod",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Prijavite se ponovno kako biste potvrdili da ste to vi.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Ponovno se prijavi",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Prijava putem {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Prijavio si se na drugi račun. Prijavi se računom koji ovdje koristiš.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Pristupni ključevi s ove instance ne rade u ovoj aplikaciji. Upotrijebite aplikaciju za provjeru autentičnosti ili rezervni kôd ili potvrdite na webu.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Izbrišite svoj račun i osobne podatke. Možete izbrisati i svoje poruke.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Vaš račun, profil i osobni podaci se brišu. Poruke koje ne izbrišete ostaju ondje gdje ste ih poslali, bez vašeg imena ili profila.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Izbriši i moje poruke",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Zajedno s vašim računom briše svaku poruku koju ste poslali u izravnim porukama, grupnim izravnim porukama i zajednicama.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Ako želite zadržati kopiju svojih podataka, najprije zatražite izvoz na stranici {privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Izbriši za 14 dana",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Brisanje možete otkazati tako da se prijavite tijekom tih 14 dana.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Zakaži brisanje",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Vaš se račun briše nakon razdoblja čekanja ove instance. Ako se prijavite prije toga, brisanje se otkazuje.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Izbriši odmah",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Izbrisati račun odmah?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Vaš se račun odmah briše i ne može se vratiti.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Vašu pretplatu na Plutonium naplaćuje Apple. Brisanje računa ne otkazuje pretplatu, stoga je najprije otkažite u App Storeu.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Vašu pretplatu na Plutonium naplaćuje Google Play. Brisanje računa ne otkazuje pretplatu, stoga je najprije otkažite na Google Playu.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Vlasnik ste ovih zajednica. Prije brisanja računa izbrišite svaku od njih ili je predajte drugom članu.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Dodirnite zajednicu kako biste otvorili njezine postavke. „Izbriši zajednicu“ nalazi se na dnu. Da biste je predali, otvorite „Članovi“, dodirnite člana, dodirnite tri točke na njegovu profilu i odaberite „Prijenos vlasništva“.",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Otkrij osjetljivi medijski sadržaj",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Osjetljivi medijski sadržaj skriven je na iPhoneu i iPadu.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "Sadržaj 18+ isključen je na iPhoneu i iPadu. Da biste ovdje gledali zajednice i kanale označene kao 18+, otvorite Fluxer na webu ili na računalu, idite na „Privatnost“ u postavkama i uključite „Dopusti sadržaj 18+ na iPhoneu i iPadu“.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Zbog zakona o sadržaju za odrasle na vašem području sadržaj za odrasle nije dostupan s vaše lokacije.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Poruka u kanalu 18+",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer nije dostupan na ovom računu",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "Dobni raspon koji dijeli vaš Apple Account je ispod 13 godina. Fluxer je namijenjen samo osobama od 13 i više godina.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Da biste ovdje odabrali „Prikaži“, otvorite Fluxer na webu ili na računalu, idite na „Privatnost“ u postavkama i uključite „Dopusti sadržaj 18+ na iPhoneu i iPadu“.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Uredi",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Uredi spremljene medije",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Izbriši spremljene medije",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Ukloniti „{name}“ iz spremljenih medija?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Nije moguće izbrisati spremljeni medij.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Pretražite spremljene medije",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Spremljeni mediji nisu dostupni",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Pokušajte ponovno za trenutak.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Nema spremljenih medija",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Spremite medije iz poruka kako biste ih vidjeli ovdje.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Nema rezultata",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Pokušajte s drugim pojmom za pretraživanje ili filtrom.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Sve",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Slike",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Videozapisi",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Zvuk",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF-ovi",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Kontrole glasovnog poziva",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Prijavi",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Promijeni audioizlaz",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Dopustite pristup mikrofonu kako biste uključili mikrofon u ovom pozivu.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zumiranje {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Bilješka",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Savjet",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Važno",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Upozorenje",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Oprez",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Prijavi zajednicu",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Zajednica koju prijavljujete",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Administratori ove instance pregledat će vašu prijavu. Nećemo otkriti da je došla od vas.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Već ste prijavili ovu zajednicu.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Odgovor korisniku {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Proslijeđeno iz {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerPlay": "Reproduciraj",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Pauziraj",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Glasnoća",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Brzina reprodukcije {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Cijeli zaslon",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Otvori pojedinosti kanala",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Strimaj u 4K pri 60 FPS",
+    "storePlutoniumStreamBody": "Dijelite svoj zaslon ili kameru u 4K pri 60 sličica u sekundi. Besplatni računi dijele u 720p pri 30.",
+    "storePlutoniumStreamTitleIos": "Strimajte u višoj kvaliteti",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Dijelite svoj zaslon ili kameru u do 1080p pri 60 sličica u sekundi u aplikaciji te u do 4K pri 60 u desktop aplikaciji. Besplatni računi strimaju u do 720p pri 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Vaša pretplata",
+    "storePlutoniumVideoPlutoniumIos": "Do 1080p pri 60 FPS u aplikaciji, do 4K pri 60 FPS na računalu",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Možete odabrati samo oznaku koju nitko drugi s istim korisničkim imenom već nema. Korisnička imena ne razlikuju velika i mala slova, pa se Mina#4821 i mina#4821 smatraju istima.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Appleovi standardni Uvjeti korištenja (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Vaša pretplata na Plutonium je vraćena.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Za ovaj Apple Account nema pretplate na Plutonium koju bi se moglo vratiti.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Vraćanje kupnji nije uspjelo. Pokušajte ponovno za trenutak.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Apple Account na ovom uređaju već plaća Plutonium za drugi Fluxer račun.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium nije dodan",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store je potvrdio vašu kupnju, ali Plutonium nije bilo moguće dodati ovom računu. Dodirnite „Vrati kupnje“ kako biste pokušali ponovno ili se obratite podršci ako i dalje ne radi.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Vaša kupnja čeka odobrenje. Plutonium se dodaje vašem računu nakon što je odobrena.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Nije moguće učitati planove za Plutonium. Provjerite vezu i pokušajte ponovno.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Pokušaj ponovno",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer se neočekivano zatvorio. Slanjem izvješća o rušenju pomažete nam brže pronaći i ispraviti problem.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Izvješća sadrže zapise o rušenju, pogreške, podatke o performansama, trajanje mrežnih zahtjeva te zaslone i dodire koji su doveli do problema, povezane s nasumičnim ID-om ove instalacije. Nikada ne sadrže sadržaj poruka i šalju se samo Fluxerovu vlastitom sustavu za praćenje pogrešaka. Ovo možete isključiti u bilo kojem trenutku.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Ne pitaj ponovno",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "advancedSettingSplashQuotesLabel": "Citati na početnom zaslonu",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Prikaži nasumični citat na početnom zaslonu. Ne sinkronizira se između uređaja.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Omogućite ili onemogućite ugrađene pružatelje obrnutog pretraživanja slika. Omogućeni pružatelji prikazuju se u opcijama slika.",
+    "searchProviderSearchWith": "Pretraži pomoću {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Prevedi pomoću {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Postavke",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Kopiraj podatke o aplikaciji",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Pomoć i podrška",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} ne koristi sigurnu vezu (https). Fluxer se putem http povezuje samo s instancama u vašoj lokalnoj mreži.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Moji prijatelji",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Aktivno sada",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Zasad je mirno...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Kada su prijatelji aktivni u glasovnim kanalima, njihova će se aktivnost prikazati ovdje.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Na mreži",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Sve",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Na čekanju",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Blokirano",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Pretražite prijatelje na mreži",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Pretražite prijatelje",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Pretražite zahtjeve na čekanju",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Pretražite blokirane korisnike",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Nijedan prijatelj ne odgovara pretrazi",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Pokušajte s drugim imenom ili provjerite pravopis.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Nema prijatelja na mreži",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Kada dođu na mrežu, pojavit će se ovdje.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Još nema prijatelja",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Tamo kamo idemo trebat će nam više prijatelja.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Nema zahtjeva na čekanju",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Ovdje se prikazuju zahtjevi za prijateljstvo na čekanju.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Niste nikoga blokirali.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Poslan zahtjev za prijateljstvo",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Blokirano",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Utišano",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Prijavi zajednicu",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Ikona uloge",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Učitajte sliku ili odaberite emoji. Uz ime člana prikazuje se ikona njegove najviše uloge koja ima ikonu.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Najmanje {minimumSize}, najviše {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Učitaj ikonu uloge",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Trenutačna ikona uloge, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Trenutačna ikona uloge, učitana slika",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Odaberi emoji",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Učitaj sliku",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Ukloni ikonu",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Animirane ikone nisu podržane. Koristite statičnu sliku.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Ova vrsta datoteke nije podržana. Podržane vrste su {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Ova se slika nije mogla učitati. Pokušajte s drugom.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Ovako izgledaju poruke",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Ikona uloge, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Obreži ikonu uloge",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Spremi ikonu",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Preskoči obrezivanje",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Obrezivanje ikone nije uspjelo. Pokušajte ponovno.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Povucite za premještanje ikone uloge i koristite kotačić miša ili prste za zumiranje. Preporučena minimalna veličina je {minimumWidth}×{minimumHeight} piksela.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Postavljena je ikona uloge na {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Promijenjena je ikona uloge iz {oldEmoji} u {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Uklonjena je ikona uloge",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Postavljena je prilagođena ikona uloge",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Promijenjena je prilagođena ikona uloge",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Uklonjena je prilagođena ikona uloge",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Prijatelji",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Objava osobe koju ste blokirali",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "forumReportPost": "Prijavi objavu",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     }
 }

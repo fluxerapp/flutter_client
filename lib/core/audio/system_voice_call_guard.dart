@@ -16,7 +16,7 @@ const MethodChannel _iosVoipCallKitChannel = MethodChannel(
 bool _loggedChannelFailure = false;
 
 Future<bool> isExternalSystemVoiceCallActive({
-  Future<bool> Function(MethodChannel channel, bool fluxerOwnsVoice)?
+  Future<bool> Function(MethodChannel channel, {required bool fluxerOwnsVoice})?
   invokeNative,
 }) async {
   final bool fluxerOwnsVoice =
@@ -26,7 +26,7 @@ Future<bool> isExternalSystemVoiceCallActive({
   }
   if (invokeNative != null) {
     const MethodChannel channel = _androidSystemVoiceCallChannel;
-    return invokeNative(channel, fluxerOwnsVoice);
+    return invokeNative(channel, fluxerOwnsVoice: fluxerOwnsVoice);
   }
   if (!(Platform.isIOS || Platform.isAndroid)) {
     return false;

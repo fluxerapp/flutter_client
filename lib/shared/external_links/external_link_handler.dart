@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/gifts/presentation/modals/gift_accept_modal.dart';
+import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -18,6 +20,12 @@ Future<void> handleExternalLinkTap(
 }) async {
   if (isInviteLink(url)) {
     await handleInviteLinkTap(context, url);
+    return;
+  }
+
+  final String? giftCode = parseGiftLinkCode(url);
+  if (giftCode != null) {
+    await showGiftAcceptModal(context, code: giftCode);
     return;
   }
 

@@ -420,6 +420,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Gunakan kode cadangan",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Gunakan kode dari aplikasi autentikator",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Pilih akun",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -2575,10 +2583,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Pembelian dalam aplikasi belum tersedia di platform ini. Nantikan — segera hadir!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Pratinjau",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2672,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Kata sandi salah. Coba lagi.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Akun",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2691,10 @@
     "securitySectionDescription": "Lindungi akun Anda dengan autentikasi dua faktor dan passkey",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Lindungi akun Anda dengan autentikasi dua faktor",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "Pengaturan Email",
     "@securityLoginEmailSectionTitle": {
@@ -7229,6 +7241,16 @@
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
     },
+    "characterCounterTooLongToast": "Pesan dapat berisi hingga {maxLength} karakter. Persingkat pesan ini untuk mengirimnya.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} karakter tersisa. Dapatkan {productName} untuk menulis hingga {premiumMaxLength} karakter.",
     "@characterCounterRemainingPlutoniumUpsell": {
         "description": "Character counter tooltip with a Plutonium upsell when nearing the limit.",
@@ -10914,7 +10936,6 @@
         }
     },
     "storePlutoniumWaiting": "Pembelian diterima. Plutonium akan muncul di sini setelah aktif.",
-    "storePlutoniumUnavailable": "Langganan dalam aplikasi belum tersedia di perangkat ini.",
     "storePlutoniumVisionaryStatus": "Visionary sudah termasuk akses permanen, jadi langganan berulang tidak diperlukan.",
     "userSettingsNavPrivacyDashboard": "Dasbor Privasi",
     "@userSettingsNavPrivacyDashboard": {
@@ -18983,5 +19004,1174 @@
     "animatedImageUseStatic": "Unggah gambar statis sebagai gantinya.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Kamu sedang offline. Fluxer akan terhubung kembali saat kamu online lagi.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Akunmu akan dihapus pada {date}. Masuk sebelum tanggal itu akan membatalkan penghapusan.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Akunmu dijadwalkan untuk dihapus. Masuk sebelum tanggal penghapusan akan membatalkannya.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Kami sedang menghapus akunmu sekarang. Jika akunmu punya alamat email, kami akan mengirim email kepadamu setelah selesai.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Kami sedang menghapus akunmu sekarang.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Akunmu dinonaktifkan. Masuk lagi kapan pun kamu ingin menggunakannya.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Kirim ulang email",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "Email verifikasi telah dikirim. Periksa kotak masukmu.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Kamu sudah terlalu banyak meminta email verifikasi. Tunggu sebentar lalu coba lagi.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Langganan {productName}-mu gagal diperpanjang. Kamu tetap mendapatkan keuntungan {productName} hingga {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Langganan {productName}-mu telah kedaluwarsa.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreementPrefix": "Dengan masuk, kamu menyetujui ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
+    "mfaPasskeyUnavailable": "Passkey dari instance ini tidak berfungsi di aplikasi ini, dan akunmu tidak punya metode verifikasi lain. Masuklah melalui web.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Akun diblokir",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Akun ditutup",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Apa yang terjadi",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Alasan",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Cara kami memutuskan",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Cara mengajukan banding",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Catatan dari tim kami: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "ID keputusan: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Aturan: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Jika menurutmu keputusan ini keliru, kirim email ke {email} dan sertakan nama penggunamu.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Jika menurutmu keputusan ini keliru, kirim email ke {email} paling lambat {deadline}. Sertakan ID keputusan dan nama penggunamu. Banding tidak dipungut biaya, dan setiap banding ditinjau oleh seorang manusia.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Jika menurutmu keputusan ini keliru, kirim email ke {email} paling lambat {deadline}. Jika bisa, kirim dari alamat email yang terdaftar di akunmu, dan sertakan ID keputusan. Banding tidak dipungut biaya, dan setiap banding ditinjau oleh seorang manusia.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Untuk meminta kami menghapus akun dan datamu, kirim email ke {email} dari alamat yang terdaftar di akunmu.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Untuk meminta kami menghapus akun dan datamu, kirim email ke {email} dan sertakan nama penggunamu.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Selesai",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Belum diatur",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Saya setuju bahwa instance ini tidak menoleransi konten yang tidak pantas atau pengguna yang kasar, dan bahwa administratornya dapat menghapus konten dan akun yang melanggar aturan ini.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Hadiah ini tidak dapat diklaim di aplikasi iOS. Anda dapat mengklaimnya di aplikasi desktop.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Cari stiker yang pas",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Tidak ada stiker",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Gabung ke komunitas yang punya stiker untuk menggunakannya di sini.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Tidak ada stiker",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "Tidak ada stiker yang tersedia di percakapan ini.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Tidak ada stiker yang ditemukan",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Coba kata pencarian lain.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Buka {stickerCount} dari {communityCount} dengan Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, other{{count} stiker}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Lencana",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Pilih lencana mana yang dilihat orang lain di profilmu.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Kamu belum punya lencana.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Lencanamu tidak dapat dimuat.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Tampilkan {badgeLabel} di profilmu",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Tampilkan semua lencana",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, other {+{count} lencana lagi, tampilkan semua}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Hanya ditampilkan saat lencana Visionary-mu terlihat dan tidak disamarkan sebagai langganan.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass sejak {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Tampilkan lencana di profil saya",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Sembunyikan kapan kamu mendapatkan {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Sembunyikan jumlah Operator Pass yang kamu punya",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "operatorPassWallTitle": "Dinding Operators",
+    "@operatorPassWallTitle": {
+        "description": "Heading for Operators' wall settings."
+    },
+    "operatorPassWallHowItWorks": "Cara kerja dinding",
+    "@operatorPassWallHowItWorks": {
+        "description": "Link to Operator Pass wall help."
+    },
+    "operatorPassWallNotListed": "Tidak dicantumkan.",
+    "@operatorPassWallNotListed": {
+        "description": "Status when not on the Operators' wall."
+    },
+    "operatorPassWallOnTheWall": "Di dinding",
+    "@operatorPassWallOnTheWall": {
+        "description": "Label for the live wall entry."
+    },
+    "operatorPassWallInReview": "Sedang ditinjau",
+    "@operatorPassWallInReview": {
+        "description": "Label for a pending wall name."
+    },
+    "operatorPassWallReviewBy": "paling lambat {date}",
+    "@operatorPassWallReviewBy": {
+        "description": "Review due date label.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallLive": "Tayang",
+    "@operatorPassWallLive": {
+        "description": "Status when a wall name is live."
+    },
+    "operatorPassWallDeclined": "Ditolak: {name}. {reason}.",
+    "@operatorPassWallDeclined": {
+        "description": "Declined wall name status.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "reason": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallTeamNote": "Catatan tim: {note}",
+    "@operatorPassWallTeamNote": {
+        "description": "Team note on a declined wall name.",
+        "placeholders": {
+            "note": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallHidden": "Disembunyikan oleh tim kami untuk saat ini.",
+    "@operatorPassWallHidden": {
+        "description": "Wall listing hidden by staff."
+    },
+    "operatorPassWallHiddenWhy": "Mengapa?",
+    "@operatorPassWallHiddenWhy": {
+        "description": "Link after hidden wall status."
+    },
+    "operatorPassWallRemoved": "Tidak ditampilkan di dinding selama keuntunganmu dicabut.",
+    "@operatorPassWallRemoved": {
+        "description": "Wall listing removed when benefits are removed."
+    },
+    "operatorPassTermsLink": "Ketentuan Operator Pass",
+    "@operatorPassTermsLink": {
+        "description": "Link to Operator Pass terms."
+    },
+    "operatorPassWallSendChanges": "Kirim perubahan profil ke dinding",
+    "@operatorPassWallSendChanges": {
+        "description": "Switch to send profile changes to the wall."
+    },
+    "operatorPassWallReleaseList": "Tambahkan nama saya ke daftar Operators tahunan",
+    "@operatorPassWallReleaseList": {
+        "description": "Switch for yearly Operators list opt-in."
+    },
+    "operatorPassWallReleaseListHint": "Setahun sekali, kami menerbitkan daftar Operators di catatan rilis Fluxer dan di kode sumbernya. Namamu di dinding hanya masuk ke daftar itu jika kamu mengaktifkan ini.",
+    "@operatorPassWallReleaseListHint": {
+        "description": "Hint for yearly Operators list opt-in."
+    },
+    "operatorPassWallSave": "Simpan",
+    "@operatorPassWallSave": {
+        "description": "Save Operators' wall settings."
+    },
+    "operatorPassWallSaved": "Disimpan.",
+    "@operatorPassWallSaved": {
+        "description": "Toast after saving wall settings."
+    },
+    "operatorPassWallSaveFailed": "Tidak dapat menyimpan. Coba lagi.",
+    "@operatorPassWallSaveFailed": {
+        "description": "Toast when wall settings save fails."
+    },
+    "operatorPassWallNameSettingsLabel": "Nama di dinding",
+    "@operatorPassWallNameSettingsLabel": {
+        "description": "Label for wall name field in settings."
+    },
+    "operatorPassWallNameHint": "Kami memeriksa nama baru sebelum ditayangkan.",
+    "@operatorPassWallNameHint": {
+        "description": "Hint under wall name field."
+    },
+    "operatorPassWallDontListMe": "Jangan cantumkan saya",
+    "@operatorPassWallDontListMe": {
+        "description": "Opt out of the Operators' wall."
+    },
+    "operatorPassWallNameRequired": "Masukkan nama, atau centang \"Jangan cantumkan saya\".",
+    "@operatorPassWallNameRequired": {
+        "description": "Validation when wall name is empty."
+    },
+    "operatorPassWallNameTooLong": "Gunakan 32 karakter atau kurang.",
+    "@operatorPassWallNameTooLong": {
+        "description": "Validation when wall name is too long."
+    },
+    "operatorPassWallDeclineGuidelines": "Melanggar pedoman komunitas",
+    "@operatorPassWallDeclineGuidelines": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineImpersonation": "Berpura-pura menjadi orang lain",
+    "@operatorPassWallDeclineImpersonation": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineRights": "Menggunakan nama atau gambar tanpa hak atasnya",
+    "@operatorPassWallDeclineRights": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineAge": "Tidak cocok untuk pengguna yang lebih muda",
+    "@operatorPassWallDeclineAge": {
+        "description": "Decline reason for wall name."
+    },
+    "plutoniumNotSoldHere": "Plutonium tidak dapat dibeli di versi aplikasi ini.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Kirim kode ke email saya",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Kami telah mengirim kode 6 digit ke alamat emailmu.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Kode dari email",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Kirim kode baru",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Masuk lagi untuk mengonfirmasi bahwa ini memang kamu.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Masuk lagi",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Masuk dengan {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Kamu masuk ke akun lain. Masuk dengan akun yang kamu gunakan di sini.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Passkey dari instance ini tidak berfungsi di aplikasi ini. Gunakan aplikasi autentikator atau kode cadangan, atau konfirmasi melalui web.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Hapus akun dan data pribadimu. Kamu juga bisa menghapus pesan-pesanmu.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Akun, profil, dan data pribadimu akan dihapus. Pesan yang tidak kamu hapus tetap berada di tempat kamu mengirimnya, tanpa nama atau profilmu.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Hapus juga pesan saya",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Menghapus setiap pesan yang kamu kirim di DM, DM grup, dan komunitas, bersama dengan akunmu.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Untuk menyimpan salinan datamu, minta ekspor di {privacyDashboard} terlebih dahulu.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Hapus dalam 14 hari",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Kamu bisa membatalkannya dengan masuk selama 14 hari itu.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Jadwalkan penghapusan",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Akunmu akan dihapus setelah masa tunggu instance ini. Masuk sebelum itu akan membatalkannya.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Hapus sekarang",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Hapus akunmu sekarang?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Akunmu akan langsung dihapus dan tidak dapat dipulihkan.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Langganan Plutonium-mu ditagih oleh Apple. Menghapus akun tidak membatalkannya, jadi batalkan dulu di App Store.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Langganan Plutonium-mu ditagih oleh Google Play. Menghapus akun tidak membatalkannya, jadi batalkan dulu di Google Play.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Kamu memiliki komunitas-komunitas ini. Hapus masing-masing, atau serahkan ke anggota lain, sebelum kamu menghapus akunmu.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Ketuk komunitas untuk membuka pengaturannya. \"Hapus komunitas\" ada di bagian bawah. Untuk menyerahkannya, buka \"Anggota\", ketuk seorang anggota, ketuk tiga titik di profilnya, lalu pilih \"Transfer kepemilikan\".",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Tampilkan media sensitif",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Media sensitif disembunyikan di iPhone dan iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "Konten 18+ nonaktif di iPhone dan iPad. Untuk melihat komunitas dan saluran bertanda 18+ di sini, buka Fluxer di web atau desktop, buka \"Privasi\" di pengaturanmu, lalu aktifkan \"Izinkan konten 18+ di iPhone dan iPad\".",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Karena undang-undang tentang konten dewasa di wilayahmu, konten dewasa tidak tersedia dari sini.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Pesan di saluran 18+",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer tidak tersedia untuk akun ini",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "Rentang usia yang dibagikan oleh Apple Account-mu di bawah 13 tahun. Fluxer hanya untuk orang berusia 13 tahun ke atas.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Untuk memilih \"Tampilkan\" di sini, buka Fluxer di web atau desktop, buka \"Privasi\" di pengaturanmu, lalu aktifkan \"Izinkan konten 18+ di iPhone dan iPad\".",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Edit",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Edit media tersimpan",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Hapus media tersimpan",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Hapus \"{name}\" dari media tersimpanmu?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Tidak dapat menghapus media tersimpan.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Cari media tersimpan",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Media tersimpan tidak tersedia",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Coba lagi sebentar lagi.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Tidak ada media tersimpan",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Simpan media dari pesan untuk melihatnya di sini.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Tidak ada hasil",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Coba kata pencarian atau filter lain.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Semua",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Gambar",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Video",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Audio",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Kontrol panggilan suara",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Laporkan",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Ubah output audio",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Izinkan akses mikrofon untuk membuka suara di panggilan ini.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Catatan",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Tips",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Penting",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Peringatan",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Perhatian",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Laporkan komunitas",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Komunitas yang kamu laporkan",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Administrator instance ini akan meninjau laporanmu. Kami tidak akan mengungkapkan bahwa laporan itu berasal darimu.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Kamu sudah melaporkan komunitas ini.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Membalas {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Diteruskan dari {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerPlay": "Putar",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Jeda",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Volume",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Kecepatan putar {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Layar penuh",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Buka detail saluran",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Streaming dalam 4K pada 60 FPS",
+    "storePlutoniumStreamBody": "Bagikan layar atau kamera Anda dalam kualitas hingga 4K pada 60 frame per detik. Akun gratis melakukan streaming hingga 720p pada 30.",
+    "storePlutoniumStreamTitleIos": "Streaming dalam kualitas lebih tinggi",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Bagikan layar atau kameramu hingga 1080p pada 60 frame per detik di aplikasi ini, dan hingga 4K pada 60 di aplikasi desktop. Akun gratis melakukan streaming hingga 720p pada 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Langgananmu",
+    "storePlutoniumVideoPlutoniumIos": "Hingga 1080p pada 60 FPS di aplikasi ini, hingga 4K pada 60 FPS di desktop",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Kamu hanya bisa memilih tag yang belum dimiliki orang lain dengan nama pengguna yang sama. Nama pengguna tidak membedakan huruf besar dan kecil, jadi Mina#4821 dan mina#4821 dianggap sama.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Ketentuan Penggunaan standar Apple (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Langganan Plutonium-mu telah dipulihkan.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Tidak ada langganan Plutonium yang bisa dipulihkan untuk Apple Account ini.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Tidak dapat memulihkan pembelian. Coba lagi sebentar lagi.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Apple Account di perangkat ini sudah membayar Plutonium untuk akun Fluxer lain.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium tidak ditambahkan",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store telah mengonfirmasi pembelianmu, tetapi Plutonium tidak dapat ditambahkan ke akun ini. Ketuk \"Pulihkan pembelian\" untuk mencoba lagi, atau hubungi dukungan jika masih tidak berhasil.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Pembelianmu sedang menunggu persetujuan. Plutonium akan ditambahkan ke akunmu setelah disetujui.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Tidak dapat memuat paket Plutonium. Periksa koneksimu dan coba lagi.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Coba lagi",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer tertutup secara tiba-tiba. Mengirim laporan crash membantu kami menemukan dan memperbaiki masalahnya lebih cepat.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Laporan mencakup log crash, error, data performa, waktu permintaan jaringan, serta layar dan ketukan yang menyebabkan masalah, yang ditautkan ke ID acak untuk instalasi ini. Laporan tidak pernah menyertakan isi pesan, dan hanya dikirim ke pelacak error milik Fluxer sendiri. Kamu bisa menonaktifkan ini kapan saja.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Jangan tanya lagi",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "advancedSettingSplashQuotesLabel": "Kutipan layar pembuka",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Tampilkan kutipan acak di layar pembuka. Tidak disinkronkan ke perangkat lain.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Aktifkan atau nonaktifkan penyedia pencarian gambar terbalik bawaan. Penyedia yang aktif muncul di opsi gambar.",
+    "searchProviderSearchWith": "Cari dengan {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Terjemahkan dengan {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Pengaturan",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Salin info aplikasi",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Bantuan dan dukungan",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} tidak menggunakan koneksi aman (https). Fluxer hanya terhubung melalui http ke instance di jaringan lokalmu.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Teman saya",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Aktif sekarang",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Lagi sepi nih...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Saat teman-teman aktif di saluran suara, aktivitas mereka akan muncul di sini.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Semua",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Tertunda",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Diblokir",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Cari teman online",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Cari teman",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Cari permintaan tertunda",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Cari pengguna yang diblokir",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Tidak ada teman yang cocok dengan pencarian itu",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Coba nama lain atau periksa ejaanmu.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Tidak ada teman yang online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Saat mereka online, mereka akan muncul di sini.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Belum ada teman",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Ke mana pun kita pergi, kita butuh lebih banyak teman.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Tidak ada permintaan tertunda",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Permintaan pertemanan tertunda akan muncul di sini.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Kamu belum memblokir siapa pun.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Permintaan pertemanan keluar",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Diblokir",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Dibisukan",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Laporkan komunitas",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Ikon peran",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Unggah gambar atau pilih emoji. Di samping nama anggota tampil ikon dari peran tertingginya yang punya ikon.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Minimal {minimumSize}, maksimal {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Unggah ikon peran",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Ikon peran saat ini, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Ikon peran saat ini, gambar yang diunggah",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Pilih emoji",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Unggah gambar",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Hapus ikon",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Ikon animasi tidak didukung. Gunakan gambar statis.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Jenis file ini tidak didukung. Jenis yang didukung: {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Gambar ini tidak bisa dimuat. Coba gambar lain.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Begini tampilan pesan",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Ikon peran, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Pangkas ikon peran",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Simpan ikon",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Lewati pemotongan",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Gagal memotong ikon. Coba lagi.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Seret untuk mengubah posisi ikon peran dan gunakan roda gulir atau cubit untuk memperbesar. Ukuran minimum yang disarankan adalah {minimumWidth}×{minimumHeight} piksel.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Mengatur ikon peran ke {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Mengubah ikon peran dari {oldEmoji} menjadi {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Menghapus ikon peran",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Mengatur ikon peran kustom",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Mengubah ikon peran kustom",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Menghapus ikon peran kustom",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Teman",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Postingan dari seseorang yang kamu blokir",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "forumReportPost": "Laporkan postingan",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     }
 }

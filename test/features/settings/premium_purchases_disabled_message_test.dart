@@ -128,6 +128,7 @@ Widget _storeBar() {
     purchaseDisabled: false,
     purchaseDisabledMessage: null,
     onBuy: (_) {},
+    onRetry: () {},
     onManage: null,
   );
 }

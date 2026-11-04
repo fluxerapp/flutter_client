@@ -22,7 +22,9 @@ abstract class PremiumStorePurchaseClient {
 
   Future<void> complete(PremiumStorePurchaseUpdate purchase);
 
-  Future<void> restore();
+  Future<void> restore({required bool userInitiated});
+
+  Future<String?> storefrontCountryCode();
 }
 
 class UnavailablePremiumStorePurchaseClient
@@ -56,7 +58,10 @@ class UnavailablePremiumStorePurchaseClient
   Future<void> complete(PremiumStorePurchaseUpdate purchase) async {}
 
   @override
-  Future<void> restore() async {}
+  Future<void> restore({required bool userInitiated}) async {}
+
+  @override
+  Future<String?> storefrontCountryCode() async => null;
 }
 
 PremiumBillingStore? currentPremiumBillingStore() {

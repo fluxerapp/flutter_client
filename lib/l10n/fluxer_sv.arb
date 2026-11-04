@@ -212,6 +212,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Använd en reservkod",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Använd en kod från autentiseringsappen",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Välj ett konto",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -2031,10 +2039,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Inköp i appen är ännu inte tillgängliga på den här plattformen. Håll utkik – kommer snart!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Förhandsgranska",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2124,6 +2128,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Lösenordet är fel. Försök igen.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Konto",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2139,6 +2147,10 @@
     "securitySectionDescription": "Skydda ditt konto med tvåfaktorsautentisering och lösenordsnycklar",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Skydda ditt konto med tvåfaktorsautentisering",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "E-postinställningar",
     "@securityLoginEmailSectionTitle": {
@@ -5342,6 +5354,16 @@
     "characterCounterTooLong": "Meddelandet är för långt",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "Meddelanden kan vara upp till {maxLength} tecken långa. Korta ner det här meddelandet för att skicka det.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} tecken kvar. Skaffa {productName} för att skriva upp till {premiumMaxLength} tecken.",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -14700,7 +14722,6 @@
         }
     },
     "storePlutoniumWaiting": "Köpet har mottagits. Plutonium visas här när det har aktiverats.",
-    "storePlutoniumUnavailable": "Prenumerationer i appen är inte tillgängliga på den här enheten än.",
     "storePlutoniumVisionaryStatus": "Visionary ger redan permanent åtkomst, så en återkommande prenumeration behövs inte.",
     "userSettingsNavShortcuts": "Genvägar",
     "@userSettingsNavShortcuts": {
@@ -18966,5 +18987,1174 @@
     "animatedImageUseStatic": "Ladda upp en statisk bild i stället.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Du är offline. Fluxer återansluter när du är online igen.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Ditt konto tas bort den {date}. Om du loggar in innan dess avbryts borttagningen.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Ditt konto är schemalagt för borttagning. Om du loggar in före borttagningsdatumet avbryts den.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Vi tar bort ditt konto nu. Om ditt konto har en e-postadress mejlar vi dig när det är klart.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Vi tar bort ditt konto nu.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Ditt konto är inaktiverat. Logga in igen när du vill använda det.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Skicka e-post igen",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "Verifieringsmejl skickat. Kolla din inkorg.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Du har begärt för många verifieringsmejl. Vänta en stund och försök igen.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Ditt {productName}-abonnemang kunde inte förnyas. Du behåller dina {productName}-förmåner till {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Ditt {productName}-abonnemang har gått ut.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreementPrefix": "Genom att logga in godkänner du ",
+    "@loginLegalAgreementPrefix": {
+        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
+    },
+    "mfaPasskeyUnavailable": "Lösennycklar från den här instansen fungerar inte i den här appen, och ditt konto har ingen annan verifieringsmetod. Logga in på webben i stället.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Konto bannlyst",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Konto stängt",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Vad som hände",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Varför",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Så fattade vi beslutet",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Så överklagar du",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Kommentar från vårt team: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "Besluts-ID: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Regel: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Om du tycker att vi har gjort fel kan du mejla {email} och ange ditt användarnamn.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Om du tycker att vi har gjort fel kan du mejla {email} senast {deadline}. Ange besluts-ID:t och ditt användarnamn. Det är gratis att överklaga, och en person granskar varje överklagande.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Om du tycker att vi har gjort fel kan du mejla {email} senast {deadline}. Skriv från e-postadressen på ditt konto om du kan och ange besluts-ID:t. Det är gratis att överklaga, och en person granskar varje överklagande.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Om du vill be oss ta bort ditt konto och dina data kan du mejla {email} från adressen på ditt konto.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Om du vill be oss ta bort ditt konto och dina data kan du mejla {email} och ange ditt användarnamn.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Klar",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Inte inställt",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Jag godkänner att den här instansen har nolltolerans mot stötande innehåll och kränkande användare, och att dess administratörer kan ta bort innehåll och konton som bryter mot de här reglerna.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Den här gåvan kan inte lösas in i iOS-appen. Du kan lösa in den i datorappen.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Hitta det perfekta klistermärket",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Inga klistermärken tillgängliga",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Gå med i en community med klistermärken för att använda dem här.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Inga klistermärken tillgängliga",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "Det finns inga klistermärken tillgängliga i den här konversationen.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Inga klistermärken hittades",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Prova ett annat sökord.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Lås upp {stickerCount} från {communityCount} med Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 klistermärke} other{{count} klistermärken}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Märken",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Välj vilka märken andra ser på din profil.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Du har inga märken än.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Dina märken kunde inte läsas in.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Visa {badgeLabel} på din profil",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Visa alla märken",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} märke till, visa alla} other {+{count} märken till, visa alla}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Visas bara när ditt Visionary-märke syns och inte visas som ett abonnemang.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass sedan {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Visa märket på min profil",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Dölj när du fick ditt {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Dölj hur många Operator Pass du har",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "operatorPassWallTitle": "Operators-väggen",
+    "@operatorPassWallTitle": {
+        "description": "Heading for Operators' wall settings."
+    },
+    "operatorPassWallHowItWorks": "Så fungerar väggen",
+    "@operatorPassWallHowItWorks": {
+        "description": "Link to Operator Pass wall help."
+    },
+    "operatorPassWallNotListed": "Inte listad.",
+    "@operatorPassWallNotListed": {
+        "description": "Status when not on the Operators' wall."
+    },
+    "operatorPassWallOnTheWall": "På väggen",
+    "@operatorPassWallOnTheWall": {
+        "description": "Label for the live wall entry."
+    },
+    "operatorPassWallInReview": "Granskas",
+    "@operatorPassWallInReview": {
+        "description": "Label for a pending wall name."
+    },
+    "operatorPassWallReviewBy": "senast {date}",
+    "@operatorPassWallReviewBy": {
+        "description": "Review due date label.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallLive": "Publicerat",
+    "@operatorPassWallLive": {
+        "description": "Status when a wall name is live."
+    },
+    "operatorPassWallDeclined": "Avvisat: {name}. {reason}.",
+    "@operatorPassWallDeclined": {
+        "description": "Declined wall name status.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "reason": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallTeamNote": "Kommentar från teamet: {note}",
+    "@operatorPassWallTeamNote": {
+        "description": "Team note on a declined wall name.",
+        "placeholders": {
+            "note": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassWallHidden": "Dold av vårt team tills vidare.",
+    "@operatorPassWallHidden": {
+        "description": "Wall listing hidden by staff."
+    },
+    "operatorPassWallHiddenWhy": "Varför?",
+    "@operatorPassWallHiddenWhy": {
+        "description": "Link after hidden wall status."
+    },
+    "operatorPassWallRemoved": "Borttaget från väggen medan dina förmåner är borttagna.",
+    "@operatorPassWallRemoved": {
+        "description": "Wall listing removed when benefits are removed."
+    },
+    "operatorPassTermsLink": "Villkor för Operator Pass",
+    "@operatorPassTermsLink": {
+        "description": "Link to Operator Pass terms."
+    },
+    "operatorPassWallSendChanges": "Skicka profiländringar till väggen",
+    "@operatorPassWallSendChanges": {
+        "description": "Switch to send profile changes to the wall."
+    },
+    "operatorPassWallReleaseList": "Lägg till mitt namn i den årliga Operators-listan",
+    "@operatorPassWallReleaseList": {
+        "description": "Switch for yearly Operators list opt-in."
+    },
+    "operatorPassWallReleaseListHint": "En gång om året publicerar vi en lista över Operators i versionsanteckningarna för en Fluxer-version och i dess källkod. Ditt väggnamn finns bara med om du aktiverar det här.",
+    "@operatorPassWallReleaseListHint": {
+        "description": "Hint for yearly Operators list opt-in."
+    },
+    "operatorPassWallSave": "Spara",
+    "@operatorPassWallSave": {
+        "description": "Save Operators' wall settings."
+    },
+    "operatorPassWallSaved": "Sparad.",
+    "@operatorPassWallSaved": {
+        "description": "Toast after saving wall settings."
+    },
+    "operatorPassWallSaveFailed": "Det gick inte att spara. Försök igen.",
+    "@operatorPassWallSaveFailed": {
+        "description": "Toast when wall settings save fails."
+    },
+    "operatorPassWallNameSettingsLabel": "Namn på väggen",
+    "@operatorPassWallNameSettingsLabel": {
+        "description": "Label for wall name field in settings."
+    },
+    "operatorPassWallNameHint": "Vi granskar nya namn innan de publiceras.",
+    "@operatorPassWallNameHint": {
+        "description": "Hint under wall name field."
+    },
+    "operatorPassWallDontListMe": "Lista mig inte",
+    "@operatorPassWallDontListMe": {
+        "description": "Opt out of the Operators' wall."
+    },
+    "operatorPassWallNameRequired": "Ange ett namn eller markera ”Lista mig inte”.",
+    "@operatorPassWallNameRequired": {
+        "description": "Validation when wall name is empty."
+    },
+    "operatorPassWallNameTooLong": "Använd högst 32 tecken.",
+    "@operatorPassWallNameTooLong": {
+        "description": "Validation when wall name is too long."
+    },
+    "operatorPassWallDeclineGuidelines": "Bryter mot communityriktlinjerna",
+    "@operatorPassWallDeclineGuidelines": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineImpersonation": "Utger sig för att vara någon annan",
+    "@operatorPassWallDeclineImpersonation": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineRights": "Använder ett namn eller en bild utan rätt till det",
+    "@operatorPassWallDeclineRights": {
+        "description": "Decline reason for wall name."
+    },
+    "operatorPassWallDeclineAge": "Inte lämpligt för yngre användare",
+    "@operatorPassWallDeclineAge": {
+        "description": "Decline reason for wall name."
+    },
+    "plutoniumNotSoldHere": "Plutonium kan inte köpas i den här versionen av appen.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Skicka mig en kod",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Vi har skickat en 6-siffrig kod till din e-postadress.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Kod från mejlet",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Skicka en ny kod",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Logga in igen för att bekräfta att det är du.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Logga in igen",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Logga in med {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Du loggade in på ett annat konto. Logga in med kontot du använder här.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Lösennycklar från den här instansen fungerar inte i den här appen. Använd din autentiseringsapp eller en reservkod, eller bekräfta på webben.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Ta bort ditt konto och dina personuppgifter. Du kan också ta bort dina meddelanden.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Ditt konto, din profil och dina personuppgifter tas bort. Meddelanden som du inte tar bort finns kvar där du skickade dem, utan ditt namn eller din profil.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Ta även bort mina meddelanden",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Tar bort alla meddelanden du har skickat i DM, grupp-DM och communities, tillsammans med ditt konto.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Om du vill behålla en kopia av dina data, begär först en export i {privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Ta bort om 14 dagar",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Du kan avbryta genom att logga in under de 14 dagarna.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Schemalägg borttagning",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Ditt konto tas bort efter den här instansens väntetid. Om du loggar in innan dess avbryts borttagningen.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Ta bort nu",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Ta bort ditt konto nu?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Ditt konto tas bort direkt och kan inte återställas.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Ditt Plutonium-abonnemang faktureras av Apple. Det avslutas inte när du tar bort ditt konto, så säg upp det i App Store först.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Ditt Plutonium-abonnemang faktureras av Google Play. Det avslutas inte när du tar bort ditt konto, så säg upp det i Google Play först.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Du äger de här communityna. Ta bort var och en, eller ge den till en annan medlem, innan du tar bort ditt konto.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Tryck på en community för att öppna dess inställningar. ”Ta bort community” finns längst ner. Om du vill ge bort den, öppna ”Medlemmar”, tryck på en medlem, tryck på de tre punkterna på medlemmens profil och välj ”Överför ägarskap”.",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Visa känsliga medier",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Känsliga medier är dolda på iPhone och iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "18+-innehåll är avstängt på iPhone och iPad. Om du vill se communities och kanaler markerade 18+ här, öppna Fluxer på webben eller på datorn, gå till ”Integritet” i dina inställningar och aktivera ”Tillåt 18+-innehåll på iPhone och iPad”.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "På grund av lagar om vuxet innehåll där du befinner dig är vuxet innehåll inte tillgängligt härifrån.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Meddelande i en 18+-kanal",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer är inte tillgängligt för det här kontot",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "Åldersintervallet som ditt Apple Account delar är under 13 år. Fluxer är bara för personer som är 13 år eller äldre.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Om du vill välja ”Visa” här, öppna Fluxer på webben eller på datorn, gå till ”Integritet” i dina inställningar och aktivera ”Tillåt 18+-innehåll på iPhone och iPad”.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Redigera",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Redigera sparat medieobjekt",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Ta bort sparat medieobjekt",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Ta bort ”{name}” från dina sparade medier?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Kunde inte ta bort sparat medieobjekt.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Sök sparade medier",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Sparade medier är inte tillgängliga",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Försök igen om en liten stund.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Inga sparade medier",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Spara medier från meddelanden för att se dem här.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Inga resultat",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Prova ett annat sökord eller filter.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Alla",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Bilder",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Videor",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Ljud",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF:ar",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Kontroller för röstsamtal",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Anmäl",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Byt ljudutgång",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Ge åtkomst till mikrofonen för att slå på mikrofonen i det här samtalet.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Anteckning",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Tips",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Viktigt",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Varning",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Varning",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Anmäl community",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Communityn du anmäler",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Administratörerna för den här instansen granskar din anmälan. Vi avslöjar inte att den kommer från dig.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Du har redan anmält den här communityn.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Svarar {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Vidarebefordrat från {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerPlay": "Spela upp",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Pausa",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Volym",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Uppspelningshastighet {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Helskärm",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Öppna kanalinformation",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Strömma i 4K med 60 FPS",
+    "storePlutoniumStreamBody": "Dela din skärm eller kamera i upp till 4K med 60 bilder per sekund. Gratis konton streamar i upp till 720p med 30.",
+    "storePlutoniumStreamTitleIos": "Sänd i högre kvalitet",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Dela din skärm eller kamera i upp till 1080p i 60 bilder per sekund i appen och i upp till 4K i 60 i datorappen. Gratiskonton sänder i upp till 720p i 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Ditt abonnemang",
+    "storePlutoniumVideoPlutoniumIos": "Upp till 1080p i 60 FPS i appen, upp till 4K i 60 FPS på datorn",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Du kan bara välja en tagg som ingen annan med samma användarnamn redan har. Användarnamn är inte skiftlägeskänsliga, så Mina#4821 och mina#4821 räknas som samma.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Apples standardanvändarvillkor (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Ditt Plutonium-abonnemang har återställts.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Det finns inget Plutonium-abonnemang att återställa för det här Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Kunde inte återställa köp. Försök igen om en stund.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Apple Account på den här enheten betalar redan för Plutonium på ett annat Fluxer-konto.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium lades inte till",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store bekräftade ditt köp, men Plutonium kunde inte läggas till på det här kontot. Tryck på ”Återställ köp” för att försöka igen, eller kontakta supporten om det fortfarande inte fungerar.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Ditt köp väntar på godkännande. Plutonium läggs till på ditt konto när det har godkänts.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Kunde inte läsa in Plutonium-abonnemangen. Kontrollera anslutningen och försök igen.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Försök igen",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer stängdes oväntat. Om du skickar en kraschrapport hjälper du oss att hitta och åtgärda problemet snabbare.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Rapporterna innehåller kraschloggar, fel, prestandadata, tider för nätverksanrop samt de skärmar och tryck som ledde fram till ett problem, kopplade till ett slumpmässigt ID för den här installationen. De innehåller aldrig meddelandeinnehåll och skickas bara till Fluxers egen felspårning. Du kan stänga av det här när som helst.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Fråga inte igen",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "advancedSettingSplashQuotesLabel": "Citat på startskärmen",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Visa ett slumpmässigt citat på startskärmen. Synkas inte mellan enheter.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Aktivera eller inaktivera inbyggda leverantörer för omvänd bildsökning. Aktiverade leverantörer visas i alternativen för bilder.",
+    "searchProviderSearchWith": "Sök med {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Översätt med {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Inställningar",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Kopiera appinformation",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Hjälp och support",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} använder inte en säker anslutning (https). Fluxer ansluter bara via http till instanser i ditt lokala nätverk.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Mina vänner",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Aktiva nu",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Det är lugnt just nu...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "När vänner är aktiva i röstkanaler visas deras aktivitet här.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Alla",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Väntande",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Blockerade",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Sök bland onlinevänner",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Sök vänner",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Sök bland väntande förfrågningar",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Sök bland blockerade användare",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Inga vänner matchar sökningen",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Prova ett annat namn eller kontrollera stavningen.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Inga vänner online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "När de är online visas de här.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Inga vänner än",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Där vi ska, behöver vi fler vänner.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Inga väntande förfrågningar",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Väntande vänförfrågningar visas här.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Du har inte blockerat någon.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Utgående vänförfrågan",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Blockerad",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Tystad",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Anmäl community",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Rollikon",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Ladda upp en bild eller välj en emoji. Bredvid en medlems namn visas ikonen från medlemmens högsta roll som har en ikon.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Minst {minimumSize}, högst {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Ladda upp rollikon",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Nuvarande rollikon, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Nuvarande rollikon, uppladdad bild",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Välj emoji",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Ladda upp bild",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Ta bort ikon",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Animerade ikoner stöds inte. Använd en statisk bild.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Filtypen stöds inte. Filtyper som stöds är {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Bilden kunde inte läsas in. Prova en annan.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Så här visas meddelanden",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Rollikon, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Beskär rollikon",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Spara ikon",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Hoppa över beskärning",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Det gick inte att beskära ikonen. Försök igen.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Dra för att flytta rollikonen och använd skrollhjulet eller nyp för att zooma. Rekommenderad minimistorlek är {minimumWidth}×{minimumHeight} pixlar.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Ställde in rollikonen till {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Ändrade rollikonen från {oldEmoji} till {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Tog bort rollikonen",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Ställde in en anpassad rollikon",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Ändrade den anpassade rollikonen",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Tog bort den anpassade rollikonen",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Vänner",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Inlägg från någon du har blockerat",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "forumReportPost": "Anmäl inlägg",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
     }
 }
