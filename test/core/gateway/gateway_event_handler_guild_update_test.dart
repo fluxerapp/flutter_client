@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -102,6 +103,7 @@ void main() {
             ),
           ),
           userSettingsViewModelProvider.overrideWith(_Settings.new),
+          currentUserIdProvider.overrideWithValue(_userId),
         ],
       );
       addTearDown(container.dispose);

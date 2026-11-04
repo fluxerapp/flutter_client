@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.da
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+import '../../helpers/open_test_database.dart';
 import '../../helpers/pump_fluxer_app.dart';
 
 const Channel _parent = Channel(id: '100', guildId: 'g1', name: 'general');
@@ -75,6 +76,7 @@ void main() {
     await tester.pumpWidget(
       pumpFluxerApp(
         overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
           forumRepositoryProvider.overrideWithValue(repository),
           parentThreadActorProvider('g1', '100').overrideWithValue(
             ThreadActor(
@@ -91,9 +93,6 @@ void main() {
             const AsyncData<Set<String>>(<String>{}),
           ),
           currentUserIdProvider.overrideWithValue('u1'),
-          fluxerDatabaseProvider.overrideWith(
-            (Ref ref) => throw UnimplementedError(),
-          ),
         ],
         child: Consumer(
           builder: (BuildContext context, WidgetRef ref, _) => Scaffold(
@@ -144,6 +143,7 @@ void main() {
     expect(repository.queries.last.archived, isTrue);
     expect(find.text('Old bug bash'), findsOneWidget);
     expect(find.text('Bug triage'), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('a query without matches shows the empty state', (
@@ -157,6 +157,7 @@ void main() {
       find.text('Try a different name or check the other tab.'),
       findsOneWidget,
     );
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('a failed search shows an error with retry', (
@@ -175,6 +176,7 @@ void main() {
     await pumpFluxerFrames(tester);
 
     expect(find.text('Bug triage'), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('clearing the query restores the tab list', (
@@ -186,5 +188,6 @@ void main() {
 
     expect(find.text('Release notes'), findsOneWidget);
     expect(repository.queries, hasLength(1));
+    await releaseTestWidgetTree(tester);
   });
 }

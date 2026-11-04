@@ -579,7 +579,9 @@ class _VoiceChannelControlExpandableSheetState
                                                     expandedBarInnerWidth,
                                               );
                                           return Column(
-                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisSize: _panelBodyVisible
+                                                ? MainAxisSize.max
+                                                : MainAxisSize.min,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.stretch,
                                             children: <Widget>[

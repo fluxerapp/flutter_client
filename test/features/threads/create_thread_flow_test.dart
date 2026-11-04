@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase, MessagesCompanion, ReadState;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -26,6 +25,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:go_router/go_router.dart';
 
+import '../../helpers/core_test_provider_overrides.dart';
 import '../../helpers/open_test_database.dart';
 import '../../helpers/test_l10n.dart';
 
@@ -193,23 +193,25 @@ void main() {
 
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [
-            fluxerDatabaseProvider.overrideWithValue(database),
-            threadsRepositoryProvider.overrideWithValue(threads),
-            fluxerRouterProvider.overrideWithValue(router),
-            chatViewModelProvider.overrideWith(() => chat),
-            currentRevealSideProvider.overrideWith(_MainRevealSide.new),
-            parentThreadActorProvider(_guildId, _parentId).overrideWithValue(
-              ThreadActor(
-                permissions:
-                    Permission.viewChannel.value |
-                    Permission.sendMessages.value |
-                    Permission.readMessageHistory.value |
-                    Permission.createPublicThreads.value |
-                    Permission.sendMessagesInThreads.value,
+          overrides: coreTestProviderOverrides(
+            database: database,
+            extra: [
+              threadsRepositoryProvider.overrideWithValue(threads),
+              fluxerRouterProvider.overrideWithValue(router),
+              chatViewModelProvider.overrideWith(() => chat),
+              currentRevealSideProvider.overrideWith(_MainRevealSide.new),
+              parentThreadActorProvider(_guildId, _parentId).overrideWithValue(
+                ThreadActor(
+                  permissions:
+                      Permission.viewChannel.value |
+                      Permission.sendMessages.value |
+                      Permission.readMessageHistory.value |
+                      Permission.createPublicThreads.value |
+                      Permission.sendMessagesInThreads.value,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
           child: MaterialApp(
             locale: kTestLocale,
             localizationsDelegates: fluxerLocalizationsDelegates,
@@ -242,7 +244,11 @@ void main() {
       );
 
       await tester.tap(find.text('Open'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(
+        const Duration(milliseconds: 100),
+        EnginePhase.sendSemanticsUpdate,
+        const Duration(seconds: 5),
+      );
       await tester.enterText(find.byType(TextField).first, 'test');
       await tester.pump();
       await tester.tap(find.text(testL10n.threadCreate).last);
@@ -260,7 +266,11 @@ void main() {
         );
         await tester.pump();
       }
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(
+        const Duration(milliseconds: 100),
+        EnginePhase.sendSemanticsUpdate,
+        const Duration(seconds: 5),
+      );
 
       expect(router.navigations, hasLength(1));
       final _Navigation navigation = router.navigations.single;
@@ -290,8 +300,7 @@ void main() {
 
       await tester.pump(const Duration(seconds: 5));
       expect(router.navigations, hasLength(1));
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.runAsync(database.close);
+      await releaseTestWidgetTree(tester);
     },
   );
 }
