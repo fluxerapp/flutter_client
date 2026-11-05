@@ -18,7 +18,7 @@ import flutter_callkit_incoming
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     UNUserNotificationCenter.current().delegate = self
     ApplePushBridge.shared.registerReplyCategory()
-    AssistantAppShortcuts.updateAppShortcutParameters()
+    AssistantBridge.shared.refreshAppShortcutsInBackground()
     startMeasureIfEnabled()
     return result
   }

@@ -43,17 +43,45 @@ class _BuiltColorThemes {
   final FluxerColorTheme coal;
 }
 
+final Map<
+  FluxerThemeMode,
+  ({double saturationFactor, String? customThemeCss, FluxerColorTheme theme})
+>
+_lastColorThemeByMode =
+    <
+      FluxerThemeMode,
+      ({
+        double saturationFactor,
+        String? customThemeCss,
+        FluxerColorTheme theme,
+      })
+    >{};
+
 FluxerColorTheme _themedColor(
   FluxerThemeMode mode,
   FluxerColorTheme Function({double saturationFactor}) builder, {
   required double saturationFactor,
   required String? customThemeCss,
-}) => applyCustomThemeCss(
-  builder(saturationFactor: saturationFactor),
-  css: customThemeCss,
-  saturationFactor: saturationFactor,
-  mode: mode,
-);
+}) {
+  final last = _lastColorThemeByMode[mode];
+  if (last != null &&
+      last.saturationFactor == saturationFactor &&
+      last.customThemeCss == customThemeCss) {
+    return last.theme;
+  }
+  final FluxerColorTheme theme = applyCustomThemeCss(
+    builder(saturationFactor: saturationFactor),
+    css: customThemeCss,
+    saturationFactor: saturationFactor,
+    mode: mode,
+  );
+  _lastColorThemeByMode[mode] = (
+    saturationFactor: saturationFactor,
+    customThemeCss: customThemeCss,
+    theme: theme,
+  );
+  return theme;
+}
 
 _BuiltColorThemes _buildColorThemes({
   required double saturationFactor,
@@ -250,13 +278,11 @@ class ThemePreferenceState {
     };
   }
 
-  late final FluxerTextTheme textTheme = FluxerTextTheme.fromColors(colorTheme);
-  late final FluxerTextTheme darkTextTheme = FluxerTextTheme.fromColors(
-    darkColorTheme,
-  );
-  late final FluxerTextTheme lightTextTheme = FluxerTextTheme.fromColors(
-    lightColorTheme,
-  );
+  FluxerTextTheme get textTheme => FluxerTextTheme.forColors(colorTheme);
+  FluxerTextTheme get darkTextTheme =>
+      FluxerTextTheme.forColors(darkColorTheme);
+  FluxerTextTheme get lightTextTheme =>
+      FluxerTextTheme.forColors(lightColorTheme);
 
   ThemePreferenceState copyWith({
     FluxerThemeMode? mode,

@@ -23,6 +23,7 @@ import 'package:fluxer_app/core/observability/reporting_consent/observability_re
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
@@ -69,6 +70,27 @@ Future<void> _bootstrapStep(String name, Future<void> Function() step) async {
   }
 }
 
+void _bootstrapChatAttachmentAudioAfterSplashReveal(
+  ProviderContainer container,
+) {
+  late final ProviderSubscription<bool> subscription;
+  subscription = container.listen<bool>(splashRevealCompleteProvider, (
+    bool? previous,
+    bool complete,
+  ) {
+    if (!complete) {
+      return;
+    }
+    subscription.close();
+    unawaited(
+      _bootstrapStep(
+        'app.bootstrap.chat_attachment_audio',
+        bootstrapChatAttachmentAudio,
+      ),
+    );
+  });
+}
+
 void _runFluxerApp(ProviderContainer container) {
   runApp(
     UncontrolledProviderScope(
@@ -113,16 +135,20 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   }
 
   final ProviderContainer container = ProviderContainer();
-  await _bootstrapStep(
-    'app.bootstrap.foreground_session',
-    bootstrapAppForegroundSession,
-  );
+  if (Platform.isIOS || Platform.isAndroid) {
+    unawaited(
+      _bootstrapStep(
+        'app.bootstrap.app_media_audio_session',
+        AppMediaAudioSession.instance.configure,
+      ),
+    );
+  }
   await Future.wait<void>([
-    _bootstrapStep(
-      'app.bootstrap.chat_attachment_audio',
-      bootstrapChatAttachmentAudio,
-    ),
     () async {
+      await _bootstrapStep(
+        'app.bootstrap.foreground_session',
+        bootstrapAppForegroundSession,
+      );
       await _bootstrapStep('app.bootstrap.settings', () async {
         await Future.wait<void>([
           container.read(observabilityReportingProvider.notifier).load(),
@@ -134,11 +160,15 @@ Future<void> _bootstrapFluxer(List<String> args) async {
       });
       await _bootstrapStep('app.bootstrap.fcm', bootstrapFcmIfNeeded);
     }(),
-    if (Platform.isIOS || Platform.isAndroid)
-      _bootstrapStep(
-        'app.bootstrap.app_media_audio_session',
-        AppMediaAudioSession.instance.configure,
-      ),
+    _bootstrapStep('app.bootstrap.active_instance', () async {
+      final authRepository = container.read(authRepositoryProvider);
+      await authRepository.migrateLegacyInstanceEndpoints();
+      await container
+          .read(activeInstanceProvider.notifier)
+          .restorePersistedSnapshot(
+            authRepository.resolveActiveInstanceSnapshot(),
+          );
+    }),
   ]);
   await _bootstrapStep('app.bootstrap.image_picker', () async {
     _configureImagePicker();
@@ -171,16 +201,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     });
   }
 
-  await _bootstrapStep('app.bootstrap.active_instance', () async {
-    final authRepository = container.read(authRepositoryProvider);
-    await authRepository.migrateLegacyInstanceEndpoints();
-    await container
-        .read(activeInstanceProvider.notifier)
-        .restorePersistedSnapshot(
-          authRepository.resolveActiveInstanceSnapshot(),
-        );
-  });
-
+  _bootstrapChatAttachmentAudioAfterSplashReveal(container);
   unawaited(
     FluxerObservability.instance.traceAsync('app.startup.provider', () async {
       try {

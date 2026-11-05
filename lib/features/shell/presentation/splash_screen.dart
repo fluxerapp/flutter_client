@@ -560,36 +560,39 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 ),
                               )
                             else if (!_exitRevealStarted)
-                              AnimatedBuilder(
-                                animation: _pulseController,
-                                builder: (BuildContext context, Widget? child) {
-                                  const double startScale = 0.4;
-                                  const double endScale = 1.4;
-                                  final double scale =
-                                      startScale +
-                                      (endScale - startScale) *
-                                          Curves.easeOut.transform(
-                                            _pulseController.value,
-                                          );
-                                  final double opacity =
-                                      (1 -
-                                          Curves.easeIn.transform(
-                                            _pulseController.value,
-                                          )) *
-                                      0.5;
-                                  return Transform.scale(
-                                    scale: scale,
-                                    child: Container(
-                                      width: _logoHeight,
-                                      height: _logoHeight,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: context.colors.brandPrimary
-                                            .withValues(alpha: opacity),
-                                      ),
-                                    ),
-                                  );
-                                },
+                              RepaintBoundary(
+                                child: AnimatedBuilder(
+                                  animation: _pulseController,
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                        const double startScale = 0.4;
+                                        const double endScale = 1.4;
+                                        final double scale =
+                                            startScale +
+                                            (endScale - startScale) *
+                                                Curves.easeOut.transform(
+                                                  _pulseController.value,
+                                                );
+                                        final double opacity =
+                                            (1 -
+                                                Curves.easeIn.transform(
+                                                  _pulseController.value,
+                                                )) *
+                                            0.5;
+                                        return Transform.scale(
+                                          scale: scale,
+                                          child: Container(
+                                            width: _logoHeight,
+                                            height: _logoHeight,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: context.colors.brandPrimary
+                                                  .withValues(alpha: opacity),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                ),
                               ),
                             if (!_exitRevealStarted)
                               ExcludeSemantics(

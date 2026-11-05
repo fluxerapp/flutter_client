@@ -2,7 +2,7 @@ import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoTheme, CupertinoThemeData;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -17,12 +17,12 @@ class StarfieldDarkTheme extends ConsumerWidget {
     if (Theme.of(context).brightness == Brightness.dark) {
       return child;
     }
-    final ThemePreferenceState prefs = ref.watch(themePreferenceProvider);
-    final ThemeData theme = buildFluxerTheme(
-      colorTheme: prefs.darkColorTheme,
-      textTheme: prefs.darkTextTheme,
-      layoutTheme: FluxerLayoutTheme.scaled(),
+    final FluxerColorTheme darkColors = ref.watch(
+      themePreferenceProvider.select(
+        (ThemePreferenceState state) => state.darkColorTheme,
+      ),
     );
+    final ThemeData theme = cachedFluxerTheme(colorTheme: darkColors);
     final CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context)
         .copyWith(
           brightness: Brightness.dark,

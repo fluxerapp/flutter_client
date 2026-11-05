@@ -101,121 +101,15 @@ class EmojiRegistry {
   }
 
   static Future<void> _doPreload() async {
-    final raw = await rootBundle.loadString(_kAssetPath);
-    final json = await compute(jsonDecode, raw) as Map<String, dynamic>;
-    _parseAll(json);
-  }
-
-  static void _parseAll(Map<String, dynamic> json) {
-    final nameMap = <String, String>{};
-    final entryMap = <String, EmojiEntry>{};
-    final surrogateMap = <String, EmojiEntry>{};
-    final cats = <String, List<EmojiEntry>>{};
-    final all = <EmojiEntry>[];
-    final unicodeSurrogates = <String>{};
-    var spriteIndex = 0;
-    var diversityIndex = 0;
-
-    for (final category in kEmojiCategoryOrder) {
-      final entries = json[category] as List<dynamic>?;
-      if (entries == null) {
-        continue;
-      }
-
-      final list = <EmojiEntry>[];
-      for (final entry in entries) {
-        final obj = entry as Map<String, dynamic>;
-        final surrogates = obj['surrogates'] as String? ?? '';
-        if (surrogates.isEmpty) {
-          continue;
-        }
-        unicodeSurrogates.add(surrogates);
-
-        final names = (obj['names'] as List<dynamic>).cast<String>();
-        final keywords =
-            (obj['keywords'] as List<dynamic>?)?.cast<String>() ??
-            const <String>[];
-        final skins = obj['skins'] as List<dynamic>?;
-        final skinSurrogates = skins == null
-            ? const <String>[]
-            : skins
-                  .map(
-                    (skin) =>
-                        (skin as Map<String, dynamic>)['surrogates']
-                            as String? ??
-                        '',
-                  )
-                  .toList(growable: false);
-        final hasDiversity = skinSurrogates.isNotEmpty;
-        final emoji = EmojiEntry(
-          names: names,
-          surrogates: surrogates,
-          keywords: keywords,
-          spriteIndex: spriteIndex,
-          diversityIndex: hasDiversity ? diversityIndex : null,
-          hasDiversity: hasDiversity,
-          skinSurrogates: skinSurrogates,
-        );
-        if (hasDiversity) {
-          diversityIndex++;
-        }
-        spriteIndex++;
-        list.add(emoji);
-        all.add(emoji);
-        surrogateMap[surrogates] = emoji;
-        for (final name in names) {
-          nameMap[name] = surrogates;
-          entryMap[name] = emoji;
-        }
-
-        for (var i = 0; i < skinSurrogates.length; i++) {
-          final skinSurrogatesValue = skinSurrogates[i];
-          if (skinSurrogatesValue.isEmpty) {
-            continue;
-          }
-          unicodeSurrogates.add(skinSurrogatesValue);
-          surrogateMap.putIfAbsent(skinSurrogatesValue, () => emoji);
-          if (i >= kSkinToneSurrogates.length) {
-            continue;
-          }
-          final skinToneName = 'skin-tone-${i + 1}';
-          for (final name in names) {
-            final skinName = '$name::$skinToneName';
-            nameMap[skinName] = skinSurrogatesValue;
-          }
-        }
-      }
-      cats[category] = list;
-    }
-
-    final shortcuts = json['shortcuts'] as Map<String, dynamic>?;
-    if (shortcuts != null) {
-      for (final entry in shortcuts.entries) {
-        final targetName = entry.value as String;
-        final targetSurrogate = nameMap[targetName];
-        if (targetSurrogate != null) {
-          nameMap[entry.key] = targetSurrogate;
-        }
-      }
-    }
-
-    for (var i = 0; i < kSkinToneSurrogates.length; i++) {
-      nameMap['skin-tone-${i + 1}'] = kSkinToneSurrogates[i];
-    }
-
-    _nameToSurrogate = nameMap;
-    _nameToEntry = entryMap;
-    _surrogateToEntry = surrogateMap;
-    _categories = cats;
-    _allEmojis = all;
-    _unicodeEmojiMatcher = unicodeSurrogates.isEmpty
-        ? null
-        : UnicodeEmojiMatcher._(unicodeSurrogates);
-    _maxUnicodeEmojiLength = unicodeSurrogates.fold<int>(
-      0,
-      (int longest, String surrogates) =>
-          surrogates.length > longest ? surrogates.length : longest,
-    );
+    final ByteData asset = await rootBundle.load(_kAssetPath);
+    final _EmojiCatalog catalog = await compute(_parseEmojiCatalog, asset);
+    _nameToSurrogate = catalog.nameToSurrogate;
+    _nameToEntry = catalog.nameToEntry;
+    _surrogateToEntry = catalog.surrogateToEntry;
+    _categories = catalog.categories;
+    _allEmojis = catalog.allEmojis;
+    _unicodeEmojiMatcher = catalog.unicodeEmojiMatcher;
+    _maxUnicodeEmojiLength = catalog.maxUnicodeEmojiLength;
     _lastSearchQuery = null;
     _lastSearchResults = null;
   }
@@ -255,6 +149,146 @@ class EmojiRegistry {
     _lastSearchResults = results;
     return results;
   }
+}
+
+class _EmojiCatalog {
+  const _EmojiCatalog({
+    required this.nameToSurrogate,
+    required this.nameToEntry,
+    required this.surrogateToEntry,
+    required this.categories,
+    required this.allEmojis,
+    required this.unicodeEmojiMatcher,
+    required this.maxUnicodeEmojiLength,
+  });
+
+  final Map<String, String> nameToSurrogate;
+  final Map<String, EmojiEntry> nameToEntry;
+  final Map<String, EmojiEntry> surrogateToEntry;
+  final Map<String, List<EmojiEntry>> categories;
+  final List<EmojiEntry> allEmojis;
+  final UnicodeEmojiMatcher? unicodeEmojiMatcher;
+  final int maxUnicodeEmojiLength;
+}
+
+_EmojiCatalog _parseEmojiCatalog(ByteData asset) {
+  final Uint8List bytes = asset.buffer.asUint8List(
+    asset.offsetInBytes,
+    asset.lengthInBytes,
+  );
+  final json =
+      utf8.decoder.fuse(const JsonDecoder()).convert(bytes)!
+          as Map<String, dynamic>;
+  final nameMap = <String, String>{};
+  final entryMap = <String, EmojiEntry>{};
+  final surrogateMap = <String, EmojiEntry>{};
+  final cats = <String, List<EmojiEntry>>{};
+  final all = <EmojiEntry>[];
+  final unicodeSurrogates = <String>{};
+  var spriteIndex = 0;
+  var diversityIndex = 0;
+
+  for (final category in kEmojiCategoryOrder) {
+    final entries = json[category] as List<dynamic>?;
+    if (entries == null) {
+      continue;
+    }
+
+    final list = <EmojiEntry>[];
+    for (final entry in entries) {
+      final obj = entry as Map<String, dynamic>;
+      final surrogates = obj['surrogates'] as String? ?? '';
+      if (surrogates.isEmpty) {
+        continue;
+      }
+      unicodeSurrogates.add(surrogates);
+
+      final names = (obj['names'] as List<dynamic>).cast<String>();
+      final keywords =
+          (obj['keywords'] as List<dynamic>?)?.cast<String>() ??
+          const <String>[];
+      final skins = obj['skins'] as List<dynamic>?;
+      final skinSurrogates = skins == null
+          ? const <String>[]
+          : skins
+                .map(
+                  (skin) =>
+                      (skin as Map<String, dynamic>)['surrogates'] as String? ??
+                      '',
+                )
+                .toList(growable: false);
+      final hasDiversity = skinSurrogates.isNotEmpty;
+      final emoji = EmojiEntry(
+        names: names,
+        surrogates: surrogates,
+        keywords: keywords,
+        spriteIndex: spriteIndex,
+        diversityIndex: hasDiversity ? diversityIndex : null,
+        hasDiversity: hasDiversity,
+        skinSurrogates: skinSurrogates,
+      );
+      if (hasDiversity) {
+        diversityIndex++;
+      }
+      spriteIndex++;
+      list.add(emoji);
+      all.add(emoji);
+      surrogateMap[surrogates] = emoji;
+      for (final name in names) {
+        nameMap[name] = surrogates;
+        entryMap[name] = emoji;
+      }
+
+      for (var i = 0; i < skinSurrogates.length; i++) {
+        final skinSurrogatesValue = skinSurrogates[i];
+        if (skinSurrogatesValue.isEmpty) {
+          continue;
+        }
+        unicodeSurrogates.add(skinSurrogatesValue);
+        surrogateMap.putIfAbsent(skinSurrogatesValue, () => emoji);
+        if (i >= kSkinToneSurrogates.length) {
+          continue;
+        }
+        final skinToneName = 'skin-tone-${i + 1}';
+        for (final name in names) {
+          final skinName = '$name::$skinToneName';
+          nameMap[skinName] = skinSurrogatesValue;
+        }
+      }
+    }
+    cats[category] = list;
+  }
+
+  final shortcuts = json['shortcuts'] as Map<String, dynamic>?;
+  if (shortcuts != null) {
+    for (final entry in shortcuts.entries) {
+      final targetName = entry.value as String;
+      final targetSurrogate = nameMap[targetName];
+      if (targetSurrogate != null) {
+        nameMap[entry.key] = targetSurrogate;
+      }
+    }
+  }
+
+  for (var i = 0; i < kSkinToneSurrogates.length; i++) {
+    nameMap['skin-tone-${i + 1}'] = kSkinToneSurrogates[i];
+  }
+
+  return _EmojiCatalog(
+    nameToSurrogate: nameMap,
+    nameToEntry: entryMap,
+    surrogateToEntry: surrogateMap,
+    categories: cats,
+    allEmojis: all,
+    unicodeEmojiMatcher: unicodeSurrogates.isEmpty
+        ? null
+        : UnicodeEmojiMatcher._(unicodeSurrogates),
+    maxUnicodeEmojiLength: unicodeSurrogates.fold<int>(
+      0,
+      (int longest, String surrogates) =>
+          surrogates.length > longest ? surrogates.length : longest,
+    ),
+  );
 }
 
 class UnicodeEmojiMatcher {

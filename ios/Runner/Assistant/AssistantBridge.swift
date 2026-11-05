@@ -13,9 +13,16 @@ final class AssistantBridge: NSObject {
 
   private var methodChannel: FlutterMethodChannel?
   private var isRegisteredWithEngine = false
+  private let backgroundQueue = DispatchQueue(label: "app.fluxer.assistant", qos: .utility)
 
   private override init() {
     super.init()
+  }
+
+  func refreshAppShortcutsInBackground() {
+    backgroundQueue.async {
+      AssistantAppShortcuts.updateAppShortcutParameters()
+    }
   }
 
   func register(engineBridge: FlutterImplicitEngineBridge) {
@@ -65,9 +72,14 @@ final class AssistantBridge: NSObject {
   private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "updateEntities":
-      AssistantEntityStore.shared.replace(call.arguments)
-      AssistantAppShortcuts.updateAppShortcutParameters()
-      result(nil)
+      let arguments = call.arguments
+      backgroundQueue.async {
+        AssistantEntityStore.shared.replace(arguments)
+        AssistantAppShortcuts.updateAppShortcutParameters()
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
     case "takePending":
       result(AssistantPendingCommand.takeIfAccount(call.arguments as? String))
     case "deleteInteractions":

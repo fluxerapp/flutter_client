@@ -21,7 +21,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 
-const Duration _kDonateDebounce = Duration(milliseconds: 800);
+const Duration _kDonateDebounce = Duration(seconds: 2);
 
 final Provider<AssistantBinding> assistantBindingProvider =
     Provider<AssistantBinding>((Ref ref) {

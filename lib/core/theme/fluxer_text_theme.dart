@@ -24,6 +24,12 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
     required this.quoteLink,
   });
 
+  static final Expando<FluxerTextTheme> _byColors = Expando<FluxerTextTheme>();
+
+  factory FluxerTextTheme.forColors(FluxerColorTheme colors) {
+    return _byColors[colors] ??= FluxerTextTheme.fromColors(colors);
+  }
+
   factory FluxerTextTheme.fromColors(FluxerColorTheme colors) {
     return FluxerTextTheme(
       heading: TextStyle(
