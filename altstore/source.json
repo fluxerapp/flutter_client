@@ -1,0 +1,103 @@
+{
+  "name": "Fluxer Platform AB",
+  "subtitle": "Fluxer Mobile",
+  "description": "Free and open source chat for friends, groups, and communities, with text, voice, video, screen sharing, and self-hosting.\n",
+  "iconURL": "https://fluxerstatic.com/mobile/app_icon.png",
+  "website": "https://fluxer.com",
+  "fediUsername": "fluxer",
+  "tintColor": "4641D9",
+  "apps": [
+    {
+      "name": "Fluxer - Chat, Call & Connect",
+      "bundleIdentifier": "com.fluxer",
+      "marketplaceID": "6761338365",
+      "developerName": "Fluxer Platform AB",
+      "localizedDescription": "Fluxer is an open source chat app for friends, groups and communities. Text, voice, video and screen sharing in one place, with no ads and nothing tracking you.\n\nTalk one to one, in a group chat, or in a community organised into channels. Give people roles with the permissions they need, and moderate it yourself.\n\nChoose who can message you, call you or see your profile. Block and report anyone.\n\nHost Fluxer yourself for your family, school, business or friends, or use fluxer.com. The app signs in to either.\n\nTerms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/\nTerms of Service: https://fluxer.com/terms\nPrivacy Policy: https://fluxer.com/privacy",
+      "iconURL": "https://fluxerstatic.com/mobile/app_icon.png",
+      "tintColor": "4641D9",
+      "category": "social",
+      "_regions": {
+        "exclude": [
+          "cn"
+        ]
+      },
+      "screenshots": {
+        "iphone": [
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/iphone-1.png",
+            "width": 1206,
+            "height": 2622
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/iphone-2.png",
+            "width": 1206,
+            "height": 2622
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/iphone-3.png",
+            "width": 1206,
+            "height": 2622
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/iphone-4.png",
+            "width": 1206,
+            "height": 2622
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/iphone-5.png",
+            "width": 1206,
+            "height": 2622
+          }
+        ],
+        "ipad": [
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/ipad-1.png",
+            "width": 2752,
+            "height": 2064
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/ipad-2.png",
+            "width": 2752,
+            "height": 2064
+          },
+          {
+            "imageURL": "https://fluxerstatic.com/mobile/screenshots/ipad-3.png",
+            "width": 2752,
+            "height": 2064
+          }
+        ]
+      },
+      "versions": [
+        {
+          "version": "2026.11.100",
+          "buildVersion": "103",
+          "date": "2026-11-05T11:30:12Z",
+          "downloadURL": "",
+          "size": 0,
+          "minOSVersion": "16.0",
+          "localizedDescription": "First Release"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.declared-age-range",
+          "com.apple.developer.devicecheck.app-attest-opt-in",
+          "com.apple.developer.devicecheck.appattest-environment",
+          "com.apple.developer.usernotifications.communication",
+          "com.apple.security.application-groups",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSCameraUsageDescription": "Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call.",
+          "NSLocalNetworkUsageDescription": "Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network.",
+          "NSMicrophoneUsageDescription": "Fluxer uses the microphone when you record a voice message, talk in a voice or video call, or test your microphone in settings.",
+          "NSMotionUsageDescription": "Fluxer uses motion data to move the animated star background when you tilt your device.",
+          "NSPhotoLibraryAddUsageDescription": "Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image.",
+          "NSPhotoLibraryUsageDescription": "Fluxer shows your photos and videos in the attachment panel so you can choose which ones to send in a chat."
+        }
+      }
+    }
+  ]
+}
