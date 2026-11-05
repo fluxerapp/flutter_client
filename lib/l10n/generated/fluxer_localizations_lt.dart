@@ -911,7 +911,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Šiame įrenginyje nėra šios paskyros prieigos rakto. Naudokite įrenginį arba slaptažodžių tvarkyklę, kurioje jį išsaugojote.';
 
   @override
   String get passkeyDeviceNotSupported => 'Šis įrenginys nepalaiko „passkey“.';
@@ -4542,7 +4542,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Įjunkite amžiaus ribojimą turinčias bendruomenes ir kanalus svetainėje fluxer.com naršyklėje arba kompiuterio programėlėje. Iki tol jie lieka paslėpti iOS programėlėje.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7331,35 +7331,35 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nepavyko išsiųsti atsakymo';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Žinutės';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Asmeninės žinutės';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Nauji forumo įrašai';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Žinutės be garso';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Asmeninės žinutės be garso';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Žinutės ir įspėjimai';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Nauja žinutė';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Aš';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Grupės pokalbis';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Nežinoma';
 
   @override
   String get chatMessageForward => 'Persiųsti';

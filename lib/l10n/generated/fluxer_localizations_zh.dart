@@ -857,7 +857,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      '此设备上没有该账号的通行密钥。请使用你保存通行密钥的设备或密码管理器。';
 
   @override
   String get passkeyDeviceNotSupported => '此设备不支持通行密钥。';
@@ -4262,7 +4262,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      '请在浏览器中访问 fluxer.com 或在桌面应用中开启年龄限制的社区和频道。开启之前，它们在 iOS 应用中会保持隐藏。';
 
   @override
   String get matureCategoryUnavailableBody => '你的账号无法访问此成人内容类别。';
@@ -6796,35 +6796,34 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get notificationReplyFailed => '无法发送回复';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => '消息';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => '私信';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => '新论坛帖子';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => '无声消息';
 
   @override
-  String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+  String get notificationChannelDirectMessagesSilent => '无声私信';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => '消息和提醒';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => '新消息';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => '我';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => '群组私信';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => '未知';
 
   @override
   String get chatMessageForward => '转发';
@@ -16663,6 +16662,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get passkeyNoCredentials => '此應用程式找不到任何通行金鑰。請改用電子郵件和密碼登入。';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      '此裝置上沒有這個帳號的通行金鑰。請使用你儲存通行金鑰的裝置或密碼管理工具。';
+
+  @override
   String get passkeyDeviceNotSupported => '此裝置不支援通行金鑰。';
 
   @override
@@ -20069,6 +20072,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get matureCommunityUnavailableBody => '您的帳號無法使用此成人社群。';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      '請在瀏覽器中前往 fluxer.com 或在桌面應用程式中開啟有年齡限制的社群和頻道。開啟之前，它們在 iOS 應用程式中會保持隱藏。';
+
+  @override
   String get matureCategoryUnavailableBody => '您的帳號無法使用此成人內容類別。';
 
   @override
@@ -22602,6 +22609,36 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get notificationReplyFailed => '無法傳送回覆';
+
+  @override
+  String get notificationChannelMessages => '訊息';
+
+  @override
+  String get notificationChannelDirectMessages => '私人訊息';
+
+  @override
+  String get notificationChannelForumPosts => '新論壇貼文';
+
+  @override
+  String get notificationChannelMessagesSilent => '無聲訊息';
+
+  @override
+  String get notificationChannelDirectMessagesSilent => '無聲私人訊息';
+
+  @override
+  String get notificationChannelDescription => '訊息和提醒';
+
+  @override
+  String get notificationNewMessageFallback => '新訊息';
+
+  @override
+  String get notificationLocalUserName => '我';
+
+  @override
+  String get notificationGroupDmTitle => '群組私訊';
+
+  @override
+  String get notificationUnknownSender => '不明';
 
   @override
   String get chatMessageForward => '轉傳';
