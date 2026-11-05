@@ -177,7 +177,7 @@ class _AccountSwitcherRow extends StatelessWidget {
     return FluxerTappable(
       onTap: onTap,
       selected: isCurrent,
-      semanticLabel: '${account.displayName}, ${account.instanceDomain}',
+      semanticLabel: '${account.identifier}, ${account.instanceDomain}',
       builder: (BuildContext context, Set<WidgetState> states) {
         final bool isPressed = states.contains(WidgetState.pressed);
         return ColoredBox(
@@ -199,7 +199,7 @@ class _AccountSwitcherRow extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        account.displayName,
+                        account.identifier,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textStyles.username.copyWith(
