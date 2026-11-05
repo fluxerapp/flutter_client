@@ -22,6 +22,10 @@ Future<void> showThreadMembersSheet(BuildContext context, Channel thread) {
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadMembers,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.popout,
+      placement: FluxerDesktopPlacement.belowEnd,
+    ),
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
     builder: (sheetContext, scrollController, close) => ThreadMembersList(
       thread: thread,

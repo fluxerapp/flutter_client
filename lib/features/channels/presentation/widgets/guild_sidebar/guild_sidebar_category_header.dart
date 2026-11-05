@@ -152,7 +152,7 @@ class _CategoryHeader extends ConsumerWidget {
       l10n: l10n,
       state: menuState,
     );
-    if (isMobileLayout(context)) {
+    if (!usesDesktopPointerUi(context)) {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: category.name,

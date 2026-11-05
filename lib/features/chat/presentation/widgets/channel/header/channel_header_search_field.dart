@@ -1284,6 +1284,7 @@ class _ChannelHeaderSearchFieldState
         await FluxerBottomSheet.show<MessageSearchScopeFilter>(
           context,
           title: l10n.channelDetailsSearchIn,
+          variant: FluxerBottomSheetVariant.menu,
           builder: (BuildContext sheetContext, VoidCallback close) {
             return FluxerBottomSheetContent(
               child: Column(

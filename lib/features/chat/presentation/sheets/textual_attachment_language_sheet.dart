@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/preview_language_options.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -17,6 +18,9 @@ Future<String?> showTextualAttachmentLanguageSheet({
     context,
     title: l10n.chatTextualPreviewSyntaxHighlighting,
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.menu,
+    ),
     minChildSize: 0.45,
     builder:
         (

@@ -164,6 +164,11 @@ Future<ChannelDetailsJumpRequest?> showChannelDetailsSheet(
 }) {
   return FluxerBottomSheet.showScrollable<ChannelDetailsJumpRequest>(
     context,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.popout,
+      width: 480,
+      placement: FluxerDesktopPlacement.belowEnd,
+    ),
     builder: (sheetContext, scrollController, close) => ChannelDetailsSheet(
       channel: channel,
       dm: dm,

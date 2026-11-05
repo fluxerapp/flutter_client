@@ -122,7 +122,7 @@ class GuildSidebar extends ConsumerStatefulWidget {
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   Future<void> _handleServerHeaderTap(BuildContext context, Guild guild) async {
-    if (isMobileLayout(context)) {
+    if (isMobileLayout(context) || usesDesktopPointerUi(context)) {
       await presentGuildMenuSheet(context, ref, guild: guild);
       return;
     }

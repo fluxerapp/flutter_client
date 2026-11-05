@@ -1394,7 +1394,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   bool _usesTouchMessageActions(BuildContext context) =>
-      isMobileLayout(context) || isTouchPrimaryInput(ref);
+      isTouchPrimaryInput(ref) || !usesDesktopPointerUi(context);
 
   Widget _buildDeliveryStatus(BuildContext context, Message msg) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

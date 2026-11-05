@@ -2,7 +2,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class WideSettingsModalFrame extends StatelessWidget {
   const WideSettingsModalFrame({
@@ -67,6 +69,25 @@ Future<void> showWideSettingsBottomSheet(
   required Widget child,
   double maxModalWidth = kWideSettingsModalMaxWidth,
 }) {
+  if (usesDesktopPointerUi(context)) {
+    return pushFluxerDesktopRoute<void>(
+      context,
+      navigator: Navigator.of(context, rootNavigator: true),
+      surface: FluxerDesktopSurface.modal,
+      builder: (BuildContext routeContext) => Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxModalWidth),
+          child: Padding(
+            padding: wideSettingsModalInsets(
+              routeContext,
+              maxModalWidth: maxModalWidth,
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
   return showModalBottomSheet<void>(
     elevation: 7,
     context: context,

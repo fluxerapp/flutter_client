@@ -1128,6 +1128,9 @@ class _DMListState extends ConsumerState<DMList> {
       leading: _DmContextMenuLeading(convo: convo, displayName: displayName),
       subtitle: convo.isGroup ? _DmContextMenuSubtitle(convo: convo) : null,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+      desktop: const FluxerDesktopPresentation(
+        surface: FluxerDesktopSurface.menu,
+      ),
       builder: (sheetContext, scrollController, _) => _DmBottomSheet(
         convo: convo,
         scrollController: scrollController,
@@ -1768,6 +1771,9 @@ class _DmBottomSheet extends ConsumerWidget {
         title: l10n.dmMuteConversation,
         onBack: () => Navigator.of(context).pop(),
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+        desktop: const FluxerDesktopPresentation(
+          surface: FluxerDesktopSurface.menu,
+        ),
         builder: (sheetContext, scrollController, _) {
           final layout = sheetContext.layout;
           return ListView(

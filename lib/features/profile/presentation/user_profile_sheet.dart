@@ -1,13 +1,66 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_popout_card.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_popout_frame.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerUserProfileSheet {
   FluxerUserProfileSheet._();
 
   static Future<void> show(
+    BuildContext context, {
+    required String userId,
+    String? guildId,
+    bool autoFocusNote = false,
+    bool isWebhook = false,
+    Message? message,
+  }) {
+    if (!autoFocusNote && usesDesktopPointerUi(context)) {
+      final BuildContext hostContext = Navigator.of(
+        context,
+        rootNavigator: true,
+      ).context;
+      return FluxerBottomSheet.show<void>(
+        context,
+        useRootNavigator: true,
+        desktop: const FluxerDesktopPresentation(
+          surface: FluxerDesktopSurface.popout,
+          width: kUserProfilePopoutWidth,
+          placement: FluxerDesktopPlacement.rightStart,
+          showPanelBorder: false,
+        ),
+        builder: (BuildContext sheetContext, VoidCallback close) =>
+            UserProfilePopoutCard(
+              userId: userId,
+              guildId: guildId,
+              isWebhook: isWebhook,
+              message: message,
+              onClose: close,
+              onOpenFullProfile: () {
+                close();
+                unawaited(
+                  showFull(hostContext, userId: userId, guildId: guildId),
+                );
+              },
+            ),
+      );
+    }
+    return showFull(
+      context,
+      userId: userId,
+      guildId: guildId,
+      autoFocusNote: autoFocusNote,
+      isWebhook: isWebhook,
+      message: message,
+    );
+  }
+
+  static Future<void> showFull(
     BuildContext context, {
     required String userId,
     String? guildId,
@@ -65,7 +118,7 @@ class _SheetBodyState extends ConsumerState<_SheetBody> {
       autoFocusNote: widget.autoFocusNote,
       scrollController: widget.scrollController,
       onCloseRequested: widget.onClose,
-      showTopHandle: true,
+      showTopHandle: !usesDesktopPointerUi(context),
       isWebhook: widget.isWebhook,
       message: widget.message,
     );

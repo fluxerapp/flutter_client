@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -117,34 +117,18 @@ class ContextMenuPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final layout = context.layout;
-    return Material(
-      color: context.colors.backgroundPrimary,
-      borderRadius: layout.radiusSm,
-      elevation: 8,
-      shadowColor: Colors.black45,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: layout.radiusSm,
-          border: Border.all(color: context.colors.backgroundModifierAccent),
-        ),
-        child: SizedBox(
-          width: kContextMenuWidth,
-          child: Padding(
-            padding: EdgeInsets.all(layout.s2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: items,
-            ),
-          ),
-        ),
+    return FluxerDesktopMenuPanel(
+      width: kContextMenuWidth,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: items,
       ),
     );
   }
 }
 
-class ContextMenuItem extends StatefulWidget {
+class ContextMenuItem extends StatelessWidget {
   final String label;
   final String? hint;
   final IconData? icon;
@@ -163,90 +147,22 @@ class ContextMenuItem extends StatefulWidget {
   });
 
   @override
-  State<ContextMenuItem> createState() => _ContextMenuItemState();
-}
-
-class _ContextMenuItemState extends State<ContextMenuItem> {
-  var _isHovered = false;
-
-  @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final Color textColor;
-    final Color hoverBg;
-    final Color hoverText;
-
-    if (widget.isDanger) {
-      textColor = colors.textDanger;
-      hoverBg = colors.buttonDangerFill;
-      hoverText = colors.buttonDangerText;
-    } else if (widget.isDisabled) {
-      textColor = colors.textPrimaryMuted;
-      hoverBg = colors.backgroundModifierHover;
-      hoverText = colors.textPrimaryMuted;
-    } else {
-      textColor = colors.textSecondary;
-      hoverBg = colors.backgroundModifierHover;
-      hoverText = colors.textPrimary;
-    }
-
-    final activeColor = _isHovered && !widget.isDisabled
-        ? hoverText
-        : textColor;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: widget.isDisabled
-          ? SystemMouseCursors.basic
-          : SystemMouseCursors.click,
-      child: FluxerGestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.onTap,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 36),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-          margin: const EdgeInsets.symmetric(vertical: 1),
-          decoration: BoxDecoration(
-            color: _isHovered && !widget.isDisabled
-                ? hoverBg
-                : Colors.transparent,
-            borderRadius: layout.radiusSm,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.label,
-                      style: context.textStyles.label.copyWith(
-                        color: activeColor,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (widget.hint != null)
-                      Text(
-                        widget.hint!,
-                        style: context.textStyles.timestamp.copyWith(
-                          color: colors.textTertiary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                  ],
-                ),
-              ),
-              if (widget.icon != null) ...[
-                SizedBox(width: layout.s3),
-                PhosphorIcon(widget.icon!, size: layout.s5, color: activeColor),
-              ],
-            ],
-          ),
-        ),
-      ),
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onTap,
+      isDanger: isDanger,
+      enabled: !isDisabled,
+      trailing: icon == null
+          ? null
+          : PhosphorIcon(
+              icon!,
+              size: kFluxerDesktopMenuIconSize,
+              color: isDanger
+                  ? context.colors.menuDangerText
+                  : context.colors.textPrimary,
+            ),
     );
   }
 }
@@ -256,11 +172,7 @@ class ContextMenuDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      margin: EdgeInsets.symmetric(vertical: context.layout.s1_5),
-      color: context.colors.backgroundModifierAccent.withValues(alpha: 0.3),
-    );
+    return const FluxerDesktopMenuSeparator();
   }
 }
 
@@ -308,14 +220,14 @@ Offset contextMenuPositionAtPointer(
 }
 
 double estimateContextMenuHeight(List<Widget> items) {
-  var height = 16.0;
+  var height = kFluxerDesktopMenuPadding * 2 + 2;
   for (final item in items) {
     if (item is ContextMenuDivider) {
-      height += 13;
+      height += 9;
     } else if (item is ContextMenuTitle) {
       height += kContextMenuTitleHeight;
     } else {
-      height += 38;
+      height += kFluxerDesktopMenuRowMinHeight;
     }
   }
   return height;

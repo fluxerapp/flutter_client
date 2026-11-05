@@ -21,11 +21,13 @@ class FluxerSheetScrollController extends ScrollController {
   FluxerSheetScrollController(
     this.target, {
     this.dragsWhenShort = false,
+    this.drivesSheet = true,
     this.onContentExtent,
   });
 
   final FluxerSheetDragTarget target;
   final bool dragsWhenShort;
+  final bool drivesSheet;
   final FluxerSheetContentExtentCallback? onContentExtent;
 
   @override
@@ -42,6 +44,7 @@ class FluxerSheetScrollController extends ScrollController {
       context: context,
       oldPosition: oldPosition,
       target: target,
+      drivesSheet: drivesSheet,
       onContentExtent: onContentExtent,
     );
   }
@@ -87,11 +90,13 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
     required super.physics,
     required super.context,
     required this.target,
+    required this.drivesSheet,
     required this.onContentExtent,
     super.oldPosition,
   });
 
   final FluxerSheetDragTarget target;
+  final bool drivesSheet;
   final FluxerSheetContentExtentCallback? onContentExtent;
   _FluxerSheetDragOwner _owner = _FluxerSheetDragOwner.none;
 
@@ -146,6 +151,10 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
 
   @override
   void applyUserOffset(double delta) {
+    if (!drivesSheet) {
+      super.applyUserOffset(delta);
+      return;
+    }
     if (_owner == _FluxerSheetDragOwner.none) {
       final bool atTop = pixels <= minScrollExtent;
       _owner = atTop && (delta > 0 || target.canExpand)

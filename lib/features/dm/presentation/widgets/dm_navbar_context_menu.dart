@@ -1,9 +1,8 @@
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
-    show isMobileLayout;
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum DmNavbarAction {
@@ -31,7 +30,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
   required bool isAllowlisted,
   required bool isGroupDm,
 }) async {
-  if (isMobileLayout(context)) {
+  if (!usesDesktopPointerUi(context)) {
     return _showBottomSheet(
       context,
       hasUnread: hasUnread,

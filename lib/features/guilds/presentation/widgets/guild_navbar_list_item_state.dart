@@ -267,8 +267,7 @@ class _GuildListItemState extends State<_GuildListItem> {
       return;
     }
     widget.onMenuOpened?.call();
-    final isMobile = isMobileLayout(context);
-    if (!isMobile) {
+    if (usesDesktopPointerUi(context)) {
       return;
     }
     final int permissions = widget.resolveMenuPermissions != null

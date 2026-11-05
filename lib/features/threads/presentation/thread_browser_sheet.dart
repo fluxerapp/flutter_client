@@ -35,6 +35,11 @@ Future<void> showThreadBrowserSheet(
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadBrowserTitle,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.popout,
+      width: 480,
+      placement: FluxerDesktopPlacement.belowEnd,
+    ),
     subtitle: Text(
       '#${parent.name}',
       style: context.textStyles.bodySmall.copyWith(

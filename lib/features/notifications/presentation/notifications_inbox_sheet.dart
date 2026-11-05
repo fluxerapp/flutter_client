@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/notificat
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -20,6 +21,11 @@ class NotificationsInboxSheet {
       title: l10n.notificationsPageTitle,
       useRootNavigator: true,
       minChildSize: 0.55,
+      desktop: const FluxerDesktopPresentation(
+        surface: FluxerDesktopSurface.popout,
+        width: 480,
+        placement: FluxerDesktopPlacement.rightStart,
+      ),
       builder:
           (
             BuildContext sheetContext,

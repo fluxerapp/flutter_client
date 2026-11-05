@@ -1,24 +1,20 @@
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/shell/foldable/crease_overlay_layout.dart';
 import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
-    show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
     show
         FluxerBottomSheet,
         FluxerBottomSheetGroupColumn,
         FluxerBottomSheetMenuItem,
+        FluxerBottomSheetMenuRadioItem,
         FluxerBottomSheetSection,
+        FluxerBottomSheetSubmenuItem,
         FluxerBottomSheetVariant,
         FluxerMenuGroup;
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 typedef FluxerActionMenuBuilder =
@@ -32,7 +28,7 @@ class FluxerActionMenu {
     required Offset position,
     required FluxerActionMenuBuilder builder,
   }) {
-    if (isMobileLayout(context)) {
+    if (!usesDesktopPointerUi(context)) {
       return _showAsBottomSheet(context, builder: builder);
     }
     return _showAsOverlay(context, position: position, builder: builder);
@@ -58,20 +54,7 @@ class FluxerActionMenu {
                 for (final section in sections)
                   FluxerBottomSheetSection(
                     title: section.title,
-                    child: FluxerMenuGroup(
-                      children: [
-                        for (final item in section.items)
-                          FluxerBottomSheetMenuItem(
-                            label: item.label,
-                            hint: item.hint,
-                            icon: item.icon,
-                            iconColor: item.iconColor,
-                            isDanger: item.isDanger,
-                            enabled: item.enabled,
-                            onTap: item.onPressed,
-                          ),
-                      ],
-                    ),
+                    child: FluxerMenuGroup(children: section.items),
                   ),
               ],
             ),
@@ -86,172 +69,59 @@ class FluxerActionMenu {
     required Offset position,
     required FluxerActionMenuBuilder builder,
   }) {
-    final completer = Completer<void>();
-    final overlay = Overlay.of(context);
-    late final OverlayEntry entry;
-    late final AnimationController animationController;
+    final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
+    final RenderObject? overlay = navigator.overlay?.context.findRenderObject();
+    final Offset localPosition = overlay is RenderBox
+        ? overlay.globalToLocal(position)
+        : position;
 
-    animationController = AnimationController(
-      vsync: overlay,
-      duration: context.motion.normal,
-    );
-
-    final fadeAnimation = CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeOut,
-    );
-
-    void close() {
-      unawaited(
-        animationController.reverse().then((_) {
-          entry.remove();
-          animationController.dispose();
-          if (!completer.isCompleted) {
-            completer.complete();
+    return pushFluxerDesktopRoute<void>(
+      context,
+      navigator: navigator,
+      surface: FluxerDesktopSurface.menu,
+      builder: (BuildContext menuContext) {
+        void close() {
+          final ModalRoute<dynamic>? route = ModalRoute.of(menuContext);
+          if (route == null || !route.isActive) {
+            return;
           }
-        }),
-      );
-    }
-
-    entry = OverlayEntry(
-      builder: (overlayContext) => _ActionMenuOverlay(
-        position: position,
-        fadeAnimation: fadeAnimation,
-        onDismiss: close,
-        builder: builder,
-      ),
-    );
-
-    overlay.insert(entry);
-    animationController.forward();
-
-    return completer.future;
-  }
-}
-
-class _ActionMenuOverlay extends StatelessWidget {
-  const _ActionMenuOverlay({
-    required this.position,
-    required this.fadeAnimation,
-    required this.onDismiss,
-    required this.builder,
-  });
-
-  final Offset position;
-  final Animation<double> fadeAnimation;
-  final VoidCallback onDismiss;
-  final FluxerActionMenuBuilder builder;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return KeyboardListener(
-      focusNode: FocusNode()..requestFocus(),
-      autofocus: true,
-      onKeyEvent: (event) {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.escape) {
-          onDismiss();
+          if (route.isCurrent) {
+            navigator.pop();
+          } else {
+            navigator.removeRoute(route);
+          }
         }
-      },
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: FluxerGestureDetector(
-              onTap: onDismiss,
-              behavior: HitTestBehavior.opaque,
-              child: const ColoredBox(color: Colors.transparent),
-            ),
+
+        return CustomSingleChildLayout(
+          delegate: FluxerDesktopAnchoredLayoutDelegate(
+            posture: deviceFoldPostureOf(menuContext),
+            position: localPosition,
           ),
-          CustomSingleChildLayout(
-            delegate: _MenuPositionDelegate(context, position),
-            child: FadeTransition(
-              opacity: fadeAnimation,
-              child: Material(
-                color: colors.backgroundFloating,
-                elevation: 8,
-                shadowColor: const Color.fromRGBO(0, 0, 0, 0.2),
-                surfaceTintColor: Colors.transparent,
-                borderRadius: layout.radiusSm,
-                clipBehavior: Clip.antiAlias,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: layout.radiusSm,
-                    border: Border.all(color: colors.backgroundModifierAccent),
-                  ),
-                  child: IntrinsicWidth(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: layout.s1),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: builder(context, onDismiss),
-                      ),
-                    ),
-                  ),
-                ),
+          child: FluxerDesktopMenuPanel(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: builder(menuContext, close),
               ),
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
-  }
-}
-
-class _MenuPositionDelegate extends SingleChildLayoutDelegate {
-  _MenuPositionDelegate(this.context, this.position);
-
-  final BuildContext context;
-  final Offset position;
-  static const _edgePadding = 12.0;
-
-  @override
-  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return BoxConstraints.loose(constraints.biggest);
-  }
-
-  @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    final dx = position.dx.clamp(
-      _edgePadding,
-      size.width - childSize.width - _edgePadding,
-    );
-    final dy = position.dy.clamp(
-      _edgePadding,
-      size.height - childSize.height - _edgePadding,
-    );
-    Offset resolved = Offset(dx, dy);
-    final DeviceFoldPosture posture = deviceFoldPostureOf(context);
-    if (posture.hingeBounds != null) {
-      resolved += shiftOffHingeForPoint(
-        window: size,
-        hinge: posture.hingeBounds!,
-        point: resolved,
-        childSize: childSize,
-      );
-    }
-    return resolved;
-  }
-
-  @override
-  bool shouldRelayout(_MenuPositionDelegate oldDelegate) {
-    return position != oldDelegate.position;
   }
 }
 
 class _FluxerMenuSectionData {
   final String? title;
-  final List<FluxerMenuItem> items;
+  final List<Widget> items;
 
   const _FluxerMenuSectionData({required this.title, required this.items});
 }
 
 List<_FluxerMenuSectionData> _buildMobileSections(List<Widget> widgets) {
   final sections = <_FluxerMenuSectionData>[];
-  final currentItems = <FluxerMenuItem>[];
+  final currentItems = <Widget>[];
   String? currentTitle;
 
   void flush() {
@@ -262,7 +132,7 @@ List<_FluxerMenuSectionData> _buildMobileSections(List<Widget> widgets) {
     sections.add(
       _FluxerMenuSectionData(
         title: currentTitle,
-        items: List<FluxerMenuItem>.from(currentItems),
+        items: List<Widget>.from(currentItems),
       ),
     );
     currentItems.clear();
@@ -270,19 +140,42 @@ List<_FluxerMenuSectionData> _buildMobileSections(List<Widget> widgets) {
   }
 
   for (final widget in widgets) {
-    if (widget is FluxerMenuSectionHeader) {
-      flush();
-      currentTitle = widget.label;
-      continue;
-    }
-
-    if (widget is FluxerMenuDivider) {
-      flush();
-      continue;
-    }
-
-    if (widget is FluxerMenuItem) {
-      currentItems.add(widget);
+    switch (widget) {
+      case FluxerMenuSectionHeader():
+        flush();
+        currentTitle = widget.label;
+      case FluxerMenuDivider():
+        flush();
+      case FluxerMenuItem():
+        currentItems.add(
+          FluxerBottomSheetMenuItem(
+            label: widget.label,
+            hint: widget.hint,
+            icon: widget.icon,
+            iconColor: widget.iconColor,
+            isDanger: widget.isDanger,
+            enabled: widget.enabled,
+            onTap: widget.onPressed,
+          ),
+        );
+      case FluxerMenuRadioItem():
+        currentItems.add(
+          FluxerBottomSheetMenuRadioItem(
+            label: widget.label,
+            hint: widget.hint,
+            isSelected: widget.isSelected,
+            enabled: widget.enabled,
+            onTap: widget.onPressed,
+          ),
+        );
+      case FluxerMenuSubmenuItem():
+        currentItems.add(
+          FluxerBottomSheetSubmenuItem(
+            label: widget.label,
+            hint: widget.hint,
+            onTap: widget.onPressed,
+          ),
+        );
     }
   }
 
@@ -298,20 +191,7 @@ class FluxerMenuSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s3,
-        context.layout.s1,
-        context.layout.s3,
-        context.layout.s1_5,
-      ),
-      child: Text(
-        label,
-        style: context.textStyles.label.copyWith(
-          color: context.colors.textSecondary,
-        ),
-      ),
-    );
+    return FluxerDesktopMenuGroupLabel(label: label);
   }
 }
 
@@ -339,77 +219,30 @@ class FluxerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final layout = context.layout;
-
-    final foreground = isDanger ? colors.statusDanger : colors.textPrimary;
-    final String semanticsLabel = hint != null ? '$label. $hint' : label;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s1),
-      child: FluxerTappable(
-        enabled: enabled,
-        onTap: onPressed,
-        semanticLabel: semanticsLabel,
-        excludeChildSemantics: true,
-        builder: (context, states) {
-          final isHovered = states.contains(WidgetState.hovered);
-
-          return AnimatedContainer(
-            duration: context.motion.fast,
-            curve: context.motion.curve,
-            decoration: BoxDecoration(
-              color: isHovered
-                  ? colors.backgroundModifierHover
-                  : Colors.transparent,
-              borderRadius: layout.radiusSm,
+    final Color foreground = isDanger
+        ? context.colors.menuDangerText
+        : context.colors.textPrimary;
+    final Color iconForeground = iconColor ?? foreground;
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onPressed,
+      enabled: enabled,
+      isDanger: isDanger,
+      leading: icon == null
+          ? null
+          : PhosphorIcon(
+              icon!,
+              size: kFluxerDesktopMenuIconSize,
+              color: iconForeground,
             ),
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s3,
-              vertical: layout.s2,
+      trailing: trailingIcon == null
+          ? null
+          : PhosphorIcon(
+              trailingIcon!,
+              size: kFluxerDesktopMenuIconSize,
+              color: iconForeground,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (icon != null) ...[
-                  PhosphorIcon(icon!, size: 20, color: iconColor ?? foreground),
-                  SizedBox(width: layout.s3),
-                ],
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        label,
-                        style: textStyles.bodyMedium.copyWith(
-                          color: enabled ? foreground : colors.textTertiary,
-                        ),
-                      ),
-                      if (hint != null)
-                        Text(
-                          hint!,
-                          style: textStyles.timestamp.copyWith(
-                            color: colors.textTertiary,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                if (trailingIcon != null) ...[
-                  SizedBox(width: layout.s3),
-                  PhosphorIcon(
-                    trailingIcon!,
-                    size: 20,
-                    color: iconColor ?? foreground,
-                  ),
-                ],
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 }
@@ -432,66 +265,13 @@ class FluxerMenuRadioItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final String semanticsLabel = hint != null ? '$label. $hint' : label;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s1),
-      child: FluxerTappable(
-        enabled: enabled,
-        onTap: onPressed,
-        semanticLabel: semanticsLabel,
-        excludeChildSemantics: true,
-        builder: (BuildContext context, Set<WidgetState> states) {
-          final bool isHovered = states.contains(WidgetState.hovered);
-
-          return AnimatedContainer(
-            duration: context.motion.fast,
-            curve: context.motion.curve,
-            decoration: BoxDecoration(
-              color: isHovered
-                  ? colors.backgroundModifierHover
-                  : Colors.transparent,
-              borderRadius: layout.radiusSm,
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s3,
-              vertical: layout.s2,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        label,
-                        style: context.textStyles.bodyMedium.copyWith(
-                          color: enabled
-                              ? colors.textSecondary
-                              : colors.textTertiary,
-                        ),
-                      ),
-                      if (hint != null)
-                        Text(
-                          hint!,
-                          style: context.textStyles.timestamp.copyWith(
-                            color: colors.textTertiary,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: layout.s3),
-                FluxerRadioIndicator(selected: isSelected),
-              ],
-            ),
-          );
-        },
-      ),
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onPressed,
+      enabled: enabled,
+      selected: isSelected,
+      trailing: FluxerRadioIndicator(selected: isSelected),
     );
   }
 }
@@ -510,64 +290,14 @@ class FluxerMenuSubmenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final String semanticsLabel = hint != null ? '$label. $hint' : label;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s1),
-      child: FluxerTappable(
-        onTap: onPressed,
-        semanticLabel: semanticsLabel,
-        excludeChildSemantics: true,
-        builder: (BuildContext context, Set<WidgetState> states) {
-          final bool isHovered = states.contains(WidgetState.hovered);
-
-          return AnimatedContainer(
-            duration: context.motion.fast,
-            curve: context.motion.curve,
-            decoration: BoxDecoration(
-              color: isHovered
-                  ? colors.backgroundModifierHover
-                  : Colors.transparent,
-              borderRadius: layout.radiusSm,
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s3,
-              vertical: layout.s2,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        label,
-                        style: context.textStyles.bodyMedium.copyWith(
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                      if (hint != null)
-                        Text(
-                          hint!,
-                          style: context.textStyles.timestamp.copyWith(
-                            color: colors.textTertiary,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                PhosphorIcon(
-                  PhosphorIconsBold.caretRight,
-                  size: 16,
-                  color: colors.textSecondary,
-                ),
-              ],
-            ),
-          );
-        },
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onPressed,
+      trailing: PhosphorIcon(
+        PhosphorIconsBold.caretRight,
+        size: kFluxerDesktopMenuCaretSize,
+        color: context.colors.textTertiary,
       ),
     );
   }
@@ -578,16 +308,7 @@ class FluxerMenuDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: layout.s1),
-      child: ColoredBox(
-        color: colors.backgroundModifierAccent,
-        child: const SizedBox(height: 1, width: double.infinity),
-      ),
-    );
+    return const FluxerDesktopMenuSeparator();
   }
 }
 
