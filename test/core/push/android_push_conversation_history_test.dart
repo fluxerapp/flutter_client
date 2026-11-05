@@ -129,4 +129,98 @@ void main() {
     expect(remaining, isNull);
     expect(await AndroidPushConversationHistoryStore.readState(tag), isNull);
   });
+
+  test('concurrent trims and appends do not bring acked lines back', () async {
+    for (final String id in <String>['1', '2', '3', '4']) {
+      await AndroidPushConversationHistoryStore.appendLine(
+        conversationTag: tag,
+        line: line(id),
+        payload: payload,
+      );
+    }
+    await Future.wait(<Future<Object?>>[
+      AndroidPushConversationHistoryStore.trimAck(
+        conversationTag: tag,
+        upToMessageId: '2',
+      ),
+      AndroidPushConversationHistoryStore.appendLine(
+        conversationTag: tag,
+        line: line('5'),
+        payload: payload,
+      ),
+      AndroidPushConversationHistoryStore.trimAck(
+        conversationTag: tag,
+        upToMessageId: '4',
+      ),
+    ]);
+    final PushConversationState? state =
+        await AndroidPushConversationHistoryStore.readState(tag);
+    expect(state?.lines.map((PushConversationLine l) => l.messageId), ['5']);
+  });
+
+  test('keeps lines ordered by time when pushes arrive out of order', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('20'),
+      payload: payload,
+    );
+    final PushConversationState state =
+        await AndroidPushConversationHistoryStore.appendLine(
+          conversationTag: tag,
+          line: line('10'),
+          payload: payload,
+        );
+    expect(
+      state.lines.map((PushConversationLine entry) => entry.messageId),
+      <String>['10', '20'],
+    );
+  });
+
+  test('retainConversations drops conversations no longer posted', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('10'),
+      payload: payload,
+    );
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: 'channel:2',
+      line: line('11'),
+      payload: payload,
+    );
+    await AndroidPushConversationHistoryStore.retainConversations(<String>{
+      'channel:2',
+    });
+    expect(await AndroidPushConversationHistoryStore.readState(tag), isNull);
+    expect(
+      await AndroidPushConversationHistoryStore.readState('channel:2'),
+      isNotNull,
+    );
+  });
+
+  test('writes leave no staging files behind', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('10'),
+      payload: payload,
+    );
+    final List<String> names = tempDir
+        .listSync()
+        .map((FileSystemEntity entry) => entry.uri.pathSegments.last)
+        .toList();
+    expect(names, <String>['push_conversation_history.json']);
+  });
+
+  test('keeps the raw title in stored state for republishing', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('10'),
+      payload: <String, String>{
+        ...payload,
+        'title': 'Alice (#general, My Server)',
+      },
+    );
+    final PushConversationState? remaining =
+        await AndroidPushConversationHistoryStore.readState(tag);
+    expect(remaining?.payload['title'], 'Alice (#general, My Server)');
+  });
 }

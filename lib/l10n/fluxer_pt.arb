@@ -212,6 +212,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Usar um código de backup",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Usar um código do aplicativo autenticador",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Escolha uma conta",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -232,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "Sessão expirada para {identifier}. Faça login novamente.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "Sua sessão de {name} expirou. Faça login novamente.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -373,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Conta Suspensa Permanentemente",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "Conta Suspensa",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Sua conta foi suspensa permanentemente por violar nossos Termos de Serviço.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "Sua conta foi suspensa temporariamente. Você poderá acessá-la quando o período de suspensão terminar.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "Emitido em",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "Termina em",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "Duração",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "Permanente",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "Motivo",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "Prazo para Recurso",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "Sua conta está programada para exclusão em {date}.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "Verificar atualizações",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "Verificar novamente em {seconds}s",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "Voltar ao login",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "Recurso",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "Explique por que sua suspensão deve ser reconsiderada (mínimo de 50 caracteres)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "Enviar Recurso",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "Análise Pendente",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "Recurso Aceito",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "Recurso Rejeitado",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "Seu recurso foi aceito e sua conta foi restaurada.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "Entrar na sua conta",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "Esqueceu sua senha?",
     "@forgotPasswordTitle": {
@@ -758,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Concordo com os ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Termos de Serviço",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " e ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Política de Privacidade",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Concordo com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>} terms{Concordo com os <terms>Termos de serviço</terms>} other{Concordo com a <privacy>Política de privacidade</privacy>}}",
     "registerConfirmPassword": "Confirmar Senha",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -847,11 +750,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} Membros",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} Membro} other{{formattedCount} Membros}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -936,10 +842,6 @@
     "embedThemeWebOnly": "Só é possível importar temas na web ou no desktop.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importar tema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Configurações de Privacidade",
     "@privacySettings": {
@@ -1180,7 +1082,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} membros",
+    "dmGroupMemberCount": "{count, plural, one{{count} membro} other{{count} membros}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -2031,10 +1933,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Compras no aplicativo ainda não estão disponíveis nesta plataforma. Fique ligado — em breve!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Prévia",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2124,6 +2022,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Essa senha está incorreta. Tente novamente.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Conta",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2139,6 +2041,10 @@
     "securitySectionDescription": "Proteja sua conta com autenticação de dois fatores e passkeys",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Proteja sua conta com autenticação de dois fatores",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "Configurações de E-mail",
     "@securityLoginEmailSectionTitle": {
@@ -2563,59 +2469,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "Exclua permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "Não é possível excluir a conta",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "Você não pode excluir sua conta enquanto for proprietário de comunidades. Transfira a propriedade das seguintes comunidades primeiro:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "e mais {count}",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "Para transferir a propriedade, acesse {settingsPath} e use a opção de transferir propriedade.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "Tem certeza de que deseja excluir sua conta? Esta ação agendará sua conta para exclusão permanente.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "Você pode cancelar o processo de exclusão em até 14 dias",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "Após 14 dias, sua conta será permanentemente excluída",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "Após o processamento da exclusão, você não poderá recuperar o acesso à sua conta",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "Você não poderá excluir suas mensagens enviadas após a exclusão da sua conta",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "Se você deseja exportar seus dados ou excluir suas mensagens primeiro, visite a seção Painel de Privacidade em Configurações do Usuário antes de prosseguir.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "Reivindicar Sua Conta",
     "@claimAccountTitle": {
@@ -2644,10 +2500,6 @@
     "claimAccountSuccess": "Conta reivindicada com sucesso",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "Informações importantes:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "Ocorreu um erro",
     "@genericError": {
@@ -3955,10 +3807,6 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "Clique para revelar",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
-    },
     "matureContentTitle": "Conteúdo maduro",
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
@@ -4348,7 +4196,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Escolha entre aparência escura, carvão ou clara.",
+    "lookAndFeelThemeSectionDescription": "Escolha entre a aparência do sistema, escura, carvão ou clara.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -5190,6 +5038,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "Vídeo de alguém que você bloqueou",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "AO VIVO",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -5342,6 +5194,16 @@
     "characterCounterTooLong": "Mensagem muito longa",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "As mensagens podem ter até {maxLength} caracteres. Encurte esta para enviá-la.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} caracteres restantes. Obtenha o {productName} para escrever até {premiumMaxLength} caracteres.",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -5606,9 +5468,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Perfil que você está denunciando",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Pessoa que você está denunciando",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "Suas respostas",
     "@reportFlowReportCategory": {
@@ -6259,6 +6121,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Política de privacidade do app Fluxer",
     "userSettingsNavDeveloperTools": "Ferramentas do Desenvolvedor",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -6534,10 +6397,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Em breve",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Mensagens Diretas",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6648,10 +6507,6 @@
     "discoveryCommunities": "Comunidades",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Aplicativos",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Não foi possível entrar nesta comunidade",
     "@discoveryJoinErrorGenericTitle": {
@@ -9008,14 +8863,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Atualizamos nossos termos. Revise e aceite-os para continuar.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Revisar termos",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Entre em {communityName} para conversar com a equipe e ficar por dentro das novidades.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -10052,6 +9899,15 @@
     "chatAttachmentDownloadFailedToast": "Não foi possível baixar o anexo",
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
+    },
+    "chatAttachmentDownloadPhotosAccessToast": "O {productName} precisa de acesso à sua biblioteca de fotos para salvar este anexo.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "chatTextualPreviewExpandLines": "{count, plural, one{Expandir ({count} linha)} other{Expandir ({count} linhas)}}",
     "@chatTextualPreviewExpandLines": {
@@ -13989,6 +13845,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Enviar mensagem",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14211,9 +14071,9 @@
     "premiumPurchaseHistoryDescription": "Suas faturas recentes. Para alterar a forma de pagamento da sua assinatura, adicione ou escolha uma no portal de cobrança e defina-a como padrão.",
     "premiumManagePaymentMethods": "Gerenciar formas de pagamento",
     "premiumSelfServeRefundButton": "Reembolsar última compra",
-    "premiumDisclaimerAgreementPrefix": "Ao comprar, você concorda com nossos ",
-    "premiumDisclaimerAgreementPastPrefix": "Ao comprar, você concordou com nossos ",
-    "premiumDisclaimerAgreementMiddle": " e com nossa ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ao comprar, você concorda com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao comprar, você concorda com os <terms>Termos de serviço</terms>.} other{Ao comprar, você concorda com a <privacy>Política de privacidade</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ao comprar, você concordou com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao comprar, você concordou com os <terms>Termos de serviço</terms>.} other{Ao comprar, você concordou com a <privacy>Política de privacidade</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Termos de serviço</terms> e <privacy>Política de privacidade</privacy>} terms{<terms>Termos de serviço</terms>} other{<privacy>Política de privacidade</privacy>}}",
     "premiumActiveUntil": "Ativa até {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -14367,7 +14227,6 @@
         }
     },
     "storePlutoniumWaiting": "Compra recebida. O Plutonium aparecerá aqui assim que for ativado.",
-    "storePlutoniumUnavailable": "Assinaturas no app ainda não estão disponíveis neste dispositivo.",
     "storePlutoniumVisionaryStatus": "O Visionary já inclui acesso permanente, então uma assinatura recorrente não é necessária.",
     "userSettingsNavShortcuts": "Atalhos",
     "@userSettingsNavShortcuts": {
@@ -15085,21 +14944,13 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Os relatórios vão para o rastreador de erros da Fluxer, mesmo quando você está conectado a outra instância. Eles não incluem nomes de instâncias, IDs nem conteúdo de mensagens.",
+    "advancedCrashReportingDescription": "Os relatórios vão para o rastreador de erros da Fluxer, mesmo quando você está conectado a outra instância. Eles ficam vinculados a um ID aleatório desta instalação e não incluem o ID da sua conta, nomes de instâncias nem conteúdo de mensagens.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
     "observabilityReportingConsentTitle": "Ajude a corrigir falhas",
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
-    },
-    "observabilityReportingConsentSubtitle": "O Fluxer fechou inesperadamente. Compartilhar dados anônimos de falhas e erros nos ajuda a corrigir problemas mais rápido.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Os relatórios incluem registros de falhas, erros e dados básicos de desempenho. Eles não são compartilhados com terceiros e você pode desativar isso a qualquer momento.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
     "observabilityReportingConsentEnableLater": "Para ativar depois, abra Configurações → Avançado → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
@@ -15114,10 +14965,6 @@
     "observabilityReportingConsentAgree": "Enviar relatórios de falhas",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Não quero ativar",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "advancedSettingsConfigure": "Configurar",
     "@advancedSettingsConfigure": {
@@ -15242,7 +15089,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Pesquisa reversa de imagens padrão",
     "advancedSettingDefaultReverseImageSearchDescription": "Escolha qual serviço de pesquisa reversa de imagens é usado por padrão ao pesquisar uma imagem.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Pesquisa reversa de imagens integrada",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ative ou desative os provedores integrados de pesquisa reversa de imagens. Os provedores ativados aparecem no menu de contexto de imagens, avatares, banners, stickers e emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Pesquisa reversa de imagens personalizada",
     "advancedSettingCustomReverseImageSearchDescription": "Adicione seus próprios provedores de pesquisa reversa de imagens com um padrão de URL personalizado. Use '{url}' como marcador para a URL da imagem.",
     "advancedSettingAddReverseImageSearchLabel": "Adicionar pesquisa reversa de imagens",
@@ -18966,5 +18812,1071 @@
     "premiumCheckoutBlockedBodySelfHosted": "O checkout está bloqueado para esta conta.",
     "@premiumCheckoutBlockedBodySelfHosted": {
         "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
+    },
+    "gatewayOfflineToast": "Você está offline. O Fluxer se reconecta quando você voltar a ficar online.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Sua conta será excluída em {date}. Se você fizer login antes disso, a exclusão será cancelada.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Sua conta está programada para exclusão. Se você fizer login antes da data de exclusão, ela será cancelada.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Estamos excluindo sua conta agora. Se sua conta tiver um endereço de e-mail, enviaremos um e-mail quando terminarmos.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Estamos excluindo sua conta agora.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Sua conta está desativada. Faça login novamente quando quiser usá-la.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Reenviar e-mail",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "E-mail de verificação enviado. Verifique sua caixa de entrada.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Você solicitou muitos e-mails de verificação. Aguarde um momento e tente novamente.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Sua assinatura do {productName} não foi renovada. Você mantém as vantagens do {productName} até {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Sua assinatura do {productName} expirou.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreement": "{links, select, both{Ao entrar, você concorda com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao entrar, você concorda com os <terms>Termos de serviço</terms>.} other{Ao entrar, você concorda com a <privacy>Política de privacidade</privacy>.}}",
+    "mfaPasskeyUnavailable": "As chaves de acesso desta instância não funcionam neste app, e sua conta não tem outro método de verificação. Faça login pela web.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Conta banida",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Conta encerrada",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "O que aconteceu",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Por quê",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Como decidimos",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Como recorrer",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Nota da nossa equipe: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "ID da decisão: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Regra: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Se você acha que erramos, envie um e-mail para {email} e informe seu nome de usuário.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Se você acha que erramos, envie um e-mail para {email} até {deadline}. Informe o ID da decisão e seu nome de usuário. O recurso é gratuito, e uma pessoa analisa cada pedido.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Se você acha que erramos, envie um e-mail para {email} até {deadline}. Se puder, escreva do endereço de e-mail da sua conta e informe o ID da decisão. O recurso é gratuito, e uma pessoa analisa cada pedido.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para {email} a partir do endereço da sua conta.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para {email} e informe seu nome de usuário.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Concluído",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Não definido",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Concordo que esta instância não tolera conteúdo censurável nem usuários abusivos, e que os administradores dela podem remover conteúdos e contas que violem essas regras.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Este presente não pode ser resgatado no app para iOS. Você pode resgatá-lo no app para desktop.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Encontre a figurinha perfeita",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Nenhuma figurinha disponível",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Entre em uma comunidade com figurinhas para usá-las aqui.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Nenhuma figurinha disponível",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "Nenhuma figurinha está disponível nesta conversa.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Nenhuma figurinha encontrada",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Tente outro termo de pesquisa.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Desbloqueie {stickerCount} de {communityCount} com Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 figurinha} other{{count} figurinhas}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Selos",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Escolha quais selos outras pessoas veem no seu perfil.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Você ainda não tem selos.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Não foi possível carregar seus selos.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Mostrar {badgeLabel} no seu perfil",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Mostrar todos os selos",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {Mais +{count} selo, mostrar todos} other {Mais +{count} selos, mostrar todos}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Só aparece quando seu selo Visionary está visível e não é exibido como assinatura.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass desde {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Mostrar selo no meu perfil",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Ocultar quando você conseguiu seu {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Ocultar quantos Operator Pass você tem",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "plutoniumNotSoldHere": "O Plutonium não pode ser comprado nesta versão do app.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Enviar código por e-mail",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Enviamos um código de 6 dígitos para o seu endereço de e-mail.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Código do e-mail",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Enviar um novo código",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Faça login novamente para confirmar que é você.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Fazer login novamente",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Entrar com {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Você entrou em outra conta. Entre com a conta que você usa aqui.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "As chaves de acesso desta instância não funcionam neste app. Use seu app autenticador ou um código de backup, ou confirme pela web.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Exclua sua conta e seus dados pessoais. Você também pode excluir suas mensagens.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Sua conta, seu perfil e seus dados pessoais são excluídos. As mensagens que você não excluir continuam onde foram enviadas, sem seu nome ou perfil.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Excluir também minhas mensagens",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Exclui todas as mensagens que você enviou em DMs, conversas em grupo e comunidades, junto com sua conta.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Para guardar uma cópia dos seus dados, solicite antes uma exportação no {privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Excluir em 14 dias",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Você pode cancelar fazendo login durante esses 14 dias.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Programar exclusão",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Sua conta é excluída após o período de espera desta instância. Se você fizer login antes disso, a exclusão será cancelada.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Excluir agora",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Excluir sua conta agora?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Sua conta é excluída imediatamente e não pode ser recuperada.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Sua assinatura do Plutonium é cobrada pela Apple. Excluir sua conta não a cancela, então cancele-a primeiro na App Store.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Sua assinatura do Plutonium é cobrada pelo Google Play. Excluir sua conta não a cancela, então cancele-a primeiro no Google Play.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Você é dono destas comunidades. Exclua cada uma delas ou transfira-a para outro membro antes de excluir sua conta.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Toque em uma comunidade para abrir as configurações dela. \"Excluir comunidade\" fica no final. Para transferi-la, abra \"Membros\", toque em um membro, toque nos três pontos no perfil dele e escolha \"Transferir a propriedade\".",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Revelar mídia sensível",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "A mídia sensível fica oculta no iPhone e iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "A mídia sensível fica oculta para sua conta.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "O conteúdo 18+ está desativado no iPhone e iPad. Para ver aqui comunidades e canais marcados como 18+, abra o Fluxer na web ou no desktop, vá em \"Privacidade\" nas suas configurações e ative \"Permitir conteúdo 18+ no iPhone e iPad\".",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "Devido às leis sobre conteúdo adulto no lugar onde você está, o conteúdo adulto não está disponível a partir daqui.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Mensagem em um canal 18+",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "O Fluxer não está disponível nesta conta",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "A faixa etária compartilhada pela sua Apple Account é menor de 13 anos. O Fluxer é apenas para pessoas com 13 anos ou mais.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Para escolher \"Mostrar\" aqui, abra o Fluxer na web ou no desktop, vá em \"Privacidade\" nas suas configurações e ative \"Permitir conteúdo 18+ no iPhone e iPad\".",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Editar",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Editar mídia salva",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Excluir mídia salva",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Remover \"{name}\" das suas mídias salvas?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Não foi possível excluir a mídia salva.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Pesquisar mídias salvas",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Mídias salvas indisponíveis",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Tente novamente em alguns instantes.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Nenhuma mídia salva",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Salve mídias das mensagens para vê-las aqui.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Nenhum resultado",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Tente outro termo de pesquisa ou filtro.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Todas",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Imagens",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Vídeos",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Áudio",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIFs",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Controles da chamada de voz",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Denunciar",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Alterar saída de áudio",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Permita o acesso ao microfone para ativar o som nesta chamada.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Nota",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Dica",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Importante",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Aviso",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Atenção",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Denunciar comunidade",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Comunidade que você está denunciando",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Os administradores desta instância vão analisar sua denúncia. Não revelaremos que ela veio de você.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Você já denunciou esta comunidade.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Respondendo a {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Encaminhada de {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedLabel": "Encaminhada",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "Encaminhada de",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
+    },
+    "videoPlayerPlay": "Reproduzir",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Pausar",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Volume",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Velocidade de reprodução {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Tela cheia",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Abrir detalhes do canal",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Transmita em 4K a 60 FPS",
+    "storePlutoniumStreamBody": "Compartilhe sua tela ou câmera em até 4K a 60 quadros por segundo. Contas gratuitas transmitem em até 720p a 30.",
+    "storePlutoniumStreamTitleIos": "Transmita em qualidade mais alta",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Compartilhe sua tela ou câmera em até 1080p a 60 quadros por segundo no app, e em até 4K a 60 no app para desktop. Contas gratuitas transmitem em até 720p a 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Sua assinatura",
+    "storePlutoniumVideoPlutoniumIos": "Até 1080p a 60 FPS no app, até 4K a 60 FPS no desktop",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Você só pode escolher uma tag que ninguém mais com o mesmo nome de usuário já tenha. Nomes de usuário não diferenciam maiúsculas de minúsculas, então Mina#4821 e mina#4821 contam como o mesmo.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Termos de Uso padrão da Apple (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Sua assinatura do Plutonium foi restaurada.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Não há nenhuma assinatura do Plutonium para restaurar nesta Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Não foi possível restaurar as compras. Tente novamente em instantes.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "A Apple Account deste dispositivo já paga o Plutonium em outra conta do Fluxer.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "O Plutonium não foi adicionado",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "A App Store confirmou sua compra, mas não foi possível adicionar o Plutonium a esta conta. Toque em \"Restaurar compras\" para tentar novamente ou entre em contato com o suporte se ainda não funcionar.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Sua compra está aguardando aprovação. O Plutonium será adicionado à sua conta assim que ela for aprovada.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Não foi possível carregar os planos do Plutonium. Verifique sua conexão e tente novamente.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Tentar novamente",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "O Fluxer fechou inesperadamente. Enviar um relatório de falha nos ajuda a encontrar e corrigir o problema mais rápido.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Os relatórios incluem registros de falhas, erros, dados de desempenho, tempos de solicitações de rede e as telas e toques que levaram ao problema, vinculados a um ID aleatório desta instalação. Eles nunca incluem o conteúdo das mensagens e vão apenas para o rastreador de erros do próprio Fluxer. Você pode desativar isso a qualquer momento.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Não perguntar de novo",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "Agora não",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
+    },
+    "advancedSettingSplashQuotesLabel": "Frases na tela de abertura",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Mostra uma frase aleatória na tela de abertura. Não é sincronizado entre dispositivos.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Ative ou desative os provedores integrados de pesquisa de imagem reversa. Os provedores ativados aparecem nas opções das imagens.",
+    "searchProviderSearchWith": "Pesquisar com {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Traduzir com {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Configurações",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Copiar informações do app",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Ajuda e suporte",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} não usa uma conexão segura (https). O Fluxer só se conecta por http a instâncias na sua rede local.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Meus amigos",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Ativos agora",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Está tudo tranquilo por enquanto...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Quando seus amigos estiverem ativos em canais de voz, a atividade deles aparecerá aqui.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Todos",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Pendente",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Bloqueados",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Procurar amigos online",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Pesquisar amigos",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Buscar solicitações pendentes",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Pesquisar usuários bloqueados",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Nenhum amigo corresponde à pesquisa",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Tente outro nome ou verifique a ortografia.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Nenhum amigo online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Quando eles ficarem online, aparecerão bem aqui.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Nenhum amigo ainda",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Para onde vamos, precisamos de mais amigos.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Nenhum pedido pendente",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Os pedidos de amizade pendentes aparecem aqui.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Você não bloqueou ninguém.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Pedido de amizade enviado",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Bloqueado",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Silenciado",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Denunciar comunidade",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Ícone do cargo",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Envie uma imagem ou escolha um emoji. Ao lado do nome de cada membro aparece o ícone do cargo mais alto dele que tiver um.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. No mínimo {minimumSize}, até {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Enviar ícone do cargo",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Ícone atual do cargo, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Ícone atual do cargo, imagem enviada",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Escolher emoji",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Enviar imagem",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Remover ícone",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Ícones animados não são suportados. Use uma imagem estática.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Este tipo de arquivo não é compatível. Os tipos compatíveis são {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Não foi possível carregar esta imagem. Tente outra.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "É assim que as mensagens aparecem",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Ícone do cargo, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Recortar ícone do cargo",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Salvar ícone",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Pular recorte",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Não foi possível recortar o ícone. Tente novamente.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Arraste para reposicionar o ícone do cargo e use a roda de rolagem ou o movimento de pinça para aplicar zoom. O tamanho mínimo recomendado é de {minimumWidth}×{minimumHeight} pixels.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Definiu o ícone do cargo para {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Alterou o ícone do cargo de {oldEmoji} para {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Removeu o ícone do cargo",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Definiu um ícone de cargo personalizado",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Alterou o ícone de cargo personalizado",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Removeu o ícone de cargo personalizado",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Amigos",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Publicação de alguém que você bloqueou",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Tópico de alguém que você bloqueou",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
+    "forumReportPost": "Denunciar publicação",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "Não foi possível se conectar a {domain}. Verifique sua conexão com a internet e tente novamente.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

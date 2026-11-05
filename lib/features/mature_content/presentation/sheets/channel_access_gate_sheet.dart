@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/mature_content_gate_copy.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -19,7 +20,7 @@ Future<bool> showChannelAccessGateSheet({
   final ProviderSubscription<AsyncValue<MatureContentGateReason>> reasonSub =
       container.listen(matureContentGateReasonProvider(channelId), (_, _) {});
   late final MatureContentGateReason reason;
-  late final ResolvedMatureGateContext? gateContext;
+  late final ResolvedMatureGateContext gateContext;
   try {
     reason = await container.read(
       matureContentGateReasonProvider(channelId).future,
@@ -27,14 +28,11 @@ Future<bool> showChannelAccessGateSheet({
     if (reason == MatureContentGateReason.none) {
       return true;
     }
-    gateContext = await container.read(
-      matureGateContextProvider(channelId).future,
-    );
+    gateContext =
+        await container.read(matureGateContextProvider(channelId).future) ??
+        groupDmMatureGateContext(channelId);
   } finally {
     reasonSub.close();
-  }
-  if (gateContext == null) {
-    return false;
   }
   if (!context.mounted) {
     return false;

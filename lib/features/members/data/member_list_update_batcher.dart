@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -89,23 +90,24 @@ class MemberListUpdateBatcher {
     _ref
         .read(memberListViewportProvider(readAccountUserId(_ref)).notifier)
         .applyListUpdate(event);
+    final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
+    final MemberCacheEvictor evictor = _ref.read(memberCacheEvictorProvider);
     unawaited(() async {
-      await MemberListDriftSync(
-        _ref.read(fluxerDatabaseProvider),
-      ).syncFromListUpdate(
+      await MemberListDriftSync(database).syncFromListUpdate(
         guildId: event.guildId,
         ops: event.ops,
         isValidRange: isValidMemberListRange,
       );
-      await _ref
-          .read(memberCacheEvictorProvider)
-          .evictIfNeeded(
-            guildId: event.guildId,
-            protectedUserIds: collectProtectedMemberUserIds(
-              ref: _ref,
-              guildId: event.guildId,
-            ),
-          );
+      if (!_ref.mounted) {
+        return;
+      }
+      await evictor.evictIfNeeded(
+        guildId: event.guildId,
+        protectedUserIds: collectProtectedMemberUserIds(
+          ref: _ref,
+          guildId: event.guildId,
+        ),
+      );
     }());
   }
 
@@ -171,8 +173,23 @@ class MemberListUpdateBatcher {
       memberCount: next.memberCount,
       onlineCount: next.onlineCount,
       groups: next.groups,
-      ops: <MemberListOp>[...existing.ops, ...next.ops],
+      ops: _withoutReplacedSyncs(<MemberListOp>[...existing.ops, ...next.ops]),
     );
+  }
+
+  List<MemberListOp> _withoutReplacedSyncs(List<MemberListOp> ops) {
+    final Set<String> syncedRanges = <String>{};
+    final List<MemberListOp> kept = <MemberListOp>[];
+    for (final MemberListOp op in ops.reversed) {
+      final List<int>? range = op.range;
+      if (op.op == 'SYNC' &&
+          range != null &&
+          !syncedRanges.add(range.join(':'))) {
+        continue;
+      }
+      kept.add(op);
+    }
+    return kept.reversed.toList();
   }
 
   String _batchKey(String guildId, String listId) => '$guildId:$listId';

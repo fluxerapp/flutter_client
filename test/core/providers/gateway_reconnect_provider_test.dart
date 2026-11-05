@@ -745,6 +745,9 @@ void main() {
           overrides: <Override>[
             gatewayConnectionProvider.overrideWithValue(connection),
             appUiForegroundProvider.overrideWithValue(true),
+            gatewayConnectivityCheckProvider.overrideWithValue(
+              () async => true,
+            ),
           ],
         )..read(gatewayStateListenerProvider);
 
@@ -753,8 +756,42 @@ void main() {
         expect(connection.reconnectNowCalls, 1);
         expect(container.read(gatewayConnectionFailedProvider), isFalse);
 
-        async.elapse(kGatewayReconnectFailureTimeout);
+        async
+          ..elapse(kGatewayReconnectFailureTimeout)
+          ..flushMicrotasks();
         expect(container.read(gatewayConnectionFailedProvider), isTrue);
+        expect(container.read(gatewayDeviceOfflineProvider), isFalse);
+
+        container.dispose();
+        unawaited(connection.dispose());
+      });
+    });
+
+    test('no takeover while the device is offline', () {
+      fakeAsync((FakeAsync async) {
+        final _ForceReconnectGatewayConnection connection =
+            _ForceReconnectGatewayConnection();
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            gatewayConnectionProvider.overrideWithValue(connection),
+            appUiForegroundProvider.overrideWithValue(true),
+            gatewayConnectivityCheckProvider.overrideWithValue(
+              () async => false,
+            ),
+          ],
+        )..read(gatewayStateListenerProvider);
+
+        connection.emit(GatewayState.reconnecting);
+        for (var i = 0; i < 6; i++) {
+          async
+            ..elapse(kGatewayReconnectFailureTimeout)
+            ..flushMicrotasks();
+        }
+        expect(container.read(gatewayConnectionFailedProvider), isFalse);
+        expect(container.read(gatewayDeviceOfflineProvider), isTrue);
+
+        connection.emit(GatewayState.connected);
+        expect(container.read(gatewayDeviceOfflineProvider), isFalse);
 
         container.dispose();
         unawaited(connection.dispose());

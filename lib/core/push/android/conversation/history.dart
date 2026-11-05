@@ -77,14 +77,13 @@ final class AndroidPushConversationHistoryStore {
   AndroidPushConversationHistoryStore._();
 
   static const String _historyFileName = 'push_conversation_history.json';
-  static const String _lockFileName = 'push_conversation_history.lock';
 
   static Future<PushConversationState> appendLine({
     required String conversationTag,
     required PushConversationLine line,
     required Map<String, String> payload,
   }) {
-    return withHistoryLock(() async {
+    return _serial(() async {
       final Map<String, String> enriched = enrichPushPayload(payload);
       final Map<String, PushConversationState> store = await _readStore();
       final PushConversationState existing =
@@ -108,6 +107,10 @@ final class AndroidPushConversationHistoryStore {
       } else {
         lines.add(_inheritSenderAvatar(line, existing: lines));
       }
+      lines.sort(
+        (PushConversationLine left, PushConversationLine right) =>
+            left.timestampMs.compareTo(right.timestampMs),
+      );
       while (lines.length > kPushConversationHistoryMaxLines) {
         lines.removeAt(0);
       }
@@ -125,7 +128,7 @@ final class AndroidPushConversationHistoryStore {
     required String conversationTag,
     String? upToMessageId,
   }) {
-    return withHistoryLock(() async {
+    return _serial(() async {
       final Map<String, PushConversationState> store = await _readStore();
       final PushConversationState? existing = store[conversationTag];
       if (existing == null) {
@@ -155,14 +158,25 @@ final class AndroidPushConversationHistoryStore {
     });
   }
 
+  static Future<void> retainConversations(Set<String> activeTags) {
+    return _serial(() async {
+      final Map<String, PushConversationState> store = await _readStore();
+      final int before = store.length;
+      store.removeWhere((String tag, _) => !activeTags.contains(tag));
+      if (store.length != before) {
+        await _writeStore(store);
+      }
+    });
+  }
+
   static Future<PushConversationState?> readState(String conversationTag) {
-    return withHistoryLock(() async {
+    return _serial(() async {
       return (await _readStore())[conversationTag];
     });
   }
 
   static Future<void> clearAll() async {
-    await withHistoryLock(() async {
+    await _serial(() async {
       await _writeStore(<String, PushConversationState>{});
     });
   }
@@ -170,25 +184,12 @@ final class AndroidPushConversationHistoryStore {
   @visibleForTesting
   static Directory? testRoot;
 
-  @visibleForTesting
-  static Future<T> withHistoryLock<T>(Future<T> Function() action) async {
-    if (!Platform.isAndroid) {
-      return action();
-    }
-    final Directory dir = await _storageDirectory();
-    final File lockFile = File('${dir.path}/$_lockFileName');
-    if (!lockFile.existsSync()) {
-      lockFile.createSync(recursive: true);
-    }
-    final RandomAccessFile handle = lockFile.openSync(mode: FileMode.write);
-    try {
-      handle.lockSync();
-      return await action();
-    } finally {
-      handle
-        ..unlockSync()
-        ..closeSync();
-    }
+  static Future<void> _tail = Future<void>.value();
+
+  static Future<T> _serial<T>(Future<T> Function() action) {
+    final Future<T> result = _tail.then((_) => action());
+    _tail = result.then<void>((_) {}, onError: (Object _) {});
+    return result;
   }
 
   static Future<Map<String, PushConversationState>> _readStore() async {
@@ -283,16 +284,16 @@ final class AndroidPushConversationHistoryStore {
         'payload': entry.value.payload,
       };
     }
-    await file.writeAsString(jsonEncode(encoded), flush: true);
+    final File staging = File(
+      '${file.path}.${DateTime.now().microsecondsSinceEpoch}.tmp',
+    );
+    await staging.writeAsString(jsonEncode(encoded), flush: true);
+    await staging.rename(file.path);
   }
 
   static Future<File> _historyFile() async {
     final Directory dir = testRoot ?? await getApplicationSupportDirectory();
     return File('${dir.path}/$_historyFileName');
-  }
-
-  static Future<Directory> _storageDirectory() async {
-    return testRoot ?? await getApplicationSupportDirectory();
   }
 }
 

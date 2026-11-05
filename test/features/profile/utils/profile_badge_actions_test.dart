@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_actions.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -7,6 +8,7 @@ ProfileBadgeResponse _badge({
   required String kind,
   ProfileBadgeResponseDetails? details,
   HexString16Type? asset,
+  String? href,
 }) {
   return ProfileBadgeResponse(
     key: kind,
@@ -16,7 +18,7 @@ ProfileBadgeResponse _badge({
     assetUrl: null,
     aspectRatio: null,
     caption: null,
-    href: null,
+    href: href,
     details: details,
   );
 }
@@ -93,6 +95,87 @@ void main() {
         ),
         'Staff\nTeam member',
       );
+    });
+  });
+
+  group('profileBadgeLinkAllowed', () {
+    tearDown(() => debugDefaultTargetPlatformOverride = null);
+
+    ProfileBadgeResponse linked(String kind) =>
+        _badge(kind: kind, href: 'https://fluxer.com/$kind');
+
+    test('iOS outside the US hides purchase badge links on official', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: false,
+          officialInstance: true,
+          badge: linked('operator_pass'),
+        ),
+        isFalse,
+      );
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: false,
+          officialInstance: true,
+          badge: linked('visionary'),
+        ),
+        isFalse,
+      );
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: false,
+          officialInstance: true,
+          badge: _badge(kind: 'staff', href: 'https://fluxer.com/careers'),
+        ),
+        isTrue,
+      );
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: false,
+          officialInstance: true,
+          badge: _badge(kind: 'custom', href: 'https://fluxer.com/plutonium'),
+        ),
+        isFalse,
+      );
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: true,
+          officialInstance: true,
+          badge: linked('operator_pass'),
+        ),
+        isTrue,
+      );
+    });
+
+    test('iOS on a self-hosted instance hides every badge link', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      expect(
+        profileBadgeLinkAllowed(
+          externalPurchaseLinksAllowed: true,
+          officialInstance: false,
+          badge: linked('custom'),
+        ),
+        isFalse,
+      );
+    });
+
+    test('Android keeps every badge link', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      for (final String kind in <String>[
+        'operator_pass',
+        'visionary',
+        'custom',
+      ]) {
+        expect(
+          profileBadgeLinkAllowed(
+            externalPurchaseLinksAllowed: false,
+            officialInstance: false,
+            badge: linked(kind),
+          ),
+          isTrue,
+        );
+      }
     });
   });
 

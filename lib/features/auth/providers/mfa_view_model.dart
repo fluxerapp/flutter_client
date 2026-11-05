@@ -1,9 +1,12 @@
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -74,10 +77,10 @@ class MfaViewModel extends _$MfaViewModel {
     _challenge = challenge;
 
     MfaMethod? initialMethod;
-    if (!challenge.hasMultipleMethods) {
-      if (challenge.totp) {
-        initialMethod = MfaMethod.totp;
-      }
+    if (challenge.totp &&
+        (!challenge.webauthn ||
+            !ref.read(authInstanceSupportsPasskeysProvider))) {
+      initialMethod = MfaMethod.totp;
     }
 
     return MfaViewState(
@@ -186,11 +189,16 @@ class MfaViewModel extends _$MfaViewModel {
       final authenticator = ref.read(passkeyAuthenticatorProvider);
       final webauthnService = WebAuthnService(authenticator);
 
-      final options = await repo.getMfaWebauthnOptions(
-        ticket: _challenge.ticket,
+      final (options, authResponse) = await withPasskeyRelyingParty(
+        apiBaseUrl: ref.read(authFluxerBaseUrlProvider),
+        attempt: (rpId) async {
+          final options = await repo.getMfaWebauthnOptions(
+            ticket: _challenge.ticket,
+            rpId: rpId,
+          );
+          return (options, await webauthnService.authenticate(options));
+        },
       );
-
-      final authResponse = await webauthnService.authenticate(options);
 
       final session = await repo.verifyMfaWebauthn(
         ticket: _challenge.ticket,
@@ -212,7 +220,9 @@ class MfaViewModel extends _$MfaViewModel {
       final (errorType, errorMessage) = mapPasskeyAuthError(e);
       state = state.copyWith(
         webauthnLoading: false,
-        errorType: errorType,
+        errorType: errorType == LoginError.passkeyNoCredentials
+            ? LoginError.passkeyNoCredentialsForAccount
+            : errorType,
         error: errorMessage,
       );
     } on Object catch (e) {

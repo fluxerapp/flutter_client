@@ -1,508 +1,306 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/auth/domain/ban_view.dart';
-import 'package:fluxer_app/features/auth/providers/ban_view_provider.dart';
+import 'package:fluxer_app/features/auth/domain/enforcement_notice.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
-class SuspendedAccountScreen extends ConsumerStatefulWidget {
-  const SuspendedAccountScreen({required this.onBack, super.key});
+final RegExp _markdownLink = RegExp(r'\[([^\]]+)\]\((https?://[^\s)]+)\)');
 
+class SuspendedAccountScreen extends StatelessWidget {
+  const SuspendedAccountScreen({
+    required this.notice,
+    required this.onBack,
+    super.key,
+  });
+
+  final EnforcementNotice? notice;
   final VoidCallback onBack;
 
-  @override
-  ConsumerState<SuspendedAccountScreen> createState() =>
-      _SuspendedAccountScreenState();
-}
-
-class _SuspendedAccountScreenState
-    extends ConsumerState<SuspendedAccountScreen> {
-  final _appealController = TextEditingController();
-
-  static const _appealMinLength = 50;
-  static const _appealMaxLength = 2000;
-
-  @override
-  void dispose() {
-    _appealController.dispose();
-    super.dispose();
+  String _title(FluxerLocalizations l10n) {
+    final EnforcementNotice? current = notice;
+    if (current == null || current.isClosure) {
+      return l10n.suspendedClosedTitle;
+    }
+    return current.permanent
+        ? l10n.suspendedBannedTitle
+        : l10n.suspendedTemporaryTitle;
   }
 
   @override
   Widget build(BuildContext context) {
-    final banViewState = ref.watch(banViewProvider);
-
-    if (banViewState == null) {
-      return const SizedBox.shrink();
-    }
-
-    final colors = context.colors;
-    final textStyles = context.textStyles;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-    final status = banViewState.status;
+    final EnforcementNotice? current = notice;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(PhosphorIconsFill.warning, size: 48, color: colors.statusDanger),
-        SizedBox(height: layout.s4),
-        Text(
-          status?.isPermanent ?? false
-              ? l10n.suspendedPermanentTitle
-              : l10n.suspendedTemporaryTitle,
-          style: textStyles.heading.copyWith(color: colors.textPrimary),
-          textAlign: TextAlign.center,
+        Semantics(
+          header: true,
+          child: Text(
+            _title(l10n),
+            style: context.textStyles.heading.copyWith(
+              color: context.colors.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        SizedBox(height: layout.s2),
-        Text(
-          status?.isPermanent ?? false
-              ? l10n.suspendedPermanentDescription
-              : l10n.suspendedTemporaryDescription,
-          style: textStyles.bodySmall.copyWith(color: colors.textPrimaryMuted),
-          textAlign: TextAlign.center,
+        if (current != null) ..._noticeSections(context, l10n, current),
+        SizedBox(height: layout.s6),
+        FluxerButton.primary(
+          onPressed: onBack,
+          label: l10n.suspendedBackToLogin,
         ),
-        SizedBox(height: layout.s5),
-
-        if (banViewState.isLoading && status == null)
-          const Center(child: FluxerLoadingSpinner())
-        else if (status != null) ...[
-          _BanInfoCard(status: status),
-          SizedBox(height: layout.s4),
-
-          if (status.deletionScheduledAt != null) ...[
-            _WarningBanner(
-              message: l10n.suspendedDeletionWarning(
-                _formatDate(status.deletionScheduledAt!),
-              ),
-            ),
-            SizedBox(height: layout.s4),
-          ],
-
-          if (banViewState.error != null) ...[
-            _ErrorBanner(message: banViewState.error!),
-            SizedBox(height: layout.s4),
-          ],
-
-          if (status.isAppealAccepted)
-            _AppealAcceptedSection(onSignIn: widget.onBack)
-          else ...[
-            if (status.appeal != null)
-              _AppealStatusSection(appeal: status.appeal!)
-            else if (status.canSubmitAppeal)
-              _AppealForm(
-                controller: _appealController,
-                isSubmitting: banViewState.isSubmittingAppeal,
-                onSubmit: () {
-                  final text = _appealController.text.trim();
-                  if (text.length >= _appealMinLength &&
-                      text.length <= _appealMaxLength) {
-                    unawaited(
-                      ref.read(banViewProvider.notifier).submitAppeal(text),
-                    );
-                  }
-                },
-              ),
-
-            SizedBox(height: layout.s4),
-
-            FluxerButton.secondary(
-              onPressed: banViewState.recheckCooldown > 0
-                  ? null
-                  : () => ref.read(banViewProvider.notifier).recheck(),
-              label: banViewState.recheckCooldown > 0
-                  ? l10n.suspendedRecheckCooldown(banViewState.recheckCooldown)
-                  : l10n.suspendedRecheck,
-              icon: PhosphorIconsBold.arrowsClockwise,
-              isLoading: banViewState.isLoading,
-            ),
-            SizedBox(height: layout.s2),
-            FluxerButton.ghost(
-              onPressed: widget.onBack,
-              label: l10n.suspendedBackToLogin,
-            ),
-          ],
-        ],
       ],
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  List<Widget> _noticeSections(
+    BuildContext context,
+    FluxerLocalizations l10n,
+    EnforcementNotice notice,
+  ) {
+    final bool showWhy =
+        notice.rule != null ||
+        notice.facts.isNotEmpty ||
+        notice.statement != null;
+    final EnforcementNoticeAppeal? appeal = notice.appeal;
+    return [
+      _Section(
+        heading: l10n.suspendedWhatHappened,
+        children: [
+          _LineText(
+            line: notice.summary,
+            style: context.textStyles.bodyMedium.copyWith(
+              color: context.colors.textPrimary,
+            ),
+          ),
+          for (final String effect in notice.effects) _LineText(line: effect),
+        ],
+      ),
+      if (showWhy)
+        _Section(
+          heading: l10n.suspendedWhy,
+          children: [
+            if (notice.rule case final EnforcementNoticeRule rule)
+              _RuleLine(rule: rule),
+            for (final String fact in notice.facts) _LineText(line: fact),
+            if (notice.statement case final String statement)
+              _LineText(line: l10n.suspendedNoteFromTeam(statement)),
+          ],
+        ),
+      if (notice.howWeDecided.isNotEmpty)
+        _Section(
+          heading: l10n.suspendedHowWeDecided,
+          children: [
+            for (final String line in notice.howWeDecided)
+              _LineText(line: line),
+          ],
+        ),
+      if (appeal != null)
+        _Section(
+          heading: l10n.suspendedHowToAppeal,
+          children: [
+            _MailtoText(
+              email: appeal.email,
+              text: _appealSentence(l10n, appeal),
+            ),
+            for (final String line in notice.redress)
+              _LineText(
+                line: line,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textTertiary,
+                ),
+              ),
+            _MailtoText(
+              email: appeal.email,
+              text: appeal.accountHasEmail
+                  ? l10n.suspendedDeletionRequest(appeal.email)
+                  : l10n.suspendedDeletionRequestNoEmail(appeal.email),
+            ),
+          ],
+        ),
+      if (notice.decisionId case final String decisionId) ...[
+        SizedBox(height: context.layout.s4),
+        SelectableText(
+          l10n.suspendedDecisionId(decisionId),
+          style: context.textStyles.bodySmall.copyWith(
+            color: context.colors.textTertiary,
+          ),
+        ),
+      ],
+    ];
+  }
+
+  String _appealSentence(
+    FluxerLocalizations l10n,
+    EnforcementNoticeAppeal appeal,
+  ) {
+    final String? deadline = appeal.deadline?.replaceFirst(RegExp(r'\.$'), '');
+    if (deadline == null) {
+      return l10n.suspendedAppealNoDeadline(appeal.email);
+    }
+    if (!appeal.accountHasEmail) {
+      return l10n.suspendedAppealNoEmail(appeal.email, deadline);
+    }
+    return l10n.suspendedAppealWithEmail(appeal.email, deadline);
   }
 }
 
-class _BanInfoCard extends StatelessWidget {
-  const _BanInfoCard({required this.status});
+class _Section extends StatelessWidget {
+  const _Section({required this.heading, required this.children});
 
-  final BanStatus status;
+  final String heading;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
     final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-
-    return Container(
-      padding: EdgeInsets.all(layout.s4),
-      decoration: BoxDecoration(
-        color: colors.backgroundTertiary,
-        borderRadius: layout.radiusMd,
-        border: Border.all(color: colors.borderColor),
-      ),
+    return Padding(
+      padding: EdgeInsets.only(top: layout.s5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _InfoRow(
-            label: l10n.suspendedIssuedAt,
-            value: _formatDate(status.bannedAt),
-          ),
-          if (!status.isPermanent && status.bannedUntil != null) ...[
-            SizedBox(height: layout.s2),
-            _InfoRow(
-              label: l10n.suspendedEndsAt,
-              value: _formatDate(status.bannedUntil!),
-            ),
-          ],
-          if (status.isPermanent) ...[
-            SizedBox(height: layout.s2),
-            _InfoRow(
-              label: l10n.suspendedDuration,
-              value: l10n.suspendedPermanent,
-            ),
-          ],
-          if (status.appealDeadline != null) ...[
-            SizedBox(height: layout.s2),
-            _InfoRow(
-              label: l10n.suspendedAppealDeadline,
-              value: _formatDate(status.appealDeadline!),
-            ),
-          ],
-          if (status.publicReason != null) ...[
-            SizedBox(height: layout.s3),
-            Text(
-              l10n.suspendedReason,
-              style: textStyles.bodySmall.copyWith(
-                color: colors.textPrimaryMuted,
-              ),
-            ),
-            SizedBox(height: layout.s1),
-            Text(
-              status.publicReason!,
-              style: textStyles.bodyMedium.copyWith(color: colors.textPrimary),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: textStyles.bodySmall.copyWith(color: colors.textPrimaryMuted),
-        ),
-        Text(
-          value,
-          style: textStyles.bodyMedium.copyWith(color: colors.textPrimary),
-        ),
-      ],
-    );
-  }
-}
-
-class _AppealForm extends StatelessWidget {
-  const _AppealForm({
-    required this.controller,
-    required this.isSubmitting,
-    required this.onSubmit,
-  });
-
-  final TextEditingController controller;
-  final bool isSubmitting;
-  final VoidCallback onSubmit;
-
-  static const _minLength = 50;
-  static const _maxLength = 2000;
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          l10n.suspendedAppealTitle,
-          style: context.textStyles.bodyMedium.copyWith(
-            color: context.colors.textPrimary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: layout.s2),
-        FluxerInput(
-          controller: controller,
-          hint: l10n.suspendedAppealHint,
-          maxLines: 5,
-          maxLength: _maxLength,
-        ),
-        SizedBox(height: layout.s2),
-        ValueListenableBuilder<TextEditingValue>(
-          valueListenable: controller,
-          builder: (context, value, _) {
-            final length = value.text.trim().length;
-            final isValid = length >= _minLength && length <= _maxLength;
-
-            return FluxerButton.primary(
-              onPressed: isValid && !isSubmitting ? onSubmit : null,
-              label: l10n.suspendedAppealSubmit,
-              isLoading: isSubmitting,
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _AppealStatusSection extends StatelessWidget {
-  const _AppealStatusSection({required this.appeal});
-
-  final BanAppeal appeal;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-
-    final statusColor = switch (appeal.status) {
-      BanAppealStatus.pending => colors.statusWarning,
-      BanAppealStatus.accepted => colors.textPositive,
-      BanAppealStatus.rejected => colors.statusDanger,
-    };
-
-    final statusLabel = switch (appeal.status) {
-      BanAppealStatus.pending => l10n.suspendedAppealPending,
-      BanAppealStatus.accepted => l10n.suspendedAppealAccepted,
-      BanAppealStatus.rejected => l10n.suspendedAppealRejected,
-    };
-
-    return Container(
-      padding: EdgeInsets.all(layout.s4),
-      decoration: BoxDecoration(
-        color: colors.backgroundTertiary,
-        borderRadius: layout.radiusMd,
-        border: Border.all(color: colors.borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.suspendedAppealTitle,
-                style: textStyles.bodyMedium.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: layout.s2,
-                  vertical: layout.s1,
-                ),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.15),
-                  borderRadius: layout.radiusSm,
-                ),
-                child: Text(
-                  statusLabel,
-                  style: textStyles.bodySmall.copyWith(
-                    color: statusColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: layout.s3),
-          Text(
-            appeal.appealRationale,
-            style: textStyles.bodySmall.copyWith(
-              color: colors.textPrimaryMuted,
-            ),
-          ),
-          if (appeal.status == BanAppealStatus.rejected &&
-              appeal.adminRationale != null) ...[
-            SizedBox(height: layout.s3),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(layout.s3),
-              decoration: BoxDecoration(
-                color: colors.statusDanger.withValues(alpha: 0.1),
-                borderRadius: layout.radiusSm,
-                border: Border.all(
-                  color: colors.statusDanger.withValues(alpha: 0.3),
-                ),
-              ),
-              child: Text(
-                appeal.adminRationale!,
-                style: textStyles.bodySmall.copyWith(color: colors.textPrimary),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _AppealAcceptedSection extends StatelessWidget {
-  const _AppealAcceptedSection({required this.onSignIn});
-
-  final VoidCallback onSignIn;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(layout.s4),
-          decoration: BoxDecoration(
-            color: colors.textPositive.withValues(alpha: 0.1),
-            borderRadius: layout.radiusMd,
-            border: Border.all(
-              color: colors.textPositive.withValues(alpha: 0.3),
-            ),
-          ),
-          child: Column(
-            children: [
-              Icon(
-                PhosphorIconsFill.checkCircle,
-                size: 32,
-                color: colors.textPositive,
-              ),
-              SizedBox(height: layout.s2),
-              Text(
-                l10n.suspendedAppealAccepted,
-                style: textStyles.bodyMedium.copyWith(
-                  color: colors.textPositive,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: layout.s1),
-              Text(
-                l10n.suspendedAppealAcceptedDescription,
-                style: textStyles.bodySmall.copyWith(
-                  color: colors.textPrimaryMuted,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: layout.s4),
-        FluxerButton.primary(onPressed: onSignIn, label: l10n.suspendedSignIn),
-      ],
-    );
-  }
-}
-
-class _WarningBanner extends StatelessWidget {
-  const _WarningBanner({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(layout.s3),
-      decoration: BoxDecoration(
-        color: colors.statusDanger.withValues(alpha: 0.1),
-        borderRadius: layout.radiusSm,
-        border: Border.all(color: colors.statusDanger.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        children: [
-          Icon(PhosphorIconsFill.warning, size: 18, color: colors.statusDanger),
-          SizedBox(width: layout.s2),
-          Expanded(
+          Semantics(
+            header: true,
             child: Text(
-              message,
-              style: context.textStyles.bodySmall.copyWith(
-                color: colors.statusDanger,
+              heading,
+              style: context.textStyles.bodyMedium.copyWith(
+                color: context.colors.textPrimary,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
+          for (final Widget child in children)
+            Padding(
+              padding: EdgeInsets.only(top: layout.s2),
+              child: child,
+            ),
         ],
       ),
     );
   }
 }
 
-class _ErrorBanner extends StatelessWidget {
-  const _ErrorBanner({required this.message});
+TextStyle _bodyStyle(BuildContext context) =>
+    context.textStyles.bodySmall.copyWith(color: context.colors.textSecondary);
 
-  final String message;
+InlineSpan _linkSpan(
+  BuildContext context,
+  String text,
+  TextStyle style,
+  VoidCallback onTap,
+) {
+  return WidgetSpan(
+    alignment: PlaceholderAlignment.baseline,
+    baseline: TextBaseline.alphabetic,
+    child: FluxerTextLink(
+      text: text,
+      onTap: onTap,
+      style: style.copyWith(color: context.colors.textLink),
+    ),
+  );
+}
+
+class _LineText extends StatelessWidget {
+  const _LineText({required this.line, this.style});
+
+  final String line;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(layout.s3),
-      decoration: BoxDecoration(
-        color: colors.statusDanger.withValues(alpha: 0.1),
-        borderRadius: layout.radiusSm,
-        border: Border.all(color: colors.statusDanger.withValues(alpha: 0.3)),
-      ),
-      child: Text(
-        message,
-        style: context.textStyles.bodySmall.copyWith(
-          color: colors.statusDanger,
+    final TextStyle base = style ?? _bodyStyle(context);
+    final List<InlineSpan> spans = <InlineSpan>[];
+    int index = 0;
+    for (final RegExpMatch match in _markdownLink.allMatches(line)) {
+      spans.add(TextSpan(text: line.substring(index, match.start)));
+      final String url = match.group(2)!;
+      spans.add(
+        _linkSpan(
+          context,
+          match.group(1)!,
+          base,
+          () => unawaited(handleExternalLinkTap(context, url)),
         ),
+      );
+      index = match.end;
+    }
+    spans.add(TextSpan(text: line.substring(index)));
+    return Text.rich(TextSpan(style: base, children: spans));
+  }
+}
+
+class _RuleLine extends StatelessWidget {
+  const _RuleLine({required this.rule});
+
+  final EnforcementNoticeRule rule;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final TextStyle base = _bodyStyle(context);
+    final String text = l10n.suspendedRule(rule.title);
+    final String? url = rule.url;
+    final int index = text.indexOf(rule.title);
+    if (url == null || index < 0) {
+      return Text(text, style: base);
+    }
+    return Text.rich(
+      TextSpan(
+        style: base,
+        children: [
+          TextSpan(text: text.substring(0, index)),
+          _linkSpan(
+            context,
+            rule.title,
+            base,
+            () => unawaited(handleExternalLinkTap(context, url)),
+          ),
+          TextSpan(text: text.substring(index + rule.title.length)),
+        ],
+      ),
+    );
+  }
+}
+
+class _MailtoText extends StatelessWidget {
+  const _MailtoText({required this.email, required this.text});
+
+  final String email;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle base = _bodyStyle(context);
+    final int index = text.indexOf(email);
+    if (index < 0) {
+      return Text(text, style: base);
+    }
+    return Text.rich(
+      TextSpan(
+        style: base,
+        children: [
+          TextSpan(text: text.substring(0, index)),
+          _linkSpan(
+            context,
+            email,
+            base,
+            () => unawaited(
+              handleExternalLinkTap(
+                context,
+                'mailto:$email',
+                skipWarning: true,
+              ),
+            ),
+          ),
+          TextSpan(text: text.substring(index + email.length)),
+        ],
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/features/channels/data/own_guild_unread_permissions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
-import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show
@@ -102,21 +102,24 @@ class UnreadInboxCalculator {
         .userGuildSettingsDao
         .getAll();
 
+    final OwnGuildUnreadPermissions permissions = OwnGuildUnreadPermissions(
+      db: db,
+      currentUserId: currentUserId,
+      servers: await db.guildDao.getServers(),
+      channelsById: channelsById,
+    );
+
     final Map<String, int> joinTimeMsByGuildId = <String, int>{};
     Future<int> resolveFallbackAckMs(String guildId, String channelId) async {
       if (joinTimeMsByGuildId.containsKey(guildId)) {
         return joinTimeMsByGuildId[guildId]!;
       }
       int resolved = 0;
-      if (currentUserId != null && currentUserId.isNotEmpty) {
-        final Member? member = await db.memberDao.getMemberByUserId(
-          currentUserId,
-          guildId,
-        );
-        final DateTime? joinedAt = member?.joinedAt;
-        if (joinedAt != null) {
-          resolved = joinedAt.millisecondsSinceEpoch;
-        }
+      final DateTime? joinedAt = (await permissions.ownMember(
+        guildId,
+      ))?.joinedAt;
+      if (joinedAt != null) {
+        resolved = joinedAt.millisecondsSinceEpoch;
       }
       if (resolved == 0) {
         final DateTime? chTime = dateTimeFromUserSnowflakeOrNull(channelId);
@@ -140,11 +143,7 @@ class UnreadInboxCalculator {
       if (isGuildCategoryChannelType(channel.type)) {
         continue;
       }
-      if (!await canReadChannelForUnread(
-        database: db,
-        channel: channel,
-        currentUserId: currentUserId,
-      )) {
+      if (!await permissions.canRead(channel)) {
         continue;
       }
 

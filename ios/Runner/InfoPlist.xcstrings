@@ -1,0 +1,1260 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSCameraUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Fluxer الكاميرا عندما تلتقط صورة لإرسالها في دردشة أو عندما تشغّل الكاميرا في مكالمة."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer използва камерата, когато правиш снимка, за да я изпратиш в чат, или когато включиш камерата си в разговор."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer používá fotoaparát, když pořizujete fotku k odeslání do chatu nebo když v hovoru zapnete kameru."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruger kameraet, når du tager et billede for at sende det i en chat eller slår dit kamera til i et opkald."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer verwendet die Kamera, wenn du ein Foto aufnimmst, um es in einem Chat zu senden, oder wenn du in einem Anruf deine Kamera einschaltest."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer χρησιμοποιεί την κάμερα όταν τραβάτε μια φωτογραφία για να τη στείλετε σε συνομιλία ή ενεργοποιείτε την κάμερά σας σε μια κλήση."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa la cámara cuando haces una foto para enviarla en un chat o cuando activas la cámara en una llamada."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa la cámara cuando tomas una foto para enviarla en un chat o cuando activas tu cámara en una llamada."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer käyttää kameraa, kun otat kuvan lähetettäväksi keskusteluun tai laitat kamerasi päälle puhelussa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer utilise l'appareil photo quand vous prenez une photo à envoyer dans une discussion ou quand vous activez votre caméra pendant un appel."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer משתמש במצלמה כשאתה מצלם תמונה כדי לשלוח בצ'אט או מפעיל את המצלמה שלך בשיחה."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जब आप किसी चैट में भेजने के लिए फ़ोटो लेते हैं या किसी कॉल में अपना कैमरा चालू करते हैं, तब Fluxer कैमरे का इस्तेमाल करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer koristi kameru kada snimite fotografiju koju šaljete u razgovoru ili uključite kameru u pozivu."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer akkor használja a kamerát, amikor fényképet készítesz, hogy elküldd egy csevegésben, vagy bekapcsolod a kamerádat egy hívásban."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menggunakan kamera saat kamu mengambil foto untuk dikirim di chat atau menyalakan kamera dalam panggilan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa la fotocamera quando scatti una foto da inviare in una chat o attivi la fotocamera in una chiamata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxerは、チャットで送信する写真を撮るときや、通話でカメラをオンにするときにカメラを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer는 채팅에 보낼 사진을 찍거나 통화에서 카메라를 켤 때 카메라를 사용합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer naudoja kamerą, kai fotografuojate, kad nuotrauką išsiųstumėte pokalbyje, arba kai skambučio metu įjungiate kamerą."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruker kameraet når du tar et bilde for å sende i en chat eller slår på kameraet i en samtale."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer gebruikt de camera wanneer je een foto maakt om in een chat te versturen of je camera inschakelt in een gesprek."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer używa aparatu, gdy robisz zdjęcie do wysłania na czacie lub włączasz kamerę podczas rozmowy."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer usa a câmera quando você tira uma foto para enviar em um chat ou ativa sua câmera em uma chamada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer folosește camera când faci o fotografie pentru a o trimite într-un chat sau când îți pornești camera într-un apel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer использует камеру, когда вы делаете фото, чтобы отправить его в чат, или включаете камеру во время звонка."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer använder kameran när du tar ett foto för att skicka i en chatt eller slår på kameran i ett samtal."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer ใช้กล้องเมื่อคุณถ่ายรูปเพื่อส่งในแชท หรือเปิดกล้องระหว่างการโทร"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, sohbette göndermek için fotoğraf çektiğinizde veya bir aramada kameranızı açtığınızda kamerayı kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer використовує камеру, коли ви робите фото, щоб надіслати його в чат, або вмикаєте камеру під час дзвінка."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sử dụng camera khi bạn chụp ảnh để gửi trong cuộc trò chuyện hoặc bật camera trong cuộc gọi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你拍摄照片以在聊天中发送，或在通话中开启摄像头时，Fluxer 会使用相机。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您拍攝要在聊天中傳送的照片，或在通話中開啟鏡頭時，Fluxer 會使用相機。"
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Fluxer شبكتك المحلية للمكالمات بين الأجهزة على الشبكة نفسها وللاتصال بمثيل Fluxer يعمل على شبكتك."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer използва локалната ти мрежа за разговори между устройства в една и съща мрежа и за свързване с инстанция на Fluxer, работеща в мрежата ти."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer používá vaši místní síť pro hovory mezi zařízeními ve stejné síti a pro připojení k instanci Fluxer běžící ve vaší síti."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruger dit lokale netværk til opkald mellem enheder på samme netværk og til at oprette forbindelse til en Fluxer-instans, der kører på dit netværk."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer verwendet dein lokales Netzwerk für Anrufe zwischen Geräten im selben Netzwerk und um sich mit einer Fluxer-Instanz in deinem Netzwerk zu verbinden."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer χρησιμοποιεί το τοπικό σας δίκτυο για κλήσεις μεταξύ συσκευών στο ίδιο δίκτυο και για σύνδεση σε μια παρουσία Fluxer που εκτελείται στο δίκτυό σας."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa tu red local para las llamadas entre dispositivos de la misma red y para conectarse a una instancia de Fluxer que funcione en tu red."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa tu red local para llamadas entre dispositivos de la misma red y para conectarse a una instancia de Fluxer que se ejecuta en tu red."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer käyttää lähiverkkoasi saman verkon laitteiden välisiin puheluihin ja yhteyden muodostamiseen verkossasi toimivaan Fluxer-instanssiin."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer utilise votre réseau local pour les appels entre appareils connectés au même réseau et pour se connecter à une instance Fluxer qui tourne sur votre réseau."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer משתמש ברשת המקומית שלך לשיחות בין מכשירים באותה רשת ולהתחברות למופע Fluxer שפועל ברשת שלך."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer आपके लोकल नेटवर्क का इस्तेमाल एक ही नेटवर्क पर मौजूद डिवाइस के बीच कॉल के लिए और आपके नेटवर्क पर चल रहे Fluxer इंस्टेंस से कनेक्ट करने के लिए करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer koristi vašu lokalnu mrežu za pozive između uređaja na istoj mreži i za povezivanje s Fluxer instancom koja radi na vašoj mreži."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer a helyi hálózatodat az ugyanazon a hálózaton lévő eszközök közötti hívásokhoz, valamint a hálózatodon futó Fluxer-példányhoz való csatlakozáshoz használja."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menggunakan jaringan lokalmu untuk panggilan antarperangkat di jaringan yang sama dan untuk terhubung ke instance Fluxer yang berjalan di jaringanmu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa la tua rete locale per le chiamate tra dispositivi sulla stessa rete e per connettersi a un'istanza Fluxer in esecuzione sulla tua rete."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxerは、同じネットワーク上のデバイス間での通話と、ネットワーク上で動作しているFluxerインスタンスへの接続にローカルネットワークを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer는 같은 네트워크에 있는 기기 간 통화와 회원님의 네트워크에서 실행 중인 Fluxer 인스턴스에 연결할 때 로컬 네트워크를 사용합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer naudoja jūsų vietinį tinklą skambučiams tarp to paties tinklo įrenginių ir prisijungimui prie jūsų tinkle veikiančios Fluxer instancijos."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruker det lokale nettverket ditt til samtaler mellom enheter på samme nettverk og til å koble til en Fluxer-instans som kjører på nettverket ditt."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer gebruikt je lokale netwerk voor gesprekken tussen apparaten op hetzelfde netwerk en om verbinding te maken met een Fluxer-instantie die op je netwerk draait."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer używa Twojej sieci lokalnej do połączeń między urządzeniami w tej samej sieci oraz do łączenia się z instancją Fluxer działającą w Twojej sieci."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer usa sua rede local para chamadas entre dispositivos na mesma rede e para se conectar a uma instância do Fluxer executada na sua rede."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer folosește rețeaua locală pentru apelurile dintre dispozitivele din aceeași rețea și pentru a se conecta la o instanță Fluxer care rulează în rețeaua ta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer использует вашу локальную сеть для звонков между устройствами в одной сети и для подключения к экземпляру Fluxer, работающему в вашей сети."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer använder ditt lokala nätverk för samtal mellan enheter i samma nätverk och för att ansluta till en Fluxer-instans som körs i ditt nätverk."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer ใช้เครือข่ายภายในของคุณสำหรับการโทรระหว่างอุปกรณ์ที่อยู่ในเครือข่ายเดียวกัน และเพื่อเชื่อมต่อกับอินสแตนซ์ Fluxer ที่ทำงานอยู่ในเครือข่ายของคุณ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, aynı ağdaki cihazlar arasındaki aramalar ve ağınızda çalışan bir Fluxer kurulumuna bağlanmak için yerel ağınızı kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer використовує вашу локальну мережу для дзвінків між пристроями в одній мережі та для підключення до екземпляра Fluxer, що працює у вашій мережі."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sử dụng mạng cục bộ của bạn cho các cuộc gọi giữa các thiết bị trong cùng mạng và để kết nối với máy chủ Fluxer chạy trong mạng của bạn."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer 使用你的本地网络，用于同一网络中设备之间的通话，以及连接在你网络中运行的 Fluxer 实例。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer 會使用您的區域網路，在同一網路上的裝置之間進行通話，以及連線到在您網路上執行的 Fluxer 伺服器。"
+          }
+        }
+      }
+    },
+    "NSMicrophoneUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Fluxer الميكروفون عندما تسجّل رسالة صوتية، أو تتحدث في مكالمة صوتية أو مكالمة فيديو، أو تختبر الميكروفون في الإعدادات."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer използва микрофона, когато записваш гласово съобщение, говориш в гласов или видеоразговор или тестваш микрофона си в настройките."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer používá mikrofon, když nahráváte hlasovou zprávu, mluvíte v hlasovém nebo video hovoru nebo testujete mikrofon v nastavení."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruger mikrofonen, når du optager en talebesked, taler i et tale- eller videoopkald eller tester din mikrofon i indstillingerne."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer verwendet das Mikrofon, wenn du eine Sprachnachricht aufnimmst, in einem Sprach- oder Videoanruf sprichst oder dein Mikrofon in den Einstellungen testest."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer χρησιμοποιεί το μικρόφωνο όταν ηχογραφείτε φωνητικό μήνυμα, μιλάτε σε φωνητική κλήση ή βιντεοκλήση ή δοκιμάζετε το μικρόφωνό σας στις ρυθμίσεις."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses the microphone when you record a voice message, talk in a voice or video call, or test your microphone in settings."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses the microphone when you record a voice message, talk in a voice or video call, or test your microphone in settings."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa el micrófono cuando grabas un mensaje de voz, hablas en una llamada de voz o vídeo, o pruebas el micrófono en los ajustes."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa el micrófono cuando grabas un mensaje de voz, hablas en una llamada de voz o video, o pruebas tu micrófono en la configuración."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer käyttää mikrofonia, kun nauhoitat ääniviestin, puhut ääni- tai videopuhelussa tai testaat mikrofoniasi asetuksissa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer utilise le micro quand vous enregistrez un message vocal, parlez lors d'un appel vocal ou vidéo, ou testez votre micro dans les paramètres."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer משתמש במיקרופון כשאתה מקליט הודעה קולית, מדבר בשיחה קולית או בשיחת וידאו, או בודק את המיקרופון שלך בהגדרות."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जब आप वॉइस मैसेज रिकॉर्ड करते हैं, वॉइस या वीडियो कॉल में बात करते हैं, या सेटिंग्स में अपना माइक्रोफ़ोन टेस्ट करते हैं, तब Fluxer माइक्रोफ़ोन का इस्तेमाल करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer koristi mikrofon kada snimate glasovnu poruku, razgovarate u glasovnom ili video pozivu ili testirate mikrofon u postavkama."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer akkor használja a mikrofont, amikor hangüzenetet veszel fel, hang- vagy videohívásban beszélsz, vagy a beállításokban teszteled a mikrofonodat."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menggunakan mikrofon saat kamu merekam pesan suara, berbicara dalam panggilan suara atau video, atau menguji mikrofonmu di pengaturan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa il microfono quando registri un messaggio vocale, parli in una chiamata vocale o video, o provi il microfono nelle impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxerは、ボイスメッセージを録音するとき、音声通話やビデオ通話で話すとき、設定でマイクをテストするときにマイクを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer는 음성 메시지를 녹음하거나, 음성 또는 영상 통화에서 말하거나, 설정에서 마이크를 테스트할 때 마이크를 사용합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer naudoja mikrofoną, kai įrašote balso žinutę, kalbate balso ar vaizdo skambutyje arba nustatymuose tikrinate mikrofoną."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruker mikrofonen når du spiller inn en talemelding, snakker i en tale- eller videosamtale eller tester mikrofonen i innstillingene."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer gebruikt de microfoon wanneer je een spraakbericht opneemt, praat in een spraak- of videogesprek of je microfoon test in de instellingen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer używa mikrofonu, gdy nagrywasz wiadomość głosową, rozmawiasz podczas połączenia głosowego lub wideo albo testujesz mikrofon w ustawieniach."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer usa o microfone quando você grava uma mensagem de voz, fala em uma chamada de voz ou vídeo, ou testa seu microfone nas configurações."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer folosește microfonul când înregistrezi un mesaj vocal, vorbești într-un apel vocal sau video ori îți testezi microfonul în setări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer использует микрофон, когда вы записываете голосовое сообщение, говорите в голосовом или видеозвонке или проверяете микрофон в настройках."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer använder mikrofonen när du spelar in ett röstmeddelande, pratar i ett röst- eller videosamtal eller testar mikrofonen i inställningarna."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer ใช้ไมโครโฟนเมื่อคุณบันทึกข้อความเสียง พูดในการโทรด้วยเสียงหรือวิดีโอ หรือทดสอบไมโครโฟนในการตั้งค่า"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, sesli mesaj kaydettiğinizde, sesli veya görüntülü bir aramada konuştuğunuzda ya da ayarlarda mikrofonunuzu test ettiğinizde mikrofonu kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer використовує мікрофон, коли ви записуєте голосове повідомлення, говорите під час голосового чи відеодзвінка або перевіряєте мікрофон у налаштуваннях."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sử dụng micrô khi bạn ghi tin nhắn thoại, nói chuyện trong cuộc gọi thoại hoặc video, hoặc kiểm tra micrô trong phần cài đặt."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你录制语音消息、在语音或视频通话中讲话，或在设置中测试麦克风时，Fluxer 会使用麦克风。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您錄製語音訊息、在語音或視訊通話中說話，或在設定中測試麥克風時，Fluxer 會使用麥克風。"
+          }
+        }
+      }
+    },
+    "NSMotionUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Fluxer بيانات الحركة لتحريك خلفية النجوم المتحركة عندما تُميل جهازك."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer използва данни за движението, за да премества анимирания звезден фон, когато накланяш устройството си."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer používá údaje o pohybu k posouvání animovaného hvězdného pozadí, když nakloníte zařízení."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruger bevægelsesdata til at flytte den animerede stjernebaggrund, når du vipper din enhed."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer verwendet Bewegungsdaten, um den animierten Sternenhintergrund zu bewegen, wenn du dein Gerät neigst."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer χρησιμοποιεί δεδομένα κίνησης για να μετακινεί το κινούμενο φόντο με τα αστέρια όταν γέρνετε τη συσκευή σας."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses motion data to move the animated star background when you tilt your device."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer uses motion data to move the animated star background when you tilt your device."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa los datos de movimiento para mover el fondo animado de estrellas cuando inclinas el dispositivo."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa los datos de movimiento para mover el fondo animado de estrellas cuando inclinas tu dispositivo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer käyttää liiketietoja animoidun tähtitaustan liikuttamiseen, kun kallistat laitettasi."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer utilise les données de mouvement pour animer le fond étoilé quand vous inclinez votre appareil."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer משתמש בנתוני תנועה כדי להזיז את רקע הכוכבים המונפש כשאתה מטה את המכשיר."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जब आप अपना डिवाइस झुकाते हैं, तब एनिमेटेड तारों वाले बैकग्राउंड को हिलाने के लिए Fluxer मोशन डेटा का इस्तेमाल करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer koristi podatke o pokretu kako bi pomicao animiranu pozadinu sa zvijezdama kada nagnete uređaj."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer a mozgásadatokat arra használja, hogy az animált csillagos hátteret mozgassa, amikor megdöntöd az eszközödet."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menggunakan data gerakan untuk menggerakkan latar bintang animasi saat kamu memiringkan perangkatmu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer usa i dati di movimento per spostare lo sfondo animato di stelle quando inclini il dispositivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxerは、デバイスを傾けたときにアニメーションの星空背景を動かすためにモーションデータを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer는 기기를 기울일 때 움직이는 별 배경을 움직이기 위해 동작 데이터를 사용합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer naudoja judesio duomenis, kad pakreipus įrenginį judėtų animuotas žvaigždžių fonas."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bruker bevegelsesdata til å bevege den animerte stjernebakgrunnen når du vipper enheten."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer gebruikt bewegingsgegevens om de geanimeerde sterrenachtergrond te laten bewegen wanneer je je apparaat kantelt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer używa danych o ruchu, aby poruszać animowanym gwiezdnym tłem, gdy przechylasz urządzenie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer usa dados de movimento para mover o fundo animado de estrelas quando você inclina o dispositivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer folosește datele de mișcare pentru a mișca fundalul animat cu stele când înclini dispozitivul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer использует данные о движении, чтобы сдвигать анимированный звёздный фон, когда вы наклоняете устройство."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer använder rörelsedata för att flytta den animerade stjärnbakgrunden när du lutar enheten."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer ใช้ข้อมูลการเคลื่อนไหวเพื่อขยับพื้นหลังรูปดาวแบบเคลื่อนไหวเมื่อคุณเอียงอุปกรณ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, cihazınızı eğdiğinizde hareketli yıldız arka planını hareket ettirmek için hareket verilerini kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer використовує дані руху, щоб зрушувати анімований зоряний фон, коли ви нахиляєте пристрій."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sử dụng dữ liệu chuyển động để di chuyển nền ngôi sao động khi bạn nghiêng thiết bị."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer 使用运动数据，在你倾斜设备时移动动态星空背景。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您傾斜裝置時，Fluxer 會使用動作資料來移動動態星空背景。"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحفظ Fluxer في مكتبتك عندما تختار حفظ صورة أو مقطع فيديو من دردشة، أو حفظ عدة الاسترداد كصورة."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer запазва в библиотеката ти, когато избереш да запазиш снимка или видеоклип от чат или комплекта си за възстановяване като изображение."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer ukládá do vaší knihovny, když se rozhodnete uložit fotku nebo video z chatu nebo sadu pro obnovení jako obrázek."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer gemmer i dit bibliotek, når du vælger at gemme et billede eller en video fra en chat eller dit gendannelsessæt som et billede."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer speichert in deiner Mediathek, wenn du ein Foto oder Video aus einem Chat oder dein Wiederherstellungskit als Bild speichern möchtest."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer αποθηκεύει στη βιβλιοθήκη σας όταν επιλέγετε να αποθηκεύσετε μια φωτογραφία ή ένα βίντεο από μια συνομιλία ή το κιτ ανάκτησής σας ως εικόνα."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer guarda en tu fototeca cuando decides guardar una foto o un vídeo de un chat, o tu kit de recuperación como imagen."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer guarda en tu fototeca cuando eliges guardar una foto o un video de un chat, o tu kit de recuperación como imagen."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer tallentaa kirjastoosi, kun valitset tallentaa kuvan tai videon keskustelusta tai palautussarjasi kuvana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer enregistre dans votre photothèque quand vous choisissez d'enregistrer une photo ou une vidéo d'une discussion, ou votre kit de récupération sous forme d'image."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer שומר בספרייה שלך כשאתה בוחר לשמור תמונה או סרטון מצ'אט, או את ערכת השחזור שלך כתמונה."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जब आप किसी चैट से कोई फ़ोटो या वीडियो, या अपनी रिकवरी किट को छवि के रूप में सेव करना चुनते हैं, तब Fluxer उसे आपकी लाइब्रेरी में सेव करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sprema u vašu biblioteku kada odlučite spremiti fotografiju ili videozapis iz razgovora ili svoj komplet za oporavak kao sliku."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer akkor ment a könyvtáradba, amikor egy fotó vagy videó mentését választod egy csevegésből, vagy a helyreállító készleted mentését képként."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menyimpan ke galerimu saat kamu memilih untuk menyimpan foto atau video dari chat, atau kit pemulihanmu sebagai gambar."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer salva nella tua libreria quando scegli di salvare una foto o un video da una chat, oppure il tuo kit di recupero come immagine."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チャットの写真や動画、またはリカバリーキットの画像を保存することを選んだときに、Fluxerはそれをライブラリに保存します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "채팅의 사진이나 동영상, 또는 복구 키트 이미지를 저장하기로 선택하면 Fluxer가 보관함에 저장합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer išsaugo jūsų bibliotekoje, kai pasirenkate išsaugoti nuotrauką ar vaizdo įrašą iš pokalbio arba savo atkūrimo rinkinį kaip vaizdą."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer lagrer i biblioteket ditt når du velger å lagre et bilde eller en video fra en chat, eller gjenopprettingssettet ditt som et bilde."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer bewaart in je bibliotheek wanneer je ervoor kiest een foto of video uit een chat, of je herstelkit als afbeelding, op te slaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer zapisuje w Twojej bibliotece, gdy zdecydujesz się zapisać zdjęcie lub film z czatu albo swój zestaw odzyskiwania jako obraz."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer salva na sua biblioteca quando você escolhe salvar uma foto ou um vídeo de um chat, ou o seu kit de recuperação como imagem."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer salvează în biblioteca ta când alegi să salvezi o fotografie sau un videoclip dintr-un chat, ori kitul tău de recuperare ca imagine."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer сохраняет в вашу медиатеку, когда вы решаете сохранить фото или видео из чата либо комплект восстановления в виде изображения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer sparar i ditt bibliotek när du väljer att spara en bild eller video från en chatt, eller ditt återställningskit som en bild."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer บันทึกลงในคลังของคุณเมื่อคุณเลือกบันทึกรูปภาพหรือวิดีโอจากแชท หรือบันทึกชุดกู้คืนของคุณเป็นรูปภาพ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, bir sohbetteki fotoğraf veya videoyu ya da kurtarma kitinizi görsel olarak kaydetmeyi seçtiğinizde arşivinize kaydeder."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer зберігає у вашу медіатеку, коли ви вирішуєте зберегти фото чи відео з чату або комплект відновлення як зображення."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer lưu vào thư viện của bạn khi bạn chọn lưu ảnh hoặc video từ cuộc trò chuyện, hoặc lưu bộ dụng cụ khôi phục của bạn dưới dạng hình ảnh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你选择保存聊天中的照片或视频，或将恢复工具包保存为图片时，Fluxer 会将其保存到你的图库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您選擇儲存聊天中的照片或影片，或將復原工具組儲存為圖片時，Fluxer 會將其儲存到您的圖庫。"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يعرض Fluxer صورك ومقاطع الفيديو الخاصة بك في لوحة المرفقات لتختار ما تريد إرساله في دردشة."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer показва снимките и видеоклиповете ти в панела за прикачване, за да можеш да избереш кои да изпратиш в чат."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer zobrazuje vaše fotky a videa v panelu příloh, abyste mohli vybrat, které z nich pošlete do chatu."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer viser dine billeder og videoer i panelet til vedhæftede filer, så du kan vælge, hvilke du vil sende i en chat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer zeigt deine Fotos und Videos im Anhangsbereich an, damit du auswählen kannst, welche du in einem Chat sendest."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το Fluxer εμφανίζει τις φωτογραφίες και τα βίντεό σας στο πλαίσιο συνημμένων ώστε να επιλέγετε ποια θα στείλετε σε μια συνομιλία."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer shows your photos and videos in the attachment panel so you can choose which ones to send in a chat."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer shows your photos and videos in the attachment panel so you can choose which ones to send in a chat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer muestra tus fotos y vídeos en el panel de archivos adjuntos para que puedas elegir cuáles enviar en un chat."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer muestra tus fotos y videos en el panel de adjuntos para que elijas cuáles enviar en un chat."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer näyttää kuvasi ja videosi liitepaneelissa, jotta voit valita, mitkä niistä lähetät keskusteluun."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer affiche vos photos et vidéos dans le panneau des pièces jointes pour que vous puissiez choisir celles à envoyer dans une discussion."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer מציג את התמונות והסרטונים שלך בחלונית הקבצים המצורפים כדי שתוכל לבחור אילו מהם לשלוח בצ'אט."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer अटैचमेंट पैनल में आपकी फ़ोटो और वीडियो दिखाता है, ताकि आप चुन सकें कि चैट में कौन-से भेजने हैं।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer prikazuje vaše fotografije i videozapise na ploči za privitke kako biste mogli odabrati koje ćete poslati u razgovoru."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Fluxer megjeleníti a fotóidat és videóidat a mellékletpanelen, hogy kiválaszthasd, melyiket küldöd el egy csevegésben."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer menampilkan foto dan videomu di panel lampiran agar kamu bisa memilih mana yang akan dikirim di chat."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer mostra le tue foto e i tuoi video nel pannello degli allegati, così puoi scegliere quali inviare in una chat."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxerは、チャットで送信するものを選べるように、添付パネルに写真と動画を表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer는 채팅에 보낼 사진과 동영상을 선택할 수 있도록 첨부 패널에 회원님의 사진과 동영상을 표시합니다."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer rodo jūsų nuotraukas ir vaizdo įrašus priedų skydelyje, kad galėtumėte pasirinkti, kuriuos išsiųsti pokalbyje."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer viser bildene og videoene dine i vedleggspanelet, slik at du kan velge hvilke du vil sende i en chat."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer toont je foto's en video's in het bijlagenpaneel, zodat je kunt kiezen welke je in een chat verstuurt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer pokazuje Twoje zdjęcia i filmy w panelu załączników, aby można było wybrać, które wysłać na czacie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Fluxer mostra suas fotos e vídeos no painel de anexos para que você escolha quais enviar em um chat."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer îți afișează fotografiile și videoclipurile în panoul de atașamente, ca să poți alege pe care să le trimiți într-un chat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer показывает ваши фото и видео на панели вложений, чтобы вы могли выбрать, какие из них отправить в чат."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer visar dina bilder och videor i bilagepanelen så att du kan välja vilka du vill skicka i en chatt."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer แสดงรูปภาพและวิดีโอของคุณในแผงไฟล์แนบ เพื่อให้คุณเลือกได้ว่าจะส่งรายการใดในแชท"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer, sohbette hangilerini göndereceğinizi seçebilmeniz için fotoğraflarınızı ve videolarınızı ek panelinde gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer показує ваші фото й відео на панелі вкладень, щоб ви могли вибрати, які з них надіслати в чат."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer hiển thị ảnh và video của bạn trong bảng đính kèm để bạn chọn những mục muốn gửi trong cuộc trò chuyện."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer 会在附件面板中显示你的照片和视频，以便你选择要在聊天中发送的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxer 會在附件面板中顯示您的照片和影片，讓您選擇要在聊天中傳送哪些。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

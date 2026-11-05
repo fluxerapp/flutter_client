@@ -13,7 +13,10 @@ import '../../../helpers/open_test_database.dart';
 
 class _FakeSensitive extends SensitiveContent {
   @override
-  SensitiveContentState build() => const SensitiveContentState();
+  SensitiveContentState build() => const SensitiveContentState(
+    access: MatureAccess.allowed,
+    showLocked: false,
+  );
 }
 
 class _UnloadedAgreements extends MatureContentAgreements {

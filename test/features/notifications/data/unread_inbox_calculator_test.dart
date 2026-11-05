@@ -671,4 +671,77 @@ void main() {
       expect(entries.single.mentionCount, 4);
     },
   );
+  test('threads follow their parent view overwrite within one guild', () async {
+    final FluxerDatabase db = openTestDatabase();
+    const guildId = 'guild_test_1';
+    const userId = 'user_test_1';
+    final String visibleId = _snowflakeForUtc(DateTime.utc(2026, 5, 4));
+    final String hiddenId = _snowflakeForUtc(DateTime.utc(2026, 5, 2));
+    final String hiddenThreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 3));
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(
+        id: guildId,
+        name: 'Test Guild',
+        ownerId: const Value('owner'),
+      ),
+    );
+    await db.roleDao.upsertRoles([
+      RolesCompanion.insert(
+        id: guildId,
+        guildId: guildId,
+        name: '@everyone',
+        permissions: Value(Permission.viewChannel.value.toString()),
+      ),
+    ]);
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(userId: userId, guildId: guildId),
+    );
+    final String denyView = jsonEncode(<Object?>[
+      <String, Object?>{
+        'id': guildId,
+        'type': 0,
+        'allow': '0',
+        'deny': '${Permission.viewChannel.value}',
+      },
+    ]);
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(id: visibleId, guildId: guildId, name: 'a'),
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: hiddenId,
+        guildId: guildId,
+        name: 'b',
+        permissionOverwritesJson: Value(denyView),
+      ),
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: hiddenThreadId,
+        guildId: guildId,
+        name: 't',
+        type: const Value(11),
+        parentId: Value(hiddenId),
+      ),
+    );
+    for (final String id in <String>[visibleId, hiddenId, hiddenThreadId]) {
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: Value(id),
+          lastMessageId: Value(id),
+          mentionCount: const Value(1),
+        ),
+      );
+    }
+
+    final List<UnreadInboxEntry> entries = await UnreadInboxCalculator.compute(
+      db,
+      collapsedByChannelId: <String, bool>{},
+      currentUserId: userId,
+    );
+
+    expect(entries.map((UnreadInboxEntry e) => e.channelId), <String>[
+      visibleId,
+    ]);
+  });
 }

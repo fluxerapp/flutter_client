@@ -1,16 +1,69 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_badge_detail_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
+import 'package:fluxer_app/shared/external_links/first_party_site_link.dart';
 import 'package:fluxer_dart/export.dart';
+
+const Set<String> _kPurchaseBadgeKinds = <String>{
+  'operator_pass',
+  'visionary',
+  'visionary_number',
+  'premium',
+  'plutonium',
+};
+
+bool profileBadgeLinkAllowed({
+  required bool externalPurchaseLinksAllowed,
+  required bool officialInstance,
+  required ProfileBadgeResponse badge,
+}) {
+  final String? href = badge.href;
+  if (href == null) {
+    return false;
+  }
+  if (defaultTargetPlatform != TargetPlatform.iOS) {
+    return true;
+  }
+  if (!officialInstance) {
+    return false;
+  }
+  if (externalPurchaseLinksAllowed) {
+    return true;
+  }
+  final Uri? uri = Uri.tryParse(href);
+  return uri != null &&
+      !_kPurchaseBadgeKinds.contains(badge.kind) &&
+      !isFirstPartySiteLinkWithoutAppView(uri);
+}
+
+bool profileBadgeHasAction({
+  required bool externalPurchaseLinksAllowed,
+  required bool officialInstance,
+  required bool billingNavVisible,
+  required ProfileBadgeResponse badge,
+}) {
+  if (profileBadgeOpensPremiumSheet(badge)) {
+    return billingNavVisible;
+  }
+  return profileBadgeLinkAllowed(
+    externalPurchaseLinksAllowed: externalPurchaseLinksAllowed,
+    officialInstance: officialInstance,
+    badge: badge,
+  );
+}
 
 bool profileBadgeOpensPremiumSheet(ProfileBadgeResponse badge) {
   if (badge.kind == 'premium') {
@@ -115,15 +168,26 @@ Future<void> handleProfileBadgeTap(
   ProfileBadgeResponse badge, {
   bool touch = false,
 }) async {
-  if (!touch && profileBadgeOpensPremiumSheet(badge)) {
-    await openPlutoniumCommerce(context, ref, useRootNavigator: true);
+  if (touch) {
     return;
   }
-  final String? href = badge.href;
-  if (href != null && !touch) {
-    final Uri? uri = Uri.tryParse(href);
-    if (uri != null) {
-      await openExternalUrl(uri);
+  if (profileBadgeOpensPremiumSheet(badge)) {
+    if (ref.read(premiumBillingNavVisibleProvider)) {
+      await openPlutoniumCommerce(context, ref, useRootNavigator: true);
     }
+    return;
+  }
+  if (!profileBadgeLinkAllowed(
+    externalPurchaseLinksAllowed: ref.read(
+      externalPurchaseLinksAllowedProvider,
+    ),
+    officialInstance: ref.read(isActiveInstanceOfficialProvider),
+    badge: badge,
+  )) {
+    return;
+  }
+  final Uri? uri = Uri.tryParse(badge.href!);
+  if (uri != null) {
+    await openExternalUrl(uri);
   }
 }

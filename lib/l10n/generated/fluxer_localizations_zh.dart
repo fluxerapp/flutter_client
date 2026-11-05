@@ -90,7 +90,29 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get gatewayConnectedToast => '已连接';
 
   @override
+  String get gatewayOfflineToast => '你已离线。恢复联网后，Fluxer 会自动重新连接。';
+
+  @override
   String get sessionExpiredToast => '您的会话已过期。请重新登录。';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return '你的账号将于 $date 被删除。在此之前登录即可取消删除。';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      '你的账号已计划删除。在删除日期之前登录即可取消删除。';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '我们正在删除你的账号。如果你的账号绑定了邮箱地址，删除完成后我们会发邮件通知你。';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail => '我们正在删除你的账号。';
+
+  @override
+  String get accountDisabledNotice => '你的账号已停用。想要使用时，随时重新登录即可。';
 
   @override
   String splashStartupFailed(String error) {
@@ -145,6 +167,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String get verificationResendEmail => '重新发送邮件';
+
+  @override
+  String get verificationEmailSent => '验证邮件已发送。请检查你的收件箱。';
+
+  @override
+  String get verificationEmailRateLimited => '你请求的验证邮件过多。请稍候片刻，然后重试。';
+
+  @override
   String get nagbarOpenSettings => '打开设置';
 
   @override
@@ -179,8 +210,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '你的 $productName 订阅续订失败。你可以继续享有 $productName 权益，直到 $graceDate。';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return '您的 $productName 订阅已过期。立即续订以保留您的会员权益。';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '你的 $productName 订阅已过期。';
   }
 
   @override
@@ -215,12 +259,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get nagbarEnableMfa => '启用双重验证';
-
-  @override
-  String get nagbarTermsAcceptance => '我们已更新条款。请查看并接受，以继续使用。';
-
-  @override
-  String get nagbarReviewTerms => '查看条款';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
@@ -258,6 +296,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => '使用密匙登录';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '登录即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '登录即表示你同意<terms>服务条款</terms>。',
+      'other': '登录即表示你同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -352,7 +400,17 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get mfaTryAnotherMethod => '尝试其他方式';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '此实例的通行密钥在此应用中无法使用，且你的账号没有其他验证方式。请改为在网页版登录。';
+
+  @override
   String get mfaUseSecurityKey => '改用安全密钥/通行密钥';
+
+  @override
+  String get mfaUseBackupCode => '使用备用码';
+
+  @override
+  String get mfaUseAuthenticatorCode => '使用身份验证器应用中的代码';
 
   @override
   String get accountSelectorTitle => '选择一个账号';
@@ -375,8 +433,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get accountExpired => '已过期';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '$identifier 的会话已过期。请重新登录。';
+  String accountSessionExpiredNotice(String name) {
+    return '你的 $name 会话已过期。请重新登录。';
   }
 
   @override
@@ -479,74 +537,68 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get signOut => '退出登录';
 
   @override
-  String get suspendedPermanentTitle => '账户永久封禁';
-
-  @override
   String get suspendedTemporaryTitle => '账户暂停';
 
   @override
-  String get suspendedPermanentDescription => '您的账户因违反我们的服务条款而被永久封禁。';
+  String get suspendedBannedTitle => '账号已被永久封禁';
 
   @override
-  String get suspendedTemporaryDescription => '您的账户已被暂时封禁。封禁期结束后，您将能够访问您的账户。';
+  String get suspendedClosedTitle => '账号已关闭';
 
   @override
-  String get suspendedIssuedAt => '生效时间';
+  String get suspendedWhatHappened => '发生了什么';
 
   @override
-  String get suspendedEndsAt => '结束时间';
+  String get suspendedWhy => '原因';
 
   @override
-  String get suspendedDuration => '封禁时长';
+  String get suspendedHowWeDecided => '我们如何做出决定';
 
   @override
-  String get suspendedPermanent => '永久';
+  String get suspendedHowToAppeal => '如何申诉';
 
   @override
-  String get suspendedReason => '原因';
-
-  @override
-  String get suspendedAppealDeadline => '申诉截止日期';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '您的账户定于 $date 删除。';
+  String suspendedNoteFromTeam(String statement) {
+    return '团队留言：$statement';
   }
 
   @override
-  String get suspendedRecheck => '检查更新';
+  String suspendedDecisionId(String decisionId) {
+    return '决定 ID：$decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '请 $seconds 秒后再试';
+  String suspendedRule(String title) {
+    return '规则：$title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '如果你认为我们的决定有误，请发送邮件至 $email，并附上你的用户名。';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '如果你认为我们的决定有误，请在 $deadline 之前发送邮件至 $email，并附上决定 ID 和你的用户名。申诉免费，每一份申诉都会由专人审核。';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '如果你认为我们的决定有误，请在 $deadline 之前发送邮件至 $email。如果可以，请使用你账号绑定的邮箱地址发送，并附上决定 ID。申诉免费，每一份申诉都会由专人审核。';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '如需请求我们删除你的账号和数据，请使用你账号绑定的邮箱地址发送邮件至 $email。';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '如需请求我们删除你的账号和数据，请发送邮件至 $email，并附上你的用户名。';
   }
 
   @override
   String get suspendedBackToLogin => '返回登录';
-
-  @override
-  String get suspendedAppealTitle => '申诉';
-
-  @override
-  String get suspendedAppealHint => '说明您认为应重新考虑此次封禁的原因（至少 50 个字符）...';
-
-  @override
-  String get suspendedAppealSubmit => '提交申诉';
-
-  @override
-  String get suspendedAppealPending => '审核中';
-
-  @override
-  String get suspendedAppealAccepted => '申诉已接受';
-
-  @override
-  String get suspendedAppealRejected => '申诉已拒绝';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '您的申诉已被接受，您的账户已恢复。';
-
-  @override
-  String get suspendedSignIn => '登录您的账户';
 
   @override
   String get forgotPasswordTitle => '忘记密码？';
@@ -757,6 +809,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get registerDateOfBirth => '出生日期';
 
   @override
+  String get registerDateOfBirthDone => '完成';
+
+  @override
+  String get registerDateOfBirthNotSet => '未设置';
+
+  @override
   String get registerMonth => '月';
 
   @override
@@ -766,16 +824,18 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get registerYear => '年';
 
   @override
-  String get registerConsentPrefix => '我同意';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>',
+      'terms': '我同意<terms>服务条款</terms>',
+      'other': '我同意<privacy>隐私政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => '服务条款';
-
-  @override
-  String get registerConsentAnd => '和';
-
-  @override
-  String get registerConsentPrivacy => '隐私政策';
+  String get registerConsentBuiltInRules =>
+      '我同意：此实例对令人反感的内容和滥用行为的用户零容忍，其管理员可以移除违反这些规则的内容和账号。';
 
   @override
   String get registerConfirmPassword => '确认密码';
@@ -794,6 +854,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentials => '此应用未找到任何通行密钥。请改用电子邮件和密码登录。';
+
+  @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
 
   @override
   String get passkeyDeviceNotSupported => '此设备不支持通行密钥。';
@@ -840,8 +904,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count 位成员';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount 位成员';
   }
 
   @override
@@ -939,9 +1003,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedThemeWebOnly => '只能在网页版或桌面版导入主题。';
 
   @override
-  String get embedThemeImport => '导入主题';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return '愿景家（永久 $productName）';
   }
@@ -1029,6 +1090,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => '此礼物已被领取。';
+
+  @override
+  String get giftAcceptLifetimeNotInApp => '此礼物无法在 iOS 应用中领取，但可以在桌面应用中领取。';
 
   @override
   String get giftAcceptMaybeLater => '以后再说';
@@ -1642,6 +1706,45 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String get stickerPickerSearchHint => '搜索贴纸';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '没有可用的贴纸';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody => '加入一个有贴纸的社区，即可在这里使用贴纸。';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '没有可用的贴纸';
+
+  @override
+  String get stickerPickerEmptyHereBody => '此对话中没有可用的贴纸。';
+
+  @override
+  String get stickerPickerNoResultsTitle => '未找到贴纸';
+
+  @override
+  String get stickerPickerNoResultsBody => '请尝试其他搜索词。';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return '使用 Plutonium 解锁来自 $communityCount的 $stickerCount。';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个贴纸',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => '外部链接警告';
 
   @override
@@ -1894,22 +1997,20 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get emojiPickerTitle => '表情';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => '徽章';
 
   @override
-  String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+  String get profileBadgesSettingsDescription => '选择其他人在你的个人资料中能看到哪些徽章。';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => '你还没有任何徽章。';
 
   @override
-  String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+  String get profileBadgesSettingsLoadFailed => '无法加载你的徽章。';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '在你的个人资料中显示 $badgeLabel';
   }
 
   @override
@@ -1918,22 +2019,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => '显示所有徽章';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '还有 +$count 个徽章，显示全部',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      '仅在你的 Visionary 徽章可见且未显示为普通订阅时显示。';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隐私';
@@ -1980,117 +2080,19 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return '自 $since 起拥有 Operator Pass';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => '在我的个人资料中显示徽章';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return '隐藏你获得 $operatorPassName 的时间';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
-
-  @override
-  String get operatorPassWallTitle => 'Operators\' wall';
-
-  @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
-
-  @override
-  String get operatorPassWallNotListed => 'Not listed.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'On the wall';
-
-  @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
-
-  @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Why?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
-
-  @override
-  String get operatorPassWallSave => 'Save';
-
-  @override
-  String get operatorPassWallSaved => 'Saved.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
-
-  @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
+  String get operatorPassHideCount => '隐藏你拥有的 Operator Pass 数量';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2106,7 +2108,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody => '应用内购买在此平台暂不可用。敬请期待 — 即将推出！';
+  String get plutoniumNotSoldHere => '此版本的应用无法购买 Plutonium。';
 
   @override
   String get profilePreviewLabel => '预览';
@@ -2177,6 +2179,39 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get sudoVerificationFailed => '验证失败。请重试。';
 
   @override
+  String get sudoWrongPassword => '密码不正确。请重试。';
+
+  @override
+  String get sudoEmailCodeSend => '通过邮件向我发送验证码';
+
+  @override
+  String get sudoEmailCodeSent => '我们已向你的邮箱地址发送了一个 6 位数验证码。';
+
+  @override
+  String get sudoEmailCodeLabel => '邮件中的验证码';
+
+  @override
+  String get sudoEmailCodeResend => '发送新验证码';
+
+  @override
+  String get sudoSsoReauthHint => '请重新登录以确认是你本人。';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '重新登录';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '使用 $provider 登录';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount => '你登录的是另一个账号。请使用你在这里使用的账号登录。';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '此实例的通行密钥在此应用中无法使用。请使用你的身份验证器应用或备用码，或在网页版上确认。';
+
+  @override
   String get securityAccountTitle => '账号';
 
   @override
@@ -2187,6 +2222,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get securitySectionDescription => '使用双重验证和通行密钥保护你的账号';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys => '使用双重验证保护你的账号';
 
   @override
   String get securityLoginEmailSectionTitle => '电子邮件设置';
@@ -2496,6 +2534,54 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dangerZoneDisableDescription => '暂时停用你的账号。之后重新登录即可恢复。';
 
   @override
+  String get dangerZoneDeleteEntryDescription => '删除你的账号和个人数据。你也可以同时删除你的消息。';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '你的账号、个人资料和个人数据将被删除。你未删除的消息会保留在原处，但不再显示你的名字或个人资料。';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '同时删除我的消息';
+
+  @override
+  String get dangerZoneDeleteMessagesHint => '删除账号时，一并删除你在私信、群聊和社区中发送的所有消息。';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '如需保留一份数据副本，请先在$privacyDashboard中申请导出。';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 天后删除';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '在这 14 天内登录即可取消删除。';
+
+  @override
+  String get dangerZoneDeleteSchedule => '计划删除';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      '你的账号将在此实例的等待期结束后被删除。在此之前登录即可取消删除。';
+
+  @override
+  String get dangerZoneDeleteNow => '立即删除';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '立即删除你的账号？';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '你的账号将被立即删除，且无法恢复。';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '你的 Plutonium 订阅由 Apple 计费。删除账号不会取消该订阅，因此请先在 App Store 中取消订阅。';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '你的 Plutonium 订阅由 Google Play 计费。删除账号不会取消该订阅，因此请先在 Google Play 中取消订阅。';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '禁用您的账号将使您退出所有会话。您可以通过再次登录随时重新启用您的账号。';
 
@@ -2503,42 +2589,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => '删除账号';
 
   @override
-  String get dangerZoneDeleteDescription => '永久删除你的账号和所有相关数据。此操作无法撤销。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '无法删除账号';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities => '你还拥有社区，无法删除账号。请先转让以下社区的所有权：';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '你是以下社区的所有者。在删除账号之前，请删除每个社区，或将其转让给其他成员。';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '及另外 $count 个';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '要转移所有权，请前往 $settingsPath 并使用转移所有权选项。';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription => '确定要删除你的账号吗？此操作将安排永久删除你的账号。';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '你可以在 14 天内取消删除流程';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14 天后，你的账号将被永久删除';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '删除处理完成后，你将无法再访问自己的账号';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '删除账号后，您将无法删除您发送的消息';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '如果您想先导出数据或删除消息，请在继续操作前访问用户设置中的隐私中心。';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '点按一个社区以打开其设置。“删除社区”位于底部。如需转让，请打开“成员”，点按一位成员，点按其个人资料上的三个点，然后选择“转让所有权”。';
 
   @override
   String get claimAccountTitle => '认领你的账号';
@@ -2561,9 +2620,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => '账号认领成功';
-
-  @override
-  String get importantInformation => '重要信息：';
 
   @override
   String get genericError => '发生错误';
@@ -4024,6 +4080,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => '无法下载附件';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName 需要访问你的照片图库才能保存此附件。';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '附件已过期';
 
   @override
@@ -4149,7 +4210,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureMediaRevealButton => '显示';
 
   @override
-  String get matureMediaRevealHint => '点击显示';
+  String get matureMediaRevealLabel => '显示敏感媒体';
+
+  @override
+  String get matureMediaAppLockedLabel => '敏感媒体在 iPhone 和 iPad 上已隐藏。';
+
+  @override
+  String get matureMediaMinorLockedLabel => '你的账号已隐藏敏感媒体。';
 
   @override
   String get matureContentTitle => '成人内容';
@@ -4204,6 +4271,23 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureChannelUnavailableBody => '你的账号无法访问此成人频道。';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ 内容在 iPhone 和 iPad 上已关闭。如需在这里查看标记为 18+ 的社区和频道，请在网页版或桌面版上打开 Fluxer，前往设置中的“隐私”，然后开启“允许在 iPhone 和 iPad 上显示 18+ 内容”。';
+
+  @override
+  String get matureContentRegionLockedBody => '由于你所在地区的成人内容法规，在此处无法访问成人内容。';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 频道中的消息';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '此账号无法使用 Fluxer';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '你的 Apple Account 共享的年龄范围低于 13 岁。Fluxer 仅面向 13 岁及以上的用户。';
+
+  @override
   String get matureContentProceedButton => '继续';
 
   @override
@@ -4235,6 +4319,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => '保存';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '如需在这里选择“显示”，请在网页版或桌面版上打开 Fluxer，前往设置中的“隐私”，然后开启“允许在 iPhone 和 iPad 上显示 18+ 内容”。';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -4444,7 +4532,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get lookAndFeelThemeSectionTitle => '主题';
 
   @override
-  String get lookAndFeelThemeSectionDescription => '在深色、煤黑色或浅色外观之间进行选择。';
+  String get lookAndFeelThemeSectionDescription => '在系统、深色、煤黑色或浅色外观之间进行选择。';
 
   @override
   String get lookAndFeelHdrSectionTitle => '高动态范围';
@@ -4926,6 +5014,62 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => '名称为必填项。';
+
+  @override
+  String get savedMediaEdit => '编辑';
+
+  @override
+  String get savedMediaEditTitle => '编辑已保存媒体';
+
+  @override
+  String get savedMediaDeleteTitle => '删除已保存媒体';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '要从已保存媒体中移除“$name”吗？';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '无法删除已保存媒体。';
+
+  @override
+  String get savedMediaSearchHint => '搜索已保存媒体';
+
+  @override
+  String get savedMediaUnavailableTitle => '已保存媒体不可用';
+
+  @override
+  String get savedMediaUnavailableBody => '请稍后重试。';
+
+  @override
+  String get savedMediaEmptyTitle => '没有已保存媒体';
+
+  @override
+  String get savedMediaEmptyBody => '保存消息中的媒体后，它们会显示在这里。';
+
+  @override
+  String get savedMediaNoResultsTitle => '无结果';
+
+  @override
+  String get savedMediaNoResultsBody => '请尝试其他搜索词或筛选条件。';
+
+  @override
+  String get savedMediaFilterAll => '全部';
+
+  @override
+  String get savedMediaFilterImages => '图片';
+
+  @override
+  String get savedMediaFilterVideos => '视频';
+
+  @override
+  String get savedMediaFilterAudio => '音频';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => '我们应该如何保存您收藏的 GIF？';
@@ -5686,6 +5830,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceConnectionDismiss => '关闭';
 
   @override
+  String get voiceCallControlsSheetLabel => '语音通话控制';
+
+  @override
   String get voiceConnectionDisconnected => '已断开连接';
 
   @override
@@ -5779,6 +5926,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => '查看个人资料';
 
   @override
+  String get voiceParticipantMenuReport => '举报';
+
+  @override
   String get voiceParticipantMenuFocus => '聚焦此人';
 
   @override
@@ -5827,7 +5977,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '耳机';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => '更改音频输出';
 
   @override
   String get voicePanelOnlyShowVideosLabel => '仅显示视频';
@@ -5859,6 +6009,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => '视频需要摄像头权限。';
 
   @override
+  String get voiceMicPermissionRequired => '请允许访问麦克风，以便在此通话中取消静音。';
+
+  @override
   String get voiceErrorScreenShareToggle => '无法开始屏幕共享。请重试。';
 
   @override
@@ -5884,7 +6037,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return '缩放 $scale';
   }
 
   @override
@@ -5892,6 +6045,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => '你的流对参与者直播中。';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '来自你已屏蔽用户的视频';
 
   @override
   String get voiceLiveBadge => '直播中';
@@ -6039,6 +6195,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => '消息太长';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return '消息最多可包含 $maxLengthString 个字符。请缩短此消息后再发送。';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -6631,6 +6796,37 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get notificationReplyFailed => '无法发送回复';
 
   @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
+
+  @override
   String get chatMessageForward => '转发';
 
   @override
@@ -6788,6 +6984,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageDebug => '调试消息';
 
   @override
+  String get messageAlertNote => '备注';
+
+  @override
+  String get messageAlertTip => '提示';
+
+  @override
+  String get messageAlertImportant => '重要';
+
+  @override
+  String get messageAlertWarning => '警告';
+
+  @override
+  String get messageAlertCaution => '注意';
+
+  @override
   String get chatMessageDebugSheetTitle => '调试消息';
 
   @override
@@ -6818,6 +7029,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => '举报个人资料';
 
   @override
+  String get reportFlowTitleCommunity => '举报社区';
+
+  @override
   String get reportFlowSummaryTitle => '检查你的举报';
 
   @override
@@ -6838,7 +7052,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get reportFlowSelectedMessage => '你要举报的消息';
 
   @override
-  String get reportFlowSelectedUser => '你正在举报的个人资料';
+  String get reportFlowSelectedPerson => '你正在举报的人';
+
+  @override
+  String get reportFlowSelectedCommunity => '你要举报的社区';
 
   @override
   String get reportFlowReportCategory => '你的回答';
@@ -6865,6 +7082,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productName 安全团队将审核你的举报。我们不会透露举报人是你。';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted => '此实例的管理员将审核你的举报。我们不会透露举报来自你。';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -6908,6 +7128,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get reportFlowAlreadyReportedProfile => '你今天已经举报过此个人资料了。';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '你已举报过此社区。';
 
   @override
   String get reportFlowRateLimited => '你发送举报的速度过快。请稍后再试。';
@@ -7029,6 +7252,22 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatReplyMentionOff => '关';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '正在回复 $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '转发自 $source';
+  }
+
+  @override
+  String get chatForwardedLabel => '已转发';
+
+  @override
+  String get chatForwardedFromLabel => '转发自';
+
+  @override
   String get chatReplyCancel => '取消回复';
 
   @override
@@ -7104,6 +7343,23 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => '关闭';
+
+  @override
+  String get videoPlayerPlay => '播放';
+
+  @override
+  String get videoPlayerPause => '暂停';
+
+  @override
+  String get videoPlayerVolume => '音量';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '播放速度 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '全屏';
 
   @override
   String get chatAttachmentVideoToggleControls => '切换视频控件';
@@ -8017,6 +8273,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => '通知设置，已静音';
 
   @override
+  String get channelHeaderOpenDetails => '打开频道详情';
+
+  @override
   String get channelDetailsSearchTitle => '搜索';
 
   @override
@@ -8674,6 +8933,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get composerCloseAttachmentPanel => '关闭附件选择器';
 
   @override
+  String get composerSendMessage => '发送消息';
+
+  @override
   String get chatAttachmentPanelPhotos => '照片';
 
   @override
@@ -9001,13 +9263,34 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => '退款最近一次购买';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '购买即表示您同意我们的 ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '购买即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '购买即表示你同意<terms>服务条款</terms>。',
+      'other': '购买即表示你同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '购买即表示您同意我们的 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '购买时，你已同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',
+      'terms': '购买时，你已同意<terms>服务条款</terms>。',
+      'other': '购买时，你已同意<privacy>隐私政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 和 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>服务条款</terms>和<privacy>隐私政策</privacy>',
+      'terms': '<terms>服务条款</terms>',
+      'other': '<privacy>隐私政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -9191,14 +9474,21 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumFilesBody => '分享完整视频和大型文件，无需压缩。免费帐户最多可发送 25 MB。';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => '以 60 FPS 流式传输 4K';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      '与朋友分享屏幕或摄像头，最高可达 4K 60fps。免费账户最高可达 720p 30fps。';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => '以更高画质直播';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      '在应用中以最高 1080p、每秒 60 帧共享你的屏幕或摄像头，在桌面应用中最高可达 4K、60 帧。免费账号最高可以 720p、30 帧直播。';
+
+  @override
+  String get storePlutoniumManageHeading => '你的订阅';
 
   @override
   String get storePlutoniumCompareTitle => '比较免费版和 Plutonium';
@@ -9264,8 +9554,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => '最高 4K，60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      '应用中最高 1080p，60 FPS；桌面版最高 4K，60 FPS';
+
+  @override
   String get storePlutoniumTagFootnote =>
       '你只能选择其他同名用户尚未使用的标签。用户名不区分大小写，因此 Mina#4821 和 mina#4821 视为相同。#0000 标签专供 Fluxer Visionary 成员使用。';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      '你只能选择没有其他同名用户使用过的标签。用户名不区分大小写，因此 Mina#4821 和 mina#4821 视为相同。';
 
   @override
   String get storePlutoniumLearnVisionary => '了解 Visionary 详情。';
@@ -9304,10 +9602,34 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumRenewsThroughAppStore => '通过 App Store 自动续订，直到你取消。';
 
   @override
+  String get storePlutoniumAppleEula => 'Apple 标准使用条款（EULA）';
+
+  @override
   String get storePlutoniumRestorePurchases => '恢复购买';
 
   @override
+  String get storePlutoniumRestoreDone => '你的 Plutonium 订阅已恢复。';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      '此 Apple Account 没有可恢复的 Plutonium 订阅。';
+
+  @override
+  String get storePlutoniumRestoreFailed => '无法恢复购买。请稍后重试。';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '你已拥有 Fluxer Plutonium 订阅。';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      '此设备上的 Apple Account 已在另一个 Fluxer 账号上为 Plutonium 付费。';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => '未能添加 Plutonium';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store 已确认你的购买，但无法将 Plutonium 添加到此账号。请点按“恢复购买”重试，如果仍然无效，请联系支持团队。';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9318,7 +9640,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumWaiting => '已收到购买。Plutonium 激活后将在此处显示。';
 
   @override
-  String get storePlutoniumUnavailable => '此设备暂不支持应用内订阅。';
+  String get storePlutoniumApprovalPending =>
+      '你的购买正在等待批准。批准后，Plutonium 将添加到你的账号。';
+
+  @override
+  String get storePlutoniumLoadFailed => '无法加载 Plutonium 方案。请检查你的网络连接，然后重试。';
+
+  @override
+  String get storePlutoniumRetry => '重试';
 
   @override
   String get storePlutoniumVisionaryStatus => 'Visionary 已包含永久访问权限，因此无需重复订阅。';
@@ -9929,18 +10258,18 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      '报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告不包含实例名称、ID 或消息内容。';
+      '报告会发送到 Fluxer 的错误追踪服务，即使你登录的是其他实例也是如此。报告会关联到此次安装的随机 ID，不包含你的账号 ID、实例名称或消息内容。';
 
   @override
   String get observabilityReportingConsentTitle => '帮助修复崩溃';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer 意外关闭。共享匿名的崩溃和错误数据可帮助我们更快地修复问题。';
+      'Fluxer 意外关闭。发送崩溃报告可以帮助我们更快地找到并修复问题。';
 
   @override
   String get observabilityReportingConsentBody =>
-      '报告包含崩溃日志、错误和基本性能数据。这些数据不会与第三方共享，你可以随时关闭此功能。';
+      '报告包含崩溃日志、错误、性能数据、网络请求耗时，以及导致问题的界面和点按操作，并关联到此次安装的随机 ID。报告绝不包含消息内容，且只会发送到 Fluxer 自己的错误追踪系统。你可以随时关闭此功能。';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -9951,7 +10280,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => '发送崩溃报告';
 
   @override
-  String get observabilityReportingConsentDecline => '暂不启用';
+  String get observabilityReportingConsentDecline => '不再询问';
+
+  @override
+  String get observabilityReportingConsentNotNow => '暂不';
 
   @override
   String get advancedSettingsConfigure => '配置';
@@ -10013,11 +10345,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '离开启动屏时缩小 Logo';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => '启动画面语录';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      '在启动画面上显示一条随机语录。不会在设备间同步。';
 
   @override
   String get advancedSettingKeyboardHintsLabel => '键盘提示';
@@ -10326,7 +10658,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      '启用或停用内置反向图片搜索提供方。已启用的提供方会显示在图片、头像、横幅、贴纸和表情的上下文菜单中。';
+      '启用或停用内置的反向图片搜索服务。已启用的服务会显示在图片的选项中。';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel => '自定义反向图片搜索';
@@ -10338,6 +10670,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get advancedSettingAddReverseImageSearchLabel => '添加反向图片搜索';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return '使用 $engine 搜索';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '使用 $engine 翻译';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -10436,6 +10778,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsNavAppLogs => '应用日志';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 应用隐私政策';
+
+  @override
+  String get userSettingsTitle => '设置';
+
+  @override
+  String get userSettingsCopyAppInfo => '复制应用信息';
+
+  @override
   String get userSettingsNavDeveloperTools => '开发者工具';
 
   @override
@@ -10443,6 +10794,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get userSettingsNavFeatureFlags => '功能标志';
+
+  @override
+  String get userSettingsNavHelp => '帮助与支持';
 
   @override
   String get userSettingsNavWhatsNew => '新功能';
@@ -10727,6 +11081,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain 未使用安全连接（https）。Fluxer 仅通过 http 连接你本地网络中的实例。';
+  }
+
+  @override
   String get instanceCompatibilityTitle => '无法使用此实例';
 
   @override
@@ -10757,9 +11116,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get instanceConnectionRequired => '连接到实例后才能登录';
-
-  @override
-  String get comingSoon => '即将推出';
 
   @override
   String get guildNavbarDirectMessages => '私信';
@@ -10849,9 +11205,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => '社区';
-
-  @override
-  String get discoveryApps => '应用';
 
   @override
   String get discoveryJoinErrorGenericTitle => '无法加入此社区';
@@ -10960,6 +11313,75 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => '收件箱';
+
+  @override
+  String get friendsPageTitle => '我的好友';
+
+  @override
+  String get friendsActiveNowTitle => '当前活跃';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '暂时很安静…';
+
+  @override
+  String get friendsActiveNowEmptyBody => '当好友在语音频道中活跃时，他们的动态会显示在这里。';
+
+  @override
+  String get friendsTabOnline => '在线';
+
+  @override
+  String get friendsTabAll => '全部';
+
+  @override
+  String get friendsTabPending => '待处理';
+
+  @override
+  String get friendsTabBlocked => '已屏蔽';
+
+  @override
+  String get friendsSearchOnline => '搜索在线好友';
+
+  @override
+  String get friendsSearchAll => '搜索好友';
+
+  @override
+  String get friendsSearchPending => '搜索待处理请求';
+
+  @override
+  String get friendsSearchBlocked => '搜索已屏蔽用户';
+
+  @override
+  String get friendsEmptySearchTitle => '没有匹配该搜索的好友';
+
+  @override
+  String get friendsEmptySearchBody => '请尝试其他名称或检查拼写。';
+
+  @override
+  String get friendsEmptyOnlineTitle => '没有在线的好友';
+
+  @override
+  String get friendsEmptyOnlineBody => '他们上线后，会在这里显示。';
+
+  @override
+  String get friendsEmptyAllTitle => '暂无好友';
+
+  @override
+  String get friendsEmptyAllBody => '前方路漫漫，多交好友才好走。';
+
+  @override
+  String get friendsEmptyPendingTitle => '没有待处理的请求';
+
+  @override
+  String get friendsEmptyPendingBody => '待处理的好友请求会显示在这里。';
+
+  @override
+  String get friendsEmptyBlockedBody => '你还没有屏蔽任何人。';
+
+  @override
+  String get friendsOutgoingStatus => '发出的好友请求';
+
+  @override
+  String get friendsBlockedStatus => '已屏蔽';
 
   @override
   String get profileRemoveFriend => '删除好友';
@@ -11229,6 +11651,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String get channelMutedHint => '已静音';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return '仅限 $productName 员工访问';
   }
@@ -11302,6 +11727,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => '复制社区 ID';
+
+  @override
+  String get guildMenuReportCommunity => '举报社区';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -11414,11 +11842,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => '身份组图标';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      '上传图片或选择表情。成员名字旁会显示其最高的、带有图标的身份组的图标。';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -11426,68 +11854,64 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats。至少 $minimumSize，不超过 $maxSize。';
   }
 
   @override
-  String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+  String get guildSettingsRolesRoleIconUploadAccessibility => '上传身份组图标';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return '当前身份组图标，$emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      '当前身份组图标，已上传的图片';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => '选择表情';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => '上传图片';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => '移除图标';
 
   @override
-  String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+  String get guildSettingsRolesRoleIconAnimatedError => '不支持使用动态图标。请使用静态图片。';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return '不支持此文件类型。支持的类型为 $formats。';
   }
 
   @override
-  String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+  String get guildSettingsRolesRoleIconLoadError => '无法加载此图片。请换一张试试。';
 
   @override
-  String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+  String get guildSettingsRolesRoleIconUsagePreviewMessage => '消息显示效果';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return '身份组图标，$roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => '裁剪身份组图标';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => '保存图标';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => '跳过裁剪';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed => '裁剪图标失败。请重试。';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return '拖动可调整身份组图标位置，滚动鼠标滚轮或双指开合可缩放。建议的最小尺寸为 $minimumWidth×$minimumHeight 像素。';
   }
 
   @override
@@ -12765,25 +13189,25 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return '将身份组图标设置为 $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return '将身份组图标从 $oldEmoji 更改为 $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => '移除了身份组图标';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => '设置了自定义身份组图标';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => '更改了自定义身份组图标';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => '移除了自定义身份组图标';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -13920,6 +14344,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => '私信';
 
   @override
+  String get dmListFriendsButton => '好友';
+
+  @override
   String get keybindsSearchShortcuts => '搜索快捷键';
 
   @override
@@ -14511,6 +14938,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get forumPostStarterDeleted => '原始消息已被删除。';
 
   @override
+  String get forumPostBlockedAuthor => '来自你已屏蔽用户的帖子';
+
+  @override
+  String get threadBlockedAuthor => '来自你已屏蔽用户的子区';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author：$content';
   }
@@ -14557,6 +14990,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => '标为已读';
+
+  @override
+  String get forumReportPost => '举报帖子';
 
   @override
   String get forumCopyPostLink => '复制链接';
@@ -15363,6 +15799,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '此账号已被限制结账。';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '无法连接到 $domain。请检查你的网络连接，然后重试。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -15452,7 +15893,28 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get gatewayConnectedToast => '已連線';
 
   @override
+  String get gatewayOfflineToast => '您目前離線。恢復連線後，Fluxer 會自動重新連線。';
+
+  @override
   String get sessionExpiredToast => '您的連線已過期。請重新登入。';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return '您的帳號將於 $date 刪除。在此之前登入即可取消刪除。';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate => '您的帳號已排定刪除。在刪除日期之前登入即可取消。';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '我們正在刪除您的帳號。如果您的帳號有電子郵件地址，完成後我們會寄電子郵件通知您。';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail => '我們正在刪除您的帳號。';
+
+  @override
+  String get accountDisabledNotice => '您的帳號已停用。想再使用時，隨時重新登入即可。';
 
   @override
   String splashStartupFailed(String error) {
@@ -15507,6 +15969,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String get verificationResendEmail => '重寄驗證信';
+
+  @override
+  String get verificationEmailSent => '驗證電子郵件已寄出。請檢查您的收件匣。';
+
+  @override
+  String get verificationEmailRateLimited => '您已要求傳送太多驗證電子郵件。請稍候片刻再試一次。';
+
+  @override
   String get nagbarOpenSettings => '開啟設定';
 
   @override
@@ -15541,8 +16012,21 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '您的 $productName 訂閱續訂失敗。您可以繼續享有 $productName 福利直到 $graceDate。';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return '您的 $productName 訂閱已過期。立即續訂以保留您的福利。';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '您的 $productName 訂閱已過期。';
   }
 
   @override
@@ -15577,12 +16061,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get nagbarEnableMfa => '啟用 2FA';
-
-  @override
-  String get nagbarTermsAcceptance => '我們更新了條款。請閱讀並接受，以便繼續使用。';
-
-  @override
-  String get nagbarReviewTerms => '檢視條款';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
@@ -15620,6 +16098,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get logInWithPasskey => '使用通行金鑰登入';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '登入即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '登入即表示您同意<terms>服務條款</terms>。',
+      'other': '登入即表示您同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -15714,7 +16202,17 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get mfaTryAnotherMethod => '嘗試其他方式';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '此伺服器的通行金鑰無法在本應用程式中使用，而您的帳號沒有其他驗證方式。請改用網頁版登入。';
+
+  @override
   String get mfaUseSecurityKey => '改用安全金鑰或通行金鑰';
+
+  @override
+  String get mfaUseBackupCode => '使用備用碼';
+
+  @override
+  String get mfaUseAuthenticatorCode => '使用驗證器應用程式的代碼';
 
   @override
   String get accountSelectorTitle => '選擇帳號';
@@ -15737,8 +16235,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get accountExpired => '已過期';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '對 $identifier 的連線已過期。請重新登入。';
+  String accountSessionExpiredNotice(String name) {
+    return '你的 $name 工作階段已過期。請重新登入。';
   }
 
   @override
@@ -15841,74 +16339,68 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get signOut => '登出';
 
   @override
-  String get suspendedPermanentTitle => '帳號永久停權';
-
-  @override
   String get suspendedTemporaryTitle => '帳號停權';
 
   @override
-  String get suspendedPermanentDescription => '您的帳號因違反我們的服務條款已被永久停權。';
+  String get suspendedBannedTitle => '帳號已遭永久停權';
 
   @override
-  String get suspendedTemporaryDescription => '您的帳號已被暫時停權。停權期間結束後，您將可以存取您的帳號。';
+  String get suspendedClosedTitle => '帳號已關閉';
 
   @override
-  String get suspendedIssuedAt => '生效日期';
+  String get suspendedWhatHappened => '發生了什麼事';
 
   @override
-  String get suspendedEndsAt => '結束日期';
+  String get suspendedWhy => '原因';
 
   @override
-  String get suspendedDuration => '停權期間';
+  String get suspendedHowWeDecided => '我們如何做出決定';
 
   @override
-  String get suspendedPermanent => '永久';
+  String get suspendedHowToAppeal => '如何申訴';
 
   @override
-  String get suspendedReason => '原因';
-
-  @override
-  String get suspendedAppealDeadline => '申訴截止日期';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '您的帳戶預計於 $date 刪除。';
+  String suspendedNoteFromTeam(String statement) {
+    return '團隊留言：$statement';
   }
 
   @override
-  String get suspendedRecheck => '檢查更新';
+  String suspendedDecisionId(String decisionId) {
+    return '決定 ID：$decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '請在 $seconds 秒後再試';
+  String suspendedRule(String title) {
+    return '規則：$title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '如果您認為我們判斷有誤，請寄電子郵件至 $email，並附上您的使用者名稱。';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '如果您認為我們判斷有誤，請在 $deadline 前寄電子郵件至 $email，並附上決定 ID 和您的使用者名稱。申訴不收取任何費用，每一件申訴都會由專人審核。';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '如果您認為我們判斷有誤，請在 $deadline 前寄電子郵件至 $email。如果可以，請使用您帳號上的電子郵件地址寄信，並附上決定 ID。申訴不收取任何費用，每一件申訴都會由專人審核。';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '如要請我們刪除您的帳號和資料，請使用您帳號上的電子郵件地址寄信至 $email。';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '如要請我們刪除您的帳號和資料，請寄電子郵件至 $email，並附上您的使用者名稱。';
   }
 
   @override
   String get suspendedBackToLogin => '返回登入';
-
-  @override
-  String get suspendedAppealTitle => '申訴';
-
-  @override
-  String get suspendedAppealHint => '請說明為何應重新考慮您的停權（至少 50 個字元）...';
-
-  @override
-  String get suspendedAppealSubmit => '提交申訴';
-
-  @override
-  String get suspendedAppealPending => '審核中';
-
-  @override
-  String get suspendedAppealAccepted => '申訴已接受';
-
-  @override
-  String get suspendedAppealRejected => '申訴已駁回';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '您的申訴已獲接受，帳戶已恢復。';
-
-  @override
-  String get suspendedSignIn => '登入您的帳戶';
 
   @override
   String get forgotPasswordTitle => '忘記密碼？';
@@ -16119,6 +16611,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get registerDateOfBirth => '出生日期';
 
   @override
+  String get registerDateOfBirthDone => '完成';
+
+  @override
+  String get registerDateOfBirthNotSet => '未設定';
+
+  @override
   String get registerMonth => '月';
 
   @override
@@ -16128,16 +16626,18 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get registerYear => '年';
 
   @override
-  String get registerConsentPrefix => '我同意';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '我同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>',
+      'terms': '我同意<terms>服務條款</terms>',
+      'other': '我同意<privacy>隱私權政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => '服務條款';
-
-  @override
-  String get registerConsentAnd => '與';
-
-  @override
-  String get registerConsentPrivacy => '隱私權政策';
+  String get registerConsentBuiltInRules =>
+      '我同意此伺服器對令人反感的內容或濫用行為的使用者採取零容忍，且其管理員可以移除違反這些規則的內容和帳號。';
 
   @override
   String get registerConfirmPassword => '確認密碼';
@@ -16202,8 +16702,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count 位成員';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount 位成員';
   }
 
   @override
@@ -16301,9 +16801,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get embedThemeWebOnly => '只能在網頁版或桌面版匯入主題。';
 
   @override
-  String get embedThemeImport => '匯入主題';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return 'Visionary（永久 $productName）';
   }
@@ -16391,6 +16888,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get giftAcceptAlreadyClaimed => '這個禮物已經被領取了。';
+
+  @override
+  String get giftAcceptLifetimeNotInApp => '此禮物無法在 iOS 應用程式中領取，但可以在桌面應用程式中領取。';
 
   @override
   String get giftAcceptMaybeLater => '稍後再說';
@@ -17004,6 +17504,46 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String get stickerPickerSearchHint => '尋找最適合的貼圖';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '沒有可用的貼圖';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody => '加入有貼圖的社群，就能在這裡使用貼圖。';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '沒有可用的貼圖';
+
+  @override
+  String get stickerPickerEmptyHereBody => '此對話中沒有可用的貼圖。';
+
+  @override
+  String get stickerPickerNoResultsTitle => '找不到貼圖';
+
+  @override
+  String get stickerPickerNoResultsBody => '請試試其他搜尋字詞。';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return '使用 Plutonium 解鎖 $communityCount中的 $stickerCount。';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 張貼圖',
+      one: '1 張貼圖',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => '外部連結警告';
 
   @override
@@ -17256,6 +17796,46 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get emojiPickerTitle => '表情符號';
 
   @override
+  String get profileBadgesSettingsTitle => '徽章';
+
+  @override
+  String get profileBadgesSettingsDescription => '選擇其他人在您的個人檔案中能看到哪些徽章。';
+
+  @override
+  String get profileBadgesSettingsEmpty => '您還沒有任何徽章。';
+
+  @override
+  String get profileBadgesSettingsLoadFailed => '無法載入您的徽章。';
+
+  @override
+  String profileBadgesShowOnProfile(String badgeLabel) {
+    return '在您的個人檔案中顯示 $badgeLabel';
+  }
+
+  @override
+  String profileBadgesOverflowButton(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get profileBadgesShowAllTooltip => '顯示所有徽章';
+
+  @override
+  String profileBadgesShowAllSemantic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '還有 +$count 個徽章，顯示全部',
+      one: '還有 +$count 個徽章，顯示全部',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileBadgesVisionaryNumberNote =>
+      '僅在您的 Visionary 徽章可見且未顯示為訂閱時顯示。';
+
+  @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隱私設定';
 
   @override
@@ -17296,6 +17876,25 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get hideVisionaryIdDescription => '移除您的 Visionary ID 徽章';
 
   @override
+  String get operatorPassName => 'Operator Pass';
+
+  @override
+  String operatorPassSince(String since) {
+    return '自 $since 起擁有 Operator Pass';
+  }
+
+  @override
+  String get operatorPassShowBadgeOnProfile => '在我的個人檔案上顯示徽章';
+
+  @override
+  String operatorPassHideDate(String operatorPassName) {
+    return '隱藏您獲得 $operatorPassName 的時間';
+  }
+
+  @override
+  String get operatorPassHideCount => '隱藏您擁有的 Operator Pass 數量';
+
+  @override
   String get avatarDescriptionNonPremium =>
       'JPEG、PNG、WebP。上限 10MB。建議：512×512px。動態頭像 (GIF) 需要 Plutonium。';
 
@@ -17309,7 +17908,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody => '應用程式內購買在此平台尚未開放。敬請期待 — 即將推出！';
+  String get plutoniumNotSoldHere => '此版本的應用程式無法購買 Plutonium。';
 
   @override
   String get profilePreviewLabel => '預覽';
@@ -17380,6 +17979,39 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get sudoVerificationFailed => '驗證失敗。請再試一次。';
 
   @override
+  String get sudoWrongPassword => '密碼不正確。請再試一次。';
+
+  @override
+  String get sudoEmailCodeSend => '寄驗證碼到我的電子郵件';
+
+  @override
+  String get sudoEmailCodeSent => '我們已將 6 位數驗證碼寄到您的電子郵件地址。';
+
+  @override
+  String get sudoEmailCodeLabel => '電子郵件中的驗證碼';
+
+  @override
+  String get sudoEmailCodeResend => '傳送新驗證碼';
+
+  @override
+  String get sudoSsoReauthHint => '請重新登入以確認是您本人。';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '再次登入';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '使用 $provider 登入';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount => '你登入的是另一個帳號。請使用你在這裡使用的帳號登入。';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '此伺服器的通行金鑰無法在本應用程式中使用。請使用您的驗證器應用程式或備用碼，或改在網頁版上確認。';
+
+  @override
   String get securityAccountTitle => '帳號';
 
   @override
@@ -17390,6 +18022,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get securitySectionDescription => '使用雙重驗證和通行金鑰保護您的帳號';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys => '使用雙重驗證保護您的帳號';
 
   @override
   String get securityLoginEmailSectionTitle => '電子郵件設定';
@@ -17699,6 +18334,54 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get dangerZoneDisableDescription => '暫時停用您的帳號。之後登入即可重新啟用。';
 
   @override
+  String get dangerZoneDeleteEntryDescription => '刪除您的帳號和個人資料。您也可以一併刪除您的訊息。';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '您的帳號、個人檔案和個人資料都會被刪除。您沒有刪除的訊息會保留在您傳送的位置，但不會顯示您的名稱或個人檔案。';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '同時刪除我的訊息';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      '連同您的帳號，一併刪除您在私訊、群組私訊和社群中傳送過的每一則訊息。';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '如要保留一份您的資料，請先在$privacyDashboard中申請匯出。';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 天後刪除';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '在這 14 天內登入即可取消。';
+
+  @override
+  String get dangerZoneDeleteSchedule => '排定刪除';
+
+  @override
+  String get dangerZoneDeleteScheduleHint => '您的帳號會在此伺服器的等待期結束後刪除。在此之前登入即可取消。';
+
+  @override
+  String get dangerZoneDeleteNow => '立即刪除';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '要立即刪除您的帳號嗎？';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '您的帳號會立即刪除，且無法復原。';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '您的 Plutonium 訂閱由 Apple 收費。刪除帳號並不會取消訂閱，因此請先在 App Store 中取消。';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '您的 Plutonium 訂閱由 Google Play 收費。刪除帳號並不會取消訂閱，因此請先在 Google Play 中取消。';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '停用您的帳號將會登出所有裝置。您可以隨時透過再次登入來重新啟用您的帳號。';
 
@@ -17706,42 +18389,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get dangerZoneDeleteTitle => '刪除帳號';
 
   @override
-  String get dangerZoneDeleteDescription => '永久刪除您的帳號和所有相關資料。此動作無法復原。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '無法刪除帳號';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities => '您擁有社群時無法刪除帳號。請先轉移以下社群的擁有權：';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '您是這些社群的擁有者。刪除帳號前，請先刪除每個社群，或將其轉讓給其他成員。';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '及另外 $count 個';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '若要轉移所有權，請前往 $settingsPath 並使用轉移所有權選項。';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription => '確定要刪除帳號嗎？此動作會將您的帳號排定永久刪除。';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '您可以在 14 天內取消刪除程序';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14 天後，您的帳號將會被永久刪除';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '刪除程序一旦完成，您將無法再存取您的帳號';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '刪除帳號後，您將無法刪除您已傳送的訊息';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '如果您想匯出資料或先刪除您的訊息，請在繼續之前前往使用者設定中的隱私權儀表板。';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '點一下社群即可開啟其設定。「刪除社群」位於最下方。如要轉讓社群，請開啟「成員」，點一下某位成員，點一下其個人檔案上的三個點，然後選擇「轉移擁有權」。';
 
   @override
   String get claimAccountTitle => '認領您的帳號';
@@ -17765,9 +18421,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get claimAccountSuccess => '帳號認領成功';
-
-  @override
-  String get importantInformation => '重要資訊：';
 
   @override
   String get genericError => '發生錯誤';
@@ -19230,6 +19883,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatAttachmentDownloadFailedToast => '無法下載附件';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName 需要存取您的相片圖庫才能儲存此附件。';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '附件已過期';
 
   @override
@@ -19355,7 +20013,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get matureMediaRevealButton => '顯示';
 
   @override
-  String get matureMediaRevealHint => '點擊顯示';
+  String get matureMediaRevealLabel => '顯示敏感媒體';
+
+  @override
+  String get matureMediaAppLockedLabel => '敏感媒體在 iPhone 和 iPad 上已隱藏。';
+
+  @override
+  String get matureMediaMinorLockedLabel => '您的帳號已隱藏敏感媒體。';
 
   @override
   String get matureContentTitle => '成人內容';
@@ -19406,6 +20070,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get matureChannelUnavailableBody => '您的帳號無法使用此成人頻道。';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ 內容在 iPhone 和 iPad 上已關閉。如要在這裡查看標示為 18+ 的社群和頻道，請在網頁版或桌面版開啟 Fluxer，前往設定中的「隱私」，並開啟「在 iPhone 和 iPad 上允許 18+ 內容」。';
+
+  @override
+  String get matureContentRegionLockedBody => '由於您所在地區的成人內容相關法律，無法在此地區使用成人內容。';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 頻道中的訊息';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '此帳號無法使用 Fluxer';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '您的 Apple Account 分享的年齡範圍未滿 13 歲。Fluxer 僅供 13 歲以上的使用者使用。';
+
+  @override
   String get matureContentProceedButton => '繼續';
 
   @override
@@ -19437,6 +20118,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get sensitiveContentSaveButton => '儲存';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '如要在這裡選擇「顯示」，請在網頁版或桌面版開啟 Fluxer，前往設定中的「隱私」，並開啟「在 iPhone 和 iPad 上允許 18+ 內容」。';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -19646,7 +20331,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get lookAndFeelThemeSectionTitle => '主題';
 
   @override
-  String get lookAndFeelThemeSectionDescription => '在深色、煤炭黑或淺色外觀之間選擇。';
+  String get lookAndFeelThemeSectionDescription => '在系統、深色、煤炭黑或淺色外觀之間選擇。';
 
   @override
   String get lookAndFeelHdrSectionTitle => '高動態範圍';
@@ -20129,6 +20814,62 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get savedMediaNameRequired => '請輸入名稱。';
+
+  @override
+  String get savedMediaEdit => '編輯';
+
+  @override
+  String get savedMediaEditTitle => '編輯已儲存的媒體';
+
+  @override
+  String get savedMediaDeleteTitle => '刪除已儲存的媒體';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '要將「$name」從已儲存的媒體中移除嗎？';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '無法刪除已儲存的媒體。';
+
+  @override
+  String get savedMediaSearchHint => '搜尋已儲存的媒體';
+
+  @override
+  String get savedMediaUnavailableTitle => '無法使用已儲存的媒體';
+
+  @override
+  String get savedMediaUnavailableBody => '請稍後再試一次。';
+
+  @override
+  String get savedMediaEmptyTitle => '沒有已儲存的媒體';
+
+  @override
+  String get savedMediaEmptyBody => '儲存訊息中的媒體，就會顯示在這裡。';
+
+  @override
+  String get savedMediaNoResultsTitle => '沒有結果';
+
+  @override
+  String get savedMediaNoResultsBody => '請試試其他搜尋字詞或篩選條件。';
+
+  @override
+  String get savedMediaFilterAll => '全部';
+
+  @override
+  String get savedMediaFilterImages => '圖片';
+
+  @override
+  String get savedMediaFilterVideos => '影片';
+
+  @override
+  String get savedMediaFilterAudio => '音訊';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'GIF 收藏要如何儲存？';
@@ -20889,6 +21630,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceConnectionDismiss => '關閉';
 
   @override
+  String get voiceCallControlsSheetLabel => '語音通話控制項';
+
+  @override
   String get voiceConnectionDisconnected => '已中斷連線';
 
   @override
@@ -20982,6 +21726,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceParticipantMenuViewProfile => '查看個人檔案';
 
   @override
+  String get voiceParticipantMenuReport => '檢舉';
+
+  @override
   String get voiceParticipantMenuFocus => '聚焦此人';
 
   @override
@@ -21030,6 +21777,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceOutputRouteHeadset => '耳機';
 
   @override
+  String get voiceChangeAudioOutputLabel => '變更音訊輸出';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => '只顯示影片';
 
   @override
@@ -21059,6 +21809,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceCameraPermissionRequired => '視訊需要相機權限。';
 
   @override
+  String get voiceMicPermissionRequired => '請允許存取麥克風，才能在此通話中解除靜音。';
+
+  @override
   String get voiceErrorScreenShareToggle => '無法開始螢幕分享。請再試一次。';
 
   @override
@@ -21083,10 +21836,18 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceScreenShareExitFullscreenTooltip => '結束全螢幕';
 
   @override
+  String voiceVideoZoomLevel(String scale) {
+    return '縮放 $scale';
+  }
+
+  @override
   String get voiceOwnScreenShareTitle => '您正在廣播';
 
   @override
   String get voiceOwnScreenShareSubtitle => '您的串流對參與者直播中。';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '來自您已封鎖之使用者的影像';
 
   @override
   String get voiceLiveBadge => '直播中';
@@ -21234,6 +21995,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get characterCounterTooLong => '訊息過長';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return '訊息最多可包含 $maxLengthString 個字元。請縮短此訊息後再傳送。';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -21986,6 +22756,21 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatMessageDebug => '偵錯訊息';
 
   @override
+  String get messageAlertNote => '備註';
+
+  @override
+  String get messageAlertTip => '提示';
+
+  @override
+  String get messageAlertImportant => '重要';
+
+  @override
+  String get messageAlertWarning => '警告';
+
+  @override
+  String get messageAlertCaution => '注意';
+
+  @override
   String get chatMessageDebugSheetTitle => '偵錯訊息';
 
   @override
@@ -22016,6 +22801,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get reportFlowTitleUserProfile => '檢舉個人檔案';
 
   @override
+  String get reportFlowTitleCommunity => '檢舉社群';
+
+  @override
   String get reportFlowSummaryTitle => '檢查您的檢舉';
 
   @override
@@ -22036,7 +22824,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get reportFlowSelectedMessage => '您要檢舉的訊息';
 
   @override
-  String get reportFlowSelectedUser => '您要檢舉的個人檔案';
+  String get reportFlowSelectedPerson => '您要檢舉的使用者';
+
+  @override
+  String get reportFlowSelectedCommunity => '您要檢舉的社群';
 
   @override
   String get reportFlowReportCategory => '您的回答';
@@ -22063,6 +22854,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String reportFlowThankYouBody(String productName) {
     return '$productName 安全團隊會審核您的檢舉。我們不會透露是您檢舉的。';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted => '此伺服器的管理員會審核您的檢舉。我們不會透露是您檢舉的。';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -22106,6 +22900,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get reportFlowAlreadyReportedProfile => '您今天已經檢舉過這個個人檔案了。';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '您已經檢舉過這個社群了。';
 
   @override
   String get reportFlowRateLimited => '您傳送檢舉的速度太快了。請稍後再試。';
@@ -22227,6 +23024,22 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatReplyMentionOff => '關閉';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '正在回覆 $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '轉寄自 $source';
+  }
+
+  @override
+  String get chatForwardedLabel => '已轉寄';
+
+  @override
+  String get chatForwardedFromLabel => '轉寄自';
+
+  @override
   String get chatReplyCancel => '取消回覆';
 
   @override
@@ -22302,6 +23115,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get mediaViewerDismissBackdrop => '關閉';
+
+  @override
+  String get videoPlayerPlay => '播放';
+
+  @override
+  String get videoPlayerPause => '暫停';
+
+  @override
+  String get videoPlayerVolume => '音量';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '播放速度 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '全螢幕';
 
   @override
   String get chatAttachmentVideoToggleControls => '切換影片控制項';
@@ -23214,6 +24044,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get channelHeaderNotificationSettingsMuted => '通知設定，已靜音';
 
   @override
+  String get channelHeaderOpenDetails => '開啟頻道詳細資料';
+
+  @override
   String get channelDetailsSearchTitle => '搜尋';
 
   @override
@@ -23870,6 +24703,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get composerCloseAttachmentPanel => '關閉附件選擇器';
 
   @override
+  String get composerSendMessage => '傳送訊息';
+
+  @override
   String get chatAttachmentPanelPhotos => '相片';
 
   @override
@@ -24196,13 +25032,34 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get premiumSelfServeRefundButton => '退款最新購買項目';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '購買即表示您同意我們的 ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '購買即表示您同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '購買即表示您同意<terms>服務條款</terms>。',
+      'other': '購買即表示您同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '購買即表示您同意我們的 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '購買時，您已同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。',
+      'terms': '購買時，您已同意<terms>服務條款</terms>。',
+      'other': '購買時，您已同意<privacy>隱私權政策</privacy>。',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 和 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>服務條款</terms>和<privacy>隱私權政策</privacy>',
+      'terms': '<terms>服務條款</terms>',
+      'other': '<privacy>隱私權政策</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -24386,6 +25243,23 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumFilesBody => '分享完整長度的影片和大型檔案，無需先壓縮。免費帳戶最多可傳送 25 MB。';
 
   @override
+  String get storePlutoniumStreamTitle => '以 60 FPS 串流 4K 畫質';
+
+  @override
+  String get storePlutoniumStreamBody =>
+      '分享你的畫面或鏡頭，最高可達 4K 60fps。免費帳號最高串流 720p 30fps。';
+
+  @override
+  String get storePlutoniumStreamTitleIos => '以更高畫質串流';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      '在應用程式中以最高 1080p、每秒 60 格分享您的螢幕或鏡頭，在桌面應用程式中則最高可達 4K、60 格。免費帳號最高以 720p、30 格串流。';
+
+  @override
+  String get storePlutoniumManageHeading => '您的訂閱';
+
+  @override
   String get storePlutoniumCompareTitle => '比較免費版與 Plutonium';
 
   @override
@@ -24450,8 +25324,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumVideoPlutonium => '最高 4K，60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      '應用程式中最高 1080p，60 FPS；桌面版最高 4K，60 FPS';
+
+  @override
   String get storePlutoniumTagFootnote =>
       '您只能選擇沒有其他使用者名稱相同的人使用的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。#0000 標籤保留給 Fluxer Visionary 會員。';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      '您只能選擇沒有其他相同使用者名稱的人使用過的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。';
 
   @override
   String get storePlutoniumLearnVisionary => '深入了解 Visionary。';
@@ -24491,10 +25373,34 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '透過 App Store 自動續訂，直到您取消為止。';
 
   @override
+  String get storePlutoniumAppleEula => 'Apple 標準使用條款（EULA）';
+
+  @override
   String get storePlutoniumRestorePurchases => '還原購買項目';
 
   @override
+  String get storePlutoniumRestoreDone => '已還原您的 Plutonium 訂閱。';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      '此 Apple Account 沒有可還原的 Plutonium 訂閱。';
+
+  @override
+  String get storePlutoniumRestoreFailed => '無法還原購買項目。請稍後再試一次。';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '您已經有 Fluxer Plutonium 訂閱了。';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      '此裝置上的 Apple Account 已在另一個 Fluxer 帳號上支付 Plutonium。';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => '未能新增 Plutonium';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store 已確認您的購買，但無法將 Plutonium 新增至此帳號。請點一下「還原購買項目」再試一次，如果仍然無法使用，請聯絡客服。';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -24505,7 +25411,14 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get storePlutoniumWaiting => '已收到購買。Plutonium 啟用後將會顯示於此。';
 
   @override
-  String get storePlutoniumUnavailable => '此裝置尚不支援應用程式內訂閱。';
+  String get storePlutoniumApprovalPending =>
+      '您的購買正在等待核准。核准後，Plutonium 就會新增至您的帳號。';
+
+  @override
+  String get storePlutoniumLoadFailed => '無法載入 Plutonium 方案。請檢查您的網路連線，然後再試一次。';
+
+  @override
+  String get storePlutoniumRetry => '再試一次';
 
   @override
   String get storePlutoniumVisionaryStatus => 'Visionary 已包含永久存取權，因此不需要定期訂閱。';
@@ -25117,18 +26030,18 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get advancedCrashReportingDescription =>
-      '即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。';
+      '即使您登入的是其他伺服器，報告也會傳送到 Fluxer 的錯誤追蹤系統。報告會連結到這次安裝的隨機 ID，不包含您的帳號 ID、伺服器名稱或訊息內容。';
 
   @override
   String get observabilityReportingConsentTitle => '協助修正當機問題';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer 意外關閉。分享匿名的當機和錯誤資料，可以幫助我們更快修正問題。';
+      'Fluxer 意外關閉了。傳送當機報告可以幫助我們更快找出並修正問題。';
 
   @override
   String get observabilityReportingConsentBody =>
-      '報告包含當機記錄、錯誤和基本效能資料。這些資料不會與第三方分享，您也可以隨時關閉此功能。';
+      '報告內容包括當機記錄、錯誤、效能資料、網路請求時間，以及問題發生前的畫面和點按操作，並連結到此次安裝的隨機 ID。報告絕不包含訊息內容，而且只會傳送到 Fluxer 自己的錯誤追蹤系統。您可以隨時關閉此功能。';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -25139,7 +26052,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get observabilityReportingConsentAgree => '傳送當機報告';
 
   @override
-  String get observabilityReportingConsentDecline => '我不想啟用';
+  String get observabilityReportingConsentDecline => '不要再詢問';
+
+  @override
+  String get observabilityReportingConsentNotNow => '暫時不要';
 
   @override
   String get advancedSettingsConfigure => '設定';
@@ -25199,6 +26115,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String get advancedSettingMobileSplashZoomAnimationDescription =>
       '縮放標誌以在離開啟動畫面時縮小';
+
+  @override
+  String get advancedSettingSplashQuotesLabel => '啟動畫面名言';
+
+  @override
+  String get advancedSettingSplashQuotesDescription =>
+      '在啟動畫面上顯示一則隨機名言。不會在裝置間同步。';
 
   @override
   String get advancedSettingKeyboardHintsLabel => '鍵盤提示';
@@ -25508,7 +26431,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      '啟用或停用內建的以圖搜圖服務供應商。已啟用的供應商會顯示在圖片、大頭貼、橫幅、貼圖和表情符號的操作選單中。';
+      '啟用或停用內建的以圖搜圖服務。已啟用的服務會顯示在圖片的選項中。';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel => '自訂以圖搜圖';
@@ -25520,6 +26443,16 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get advancedSettingAddReverseImageSearchLabel => '新增以圖搜圖';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return '使用 $engine 搜尋';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '使用 $engine 翻譯';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -25618,6 +26551,15 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get userSettingsNavAppLogs => '應用程式記錄';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 應用程式隱私權政策';
+
+  @override
+  String get userSettingsTitle => '設定';
+
+  @override
+  String get userSettingsCopyAppInfo => '複製應用程式資訊';
+
+  @override
   String get userSettingsNavDeveloperTools => '開發人員工具';
 
   @override
@@ -25625,6 +26567,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsNavFeatureFlags => '功能旗標';
+
+  @override
+  String get userSettingsNavHelp => '說明與支援';
 
   @override
   String get userSettingsNavWhatsNew => '最新功能';
@@ -25909,6 +26854,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain 未使用安全連線（https）。Fluxer 只會透過 http 連線到您區域網路中的伺服器。';
+  }
+
+  @override
   String get instanceCompatibilityTitle => '無法使用此伺服器';
 
   @override
@@ -25939,9 +26889,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get instanceConnectionRequired => '請先連線到伺服器才能登入';
-
-  @override
-  String get comingSoon => '即將推出';
 
   @override
   String get guildNavbarDirectMessages => '私訊';
@@ -26032,9 +26979,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get discoveryCommunities => '社群';
-
-  @override
-  String get discoveryApps => '應用程式';
 
   @override
   String get discoveryJoinErrorGenericTitle => '無法加入此社群';
@@ -26143,6 +27087,75 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get friendsOpenInbox => '收件匣';
+
+  @override
+  String get friendsPageTitle => '我的好友';
+
+  @override
+  String get friendsActiveNowTitle => '目前在線上';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '目前很安靜…';
+
+  @override
+  String get friendsActiveNowEmptyBody => '當好友在語音頻道中活動時，他們的動態會顯示在這裡。';
+
+  @override
+  String get friendsTabOnline => '線上';
+
+  @override
+  String get friendsTabAll => '全部';
+
+  @override
+  String get friendsTabPending => '待處理';
+
+  @override
+  String get friendsTabBlocked => '已封鎖';
+
+  @override
+  String get friendsSearchOnline => '搜尋線上好友';
+
+  @override
+  String get friendsSearchAll => '搜尋好友';
+
+  @override
+  String get friendsSearchPending => '搜尋待處理的好友邀請';
+
+  @override
+  String get friendsSearchBlocked => '搜尋已封鎖的使用者';
+
+  @override
+  String get friendsEmptySearchTitle => '沒有好友符合搜尋條件';
+
+  @override
+  String get friendsEmptySearchBody => '請再試另一個名稱或檢查您的拼字。';
+
+  @override
+  String get friendsEmptyOnlineTitle => '沒有在線上的好友';
+
+  @override
+  String get friendsEmptyOnlineBody => '他們上線時，就會顯示在這裡。';
+
+  @override
+  String get friendsEmptyAllTitle => '還沒有好友';
+
+  @override
+  String get friendsEmptyAllBody => '我們要去的地方，需要更多好友。';
+
+  @override
+  String get friendsEmptyPendingTitle => '沒有待處理的邀請';
+
+  @override
+  String get friendsEmptyPendingBody => '待處理的好友邀請會顯示在這裡。';
+
+  @override
+  String get friendsEmptyBlockedBody => '您還沒有封鎖任何人。';
+
+  @override
+  String get friendsOutgoingStatus => '已送出的好友邀請';
+
+  @override
+  String get friendsBlockedStatus => '已封鎖';
 
   @override
   String get profileRemoveFriend => '移除好友';
@@ -26412,6 +27425,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String get channelMutedHint => '已靜音';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return '仅限 $productName 员工存取';
   }
@@ -26485,6 +27501,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildMenuCopyCommunityId => '複製社群 ID';
+
+  @override
+  String get guildMenuReportCommunity => '檢舉社群';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -26594,6 +27613,79 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String guildSettingsRolesAllowMentionsHelper(String permission) {
     return '擁有「$permission」權限的成員可以隨時提及角色，不受此設定影響。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIcon => '身分組圖示';
+
+  @override
+  String get guildSettingsRolesRoleIconHelper =>
+      '上傳圖片或選擇表情符號。成員名稱旁會顯示其擁有圖示的最高身分組的圖示。';
+
+  @override
+  String guildSettingsRolesRoleIconUploadHint(
+    String formats,
+    String minimumSize,
+    String maxSize,
+  ) {
+    return '$formats。至少 $minimumSize，不超過 $maxSize。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconUploadAccessibility => '上傳身分組圖示';
+
+  @override
+  String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
+    return '目前的身分組圖示，$emojiName';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
+      '目前的身分組圖示，已上傳的圖片';
+
+  @override
+  String get guildSettingsRolesRoleIconChooseEmoji => '選擇表情符號';
+
+  @override
+  String get guildSettingsRolesRoleIconUploadImage => '上傳圖片';
+
+  @override
+  String get guildSettingsRolesRoleIconRemove => '移除圖示';
+
+  @override
+  String get guildSettingsRolesRoleIconAnimatedError => '不支援動態圖示。請使用靜態圖片。';
+
+  @override
+  String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
+    return '不支援此檔案類型。支援的類型為 $formats。';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconLoadError => '無法載入此圖片。請換一張試試。';
+
+  @override
+  String get guildSettingsRolesRoleIconUsagePreviewMessage => '訊息顯示方式';
+
+  @override
+  String roleIconAccessibilityLabel(String roleName) {
+    return '身分組圖示，$roleName';
+  }
+
+  @override
+  String get roleIconCropTitle => '裁切身分組圖示';
+
+  @override
+  String get roleIconCropSave => '儲存圖示';
+
+  @override
+  String get roleIconCropSkip => '略過裁切';
+
+  @override
+  String get roleIconCropFailed => '裁切圖示失敗。請再試一次。';
+
+  @override
+  String roleIconCropDescription(int minimumWidth, int minimumHeight) {
+    return '拖曳以重新調整身分組圖示的位置，並使用滾輪或雙指縮放。建議的最小尺寸為 $minimumWidth×$minimumHeight 像素。';
   }
 
   @override
@@ -27872,6 +28964,28 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String auditLogChangeRoleEmojiSet(String emoji) {
+    return '將身分組圖示設為 $emoji';
+  }
+
+  @override
+  String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
+    return '將身分組圖示從 $oldEmoji 變更為 $newEmoji';
+  }
+
+  @override
+  String get auditLogChangeRoleEmojiRemoved => '已移除身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconSet => '設定自訂身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconChanged => '變更了自訂身分組圖示';
+
+  @override
+  String get auditLogChangeRoleIconRemoved => '已移除自訂身分組圖示';
+
+  @override
   String auditLogOptionChannel(String value) {
     return '頻道：$value。';
   }
@@ -29008,6 +30122,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get dmListDirectMessagesTitle => '私訊';
 
   @override
+  String get dmListFriendsButton => '好友';
+
+  @override
   String get keybindsSearchShortcuts => '搜尋快速鍵';
 
   @override
@@ -29600,6 +30717,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get forumPostStarterDeleted => '原始訊息已被刪除。';
 
   @override
+  String get forumPostBlockedAuthor => '來自您已封鎖之使用者的貼文';
+
+  @override
+  String get threadBlockedAuthor => '來自您已封鎖之使用者的討論串';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author：$content';
   }
@@ -29646,6 +30769,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get forumMarkPostRead => '標示為已讀';
+
+  @override
+  String get forumReportPost => '檢舉貼文';
 
   @override
   String get forumCopyPostLink => '複製連結';
@@ -30454,4 +31580,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '此帳號的結帳功能已遭封鎖。';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '無法連線到 $domain。請檢查您的網路連線，然後再試一次。';
+  }
 }

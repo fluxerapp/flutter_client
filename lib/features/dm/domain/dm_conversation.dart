@@ -1,18 +1,33 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show immutable;
+
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 
+@immutable
 class GroupMemberInfo {
   final String id;
   final String? avatar;
   final String name;
 
   const GroupMemberInfo({required this.id, required this.name, this.avatar});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GroupMemberInfo &&
+          other.id == id &&
+          other.avatar == avatar &&
+          other.name == name;
+
+  @override
+  int get hashCode => Object.hash(id, avatar, name);
 }
 
 class DmConversation {
@@ -115,7 +130,7 @@ class DmConversation {
 
   bool get isPersonalNotes => isDmPersonalNotesType(type);
 
-  String get displayName {
+  String get rawDisplayName {
     if (isPersonalNotes) {
       return 'Personal Notes';
     }
@@ -132,7 +147,7 @@ class DmConversation {
     String? currentUserDisplayName,
   }) {
     if (isPersonalNotes) {
-      return displayName;
+      return l10n?.personalNotesTitle ?? rawDisplayName;
     }
     if (isGroup) {
       if (l10n != null) {
@@ -143,22 +158,29 @@ class DmConversation {
           currentUserDisplayName: currentUserDisplayName,
         );
       }
-      return displayName;
+      return rawDisplayName;
     }
     return resolveDisplayName(
       friendNickname: friendNickname,
-      username: displayName,
+      username: rawDisplayName,
     );
   }
 
-  String? get recipientTag {
-    if (recipientUsername == null || recipientUsername!.isEmpty) {
+  String? recipientTag({required bool uniqueUsernames}) {
+    final String? username = recipientUsername;
+    if (username == null || username.isEmpty) {
       return null;
     }
-    if (recipientDiscriminator == null || recipientDiscriminator!.isEmpty) {
-      return recipientUsername;
+    final String? discriminator = recipientDiscriminator;
+    if (discriminator == null || discriminator.isEmpty) {
+      return username;
     }
-    return '$recipientUsername#$recipientDiscriminator';
+    return formatUserTag(
+      username,
+      discriminator,
+      uniqueUsernames: uniqueUsernames,
+      bot: isBot,
+    );
   }
 
   int get memberCount => recipientCount;
@@ -263,4 +285,14 @@ class DmConversation {
       return null;
     }
   }
+}
+
+String dmConversationDisplayName(FluxerLocalizations l10n, DmConversation dm) {
+  if (dm.isPersonalNotes) {
+    return l10n.personalNotesTitle;
+  }
+  if (dm.isGroup) {
+    return dm.name ?? l10n.guildNavbarGroupDm;
+  }
+  return dm.recipientName;
 }

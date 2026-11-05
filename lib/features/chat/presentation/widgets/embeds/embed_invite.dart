@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -120,6 +121,7 @@ class _GuildInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: true,
           canCopyChannelId: true,
+          canReport: true,
         );
     if (action == null || !context.mounted) {
       return;
@@ -129,6 +131,12 @@ class _GuildInviteCard extends StatelessWidget {
       action: action,
       guildId: invite.guild.id,
       channelId: invite.channel.id,
+      reportTarget: IarGuildContext(
+        guildId: invite.guild.id,
+        name: invite.guild.name,
+        iconUrl: _iconUrl,
+        inviteCode: code,
+      ),
     );
   }
 
@@ -212,24 +220,17 @@ class _GuildInviteCard extends StatelessWidget {
         stats: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
+              spacing: 10,
+              runSpacing: 2,
               children: [
-                const _StatDot(online: true),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.embedInviteOnline(onlineStr),
-                  style: context.textStyles.embedFooter.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                  ),
+                _InviteStat(
+                  online: true,
+                  label: l10n.embedInviteOnline(onlineStr),
                 ),
-                const SizedBox(width: 10),
-                const _StatDot(online: false),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.embedInviteMembers(memberStr),
-                  style: context.textStyles.embedFooter.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                  ),
+                _InviteStat(
+                  online: false,
+                  label: l10n.embedInviteMembers(invite.memberCount, memberStr),
                 ),
               ],
             ),
@@ -291,6 +292,7 @@ class _GroupDmInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: false,
           canCopyChannelId: true,
+          canReport: false,
         );
     if (action == null || !context.mounted) {
       return;
@@ -358,17 +360,12 @@ class _GroupDmInviteCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
-        stats: Row(
-          children: [
-            const _StatDot(online: false),
-            const SizedBox(width: 4),
-            Text(
-              l10n.embedInviteMembers(_formatInviteCount(memberCount)),
-              style: context.textStyles.embedFooter.copyWith(
-                color: context.colors.textTertiaryMuted,
-              ),
-            ),
-          ],
+        stats: _InviteStat(
+          online: false,
+          label: l10n.embedInviteMembers(
+            memberCount,
+            _formatInviteCount(memberCount),
+          ),
         ),
         footer: FluxerButton.primary(
           onPressed: isAlreadyJoined
@@ -379,6 +376,32 @@ class _GroupDmInviteCard extends StatelessWidget {
               : l10n.embedInviteJoinGroup,
         ),
       ),
+    );
+  }
+}
+
+class _InviteStat extends StatelessWidget {
+  const _InviteStat({required this.online, required this.label});
+
+  final bool online;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _StatDot(online: online),
+        const SizedBox(width: 4),
+        Flexible(
+          child: Text(
+            label,
+            style: context.textStyles.embedFooter.copyWith(
+              color: context.colors.textTertiaryMuted,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

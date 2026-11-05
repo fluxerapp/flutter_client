@@ -232,7 +232,7 @@ class _PinsEndState extends StatelessWidget {
   }
 }
 
-class MessagePreviewTile extends StatelessWidget {
+class MessagePreviewTile extends ConsumerWidget {
   const MessagePreviewTile({
     required this.message,
     required this.onTap,
@@ -251,8 +251,15 @@ class MessagePreviewTile extends StatelessWidget {
   final bool flat;
 
   @override
-  Widget build(BuildContext context) {
-    final hasLabel = label != null && label!.isNotEmpty;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool authorBlocked =
+        message.isUserMessage &&
+        ref.watch(
+          blockedUserIdsProvider.select(
+            (Set<String> ids) => ids.contains(message.authorId),
+          ),
+        );
+    final hasLabel = label != null && label!.isNotEmpty && !authorBlocked;
     final BorderRadius radius = BorderRadius.circular(flat ? 0 : 14);
     return Padding(
       padding: EdgeInsets.only(bottom: flat ? 0 : 12),
@@ -280,11 +287,14 @@ class MessagePreviewTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                MessageItem(
+                BlockedAuthorPreview(
                   message: message,
-                  inboxPreviewMode: true,
-                  hideMentionHighlight: true,
-                  previewRoleGuildId: guildId,
+                  child: MessageItem(
+                    message: message,
+                    inboxPreviewMode: true,
+                    hideMentionHighlight: true,
+                    previewRoleGuildId: guildId,
+                  ),
                 ),
               ],
             ),

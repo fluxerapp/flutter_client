@@ -5,13 +5,12 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_panel.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSubmenuGap = 4.0;
@@ -29,6 +28,9 @@ Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
     title: submenu.label,
     onBack: () => Navigator.of(context).pop(),
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.menu,
+    ),
     builder: (sheetContext, scrollController, close) {
       final layout = sheetContext.layout;
       void pop(FolderMenuAction action) =>
@@ -88,6 +90,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
   return Navigator.of(context).push<FolderMenuAction>(
     _FolderContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
       folderName: folderName,
@@ -99,6 +102,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
 class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   _FolderContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.folderName,
@@ -122,7 +126,7 @@ class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(
@@ -230,7 +234,7 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool useBottomSheetSubmenus = isMobileLayout(context);
+    final bool useBottomSheetSubmenus = !usesDesktopPointerUi(context);
     final double menuWidth = useBottomSheetSubmenus
         ? kSidebarPeekMenuWidth
         : kContextMenuWidth;

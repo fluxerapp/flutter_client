@@ -30,6 +30,7 @@ import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -196,7 +197,7 @@ class _ForwardedHeader extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          'Forwarded',
+          FluxerLocalizations.of(context).chatForwardedLabel,
           style: context.textStyles.timestamp.copyWith(
             color: color,
             fontStyle: FontStyle.italic,
@@ -461,7 +462,7 @@ class _ForwardedSourceButtonState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Forwarded from',
+                        FluxerLocalizations.of(context).chatForwardedFromLabel,
                         style: context.textStyles.timestamp.copyWith(
                           color: context.colors.textPrimaryMuted,
                         ),

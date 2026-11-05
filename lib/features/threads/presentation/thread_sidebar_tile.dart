@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -41,6 +42,11 @@ class ThreadSidebarTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String title = watchThreadTitleText(
+      ref,
+      thread,
+      FluxerLocalizations.of(context),
+    );
     final bool isSelected = ref.watch(
       activeChannelIdProvider.select((String? id) => id == thread.id),
     );
@@ -118,7 +124,7 @@ class ThreadSidebarTile extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(6, 6, 8, 6),
                 semanticLabel: navigationItemSemanticLabel(
                   l10n: FluxerLocalizations.of(context),
-                  name: thread.name,
+                  name: title,
                   isSelected: isSelected,
                   hasUnread: showUnreadIndicator,
                   mentionCount: showMentionBadge ? mentionCount : 0,
@@ -135,7 +141,7 @@ class ThreadSidebarTile extends ConsumerWidget {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        thread.name,
+                        title,
                         style: context.textStyles.channelName.copyWith(
                           color: textColor,
                           fontSize: 14,

@@ -1,13 +1,17 @@
+import 'dart:math' as math;
+
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FluxerSelectItem<T> {
@@ -210,28 +214,20 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     BuildContext sheetContext, {
     required ValueChanged<T> onSelected,
   }) {
-    return ListView(
+    return _FluxerSelectList<T>(
+      items: items,
+      value: value,
       shrinkWrap: true,
-      padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
-      children: [
-        FluxerBottomSheetSection(
-          child: FluxerMenuGroup(
-            children: [
-              for (final item in items)
-                FluxerBottomSheetMenuItem(
-                  label: item.label,
-                  hint: item.description,
-                  leading: item.leading,
-                  icon: item.icon,
-                  enabled: item.enabled,
-                  isSelected: item.value == value,
-                  onTap: () => onSelected(item.value),
-                ),
-            ],
-          ),
-        ),
-      ],
+      onSelected: onSelected,
     );
+  }
+
+  double _desktopMenuWidth(BuildContext context) {
+    final RenderObject? box = context.findRenderObject();
+    final double triggerWidth = box is RenderBox && box.hasSize
+        ? box.size.width
+        : kFluxerDesktopMenuDefaultWidth;
+    return math.max(kFluxerDesktopMenuMinWidth, triggerWidth);
   }
 
   Future<void> _showOptions(BuildContext context) async {
@@ -252,8 +248,13 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     if (enableSearch || scrollableSheet) {
       sheetFuture = FluxerBottomSheet.showScrollable<T>(
         context,
-        title: sheetTitle,
+        title: usesDesktopPointerUi(context) ? null : sheetTitle,
         useRootNavigator: useRootNavigator,
+        desktop: FluxerDesktopPresentation(
+          surface: FluxerDesktopSurface.menu,
+          width: _desktopMenuWidth(context),
+          anchorContext: context,
+        ),
         initialChildSize: enableSearch
             ? FluxerBottomSheet.scrollableSheetSize
             : FluxerBottomSheet.scrollableSheetHalfSize,
@@ -272,10 +273,14 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     } else {
       sheetFuture = FluxerBottomSheet.show<T>(
         context,
-        title: sheetTitle,
+        title: usesDesktopPointerUi(context) ? null : sheetTitle,
         maxHeight: 0.58,
         useRootNavigator: useRootNavigator,
         variant: FluxerBottomSheetVariant.menu,
+        desktop: FluxerDesktopPresentation(
+          width: _desktopMenuWidth(context),
+          anchorContext: context,
+        ),
         builder: (sheetContext, close) => _buildStaticSelectBody(
           sheetContext,
           onSelected: (selected) => handleSelected(sheetContext, selected),
@@ -322,6 +327,15 @@ class _FluxerSelectSheet<T> extends StatefulWidget {
 class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
   final TextEditingController _searchController = TextEditingController();
   String _query = '';
+  late List<List<String>> _searchKeys = _buildSearchKeys(widget.items);
+
+  @override
+  void didUpdateWidget(_FluxerSelectSheet<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.items, widget.items)) {
+      _searchKeys = _buildSearchKeys(widget.items);
+    }
+  }
 
   @override
   void dispose() {
@@ -334,7 +348,7 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
     final colors = context.colors;
     final layout = context.layout;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final filteredItems = widget.items.where(_matchesQuery).toList();
+    final filteredItems = _filterItems();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -347,7 +361,12 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
               onChanged: (value) => setState(() => _query = value),
             ),
           ),
-        if (widget.enableSearch) SizedBox(height: layout.s3),
+        if (widget.enableSearch)
+          SizedBox(
+            height: FluxerDesktopSurfaceScope.isMenu(context)
+                ? kFluxerDesktopMenuPadding
+                : layout.s3,
+          ),
         Expanded(
           child: filteredItems.isEmpty
               ? FluxerBottomSheetContent(
@@ -361,46 +380,122 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
                     ),
                   ),
                 )
-              : ListView(
+              : _FluxerSelectList<T>(
+                  items: filteredItems,
+                  value: widget.value,
                   controller: widget.scrollController,
-                  padding: FluxerBottomSheet.scrollViewPadding(context),
-                  children: [
-                    FluxerBottomSheetSection(
-                      child: FluxerMenuGroup(
-                        children: [
-                          for (final item in filteredItems)
-                            FluxerBottomSheetMenuItem(
-                              label: item.label,
-                              hint: item.description,
-                              leading: item.leading,
-                              icon: item.icon,
-                              enabled: item.enabled,
-                              isSelected: item.value == widget.value,
-                              onTap: () => widget._onSelected(item.value),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  onSelected: widget._onSelected,
                 ),
         ),
       ],
     );
   }
 
-  bool _matchesQuery(FluxerSelectItem<T> item) {
+  List<FluxerSelectItem<T>> _filterItems() {
     final query = _query.trim().toLowerCase();
     if (query.isEmpty) {
-      return true;
+      return widget.items;
+    }
+    return [
+      for (var i = 0; i < widget.items.length; i++)
+        if (_searchKeys[i].any((key) => key.contains(query))) widget.items[i],
+    ];
+  }
+
+  List<List<String>> _buildSearchKeys(List<FluxerSelectItem<T>> items) => [
+    for (final item in items)
+      [
+        item.label.toLowerCase(),
+        if (item.description case final description?) description.toLowerCase(),
+        if (item.searchText case final searchText?) searchText.toLowerCase(),
+      ],
+  ];
+}
+
+class _FluxerSelectList<T> extends StatelessWidget {
+  _FluxerSelectList({
+    required this.items,
+    required this.value,
+    required ValueChanged<T> onSelected,
+    this.controller,
+    this.shrinkWrap = false,
+  }) : _onSelected = ((value) => onSelected(value as T));
+
+  final List<FluxerSelectItem<T>> items;
+  final T? value;
+  final ValueChanged<Object?> _onSelected;
+  final ScrollController? controller;
+  final bool shrinkWrap;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+    final Color cardColor = FluxerBottomSheet.cardColorOf(context);
+    final Radius radius = layout.radiusXxl.topLeft;
+    final int lastIndex = items.length - 1;
+
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return ListView.builder(
+        controller: controller,
+        shrinkWrap: shrinkWrap,
+        padding: EdgeInsets.zero,
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) {
+          final FluxerSelectItem<T> item = items[index];
+          return FluxerBottomSheetMenuItem(
+            label: item.label,
+            hint: item.description,
+            leading: item.leading,
+            icon: item.icon,
+            enabled: item.enabled,
+            isSelected: item.value == value,
+            onTap: () => _onSelected(item.value),
+          );
+        },
+      );
     }
 
-    final haystacks = [
-      item.label,
-      if (item.description != null) item.description!,
-      if (item.searchText != null) item.searchText!,
-    ];
-
-    return haystacks.any((value) => value.toLowerCase().contains(query));
+    return ListView.separated(
+      controller: controller,
+      shrinkWrap: shrinkWrap,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
+      ),
+      itemCount: items.length,
+      separatorBuilder: (context, _) => ColoredBox(
+        color: cardColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: layout.groupRowInset),
+          child: Divider(
+            height: 1,
+            thickness: 1,
+            color: context.colors.backgroundModifierAccent,
+          ),
+        ),
+      ),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Material(
+          color: cardColor,
+          surfaceTintColor: Colors.transparent,
+          borderRadius: BorderRadius.vertical(
+            top: index == 0 ? radius : Radius.zero,
+            bottom: index == lastIndex ? radius : Radius.zero,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: FluxerBottomSheetMenuItem(
+            label: item.label,
+            hint: item.description,
+            leading: item.leading,
+            icon: item.icon,
+            enabled: item.enabled,
+            isSelected: item.value == value,
+            onTap: () => _onSelected(item.value),
+          ),
+        );
+      },
+    );
   }
 }
 

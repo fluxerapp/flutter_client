@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -37,6 +38,10 @@ Map<String, dynamic> _pageMessageJson(String id) => MessageResponseSchema(
   mentions: const [],
   mentionRoles: const [],
 ).toJson();
+
+Map<String, dynamic> _dmMessageJson(String channelId, String id) =>
+    jsonDecode(jsonEncode(_pageMessageJson(id)..['channel_id'] = channelId))
+        as Map<String, dynamic>;
 
 void main() {
   test('own reactions name the gateway session so it gets no echo', () async {
@@ -94,6 +99,56 @@ void main() {
     );
     expect(adapter.posts, 1);
   });
+
+  test(
+    'preloads missing DM previews in one batch and skips cached ones',
+    () async {
+      final FluxerDatabase database = openTestDatabase();
+      final DateTime sentAt = DateTime.utc(2026, 5, 6, 12);
+      await database.dmChannelDao.upsertDmChannels(<DmChannelsCompanion>[
+        for (final String id in <String>['dm-a', 'dm-b', 'dm-c'])
+          DmChannelsCompanion.insert(
+            id: id,
+            recipientId: 'other',
+            lastMessageId: Value('$id-last'),
+            lastMessageTime: Value(sentAt),
+          ),
+        DmChannelsCompanion.insert(id: 'dm-empty', recipientId: 'other'),
+        buildPersonalNotesDmCompanion(userId: 'me', lastMessageId: 'note-1'),
+      ]);
+      await database.messageDao.upsertMessage(
+        Message.fromSdk(
+          MessageResponseSchema.fromJson(_dmMessageJson('dm-c', 'dm-c-last')),
+          currentUserId: 'me',
+        ).toCompanion(),
+      );
+      final _PreloadAdapter adapter = _PreloadAdapter(<String, Object?>{
+        'dm-a': _dmMessageJson('dm-a', 'dm-a-last'),
+        'dm-b': null,
+      });
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = adapter;
+      final repo = MessageRepository(FluxerClient(dio), dio, database, 'me');
+
+      await repo.preloadMissingDmPreviews();
+      await repo.preloadMissingDmPreviews();
+
+      expect(adapter.requestedChannels, <List<String>>[
+        <String>['dm-a', 'dm-b'],
+        <String>['dm-b'],
+      ]);
+      final DmChannel row = (await database.dmChannelDao.getDmChannels())
+          .firstWhere((DmChannel r) => r.id == 'dm-a');
+      expect(row.lastMessage, 'dm-a-last');
+      expect(row.lastMessageAuthorId, 'other');
+      expect(
+        (await database.messageDao.getLastMessageForChannels(<String>[
+          'dm-a',
+        ]))['dm-a']?.id,
+        'dm-a-last',
+      );
+    },
+  );
 
   test('own reactions omit session_id before the gateway is ready', () async {
     final _RecordingAdapter adapter = _RecordingAdapter();
@@ -764,6 +819,38 @@ void main() {
       expect(sentAttachments[1], <String, dynamic>{'id': 'att-2'});
     },
   );
+}
+
+class _PreloadAdapter implements HttpClientAdapter {
+  _PreloadAdapter(this.response);
+
+  final Map<String, Object?> response;
+  final List<List<String>> requestedChannels = <List<String>>[];
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final List<String> channels = List<String>.from(
+      (options.data as Map<String, Object>)['channels']! as List<String>,
+    );
+    requestedChannels.add(channels);
+    return ResponseBody.fromString(
+      jsonEncode(<String, Object?>{
+        for (final String id in channels)
+          if (response.containsKey(id)) id: response[id],
+      }),
+      200,
+      headers: {
+        Headers.contentTypeHeader: ['application/json'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 class _RecordingAdapter implements HttpClientAdapter {

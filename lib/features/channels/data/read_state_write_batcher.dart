@@ -59,12 +59,37 @@ class ReadStateWriteBatcher {
   final Map<String, DateTime> _lastUnreadFlushAt = <String, DateTime>{};
   final Map<String, _HeldReadStateOverlay> _heldWhileWriting =
       <String, _HeldReadStateOverlay>{};
+  final Map<String, Set<VoidCallback>> _overlayListeners =
+      <String, Set<VoidCallback>>{};
   Future<void>? _ackPersist;
   bool _disposed = false;
 
-  void _bumpOverlay() {
+  VoidCallback listenOverlay(String channelId, VoidCallback listener) {
+    (_overlayListeners[channelId] ??= <VoidCallback>{}).add(listener);
+    return () {
+      final Set<VoidCallback>? listeners = _overlayListeners[channelId];
+      if (listeners == null) {
+        return;
+      }
+      listeners.remove(listener);
+      if (listeners.isEmpty) {
+        _overlayListeners.remove(channelId);
+      }
+    };
+  }
+
+  void _bumpOverlay(Iterable<String> channelIds) {
     if (_disposed) {
       return;
+    }
+    for (final String channelId in channelIds) {
+      final Set<VoidCallback>? listeners = _overlayListeners[channelId];
+      if (listeners == null) {
+        continue;
+      }
+      for (final VoidCallback listener in listeners.toList()) {
+        listener();
+      }
     }
     onOverlayChanged?.call();
   }
@@ -180,7 +205,7 @@ class ReadStateWriteBatcher {
         compareSnowflakeIds(messageId, cursor.lastMessageId) > 0) {
       cursor.mentionCount += 1;
     }
-    _bumpOverlay();
+    _bumpOverlay(<String>[channelId]);
   }
 
   Timer _scheduleUnreadFlush(String channelId, Duration delay) =>
@@ -335,7 +360,7 @@ class ReadStateWriteBatcher {
         cursor.stickyUnreadMessageId == previousSticky) {
       return;
     }
-    _bumpOverlay();
+    _bumpOverlay(<String>[channelId]);
   }
 
   int _mentionsAfter(String channelId, String ackId) {
@@ -361,7 +386,7 @@ class ReadStateWriteBatcher {
       return;
     }
     _heldWhileWriting.remove(channelId);
-    _bumpOverlay();
+    _bumpOverlay(<String>[channelId]);
   }
 
   void discard(String channelId) {
@@ -371,7 +396,7 @@ class ReadStateWriteBatcher {
     _cursors.remove(channelId);
     _seeding.remove(channelId)?.ignore();
     _heldWhileWriting.remove(channelId);
-    _bumpOverlay();
+    _bumpOverlay(<String>[channelId]);
   }
 
   Future<void> flushAll() async {
@@ -390,7 +415,7 @@ class ReadStateWriteBatcher {
     _cursors.clear();
     _seeding.clear();
     _heldWhileWriting.clear();
-    _bumpOverlay();
+    _bumpOverlay(_overlayListeners.keys.toList());
   }
 
   Future<void> dispose() async {
@@ -433,7 +458,7 @@ class ReadStateWriteBatcher {
       mentionCount: preview.mentionCount,
     );
     _heldWhileWriting[channelId] = held;
-    _bumpOverlay();
+    _bumpOverlay(<String>[channelId]);
     final Future<void> future = _applyFlush(channelId, pending);
     _flushing[channelId] = future;
     await future.whenComplete(() {
@@ -564,7 +589,7 @@ class ReadStateWriteBatcher {
       );
     }
     if (companions.isEmpty) {
-      _bumpOverlay();
+      _bumpOverlay(taken.keys);
       return;
     }
     try {
@@ -591,7 +616,7 @@ class ReadStateWriteBatcher {
       }
       talker.error('[ReadStateWriteBatcher] ack flush failed', e, st);
     }
-    _bumpOverlay();
+    _bumpOverlay(taken.keys);
   }
 
   bool _storedAckWins(_AckCursor cursor) {

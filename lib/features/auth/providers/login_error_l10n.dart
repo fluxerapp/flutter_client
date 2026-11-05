@@ -14,6 +14,8 @@ extension LoginErrorL10n on LoginError {
       LoginError.unableToSendResetLink => l10n.errorUnableToSendResetLink,
       LoginError.unableToResetPassword => l10n.errorUnableToResetPassword,
       LoginError.passkeyNoCredentials => l10n.passkeyNoCredentials,
+      LoginError.passkeyNoCredentialsForAccount =>
+        l10n.passkeyNoCredentialsForAccount,
       LoginError.passkeyDeviceNotSupported => l10n.passkeyDeviceNotSupported,
       LoginError.passkeyDomainNotAssociated => l10n.passkeyDomainNotAssociated,
       LoginError.passkeyTimeout => l10n.passkeyTimeout,

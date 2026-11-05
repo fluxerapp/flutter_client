@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "עדכנו את התנאים שלנו. אנא עיין וקבל אותם כדי להמשיך.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "בדוק תנאים",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "הצטרף ל-{communityName} כדי לשוחח עם הצוות ולהישאר מעודכן.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -420,6 +412,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "שימוש בקוד גיבוי",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "שימוש בקוד מאפליקציית האימות",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "בחר חשבון",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -440,11 +440,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "התוקף של הפעלת המשתמש עבור {identifier} פג. אנא התחבר מחדש.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "פג התוקף של ההפעלה שלך עבור {name}. התחבר מחדש.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -581,103 +581,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "החשבון הושעה לצמיתות",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "החשבון הושעה",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "החשבון שלך הושעה לצמיתות עקב הפרת תנאי השירות שלנו.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "החשבון שלך הושעה זמנית. תוכל לגשת לחשבונך בתום תקופת ההשעיה.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "הונפק",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "נגמר",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "משך",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "לצמיתות",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "סיבה",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "מועד הגשת ערעור",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "החשבון שלך מיועד למחיקה בתאריך {date}.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "בדוק עדכונים",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "בדוק שוב בעוד {seconds} שניות",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "חזרה לכניסה",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "ערעור",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "הסבירו מדוע יש לשקול מחדש את ההשעיה שלכם (לפחות 50 תווים)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "שלח ערעור",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "ממתין לבדיקה",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "הערעור התקבל",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "הערעור נדחה",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "הערעור שלך התקבל והחשבון שלך הוחזר לפעילות.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "התחבר לחשבונך",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "שכחת את הסיסמה?",
     "@forgotPasswordTitle": {
@@ -966,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "אני מסכים/ה ל- ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "תנאי שירות",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " וגם ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "מדיניות פרטיות",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{אני מסכים/ה ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>} terms{אני מסכים/ה ל<terms>תנאי השירות</terms>} other{אני מסכים/ה ל<privacy>מדיניות הפרטיות</privacy>}}",
     "registerConfirmPassword": "אישור סיסמה",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -1067,11 +962,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} חברים",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} חבר} other{{formattedCount} חברים}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1206,10 +1104,6 @@
     "embedThemeWebOnly": "אפשר לייבא ערכות נושא רק באינטרנט או במחשב.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "ייבוא ערכת נושא",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (לכל החיים עם {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1639,7 +1533,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} חברים",
+    "dmGroupMemberCount": "{count, plural, one{{count} חבר} other{{count} חברים}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -2575,10 +2469,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "רכישות מתוך האפליקציה עדיין אינן זמינות בפלטפורמה זו. הישארו מעודכנים — בקרוב!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "תצוגה מקדימה",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2558,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "הסיסמה שגויה. נסה שוב.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "חשבון",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2577,10 @@
     "securitySectionDescription": "אבטח את החשבון שלך באמצעות אימות דו-שלבי ומפתחות גישה",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "אבטח את החשבון שלך באמצעות אימות דו-שלבי",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "הגדרות אימייל",
     "@securityLoginEmailSectionTitle": {
@@ -3107,59 +3005,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "מחיקה לצמיתות של החשבון וכל הנתונים המשויכים אליו. לא ניתן לבטל פעולה זו.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "לא ניתן למחוק את החשבון",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "אינך יכול למחוק את חשבונך כל עוד אתה הבעלים של קהילות. העבר בעלות על הקהילות הבאות תחילה:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "וגם {count} נוספים",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "כדי להעביר בעלות, עבור אל {settingsPath} והשתמש באפשרות העברת בעלות.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "האם למחוק את החשבון שלך? פעולה זו תתזמן את החשבון שלך למחיקה לצמיתות.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "באפשרותך לבטל את תהליך המחיקה בתוך 14 יום",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "לאחר 14 יום, החשבון שלך יימחק לצמיתות",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "לאחר השלמת המחיקה, לא תוכל/י לשחזר את הגישה לחשבונך",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "לא תוכל/י למחוק את ההודעות ששלחת לאחר מחיקת החשבון שלך",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "אם ברצונך לייצא את הנתונים שלך או למחוק את ההודעות שלך תחילה, אנא בקר בקטע לוח הבקרה של פרטיות בהגדרות המשתמש לפני שתמשיך.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "תבע את החשבון שלך",
     "@claimAccountTitle": {
@@ -3188,10 +3036,6 @@
     "claimAccountSuccess": "החשבון נתבע בהצלחה",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "מידע חשוב:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "אירעה שגיאה",
     "@genericError": {
@@ -4783,6 +4627,15 @@
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
     },
+    "chatAttachmentDownloadPhotosAccessToast": "ל-{productName} נדרשת גישה לספריית התמונות שלך כדי לשמור את הקובץ המצורף הזה.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
     "chatAttachmentExpiredTooltip": "הקובץ המצורף פג תוקף",
     "@chatAttachmentExpiredTooltip": {
         "description": "Tooltip when a file attachment link is no longer available."
@@ -4917,10 +4770,6 @@
     "matureMediaRevealButton": "הצג",
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
-    },
-    "matureMediaRevealHint": "יש ללחוץ כדי להציג",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
     },
     "matureContentTitle": "תוכן למבוגרים",
     "@matureContentTitle": {
@@ -5311,7 +5160,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "בחר בין מראה כהה, פחם או בהיר.",
+    "lookAndFeelThemeSectionDescription": "בחר בין מראה המערכת, כהה, פחם או בהיר.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -7076,6 +6925,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "וידאו ממישהו שחסמת",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "בשידור חי",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -7228,6 +7081,16 @@
     "characterCounterTooLong": "ההודעה ארוכה מדי",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "הודעות יכולות להכיל עד {maxLength} תווים. קצר את ההודעה הזו כדי לשלוח אותה.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} תווים נותרו. קבלו את {productName} כדי לכתוב עד {premiumMaxLength} תווים.",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -8175,9 +8038,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "הפרופיל שאתה מדווח עליו",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "האדם שאתה מדווח עליו",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "התשובות שלך",
     "@reportFlowReportCategory": {
@@ -10500,6 +10363,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "שליחת הודעה",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "תמונות",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -10762,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "החשבוניות האחרונות שלך. כדי לשנות את אמצעי התשלום עבור המנוי שלך, הוסף או בחר אחד בפורטל החיוב והפוך אותו לברירת מחדל.",
     "premiumManagePaymentMethods": "ניהול אמצעי תשלום",
     "premiumSelfServeRefundButton": "החזר רכישה אחרונה",
-    "premiumDisclaimerAgreementPrefix": "במסירת רכישה, אתה מסכים ל ",
-    "premiumDisclaimerAgreementPastPrefix": "במסירת רכישה, הסכמת ל ",
-    "premiumDisclaimerAgreementMiddle": " וגם ",
+    "premiumDisclaimerAgreement": "{links, select, both{ברכישה, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{ברכישה, אתה מסכים ל<terms>תנאי השירות</terms>.} other{ברכישה, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{ברכישה, הסכמת ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{ברכישה, הסכמת ל<terms>תנאי השירות</terms>.} other{ברכישה, הסכמת ל<privacy>מדיניות הפרטיות</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>תנאי שירות</terms> ו<privacy>מדיניות פרטיות</privacy>} terms{<terms>תנאי שירות</terms>} other{<privacy>מדיניות פרטיות</privacy>}}",
     "premiumActiveUntil": "פעיל עד {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -10914,7 +10781,6 @@
         }
     },
     "storePlutoniumWaiting": "הרכישה התקבלה. Plutonium יופיע כאן לאחר הפעלתו.",
-    "storePlutoniumUnavailable": "מינויים בתוך האפליקציה עדיין אינם זמינים במכשיר זה.",
     "storePlutoniumVisionaryStatus": "Visionary כבר כולל גישה קבועה, כך שאין צורך במנוי חוזר.",
     "userSettingsNavPrivacyDashboard": "לוח הבקרה של פרטיות",
     "@userSettingsNavPrivacyDashboard": {
@@ -11761,7 +11627,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "חיפוש תמונה הפוך כברירת מחדל",
     "advancedSettingDefaultReverseImageSearchDescription": "בחר באיזה שירות חיפוש תמונות הפוך להשתמש כברירת מחדל בעת חיפוש תמונה.",
     "advancedSettingBuiltInReverseImageSearchLabel": "חיפוש תמונות הפוך מובנה",
-    "advancedSettingBuiltInReverseImageSearchDescription": "הפעלה או השבתה של ספקי חיפוש תמונה הפוך מובנים. ספקים מופעלים יופיעו בתפריט ההקשר של תמונות, אווטארים, באנרים, מדבקות ואימוג'י.",
     "advancedSettingCustomReverseImageSearchLabel": "חיפוש תמונה הפוך מותאם אישית",
     "advancedSettingCustomReverseImageSearchDescription": "הוסף ספקי חיפוש תמונה הפוך משלך עם תבנית URL מותאמת אישית. השתמש ב-'{url}' כמחליף לכתובת ה-URL של התמונה.",
     "advancedSettingAddReverseImageSearchLabel": "הוספת חיפוש תמונה הפוך",
@@ -11805,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "מדיניות הפרטיות של אפליקציית Fluxer",
     "userSettingsNavDeveloperTools": "כלי מפתחים",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -12165,10 +12031,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "בקרוב",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "הודעות פרטיות",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12279,10 +12141,6 @@
     "discoveryCommunities": "קהילות",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "אפליקציות",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "לא ניתן להצטרף לקהילה זו",
     "@discoveryJoinErrorGenericTitle": {
@@ -18263,21 +18121,13 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם לא כוללים שמות מופעים, מזהים או תוכן הודעות.",
+    "advancedCrashReportingDescription": "הדוחות נשלחים למערכת מעקב השגיאות של Fluxer, גם כשאתה מחובר למופע אחר. הם מקושרים למזהה אקראי של ההתקנה הזו ולא כוללים את מזהה החשבון שלך, שמות מופעים או תוכן הודעות.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
     "observabilityReportingConsentTitle": "עזור לתקן קריסות",
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
-    },
-    "observabilityReportingConsentSubtitle": "Fluxer נסגרה באופן לא צפוי. שיתוף נתוני קריסות ושגיאות אנונימיים עוזר לנו לתקן בעיות מהר יותר.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "הדוחות כוללים יומני קריסה, שגיאות ונתוני ביצועים בסיסיים. הם לא משותפים עם צדדים שלישיים, ואפשר לכבות זאת בכל עת.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
     "observabilityReportingConsentEnableLater": "כדי להפעיל מאוחר יותר, פתח הגדרות ← מתקדם ← {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
@@ -18292,10 +18142,6 @@
     "observabilityReportingConsentAgree": "שליחת דוחות קריסה",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "לא מעוניין להפעיל",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "שליחת משוב",
     "@userSettingsGiveFeedback": {
@@ -18983,5 +18829,1071 @@
     "animatedImageUseStatic": "העלה במקום זאת תמונה סטטית.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "אין חיבור לאינטרנט. Fluxer יתחבר מחדש כשהחיבור יחזור.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "החשבון שלך יימחק ב-{date}. התחברות לפני מועד זה מבטלת את המחיקה.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "החשבון שלך מתוזמן למחיקה. התחברות לפני מועד המחיקה מבטלת אותה.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "אנחנו מוחקים את החשבון שלך עכשיו. אם יש בחשבון כתובת אימייל, נשלח לך אימייל כשהמחיקה תסתיים.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "אנחנו מוחקים את החשבון שלך עכשיו.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "החשבון שלך מושבת. אפשר להתחבר שוב בכל פעם שתרצה להשתמש בו.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "שלח אימייל שוב",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "נשלחה הודעת אימות. יש לבדוק את תיבת הדואר הנכנס.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "ביקשת יותר מדי אימיילי אימות. המתן רגע ונסה שוב.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "חידוש המנוי שלך ל-{productName} נכשל. ההטבות של {productName} יישארו אצלך עד {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "המנוי שלך ל-{productName} פג.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreement": "{links, select, both{בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms> ול<privacy>מדיניות הפרטיות</privacy>.} terms{בהתחברות, אתה מסכים ל<terms>תנאי השירות</terms>.} other{בהתחברות, אתה מסכים ל<privacy>מדיניות הפרטיות</privacy>.}}",
+    "mfaPasskeyUnavailable": "מפתחות גישה מהמופע הזה לא עובדים באפליקציה הזו, ואין לחשבון שלך שיטת אימות אחרת. התחבר דרך האתר במקום זאת.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "החשבון נחסם",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "החשבון נסגר",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "מה קרה",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "למה",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "איך החלטנו",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "איך לערער",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "הערה מהצוות שלנו: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "מזהה החלטה: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "כלל: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "אם אתה חושב שטעינו, שלח אימייל אל {email} וציין את שם המשתמש שלך.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "אם אתה חושב שטעינו, שלח אימייל אל {email} עד {deadline}. ציין את מזהה ההחלטה ואת שם המשתמש שלך. ערעורים הם בחינם, ואדם בודק כל אחד מהם.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "אם אתה חושב שטעינו, שלח אימייל אל {email} עד {deadline}. אם אפשר, כתוב מכתובת האימייל של החשבון שלך, וציין את מזהה ההחלטה. ערעורים הם בחינם, ואדם בודק כל אחד מהם.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "כדי לבקש מאיתנו למחוק את החשבון והנתונים שלך, שלח אימייל אל {email} מהכתובת של החשבון שלך.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "כדי לבקש מאיתנו למחוק את החשבון והנתונים שלך, שלח אימייל אל {email} וציין את שם המשתמש שלך.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "בוצע",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "לא מוגדר",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "אני מסכים שבמופע הזה אין סובלנות לתוכן פוגעני או למשתמשים פוגעניים, ושהמנהלים שלו יכולים להסיר תוכן וחשבונות שמפרים את הכללים האלה.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "אי אפשר לממש את המתנה הזו באפליקציית iOS. אפשר לממש אותה באפליקציה למחשב.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "מצא את המדבקה המושלמת",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "אין מדבקות זמינות",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "הצטרף לקהילה שיש בה מדבקות כדי להשתמש בהן כאן.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "אין מדבקות זמינות",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "אין מדבקות זמינות בשיחה הזו.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "לא נמצאו מדבקות",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "נסה מונח חיפוש אחר.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "שחרר {stickerCount} מ-{communityCount} עם Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{מדבקה אחת} two{{count} מדבקות} other{{count} מדבקות}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "תגים",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "אפשר לבחור אילו תגים אחרים יראו בפרופיל שלך.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "עדיין אין לך תגים.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "לא ניתן היה לטעון את התגים שלך.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "הצגת {badgeLabel} בפרופיל שלך",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "הצגת כל התגים",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} תג נוסף, הצגת הכל} two {+{count} תגים נוספים, הצגת הכל} other {+{count} תגים נוספים, הצגת הכל}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "מוצג רק כשתג ה-Visionary שלך גלוי ולא מוצג כמנוי.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass מאז {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "הצגת התג בפרופיל שלי",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "הסתרת המועד שבו קיבלת את ה-{operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "הסתרת מספר ה-Operator Pass שיש לך",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "plutoniumNotSoldHere": "אי אפשר לקנות Plutonium בגרסה הזו של האפליקציה.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "שלח לי קוד באימייל",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "שלחנו קוד בן 6 ספרות לכתובת האימייל שלך.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "הקוד מהאימייל",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "שלח קוד חדש",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "התחבר שוב כדי לאשר שזה אתה.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "התחבר שוב",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "התחברות עם {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "התחברת לחשבון אחר. יש להתחבר עם החשבון שבו נעשה שימוש כאן.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "מפתחות גישה מהמופע הזה לא עובדים באפליקציה הזו. השתמש באפליקציית האימות שלך או בקוד גיבוי, או אשר דרך האתר.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "מחיקת החשבון והנתונים האישיים שלך. אפשר למחוק גם את ההודעות שלך.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "החשבון, הפרופיל והנתונים האישיים שלך נמחקים. הודעות שלא תמחק נשארות במקום שבו שלחת אותן, בלי השם או הפרופיל שלך.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "למחוק גם את ההודעות שלי",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "מוחק כל הודעה ששלחת בהודעות פרטיות, בצ'אטים קבוצתיים ובקהילות, יחד עם החשבון שלך.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "כדי לשמור עותק של הנתונים שלך, בקש קודם ייצוא ב{privacyDashboard}.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "מחיקה בעוד 14 ימים",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "אפשר לבטל על ידי התחברות במהלך 14 הימים.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "תזמון מחיקה",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "החשבון שלך יימחק בתום תקופת ההמתנה של המופע הזה. התחברות לפני כן מבטלת את המחיקה.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "מחיקה עכשיו",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "למחוק את החשבון שלך עכשיו?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "החשבון שלך יימחק מיד ולא ניתן יהיה לשחזר אותו.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "המנוי שלך ל-Plutonium מחויב על ידי Apple. מחיקת החשבון לא מבטלת אותו, לכן בטל אותו קודם ב-App Store.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "המנוי שלך ל-Plutonium מחויב על ידי Google Play. מחיקת החשבון לא מבטלת אותו, לכן בטל אותו קודם ב-Google Play.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "אתה הבעלים של הקהילות האלה. מחק כל אחת מהן, או העבר אותה לחבר אחר, לפני שתמחק את החשבון שלך.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "הקש על קהילה כדי לפתוח את ההגדרות שלה. \"מחיקת קהילה\" נמצא בתחתית. כדי להעביר אותה, פתח את \"חברים\", הקש על חבר, הקש על שלוש הנקודות בפרופיל שלו ובחר \"העברת בעלות\".",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "חשיפת מדיה רגישה",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "מדיה רגישה מוסתרת ב-iPhone וב-iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "מדיה רגישה מוסתרת עבור החשבון שלך.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "תוכן 18+ כבוי ב-iPhone וב-iPad. כדי לצפות כאן בקהילות ובערוצים שמסומנים 18+, פתח את Fluxer בדפדפן או במחשב, עבור אל \"פרטיות\" בהגדרות והפעל את \"אפשר תוכן 18+ ב-iPhone וב-iPad\".",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "בגלל חוקים בנושא תוכן למבוגרים במקום שבו אתה נמצא, תוכן למבוגרים אינו זמין מכאן.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "הודעה בערוץ 18+",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer אינו זמין בחשבון הזה",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "טווח הגילאים שמשותף על ידי ה-Apple Account שלך הוא מתחת ל-13. Fluxer מיועד רק לבני 13 ומעלה.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "כדי לבחור כאן \"הצגה\", פתח את Fluxer בדפדפן או במחשב, עבור אל \"פרטיות\" בהגדרות והפעל את \"אפשר תוכן 18+ ב-iPhone וב-iPad\".",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "עריכה",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "עריכת מדיה שמורה",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "מחיקת מדיה שמורה",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "להסיר את \"{name}\" מהמדיה השמורה שלך?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "לא ניתן היה למחוק את המדיה השמורה.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "חיפוש מדיה שמורה",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "המדיה השמורה אינה זמינה",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "נסה שוב בעוד רגע.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "אין מדיה שמורה",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "שמור מדיה מהודעות כדי לראות אותה כאן.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "אין תוצאות",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "נסה מונח חיפוש או מסנן אחר.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "הכל",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "תמונות",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "סרטונים",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "שמע",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "קובצי GIF",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "פקדי שיחה קולית",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "דיווח",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "שינוי פלט שמע",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "אפשר גישה למיקרופון כדי לבטל את ההשתקה בשיחה הזו.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "זום {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "הערה",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "טיפ",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "חשוב",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "אזהרה",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "זהירות",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "דיווח על קהילה",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "הקהילה שאתה מדווח עליה",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "המנהלים של המופע הזה יבדקו את הדיווח שלך. לא נחשוף שהדיווח הגיע ממך.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "כבר דיווחת על הקהילה הזו.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "בתגובה ל-{authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "הועבר מ-{source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedLabel": "הועבר",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "הועבר מ־",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
+    },
+    "videoPlayerPlay": "הפעל",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "השהה",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "עוצמת קול",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "מהירות הפעלה {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "מסך מלא",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "פתיחת פרטי הערוץ",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "שדר ב-4K ב-60 FPS",
+    "storePlutoniumStreamBody": "שתף את המסך או המצלמה שלך באיכות של עד 4K ב-60 פריימים לשנייה. חשבונות חינמיים משדרים באיכות של עד 720p ב-30.",
+    "storePlutoniumStreamTitleIos": "שידור באיכות גבוהה יותר",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "שתף את המסך או המצלמה שלך באיכות של עד 1080p ב-60 פריימים לשנייה באפליקציה, ועד 4K ב-60 באפליקציה למחשב. חשבונות חינמיים משדרים באיכות של עד 720p ב-30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "המנוי שלך",
+    "storePlutoniumVideoPlutoniumIos": "עד 1080p ב-60 FPS באפליקציה, עד 4K ב-60 FPS במחשב",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "אפשר לבחור רק תגית שאין לאף אחד אחר עם אותו שם משתמש. שמות משתמש אינם תלויי רישיות, ולכן Mina#4821 ו-mina#4821 נחשבים לאותו שם.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "תנאי השימוש הסטנדרטיים של Apple (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "המנוי שלך ל-Plutonium שוחזר.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "אין מנוי Plutonium לשחזור עבור ה-Apple Account הזה.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "לא ניתן היה לשחזר רכישות. נסה שוב בעוד רגע.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "ה-Apple Account במכשיר הזה כבר משלם על Plutonium בחשבון Fluxer אחר.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium לא נוסף",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "ה-App Store אישר את הרכישה שלך, אבל לא ניתן היה להוסיף את Plutonium לחשבון הזה. הקש על \"שחזור רכישות\" כדי לנסות שוב, או פנה לתמיכה אם זה עדיין לא עובד.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "הרכישה שלך ממתינה לאישור. Plutonium יתווסף לחשבון שלך ברגע שהיא תאושר.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "לא ניתן היה לטעון את התוכניות של Plutonium. בדוק את החיבור שלך ונסה שוב.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "נסה שוב",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer נסגר באופן בלתי צפוי. שליחת דוח קריסה עוזרת לנו למצוא ולתקן את הבעיה מהר יותר.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "הדוחות כוללים יומני קריסה, שגיאות, נתוני ביצועים, זמני בקשות רשת ואת המסכים וההקשות שהובילו לבעיה, ומקושרים למזהה אקראי של ההתקנה הזו. הם אף פעם לא כוללים תוכן הודעות, והם נשלחים רק למערכת מעקב השגיאות של Fluxer עצמה. אפשר לכבות את זה בכל עת.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "אל תשאל שוב",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "לא עכשיו",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
+    },
+    "advancedSettingSplashQuotesLabel": "ציטוטים במסך הפתיחה",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "הצגת ציטוט אקראי במסך הפתיחה. לא מסתנכרן בין מכשירים.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "הפעלה או השבתה של ספקי חיפוש תמונה הפוך מובנים. ספקים מופעלים מופיעים באפשרויות של תמונות.",
+    "searchProviderSearchWith": "חיפוש באמצעות {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "תרגום באמצעות {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "הגדרות",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "העתקת פרטי האפליקציה",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "עזרה ותמיכה",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} לא משתמש בחיבור מאובטח (https). Fluxer מתחבר דרך http רק למופעים ברשת המקומית שלך.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "החברים שלי",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "פעילים כעת",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "בינתיים שקט כאן...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "כשחברים פעילים בערוצים קוליים, הפעילות שלהם תופיע כאן.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "מחובר",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "הכל",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "בהמתנה",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "חסומים",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "חיפוש חברים מחוברים",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "חיפוש חברים",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "חיפוש בקשות ממתינות",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "חיפוש משתמשים חסומים",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "אין חברים שתואמים לחיפוש זה",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "נסה שם אחר או בדוק את האיות.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "אין חברים מחוברים",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "כשהם יתחברו, הם יופיעו ממש כאן.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "אין חברים עדיין",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "במקום שאליו אנחנו הולכים, צריך עוד חברים.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "אין בקשות ממתינות",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "בקשות חברות ממתינות יופיעו כאן.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "לא חסמת אף אחד.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "בקשת חברות יוצאת",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "חסום",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "מושתק",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "דיווח על קהילה",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "סמל התפקיד",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "העלה תמונה או בחר אימוג'י. ליד השם של כל חבר יופיע הסמל של התפקיד הגבוה ביותר שלו שיש לו סמל.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. לפחות {minimumSize}, עד {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "העלאת סמל התפקיד",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "סמל התפקיד הנוכחי, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "סמל התפקיד הנוכחי, תמונה שהועלתה",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "בחירת אימוג'י",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "העלאת תמונה",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "הסר אייקון",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "אייקונים מונפשים אינם נתמכים. השתמש בתמונה סטטית.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "סוג הקובץ הזה אינו נתמך. הסוגים הנתמכים הם {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "לא ניתן לטעון את התמונה הזו. נסה תמונה אחרת.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "כך נראות ההודעות",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "סמל התפקיד, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "חיתוך סמל התפקיד",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "שמירת אייקון",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "דלג על חיתוך",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "חיתוך הסמל נכשל. יש לנסות שוב.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "גרור כדי למקם מחדש את סמל התפקיד והשתמש בגלגלת הגלילה או בצביטה כדי להתקרב או להתרחק. הגודל המינימלי המומלץ הוא {minimumWidth}×{minimumHeight} פיקסלים.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "הגדרת סמל התפקיד ל-{emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "שינוי סמל התפקיד מ-{oldEmoji} ל-{newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "הסרת סמל התפקיד",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "הגדרת סמל מותאם אישית לתפקיד",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "החלפת סמל התפקיד המותאם אישית",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "הסרת סמל התפקיד המותאם אישית",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "חברים",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "פוסט ממישהו שחסמת",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "שרשור ממישהו שחסמת",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
+    "forumReportPost": "דיווח על פוסט",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "אין אפשרות להתחבר אל {domain}. כדאי לבדוק את החיבור לאינטרנט ולנסות שוב.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

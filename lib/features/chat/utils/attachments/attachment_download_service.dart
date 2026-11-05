@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -6,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -15,6 +17,7 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:gal/gal.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final Dio _attachmentDownloadDio = Dio(
   BaseOptions(
@@ -106,7 +109,7 @@ Future<void> _downloadToGallery({
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   try {
     if (!await _ensureGalleryAccess()) {
-      _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
+      _showGalleryAccessToast(ref, l10n);
       return;
     }
     final String resolvedFilename = resolveAttachmentDownloadFilename(
@@ -187,6 +190,25 @@ void _showSuccessToast(WidgetRef ref, String message) {
   ref
       .read(toastProvider.notifier)
       .show(FluxerToast(message: message, variant: FluxerToastVariant.success));
+}
+
+void _showGalleryAccessToast(WidgetRef ref, FluxerLocalizations l10n) {
+  final String productName = ref
+      .read(instanceRuntimeConfigProvider)
+      .productName;
+  ref
+      .read(toastProvider.notifier)
+      .show(
+        FluxerToast(
+          message: l10n.chatAttachmentDownloadPhotosAccessToast(productName),
+          variant: FluxerToastVariant.danger,
+          duration: const Duration(seconds: 6),
+          action: FluxerToastAction(
+            label: l10n.systemPermissionSettingsOpenSettings,
+            onPressed: () => unawaited(openAppSettings()),
+          ),
+        ),
+      );
 }
 
 void _showFailureToast(WidgetRef ref, String message) {

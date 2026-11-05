@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -65,19 +66,36 @@ void main() {
     },
   );
 
-  testWidgets('TOTP field uses a numeric keyboard', (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        child: _app(
-          MfaScreen(challenge: _challenge, onBack: () {}, onAuthorized: () {}),
+  testWidgets(
+    'TOTP field uses a numeric keyboard until backup code is chosen',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          child: _app(
+            MfaScreen(
+              challenge: _challenge,
+              onBack: () {},
+              onAuthorized: () {},
+            ),
+          ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.pumpAndSettle();
 
-    final TextField field = tester.widget(find.byType(TextField));
-    expect(field.keyboardType, TextInputType.number);
-  });
+      final TextField field = tester.widget(find.byType(TextField));
+      expect(field.keyboardType, TextInputType.number);
+
+      final FluxerLocalizations l10n = FluxerLocalizations.of(
+        tester.element(find.byType(MfaScreen)),
+      );
+      await tester.tap(find.text(l10n.mfaUseBackupCode));
+      await tester.pumpAndSettle();
+
+      final TextField backupField = tester.widget(find.byType(TextField));
+      expect(backupField.keyboardType, TextInputType.visiblePassword);
+      expect(find.text(l10n.mfaUseAuthenticatorCode), findsOneWidget);
+    },
+  );
 
   testWidgets('TOTP field accepts an alphanumeric backup code', (tester) async {
     await tester.pumpWidget(
@@ -128,6 +146,9 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          authInstanceSupportsPasskeysProvider.overrideWithValue(true),
+        ],
         child: _app(
           MfaScreen(
             challenge: multiMethodChallenge,
@@ -177,6 +198,9 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          authInstanceSupportsPasskeysProvider.overrideWithValue(true),
+        ],
         child: _app(
           MfaScreen(
             challenge: multiMethodChallenge,
@@ -216,6 +240,35 @@ void main() {
 
     expect(focusNode.hasFocus, isTrue);
   });
+
+  testWidgets(
+    'hides passkeys where they cannot work and explains a passkey-only account',
+    (tester) async {
+      const passkeyOnly = MfaChallenge(
+        ticket: 'mfa-ticket',
+        totp: false,
+        webauthn: true,
+      );
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            authInstanceSupportsPasskeysProvider.overrideWithValue(false),
+          ],
+          child: _app(
+            MfaScreen(
+              challenge: passkeyOnly,
+              onBack: () {},
+              onAuthorized: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text(testL10n.mfaPasskeyUnavailable), findsOneWidget);
+      expect(find.text(testL10n.mfaMethodWebauthn), findsNothing);
+    },
+  );
 }
 
 void _mockClipboardText(String text) {

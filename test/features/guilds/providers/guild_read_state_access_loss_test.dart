@@ -175,6 +175,26 @@ void main() {
     },
   );
 
+  test(
+    'a category overwrite that hides it clears its channel mention',
+    () async {
+      final FluxerDatabase db = await _seed();
+      final ProviderContainer container = await _mentionedContainer(db);
+
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion(
+          id: const Value(_categoryId),
+          guildId: const Value(_guildId),
+          name: const Value('category'),
+          type: const Value(4),
+          permissionOverwritesJson: Value(_denyEveryoneView()),
+        ),
+      );
+
+      await _expectMentionCleared(container);
+    },
+  );
+
   test('hiding the parent channel clears mentions in its threads', () async {
     final FluxerDatabase db = await _seed();
     final String threadMessageId = _recentSnowflake();

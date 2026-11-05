@@ -142,6 +142,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
           : dateTimeFromSnowflakeAsLocalOrNow(channel.id),
     ),
     unreadCount: Value(unreadCount),
+    nsfw: Value(channel.nsfw ?? false),
   );
 }
 

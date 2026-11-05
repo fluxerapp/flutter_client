@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/settings/domain/privacy_permission.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_dart/export.dart';
@@ -15,6 +16,11 @@ import '../../helpers/synced_preferences_test_helpers.dart';
 
 const _userA = '100000000000000001';
 const _userB = '200000000000000002';
+
+class _Sensitive extends SensitiveContent {
+  @override
+  SensitiveContentState build() => const SensitiveContentState();
+}
 
 class _Account {
   _Account({required this.incomingCallFlags, this.fetchGate});
@@ -155,7 +161,10 @@ void main() {
       _userB: _Account(incomingCallFlags: IncomingCallFlag.everyone),
     });
     final ProviderContainer container = ProviderContainer(
-      overrides: [fluxerClientProvider.overrideWithValue(_Client(api))],
+      overrides: [
+        fluxerClientProvider.overrideWithValue(_Client(api)),
+        sensitiveContentProvider.overrideWith(_Sensitive.new),
+      ],
     );
     addTearDown(container.dispose);
 
@@ -202,7 +211,10 @@ void main() {
       _userB: _Account(incomingCallFlags: IncomingCallFlag.everyone),
     });
     final ProviderContainer container = ProviderContainer(
-      overrides: [fluxerClientProvider.overrideWithValue(_Client(api))],
+      overrides: [
+        fluxerClientProvider.overrideWithValue(_Client(api)),
+        sensitiveContentProvider.overrideWith(_Sensitive.new),
+      ],
     );
     addTearDown(container.dispose);
 

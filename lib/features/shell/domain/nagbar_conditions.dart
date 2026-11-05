@@ -1,7 +1,6 @@
 class NagbarConditions {
   const NagbarConditions({
     required this.canShowCorruptedInstallation,
-    required this.canShowTermsAcceptance,
     required this.canShowScheduledMaintenance,
     required this.userIsUnclaimed,
     required this.userNeedsVerification,
@@ -21,7 +20,6 @@ class NagbarConditions {
   });
 
   final bool canShowCorruptedInstallation;
-  final bool canShowTermsAcceptance;
   final bool canShowScheduledMaintenance;
   final bool userIsUnclaimed;
   final bool userNeedsVerification;

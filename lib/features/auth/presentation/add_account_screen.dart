@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
+import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
@@ -41,11 +42,13 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
           .read(addAccountInstanceGuardProvider.notifier)
           .arm(ref.read(activeInstanceProvider));
       ref.invalidate(instanceSelectorProvider);
-      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier)
-        ..hideAccountSelector();
+      ref.read(pendingAccountClosureNoticeProvider.notifier).clear();
+      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier);
       final StoredAccount? account = widget.expiredAccount;
-      if (account != null) {
-        notifier.updateEmail(account.identifier);
+      if (account == null) {
+        notifier.startNewSignIn();
+      } else {
+        notifier.startExpiredSignIn(account);
         unawaited(_selectAccountInstance(account.userId));
       }
     });
@@ -108,27 +111,26 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
         appBar: AppBar(
           backgroundColor: context.colors.backgroundPrimary,
           elevation: 0,
-          leading: IconButton(
-            tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-            icon: PhosphorIcon(
-              PhosphorIconsBold.x,
-              color: context.colors.textPrimary,
+          leading: Semantics(
+            container: true,
+            button: true,
+            label: MaterialLocalizations.of(context).closeButtonTooltip,
+            onTap: _close,
+            excludeSemantics: true,
+            child: IconButton(
+              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+              icon: PhosphorIcon(
+                PhosphorIconsBold.x,
+                color: context.colors.textPrimary,
+              ),
+              onPressed: _close,
             ),
-            onPressed: _close,
           ),
         ),
         body: AuthViewport(
           maxWidth: isMobileLayout(context) ? double.infinity : 420,
           padding: EdgeInsets.all(layout.s5),
-          child: AuthFlowContent(
-            heading: l10n.accountAdd,
-            subheading: switch (widget.expiredAccount) {
-              final StoredAccount account => l10n.accountSessionExpired(
-                account.identifier,
-              ),
-              null => null,
-            },
-          ),
+          child: AuthFlowContent(heading: l10n.accountAdd),
         ),
       ),
     );

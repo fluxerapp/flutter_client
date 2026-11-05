@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_g
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_onboarding_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/push_notification_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/scheduled_maintenance_nagbar.dart';
-import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/terms_acceptance_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/unclaimed_account_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/visionary_mfa_nagbar.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
@@ -31,6 +30,7 @@ class NagbarContainer extends ConsumerWidget {
         }
         return Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: nagbars
               .map((NagbarState nagbar) => _buildNagbar(context, nagbar.type))
               .toList(),
@@ -52,7 +52,6 @@ class NagbarContainer extends ConsumerWidget {
       NagbarType.premiumOnboarding => const PremiumOnboardingNagbar(),
       NagbarType.giftInventory => const GiftInventoryNagbar(),
       NagbarType.visionaryMfa => const VisionaryMfaNagbar(),
-      NagbarType.termsAcceptance => const TermsAcceptanceNagbar(),
       NagbarType.guildMembershipCta => const GuildMembershipCtaNagbar(),
       NagbarType.pushNotification => const PushNotificationNagbar(),
       _ => const SizedBox.shrink(),

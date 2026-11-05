@@ -34,7 +34,6 @@ import 'package:fluxer_app/features/moderation/domain/report_flow.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/report_flow_option_list.dart';
 import 'package:fluxer_app/features/moderation/providers/report_flow_provider.dart';
-import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -161,22 +160,7 @@ class _FakeUserSettings extends UserSettingsViewModel {
 
   @override
   UserSettingsViewState build() => _initial;
-
-  @visibleForTesting
-  UserSettingsViewState get account => state;
-
-  set account(UserSettingsViewState next) => state = next;
 }
-
-UserSettingsViewState _account({String? email, bool verified = false}) {
-  return kMessageItemTestUserSettings.copyWith(
-    isProfileLoaded: true,
-    email: email,
-    verified: verified,
-  );
-}
-
-const String _accountEmail = 'tester@example.com';
 
 Message _message({
   String? webhookId,
@@ -208,19 +192,16 @@ IarContext _targetFor(ReportFlowTargetType target) =>
     : _profile;
 
 class _Harness {
-  _Harness(
-    this.tester, {
-    _FlowServer? server,
-    Set<String>? blockedIds,
-    UserSettingsViewState account = kMessageItemTestUserSettings,
-  }) : server = server ?? _FlowServer(),
-       blockedIds = blockedIds ?? <String>{},
-       settings = _FakeUserSettings(account);
+  _Harness(this.tester, {_FlowServer? server, Set<String>? blockedIds})
+    : server = server ?? _FlowServer(),
+      blockedIds = blockedIds ?? <String>{};
 
   final WidgetTester tester;
   final _FlowServer server;
   final Set<String> blockedIds;
-  final _FakeUserSettings settings;
+  final _FakeUserSettings settings = _FakeUserSettings(
+    kMessageItemTestUserSettings,
+  );
   final _FakeFriendRepository friends = _FakeFriendRepository();
 
   Future<void> open(IarContext target, {Locale locale = kTestLocale}) async {
@@ -427,7 +408,7 @@ void main() {
               find.text(
                 walk.target == ReportFlowTargetType.message
                     ? l10n.reportFlowSelectedMessage
-                    : l10n.reportFlowSelectedUser,
+                    : l10n.reportFlowSelectedPerson,
               ),
               findsOneWidget,
             );
@@ -761,19 +742,18 @@ void main() {
   });
 
   group('user profile screens', () {
-    messageItemTestWidgets('P1 intro, P2 checklist and Back to the intro', (
+    messageItemTestWidgets('the start choice, the profile checklist and Back', (
       tester,
     ) async {
       final _Harness harness = _Harness(tester);
       await harness.open(_profile);
 
       expect(harness.server.gets, <String>['/reports/flows/user']);
-      expect(find.text('Report profile'), findsOneWidget);
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text('What do you want to report?'), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
       expect(find.text('Alice'), findsOneWidget);
       expect(find.text('alice#8885'), findsOneWidget);
-      expect(find.text('Learn more'), findsOneWidget);
-      expect(_optionKeys(tester), <String>['learn_more']);
+      expect(_optionKeys(tester), <String>['profile', 'call', 'learn_more']);
       expect(
         _iconIn('learn_more', PhosphorIconsBold.arrowSquareOut),
         findsOneWidget,
@@ -782,9 +762,8 @@ void main() {
         find.byKey(const ValueKey<String>('report-flow-back')),
         findsNothing,
       );
-      expect(harness.buttonEnabled('report-flow-next'), isTrue);
 
-      await harness.next();
+      await harness.option('profile');
       expect(
         find.text('Which parts of their profile are a problem?'),
         findsOneWidget,
@@ -793,19 +772,17 @@ void main() {
       expect(harness.buttonEnabled('report-flow-next'), isFalse);
 
       await harness.back();
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
       expect(
         find.byKey(const ValueKey<String>('report-flow-back')),
         findsNothing,
       );
     });
 
-    messageItemTestWidgets('P3 rows are in order with the DSA link last', (
-      tester,
-    ) async {
+    messageItemTestWidgets('P3 rows are in order', (tester) async {
       final _Harness harness = _Harness(tester);
       await harness.open(_profile);
-      await harness.next();
+      await harness.option('profile');
       await harness.item('photo');
       await harness.next();
 
@@ -816,7 +793,6 @@ void main() {
         'impersonation',
         'spam',
         'something_else',
-        'dsa',
       ]);
     });
   });
@@ -917,7 +893,7 @@ void main() {
         blockedIds: <String>{_authorId},
       );
       await harness.open(_profile);
-      await harness.next();
+      await harness.option('profile');
       await harness.item('name');
       await harness.next();
       await harness.option('spam');
@@ -1068,7 +1044,7 @@ void main() {
         }),
       );
       await harness.open(_profile);
-      await harness.next();
+      await harness.option('profile');
       await harness.item('name');
       await harness.next();
       await harness.option('spam');
@@ -1188,7 +1164,7 @@ void main() {
 
       expect(harness.server.gets, hasLength(2));
       expect(find.text(l10n.reportFlowLoadFailed), findsNothing);
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
     });
 
     messageItemTestWidgets('a loaded flow is reused when reopened', (
@@ -1196,17 +1172,17 @@ void main() {
     ) async {
       final _Harness harness = _Harness(tester);
       await harness.open(_profile);
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
 
       Navigator.of(
-        tester.element(find.text(l10n.reportFlowSelectedUser)),
+        tester.element(find.text(l10n.reportFlowSelectedPerson)),
       ).pop();
       await harness.settle();
       await tester.tap(find.text('open'));
       await harness.settle();
 
       expect(harness.server.gets, hasLength(1));
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
     });
 
     messageItemTestWidgets('a load failure offers Try again', (tester) async {
@@ -1220,109 +1196,33 @@ void main() {
       await harness.settle();
 
       expect(harness.server.gets, hasLength(2));
-      expect(find.text(l10n.reportFlowSelectedUser), findsOneWidget);
+      expect(find.text(l10n.reportFlowSelectedPerson), findsOneWidget);
     });
   });
 
   group('account gate', () {
-    const ValueKey<String> submitKey = ValueKey<String>('report-flow-submit');
-
-    messageItemTestWidgets('an unclaimed account is blocked with no POST', (
-      tester,
-    ) async {
-      final _Harness harness = _Harness(tester, account: _account());
-      await harness.open(_targetFor(ReportFlowTargetType.message));
-      await harness.option('spam');
-
-      expect(find.text(l10n.reportFlowAccountSetupRequired), findsOneWidget);
-      expect(find.text(l10n.claimAccount), findsOneWidget);
-      expect(harness.buttonEnabled('report-flow-submit'), isFalse);
-      await harness.submit();
-      expect(harness.server.posts, isEmpty);
-      expect(find.text(l10n.reportFlowSummaryTitle), findsOneWidget);
-
-      await harness.tapKey('report-flow-account-setup');
-      expect(find.byType(ClaimAccountSheet), findsOneWidget);
-      expect(harness.server.posts, isEmpty);
-    });
-
     messageItemTestWidgets('the unverified notice opens security settings', (
       tester,
     ) async {
-      final _Harness harness = _Harness(
-        tester,
-        account: _account(email: _accountEmail),
+      final _Harness harness = _Harness(tester);
+      harness.server.replies.add(
+        const _Reply(403, <String, Object>{
+          'code': 'REPORT_EMAIL_VERIFICATION_REQUIRED',
+          'message': 'Finish setting up your account.',
+        }),
       );
       await harness.open(_profile);
-      await harness.next();
+      await harness.option('profile');
       await harness.item('name');
       await harness.next();
       await harness.option('spam');
       await harness.option('spam_profile');
+      await harness.submit();
 
       expect(find.text(l10n.reportFlowAccountSetupRequired), findsOneWidget);
-      expect(find.text(l10n.channelComposerBarrierVerifyEmail), findsOneWidget);
-      expect(harness.buttonEnabled('report-flow-submit'), isFalse);
-      await harness.submit();
-      expect(harness.server.posts, isEmpty);
-
       await harness.tapKey('report-flow-account-setup');
       expect(find.byType(UserSecurityLogin), findsOneWidget);
     });
-
-    messageItemTestWidgets('a claimed and verified account submits', (
-      tester,
-    ) async {
-      final _Harness harness = _Harness(
-        tester,
-        account: _account(email: _accountEmail, verified: true),
-      );
-      await harness.open(_targetFor(ReportFlowTargetType.message));
-      await harness.option('spam');
-
-      expect(find.text(l10n.reportFlowAccountSetupRequired), findsNothing);
-      await harness.submit();
-      expect(harness.server.posts, hasLength(1));
-      expect(find.text(l10n.reportFlowThankYouTitle), findsOneWidget);
-    });
-
-    messageItemTestWidgets('Submit unlocks once the account is verified', (
-      tester,
-    ) async {
-      final _Harness harness = _Harness(
-        tester,
-        account: _account(email: _accountEmail),
-      );
-      await harness.open(_targetFor(ReportFlowTargetType.message));
-      await harness.option('spam');
-      expect(harness.buttonEnabled('report-flow-submit'), isFalse);
-
-      harness.settings.account = _account(email: _accountEmail, verified: true);
-      await harness.settle();
-
-      expect(find.text(l10n.reportFlowAccountSetupRequired), findsNothing);
-      await harness.submit();
-      expect(harness.server.posts, hasLength(1));
-      expect(find.text(l10n.reportFlowThankYouTitle), findsOneWidget);
-    });
-
-    messageItemTestWidgets(
-      'a restriction that loads before the tap stops the submission',
-      (tester) async {
-        final _Harness harness = _Harness(tester);
-        await harness.open(_targetFor(ReportFlowTargetType.message));
-        await harness.option('spam');
-        expect(harness.buttonEnabled('report-flow-submit'), isTrue);
-
-        harness.settings.account = _account();
-        await tester.tap(find.byKey(submitKey));
-        await harness.settle();
-
-        expect(harness.server.posts, isEmpty);
-        expect(find.text(l10n.reportFlowAccountSetupRequired), findsOneWidget);
-        expect(harness.buttonEnabled('report-flow-submit'), isFalse);
-      },
-    );
 
     for (final (String code, int status, String action)
         in <(String, int, String)>[
@@ -1333,38 +1233,34 @@ void main() {
           ),
           ('UNCLAIMED_ACCOUNT_CANNOT_SUBMIT_REPORTS', 400, l10n.claimAccount),
         ]) {
-      messageItemTestWidgets(
-        'an unknown profile posts and $code shows the notice',
-        (tester) async {
-          final _Harness harness = _Harness(tester);
-          harness.server.replies.add(
-            _Reply(status, <String, Object>{
-              'code': code,
-              'message': 'Finish setting up your account.',
-            }),
-          );
-          await harness.open(_targetFor(ReportFlowTargetType.message));
-          await harness.option('spam');
-          expect(find.text(l10n.reportFlowAccountSetupRequired), findsNothing);
+      messageItemTestWidgets('a $code refusal shows the notice', (
+        tester,
+      ) async {
+        final _Harness harness = _Harness(tester);
+        harness.server.replies.add(
+          _Reply(status, <String, Object>{
+            'code': code,
+            'message': 'Finish setting up your account.',
+          }),
+        );
+        await harness.open(_targetFor(ReportFlowTargetType.message));
+        await harness.option('spam');
+        expect(find.text(l10n.reportFlowAccountSetupRequired), findsNothing);
 
-          await harness.submit();
+        await harness.submit();
 
-          expect(harness.server.posts, hasLength(1));
-          expect(find.text(l10n.reportFlowSummaryTitle), findsOneWidget);
-          expect(
-            find.text(l10n.reportFlowAccountSetupRequired),
-            findsOneWidget,
-          );
-          expect(find.text(action), findsOneWidget);
-          expect(find.text('Finish setting up your account.'), findsNothing);
-          expect(find.text(l10n.reportFlowSubmitFailed), findsNothing);
-          expect(harness.buttonEnabled('report-flow-submit'), isTrue);
+        expect(harness.server.posts, hasLength(1));
+        expect(find.text(l10n.reportFlowSummaryTitle), findsOneWidget);
+        expect(find.text(l10n.reportFlowAccountSetupRequired), findsOneWidget);
+        expect(find.text(action), findsOneWidget);
+        expect(find.text('Finish setting up your account.'), findsNothing);
+        expect(find.text(l10n.reportFlowSubmitFailed), findsNothing);
+        expect(harness.buttonEnabled('report-flow-submit'), isTrue);
 
-          await harness.submit();
-          expect(harness.server.posts, hasLength(2));
-          expect(find.text(l10n.reportFlowThankYouTitle), findsOneWidget);
-        },
-      );
+        await harness.submit();
+        expect(harness.server.posts, hasLength(2));
+        expect(find.text(l10n.reportFlowThankYouTitle), findsOneWidget);
+      });
     }
   });
 

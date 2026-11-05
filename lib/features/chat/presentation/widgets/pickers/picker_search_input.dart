@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -265,17 +266,21 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
             child: widget.rightCustomElement,
           ),
         if (text.isNotEmpty)
-          FluxerGestureDetector(
-            onTap: _clear,
-            behavior: HitTestBehavior.opaque,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 12, 7, 12),
-                child: Icon(
-                  PhosphorIconsFill.xCircle,
-                  size: 16,
-                  color: colors.textTertiary,
+          Semantics(
+            button: true,
+            label: FluxerLocalizations.of(context).userSettingsSearchClear,
+            child: FluxerGestureDetector(
+              onTap: _clear,
+              behavior: HitTestBehavior.opaque,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 12, 7, 12),
+                  child: Icon(
+                    PhosphorIconsFill.xCircle,
+                    size: 16,
+                    color: colors.textTertiary,
+                  ),
                 ),
               ),
             ),

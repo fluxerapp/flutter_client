@@ -462,7 +462,7 @@ void main() {
     );
     expect(
       container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.dark,
+      FluxerThemeMode.system,
       reason: 'mode does not move until the server acks',
     );
 
@@ -501,7 +501,7 @@ void main() {
 
     expect(
       container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.dark,
+      FluxerThemeMode.system,
       reason: 'mode stays on the previous value when PATCH fails',
     );
     expect(
@@ -516,6 +516,7 @@ void main() {
       const UserPreferencesTableCompanion(
         userId: Value('u1'),
         theme: Value('system'),
+        systemThemeChosenLocally: Value(true),
       ),
     );
 
@@ -543,6 +544,76 @@ void main() {
       reason: 'gateway theme update must not knock the user out of system',
     );
   });
+
+  test(
+    'a server theme event during load keeps the local system choice',
+    () async {
+      await db.userPreferencesDao.savePreferences(
+        const UserPreferencesTableCompanion(
+          userId: Value('u1'),
+          theme: Value('system'),
+          systemThemeChosenLocally: Value(true),
+        ),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsSyncProvider.overrideWith(
+            _NoopUserSettingsSyncService.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final notifier = container.read(themePreferenceProvider.notifier);
+      final Future<void> loading = notifier.load('u1');
+      await notifier.applyServerSettings(_settingsResponseWithTheme('light'));
+      await loading;
+
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.system,
+      );
+      final stored = await db.userPreferencesDao.getPreferences('u1');
+      expect(stored?.systemThemeChosenLocally, isTrue);
+      expect(stored?.theme, 'system');
+    },
+  );
+
+  test(
+    'applyServerSettings follows the server when system was never chosen',
+    () async {
+      await db.userPreferencesDao.savePreferences(
+        const UserPreferencesTableCompanion(
+          userId: Value('u1'),
+          theme: Value('system'),
+          chatFontSize: Value(18),
+        ),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsSyncProvider.overrideWith(
+            _NoopUserSettingsSyncService.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final notifier = container.read(themePreferenceProvider.notifier);
+      await notifier.load('u1');
+      await notifier.applyServerSettings(_settingsResponseWithTheme('coal'));
+
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.coal,
+      );
+    },
+  );
 
   test(
     'applyServerSettings is a no-op while a local PATCH is inflight',

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -10,6 +12,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 part 'channel_dao.g.dart';
 
 const List<int> _threadTypes = <int>[10, 11, 12];
+const int _idLookupChunkSize = 500;
 
 @DriftAccessor(tables: [Channels])
 class ChannelDao extends DatabaseAccessor<FluxerDatabase>
@@ -98,13 +101,9 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
     await into(channels).insertOnConflictUpdate(channelToWrite);
   }
 
-  Future<void> upsertChannels(List<ChannelsCompanion> channelList) async {
-    await batch((b) {
-      for (final channel in channelList) {
-        b.insert(channels, channel, onConflict: DoUpdate((_) => channel));
-      }
-    });
-  }
+  Future<void> upsertChannels(List<ChannelsCompanion> channelList) => batch(
+    (Batch b) => batchUpsert(b, attachedDatabase, channels, channelList),
+  );
 
   Future<void> upsertChannelsMerged(
     List<ChannelsCompanion> channelList, {
@@ -121,8 +120,31 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
           (ChannelsCompanion channel) => channel.lastMessageId.present,
         );
     if (needsExisting) {
-      for (final Channel row in await select(channels).get()) {
-        existingLastById[row.id] = row.lastMessageId;
+      final List<String> ids = <String>{
+        for (final ChannelsCompanion channel in channelList)
+          if (channel.lastMessageId.present) channel.id.value,
+      }.toList();
+      for (var i = 0; i < ids.length; i += _idLookupChunkSize) {
+        final List<TypedResult> rows =
+            await (selectOnly(channels)
+                  ..addColumns(<Expression<Object>>[
+                    channels.id,
+                    channels.lastMessageId,
+                  ])
+                  ..where(
+                    channels.id.isIn(
+                      ids.sublist(
+                        i,
+                        math.min(i + _idLookupChunkSize, ids.length),
+                      ),
+                    ),
+                  ))
+                .get();
+        for (final TypedResult row in rows) {
+          existingLastById[row.read(channels.id)!] = row.read(
+            channels.lastMessageId,
+          );
+        }
       }
     }
 
@@ -147,11 +169,9 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
       merged.add(channel.copyWith(lastMessageId: Value(folded)));
     }
 
-    await batch((b) {
-      for (final ChannelsCompanion channel in merged) {
-        b.insert(channels, channel, onConflict: DoUpdate((_) => channel));
-      }
-    });
+    await batch(
+      (Batch b) => batchUpsert(b, attachedDatabase, channels, merged),
+    );
   }
 
   Future<void> updateLastMessageId(String channelId, String messageId) =>

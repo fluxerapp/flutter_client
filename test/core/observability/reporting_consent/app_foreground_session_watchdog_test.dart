@@ -1,63 +1,64 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() {
-    SharedPreferences.setMockInitialValues(<String, Object>{});
+  late Directory directory;
+
+  bool markerExists() =>
+      File('${directory.path}/$kAppForegroundSessionMarkerName').existsSync();
+
+  void changeLifecycle(AppLifecycleState state) {
+    WidgetsBinding.instance.handleAppLifecycleStateChanged(state);
+  }
+
+  Future<bool> relaunchReportsCrash() async {
+    final AppForegroundSessionBootstrapResult result =
+        await bootstrapAppForegroundSession(directory: directory);
+    return result.hadForegroundCrash;
+  }
+
+  setUp(() async {
+    directory = await Directory.systemTemp.createTemp('foreground_session');
+    changeLifecycle(AppLifecycleState.detached);
   });
 
-  test('bootstrap reports no crash when session flag was cleared', () async {
-    final AppForegroundSessionBootstrapResult result =
-        await bootstrapAppForegroundSession();
+  tearDown(() async {
+    changeLifecycle(AppLifecycleState.detached);
+    await directory.delete(recursive: true);
+  });
 
-    expect(result.hadForegroundCrash, isFalse);
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
+  test('a kill while resumed is reported on the next launch', () async {
+    expect(await relaunchReportsCrash(), isFalse);
+    changeLifecycle(AppLifecycleState.resumed);
+
+    expect(await relaunchReportsCrash(), isTrue);
   });
 
   test(
-    'bootstrap reports foreground crash when session flag was set',
+    'Home clears the marker inside the lifecycle callback, before iOS suspends',
     () async {
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        kAppForegroundSessionActiveKey: true,
-      });
+      await relaunchReportsCrash();
+      changeLifecycle(AppLifecycleState.resumed);
+      expect(markerExists(), isTrue);
 
-      final AppForegroundSessionBootstrapResult result =
-          await bootstrapAppForegroundSession();
+      changeLifecycle(AppLifecycleState.inactive);
+      expect(markerExists(), isFalse);
+      changeLifecycle(AppLifecycleState.hidden);
+      changeLifecycle(AppLifecycleState.paused);
 
-      expect(result.hadForegroundCrash, isTrue);
+      expect(await relaunchReportsCrash(), isFalse);
     },
   );
 
-  test('paused lifecycle clears the session flag', () async {
-    await bootstrapAppForegroundSession();
-    installAppForegroundSessionLifecycleBinding();
+  test('a background launch from a push does not mark a session', () async {
+    changeLifecycle(AppLifecycleState.paused);
 
-    WidgetsBinding.instance.handleAppLifecycleStateChanged(
-      AppLifecycleState.paused,
-    );
-    await pumpEventQueue();
-
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isFalse);
-  });
-
-  test('resumed lifecycle sets the session flag', () async {
-    SharedPreferences.setMockInitialValues(<String, Object>{
-      kAppForegroundSessionActiveKey: false,
-    });
-    installAppForegroundSessionLifecycleBinding();
-
-    WidgetsBinding.instance.handleAppLifecycleStateChanged(
-      AppLifecycleState.resumed,
-    );
-    await pumpEventQueue();
-
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
+    expect(await relaunchReportsCrash(), isFalse);
+    expect(markerExists(), isFalse);
   });
 }

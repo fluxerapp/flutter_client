@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -29,19 +30,21 @@ List<ContextMenuButtonItem> _searchContextMenuItems({
   required SelectableRegionState state,
   required SearchEnginesState searchEngines,
 }) {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   return <ContextMenuButtonItem>[
     ..._categorySearchItems(
       context: context,
       state: state,
       category: searchEngines.textSearch,
-      actionLabel: (SearchProviderEngine engine) => 'Search ${engine.name}',
+      actionLabel: (SearchProviderEngine engine) =>
+          l10n.searchProviderSearchWith(engine.name),
     ),
     ..._categorySearchItems(
       context: context,
       state: state,
       category: searchEngines.translators,
       actionLabel: (SearchProviderEngine engine) =>
-          'Translate with ${engine.name}',
+          l10n.searchProviderTranslateWith(engine.name),
     ),
   ];
 }

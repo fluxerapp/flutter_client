@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "हमने अपनी शर्तें अपडेट कर दी हैं। जारी रखने के लिए कृपया उनकी समीक्षा करें और स्वीकार करें।",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "शर्तें देखें",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "टीम के साथ चैट करने और अप-टू-डेट रहने के लिए {communityName} से जुड़ें।",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -420,6 +412,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "बैकअप कोड इस्तेमाल करें",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "ऑथेंटिकेटर ऐप का कोड इस्तेमाल करें",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "कोई अकाउंट चुनें",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -440,11 +440,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "{identifier} के लिए सत्र समाप्त हो गया है। कृपया पुनः लॉग इन करें।",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "{name} के लिए आपका सत्र समाप्त हो गया है। फिर से लॉग इन करें।",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -581,103 +581,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "खाता स्थायी रूप से निलंबित",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "खाता निलंबित",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "आपके खाते को हमारी सेवा की शर्तों का उल्लंघन करने के कारण स्थायी रूप से निलंबित कर दिया गया है।",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "आपका खाता अस्थायी रूप से निलंबित कर दिया गया है। निलंबन अवधि समाप्त होने के बाद आप अपने खाते तक पहुँचने में सक्षम होंगे।",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "जारी",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "समाप्त",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "अवधि",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "स्थायी",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "वजह",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "अपील की समय सीमा",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "आपका खाता {date} को हटाने के लिए निर्धारित है।",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "अपडेट देखें",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "{seconds} सेकंड में फिर से जांचें",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "लॉगिन पर वापस जाएं",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "अपील",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "अपने निलंबन पर पुनर्विचार करने के कारण बताएं (न्यूनतम 50 अक्षर)…",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "अपील सबमिट करें",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "समीक्षा के लिए लंबित",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "अपील स्वीकार की गई",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "अपील अस्वीकृत",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "आपकी अपील स्वीकार कर ली गई है और आपका खाता बहाल कर दिया गया है।",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "अपने खाते में साइन इन करें",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "पासवर्ड भूल गए?",
     "@forgotPasswordTitle": {
@@ -966,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "मैं सहमत हूँ ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "सेवा की शर्तें",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " और ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "गोपनीयता नीति",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{मैं <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हूँ} terms{मैं <terms>सेवा की शर्तों</terms> से सहमत हूँ} other{मैं <privacy>गोपनीयता नीति</privacy> से सहमत हूँ}}",
     "registerConfirmPassword": "पासवर्ड की पुष्टि करें",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -1067,11 +962,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} सदस्य",
+    "embedInviteMembers": "{formattedCount} सदस्य",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -1206,10 +1104,6 @@
     "embedThemeWebOnly": "आप थीम केवल वेब या डेस्कटॉप पर इंपोर्ट कर सकते हैं।",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "थीम इंपोर्ट करें",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "विज़नरी (लाइफटाइम {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -2575,10 +2469,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "इस प्लेटफ़ॉर्म पर इन-ऐप खरीदारी अभी उपलब्ध नहीं है। बने रहें — जल्द ही आ रहा है!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "प्रीव्यू",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2668,6 +2558,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "यह पासवर्ड गलत है। फिर से कोशिश करें।",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "अकाउंट",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2683,6 +2577,10 @@
     "securitySectionDescription": "टू-फ़ैक्टर ऑथेंटिकेशन और पासकी से अपने अकाउंट को सुरक्षित रखें",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "टू-फ़ैक्टर ऑथेंटिकेशन से अपने अकाउंट को सुरक्षित रखें",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "ईमेल सेटिंग्स",
     "@securityLoginEmailSectionTitle": {
@@ -3107,59 +3005,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "अपना अकाउंट और उससे जुड़ा सारा डेटा हमेशा के लिए मिटा दें। इस कार्रवाई को पहले जैसा नहीं किया जा सकता।",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "अकाउंट नहीं मिटाया जा सकता",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "जब तक आप किसी कम्युनिटी के मालिक हैं, तब तक आप अपना अकाउंट नहीं मिटा सकते। पहले इन कम्युनिटी का स्वामित्व ट्रांसफ़र करें:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "और {count} अधिक",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "स्वामित्व हस्तांतरित करने के लिए, {settingsPath} पर जाएं और स्वामित्व हस्तांतरित करें विकल्प का उपयोग करें।",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "क्या आप वाकई अपना अकाउंट मिटाना चाहते हैं? इस कार्रवाई से आपका अकाउंट हमेशा के लिए मिटाने के लिए शेड्यूल हो जाएगा।",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "आप 14 दिनों के अंदर डिलीट करने की प्रक्रिया को रद्द कर सकते हैं",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "14 दिनों के बाद, आपका अकाउंट हमेशा के लिए मिटा दिया जाएगा",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "एक बार डिलीट होने के बाद, आप अपने अकाउंट का एक्सेस वापस नहीं पा सकेंगे",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "आपका अकाउंट डिलीट होने के बाद आप अपने भेजे गए मैसेज डिलीट नहीं कर पाएँगे",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "अगर आप अपना डेटा एक्सपोर्ट करना चाहते हैं या पहले अपने मैसेज डिलीट करना चाहते हैं, तो आगे बढ़ने से पहले कृपया यूज़र सेटिंग्स में प्राइवेसी डैशबोर्ड सेक्शन पर जाएं।",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "अपना अकाउंट क्लेम करें",
     "@claimAccountTitle": {
@@ -3188,10 +3036,6 @@
     "claimAccountSuccess": "अकाउंट सफलतापूर्वक क्लेम किया गया",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "ज़रूरी जानकारी:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "एक त्रुटि हुई",
     "@genericError": {
@@ -4783,6 +4627,15 @@
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
     },
+    "chatAttachmentDownloadPhotosAccessToast": "इस अटैचमेंट को सेव करने के लिए {productName} को आपकी फ़ोटो लाइब्रेरी तक पहुँच चाहिए।",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
     "chatAttachmentExpiredTooltip": "अटैचमेंट की समय-सीमा खत्म हो गई है",
     "@chatAttachmentExpiredTooltip": {
         "description": "Tooltip when a file attachment link is no longer available."
@@ -4917,10 +4770,6 @@
     "matureMediaRevealButton": "दिखाएँ",
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
-    },
-    "matureMediaRevealHint": "देखने के लिए क्लिक करें",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
     },
     "matureContentTitle": "वयस्क सामग्री",
     "@matureContentTitle": {
@@ -5311,7 +5160,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "डार्क, कोल या लाइट अपीयरेंस में से चुनें।",
+    "lookAndFeelThemeSectionDescription": "सिस्टम, डार्क, कोल या लाइट अपीयरेंस में से चुनें।",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -7076,6 +6925,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "आपके ब्लॉक किए गए किसी व्यक्ति का वीडियो",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "लाइव",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -7228,6 +7081,16 @@
     "characterCounterTooLong": "मैसेज बहुत लंबा है",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "मैसेज में ज़्यादा से ज़्यादा {maxLength} कैरेक्टर हो सकते हैं। इसे भेजने के लिए मैसेज छोटा करें।",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} अक्षर बचे हैं। {premiumMaxLength} अक्षर तक लिखने के लिए {productName} प्राप्त करें।",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -8175,9 +8038,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "आप जिस प्रोफ़ाइल की रिपोर्ट कर रहे हैं",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "आप जिस व्यक्ति की रिपोर्ट कर रहे हैं",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "आपके जवाब",
     "@reportFlowReportCategory": {
@@ -10500,6 +10363,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "संदेश भेजें",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "फ़ोटो",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -10762,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "आपकी हाल की इनवॉइस। अपने सब्सक्रिप्शन के लिए भुगतान विधि बदलने के लिए, बिलिंग पोर्टल में एक जोड़ें या चुनें और उसे डिफ़ॉल्ट बनाएं।",
     "premiumManagePaymentMethods": "भुगतान के तरीके प्रबंधित करें",
     "premiumSelfServeRefundButton": "पिछली खरीदारी का रिफ़ंड",
-    "premiumDisclaimerAgreementPrefix": "खरीदकर, आप हमारी ",
-    "premiumDisclaimerAgreementPastPrefix": "खरीदकर, आपने हमारी ",
-    "premiumDisclaimerAgreementMiddle": " और ",
+    "premiumDisclaimerAgreement": "{links, select, both{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।} terms{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।} other{खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हुए।} terms{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत हुए।} other{खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत हुए।}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>सेवा की शर्तें</terms> और <privacy>गोपनीयता नीति</privacy>} terms{<terms>सेवा की शर्तें</terms>} other{<privacy>गोपनीयता नीति</privacy>}}",
     "premiumActiveUntil": "{date} तक सक्रिय",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -10914,7 +10781,6 @@
         }
     },
     "storePlutoniumWaiting": "खरीद प्राप्त हुई। Plutonium सक्रिय होने के बाद यहां दिखाई देगा।",
-    "storePlutoniumUnavailable": "इस डिवाइस पर अभी ऐप में सदस्यताएँ उपलब्ध नहीं हैं।",
     "storePlutoniumVisionaryStatus": "Visionary में पहले से ही स्थायी एक्सेस शामिल है, इसलिए बार-बार सदस्यता लेने की आवश्यकता नहीं है।",
     "userSettingsNavPrivacyDashboard": "निजता डैशबोर्ड",
     "@userSettingsNavPrivacyDashboard": {
@@ -11761,7 +11627,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "डिफ़ॉल्ट रिवर्स इमेज सर्च",
     "advancedSettingDefaultReverseImageSearchDescription": "चुनें कि इमेज सर्च करने के लिए डिफ़ॉल्ट रूप से किस रिवर्स इमेज सर्च सेवा का उपयोग किया जाता है।",
     "advancedSettingBuiltInReverseImageSearchLabel": "बिल्ट-इन रिवर्स इमेज सर्च",
-    "advancedSettingBuiltInReverseImageSearchDescription": "बिल्ट-इन रिवर्स इमेज सर्च प्रोवाइडर को चालू या बंद करें। चालू किए गए प्रोवाइडर इमेज, अवतार, बैनर, स्टिकर और इमोजी के कॉन्टेक्स्ट मेन्यू में दिखेंगे।",
     "advancedSettingCustomReverseImageSearchLabel": "कस्टम रिवर्स इमेज सर्च",
     "advancedSettingCustomReverseImageSearchDescription": "अपनी कस्टम यूआरएल पैटर्न के साथ रिवर्स इमेज सर्च प्रोवाइडर जोड़ें। इमेज यूआरएल के लिए प्लेसहोल्डर के रूप में '{url}' का उपयोग करें।",
     "advancedSettingAddReverseImageSearchLabel": "रिवर्स इमेज सर्च जोड़ें",
@@ -11805,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer ऐप की गोपनीयता नीति",
     "userSettingsNavDeveloperTools": "डेवलपर टूल",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -12165,10 +12031,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "जल्द आ रहा है",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "डायरेक्ट मैसेज",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -12279,10 +12141,6 @@
     "discoveryCommunities": "कम्युनिटी",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "ऐप्स",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "इस कम्युनिटी में शामिल नहीं हो सके",
     "@discoveryJoinErrorGenericTitle": {
@@ -18267,21 +18125,13 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, ID या मैसेज की सामग्री शामिल नहीं होती।",
+    "advancedCrashReportingDescription": "रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। ये इस इंस्टॉल की एक रैंडम ID से जुड़ी होती हैं, और इनमें आपके अकाउंट की ID, इंस्टेंस के नाम या मैसेज की सामग्री शामिल नहीं होती।",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
     "observabilityReportingConsentTitle": "क्रैश ठीक करने में मदद करें",
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
-    },
-    "observabilityReportingConsentSubtitle": "Fluxer अचानक बंद हो गया। गुमनाम क्रैश और एरर डेटा शेयर करने से हमें समस्याएँ जल्दी ठीक करने में मदद मिलती है।",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "रिपोर्ट में क्रैश लॉग, एरर और बुनियादी परफ़ॉर्मेंस डेटा शामिल होता है। ये किसी तीसरे पक्ष के साथ शेयर नहीं की जातीं और आप इसे कभी भी बंद कर सकते हैं।",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
     "observabilityReportingConsentEnableLater": "बाद में चालू करने के लिए, सेटिंग्स → एडवांस → {reportingToggle} खोलें।",
     "@observabilityReportingConsentEnableLater": {
@@ -18296,10 +18146,6 @@
     "observabilityReportingConsentAgree": "क्रैश रिपोर्ट भेजें",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "चालू नहीं करना है",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "फ़ीडबैक दें",
     "@userSettingsGiveFeedback": {
@@ -18983,5 +18829,1071 @@
     "animatedImageUseStatic": "इसके बजाय कोई स्टैटिक इमेज अपलोड करें।",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "आप ऑफ़लाइन हैं। आपके फिर से ऑनलाइन आने पर Fluxer अपने आप कनेक्ट हो जाएगा।",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "आपका अकाउंट {date} को मिटा दिया जाएगा। उससे पहले साइन इन करने पर मिटाना रद्द हो जाता है।",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "आपका अकाउंट मिटाने के लिए शेड्यूल किया गया है। मिटाने की तारीख से पहले साइन इन करने पर यह रद्द हो जाता है।",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "हम अभी आपका अकाउंट मिटा रहे हैं। अगर आपके अकाउंट में ईमेल पता है, तो काम पूरा होने पर हम आपको ईमेल करेंगे।",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "हम अभी आपका अकाउंट मिटा रहे हैं।",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "आपका अकाउंट डिसेबल है। जब भी आप इसका इस्तेमाल करना चाहें, फिर से साइन इन करें।",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "ईमेल फिर से भेजें",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "वेरिफ़िकेशन ईमेल भेजा गया है। अपना इनबॉक्स देखें।",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "आपने बहुत ज़्यादा वेरिफ़िकेशन ईमेल का अनुरोध किया है। कृपया कुछ देर इंतज़ार करें और फिर से कोशिश करें।",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "आपकी {productName} सदस्यता रिन्यू नहीं हो पाई। {graceDate} तक आपके {productName} फ़ायदे बने रहेंगे।",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "आपकी {productName} सदस्यता खत्म हो गई है।",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreement": "{links, select, both{साइन इन करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।} terms{साइन इन करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।} other{साइन इन करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।}}",
+    "mfaPasskeyUnavailable": "इस इंस्टेंस की पासकी इस ऐप में काम नहीं करतीं, और आपके अकाउंट में वेरिफ़िकेशन का कोई दूसरा तरीका नहीं है। इसके बजाय वेब पर साइन इन करें।",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "अकाउंट बैन किया गया",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "अकाउंट बंद किया गया",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "क्या हुआ",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "वजह",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "हमने फैसला कैसे लिया",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "अपील कैसे करें",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "हमारी टीम का नोट: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "फैसला ID: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "नियम: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "अगर आपको लगता है कि हमसे गलती हुई है, तो {email} पर ईमेल करें और अपना यूज़रनेम शामिल करें।",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "अगर आपको लगता है कि हमसे गलती हुई है, तो {deadline} तक {email} पर ईमेल करें। फैसला ID और अपना यूज़रनेम शामिल करें। अपील मुफ़्त है, और हर अपील की समीक्षा एक व्यक्ति करता है।",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "अगर आपको लगता है कि हमसे गलती हुई है, तो {deadline} तक {email} पर ईमेल करें। हो सके तो अपने अकाउंट वाले ईमेल पते से लिखें, और फैसला ID शामिल करें। अपील मुफ़्त है, और हर अपील की समीक्षा एक व्यक्ति करता है।",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "हमसे अपना अकाउंट और डेटा मिटाने के लिए कहने के लिए, अपने अकाउंट वाले पते से {email} पर ईमेल करें।",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "हमसे अपना अकाउंट और डेटा मिटाने के लिए कहने के लिए, {email} पर ईमेल करें और अपना यूज़रनेम शामिल करें।",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "हो गया",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "सेट नहीं है",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "मैं सहमत हूँ कि यह इंस्टेंस आपत्तिजनक सामग्री या अपमानजनक यूज़र्स को बिल्कुल बर्दाश्त नहीं करता, और इसके एडमिनिस्ट्रेटर इन नियमों को तोड़ने वाली सामग्री और अकाउंट हटा सकते हैं।",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "यह उपहार iOS ऐप में क्लेम नहीं किया जा सकता। आप इसे डेस्कटॉप ऐप में क्लेम कर सकते हैं।",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "सही स्टिकर ढूंढें",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "कोई स्टिकर उपलब्ध नहीं",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "स्टिकर वाली किसी कम्युनिटी से जुड़ें, ताकि आप उन्हें यहाँ इस्तेमाल कर सकें।",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "कोई स्टिकर उपलब्ध नहीं",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "इस बातचीत में कोई स्टिकर उपलब्ध नहीं है।",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "कोई स्टिकर नहीं मिला",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "कोई दूसरा सर्च शब्द आज़माएँ।",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Plutonium के साथ {communityCount} से {stickerCount} अनलॉक करें।",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 स्टिकर} other{{count} स्टिकर}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "बैज",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "चुनें कि दूसरे लोग आपकी प्रोफ़ाइल पर कौन-से बैज देखें।",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "आपके पास अभी कोई बैज नहीं है।",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "आपके बैज लोड नहीं हो सके।",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "अपनी प्रोफ़ाइल पर {badgeLabel} दिखाएँ",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "सभी बैज दिखाएँ",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} और बैज, सभी दिखाएँ} other {+{count} और बैज, सभी दिखाएँ}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "यह तभी दिखता है जब आपका Visionary बैज दिख रहा हो और सदस्यता के रूप में न दिखाया गया हो।",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "{since} से Operator Pass",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "मेरी प्रोफ़ाइल पर बैज दिखाएँ",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "छिपाएँ कि आपको {operatorPassName} कब मिला",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "छिपाएँ कि आपके पास कितने Operator Pass हैं",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "plutoniumNotSoldHere": "ऐप के इस वर्ज़न में Plutonium नहीं खरीदा जा सकता।",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "मुझे एक कोड ईमेल करें",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "हमने आपके ईमेल पते पर 6 अंकों का कोड भेजा है।",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "ईमेल में आया कोड",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "नया कोड भेजें",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "यह पक्का करने के लिए कि यह आप ही हैं, फिर से साइन इन करें।",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "फिर से साइन इन करें",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "{provider} से साइन इन करें",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "आपने किसी दूसरे खाते में साइन इन किया। उसी खाते से साइन इन करें जिसका आप यहाँ उपयोग कर रहे हैं।",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "इस इंस्टेंस की पासकी इस ऐप में काम नहीं करतीं। अपना ऑथेंटिकेटर ऐप या बैकअप कोड इस्तेमाल करें, या वेब पर पुष्टि करें।",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "अपना अकाउंट और निजी डेटा मिटाएँ। आप अपने मैसेज भी मिटा सकते हैं।",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "आपका अकाउंट, प्रोफ़ाइल और निजी डेटा मिटा दिया जाता है। जो मैसेज आप नहीं मिटाते, वे जहाँ भेजे गए थे वहीं रहते हैं, लेकिन आपके नाम या प्रोफ़ाइल के बिना।",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "मेरे मैसेज भी मिटाएँ",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "आपके अकाउंट के साथ, DM, ग्रुप DM और कम्युनिटी में आपके भेजे गए हर मैसेज को मिटा देता है।",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "अपने डेटा की कॉपी रखने के लिए, पहले {privacyDashboard} में एक्सपोर्ट का अनुरोध करें।",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "14 दिनों में मिटाएँ",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "आप इन 14 दिनों के दौरान साइन इन करके इसे रद्द कर सकते हैं।",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "मिटाना शेड्यूल करें",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "इस इंस्टेंस की इंतज़ार अवधि के बाद आपका अकाउंट मिटा दिया जाता है। उससे पहले साइन इन करने पर यह रद्द हो जाता है।",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "अभी मिटाएँ",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "अपना अकाउंट अभी मिटाएँ?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "आपका अकाउंट तुरंत मिटा दिया जाता है और इसे वापस नहीं पाया जा सकता।",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "आपकी Plutonium सदस्यता का बिल Apple देता है। अकाउंट मिटाने से यह रद्द नहीं होती, इसलिए पहले इसे App Store में रद्द करें।",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "आपकी Plutonium सदस्यता का बिल Google Play देता है। अकाउंट मिटाने से यह रद्द नहीं होती, इसलिए पहले इसे Google Play में रद्द करें।",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "आप इन कम्युनिटी के मालिक हैं। अपना अकाउंट मिटाने से पहले, हर एक को मिटाएँ या किसी दूसरे सदस्य को सौंप दें।",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "किसी कम्युनिटी की सेटिंग्स खोलने के लिए उस पर टैप करें। \"कम्युनिटी मिटाएँ\" सबसे नीचे है। इसे किसी और को देने के लिए, \"सदस्य\" खोलें, किसी सदस्य पर टैप करें, उसकी प्रोफ़ाइल पर तीन बिंदुओं पर टैप करें और \"स्वामित्व ट्रांसफ़र करें\" चुनें।",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "संवेदनशील मीडिया दिखाएँ",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "iPhone और iPad पर संवेदनशील मीडिया छिपा हुआ है।",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "आपके अकाउंट के लिए संवेदनशील मीडिया छिपा हुआ है।",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "iPhone और iPad पर 18+ सामग्री बंद है। यहाँ 18+ के रूप में मार्क की गई कम्युनिटी और चैनल देखने के लिए, वेब या डेस्कटॉप पर Fluxer खोलें, अपनी सेटिंग्स में \"गोपनीयता\" पर जाएँ और \"iPhone और iPad पर 18+ सामग्री की अनुमति दें\" चालू करें।",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "आपके क्षेत्र के वयस्क सामग्री कानूनों के कारण, वयस्क सामग्री यहाँ से उपलब्ध नहीं है।",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "18+ चैनल में मैसेज",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer इस अकाउंट पर उपलब्ध नहीं है",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "आपके Apple Account द्वारा शेयर की गई आयु सीमा 13 से कम है। Fluxer सिर्फ़ 13 साल और उससे ज़्यादा उम्र के लोगों के लिए है।",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "यहाँ \"दिखाएँ\" चुनने के लिए, वेब या डेस्कटॉप पर Fluxer खोलें, अपनी सेटिंग्स में \"गोपनीयता\" पर जाएँ और \"iPhone और iPad पर 18+ सामग्री की अनुमति दें\" चालू करें।",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "एडिट करें",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "सेव किया गया मीडिया एडिट करें",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "सेव किया गया मीडिया मिटाएँ",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "\"{name}\" को अपने सेव किए गए मीडिया से हटाएँ?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "सेव किया गया मीडिया मिटाया नहीं जा सका।",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "सेव किया गया मीडिया खोजें",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "सेव किया गया मीडिया उपलब्ध नहीं है",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "कुछ देर में फिर से कोशिश करें।",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "कोई सेव किया गया मीडिया नहीं",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "मैसेज से मीडिया सेव करें, ताकि वह यहाँ दिखे।",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "कोई परिणाम नहीं",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "कोई दूसरा सर्च शब्द या फ़िल्टर आज़माएँ।",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "सभी",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "इमेज",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "वीडियो",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "ऑडियो",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "वॉइस कॉल कंट्रोल",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "रिपोर्ट करें",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "ऑडियो आउटपुट बदलें",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "इस कॉल में अनम्यूट करने के लिए माइक्रोफ़ोन एक्सेस की अनुमति दें।",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "ज़ूम {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "नोट",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "टिप",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "ज़रूरी",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "चेतावनी",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "सावधान",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "कम्युनिटी की रिपोर्ट करें",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "जिस कम्युनिटी की आप रिपोर्ट कर रहे हैं",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "इस इंस्टेंस के एडमिनिस्ट्रेटर आपकी रिपोर्ट की समीक्षा करेंगे। हम यह नहीं बताएंगे कि यह आपसे आई है।",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "आपने इस कम्युनिटी की पहले ही रिपोर्ट कर दी है।",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "{authorName} को जवाब दे रहे हैं",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "{source} से फ़ॉरवर्ड किया गया",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedLabel": "फ़ॉरवर्ड किया गया",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "फ़ॉरवर्ड का स्रोत",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
+    },
+    "videoPlayerPlay": "चलाएँ",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "रोकें",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "वॉल्यूम",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "प्लेबैक स्पीड {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "फ़ुल स्क्रीन",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "चैनल की जानकारी खोलें",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "60 FPS पर 4K में स्ट्रीम करें",
+    "storePlutoniumStreamBody": "अपनी स्क्रीन या कैमरा 4K 60fps तक स्ट्रीम करें। मुफ़्त खाते 720p 30fps तक स्ट्रीम करते हैं।",
+    "storePlutoniumStreamTitleIos": "बेहतर क्वालिटी में स्ट्रीम करें",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "ऐप में 60 फ़्रेम प्रति सेकंड पर 1080p तक, और डेस्कटॉप ऐप में 60 पर 4K तक अपनी स्क्रीन या कैमरा शेयर करें। मुफ़्त अकाउंट 30 पर 720p तक स्ट्रीम करते हैं।",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "आपकी सदस्यता",
+    "storePlutoniumVideoPlutoniumIos": "ऐप में 60 FPS पर 1080p तक, डेस्कटॉप पर 60 FPS पर 4K तक",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "आप केवल एक ऐसा टैग चुन सकते हैं जो उसी यूज़रनेम वाले किसी और के पास पहले से न हो। यूज़रनेम केस-सेंसिटिव नहीं होते हैं, इसलिए Mina#4821 और mina#4821 एक ही माने जाते हैं।",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Apple की स्टैंडर्ड उपयोग की शर्तें (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "आपकी Plutonium सदस्यता रीस्टोर हो गई।",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "इस Apple Account के लिए रीस्टोर करने को कोई Plutonium सदस्यता नहीं है।",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "खरीदारी रीस्टोर नहीं हो सकी। थोड़ी देर में फिर से कोशिश करें।",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "इस डिवाइस का Apple Account पहले से किसी दूसरे Fluxer अकाउंट के Plutonium के लिए भुगतान कर रहा है।",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium नहीं जोड़ा गया",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store ने आपकी खरीदारी की पुष्टि कर दी है, लेकिन Plutonium इस अकाउंट में नहीं जोड़ा जा सका। फिर से कोशिश करने के लिए \"खरीदारी रीस्टोर करें\" पर टैप करें, या अगर फिर भी काम न करे तो सहायता टीम से संपर्क करें।",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "आपकी खरीदारी मंज़ूरी का इंतज़ार कर रही है। मंज़ूरी मिलते ही Plutonium आपके अकाउंट में जोड़ दिया जाएगा।",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Plutonium प्लान लोड नहीं हो सके। अपना कनेक्शन जाँचें और फिर से कोशिश करें।",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "फिर से कोशिश करें",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer अचानक बंद हो गया। क्रैश रिपोर्ट भेजने से हमें समस्या को जल्दी ढूँढने और ठीक करने में मदद मिलती है।",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "रिपोर्ट में क्रैश लॉग, एरर, परफ़ॉर्मेंस डेटा, नेटवर्क अनुरोधों का समय, और समस्या तक ले जाने वाली स्क्रीन और टैप शामिल होते हैं, जो इस इंस्टॉल की एक रैंडम ID से जुड़े होते हैं। इनमें मैसेज की सामग्री कभी शामिल नहीं होती, और ये सिर्फ़ Fluxer के अपने एरर ट्रैकर पर जाती हैं। आप इसे कभी भी बंद कर सकते हैं।",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "फिर से न पूछें",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "अभी नहीं",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
+    },
+    "advancedSettingSplashQuotesLabel": "स्प्लैश स्क्रीन कोट्स",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "स्प्लैश स्क्रीन पर एक रैंडम कोट दिखाएँ। डिवाइस के बीच सिंक नहीं होगा।",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "बिल्ट-इन रिवर्स इमेज सर्च प्रोवाइडर को चालू या बंद करें। चालू प्रोवाइडर इमेज के विकल्पों में दिखते हैं।",
+    "searchProviderSearchWith": "{engine} से खोजें",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "{engine} से अनुवाद करें",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "सेटिंग्स",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "ऐप की जानकारी कॉपी करें",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "सहायता और सपोर्ट",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} सुरक्षित कनेक्शन (https) का इस्तेमाल नहीं करता। Fluxer, http पर सिर्फ़ आपके लोकल नेटवर्क के इंस्टेंस से कनेक्ट होता है।",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "मेरे दोस्त",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "अभी सक्रिय",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "अभी सन्नाटा है...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "जब दोस्त वॉइस चैनल में सक्रिय होंगे, तो उनकी गतिविधि यहां दिखेगी।",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "ऑनलाइन",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "सभी",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "लंबित",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "ब्लॉक किए गए",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "ऑनलाइन दोस्तों को खोजें",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "दोस्त खोजें",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "लंबित रिक्वेस्ट खोजें",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "ब्लॉक किए गए यूज़र खोजें",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "इस खोज से कोई दोस्त मेल नहीं खाता",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "कोई दूसरा नाम आज़माएँ या अपनी स्पेलिंग जाँचें।",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "कोई दोस्त ऑनलाइन नहीं",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "जब वे ऑनलाइन आएंगे, तो यहीं दिखेंगे।",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "अभी कोई दोस्त नहीं",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "जहाँ हम जा रहे हैं, वहाँ हमें और दोस्त चाहिए।",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "कोई लंबित रिक्वेस्ट नहीं",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "लंबित फ्रेंड रिक्वेस्ट यहां दिखेंगी।",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "आपने किसी को ब्लॉक नहीं किया है।",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "भेजी गई फ्रेंड रिक्वेस्ट",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "ब्लॉक किया गया",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "म्यूट किया गया",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "कम्युनिटी की रिपोर्ट करें",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "रोल आइकॉन",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "इमेज अपलोड करें या इमोजी चुनें। हर सदस्य के नाम के पास उसके सबसे ऊँचे ऐसे रोल का आइकॉन दिखता है जिसमें आइकॉन हो।",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. कम से कम {minimumSize}, अधिकतम {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "रोल आइकॉन अपलोड करें",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "मौजूदा रोल आइकॉन, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "मौजूदा रोल आइकॉन, अपलोड की गई इमेज",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "इमोजी चुनें",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "इमेज अपलोड करें",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "आइकॉन हटाएँ",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "एनिमेटेड आइकॉन समर्थित नहीं हैं। स्थिर इमेज इस्तेमाल करें।",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "यह फ़ाइल टाइप समर्थित नहीं है। समर्थित टाइप हैं: {formats}।",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "यह इमेज लोड नहीं हो सकी। कोई दूसरी आज़माएँ।",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "मैसेज ऐसे दिखते हैं",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "रोल आइकॉन, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "रोल आइकॉन क्रॉप करें",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "आइकॉन सेव करें",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "क्रॉप करना छोड़ें",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "आइकॉन क्रॉप नहीं हो पाया। फिर से कोशिश करें।",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "रोल आइकॉन की जगह बदलने के लिए खींचें और ज़ूम करने के लिए स्क्रॉल व्हील या पिंच का इस्तेमाल करें। सुझाया गया न्यूनतम साइज़ {minimumWidth}×{minimumHeight} पिक्सल है।",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "रोल का आइकन {emoji} पर सेट किया गया",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "रोल का आइकन {oldEmoji} से बदलकर {newEmoji} कर दिया गया",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "रोल का आइकन हटा दिया गया",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "कस्टम रोल आइकन सेट किया गया",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "कस्टम रोल आइकन बदला गया",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "कस्टम रोल आइकन हटा दिया गया",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "दोस्त",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "आपके ब्लॉक किए गए किसी व्यक्ति की पोस्ट",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "आपके ब्लॉक किए गए किसी व्यक्ति का थ्रेड",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
+    "forumReportPost": "पोस्ट की रिपोर्ट करें",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "{domain} से कनेक्ट नहीं हो पा रहा है। अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

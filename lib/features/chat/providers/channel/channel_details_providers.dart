@@ -15,7 +15,9 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_details_providers.g.dart';
@@ -71,6 +73,14 @@ class ChannelPins extends _$ChannelPins {
 
   @override
   Future<ChannelPinsState> build(String channelId) async {
+    if (await ref.watch(
+      shouldShowMatureContentGateProvider(channelId).future,
+    )) {
+      return const ChannelPinsState(
+        items: <PinnedMessageEntry>[],
+        hasMore: false,
+      );
+    }
     final bus = ref.watch(messageRealtimeBusProvider);
     unawaited(_realtimeSub?.cancel());
     _realtimeSub = bus.stream.listen(_onRealtimeEvent);
@@ -459,12 +469,15 @@ class ChannelSearch extends _$ChannelSearch {
       );
     }
 
-    final bool includeNsfw = await _shouldIncludeNsfw(query);
+    final bool matureAllowed =
+        ref.read(sensitiveContentProvider).access == MatureAccess.allowed;
+    final bool includeNsfw = matureAllowed && await _shouldIncludeNsfw(query);
     if (!ref.mounted) {
       return null;
     }
     final MessageSearchQuery prepared = applyMatureContentToSearchQuery(
       query,
+      matureAllowed: matureAllowed,
       includeNsfw: includeNsfw,
     );
     final MessageSearchPage page = await ref

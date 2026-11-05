@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -149,6 +150,51 @@ void main() {
   });
 
   group('rebuild cost', () {
+    testWidgets('a rebuild without new messages reuses the channel stream', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      List<ChannelStreamItem> stream() => tester
+          .widget<MessageListViewport>(find.byType(MessageListViewport))
+          .stream;
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        highlightedMessageId: chatViewModel.testState.messages.last.id,
+      );
+      await tester.pump();
+      final List<ChannelStreamItem> before = stream();
+      final MessageListViewport viewportBefore = tester
+          .widget<MessageListViewport>(find.byType(MessageListViewport));
+
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        highlightedMessageId: chatViewModel.testState.messages.first.id,
+      );
+      await tester.pump();
+
+      expect(
+        identical(
+          tester.widget<MessageListViewport>(find.byType(MessageListViewport)),
+          viewportBefore,
+        ),
+        isFalse,
+        reason: 'the highlight has to rebuild the list for this to prove much',
+      );
+      expect(identical(stream(), before), isTrue);
+
+      injectLiveCreates(
+        chatViewModel,
+        chatViewModel.testState.messages,
+        count: 1,
+      );
+      await tester.pump();
+      expect(identical(stream(), before), isFalse);
+
+      await pumpFluxerFrames(tester);
+      await disposeMessageList(tester);
+    });
+
     testWidgets('live create while reading history preserves visible rows', (
       WidgetTester tester,
     ) async {

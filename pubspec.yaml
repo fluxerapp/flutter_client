@@ -72,6 +72,7 @@ dependencies:
   image_picker_platform_interface: ^2.11.1
   in_app_purchase: ^3.3.1
   in_app_purchase_android: ^0.5.3
+  in_app_purchase_storekit: ^0.4.16
   intl: ^0.20.2
   livekit_client: ^2.13.2
   local_translation: ^0.1.1
@@ -209,12 +210,12 @@ flutter:
     - assets/images/icons/
     - assets/images/icons/channels/
     - assets/images/connections/
-    - assets/images/browsers/
     - assets/images/app_icon_previews/ios/
     - assets/images/app_icon_previews/android/
     - assets/emojis.json
     - assets/emoji-sprites/
     - assets/certificates/
+    - assets/licenses/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

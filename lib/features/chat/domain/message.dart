@@ -8,8 +8,8 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/data/reaction_delta_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_link_parser.dart';
 import 'package:fluxer_app/features/themes/utils/shared_theme_links.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -1776,27 +1776,7 @@ class Message {
     return Uri.tryParse(trimmed)?.hasAbsolutePath ?? false;
   }
 
-  static final RegExp _invitesRegExp = RegExp(
-    r'(?:https?://)?(?:fluxer\.gg/(?!invite/)([a-zA-Z0-9\-]{2,32})|(?:web\.)?fluxer\.app/invite/([a-zA-Z0-9\-]{2,32}))(?![a-zA-Z0-9\-])',
-  );
-
-  List<String> get invites {
-    final seen = <String>{};
-    final result = <String>[];
-    for (final m in _invitesRegExp.allMatches(content)) {
-      if (matchOverlapsMarkdownCodeSpan(content, m)) {
-        continue;
-      }
-      final code = m.group(1) ?? m.group(2);
-      if (code != null && seen.add(code)) {
-        result.add(code);
-        if (result.length == 10) {
-          break;
-        }
-      }
-    }
-    return result;
-  }
+  List<String> get invites => findMessageInviteCodes(content);
 
   List<String> get themes => findSharedThemeIds(content);
 

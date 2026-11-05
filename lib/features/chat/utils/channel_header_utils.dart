@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 bool isPersonalNotesHeader({
@@ -78,7 +79,9 @@ String resolveChannelHeaderTitle(
       ? ref.watch(friendNicknameProvider(dm.recipientId)).value
       : null;
   if (channel != null) {
-    return channel.name;
+    return channel.isThread
+        ? watchThreadTitleText(ref, channel, l10n)
+        : channel.name;
   }
   if (isPersonalNotes) {
     return l10n.personalNotesTitle;

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/assistant/assistant_bridge.dart';
 import 'package:fluxer_app/core/assistant/assistant_command_dispatcher.dart';
 import 'package:fluxer_app/core/assistant/assistant_entities.dart';
 import 'package:fluxer_app/core/assistant/assistant_entity_index.dart';
 import 'package:fluxer_app/core/assistant/assistant_platform.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -14,13 +16,12 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 
-const Duration _kDonateDebounce = Duration(milliseconds: 800);
+const Duration _kDonateDebounce = Duration(seconds: 2);
 
 final Provider<AssistantBinding> assistantBindingProvider =
     Provider<AssistantBinding>((Ref ref) {
@@ -48,9 +49,8 @@ class AssistantBinding {
       ..listen(friendsListProvider, (_, _) => _scheduleDonate())
       ..listen(guildListViewModelProvider, (_, _) => _scheduleDonate())
       ..listen(
-        allChannelsProvider.select(
-          (AsyncValue<List<Channel>> next) =>
-              _assistantChannelDonationToken(next.value ?? const <Channel>[]),
+        _assistantVoiceChannelTokenProvider.select(
+          (AsyncValue<String> next) => next.value ?? '',
         ),
         (_, _) => _scheduleDonate(),
       )
@@ -69,6 +69,9 @@ class AssistantBinding {
         String? previous,
         String? next,
       ) {
+        if (previous != null && previous.isNotEmpty && previous != next) {
+          unawaited(_bridge?.deleteInteractions());
+        }
         if (next == null || next.isEmpty) {
           unawaited(_clear());
           return;
@@ -213,21 +216,33 @@ Future<AssistantEntityDonation> buildAssistantEntityDonation(Ref ref) async {
   );
 }
 
-String _assistantChannelDonationToken(List<Channel> channels) {
-  final StringBuffer buffer = StringBuffer();
-  for (final Channel channel in channels) {
-    if (channel.type != ChannelType.guildVoice) {
-      continue;
-    }
-    buffer
-      ..write(channel.id)
-      ..write(':')
-      ..write(channel.name)
-      ..write(':')
-      ..write(channel.type)
-      ..write(':')
-      ..write(channel.guildId)
-      ..write(';');
-  }
-  return buffer.toString();
-}
+final StreamProvider<String> _assistantVoiceChannelTokenProvider =
+    StreamProvider<String>((Ref ref) {
+      final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
+      final db.$ChannelsTable channels = database.channels;
+      final JoinedSelectStatement<db.$ChannelsTable, db.Channel> query =
+          database.selectOnly(channels)
+            ..addColumns(<Expression<Object>>[
+              channels.id,
+              channels.name,
+              channels.guildId,
+            ])
+            ..where(channels.type.equals(ChannelType.guildVoice.wireValue));
+      return query
+          .watch()
+          .map((List<TypedResult> rows) {
+            final StringBuffer buffer = StringBuffer();
+            for (final TypedResult row in rows) {
+              buffer
+                ..write(row.read(channels.id))
+                ..write(':')
+                ..write(row.read(channels.name))
+                ..write(':')
+                ..write(row.read(channels.guildId))
+                ..write(';');
+            }
+            return buffer.toString();
+          })
+          .distinct()
+          .suppressDriftCancellation;
+    });

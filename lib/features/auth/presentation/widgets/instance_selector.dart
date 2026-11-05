@@ -195,7 +195,7 @@ class _InstanceSelectorControlState
                 instances: selector.recentInstances,
                 enabled: widget.enabled,
                 onSelect: (RecentInstance instance) {
-                  unawaited(_connectTo(instance.domain));
+                  unawaited(_connectTo(instance.url ?? instance.domain));
                 },
                 onRemove: (String domain) {
                   unawaited(notifier.removeRecentInstance(domain));

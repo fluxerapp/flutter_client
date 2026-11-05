@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -41,6 +42,7 @@ ProviderContainer _container(
   final ProviderContainer container = ProviderContainer(
     overrides: <Override>[
       gatewayConnectionProvider.overrideWithValue(connection),
+      blockedUserIdsProvider.overrideWithValue(const <String>{}),
       appUiForegroundProvider.overrideWith(AppUiForeground.new),
     ],
   );
@@ -124,6 +126,7 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: <Override>[
           gatewayConnectionProvider.overrideWithValue(connection),
+          blockedUserIdsProvider.overrideWithValue(const <String>{}),
         ],
       );
       addTearDown(container.dispose);
@@ -202,6 +205,7 @@ void main() {
     final ProviderContainer container = ProviderContainer(
       overrides: <Override>[
         gatewayConnectionProvider.overrideWithValue(connection),
+        blockedUserIdsProvider.overrideWithValue(const <String>{}),
       ],
     );
     addTearDown(container.dispose);

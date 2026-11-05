@@ -196,10 +196,11 @@ Future<bool> isRestorableGuildChannel(
 }
 
 Future<String?> resolveDmRootRedirect({
-  required String fullPath,
+  required Uri uri,
   required FluxerDatabase db,
 }) async {
-  if (fullPath != RoutePaths.me) {
+  if (uri.path != RoutePaths.me ||
+      uri.queryParameters[RoutePaths.meFriendsQuery] == '1') {
     return null;
   }
   final String? lastChannelId = await db.guildLastChannelDao.getLastChannel(

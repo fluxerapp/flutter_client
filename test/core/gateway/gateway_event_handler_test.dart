@@ -122,7 +122,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: [_guildWithVoiceState()],
         privateChannels: const [],
         relationships: const [],
@@ -146,7 +145,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: [
           {
             ..._guildWithVoiceState(),
@@ -181,7 +179,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -198,7 +195,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id-2',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -225,7 +221,6 @@ void main() {
           'id': '200',
           'username': 'other',
         }),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -264,7 +259,6 @@ void main() {
     ReadyEvent readyWithChannel() => ReadyEvent(
       sessionId: 'session-id',
       user: _user(),
-      guilds: const [],
       rawGuilds: [
         _guildWithChannelAndMember(
           guildId: '200',
@@ -327,7 +321,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -343,7 +336,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id-2',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: [
@@ -395,7 +387,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -420,7 +411,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: [_guildWithSticker()],
         privateChannels: const [],
         relationships: const [],
@@ -451,7 +441,6 @@ void main() {
         ReadyEvent(
           sessionId: 'session-id',
           user: _user(),
-          guilds: const [],
           rawGuilds: [
             _guildWithChannelAndMember(
               guildId: 'g-a',
@@ -967,7 +956,6 @@ void main() {
         ReadyEvent(
           sessionId: 'session-seed',
           user: _user(),
-          guilds: const [],
           rawGuilds: [
             guildWithLastMessage(
               guildId: 'g1',
@@ -1006,7 +994,6 @@ void main() {
           ReadyEvent(
             sessionId: 'session-2',
             user: _user(),
-            guilds: const [],
             rawGuilds: [
               guildWithLastMessage(
                 guildId: 'g1',
@@ -1074,7 +1061,6 @@ void main() {
           ReadyEvent(
             sessionId: 'session-2',
             user: _user(),
-            guilds: const [],
             rawGuilds: [
               guildWithLastMessage(
                 guildId: 'g1',
@@ -1252,7 +1238,6 @@ void main() {
       return ReadyEvent(
         sessionId: 'session-id',
         user: _user(),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],

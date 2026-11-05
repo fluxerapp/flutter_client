@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/resend_verification_email.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
@@ -19,6 +20,10 @@ class EmailVerificationNagbar extends ConsumerWidget implements NagbarWidget {
       userSettingsViewModelProvider,
     );
     final bool isMobile = isMobileLayout(context);
+    final bool emailsEnabled = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.emailsEnabled),
+    );
+    final bool sending = ref.watch(resendVerificationEmailInFlightProvider);
     final String displayName = settings.displayName.trim().isNotEmpty
         ? settings.displayName
         : settings.username;
@@ -29,12 +34,16 @@ class EmailVerificationNagbar extends ConsumerWidget implements NagbarWidget {
       child: FluxerNagbarContent(
         isMobile: isMobile,
         message: l10n.nagbarEmailVerificationMessage(displayName),
-        actions: FluxerNagbarButton(
-          isMobile: isMobile,
-          label: l10n.nagbarOpenSettings,
-          onPressed: () =>
-              UserSettingsModal.show(context, openSecuritySection: true),
-        ),
+        actions: emailsEnabled
+            ? FluxerNagbarButton(
+                isMobile: isMobile,
+                label: l10n.verificationResendEmail,
+                isLoading: sending,
+                onPressed: sending
+                    ? null
+                    : () => resendVerificationEmail(ref, context),
+              )
+            : null,
       ),
     );
   }

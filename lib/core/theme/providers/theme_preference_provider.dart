@@ -43,17 +43,45 @@ class _BuiltColorThemes {
   final FluxerColorTheme coal;
 }
 
+final Map<
+  FluxerThemeMode,
+  ({double saturationFactor, String? customThemeCss, FluxerColorTheme theme})
+>
+_lastColorThemeByMode =
+    <
+      FluxerThemeMode,
+      ({
+        double saturationFactor,
+        String? customThemeCss,
+        FluxerColorTheme theme,
+      })
+    >{};
+
 FluxerColorTheme _themedColor(
   FluxerThemeMode mode,
   FluxerColorTheme Function({double saturationFactor}) builder, {
   required double saturationFactor,
   required String? customThemeCss,
-}) => applyCustomThemeCss(
-  builder(saturationFactor: saturationFactor),
-  css: customThemeCss,
-  saturationFactor: saturationFactor,
-  mode: mode,
-);
+}) {
+  final last = _lastColorThemeByMode[mode];
+  if (last != null &&
+      last.saturationFactor == saturationFactor &&
+      last.customThemeCss == customThemeCss) {
+    return last.theme;
+  }
+  final FluxerColorTheme theme = applyCustomThemeCss(
+    builder(saturationFactor: saturationFactor),
+    css: customThemeCss,
+    saturationFactor: saturationFactor,
+    mode: mode,
+  );
+  _lastColorThemeByMode[mode] = (
+    saturationFactor: saturationFactor,
+    customThemeCss: customThemeCss,
+    theme: theme,
+  );
+  return theme;
+}
 
 _BuiltColorThemes _buildColorThemes({
   required double saturationFactor,
@@ -169,7 +197,7 @@ class ThemePreferenceState {
   static const Object unspecifiedCustomThemeCss = Object();
 
   factory ThemePreferenceState({
-    FluxerThemeMode mode = FluxerThemeMode.dark,
+    FluxerThemeMode mode = FluxerThemeMode.system,
     double scaleFactor = 1.0,
     int chatFontSize = 16,
     bool syncAcrossDevices = true,
@@ -250,13 +278,11 @@ class ThemePreferenceState {
     };
   }
 
-  late final FluxerTextTheme textTheme = FluxerTextTheme.fromColors(colorTheme);
-  late final FluxerTextTheme darkTextTheme = FluxerTextTheme.fromColors(
-    darkColorTheme,
-  );
-  late final FluxerTextTheme lightTextTheme = FluxerTextTheme.fromColors(
-    lightColorTheme,
-  );
+  FluxerTextTheme get textTheme => FluxerTextTheme.forColors(colorTheme);
+  FluxerTextTheme get darkTextTheme =>
+      FluxerTextTheme.forColors(darkColorTheme);
+  FluxerTextTheme get lightTextTheme =>
+      FluxerTextTheme.forColors(lightColorTheme);
 
   ThemePreferenceState copyWith({
     FluxerThemeMode? mode,
@@ -348,6 +374,8 @@ const Duration _kThemeColorPersistDebounce = Duration(milliseconds: 1500);
 @Riverpod(keepAlive: true)
 class ThemePreference extends _$ThemePreference {
   String? _userId;
+  String? _loadingUserId;
+  bool _systemThemeChosenLocally = false;
   bool _isApplyingRemote = false;
   Timer? _themeColorPersistTimer;
 
@@ -375,7 +403,8 @@ class ThemePreference extends _$ThemePreference {
   }
 
   Future<void> load(String userId) async {
-    _userId = userId;
+    _loadingUserId = userId;
+    _userId = null;
     final int accountGeneration = ref
         .read(syncedPreferencesStoreProvider)
         .accountGeneration;
@@ -384,9 +413,10 @@ class ThemePreference extends _$ThemePreference {
     if (!_isCurrentLoad(userId, accountGeneration)) {
       return;
     }
+    _systemThemeChosenLocally = prefs?.systemThemeChosenLocally ?? false;
     if (prefs != null) {
       final mode =
-          FluxerThemeMode.fromApiValue(prefs.theme) ?? FluxerThemeMode.dark;
+          FluxerThemeMode.fromApiValue(prefs.theme) ?? FluxerThemeMode.system;
       state = ThemePreferenceState(
         mode: mode,
         scaleFactor: prefs.scaleFactor,
@@ -402,6 +432,7 @@ class ThemePreference extends _$ThemePreference {
     } else {
       state = ThemePreferenceState();
     }
+    _userId = userId;
     final bool hadCachedSettings = await _applyCachedUserSettings(
       userId,
       accountGeneration,
@@ -413,7 +444,7 @@ class ThemePreference extends _$ThemePreference {
 
   bool _isCurrentLoad(String userId, int accountGeneration) =>
       ref.mounted &&
-      _userId == userId &&
+      _loadingUserId == userId &&
       ref.read(syncedPreferencesStoreProvider).accountGeneration ==
           accountGeneration;
 
@@ -484,7 +515,7 @@ class ThemePreference extends _$ThemePreference {
     if (!_isCurrentLoad(userId, accountGeneration)) {
       return;
     }
-    if (state.syncAcrossDevices && state.mode != FluxerThemeMode.system) {
+    if (_followsServerTheme) {
       await applyServerSettings(settings);
     }
   }
@@ -496,6 +527,7 @@ class ThemePreference extends _$ThemePreference {
     if (state.mode == mode) {
       return;
     }
+    _systemThemeChosenLocally = mode == FluxerThemeMode.system;
 
     final wantsServerPush =
         state.syncAcrossDevices && mode != FluxerThemeMode.system;
@@ -639,7 +671,7 @@ class ThemePreference extends _$ThemePreference {
       );
       return;
     }
-    if (!state.syncAcrossDevices || state.mode == FluxerThemeMode.system) {
+    if (!_followsServerTheme) {
       return;
     }
     if (state.inflightTheme != null) {
@@ -787,6 +819,10 @@ class ThemePreference extends _$ThemePreference {
         .markDirty(SyncedPreferenceField.accessibility);
   }
 
+  bool get _followsServerTheme =>
+      state.syncAcrossDevices &&
+      (state.mode != FluxerThemeMode.system || !_systemThemeChosenLocally);
+
   Future<void> _persist() async {
     final userId = _userId;
     if (userId == null) {
@@ -798,6 +834,7 @@ class ThemePreference extends _$ThemePreference {
         UserPreferencesTableCompanion(
           userId: Value(userId),
           theme: Value(state.mode.apiValue),
+          systemThemeChosenLocally: Value(_systemThemeChosenLocally),
           scaleFactor: Value(state.scaleFactor),
           chatFontSize: Value(state.chatFontSize),
           syncAcrossDevices: Value(state.syncAcrossDevices),

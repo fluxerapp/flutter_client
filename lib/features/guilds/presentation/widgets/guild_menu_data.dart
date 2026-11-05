@@ -32,6 +32,7 @@ enum GuildAction {
   deleteMyMessages,
   debugCommunity,
   copyGuildId,
+  reportGuild,
   mute15Min,
   mute30Min,
   mute1Hour,
@@ -222,6 +223,12 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           label: l10n.guildNavbarDeleteMyMessagesConfirm,
           icon: PhosphorIconsFill.trash,
           action: GuildAction.deleteMyMessages,
+          isDanger: true,
+        ),
+        GuildMenuAction(
+          label: l10n.guildMenuReportCommunity,
+          icon: PhosphorIconsFill.flag,
+          action: GuildAction.reportGuild,
           isDanger: true,
         ),
         if (!isStockCommunity)

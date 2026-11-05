@@ -447,7 +447,13 @@ class ComposerAutocompleteFieldState
         if (previous?.value == next.value) {
           return;
         }
-        ref.read(guildMentionMemberSearchProvider).invalidateSnapshot(guildId);
+        final GuildMentionMemberSearch search = ref.read(
+          guildMentionMemberSearchProvider,
+        );
+        if (search.snapshotMatchesRowCount(guildId, next.requireValue)) {
+          return;
+        }
+        search.invalidateSnapshot(guildId);
         _clearMentionSessionCaches();
         _scheduleSync();
       },

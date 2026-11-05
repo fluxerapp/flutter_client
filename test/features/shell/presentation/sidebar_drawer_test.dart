@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
@@ -842,6 +843,7 @@ void main() {
       overrides: [
         fluxerRouterProvider.overrideWithValue(router),
         shellHasPopupOverlayProvider.overrideWithValue(true),
+        blockedUserIdsProvider.overrideWithValue(const <String>{}),
       ],
     );
     addTearDown(container.dispose);
@@ -1723,6 +1725,7 @@ ProviderContainer _containerFor(
   final container = ProviderContainer(
     overrides: <Override>[
       fluxerRouterProvider.overrideWithValue(router),
+      blockedUserIdsProvider.overrideWithValue(const <String>{}),
       ...extraOverrides,
     ],
   );

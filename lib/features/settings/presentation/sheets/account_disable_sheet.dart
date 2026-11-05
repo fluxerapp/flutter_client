@@ -2,8 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/sudo_interceptor.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/utils/sign_out_current_account.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -34,29 +38,49 @@ class _AccountDisableSheetState extends ConsumerState<AccountDisableSheet> {
   Future<void> _handleDisable() async {
     final l10n = FluxerLocalizations.of(context);
 
+    final ProviderContainer container = ProviderScope.containerOf(
+      context,
+      listen: false,
+    );
+    final NavigatorState rootNavigator = Navigator.of(
+      context,
+      rootNavigator: true,
+    );
+
     setState(() {
       _loading = true;
       _error = null;
     });
 
+    container
+        .read(accountClosureInFlightProvider.notifier)
+        .setInFlight(value: true);
     try {
-      final client = ref.read(fluxerClientProvider);
-      await client.users.disableCurrentUserAccount(
-        body: const SudoVerificationSchema(),
-      );
-
-      if (mounted) {
-        Navigator.of(context, rootNavigator: true).pop();
-      }
+      await container
+          .read(fluxerClientProvider)
+          .users
+          .disableCurrentUserAccount(body: const SudoVerificationSchema());
     } on DioException catch (e) {
+      container
+          .read(accountClosureInFlightProvider.notifier)
+          .setInFlight(value: false);
       if (!mounted) {
         return;
       }
       setState(() {
         _loading = false;
-        _error = userFacingErrorMessage(e, l10n.genericError);
+        _error = isSudoCancellation(e)
+            ? null
+            : userFacingErrorMessage(e, l10n.genericError);
       });
+      return;
     }
+
+    container
+        .read(pendingAccountClosureNoticeProvider.notifier)
+        .show(const AccountClosureNotice(kind: AccountClosureKind.disabled));
+    rootNavigator.popUntil((Route<dynamic> route) => route.isFirst);
+    await signOutCurrentAccount(container, keepInstance: true);
   }
 
   @override

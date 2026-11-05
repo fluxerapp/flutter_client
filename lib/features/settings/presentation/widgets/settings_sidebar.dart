@@ -140,9 +140,7 @@ class SettingsSidebar extends StatelessWidget {
     bool isSelected,
     VoidCallback onTap,
   ) {
-    final color = item.isDisabled
-        ? context.colors.textPrimaryMuted
-        : item.isDestructive
+    final color = item.isDestructive
         ? context.colors.textDanger
         : isSelected
         ? context.colors.textPrimary
@@ -164,7 +162,7 @@ class SettingsSidebar extends StatelessWidget {
           child: Text(
             item.label,
             style:
-                (isSelected && !item.isDisabled
+                (isSelected
                         ? context.textStyles.username
                         : context.textStyles.bodyMedium)
                     .copyWith(color: color),
@@ -175,18 +173,23 @@ class SettingsSidebar extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 3),
-      child: InkWell(
-        onTap: item.isDisabled ? (item.onDisabledTap ?? onTap) : onTap,
-        borderRadius: BorderRadius.circular(4),
-        child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: isSelected && !item.isDisabled
-                ? context.colors.backgroundModifierSelected
-                : null,
-            borderRadius: BorderRadius.circular(4),
+      child: Semantics(
+        container: true,
+        button: true,
+        selected: isSelected,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(4),
+          child: Ink(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? context.colors.backgroundModifierSelected
+                  : null,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: row,
           ),
-          child: item.isDisabled ? Opacity(opacity: 0.5, child: row) : row,
         ),
       ),
     );
@@ -199,8 +202,6 @@ class SettingsSidebarItem {
   final IconData? icon;
   final Widget? leading;
   final bool isDestructive;
-  final bool isDisabled;
-  final VoidCallback? onDisabledTap;
 
   const SettingsSidebarItem(
     this.label, {
@@ -208,17 +209,13 @@ class SettingsSidebarItem {
     this.leading,
     this.isSeparator = false,
     this.isDestructive = false,
-    this.isDisabled = false,
-    this.onDisabledTap,
   });
 
   const SettingsSidebarItem.separator([this.label = ''])
     : isSeparator = true,
       icon = null,
       leading = null,
-      isDestructive = false,
-      isDisabled = false,
-      onDisabledTap = null;
+      isDestructive = false;
 }
 
 int settingsSidebarIndexForLabel(

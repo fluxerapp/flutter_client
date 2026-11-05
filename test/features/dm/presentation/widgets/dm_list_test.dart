@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -427,7 +428,7 @@ void main() {
     testWidgets('selected DM uses the subtle list selection tokens', (
       tester,
     ) async {
-      _setMobileSurface(tester);
+      _setMobileSurface(tester, size: const Size(708, 823));
       final colors = buildDarkColorTheme();
 
       await tester.pumpWidget(
@@ -448,6 +449,28 @@ void main() {
       expect(row.selectedColor, colors.listItemSelectedBg);
       expect(row.selectedBorderColor, colors.listItemSelectedBorder);
       expect(row.borderRadius, BorderRadius.circular(12));
+    });
+
+    testWidgets('phone rows never show the routed DM as selected', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.none,
+            selectedChannelId: '100',
+            conversations: [oneToOne(id: '100', name: 'Monty')],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<FluxerSelectableRow>(rowSurface('Monty')).isSelected,
+        isFalse,
+      );
     });
 
     testWidgets('rows are 50pt boxes on a 55pt pitch with 32pt avatars', (
@@ -903,6 +926,7 @@ void main() {
         lastMessage: 'ping',
         lastMessageTime: DateTime.utc(2026),
         unreadCount: 3,
+        nsfw: false,
       );
 
       await tester.pumpWidget(
@@ -972,6 +996,7 @@ void main() {
         lastMessage: 'ping',
         lastMessageTime: DateTime.utc(2026),
         unreadCount: 12,
+        nsfw: false,
       );
 
       await tester.pumpWidget(
@@ -1259,8 +1284,11 @@ Finder _mobileSearchButton() => find.byWidgetPredicate(
       widget.icon == PhosphorIconsBold.magnifyingGlass,
 );
 
-void _setMobileSurface(WidgetTester tester) {
-  tester.view.physicalSize = const Size(390, 844);
+void _setMobileSurface(
+  WidgetTester tester, {
+  Size size = const Size(390, 844),
+}) {
+  tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
@@ -1320,6 +1348,7 @@ List<Override> _buildOverrides({
       () => _FakeUnreadDmChannels(unreadDms),
     ),
     fluxerDatabaseProvider.overrideWithValue(db),
+    blockedUserIdsProvider.overrideWithValue(const <String>{}),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsStatusProvider.overrideWithValue(null),
     ..._userPresenceOverrides(

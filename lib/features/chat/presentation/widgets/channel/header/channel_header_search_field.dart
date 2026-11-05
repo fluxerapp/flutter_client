@@ -710,6 +710,7 @@ class _ChannelHeaderSearchFieldState
   }
 
   List<ChannelSearchAutocompleteEntry> _dateEntries() {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final DateTime now = DateTime.now();
     final String query = _activeFilter == null
         ? ''
@@ -720,13 +721,13 @@ class _ChannelHeaderSearchFieldState
         <ChannelSearchAutocompleteEntry>[
           ChannelSearchAutocompleteEntry(
             section: ChannelSearchAutocompleteSection.dates,
-            label: 'Today',
+            label: l10n.channelSearchDateToday,
             value: formatChannelSearchDate(now),
             icon: PhosphorIconsFill.calendar,
           ),
           ChannelSearchAutocompleteEntry(
             section: ChannelSearchAutocompleteSection.dates,
-            label: 'Yesterday',
+            label: l10n.channelSearchDateYesterday,
             value: formatChannelSearchDate(
               now.subtract(const Duration(days: 1)),
             ),
@@ -1283,6 +1284,7 @@ class _ChannelHeaderSearchFieldState
         await FluxerBottomSheet.show<MessageSearchScopeFilter>(
           context,
           title: l10n.channelDetailsSearchIn,
+          variant: FluxerBottomSheetVariant.menu,
           builder: (BuildContext sheetContext, VoidCallback close) {
             return FluxerBottomSheetContent(
               child: Column(
@@ -1691,21 +1693,29 @@ class _ClearSearchButtonState extends State<_ClearSearchButton> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget button = Material(
-      color: _hovered ? widget.colors.clearHoverBackground : Colors.transparent,
-      borderRadius: BorderRadius.circular(6),
-      child: InkWell(
-        onTap: widget.onPressed,
-        onHover: (bool hovered) => setState(() => _hovered = hovered),
+    final Widget button = Semantics(
+      button: true,
+      label: FluxerLocalizations.of(context).userSettingsSearchClear,
+      child: Material(
+        color: _hovered
+            ? widget.colors.clearHoverBackground
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(6),
-        child: SizedBox(
-          width: 24,
-          height: 24,
-          child: Center(
-            child: PhosphorIcon(
-              PhosphorIconsBold.x,
-              size: 14,
-              color: _hovered ? widget.colors.clearHover : widget.colors.clear,
+        child: InkWell(
+          onTap: widget.onPressed,
+          onHover: (bool hovered) => setState(() => _hovered = hovered),
+          borderRadius: BorderRadius.circular(6),
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: Center(
+              child: PhosphorIcon(
+                PhosphorIconsBold.x,
+                size: 14,
+                color: _hovered
+                    ? widget.colors.clearHover
+                    : widget.colors.clear,
+              ),
             ),
           ),
         ),

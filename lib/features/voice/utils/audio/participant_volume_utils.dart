@@ -90,6 +90,16 @@ Future<void> applyAllParticipantVolumesToMedia({
   }
 }
 
+Map<String, bool> effectiveParticipantLocalMutes({
+  required Map<String, bool> participantLocalMutes,
+  required Set<String> blockedUserIds,
+}) {
+  return <String, bool>{
+    ...participantLocalMutes,
+    for (final String userId in blockedUserIds) userId: true,
+  };
+}
+
 int defaultParticipantVolumeForUser({
   required Map<String, int> participantVolumes,
   required String userId,

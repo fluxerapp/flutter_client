@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
-import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_video.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -21,7 +20,6 @@ import 'package:fluxer_app/features/voice/utils/grid_layout/participant_tile_id.
 import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
-import 'package:fluxer_app/features/voice/utils/pip/pip_subscribe.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -65,7 +63,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   var _expandWaitFrames = 0;
   var _holdCollapseAtFullscreen = false;
   Size? _pipCardSize;
-  String? _lastPipSubscribeKey;
   final GlobalKey _featuredVideoKey = GlobalKey(
     debugLabel: 'voice-pip-featured-video',
   );
@@ -487,15 +484,11 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
         ),
         _ => voicePipFlightRect(flight: flight, t: t, slot: slot),
       };
-      const double fade = 1;
       return Positioned.fromRect(
         rect: liveRect,
-        child: Opacity(
-          opacity: fade,
-          child: KeyedSubtree(
-            key: kVoicePipFlightKey,
-            child: _flightVideo(video: video, t: t),
-          ),
+        child: KeyedSubtree(
+          key: kVoicePipFlightKey,
+          child: _flightVideo(video: video, t: t),
         ),
       );
     }
@@ -693,39 +686,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
 
     _wasOnCall = onCall;
     _showedPip = collapsed && featuredTileId != null;
-
-    final VoiceMediaRoom? media = voice.media;
-    if (collapsed && media != null) {
-      final String subscribeKey = '${identityHashCode(media)}|$featuredTileId';
-      if (subscribeKey != _lastPipSubscribeKey) {
-        _lastPipSubscribeKey = subscribeKey;
-        final String? tileId = featuredTileId;
-        final String? voiceConnectionId = voice.activeConnectionId;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) {
-            return;
-          }
-          unawaited(
-            syncCollapsedVoiceVideoSubscriptions(
-              media: media,
-              featuredTileId: tileId,
-              isSessionCurrent: () {
-                if (!mounted) {
-                  return false;
-                }
-                final VoiceSessionState current = ref.read(
-                  voiceSessionProvider,
-                );
-                return identical(current.media, media) &&
-                    current.activeConnectionId == voiceConnectionId;
-              },
-            ),
-          );
-        });
-      }
-    } else {
-      _lastPipSubscribeKey = null;
-    }
 
     final bool showOverlay =
         featuredTileId != null &&

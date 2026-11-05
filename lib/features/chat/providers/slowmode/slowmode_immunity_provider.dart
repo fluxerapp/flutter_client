@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -13,7 +14,11 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
     return false;
   }
 
-  ref.watch(channelPermissionCacheProvider(watchAccountUserId(ref)));
+  ref.watch(
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[channelId]),
+  );
 
   final db = ref.read(fluxerDatabaseProvider);
   final channelRow = await db.channelDao.getChannelById(channelId);

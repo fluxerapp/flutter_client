@@ -101,7 +101,7 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
     FluxerLocalizations l10n,
     ChannelNotificationMenuState menuState,
   ) {
-    final String? mutedHint = formatMutedHintText(menuState.muteConfig);
+    final String? mutedHint = formatMutedHintText(menuState.muteConfig, l10n);
 
     if (menuState.isMuted) {
       if (_isActionMenu) {

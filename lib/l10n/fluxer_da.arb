@@ -212,6 +212,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "Brug en backupkode",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "Brug en kode fra din godkendelsesapp",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "Vælg en konto",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -232,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "Sessionen er udløbet for {identifier}. Log venligst ind igen.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "Din session for {name} er udløbet. Log ind igen.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -373,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Konto permanent suspenderet",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "Konto suspenderet",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Din konto er permanent suspenderet for overtrædelse af vores servicevilkår.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "Din konto er midlertidigt suspenderet. Du vil kunne tilgå din konto, når suspensionsperioden er ovre.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "Udstedt",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "Slutter",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "Varighed",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "Permanent",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "Årsag",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "Appelfrist",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "Din konto er planlagt til sletning den {date}.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "Søg efter opdateringer",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "Tjek igen om {seconds}s",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "Tilbage til login",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "Appel",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "Forklar hvorfor din suspension bør genovervejes (minimum 50 tegn)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "Send appel",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "Afventer gennemgang",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "Appel accepteret",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "Appel afvist",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "Din appel er blevet accepteret, og din konto er blevet genoprettet.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "Log ind på din konto",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "Glemt din adgangskode?",
     "@forgotPasswordTitle": {
@@ -758,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Jeg accepterer ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Servicevilkår",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " og ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Fortrolighedspolitik",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Jeg accepterer <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>} terms{Jeg accepterer <terms>Servicevilkårene</terms>} other{Jeg accepterer <privacy>Fortrolighedspolitikken</privacy>}}",
     "registerConfirmPassword": "Bekræft adgangskode",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -847,11 +750,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count} medlemmer",
+    "embedInviteMembers": "{count, plural, one{{formattedCount} medlem} other{{formattedCount} medlemmer}}",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -936,10 +842,6 @@
     "embedThemeWebOnly": "Du kan kun importere temaer på web eller computer.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "Importer tema",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Privatlivsindstillinger",
     "@privacySettings": {
@@ -1180,7 +1082,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} medlemmer",
+    "dmGroupMemberCount": "{count, plural, one{{count} medlem} other{{count} medlemmer}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {
@@ -2031,10 +1933,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "Køb i appen er endnu ikke tilgængelige på denne platform. Følg med — kommer snart!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "Forhåndsvisning",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2124,6 +2022,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "Adgangskoden er forkert. Prøv igen.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "Konto",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2139,6 +2041,10 @@
     "securitySectionDescription": "Beskyt din konto med totrinsgodkendelse og adgangsnøgler",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "Beskyt din konto med totrinsgodkendelse",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "E-mailindstillinger",
     "@securityLoginEmailSectionTitle": {
@@ -2563,59 +2469,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "Slet din konto og alle tilknyttede data permanent. Denne handling kan ikke fortrydes.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "Kan ikke slette konto",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "Du kan ikke slette din konto, mens du ejer fællesskaber. Overfør ejerskabet af følgende fællesskaber først:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "og {count} mere",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "For at overføre ejerskab skal du gå til {settingsPath} og bruge muligheden for at overføre ejerskab.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "Er du sikker på, at du vil slette din konto? Dette planlægger en permanent sletning af kontoen.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "Du kan annullere sletningen inden for 14 dage",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "Din konto slettes permanent efter 14 dage",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "Når sletningen er behandlet, kan du ikke længere få adgang til din konto",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "Du vil ikke kunne slette dine sendte beskeder, efter din konto er slettet",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "Hvis du vil eksportere dine data eller slette dine beskeder først, skal du besøge sektionen Privatlivsoverblik i Brugerindstillinger, før du fortsætter.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "Fuldfør oprettelsen af din konto",
     "@claimAccountTitle": {
@@ -2644,10 +2500,6 @@
     "claimAccountSuccess": "Kontooprettelsen er fuldført",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "Vigtig information:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "Der opstod en fejl",
     "@genericError": {
@@ -3955,10 +3807,6 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "Klik for at vise",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
-    },
     "matureContentTitle": "Indhold for voksne",
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
@@ -4348,7 +4196,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "Vælg mellem mørk, kulfarvet eller lys udseende.",
+    "lookAndFeelThemeSectionDescription": "Vælg systemets udseende eller et mørkt, kulsort eller lyst udseende.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -5190,6 +5038,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "Video fra en, du har blokeret",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "Live",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -5342,6 +5194,16 @@
     "characterCounterTooLong": "Beskeden er for lang",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "Beskeder kan være op til {maxLength} tegn. Gør denne besked kortere for at sende den.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining} tegn tilbage. Få {productName} til at skrive op til {premiumMaxLength} tegn.",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -5618,9 +5480,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Profil, du anmelder",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Person, du anmelder",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "Dine svar",
     "@reportFlowReportCategory": {
@@ -6221,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fortrolighedspolitik for Fluxer-appen",
     "userSettingsNavDeveloperTools": "Udviklerværktøjer",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -6500,10 +6363,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "Kommer snart",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "Direkte beskeder",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6614,10 +6473,6 @@
     "discoveryCommunities": "Fællesskaber",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "Apps",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Kunne ikke deltage i dette fællesskab",
     "@discoveryJoinErrorGenericTitle": {
@@ -11054,14 +10909,6 @@
             }
         }
     },
-    "nagbarTermsAcceptance": "Vi har opdateret vores vilkår. Gennemgå og accepter dem for at fortsætte.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Gennemgå vilkår",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarPushNotification": "Aktivér notifikationer, så du ikke går glip af beskeder og omtaler.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
@@ -12366,6 +12213,15 @@
     "chatAttachmentDownloadFailedToast": "Kunne ikke downloade vedhæftning",
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
+    },
+    "chatAttachmentDownloadPhotosAccessToast": "{productName} skal have adgang til dit fotobibliotek for at gemme denne vedhæftning.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "chatTextualPreviewExpandLines": "{count, plural, one {Vis ({count} linje)} other {Vis ({count} linjer)}}",
     "@chatTextualPreviewExpandLines": {
@@ -14351,6 +14207,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "Send besked",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "Fotos",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14548,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Dine seneste fakturaer. For at ændre betalingsmetoden for dit abonnement, skal du tilføje eller vælge en i faktureringsportalen og gøre den til standard.",
     "premiumManagePaymentMethods": "Administrer betalingsmetoder",
     "premiumSelfServeRefundButton": "Tilbagebetal seneste køb",
-    "premiumDisclaimerAgreementPrefix": "Ved køb accepterer du vores ",
-    "premiumDisclaimerAgreementPastPrefix": "Ved køb accepterede du vores ",
-    "premiumDisclaimerAgreementMiddle": " og ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ved at købe accepterer du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at købe accepterer du <terms>Servicevilkårene</terms>.} other{Ved at købe accepterer du <privacy>Fortrolighedspolitikken</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ved at købe accepterede du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at købe accepterede du <terms>Servicevilkårene</terms>.} other{Ved at købe accepterede du <privacy>Fortrolighedspolitikken</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Servicevilkår</terms> og <privacy>Fortrolighedspolitik</privacy>} terms{<terms>Servicevilkår</terms>} other{<privacy>Fortrolighedspolitik</privacy>}}",
     "premiumActiveUntil": "Aktiv indtil {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -14700,7 +14560,6 @@
         }
     },
     "storePlutoniumWaiting": "Køb modtaget. Plutonium vises her, når det er aktiveret.",
-    "storePlutoniumUnavailable": "Abonnementer i appen er ikke tilgængelige på denne enhed endnu.",
     "storePlutoniumVisionaryStatus": "Visionary inkluderer allerede permanent adgang, så et tilbagevendende abonnement er ikke nødvendigt.",
     "userSettingsNavShortcuts": "Genveje",
     "@userSettingsNavShortcuts": {
@@ -14925,7 +14784,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Standard omvendt billedsøgning",
     "advancedSettingDefaultReverseImageSearchDescription": "Vælg, hvilken tjeneste til omvendt billedsøgning der skal bruges som standard, når du søger efter et billede.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Indbygget omvendt billedsøgning",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Slå indbyggede udbydere af omvendt billedsøgning til eller fra. Aktiverede udbydere vises i kontekstmenuen for billeder, avatarer, bannere, klistermærker og emojis.",
     "advancedSettingCustomReverseImageSearchLabel": "Tilpasset omvendt billedsøgning",
     "advancedSettingCustomReverseImageSearchDescription": "Tilføj dine egne udbydere af omvendt billedsøgning med et brugerdefineret URL-mønster. Brug '{url}' som pladsholder for billedets URL.",
     "advancedSettingAddReverseImageSearchLabel": "Tilføj omvendt billedsøgning",
@@ -18235,21 +18093,13 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapporter sendes til Fluxers fejlsporing, også når du er logget ind på en anden instans. De indeholder ikke instansnavne, id'er eller beskedindhold.",
+    "advancedCrashReportingDescription": "Rapporter sendes til Fluxers fejlsporing, også når du er logget ind på en anden instans. De er knyttet til et tilfældigt id for denne installation og indeholder ikke dit konto-id, instansnavne eller beskedindhold.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
     "observabilityReportingConsentTitle": "Hjælp med at rette nedbrud",
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
-    },
-    "observabilityReportingConsentSubtitle": "Fluxer lukkede uventet. Når du deler anonyme data om nedbrud og fejl, kan vi rette problemer hurtigere.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Rapporterne indeholder nedbrudslogs, fejl og grundlæggende data om ydeevne. De deles ikke med tredjeparter, og du kan altid slå dette fra.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
     "observabilityReportingConsentEnableLater": "Hvis du vil slå det til senere, skal du åbne Indstillinger → Avanceret → {reportingToggle}.",
     "@observabilityReportingConsentEnableLater": {
@@ -18264,10 +18114,6 @@
     "observabilityReportingConsentAgree": "Send nedbrudsrapporter",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "Nej tak",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "Giv feedback",
     "@userSettingsGiveFeedback": {
@@ -18966,5 +18812,1071 @@
     "animatedImageUseStatic": "Upload et statisk billede i stedet.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "Du er offline. Fluxer opretter forbindelse igen, når du er online.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "Din konto bliver slettet den {date}. Hvis du logger ind inden da, annulleres sletningen.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "Din konto er planlagt til sletning. Hvis du logger ind inden sletningsdatoen, annulleres den.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "Vi sletter din konto nu. Hvis din konto har en e-mailadresse, sender vi dig en e-mail, når det er gjort.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "Vi sletter din konto nu.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "Din konto er deaktiveret. Log ind igen, når du vil bruge den.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "Send mail igen",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "Bekræftelsesmail sendt. Tjek din indbakke.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "Du har anmodet om for mange bekræftelsesmails. Vent et øjeblik, og prøv igen.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "Dit {productName}-abonnement kunne ikke fornyes. Du beholder dine {productName}-fordele indtil {graceDate}.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "Dit {productName}-abonnement er udløbet.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreement": "{links, select, both{Ved at logge ind accepterer du <terms>Servicevilkårene</terms> og <privacy>Fortrolighedspolitikken</privacy>.} terms{Ved at logge ind accepterer du <terms>Servicevilkårene</terms>.} other{Ved at logge ind accepterer du <privacy>Fortrolighedspolitikken</privacy>.}}",
+    "mfaPasskeyUnavailable": "Adgangsnøgler fra denne instans virker ikke i denne app, og din konto har ingen anden bekræftelsesmetode. Log ind på nettet i stedet.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "Konto udelukket",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "Konto lukket",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "Hvad der skete",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "Hvorfor",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "Sådan traf vi afgørelsen",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "Sådan klager du",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "Besked fra vores team: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "Afgørelses-ID: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "Regel: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "Hvis du mener, at vi har taget fejl, så send en e-mail til {email}, og skriv dit brugernavn.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "Hvis du mener, at vi har taget fejl, så send en e-mail til {email} senest {deadline}. Skriv afgørelses-ID'et og dit brugernavn. Det er gratis at klage, og en person gennemgår hver klage.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "Hvis du mener, at vi har taget fejl, så send en e-mail til {email} senest {deadline}. Skriv fra e-mailadressen på din konto, hvis du kan, og angiv afgørelses-ID'et. Det er gratis at klage, og en person gennemgår hver klage.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "Hvis du vil bede os om at slette din konto og dine data, så send en e-mail til {email} fra adressen på din konto.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "Hvis du vil bede os om at slette din konto og dine data, så send en e-mail til {email}, og skriv dit brugernavn.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "Færdig",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "Ikke angivet",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "Jeg accepterer, at denne instans har nultolerance over for stødende indhold og krænkende brugere, og at dens administratorer kan fjerne indhold og konti, der bryder disse regler.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "Denne gave kan ikke indløses i iOS-appen. Du kan indløse den i desktopappen.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "Find det perfekte klistermærke",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "Ingen klistermærker tilgængelige",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "Deltag i et fællesskab med klistermærker for at bruge dem her.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "Ingen klistermærker tilgængelige",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "Der er ingen klistermærker tilgængelige i denne samtale.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "Ingen klistermærker fundet",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "Prøv et andet søgeord.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Lås op for {stickerCount} fra {communityCount} med Plutonium.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 klistermærke} other{{count} klistermærker}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "Badges",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Vælg, hvilke badges andre kan se på din profil.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "Du har ingen badges endnu.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Dine badges kunne ikke indlæses.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Vis {badgeLabel} på din profil",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Vis alle badges",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} badge mere, vis alle} other {+{count} badges mere, vis alle}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Vises kun, når dit Visionary-badge er synligt og ikke vises som et abonnement.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "Operator Pass siden {since}",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "Vis badge på min profil",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "Skjul, hvornår du fik dit {operatorPassName}",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Skjul, hvor mange Operator Pass du har",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "plutoniumNotSoldHere": "Plutonium kan ikke købes i denne version af appen.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "Send mig en kode",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "Vi har sendt en 6-cifret kode til din e-mailadresse.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "Kode fra e-mailen",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "Send en ny kode",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "Log ind igen for at bekræfte, at det er dig.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "Log ind igen",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "Log ind med {provider}",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "Du loggede ind på en anden konto. Log ind med den konto, du bruger her.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "Adgangsnøgler fra denne instans virker ikke i denne app. Brug din godkendelsesapp eller en backupkode, eller bekræft på nettet.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "Slet din konto og dine personoplysninger. Du kan også slette dine beskeder.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "Din konto, din profil og dine personoplysninger bliver slettet. Beskeder, du ikke sletter, bliver, hvor du sendte dem, uden dit navn eller din profil.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "Slet også mine beskeder",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "Sletter alle beskeder, du har sendt i DM'er, gruppe-DM'er og fællesskaber, sammen med din konto.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "Hvis du vil beholde en kopi af dine data, så anmod om en eksport i {privacyDashboard} først.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "Slet om 14 dage",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "Du kan annullere ved at logge ind inden for de 14 dage.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "Planlæg sletning",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "Din konto bliver slettet efter denne instans' venteperiode. Hvis du logger ind inden da, annulleres sletningen.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "Slet nu",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "Vil du slette din konto nu?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "Din konto bliver slettet med det samme og kan ikke gendannes.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "Dit Plutonium-abonnement faktureres af Apple. Det bliver ikke opsagt, når du sletter din konto, så opsig det i App Store først.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "Dit Plutonium-abonnement faktureres af Google Play. Det bliver ikke opsagt, når du sletter din konto, så opsig det i Google Play først.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "Du ejer disse fællesskaber. Slet hvert af dem, eller giv dem til et andet medlem, før du sletter din konto.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "Tryk på et fællesskab for at åbne dets indstillinger. \"Slet fællesskab\" er nederst. Hvis du vil give det væk, så åbn \"Medlemmer\", tryk på et medlem, tryk på de tre prikker på vedkommendes profil, og vælg \"Overfør ejerskab\".",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "Vis følsomme medier",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "Følsomme medier er skjult på iPhone og iPad.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "Følsomme medier er skjult for din konto.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "18+-indhold er slået fra på iPhone og iPad. Hvis du vil se fællesskaber og kanaler markeret 18+ her, så åbn Fluxer på nettet eller på computeren, gå til \"Privatliv\" i dine indstillinger, og slå \"Tillad 18+-indhold på iPhone og iPad\" til.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "På grund af lovgivningen om indhold for voksne, der hvor du er, er indhold for voksne ikke tilgængeligt herfra.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "Besked i en 18+-kanal",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "Fluxer er ikke tilgængelig på denne konto",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "Det aldersinterval, din Apple Account deler, er under 13 år. Fluxer er kun for personer på 13 år og derover.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "Hvis du vil vælge \"Vis\" her, så åbn Fluxer på nettet eller på computeren, gå til \"Privatliv\" i dine indstillinger, og slå \"Tillad 18+-indhold på iPhone og iPad\" til.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "Rediger",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "Rediger gemte medier",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "Slet gemte medier",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "Vil du fjerne \"{name}\" fra dine gemte medier?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "Kunne ikke slette gemte medier.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "Søg i gemte medier",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "Gemte medier er ikke tilgængelige",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "Prøv igen om et øjeblik.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "Ingen gemte medier",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "Gem medier fra beskeder for at se dem her.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "Ingen resultater",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "Prøv et andet søgeord eller filter.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "Alle",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "Billeder",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "Videoer",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "Lyd",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF'er",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "Styring af taleopkald",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "Anmeld",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "Skift lydudgang",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "Giv adgang til mikrofonen for at slå mikrofonen til i dette opkald.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "Bemærk",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "Tip",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "Vigtigt",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "Advarsel",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "Pas på",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "Anmeld fællesskab",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "Fællesskab, du anmelder",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "Administratorerne af denne instans vil gennemgå din anmeldelse. Vi afslører ikke, at den kom fra dig.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "Du har allerede anmeldt dette fællesskab.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "Svarer {authorName}",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "Videresendt fra {source}",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedLabel": "Videresendt",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "Videresendt fra",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
+    },
+    "videoPlayerPlay": "Afspil",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "Sæt på pause",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "Lydstyrke",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "Afspilningshastighed {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "Fuld skærm",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "Åbn kanaldetaljer",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "Stream i 4K ved 60 FPS",
+    "storePlutoniumStreamBody": "Del din skærm eller dit kamera i op til 4K ved 60 billeder i sekundet. Gratis konti streamer i op til 720p ved 30.",
+    "storePlutoniumStreamTitleIos": "Stream i højere kvalitet",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "Del din skærm eller dit kamera i op til 1080p ved 60 billeder i sekundet i appen og i op til 4K ved 60 i desktopappen. Gratis konti streamer i op til 720p ved 30.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "Dit abonnement",
+    "storePlutoniumVideoPlutoniumIos": "Op til 1080p ved 60 FPS i appen, op til 4K ved 60 FPS på computeren",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "Du kan kun vælge et tag, som ingen andre med det samme brugernavn allerede har. Brugernavne skelner ikke mellem store og små bogstaver, så Mina#4821 og mina#4821 tæller som det samme.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Apples standardvilkår for brug (EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Dit Plutonium-abonnement blev gendannet.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "Der er intet Plutonium-abonnement at gendanne for denne Apple Account.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "Kunne ikke gendanne køb. Prøv igen om et øjeblik.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "Apple Account på denne enhed betaler allerede for Plutonium på en anden Fluxer-konto.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium blev ikke tilføjet",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store har bekræftet dit køb, men Plutonium kunne ikke tilføjes til denne konto. Tryk på \"Gendan køb\" for at prøve igen, eller kontakt support, hvis det stadig ikke virker.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "Dit køb venter på godkendelse. Plutonium bliver tilføjet til din konto, når det er godkendt.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Kunne ikke indlæse Plutonium-abonnementer. Tjek din forbindelse, og prøv igen.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "Prøv igen",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer lukkede uventet. Når du sender en nedbrudsrapport, hjælper du os med at finde og rette problemet hurtigere.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Rapporter indeholder nedbrudslogfiler, fejl, ydeevnedata, tidsmålinger af netværksanmodninger og de skærme og tryk, der førte til et problem, knyttet til et tilfældigt ID for denne installation. De indeholder aldrig beskedindhold, og de sendes kun til Fluxers egen fejlsporing. Du kan slå det fra når som helst.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "Spørg ikke igen",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "Ikke nu",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
+    },
+    "advancedSettingSplashQuotesLabel": "Citater på startskærmen",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "Vis et tilfældigt citat på startskærmen. Synkroniseres ikke mellem enheder.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "Slå indbyggede udbydere af omvendt billedsøgning til eller fra. Aktiverede udbydere vises i billedmenuen.",
+    "searchProviderSearchWith": "Søg med {engine}",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "Oversæt med {engine}",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "Indstillinger",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "Kopiér appoplysninger",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "Hjælp og support",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain} bruger ikke en sikker forbindelse (https). Fluxer forbinder kun via http til instanser på dit lokale netværk.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "Mine venner",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "Aktiv nu",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "Her er stille lige nu...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "Når venner er aktive i talekanaler, vises deres aktivitet her.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "Online",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "Alle",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "Afventer",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "Blokeret",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "Søg blandt online venner",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "Søg venner",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "Søg i ventende anmodninger",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "Søg blandt blokerede brugere",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "Ingen venner matcher søgningen",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "Prøv et andet navn, eller tjek din stavning.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "Ingen venner online",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "Når de kommer online, vises de her.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "Ingen venner endnu",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "Hvor vi skal hen, får vi brug for flere venner.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "Ingen ventende anmodninger",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "Ventende venneanmodninger vises her.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "Du har ikke blokeret nogen.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "Udgående venneanmodning",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "Blokeret",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "Lydløs",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "Anmeld fællesskab",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "Rolleikon",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "Upload et billede eller vælg en emoji. Ved et medlems navn vises ikonet fra medlemmets højeste rolle med et ikon.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. Mindst {minimumSize}, højst {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "Upload rolleikon",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "Nuværende rolleikon, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "Nuværende rolleikon, uploadet billede",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "Vælg emoji",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "Upload billede",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "Fjern ikon",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "Animerede ikoner understøttes ikke. Brug et statisk billede.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "Filtypen understøttes ikke. Understøttede typer er {formats}.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "Billedet kunne ikke indlæses. Prøv et andet.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "Sådan vises beskeder",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "Rolleikon, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "Beskær rolleikon",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "Gem ikon",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "Spring beskæring over",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "Kunne ikke beskære ikon. Prøv igen.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "Træk for at flytte rolleikonet, og brug musehjulet eller knib med to fingre for at zoome. Den anbefalede minimumsstørrelse er {minimumWidth}×{minimumHeight} pixels.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "Angav rollens ikon til {emoji}",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "Ændrede rollens ikon fra {oldEmoji} til {newEmoji}",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "Fjernede rolleikonet",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "Angav et brugerdefineret rolleikon",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "Ændrede det brugerdefinerede rolleikon",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "Fjernede det brugerdefinerede rolleikon",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "Venner",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "Opslag fra en, du har blokeret",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Tråd fra en, du har blokeret",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
+    "forumReportPost": "Anmeld opslag",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "Kan ikke oprette forbindelse til {domain}. Tjek din internetforbindelse, og prøv igen.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

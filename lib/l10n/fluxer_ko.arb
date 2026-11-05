@@ -212,6 +212,14 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
+    "mfaUseBackupCode": "백업 코드 사용",
+    "@mfaUseBackupCode": {
+        "description": "Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed."
+    },
+    "mfaUseAuthenticatorCode": "인증 앱 코드 사용",
+    "@mfaUseAuthenticatorCode": {
+        "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
+    },
     "accountSelectorTitle": "계정 선택",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
@@ -232,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "{identifier}의 세션이 만료되었습니다. 다시 로그인하세요.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "{name}의 세션이 만료되었습니다. 다시 로그인하세요.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -373,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "계정이 영구적으로 정지되었습니다.",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "계정이 정지되었습니다.",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "서비스 약관 위반으로 계정이 영구적으로 정지되었습니다.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "계정이 일시적으로 정지되었습니다. 정지 기간이 끝나면 계정에 액세스할 수 있습니다.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "발급일",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "종료일",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "정지 기간",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "영구",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "사유",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "이의 제기 마감일",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "계정이 {date}에 삭제될 예정입니다.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "업데이트 확인",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "{seconds}초 후에 다시 확인",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "로그인으로 돌아가기",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "이의 제기",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "정지가 재고되어야 하는 이유를 설명해주세요 (최소 50자)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "이의 제기 제출",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "검토 대기 중",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "이의 제기 수락됨",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "이의 제기 거부됨",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "이의 제기가 수락되었으며 계정이 복구되었습니다.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "계정에 로그인",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "비밀번호를 잊으셨나요?",
     "@forgotPasswordTitle": {
@@ -758,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "동의합니다",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "이용약관",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " 및 ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "개인정보처리방침",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다} terms{<terms>이용약관</terms>에 동의합니다} other{<privacy>개인정보처리방침</privacy>에 동의합니다}}",
     "registerConfirmPassword": "비밀번호 확인",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -847,11 +750,14 @@
             }
         }
     },
-    "embedInviteMembers": "{count}명 멤버",
+    "embedInviteMembers": "{formattedCount}명 멤버",
     "@embedInviteMembers": {
         "description": "Total member count on the invite embed card.",
         "placeholders": {
             "count": {
+                "type": "int"
+            },
+            "formattedCount": {
                 "type": "String"
             }
         }
@@ -936,10 +842,6 @@
     "embedThemeWebOnly": "테마는 웹 또는 데스크톱에서만 가져올 수 있습니다.",
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
-    },
-    "embedThemeImport": "테마 가져오기",
-    "@embedThemeImport": {
-        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "개인 정보 보호 설정",
     "@privacySettings": {
@@ -2031,10 +1933,6 @@
     "@plutoniumNotAvailableTitle": {
         "description": "Title for the Plutonium not-available-yet bottom sheet."
     },
-    "plutoniumNotAvailableBody": "이 플랫폼에서는 아직 인앱 구매를 사용할 수 없습니다. 곧 출시될 예정이니 기대해 주세요!",
-    "@plutoniumNotAvailableBody": {
-        "description": "Body text for the Plutonium not-available-yet bottom sheet."
-    },
     "profilePreviewLabel": "미리보기",
     "@profilePreviewLabel": {
         "description": "Label shown above the profile preview card in settings."
@@ -2124,6 +2022,10 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
+    "sudoWrongPassword": "비밀번호가 올바르지 않습니다. 다시 시도해 주세요.",
+    "@sudoWrongPassword": {
+        "description": "Error in the identity check sheet when the password is wrong."
+    },
     "securityAccountTitle": "계정",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
@@ -2139,6 +2041,10 @@
     "securitySectionDescription": "2단계 인증 및 암호 키로 계정을 보호하세요.",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
+    },
+    "securitySectionDescriptionNoPasskeys": "2단계 인증으로 계정을 보호하세요.",
+    "@securitySectionDescriptionNoPasskeys": {
+        "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
     "securityLoginEmailSectionTitle": "이메일 설정",
     "@securityLoginEmailSectionTitle": {
@@ -2563,59 +2469,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "회원님의 계정과 모든 관련 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "계정을 삭제할 수 없습니다",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "커뮤니티를 소유하고 있는 동안에는 계정을 삭제할 수 없습니다. 먼저 다음 커뮤니티의 소유권을 이전하세요:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "{count}개 더",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "소유권을 이전하려면 {settingsPath}로 이동하여 소유권 이전 옵션을 사용하세요.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "정말로 계정을 삭제하시겠어요? 계정이 영구적으로 삭제되도록 예약됩니다.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "14일 이내에 계정 삭제를 취소할 수 있습니다",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "14일 후 계정이 영구적으로 삭제됩니다",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "계정 삭제가 처리되면 다시 복구할 수 없습니다",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "계정이 삭제된 후에는 보낸 메시지를 삭제할 수 없습니다.",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "데이터를 내보내거나 먼저 메시지를 삭제하려면 진행하기 전에 사용자 설정의 개인정보 보호 대시보드 섹션을 방문하세요.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "계정 등록하기",
     "@claimAccountTitle": {
@@ -2644,10 +2500,6 @@
     "claimAccountSuccess": "계정 등록 완료",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "중요 안내:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "오류가 발생했습니다",
     "@genericError": {
@@ -3955,10 +3807,6 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "클릭하여 보기",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
-    },
     "matureContentTitle": "성인 콘텐츠",
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
@@ -4348,7 +4196,7 @@
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
     },
-    "lookAndFeelThemeSectionDescription": "어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.",
+    "lookAndFeelThemeSectionDescription": "시스템, 어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.",
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
@@ -5190,6 +5038,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "차단한 사람의 영상",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "라이브",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -5342,6 +5194,16 @@
     "characterCounterTooLong": "메시지가 너무 깁니다",
     "@characterCounterTooLong": {
         "description": "Character counter tooltip when the message exceeds the allowed length."
+    },
+    "characterCounterTooLongToast": "메시지는 최대 {maxLength}자까지 보낼 수 있습니다. 보내려면 이 메시지를 줄이세요.",
+    "@characterCounterTooLongToast": {
+        "description": "Toast shown when the user taps Send on a message over the character limit.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
     },
     "characterCounterRemainingPlutoniumUpsell": "{remaining}자 남음. {productName}을(를) 사용하여 최대 {premiumMaxLength}자까지 작성하세요.",
     "@characterCounterRemainingPlutoniumUpsell": {
@@ -5618,9 +5480,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "신고하려는 프로필",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "신고하려는 사람",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "회원님의 답변",
     "@reportFlowReportCategory": {
@@ -6221,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer 앱 개인정보처리방침",
     "userSettingsNavDeveloperTools": "개발자 도구",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -6500,10 +6363,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "comingSoon": "출시 예정",
-    "@comingSoon": {
-        "description": "Generic toast when a feature is not yet available."
-    },
     "guildNavbarDirectMessages": "DM",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
@@ -6614,10 +6473,6 @@
     "discoveryCommunities": "커뮤니티",
     "@discoveryCommunities": {
         "description": "Explore sidebar section label for communities."
-    },
-    "discoveryApps": "앱",
-    "@discoveryApps": {
-        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "이 커뮤니티에 참여할 수 없습니다",
     "@discoveryJoinErrorGenericTitle": {
@@ -11126,10 +10981,6 @@
             }
         }
     },
-    "nagbarReviewTerms": "이용약관 검토",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "chatSpammerMessagesCollapsed": "{count, plural, =1{스팸 의심 메시지 1개} other{{count}개의 스팸 의심 메시지}}",
     "@chatSpammerMessagesCollapsed": {
         "description": "Collapsed summary label for consecutive messages from spammer-flagged users.",
@@ -11259,10 +11110,6 @@
     "sessionExpiredToast": "세션이 만료되었습니다. 다시 로그인해 주세요.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
-    },
-    "nagbarTermsAcceptance": "약관이 업데이트되었습니다. 계속하려면 검토하고 동의해 주세요.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
     },
     "nagbarJoinCommunity": "{communityName}에 참여하기",
     "@nagbarJoinCommunity": {
@@ -12366,6 +12213,15 @@
     "chatAttachmentDownloadFailedToast": "첨부 파일을 다운로드할 수 없습니다.",
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
+    },
+    "chatAttachmentDownloadPhotosAccessToast": "이 첨부 파일을 저장하려면 {productName}에 사진 라이브러리 접근 권한이 필요합니다.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "chatTextualPreviewExpandLines": "{count, plural, one{확장 ({count}줄)} other{확장 ({count}줄)}}",
     "@chatTextualPreviewExpandLines": {
@@ -14351,6 +14207,10 @@
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
     },
+    "composerSendMessage": "메시지 보내기",
+    "@composerSendMessage": {
+        "description": "Accessibility label and tooltip for the composer button that sends the message."
+    },
     "chatAttachmentPanelPhotos": "사진",
     "@chatAttachmentPanelPhotos": {
         "description": "Label for the native photo picker action on the attachment panel."
@@ -14548,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "최근 청구서입니다. 구독 결제 방법을 변경하려면, 결제 포털에서 추가하거나 선택한 후 기본으로 설정하세요.",
     "premiumManagePaymentMethods": "결제 수단 관리",
     "premiumSelfServeRefundButton": "최근 구매 환불",
-    "premiumDisclaimerAgreementPrefix": "구매함으로써 다음 사항에 동의합니다. ",
-    "premiumDisclaimerAgreementPastPrefix": "구매함으로써 귀하는 당사의 ",
-    "premiumDisclaimerAgreementMiddle": " 및 ",
+    "premiumDisclaimerAgreement": "{links, select, both{구매하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.} terms{구매하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.} other{구매하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{구매 시 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.} terms{구매 시 <terms>이용약관</terms>에 동의하셨습니다.} other{구매 시 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>} terms{<terms>이용약관</terms>} other{<privacy>개인정보처리방침</privacy>}}",
     "premiumActiveUntil": "{date}까지 활성",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -14700,7 +14560,6 @@
         }
     },
     "storePlutoniumWaiting": "구매가 완료되었습니다. Plutonium이 활성화되면 여기에 표시됩니다.",
-    "storePlutoniumUnavailable": "이 기기에서는 아직 앱 내 구독을 이용할 수 없습니다.",
     "storePlutoniumVisionaryStatus": "Visionary에는 영구 액세스가 포함되어 있으므로 정기 구독은 필요하지 않습니다.",
     "userSettingsNavShortcuts": "단축키",
     "@userSettingsNavShortcuts": {
@@ -14925,7 +14784,6 @@
     "advancedSettingDefaultReverseImageSearchLabel": "기본 이미지 역검색",
     "advancedSettingDefaultReverseImageSearchDescription": "이미지 검색 시 기본으로 사용할 역방향 이미지 검색 서비스를 선택하세요.",
     "advancedSettingBuiltInReverseImageSearchLabel": "내장된 이미지 역검색",
-    "advancedSettingBuiltInReverseImageSearchDescription": "내장된 이미지 역검색 제공자를 활성화하거나 비활성화합니다. 활성화된 제공자는 이미지, 아바타, 배너, 스티커 및 이모티콘의 상황별 메뉴에 표시됩니다.",
     "advancedSettingCustomReverseImageSearchLabel": "맞춤 이미지 역검색",
     "advancedSettingCustomReverseImageSearchDescription": "사용자 지정 URL 패턴으로 나만의 이미지 검색 제공업체를 추가하세요. 이미지 URL의 자리 표시자로 '{url}'을(를) 사용하세요.",
     "advancedSettingAddReverseImageSearchLabel": "역방향 이미지 검색 추가",
@@ -18246,21 +18104,13 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서에는 인스턴스 이름, ID, 메시지 내용이 포함되지 않습니다.",
+    "advancedCrashReportingDescription": "다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서는 이 설치의 임의 ID에 연결되며, 계정 ID, 인스턴스 이름, 메시지 내용은 포함되지 않습니다.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
     "observabilityReportingConsentTitle": "충돌 문제 해결에 도움 주기",
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
-    },
-    "observabilityReportingConsentSubtitle": "Fluxer가 예기치 않게 종료되었습니다. 익명의 충돌 및 오류 데이터를 공유해 주시면 문제를 더 빨리 해결할 수 있습니다.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "보고서에는 충돌 로그, 오류, 기본 성능 데이터가 포함됩니다. 제3자와 공유되지 않으며 언제든지 끌 수 있습니다.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
     "observabilityReportingConsentEnableLater": "나중에 켜려면 설정 → 고급 → {reportingToggle}(으)로 이동하세요.",
     "@observabilityReportingConsentEnableLater": {
@@ -18275,10 +18125,6 @@
     "observabilityReportingConsentAgree": "충돌 보고서 보내기",
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
-    },
-    "observabilityReportingConsentDecline": "사용하지 않음",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
     "userSettingsGiveFeedback": "피드백 보내기",
     "@userSettingsGiveFeedback": {
@@ -18966,5 +18812,1071 @@
     "animatedImageUseStatic": "대신 정적 이미지를 업로드하세요.",
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "gatewayOfflineToast": "오프라인 상태입니다. 다시 온라인이 되면 Fluxer가 다시 연결됩니다.",
+    "@gatewayOfflineToast": {
+        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
+    },
+    "accountDeletionScheduledNotice": "회원님의 계정은 {date}에 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.",
+    "@accountDeletionScheduledNotice": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "November 17, 2026"
+            }
+        }
+    },
+    "accountDeletionScheduledNoticeNoDate": "회원님의 계정은 삭제가 예약되어 있습니다. 삭제일 전에 로그인하면 삭제가 취소됩니다.",
+    "@accountDeletionScheduledNoticeNoDate": {
+        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
+    },
+    "accountDeletionImmediateNotice": "지금 회원님의 계정을 삭제하고 있습니다. 계정에 이메일 주소가 있으면 삭제가 끝났을 때 이메일로 알려 드립니다.",
+    "@accountDeletionImmediateNotice": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
+    },
+    "accountDeletionImmediateNoticeNoEmail": "지금 회원님의 계정을 삭제하고 있습니다.",
+    "@accountDeletionImmediateNoticeNoEmail": {
+        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
+    },
+    "accountDisabledNotice": "회원님의 계정은 비활성화되어 있습니다. 다시 사용하고 싶을 때 언제든 로그인하세요.",
+    "@accountDisabledNotice": {
+        "description": "Notice on the sign-in screen after the person disabled their account."
+    },
+    "verificationResendEmail": "이메일 재전송",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "verificationEmailSent": "인증 이메일을 보냈습니다. 받은편지함을 확인해 주세요.",
+    "@verificationEmailSent": {
+        "description": "Toast after the verification email was sent again."
+    },
+    "verificationEmailRateLimited": "인증 이메일을 너무 많이 요청했습니다. 잠시 기다렸다가 다시 시도해 주세요.",
+    "@verificationEmailRateLimited": {
+        "description": "Toast when the verification email was resent too often."
+    },
+    "nagbarPremiumGracePeriodNoAction": "{productName} 구독을 갱신하지 못했습니다. {graceDate}까지는 {productName} 혜택을 계속 이용할 수 있습니다.",
+    "@nagbarPremiumGracePeriodNoAction": {
+        "description": "Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            },
+            "graceDate": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPremiumExpiredNoAction": "{productName} 구독이 만료되었습니다.",
+    "@nagbarPremiumExpiredNoAction": {
+        "description": "Premium expired nagbar body when the bar has no button.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "loginLegalAgreement": "{links, select, both{로그인하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.} terms{로그인하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.} other{로그인하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.}}",
+    "mfaPasskeyUnavailable": "이 인스턴스의 패스키는 이 앱에서 작동하지 않으며, 회원님의 계정에는 다른 인증 방법이 없습니다. 대신 웹에서 로그인하세요.",
+    "@mfaPasskeyUnavailable": {
+        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
+    },
+    "suspendedBannedTitle": "계정 영구 정지",
+    "@suspendedBannedTitle": {
+        "description": "Title of the sign-in screen for an account suspended with no end date."
+    },
+    "suspendedClosedTitle": "계정 폐쇄",
+    "@suspendedClosedTitle": {
+        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
+    },
+    "suspendedWhatHappened": "조치 내용",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "사유",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "결정 과정",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
+    },
+    "suspendedHowToAppeal": "이의 제기 방법",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "suspendedNoteFromTeam": "팀에서 남긴 메모: {statement}",
+    "@suspendedNoteFromTeam": {
+        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
+        "placeholders": {
+            "statement": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedDecisionId": "결정 ID: {decisionId}",
+    "@suspendedDecisionId": {
+        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
+        "placeholders": {
+            "decisionId": {
+                "type": "String",
+                "example": "1234567890"
+            }
+        }
+    },
+    "suspendedRule": "규칙: {title}",
+    "@suspendedRule": {
+        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "suspendedAppealNoDeadline": "저희 결정이 잘못되었다고 생각되면 {email}(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.",
+    "@suspendedAppealNoDeadline": {
+        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedAppealNoEmail": "저희 결정이 잘못되었다고 생각되면 {deadline}까지 {email}(으)로 이메일을 보내 주세요. 결정 ID와 사용자 이름을 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.",
+    "@suspendedAppealNoEmail": {
+        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedAppealWithEmail": "저희 결정이 잘못되었다고 생각되면 {deadline}까지 {email}(으)로 이메일을 보내 주세요. 가능하면 계정에 등록된 이메일 주소로 보내고, 결정 ID를 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.",
+    "@suspendedAppealWithEmail": {
+        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            },
+            "deadline": {
+                "type": "String",
+                "example": "December 3, 2026"
+            }
+        }
+    },
+    "suspendedDeletionRequest": "계정과 데이터 삭제를 요청하려면 계정에 등록된 주소로 {email}에 이메일을 보내 주세요.",
+    "@suspendedDeletionRequest": {
+        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "suspendedDeletionRequestNoEmail": "계정과 데이터 삭제를 요청하려면 {email}(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.",
+    "@suspendedDeletionRequestNoEmail": {
+        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
+        "placeholders": {
+            "email": {
+                "type": "String",
+                "example": "appeals@fluxer.com"
+            }
+        }
+    },
+    "registerDateOfBirthDone": "완료",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "registerDateOfBirthNotSet": "설정 안 됨",
+    "@registerDateOfBirthNotSet": {
+        "description": "VoiceOver value of the date of birth field before a date is chosen."
+    },
+    "registerConsentBuiltInRules": "이 인스턴스는 불쾌한 콘텐츠나 악의적인 사용자를 용납하지 않으며, 관리자가 이 규칙을 위반하는 콘텐츠와 계정을 삭제할 수 있다는 데 동의합니다.",
+    "@registerConsentBuiltInRules": {
+        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
+    },
+    "giftAcceptLifetimeNotInApp": "이 선물은 iOS 앱에서 받을 수 없습니다. 데스크톱 앱에서 받을 수 있습니다.",
+    "@giftAcceptLifetimeNotInApp": {
+        "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
+    },
+    "stickerPickerSearchHint": "원하는 스티커를 찾아보세요",
+    "@stickerPickerSearchHint": {
+        "description": "Placeholder of the search field in the sticker picker."
+    },
+    "stickerPickerEmptyNoCommunitiesTitle": "사용할 수 있는 스티커 없음",
+    "@stickerPickerEmptyNoCommunitiesTitle": {
+        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyNoCommunitiesBody": "스티커가 있는 커뮤니티에 참여하면 여기에서 사용할 수 있습니다.",
+    "@stickerPickerEmptyNoCommunitiesBody": {
+        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
+    },
+    "stickerPickerEmptyHereTitle": "사용할 수 있는 스티커 없음",
+    "@stickerPickerEmptyHereTitle": {
+        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerEmptyHereBody": "이 대화에서 사용할 수 있는 스티커가 없습니다.",
+    "@stickerPickerEmptyHereBody": {
+        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
+    },
+    "stickerPickerNoResultsTitle": "스티커를 찾을 수 없습니다",
+    "@stickerPickerNoResultsTitle": {
+        "description": "Title shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPickerNoResultsBody": "다른 검색어를 사용해 보세요.",
+    "@stickerPickerNoResultsBody": {
+        "description": "Body shown in the sticker picker when the search matches nothing."
+    },
+    "stickerPlutoniumUpsellText": "Plutonium으로 {communityCount}의 {stickerCount}를 사용해 보세요.",
+    "@stickerPlutoniumUpsellText": {
+        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
+        "placeholders": {
+            "stickerCount": {
+                "type": "String"
+            },
+            "communityCount": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{스티커 1개} other{스티커 {count}개}}",
+    "@stickerPlutoniumUpsellStickerCount": {
+        "description": "Sticker count label in the sticker picker upsell banner.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesSettingsTitle": "배지",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "다른 사람이 내 프로필에서 볼 배지를 선택하세요.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "아직 배지가 없습니다.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "배지를 불러오지 못했습니다.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "내 프로필에 {badgeLabel} 표시",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "모든 배지 보기",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {배지 +{count}개 더 있음, 모두 보기} other {배지 +{count}개 더 있음, 모두 보기}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Visionary 배지가 표시되고 구독으로 표시되지 않을 때만 보입니다.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
+    },
+    "operatorPassName": "Operator Pass",
+    "@operatorPassName": {
+        "description": "Product name for Operator Pass."
+    },
+    "operatorPassSince": "{since}부터 Operator Pass 보유",
+    "@operatorPassSince": {
+        "description": "Subtitle under Operator Pass settings heading.",
+        "placeholders": {
+            "since": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassShowBadgeOnProfile": "내 프로필에 배지 표시",
+    "@operatorPassShowBadgeOnProfile": {
+        "description": "Switch to show the Operator Pass badge on the profile."
+    },
+    "operatorPassHideDate": "{operatorPassName}를 받은 시기 숨기기",
+    "@operatorPassHideDate": {
+        "description": "Switch to hide Operator Pass date on the badge.",
+        "placeholders": {
+            "operatorPassName": {
+                "type": "String"
+            }
+        }
+    },
+    "operatorPassHideCount": "Operator Pass 개수 숨기기",
+    "@operatorPassHideCount": {
+        "description": "Switch to hide Operator Pass count on the badge."
+    },
+    "plutoniumNotSoldHere": "이 버전의 앱에서는 Plutonium을 구매할 수 없습니다.",
+    "@plutoniumNotSoldHere": {
+        "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
+    },
+    "sudoEmailCodeSend": "코드 이메일로 보내기",
+    "@sudoEmailCodeSend": {
+        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
+    },
+    "sudoEmailCodeSent": "이메일 주소로 6자리 코드를 보냈습니다.",
+    "@sudoEmailCodeSent": {
+        "description": "Shown in the identity check sheet after the code was sent."
+    },
+    "sudoEmailCodeLabel": "이메일로 받은 코드",
+    "@sudoEmailCodeLabel": {
+        "description": "Label of the code field in the identity check sheet."
+    },
+    "sudoEmailCodeResend": "새 코드 보내기",
+    "@sudoEmailCodeResend": {
+        "description": "Link in the identity check sheet that sends another email code."
+    },
+    "sudoSsoReauthHint": "본인 확인을 위해 다시 로그인하세요.",
+    "@sudoSsoReauthHint": {
+        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
+    },
+    "sudoSsoReauthButtonGeneric": "다시 로그인",
+    "@sudoSsoReauthButtonGeneric": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
+    },
+    "sudoSsoReauthButton": "{provider}(으)로 로그인",
+    "@sudoSsoReauthButton": {
+        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
+        "placeholders": {
+            "provider": {
+                "type": "String",
+                "example": "Okta"
+            }
+        }
+    },
+    "sudoSsoReauthWrongAccount": "다른 계정으로 로그인했습니다. 여기서 사용하는 계정으로 로그인하세요.",
+    "@sudoSsoReauthWrongAccount": {
+        "description": "Error in the identity check sheet when the single sign-on returned another account."
+    },
+    "sudoPasskeyUnavailable": "이 인스턴스의 패스키는 이 앱에서 작동하지 않습니다. 인증 앱이나 백업 코드를 사용하거나 웹에서 확인하세요.",
+    "@sudoPasskeyUnavailable": {
+        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
+    },
+    "dangerZoneDeleteEntryDescription": "계정과 개인 데이터를 삭제합니다. 메시지도 함께 삭제할 수 있습니다.",
+    "@dangerZoneDeleteEntryDescription": {
+        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
+    },
+    "dangerZoneDeleteIntro": "회원님의 계정, 프로필, 개인 데이터가 삭제됩니다. 삭제하지 않은 메시지는 이름이나 프로필 없이 보낸 곳에 그대로 남습니다.",
+    "@dangerZoneDeleteIntro": {
+        "description": "First paragraph of the delete account sheet."
+    },
+    "dangerZoneDeleteMessagesLabel": "내 메시지도 삭제",
+    "@dangerZoneDeleteMessagesLabel": {
+        "description": "Switch label in the delete account sheet. Off by default."
+    },
+    "dangerZoneDeleteMessagesHint": "DM, 그룹 DM, 커뮤니티에서 보낸 모든 메시지를 계정과 함께 삭제합니다.",
+    "@dangerZoneDeleteMessagesHint": {
+        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
+    },
+    "dangerZoneDeleteExportHint": "데이터 사본을 보관하려면 먼저 {privacyDashboard}에서 내보내기를 요청하세요.",
+    "@dangerZoneDeleteExportHint": {
+        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
+        "placeholders": {
+            "privacyDashboard": {
+                "type": "String",
+                "example": "Privacy dashboard"
+            }
+        }
+    },
+    "dangerZoneDeleteLater": "14일 후 삭제",
+    "@dangerZoneDeleteLater": {
+        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
+    },
+    "dangerZoneDeleteLaterHint": "14일 동안 로그인하면 삭제를 취소할 수 있습니다.",
+    "@dangerZoneDeleteLaterHint": {
+        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
+    },
+    "dangerZoneDeleteSchedule": "삭제 예약",
+    "@dangerZoneDeleteSchedule": {
+        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
+    },
+    "dangerZoneDeleteScheduleHint": "이 인스턴스의 대기 기간이 지나면 계정이 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.",
+    "@dangerZoneDeleteScheduleHint": {
+        "description": "Line in the delete account sheet on self-hosted instances."
+    },
+    "dangerZoneDeleteNow": "지금 삭제",
+    "@dangerZoneDeleteNow": {
+        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
+    },
+    "dangerZoneDeleteNowConfirmTitle": "지금 계정을 삭제할까요?",
+    "@dangerZoneDeleteNowConfirmTitle": {
+        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteNowConfirmBody": "계정이 즉시 삭제되며 복구할 수 없습니다.",
+    "@dangerZoneDeleteNowConfirmBody": {
+        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
+    },
+    "dangerZoneDeleteAppStoreBilling": "회원님의 Plutonium 구독은 Apple에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 App Store에서 구독을 취소하세요.",
+    "@dangerZoneDeleteAppStoreBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
+    },
+    "dangerZoneDeleteGooglePlayBilling": "회원님의 Plutonium 구독은 Google Play에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 Google Play에서 구독을 취소하세요.",
+    "@dangerZoneDeleteGooglePlayBilling": {
+        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
+    },
+    "dangerZoneDeleteOwnsCommunitiesList": "회원님이 소유한 커뮤니티입니다. 계정을 삭제하기 전에 각 커뮤니티를 삭제하거나 다른 멤버에게 넘겨주세요.",
+    "@dangerZoneDeleteOwnsCommunitiesList": {
+        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
+    },
+    "dangerZoneDeleteOwnedCommunitiesHelp": "커뮤니티를 탭하면 설정이 열립니다. \"커뮤니티 삭제\"는 맨 아래에 있습니다. 넘겨주려면 \"멤버\"를 열고 멤버를 탭한 다음, 프로필에서 점 세 개를 탭하고 \"소유권 이전\"을 선택하세요.",
+    "@dangerZoneDeleteOwnedCommunitiesHelp": {
+        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
+    },
+    "matureMediaRevealLabel": "민감한 미디어 보기",
+    "@matureMediaRevealLabel": {
+        "description": "Accessibility label for the button that reveals blurred sensitive media."
+    },
+    "matureMediaAppLockedLabel": "iPhone 및 iPad에서는 민감한 미디어가 숨겨집니다.",
+    "@matureMediaAppLockedLabel": {
+        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
+    },
+    "matureMediaMinorLockedLabel": "회원님의 계정에서는 민감한 미디어가 숨겨집니다.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
+    "matureContentAppLockedBody": "iPhone 및 iPad에서는 18+ 콘텐츠가 꺼져 있습니다. 여기에서 18+로 표시된 커뮤니티와 채널을 보려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.",
+    "@matureContentAppLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
+    },
+    "matureContentRegionLockedBody": "회원님이 있는 지역의 성인 콘텐츠 관련 법률로 인해 이곳에서는 성인 콘텐츠를 이용할 수 없습니다.",
+    "@matureContentRegionLockedBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
+    },
+    "matureMessageHiddenPreview": "18+ 채널의 메시지",
+    "@matureMessageHiddenPreview": {
+        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
+    },
+    "ageRangeUnderMinimumTitle": "이 계정에서는 Fluxer를 이용할 수 없습니다",
+    "@ageRangeUnderMinimumTitle": {
+        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBody": "회원님의 Apple Account에서 공유한 연령대가 13세 미만입니다. Fluxer는 13세 이상만 이용할 수 있습니다.",
+    "@ageRangeUnderMinimumBody": {
+        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "sensitiveContentAppLockedHint": "여기에서 \"표시\"를 선택하려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.",
+    "@sensitiveContentAppLockedHint": {
+        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "savedMediaEdit": "편집",
+    "@savedMediaEdit": {
+        "description": "Action in the saved media item menu that opens the edit sheet."
+    },
+    "savedMediaEditTitle": "저장된 미디어 편집",
+    "@savedMediaEditTitle": {
+        "description": "Title of the sheet for editing a saved media item."
+    },
+    "savedMediaDeleteTitle": "저장된 미디어 삭제",
+    "@savedMediaDeleteTitle": {
+        "description": "Title of the sheet that confirms deleting a saved media item."
+    },
+    "savedMediaDeleteConfirm": "저장된 미디어에서 \"{name}\"을(를) 삭제할까요?",
+    "@savedMediaDeleteConfirm": {
+        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteFailed": "저장된 미디어를 삭제하지 못했습니다.",
+    "@savedMediaDeleteFailed": {
+        "description": "Error shown when deleting a saved media item fails."
+    },
+    "savedMediaSearchHint": "저장된 미디어 검색",
+    "@savedMediaSearchHint": {
+        "description": "Placeholder of the search field in the saved media picker."
+    },
+    "savedMediaUnavailableTitle": "저장된 미디어를 사용할 수 없음",
+    "@savedMediaUnavailableTitle": {
+        "description": "Title shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaUnavailableBody": "잠시 후에 다시 시도해 주세요.",
+    "@savedMediaUnavailableBody": {
+        "description": "Body shown in the saved media picker when the list fails to load."
+    },
+    "savedMediaEmptyTitle": "저장된 미디어 없음",
+    "@savedMediaEmptyTitle": {
+        "description": "Title shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaEmptyBody": "메시지의 미디어를 저장하면 여기에 표시됩니다.",
+    "@savedMediaEmptyBody": {
+        "description": "Body shown in the saved media picker when nothing has been saved yet."
+    },
+    "savedMediaNoResultsTitle": "결과 없음",
+    "@savedMediaNoResultsTitle": {
+        "description": "Title shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaNoResultsBody": "다른 검색어나 필터를 사용해 보세요.",
+    "@savedMediaNoResultsBody": {
+        "description": "Body shown in the saved media picker when the search or filter matches nothing."
+    },
+    "savedMediaFilterAll": "전체",
+    "@savedMediaFilterAll": {
+        "description": "Saved media picker filter that shows every item."
+    },
+    "savedMediaFilterImages": "이미지",
+    "@savedMediaFilterImages": {
+        "description": "Saved media picker filter that shows only images."
+    },
+    "savedMediaFilterVideos": "동영상",
+    "@savedMediaFilterVideos": {
+        "description": "Saved media picker filter that shows only videos."
+    },
+    "savedMediaFilterAudio": "오디오",
+    "@savedMediaFilterAudio": {
+        "description": "Saved media picker filter that shows only audio."
+    },
+    "savedMediaFilterGifs": "GIF",
+    "@savedMediaFilterGifs": {
+        "description": "Saved media picker filter that shows only GIFs."
+    },
+    "savedMediaGifBadge": "GIF",
+    "@savedMediaGifBadge": {
+        "description": "Small badge on a saved media tile that marks it as a GIF."
+    },
+    "voiceCallControlsSheetLabel": "음성 통화 컨트롤",
+    "@voiceCallControlsSheetLabel": {
+        "description": "Accessibility label of the drag handle on the voice call controls sheet."
+    },
+    "voiceParticipantMenuReport": "신고",
+    "@voiceParticipantMenuReport": {
+        "description": "Voice participant menu item that opens the report flow for that person."
+    },
+    "voiceChangeAudioOutputLabel": "오디오 출력 변경",
+    "@voiceChangeAudioOutputLabel": {
+        "description": "Opens the system audio route picker for voice calls on iOS."
+    },
+    "voiceMicPermissionRequired": "이 통화에서 음소거를 해제하려면 마이크 접근을 허용하세요.",
+    "@voiceMicPermissionRequired": {
+        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
+    },
+    "voiceVideoZoomLevel": "확대 {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAlertNote": "메모",
+    "@messageAlertNote": {
+        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
+    },
+    "messageAlertTip": "팁",
+    "@messageAlertTip": {
+        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
+    },
+    "messageAlertImportant": "중요",
+    "@messageAlertImportant": {
+        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
+    },
+    "messageAlertWarning": "경고",
+    "@messageAlertWarning": {
+        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
+    },
+    "messageAlertCaution": "주의",
+    "@messageAlertCaution": {
+        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
+    },
+    "reportFlowTitleCommunity": "커뮤니티 신고",
+    "@reportFlowTitleCommunity": {
+        "description": "Report sheet title while the community report flow loads."
+    },
+    "reportFlowSelectedCommunity": "신고할 커뮤니티",
+    "@reportFlowSelectedCommunity": {
+        "description": "Report sheet heading above the card of the community being reported."
+    },
+    "reportFlowThankYouBodySelfHosted": "이 인스턴스의 관리자가 신고 내용을 검토합니다. 회원님이 신고했다는 사실은 밝히지 않습니다.",
+    "@reportFlowThankYouBodySelfHosted": {
+        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
+    },
+    "reportFlowAlreadyReportedCommunity": "이미 이 커뮤니티를 신고했습니다.",
+    "@reportFlowAlreadyReportedCommunity": {
+        "description": "Report sheet note when the reporter already reported this community."
+    },
+    "chatReplyingTo": "{authorName}님에게 답장 중",
+    "@chatReplyingTo": {
+        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedFrom": "{source}에서 전달됨",
+    "@chatForwardedFrom": {
+        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
+        "placeholders": {
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "chatForwardedLabel": "전달됨",
+    "@chatForwardedLabel": {
+        "description": "Label at the top of a forwarded message when the source is not shown."
+    },
+    "chatForwardedFromLabel": "전달 출처",
+    "@chatForwardedFromLabel": {
+        "description": "Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element."
+    },
+    "videoPlayerPlay": "재생",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "일시 정지",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "볼륨",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "videoPlayerPlaybackSpeed": "재생 속도 {speed}x",
+    "@videoPlayerPlaybackSpeed": {
+        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
+        "placeholders": {
+            "speed": {
+                "type": "String"
+            }
+        }
+    },
+    "videoPlayerFullScreen": "전체 화면",
+    "@videoPlayerFullScreen": {
+        "description": "Accessibility label of the full screen button on an inline video."
+    },
+    "channelHeaderOpenDetails": "채널 세부 정보 열기",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
+    },
+    "storePlutoniumStreamTitle": "60FPS로 4K 스트리밍",
+    "storePlutoniumStreamBody": "최대 4K 60fps로 화면이나 카메라를 공유하세요. 무료 계정은 최대 720p 30fps로 스트리밍됩니다.",
+    "storePlutoniumStreamTitleIos": "더 높은 화질로 스트리밍",
+    "@storePlutoniumStreamTitleIos": {
+        "description": "Title of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumStreamBodyIos": "앱에서는 최대 1080p 60fps로, 데스크톱 앱에서는 최대 4K 60fps로 화면이나 카메라를 공유하세요. 무료 계정은 최대 720p 30fps로 스트리밍됩니다.",
+    "@storePlutoniumStreamBodyIos": {
+        "description": "Body of the streaming perk on the iOS Plutonium page."
+    },
+    "storePlutoniumManageHeading": "내 구독",
+    "storePlutoniumVideoPlutoniumIos": "앱에서 최대 1080p 60 FPS, 데스크톱에서 최대 4K 60 FPS",
+    "@storePlutoniumVideoPlutoniumIos": {
+        "description": "Plutonium cell of the video quality row in the iOS Plutonium comparison table."
+    },
+    "storePlutoniumTagFootnoteIos": "동일한 사용자 이름을 가진 다른 사람이 사용하지 않는 태그만 선택할 수 있습니다. 사용자 이름은 대소문자를 구분하지 않으므로 Mina#4821과 mina#4821은 동일하게 간주됩니다.",
+    "@storePlutoniumTagFootnoteIos": {
+        "description": "Footnote about the custom tag on the iOS Plutonium page."
+    },
+    "storePlutoniumAppleEula": "Apple 표준 이용 약관(EULA)",
+    "@storePlutoniumAppleEula": {
+        "description": "Link under the iOS Plutonium buttons to Apple's standard end user licence agreement."
+    },
+    "storePlutoniumRestoreDone": "Plutonium 구독이 복원되었습니다.",
+    "@storePlutoniumRestoreDone": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found and restored a subscription."
+    },
+    "storePlutoniumRestoreNothing": "이 Apple Account에는 복원할 Plutonium 구독이 없습니다.",
+    "@storePlutoniumRestoreNothing": {
+        "description": "Toast after \"Restore purchases\" on the iOS Plutonium page found nothing to restore."
+    },
+    "storePlutoniumRestoreFailed": "구매를 복원하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    "@storePlutoniumRestoreFailed": {
+        "description": "Toast when \"Restore purchases\" on the iOS Plutonium page failed."
+    },
+    "storePlutoniumOwnedByOtherAccount": "이 기기의 Apple Account는 이미 다른 Fluxer 계정의 Plutonium 요금을 결제하고 있습니다.",
+    "@storePlutoniumOwnedByOtherAccount": {
+        "description": "Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account."
+    },
+    "storePlutoniumClaimFailedTitle": "Plutonium이 추가되지 않았습니다",
+    "@storePlutoniumClaimFailedTitle": {
+        "description": "Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumClaimFailedBody": "App Store에서 구매를 확인했지만 이 계정에 Plutonium을 추가하지 못했습니다. \"구매 복원\"을 탭하여 다시 시도하고, 그래도 안 되면 지원팀에 문의하세요.",
+    "@storePlutoniumClaimFailedBody": {
+        "description": "Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium."
+    },
+    "storePlutoniumApprovalPending": "구매 승인을 기다리고 있습니다. 승인되면 계정에 Plutonium이 추가됩니다.",
+    "@storePlutoniumApprovalPending": {
+        "description": "Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy."
+    },
+    "storePlutoniumLoadFailed": "Plutonium 요금제를 불러오지 못했습니다. 연결 상태를 확인하고 다시 시도해 주세요.",
+    "@storePlutoniumLoadFailed": {
+        "description": "Message on the Plutonium page when the plans failed to load."
+    },
+    "storePlutoniumRetry": "다시 시도",
+    "@storePlutoniumRetry": {
+        "description": "Button on the Plutonium page that loads the plans again after a failure."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer가 예기치 않게 종료되었습니다. 충돌 보고서를 보내 주시면 문제를 더 빨리 찾아 해결하는 데 도움이 됩니다.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "보고서에는 충돌 로그, 오류, 성능 데이터, 네트워크 요청 시간, 문제가 발생하기까지의 화면과 탭 기록이 포함되며, 이 설치에 대한 임의 ID와 연결됩니다. 메시지 내용은 절대 포함되지 않으며, 보고서는 Fluxer 자체 오류 추적기로만 전송됩니다. 언제든지 이 기능을 끌 수 있습니다.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentDecline": "다시 묻지 않기",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "나중에",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
+    },
+    "advancedSettingSplashQuotesLabel": "시작 화면 문구",
+    "@advancedSettingSplashQuotesLabel": {
+        "description": "Toggle label for splash screen loading quotes in advanced settings."
+    },
+    "advancedSettingSplashQuotesDescription": "시작 화면에 임의의 문구를 표시합니다. 기기 간에 동기화되지 않습니다.",
+    "@advancedSettingSplashQuotesDescription": {
+        "description": "Toggle description for the local-only splash screen quotes setting."
+    },
+    "advancedSettingBuiltInReverseImageSearchDescription": "내장 이미지 역검색 제공업체를 켜거나 끌 수 있습니다. 켜진 제공업체는 이미지 옵션에 표시됩니다.",
+    "searchProviderSearchWith": "{engine}(으)로 검색",
+    "@searchProviderSearchWith": {
+        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "searchProviderTranslateWith": "{engine}(으)로 번역",
+    "@searchProviderTranslateWith": {
+        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
+        "placeholders": {
+            "engine": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsTitle": "설정",
+    "@userSettingsTitle": {
+        "description": "Title of the user settings sheet on phones."
+    },
+    "userSettingsCopyAppInfo": "앱 정보 복사",
+    "@userSettingsCopyAppInfo": {
+        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
+    },
+    "userSettingsNavHelp": "도움말 및 지원",
+    "@userSettingsNavHelp": {
+        "description": "User settings navigation item that opens the help center on the official instance."
+    },
+    "instanceInsecureConnection": "{domain}은(는) 보안 연결(https)을 사용하지 않습니다. Fluxer는 로컬 네트워크에 있는 인스턴스에만 http로 연결합니다.",
+    "@instanceInsecureConnection": {
+        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "friendsPageTitle": "내 친구",
+    "@friendsPageTitle": {
+        "description": "Title of the friends page on tablets and desktop."
+    },
+    "friendsActiveNowTitle": "활동 중",
+    "@friendsActiveNowTitle": {
+        "description": "Heading of the active now panel on the friends page."
+    },
+    "friendsActiveNowEmptyTitle": "지금은 조용하네요...",
+    "@friendsActiveNowEmptyTitle": {
+        "description": "Title shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsActiveNowEmptyBody": "친구가 음성 채널에서 활동하면 여기에 표시됩니다.",
+    "@friendsActiveNowEmptyBody": {
+        "description": "Body shown in the active now panel when no friends are in voice channels."
+    },
+    "friendsTabOnline": "온라인",
+    "@friendsTabOnline": {
+        "description": "Friends page tab that lists online friends."
+    },
+    "friendsTabAll": "전체",
+    "@friendsTabAll": {
+        "description": "Friends page tab that lists all friends."
+    },
+    "friendsTabPending": "대기 중",
+    "@friendsTabPending": {
+        "description": "Friends page tab that lists pending friend requests."
+    },
+    "friendsTabBlocked": "차단됨",
+    "@friendsTabBlocked": {
+        "description": "Friends page tab that lists blocked users."
+    },
+    "friendsSearchOnline": "온라인 친구 검색",
+    "@friendsSearchOnline": {
+        "description": "Search placeholder on the online tab of the friends page."
+    },
+    "friendsSearchAll": "친구 검색",
+    "@friendsSearchAll": {
+        "description": "Search placeholder on the all tab of the friends page."
+    },
+    "friendsSearchPending": "대기 중인 요청 검색",
+    "@friendsSearchPending": {
+        "description": "Search placeholder on the pending tab of the friends page."
+    },
+    "friendsSearchBlocked": "차단된 사용자 검색",
+    "@friendsSearchBlocked": {
+        "description": "Search placeholder on the blocked tab of the friends page."
+    },
+    "friendsEmptySearchTitle": "검색 결과와 일치하는 친구가 없습니다",
+    "@friendsEmptySearchTitle": {
+        "description": "Title shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptySearchBody": "다른 이름을 시도하거나 철자를 확인해 주세요.",
+    "@friendsEmptySearchBody": {
+        "description": "Body shown on the friends page when the search matches nobody."
+    },
+    "friendsEmptyOnlineTitle": "온라인 상태인 친구가 없습니다",
+    "@friendsEmptyOnlineTitle": {
+        "description": "Title shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyOnlineBody": "온라인 상태가 되면 여기에 표시됩니다.",
+    "@friendsEmptyOnlineBody": {
+        "description": "Body shown on the online tab of the friends page when no friends are online."
+    },
+    "friendsEmptyAllTitle": "아직 친구가 없습니다",
+    "@friendsEmptyAllTitle": {
+        "description": "Title shown on the all tab of the friends page when the user has no friends."
+    },
+    "friendsEmptyAllBody": "새로운 친구를 더 많이 만나보세요.",
+    "@friendsEmptyAllBody": {
+        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    },
+    "friendsEmptyPendingTitle": "대기 중인 요청이 없어요",
+    "@friendsEmptyPendingTitle": {
+        "description": "Title shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyPendingBody": "대기 중인 친구 요청이 여기에 표시됩니다.",
+    "@friendsEmptyPendingBody": {
+        "description": "Body shown on the pending tab of the friends page when there are no requests."
+    },
+    "friendsEmptyBlockedBody": "차단한 사람이 없습니다.",
+    "@friendsEmptyBlockedBody": {
+        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
+    },
+    "friendsOutgoingStatus": "보낸 친구 요청",
+    "@friendsOutgoingStatus": {
+        "description": "Status line under a user on the friends page when the current user sent them a friend request."
+    },
+    "friendsBlockedStatus": "차단됨",
+    "@friendsBlockedStatus": {
+        "description": "Status line under a blocked user on the friends page."
+    },
+    "channelMutedHint": "음소거됨",
+    "@channelMutedHint": {
+        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
+    },
+    "guildMenuReportCommunity": "커뮤니티 신고",
+    "@guildMenuReportCommunity": {
+        "description": "Community menu item that opens the community report flow."
+    },
+    "guildSettingsRolesRoleIcon": "역할 아이콘",
+    "@guildSettingsRolesRoleIcon": {
+        "description": "Label for the role icon field in role settings."
+    },
+    "guildSettingsRolesRoleIconHelper": "이미지를 업로드하거나 이모티콘을 선택하세요. 멤버 이름 옆에는 아이콘이 있는 역할 중 가장 높은 역할의 아이콘이 표시됩니다.",
+    "@guildSettingsRolesRoleIconHelper": {
+        "description": "Helper text under the role icon field."
+    },
+    "guildSettingsRolesRoleIconUploadHint": "{formats}. 최소 {minimumSize}, 최대 {maxSize}.",
+    "@guildSettingsRolesRoleIconUploadHint": {
+        "description": "File requirements hint under role icon upload controls.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            },
+            "minimumSize": {
+                "type": "String"
+            },
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconUploadAccessibility": "역할 아이콘 업로드",
+    "@guildSettingsRolesRoleIconUploadAccessibility": {
+        "description": "Accessibility label for empty role icon upload tile."
+    },
+    "guildSettingsRolesRoleIconCurrentEmojiAccessibility": "현재 역할 아이콘, {emojiName}",
+    "@guildSettingsRolesRoleIconCurrentEmojiAccessibility": {
+        "description": "Accessibility label when role icon is an emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconCurrentImageAccessibility": "현재 역할 아이콘, 업로드한 이미지",
+    "@guildSettingsRolesRoleIconCurrentImageAccessibility": {
+        "description": "Accessibility label when role icon is an uploaded image."
+    },
+    "guildSettingsRolesRoleIconChooseEmoji": "이모티콘 선택",
+    "@guildSettingsRolesRoleIconChooseEmoji": {
+        "description": "Button to pick a unicode or guild emoji as role icon."
+    },
+    "guildSettingsRolesRoleIconUploadImage": "이미지 업로드",
+    "@guildSettingsRolesRoleIconUploadImage": {
+        "description": "Button to upload a role icon image."
+    },
+    "guildSettingsRolesRoleIconRemove": "아이콘 삭제",
+    "@guildSettingsRolesRoleIconRemove": {
+        "description": "Button to remove the role icon."
+    },
+    "guildSettingsRolesRoleIconAnimatedError": "움직이는 아이콘은 지원되지 않습니다. 정적 이미지를 사용하세요.",
+    "@guildSettingsRolesRoleIconAnimatedError": {
+        "description": "Error when user picks an animated image for role icon."
+    },
+    "guildSettingsRolesRoleIconUnsupportedTypeError": "지원되지 않는 파일 형식입니다. 지원되는 형식은 {formats}입니다.",
+    "@guildSettingsRolesRoleIconUnsupportedTypeError": {
+        "description": "Error when role icon file type is not allowed.",
+        "placeholders": {
+            "formats": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleIconLoadError": "이 이미지를 불러올 수 없습니다. 다른 이미지를 사용해 보세요.",
+    "@guildSettingsRolesRoleIconLoadError": {
+        "description": "Error when role icon image or emoji could not be loaded."
+    },
+    "guildSettingsRolesRoleIconUsagePreviewMessage": "메시지가 표시되는 방식입니다",
+    "@guildSettingsRolesRoleIconUsagePreviewMessage": {
+        "description": "Sample message body in role icon usage preview."
+    },
+    "roleIconAccessibilityLabel": "역할 아이콘, {roleName}",
+    "@roleIconAccessibilityLabel": {
+        "description": "Accessibility label for a role icon next to a member name.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "roleIconCropTitle": "역할 아이콘 자르기",
+    "@roleIconCropTitle": {
+        "description": "Title for role icon crop sheet."
+    },
+    "roleIconCropSave": "아이콘 저장",
+    "@roleIconCropSave": {
+        "description": "Primary action on role icon crop sheet."
+    },
+    "roleIconCropSkip": "자르기 건너뛰기",
+    "@roleIconCropSkip": {
+        "description": "Skip crop and use original image for role icon."
+    },
+    "roleIconCropFailed": "아이콘 자르기에 실패했습니다. 다시 시도해 주세요.",
+    "@roleIconCropFailed": {
+        "description": "Toast when role icon crop fails."
+    },
+    "roleIconCropDescription": "역할 아이콘을 드래그하여 위치를 조정하고 스크롤 휠 또는 핀치로 확대/축소하세요. 권장 최소 크기는 {minimumWidth}×{minimumHeight}픽셀입니다.",
+    "@roleIconCropDescription": {
+        "description": "Instructions on role icon crop sheet.",
+        "placeholders": {
+            "minimumWidth": {
+                "type": "int"
+            },
+            "minimumHeight": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiSet": "역할 아이콘을 {emoji}(으)로 설정했습니다",
+    "@auditLogChangeRoleEmojiSet": {
+        "description": "Role audit log detail when emoji icon is set.",
+        "placeholders": {
+            "emoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiChanged": "역할 아이콘을 {oldEmoji}에서 {newEmoji}(으)로 변경했습니다",
+    "@auditLogChangeRoleEmojiChanged": {
+        "description": "Role audit log detail when emoji icon changes.",
+        "placeholders": {
+            "oldEmoji": {
+                "type": "String"
+            },
+            "newEmoji": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangeRoleEmojiRemoved": "역할 아이콘을 삭제했습니다",
+    "@auditLogChangeRoleEmojiRemoved": {
+        "description": "Role audit log detail when emoji icon is removed."
+    },
+    "auditLogChangeRoleIconSet": "커스텀 역할 아이콘을 설정했습니다",
+    "@auditLogChangeRoleIconSet": {
+        "description": "Role audit log detail when image icon is set."
+    },
+    "auditLogChangeRoleIconChanged": "커스텀 역할 아이콘을 변경했습니다",
+    "@auditLogChangeRoleIconChanged": {
+        "description": "Role audit log detail when image icon changes."
+    },
+    "auditLogChangeRoleIconRemoved": "커스텀 역할 아이콘을 삭제했습니다",
+    "@auditLogChangeRoleIconRemoved": {
+        "description": "Role audit log detail when image icon is removed."
+    },
+    "dmListFriendsButton": "친구",
+    "@dmListFriendsButton": {
+        "description": "Button at the top of the direct messages list that opens the friends page."
+    },
+    "forumPostBlockedAuthor": "차단한 사람의 게시물",
+    "@forumPostBlockedAuthor": {
+        "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "차단한 사람의 스레드",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
+    },
+    "forumReportPost": "게시물 신고",
+    "@forumReportPost": {
+        "description": "Forum post actions item that reports the post's first message."
+    },
+    "splashGatewayUnreachable": "{domain}에 연결할 수 없습니다. 인터넷 연결을 확인한 후 다시 시도해 주세요.",
+    "@splashGatewayUnreachable": {
+        "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
+        "placeholders": {
+            "domain": {
+                "type": "String",
+                "example": "fluxer.com"
+            }
+        }
     }
 }

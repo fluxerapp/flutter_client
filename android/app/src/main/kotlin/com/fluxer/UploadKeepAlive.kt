@@ -107,7 +107,7 @@ class UploadKeepAliveService : Service() {
             )
         }
         return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.fluxer_logo_monochrome)
+            .setSmallIcon(R.drawable.ic_stat_fluxer)
             .setContentTitle(title)
             .setProgress(0, 0, true)
             .setOngoing(true)

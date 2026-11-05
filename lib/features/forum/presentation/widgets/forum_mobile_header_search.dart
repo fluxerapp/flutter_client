@@ -115,14 +115,18 @@ class _ForumMobileHeaderSearchState
           minWidth: 32,
           minHeight: 32,
         ),
-        suffixIcon: FluxerGestureDetector(
-          onTap: _close,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: PhosphorIcon(
-              PhosphorIconsBold.x,
-              size: 16,
-              color: colors.textTertiary,
+        suffixIcon: Semantics(
+          button: true,
+          label: FluxerLocalizations.of(context).uiClose,
+          child: FluxerGestureDetector(
+            onTap: _close,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: PhosphorIcon(
+                PhosphorIconsBold.x,
+                size: 16,
+                color: colors.textTertiary,
+              ),
             ),
           ),
         ),

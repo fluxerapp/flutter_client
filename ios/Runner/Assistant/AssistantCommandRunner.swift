@@ -16,7 +16,7 @@ enum AssistantCommandRunner {
   ) async -> IntentDialog {
     let result = await AssistantBridge.shared.perform(payload, openApp: openApp)
     if isVoiceSession(payload), result.status == "notReady" || result.status == "needsLogin" {
-      return IntentDialog(stringLiteral: "You're not in a call.")
+      return IntentDialog(stringLiteral: String(localized: "You're not in a call."))
     }
     return IntentDialog(stringLiteral: result.spoken)
   }

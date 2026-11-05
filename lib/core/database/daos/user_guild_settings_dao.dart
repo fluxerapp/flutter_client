@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/user_guild_settings.dart';
@@ -27,6 +28,12 @@ class UserGuildSettingsDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> upsert(UserGuildSettingsTableCompanion entry) =>
       into(userGuildSettingsTable).insertOnConflictUpdate(entry);
+
+  Future<void> upsertAll(List<UserGuildSettingsTableCompanion> entries) =>
+      batch(
+        (Batch b) =>
+            batchUpsert(b, attachedDatabase, userGuildSettingsTable, entries),
+      );
 
   Future<void> deleteForGuild(String guildId) => (delete(
     userGuildSettingsTable,

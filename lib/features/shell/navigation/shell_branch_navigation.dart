@@ -54,7 +54,7 @@ Future<void> _openSplitDmChannelIfNeeded(
     return;
   }
   final String? target = await resolveDmRootRedirect(
-    fullPath: RoutePaths.me,
+    uri: Uri(path: RoutePaths.me),
     db: ref.read(fluxerDatabaseProvider),
   );
   if (target != null && context.mounted) {

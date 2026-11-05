@@ -69,6 +69,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/route_guild_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
@@ -121,7 +122,7 @@ class GuildSidebar extends ConsumerStatefulWidget {
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   Future<void> _handleServerHeaderTap(BuildContext context, Guild guild) async {
-    if (isMobileLayout(context)) {
+    if (isMobileLayout(context) || usesDesktopPointerUi(context)) {
       await presentGuildMenuSheet(context, ref, guild: guild);
       return;
     }
@@ -151,28 +152,29 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   @override
   Widget build(BuildContext context) {
     final String? guildId = ref.watch(activeGuildIdProvider);
-    final Set<String> trackedUnavailableGuildIds = ref.watch(
-      guildAvailabilityProvider,
-    );
-    final ChannelListState channelListState = ref.watch(
-      channelListViewModelProvider,
+    final (Guild? listGuild, bool listReceived) = ref.watch(
+      channelListViewModelProvider.select(
+        (ChannelListState state) =>
+            (state.guild, state.hasReceivedInitialChannelList),
+      ),
     );
     final Guild? routeGuild = guildId == null
         ? null
         : ref.watch(routeGuildProvider(guildId)).value;
-    final Guild? guild = channelListState.guild?.id == guildId
-        ? channelListState.guild
-        : routeGuild;
+    final Guild? guild = listGuild?.id == guildId ? listGuild : routeGuild;
     final bool guildOutageUnavailable =
         guildId != null &&
-        isGuildOutageUnavailable(
-          guildId: guildId,
-          trackedUnavailableGuildIds: trackedUnavailableGuildIds,
-          guild: guild,
+        ref.watch(
+          guildAvailabilityProvider.select(
+            (Set<String> ids) => isGuildOutageUnavailable(
+              guildId: guildId,
+              trackedUnavailableGuildIds: ids,
+              guild: guild,
+            ),
+          ),
         );
     final bool hasReceivedInitialChannelList =
-        channelListState.guild?.id == guildId &&
-        channelListState.hasReceivedInitialChannelList;
+        listGuild?.id == guildId && listReceived;
     final bool guildReady =
         guild != null && guildId != null && guild.id == guildId;
 
@@ -216,10 +218,8 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                 : _GuildSidebarChannelListHost(
                     activeGuildId: guildId,
                     guild: guild,
-                    onHeaderTap: guildOutageUnavailable
-                        ? null
-                        : () =>
-                              unawaited(_handleServerHeaderTap(context, guild)),
+                    onHeaderTap: () =>
+                        unawaited(_handleServerHeaderTap(context, guild)),
                   ),
           ),
         ],

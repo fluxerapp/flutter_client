@@ -35,6 +35,10 @@ class ChannelAddOverrideSheet {
       useRootNavigator: true,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
+      desktop: const FluxerDesktopPresentation(
+        surface: FluxerDesktopSurface.popout,
+        width: 320,
+      ),
       builder:
           (
             BuildContext sheetContext,

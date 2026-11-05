@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -293,7 +294,9 @@ class _ExpandableStatusMenuItemState extends State<_ExpandableStatusMenuItem>
                       turns: Tween<double>(begin: 0, end: 0.25).animate(_size),
                       child: PhosphorIcon(
                         PhosphorIconsBold.caretRight,
-                        size: 16,
+                        size: FluxerDesktopSurfaceScope.isMenu(context)
+                            ? kFluxerDesktopMenuCaretSize
+                            : 16,
                         color: colors.textSecondary,
                       ),
                     ),
@@ -343,6 +346,13 @@ class _StatusExpiryOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return FluxerDesktopMenuRow(
+        label: label,
+        onTap: onTap,
+        leading: const SizedBox(width: 14),
+      );
+    }
     return FluxerTappable(
       onTap: onTap,
       semanticLabel: label,

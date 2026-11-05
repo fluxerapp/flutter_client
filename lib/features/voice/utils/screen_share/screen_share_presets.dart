@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -6,6 +7,8 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 const List<int> kSupportedScreenShareFrameRates = <int>[15, 30, 60];
+
+const int kIosBroadcastMaxLongEdge = 1920;
 
 const DegradationPreference kScreenShareDegradationPreference =
     DegradationPreference.maintainFramerate;
@@ -66,11 +69,26 @@ VideoDimensions? nativeMobileScreenCaptureDimensions() {
   if (display == null || display.size.isEmpty) {
     return null;
   }
-  return VideoDimensions(
+  final VideoDimensions dimensions = VideoDimensions(
     display.size.width.round(),
     display.size.height.round(),
   );
+  return Platform.isIOS ? iosBroadcastFrameDimensions(dimensions) : dimensions;
 }
+
+VideoDimensions iosBroadcastFrameDimensions(VideoDimensions display) {
+  final int longEdge = math.max(display.width, display.height);
+  if (longEdge <= kIosBroadcastMaxLongEdge) {
+    return display;
+  }
+  final double scale = kIosBroadcastMaxLongEdge / longEdge;
+  return VideoDimensions(
+    (display.width * scale).round(),
+    (display.height * scale).round(),
+  );
+}
+
+bool get screenShareCapturesSystemAudio => !isFluxerNativeMobileOs;
 
 ScreenShareCaptureOptions screenShareCaptureOptionsFor({
   required ScreenshareResolution resolution,
@@ -78,7 +96,7 @@ ScreenShareCaptureOptions screenShareCaptureOptionsFor({
 }) {
   return ScreenShareCaptureOptions(
     useiOSBroadcastExtension: true,
-    captureScreenAudio: true,
+    captureScreenAudio: screenShareCapturesSystemAudio,
     params: screenShareVideoParameters(
       resolution: resolution,
       frameRate: frameRate,

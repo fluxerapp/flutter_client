@@ -28,6 +28,22 @@ MatureContentGateCopy resolveMatureContentGateCopy({
   final String defaultWarningBody = hasCustomWarningText
       ? context.effectiveWarningText!
       : l10n.defaultContentWarningBody;
+  if (reason == MatureContentGateReason.regionLocked) {
+    return MatureContentGateCopy(
+      title: l10n.matureContentTitle,
+      body: l10n.matureContentRegionLockedBody,
+      primaryButtonLabel: null,
+      canProceed: false,
+    );
+  }
+  if (reason == MatureContentGateReason.appLocked) {
+    return MatureContentGateCopy(
+      title: _matureTitle(l10n, context.scope),
+      body: l10n.matureContentAppLockedBody,
+      primaryButtonLabel: null,
+      canProceed: false,
+    );
+  }
   if (reason == MatureContentGateReason.minorBlocked) {
     return MatureContentGateCopy(
       title: _minorBlockedTitle(l10n, context.scope),

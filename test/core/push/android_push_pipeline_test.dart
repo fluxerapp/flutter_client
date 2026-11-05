@@ -151,7 +151,7 @@ void main() {
         'author_avatar_url': 'https://cdn.example/a.png',
         'icon': 'https://cdn.example/b.png',
       }, endpoints: endpoints),
-      'https://cdn.example/a.png?format=png&animated=false&size=160',
+      'https://cdn.example/a.png?format=png&animated=false&size=256',
     );
     expect(
       pushAuthorAvatarUrl(<String, String>{
@@ -171,7 +171,7 @@ void main() {
       pushAuthorAvatarUrl(<String, String>{
         'icon': 'https://cdn.example/avatars/99/a.webp?animated=true&size=4096',
       }, endpoints: endpoints),
-      'https://cdn.example/avatars/99/a.webp?format=png&animated=false&size=160',
+      'https://cdn.example/avatars/99/a.webp?format=png&animated=false&size=256',
     );
     expect(
       pushAuthorAvatarUrl(<String, String>{
@@ -225,9 +225,9 @@ void main() {
     expect(
       pushAuthorAvatarUrl(<String, String>{
         'author_avatar_url':
-            'https://fluxerusercontent.com/avatars/1/deadbeef.webp?size=160',
+            'https://fluxerusercontent.com/avatars/1/deadbeef.webp?size=256',
       }, endpoints: endpoints),
-      'https://media.selfhosted.test/avatars/1/deadbeef.webp?format=png&animated=false&size=160',
+      'https://media.selfhosted.test/avatars/1/deadbeef.webp?format=png&animated=false&size=256',
     );
     expect(
       pushAttachmentImageUrl(<String, String>{

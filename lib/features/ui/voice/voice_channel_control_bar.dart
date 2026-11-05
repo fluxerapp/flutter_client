@@ -376,7 +376,7 @@ class _VoiceControlCircle extends StatefulWidget {
     required this.tooltip,
     required this.icon,
     required this.onPressed,
-    this.toggled = false,
+    this.toggled,
   });
 
   final double size;
@@ -384,7 +384,7 @@ class _VoiceControlCircle extends StatefulWidget {
   final String tooltip;
   final PhosphorIconData icon;
   final VoidCallback? onPressed;
-  final bool toggled;
+  final bool? toggled;
 
   @override
   State<_VoiceControlCircle> createState() => _VoiceControlCircleState();
@@ -433,6 +433,7 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
       enabled: enabled,
       child: Tooltip(
         message: widget.tooltip,
+        excludeFromSemantics: true,
         child: FluxerGestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: (_) => _setPressed(true),

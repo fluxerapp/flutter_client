@@ -69,6 +69,24 @@ void main() {
     expect(adapter.fetches, 2);
   });
 
+  test('a refused report does not hold back the next report', () async {
+    adapter
+      ..statusCode = 429
+      ..responseHeaders = <String, List<String>>{
+        'retry-after': <String>['3600'],
+      }
+      ..body = '{"retry_after":3600,"global":false}';
+
+    await expectLater(
+      dio.post<dynamic>('/reports/flows/user/submissions'),
+      throwsA(isA<DioException>()),
+    );
+
+    adapter.statusCode = 200;
+    await dio.post<dynamic>('/reports/flows/user/submissions');
+    expect(adapter.fetches, 2);
+  });
+
   test('global 429 blocks a different path', () async {
     adapter
       ..statusCode = 429

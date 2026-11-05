@@ -114,14 +114,20 @@ class _ForumSearchCard extends ConsumerWidget {
                           ),
                         ),
                         if (searchController.text.isNotEmpty)
-                          FluxerGestureDetector(
-                            onTap: searchController.clear,
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: PhosphorIcon(
-                                PhosphorIconsBold.x,
-                                size: 14,
-                                color: colors.textTertiary,
+                          Semantics(
+                            button: true,
+                            label: FluxerLocalizations.of(
+                              context,
+                            ).userSettingsSearchClear,
+                            child: FluxerGestureDetector(
+                              onTap: searchController.clear,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6),
+                                child: PhosphorIcon(
+                                  PhosphorIconsBold.x,
+                                  size: 14,
+                                  color: colors.textTertiary,
+                                ),
                               ),
                             ),
                           ),

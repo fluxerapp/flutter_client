@@ -7,18 +7,24 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
+import 'package:fluxer_app/core/push/account/push_account_client.dart';
 import 'package:fluxer_app/core/push/account/sync_retry.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_sync_coalescing.dart';
 import 'package:fluxer_app/core/push/notification/permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_logic.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_registration.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -32,6 +38,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
   String? _unregisteredWithoutConsentKey;
+  String? _otherAccountsRelayUrl;
   bool _syncAgain = false;
   Future<void>? _syncFuture;
   final PushSyncRetry _retry = PushSyncRetry();
@@ -74,6 +81,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       })
       ..listen<bool>(pushRelayConsentProvider, (bool? previous, bool next) {
         if (next && previous == false) {
+          _otherAccountsRelayUrl = null;
           unawaited(sync());
         }
       });
@@ -213,6 +221,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       lastRegisteredPublicKey: _lastRegisteredPublicKey,
     )) {
       _retry.succeeded();
+      await _registerOtherAccounts(activeUserId: userId, relayUrl: relayUrl);
       return;
     }
     try {
@@ -238,9 +247,98 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
           '[FcmMobileDeviceRegistration] registered relay for user $userId',
         );
       }
+      await _registerOtherAccounts(activeUserId: userId, relayUrl: relayUrl);
     } on DioException catch (e, st) {
       debugPrint('[FcmMobileDeviceRegistration] register failed: $e\n$st');
       _scheduleSyncRetry();
+    }
+  }
+
+  Future<void> _registerOtherAccounts({
+    required String activeUserId,
+    required String relayUrl,
+  }) async {
+    if (_otherAccountsRelayUrl == relayUrl) {
+      return;
+    }
+    try {
+      final sessions = await ref
+          .read(fluxerDatabaseProvider)
+          .authSessionDao
+          .getAllSessions();
+      var allRegistered = true;
+      for (final session in sessions) {
+        if (!session.isValid || session.userId == activeUserId) {
+          continue;
+        }
+        final bool registered = await _registerOtherAccount(
+          userId: session.userId,
+          relayUrl: relayUrl,
+        );
+        allRegistered = allRegistered && registered;
+      }
+      if (allRegistered) {
+        _otherAccountsRelayUrl = relayUrl;
+      }
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint(
+          '[FcmMobileDeviceRegistration] other accounts failed: $e\n$st',
+        );
+      }
+    }
+  }
+
+  Future<bool> _registerOtherAccount({
+    required String userId,
+    required String relayUrl,
+  }) async {
+    final WebPushAccountKeys? keys = await _keyStore.read(userId);
+    final AuthTokenStorage storage = ref.read(authTokenStorageProvider);
+    final String? token = await storage.readToken(userId);
+    final String? apiBaseUrl = await storage.readApiBaseUrl(userId);
+    if (keys == null ||
+        keys.privateKey == null ||
+        token == null ||
+        token.isEmpty ||
+        apiBaseUrl == null ||
+        apiBaseUrl.isEmpty) {
+      return true;
+    }
+    if (isPushRelayConsentRequired(
+      relayUrl: relayUrl,
+      isConsentGranted: ref.read(pushRelayConsentProvider),
+      isOfficialInstance: const InstanceEndpointNormalizer()
+          .isOfficialInstanceInput(apiBaseUrl),
+    )) {
+      return true;
+    }
+    final Dio dio = createPushAccountDio(
+      ref,
+      token: token,
+      apiBaseUrl: apiBaseUrl,
+    );
+    try {
+      await UsersApi(dio, baseUrl: apiBaseUrl).registerMobilePushDevice(
+        body: RegisterMobileDeviceRequest(
+          platform: RegisterMobileDeviceRequestPlatformPlatform.androidFcm,
+          token: relayUrl,
+          userAgent: ref.read(fluxerClientPropertiesProvider).userAgent,
+          appId: AppBuildConfig.mobilePushAppId,
+          encryptionKey: keys.publicKey,
+          authSecret: keys.authSecret,
+        ),
+      );
+      return true;
+    } on DioException catch (e, st) {
+      if (kDebugMode) {
+        debugPrint(
+          '[FcmMobileDeviceRegistration] register $userId failed: $e\n$st',
+        );
+      }
+      return false;
+    } finally {
+      dio.close();
     }
   }
 

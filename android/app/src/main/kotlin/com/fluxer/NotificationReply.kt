@@ -10,11 +10,14 @@ internal const val EXTRA_CHANNEL_ID = "channel_id"
 internal const val EXTRA_MESSAGE_ID = "message_id"
 internal const val EXTRA_USER_ID = "target_user_id"
 internal const val EXTRA_FEATURES = "fluxer_features"
+internal const val EXTRA_FAILURE_TITLE = "fluxer_failure_title"
+internal const val EXTRA_FAILURE_BODY = "fluxer_failure_body"
 internal const val FEATURES_HEADER = "X-Fluxer-Features"
 
 internal const val FAILED_REPLY_NOTIFICATION_ID = 900001
 internal const val FAILED_REPLY_NOTIFICATION_TAG = "fluxer_reply_failed"
 internal const val MESSAGE_NOTIFICATION_CHANNEL_ID = "fluxer_messages"
+internal const val PUSH_ACCENT_COLOR = 0xFF4641D9.toInt()
 
 internal data class NotificationReplyAccount(
     val token: String,

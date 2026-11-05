@@ -31,8 +31,12 @@ internal class FluxerUnifiedPushBackgroundBridge :
                 handler.post { FluxerUnifiedPushService.onDartBackgroundReady() }
             }
             METHOD_FINISH -> {
-                result.success(null)
-                handler.post { FluxerUnifiedPushService.onDartBackgroundFinished() }
+                val handled = call.argument<Int>(ARG_HANDLED) ?: 0
+                val closing = FluxerUnifiedPushService.canCloseBackgroundSession(handled)
+                result.success(closing)
+                if (closing) {
+                    handler.post { FluxerUnifiedPushService.closeBackgroundSessionIfIdle(handled) }
+                }
             }
             else -> result.notImplemented()
         }
@@ -42,6 +46,11 @@ internal class FluxerUnifiedPushBackgroundBridge :
         const val CHANNEL_NAME = "com.fluxer/unified_push_background"
         const val METHOD_PREPARE = "prepare"
         const val METHOD_FINISH = "finish"
+        const val METHOD_MESSAGE = "message"
+        const val ARG_HANDLED = "handled"
+        const val ARG_INSTANCE = "instance"
+        const val ARG_CONTENT = "content"
+        const val ARG_DECRYPTED = "decrypted"
 
         private val handler = Handler(Looper.getMainLooper())
 
@@ -53,8 +62,3 @@ internal class FluxerUnifiedPushBackgroundBridge :
         }
     }
 }
-
-internal data class UnifiedPushFlutterEvent(
-    val method: String,
-    val data: Map<String, Any?>,
-)

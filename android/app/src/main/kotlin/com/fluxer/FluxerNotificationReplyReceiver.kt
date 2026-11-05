@@ -30,7 +30,11 @@ class FluxerNotificationReplyReceiver : BroadcastReceiver() {
     companion object {
         fun dispatchReply(context: Context, intent: Intent) {
             val input = replyInput(intent) ?: return
-            val ui = AndroidNotificationReplyUi(context)
+            val ui = AndroidNotificationReplyUi(
+                context = context,
+                failureTitle = intent.getStringExtra(EXTRA_FAILURE_TITLE),
+                failureBody = intent.getStringExtra(EXTRA_FAILURE_BODY),
+            )
             NotificationReplyDispatcher(
                 accounts = SecureAuthTokenReader(context),
                 poster = HttpNotificationReplyPoster(),
@@ -92,6 +96,8 @@ class FluxerNotificationReplyReceiver : BroadcastReceiver() {
 
 internal class AndroidNotificationReplyUi(
     private val context: Context,
+    private val failureTitle: String?,
+    private val failureBody: String?,
 ) : NotificationReplyUi {
     override fun cancel(id: Int, tag: String?) {
         val manager = manager() ?: return
@@ -109,9 +115,10 @@ internal class AndroidNotificationReplyUi(
     override fun showFailure() {
         val manager = manager() ?: return
         val notification = NotificationCompat.Builder(context, MESSAGE_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.fluxer_logo_monochrome)
-            .setContentTitle("Messages")
-            .setContentText("Couldn't send reply")
+            .setSmallIcon(R.drawable.ic_stat_fluxer)
+            .setColor(PUSH_ACCENT_COLOR)
+            .setContentTitle(failureTitle ?: DEFAULT_FAILURE_TITLE)
+            .setContentText(failureBody ?: DEFAULT_FAILURE_BODY)
             .setSilent(true)
             .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -121,5 +128,10 @@ internal class AndroidNotificationReplyUi(
 
     private fun manager(): NotificationManager? {
         return context.getSystemService(NotificationManager::class.java)
+    }
+
+    private companion object {
+        const val DEFAULT_FAILURE_TITLE = "Messages"
+        const val DEFAULT_FAILURE_BODY = "Couldn't send reply"
     }
 }

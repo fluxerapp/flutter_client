@@ -60,7 +60,7 @@ class _ComposerInputFieldHarnessState
       maxLines: 6,
       enterSends: false,
       showComposerCounter: widget.showCounter,
-      sendableWireLength: 0,
+      sendableWireLength: () => _controller!.text.trim().length,
       hintSemanticsLabel: 'Message',
       onSendPressed: () {},
       onComposerFieldTap: () {},
@@ -131,6 +131,24 @@ void main() {
       find.byKey(const ValueKey<String>('channel-composer-field')),
       findsOneWidget,
     );
+  });
+
+  testWidgets('the character counter follows the text as it is typed', (
+    tester,
+  ) async {
+    await _pumpComposerInputField(tester);
+    final Finder field = find.byKey(
+      const ValueKey<String>('channel-composer-field'),
+    );
+
+    await tester.enterText(field, 'a' * 2099);
+    await tester.pump();
+    expect(find.text('-99'), findsOneWidget);
+
+    await tester.enterText(field, 'a' * 2109);
+    await tester.pump();
+    expect(find.text('-109'), findsOneWidget);
+    expect(find.text('-99'), findsNothing);
   });
 
   testWidgets(

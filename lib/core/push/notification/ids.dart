@@ -6,8 +6,7 @@ int pushGroupSummaryNotificationId(String groupKey) {
 
 int pushMessageNotificationId(String messageId) {
   const int maxPositiveInt31 = 0x7FFFFFFF;
-  final int hash = messageId.hashCode;
-  final int masked = hash & maxPositiveInt31;
+  final int masked = javaStringHashCode(messageId) & maxPositiveInt31;
   if (masked != 0) {
     return masked;
   }
@@ -17,7 +16,7 @@ int pushMessageNotificationId(String messageId) {
 int javaStringHashCode(String value) {
   int hash = 0;
   for (final int unit in value.codeUnits) {
-    hash = hash * 31 + unit;
+    hash = (hash * 31 + unit).toSigned(32);
   }
   return hash;
 }
@@ -35,14 +34,10 @@ Iterable<int> pushNotificationCancelIds(Map<String, String> payload) {
   if (messageId == null) {
     return const <int>[];
   }
-  final Set<int> ids = <int>{pushMessageNotificationId(messageId)};
-  final int javaHash = javaStringHashCode(messageId);
-  ids.add(javaHash);
-  final int positiveJavaHash = javaHash & 0x7FFFFFFF;
-  if (positiveJavaHash != 0) {
-    ids.add(positiveJavaHash);
-  }
-  return ids;
+  return <int>{
+    pushMessageNotificationId(messageId),
+    javaStringHashCode(messageId),
+  };
 }
 
 String? _nonEmpty(String? value) {

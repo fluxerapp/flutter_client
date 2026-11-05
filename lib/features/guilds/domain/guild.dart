@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show immutable, listEquals;
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 
 export 'package:fluxer_app/core/media/fluxer_media_cdn.dart'
     show fluxerMediaCdn;
 
+@immutable
 class Guild {
   final String id;
   final String name;
@@ -72,6 +74,54 @@ class Guild {
       vanityUrlCode: row.vanityUrlCode,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Guild &&
+            other.id == id &&
+            other.name == name &&
+            other.icon == icon &&
+            other.banner == banner &&
+            other.splash == splash &&
+            other.embedSplash == embedSplash &&
+            other.memberCount == memberCount &&
+            other.onlineCount == onlineCount &&
+            other.ownerId == ownerId &&
+            other.position == position &&
+            listEquals(other.features, features) &&
+            listEquals(other.badgeIds, badgeIds) &&
+            other.unavailable == unavailable &&
+            other.disabledOperations == disabledOperations &&
+            other.verificationLevel == verificationLevel &&
+            other.nsfw == nsfw &&
+            other.contentWarningLevel == contentWarningLevel &&
+            other.contentWarningText == contentWarningText &&
+            other.vanityUrlCode == vanityUrlCode;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    icon,
+    banner,
+    splash,
+    embedSplash,
+    memberCount,
+    onlineCount,
+    ownerId,
+    position,
+    Object.hashAll(features),
+    Object.hashAll(badgeIds),
+    unavailable,
+    disabledOperations,
+    verificationLevel,
+    nsfw,
+    contentWarningLevel,
+    contentWarningText,
+    vanityUrlCode,
+  );
 
   bool get isVerified => features.contains('VERIFIED');
   bool get isPartnered => features.contains('PARTNERED');

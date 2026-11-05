@@ -15,6 +15,8 @@ const double _kLookaheadMaxViewports = 4;
 
 const double _kGeometryEpsilon = 0.5;
 
+const double _kInactiveDistanceStep = 32;
+
 class _EdgeDemand {
   bool active = false;
   int revision = 0;
@@ -125,9 +127,11 @@ class MessageListDemandSource {
           distance <= messageListLoadEnterMargin(viewportHeight) + lookahead;
     }
     final double? lastDistance = state.lastDistance;
+    final double distanceStep = state.active || nextActive
+        ? _kGeometryEpsilon
+        : _kInactiveDistanceStep;
     final bool distanceChanged =
-        lastDistance == null ||
-        (distance - lastDistance).abs() > _kGeometryEpsilon;
+        lastDistance == null || (distance - lastDistance).abs() > distanceStep;
     final bool levelChanged = nextActive != state.active;
     if (!distanceChanged && !extentChanged && !levelChanged) {
       return;

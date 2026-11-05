@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/foldable/tabletop_hinge_column.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -429,12 +430,16 @@ class _AttachmentMediaViewerShellState
     required String indexLabel,
     required double dismissChromeOpacity,
     required bool showOptionsButton,
+    required bool matureMediaHidden,
     MessageMediaFavoriteTarget? favoriteTarget,
   }) {
     final MessageMediaActionScope? actionScope = widget.actionScope;
     final bool downloadsHidden =
-        actionScope != null &&
-        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
+        matureMediaHidden ||
+        (actionScope != null &&
+            ref.watch(
+              mediaDownloadHiddenProvider(actionScope.message.channelId),
+            ));
     return Opacity(
       opacity: useTouchGestures ? dismissChromeOpacity : 1,
       child: Padding(
@@ -644,16 +649,26 @@ class _AttachmentMediaViewerShellState
             widget.actionScope!.message,
             currentItem.attachmentId,
           );
-    final MessageMediaFavoriteTarget? favoriteTarget =
-        favoriteTargetForMessageMedia(
-          actionScope: widget.actionScope,
-          attachmentId: currentItem.attachmentId,
-          embedIndex: currentItem.embedIndex,
-          filename: currentItem.filename,
-          fallbackContentHash: currentItem.contentHash,
-          attachment: resolvedAttachment,
-          forMediaViewerToolbar: true,
+    final String? viewerChannelId =
+        widget.channelId ?? widget.actionScope?.message.channelId;
+    final bool matureMediaHidden =
+        viewerChannelId != null &&
+        watchMatureMediaHidden(
+          ref,
+          channelId: viewerChannelId,
+          isMatureMedia: currentItem.isMatureMedia,
         );
+    final MessageMediaFavoriteTarget? favoriteTarget = matureMediaHidden
+        ? null
+        : favoriteTargetForMessageMedia(
+            actionScope: widget.actionScope,
+            attachmentId: currentItem.attachmentId,
+            embedIndex: currentItem.embedIndex,
+            filename: currentItem.filename,
+            fallbackContentHash: currentItem.contentHash,
+            attachment: resolvedAttachment,
+            forMediaViewerToolbar: true,
+          );
     final bool showOptionsButton = _hasOptionsMenu(currentItem);
     final double backdropBaseOpacity = isMobile ? 0.85 : 0.6;
     final double backdropOpacity = useTouchGestures
@@ -731,6 +746,7 @@ class _AttachmentMediaViewerShellState
                             indexLabel: indexLabel,
                             dismissChromeOpacity: dismissChromeOpacity,
                             showOptionsButton: showOptionsButton,
+                            matureMediaHidden: matureMediaHidden,
                             favoriteTarget: favoriteTarget,
                           ),
                           const Spacer(),
@@ -757,6 +773,7 @@ class _AttachmentMediaViewerShellState
                           indexLabel: indexLabel,
                           dismissChromeOpacity: dismissChromeOpacity,
                           showOptionsButton: showOptionsButton,
+                          matureMediaHidden: matureMediaHidden,
                           favoriteTarget: favoriteTarget,
                         ),
                         Expanded(

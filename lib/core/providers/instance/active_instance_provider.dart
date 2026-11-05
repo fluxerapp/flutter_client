@@ -55,6 +55,9 @@ class ActiveInstance extends _$ActiveInstance {
         .touchRecentInstance(
           domain: snapshot.displayDomain,
           name: snapshot.instanceDisplayName,
+          url: _normalizer.describeApiEndpoint(
+            _normalizer.normalizeEndpoint(input),
+          ),
         );
   }
 
@@ -108,4 +111,9 @@ String activeInstanceDisplayDomain(Ref ref) {
 bool isActiveInstanceOfficial(Ref ref) {
   final String apiBaseUrl = ref.watch(fluxerBaseUrlProvider);
   return const InstanceEndpointNormalizer().isOfficialInstanceInput(apiBaseUrl);
+}
+
+@Riverpod(keepAlive: true)
+bool activeInstanceSupportsPasskeys(Ref ref) {
+  return passkeysSupportedFor(ref.watch(fluxerBaseUrlProvider));
 }

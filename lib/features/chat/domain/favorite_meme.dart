@@ -33,6 +33,7 @@ class FavoriteMeme {
     required this.klipySlug,
     required this.tenorSlugId,
     this.media,
+    this.nsfw = false,
   });
 
   factory FavoriteMeme.fromSdk(sdk.FavoriteMemeResponse meme) {
@@ -59,6 +60,7 @@ class FavoriteMeme {
       klipySlug: gifSource.klipySlug,
       tenorSlugId: gifSource.tenorSlugId,
       media: meme.media,
+      nsfw: meme.nsfw,
     );
   }
 
@@ -95,6 +97,7 @@ class FavoriteMeme {
       klipySlug: json['klipy_slug'] as String? ?? gifSource.klipySlug,
       tenorSlugId: json['tenor_slug_id'] as String? ?? gifSource.tenorSlugId,
       media: _parseFavoriteMedia(json['media']),
+      nsfw: json['nsfw'] as bool? ?? false,
     );
   }
 
@@ -116,6 +119,7 @@ class FavoriteMeme {
   final String? klipySlug;
   final String? tenorSlugId;
   final Map<String, sdk.GifMediaFormat>? media;
+  final bool nsfw;
 
   FavoriteMemeMediaType get mediaType {
     final normalized = contentType.toLowerCase();
@@ -178,6 +182,7 @@ class FavoriteMeme {
     'klipy_slug': klipySlug,
     'tenor_slug_id': tenorSlugId,
     'media': media?.map((key, value) => MapEntry(key, value.toJson())),
+    'nsfw': nsfw,
   };
 }
 

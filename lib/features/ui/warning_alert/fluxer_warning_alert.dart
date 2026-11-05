@@ -11,12 +11,16 @@ class FluxerWarningAlert extends StatelessWidget {
     required this.message,
     this.title,
     this.variant = FluxerAlertVariant.warning,
+    this.onDismiss,
+    this.dismissLabel,
     super.key,
   });
 
   final String message;
   final String? title;
   final FluxerAlertVariant variant;
+  final VoidCallback? onDismiss;
+  final String? dismissLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +86,23 @@ class FluxerWarningAlert extends StatelessWidget {
                 ),
               ),
             ),
+            if (onDismiss != null)
+              Semantics(
+                container: true,
+                button: true,
+                label: dismissLabel,
+                onTap: onDismiss,
+                excludeSemantics: true,
+                child: IconButton(
+                  onPressed: onDismiss,
+                  tooltip: dismissLabel,
+                  icon: Icon(
+                    PhosphorIconsBold.x,
+                    size: 16,
+                    color: colors.textSecondary,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

@@ -60,6 +60,10 @@ Future<GuildAction?> showGuildBottomSheet(
 
   final result = await FluxerBottomSheet.showScrollable<GuildAction>(
     context,
+    desktop: const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.menu,
+      width: 260,
+    ),
     title: guild.name,
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),

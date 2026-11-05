@@ -118,8 +118,11 @@ class _GiftContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final creator = gift.createdBy;
+    final bool blocked = giftClaimBlockedInApp(gift);
     final helpText = gift.redeemed
         ? l10n.giftAcceptAlreadyClaimed
+        : blocked
+        ? l10n.giftAcceptLifetimeNotInApp
         : isUnclaimed
         ? l10n.embedGiftClaimAccountHelp
         : l10n.giftAcceptClaimSubscription(kPremiumProductName);
@@ -179,12 +182,12 @@ class _GiftContent extends StatelessWidget {
               Expanded(
                 child: FluxerButton.secondary(
                   onPressed: () => Navigator.of(context).pop(),
-                  label: gift.redeemed || isUnclaimed
+                  label: gift.redeemed || isUnclaimed || blocked
                       ? l10n.uiClose
                       : l10n.giftAcceptMaybeLater,
                 ),
               ),
-              if (!gift.redeemed) ...[
+              if (!gift.redeemed && !blocked) ...[
                 const SizedBox(width: 12),
                 Expanded(
                   child: FluxerButton.primary(

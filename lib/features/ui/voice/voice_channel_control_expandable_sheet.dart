@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_til
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/call_grid_stage_insets.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
@@ -710,7 +711,7 @@ class VoiceChannelControlSheetDragHandle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Voice call controls',
+      label: FluxerLocalizations.of(context).voiceCallControlsSheetLabel,
       child: SizedBox(
         height: kVoiceControlSheetHandleHeight,
         width: double.infinity,

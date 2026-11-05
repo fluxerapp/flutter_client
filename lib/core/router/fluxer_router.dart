@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_navigator_observer.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -64,6 +65,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_route_gate.dart';
+import 'package:fluxer_app/features/ui/background/starfield_dark_theme.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
@@ -166,6 +168,7 @@ GoRouter fluxerRouter(Ref ref) {
       (_, _) => refreshNotifier.notify(),
     )
     ..listen(gatewayReadyProvider, (_, _) => refreshNotifier.notify())
+    ..listen(startupGatewayFallbackProvider, (_, _) => refreshNotifier.notify())
     ..listen(splashExitAllowedProvider, (_, _) => refreshNotifier.notify())
     ..listen(appStartupProvider, (_, _) => refreshNotifier.notify())
     ..listen(accountManagerProvider, (_, _) => refreshNotifier.notify())
@@ -252,8 +255,12 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
+      final bool showCachedShell =
+          ref.read(startupGatewayFallbackProvider) ==
+          StartupGatewayFallback.cachedShell;
       if (isAuthenticated &&
           !isGatewayReady &&
+          !showCachedShell &&
           !isOnReconnecting &&
           !isAddingAccount) {
         if (!isOnLoading) {
@@ -324,14 +331,15 @@ GoRouter fluxerRouter(Ref ref) {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return shellInstantTransitionPage(
             key: state.pageKey,
-            child: const SplashScreen(),
+            child: const StarfieldDarkTheme(child: SplashScreen()),
           );
         },
       ),
       GoRoute(
         path: '/login',
         name: RouteNames.login,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) =>
+            const StarfieldDarkTheme(child: LoginScreen()),
       ),
       GoRoute(
         path: '/reconnecting',
@@ -699,7 +707,7 @@ GoRouter fluxerRouter(Ref ref) {
                     return null;
                   }
                   return resolveDmRootRedirect(
-                    fullPath: state.uri.path,
+                    uri: state.uri,
                     db: ref.read(fluxerDatabaseProvider),
                   );
                 },

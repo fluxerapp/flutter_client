@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/settings/services/premium_store_purchase_upd
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 
 export 'package:fluxer_app/features/settings/services/premium_store_purchase_client.stub.dart'
     show
@@ -106,7 +107,12 @@ class AndroidPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
   }
 
   @override
-  Future<void> restore() => _billing.restorePurchases();
+  Future<void> restore({required bool userInitiated}) {
+    return _billing.restorePurchases();
+  }
+
+  @override
+  Future<String?> storefrontCountryCode() async => null;
 
   String? _basePlanId(ProductDetails details) {
     if (details is! GooglePlayProductDetails) {
@@ -186,7 +192,17 @@ class IosPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
   }
 
   @override
-  Future<void> restore() => _billing.restorePurchases();
+  Future<void> restore({required bool userInitiated}) async {
+    if (userInitiated) {
+      await _billing
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>()
+          .sync();
+    }
+    await _billing.restorePurchases();
+  }
+
+  @override
+  Future<String?> storefrontCountryCode() => _billing.countryCode();
 }
 
 PremiumStorePurchaseClient createPremiumStorePurchaseClient() {

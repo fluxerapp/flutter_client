@@ -20,9 +20,9 @@ class MessageReferenceResolution {
 }
 
 class MessageReferencesState {
-  const MessageReferencesState({
-    this.deletedKeys = const {},
-    this.cachedMessages = const {},
+  MessageReferencesState({
+    required this.deletedKeys,
+    required this.cachedMessages,
     this.version = 0,
   });
 
@@ -33,15 +33,11 @@ class MessageReferencesState {
   static String key(String channelId, String messageId) =>
       '$channelId:$messageId';
 
-  MessageReferencesState copyWith({
-    Set<String>? deletedKeys,
-    Map<String, Message>? cachedMessages,
-    int? version,
-  }) {
+  MessageReferencesState bumped() {
     return MessageReferencesState(
-      deletedKeys: deletedKeys ?? this.deletedKeys,
-      cachedMessages: cachedMessages ?? this.cachedMessages,
-      version: version ?? this.version,
+      deletedKeys: deletedKeys,
+      cachedMessages: cachedMessages,
+      version: version + 1,
     );
   }
 }
@@ -59,7 +55,10 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     ref
       ..watch(currentUserIdProvider)
       ..onDispose(_cancelRetries);
-    return const MessageReferencesState();
+    return MessageReferencesState(
+      deletedKeys: <String>{},
+      cachedMessages: <String, Message>{},
+    );
   }
 
   void _cancelRetries() {
@@ -74,20 +73,15 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
 
   void clearChannel(String channelId) {
     final prefix = '$channelId:';
-    final nextDeleted = state.deletedKeys
-        .where((key) => !key.startsWith(prefix))
-        .toSet();
-    final nextCached = Map<String, Message>.from(state.cachedMessages)
-      ..removeWhere((key, _) => key.startsWith(prefix));
-    if (nextDeleted.length == state.deletedKeys.length &&
-        nextCached.length == state.cachedMessages.length) {
+    final int deletedBefore = state.deletedKeys.length;
+    final int cachedBefore = state.cachedMessages.length;
+    state.deletedKeys.removeWhere((key) => key.startsWith(prefix));
+    state.cachedMessages.removeWhere((key, _) => key.startsWith(prefix));
+    if (state.deletedKeys.length == deletedBefore &&
+        state.cachedMessages.length == cachedBefore) {
       return;
     }
-    state = state.copyWith(
-      deletedKeys: nextDeleted,
-      cachedMessages: nextCached,
-      version: state.version + 1,
-    );
+    state = state.bumped();
   }
 
   void onMessagesLoaded({
@@ -96,22 +90,18 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     List<Message> embeddedReplyParents = const [],
   }) {
     var changed = false;
-    final nextCached = Map<String, Message>.from(state.cachedMessages);
     for (final parent in embeddedReplyParents) {
-      if (_cacheMessage(nextCached, parent.channelId, parent.id, parent)) {
+      if (_cacheMessage(parent.channelId, parent.id, parent)) {
         changed = true;
       }
     }
     final missing = _missingReferences(
       channelId: channelId,
       messages: messages,
-      cachedMessages: nextCached,
+      embedded: const <String, Message>{},
     );
     if (changed) {
-      state = state.copyWith(
-        cachedMessages: nextCached,
-        version: state.version + 1,
-      );
+      state = state.bumped();
     }
     if (missing.isNotEmpty) {
       _fetchMissingMessages(missing);
@@ -130,7 +120,7 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     final missing = _missingReferences(
       channelId: channelId,
       messages: messages,
-      cachedMessages: {...state.cachedMessages, ...embedded},
+      embedded: embedded,
     );
     final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
     final rows = await Future.wait(
@@ -143,36 +133,27 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
       return;
     }
     var changed = false;
-    final nextCached = Map<String, Message>.from(state.cachedMessages);
     for (final parent in embeddedReplyParents) {
-      if (_cacheMessage(nextCached, parent.channelId, parent.id, parent)) {
+      if (_cacheMessage(parent.channelId, parent.id, parent)) {
         changed = true;
       }
     }
     for (var i = 0; i < missing.length; i++) {
       final row = rows[i];
       if (row != null &&
-          _cacheMessage(
-            nextCached,
-            row.channelId,
-            row.id,
-            Message.fromRow(row),
-          )) {
+          _cacheMessage(row.channelId, row.id, Message.fromRow(row))) {
         changed = true;
       }
     }
     if (changed) {
-      state = state.copyWith(
-        cachedMessages: nextCached,
-        version: state.version + 1,
-      );
+      state = state.bumped();
     }
   }
 
   List<({String channelId, String messageId})> _missingReferences({
     required String channelId,
     required List<Message> messages,
-    required Map<String, Message> cachedMessages,
+    required Map<String, Message> embedded,
   }) {
     final missing = <({String channelId, String messageId})>[];
     for (final message in messages) {
@@ -192,7 +173,7 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
         refMessageId: refMessageId,
         channelId: channelId,
         channelMessages: messages,
-        cachedMessages: cachedMessages,
+        embedded: embedded,
       )) {
         continue;
       }
@@ -252,27 +233,30 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     required String channelId,
     required String messageId,
   }) {
-    final key = MessageReferencesState.key(channelId, messageId);
-    if (state.deletedKeys.contains(key) &&
-        !state.cachedMessages.containsKey(key)) {
-      return;
+    if (_recordDeleted(channelId, messageId)) {
+      state = state.bumped();
     }
-    final nextCached = Map<String, Message>.from(state.cachedMessages)
-      ..remove(key);
-    state = state.copyWith(
-      deletedKeys: {...state.deletedKeys, key},
-      cachedMessages: nextCached,
-      version: state.version + 1,
-    );
   }
 
   void onMessagesDeletedBulk({
     required String channelId,
     required Iterable<String> messageIds,
   }) {
+    var changed = false;
     for (final messageId in messageIds) {
-      onMessageDeleted(channelId: channelId, messageId: messageId);
+      if (_recordDeleted(channelId, messageId)) {
+        changed = true;
+      }
     }
+    if (changed) {
+      state = state.bumped();
+    }
+  }
+
+  bool _recordDeleted(String channelId, String messageId) {
+    final key = MessageReferencesState.key(channelId, messageId);
+    final bool wasCached = state.cachedMessages.remove(key) != null;
+    return state.deletedKeys.add(key) || wasCached;
   }
 
   MessageReferenceResolution resolveSync({
@@ -390,7 +374,7 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     required String refMessageId,
     required String channelId,
     required List<Message> channelMessages,
-    required Map<String, Message> cachedMessages,
+    required Map<String, Message> embedded,
   }) {
     if (_isDeleted(refChannelId, refMessageId)) {
       return true;
@@ -402,9 +386,8 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
         }
       }
     }
-    return cachedMessages.containsKey(
-      MessageReferencesState.key(refChannelId, refMessageId),
-    );
+    final key = MessageReferencesState.key(refChannelId, refMessageId);
+    return state.cachedMessages.containsKey(key) || embedded.containsKey(key);
   }
 
   bool _isDeleted(String channelId, String messageId) {
@@ -414,41 +397,26 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
   }
 
   void _markDeleted(String channelId, String messageId) {
-    final key = MessageReferencesState.key(channelId, messageId);
-    final nextCached = Map<String, Message>.from(state.cachedMessages)
-      ..remove(key);
-    state = state.copyWith(
-      deletedKeys: {...state.deletedKeys, key},
-      cachedMessages: nextCached,
-      version: state.version + 1,
-    );
+    _recordDeleted(channelId, messageId);
+    state = state.bumped();
   }
 
   void _setCachedMessage(Message message) {
-    final nextCached = Map<String, Message>.from(state.cachedMessages);
-    if (_cacheMessage(nextCached, message.channelId, message.id, message)) {
-      state = state.copyWith(
-        cachedMessages: nextCached,
-        version: state.version + 1,
-      );
+    if (_cacheMessage(message.channelId, message.id, message)) {
+      state = state.bumped();
     }
   }
 
-  bool _cacheMessage(
-    Map<String, Message> cache,
-    String channelId,
-    String messageId,
-    Message message,
-  ) {
+  bool _cacheMessage(String channelId, String messageId, Message message) {
     final key = MessageReferencesState.key(channelId, messageId);
     if (state.deletedKeys.contains(key)) {
       return false;
     }
-    final existing = cache[key];
+    final existing = state.cachedMessages[key];
     if (existing != null && _rendersSame(existing, message)) {
       return false;
     }
-    cache[key] = message;
+    state.cachedMessages[key] = message;
     return true;
   }
 

@@ -1,5 +1,6 @@
 import AVFAudio
 import CallKit
+import UIKit
 import WebRTC
 
 enum CallAudioSession {
@@ -39,7 +40,8 @@ final class CallProvider {
     config.maximumCallsPerCallGroup = 2
     config.supportedHandleTypes = [.generic]
     config.ringtoneSound = "incoming_ring.caf"
-    config.includesCallsInRecents = true
+    config.includesCallsInRecents = false
+    config.iconTemplateImageData = UIImage(named: "CallKitLogo")?.pngData()
     let provider = CXProvider(configuration: config)
     provider.setDelegate(delegate, queue: queue)
     self.provider = provider

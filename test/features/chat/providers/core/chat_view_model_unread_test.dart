@@ -4025,7 +4025,6 @@ void main() {
           'unread_gift_inventory_count': 0,
           'pending_bulk_message_deletion': null,
         }),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: <ChannelResponse>[
           ChannelResponse.fromJson(<String, Object?>{

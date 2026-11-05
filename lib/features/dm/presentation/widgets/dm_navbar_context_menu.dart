@@ -1,9 +1,8 @@
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
-    show isMobileLayout;
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum DmNavbarAction {
@@ -31,7 +30,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
   required bool isAllowlisted,
   required bool isGroupDm,
 }) async {
-  if (isMobileLayout(context)) {
+  if (!usesDesktopPointerUi(context)) {
     return _showBottomSheet(
       context,
       hasUnread: hasUnread,
@@ -52,6 +51,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
 
   return Navigator.of(context).push<DmNavbarAction>(
     _DmNavbarContextMenuRoute(
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
       hasUnread: hasUnread,
@@ -173,6 +173,7 @@ class _DmNavbarContextMenuRoute extends PopupRoute<DmNavbarAction> {
   final bool isGroupDm;
 
   _DmNavbarContextMenuRoute({
+    required this.barrierLabel,
     required this.position,
     required this.overlaySize,
     required this.hasUnread,
@@ -193,7 +194,7 @@ class _DmNavbarContextMenuRoute extends PopupRoute<DmNavbarAction> {
   Color? get barrierColor => Colors.transparent;
 
   @override
-  String? get barrierLabel => 'Dismiss';
+  final String barrierLabel;
 
   @override
   Widget buildPage(

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/gestures.dart' show Drag;
 import 'package:flutter/physics.dart' show Tolerance, nearEqual;
 import 'package:flutter/rendering.dart'
@@ -19,11 +21,13 @@ class FluxerSheetScrollController extends ScrollController {
   FluxerSheetScrollController(
     this.target, {
     this.dragsWhenShort = false,
+    this.drivesSheet = true,
     this.onContentExtent,
   });
 
   final FluxerSheetDragTarget target;
   final bool dragsWhenShort;
+  final bool drivesSheet;
   final FluxerSheetContentExtentCallback? onContentExtent;
 
   @override
@@ -40,6 +44,7 @@ class FluxerSheetScrollController extends ScrollController {
       context: context,
       oldPosition: oldPosition,
       target: target,
+      drivesSheet: drivesSheet,
       onContentExtent: onContentExtent,
     );
   }
@@ -67,6 +72,15 @@ class _FluxerSheetContentPhysics extends ScrollPhysics {
         position.maxScrollExtent > position.minScrollExtent ||
         position.pixels != position.minScrollExtent;
   }
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    final double min = position.minScrollExtent;
+    if (value < min && value < position.pixels) {
+      return value - math.min(min, position.pixels);
+    }
+    return super.applyBoundaryConditions(position, value);
+  }
 }
 
 enum _FluxerSheetDragOwner { none, content, sheet }
@@ -76,11 +90,13 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
     required super.physics,
     required super.context,
     required this.target,
+    required this.drivesSheet,
     required this.onContentExtent,
     super.oldPosition,
   });
 
   final FluxerSheetDragTarget target;
+  final bool drivesSheet;
   final FluxerSheetContentExtentCallback? onContentExtent;
   _FluxerSheetDragOwner _owner = _FluxerSheetDragOwner.none;
 
@@ -130,14 +146,15 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
   @override
   Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
     _owner = _FluxerSheetDragOwner.none;
-    if (pixels < minScrollExtent) {
-      jumpTo(minScrollExtent);
-    }
     return super.drag(details, dragCancelCallback);
   }
 
   @override
   void applyUserOffset(double delta) {
+    if (!drivesSheet) {
+      super.applyUserOffset(delta);
+      return;
+    }
     if (_owner == _FluxerSheetDragOwner.none) {
       final bool atTop = pixels <= minScrollExtent;
       _owner = atTop && (delta > 0 || target.canExpand)
@@ -167,28 +184,20 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
 
   @override
   void correctBy(double correction) {
-    if (hasContentDimensions && _clampsOverscroll(pixels + correction)) {
+    if (hasContentDimensions &&
+        _clampsTrailingOverscroll(pixels + correction)) {
       return;
     }
     super.correctBy(correction);
   }
 
-  bool _clampsOverscroll(double corrected) {
-    final bool clampsTrailing =
-        pixels > maxScrollExtent &&
+  bool _clampsTrailingOverscroll(double corrected) {
+    return pixels > maxScrollExtent &&
         nearEqual(
           corrected,
           maxScrollExtent,
           Tolerance.defaultTolerance.distance,
         );
-    final bool clampsLeading =
-        pixels < minScrollExtent &&
-        nearEqual(
-          corrected,
-          minScrollExtent,
-          Tolerance.defaultTolerance.distance,
-        );
-    return clampsTrailing || clampsLeading;
   }
 
   @override

@@ -1138,7 +1138,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final l10n = FluxerLocalizations.of(context);
     return labelOverride ??
         switch (category) {
-          'favorites' => 'Favorites',
+          'favorites' => l10n.favoritesTitle,
           'frequently-used' => l10n.emojiFrequentlyUsed,
           _ => _categoryLabel(category, l10n),
         };
@@ -1228,12 +1228,12 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   Widget _buildEmojiCell(EmojiEntry emoji, FluxerColorTheme colors) {
     final hasTone = widget.skinTone.isNotEmpty && emoji.hasDiversity;
     final usesHover = emojiPickerUsesHoverTracking(isMobile: widget.isMobile);
+    final String surrogates = hasTone
+        ? EmojiRegistry.resolveSkinToneSurrogates(emoji, widget.skinTone)
+        : emoji.surrogates;
     final sprite = hasTone
         ? SpriteEmoji(
-            emoji: EmojiRegistry.resolveSkinToneSurrogates(
-              emoji,
-              widget.skinTone,
-            ),
+            emoji: surrogates,
             index: emoji.spriteIndex,
             diversityIndex: emoji.diversityIndex,
             size: _unicodeEmojiSize,
@@ -1247,7 +1247,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
     if (!usesHover) {
       return _PressableEmojiCell(
-        semanticLabel: emoji.primaryName,
+        semanticLabel: surrogates,
         onTap: () => _onEmojiSelected(emoji),
         onLongPress: () => _showUnicodeEmojiActions(emoji),
         child: Center(child: sprite),
@@ -1255,7 +1255,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
 
     return _PressableEmojiCell(
-      semanticLabel: emoji.primaryName,
+      semanticLabel: surrogates,
       onTap: () => _onEmojiSelected(emoji),
       onLongPress: () => _showUnicodeEmojiActions(emoji),
       child: MouseRegion(
@@ -1387,7 +1387,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                 _CategoryButton(
                   key: _keyForCategoryButton('favorites'),
                   icon: PhosphorIconsFill.star,
-                  tooltip: 'Favorites',
+                  tooltip: l10n.favoritesTitle,
                   isActive: activeCategory == 'favorites',
                   onTap: () => _scrollToCategory('favorites'),
                 ),
@@ -1454,7 +1454,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                     if (data.favoriteItems.isNotEmpty)
                       ExpressionRailButton(
                         key: _keyForCategoryButton('favorites'),
-                        label: 'Favorites',
+                        label: l10n.favoritesTitle,
                         icon: PhosphorIconsFill.star,
                         isActive: activeCategory == 'favorites',
                         onTap: () => _scrollToCategory('favorites'),

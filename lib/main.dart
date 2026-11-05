@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_entrypoint.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
+import 'package:fluxer_app/core/bootstrap/touch_resampling_config.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/core/observability/reporting_consent/observability_re
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
@@ -33,6 +35,7 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/services/upload_keep_alive.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
+import 'package:fluxer_app/features/settings/utils/bundled_licenses.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -55,6 +58,39 @@ void _configureImagePicker() {
   }
 }
 
+Future<void> _bootstrapStep(String name, Future<void> Function() step) async {
+  try {
+    await FluxerObservability.instance.traceAsync(name, step);
+  } on Object catch (error, stack) {
+    FluxerObservability.instance.reportUncaughtError(
+      error,
+      stack,
+      library: 'bootstrap $name',
+    );
+  }
+}
+
+void _bootstrapChatAttachmentAudioAfterSplashReveal(
+  ProviderContainer container,
+) {
+  late final ProviderSubscription<bool> subscription;
+  subscription = container.listen<bool>(splashRevealCompleteProvider, (
+    bool? previous,
+    bool complete,
+  ) {
+    if (!complete) {
+      return;
+    }
+    subscription.close();
+    unawaited(
+      _bootstrapStep(
+        'app.bootstrap.chat_attachment_audio',
+        bootstrapChatAttachmentAudio,
+      ),
+    );
+  });
+}
+
 void _runFluxerApp(ProviderContainer container) {
   runApp(
     UncontrolledProviderScope(
@@ -66,8 +102,8 @@ void _runFluxerApp(ProviderContainer container) {
 
 Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerAppZoomBinding.ensureInitialized();
+  registerBundledLicenses();
   await trustBundledRootCertificates();
-  installAppForegroundSessionLifecycleBinding();
   unawaited(ApplePushService.installReplyHandler());
   assertPushProviderBuildConfig();
   if (Platform.isAndroid &&
@@ -88,79 +124,43 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   configureFluxerMobileDetection();
   configureFluxerImageCache();
   configureFluxerGpuResourceCache();
+  configureFluxerTouchResampling();
   configureFluxerErrorUi();
   FluxerObservability.instance.installGlobalErrorHandlers();
   if (AppBuildConfig.hasObservabilityConfig) {
-    await FluxerObservability.instance.prepare();
+    await _bootstrapStep(
+      'app.bootstrap.observability',
+      FluxerObservability.instance.prepare,
+    );
   }
 
   final ProviderContainer container = ProviderContainer();
-  await bootstrapAppForegroundSession();
-  await Future.wait<void>([
-    FluxerObservability.instance.traceAsync(
-      'app.bootstrap.chat_attachment_audio',
-      bootstrapChatAttachmentAudio,
-    ),
-    () async {
-      await Future.wait<void>([
-        container.read(observabilityReportingProvider.notifier).load(),
-        container.read(pushRelayConsentProvider.notifier).load(),
-        container.read(localSettingsProvider.notifier).load(),
-        loadMessageStickerAspectRatios(),
-      ]);
-      await loadObservabilityReportingPrompt(container);
-      await FluxerObservability.instance.traceAsync(
-        'app.bootstrap.fcm',
-        bootstrapFcmIfNeeded,
-      );
-    }(),
-    if (Platform.isIOS || Platform.isAndroid)
-      FluxerObservability.instance.traceAsync(
+  if (Platform.isIOS || Platform.isAndroid) {
+    unawaited(
+      _bootstrapStep(
         'app.bootstrap.app_media_audio_session',
         AppMediaAudioSession.instance.configure,
       ),
-  ]);
-  FluxerObservability.instance.traceSync(
-    'app.bootstrap.image_picker',
-    _configureImagePicker,
-  );
-
-  if (isFluxerDesktopOs) {
-    await FluxerObservability.instance.traceAsync(
-      'app.bootstrap.window',
-      () async {
-        await windowManager.ensureInitialized();
-
-        const windowOptions = WindowOptions(
-          size: Size(1280, 720),
-          minimumSize: Size(200, 200),
-          center: true,
-          titleBarStyle: TitleBarStyle.hidden,
-          title: 'Fluxer',
-        );
-
-        await windowManager.waitUntilReadyToShow(windowOptions);
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          unawaited(_showDesktopWindow());
-        });
-      },
     );
   }
-
-  if (PushProviderGuard.isUnifiedPush) {
-    FluxerObservability.instance.traceSync(
-      'app.bootstrap.unifiedpush_database',
-      () {
-        UnifiedPushService.instance.attachDatabase(
-          container.read(fluxerDatabaseProvider),
-        );
-      },
-    );
-  }
-
-  await FluxerObservability.instance.traceAsync(
-    'app.bootstrap.active_instance',
+  await Future.wait<void>([
     () async {
+      await _bootstrapStep(
+        'app.bootstrap.foreground_session',
+        bootstrapAppForegroundSession,
+      );
+      await _bootstrapStep('app.bootstrap.settings', () async {
+        await Future.wait<void>([
+          container.read(observabilityReportingProvider.notifier).load(),
+          container.read(pushRelayConsentProvider.notifier).load(),
+          container.read(localSettingsProvider.notifier).load(),
+          loadMessageStickerAspectRatios(),
+        ]);
+        await loadObservabilityReportingPrompt(container);
+      });
+      await _bootstrapStep('app.bootstrap.fcm', bootstrapFcmIfNeeded);
+    }(),
+    _bootstrapStep('app.bootstrap.active_instance', () async {
       final authRepository = container.read(authRepositoryProvider);
       await authRepository.migrateLegacyInstanceEndpoints();
       await container
@@ -168,9 +168,40 @@ Future<void> _bootstrapFluxer(List<String> args) async {
           .restorePersistedSnapshot(
             authRepository.resolveActiveInstanceSnapshot(),
           );
-    },
-  );
+    }),
+  ]);
+  await _bootstrapStep('app.bootstrap.image_picker', () async {
+    _configureImagePicker();
+  });
 
+  if (isFluxerDesktopOs) {
+    await _bootstrapStep('app.bootstrap.window', () async {
+      await windowManager.ensureInitialized();
+
+      const windowOptions = WindowOptions(
+        size: Size(1280, 720),
+        minimumSize: Size(200, 200),
+        center: true,
+        titleBarStyle: TitleBarStyle.hidden,
+        title: 'Fluxer',
+      );
+
+      await windowManager.waitUntilReadyToShow(windowOptions);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_showDesktopWindow());
+      });
+    });
+  }
+
+  if (PushProviderGuard.isUnifiedPush) {
+    await _bootstrapStep('app.bootstrap.unifiedpush_database', () async {
+      UnifiedPushService.instance.attachDatabase(
+        container.read(fluxerDatabaseProvider),
+      );
+    });
+  }
+
+  _bootstrapChatAttachmentAudioAfterSplashReveal(container);
   unawaited(
     FluxerObservability.instance.traceAsync('app.startup.provider', () async {
       try {

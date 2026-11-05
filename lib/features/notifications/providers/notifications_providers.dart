@@ -155,7 +155,8 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
   final StreamController<List<UnreadInboxEntry>> controller =
       StreamController<List<UnreadInboxEntry>>();
   List<UnreadInboxEntry>? snapshot;
-  var reloadGeneration = 0;
+  var reloading = false;
+  var reloadPending = false;
   var closed = false;
 
   Future<void> emitSnapshot(
@@ -186,17 +187,31 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
   }
 
   Future<void> reload() async {
-    final int generation = ++reloadGeneration;
-    final Map<String, bool> collapsed = await _collapsedInboxRows(db);
-    final List<UnreadInboxEntry> entries = await UnreadInboxCalculator.compute(
-      db,
-      collapsedByChannelId: collapsed,
-      currentUserId: currentUserId,
-    );
-    if (generation != reloadGeneration || closed) {
+    if (reloading) {
+      reloadPending = true;
       return;
     }
-    await emitSnapshot(entries, collapsed);
+    reloading = true;
+    try {
+      do {
+        reloadPending = false;
+        final Map<String, bool> collapsed = await _collapsedInboxRows(db);
+        final List<UnreadInboxEntry> entries =
+            await UnreadInboxCalculator.compute(
+              db,
+              collapsedByChannelId: collapsed,
+              currentUserId: currentUserId,
+            );
+        if (closed) {
+          return;
+        }
+        if (!reloadPending) {
+          await emitSnapshot(entries, collapsed);
+        }
+      } while (reloadPending && !closed);
+    } finally {
+      reloading = false;
+    }
   }
 
   final StreamSubscription<void> sub = tick.listen((_) {

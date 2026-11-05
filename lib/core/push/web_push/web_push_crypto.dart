@@ -103,9 +103,12 @@ Future<Uint8List> encryptWebPushRecord({
 Future<String?> decryptWebPushRecord({
   required Uint8List record,
   required Uint8List privateKey,
+  required Uint8List publicKey,
   required Uint8List authSecret,
 }) async {
   if (privateKey.length != 32 ||
+      publicKey.length != kWebPushPublicKeyLength ||
+      publicKey[0] != 0x04 ||
       authSecret.length != kWebPushAuthSecretLength) {
     return null;
   }
@@ -143,12 +146,11 @@ Future<String?> decryptWebPushRecord({
       privateKey: privateKey,
       remotePublicKey: ephemeralPublicKey,
     );
-    final Uint8List recipientPublicKey = _publicFromPrivate(privateKey);
     final _ContentKey contentKey = await _deriveContentKey(
       sharedSecret: shared,
       authSecret: authSecret,
       salt: salt,
-      recipientPublicKey: recipientPublicKey,
+      recipientPublicKey: publicKey,
       ephemeralPublicKey: ephemeralPublicKey,
     );
     final List<int> clear = await AesGcm.with128bits().decrypt(
@@ -191,14 +193,6 @@ Uint8List _sharedSecret({
     agreement.calculateAgreement(ECPublicKey(point, _p256)),
     32,
   );
-}
-
-Uint8List _publicFromPrivate(Uint8List privateKey) {
-  final ECPoint? point = _p256.G * _bigInt(privateKey);
-  if (point == null) {
-    throw StateError('invalid P-256 scalar');
-  }
-  return point.getEncoded(false);
 }
 
 Future<_ContentKey> _deriveContentKey({

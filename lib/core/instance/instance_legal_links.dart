@@ -1,9 +1,55 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+
+enum InstanceLegalLinksPresence { both, terms, privacy }
+
+InstanceLegalLinksPresence? instanceLegalLinksPresence({
+  required String? termsUrl,
+  required String? privacyUrl,
+}) {
+  if (termsUrl != null && privacyUrl != null) {
+    return InstanceLegalLinksPresence.both;
+  }
+  if (termsUrl != null) {
+    return InstanceLegalLinksPresence.terms;
+  }
+  if (privacyUrl != null) {
+    return InstanceLegalLinksPresence.privacy;
+  }
+  return null;
+}
+
+final RegExp _legalLinkTag = RegExp(r'<(terms|privacy)>(.*?)</\1>');
+
+List<InlineSpan> instanceLegalLinkSpans(
+  String message, {
+  required InlineSpan Function(String label) terms,
+  required InlineSpan Function(String label) privacy,
+}) {
+  final List<InlineSpan> spans = <InlineSpan>[];
+  int start = 0;
+  for (final RegExpMatch match in _legalLinkTag.allMatches(message)) {
+    if (match.start > start) {
+      spans.add(TextSpan(text: message.substring(start, match.start)));
+    }
+    final String label = match.group(2)!;
+    spans.add(match.group(1) == 'terms' ? terms(label) : privacy(label));
+    start = match.end;
+  }
+  if (start < message.length) {
+    spans.add(TextSpan(text: message.substring(start)));
+  }
+  return spans;
+}
 
 class InstanceLegalLinks extends ConsumerWidget {
   const InstanceLegalLinks({
@@ -19,17 +65,19 @@ class InstanceLegalLinks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? termsUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.termsUrl),
+    final InstanceConfigSnapshot instance = ref.watch(
+      refreshedActiveInstanceProvider,
     );
-    final String? privacyUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.privacyUrl),
+    final String? termsUrl = instance.termsUrl;
+    final String? privacyUrl = instance.privacyUrl;
+    final InstanceLegalLinksPresence? presence = instanceLegalLinksPresence(
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
     );
-    if (termsUrl == null && privacyUrl == null) {
+    if (presence == null) {
       return const SizedBox.shrink();
     }
 
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted =
         baseStyle ??
         context.textStyles.timestamp.copyWith(
@@ -38,18 +86,14 @@ class InstanceLegalLinks extends ConsumerWidget {
     final TextStyle links =
         linkStyle ?? muted.copyWith(color: context.colors.textLink);
 
-    return Text.rich(
-      TextSpan(
-        style: muted,
-        children: _legalLinkSpans(
-          l10n: l10n,
-          termsUrl: termsUrl,
-          privacyUrl: privacyUrl,
-          linkStyle: links,
-          termsLabel: l10n.premiumTermsOfService,
-          privacyLabel: l10n.premiumPrivacyPolicy,
-        ),
-      ),
+    return _LegalLinksText(
+      message: FluxerLocalizations.of(
+        context,
+      ).instanceLegalLinksList(presence.name),
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
+      baseStyle: muted,
+      linkStyle: links,
       textAlign: textAlign,
     );
   }
@@ -57,31 +101,39 @@ class InstanceLegalLinks extends ConsumerWidget {
 
 class InstanceLegalAgreementText extends ConsumerWidget {
   const InstanceLegalAgreementText({
-    required this.prefix,
+    required this.message,
     this.textAlign = TextAlign.center,
     this.baseStyle,
     this.linkStyle,
+    this.forSignIn = false,
+    this.padding = EdgeInsets.zero,
     super.key,
   });
 
-  final String prefix;
+  final String Function(String links) message;
   final TextAlign textAlign;
   final TextStyle? baseStyle;
   final TextStyle? linkStyle;
+  final bool forSignIn;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? termsUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.termsUrl),
+    final InstanceConfigSnapshot instance = ref.watch(
+      forSignIn
+          ? authInstanceLegalSnapshotProvider
+          : refreshedActiveInstanceProvider,
     );
-    final String? privacyUrl = ref.watch(
-      activeInstanceProvider.select((instance) => instance.privacyUrl),
+    final String? termsUrl = instance.termsUrl;
+    final String? privacyUrl = instance.privacyUrl;
+    final InstanceLegalLinksPresence? presence = instanceLegalLinksPresence(
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
     );
-    if (termsUrl == null && privacyUrl == null) {
+    if (presence == null) {
       return const SizedBox.shrink();
     }
 
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted =
         baseStyle ??
         context.textStyles.timestamp.copyWith(
@@ -92,61 +144,81 @@ class InstanceLegalAgreementText extends ConsumerWidget {
     final TextStyle links =
         linkStyle ?? muted.copyWith(color: context.colors.textLink);
 
-    return Text.rich(
-      TextSpan(
-        style: muted,
-        children: [
-          TextSpan(text: prefix),
-          ..._legalLinkSpans(
-            l10n: l10n,
-            termsUrl: termsUrl,
-            privacyUrl: privacyUrl,
-            linkStyle: links,
-            termsLabel: l10n.premiumTermsOfService,
-            privacyLabel: l10n.premiumPrivacyPolicy,
-          ),
-          const TextSpan(text: '.'),
-        ],
-      ),
+    final Widget text = _LegalLinksText(
+      message: message(presence.name),
+      termsUrl: termsUrl,
+      privacyUrl: privacyUrl,
+      baseStyle: muted,
+      linkStyle: links,
       textAlign: textAlign,
     );
+    return padding == EdgeInsets.zero
+        ? text
+        : Padding(padding: padding, child: text);
   }
 }
 
-List<InlineSpan> _legalLinkSpans({
-  required FluxerLocalizations l10n,
-  required String? termsUrl,
-  required String? privacyUrl,
-  required TextStyle linkStyle,
-  required String termsLabel,
-  required String privacyLabel,
-}) {
-  return [
-    if (termsUrl != null)
-      WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
-        child: MediaQuery.withNoTextScaling(
-          child: FluxerTextLink(
-            text: termsLabel,
-            url: termsUrl,
-            style: linkStyle,
-          ),
+class _LegalLinksText extends StatefulWidget {
+  const _LegalLinksText({
+    required this.message,
+    required this.termsUrl,
+    required this.privacyUrl,
+    required this.baseStyle,
+    required this.linkStyle,
+    required this.textAlign,
+  });
+
+  final String message;
+  final String? termsUrl;
+  final String? privacyUrl;
+  final TextStyle baseStyle;
+  final TextStyle linkStyle;
+  final TextAlign textAlign;
+
+  @override
+  State<_LegalLinksText> createState() => _LegalLinksTextState();
+}
+
+class _LegalLinksTextState extends State<_LegalLinksText> {
+  late final TapGestureRecognizer _termsRecognizer = TapGestureRecognizer()
+    ..onTap = () => _open(widget.termsUrl);
+  late final TapGestureRecognizer _privacyRecognizer = TapGestureRecognizer()
+    ..onTap = () => _open(widget.privacyUrl);
+
+  void _open(String? url) {
+    if (url != null) {
+      unawaited(handleExternalLinkTap(context, url));
+    }
+  }
+
+  @override
+  void dispose() {
+    _termsRecognizer.dispose();
+    _privacyRecognizer.dispose();
+    super.dispose();
+  }
+
+  TextSpan _link(String label, TapGestureRecognizer recognizer) {
+    return TextSpan(
+      text: label,
+      style: widget.linkStyle,
+      recognizer: recognizer,
+      mouseCursor: SystemMouseCursors.click,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        style: widget.baseStyle,
+        children: instanceLegalLinkSpans(
+          widget.message,
+          terms: (String label) => _link(label, _termsRecognizer),
+          privacy: (String label) => _link(label, _privacyRecognizer),
         ),
       ),
-    if (termsUrl != null && privacyUrl != null)
-      TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
-    if (privacyUrl != null)
-      WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
-        child: MediaQuery.withNoTextScaling(
-          child: FluxerTextLink(
-            text: privacyLabel,
-            url: privacyUrl,
-            style: linkStyle,
-          ),
-        ),
-      ),
-  ];
+      textAlign: widget.textAlign,
+    );
+  }
 }

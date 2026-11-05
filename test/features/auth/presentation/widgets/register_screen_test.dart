@@ -1,3 +1,4 @@
+import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoDatePicker;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
@@ -7,6 +8,7 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/domain/registration_result.dart';
@@ -44,19 +46,35 @@ const RegistrationDraft _unconsentedDraft = RegistrationDraft(
 );
 
 void main() {
-  testWidgets('omits the consent row when the instance has no legal URLs', (
+  testWidgets('shows the built-in rules when the instance has no legal URLs', (
     tester,
   ) async {
     final ProviderContainer container = _containerFor(
       _snapshot(selfHosted: true),
     );
+    container
+        .read(registrationDraftProvider.notifier)
+        .update(_unconsentedDraft);
 
     await tester.pumpWidget(_app(container));
     await tester.pumpAndSettle();
 
-    expect(find.byType(FluxerCheckbox), findsNothing);
-    expect(find.text(testL10n.registerConsentTerms), findsNothing);
-    expect(find.text(testL10n.registerConsentPrivacy), findsNothing);
+    expect(find.byType(FluxerCheckbox), findsOneWidget);
+    expect(find.text(testL10n.registerConsentBuiltInRules), findsOneWidget);
+    expect(
+      tester
+          .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
+          .where((FluxerTextLink link) => link.url != null),
+      isEmpty,
+    );
+    expect(_submitButton(tester).onPressed, isNull);
+
+    await tester.ensureVisible(find.byType(FluxerCheckbox));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(FluxerCheckbox));
+    await tester.pumpAndSettle();
+
+    expect(_submitButton(tester).onPressed, isNotNull);
   });
 
   testWidgets('links the instance legal documents when they are published', (
@@ -117,8 +135,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(FluxerCheckbox), findsOneWidget);
-    expect(find.text(testL10n.registerConsentTerms), findsOneWidget);
-    expect(find.text(testL10n.registerConsentPrivacy), findsNothing);
+    expect(
+      tester
+          .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
+          .map((FluxerTextLink link) => link.url)
+          .nonNulls,
+      <String>['https://self.example/terms'],
+    );
   });
 
   testWidgets('blocks submit with a notice when registration is closed', (
@@ -215,6 +238,49 @@ void main() {
     expect(find.text(testL10n.registerDateOfBirth), findsNothing);
     expect(_submitButton(tester).onPressed, isNotNull);
   });
+
+  testWidgets('iOS date of birth wheel starts today and leaves it unset', (
+    tester,
+  ) async {
+    final ProviderContainer container = _containerFor(
+      _snapshot(selfHosted: true),
+    );
+
+    await tester.pumpWidget(_app(container));
+    await tester.pumpAndSettle();
+
+    final Finder field = find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is Semantics &&
+          (widget.properties.button ?? false) &&
+          widget.properties.label == testL10n.registerDateOfBirth,
+    );
+    expect(
+      tester.getSemantics(field),
+      isSemantics(
+        label: testL10n.registerDateOfBirth,
+        value: testL10n.registerDateOfBirthNotSet,
+        isButton: true,
+      ),
+    );
+
+    await tester.tap(field);
+    await tester.pumpAndSettle();
+    final CupertinoDatePicker picker = tester.widget(
+      find.byType(CupertinoDatePicker),
+    );
+    final DateTime now = DateTime.now();
+    expect(picker.initialDateTime.year, now.year);
+    expect(picker.initialDateTime.month, now.month);
+    expect(picker.initialDateTime.day, now.day);
+
+    await tester.tap(find.text(testL10n.registerDateOfBirthDone));
+    await tester.pumpAndSettle();
+    expect(
+      tester.getSemantics(field),
+      isSemantics(value: testL10n.registerDateOfBirthNotSet),
+    );
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets('shows the pending notice after an approval-mode signup', (
     tester,
@@ -319,6 +385,7 @@ class _PendingApprovalAuthRepository implements AuthRepository {
   Future<RegistrationResult> register({
     required String? email,
     required String password,
+    required FluxerThemeMode theme,
     String? dateOfBirth,
     String? username,
     String? displayName,

@@ -34,9 +34,8 @@ bool resolvePremiumStorePurchasesEnabled({
   required PushProviderKind pushProvider,
   required bool officialInstance,
   required AppStoreDistribution appStoreDistribution,
-  required bool sandboxPurchases,
-  required bool iosStableBuild,
-  required bool iosBetaOrCanaryBuild,
+  required bool stableBuild,
+  required bool developerPurchases,
 }) {
   if (!officialInstance) {
     return false;
@@ -45,14 +44,11 @@ bool resolvePremiumStorePurchasesEnabled({
     return pushProvider == PushProviderKind.firebaseMessaging;
   }
   if (isIOS) {
-    if (iosBetaOrCanaryBuild) {
-      return false;
-    }
     return pushProvider == PushProviderKind.apple &&
         resolveAppStorePurchaseDistribution(
           distribution: appStoreDistribution,
-          sandboxPurchases: sandboxPurchases,
-          iosStableBuild: iosStableBuild,
+          stableBuild: stableBuild,
+          developerPurchases: developerPurchases,
         );
   }
   return false;
@@ -60,13 +56,14 @@ bool resolvePremiumStorePurchasesEnabled({
 
 bool resolveAppStorePurchaseDistribution({
   required AppStoreDistribution distribution,
-  required bool sandboxPurchases,
-  required bool iosStableBuild,
+  required bool stableBuild,
+  required bool developerPurchases,
 }) {
   return switch (distribution) {
-    AppStoreDistribution.production => true,
-    AppStoreDistribution.testflight => iosStableBuild || sandboxPurchases,
-    AppStoreDistribution.development || AppStoreDistribution.unknown => false,
+    AppStoreDistribution.production ||
+    AppStoreDistribution.testflight ||
+    AppStoreDistribution.unknown => stableBuild || developerPurchases,
+    AppStoreDistribution.development => developerPurchases,
   };
 }
 
@@ -112,8 +109,8 @@ final premiumStorePurchasesEnabledProvider = Provider<bool>((Ref ref) {
         ? ref.watch(appStoreDistributionProvider).value ??
               AppStoreDistribution.unknown
         : AppStoreDistribution.unknown,
-    sandboxPurchases: appStore && !iosStableBuild && developerSandboxPurchases,
-    iosStableBuild: iosStableBuild,
-    iosBetaOrCanaryBuild: AppBuildConfig.isBeta || AppBuildConfig.isCanary,
+    stableBuild: iosStableBuild,
+    developerPurchases:
+        appStore && !iosStableBuild && developerSandboxPurchases,
   );
 });

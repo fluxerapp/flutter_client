@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/account_closure_notice_alert.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/forgot_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
@@ -10,16 +12,16 @@ import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.da
 import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/suspended_account_screen.dart';
+import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class AuthFlowContent extends ConsumerWidget {
-  const AuthFlowContent({this.heading, this.subheading, super.key});
+  const AuthFlowContent({this.heading, super.key});
 
   final String? heading;
-  final String? subheading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,14 +71,30 @@ class AuthFlowContent extends ConsumerWidget {
       );
     }
 
-    if (vm.banViewInfo != null) {
-      return SuspendedAccountScreen(onBack: notifier.clearBanView);
+    if (vm.accountRestricted) {
+      return SuspendedAccountScreen(
+        notice: vm.enforcementNotice,
+        onBack: notifier.clearAccountRestriction,
+      );
     }
 
-    if (ref.watch(isAuthInstanceSsoEnforcedProvider)) {
-      return const SsoLoginPanel();
+    final AccountClosureNotice? closure = ref.watch(
+      pendingAccountClosureNoticeProvider,
+    );
+    final Widget form = ref.watch(isAuthInstanceSsoEnforcedProvider)
+        ? const SsoLoginPanel()
+        : LoginForm(heading: heading);
+    if (closure == null) {
+      return form;
     }
-
-    return LoginForm(heading: heading, subheading: subheading);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AccountClosureNoticeAlert(notice: closure),
+        SizedBox(height: context.layout.s6),
+        form,
+      ],
+    );
   }
 }

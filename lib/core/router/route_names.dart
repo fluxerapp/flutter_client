@@ -51,6 +51,8 @@ abstract final class RouteNames {
 // ignore: avoid_classes_with_only_static_members
 abstract final class RoutePaths {
   static const me = '/channels/@me';
+  static const meFriendsQuery = 'friends';
+  static const meFriends = '$me?$meFriendsQuery=1';
   static String dmChannel(String channelId) => '/channels/@me/$channelId';
   static String dmChannelCall(String channelId) =>
       '/channels/@me/$channelId/call';

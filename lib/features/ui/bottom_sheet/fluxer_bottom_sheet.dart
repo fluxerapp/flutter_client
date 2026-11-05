@@ -6,12 +6,15 @@ import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/foldable/crease_overlay_layout.dart';
+import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_constants.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
@@ -20,7 +23,10 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+part 'fluxer_bottom_sheet_desktop.dart';
 
 typedef FluxerBottomSheetBuilder =
     Widget Function(BuildContext context, VoidCallback close);
@@ -116,7 +122,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
       to: navigator.context,
     ),
     isScrollControlled: true,
-    barrierLabel: localizations.scrimLabel,
+    barrierLabel: localizations.modalBarrierDismissLabel,
     barrierOnTapHint: localizations.scrimOnTapHint(
       localizations.bottomSheetLabel,
     ),
@@ -135,6 +141,9 @@ Future<T?> _pushFluxerSheetRoute<T>(
 final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
     Expando<FluxerSheetRoute<dynamic>>();
 
+final Expando<FluxerDesktopRoute<dynamic>> _lastDesktopByNavigator =
+    Expando<FluxerDesktopRoute<dynamic>>();
+
 void closeFluxerSheetOpenedFrom(
   BuildContext context, {
   bool? useRootNavigator,
@@ -143,10 +152,20 @@ void closeFluxerSheetOpenedFrom(
     context,
     rootNavigator: _resolveSheetRootNavigator(context, useRootNavigator),
   );
-  final FluxerSheetRoute<dynamic>? last = navigator == null
-      ? null
-      : _lastSheetByNavigator[navigator];
-  if (last == null || !identical(last.origin, ModalRoute.of(context))) {
+  if (navigator == null) {
+    return;
+  }
+  final Route<dynamic>? origin = ModalRoute.of(context);
+  final FluxerDesktopRoute<dynamic>? desktop =
+      _lastDesktopByNavigator[navigator];
+  if (desktop != null &&
+      desktop.isActive &&
+      identical(desktop.origin, origin)) {
+    navigator.removeRoute(desktop);
+    return;
+  }
+  final FluxerSheetRoute<dynamic>? last = _lastSheetByNavigator[navigator];
+  if (last == null || !identical(last.origin, origin)) {
     return;
   }
   last.closeSelf();
@@ -204,6 +223,9 @@ class FluxerBottomSheet {
     BuildContext context, {
     EdgeInsetsGeometry? padding,
   }) {
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return EdgeInsets.zero;
+    }
     final EdgeInsets resolved =
         padding?.resolve(Directionality.of(context)) ?? EdgeInsets.zero;
     final double bottom = scrollBottomPaddingOf(context);
@@ -273,12 +295,49 @@ class FluxerBottomSheet {
     bool manageKeyboardInset = true,
     bool bottomGap = true,
     Color? barrierColor,
+    FluxerDesktopPresentation desktop = const FluxerDesktopPresentation(),
   }) {
     final layout = context.layout;
     final bool rootNavigator = _resolveSheetRootNavigator(
       context,
       useRootNavigator,
     );
+
+    if (usesDesktopPointerUi(context)) {
+      return _showWithOverlayTracking<T>(
+        context,
+        () => _showFluxerDesktopSheet<T>(
+          context,
+          surface:
+              desktop.surface ??
+              (variant == FluxerBottomSheetVariant.menu
+                  ? FluxerDesktopSurface.menu
+                  : FluxerDesktopSurface.modal),
+          presentation: desktop,
+          useRootNavigator: rootNavigator,
+          isDismissible: isDismissible,
+          barrierColor: barrierColor,
+          canDismissNotifier: canDismissNotifier,
+          onBack: onBack,
+          maxHeight: maxHeight,
+          buildHeader: (BuildContext headerContext) => _buildDesktopHeader(
+            headerContext,
+            title: title,
+            subtitle: subtitle,
+            leading: leading,
+            trailing: trailing,
+            onBack: onBack,
+            isDismissible: isDismissible,
+          ),
+          buildBody: (BuildContext sheetContext) => Flexible(
+            child: Builder(
+              builder: (BuildContext scopedContext) =>
+                  builder(scopedContext, () => _closeSheet(sheetContext)),
+            ),
+          ),
+        ),
+      );
+    }
 
     return _showWithOverlayTracking<T>(
       context,
@@ -401,7 +460,51 @@ class FluxerBottomSheet {
     double? sheetHeight,
     AnimationStyle? animationStyle,
     Color? barrierColor,
+    FluxerDesktopPresentation desktop = const FluxerDesktopPresentation(),
   }) {
+    if (usesDesktopPointerUi(context)) {
+      final bool rootNavigator = _resolveSheetRootNavigator(
+        context,
+        useRootNavigator,
+      );
+      return _showWithOverlayTracking<T>(
+        context,
+        () => _showFluxerDesktopSheet<T>(
+          context,
+          surface: desktop.surface ?? FluxerDesktopSurface.modal,
+          presentation: desktop,
+          defaultModalWidth: _kDesktopModalMediumWidth,
+          useRootNavigator: rootNavigator,
+          isDismissible: isDismissible,
+          barrierColor: barrierColor,
+          canDismissNotifier: canDismissNotifier,
+          onBack: onBack,
+          buildHeader: (_) => null,
+          buildBody: (BuildContext sheetContext) =>
+              _FluxerDesktopScrollableBody(
+                maxHeight: sheetHeight,
+                heightFactor: maxHeight,
+                header: (BuildContext headerContext) => _buildDesktopHeader(
+                  headerContext,
+                  title: title,
+                  subtitle: subtitle,
+                  leading: leading,
+                  trailing: trailing,
+                  onBack: onBack,
+                  isDismissible: isDismissible,
+                ),
+                builder:
+                    (BuildContext scopedContext, ScrollController scroll) =>
+                        builder(
+                          scopedContext,
+                          scroll,
+                          () => _closeSheet(sheetContext),
+                        ),
+              ),
+        ),
+      );
+    }
+
     final layout = context.layout;
     final bool cardBackdrop = sheetHeight == null;
     final double effectiveMaxChildSize = sheetHeight != null
@@ -1538,10 +1641,14 @@ class FluxerBottomSheetHeader extends StatelessWidget {
         ? leading
         : null;
 
-    final bool alignStart = effectiveLeading != null || trailing != null;
+    final bool inMenu = FluxerDesktopSurfaceScope.isMenu(context);
+    final bool alignStart =
+        inMenu || effectiveLeading != null || trailing != null;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
+      padding: inMenu
+          ? const EdgeInsets.fromLTRB(8, 4, 8, 6)
+          : EdgeInsets.symmetric(horizontal: layout.pageGutter),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -1560,9 +1667,14 @@ class FluxerBottomSheetHeader extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: context.textStyles.channelName.copyWith(
-                        color: colors.textPrimary,
-                      ),
+                      style: inMenu
+                          ? fluxerDesktopMenuLabelStyle(context).copyWith(
+                              color: colors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                            )
+                          : context.textStyles.channelName.copyWith(
+                              color: colors.textPrimary,
+                            ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: alignStart
@@ -1651,6 +1763,17 @@ class FluxerBottomSheetSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
+
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (title != null) FluxerDesktopMenuGroupLabel(label: title!),
+          child,
+        ],
+      );
+    }
 
     return Padding(
       padding: padding ?? EdgeInsets.symmetric(horizontal: layout.pageGutter),
@@ -1754,7 +1877,7 @@ class FluxerMenuGroup extends StatelessWidget {
 
     final layout = context.layout;
 
-    if (roundedRows) {
+    if (roundedRows || FluxerDesktopSurfaceScope.isMenu(context)) {
       return _FluxerMenuGroupScope(
         child: Column(mainAxisSize: MainAxisSize.min, children: children),
       );
@@ -1844,6 +1967,10 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
     final baseColor =
         labelColor ?? (isDanger ? colors.menuDangerText : colors.textPrimary);
 
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return _buildDesktopRow(context, baseColor);
+    }
+
     return FluxerTappable(
       enabled: enabled,
       onTap: onTap,
@@ -1900,7 +2027,11 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
           decoration: rowDecoration,
           color: dense
               ? null
-              : (isPressed ? colors.listItemPressedBg : Colors.transparent),
+              : (isPressed
+                    ? colors.listItemPressedBg
+                    : isHovered
+                    ? colors.backgroundModifierHover
+                    : Colors.transparent),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: rowMinHeight),
             child: Padding(
@@ -1958,6 +2089,28 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
       },
     );
   }
+
+  Widget _buildDesktopRow(BuildContext context, Color baseColor) {
+    final Widget? iconWidget = icon == null
+        ? null
+        : PhosphorIcon(
+            icon!,
+            color: iconColor ?? baseColor,
+            size: kFluxerDesktopMenuIconSize,
+          );
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onTap,
+      isDanger: isDanger,
+      enabled: enabled,
+      selected: isSelected,
+      toggled: toggled,
+      labelColor: labelColor,
+      leading: leading ?? iconWidget,
+      trailing: trailing ?? (isSelected ? const FluxerSelectedCheck() : null),
+    );
+  }
 }
 
 class FluxerBottomSheetSubmenuItem extends StatelessWidget {
@@ -1984,11 +2137,17 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
       icon: icon,
       leading: leading,
       onTap: onTap,
-      trailing: PhosphorIcon(
-        PhosphorIconsBold.caretRight,
-        size: 16,
-        color: context.colors.textSecondary,
-      ),
+      trailing: FluxerDesktopSurfaceScope.isMenu(context)
+          ? PhosphorIcon(
+              PhosphorIconsBold.caretRight,
+              size: kFluxerDesktopMenuCaretSize,
+              color: context.colors.textTertiary,
+            )
+          : PhosphorIcon(
+              PhosphorIconsBold.caretRight,
+              size: 16,
+              color: context.colors.textSecondary,
+            ),
     );
   }
 }
@@ -2013,6 +2172,17 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
 
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return FluxerDesktopMenuRow(
+        label: label,
+        hint: hint,
+        onTap: onTap,
+        enabled: enabled,
+        selected: isSelected,
+        trailing: FluxerRadioIndicator(selected: isSelected),
+      );
+    }
+
     return FluxerTappable(
       enabled: enabled,
       onTap: onTap,
@@ -2020,11 +2190,16 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
       excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) {
         final bool isPressed = states.contains(WidgetState.pressed);
+        final bool isHovered = states.contains(WidgetState.hovered);
 
         return AnimatedContainer(
           duration: context.motion.fast,
           curve: context.motion.curve,
-          color: isPressed ? colors.listItemPressedBg : Colors.transparent,
+          color: isPressed
+              ? colors.listItemPressedBg
+              : isHovered
+              ? colors.backgroundModifierHover
+              : Colors.transparent,
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
@@ -2076,12 +2251,19 @@ class FluxerBottomSheetGroupColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool inMenu = FluxerDesktopSurfaceScope.isMenu(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: inMenu
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.center,
       children: [
         for (var i = 0; i < children.length; i++) ...[
           children[i],
-          if (i < children.length - 1) const SizedBox(height: 16),
+          if (i < children.length - 1 && inMenu)
+            const FluxerDesktopMenuSeparator()
+          else if (i < children.length - 1)
+            const SizedBox(height: 16),
         ],
       ],
     );
@@ -2104,14 +2286,26 @@ class FluxerBottomSheetCheckboxItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    if (FluxerDesktopSurfaceScope.isMenu(context)) {
+      return FluxerDesktopMenuRow(
+        label: label,
+        onTap: onTap,
+        checked: isChecked,
+        trailing: _FluxerDesktopCheckbox(isChecked: isChecked),
+      );
+    }
+
     return FluxerTappable(
       onTap: onTap,
       semanticLabel: label,
       checked: isChecked,
       excludeChildSemantics: true,
       builder: (context, states) {
-        return ConstrainedBox(
+        return Container(
           constraints: const BoxConstraints(minHeight: 56),
+          color: states.contains(WidgetState.hovered)
+              ? colors.backgroundModifierHover
+              : Colors.transparent,
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: context.layout.groupRowInset,

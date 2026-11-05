@@ -47,6 +47,7 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
   late final VoiceTrackRendererCache<RTCVideoRenderer> _cache;
   _RendererHold? _hold;
   RTCVideoRenderer? _renderer;
+  VideoTrackRenderer? _built;
 
   @override
   void initState() {
@@ -108,6 +109,7 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
     final _RendererHold? hold = _hold;
     _hold = null;
     _renderer = null;
+    _built = null;
     if (hold == null || hold.released) {
       return;
     }
@@ -122,7 +124,15 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
     if (renderer == null || hold == null) {
       return const SizedBox.shrink();
     }
-    return VideoTrackRenderer(
+    final VideoTrackRenderer? built = _built;
+    if (built != null &&
+        identical(built.track, widget.track) &&
+        identical(built.cachedRenderer, renderer) &&
+        built.fit == widget.fit &&
+        built.mirrorMode == widget.mirrorMode) {
+      return built;
+    }
+    return _built = VideoTrackRenderer(
       widget.track,
       key: ValueKey<String>(hold.key),
       fit: widget.fit,

@@ -20,7 +20,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: guildContext,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: emptyAgreements,
         allowInAppConsent: false,
       ),
@@ -34,7 +34,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: guildContext,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: emptyAgreements,
       ),
       MatureContentGateReason.consentRequired,
@@ -46,7 +46,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: guildContext,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: agreed,
       ),
       MatureContentGateReason.none,
@@ -57,7 +57,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: guildContext,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: const MatureContentAgreementsState(),
       ),
       MatureContentGateReason.consentRequired,
@@ -78,7 +78,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: warningContext,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: const MatureContentAgreementsState(),
       ),
       MatureContentGateReason.consentRequired,
@@ -99,7 +99,7 @@ void main() {
     expect(
       resolveChannelGateReason(
         context: ungated,
-        nsfwAllowed: true,
+        access: MatureAccess.allowed,
         agreements: const MatureContentAgreementsState(),
       ),
       MatureContentGateReason.none,

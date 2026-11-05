@@ -23,7 +23,6 @@ import 'package:fluxer_app/features/moderation/providers/report_flow_provider.da
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
-import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -87,6 +86,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
       name: switch (widget.target) {
         IarMessageContext(:final message) => message.authorName,
         IarUserContext(:final displayName) => displayName,
+        IarGuildContext(:final name) => name,
       },
     );
   }
@@ -154,9 +154,6 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     if (_submitting) {
       return;
     }
-    if (getReportRestriction(ref.read(userSettingsViewModelProvider)) != null) {
-      return;
-    }
     setState(() {
       _submitting = true;
       _submitError = null;
@@ -179,6 +176,14 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
           await repository.submitUser(
             userId: userId,
             guildId: guildId,
+            revisionHash: walk.flow.revisionHash,
+            steps: walk.steps,
+            locale: locale,
+          );
+        case IarGuildContext(:final guildId, :final inviteCode):
+          await repository.submitGuild(
+            guildId: guildId,
+            inviteCode: inviteCode,
             revisionHash: walk.flow.revisionHash,
             steps: walk.steps,
             locale: locale,
@@ -256,6 +261,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
       ReportFlowSubmitFailure.alreadyReported => switch (widget.target) {
         IarMessageContext() => l10n.reportFlowAlreadyReported,
         IarUserContext() => l10n.reportFlowAlreadyReportedProfile,
+        IarGuildContext() => l10n.reportFlowAlreadyReportedCommunity,
       },
       ReportFlowSubmitFailure.rateLimited => l10n.reportFlowRateLimited,
       ReportFlowSubmitFailure.rejected =>
@@ -277,21 +283,18 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     );
     final ReportFlow? flow = flowAsync.value;
     final ReportFlowWalk? walk = flow == null ? null : _walkFor(flow);
-    final ReportRestriction? restriction = ref.watch(
-      userSettingsViewModelProvider.select(getReportRestriction),
-    );
-
     final String loadingTitle = switch (widget.target) {
       IarMessageContext() => l10n.reportFlowTitleMessage,
       IarUserContext() => l10n.reportFlowTitleUserProfile,
+      IarGuildContext() => l10n.reportFlowTitleCommunity,
     };
 
     final Widget content;
     final Widget? footer;
     final Object step;
     if (walk != null) {
-      content = _walkContent(context, walk, restriction);
-      footer = _footer(walk, locale, restriction);
+      content = _walkContent(context, walk);
+      footer = _footer(walk, locale);
       step = walk.depth;
     } else if (flowAsync.hasError && !flowAsync.isLoading) {
       content = _header(context, loadingTitle, null, <Widget>[
@@ -390,11 +393,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     );
   }
 
-  Widget _walkContent(
-    BuildContext context,
-    ReportFlowWalk walk,
-    ReportRestriction? restriction,
-  ) {
+  Widget _walkContent(BuildContext context, ReportFlowWalk walk) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     switch (walk.phase) {
@@ -404,8 +403,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
           ..._screenBody(context, walk, screen),
         ]);
       case ReportFlowPhase.summary:
-        final ReportRestriction? shownRestriction =
-            restriction ?? _rejectedRestriction;
+        final ReportRestriction? shownRestriction = _rejectedRestriction;
         return _header(
           context,
           l10n.reportFlowSummaryTitle,
@@ -451,9 +449,9 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
           ReportFlowThankYou(
             reportSent: walk.reportSent,
             endedOnStartScreen: walk.endedOnStartScreen,
-            productName: ref.watch(
+            selfHosted: ref.watch(
               instanceRuntimeConfigProvider.select(
-                (config) => config.productName,
+                (config) => config.selfHosted,
               ),
             ),
             blockTarget: blockTarget,
@@ -489,16 +487,26 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     if (walk.isAtStart && target is IarMessageContext) {
       add(ReportFlowTargetPreview(target: target));
     }
-    if (walk.isAtStart &&
-        target is IarUserContext &&
-        screen.kind == ReportFlowScreenKind.info) {
+    if (walk.isAtStart && target is IarUserContext) {
       add(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ReportFlowSectionHeading(l10n.reportFlowSelectedUser),
+            ReportFlowSectionHeading(l10n.reportFlowSelectedPerson),
             ReportFlowUserCard(user: target),
+          ],
+        ),
+      );
+    }
+    if (walk.isAtStart && target is IarGuildContext) {
+      add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ReportFlowSectionHeading(l10n.reportFlowSelectedCommunity),
+            ReportFlowGuildCard(guild: target),
           ],
         ),
       );
@@ -534,11 +542,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     return parts;
   }
 
-  Widget? _footer(
-    ReportFlowWalk walk,
-    String locale,
-    ReportRestriction? restriction,
-  ) {
+  Widget? _footer(ReportFlowWalk walk, String locale) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final Widget back = FluxerButton.secondary(
@@ -593,7 +597,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
                   key: const ValueKey<String>('report-flow-submit'),
                   label: l10n.reportFlowSubmit,
                   isLoading: _submitting,
-                  onPressed: _submitting || restriction != null
+                  onPressed: _submitting
                       ? null
                       : () => unawaited(_submit(walk, locale)),
                 ),

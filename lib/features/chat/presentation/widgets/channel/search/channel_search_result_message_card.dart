@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_author_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -47,11 +48,14 @@ class _ChannelSearchResultMessageCardState
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: IgnorePointer(
-                    child: MessageItem(
+                    child: BlockedAuthorPreview(
                       message: widget.message,
-                      inboxPreviewMode: true,
-                      hideMentionHighlight: true,
-                      previewRoleGuildId: widget.guildId,
+                      child: MessageItem(
+                        message: widget.message,
+                        inboxPreviewMode: true,
+                        hideMentionHighlight: true,
+                        previewRoleGuildId: widget.guildId,
+                      ),
                     ),
                   ),
                 ),

@@ -6,7 +6,7 @@
             android:value="fcm" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/fluxer_logo_monochrome" />
+            android:resource="@drawable/ic_stat_fluxer" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="fluxer_messages" />

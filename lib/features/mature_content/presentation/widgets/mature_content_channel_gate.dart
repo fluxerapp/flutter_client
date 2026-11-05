@@ -4,6 +4,9 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/mature_content_gate_copy.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
+import 'package:fluxer_app/features/shell/navigation/invoke_shell_back.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -35,12 +38,9 @@ class MatureContentChannelGate extends ConsumerWidget {
         }
         return contextAsync.when(
           data: (ResolvedMatureGateContext? gateContext) {
-            if (gateContext == null) {
-              return const SizedBox.shrink();
-            }
             return _MatureContentChannelGateBody(
               reason: reason,
-              gateContext: gateContext,
+              gateContext: gateContext ?? groupDmMatureGateContext(channelId),
               channelId: channelId,
               channelType: channelType,
             );
@@ -125,7 +125,13 @@ class _MatureContentChannelGateBody extends ConsumerWidget {
                   width: double.infinity,
                   child: FluxerButton.secondary(
                     label: MaterialLocalizations.of(context).cancelButtonLabel,
-                    onPressed: () => context.pop(),
+                    onPressed: () {
+                      if (isMobileLayout(context)) {
+                        invokeShellBack(context, ref);
+                      } else {
+                        context.pop();
+                      }
+                    },
                   ),
                 ),
               ],

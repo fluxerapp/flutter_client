@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
@@ -23,7 +24,8 @@ class ThreadHeaderMobileButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!showsThreadHeaderActions(channel)) {
+    if (!showsThreadHeaderActions(channel) ||
+        watchMatureContentGateUp(ref, channel.id)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -50,7 +52,8 @@ class ThreadHeaderToolbarButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!showsThreadHeaderActions(channel)) {
+    if (!showsThreadHeaderActions(channel) ||
+        watchMatureContentGateUp(ref, channel.id)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

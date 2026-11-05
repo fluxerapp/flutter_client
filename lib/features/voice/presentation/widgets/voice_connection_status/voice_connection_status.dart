@@ -166,7 +166,9 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
       final DmConversation? dm = voice.channelId == null
           ? null
           : findDmById(conversations, voice.channelId!);
-      channelLabel = dm?.displayName ?? voice.channelId ?? '';
+      channelLabel = dm == null
+          ? voice.channelId ?? ''
+          : dmConversationDisplayName(FluxerLocalizations.of(context), dm);
       guildLabel = '';
     }
 

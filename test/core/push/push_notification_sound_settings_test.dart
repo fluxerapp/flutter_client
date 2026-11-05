@@ -169,7 +169,7 @@ void main() {
       );
       expect(
         androidPushChannelName(_dmPush, soundEnabled: false),
-        kAndroidPushSilentDirectMessageChannelName,
+        'Direct messages without sound',
       );
     });
   });

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -18,6 +19,7 @@ import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_client/src/managers/broadcast_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_settings_applicator.g.dart';
@@ -52,6 +54,7 @@ class VoiceSettingsApplicator {
   }
 
   static Future<void> _cameraRefreshInFlight = Future<void>.value();
+  static VoidCallback? _pendingIosBroadcastListener;
 
   RoomOptions buildRoomOptions(
     VoiceSettingsState configured, {
@@ -297,16 +300,18 @@ class VoiceSettingsApplicator {
     );
   }
 
-  Future<void> setScreenShareEnabled({
+  Future<bool> setScreenShareEnabled({
     required LocalParticipant participant,
     required Room room,
     required VoiceSettingsState settings,
     required bool enabled,
     bool captureScreenAudio = false,
+    void Function(Object? error)? onBroadcastSettled,
   }) async {
     if (!enabled) {
+      _clearPendingIosBroadcast();
       await participant.setScreenShareEnabled(false);
-      return;
+      return false;
     }
 
     final RoomOptions roomOptions = room.roomOptions;
@@ -315,6 +320,17 @@ class VoiceSettingsApplicator {
     final VideoPublishOptions publishOptions = buildScreenSharePublishOptions(
       settings,
     );
+
+    if (Platform.isIOS && !BroadcastManager().isBroadcasting) {
+      await _requestIosBroadcast(
+        participant: participant,
+        room: room,
+        captureOptions: captureOptions,
+        publishOptions: publishOptions,
+        onSettled: onBroadcastSettled,
+      );
+      return true;
+    }
 
     // setScreenShareEnabled has no publishOptions param.
     // ignore: invalid_use_of_internal_member
@@ -336,6 +352,17 @@ class VoiceSettingsApplicator {
       // ignore: invalid_use_of_internal_member
       room.engine.roomOptions = roomOptions;
     }
+    await _applyMobileScreenShareScale(
+      participant: participant,
+      captureOptions: captureOptions,
+    );
+    return false;
+  }
+
+  Future<void> _applyMobileScreenShareScale({
+    required LocalParticipant participant,
+    required ScreenShareCaptureOptions captureOptions,
+  }) async {
     final VideoDimensions? source = nativeMobileScreenCaptureDimensions();
     if (source == null) {
       return;
@@ -347,6 +374,82 @@ class VoiceSettingsApplicator {
         target: captureOptions.params.dimensions,
       ),
     );
+  }
+
+  Future<void> _requestIosBroadcast({
+    required LocalParticipant participant,
+    required Room room,
+    required ScreenShareCaptureOptions captureOptions,
+    required VideoPublishOptions publishOptions,
+    required void Function(Object? error)? onSettled,
+  }) async {
+    _clearPendingIosBroadcast();
+    final BroadcastManager broadcast = BroadcastManager();
+    void onBroadcastChanged() {
+      if (!broadcast.isBroadcasting) {
+        return;
+      }
+      _clearPendingIosBroadcast();
+      if (!identical(room.localParticipant, participant) ||
+          room.connectionState != ConnectionState.connected) {
+        return;
+      }
+      unawaited(
+        _publishIosBroadcast(
+          participant: participant,
+          captureOptions: captureOptions,
+          publishOptions: publishOptions,
+          onSettled: onSettled,
+        ),
+      );
+    }
+
+    _pendingIosBroadcastListener = onBroadcastChanged;
+    broadcast
+      ..shouldPublishTrack = false
+      ..addListener(onBroadcastChanged);
+    try {
+      await broadcast.requestActivation();
+    } on Object {
+      _clearPendingIosBroadcast();
+      rethrow;
+    }
+  }
+
+  Future<void> _publishIosBroadcast({
+    required LocalParticipant participant,
+    required ScreenShareCaptureOptions captureOptions,
+    required VideoPublishOptions publishOptions,
+    required void Function(Object? error)? onSettled,
+  }) async {
+    LocalVideoTrack? track;
+    try {
+      track = await LocalVideoTrack.createScreenShareTrack(captureOptions);
+      await participant.publishVideoTrack(
+        track,
+        publishOptions: publishOptions,
+      );
+      await _applyMobileScreenShareScale(
+        participant: participant,
+        captureOptions: captureOptions,
+      );
+      onSettled?.call(null);
+    } on Object catch (error) {
+      await track?.dispose();
+      unawaited(BroadcastManager().requestStop());
+      onSettled?.call(error);
+    }
+  }
+
+  void _clearPendingIosBroadcast() {
+    final VoidCallback? listener = _pendingIosBroadcastListener;
+    if (listener == null) {
+      return;
+    }
+    _pendingIosBroadcastListener = null;
+    BroadcastManager()
+      ..removeListener(listener)
+      ..shouldPublishTrack = true;
   }
 
   Future<void> applyScreenShareSenderScale({
@@ -553,16 +656,9 @@ class VoiceSettingsApplicator {
     VoiceOutputRoute route,
   ) async {
     try {
-      switch (route) {
-        case VoiceOutputRoute.speaker:
-          await AudioManager.instance.setSpeakerOutputPreferred(
-            true,
-            force: true,
-          );
-        case VoiceOutputRoute.headset:
-        case VoiceOutputRoute.earpiece:
-          await AudioManager.instance.setSpeakerOutputPreferred(false);
-      }
+      await AudioManager.instance.setSpeakerOutputPreferred(
+        liveKitPrefersSpeaker(route),
+      );
     } on Object catch (_) {}
   }
 

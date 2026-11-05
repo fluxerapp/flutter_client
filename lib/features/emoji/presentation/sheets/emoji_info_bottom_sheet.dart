@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_she
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
@@ -34,7 +35,12 @@ class EmojiInfoBottomSheet {
     FluxerHaptics.medium();
     return FluxerBottomSheet.show<void>(
       context,
-      barrierColor: kEmojiInfoScrimColor,
+      barrierColor: usesDesktopPointerUi(context) ? null : kEmojiInfoScrimColor,
+      desktop: const FluxerDesktopPresentation(
+        surface: FluxerDesktopSurface.popout,
+        width: 300,
+        placement: FluxerDesktopPlacement.rightStart,
+      ),
       builder: (sheetContext, close) {
         return _EmojiInfoBottomSheetContent(emoji: emoji);
       },

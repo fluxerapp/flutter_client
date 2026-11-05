@@ -8,7 +8,7 @@ final talker = Talker(settings: TalkerSettings());
 
 Future<void> pushTalkerLogScreen(
   BuildContext context, {
-  String title = 'App Logs',
+  required String title,
 }) {
   return Navigator.of(context, rootNavigator: true).push<void>(
     MaterialPageRoute<void>(

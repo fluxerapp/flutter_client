@@ -98,8 +98,33 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Prijungta';
 
   @override
+  String get gatewayOfflineToast =>
+      'Esate neprisijungę prie interneto. Fluxer vėl prisijungs, kai ryšys atsiras.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesijos laikas pasibaigė. Prašome prisijungti iš naujo.';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Jūsų paskyra bus ištrinta $date. Jei prisijungsite iki tol, ištrynimas bus atšauktas.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Suplanuotas jūsų paskyros ištrynimas. Jei prisijungsite iki ištrynimo datos, jis bus atšauktas.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Jūsų paskyra trinama dabar. Jei paskyroje nurodytas el. pašto adresas, atsiųsime el. laišką, kai tai bus baigta.';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Jūsų paskyra trinama dabar.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Jūsų paskyra išjungta. Kai norėsite ja naudotis, tiesiog vėl prisijunkite.';
 
   @override
   String splashStartupFailed(String error) {
@@ -154,6 +179,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String get verificationResendEmail => 'Iš naujo siųsti el. laišką';
+
+  @override
+  String get verificationEmailSent =>
+      'Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Išsiuntėte per daug patvirtinimo el. laiškų. Palaukite ir bandykite dar kartą.';
+
+  @override
   String get nagbarOpenSettings => 'Atidaryti nustatymus';
 
   @override
@@ -188,8 +224,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Jūsų „$productName“ prenumeratos nepavyko pratęsti. „$productName“ privalumus išsaugosite iki $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Jūsų „$productName“ prenumerata baigėsi. Atnaujinkite dabar, kad išsaugotumėte privalumus.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Jūsų „$productName“ prenumerata baigėsi.';
   }
 
   @override
@@ -228,13 +277,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Įjungti 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Atnaujinome mūsų sąlygas. Peržiūrėkite jas ir sutikite, kad galėtumėte tęsti.';
-
-  @override
-  String get nagbarReviewTerms => 'Peržiūrėti terminus';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Prisijunkite prie „$communityName“, kad galėtumėte bendrauti su komanda ir gauti naujausią informaciją.';
   }
@@ -271,6 +313,19 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => 'Prisijungti naudojant slaptažidinį';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Prisijungdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other':
+          'Prisijungdami sutinkate su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -369,8 +424,19 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Pabandykite kitą metodą';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Šios instancijos prieigos raktai šioje programėlėje neveikia, o jūsų paskyra neturi kito patvirtinimo būdo. Prisijunkite žiniatinklyje.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Vietoj to naudokite saugos raktą / prieigos raktą';
+
+  @override
+  String get mfaUseBackupCode => 'Naudoti atsarginį kodą';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Naudoti kodą iš autentifikavimo programėlės';
 
   @override
   String get accountSelectorTitle => 'Pasirinkite paskyrą';
@@ -395,8 +461,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get accountExpired => 'Baigėsi';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Baigėsi $identifier seanso galiojimas. Prašome prisijungti iš naujo.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Jūsų $name seanso galiojimas baigėsi. Prisijunkite iš naujo.';
   }
 
   @override
@@ -500,78 +566,68 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get signOut => 'Atsijungti';
 
   @override
-  String get suspendedPermanentTitle => 'Paskyra visam laikui sustabdyta';
-
-  @override
   String get suspendedTemporaryTitle => 'Paskyra sustabdyta';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Jūsų paskyra buvo visam laikui sustabdyta dėl mūsų paslaugų teikimo sąlygų pažeidimo.';
+  String get suspendedBannedTitle => 'Paskyra visam laikui sustabdyta';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Jūsų paskyra buvo laikinai sustabdyta. Galėsite pasiekti savo paskyrą pasibaigus sustabdymo laikotarpiui.';
+  String get suspendedClosedTitle => 'Paskyra uždaryta';
 
   @override
-  String get suspendedIssuedAt => 'Išduota';
+  String get suspendedWhatHappened => 'Kas nutiko';
 
   @override
-  String get suspendedEndsAt => 'Baigiasi';
+  String get suspendedWhy => 'Kodėl';
 
   @override
-  String get suspendedDuration => 'Trukmė';
+  String get suspendedHowWeDecided => 'Kaip priėmėme sprendimą';
 
   @override
-  String get suspendedPermanent => 'Visam laikui';
+  String get suspendedHowToAppeal => 'Kaip apskųsti sprendimą';
 
   @override
-  String get suspendedReason => 'Priežastis';
-
-  @override
-  String get suspendedAppealDeadline => 'Apeliacijos terminas';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Jūsų paskyra numatyta ištrinti $date d.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Mūsų komandos pastaba: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Tikrinti, ar yra naujinimų';
+  String suspendedDecisionId(String decisionId) {
+    return 'Sprendimo ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Patikrinti dar po ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Taisyklė: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email ir nurodykite savo naudotojo vardą.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email iki $deadline. Nurodykite sprendimo ID ir savo naudotojo vardą. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email iki $deadline. Jei galite, rašykite iš paskyroje nurodyto el. pašto adreso ir nurodykite sprendimo ID. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu $email iš paskyroje nurodyto adreso.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu $email ir nurodykite savo naudotojo vardą.';
   }
 
   @override
   String get suspendedBackToLogin => 'Atgal į prisijungimą';
-
-  @override
-  String get suspendedAppealTitle => 'Apeliacija';
-
-  @override
-  String get suspendedAppealHint =>
-      'Paaiškinkite, kodėl jūsų suspendavimas turėtų būti persvarstytas (mažiausiai 50 simbolių)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Pateikti apeliaciją';
-
-  @override
-  String get suspendedAppealPending => 'Laukiama peržiūros';
-
-  @override
-  String get suspendedAppealAccepted => 'Apeliacija priimta';
-
-  @override
-  String get suspendedAppealRejected => 'Apeliacija atmesta';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Jūsų apeliacija buvo priimta ir jūsų paskyra atkurta.';
-
-  @override
-  String get suspendedSignIn => 'Prisijunkite prie savo paskyros';
 
   @override
   String get forgotPasswordTitle => 'Pamiršote slaptažodį?';
@@ -803,6 +859,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get registerDateOfBirth => 'Gimimo data';
 
   @override
+  String get registerDateOfBirthDone => 'Atlikta';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nenustatyta';
+
+  @override
   String get registerMonth => 'Mėnuo';
 
   @override
@@ -812,16 +874,19 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get registerYear => 'Metai';
 
   @override
-  String get registerConsentPrefix => 'Sutinku su ';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Sutinku su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>',
+      'terms': 'Sutinku su <terms>Paslaugų teikimo sąlygomis</terms>',
+      'other': 'Sutinku su <privacy>Privatumo politika</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => 'Paslaugų teikimo sąlygos';
-
-  @override
-  String get registerConsentAnd => ' ir ';
-
-  @override
-  String get registerConsentPrivacy => 'Privatumo politika';
+  String get registerConsentBuiltInRules =>
+      'Sutinku, kad ši instancija netoleruoja nepriimtino turinio ar piktnaudžiaujančių naudotojų ir kad jos administratoriai gali pašalinti šias taisykles pažeidžiantį turinį ir paskyras.';
 
   @override
   String get registerConfirmPassword => 'Patvirtinti slaptažodį';
@@ -843,6 +908,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get passkeyNoCredentials =>
       'Nerasta jokių „passkey“ šiai programai. Vietoj to prisijunkite el. paštu ir slaptažodžiu.';
+
+  @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
 
   @override
   String get passkeyDeviceNotSupported => 'Šis įrenginys nepalaiko „passkey“.';
@@ -899,8 +968,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count narių';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount narių',
+      many: '$formattedCount nario',
+      few: '$formattedCount nariai',
+      one: '$formattedCount narys',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1003,9 +1080,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Temas galima importuoti tik žiniatinklyje arba kompiuteryje.';
 
   @override
-  String get embedThemeImport => 'Importuoti temą';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return 'Visionary (visam laikui $productName)';
   }
@@ -1096,6 +1170,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ši dovana jau atsiimta.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Šios dovanos negalima atsiimti iOS programėlėje. Ją galite atsiimti kompiuterio programėlėje.';
 
   @override
   String get giftAcceptMaybeLater => 'Galbūt vėliau';
@@ -1345,7 +1423,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count nariai';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count narių',
+      many: '$count nario',
+      few: '$count nariai',
+      one: '$count narys',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1746,6 +1832,50 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String get stickerPickerSearchHint => 'Raskite tobulą lipduką';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Nėra prieinamų lipdukų';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Prisijunkite prie bendruomenės su lipdukais, kad galėtumėte juos naudoti čia.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nėra prieinamų lipdukų';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Šiame pokalbyje lipdukų naudoti negalima.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Lipdukų nerasta';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Pabandykite kitą paieškos žodį.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Atrakinkite $stickerCount iš $communityCount su Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lipdukų',
+      many: '$count lipduko',
+      few: '$count lipdukus',
+      one: '$count lipduką',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => 'Įspėjimas apie išorinę nuorodą';
 
   @override
@@ -2022,22 +2152,22 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get emojiPickerTitle => 'Jaustukai';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Ženkleliai';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Pasirinkite, kuriuos ženklelius kiti mato jūsų profilyje.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Kol kas neturite ženklelių.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Nepavyko įkelti jūsų ženklelių.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Rodyti $badgeLabel jūsų profilyje';
   }
 
   @override
@@ -2046,22 +2176,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Rodyti visus ženklelius';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: 'Dar +$count ženklelių, rodyti visus',
+      many: 'Dar +$count ženklelio, rodyti visus',
+      few: 'Dar +$count ženkleliai, rodyti visus',
+      one: 'Dar +$count ženklelis, rodyti visus',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Rodoma tik tada, kai jūsų „Visionary“ ženklelis matomas ir nerodomas kaip prenumerata.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium ženkliuko privatumas';
@@ -2113,117 +2245,20 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass nuo $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Rodyti ženklelį mano profilyje';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Slėpti, kada gavote $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
-
-  @override
-  String get operatorPassWallTitle => 'Operators\' wall';
-
-  @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
-
-  @override
-  String get operatorPassWallNotListed => 'Not listed.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'On the wall';
-
-  @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
-
-  @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Why?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
-
-  @override
-  String get operatorPassWallSave => 'Save';
-
-  @override
-  String get operatorPassWallSaved => 'Saved.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
-
-  @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
+  String get operatorPassHideCount =>
+      'Slėpti, kiek turite Operator Pass leidimų';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2240,8 +2275,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Pirkimai programėlėje dar nepasiekiami šioje platformoje. Sekite naujienas – netrukus!';
+  String get plutoniumNotSoldHere =>
+      'Šioje programėlės versijoje Plutonium įsigyti negalima.';
 
   @override
   String get profilePreviewLabel => 'Peržiūra';
@@ -2314,6 +2349,43 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Patvirtinimas nepavyko. Bandykite dar kartą.';
 
   @override
+  String get sudoWrongPassword =>
+      'Slaptažodis neteisingas. Bandykite dar kartą.';
+
+  @override
+  String get sudoEmailCodeSend => 'Atsiųsti kodą el. paštu';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Atsiuntėme 6 skaitmenų kodą į jūsų el. pašto adresą.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kodas iš el. laiško';
+
+  @override
+  String get sudoEmailCodeResend => 'Siųsti naują kodą';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Prisijunkite dar kartą, kad patvirtintumėte, jog tai jūs.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Prisijunkite dar kartą';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Prisijungti per $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Prisijungei prie kitos paskyros. Prisijunk paskyra, kurią naudoji čia.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Šios instancijos prieigos raktai šioje programėlėje neveikia. Naudokite autentifikavimo programėlę ar atsarginį kodą arba patvirtinkite žiniatinklyje.';
+
+  @override
   String get securityAccountTitle => 'Paskyra';
 
   @override
@@ -2326,6 +2398,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Apsaugokite savo paskyrą dviejų veiksnių autentifikavimu ir slaptažodžių tvarkytuvais';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Apsaugokite savo paskyrą dviejų veiksnių autentifikavimu';
 
   @override
   String get securityLoginEmailSectionTitle => 'El. pašto nustatymai';
@@ -2658,6 +2734,58 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Laikinai išjungti paskyrą. Vėliau galėsite ją vėl suaktyvinti prisijungę.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Ištrinkite savo paskyrą ir asmens duomenis. Taip pat galite ištrinti savo žinutes.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Jūsų paskyra, profilis ir asmens duomenys ištrinami. Žinutės, kurių neištrinsite, liks ten, kur jas išsiuntėte, be jūsų vardo ar profilio.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Taip pat ištrinti mano žinutes';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Kartu su paskyra ištrinamos visos žinutės, kurias išsiuntėte DM, grupės DM ir bendruomenėse.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Jei norite išsaugoti savo duomenų kopiją, pirmiausia paprašykite eksporto skiltyje $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Ištrinti po 14 dienų';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Ištrynimą galite atšaukti prisijungę per šias 14 dienų.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Suplanuoti ištrynimą';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Jūsų paskyra ištrinama pasibaigus šios instancijos laukimo laikotarpiui. Jei prisijungsite iki tol, ištrynimas bus atšauktas.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Ištrinti dabar';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Ištrinti paskyrą dabar?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Jūsų paskyra ištrinama iš karto ir jos atkurti nebus galima.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Jūsų Plutonium prenumeratą apmokestina Apple. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Jūsų Plutonium prenumeratą apmokestina Google Play. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Išjungus paskyrą, būsite atsijungę iš visų sesijų. Bet kuriuo metu galėsite vėl aktyvuoti paskyrą prisijungę.';
 
@@ -2665,50 +2793,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Ištrinti paskyrą';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Visam laikui ištrinkite savo paskyrą ir visus susijusius duomenis. Šio veiksmo anuliuoti negalima.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Negalima ištrinti paskyros';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Negalite ištrinti paskyros, kol turite bendruomenių. Pirmiausia perleiskite nuosavybės teises šioms bendruomenėms:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Esate šių bendruomenių savininkas. Prieš ištrindami paskyrą, kiekvieną jų ištrinkite arba perduokite kitam nariui.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'ir dar $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Norėdami perleisti nuosavybę, eikite į $settingsPath ir naudokite parinktį „Perleisti nuosavybę“.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Ar tikrai norite ištrinti paskyrą? Atlikus šį veiksmą, bus suplanuotas negrįžtamas jūsų paskyros ištrynimas.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Galite atšaukti paskyros ištrynimą per 14 dienų';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Po 14 dienų jūsų paskyra bus visam laikui ištrinta';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Kai paskyra bus ištrinta, negalėsite atkurti prieigos prie jos';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Negalėsite ištrinti savo išsiųstų žinučių po to, kai jūsų paskyra bus ištrinta';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Jei norite eksportuoti savo duomenis arba pirmiausia ištrinti žinutes, prieš tęsdami apsilankykite „Privatumo informacijos suvestinė“ skiltyje „Vartotojo nustatymai“.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Bakstelėkite bendruomenę, kad atidarytumėte jos nustatymus. „Ištrinti bendruomenę“ yra apačioje. Norėdami ją perduoti, atidarykite „Nariai“, bakstelėkite narį, jo profilyje bakstelėkite tris taškus ir pasirinkite „Perduoti nuosavybę“.';
 
   @override
   String get claimAccountTitle => 'Užregistruokite paskyrą';
@@ -2732,9 +2826,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Paskyra sėkmingai užregistruota';
-
-  @override
-  String get importantInformation => 'Svarbi informacija:';
 
   @override
   String get genericError => 'Įvyko klaida';
@@ -4261,6 +4352,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'Nepavyko atsisiųsti priedo';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'Kad išsaugotų šį priedą, $productName reikia prieigos prie jūsų nuotraukų bibliotekos.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Priedo galiojimas baigėsi';
 
   @override
@@ -4386,7 +4482,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Atskleisti';
 
   @override
-  String get matureMediaRevealHint => 'Spustelėkite, kad atskleistumėte';
+  String get matureMediaRevealLabel => 'Rodyti jautrią mediją';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Jautri medija iPhone ir iPad įrenginiuose paslėpta.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Jautri medija jūsų paskyrai paslėpta.';
 
   @override
   String get matureContentTitle => 'Brandus turinys';
@@ -4449,6 +4553,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šis brandaus turinio kanalas nepasiekiamas jūsų paskyrai.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ turinys iPhone ir iPad įrenginiuose išjungtas. Norėdami čia peržiūrėti 18+ pažymėtas bendruomenes ir kanalus, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Dėl jūsų buvimo vietoje galiojančių suaugusiesiems skirto turinio įstatymų šis turinys iš čia nepasiekiamas.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Žinutė 18+ kanale';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer šiai paskyrai nepasiekiamas';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Jūsų Apple Account bendrinamas amžiaus intervalas yra mažesnis nei 13 metų. Fluxer skirtas tik 13 metų ir vyresniems asmenims.';
+
+  @override
   String get matureContentProceedButton => 'Tęsti';
 
   @override
@@ -4480,6 +4602,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Išsaugoti';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Norėdami čia pasirinkti „Rodyti“, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -4700,7 +4826,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Pasirinkite tamsią, anglies arba šviesią išvaizdą.';
+      'Pasirinkite sistemos, tamsią, anglies arba šviesią išvaizdą.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Didelis dinaminis diapazonas';
@@ -5227,6 +5353,64 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Būtina nurodyti pavadinimą.';
+
+  @override
+  String get savedMediaEdit => 'Redaguoti';
+
+  @override
+  String get savedMediaEditTitle => 'Redaguoti išsaugotą mediją';
+
+  @override
+  String get savedMediaDeleteTitle => 'Ištrinti išsaugotą mediją';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Pašalinti „$name“ iš išsaugotos medijos?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Nepavyko ištrinti išsaugotos medijos.';
+
+  @override
+  String get savedMediaSearchHint => 'Ieškoti išsaugotos medijos';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Išsaugota medija nepasiekiama';
+
+  @override
+  String get savedMediaUnavailableBody => 'Bandyti dar kartą po akimirkos.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nėra išsaugotos medijos';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Išsaugokite mediją iš žinučių, kad ji būtų rodoma čia.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nėra rezultatų';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Pabandykite kitą paieškos žodį arba filtrą.';
+
+  @override
+  String get savedMediaFilterAll => 'Visi';
+
+  @override
+  String get savedMediaFilterImages => 'Vaizdai';
+
+  @override
+  String get savedMediaFilterVideos => 'Vaizdo įrašai';
+
+  @override
+  String get savedMediaFilterAudio => 'Garsas';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF\'ai';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6096,6 +6280,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceConnectionDismiss => 'Atmesti';
 
   @override
+  String get voiceCallControlsSheetLabel => 'Balso skambučio valdikliai';
+
+  @override
   String get voiceConnectionDisconnected => 'Atjungta';
 
   @override
@@ -6189,6 +6376,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Peržiūrėti profilį';
 
   @override
+  String get voiceParticipantMenuReport => 'Pranešti';
+
+  @override
   String get voiceParticipantMenuFocus => 'Sutelkti dėmesį į šį asmenį';
 
   @override
@@ -6238,7 +6428,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Ausinės';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Keisti garso išvestį';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Rodyti tik vaizdo įrašus';
@@ -6272,6 +6462,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Vaizdo įrašui reikalingas kameros leidimas.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Leiskite prieigą prie mikrofono, kad šiame skambutyje galėtumėte įjungti mikrofoną.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nepavyko pradėti ekrano bendrinimo. Pabandykite dar kartą.';
 
@@ -6301,7 +6495,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Mastelis $scale';
   }
 
   @override
@@ -6310,6 +6504,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Jūsų srautas dalyviams yra tiesiogiai.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Užblokuoto naudotojo vaizdo įrašas';
 
   @override
   String get voiceLiveBadge => 'Tiesiogiai';
@@ -6462,6 +6660,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Žinutė per ilga';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Žinutės gali būti iki $maxLengthString simbolių. Sutrumpinkite šią žinutę, kad galėtumėte ją išsiųsti.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -7124,6 +7331,37 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nepavyko išsiųsti atsakymo';
 
   @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
+
+  @override
   String get chatMessageForward => 'Persiųsti';
 
   @override
@@ -7290,6 +7528,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageDebug => 'Derinti žinutę';
 
   @override
+  String get messageAlertNote => 'Pastaba';
+
+  @override
+  String get messageAlertTip => 'Patarimas';
+
+  @override
+  String get messageAlertImportant => 'Svarbu';
+
+  @override
+  String get messageAlertWarning => 'Įspėjimas';
+
+  @override
+  String get messageAlertCaution => 'Atsargiai';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Derinti žinutę';
 
   @override
@@ -7321,6 +7574,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Pranešti apie profilį';
 
   @override
+  String get reportFlowTitleCommunity => 'Pranešti apie bendruomenę';
+
+  @override
   String get reportFlowSummaryTitle => 'Peržiūrėkite savo pranešimą';
 
   @override
@@ -7343,7 +7599,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Žinutė, apie kurią pranešate';
 
   @override
-  String get reportFlowSelectedUser => 'Profilis, apie kurį pranešate';
+  String get reportFlowSelectedPerson => 'Asmuo, apie kurį pranešate';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Bendruomenė, apie kurią pranešate';
 
   @override
   String get reportFlowReportCategory => 'Jūsų atsakymai';
@@ -7371,6 +7630,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '„$productName“ saugos komanda peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Šios instancijos administratoriai peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7418,6 +7681,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Jau šiandien pranešėte apie šį profilį.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Jau pranešėte apie šią bendruomenę.';
 
   @override
   String get reportFlowRateLimited =>
@@ -7552,6 +7819,22 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatReplyMentionOff => 'IŠJUNGTA';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Atsakoma $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Persiųsta iš $source';
+  }
+
+  @override
+  String get chatForwardedLabel => 'Persiųsta';
+
+  @override
+  String get chatForwardedFromLabel => 'Persiųsta iš';
+
+  @override
   String get chatReplyCancel => 'Atšaukti atsakymą';
 
   @override
@@ -7628,6 +7911,23 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Atmesti';
+
+  @override
+  String get videoPlayerPlay => 'Leisti';
+
+  @override
+  String get videoPlayerPause => 'Pristabdyti';
+
+  @override
+  String get videoPlayerVolume => 'Garsumas';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Atkūrimo greitis ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Visas ekranas';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Perjungti vaizdo valdiklius';
@@ -8611,6 +8911,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pranešimų nustatymai, nutildyta';
 
   @override
+  String get channelHeaderOpenDetails => 'Atidaryti kanalo informaciją';
+
+  @override
   String get channelDetailsSearchTitle => 'Ieškoti';
 
   @override
@@ -9316,6 +9619,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get composerCloseAttachmentPanel => 'Uždaryti priedų pasirinkiklį';
 
   @override
+  String get composerSendMessage => 'Siųsti žinutę';
+
+  @override
   String get chatAttachmentPanelPhotos => 'Nuotraukos';
 
   @override
@@ -9653,14 +9959,39 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Grąžinti naujausią pirkinį';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Pirkdami sutinkate su mūsų ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Pirkdami sutinkate su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other': 'Pirkdami sutinkate su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Pirkdami sutikote su mūsų ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms> ir <privacy>Privatumo politika</privacy>.',
+      'terms':
+          'Pirkdami sutikote su <terms>Paslaugų teikimo sąlygomis</terms>.',
+      'other': 'Pirkdami sutikote su <privacy>Privatumo politika</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' ir ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Paslaugų teikimo sąlygos</terms> ir <privacy>Privatumo politika</privacy>',
+      'terms': '<terms>Paslaugų teikimo sąlygos</terms>',
+      'other': '<privacy>Privatumo politika</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -9855,14 +10186,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Transliuokite 4K raiška 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Bendrinkite savo ekraną ar kamerą iki 4K raiška 60 kadrų per sekundę. Nemokamos paskyros transliuoja iki 720p raiška 30 kadrų per sekundę.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Transliuokite geresne kokybe';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Bendrinkite ekraną ar kamerą iki 1080p raiška 60 kadrų per sekundę programėlėje ir iki 4K raiška 60 kadrų per sekundę kompiuterio programėlėje. Nemokamos paskyros transliuoja iki 720p raiška 30 kadrų per sekundę.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Jūsų prenumerata';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9944,8 +10282,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Iki 4K esant 60 kadrų per sekundę';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Iki 1080p 60 FPS programėlėje, iki 4K 60 FPS kompiuteryje';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Galite pasirinkti tik tokį žymeklį, kurio dar neturi joks kitas naudotojas su tokiu pat naudotojo vardu. Naudotojo vardai nėra jautrūs didžiosioms ir mažosioms raidėms, todėl Mina#4821 ir mina#4821 laikomi tokiais pačiais. Žymeklis #0000 yra skirtas Fluxer Visionary nariams.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Galite pasirinkti tik tokią žymą, kurios dar neturi niekas kitas su tuo pačiu naudotojo vardu. Naudotojų varduose didžiosios ir mažosios raidės neskiriamos, todėl Mina#4821 ir mina#4821 laikomi tuo pačiu.';
 
   @override
   String get storePlutoniumLearnVisionary =>
@@ -9993,11 +10339,37 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Automatiškai atnaujinama per App Store, kol neatšauksite.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Standartinės Apple naudojimo sąlygos (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Atkurti pirkinius';
+
+  @override
+  String get storePlutoniumRestoreDone => 'Jūsų Plutonium prenumerata atkurta.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Šiai Apple Account nėra Plutonium prenumeratos, kurią būtų galima atkurti.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Nepavyko atkurti pirkinių. Bandykite dar kartą po akimirkos.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Jau turite Fluxer Plutonium prenumeratą.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Šiame įrenginyje naudojama Apple Account jau moka už Plutonium kitai Fluxer paskyrai.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium nepridėtas';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store patvirtino jūsų pirkinį, bet Plutonium nepavyko pridėti prie šios paskyros. Bakstelėkite „Atkurti pirkinius“, kad bandytumėte dar kartą, arba susisiekite su pagalbos tarnyba, jei vis tiek neveikia.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -10009,8 +10381,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pirkinys gautas. Plutonium čia atsiras, kai tik bus aktyvuotas.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Prenumeratos programėlėje kol kas nepasiekiamos šiame įrenginyje.';
+  String get storePlutoniumApprovalPending =>
+      'Jūsų pirkinys laukia patvirtinimo. Plutonium bus pridėtas prie jūsų paskyros, kai pirkinys bus patvirtintas.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Nepavyko įkelti Plutonium planų. Patikrinkite ryšį ir bandykite dar kartą.';
+
+  @override
+  String get storePlutoniumRetry => 'Bandyti dar kartą';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10668,18 +11047,18 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jose nėra egzempliorių pavadinimų, ID ar žinučių turinio.';
+      'Ataskaitos siunčiamos į Fluxer klaidų sekimo sistemą, net jei esate prisijungę prie kito egzemplioriaus. Jos susietos su atsitiktiniu šio įdiegimo ID, ir jose nėra jūsų paskyros ID, egzempliorių pavadinimų ar žinučių turinio.';
 
   @override
   String get observabilityReportingConsentTitle => 'Padėkite taisyti gedimus';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer netikėtai užsidarė. Anoniminių gedimų ir klaidų duomenų bendrinimas padeda mums greičiau ištaisyti problemas.';
+      'Fluxer netikėtai užsidarė. Išsiuntę gedimo ataskaitą padėsite mums greičiau rasti ir ištaisyti problemą.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Ataskaitose yra gedimų žurnalai, klaidos ir pagrindiniai našumo duomenys. Jos neperduodamos trečiosioms šalims, ir šią funkciją galite bet kada išjungti.';
+      'Ataskaitose yra gedimų žurnalai, klaidos, našumo duomenys, tinklo užklausų trukmės ir ekranai bei bakstelėjimai, po kurių kilo problema. Jie susiejami su atsitiktiniu šio įdiegimo ID. Ataskaitose niekada nebūna žinučių turinio, ir jos siunčiamos tik į paties Fluxer klaidų sekimo sistemą. Tai galite bet kada išjungti.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10690,7 +11069,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Siųsti gedimų ataskaitas';
 
   @override
-  String get observabilityReportingConsentDecline => 'Nenoriu įjungti';
+  String get observabilityReportingConsentDecline => 'Daugiau neklausti';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Ne dabar';
 
   @override
   String get advancedSettingsConfigure => 'Konfigūruoti';
@@ -10760,11 +11142,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Sumažinti logotipą, išeinant iš paleidimo ekrano';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Citatos pradžios ekrane';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Rodyti atsitiktinę citatą pradžios ekrane. Nesinchronizuojama tarp įrenginių.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Klaviatūros patarimai';
@@ -11123,7 +11505,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Įjunkite arba išjunkite integruotas atvirkštinės vaizdų paieškos paslaugas. Įjungtos paslaugos rodomos kontekstiniame paveikslėlių, avatarų, reklamjuosčių, lipdukų ir jaustukų meniu.';
+      'Įjunkite arba išjunkite integruotus atvirkštinės vaizdų paieškos teikėjus. Įjungti teikėjai rodomi vaizdų parinktyse.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11137,6 +11519,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
       'Pridėti atvirkštinę vaizdų paiešką';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return 'Ieškoti su $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Versti su $engine';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -11245,6 +11637,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavAppLogs => 'Programos žurnalai';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer programėlės privatumo politika';
+
+  @override
+  String get userSettingsTitle => 'Nustatymai';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Kopijuoti programėlės informaciją';
+
+  @override
   String get userSettingsNavDeveloperTools => 'Kūrėjo įrankiai';
 
   @override
@@ -11252,6 +11654,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get userSettingsNavFeatureFlags => 'Funkcijų vėliavėlės';
+
+  @override
+  String get userSettingsNavHelp => 'Pagalba ir palaikymas';
 
   @override
   String get userSettingsNavWhatsNew => 'Kas naujo';
@@ -11547,6 +11952,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain nenaudoja saugaus ryšio (https). Fluxer per http jungiasi tik prie instancijų jūsų vietiniame tinkle.';
+  }
+
+  @override
   String get instanceCompatibilityTitle =>
       'Šio egzemplioriaus naudoti negalima';
 
@@ -11580,9 +11990,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get instanceConnectionRequired =>
       'Norint prisijungti, reikia prisijungti prie serverio';
-
-  @override
-  String get comingSoon => 'Netrukus';
 
   @override
   String get guildNavbarDirectMessages => 'Tiesioginės žinutės';
@@ -11675,9 +12082,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Bendruomenės';
-
-  @override
-  String get discoveryApps => 'Programos';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11795,6 +12199,78 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Gauta';
+
+  @override
+  String get friendsPageTitle => 'Mano draugai';
+
+  @override
+  String get friendsActiveNowTitle => 'Aktyvūs dabar';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Kol kas ramu...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Kai draugai bus aktyvūs balso kanaluose, jų veikla bus rodoma čia.';
+
+  @override
+  String get friendsTabOnline => 'Prisijungęs';
+
+  @override
+  String get friendsTabAll => 'Visi';
+
+  @override
+  String get friendsTabPending => 'Laukiama';
+
+  @override
+  String get friendsTabBlocked => 'Užblokuoti';
+
+  @override
+  String get friendsSearchOnline => 'Ieškoti prisijungusių draugų';
+
+  @override
+  String get friendsSearchAll => 'Ieškoti draugų';
+
+  @override
+  String get friendsSearchPending => 'Ieškoti laukiančių užklausų';
+
+  @override
+  String get friendsSearchBlocked => 'Ieškoti užblokuotų naudotojų';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nėra draugų, atitinkančių paiešką';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Pabandykite kitą vardą arba patikrinkite rašybą.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nėra prisijungusių draugų';
+
+  @override
+  String get friendsEmptyOnlineBody => 'Kai jie prisijungs, jie atsiras čia.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Dar nėra draugų';
+
+  @override
+  String get friendsEmptyAllBody => 'Ten, kur einame, reikia daugiau draugų.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Nėra laukiančių užklausų';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Čia rodomos laukiančios draugystės užklausos.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Nieko neužblokavote.';
+
+  @override
+  String get friendsOutgoingStatus => 'Išsiųsta draugystės užklausa';
+
+  @override
+  String get friendsBlockedStatus => 'Užblokuotas';
 
   @override
   String get profileRemoveFriend => 'Pašalinti draugą';
@@ -12081,6 +12557,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String get channelMutedHint => 'Nutildyta';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return 'Pasiekiama tik $productName darbuotojams';
   }
@@ -12155,6 +12634,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Kopijuoti bendruomenės ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Pranešti apie bendruomenę';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -12269,11 +12751,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Vaidmens piktograma';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Įkelkite paveikslėlį arba pasirinkite jaustuką. Prie nario vardo rodoma aukščiausio jo vaidmens, turinčio piktogramą, piktograma.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12281,68 +12763,69 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Ne mažiau kaip $minimumSize, iki $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Įkelti vaidmens piktogramą';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Dabartinė vaidmens piktograma, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Dabartinė vaidmens piktograma, įkeltas paveikslėlis';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Pasirinkti jaustuką';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Įkelti paveikslėlį';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Pašalinti piktogramą';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Animuotos piktogramos nepalaikomos. Naudokite statinį paveikslėlį.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Šis failo tipas nepalaikomas. Palaikomi tipai: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Nepavyko įkelti šio paveikslėlio. Pabandykite kitą.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Štai kaip atrodo žinutės';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Vaidmens piktograma, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Apkarpyti vaidmens piktogramą';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Išsaugoti piktogramą';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Praleisti apkarpymą';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Nepavyko apkarpyti piktogramos. Bandykite dar kartą.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Vilkite, kad pakeistumėte vaidmens piktogramos padėtį, ir priartinkite pelės ratuku arba suglausdami pirštus. Rekomenduojamas minimalus dydis yra $minimumWidth×$minimumHeight pikselių.';
   }
 
   @override
@@ -13712,25 +14195,28 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Nustatyta vaidmens piktograma: $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Pakeista vaidmens piktograma iš $oldEmoji į $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Pašalinta vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Nustatyta pasirinktinė vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Pakeista pasirinktinė vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Pašalinta pasirinktinė vaidmens piktograma';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -14967,6 +15453,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => 'Tiesioginės žinutės';
 
   @override
+  String get dmListFriendsButton => 'Draugai';
+
+  @override
   String get keybindsSearchShortcuts => 'Ieškoti sparčiųjų klavišų';
 
   @override
@@ -15616,6 +16105,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Pradinė žinutė buvo ištrinta.';
 
   @override
+  String get forumPostBlockedAuthor => 'Užblokuoto naudotojo įrašas';
+
+  @override
+  String get threadBlockedAuthor => 'Užblokuoto naudotojo gija';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15662,6 +16157,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Pažymėti kaip perskaitytą';
+
+  @override
+  String get forumReportPost => 'Pranešti apie įrašą';
 
   @override
   String get forumCopyPostLink => 'Kopijuoti nuorodą';
@@ -16575,4 +17073,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Apmokėjimas šiai paskyrai užblokuotas.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nepavyksta prisijungti prie $domain. Patikrinkite interneto ryšį ir bandykite dar kartą.';
+  }
 }

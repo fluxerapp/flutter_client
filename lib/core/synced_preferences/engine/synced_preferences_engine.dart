@@ -64,22 +64,6 @@ class SyncedPreferencesEngine {
     return pb.SyncedPreferences.fromBuffer(bytes);
   }
 
-  static pb.SyncedPreferences copyField({
-    required pb.SyncedPreferences target,
-    required pb.SyncedPreferences source,
-    required SyncedPreferenceField field,
-  }) {
-    final bytes = SyncedPreferencesWireCodec.replaceField(
-      target: preferencesToBytes(target),
-      fieldNumber: field.fieldNumber,
-      sourceFieldChunks: SyncedPreferencesWireCodec.extractFieldChunks(
-        preferencesToBytes(source),
-        field.fieldNumber,
-      ),
-    );
-    return preferencesFromBytes(bytes);
-  }
-
   static MergeIncomingResult mergeIncoming({
     required pb.SyncedPreferences local,
     required pb.SyncedPreferences incoming,

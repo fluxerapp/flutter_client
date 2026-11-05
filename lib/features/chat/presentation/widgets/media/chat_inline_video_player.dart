@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/chat_preferen
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
 import 'package:media_kit/media_kit.dart';
@@ -194,16 +195,20 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
       aspectRatio: _resolveAspectRatio(),
       child: isMobile
           ? MessageDoubleTapExempt(
-              child: FluxerGestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: _openMobileFullscreen,
-                child: Stack(
-                  fit: StackFit.expand,
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    _buildPoster(),
-                    const VideoPlayButtonOverlay(),
-                  ],
+              child: Semantics(
+                button: true,
+                label: FluxerLocalizations.of(context).videoPlayerPlay,
+                child: FluxerGestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: _openMobileFullscreen,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      _buildPoster(),
+                      const VideoPlayButtonOverlay(),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -235,19 +240,23 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
               ],
             )
           : MessageDoubleTapExempt(
-              child: FluxerGestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: _startPlayback,
-                child: Stack(
-                  fit: StackFit.expand,
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    _buildPoster(),
-                    if (_isLoading)
-                      const Center(child: FluxerLoadingSpinner())
-                    else
-                      const VideoPlayButtonOverlay(),
-                  ],
+              child: Semantics(
+                button: true,
+                label: FluxerLocalizations.of(context).videoPlayerPlay,
+                child: FluxerGestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: _startPlayback,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      _buildPoster(),
+                      if (_isLoading)
+                        const Center(child: FluxerLoadingSpinner())
+                      else
+                        const VideoPlayButtonOverlay(),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -165,8 +165,10 @@ class MobileComposerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MobileComposerLayout.headerHeight,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: MobileComposerLayout.headerHeight,
+      ),
       child: Padding(
         padding: const EdgeInsetsDirectional.only(
           start: MobileComposerLayout.headerInsetStart,
