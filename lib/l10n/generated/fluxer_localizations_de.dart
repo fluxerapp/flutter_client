@@ -911,7 +911,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Auf diesem Gerät gibt es keinen Passkey für diesen Account. Verwende das Gerät oder den Passwortmanager, in dem du ihn gespeichert hast.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4545,7 +4545,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Aktiviere altersbeschränkte Communitys und Kanäle auf fluxer.com in deinem Browser oder in der Desktop-App. Bis dahin bleiben sie in der iOS-App ausgeblendet.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7315,35 +7315,35 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get notificationReplyFailed => 'Antwort konnte nicht gesendet werden';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Nachrichten';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Direktnachrichten';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Neue Forumsbeiträge';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Nachrichten ohne Ton';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Direktnachrichten ohne Ton';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Nachrichten und Hinweise';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Neue Nachricht';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Ich';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Gruppen-DM';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Unbekannt';
 
   @override
   String get chatMessageForward => 'Weiterleiten';

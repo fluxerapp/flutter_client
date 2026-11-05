@@ -17702,6 +17702,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'No passkeys found for this app. Log in with email and password instead.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkeys are not supported on this device.';
 
@@ -21279,6 +21283,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'This mature community is not available to your account.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'This mature category is not available to your account.';
 
@@ -23991,6 +23999,37 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
 
   @override
   String get chatMessageForward => 'Forward';
@@ -34461,6 +34500,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'No passkeys found for this app. Log in with email and password instead.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkeys are not supported on this device.';
 
@@ -38038,6 +38081,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'This mature community is not available to your account.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'This mature category is not available to your account.';
 
@@ -40750,6 +40797,37 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
 
   @override
   String get chatMessageForward => 'Forward';

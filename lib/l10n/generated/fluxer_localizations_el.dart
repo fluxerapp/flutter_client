@@ -910,7 +910,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Αυτή η συσκευή δεν έχει κλειδί πρόσβασης για αυτόν τον λογαριασμό. Χρησιμοποιήστε τη συσκευή ή τη διαχείριση κωδικών πρόσβασης όπου το αποθηκεύσατε.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4556,7 +4556,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Ενεργοποιήστε τις κοινότητες και τα κανάλια με περιορισμό ηλικίας στο fluxer.com από το πρόγραμμα περιήγησης ή από την εφαρμογή για υπολογιστές. Μέχρι τότε παραμένουν κρυφά στην εφαρμογή iOS.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7325,35 +7325,35 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η αποστολή της απάντησης';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Μηνύματα';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Άμεσα μηνύματα';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Νέες αναρτήσεις φόρουμ';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Μηνύματα χωρίς ήχο';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Άμεσα μηνύματα χωρίς ήχο';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Μηνύματα και ειδοποιήσεις';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Νέο μήνυμα';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Εγώ';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Ομαδική συνομιλία';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Άγνωστο';
 
   @override
   String get chatMessageForward => 'Προώθηση';

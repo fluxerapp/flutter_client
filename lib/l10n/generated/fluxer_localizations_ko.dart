@@ -873,7 +873,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      '이 기기에는 이 계정의 패스키가 없습니다. 패스키를 저장한 기기나 비밀번호 관리자를 사용하세요.';
 
   @override
   String get passkeyDeviceNotSupported => '이 기기에서는 패스키를 지원하지 않습니다.';
@@ -4340,7 +4340,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      '브라우저에서 fluxer.com에 접속하거나 데스크톱 앱에서 연령 제한 커뮤니티와 채널을 켜세요. 켜기 전까지는 iOS 앱에서 숨겨진 상태로 유지됩니다.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -6942,35 +6942,34 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get notificationReplyFailed => '답장을 보낼 수 없습니다';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => '메시지';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => '다이렉트 메시지';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => '새 포럼 게시물';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => '소리 없는 메시지';
 
   @override
-  String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+  String get notificationChannelDirectMessagesSilent => '소리 없는 다이렉트 메시지';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => '메시지 및 알림';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => '새 메시지';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => '나';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => '그룹 DM';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => '알 수 없음';
 
   @override
   String get chatMessageForward => '전달';

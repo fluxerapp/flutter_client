@@ -908,7 +908,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Este dispositivo não tem uma chave de acesso para esta conta. Use o dispositivo ou o gestor de palavras-passe onde a guardou.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4523,7 +4523,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou na aplicação para computador. Continuam ocultos na aplicação para iOS até o fazer.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7272,35 +7272,35 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get notificationReplyFailed => 'Não foi possível enviar a resposta';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Mensagens';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Mensagens diretas';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Novas publicações no fórum';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Mensagens sem som';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Mensagens diretas sem som';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Mensagens e alertas';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Nova mensagem';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Eu';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'MD de grupo';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Desconhecido';
 
   @override
   String get chatMessageForward => 'Encaminhar';
@@ -17949,6 +17949,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Nenhuma passkey encontrada para este aplicativo. Faça login com e-mail e senha em vez disso.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'Este dispositivo não tem uma chave de acesso para esta conta. Use o dispositivo ou o gerenciador de senhas onde você a salvou.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkeys não são suportadas neste dispositivo.';
 
@@ -21561,6 +21565,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Esta comunidade com conteúdo adulto não está disponível para sua conta.';
 
   @override
+  String get matureContentIosWebOptInBody =>
+      'Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou no app para desktop. Eles continuam ocultos no app para iOS até você fazer isso.';
+
+  @override
   String get matureCategoryUnavailableBody =>
       'Esta categoria com conteúdo adulto não está disponível para sua conta.';
 
@@ -24310,6 +24318,37 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get notificationReplyFailed => 'Não foi possível enviar a resposta';
+
+  @override
+  String get notificationChannelMessages => 'Mensagens';
+
+  @override
+  String get notificationChannelDirectMessages => 'Mensagens diretas';
+
+  @override
+  String get notificationChannelForumPosts => 'Novas publicações no fórum';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Mensagens sem som';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Mensagens diretas sem som';
+
+  @override
+  String get notificationChannelDescription => 'Mensagens e alertas';
+
+  @override
+  String get notificationNewMessageFallback => 'Nova mensagem';
+
+  @override
+  String get notificationLocalUserName => 'Eu';
+
+  @override
+  String get notificationGroupDmTitle => 'DM em grupo';
+
+  @override
+  String get notificationUnknownSender => 'Desconhecido';
 
   @override
   String get chatMessageForward => 'Encaminhar';

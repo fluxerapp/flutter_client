@@ -905,7 +905,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Thiết bị này không có khóa truy cập cho tài khoản này. Hãy dùng thiết bị hoặc trình quản lý mật khẩu mà bạn đã lưu khóa.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4484,7 +4484,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Bật các cộng đồng và kênh giới hạn độ tuổi tại fluxer.com trong trình duyệt hoặc trong ứng dụng máy tính. Cho đến khi bạn bật, chúng vẫn bị ẩn trong ứng dụng iOS.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7225,35 +7225,35 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get notificationReplyFailed => 'Không thể gửi trả lời';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Tin nhắn';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Tin nhắn trực tiếp';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Bài đăng diễn đàn mới';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Tin nhắn không có âm thanh';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Tin nhắn trực tiếp không có âm thanh';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Tin nhắn và cảnh báo';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Tin nhắn mới';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Tôi';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Nhóm DM';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Không rõ';
 
   @override
   String get chatMessageForward => 'Chuyển tiếp';

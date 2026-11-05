@@ -907,7 +907,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Toto zařízení nemá pro tento účet přístupový klíč. Použijte zařízení nebo správce hesel, kde jste ho uložili.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4528,7 +4528,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Komunity a kanály s věkovým omezením zapněte na fluxer.com v prohlížeči nebo v aplikaci pro počítač. Do té doby zůstanou v aplikaci pro iOS skryté.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7276,35 +7276,35 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get notificationReplyFailed => 'Odpověď se nepodařilo odeslat';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Zprávy';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Přímé zprávy';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Nové příspěvky ve fóru';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Zprávy bez zvuku';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Přímé zprávy bez zvuku';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Zprávy a upozornění';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Nová zpráva';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Já';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Skupinová konverzace';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Neznámý';
 
   @override
   String get chatMessageForward => 'Přeposlat';

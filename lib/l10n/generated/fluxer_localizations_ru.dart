@@ -915,7 +915,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'На этом устройстве нет ключа доступа для этого аккаунта. Используйте устройство или менеджер паролей, в котором вы его сохранили.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4551,7 +4551,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Включите сообщества и каналы с возрастными ограничениями на fluxer.com в браузере или в приложении для компьютера. До этого они остаются скрытыми в приложении для iOS.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7314,35 +7314,35 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get notificationReplyFailed => 'Не удалось отправить ответ';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Сообщения';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Личные сообщения';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Новые публикации на форуме';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Сообщения без звука';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Личные сообщения без звука';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Сообщения и оповещения';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Новое сообщение';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Я';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Групповой чат';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Неизвестно';
 
   @override
   String get chatMessageForward => 'Переслать';
