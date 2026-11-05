@@ -43,6 +43,18 @@ List<int> appAttestAgeClientData({
   );
 }
 
+const Set<ApiErrorCode> _keyRejectionCodes = <ApiErrorCode>{
+  ApiErrorCode.appAttestKeyNotRegistered,
+  ApiErrorCode.appAttestKeyInUse,
+  ApiErrorCode.appAttestAttestationInvalid,
+  ApiErrorCode.appAttestAssertionInvalid,
+};
+
+ApiErrorCode? _appAttestErrorCode(DioException error) {
+  final String? code = apiErrorCodeFromDioException(error);
+  return code == null ? null : ApiErrorCode.fromJson(code);
+}
+
 class _KeyRejected implements Exception {
   const _KeyRejected();
 }
@@ -205,7 +217,10 @@ class AppAttestAgeService extends _$AppAttestAgeService {
         _stopped.add(storageKey);
         return;
       }
-      if (status == null || status == 429 || status >= 500) {
+      if (status == null ||
+          status == 429 ||
+          status >= 500 ||
+          _appAttestErrorCode(e) == ApiErrorCode.appAttestChallengeInvalid) {
         final int? retryAfterMs = retryAfterMsFromDioException(e);
         _scheduleRetry(
           retryAfterMs == null ? null : Duration(milliseconds: retryAfterMs),
@@ -214,7 +229,7 @@ class AppAttestAgeService extends _$AppAttestAgeService {
       }
       talker.warning(
         '[AppAttestAge] request failed status=$status '
-        'code=${apiErrorCodeFromDioException(e)}',
+        'code=${_appAttestErrorCode(e)}',
       );
       _stopped.add(storageKey);
     }
@@ -254,7 +269,7 @@ class AppAttestAgeService extends _$AppAttestAgeService {
       );
     });
     _ensureAccount(userId);
-    await _rejectingKeyOn400(
+    await _rejectingKey(
       ref
           .read(fluxerClientProvider)
           .users
@@ -297,7 +312,7 @@ class AppAttestAgeService extends _$AppAttestAgeService {
       );
     });
     _ensureAccount(userId);
-    await _rejectingKeyOn400(
+    await _rejectingKey(
       ref
           .read(fluxerClientProvider)
           .users
@@ -346,11 +361,11 @@ class AppAttestAgeService extends _$AppAttestAgeService {
     }
   }
 
-  Future<void> _rejectingKeyOn400(Future<void> request) async {
+  Future<void> _rejectingKey(Future<void> request) async {
     try {
       await request;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 400) {
+      if (_keyRejectionCodes.contains(_appAttestErrorCode(e))) {
         throw const _KeyRejected();
       }
       rethrow;
