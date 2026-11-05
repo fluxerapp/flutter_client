@@ -9,37 +9,61 @@ const MethodChannel declaredAgeRangeChannel = MethodChannel(
   'fluxer_app/declared_age_range',
 );
 
-DeclaredAgeFloor declaredAgeFloorFromPayload(Map<Object?, Object?>? payload) {
+enum DeclaredAgeReport { adult, minor, underMinimum }
+
+DeclaredAgeReport? declaredAgeReportFromPayload(
+  Map<Object?, Object?>? payload,
+) {
   if (payload == null || payload['status'] != 'sharing') {
-    return DeclaredAgeFloor.none;
+    return null;
   }
   final Object? upper = payload['upperBound'];
   final Object? lower = payload['lowerBound'];
   if (upper is int && upper < 13) {
-    return DeclaredAgeFloor.underMinimum;
+    return DeclaredAgeReport.underMinimum;
   }
   if (lower is int && lower >= 18) {
-    return DeclaredAgeFloor.none;
+    return DeclaredAgeReport.adult;
   }
-  return DeclaredAgeFloor.minor;
+  return DeclaredAgeReport.minor;
 }
 
-final declaredAgeFloorProvider = FutureProvider<DeclaredAgeFloor>((
+DeclaredAgeFloor declaredAgeFloorFromReport(DeclaredAgeReport? report) {
+  return switch (report) {
+    DeclaredAgeReport.minor => DeclaredAgeFloor.minor,
+    DeclaredAgeReport.underMinimum => DeclaredAgeFloor.underMinimum,
+    DeclaredAgeReport.adult || null => DeclaredAgeFloor.none,
+  };
+}
+
+DeclaredAgeFloor declaredAgeFloorFromPayload(Map<Object?, Object?>? payload) {
+  return declaredAgeFloorFromReport(declaredAgeReportFromPayload(payload));
+}
+
+final declaredAgeReportProvider = FutureProvider<DeclaredAgeReport?>((
   Ref ref,
 ) async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
-    return DeclaredAgeFloor.none;
+    return null;
   }
   if (ref.watch(currentUserIdProvider) == null) {
-    return DeclaredAgeFloor.none;
+    return null;
   }
   try {
-    return declaredAgeFloorFromPayload(
+    return declaredAgeReportFromPayload(
       await declaredAgeRangeChannel.invokeMapMethod<Object?, Object?>(
         'request',
       ),
     );
   } on Object {
-    return DeclaredAgeFloor.none;
+    return null;
   }
+});
+
+final declaredAgeFloorProvider = FutureProvider<DeclaredAgeFloor>((
+  Ref ref,
+) async {
+  return declaredAgeFloorFromReport(
+    await ref.watch(declaredAgeReportProvider.future),
+  );
 });

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/age/app_attest_age_service.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
@@ -555,7 +556,8 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   Widget build(BuildContext context) {
     ref
       ..watch(pushNotificationsCoordinatorProvider)
-      ..watch(appIconBadgeCoordinatorProvider);
+      ..watch(appIconBadgeCoordinatorProvider)
+      ..watch(appAttestAgeServiceProvider);
     if (defaultTargetPlatform == TargetPlatform.iOS &&
         ref.watch(premiumStorePurchasesEnabledProvider)) {
       ref.listen(premiumStoreProvider, (_, _) {});

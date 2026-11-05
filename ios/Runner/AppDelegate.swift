@@ -189,6 +189,9 @@ import flutter_callkit_incoming
     DeclaredAgeRangeBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    AppAttestBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
     registerMeasureReporting(messenger: engineBridge.applicationRegistrar.messenger())
   }
 
