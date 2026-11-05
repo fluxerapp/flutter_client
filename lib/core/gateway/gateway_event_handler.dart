@@ -1916,6 +1916,7 @@ class GatewayEventHandler {
           clearSticky: true,
           markDmRead: false,
         );
+        await readStateWriteBatcher?.flushAck(msg.channelId);
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
       case ReadStateIncomingMessageKind.ackBlockedMessage:
