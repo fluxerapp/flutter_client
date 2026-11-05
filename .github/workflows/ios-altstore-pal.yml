@@ -1,0 +1,248 @@
+name: iOS AltStore PAL
+
+on:
+  workflow_call:
+    inputs:
+      stable_release_tag:
+        description: Draft stable GitHub release tag from release-drafter
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-submit:
+    name: Build marketplace IPA and submit for notarization
+    runs-on: xcode-27
+    environment: release-builds
+    env:
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+      LANGUAGE: en_US.UTF-8
+      DEVELOPER_DIR: /Applications/Xcode_27.app/Contents/Developer
+      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+      STABLE_RELEASE_TAG: ${{ inputs.stable_release_tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Sync submodules
+        run: git submodule update --init --recursive
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Configure iOS store build tree
+        run: dart tool/configure_build.dart --profile=ios-store
+
+      - name: Set up Rust and native asset build hooks
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+            . "$HOME/.cargo/env"
+          fi
+          rustup target add aarch64-apple-ios
+          flutter config --enable-native-assets
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Check translations are complete
+        run: dart run tool/check_l10n_complete.dart
+
+      - name: Run build_runner
+        run: dart run build_runner build
+
+      - name: Create keychain and import certificate
+        env:
+          CERTIFICATES_P12: ${{ secrets.CERTIFICATES_P12 }}
+          CERTIFICATES_P12_PASSWORD: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/build.keychain-db"
+          KEYCHAIN_PASSWORD=actions
+          LOGIN_KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
+          ORIGINAL_DEFAULT_KEYCHAIN="$(security default-keychain -d user 2>/dev/null | tr -d '"' || true)"
+          TEMP_KEYCHAIN_WAS_DEFAULT=false
+          if [ -z "$ORIGINAL_DEFAULT_KEYCHAIN" ]; then
+            TEMP_KEYCHAIN_WAS_DEFAULT=true
+          fi
+          echo "ORIGINAL_DEFAULT_KEYCHAIN=$ORIGINAL_DEFAULT_KEYCHAIN" >> "$GITHUB_ENV"
+          echo "TEMP_KEYCHAIN_WAS_DEFAULT=$TEMP_KEYCHAIN_WAS_DEFAULT" >> "$GITHUB_ENV"
+          if [ -z "$CERTIFICATES_P12" ]; then
+            echo "::error::CERTIFICATES_P12 is not set."
+            exit 1
+          fi
+          if [ -z "$CERTIFICATES_P12_PASSWORD" ]; then
+            echo "::error::CERTIFICATES_P12_PASSWORD is not set."
+            exit 1
+          fi
+          echo "$CERTIFICATES_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lu -t 3600 "$KEYCHAIN_PATH"
+          if [ "$TEMP_KEYCHAIN_WAS_DEFAULT" = "true" ]; then
+            security default-keychain -d user -s "$KEYCHAIN_PATH"
+          fi
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN_PATH" -P "$CERTIFICATES_P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          if [ -f "$LOGIN_KEYCHAIN" ]; then
+            security list-keychains -d user -s "$KEYCHAIN_PATH" "$LOGIN_KEYCHAIN"
+          else
+            security list-keychains -d user -s "$KEYCHAIN_PATH"
+          fi
+          rm -f "$RUNNER_TEMP/cert.p12"
+
+      - name: Install provisioning profiles
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64: ${{ secrets.BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64 }}
+          NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64: ${{ secrets.NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64 }}
+          SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64: ${{ secrets.SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_DIR"
+          for existing_profile in "$PROFILES_DIR"/*.mobileprovision; do
+            [ -e "$existing_profile" ] || continue
+            PROFILE_APP_ID=$(security cms -D -i "$existing_profile" | plutil -extract Entitlements.application-identifier raw - 2>/dev/null || true)
+            case "$PROFILE_APP_ID" in
+              *.com.fluxer|*.com.fluxer.canary|*.com.fluxer.BroadcastExtension|*.com.fluxer.canary.BroadcastExtension|*.com.fluxer.NotificationService|*.com.fluxer.canary.NotificationService|*.com.fluxer.ShareExtension|*.com.fluxer.canary.ShareExtension)
+                rm -f "$existing_profile"
+                ;;
+            esac
+          done
+          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/profile.mobileprovision"
+          if [ -n "$BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64" ]; then
+            echo "$BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/broadcast_extension.mobileprovision"
+          else
+            cp "$PROFILES_DIR/profile.mobileprovision" "$PROFILES_DIR/broadcast_extension.mobileprovision"
+          fi
+          if [ -n "$NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64" ]; then
+            echo "$NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/notification_service.mobileprovision"
+          else
+            cp "$PROFILES_DIR/broadcast_extension.mobileprovision" "$PROFILES_DIR/notification_service.mobileprovision"
+          fi
+          if [ -n "$SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64" ]; then
+            echo "$SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/share_extension.mobileprovision"
+          else
+            cp "$PROFILES_DIR/notification_service.mobileprovision" "$PROFILES_DIR/share_extension.mobileprovision"
+          fi
+          PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract UUID raw -)
+          PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract Name raw -)
+          PROFILE_TEAM_ID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract TeamIdentifier.0 raw -)
+          IS_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          BROADCAST_EXTENSION_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/broadcast_extension.mobileprovision" | plutil -extract UUID raw -)
+          BROADCAST_EXTENSION_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/broadcast_extension.mobileprovision" | plutil -extract Name raw -)
+          IS_BROADCAST_EXTENSION_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/broadcast_extension.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          NOTIFICATION_SERVICE_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract UUID raw -)
+          NOTIFICATION_SERVICE_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Name raw -)
+          IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          SHARE_EXTENSION_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract UUID raw -)
+          SHARE_EXTENSION_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract Name raw -)
+          IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          {
+            echo "PROFILE_UUID=$PROFILE_UUID"
+            echo "PROFILE_NAME=$PROFILE_NAME"
+            echo "PROFILE_TEAM_ID=$PROFILE_TEAM_ID"
+            echo "BROADCAST_EXTENSION_PROFILE_UUID=$BROADCAST_EXTENSION_PROFILE_UUID"
+            echo "NOTIFICATION_SERVICE_PROFILE_UUID=$NOTIFICATION_SERVICE_PROFILE_UUID"
+            echo "SHARE_EXTENSION_PROFILE_UUID=$SHARE_EXTENSION_PROFILE_UUID"
+          } >> "$GITHUB_ENV"
+          echo "::notice::Provisioning profile metadata - name: $PROFILE_NAME, uuid: $PROFILE_UUID, team: $PROFILE_TEAM_ID, development: $IS_DEVELOPMENT_PROFILE"
+          echo "::notice::Broadcast extension profile metadata - name: $BROADCAST_EXTENSION_PROFILE_NAME, uuid: $BROADCAST_EXTENSION_PROFILE_UUID, development: $IS_BROADCAST_EXTENSION_DEVELOPMENT_PROFILE"
+          echo "::notice::Notification Service extension profile metadata - name: $NOTIFICATION_SERVICE_PROFILE_NAME, uuid: $NOTIFICATION_SERVICE_PROFILE_UUID, development: $IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE"
+          echo "::notice::Share extension profile metadata - name: $SHARE_EXTENSION_PROFILE_NAME, uuid: $SHARE_EXTENSION_PROFILE_UUID, development: $IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE"
+          if [ "$IS_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Provisioning profile is Development type. Use an App Store distribution profile."
+            exit 1
+          fi
+          if [ "$IS_BROADCAST_EXTENSION_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Broadcast extension provisioning profile is Development type. Use an App Store distribution profile."
+            exit 1
+          fi
+          if [ "$IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Notification Service extension provisioning profile is Development type. Use an App Store distribution profile."
+            exit 1
+          fi
+          if [ "$IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Share extension provisioning profile is Development type. Use an App Store distribution profile."
+            exit 1
+          fi
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5
+        with:
+          ruby-version: "4.0"
+
+      - name: Restore Bundler cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-ruby-4.0-${{ hashFiles('Gemfile.lock', 'Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-ruby-4.0-
+
+      - name: Install Ruby gems
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      - name: Write Measure native config
+        env:
+          MEASURE_RELEASE_CHANNEL: stable
+          MEASURE_IOS_API_KEY_STABLE: ${{ secrets.MEASURE_IOS_API_KEY_STABLE }}
+          MEASURE_IOS_API_KEY: ${{ secrets.MEASURE_IOS_API_KEY }}
+          MEASURE_API_URL: ${{ secrets.MEASURE_API_URL }}
+        run: tool/measure/write_native_measure_config.sh
+
+      - name: Build and submit with Fastlane
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+          MEASURE_IOS_API_KEY_STABLE: ${{ secrets.MEASURE_IOS_API_KEY_STABLE }}
+          MEASURE_IOS_API_KEY: ${{ secrets.MEASURE_IOS_API_KEY }}
+          MEASURE_API_URL: ${{ secrets.MEASURE_API_URL }}
+          MEASURE_RELEASE_CHANNEL: stable
+        run: bundle exec fastlane ios altstore_pal
+
+      - name: Upload AltStore PAL metadata artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: altstore-pal-version
+          path: build/altstore-pal-version.json
+          if-no-files-found: error
+
+      - name: Cleanup temporary keychain
+        if: always()
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/build.keychain-db"
+          LOGIN_KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
+          if [ "${TEMP_KEYCHAIN_WAS_DEFAULT:-false}" = "true" ] && [ -n "${ORIGINAL_DEFAULT_KEYCHAIN:-}" ]; then
+            security default-keychain -d user -s "$ORIGINAL_DEFAULT_KEYCHAIN" || true
+          elif [ "${TEMP_KEYCHAIN_WAS_DEFAULT:-false}" = "true" ] && [ -f "$LOGIN_KEYCHAIN" ]; then
+            security default-keychain -d user -s "$LOGIN_KEYCHAIN" || true
+          fi
+          if [ -n "${ORIGINAL_DEFAULT_KEYCHAIN:-}" ]; then
+            security list-keychains -d user -s "$ORIGINAL_DEFAULT_KEYCHAIN" || true
+          elif [ -f "$LOGIN_KEYCHAIN" ]; then
+            security list-keychains -d user -s "$LOGIN_KEYCHAIN" || true
+          fi
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain "$KEYCHAIN_PATH" || true
+          fi

@@ -2,6 +2,13 @@ name: Draft Stable Release
 
 on:
   workflow_call:
+    outputs:
+      release_id:
+        description: GitHub release ID for the stable draft
+        value: ${{ jobs.draft.outputs.release_id }}
+      tag_name:
+        description: Tag name for the stable draft release
+        value: ${{ jobs.draft.outputs.tag_name }}
 
 permissions: {}
 
@@ -9,6 +16,9 @@ jobs:
   draft:
     name: Update stable release draft
     runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.release_drafter.outputs.id }}
+      tag_name: ${{ steps.release_drafter.outputs.tag_name }}
     steps:
       - name: Create token
         id: create-token
