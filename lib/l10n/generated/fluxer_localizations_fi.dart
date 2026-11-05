@@ -904,7 +904,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Tällä laitteella ei ole pääsyavainta tälle tilille. Käytä laitetta tai salasanojen hallintaa, johon tallensit sen.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4515,7 +4515,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Ota ikärajoitetut yhteisöt ja kanavat käyttöön osoitteessa fluxer.com selaimessa tai työpöytäsovelluksessa. Siihen asti ne pysyvät piilossa iOS-sovelluksessa.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7252,35 +7252,35 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get notificationReplyFailed => 'Vastauksen lähettäminen epäonnistui';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Viestit';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Yksityisviestit';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Uudet foorumijulkaisut';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Viestit ilman ääntä';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Yksityisviestit ilman ääntä';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Viestit ja hälytykset';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Uusi viesti';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Minä';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Ryhmäviesti';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Tuntematon';
 
   @override
   String get chatMessageForward => 'Välitä';

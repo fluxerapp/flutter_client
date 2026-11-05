@@ -19887,5 +19887,53 @@
                 "example": "fluxer.com"
             }
         }
+    },
+    "passkeyNoCredentialsForAccount": "Este dispositivo não tem uma chave de acesso para esta conta. Use o dispositivo ou o gestor de palavras-passe onde a guardou.",
+    "@passkeyNoCredentialsForAccount": {
+        "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
+    },
+    "matureContentIosWebOptInBody": "Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou na aplicação para computador. Continuam ocultos na aplicação para iOS até o fazer.",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+    },
+    "notificationChannelMessages": "Mensagens",
+    "@notificationChannelMessages": {
+        "description": "Android notification channel name for community messages."
+    },
+    "notificationChannelDirectMessages": "Mensagens diretas",
+    "@notificationChannelDirectMessages": {
+        "description": "Android notification channel name for direct messages."
+    },
+    "notificationChannelForumPosts": "Novas publicações no fórum",
+    "@notificationChannelForumPosts": {
+        "description": "Android notification channel name for new forum posts."
+    },
+    "notificationChannelMessagesSilent": "Mensagens sem som",
+    "@notificationChannelMessagesSilent": {
+        "description": "Android notification channel name for community messages when the message sound is turned off."
+    },
+    "notificationChannelDirectMessagesSilent": "Mensagens diretas sem som",
+    "@notificationChannelDirectMessagesSilent": {
+        "description": "Android notification channel name for direct messages when the direct message sound is turned off."
+    },
+    "notificationChannelDescription": "Mensagens e alertas",
+    "@notificationChannelDescription": {
+        "description": "Description shown for Fluxer notification channels in Android settings."
+    },
+    "notificationNewMessageFallback": "Nova mensagem",
+    "@notificationNewMessageFallback": {
+        "description": "Notification text used when a push has no message body."
+    },
+    "notificationLocalUserName": "Eu",
+    "@notificationLocalUserName": {
+        "description": "Name used for the signed-in user inside a conversation notification."
+    },
+    "notificationGroupDmTitle": "MD de grupo",
+    "@notificationGroupDmTitle": {
+        "description": "Notification title for a group direct message."
+    },
+    "notificationUnknownSender": "Desconhecido",
+    "@notificationUnknownSender": {
+        "description": "Notification sender name used when a push has no sender."
     }
 }

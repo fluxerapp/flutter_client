@@ -19887,5 +19887,53 @@
                 "example": "fluxer.com"
             }
         }
+    },
+    "passkeyNoCredentialsForAccount": "Toto zařízení nemá pro tento účet přístupový klíč. Použijte zařízení nebo správce hesel, kde jste ho uložili.",
+    "@passkeyNoCredentialsForAccount": {
+        "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
+    },
+    "matureContentIosWebOptInBody": "Komunity a kanály s věkovým omezením zapněte na fluxer.com v prohlížeči nebo v aplikaci pro počítač. Do té doby zůstanou v aplikaci pro iOS skryté.",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+    },
+    "notificationChannelMessages": "Zprávy",
+    "@notificationChannelMessages": {
+        "description": "Android notification channel name for community messages."
+    },
+    "notificationChannelDirectMessages": "Přímé zprávy",
+    "@notificationChannelDirectMessages": {
+        "description": "Android notification channel name for direct messages."
+    },
+    "notificationChannelForumPosts": "Nové příspěvky ve fóru",
+    "@notificationChannelForumPosts": {
+        "description": "Android notification channel name for new forum posts."
+    },
+    "notificationChannelMessagesSilent": "Zprávy bez zvuku",
+    "@notificationChannelMessagesSilent": {
+        "description": "Android notification channel name for community messages when the message sound is turned off."
+    },
+    "notificationChannelDirectMessagesSilent": "Přímé zprávy bez zvuku",
+    "@notificationChannelDirectMessagesSilent": {
+        "description": "Android notification channel name for direct messages when the direct message sound is turned off."
+    },
+    "notificationChannelDescription": "Zprávy a upozornění",
+    "@notificationChannelDescription": {
+        "description": "Description shown for Fluxer notification channels in Android settings."
+    },
+    "notificationNewMessageFallback": "Nová zpráva",
+    "@notificationNewMessageFallback": {
+        "description": "Notification text used when a push has no message body."
+    },
+    "notificationLocalUserName": "Já",
+    "@notificationLocalUserName": {
+        "description": "Name used for the signed-in user inside a conversation notification."
+    },
+    "notificationGroupDmTitle": "Skupinová konverzace",
+    "@notificationGroupDmTitle": {
+        "description": "Notification title for a group direct message."
+    },
+    "notificationUnknownSender": "Neznámý",
+    "@notificationUnknownSender": {
+        "description": "Notification sender name used when a push has no sender."
     }
 }

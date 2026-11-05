@@ -911,7 +911,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Ezen az eszközön nincs jelszókulcs ehhez a fiókhoz. Használd azt az eszközt vagy jelszókezelőt, ahová elmentetted.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4535,7 +4535,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Kapcsold be a korhatáros közösségeket és csatornákat a fluxer.com oldalon a böngésződben vagy az asztali alkalmazásban. Addig rejtve maradnak az iOS-alkalmazásban.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7291,35 +7291,35 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nem sikerült elküldeni a választ';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Üzenetek';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Közvetlen üzenetek';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Új fórumbejegyzések';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Üzenetek hang nélkül';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Közvetlen üzenetek hang nélkül';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Üzenetek és figyelmeztetések';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Új üzenet';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Én';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Csoportos üzenet';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Ismeretlen';
 
   @override
   String get chatMessageForward => 'Továbbítás';

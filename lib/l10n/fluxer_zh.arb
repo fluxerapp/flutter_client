@@ -19887,5 +19887,53 @@
                 "example": "fluxer.com"
             }
         }
+    },
+    "passkeyNoCredentialsForAccount": "此设备上没有该账号的通行密钥。请使用你保存通行密钥的设备或密码管理器。",
+    "@passkeyNoCredentialsForAccount": {
+        "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
+    },
+    "matureContentIosWebOptInBody": "请在浏览器中访问 fluxer.com 或在桌面应用中开启年龄限制的社区和频道。开启之前，它们在 iOS 应用中会保持隐藏。",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+    },
+    "notificationChannelMessages": "消息",
+    "@notificationChannelMessages": {
+        "description": "Android notification channel name for community messages."
+    },
+    "notificationChannelDirectMessages": "私信",
+    "@notificationChannelDirectMessages": {
+        "description": "Android notification channel name for direct messages."
+    },
+    "notificationChannelForumPosts": "新论坛帖子",
+    "@notificationChannelForumPosts": {
+        "description": "Android notification channel name for new forum posts."
+    },
+    "notificationChannelMessagesSilent": "无声消息",
+    "@notificationChannelMessagesSilent": {
+        "description": "Android notification channel name for community messages when the message sound is turned off."
+    },
+    "notificationChannelDirectMessagesSilent": "无声私信",
+    "@notificationChannelDirectMessagesSilent": {
+        "description": "Android notification channel name for direct messages when the direct message sound is turned off."
+    },
+    "notificationChannelDescription": "消息和提醒",
+    "@notificationChannelDescription": {
+        "description": "Description shown for Fluxer notification channels in Android settings."
+    },
+    "notificationNewMessageFallback": "新消息",
+    "@notificationNewMessageFallback": {
+        "description": "Notification text used when a push has no message body."
+    },
+    "notificationLocalUserName": "我",
+    "@notificationLocalUserName": {
+        "description": "Name used for the signed-in user inside a conversation notification."
+    },
+    "notificationGroupDmTitle": "群组私信",
+    "@notificationGroupDmTitle": {
+        "description": "Notification title for a group direct message."
+    },
+    "notificationUnknownSender": "未知",
+    "@notificationUnknownSender": {
+        "description": "Notification sender name used when a push has no sender."
     }
 }

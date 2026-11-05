@@ -19904,5 +19904,53 @@
                 "example": "fluxer.com"
             }
         }
+    },
+    "passkeyNoCredentialsForAccount": "Acest dispozitiv nu are o cheie de acces pentru acest cont. Folosește dispozitivul sau managerul de parole în care ai salvat-o.",
+    "@passkeyNoCredentialsForAccount": {
+        "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
+    },
+    "matureContentIosWebOptInBody": "Activează comunitățile și canalele cu restricție de vârstă pe fluxer.com în browser sau în aplicația desktop. Până atunci, rămân ascunse în aplicația iOS.",
+    "@matureContentIosWebOptInBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+    },
+    "notificationChannelMessages": "Mesaje",
+    "@notificationChannelMessages": {
+        "description": "Android notification channel name for community messages."
+    },
+    "notificationChannelDirectMessages": "Mesaje directe",
+    "@notificationChannelDirectMessages": {
+        "description": "Android notification channel name for direct messages."
+    },
+    "notificationChannelForumPosts": "Postări noi pe forum",
+    "@notificationChannelForumPosts": {
+        "description": "Android notification channel name for new forum posts."
+    },
+    "notificationChannelMessagesSilent": "Mesaje fără sunet",
+    "@notificationChannelMessagesSilent": {
+        "description": "Android notification channel name for community messages when the message sound is turned off."
+    },
+    "notificationChannelDirectMessagesSilent": "Mesaje directe fără sunet",
+    "@notificationChannelDirectMessagesSilent": {
+        "description": "Android notification channel name for direct messages when the direct message sound is turned off."
+    },
+    "notificationChannelDescription": "Mesaje și alerte",
+    "@notificationChannelDescription": {
+        "description": "Description shown for Fluxer notification channels in Android settings."
+    },
+    "notificationNewMessageFallback": "Mesaj nou",
+    "@notificationNewMessageFallback": {
+        "description": "Notification text used when a push has no message body."
+    },
+    "notificationLocalUserName": "Eu",
+    "@notificationLocalUserName": {
+        "description": "Name used for the signed-in user inside a conversation notification."
+    },
+    "notificationGroupDmTitle": "Mesaj de grup",
+    "@notificationGroupDmTitle": {
+        "description": "Notification title for a group direct message."
+    },
+    "notificationUnknownSender": "Necunoscut",
+    "@notificationUnknownSender": {
+        "description": "Notification sender name used when a push has no sender."
     }
 }

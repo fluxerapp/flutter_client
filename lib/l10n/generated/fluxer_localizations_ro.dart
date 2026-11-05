@@ -913,7 +913,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'Acest dispozitiv nu are o cheie de acces pentru acest cont. Folosește dispozitivul sau managerul de parole în care ai salvat-o.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -4539,7 +4539,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+      'Activează comunitățile și canalele cu restricție de vârstă pe fluxer.com în browser sau în aplicația desktop. Până atunci, rămân ascunse în aplicația iOS.';
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -7290,35 +7290,35 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nu s-a putut trimite răspunsul';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Mesaje';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Mesaje directe';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Postări noi pe forum';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Mesaje fără sunet';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Mesaje directe fără sunet';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Mesaje și alerte';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Mesaj nou';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Eu';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Mesaj de grup';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Necunoscut';
 
   @override
   String get chatMessageForward => 'Redirecționează';
