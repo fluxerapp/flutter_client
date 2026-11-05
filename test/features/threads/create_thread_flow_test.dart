@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
@@ -196,6 +197,7 @@ void main() {
           overrides: coreTestProviderOverrides(
             database: database,
             extra: [
+              blockedUserIdsProvider.overrideWithValue(const <String>{}),
               threadsRepositoryProvider.overrideWithValue(threads),
               fluxerRouterProvider.overrideWithValue(router),
               chatViewModelProvider.overrideWith(() => chat),

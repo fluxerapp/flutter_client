@@ -337,36 +337,38 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          AnimatedBuilder(
-            animation: Listenable.merge(<Listenable>[
-              _fineDrift,
-              _coarseDrift,
-              _parallaxOffset,
-            ]),
-            builder: (BuildContext context, Widget? _) {
-              return ExcludeSemantics(
-                child: CustomPaint(
-                  painter: _StarfieldPainter(
-                    fineProgress: _quantizeProgress(
-                      Curves.easeInOut.transform(_fineDrift.value) *
-                          motionIntensity,
-                    ),
-                    coarseProgress: _quantizeProgress(
-                      Curves.easeInOut.transform(1 - _coarseDrift.value) *
-                          motionIntensity,
-                    ),
-                    parallaxOffset: Offset(
-                      _quantizePixels(
-                        _parallaxOffset.value.dx * motionIntensity,
+          RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: Listenable.merge(<Listenable>[
+                _fineDrift,
+                _coarseDrift,
+                _parallaxOffset,
+              ]),
+              builder: (BuildContext context, Widget? _) {
+                return ExcludeSemantics(
+                  child: CustomPaint(
+                    painter: _StarfieldPainter(
+                      fineProgress: _quantizeProgress(
+                        Curves.easeInOut.transform(_fineDrift.value) *
+                            motionIntensity,
                       ),
-                      _quantizePixels(
-                        _parallaxOffset.value.dy * motionIntensity,
+                      coarseProgress: _quantizeProgress(
+                        Curves.easeInOut.transform(1 - _coarseDrift.value) *
+                            motionIntensity,
+                      ),
+                      parallaxOffset: Offset(
+                        _quantizePixels(
+                          _parallaxOffset.value.dx * motionIntensity,
+                        ),
+                        _quantizePixels(
+                          _parallaxOffset.value.dy * motionIntensity,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (widget.child != null) widget.child!,
         ],

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -107,6 +108,15 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
 
   Widget _buildBlurredOverlay(BuildContext context, MatureMediaPolicy policy) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String lockedLabel =
+        ref.watch(
+              sensitiveContentProvider.select(
+                (SensitiveContentState s) => s.access,
+              ),
+            ) ==
+            MatureAccess.minor
+        ? l10n.matureMediaMinorLockedLabel
+        : l10n.matureMediaAppLockedLabel;
     return ClipRRect(
       borderRadius: widget.borderRadius,
       child: Stack(
@@ -116,13 +126,13 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: context.colors.spoilerBackground.withValues(alpha: 0.72),
+                color: context.colors.backgroundTertiary,
               ),
               child: Center(
                 child: policy.canReveal
                     ? Semantics(
                         button: true,
-                        label: l10n.matureMediaRevealHint,
+                        label: l10n.matureMediaRevealLabel,
                         child: TextButton(
                           onPressed: () => setState(() => _revealed = true),
                           style: TextButton.styleFrom(
@@ -140,6 +150,21 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
                             l10n.matureMediaRevealButton,
                             style: context.textStyles.bodySmall.copyWith(
                               fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                    : policy.appLocked
+                    ? Semantics(
+                        label: lockedLabel,
+                        excludeSemantics: true,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            lockedLabel,
+                            textAlign: TextAlign.center,
+                            style: context.textStyles.bodySmall.copyWith(
+                              color: context.colors.textSecondary,
                             ),
                           ),
                         ),

@@ -143,6 +143,7 @@ class _ReactionChip extends StatelessWidget {
                       animated: reaction.animated,
                       requestSize: kCustomEmojiFetchSize,
                       size: _kReactionEmojiSize,
+                      pauseWhenOffscreen: false,
                     )
                   else
                     UnicodeEmojiWidget(

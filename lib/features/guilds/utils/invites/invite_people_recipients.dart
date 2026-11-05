@@ -23,7 +23,7 @@ List<InvitePeopleRecipient> buildInvitePeopleRecipients({
       recipients.add(
         InvitePeopleRecipient(
           id: dm.id,
-          displayName: dm.displayName,
+          displayName: dmConversationDisplayName(l10n, dm),
           secondaryText: l10n.guildNavbarGroupDm,
           channelId: dm.id,
         ),

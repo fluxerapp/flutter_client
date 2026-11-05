@@ -258,6 +258,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   bool _animateJumpHighlight = false;
 
   Message? _semanticLabelMessage;
+  String? _semanticLabelAuthor;
   FluxerLocalizations? _semanticLabelL10n;
   bool _semanticLabelSending = false;
   bool _semanticLabelFailed = false;
@@ -961,6 +962,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       label: _messageSemanticLabel(
         context,
         msg,
+        author: watchMessageAuthorDisplay(
+          ref: ref,
+          message: msg,
+          guildId: guildId,
+          currentUserId: widget.currentUserId,
+        ).displayName,
         isSending: isSending,
         isFailed: isFailed,
       ),
@@ -968,16 +975,16 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     final bool hasChannelDetailsSession =
         ref.watch(channelDetailsDrawerProvider) != null;
-    final double channelDetailsReveal = ref.watch(
-      channelDetailsDrawerRevealProvider,
-    );
     final double screenWidth = MediaQuery.sizeOf(context).width;
-    final bool channelDetailsDrawerBlocksSwipe =
-        channelDetailsDrawerBlocksMessageSwipe(
+    final bool channelDetailsDrawerBlocksSwipe = ref.watch(
+      channelDetailsDrawerRevealProvider.select(
+        (double revealPixels) => channelDetailsDrawerBlocksMessageSwipe(
           hasDrawerSession: hasChannelDetailsSession,
-          revealPixels: channelDetailsReveal,
+          revealPixels: revealPixels,
           screenWidth: screenWidth,
-        );
+        ),
+      ),
+    );
     final bool swipeToOpenChannelDetails =
         handheldChannelDetailsGesturesApply(context) &&
         ref.watch(swipeRightToLeftActionPreferencesProvider).effectiveAction ==
@@ -1042,6 +1049,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   String _messageSemanticLabel(
     BuildContext context,
     Message msg, {
+    required String author,
     required bool isSending,
     required bool isFailed,
   }) {
@@ -1049,14 +1057,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final String? cached = _semanticLabel;
     if (cached != null &&
         identical(msg, _semanticLabelMessage) &&
+        author == _semanticLabelAuthor &&
         identical(l10n, _semanticLabelL10n) &&
         isSending == _semanticLabelSending &&
         isFailed == _semanticLabelFailed) {
       return cached;
     }
-    final String author = msg.authorName.isNotEmpty
-        ? msg.authorName
-        : msg.authorId;
     final String summary = messageAccessibilitySummary(msg, l10n);
     final StringBuffer label = StringBuffer(
       l10n.messageAccessibilityLabel(author, summary),
@@ -1067,6 +1073,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       label.write(l10n.messageAccessibilityFailedSuffix);
     }
     _semanticLabelMessage = msg;
+    _semanticLabelAuthor = author;
     _semanticLabelL10n = l10n;
     _semanticLabelSending = isSending;
     _semanticLabelFailed = isFailed;
@@ -1387,7 +1394,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   bool _usesTouchMessageActions(BuildContext context) =>
-      isMobileLayout(context) || isTouchPrimaryInput(ref);
+      isTouchPrimaryInput(ref) || !usesDesktopPointerUi(context);
 
   Widget _buildDeliveryStatus(BuildContext context, Message msg) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

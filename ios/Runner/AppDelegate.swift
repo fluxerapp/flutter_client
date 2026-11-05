@@ -13,13 +13,26 @@ import flutter_callkit_incoming
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    excludeDatabaseFromBackup()
     VoipRegistry.shared.start()
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     UNUserNotificationCenter.current().delegate = self
     ApplePushBridge.shared.registerReplyCategory()
-    AssistantAppShortcuts.updateAppShortcutParameters()
+    AssistantBridge.shared.refreshAppShortcutsInBackground()
     startMeasureIfEnabled()
     return result
+  }
+
+  private func excludeDatabaseFromBackup() {
+    let fileManager = FileManager.default
+    guard let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+      return
+    }
+    var directory = support.appendingPathComponent("database", isDirectory: true)
+    var values = URLResourceValues()
+    values.isExcludedFromBackup = true
+    try? fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+    try? directory.setResourceValues(values)
   }
 
   private static let measureReportingEnabledKey = "flutter.observability_reporting_enabled"
@@ -158,6 +171,12 @@ import flutter_callkit_incoming
     VoiceSpeakerRouteBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    if let routePicker = engineBridge.pluginRegistry.registrar(forPlugin: "VoiceRoutePicker") {
+      routePicker.register(
+        VoiceRoutePickerViewFactory(messenger: routePicker.messenger()),
+        withId: "fluxer_app/voice_route_picker"
+      )
+    }
     UploadKeepAliveBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
@@ -165,6 +184,9 @@ import flutter_callkit_incoming
       messenger: engineBridge.applicationRegistrar.messenger()
     )
     AppStoreDistributionBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
+    DeclaredAgeRangeBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
     registerMeasureReporting(messenger: engineBridge.applicationRegistrar.messenger())

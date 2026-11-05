@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
@@ -84,11 +85,14 @@ Future<List<ForwardDestination>> forwardDestinations(
   required bool sourceHasAttachments,
 }) async {
   final List<Channel> allChannels = await ref.watch(allChannelsProvider.future);
-  final List<Guild> guilds = ref.watch(guildListViewModelProvider).guilds;
-  final DmViewState dmState = ref.watch(dmViewModelProvider);
-  final List<DmConversation> conversations = dmState.conversations;
+  final List<Guild> guilds = ref.watch(
+    guildListViewModelProvider.select((GuildListViewState s) => s.guilds),
+  );
+  final List<DmConversation> conversations = ref.watch(
+    dmViewModelProvider.select((DmViewState s) => s.conversations),
+  );
   final Map<String, String?> friendNicknameById = friendNicknamesById(
-    dmState.friendsList,
+    ref.watch(dmViewModelProvider.select((DmViewState s) => s.friendsList)),
   );
   final FluxerLocalizations l10n = ref.watch(appLocalizationsProvider);
 
@@ -136,11 +140,12 @@ Future<List<ForwardDestination>> forwardDestinations(
   }
 
   final Set<String> joined = await database.threadDao.getJoinedThreadIds();
+  final List<List<db.Channel>> threadRowsByGuild = await Future.wait(
+    guildsById.keys.map(database.threadDao.getThreadsForGuild),
+  );
   final List<Channel> threadDestinations = <Channel>[
-    for (final String guildId in guildsById.keys)
-      for (final db.Channel row in await database.threadDao.getThreadsForGuild(
-        guildId,
-      ))
+    for (final List<db.Channel> rows in threadRowsByGuild)
+      for (final db.Channel row in rows)
         if (Channel.fromRow(row) case final Channel thread
             when isForwardableThread(
               thread,
@@ -148,24 +153,32 @@ Future<List<ForwardDestination>> forwardDestinations(
             ))
           thread,
   ];
-  final List<Channel> guildChannels =
-      <Channel>[
-        ...allChannels.where(
-          (Channel c) => isGuildTextBasedChannelType(c.type),
-        ),
-        ...threadDestinations,
-      ]..sort((Channel a, Channel b) {
-        final String an = (guildsById[a.guildId]?.name ?? '').toLowerCase();
-        final String bn = (guildsById[b.guildId]?.name ?? '').toLowerCase();
-        final int byGuild = an.compareTo(bn);
+  final List<({Channel channel, String guildName, String name})> sortable =
+      <({Channel channel, String guildName, String name})>[
+        for (final Channel c in <Channel>[
+          ...allChannels.where(
+            (Channel c) => isGuildTextBasedChannelType(c.type),
+          ),
+          ...threadDestinations,
+        ])
+          (
+            channel: c,
+            guildName: (guildsById[c.guildId]?.name ?? '').toLowerCase(),
+            name: c.name.toLowerCase(),
+          ),
+      ]..sort((a, b) {
+        final int byGuild = a.guildName.compareTo(b.guildName);
         if (byGuild != 0) {
           return byGuild;
         }
-        if (a.position != b.position) {
-          return a.position.compareTo(b.position);
+        if (a.channel.position != b.channel.position) {
+          return a.channel.position.compareTo(b.channel.position);
         }
-        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        return a.name.compareTo(b.name);
       });
+  final List<Channel> guildChannels = <Channel>[
+    for (final entry in sortable) entry.channel,
+  ];
 
   final Map<String, ForwardDestinationDisable> guildLevelDisable =
       <String, ForwardDestinationDisable>{};
@@ -174,37 +187,57 @@ Future<List<ForwardDestination>> forwardDestinations(
       .map((Channel c) => c.guildId)
       .where((String id) => id.isNotEmpty)
       .toSet();
+  final List<String> memberCheckGuildIds = <String>[];
   for (final String guildId in destinationGuildIds) {
     final Guild? guild = guildsById[guildId];
     if (guild != null && guild.isSendDisabled) {
       guildLevelDisable[guildId] = ForwardDestinationDisable.guildSendDisabled;
-      continue;
+    } else if (currentUserId != null) {
+      memberCheckGuildIds.add(guildId);
     }
-    if (currentUserId != null) {
-      final memberRow = await database.memberDao.getMemberByUserId(
-        currentUserId,
-        guildId,
-      );
-      final DateTime? until = memberRow?.communicationDisabledUntil;
-      if (until != null && until.isAfter(now)) {
-        guildLevelDisable[guildId] = ForwardDestinationDisable.memberTimedOut;
-      }
+  }
+  final List<db.Member?> ownMemberRows = await Future.wait(
+    memberCheckGuildIds.map(
+      (String guildId) =>
+          database.memberDao.getMemberByUserId(currentUserId!, guildId),
+    ),
+  );
+  for (int i = 0; i < memberCheckGuildIds.length; i++) {
+    final DateTime? until = ownMemberRows[i]?.communicationDisabledUntil;
+    if (until != null && until.isAfter(now)) {
+      guildLevelDisable[memberCheckGuildIds[i]] =
+          ForwardDestinationDisable.memberTimedOut;
     }
   }
 
-  final List<ChannelPermissionBitsOutcome> permissionOutcomes =
+  final Map<String, Set<String>> channelIdsByGuild = <String, Set<String>>{};
+  for (final Channel channel in guildChannels) {
+    if (channel.guildId.isNotEmpty) {
+      (channelIdsByGuild[channel.guildId] ??= <String>{}).add(channel.id);
+    }
+  }
+  final List<Map<String, ChannelPermissionBitsOutcome>> outcomesByGuild =
       await Future.wait(
-        guildChannels.map(
-          (Channel c) => computeEffectiveGuildChannelPermissionBitsOutcome(
-            ref: ref,
-            channelId: c.id,
-          ),
+        channelIdsByGuild.entries.map(
+          (MapEntry<String, Set<String>> entry) =>
+              computeEffectiveGuildChannelPermissionBitsOutcomesForGuild(
+                ref: ref,
+                guildId: entry.key,
+                onlyChannelIds: entry.value,
+              ),
         ),
       );
+  final Map<String, ChannelPermissionBitsOutcome> permissionOutcomes =
+      <String, ChannelPermissionBitsOutcome>{
+        for (final Map<String, ChannelPermissionBitsOutcome> outcomes
+            in outcomesByGuild)
+          ...outcomes,
+      };
 
-  for (int i = 0; i < guildChannels.length; i++) {
-    final Channel channel = guildChannels[i];
-    final ChannelPermissionBitsOutcome outcome = permissionOutcomes[i];
+  for (final Channel channel in guildChannels) {
+    final ChannelPermissionBitsOutcome outcome = channel.guildId.isEmpty
+        ? (value: 0, shouldCache: true)
+        : permissionOutcomes[channel.id] ?? (value: 0, shouldCache: false);
     final int bits = outcome.value;
     final ForwardDestinationDisable? guildGate =
         guildLevelDisable[channel.guildId];

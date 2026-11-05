@@ -229,6 +229,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>FLTEnableImpeller</key>
 	<true/>
 	<key>FLTEnableWideGamut</key>
@@ -246,25 +248,21 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Fluxer uses the camera when you take a photo to send or turn on video in a call.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Fluxer does not use your location. A bundled library references location APIs, which requires this entry for App Store submission.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Fluxer does not use your location. A bundled library references location APIs, which requires this entry for App Store submission.</string>
+	<string>Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Leave voice messages, audio, and video calls.</string>
+	<string>Fluxer uses the microphone when you record a voice message, talk in a voice or video call, or test your microphone in settings.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Add subtle motion to the splash and login backgrounds.</string>
+	<string>Fluxer uses motion data to move the animated star background when you tilt your device.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Save images and videos to your photo library.</string>
+	<string>Fluxer saves to your library when you choose to save a photo or video from a chat, or your recovery kit as an image.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Share photos from your library in a chat.</string>
+	<string>Fluxer shows your photos and videos in the attachment panel so you can choose which ones to send in a chat.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>INSendMessageIntent</string>
 	</array>
-	<key>NSVoIPUsageDescription</key>
-	<string>Support for receiving calls in the background</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>RTCAppGroupIdentifier</key>
@@ -296,7 +294,6 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>remote-notification</string>
 		<string>audio</string>
 		<string>voip</string>

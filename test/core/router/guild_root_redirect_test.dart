@@ -408,17 +408,29 @@ void main() {
       await db.guildLastChannelDao.setLastChannel(kDmLastChannelKey, 'dm-1');
 
       final result = await resolveDmRootRedirect(
-        fullPath: RoutePaths.me,
+        uri: Uri.parse(RoutePaths.me),
         db: db,
       );
 
       expect(result, RoutePaths.dmChannel('dm-1'));
     });
 
+    test('friends request stays on the friends page', () async {
+      await addDm('dm-1');
+      await db.guildLastChannelDao.setLastChannel(kDmLastChannelKey, 'dm-1');
+
+      final result = await resolveDmRootRedirect(
+        uri: Uri.parse(RoutePaths.meFriends),
+        db: db,
+      );
+
+      expect(result, isNull);
+    });
+
     test('child route returns null', () async {
       await addDm('dm-1');
       final result = await resolveDmRootRedirect(
-        fullPath: RoutePaths.dmChannel('dm-1'),
+        uri: Uri.parse(RoutePaths.dmChannel('dm-1')),
         db: db,
       );
       expect(result, isNull);

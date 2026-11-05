@@ -1,15 +1,35 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 import 'message_list_test_harness.dart';
 
 int withheldLeadingCount(WidgetTester tester) {
-  return tester
-      .widget<MessageListViewport>(find.byType(MessageListViewport))
-      .withheldLeadingCount;
+  final MessageListViewport viewport = tester.widget<MessageListViewport>(
+    find.byType(MessageListViewport),
+  );
+  final CustomScrollView scrollView = tester.widget<CustomScrollView>(
+    find.byKey(const ValueKey<String>('message-list')),
+  );
+  final SliverPadding leading = scrollView.slivers
+      .whereType<SliverPadding>()
+      .first;
+  final int builtLeading =
+      (leading.child! as SliverList).delegate.estimatedChildCount!;
+  final String? anchorId = viewport.anchorId;
+  final int? anchorIndex = anchorId == null
+      ? null
+      : findChannelStreamDataIndex(viewport.stream, anchorId);
+  final int splitIndex = anchorIndex == null
+      ? viewport.stream.length
+      : viewport.anchorEdge == MessageListAnchorEdge.before
+      ? anchorIndex
+      : anchorIndex + 1;
+  return splitIndex - builtLeading;
 }
 
 void main() {
@@ -30,11 +50,21 @@ void main() {
     harness.prependOlderMessages(count: 50);
     await tester.pump();
     expect(withheldLeadingCount(tester), 50);
+    final MessageListViewport viewportBeforeReveal = tester
+        .widget<MessageListViewport>(find.byType(MessageListViewport));
 
     final List<int> exposed = <int>[];
     for (int frame = 0; frame < 25; frame += 1) {
       await tester.pump();
       exposed.add(50 - withheldLeadingCount(tester));
+      expect(
+        identical(
+          tester.widget<MessageListViewport>(find.byType(MessageListViewport)),
+          viewportBeforeReveal,
+        ),
+        isTrue,
+        reason: 'revealing rows must not rebuild the whole list',
+      );
     }
 
     expect(exposed.take(3), <int>[2, 4, 6]);

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -36,11 +37,9 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
     if (states.isEmpty) {
       return;
     }
-    await batch((Batch b) {
-      for (final ReadStatesCompanion state in states) {
-        b.insert(readStates, state, onConflict: DoUpdate((_) => state));
-      }
-    });
+    await batch(
+      (Batch b) => batchUpsert(b, attachedDatabase, readStates, states),
+    );
   }
 
   Future<void> updatePinTimestamp(String channelId, String? timestamp) =>

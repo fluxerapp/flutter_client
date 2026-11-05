@@ -5,8 +5,8 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
-import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/resend_verification_email.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -110,12 +110,18 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
       );
     }
     if (!settings.isVerified) {
+      final bool emailsEnabled = ref.watch(
+        instanceRuntimeConfigProvider.select((config) => config.emailsEnabled),
+      );
       return _AddFriendGate(
         icon: PhosphorIconsFill.envelopeSimple,
         title: l10n.addFriendVerifyTitle,
         description: l10n.addFriendVerifyDescription,
-        actionLabel: l10n.addFriendVerifyEmail,
-        onAction: () => UserSettingsModal.show(context),
+        actionLabel: emailsEnabled ? l10n.verificationResendEmail : null,
+        onAction:
+            emailsEnabled && !ref.watch(resendVerificationEmailInFlightProvider)
+            ? () => unawaited(resendVerificationEmail(ref, context))
+            : null,
       );
     }
     final isDisabled = _isLoading || _controller.text.trim().isEmpty;
@@ -184,8 +190,8 @@ class _AddFriendGate extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
-  final String actionLabel;
-  final VoidCallback onAction;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -208,8 +214,10 @@ class _AddFriendGate extends StatelessWidget {
             height: 1.4,
           ),
         ),
-        SizedBox(height: context.layout.s4),
-        FluxerButton.primary(label: actionLabel, onPressed: onAction),
+        if (actionLabel case final String label) ...[
+          SizedBox(height: context.layout.s4),
+          FluxerButton.primary(label: label, onPressed: onAction),
+        ],
       ],
     );
   }

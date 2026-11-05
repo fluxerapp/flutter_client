@@ -27,6 +27,7 @@ void main() {
     final String? clear = await decryptWebPushRecord(
       record: record,
       privateKey: keys.privateKey,
+      publicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
     expect(clear, plaintext);
@@ -43,6 +44,7 @@ void main() {
     final String? clear = await decryptWebPushRecord(
       record: record,
       privateKey: other.privateKey,
+      publicKey: other.publicKey,
       authSecret: recipient.authSecret,
     );
     expect(clear, isNull);
@@ -186,6 +188,7 @@ void main() {
     final String? clear = await decryptWebPushRecord(
       record: record,
       privateKey: keys.privateKey,
+      publicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
     expect(clear, plaintext);
@@ -201,6 +204,7 @@ void main() {
     final String? clear = await decryptWebPushRecord(
       record: record,
       privateKey: keys.privateKey,
+      publicKey: keys.publicKey,
       authSecret: Uint8List(kWebPushAuthSecretLength),
     );
     expect(clear, isNull);
@@ -221,6 +225,7 @@ void main() {
     final String? clear = await decryptWebPushRecord(
       record: record,
       privateKey: keys.privateKey,
+      publicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
     expect(clear, 'hello\u0000world');
@@ -239,6 +244,7 @@ void main() {
       await decryptWebPushRecord(
         record: tampered,
         privateKey: keys.privateKey,
+        publicKey: keys.publicKey,
         authSecret: keys.authSecret,
       ),
       isNull,
@@ -247,6 +253,7 @@ void main() {
       await decryptWebPushRecord(
         record: Uint8List.fromList(<int>[...record, 0]),
         privateKey: keys.privateKey,
+        publicKey: keys.publicKey,
         authSecret: keys.authSecret,
       ),
       isNull,
@@ -264,6 +271,7 @@ void main() {
       await decryptWebPushRecord(
         record: record,
         privateKey: Uint8List.sublistView(keys.privateKey, 1),
+        publicKey: keys.publicKey,
         authSecret: keys.authSecret,
       ),
       isNull,
@@ -272,6 +280,7 @@ void main() {
       await decryptWebPushRecord(
         record: record,
         privateKey: keys.privateKey,
+        publicKey: keys.publicKey,
         authSecret: Uint8List(15),
       ),
       isNull,
@@ -358,9 +367,6 @@ void main() {
     expect(clear.payload['badge_count'], '1');
     expect(clear.payload['target_user_id'], 'user-b');
     expect(resolvePushChannelId(clear.payload), 'c');
-    expect(pushNotificationTagMatchesChannel('channel:c', 'c'), isTrue);
-    expect(pushNotificationTagMatchesChannel('channel:c:m', 'c'), isTrue);
-    expect(pushNotificationTagMatchesChannel('channel:other:m', 'c'), isFalse);
   });
 
   test('decodes base64url and standard base64 ciphertext', () {

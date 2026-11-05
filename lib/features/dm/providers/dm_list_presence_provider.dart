@@ -1,13 +1,23 @@
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 
+@immutable
 class DmListRecipientRowData {
   const DmListRecipientRowData({this.customStatus});
 
   final String? customStatus;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DmListRecipientRowData && other.customStatus == customStatus;
+
+  @override
+  int get hashCode => customStatus.hashCode;
 }
 
 const String _dmListRecipientUserIdSeparator = '\x1e';

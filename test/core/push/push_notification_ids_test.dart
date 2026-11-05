@@ -8,6 +8,10 @@ void main() {
       expect(javaStringHashCode('a'), 97);
       expect(javaStringHashCode('msg-1'), 104190181);
     });
+
+    test('wraps at 32 bits like Java', () {
+      expect(javaStringHashCode('summary:channel:1234567890'), 1353116102);
+    });
   });
 
   group('resolvePushNotificationMessageId', () {

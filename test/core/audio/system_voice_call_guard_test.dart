@@ -22,7 +22,9 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(androidChannel, (MethodCall call) async {
           expect(call.method, 'isExternalCallActive');
-          invokedFluxerOwnsVoice = call.arguments['fluxerOwnsVoice'] as bool?;
+          invokedFluxerOwnsVoice =
+              (call.arguments as Map<Object?, Object?>)['fluxerOwnsVoice']
+                  as bool?;
           return true;
         });
     addTearDown(() {
@@ -31,13 +33,14 @@ void main() {
     });
 
     final bool active = await isExternalSystemVoiceCallActive(
-      invokeNative: (MethodChannel channel, bool fluxerOwnsVoice) async {
-        final bool? result = await channel.invokeMethod<bool>(
-          'isExternalCallActive',
-          <String, Object>{'fluxerOwnsVoice': fluxerOwnsVoice},
-        );
-        return result ?? false;
-      },
+      invokeNative:
+          (MethodChannel channel, {required bool fluxerOwnsVoice}) async {
+            final bool? result = await channel.invokeMethod<bool>(
+              'isExternalCallActive',
+              <String, Object>{'fluxerOwnsVoice': fluxerOwnsVoice},
+            );
+            return result ?? false;
+          },
     );
 
     expect(invokedFluxerOwnsVoice, isFalse);

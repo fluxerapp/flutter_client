@@ -266,6 +266,8 @@ class _LobbyActionTile extends StatelessWidget {
       button: true,
       enabled: onPressed != null,
       label: semanticsLabel ?? label,
+      onTap: onPressed,
+      excludeSemantics: true,
       child: FluxerGestureDetector(
         onTap: onPressed,
         child: Material(

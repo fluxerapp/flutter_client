@@ -1,4 +1,7 @@
+require "shellwords"
 require "yaml"
+require_relative "ios_bundle_check"
+require_relative "altstore_pal"
 
 default_platform(:ios)
 
@@ -210,12 +213,19 @@ def distribute_to_groups(build:, app:, groups:, changelog:, internal_only: false
   UI.success("Distributed to groups: #{distributed_names.join(', ')}")
 end
 
+def declared_non_exempt_encryption
+  plist = File.join(project_root_path, "ios/Runner/Info.plist")
+  value = `/usr/libexec/PlistBuddy -c "Print :ITSAppUsesNonExemptEncryption" #{plist.shellescape}`.strip
+  UI.user_error!("ITSAppUsesNonExemptEncryption is missing from #{plist}") unless %w[true false].include?(value)
+  value == "true"
+end
+
 def ensure_export_compliance(build:)
   return build unless build.uses_non_exempt_encryption.nil?
 
   Spaceship::ConnectAPI.patch_builds(
     build_id: build.id,
-    attributes: { usesNonExemptEncryption: false }
+    attributes: { usesNonExemptEncryption: declared_non_exempt_encryption }
   )
   UI.important("Export compliance was unset; waiting for App Store Connect to finish processing again...")
 
@@ -255,6 +265,177 @@ def update_build_changelog(build:, changelog:)
     attributes[:locale] = "en-US"
     Spaceship::ConnectAPI.post_beta_build_localizations(build_id: build.id, attributes: attributes)
   end
+end
+
+def stable_distribution_profile_paths
+  profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")
+  extension_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/broadcast_extension.mobileprovision")
+  notification_service_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/notification_service.mobileprovision")
+  share_extension_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/share_extension.mobileprovision")
+  unless File.exist?(notification_service_profile_path)
+    notification_service_profile_path = extension_profile_path
+  end
+  unless File.exist?(share_extension_profile_path)
+    share_extension_profile_path = notification_service_profile_path
+  end
+  {
+    runner: profile_path,
+    broadcast: extension_profile_path,
+    notification: notification_service_profile_path,
+    share: share_extension_profile_path
+  }
+end
+
+def stable_distribution_profile_uuids
+  runner_profile_uuid = fetchRequiredEnvironmentValue("PROFILE_UUID")
+  extension_profile_uuid = fetchOptionalEnvironmentValue("BROADCAST_EXTENSION_PROFILE_UUID", runner_profile_uuid)
+  notification_service_profile_uuid = fetchOptionalEnvironmentValue(
+    "NOTIFICATION_SERVICE_PROFILE_UUID",
+    extension_profile_uuid
+  )
+  share_extension_profile_uuid = fetchOptionalEnvironmentValue(
+    "SHARE_EXTENSION_PROFILE_UUID",
+    notification_service_profile_uuid
+  )
+  {
+    runner: runner_profile_uuid,
+    broadcast: extension_profile_uuid,
+    notification: notification_service_profile_uuid,
+    share: share_extension_profile_uuid
+  }
+end
+
+def configure_stable_distribution_signing!
+  paths = stable_distribution_profile_paths
+  update_project_provisioning(
+    xcodeproj: "ios/Runner.xcodeproj",
+    profile: paths.fetch(:runner),
+    target_filter: "^Runner$",
+    build_configuration: "Release-stable",
+    code_signing_identity: "Apple Distribution"
+  )
+  update_project_provisioning(
+    xcodeproj: "ios/Runner.xcodeproj",
+    profile: paths.fetch(:broadcast),
+    target_filter: "^BroadcastExtension$",
+    build_configuration: "Release-stable",
+    code_signing_identity: "Apple Distribution"
+  )
+  update_project_provisioning(
+    xcodeproj: "ios/Runner.xcodeproj",
+    profile: paths.fetch(:notification),
+    target_filter: "^NotificationService$",
+    build_configuration: "Release-stable",
+    code_signing_identity: "Apple Distribution"
+  )
+  update_project_provisioning(
+    xcodeproj: "ios/Runner.xcodeproj",
+    profile: paths.fetch(:share),
+    target_filter: "^ShareExtension$",
+    build_configuration: "Release-stable",
+    code_signing_identity: "Apple Distribution"
+  )
+end
+
+def build_stable_ipa!(dart_define_file:, flutter_build_name:, flutter_build_number:)
+  profile_uuids = stable_distribution_profile_uuids
+  configure_stable_distribution_signing!
+  cocoapods(
+    podfile: "ios/Podfile",
+    clean_install: true
+  )
+  sh(
+    "flutter",
+    "build",
+    "ios",
+    "--release",
+    "--flavor",
+    "stable",
+    "--no-codesign",
+    "--build-name",
+    flutter_build_name,
+    "--build-number",
+    flutter_build_number.to_s,
+    "--dart-define-from-file=#{File.join(project_root_path, dart_define_file)}",
+    "--dart-define=PUSH_PROVIDER=apns",
+    "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}"
+  )
+  build_app(
+    workspace: "ios/Runner.xcworkspace",
+    scheme: "stable",
+    configuration: "Release-stable",
+    clean: true,
+    output_directory: "build/ios/ipa",
+    export_method: "app-store",
+    codesigning_identity: "Apple Distribution",
+    export_options: {
+      signingStyle: "manual",
+      teamID: ENV.fetch("APPLE_TEAM_ID"),
+      signingCertificate: "Apple Distribution",
+      provisioningProfiles: {
+        "com.fluxer" => profile_uuids.fetch(:runner),
+        "com.fluxer.BroadcastExtension" => profile_uuids.fetch(:broadcast),
+        "com.fluxer.NotificationService" => profile_uuids.fetch(:notification),
+        "com.fluxer.ShareExtension" => profile_uuids.fetch(:share)
+      }
+    },
+    xcargs: [
+      "DEVELOPMENT_TEAM=#{ENV.fetch("APPLE_TEAM_ID")}",
+      "FLUTTER_BUILD_NAME=#{flutter_build_name}",
+      "FLUTTER_BUILD_NUMBER=#{flutter_build_number}",
+      "CODE_SIGN_STYLE=Manual",
+    ].join(" ")
+  )
+  assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
+  upload_measure_ios_dsyms
+end
+
+def upload_stable_ipa_without_review!(api_key:, app_identifier:)
+  maximum_attempts = 3
+  attempt_index = 1
+  begin
+    upload_to_app_store(
+      api_key: api_key,
+      ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
+      app_identifier: app_identifier,
+      skip_metadata: true,
+      skip_screenshots: true,
+      skip_app_version_update: true,
+      force: true,
+      submit_for_review: false,
+      automatic_release: false,
+      run_precheck_before_submit: false,
+      precheck_include_in_app_purchases: false
+    )
+  rescue => err
+    if err.message.include?("The bundle version must be higher") || err.message.include?("-19232")
+      raise err
+    end
+    if attempt_index >= maximum_attempts
+      raise err
+    end
+    retry_delay_seconds = attempt_index * 30
+    UI.important("App Store upload failed on attempt #{attempt_index}/#{maximum_attempts}: #{err.message}")
+    UI.important("Retrying upload in #{retry_delay_seconds} seconds...")
+    sleep(retry_delay_seconds)
+    attempt_index += 1
+    retry
+  end
+end
+
+def wait_for_app_store_build_processing!(api_key:, app_identifier:, app_version:, build_number:)
+  jwt = Spaceship::ConnectAPI::Token.from(hash: api_key)
+  Spaceship::ConnectAPI.token = jwt
+  app = Spaceship::ConnectAPI::App.find(app_identifier)
+  FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
+    app_id: app.id,
+    app_version: app_version,
+    build_version: build_number.to_s,
+    platform: Spaceship::ConnectAPI::Platform::IOS,
+    timeout_duration: 3600,
+    wait_for_build_beta_detail_processing: false,
+    return_spaceship_testflight_build: false
+  )
 end
 
 platform :ios do
@@ -370,6 +551,7 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
     upload_measure_ios_dsyms
     maximum_attempts = 3
     attempt_index = 1
@@ -503,6 +685,7 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    assert_ios_bundle_ready(lane_context[SharedValues::IPA_OUTPUT_PATH])
     upload_measure_ios_dsyms
     changelog = "Build from GitHub Actions run: #{ENV['GITHUB_SERVER_URL']}/#{ENV['GITHUB_REPOSITORY']}/actions/runs/#{ENV['GITHUB_RUN_ID']}"
 
@@ -527,21 +710,6 @@ platform :ios do
   desc "Build stable IPA and upload to App Store Connect as a processing build only (no App Review submission, no automatic release)"
   lane :stable_release do
     ENV["MEASURE_RELEASE_CHANNEL"] = "stable"
-    profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")
-    extension_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/broadcast_extension.mobileprovision")
-    notification_service_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/notification_service.mobileprovision")
-    share_extension_profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/share_extension.mobileprovision")
-    runner_profile_uuid = fetchRequiredEnvironmentValue("PROFILE_UUID")
-    extension_profile_uuid = fetchOptionalEnvironmentValue("BROADCAST_EXTENSION_PROFILE_UUID", runner_profile_uuid)
-    notification_service_profile_uuid = fetchOptionalEnvironmentValue("NOTIFICATION_SERVICE_PROFILE_UUID", extension_profile_uuid)
-    share_extension_profile_uuid = fetchOptionalEnvironmentValue("SHARE_EXTENSION_PROFILE_UUID", notification_service_profile_uuid)
-    unless File.exist?(notification_service_profile_path)
-      notification_service_profile_path = extension_profile_path
-    end
-    unless File.exist?(share_extension_profile_path)
-      share_extension_profile_path = notification_service_profile_path
-    end
-
     api_key = app_store_connect_api_key(
       key_id: ENV.fetch("APPSTORE_KEY_ID"),
       issuer_id: ENV.fetch("APPSTORE_ISSUER_ID"),
@@ -556,112 +724,61 @@ platform :ios do
     )
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
-    update_project_provisioning(
-      xcodeproj: "ios/Runner.xcodeproj",
-      profile: profile_path,
-      target_filter: "^Runner$",
-      build_configuration: "Release-stable",
-      code_signing_identity: "Apple Distribution"
+    build_stable_ipa!(
+      dart_define_file: "tool/dart_defines/stable.json",
+      flutter_build_name: flutter_build_name,
+      flutter_build_number: flutter_build_number
     )
-    update_project_provisioning(
-      xcodeproj: "ios/Runner.xcodeproj",
-      profile: extension_profile_path,
-      target_filter: "^BroadcastExtension$",
-      build_configuration: "Release-stable",
-      code_signing_identity: "Apple Distribution"
+    upload_stable_ipa_without_review!(
+      api_key: api_key,
+      app_identifier: app_identifier
     )
-    update_project_provisioning(
-      xcodeproj: "ios/Runner.xcodeproj",
-      profile: notification_service_profile_path,
-      target_filter: "^NotificationService$",
-      build_configuration: "Release-stable",
-      code_signing_identity: "Apple Distribution"
-    )
-    update_project_provisioning(
-      xcodeproj: "ios/Runner.xcodeproj",
-      profile: share_extension_profile_path,
-      target_filter: "^ShareExtension$",
-      build_configuration: "Release-stable",
-      code_signing_identity: "Apple Distribution"
-    )
-    cocoapods(
-      podfile: "ios/Podfile",
-      clean_install: true
+  end
+
+  desc "Build stable marketplace IPA, upload to App Store Connect, and submit for notarization"
+  lane :altstore_pal do
+    ENV["MEASURE_RELEASE_CHANNEL"] = "stable"
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("APPSTORE_KEY_ID"),
+      issuer_id: ENV.fetch("APPSTORE_ISSUER_ID"),
+      key_content: ENV.fetch("APPSTORE_PRIVATE_KEY")
     )
 
-    sh(
-      "flutter",
-      "build",
-      "ios",
-      "--release",
-      "--flavor",
-      "stable",
-      "--no-codesign",
-      "--build-name",
-      flutter_build_name,
-      "--build-number",
-      flutter_build_number.to_s,
-      "--dart-define-from-file=#{File.join(project_root_path, "tool/dart_defines/stable.json")}",
-      "--dart-define=PUSH_PROVIDER=apns",
-      "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}"
+    app_identifier = "com.fluxer"
+    flutter_build_name = flutter_marketing_version
+    flutter_build_number = next_testflight_build_number(
+      api_key: api_key,
+      app_identifier: app_identifier
     )
-    build_app(
-      workspace: "ios/Runner.xcworkspace",
-      scheme: "stable",
-      configuration: "Release-stable",
-      clean: true,
-      output_directory: "build/ios/ipa",
-      export_method: "app-store",
-      codesigning_identity: "Apple Distribution",
-      export_options: {
-        signingStyle: "manual",
-        teamID: ENV.fetch("APPLE_TEAM_ID"),
-        signingCertificate: "Apple Distribution",
-        provisioningProfiles: {
-          "com.fluxer" => runner_profile_uuid,
-          "com.fluxer.BroadcastExtension" => extension_profile_uuid,
-          "com.fluxer.NotificationService" => notification_service_profile_uuid,
-          "com.fluxer.ShareExtension" => share_extension_profile_uuid
-        }
-      },
-      xcargs: [
-        "DEVELOPMENT_TEAM=#{ENV.fetch("APPLE_TEAM_ID")}",
-        "FLUTTER_BUILD_NAME=#{flutter_build_name}",
-        "FLUTTER_BUILD_NUMBER=#{flutter_build_number}",
-        "CODE_SIGN_STYLE=Manual",
-      ].join(" ")
+    UI.message("Building AltStore PAL #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
+
+    build_stable_ipa!(
+      dart_define_file: "tool/dart_defines/ios_marketplace.json",
+      flutter_build_name: flutter_build_name,
+      flutter_build_number: flutter_build_number
     )
-    upload_measure_ios_dsyms
-    maximum_attempts = 3
-    attempt_index = 1
-    begin
-      upload_to_app_store(
-        api_key: api_key,
-        ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
-        app_identifier: app_identifier,
-        skip_metadata: true,
-        skip_screenshots: true,
-        skip_app_version_update: true,
-        force: true,
-        submit_for_review: false,
-        automatic_release: false,
-        run_precheck_before_submit: false,
-        precheck_include_in_app_purchases: false
-      )
-    rescue => err
-      if err.message.include?("The bundle version must be higher") || err.message.include?("-19232")
-        raise err
-      end
-      if attempt_index >= maximum_attempts
-        raise err
-      end
-      retry_delay_seconds = attempt_index * 30
-      UI.important("App Store upload failed on attempt #{attempt_index}/#{maximum_attempts}: #{err.message}")
-      UI.important("Retrying upload in #{retry_delay_seconds} seconds...")
-      sleep(retry_delay_seconds)
-      attempt_index += 1
-      retry
-    end
+    upload_stable_ipa_without_review!(
+      api_key: api_key,
+      app_identifier: app_identifier
+    )
+    wait_for_app_store_build_processing!(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      app_version: flutter_build_name,
+      build_number: flutter_build_number
+    )
+    AltstorePal.submit_for_notarization(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      app_version: flutter_build_name,
+      build_number: flutter_build_number
+    )
+    AltstorePal.write_version_metadata(
+      path: File.join(project_root_path, "build/altstore-pal-version.json"),
+      version: flutter_build_name,
+      build_version: flutter_build_number,
+      stable_release_tag: fetchOptionalEnvironmentValue("STABLE_RELEASE_TAG", "")
+    )
   end
 end
 

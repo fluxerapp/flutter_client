@@ -54,7 +54,7 @@ const List<ReportFlowStep> _spamSteps = <ReportFlowStep>[
 ];
 
 const List<ReportFlowStep> _profileSteps = <ReportFlowStep>[
-  ReportFlowStep(screenId: 'profile_intro'),
+  ReportFlowStep(screenId: 'user_start', optionId: 'profile'),
   ReportFlowStep(screenId: 'profile_parts', itemIds: <String>['photo']),
   ReportFlowStep(screenId: 'root_user', optionId: 'spam'),
   ReportFlowStep(screenId: 'spam_profile', optionId: 'spam_profile'),
@@ -181,7 +181,7 @@ void main() {
       'revision_hash': 'hash',
       'locale': 'en-US',
       'steps': <Object>[
-        <String, Object>{'screen_id': 'profile_intro'},
+        <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
         <String, Object>{
           'screen_id': 'profile_parts',
           'item_ids': <String>['photo'],

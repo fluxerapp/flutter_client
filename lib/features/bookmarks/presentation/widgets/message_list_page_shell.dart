@@ -1,7 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class MessageListPageShell extends StatelessWidget {
@@ -20,7 +18,6 @@ class MessageListPageShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = isMobileLayout(context);
     final colors = context.colors;
     final layout = context.layout;
     return ColoredBox(
@@ -30,7 +27,6 @@ class MessageListPageShell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isMobile) const NagbarContainer(),
             FluxerConstrainedUiTextScale(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 56),

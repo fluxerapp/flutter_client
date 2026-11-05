@@ -1,7 +1,8 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 
 bool observabilityReportingPromptIsMobilePlatform() {
-  return Platform.isIOS || Platform.isAndroid;
+  return defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.android;
 }
 
 bool shouldPromptForObservabilityReporting({

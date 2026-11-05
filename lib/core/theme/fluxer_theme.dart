@@ -25,6 +25,24 @@ SystemUiOverlayStyle fluxerSystemUiOverlayStyle({
   );
 }
 
+final Expando<ThemeData> _darkThemeCache = Expando<ThemeData>();
+final Expando<ThemeData> _lightThemeCache = Expando<ThemeData>();
+
+ThemeData cachedFluxerTheme({
+  required FluxerColorTheme colorTheme,
+  Brightness brightness = Brightness.dark,
+}) {
+  final Expando<ThemeData> cache = brightness == Brightness.dark
+      ? _darkThemeCache
+      : _lightThemeCache;
+  return cache[colorTheme] ??= buildFluxerTheme(
+    colorTheme: colorTheme,
+    textTheme: FluxerTextTheme.forColors(colorTheme),
+    layoutTheme: FluxerLayoutTheme.scaled(),
+    brightness: brightness,
+  );
+}
+
 ThemeData buildFluxerTheme({
   required FluxerColorTheme colorTheme,
   required FluxerTextTheme textTheme,

@@ -36,6 +36,18 @@ const _Reply _invalidMfaCode = _Reply(400, <String, Object?>{
   ],
 });
 
+const _Reply _invalidPassword = _Reply(400, <String, Object?>{
+  'code': 'INVALID_FORM_BODY',
+  'message': 'Invalid form body.',
+  'errors': <Map<String, Object?>>[
+    <String, Object?>{
+      'path': 'password',
+      'message': 'Check your email and password.',
+      'code': 'INVALID_PASSWORD',
+    },
+  ],
+});
+
 const _Reply _ok = _Reply(200, <String, Object?>{}, sudoToken: 'sudo-token');
 
 class _SudoAdapter implements HttpClientAdapter {
@@ -168,12 +180,39 @@ void main() {
     expect(response.statusCode, 200);
     expect(challenges, hasLength(2));
     expect(challenges[1].error, 'Invalid MFA code.');
+    expect(challenges[1].wrongPassword, isFalse);
     expect(challenges[1].backupCodes, isTrue);
     expect(adapter.requests, hasLength(3));
     expect(adapter.requests[2].data, <String, Object?>{
       'reason': 'bye',
       'password': 'unused',
     });
+  });
+
+  test('flags a wrong password, then closing reports a cancellation', () async {
+    final adapter = _SudoAdapter(<_Reply>[_sudoRequired, _invalidPassword]);
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final List<SudoChallenge> challenges = <SudoChallenge>[];
+    dio.interceptors.add(
+      SudoInterceptor(
+        dio: dio,
+        showSudoSheet: (SudoChallenge challenge) async {
+          challenges.add(challenge);
+          return challenges.length == 1
+              ? <String, dynamic>{'password': 'wrong'}
+              : null;
+        },
+      ),
+    );
+
+    await expectLater(
+      dio.post<dynamic>('/users/@me/delete'),
+      throwsA(predicate<Object>(isSudoCancellation)),
+    );
+
+    expect(challenges, hasLength(2));
+    expect(challenges[1].wrongPassword, isTrue);
   });
 
   test('a non-sudo form error on the retry goes to the caller', () async {
@@ -247,5 +286,55 @@ void main() {
     );
     expect(prompts, 2);
     expect(adapter.requests, hasLength(3));
+  });
+
+  test('email code credentials are merged and retried', () async {
+    const _Reply emailCodeRequired = _Reply(403, <String, Object?>{
+      'code': 'SUDO_MODE_REQUIRED',
+      'message': 'Sudo mode required.',
+      'has_mfa': false,
+      'methods': <String, Object?>{
+        'totp': false,
+        'webauthn': false,
+        'backup_codes': false,
+        'email_code': true,
+        'password': false,
+        'sso_reauth': false,
+      },
+    });
+    final adapter = _SudoAdapter(<_Reply>[emailCodeRequired]);
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final List<SudoChallenge> challenges = <SudoChallenge>[];
+    dio.interceptors.add(
+      SudoInterceptor(
+        dio: dio,
+        showSudoSheet: (SudoChallenge challenge) async {
+          challenges.add(challenge);
+          return <String, dynamic>{
+            'mfa_method': 'email_code',
+            'email_code_ticket': 'ticket-1',
+            'email_code': '123456',
+          };
+        },
+      ),
+    );
+
+    final Response<dynamic> response = await dio.post<dynamic>(
+      '/users/@me/delete',
+      data: <String, Object?>{'immediate': true, 'delete_messages': false},
+    );
+
+    expect(response.statusCode, 200);
+    expect(challenges.single.emailCode, isTrue);
+    expect(challenges.single.password, isFalse);
+    expect(adapter.requests, hasLength(2));
+    expect(adapter.requests[1].data, <String, Object?>{
+      'immediate': true,
+      'delete_messages': false,
+      'mfa_method': 'email_code',
+      'email_code_ticket': 'ticket-1',
+      'email_code': '123456',
+    });
   });
 }

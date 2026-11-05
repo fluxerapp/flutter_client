@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/features/gifts/providers/gift_embed_provider.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
+import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_redeem_errors.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -13,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_dart/export.dart';
 
 Future<bool> redeemGiftCode({
   required BuildContext context,
@@ -28,6 +32,30 @@ Future<bool> redeemGiftCode({
   }
 
   final normalizedCode = extractGiftCode(code);
+  switch (await _inAppClaimCheck(ref, normalizedCode)) {
+    case _InAppClaimCheck.allowed:
+      break;
+    case _InAppClaimCheck.blocked:
+      if (context.mounted) {
+        await _showErrorModal(
+          context,
+          title: l10n.giftVisionaryCannotRedeemTitle,
+          description: l10n.giftAcceptLifetimeNotInApp,
+        );
+      }
+      return false;
+    case _InAppClaimCheck.unknown:
+      if (context.mounted) {
+        await _showErrorModal(
+          context,
+          title: l10n.giftRedeemFailedTitle,
+          description: l10n.giftRedeemFailedMessage,
+        );
+      }
+      return false;
+  }
+  final ProviderSubscription<AsyncValue<GiftEmbedState>> gift = ref
+      .listenManual(giftEmbedProvider(normalizedCode), (_, _) {});
   try {
     await ref.read(giftEmbedProvider(normalizedCode).notifier).redeem();
     if (!context.mounted) {
@@ -65,6 +93,31 @@ Future<bool> redeemGiftCode({
       description: l10n.giftRedeemFailedMessage,
     );
     return false;
+  } finally {
+    gift.close();
+  }
+}
+
+enum _InAppClaimCheck { allowed, blocked, unknown }
+
+Future<_InAppClaimCheck> _inAppClaimCheck(WidgetRef ref, String code) async {
+  if (defaultTargetPlatform != TargetPlatform.iOS) {
+    return _InAppClaimCheck.allowed;
+  }
+  try {
+    final GiftCodeResponse gift = await ref
+        .read(fluxerClientProvider)
+        .gifts
+        .getGiftCode(code: code);
+    return giftClaimBlockedInApp(gift)
+        ? _InAppClaimCheck.blocked
+        : _InAppClaimCheck.allowed;
+  } on DioException catch (error) {
+    return error.response?.statusCode == 404
+        ? _InAppClaimCheck.allowed
+        : _InAppClaimCheck.unknown;
+  } on Object {
+    return _InAppClaimCheck.unknown;
   }
 }
 

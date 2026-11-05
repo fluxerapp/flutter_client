@@ -9,11 +9,11 @@ import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 
 bool resolvePremiumStorePage({
-  required bool ossWebCheckout,
+  required bool webCheckout,
   required bool desktopOs,
   required PushProviderKind pushProvider,
 }) {
-  if (ossWebCheckout || desktopOs) {
+  if (webCheckout || desktopOs) {
     return false;
   }
   return pushProvider == PushProviderKind.firebaseMessaging ||
@@ -22,7 +22,7 @@ bool resolvePremiumStorePage({
 
 bool isPremiumStorePageActive() {
   return resolvePremiumStorePage(
-    ossWebCheckout: AppBuildConfig.isOssWebCheckout,
+    webCheckout: AppBuildConfig.isWebCheckout,
     desktopOs: isFluxerDesktopOs,
     pushProvider: AppBuildConfig.pushProvider,
   );
@@ -32,27 +32,24 @@ bool resolvePremiumStorePurchasesEnabled({
   required bool isAndroid,
   required bool isIOS,
   required PushProviderKind pushProvider,
+  required bool webCheckout,
   required bool officialInstance,
   required AppStoreDistribution appStoreDistribution,
-  required bool sandboxPurchases,
-  required bool iosStableBuild,
-  required bool iosBetaOrCanaryBuild,
+  required bool stableBuild,
+  required bool developerPurchases,
 }) {
-  if (!officialInstance) {
+  if (!officialInstance || webCheckout) {
     return false;
   }
   if (isAndroid) {
     return pushProvider == PushProviderKind.firebaseMessaging;
   }
   if (isIOS) {
-    if (iosBetaOrCanaryBuild) {
-      return false;
-    }
     return pushProvider == PushProviderKind.apple &&
         resolveAppStorePurchaseDistribution(
           distribution: appStoreDistribution,
-          sandboxPurchases: sandboxPurchases,
-          iosStableBuild: iosStableBuild,
+          stableBuild: stableBuild,
+          developerPurchases: developerPurchases,
         );
   }
   return false;
@@ -60,37 +57,39 @@ bool resolvePremiumStorePurchasesEnabled({
 
 bool resolveAppStorePurchaseDistribution({
   required AppStoreDistribution distribution,
-  required bool sandboxPurchases,
-  required bool iosStableBuild,
+  required bool stableBuild,
+  required bool developerPurchases,
 }) {
   return switch (distribution) {
-    AppStoreDistribution.production => true,
-    AppStoreDistribution.testflight => iosStableBuild || sandboxPurchases,
-    AppStoreDistribution.development || AppStoreDistribution.unknown => false,
+    AppStoreDistribution.production ||
+    AppStoreDistribution.testflight ||
+    AppStoreDistribution.unknown => stableBuild || developerPurchases,
+    AppStoreDistribution.development => developerPurchases,
   };
 }
 
 bool resolvePremiumCommerceVisible({
   required bool selfHosted,
-  required bool ossWebCheckout,
+  required bool webCheckout,
   required bool selfHostedCheckoutAvailable,
+  required bool distributionBuild,
 }) {
   if (!selfHosted) {
     return true;
   }
-  return ossWebCheckout && selfHostedCheckoutAvailable;
+  return webCheckout && selfHostedCheckoutAvailable && !distributionBuild;
 }
 
 bool resolvePremiumBillingNavVisible({
   required bool commerceVisible,
-  required bool ossWebCheckout,
+  required bool webCheckout,
   required bool storePage,
   required bool officialInstance,
 }) {
   if (!commerceVisible) {
     return false;
   }
-  if (ossWebCheckout) {
+  if (webCheckout) {
     return true;
   }
   return storePage && officialInstance;
@@ -107,13 +106,14 @@ final premiumStorePurchasesEnabledProvider = Provider<bool>((Ref ref) {
     isAndroid: Platform.isAndroid,
     isIOS: Platform.isIOS,
     pushProvider: AppBuildConfig.pushProvider,
+    webCheckout: AppBuildConfig.isWebCheckout,
     officialInstance: officialInstance,
     appStoreDistribution: appStore
         ? ref.watch(appStoreDistributionProvider).value ??
               AppStoreDistribution.unknown
         : AppStoreDistribution.unknown,
-    sandboxPurchases: appStore && !iosStableBuild && developerSandboxPurchases,
-    iosStableBuild: iosStableBuild,
-    iosBetaOrCanaryBuild: AppBuildConfig.isBeta || AppBuildConfig.isCanary,
+    stableBuild: iosStableBuild,
+    developerPurchases:
+        appStore && !iosStableBuild && developerSandboxPurchases,
   );
 });

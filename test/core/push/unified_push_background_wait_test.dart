@@ -1,31 +1,104 @@
-import 'dart:io';
+import 'dart:async';
 
-import 'package:test/test.dart';
-
-Directory _findProjectRoot(Directory start) {
-  Directory? current = start;
-  while (current != null) {
-    if (File('${current.path}/pubspec.yaml').existsSync()) {
-      return current;
-    }
-    current = current.parent;
-  }
-  throw StateError('Could not find project root (pubspec.yaml)');
-}
+import 'package:fake_async/fake_async.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_background_native.dart';
 
 void main() {
-  final File service = File(
-    '${_findProjectRoot(Directory.current).path}'
-    '/lib/core/push/services/unified_push_service.dart',
-  );
+  const Duration quiet = Duration(seconds: 2);
 
-  test('background isolate wait completes only from onMessage', () {
-    final String content = service.readAsStringSync();
-    expect(content, contains('void _completeBackgroundMessageWait()'));
-    expect(content, contains('_completeBackgroundMessageWait();'));
-    expect(content, contains('prepareUnifiedPushBackgroundNative'));
-    expect(content, contains('finishUnifiedPushBackgroundNative'));
-    expect(content, isNot(contains('_finishBackgroundEvent')));
-    expect(content, isNot(contains('_backgroundWork')));
+  test('finishes after the quiet period with no messages', () {
+    fakeAsync((FakeAsync async) {
+      final UnifiedPushBackgroundWork work = UnifiedPushBackgroundWork();
+      final List<int> finishes = <int>[];
+      unawaited(
+        runUnifiedPushBackgroundUntilIdle(
+          work,
+          finish: (int handled) async {
+            finishes.add(handled);
+            return true;
+          },
+        ),
+      );
+      async.elapse(quiet);
+      expect(finishes, <int>[0]);
+    });
+  });
+
+  test('waits for every message in a burst', () {
+    fakeAsync((FakeAsync async) {
+      final UnifiedPushBackgroundWork work = UnifiedPushBackgroundWork();
+      final List<int> finishes = <int>[];
+      unawaited(
+        runUnifiedPushBackgroundUntilIdle(
+          work,
+          finish: (int handled) async {
+            finishes.add(handled);
+            return true;
+          },
+        ),
+      );
+      work
+        ..messageStarted()
+        ..messageStarted()
+        ..messageStarted()
+        ..messageFinished();
+      async.elapse(quiet * 5);
+      expect(finishes, isEmpty);
+      work
+        ..messageFinished()
+        ..messageFinished();
+      async.elapse(quiet);
+      expect(finishes, <int>[3]);
+    });
+  });
+
+  test('a message during the quiet period restarts the wait', () {
+    fakeAsync((FakeAsync async) {
+      final UnifiedPushBackgroundWork work = UnifiedPushBackgroundWork();
+      final List<int> finishes = <int>[];
+      unawaited(
+        runUnifiedPushBackgroundUntilIdle(
+          work,
+          finish: (int handled) async {
+            finishes.add(handled);
+            return true;
+          },
+        ),
+      );
+      async.elapse(const Duration(seconds: 1));
+      work.messageStarted();
+      async.elapse(quiet);
+      expect(finishes, isEmpty);
+      work.messageFinished();
+      async.elapse(quiet);
+      expect(finishes, <int>[1]);
+    });
+  });
+
+  test('keeps waiting when native still has undelivered messages', () {
+    fakeAsync((FakeAsync async) {
+      final UnifiedPushBackgroundWork work = UnifiedPushBackgroundWork();
+      final List<int> finishes = <int>[];
+      var done = false;
+      unawaited(
+        runUnifiedPushBackgroundUntilIdle(
+          work,
+          finish: (int handled) async {
+            finishes.add(handled);
+            return handled >= 1;
+          },
+        ).then((_) => done = true),
+      );
+      async.elapse(quiet);
+      expect(finishes, <int>[0]);
+      expect(done, isFalse);
+      work
+        ..messageStarted()
+        ..messageFinished();
+      async.elapse(quiet);
+      expect(finishes, <int>[0, 1]);
+      expect(done, isTrue);
+    });
   });
 }

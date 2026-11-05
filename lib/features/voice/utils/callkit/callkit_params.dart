@@ -79,6 +79,7 @@ CallKitParams buildVoiceCallKitParams({
       configureAudioSession: false,
       audioSessionMode: 'videoChat',
       audioSessionActive: true,
+      includesCallsInRecents: false,
     ),
   );
 }
@@ -134,6 +135,7 @@ CallKitParams buildIncomingCallRingParams({
       configureAudioSession: false,
       audioSessionMode: 'videoChat',
       audioSessionActive: true,
+      includesCallsInRecents: false,
     ),
   );
 }

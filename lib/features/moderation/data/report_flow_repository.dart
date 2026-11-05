@@ -105,6 +105,20 @@ class ReportFlowRepository {
     });
   }
 
+  Future<String> submitGuild({
+    required String guildId,
+    required String revisionHash,
+    required List<ReportFlowStep> steps,
+    required String locale,
+    String? inviteCode,
+  }) {
+    return _submit(ReportFlowTargetType.guild, <String, Object>{
+      'guild_id': guildId,
+      'invite_code': ?inviteCode,
+      ..._answers(revisionHash, steps, locale),
+    });
+  }
+
   Map<String, Object> _answers(
     String revisionHash,
     List<ReportFlowStep> steps,

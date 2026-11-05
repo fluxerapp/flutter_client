@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connections_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -17,6 +18,7 @@ class UserProfileBioCard extends ConsumerWidget {
   const UserProfileBioCard({
     required this.bio,
     required this.userId,
+    this.compact = false,
     this.connections = const <ConnectionResponse>[],
     this.accountMemberSince,
     this.guildMemberSince,
@@ -36,6 +38,7 @@ class UserProfileBioCard extends ConsumerWidget {
   final String? guildIconUrl;
   final String? guildId;
   final int? timezoneOffset;
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,11 +54,11 @@ class UserProfileBioCard extends ConsumerWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.backgroundSecondary,
+        color: compact ? Colors.transparent : colors.backgroundSecondary,
         borderRadius: layout.radiusXl,
       ),
       child: Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: compact ? EdgeInsets.zero : EdgeInsets.all(layout.s4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -158,6 +161,12 @@ class UserProfileBioCard extends ConsumerWidget {
               UserProfileConnectionsSection(
                 connections: connections,
                 embedded: true,
+                variant: compact
+                    ? UserProfileConnectionsVariant.compact
+                    : FluxerDesktopSurfaceScope.maybeOf(context) ==
+                          FluxerDesktopSurface.modal
+                    ? UserProfileConnectionsVariant.cards
+                    : UserProfileConnectionsVariant.list,
               ),
             ],
           ],

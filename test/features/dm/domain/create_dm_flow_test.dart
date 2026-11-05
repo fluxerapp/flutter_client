@@ -47,6 +47,7 @@ void main() {
         lastMessage: '',
         lastMessageTime: DateTime.utc(2024),
         unreadCount: 0,
+        nsfw: false,
       );
       expect(
         isDuplicateGroupDmRow(
@@ -68,6 +69,7 @@ void main() {
         lastMessage: '',
         lastMessageTime: DateTime.utc(2024),
         unreadCount: 0,
+        nsfw: false,
       );
       expect(
         isDuplicateGroupDmRow(

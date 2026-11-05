@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_message_groups.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -46,6 +48,19 @@ class UnreadInboxCardPreview extends ConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context, WidgetRef ref, List<Message> items) {
+    final bool matureLocked = watchMatureChannelLocked(
+      ref,
+      items.first.channelId,
+    );
+    if (matureLocked) {
+      return Text(
+        FluxerLocalizations.of(context).matureMessageHiddenPreview,
+        style: notificationQuoteStyle(
+          context,
+          unread: false,
+        ).copyWith(color: context.colors.textSecondary),
+      );
+    }
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final List<ChannelStreamItem> stream = createChannelStream(
       messages: items,

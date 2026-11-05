@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/assistant/assistant_command_result.dart';
 
 AssistantCommandSnapshot _snapshot({
   bool authenticated = true,
+  bool startupPending = false,
   bool gatewayReady = true,
   bool connectionFailed = false,
   bool inVoice = false,
@@ -16,6 +17,7 @@ AssistantCommandSnapshot _snapshot({
 }) {
   return AssistantCommandSnapshot(
     authenticated: authenticated,
+    startupPending: startupPending,
     gatewayReady: gatewayReady,
     connectionFailed: connectionFailed,
     inVoice: inVoice,
@@ -188,6 +190,37 @@ void main() {
         AssistantCommandGate.needsLogin,
       );
     });
+
+    test(
+      'waits for session restore on a cold start before asking to log in',
+      () {
+        for (final AssistantCommand command in <AssistantCommand>[
+          const PresenceSetStatusCommand(status: 'idle'),
+          const PresenceSetCustomStatusCommand(text: 'busy'),
+          const OpenDmsCommand(),
+        ]) {
+          expect(
+            gateAssistantCommand(
+              command: command,
+              snapshot: _snapshot(
+                authenticated: false,
+                startupPending: true,
+                gatewayReady: false,
+              ),
+            ),
+            AssistantCommandGate.waitForReady,
+            reason: command.runtimeType.toString(),
+          );
+        }
+        expect(
+          gateAssistantCommand(
+            command: const PresenceSetStatusCommand(status: 'idle'),
+            snapshot: _snapshot(),
+          ),
+          AssistantCommandGate.proceed,
+        );
+      },
+    );
 
     test('rejects voice join when the community does not own the channel', () {
       final AssistantCommandSnapshot snapshot = _snapshot(

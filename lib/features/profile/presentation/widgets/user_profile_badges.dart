@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_badge_list_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_details_tooltip.dart';
@@ -8,6 +10,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_i
 import 'package:fluxer_app/features/profile/utils/profile_badge_actions.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -107,11 +110,16 @@ class UserProfileBadges extends ConsumerWidget {
       displayedContent = badgeContent;
     }
 
-    final bool opensPremium =
-        !touchPrimary && profileBadgeOpensPremiumSheet(badge);
-    final String? href = badge.href;
-    final bool opensLink = href != null && !touchPrimary && !opensPremium;
-    final bool tappable = touchPrimary || opensPremium || opensLink;
+    final bool tappable =
+        touchPrimary ||
+        profileBadgeHasAction(
+          externalPurchaseLinksAllowed: ref.watch(
+            externalPurchaseLinksAllowedProvider,
+          ),
+          officialInstance: ref.watch(isActiveInstanceOfficialProvider),
+          billingNavVisible: ref.watch(premiumBillingNavVisibleProvider),
+          badge: badge,
+        );
 
     return Semantics(
       key: ValueKey<String>(badge.key.isNotEmpty ? badge.key : badge.kind),

@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/chat/utils/messages/message_action_permissio
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_web_translation.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
@@ -669,7 +670,13 @@ List<Widget> _buildAttachmentMenuItems({
   required bool includeFavoriteAction,
 }) {
   final MessageMediaFavoriteTarget? favoriteTarget =
-      includeFavoriteAction && attachment.isSavableMedia
+      includeFavoriteAction &&
+          attachment.isSavableMedia &&
+          !watchMatureMediaHidden(
+            ref,
+            channelId: message.channelId,
+            isMatureMedia: attachment.isMatureMedia,
+          )
       ? MessageMediaFavoriteTarget.forAttachment(attachment)
       : null;
   final MediaFavoriteState favoriteState = watchMediaFavoriteState(

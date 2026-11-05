@@ -68,11 +68,13 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
     required String? username,
     required String? discriminator,
     required String? avatar,
+    required String? email,
   }) => (update(authSessions)..where((t) => t.userId.equals(userId))).write(
     AuthSessionsCompanion(
       username: Value(username),
       discriminator: Value(discriminator),
       avatar: Value(avatar),
+      email: Value(email),
     ),
   );
 

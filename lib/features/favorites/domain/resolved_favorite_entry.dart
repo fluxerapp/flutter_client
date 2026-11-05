@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class ResolvedFavoriteEntry {
   const ResolvedFavoriteEntry({
@@ -20,10 +21,10 @@ class ResolvedFavoriteEntry {
 
   String get channelId => favorite.channelId;
 
-  String get displayName =>
+  String displayName(FluxerLocalizations l10n) =>
       favorite.nickname ??
       channel?.name ??
-      dm?.displayName ??
+      (dm == null ? null : dmConversationDisplayName(l10n, dm!)) ??
       favorite.channelId;
 }
 

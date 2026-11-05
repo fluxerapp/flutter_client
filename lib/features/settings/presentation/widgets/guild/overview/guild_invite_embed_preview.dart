@@ -125,7 +125,7 @@ class GuildInviteEmbedPreview extends StatelessWidget {
         _StatDot(color: context.colors.textTertiaryMuted),
         const SizedBox(width: 4),
         Text(
-          l10n.embedInviteMembers(_formatCount(memberCount)),
+          l10n.embedInviteMembers(memberCount, _formatCount(memberCount)),
           style: context.textStyles.timestamp.copyWith(
             color: context.colors.textTertiaryMuted,
           ),

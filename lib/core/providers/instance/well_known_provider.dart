@@ -23,6 +23,7 @@ class WellKnown extends _$WellKnown {
     if (cached != null) {
       InstanceCompatibility.validateWellKnownDocument(cached);
       InstanceEndpoints.apply(cached);
+      unawaited(Future<void>.microtask(refresh));
       return cached;
     }
     final WellKnownFluxerResponse response = await _fetch(
@@ -36,24 +37,37 @@ class WellKnown extends _$WellKnown {
   }
 
   Future<void> refresh({bool silent = true}) async {
+    if (!ref.mounted) {
+      return;
+    }
     if (!silent) {
       state = const AsyncLoading<WellKnownFluxerResponse>();
     }
+    final String apiBaseUrl = ref.read(fluxerBaseUrlProvider);
     try {
       final WellKnownFluxerResponse response = await _fetch(
         ref.read(fluxerDioProvider),
       );
+      if (!ref.mounted || ref.read(fluxerBaseUrlProvider) != apiBaseUrl) {
+        return;
+      }
       if (!_applyIfMounted(response)) {
         return;
       }
       state = AsyncData<WellKnownFluxerResponse>(response);
       await _persistSnapshot(response);
     } on InstanceDiscoveryException catch (error, stackTrace) {
+      if (!ref.mounted) {
+        return;
+      }
       if (silent && state.hasValue && !_isCompatibilityFailure(error)) {
         return;
       }
       state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
     } on Object catch (error, stackTrace) {
+      if (!ref.mounted) {
+        return;
+      }
       if (silent && state.hasValue) {
         return;
       }
@@ -108,6 +122,19 @@ class WellKnown extends _$WellKnown {
       );
     }
   }
+}
+
+@Riverpod(keepAlive: true)
+InstanceConfigSnapshot refreshedActiveInstance(Ref ref) {
+  final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
+  final WellKnownFluxerResponse? fresh = ref
+      .watch(wellKnownProvider)
+      .asData
+      ?.value;
+  if (fresh == null || identical(fresh, instance.wellKnown)) {
+    return instance;
+  }
+  return instance.withWellKnown(fresh);
 }
 
 @Riverpod(keepAlive: true)

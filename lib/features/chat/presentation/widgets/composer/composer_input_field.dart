@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_clipboard_scope.dart';
@@ -14,6 +13,7 @@ import 'package:fluxer_app/features/chat/services/composer_mention_controller.da
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -63,7 +63,7 @@ class ComposerInputField extends ConsumerWidget {
   final int maxLines;
   final bool enterSends;
   final ValueNotifier<bool> showComposerCounter;
-  final int sendableWireLength;
+  final int Function() sendableWireLength;
   final String hintSemanticsLabel;
   final VoidCallback onSendPressed;
   final VoidCallback onComposerFieldTap;
@@ -105,7 +105,7 @@ class ComposerInputField extends ConsumerWidget {
         : const EdgeInsets.symmetric(horizontal: 12, vertical: 10);
     final bool canUpgrade =
         maxMessageLength < premiumMaxLength &&
-        ref.watch(shouldShowPremiumCommerceProvider);
+        ref.watch(premiumBillingNavVisibleProvider);
 
     return ComposerClipboardScope(
       channelId: channelId,
@@ -242,7 +242,7 @@ class ComposerInputField extends ConsumerWidget {
                     listenable: controller,
                     builder: (BuildContext context, Widget? _) {
                       return MessageCharacterCounter(
-                        currentLength: sendableWireLength,
+                        currentLength: sendableWireLength(),
                         maxLength: maxMessageLength,
                         canUpgrade: canUpgrade,
                         premiumMaxLength: premiumMaxLength,

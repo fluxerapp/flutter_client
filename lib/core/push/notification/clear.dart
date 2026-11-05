@@ -17,6 +17,8 @@ final class PushNotificationClear {
     'fluxer_app/apple_push',
   );
 
+  static final Map<String, String> _androidClearedThrough = <String, String>{};
+
   static Future<void> handleClearPayload(Map<String, String> payload) async {
     final String? channelId = resolvePushChannelId(payload);
     if (channelId != null) {
@@ -39,6 +41,15 @@ final class PushNotificationClear {
       return;
     }
     final String? readThrough = _nonEmpty(upToMessageId);
+    if (Platform.isAndroid) {
+      if (readThrough == null) {
+        _androidClearedThrough.remove(channelId);
+      } else if (_androidClearIsCovered(channelId, readThrough)) {
+        return;
+      } else {
+        _androidClearedThrough[channelId] = readThrough;
+      }
+    }
     await LocalPushNotifications().cancelForChannel(
       channelId,
       upToMessageId: readThrough,
@@ -57,7 +68,20 @@ final class PushNotificationClear {
     }
   }
 
+  static bool _androidClearIsCovered(String channelId, String readThrough) {
+    final String? cleared = _androidClearedThrough[channelId];
+    return cleared != null && pushMessageIsCoveredByAck(readThrough, cleared);
+  }
+
+  static bool isAckedOnAndroid(String? channelId, String? messageId) {
+    final String? cleared = _androidClearedThrough[channelId];
+    return cleared != null &&
+        messageId != null &&
+        pushMessageIsCoveredByAck(messageId, cleared);
+  }
+
   static Future<void> clearAllDelivered() async {
+    _androidClearedThrough.clear();
     await LocalPushNotifications().cancelAll();
     if (Platform.isAndroid) {
       await _cancelAllAndroidSystemNotifications();

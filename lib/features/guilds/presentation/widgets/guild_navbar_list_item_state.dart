@@ -1,7 +1,6 @@
 part of 'guild_navbar.dart';
 
-class _GuildListItemState extends State<_GuildListItem>
-    with AutomaticKeepAliveClientMixin {
+class _GuildListItemState extends State<_GuildListItem> {
   var _isHovered = false;
   var _isPressed = false;
 
@@ -10,9 +9,6 @@ class _GuildListItemState extends State<_GuildListItem>
       setState(() => _isPressed = value);
     }
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -92,7 +88,6 @@ class _GuildListItemState extends State<_GuildListItem>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final isActive = widget.isSelected || _isHovered || _isPressed;
     final activeAnimatedIconUrl = widget.isSelected || _isHovered
@@ -272,8 +267,7 @@ class _GuildListItemState extends State<_GuildListItem>
       return;
     }
     widget.onMenuOpened?.call();
-    final isMobile = isMobileLayout(context);
-    if (!isMobile) {
+    if (usesDesktopPointerUi(context)) {
       return;
     }
     final int permissions = widget.resolveMenuPermissions != null
@@ -924,11 +918,6 @@ class _GuildListItemState extends State<_GuildListItem>
     final guildId = widget.guild!.id;
     final GuildSettingsTab? settingsTab = guildSettingsTabForAction(action);
     if (settingsTab != null) {
-      if (isGuildSettingsTabComingSoon(settingsTab)) {
-        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-        widget.onShowToast?.call(FluxerToast(message: l10n.comingSoon));
-        return;
-      }
       final bool isTouchPrimary = ProviderScope.containerOf(
         context,
       ).read(inputModalityProvider);
@@ -965,6 +954,21 @@ class _GuildListItemState extends State<_GuildListItem>
         return;
       case GuildAction.copyGuildId:
         unawaited(copyToClipboard(context: context, value: guildId));
+      case GuildAction.reportGuild:
+        final Guild guild = widget.guild!;
+        unawaited(
+          openReportFlow(
+            context,
+            iarContext: IarGuildContext(
+              guildId: guild.id,
+              name: guild.name,
+              iconUrl: FluxerMediaUrl.guildIcon(
+                guildId: guild.id,
+                hash: guild.icon,
+              ),
+            ),
+          ),
+        );
       case GuildAction.markAsRead:
         widget.onMarkAsRead?.call();
       case GuildAction.hideMutedChannels:

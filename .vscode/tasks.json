@@ -1,93 +1,99 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build: OSS (UnifiedPush / CI default)",
-            "detail": "Strip Firebase and Play billing from pubspec, restore push and billing stubs, then pub get.",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "build: configure oss",
-                "flutter: pub get",
-                "markdown: native parser"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "build: Android FCM + Play billing",
-            "detail": "Merge Firebase deps and FCM sources. Store billing stays in pubspec.yaml.",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "build: configure android-fcm",
-                "flutter: pub get",
-                "markdown: native parser"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "build: iOS store billing",
-            "detail": "Strip Firebase artifacts and restore billing sources. Store billing deps stay in pubspec.yaml.",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "build: configure ios-store",
-                "flutter: pub get",
-                "markdown: native parser"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "build: configure oss",
-            "type": "shell",
-            "command": "dart tool/configure_build.dart --profile=oss",
-            "problemMatcher": []
-        },
-        {
-            "label": "build: configure android-fcm",
-            "type": "shell",
-            "command": "dart tool/configure_build.dart --profile=android-fcm",
-            "problemMatcher": []
-        },
-        {
-            "label": "build: configure ios-store",
-            "type": "shell",
-            "command": "dart tool/configure_build.dart --profile=ios-store",
-            "problemMatcher": []
-        },
-        {
-            "label": "firebase: OSS (UnifiedPush / APNs)",
-            "detail": "Alias for build: OSS.",
-            "dependsOn": ["build: OSS (UnifiedPush / CI default)"],
-            "problemMatcher": []
-        },
-        {
-            "label": "firebase: FCM",
-            "detail": "Alias for build: Android FCM + Play billing.",
-            "dependsOn": ["build: Android FCM + Play billing"],
-            "problemMatcher": []
-        },
-        {
-            "label": "firebase: strip deps",
-            "type": "shell",
-            "command": "dart tool/configure_build.dart --profile=oss",
-            "problemMatcher": []
-        },
-        {
-            "label": "firebase: merge deps",
-            "type": "shell",
-            "command": "dart tool/configure_build.dart --profile=android-fcm",
-            "problemMatcher": []
-        },
-        {
-            "label": "flutter: pub get",
-            "type": "shell",
-            "command": "flutter pub get",
-            "problemMatcher": []
-        },
-        {
-            "label": "markdown: native parser",
-            "detail": "Enable native assets, install Rust targets for Android and iOS (device and simulator), and init the fluxer parser crate if it is missing.",
-            "type": "shell",
-            "command": "dart tool/setup_native_markdown.dart",
-            "problemMatcher": []
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build: OSS (UnifiedPush / CI default)",
+      "detail": "Strip Firebase and Play billing from pubspec, restore push and billing stubs, then pub get.",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build: configure oss",
+        "flutter: pub get",
+        "markdown: native parser"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build: Android FCM + Play billing",
+      "detail": "Merge Firebase deps and FCM sources. Store billing stays in pubspec.yaml.",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build: configure android-fcm",
+        "flutter: pub get",
+        "markdown: native parser"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build: iOS store billing",
+      "detail": "Strip Firebase artifacts and restore billing sources. Store billing deps stay in pubspec.yaml.",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build: configure ios-store",
+        "flutter: pub get",
+        "markdown: native parser"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build: macOS store billing",
+      "detail": "Keeps in_app_purchase deps and billing sources for macOS runs.",
+      "dependsOn": ["build: iOS store billing"],
+      "problemMatcher": []
+    },
+    {
+      "label": "build: configure oss",
+      "type": "shell",
+      "command": "dart tool/configure_build.dart --profile=oss",
+      "problemMatcher": []
+    },
+    {
+      "label": "build: configure android-fcm",
+      "type": "shell",
+      "command": "dart tool/configure_build.dart --profile=android-fcm",
+      "problemMatcher": []
+    },
+    {
+      "label": "build: configure ios-store",
+      "type": "shell",
+      "command": "dart tool/configure_build.dart --profile=ios-store",
+      "problemMatcher": []
+    },
+    {
+      "label": "firebase: OSS (UnifiedPush / APNs)",
+      "detail": "Alias for build: OSS.",
+      "dependsOn": ["build: OSS (UnifiedPush / CI default)"],
+      "problemMatcher": []
+    },
+    {
+      "label": "firebase: FCM",
+      "detail": "Alias for build: Android FCM + Play billing.",
+      "dependsOn": ["build: Android FCM + Play billing"],
+      "problemMatcher": []
+    },
+    {
+      "label": "firebase: strip deps",
+      "type": "shell",
+      "command": "dart tool/configure_build.dart --profile=oss",
+      "problemMatcher": []
+    },
+    {
+      "label": "firebase: merge deps",
+      "type": "shell",
+      "command": "dart tool/configure_build.dart --profile=android-fcm",
+      "problemMatcher": []
+    },
+    {
+      "label": "flutter: pub get",
+      "type": "shell",
+      "command": "flutter pub get",
+      "problemMatcher": []
+    },
+    {
+      "label": "markdown: native parser",
+      "detail": "Enable native assets, install Rust targets for Android and iOS (device and simulator), and init the fluxer parser crate if it is missing.",
+      "type": "shell",
+      "command": "dart tool/setup_native_markdown.dart",
+      "problemMatcher": []
+    }
+  ]
 }

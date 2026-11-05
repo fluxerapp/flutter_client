@@ -28,7 +28,7 @@ class MessageListViewport extends StatelessWidget {
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
-    this.withheldLeadingCount = 0,
+    this.withheldLeading,
     this.leadingPad = 0,
     this.liveLeadingPad,
     this.startOfChannelHeader,
@@ -61,7 +61,7 @@ class MessageListViewport extends StatelessWidget {
 
   final double scrollCacheExtentPixels;
 
-  final int withheldLeadingCount;
+  final ValueListenable<int>? withheldLeading;
 
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
@@ -149,7 +149,7 @@ class MessageListViewport extends StatelessWidget {
               onNotification: onScrollMetricsNotification,
               child: KeyedSubtree(
                 key: ValueKey<int>(anchorEpoch),
-                child: _scrollView(
+                child: _withheldBuilder(
                   splitIndex: splitIndex,
                   effectiveAnchor: anchorDataIndex == null
                       ? 1.0
@@ -181,9 +181,32 @@ class MessageListViewport extends StatelessWidget {
     );
   }
 
+  Widget _withheldBuilder({
+    required int splitIndex,
+    required double effectiveAnchor,
+  }) {
+    final ValueListenable<int>? listenable = withheldLeading;
+    if (listenable == null) {
+      return _scrollView(
+        splitIndex: splitIndex,
+        effectiveAnchor: effectiveAnchor,
+        withheldLeadingCount: 0,
+      );
+    }
+    return ValueListenableBuilder<int>(
+      valueListenable: listenable,
+      builder: (BuildContext context, int _, Widget? _) => _scrollView(
+        splitIndex: splitIndex,
+        effectiveAnchor: effectiveAnchor,
+        withheldLeadingCount: listenable.value,
+      ),
+    );
+  }
+
   Widget _scrollView({
     required int splitIndex,
     required double effectiveAnchor,
+    required int withheldLeadingCount,
   }) {
     final int leadingCount = withheldLeadingCount >= splitIndex
         ? 0
@@ -217,6 +240,7 @@ class MessageListViewport extends StatelessWidget {
               (BuildContext context, int index) =>
                   itemBuilder(context, splitIndex - 1 - index),
               childCount: leadingCount,
+              addAutomaticKeepAlives: false,
               findChildIndexCallback: (Key key) => childIndexForKey(
                 key,
                 splitIndex - leadingCount,
@@ -232,6 +256,7 @@ class MessageListViewport extends StatelessWidget {
             (BuildContext context, int index) =>
                 itemBuilder(context, splitIndex + index),
             childCount: stream.length - splitIndex,
+            addAutomaticKeepAlives: false,
             findChildIndexCallback: (Key key) => childIndexForKey(
               key,
               splitIndex,

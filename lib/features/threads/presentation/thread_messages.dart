@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_author_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
@@ -78,13 +79,16 @@ class ThreadStarterMessage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: kMessageRowPaddingHorizontal - 8,
         ),
-        child: MessageItem(
+        child: BlockedAuthorPreview(
           message: source,
-          inboxPreviewMode: true,
-          allowAuthorProfileInPreview: true,
-          hideMentionHighlight: true,
-          previewRoleGuildId: guildId,
-          currentUserId: ref.watch(currentUserIdProvider),
+          child: MessageItem(
+            message: source,
+            inboxPreviewMode: true,
+            allowAuthorProfileInPreview: true,
+            hideMentionHighlight: true,
+            previewRoleGuildId: guildId,
+            currentUserId: ref.watch(currentUserIdProvider),
+          ),
         ),
       ),
       MessageReferenceState.loaded => const ThreadStarterDeletedNotice(),

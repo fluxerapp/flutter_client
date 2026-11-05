@@ -63,11 +63,14 @@ class _GiftCard extends StatelessWidget {
       userSettingsViewModelProvider.select((s) => s.isKnownUnclaimed),
     );
     final creator = gift.createdBy;
+    final bool blocked = giftClaimBlockedInApp(gift);
     final titleColor = gift.redeemed
         ? context.colors.textTertiary
         : context.colors.textPrimary;
     final helpText = gift.redeemed
         ? l10n.embedGiftAlreadyRedeemed
+        : blocked
+        ? l10n.giftAcceptLifetimeNotInApp
         : isUnclaimed
         ? l10n.embedGiftClaimAccountHelp
         : l10n.embedGiftClaimHelp;
@@ -102,24 +105,26 @@ class _GiftCard extends StatelessWidget {
               maxLines: 1,
             ),
       body: Text(helpText, style: helpStyle),
-      footer: FluxerButton.primary(
-        onPressed: gift.redeemed
-            ? null
-            : () {
-                if (isUnclaimed) {
-                  unawaited(ClaimAccountSheet.show(context, ref));
-                  return;
-                }
-                unawaited(
-                  redeemGiftCode(context: context, ref: ref, code: code),
-                );
-              },
-        label: gift.redeemed
-            ? l10n.embedGiftClaimed
-            : isUnclaimed
-            ? l10n.embedGiftClaimAccount
-            : l10n.embedGiftClaim,
-      ),
+      footer: blocked
+          ? null
+          : FluxerButton.primary(
+              onPressed: gift.redeemed
+                  ? null
+                  : () {
+                      if (isUnclaimed) {
+                        unawaited(ClaimAccountSheet.show(context, ref));
+                        return;
+                      }
+                      unawaited(
+                        redeemGiftCode(context: context, ref: ref, code: code),
+                      );
+                    },
+              label: gift.redeemed
+                  ? l10n.embedGiftClaimed
+                  : isUnclaimed
+                  ? l10n.embedGiftClaimAccount
+                  : l10n.embedGiftClaim,
+            ),
     );
   }
 }
@@ -170,7 +175,7 @@ class _EmbedCard extends StatelessWidget {
   const _EmbedCard({
     required this.icon,
     required this.title,
-    required this.footer,
+    this.footer,
     this.subtitle,
     this.body,
   });
@@ -179,7 +184,7 @@ class _EmbedCard extends StatelessWidget {
   final Widget title;
   final Widget? subtitle;
   final Widget? body;
-  final Widget footer;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -217,8 +222,10 @@ class _EmbedCard extends StatelessWidget {
             ],
           ),
         ),
-        Divider(height: 1, thickness: 1, color: context.colors.borderColor),
-        Padding(padding: const EdgeInsets.all(12), child: footer),
+        if (footer != null) ...[
+          Divider(height: 1, thickness: 1, color: context.colors.borderColor),
+          Padding(padding: const EdgeInsets.all(12), child: footer),
+        ],
       ],
     ),
   );

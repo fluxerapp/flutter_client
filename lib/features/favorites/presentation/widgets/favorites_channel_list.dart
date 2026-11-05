@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dar
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/favorites/domain/resolved_favorite_entry.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_category_context_menu.dart';
@@ -426,7 +427,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           semanticLabel: navigationItemSemanticLabel(
             l10n: FluxerLocalizations.of(context),
-            name: entry.displayName,
+            name: entry.displayName(FluxerLocalizations.of(context)),
             isSelected: isSelected,
             hasUnread: showUnreadIndicator,
             mentionCount: mentionCount,
@@ -446,7 +447,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      entry.displayName,
+                      entry.displayName(FluxerLocalizations.of(context)),
                       style: context.textStyles.username.copyWith(
                         color: textColor,
                       ),
@@ -495,7 +496,10 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
         );
       }
       return FluxerAvatar.userPresence(
-        fallbackText: dm.displayName,
+        fallbackText: dmConversationDisplayName(
+          FluxerLocalizations.of(context),
+          dm,
+        ),
         userId: dm.recipientId,
         imageUrl: dm.recipientAvatar == null
             ? null

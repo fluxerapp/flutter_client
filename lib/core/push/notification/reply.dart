@@ -1,12 +1,10 @@
-import 'dart:ui' show Locale, PlatformDispatcher;
-
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
+import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const String kPushReplyActionId = 'fluxer_reply';
 
@@ -74,15 +72,15 @@ AndroidNotificationReplyTarget? androidNotificationReplyTarget(
 }
 
 String pushReplyActionTitle() {
-  return _pushReplyLocalizations().chatMessageReply;
+  return pushNotificationLocalizations().chatMessageReply;
 }
 
 String pushReplyHint() {
-  return _pushReplyLocalizations().notificationReplyPlaceholder;
+  return pushNotificationLocalizations().notificationReplyPlaceholder;
 }
 
 String pushReplyFailedBody() {
-  return _pushReplyLocalizations().notificationReplyFailed;
+  return pushNotificationLocalizations().notificationReplyFailed;
 }
 
 Future<PushReplyResult> sendPushNotificationReply({
@@ -159,14 +157,6 @@ Future<void> postPushReply(PushReplySend send) async {
     await dio.post<void>('/channels/$channelId/messages', data: send.body);
   } finally {
     dio.close();
-  }
-}
-
-FluxerLocalizations _pushReplyLocalizations() {
-  try {
-    return lookupFluxerLocalizations(PlatformDispatcher.instance.locale);
-  } on Object {
-    return lookupFluxerLocalizations(const Locale('en'));
   }
 }
 

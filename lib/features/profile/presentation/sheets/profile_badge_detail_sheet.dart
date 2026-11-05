@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_details_tooltip.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_actions.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -22,6 +25,14 @@ class ProfileBadgeDetailSheet {
   }) {
     final ProfileBadgeResponseDetails? details = badge.details;
     final String title = details?.title ?? badge.label;
+    final bool hasAction = profileBadgeHasAction(
+      externalPurchaseLinksAllowed: ref.read(
+        externalPurchaseLinksAllowedProvider,
+      ),
+      officialInstance: ref.read(isActiveInstanceOfficialProvider),
+      billingNavVisible: ref.read(premiumBillingNavVisibleProvider),
+      badge: badge,
+    );
 
     return FluxerBottomSheet.show<void>(
       context,
@@ -31,7 +42,6 @@ class ProfileBadgeDetailSheet {
         final layout = sheetContext.layout;
         final textStyles = sheetContext.textStyles;
         final colors = sheetContext.colors;
-        final String? href = badge.href;
 
         return Padding(
           padding: EdgeInsets.fromLTRB(
@@ -68,7 +78,7 @@ class ProfileBadgeDetailSheet {
                     color: colors.textSecondary,
                   ),
                 ),
-              if (href != null) ...[
+              if (hasAction) ...[
                 SizedBox(height: layout.s3),
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,

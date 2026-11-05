@@ -18,6 +18,7 @@ import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/utils/masked_link_guards.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
+import 'package:fluxer_markdown/src/widgets/animated_emoji_image.dart';
 import 'package:fluxer_markdown/src/widgets/ansi_code_text.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_frame_boundary.dart';
@@ -2608,9 +2609,8 @@ class FluxerEmojiWidget extends StatelessWidget {
     final cdnSize = jumbo ? 240 : 96;
     final dpr = MediaQuery.devicePixelRatioOf(context);
     final px = (size * dpr).round();
-    final Widget staticImage = _buildCustomImage(
+    final Widget staticImage = _buildStaticCustomImage(
       id: id,
-      animated: false,
       cdnSize: cdnSize,
       size: size,
       px: px,
@@ -2624,37 +2624,30 @@ class FluxerEmojiWidget extends StatelessWidget {
       size: size,
       child: _allowImageFrameAnimation(
         context,
-        _buildCustomImage(
-          id: id,
-          animated: true,
-          cdnSize: cdnSize,
+        FluxerAnimatedEmojiImage(
+          url: customEmojiUrlBuilder(id: id, animated: true, size: cdnSize),
+          cacheKey: 'emoji_${id}_a2_$cdnSize',
           size: size,
-          px: px,
-          errorChild: staticImage,
+          fallback: staticImage,
         ),
       ),
     );
   }
 
-  Widget _buildCustomImage({
+  Widget _buildStaticCustomImage({
     required String id,
-    required bool animated,
     required int cdnSize,
     required double size,
     required int px,
     required Widget errorChild,
   }) {
     return CachedNetworkImage(
-      imageUrl: customEmojiUrlBuilder(
-        id: id,
-        animated: animated,
-        size: cdnSize,
-      ),
-      cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_$cdnSize',
+      imageUrl: customEmojiUrlBuilder(id: id, animated: false, size: cdnSize),
+      cacheKey: 'emoji_${id}_s_$cdnSize',
       width: size,
       height: size,
       // Capping both decode axes stretches non-square emoji: https://feedback.fluxer.com/p/1836
-      memCacheWidth: animated ? null : px,
+      memCacheWidth: px,
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,
       fit: BoxFit.contain,
@@ -2664,12 +2657,11 @@ class FluxerEmojiWidget extends StatelessWidget {
 }
 
 Widget _allowImageFrameAnimation(BuildContext context, Widget child) {
-  final MediaQueryData data = MediaQuery.of(context);
-  if (!data.disableAnimations) {
+  if (!MediaQuery.disableAnimationsOf(context)) {
     return child;
   }
   return MediaQuery(
-    data: data.copyWith(disableAnimations: false),
+    data: MediaQuery.of(context).copyWith(disableAnimations: false),
     child: child,
   );
 }

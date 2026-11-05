@@ -37,64 +37,198 @@ class DmRepository {
 
   Stream<List<DmConversation>> watchDmChannels() {
     final controller = StreamController<List<DmConversation>>();
-    var latestRows = <db.DmChannel>[];
     var disposed = false;
-    var dmReadStateSnapshot = <String, db.ReadState>{};
+    var latestRows = <db.DmChannel>[];
+    var rowsById = <String, db.DmChannel>{};
+    final conversations = <String, DmConversation>{};
+    final builtReadStates = <String, db.ReadState?>{};
+    final dirtyIds = <String>{};
+    var lightIds = <String>{};
     var didLightEmit = false;
+    var draining = false;
+    var pendingEmit = false;
+    List<DmConversation>? emitted;
+    StreamSubscription<List<db.ReadState>>? readStateSub;
+    var readStateIds = <String>{};
+    var watchedReadStates = <String, db.ReadState>{};
+    var watchedReadStateIds = <String>{};
 
-    Future<void> recompute([List<db.DmChannel>? rows]) async {
-      if (disposed) {
-        return;
-      }
-      latestRows = rows ?? await _db.dmChannelDao.getDmChannels();
-      if (!didLightEmit) {
-        didLightEmit = true;
-        final lightConversations = await _buildConversations(
-          latestRows,
-          includeLastMessages: false,
-        );
-        if (!disposed) {
-          controller.add(lightConversations);
+    void markReadStateDrift(Iterable<String> ids) {
+      for (final String id in ids) {
+        if (watchedReadStateIds.contains(id) &&
+            builtReadStates.containsKey(id) &&
+            dmReadStateUnreadFieldsChanged(
+              builtReadStates[id],
+              watchedReadStates[id],
+            )) {
+          dirtyIds.add(id);
         }
-        final bool needsEnrichment = latestRows.any(
-          (db.DmChannel row) =>
-              row.lastMessageId != null && row.lastMessageId!.isNotEmpty,
-        );
-        if (needsEnrichment) {
-          final enriched = await _buildConversations(latestRows);
-          if (!disposed) {
-            controller.add(enriched);
-          }
-        }
-        return;
-      }
-      final conversations = await _buildConversations(latestRows);
-      if (!disposed) {
-        controller.add(conversations);
       }
     }
 
-    final dmSub = _db.dmChannelDao.watchDmChannels().listen(
-      (rows) => unawaited(recompute(rows)),
-      onError: controller.addError,
-    );
-    final readStateSub = _db.readStateDao.watchReadStates().listen((rows) {
-      final dmIds = latestRows.map((r) => r.id).toSet();
-      final next = <String, db.ReadState>{
-        for (final r in rows)
-          if (dmIds.contains(r.channelId)) r.channelId: r,
-      };
-      if (!dmReadStatesChanged(dmReadStateSnapshot, next)) {
+    void emit() {
+      final next = <DmConversation>[
+        for (final db.DmChannel row in latestRows) conversations[row.id]!,
+      ];
+      final previous = emitted;
+      var same = previous != null && next.length == previous.length;
+      for (var i = 0; same && i < next.length; i++) {
+        same = identical(next[i], previous![i]);
+      }
+      if (same) {
         return;
       }
-      dmReadStateSnapshot = next;
-      unawaited(recompute());
+      emitted = next;
+      controller.add(next);
+    }
+
+    void store(
+      ({
+        Map<String, DmConversation> conversations,
+        Map<String, db.ReadState> readStates,
+      })
+      built,
+    ) {
+      final ids = <String>[
+        for (final String id in built.conversations.keys)
+          if (rowsById.containsKey(id)) id,
+      ];
+      for (final String id in ids) {
+        conversations[id] = built.conversations[id]!;
+        builtReadStates[id] = built.readStates[id];
+      }
+      markReadStateDrift(ids);
+    }
+
+    Future<void> rebuild(
+      List<db.DmChannel> rows, {
+      bool includeLastMessages = true,
+    }) async {
+      try {
+        store(
+          await _buildConversations(
+            rows,
+            includeLastMessages: includeLastMessages,
+          ),
+        );
+      } catch (_) {
+        dirtyIds.addAll(rows.map((db.DmChannel row) => row.id));
+        rethrow;
+      }
+    }
+
+    Future<void> drain() async {
+      if (draining) {
+        return;
+      }
+      draining = true;
+      try {
+        if (!didLightEmit) {
+          didLightEmit = true;
+          final rows = latestRows;
+          dirtyIds.clear();
+          await rebuild(rows, includeLastMessages: false);
+          if (disposed) {
+            return;
+          }
+          if (dirtyIds.isEmpty) {
+            emit();
+          }
+          final bool needsEnrichment = rows.any(
+            (db.DmChannel row) =>
+                row.lastMessageId != null && row.lastMessageId!.isNotEmpty,
+          );
+          final ids = {for (final db.DmChannel row in rows) row.id};
+          if (needsEnrichment) {
+            dirtyIds.addAll(ids);
+          } else {
+            lightIds = ids;
+          }
+        }
+        while (!disposed && (dirtyIds.isNotEmpty || pendingEmit)) {
+          pendingEmit = false;
+          final rows = <db.DmChannel>[
+            for (final db.DmChannel row in latestRows)
+              if (dirtyIds.contains(row.id)) row,
+          ];
+          dirtyIds.clear();
+          if (rows.isNotEmpty) {
+            await rebuild(rows);
+            if (disposed) {
+              return;
+            }
+          }
+          if (dirtyIds.isEmpty) {
+            emit();
+          }
+        }
+      } finally {
+        draining = false;
+      }
+    }
+
+    void schedule() {
+      dirtyIds.addAll(lightIds);
+      lightIds = <String>{};
+      unawaited(drain().catchError(controller.addError));
+    }
+
+    void watchReadStatesFor(Set<String> ids) {
+      if (ids.length == readStateIds.length && readStateIds.containsAll(ids)) {
+        return;
+      }
+      readStateIds = ids;
+      unawaited(readStateSub?.cancel());
+      readStateSub = null;
+      watchedReadStateIds = <String>{};
+      if (ids.isEmpty) {
+        return;
+      }
+      readStateSub = _db.readStateDao
+          .watchReadStatesForChannels(ids.toList())
+          .listen((states) {
+            watchedReadStates = <String, db.ReadState>{
+              for (final db.ReadState state in states) state.channelId: state,
+            };
+            watchedReadStateIds = ids;
+            final int before = dirtyIds.length;
+            markReadStateDrift(ids);
+            if (dirtyIds.length != before) {
+              schedule();
+            }
+          }, onError: controller.addError);
+    }
+
+    final dmSub = _db.dmChannelDao.watchDmChannels().listen((rows) {
+      if (disposed) {
+        return;
+      }
+      final next = <String, db.DmChannel>{
+        for (final db.DmChannel row in rows) row.id: row,
+      };
+      for (final db.DmChannel row in rows) {
+        if (rowsById[row.id] != row) {
+          dirtyIds.add(row.id);
+        }
+      }
+      for (final String id in rowsById.keys) {
+        if (!next.containsKey(id)) {
+          conversations.remove(id);
+          builtReadStates.remove(id);
+          lightIds.remove(id);
+        }
+      }
+      latestRows = rows;
+      rowsById = next;
+      pendingEmit = true;
+      watchReadStatesFor(next.keys.toSet());
+      schedule();
     }, onError: controller.addError);
 
     controller.onCancel = () async {
       disposed = true;
       await dmSub.cancel();
-      await readStateSub.cancel();
+      await readStateSub?.cancel();
       await controller.close();
     };
 
@@ -109,7 +243,13 @@ class DmRepository {
     );
   }
 
-  Future<List<DmConversation>> _buildConversations(
+  Future<
+    ({
+      Map<String, DmConversation> conversations,
+      Map<String, db.ReadState> readStates,
+    })
+  >
+  _buildConversations(
     List<db.DmChannel> rows, {
     bool includeLastMessages = true,
   }) async {
@@ -143,7 +283,8 @@ class DmRepository {
     final users = await _db.userDao.getUsersByIds(allRecipientIds.toList());
     final userMap = {for (final u in users) u.id: u};
 
-    return rows.map((row) {
+    final conversations = <String, DmConversation>{};
+    for (final db.DmChannel row in rows) {
       final lastMsg = lastMessages[row.id];
       final lastMsgForUnread = lastMessagesForUnread[row.id];
       final readState = readStateMap[row.id];
@@ -162,7 +303,7 @@ class DmRepository {
         row.recipientId,
         isGroup: isGroup,
       );
-      return DmConversation.fromRow(
+      conversations[row.id] = DmConversation.fromRow(
         row,
         userMap[row.recipientId],
         cachedLastMessage: lastMsg,
@@ -186,7 +327,8 @@ class DmRepository {
         ),
         productName: _productName,
       );
-    }).toList();
+    }
+    return (conversations: conversations, readStates: readStateMap);
   }
 
   Future<db.DmChannelsCompanion?> _buildDmChannelCompanion(
@@ -227,7 +369,7 @@ class DmRepository {
       await _db.dmChannelDao.upsertDmChannels(companions);
 
       final rows = await _db.dmChannelDao.getDmChannels();
-      return await _buildConversations(rows);
+      return (await _buildConversations(rows)).conversations.values.toList();
     } on DioException catch (e) {
       throw ApiException.fromDio(e);
     }
@@ -298,10 +440,7 @@ class DmRepository {
               bSnowflake,
             ).compareTo(dateTimeFromSnowflakeAsLocalOrNow(aSnowflake));
           });
-    final List<DmConversation> conversations = await _buildConversations(
-      matches,
-    );
-    return conversations;
+    return (await _buildConversations(matches)).conversations.values.toList();
   }
 
   Future<void> markAsRead(String channelId) =>
@@ -451,4 +590,15 @@ class DmRepository {
       throw ApiException.fromDio(e);
     }
   }
+}
+
+bool dmReadStateUnreadFieldsChanged(
+  db.ReadState? previous,
+  db.ReadState? next,
+) {
+  if (previous == null || next == null) {
+    return previous != next;
+  }
+  return previous.lastMessageId != next.lastMessageId ||
+      previous.mentionCount != next.mentionCount;
 }

@@ -132,6 +132,18 @@ void main() {
     final List<String> calls = <String>[];
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    const MethodChannel permissionChannel = MethodChannel(
+      'flutter.baseflow.com/permissions/methods',
+    );
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          permissionChannel,
+          (MethodCall call) async => 1,
+        );
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(permissionChannel, null),
+    );
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
           const MethodChannel('fluxer_app/upload_keep_alive'),

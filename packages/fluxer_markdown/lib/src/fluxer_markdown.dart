@@ -8,6 +8,7 @@ export 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 export 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 export 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 export 'package:fluxer_markdown/src/utils/visible_content.dart';
+export 'package:fluxer_markdown/src/widgets/animated_emoji_image.dart';
 export 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 export 'package:fluxer_markdown/src/widgets/emoji_frame_boundary.dart';
 export 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';

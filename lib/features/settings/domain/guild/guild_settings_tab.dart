@@ -21,12 +21,6 @@ enum GuildSettingsTab {
   bans,
 }
 
-const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[];
-
-bool isGuildSettingsTabComingSoon(GuildSettingsTab tab) {
-  return _comingSoonTabs.contains(tab);
-}
-
 GuildAction guildSettingsTabToAction(GuildSettingsTab tab) {
   return switch (tab) {
     GuildSettingsTab.overview => GuildAction.settingsOverview,
@@ -131,14 +125,6 @@ GuildSettingsTab? guildSettingsTabForAction(GuildAction action) {
     GuildAction.settingsBans => GuildSettingsTab.bans,
     _ => null,
   };
-}
-
-bool isGuildSettingsActionComingSoon(GuildAction action) {
-  final GuildSettingsTab? tab = guildSettingsTabForAction(action);
-  if (tab == null) {
-    return false;
-  }
-  return isGuildSettingsTabComingSoon(tab);
 }
 
 String guildSettingsTabPath(String guildId, GuildSettingsTab tab) {

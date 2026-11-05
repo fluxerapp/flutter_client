@@ -154,7 +154,10 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
         return isResolvedChannelGateBlocking(
           channel: channel,
           channelList: channelList,
-          nsfwAllowed: ref.read(sensitiveContentProvider).nsfwAllowed,
+          access: ref.read(sensitiveContentProvider).access,
+          allowInAppConsent: ref
+              .read(sensitiveContentProvider)
+              .inAppConsentAllowed,
           agreements: ref.read(matureContentAgreementsProvider),
         );
       },

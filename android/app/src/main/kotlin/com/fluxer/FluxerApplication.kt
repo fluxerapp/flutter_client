@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import com.fluxer.notifications.NotificationCancelPlugin
 
 private const val DATA_TRANSPORT_ALARM_RECEIVER =
     "com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
@@ -13,6 +14,9 @@ private const val DATA_TRANSPORT_ALARM_RECEIVER =
 class FluxerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        NotificationCancelPlugin.onMessengerAttached = { context, messenger ->
+            NotificationReplyBridge(context).register(messenger)
+        }
         UploadKeepAliveService.stop(this)
         val meta =
             packageManager

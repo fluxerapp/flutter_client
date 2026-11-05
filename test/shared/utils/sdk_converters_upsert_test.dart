@@ -6,24 +6,6 @@ import 'package:fluxer_dart/export.dart';
 import '../../helpers/open_test_database.dart';
 
 void main() {
-  test('dedupeUsersCompanionsById keeps the last companion per user id', () {
-    final List<UsersCompanion> deduped =
-        dedupeUsersCompanionsById(<UsersCompanion>[
-          UsersCompanion.insert(id: 'user-1', username: 'first'),
-          UsersCompanion.insert(id: 'user-1', username: 'second'),
-          UsersCompanion.insert(id: 'user-2', username: 'other'),
-        ]);
-
-    expect(deduped, hasLength(2));
-    expect(
-      deduped
-          .singleWhere((UsersCompanion user) => user.id.value == 'user-1')
-          .username
-          .value,
-      'second',
-    );
-  });
-
   test(
     'a user partial with null avatar and global_name clears stored values',
     () async {

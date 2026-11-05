@@ -6,21 +6,24 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/account/lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
-import 'package:fluxer_app/features/auth/domain/ban_view.dart';
+import 'package:fluxer_app/features/auth/domain/enforcement_notice.dart';
 import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/registration_result.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
-import 'package:fluxer_app/features/auth/providers/ban_view_provider.dart';
+import 'package:fluxer_app/features/auth/providers/awaiting_tap_after_sign_in_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
@@ -29,7 +32,6 @@ import 'package:fluxer_app/features/auth/providers/registration_draft_provider.d
 import 'package:fluxer_app/features/recovery_kit/domain/recovery_kit.dart';
 import 'package:fluxer_app/features/recovery_kit/providers/recovery_kit_providers.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -49,7 +51,8 @@ class LoginViewState {
   final bool isLoggingIn;
   final IpAuthorizationChallenge? ipAuthChallenge;
   final MfaChallenge? mfaChallenge;
-  final BanViewInfo? banViewInfo;
+  final bool accountRestricted;
+  final EnforcementNotice? enforcementNotice;
   final bool showAccountSelector;
   final bool showForgotPassword;
   final bool forgotPasswordEmailSent;
@@ -59,6 +62,7 @@ class LoginViewState {
   final bool isStartingSso;
   final String? ssoError;
   final String? pendingApprovalUserId;
+  final StoredAccount? expiredAccount;
 
   const LoginViewState({
     required this.email,
@@ -70,7 +74,8 @@ class LoginViewState {
     required this.isLoggingIn,
     required this.ipAuthChallenge,
     required this.mfaChallenge,
-    required this.banViewInfo,
+    required this.accountRestricted,
+    required this.enforcementNotice,
     required this.showAccountSelector,
     required this.showForgotPassword,
     required this.forgotPasswordEmailSent,
@@ -80,13 +85,19 @@ class LoginViewState {
     required this.ssoError,
     required this.pendingApprovalUserId,
     this.usernameSuggestions = const [],
+    this.expiredAccount,
   });
 
+  String? get expiredAccountName => switch (expiredAccount) {
+    final StoredAccount account when account.matchesSignInLogin(email) =>
+      account.identifier,
+    _ => null,
+  };
+
+  bool get signInInFlight => isLoggingIn || isStartingSso;
+
   bool get canLogin =>
-      !isLoggingIn &&
-      !isStartingSso &&
-      email.trim().isNotEmpty &&
-      password.isNotEmpty;
+      !signInInFlight && email.trim().isNotEmpty && password.isNotEmpty;
 
   LoginViewState copyWith({
     String? email,
@@ -98,7 +109,8 @@ class LoginViewState {
     bool? isLoggingIn,
     Object? ipAuthChallenge = _unset,
     Object? mfaChallenge = _unset,
-    Object? banViewInfo = _unset,
+    bool? accountRestricted,
+    Object? enforcementNotice = _unset,
     bool? showAccountSelector,
     bool? showForgotPassword,
     bool? forgotPasswordEmailSent,
@@ -108,6 +120,7 @@ class LoginViewState {
     bool? isStartingSso,
     Object? ssoError = _unset,
     Object? pendingApprovalUserId = _unset,
+    Object? expiredAccount = _unset,
   }) {
     return LoginViewState(
       email: email ?? this.email,
@@ -127,9 +140,10 @@ class LoginViewState {
       mfaChallenge: mfaChallenge == _unset
           ? this.mfaChallenge
           : mfaChallenge as MfaChallenge?,
-      banViewInfo: banViewInfo == _unset
-          ? this.banViewInfo
-          : banViewInfo as BanViewInfo?,
+      accountRestricted: accountRestricted ?? this.accountRestricted,
+      enforcementNotice: enforcementNotice == _unset
+          ? this.enforcementNotice
+          : enforcementNotice as EnforcementNotice?,
       showAccountSelector: showAccountSelector ?? this.showAccountSelector,
       showForgotPassword: showForgotPassword ?? this.showForgotPassword,
       forgotPasswordEmailSent:
@@ -144,9 +158,34 @@ class LoginViewState {
       pendingApprovalUserId: pendingApprovalUserId == _unset
           ? this.pendingApprovalUserId
           : pendingApprovalUserId as String?,
+      expiredAccount: expiredAccount == _unset
+          ? this.expiredAccount
+          : expiredAccount as StoredAccount?,
     );
   }
 }
+
+const LoginViewState _kInitialLoginViewState = LoginViewState(
+  email: '',
+  password: '',
+  isPasswordVisible: false,
+  errorMessage: null,
+  errorType: null,
+  fieldErrors: {},
+  isLoggingIn: false,
+  ipAuthChallenge: null,
+  mfaChallenge: null,
+  accountRestricted: false,
+  enforcementNotice: null,
+  showAccountSelector: true,
+  showForgotPassword: false,
+  forgotPasswordEmailSent: false,
+  resetToken: null,
+  showRegister: false,
+  isStartingSso: false,
+  ssoError: null,
+  pendingApprovalUserId: null,
+);
 
 @Riverpod(keepAlive: true)
 class LoginViewModel extends _$LoginViewModel {
@@ -156,27 +195,26 @@ class LoginViewModel extends _$LoginViewModel {
 
   @override
   LoginViewState build() {
-    ref.onDispose(() => _suggestionTimer?.cancel());
-    return const LoginViewState(
-      email: '',
-      password: '',
-      isPasswordVisible: false,
-      errorMessage: null,
-      errorType: null,
-      fieldErrors: {},
-      isLoggingIn: false,
-      ipAuthChallenge: null,
-      mfaChallenge: null,
-      banViewInfo: null,
-      showAccountSelector: true,
-      showForgotPassword: false,
-      forgotPasswordEmailSent: false,
-      resetToken: null,
-      showRegister: false,
-      isStartingSso: false,
-      ssoError: null,
-      pendingApprovalUserId: null,
-    );
+    ref
+      ..onDispose(() => _suggestionTimer?.cancel())
+      ..listen<bool>(authStateProvider, (_, _) {
+        if (state.expiredAccount != null) {
+          state = state.copyWith(expiredAccount: null);
+        }
+      });
+    return _kInitialLoginViewState;
+  }
+
+  void startNewSignIn() {
+    _suggestionTimer?.cancel();
+    _pendingRecoveredKit = null;
+    _recoveryPrefill = null;
+    state = _kInitialLoginViewState.copyWith(showAccountSelector: false);
+  }
+
+  void startExpiredSignIn(StoredAccount account) {
+    startNewSignIn();
+    state = state.copyWith(email: account.signInLogin, expiredAccount: account);
   }
 
   Future<void> startSsoLogin() async {
@@ -216,15 +254,25 @@ class LoginViewModel extends _$LoginViewModel {
         );
         return;
       }
-      final AuthSession session = await ref
+      final LoginResult result = await ref
           .read(authRepositoryProvider)
           .completeSso(code: code, state: callbackState);
-      final bool restored = await _completeLoginSuccess(session);
-      state = state.copyWith(
-        email: restored ? '' : state.email,
-        password: restored ? '' : state.password,
-        isStartingSso: false,
-      );
+      switch (result) {
+        case LoginSuccess(:final session):
+          final bool restored = await _completeLoginSuccess(session);
+          state = state.copyWith(
+            email: restored ? '' : state.email,
+            password: restored ? '' : state.password,
+            isStartingSso: false,
+          );
+        case LoginMfaRequired(:final challenge):
+          state = state.copyWith(mfaChallenge: challenge, isStartingSso: false);
+        case LoginIpAuthRequired(:final challenge):
+          state = state.copyWith(
+            ipAuthChallenge: challenge,
+            isStartingSso: false,
+          );
+      }
     } on SsoAuthCancelledException {
       if (isAddingAccount) {
         ref
@@ -241,7 +289,9 @@ class LoginViewModel extends _$LoginViewModel {
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
       }
-      state = state.copyWith(ssoError: error.message, isStartingSso: false);
+      state = error.kind == AuthFailureKind.accountRestricted
+          ? _stateAfterAuthFailure(state, error)
+          : state.copyWith(ssoError: error.message, isStartingSso: false);
     } on Exception catch (e) {
       if (isAddingAccount) {
         ref
@@ -282,9 +332,8 @@ class LoginViewModel extends _$LoginViewModel {
     state = state.copyWith(mfaChallenge: null);
   }
 
-  void clearBanView() {
-    ref.read(banViewProvider.notifier).clear();
-    state = state.copyWith(banViewInfo: null);
+  void clearAccountRestriction() {
+    state = state.copyWith(accountRestricted: false, enforcementNotice: null);
   }
 
   void setError(String message) {
@@ -362,6 +411,7 @@ class LoginViewModel extends _$LoginViewModel {
           .register(
             email: email,
             password: password,
+            theme: ref.read(themePreferenceProvider).mode,
             dateOfBirth: dateOfBirth,
             username: username,
             displayName: displayName,
@@ -466,7 +516,7 @@ class LoginViewModel extends _$LoginViewModel {
             showForgotPassword: false,
             isLoggingIn: false,
           );
-        case LoginIpAuthRequired() || LoginSuspended():
+        case LoginIpAuthRequired():
           state = state.copyWith(isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
@@ -484,10 +534,6 @@ class LoginViewModel extends _$LoginViewModel {
     final String trimmed = login.trim();
     final int hashIndex = trimmed.indexOf('#');
     return hashIndex < 0 ? trimmed : trimmed.substring(0, hashIndex);
-  }
-
-  void hideAccountSelector() {
-    state = state.copyWith(showAccountSelector: false);
   }
 
   Future<void> completeMfa() async {
@@ -645,7 +691,7 @@ class LoginViewModel extends _$LoginViewModel {
             resetToken: null,
             isLoggingIn: false,
           );
-        case LoginIpAuthRequired() || LoginSuspended():
+        case LoginIpAuthRequired():
           state = state.copyWith(resetToken: null, isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
@@ -711,10 +757,6 @@ class LoginViewModel extends _$LoginViewModel {
           return false;
         case LoginMfaRequired(:final challenge):
           state = state.copyWith(mfaChallenge: challenge, isLoggingIn: false);
-          return false;
-        case LoginSuspended(:final banViewInfo):
-          unawaited(ref.read(banViewProvider.notifier).initialize(banViewInfo));
-          state = state.copyWith(banViewInfo: banViewInfo, isLoggingIn: false);
           return false;
       }
     } on AuthFailure catch (error) {
@@ -788,6 +830,17 @@ class LoginViewModel extends _$LoginViewModel {
     LoginViewState current,
     AuthFailure error,
   ) {
+    if (error.kind == AuthFailureKind.accountRestricted) {
+      return current.copyWith(
+        accountRestricted: true,
+        enforcementNotice: error.notice,
+        errorMessage: null,
+        errorType: null,
+        fieldErrors: const {},
+        isLoggingIn: false,
+        isStartingSso: false,
+      );
+    }
     if (error.kind == AuthFailureKind.verificationFailed) {
       return current.copyWith(
         errorType: LoginError.verificationFailed,
@@ -804,6 +857,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   Future<bool> _restoreAuthenticatedSession() async {
+    ref.read(awaitingTapAfterSignInProvider.notifier).arm();
     ref.invalidate(appStartupProvider);
     try {
       await ref
@@ -830,10 +884,17 @@ class LoginViewModel extends _$LoginViewModel {
 
     try {
       final repo = ref.read(authRepositoryProvider);
-      final webauthnService = WebAuthnService(PasskeyAuthenticator());
+      final webauthnService = WebAuthnService(
+        ref.read(passkeyAuthenticatorProvider),
+      );
 
-      final options = await repo.getPasskeyLoginOptions();
-      final authResponse = await webauthnService.authenticate(options);
+      final (options, authResponse) = await withPasskeyRelyingParty(
+        apiBaseUrl: ref.read(authFluxerBaseUrlProvider),
+        attempt: (rpId) async {
+          final options = await repo.getPasskeyLoginOptions(rpId: rpId);
+          return (options, await webauthnService.authenticate(options));
+        },
+      );
       final result = await repo.loginWithPasskey(
         response: authResponse,
         challenge: options['challenge'] as String,
@@ -850,7 +911,7 @@ class LoginViewModel extends _$LoginViewModel {
             ipAuthChallenge: challenge,
             isLoggingIn: false,
           );
-        case LoginMfaRequired() || LoginSuspended():
+        case LoginMfaRequired():
           state = state.copyWith(isLoggingIn: false);
       }
     } on AuthFailure catch (error) {

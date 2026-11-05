@@ -233,11 +233,13 @@ class _ChannelTile extends ConsumerWidget {
         ref.read(mutedChannelIdsProvider(guildId)).value ?? const <String>{};
     final bool isMuted = mutedIds.contains(channel.id);
     final muteConfig = await _loadChannelMuteConfig(ref, guildId, channel.id);
-    final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
+    final String? mutedHint = isMuted
+        ? formatMutedHintText(muteConfig, l10n)
+        : null;
     final bool developerMode = ref
         .read(userSettingsViewModelProvider)
         .developerMode;
-    final bool nsfwAllowed = ref.read(sensitiveContentProvider).nsfwAllowed;
+    final MatureAccess matureAccess = ref.read(sensitiveContentProvider).access;
     final bool hasAgreedToMatureContent = ref
         .read(matureContentAgreementsProvider)
         .agreedChannelIds
@@ -256,7 +258,7 @@ class _ChannelTile extends ConsumerWidget {
       isFavorite: isFavorite,
       isMuted: isMuted,
       developerMode: developerMode,
-      nsfwAllowed: nsfwAllowed,
+      matureAccess: matureAccess,
       hasAgreedToMatureContent: hasAgreedToMatureContent,
       voiceChannelJoinRequiresDoubleClick: ref.read(
         advancedPreferencesProvider.select(
@@ -283,7 +285,7 @@ class _ChannelTile extends ConsumerWidget {
       l10n: l10n,
       state: menuState,
     );
-    if (isMobileLayout(context)) {
+    if (!usesDesktopPointerUi(context)) {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: channel.name,

@@ -86,7 +86,7 @@ class SsoLoginPanel extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         InstanceSelectorLoginEntry(
-          enabled: !vm.isLoggingIn && !vm.isStartingSso,
+          enabled: !vm.signInInFlight,
           onOpenSheet: () => unawaited(showInstanceSelectorSheet(context)),
         ),
         SizedBox(height: context.layout.s6),

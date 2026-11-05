@@ -22,7 +22,6 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
-import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/foreign_incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/pending_foreign_call_join_provider.dart';
@@ -196,25 +195,7 @@ class VoiceCallKitCoordinatorLogic {
                 _syncCallKitMuteFromVoiceStates(previous: previous, next: next),
           );
         },
-      )
-      ..listen<VoiceSettingsState>(voiceSettingsProvider, (
-        VoiceSettingsState? previous,
-        VoiceSettingsState next,
-      ) {
-        final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
-          _ref.read(voiceSessionProvider),
-        );
-        if (!shouldReapplySpeakerOutputOnPreferenceChange(
-          isInVoice: voice.isInVoice,
-          speakerPreferenceChanged: previous?.outputRoute != next.outputRoute,
-          isAndroid: Platform.isAndroid,
-        )) {
-          return;
-        }
-        _scheduleSync(
-          () => _applySpeakerOutputAndRetry(reason: 'speaker setting'),
-        );
-      });
+      );
   }
 
   void dispose() {

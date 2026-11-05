@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
@@ -66,7 +67,7 @@ class AndroidPushPipeline {
     } on Object {
       return Future<PushMessage?>.value();
     }
-    final PushMessage? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await _decryptOffMainIsolate(
       record: record,
       keys: keys,
       fallbackId: webPushFallbackId(),
@@ -78,6 +79,21 @@ class AndroidPushPipeline {
       message: decrypted,
       backgroundMode: backgroundMode,
       decrypted: true,
+    );
+  }
+
+  static Future<PushMessage?> _decryptOffMainIsolate({
+    required Uint8List record,
+    required List<WebPushAccountKeys> keys,
+    required String fallbackId,
+  }) {
+    return Isolate.run(
+      () => decryptWebPushForAccounts(
+        record: record,
+        keys: keys,
+        fallbackId: fallbackId,
+      ),
+      debugName: 'push-decrypt',
     );
   }
 
@@ -160,7 +176,7 @@ class AndroidPushPipeline {
       return;
     }
     if (messageId != null && messageId.isNotEmpty) {
-      await LocalPushNotifications().cancelForPayload(message.payload);
+      await PushNotificationClear.cancelForPayload(message.payload);
     }
   }
 }

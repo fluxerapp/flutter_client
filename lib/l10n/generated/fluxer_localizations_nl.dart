@@ -94,8 +94,33 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Verbonden';
 
   @override
+  String get gatewayOfflineToast =>
+      'Je bent offline. Fluxer maakt opnieuw verbinding zodra je weer online bent.';
+
+  @override
   String get sessionExpiredToast =>
       'Je sessie is verlopen. Meld je opnieuw aan.';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Je account wordt op $date verwijderd. Als je je voor die datum aanmeldt, wordt de verwijdering geannuleerd.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Je account staat gepland voor verwijdering. Als je je voor de verwijderingsdatum aanmeldt, wordt de verwijdering geannuleerd.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'We verwijderen je account nu. Als je account een e-mailadres heeft, sturen we je een e-mail zodra het klaar is.';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'We verwijderen je account nu.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Je account is uitgeschakeld. Meld je opnieuw aan wanneer je het weer wilt gebruiken.';
 
   @override
   String splashStartupFailed(String error) {
@@ -150,6 +175,17 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String get verificationResendEmail => 'E-mail opnieuw verzenden';
+
+  @override
+  String get verificationEmailSent =>
+      'Verificatie-e-mail verzonden. Controleer je inbox.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Je hebt te veel verificatie-e-mails aangevraagd. Wacht even en probeer het opnieuw.';
+
+  @override
   String get nagbarOpenSettings => 'Instellingen openen';
 
   @override
@@ -184,8 +220,21 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Je $productName-abonnement kon niet worden verlengd. Je behoudt je $productName-voordelen tot $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Uw $productName-abonnement is verlopen. Vernieuw nu om uw voordelen te behouden.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Je $productName-abonnement is verlopen.';
   }
 
   @override
@@ -224,13 +273,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Schakel 2FA in';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'We hebben onze voorwaarden bijgewerkt. Lees ze door en ga akkoord om verder te gaan.';
-
-  @override
-  String get nagbarReviewTerms => 'Bekijk de voorwaarden';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Word lid van $communityName om met het team te chatten en op de hoogte te blijven.';
   }
@@ -267,6 +309,19 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => 'Log in met een wachtleutel';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door in te loggen ga je akkoord met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door in te loggen ga je akkoord met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -365,7 +420,17 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Probeer een andere methode';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Passkeys van deze instantie werken niet in deze app en je account heeft geen andere verificatiemethode. Meld je in plaats daarvan aan op het web.';
+
+  @override
   String get mfaUseSecurityKey => 'Beveiligingssleutel/passkey gebruiken';
+
+  @override
+  String get mfaUseBackupCode => 'Back-upcode gebruiken';
+
+  @override
+  String get mfaUseAuthenticatorCode => 'Code uit authenticatie-app gebruiken';
 
   @override
   String get accountSelectorTitle => 'Kies een account';
@@ -390,8 +455,8 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get accountExpired => 'Verlopen';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sessie verlopen voor $identifier. Log alstublieft opnieuw in.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Je sessie voor $name is verlopen. Log opnieuw in.';
   }
 
   @override
@@ -496,78 +561,68 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get signOut => 'Uitloggen';
 
   @override
-  String get suspendedPermanentTitle => 'Account permanent geschorst';
-
-  @override
   String get suspendedTemporaryTitle => 'Account tijdelijk geschorst';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Uw account is permanent geschorst wegens schending van onze Servicevoorwaarden.';
+  String get suspendedBannedTitle => 'Account verbannen';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Uw account is tijdelijk geschorst. U krijgt weer toegang tot uw account zodra de schorsingsperiode is beëindigd.';
+  String get suspendedClosedTitle => 'Account gesloten';
 
   @override
-  String get suspendedIssuedAt => 'Uitgegeven';
+  String get suspendedWhatHappened => 'Wat er is gebeurd';
 
   @override
-  String get suspendedEndsAt => 'Eindigt';
+  String get suspendedWhy => 'Waarom';
 
   @override
-  String get suspendedDuration => 'Duur';
+  String get suspendedHowWeDecided => 'Zo hebben we besloten';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedHowToAppeal => 'Zo maak je bezwaar';
 
   @override
-  String get suspendedReason => 'Reden';
-
-  @override
-  String get suspendedAppealDeadline => 'Uiterste datum voor beroep';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Uw account is gepland voor verwijdering op $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Opmerking van ons team: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Controleren op updates';
+  String suspendedDecisionId(String decisionId) {
+    return 'Beslissings-ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Opnieuw controleren over ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regel: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur een e-mail naar $email en vermeld je gebruikersnaam.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur uiterlijk $deadline een e-mail naar $email. Vermeld de beslissings-ID en je gebruikersnaam. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Denk je dat we een fout hebben gemaakt? Stuur uiterlijk $deadline een e-mail naar $email. Mail indien mogelijk vanaf het e-mailadres van je account en vermeld de beslissings-ID. Bezwaar maken is gratis en elk bezwaar wordt door een mens beoordeeld.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar $email vanaf het adres van je account.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Wil je dat we je account en gegevens verwijderen? Stuur dan een e-mail naar $email en vermeld je gebruikersnaam.';
   }
 
   @override
   String get suspendedBackToLogin => 'Terug naar login';
-
-  @override
-  String get suspendedAppealTitle => 'Beroep';
-
-  @override
-  String get suspendedAppealHint =>
-      'Leg uit waarom je schorsing heroverwogen moet worden (minimaal 50 tekens)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Verstuur beroep';
-
-  @override
-  String get suspendedAppealPending => 'In behandeling';
-
-  @override
-  String get suspendedAppealAccepted => 'Beroep geaccepteerd';
-
-  @override
-  String get suspendedAppealRejected => 'Beroep afgewezen';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Je beroep is geaccepteerd en je account is hersteld.';
-
-  @override
-  String get suspendedSignIn => 'Meld je aan bij je account';
 
   @override
   String get forgotPasswordTitle => 'Wachtwoord vergeten?';
@@ -797,6 +852,12 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get registerDateOfBirth => 'Geboortedatum';
 
   @override
+  String get registerDateOfBirthDone => 'Klaar';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Niet ingesteld';
+
+  @override
   String get registerMonth => 'Maand';
 
   @override
@@ -806,16 +867,19 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get registerYear => 'Jaar';
 
   @override
-  String get registerConsentPrefix => 'Ik ga akkoord met de ';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Ik ga akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>',
+      'terms': 'Ik ga akkoord met de <terms>Servicevoorwaarden</terms>',
+      'other': 'Ik ga akkoord met het <privacy>Privacybeleid</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => 'Gebruiksvoorwaarden';
-
-  @override
-  String get registerConsentAnd => ' en ';
-
-  @override
-  String get registerConsentPrivacy => 'Privacybeleid';
+  String get registerConsentBuiltInRules =>
+      'Ik ga ermee akkoord dat deze instantie geen enkele tolerantie heeft voor aanstootgevende inhoud of gebruikers die zich misdragen, en dat de beheerders inhoud en accounts kunnen verwijderen die deze regels overtreden.';
 
   @override
   String get registerConfirmPassword => 'Wachtwoord bevestigen';
@@ -837,6 +901,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get passkeyNoCredentials =>
       'Geen toegangssleutels gevonden voor deze app. Log in in plaats daarvan met e-mail en wachtwoord.';
+
+  @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -893,8 +961,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count leden';
+  String embedInviteMembers(int count, String formattedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$formattedCount leden',
+      one: '$formattedCount lid',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -998,9 +1072,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Je kunt thema\'s alleen op het web of de desktop importeren.';
 
   @override
-  String get embedThemeImport => 'Thema importeren';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return 'Visionair (lifetime $productName)';
   }
@@ -1090,6 +1161,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Dit cadeau is al ingewisseld.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Dit cadeau kan niet worden ingewisseld in de iOS-app. Je kunt het inwisselen in de desktop-app.';
 
   @override
   String get giftAcceptMaybeLater => 'Misschien later';
@@ -1335,7 +1410,13 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count leden';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count leden',
+      one: '$count lid',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1738,6 +1819,49 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String get stickerPickerSearchHint => 'Vind de perfecte sticker';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Geen stickers beschikbaar';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Word lid van een community met stickers om ze hier te gebruiken.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Geen stickers beschikbaar';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Er zijn geen stickers beschikbaar in dit gesprek.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Geen stickers gevonden';
+
+  @override
+  String get stickerPickerNoResultsBody => 'Probeer een andere zoekterm.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Ontgrendel $stickerCount uit $communityCount met Plutonium.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stickers',
+      one: '1 sticker',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => 'Waarschuwing externe link';
 
   @override
@@ -2015,18 +2139,18 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Kies welke badges anderen op je profiel zien.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Je hebt nog geen badges.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Je badges konden niet worden geladen.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '$badgeLabel op je profiel tonen';
   }
 
   @override
@@ -2035,22 +2159,22 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Alle badges tonen';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: 'nog +$count badges, alles tonen',
+      one: 'nog +$count badge, alles tonen',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Alleen zichtbaar als je Visionary-badge zichtbaar is en niet als abonnement wordt weergegeven.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium-badgeprivacy';
@@ -2102,117 +2226,19 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass sinds $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Badge op mijn profiel tonen';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Verberg sinds wanneer je je $operatorPassName hebt';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
-
-  @override
-  String get operatorPassWallTitle => 'Operators\' wall';
-
-  @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
-
-  @override
-  String get operatorPassWallNotListed => 'Not listed.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'On the wall';
-
-  @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
-
-  @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Why?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
-
-  @override
-  String get operatorPassWallSave => 'Save';
-
-  @override
-  String get operatorPassWallSaved => 'Saved.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
-
-  @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
+  String get operatorPassHideCount => 'Verberg hoeveel Operator Passes je hebt';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2229,8 +2255,8 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'In-app aankopen zijn nog niet beschikbaar op dit platform. Houd ons in de gaten — binnenkort beschikbaar!';
+  String get plutoniumNotSoldHere =>
+      'Plutonium kan niet worden gekocht in deze versie van de app.';
 
   @override
   String get profilePreviewLabel => 'Voorbeeld';
@@ -2303,6 +2329,43 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Verificatie mislukt. Probeer het opnieuw.';
 
   @override
+  String get sudoWrongPassword =>
+      'Dit wachtwoord klopt niet. Probeer het opnieuw.';
+
+  @override
+  String get sudoEmailCodeSend => 'Code per e-mail sturen';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'We hebben een 6-cijferige code naar je e-mailadres gestuurd.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Code uit de e-mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Nieuwe code sturen';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Meld je opnieuw aan om te bevestigen dat jij het bent.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Opnieuw aanmelden';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Aanmelden met $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Je hebt je aangemeld bij een ander account. Meld je aan met het account dat je hier gebruikt.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Passkeys van deze instantie werken niet in deze app. Gebruik je authenticatie-app of een back-upcode, of bevestig op het web.';
+
+  @override
   String get securityAccountTitle => 'Account';
 
   @override
@@ -2315,6 +2378,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Beveilig je account met tweefactorauthenticatie en passkeys';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Beveilig je account met tweefactorauthenticatie';
 
   @override
   String get securityLoginEmailSectionTitle => 'E-mailinstellingen';
@@ -2645,6 +2712,58 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Je account tijdelijk uitschakelen. Je kunt het later opnieuw activeren door weer in te loggen.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Verwijder je account en persoonsgegevens. Je kunt ook je berichten verwijderen.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Je account, profiel en persoonsgegevens worden verwijderd. Berichten die je niet verwijdert, blijven staan waar je ze hebt verstuurd, zonder je naam of profiel.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Ook mijn berichten verwijderen';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Verwijdert samen met je account alle berichten die je hebt verstuurd in DM\'s, groeps-DM\'s en communities.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Wil je een kopie van je gegevens bewaren? Vraag dan eerst een export aan in het $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Over 14 dagen verwijderen';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Je kunt dit annuleren door je binnen die 14 dagen aan te melden.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Verwijdering plannen';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Je account wordt verwijderd na de wachttijd van deze instantie. Als je je daarvoor aanmeldt, wordt de verwijdering geannuleerd.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Nu verwijderen';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Je account nu verwijderen?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Je account wordt direct verwijderd en kan niet worden hersteld.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Je Plutonium-abonnement wordt gefactureerd door Apple. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in de App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Je Plutonium-abonnement wordt gefactureerd door Google Play. Als je je account verwijdert, wordt het abonnement niet opgezegd. Zeg het dus eerst op in Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Uw account uitschakelen logt u uit bij alle sessies. U kunt uw account op elk moment opnieuw inschakelen door opnieuw in te loggen.';
 
@@ -2652,50 +2771,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Account verwijderen';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Verwijder je account en alle bijbehorende gegevens permanent. Deze actie kan niet ongedaan worden gemaakt.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Account kan niet worden verwijderd';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Je kunt je account niet verwijderen zolang je eigenaar bent van communities. Draag eerst het eigendom over van de volgende communities:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Je bent eigenaar van deze communities. Verwijder ze allemaal of draag ze over aan een ander lid voordat je je account verwijdert.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'en $count meer';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Om het eigendom over te dragen, ga naar $settingsPath en gebruik de optie \'eigendom overdragen\'.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Weet je zeker dat je je account wilt verwijderen? Hiermee wordt de definitieve verwijdering van je account ingepland.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Je kunt het verwijderingsproces binnen 14 dagen annuleren';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Na 14 dagen wordt je account permanent verwijderd';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Zodra de verwijdering is verwerkt, kun je geen toegang meer krijgen tot je account';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Verzonden berichten kunnen niet meer worden verwijderd nadat je account is verwijderd';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Als je je gegevens wilt exporteren of je berichten eerst wilt verwijderen, ga dan naar de sectie Privacy Dashboard in Gebruikersinstellingen voordat je verdergaat.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Tik op een community om de instellingen te openen. \"Community verwijderen\" staat onderaan. Om een community over te dragen, open je \"Leden\", tik je op een lid, tik je op de drie puntjes in het profiel en kies je \"Eigendom overdragen\".';
 
   @override
   String get claimAccountTitle => 'Voltooi de registratie van je account';
@@ -2719,9 +2804,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Registratie van account voltooid';
-
-  @override
-  String get importantInformation => 'Belangrijke informatie:';
 
   @override
   String get genericError => 'Er is een fout opgetreden';
@@ -4246,6 +4328,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'Kon bijlage niet downloaden';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName heeft toegang tot je fotoalbum nodig om deze bijlage op te slaan.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Bijlage verlopen';
 
   @override
@@ -4371,7 +4458,15 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Tonen';
 
   @override
-  String get matureMediaRevealHint => 'Klik om te tonen';
+  String get matureMediaRevealLabel => 'Gevoelige media tonen';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Gevoelige media zijn verborgen op iPhone en iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Gevoelige media zijn verborgen voor je account.';
 
   @override
   String get matureContentTitle => 'Inhoud voor volwassenen';
@@ -4436,6 +4531,25 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Dit kanaal voor volwassenen is niet beschikbaar voor je account.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+-inhoud staat uit op iPhone en iPad. Om communities en kanalen die als 18+ zijn gemarkeerd hier te bekijken, open je Fluxer op het web of in de desktop-app, ga je in je instellingen naar \"Privacy\" en schakel je \"18+-inhoud toestaan op iPhone en iPad\" in.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Door de wetgeving over inhoud voor volwassenen op je locatie is inhoud voor volwassenen hier niet beschikbaar.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Bericht in een 18+-kanaal';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer is niet beschikbaar voor dit account';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'De leeftijdscategorie die je Apple Account deelt, is jonger dan 13. Fluxer is alleen voor mensen van 13 jaar en ouder.';
+
+  @override
   String get matureContentProceedButton => 'Doorgaan';
 
   @override
@@ -4468,6 +4582,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Opslaan';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Om hier \"Tonen\" te kiezen, open je Fluxer op het web of in de desktop-app, ga je in je instellingen naar \"Privacy\" en schakel je \"18+-inhoud toestaan op iPhone en iPad\" in.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -4689,7 +4807,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Kies tussen een donker, steenkool of licht uiterlijk.';
+      'Kies het systeemuiterlijk of een donker, steenkool of licht uiterlijk.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Hoog dynamisch bereik';
@@ -5217,6 +5335,65 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Naam is vereist.';
+
+  @override
+  String get savedMediaEdit => 'Bewerken';
+
+  @override
+  String get savedMediaEditTitle => 'Opgeslagen media bewerken';
+
+  @override
+  String get savedMediaDeleteTitle => 'Opgeslagen media verwijderen';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '\"$name\" verwijderen uit je opgeslagen media?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Kon opgeslagen media niet verwijderen.';
+
+  @override
+  String get savedMediaSearchHint => 'Opgeslagen media zoeken';
+
+  @override
+  String get savedMediaUnavailableTitle => 'Opgeslagen media niet beschikbaar';
+
+  @override
+  String get savedMediaUnavailableBody =>
+      'Probeer het over een ogenblik opnieuw.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Geen opgeslagen media';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Sla media uit berichten op om ze hier te zien.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Geen resultaten';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Probeer een andere zoekterm of een ander filter.';
+
+  @override
+  String get savedMediaFilterAll => 'Alles';
+
+  @override
+  String get savedMediaFilterImages => 'Afbeeldingen';
+
+  @override
+  String get savedMediaFilterVideos => 'Video\'s';
+
+  @override
+  String get savedMediaFilterAudio => 'Audio';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF\'s';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'Hoe slaan we je GIF-favorieten op?';
@@ -6045,6 +6222,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voiceConnectionDismiss => 'Sluiten';
 
   @override
+  String get voiceCallControlsSheetLabel => 'Bediening spraakoproep';
+
+  @override
   String get voiceConnectionDisconnected => 'Verbinding verbroken';
 
   @override
@@ -6138,6 +6318,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Profiel bekijken';
 
   @override
+  String get voiceParticipantMenuReport => 'Melden';
+
+  @override
   String get voiceParticipantMenuFocus => 'Focus op deze persoon';
 
   @override
@@ -6188,7 +6371,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Koptelefoon';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Audio-uitvoer wijzigen';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Alleen video\'s tonen';
@@ -6220,6 +6403,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get voiceCameraPermissionRequired =>
       'Cameratoestemming is vereist voor video.';
+
+  @override
+  String get voiceMicPermissionRequired =>
+      'Geef toegang tot je microfoon om het dempen in dit gesprek op te heffen.';
 
   @override
   String get voiceErrorScreenShareToggle =>
@@ -6260,6 +6447,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Je stream is live voor deelnemers.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video van iemand die je hebt geblokkeerd';
 
   @override
   String get voiceLiveBadge => 'Live';
@@ -6412,6 +6603,15 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Bericht is te lang';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Berichten mogen maximaal $maxLengthString tekens lang zijn. Maak dit bericht korter om het te versturen.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -7071,6 +7271,37 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get notificationReplyFailed => 'Antwoord kon niet worden verzonden';
 
   @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
+
+  @override
   String get chatMessageForward => 'Doorsturen';
 
   @override
@@ -7238,6 +7469,21 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatMessageDebug => 'Bericht debuggen';
 
   @override
+  String get messageAlertNote => 'Notitie';
+
+  @override
+  String get messageAlertTip => 'Tip';
+
+  @override
+  String get messageAlertImportant => 'Belangrijk';
+
+  @override
+  String get messageAlertWarning => 'Waarschuwing';
+
+  @override
+  String get messageAlertCaution => 'Let op';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Bericht debuggen';
 
   @override
@@ -7269,6 +7515,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Profiel melden';
 
   @override
+  String get reportFlowTitleCommunity => 'Community melden';
+
+  @override
   String get reportFlowSummaryTitle => 'Controleer je melding';
 
   @override
@@ -7291,7 +7540,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Bericht dat je meldt';
 
   @override
-  String get reportFlowSelectedUser => 'Profiel dat je meldt';
+  String get reportFlowSelectedPerson => 'Persoon die je meldt';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Community die je meldt';
 
   @override
   String get reportFlowReportCategory => 'Je antwoorden';
@@ -7318,6 +7570,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Het veiligheidsteam van $productName bekijkt je melding. We maken niet bekend dat de melding van jou komt.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'De beheerders van deze instantie bekijken je melding. We maken niet bekend dat de melding van jou komt.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7365,6 +7621,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Je hebt dit profiel vandaag al gemeld.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Je hebt deze community al gemeld.';
 
   @override
   String get reportFlowRateLimited =>
@@ -7497,6 +7757,22 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatReplyMentionOff => 'UIT';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Antwoord op $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Doorgestuurd vanuit $source';
+  }
+
+  @override
+  String get chatForwardedLabel => 'Doorgestuurd';
+
+  @override
+  String get chatForwardedFromLabel => 'Doorgestuurd vanuit';
+
+  @override
   String get chatReplyCancel => 'Antwoord annuleren';
 
   @override
@@ -7573,6 +7849,23 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Sluiten';
+
+  @override
+  String get videoPlayerPlay => 'Afspelen';
+
+  @override
+  String get videoPlayerPause => 'Pauzeren';
+
+  @override
+  String get videoPlayerVolume => 'Volume';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Afspeelsnelheid ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Volledig scherm';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8566,6 +8859,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Meldingsinstellingen, gedempt';
 
   @override
+  String get channelHeaderOpenDetails => 'Kanaaldetails openen';
+
+  @override
   String get channelDetailsSearchTitle => 'Zoeken';
 
   @override
@@ -9272,6 +9568,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get composerCloseAttachmentPanel => 'Sluit bijlagekiezer';
 
   @override
+  String get composerSendMessage => 'Bericht verzenden';
+
+  @override
   String get chatAttachmentPanelPhotos => 'Foto\'s';
 
   @override
@@ -9612,15 +9911,41 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Laatste aankoop terugbetalen';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Door te kopen, ga je akkoord met onze ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door te kopen ga je akkoord met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door te kopen ga je akkoord met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Door te kopen, ging u akkoord met onze ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy>.',
+      'terms':
+          'Door te kopen ben je akkoord gegaan met de <terms>Servicevoorwaarden</terms>.',
+      'other':
+          'Door te kopen ben je akkoord gegaan met het <privacy>Privacybeleid</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' en ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Gebruiksvoorwaarden</terms> en <privacy>Privacybeleid</privacy>',
+      'terms': '<terms>Gebruiksvoorwaarden</terms>',
+      'other': '<privacy>Privacybeleid</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -9679,6 +10004,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get premiumPlanUnavailableSelfHosted =>
       'Dit abonnement is niet beschikbaar. Neem contact op met de beheerders van deze instantie.';
+
+  @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'De prijzen in deze versie van de app zijn iets hoger, omdat $percent van elke betaling naar de kosten van de distributie gaat.';
+  }
 
   @override
   String get premiumCompletePaymentTitle => 'Betaling afronden';
@@ -9816,14 +10146,21 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Deel video\'s van volledige lengte en grote bestanden zonder ze eerst te verkleinen. Gratis accounts kunnen tot 25 MB verzenden.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Stream in 4K met 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Deel je scherm of camera in maximaal 4K met 60 beelden per seconde. Gratis accounts streamen in maximaal 720p met 30.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Stream in hogere kwaliteit';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Deel je scherm of camera in de app in maximaal 1080p met 60 beelden per seconde, en in de desktop-app in maximaal 4K met 60. Gratis accounts streamen in maximaal 720p met 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Je abonnement';
 
   @override
   String get storePlutoniumCompareTitle => 'Vergelijk Gratis en Plutonium';
@@ -9901,8 +10238,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Tot 4K bij 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Tot 1080p bij 60 FPS in de app, tot 4K bij 60 FPS op desktop';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Je kunt alleen een tag kiezen die niemand anders met dezelfde gebruikersnaam al heeft. Gebruikersnamen zijn niet hoofdlettergevoelig, dus Mina#4821 en mina#4821 tellen als hetzelfde. De #0000-tag is gereserveerd voor Fluxer Visionary-leden.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Je kunt alleen een tag kiezen die niemand anders met dezelfde gebruikersnaam al heeft. Gebruikersnamen zijn niet hoofdlettergevoelig, dus Mina#4821 en mina#4821 tellen als hetzelfde.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Meer informatie over Visionary.';
@@ -9949,11 +10294,38 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Wordt automatisch verlengd via de App Store totdat je opzegt.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Standaardgebruiksvoorwaarden van Apple (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Aankopen herstellen';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Je Plutonium-abonnement is hersteld.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Er is geen Plutonium-abonnement om te herstellen voor dit Apple Account.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Kon aankopen niet herstellen. Probeer het over een ogenblik opnieuw.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Je hebt al een Fluxer Plutonium-abonnement.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Het Apple Account op dit apparaat betaalt al voor Plutonium op een ander Fluxer-account.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium is niet toegevoegd';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'De App Store heeft je aankoop bevestigd, maar Plutonium kon niet aan dit account worden toegevoegd. Tik op \"Aankopen herstellen\" om het opnieuw te proberen, of neem contact op met support als het nog steeds niet werkt.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9965,8 +10337,15 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Aankoop ontvangen. Plutonium verschijnt hier zodra het is geactiveerd.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Abonnementen in de app zijn nog niet beschikbaar op dit apparaat.';
+  String get storePlutoniumApprovalPending =>
+      'Je aankoop wacht op goedkeuring. Plutonium wordt aan je account toegevoegd zodra de aankoop is goedgekeurd.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Kon de Plutonium-abonnementen niet laden. Controleer je verbinding en probeer het opnieuw.';
+
+  @override
+  String get storePlutoniumRetry => 'Opnieuw proberen';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10621,18 +11000,18 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze bevatten geen instantienamen, ID\'s of berichtinhoud.';
+      'Rapporten gaan naar de fouttracker van Fluxer, ook als je bent ingelogd op een andere instantie. Ze zijn gekoppeld aan een willekeurige ID voor deze installatie en bevatten geen account-ID, instantienamen of berichtinhoud.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help crashes op te lossen';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer is onverwacht afgesloten. Door anonieme crash- en foutgegevens te delen, help je ons problemen sneller op te lossen.';
+      'Fluxer is onverwacht afgesloten. Als je een crashrapport stuurt, kunnen we het probleem sneller vinden en oplossen.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Rapporten bevatten crashlogs, fouten en basisgegevens over prestaties. Ze worden niet gedeeld met derden en je kunt dit op elk moment uitschakelen.';
+      'Rapporten bevatten crashlogs, fouten, prestatiegegevens, timings van netwerkverzoeken en de schermen en tikken die tot een probleem hebben geleid, gekoppeld aan een willekeurige ID voor deze installatie. Ze bevatten nooit berichtinhoud en gaan alleen naar de eigen foutentracker van Fluxer. Je kunt dit op elk moment uitschakelen.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10643,7 +11022,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Crashrapporten sturen';
 
   @override
-  String get observabilityReportingConsentDecline => 'Niet inschakelen';
+  String get observabilityReportingConsentDecline => 'Niet meer vragen';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Niet nu';
 
   @override
   String get advancedSettingsConfigure => 'Configureren';
@@ -10712,11 +11094,12 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Zoom het logo uit bij het verlaten van het welkomstscherm';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel =>
+      'Citaten op het welkomstscherm';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Toon een willekeurig citaat op het welkomstscherm. Wordt niet gesynchroniseerd tussen apparaten.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Toetsenbordtips';
@@ -11071,7 +11454,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Schakel ingebouwde providers voor omgekeerd zoeken naar afbeeldingen in of uit. Ingeschakelde providers verschijnen in het contextmenu van afbeeldingen, avatars, banners, stickers en emoji.';
+      'Schakel ingebouwde providers voor omgekeerd zoeken naar afbeeldingen in of uit. Ingeschakelde providers verschijnen in de opties van afbeeldingen.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11085,6 +11468,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
       'Omgekeerd zoeken naar afbeeldingen toevoegen';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return 'Zoeken met $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Vertalen met $engine';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -11193,6 +11586,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get userSettingsNavAppLogs => 'App-logboeken';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Privacybeleid van de Fluxer-app';
+
+  @override
+  String get userSettingsTitle => 'Instellingen';
+
+  @override
+  String get userSettingsCopyAppInfo => 'App-info kopiëren';
+
+  @override
   String get userSettingsNavDeveloperTools => 'Ontwikkelaarstools';
 
   @override
@@ -11200,6 +11603,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get userSettingsNavFeatureFlags => 'Functievlaggen';
+
+  @override
+  String get userSettingsNavHelp => 'Hulp en ondersteuning';
 
   @override
   String get userSettingsNavWhatsNew => 'Nieuw';
@@ -11496,6 +11902,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain gebruikt geen beveiligde verbinding (https). Fluxer maakt alleen via http verbinding met instanties op je lokale netwerk.';
+  }
+
+  @override
   String get instanceCompatibilityTitle => 'Kan deze instantie niet gebruiken';
 
   @override
@@ -11528,9 +11939,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get instanceConnectionRequired =>
       'Verbind met het exemplaar om u aan te melden';
-
-  @override
-  String get comingSoon => 'Binnenkort beschikbaar';
 
   @override
   String get guildNavbarDirectMessages => 'Directe berichten';
@@ -11622,9 +12030,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Communities';
-
-  @override
-  String get discoveryApps => 'Apps';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11742,6 +12147,81 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Inbox';
+
+  @override
+  String get friendsPageTitle => 'Mijn vrienden';
+
+  @override
+  String get friendsActiveNowTitle => 'Nu actief';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Het is nu stil...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Als vrienden actief zijn in spraakkanalen, verschijnt hun activiteit hier.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Alles';
+
+  @override
+  String get friendsTabPending => 'In behandeling';
+
+  @override
+  String get friendsTabBlocked => 'Geblokkeerd';
+
+  @override
+  String get friendsSearchOnline => 'Online vrienden zoeken';
+
+  @override
+  String get friendsSearchAll => 'Vrienden zoeken';
+
+  @override
+  String get friendsSearchPending => 'Openstaande verzoeken zoeken';
+
+  @override
+  String get friendsSearchBlocked => 'Geblokkeerde gebruikers zoeken';
+
+  @override
+  String get friendsEmptySearchTitle =>
+      'Geen vrienden gevonden die overeenkomen met de zoekopdracht';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Probeer een andere naam of controleer je spelling.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Geen vrienden online';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Als ze online komen, verschijnen ze hier.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Nog geen vrienden';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Waar we naartoe gaan, hebben we meer vrienden nodig.';
+
+  @override
+  String get friendsEmptyPendingTitle => 'Geen openstaande verzoeken';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'Openstaande vriendschapsverzoeken verschijnen hier.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Je hebt niemand geblokkeerd.';
+
+  @override
+  String get friendsOutgoingStatus => 'Uitgaand vriendschapsverzoek';
+
+  @override
+  String get friendsBlockedStatus => 'Geblokkeerd';
 
   @override
   String get profileRemoveFriend => 'Vriend verwijderen';
@@ -12028,6 +12508,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String get channelMutedHint => 'Gedempt';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return 'Alleen toegankelijk voor $productName medewerkers';
   }
@@ -12102,6 +12585,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Community-ID kopiëren';
+
+  @override
+  String get guildMenuReportCommunity => 'Community melden';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -12218,11 +12704,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Rolpictogram';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Upload een afbeelding of kies een emoji. Naast de naam van leden staat het pictogram van hun hoogste rol met een pictogram.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12230,68 +12716,69 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Minimaal $minimumSize, maximaal $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Rolpictogram uploaden';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Huidig rolpictogram, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Huidig rolpictogram, geüploade afbeelding';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Emoji kiezen';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Afbeelding uploaden';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Pictogram verwijderen';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Geanimeerde pictogrammen worden niet ondersteund. Gebruik een statische afbeelding.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Dit bestandstype wordt niet ondersteund. Ondersteunde typen zijn $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Deze afbeelding kon niet worden geladen. Probeer een andere.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Zo worden berichten weergegeven';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Rolpictogram, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Rolpictogram bijsnijden';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Pictogram opslaan';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Bijsnijden overslaan';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Bijsnijden van pictogram mislukt. Probeer het opnieuw.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Sleep om het rolpictogram te verplaatsen en gebruik het scrollwiel of een knijpbeweging om te zoomen. De aanbevolen minimale grootte is $minimumWidth×$minimumHeight pixels.';
   }
 
   @override
@@ -13658,25 +14145,28 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Het rolpictogram ingesteld op $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Het rolpictogram gewijzigd van $oldEmoji naar $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Het rolpictogram verwijderd';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Een aangepast rolpictogram ingesteld';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Het aangepaste rolpictogram gewijzigd';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Het aangepaste rolpictogram is verwijderd';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -14912,6 +15402,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => 'Directe berichten';
 
   @override
+  String get dmListFriendsButton => 'Vrienden';
+
+  @override
   String get keybindsSearchShortcuts => 'Zoek sneltoetsen';
 
   @override
@@ -15554,6 +16047,13 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Het oorspronkelijke bericht is verwijderd.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Post van iemand die je hebt geblokkeerd';
+
+  @override
+  String get threadBlockedAuthor => 'Thread van iemand die je hebt geblokkeerd';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15600,6 +16100,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Markeren als gelezen';
+
+  @override
+  String get forumReportPost => 'Post melden';
 
   @override
   String get forumCopyPostLink => 'Link kopiëren';
@@ -16521,4 +17024,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Afrekenen is geblokkeerd voor dit account.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Kan geen verbinding maken met $domain. Controleer je internetverbinding en probeer het opnieuw.';
+  }
 }

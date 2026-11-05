@@ -90,7 +90,7 @@ VoiceCallKitDisplayInfo resolveVoiceCallKitDisplayInfo({
       );
     }
     return VoiceCallKitDisplayInfo(
-      nameCaller: dm.displayName,
+      nameCaller: dmConversationDisplayName(l10n, dm),
       handle: dm.recipientName,
       isDm: true,
       avatar: FluxerMediaUrl.userAvatar(

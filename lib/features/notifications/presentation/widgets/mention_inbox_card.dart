@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -158,8 +159,10 @@ class MentionInboxCard extends ConsumerWidget {
       guildId: roleGuildId,
       currentUserId: currentUserId,
     );
+    final bool matureLocked = watchMatureChannelLocked(ref, msg.channelId);
     final ValueChanged<Message>? reply =
-        onReply != null &&
+        !matureLocked &&
+            onReply != null &&
             watchChannelMessagePermissionsForComposer(
               ref,
               msg.channelId,
@@ -221,18 +224,26 @@ class MentionInboxCard extends ConsumerWidget {
                 ],
               ),
               NotificationQuote(
-                child: MessageItem(
-                  message: msg,
-                  currentUserId: currentUserId,
-                  inboxPreviewMode: true,
-                  hideMentionHighlight: true,
-                  previewContentOnly: true,
-                  previewTextStyle: notificationQuoteStyle(
-                    context,
-                    unread: isUnread,
-                  ),
-                  previewRoleGuildId: roleGuildId,
-                ),
+                child: matureLocked
+                    ? Text(
+                        l10n.matureMessageHiddenPreview,
+                        style: notificationQuoteStyle(
+                          context,
+                          unread: false,
+                        ).copyWith(color: context.colors.textSecondary),
+                      )
+                    : MessageItem(
+                        message: msg,
+                        currentUserId: currentUserId,
+                        inboxPreviewMode: true,
+                        hideMentionHighlight: true,
+                        previewContentOnly: true,
+                        previewTextStyle: notificationQuoteStyle(
+                          context,
+                          unread: isUnread,
+                        ),
+                        previewRoleGuildId: roleGuildId,
+                      ),
               ),
               if (reply != null)
                 NotificationRowButton(

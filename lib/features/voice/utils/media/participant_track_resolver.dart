@@ -48,8 +48,7 @@ class VoiceLiveKitMediaRoom implements VoiceMediaRoom {
     required String? currentUserId,
     required String? localConnectionId,
   }) {
-    final Participant? participant = _resolveLiveKitParticipant(
-      room: room,
+    final Participant? participant = _resolveParticipant(
       voice: voice,
       userId: userId,
       currentUserId: currentUserId,
@@ -57,6 +56,131 @@ class VoiceLiveKitMediaRoom implements VoiceMediaRoom {
     );
     return participant == null ? null : VoiceLiveKitParticipant.of(participant);
   }
+
+  Participant? _resolveParticipant({
+    required VoiceState voice,
+    required String userId,
+    required String? currentUserId,
+    required String? localConnectionId,
+  }) {
+    final String? connectionId = voice.connectionId;
+    if (currentUserId != null &&
+        userId == currentUserId &&
+        localConnectionId != null &&
+        connectionId != null &&
+        connectionId == localConnectionId) {
+      return room.localParticipant;
+    }
+    final Map<String, RemoteParticipant> remoteParticipants =
+        room.remoteParticipants;
+    final bool hasConnectionId =
+        connectionId != null && connectionId.isNotEmpty;
+    if (hasConnectionId) {
+      final RemoteParticipant? byConnectionId =
+          remoteParticipants[connectionId];
+      if (byConnectionId != null) {
+        return byConnectionId;
+      }
+    }
+    final String? sessionId = voice.sessionId;
+    final bool hasSessionId = sessionId != null && sessionId.isNotEmpty;
+    if (hasSessionId) {
+      final RemoteParticipant? bySessionId = remoteParticipants[sessionId];
+      if (bySessionId != null) {
+        return bySessionId;
+      }
+    }
+    if (userId.isNotEmpty) {
+      final RemoteParticipant? byUserId = remoteParticipants[userId];
+      if (byUserId != null) {
+        return byUserId;
+      }
+    }
+    _ensureIdentityIndex(remoteParticipants);
+    int? first = _userKeyIndex[userId];
+    if (hasConnectionId) {
+      first = _earlier(first, _suffixKeyIndex[connectionId]);
+    }
+    if (hasSessionId) {
+      first = _earlier(first, _suffixKeyIndex[sessionId]);
+    }
+    return first == null ? null : _indexed[first].participant;
+  }
+
+  List<({RemoteParticipant participant, String identity, String sid})>
+  _indexed = const [];
+  final Map<String, int> _suffixKeyIndex = <String, int>{};
+  final Map<String, int> _userKeyIndex = <String, int>{};
+
+  void _ensureIdentityIndex(Map<String, RemoteParticipant> remoteParticipants) {
+    if (_identityIndexIsCurrent(remoteParticipants)) {
+      return;
+    }
+    _indexed = [
+      for (final RemoteParticipant participant in remoteParticipants.values)
+        (
+          participant: participant,
+          identity: participant.identity,
+          sid: participant.sid,
+        ),
+    ];
+    _suffixKeyIndex.clear();
+    _userKeyIndex.clear();
+    for (int i = 0; i < _indexed.length; i++) {
+      final String identity = _indexed[i].identity;
+      final String sid = _indexed[i].sid;
+      _suffixKeyIndex
+        ..putIfAbsent(identity, () => i)
+        ..putIfAbsent(sid, () => i);
+      _userKeyIndex
+        ..putIfAbsent(identity, () => i)
+        ..putIfAbsent(sid, () => i);
+      final bool hasUserPrefix = identity.startsWith('user_');
+      for (int j = 0; j < identity.length; j++) {
+        if (identity.codeUnitAt(j) != _underscore) {
+          continue;
+        }
+        _suffixKeyIndex.putIfAbsent(identity.substring(j + 1), () => i);
+        if (hasUserPrefix && j >= _userPrefixLength) {
+          _userKeyIndex.putIfAbsent(
+            identity.substring(_userPrefixLength, j),
+            () => i,
+          );
+        }
+      }
+    }
+  }
+
+  bool _identityIndexIsCurrent(
+    Map<String, RemoteParticipant> remoteParticipants,
+  ) {
+    if (remoteParticipants.length != _indexed.length) {
+      return false;
+    }
+    int i = 0;
+    for (final RemoteParticipant participant in remoteParticipants.values) {
+      final entry = _indexed[i++];
+      if (!identical(participant, entry.participant) ||
+          participant.identity != entry.identity ||
+          participant.sid != entry.sid) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+const int _underscore = 0x5F;
+const int _userPrefixLength = 5;
+
+int? _earlier(int? a, int? b) {
+  if (a == null) {
+    return b;
+  }
+  if (b == null) {
+    return a;
+  }
+  return a < b ? a : b;
 }
 
 class VoiceLiveKitParticipant implements VoiceMediaParticipant {
@@ -168,6 +292,7 @@ class VoiceLiveKitParticipant implements VoiceMediaParticipant {
     }
     if (!publication.subscribed) {
       await publication.subscribe();
+      return;
     }
     if (quality != null && publication.videoQuality != quality) {
       await publication.setVideoQuality(quality);
@@ -189,85 +314,6 @@ class VoiceLiveKitParticipant implements VoiceMediaParticipant {
       await publication.unsubscribe();
     }
   }
-}
-
-Participant? _resolveLiveKitParticipant({
-  required Room room,
-  required VoiceState voice,
-  required String userId,
-  required String? currentUserId,
-  required String? localConnectionId,
-}) {
-  final String? connectionId = voice.connectionId;
-  if (currentUserId != null &&
-      userId == currentUserId &&
-      localConnectionId != null &&
-      connectionId != null &&
-      connectionId == localConnectionId) {
-    return room.localParticipant;
-  }
-  final Map<String, RemoteParticipant> remoteParticipants =
-      room.remoteParticipants;
-  if (connectionId != null && connectionId.isNotEmpty) {
-    final RemoteParticipant? byConnectionId = remoteParticipants[connectionId];
-    if (byConnectionId != null) {
-      return byConnectionId;
-    }
-  }
-  final String? sessionId = voice.sessionId;
-  if (sessionId != null && sessionId.isNotEmpty) {
-    final RemoteParticipant? bySessionId = remoteParticipants[sessionId];
-    if (bySessionId != null) {
-      return bySessionId;
-    }
-  }
-  if (userId.isNotEmpty) {
-    final RemoteParticipant? byUserId = remoteParticipants[userId];
-    if (byUserId != null) {
-      return byUserId;
-    }
-  }
-  for (final RemoteParticipant participant in remoteParticipants.values) {
-    if (matchesParticipantIdentity(
-      participant: participant,
-      userId: userId,
-      connectionId: connectionId,
-      sessionId: sessionId,
-    )) {
-      return participant;
-    }
-  }
-  return null;
-}
-
-bool matchesParticipantIdentity({
-  required RemoteParticipant participant,
-  required String userId,
-  required String? connectionId,
-  required String? sessionId,
-}) {
-  final String identity = participant.identity;
-  final String sid = participant.sid;
-  if (connectionId != null && connectionId.isNotEmpty) {
-    if (identity == connectionId || sid == connectionId) {
-      return true;
-    }
-    if (identity.endsWith('_$connectionId')) {
-      return true;
-    }
-  }
-  if (sessionId != null && sessionId.isNotEmpty) {
-    if (identity == sessionId || sid == sessionId) {
-      return true;
-    }
-    if (identity.endsWith('_$sessionId')) {
-      return true;
-    }
-  }
-  if (identity == userId || sid == userId) {
-    return true;
-  }
-  return identity.startsWith('user_${userId}_');
 }
 
 String? buildViewerStreamKey({

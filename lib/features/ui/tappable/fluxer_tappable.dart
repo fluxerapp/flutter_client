@@ -98,7 +98,8 @@ class _FluxerTappableState extends State<FluxerTappable> {
 
     return Semantics(
       label: widget.semanticLabel,
-      button: widget.button ?? (isInteractive && !widget.link),
+      button:
+          widget.button ?? ((isInteractive || !widget.enabled) && !widget.link),
       link: widget.link,
       linkUrl: widget.linkUrl,
       enabled: widget.enabled,
@@ -108,7 +109,7 @@ class _FluxerTappableState extends State<FluxerTappable> {
       checked: widget.checked,
       expanded: widget.expanded,
       header: widget.header,
-      container: widget.container,
+      container: widget.container || !widget.enabled,
       onTap: widget.enabled ? widget.onTap : null,
       onLongPress: widget.enabled ? widget.onLongPress : null,
       child: MouseRegion(

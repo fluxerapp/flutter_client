@@ -18,6 +18,7 @@ const List<String> _firebaseForbiddenKeys = <String>[
 const List<String> _billingForbiddenKeys = <String>[
   'in_app_purchase',
   'in_app_purchase_android',
+  'in_app_purchase_storekit',
 ];
 
 const String _servicePath =

@@ -14,8 +14,12 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+const String _kAppleStandardEulaUrl =
+    'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/';
 
 class PremiumStoreBar extends StatelessWidget {
   const PremiumStoreBar({
@@ -25,7 +29,9 @@ class PremiumStoreBar extends StatelessWidget {
     required this.purchaseDisabled,
     required this.purchaseDisabledMessage,
     required this.onBuy,
+    required this.onRetry,
     required this.onManage,
+    this.onVerifyEmail,
     this.onRestore,
     this.otherStoreNotice,
     super.key,
@@ -37,7 +43,9 @@ class PremiumStoreBar extends StatelessWidget {
   final bool purchaseDisabled;
   final String? purchaseDisabledMessage;
   final void Function(PremiumStorePlan plan) onBuy;
+  final VoidCallback onRetry;
   final VoidCallback? onManage;
+  final VoidCallback? onVerifyEmail;
   final Future<void> Function()? onRestore;
   final String? otherStoreNotice;
 
@@ -70,6 +78,8 @@ class PremiumStoreBar extends StatelessWidget {
             purchaseDisabledMessage: purchaseDisabledMessage,
             otherStoreNotice: otherStoreNotice,
             onBuy: onBuy,
+            onRetry: onRetry,
+            onVerifyEmail: onVerifyEmail,
             onRestore: onRestore,
             statusLines: [
               _giftText(l10n),
@@ -90,6 +100,8 @@ class PremiumStoreBar extends StatelessWidget {
             purchaseDisabledMessage: purchaseDisabledMessage,
             otherStoreNotice: otherStoreNotice,
             onBuy: onBuy,
+            onRetry: onRetry,
+            onVerifyEmail: onVerifyEmail,
             onRestore: onRestore,
           ),
         },
@@ -228,6 +240,8 @@ class _SubscribeActions extends ConsumerWidget {
     required this.purchaseDisabledMessage,
     required this.otherStoreNotice,
     required this.onBuy,
+    required this.onRetry,
+    required this.onVerifyEmail,
     required this.onRestore,
     this.statusLines = const [],
   });
@@ -238,6 +252,8 @@ class _SubscribeActions extends ConsumerWidget {
   final String? purchaseDisabledMessage;
   final String? otherStoreNotice;
   final void Function(PremiumStorePlan plan) onBuy;
+  final VoidCallback onRetry;
+  final VoidCallback? onVerifyEmail;
   final Future<void> Function()? onRestore;
   final List<String> statusLines;
 
@@ -257,10 +273,14 @@ class _SubscribeActions extends ConsumerWidget {
         !store.loading && store.monthly == null && store.yearly == null;
     final String? blockMessage = purchaseDisabled
         ? purchaseDisabledMessage
+        : store.loadFailed
+        ? l10n.storePlutoniumLoadFailed
         : store.storeUnavailable
-        ? l10n.storePlutoniumUnavailable
+        ? l10n.plutoniumNotSoldHere
         : store.accountPurchasesDisabled
         ? premiumPurchasesDisabledMessage(l10n, selfHosted: selfHosted)
+        : store.ownedByOtherAccount
+        ? l10n.storePlutoniumOwnedByOtherAccount
         : otherStoreNotice ??
               (store.subscriptionPurchaseBlocked
                   ? l10n.storePlutoniumAlreadySubscribed
@@ -327,7 +347,24 @@ class _SubscribeActions extends ConsumerWidget {
             style: context.textStyles.bodySmall.copyWith(color: style.inkMuted),
           ),
         ],
-        if (!store.subscriptionPurchaseBlocked) ...[
+        if (purchaseDisabled && onVerifyEmail != null) ...[
+          SizedBox(height: layout.s3),
+          FluxerButton.secondary(
+            label: l10n.nagbarOpenSettings,
+            onPressed: onVerifyEmail,
+          ),
+        ],
+        if (store.approvalPending) ...[
+          SizedBox(height: layout.s2),
+          _StatusText(l10n.storePlutoniumApprovalPending),
+        ],
+        if (store.loadFailed) ...[
+          SizedBox(height: layout.s3),
+          FluxerButton.secondary(
+            label: l10n.storePlutoniumRetry,
+            onPressed: onRetry,
+          ),
+        ] else if (!store.subscriptionPurchaseBlocked) ...[
           SizedBox(height: layout.s3),
           if (sideBySide)
             Row(
@@ -345,6 +382,10 @@ class _SubscribeActions extends ConsumerWidget {
           ],
           SizedBox(height: layout.s3),
           const _PurchaseTerms(),
+          if (store.billingStore == PremiumBillingStore.appStore) ...[
+            SizedBox(height: layout.s1),
+            const _AppleEulaLink(),
+          ],
         ],
         if (onRestore != null) ...[
           SizedBox(height: layout.s2),
@@ -377,9 +418,28 @@ class _PurchaseTerms extends ConsumerWidget {
       color: style.inkMuted,
     );
     return InstanceLegalAgreementText(
-      prefix: l10n.premiumDisclaimerAgreementPrefix,
+      message: l10n.premiumDisclaimerAgreement,
       baseStyle: muted,
       linkStyle: muted.copyWith(color: style.accent),
+    );
+  }
+}
+
+class _AppleEulaLink extends StatelessWidget {
+  const _AppleEulaLink();
+
+  @override
+  Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
+    final TextStyle muted = context.textStyles.timestamp.copyWith(
+      color: style.inkMuted,
+    );
+    return Center(
+      child: FluxerTextLink(
+        text: FluxerLocalizations.of(context).storePlutoniumAppleEula,
+        url: _kAppleStandardEulaUrl,
+        style: muted.copyWith(color: style.accent),
+      ),
     );
   }
 }

@@ -9,12 +9,13 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dir
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
-import 'package:fluxer_app/features/mature_content/utils/mature_content_platform_policy.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_utils.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -135,7 +136,7 @@ class MatureContentAgreements extends _$MatureContentAgreements {
     required MatureContentAgreementScope scope,
     required String scopeId,
   }) async {
-    if (!matureContentAllowsInAppConsent) {
+    if (!ref.read(sensitiveContentProvider).inAppConsentAllowed) {
       return;
     }
     switch (scope) {
@@ -245,11 +246,30 @@ Future<ResolvedMatureGateContext?> matureGateContext(
 }
 
 @riverpod
+Stream<bool> matureGroupDm(Ref ref, String channelId) {
+  return ref
+      .watch(fluxerDatabaseProvider)
+      .dmChannelDao
+      .watchDmChannel(channelId)
+      .map(
+        (db.DmChannel? row) =>
+            row != null && isDmGroupType(row.type) && row.nsfw,
+      );
+}
+
+@riverpod
 Future<MatureContentGateReason> matureContentGateReason(
   Ref ref,
   String channelId,
 ) async {
-  final SensitiveContentState settings = ref.watch(sensitiveContentProvider);
+  final MatureAccess access = ref.watch(
+    sensitiveContentProvider.select((SensitiveContentState s) => s.access),
+  );
+  final bool inAppConsentAllowed = ref.watch(
+    sensitiveContentProvider.select(
+      (SensitiveContentState s) => s.inAppConsentAllowed,
+    ),
+  );
   final MatureContentAgreementsState agreements = ref.watch(
     matureContentAgreementsProvider,
   );
@@ -257,14 +277,36 @@ Future<MatureContentGateReason> matureContentGateReason(
     matureGateContextProvider(channelId).future,
   );
   if (context == null) {
-    return MatureContentGateReason.none;
+    final bool groupDmMature = await ref.watch(
+      matureGroupDmProvider(channelId).future,
+    );
+    return groupDmMature
+        ? matureGateReasonForAccess(access)
+        : MatureContentGateReason.none;
   }
   return resolveChannelGateReason(
     context: context,
-    nsfwAllowed: settings.nsfwAllowed,
+    access: access,
     agreements: agreements,
-    allowInAppConsent: matureContentAllowsInAppConsent,
+    allowInAppConsent: inAppConsentAllowed,
   );
+}
+
+@riverpod
+Future<bool> matureChannelLocked(Ref ref, String channelId) async {
+  final MatureAccess access = ref.watch(
+    sensitiveContentProvider.select((SensitiveContentState s) => s.access),
+  );
+  if (access == MatureAccess.allowed) {
+    return false;
+  }
+  final ResolvedMatureGateContext? context = await ref.watch(
+    matureGateContextProvider(channelId).future,
+  );
+  if (context != null) {
+    return context.effectiveMatureContent;
+  }
+  return ref.watch(matureGroupDmProvider(channelId).future);
 }
 
 @riverpod
@@ -325,13 +367,61 @@ Future<MatureMediaPolicy> matureMediaPolicy(
       canReveal: false,
     );
   }
+  final bool effectiveMatureContent =
+      context?.effectiveMatureContent ??
+      await ref.watch(matureGroupDmProvider(request.channelId).future);
+  if (!ref.mounted) {
+    return const MatureMediaPolicy(
+      shouldBlur: true,
+      shouldBlock: false,
+      canReveal: false,
+    );
+  }
   final MatureContentGateReason mediaGateReason = resolveMediaGateReason(
-    nsfwAllowed: settings.nsfwAllowed,
-    effectiveMatureContent: context?.effectiveMatureContent ?? false,
+    access: settings.access,
+    effectiveMatureContent: effectiveMatureContent,
   );
   return resolveMatureMediaPolicy(
     isMatureMedia: request.isMatureMedia,
     filterLevel: filterLevel,
     mediaGateReason: mediaGateReason,
+    showLocked: settings.showLocked,
   );
+}
+
+bool watchMatureContentGateUp(WidgetRef ref, String channelId) {
+  final AsyncValue<bool> gate = ref.watch(
+    shouldShowMatureContentGateProvider(channelId),
+  );
+  return gate.hasError || (gate.value ?? true);
+}
+
+bool watchMatureChannelLocked(WidgetRef ref, String channelId) {
+  final MatureAccess access = ref.watch(
+    sensitiveContentProvider.select((SensitiveContentState s) => s.access),
+  );
+  final AsyncValue<bool> locked = ref.watch(
+    matureChannelLockedProvider(channelId),
+  );
+  return locked.hasError || (locked.value ?? access != MatureAccess.allowed);
+}
+
+bool watchMatureMediaHidden(
+  WidgetRef ref, {
+  required String channelId,
+  required bool isMatureMedia,
+}) {
+  if (!isMatureMedia) {
+    return false;
+  }
+  final MatureMediaPolicy? policy = ref
+      .watch(
+        matureMediaPolicyProvider(
+          MatureMediaPolicyRequest(channelId: channelId, isMatureMedia: true),
+        ),
+      )
+      .value;
+  return policy == null ||
+      policy.shouldBlock ||
+      (policy.shouldBlur && !policy.canReveal);
 }

@@ -605,11 +605,27 @@ List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
 
 @riverpod
 List<VoiceState> voiceStatesInGuild(Ref ref, String guildId) {
-  final Map<String, VoiceState> map = ref.watch(
-    voiceStatesMapProvider(watchAccountUserId(ref)),
+  ref.watch(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
+      (Map<String, VoiceState> map) =>
+          _voiceStatesFingerprint(_voiceStatesInGuildOnly(map, guildId)),
+    ),
   );
-  return map.values.where((VoiceState vs) => vs.guildId == guildId).toList();
+  return List<VoiceState>.unmodifiable(
+    _voiceStatesInGuildOnly(
+      ref.read(voiceStatesMapProvider(readAccountUserId(ref))),
+      guildId,
+    ),
+  );
 }
+
+List<VoiceState> _voiceStatesInGuildOnly(
+  Map<String, VoiceState> map,
+  String guildId,
+) => <VoiceState>[
+  for (final VoiceState vs in map.values)
+    if (vs.guildId == guildId) vs,
+];
 
 @riverpod
 int privateChannelVoiceParticipantCount(Ref ref, String channelId) {

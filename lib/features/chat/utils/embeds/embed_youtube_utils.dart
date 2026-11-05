@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
 const String kYouTubeProviderHostname = 'www.youtube.com';
+const String _kYouTubeNoCookieHost = 'www.youtube-nocookie.com';
 
 String? getUrlHostname(String? url) {
   if (url == null || url.trim().isEmpty) {
@@ -12,6 +13,22 @@ String? getUrlHostname(String? url) {
     return null;
   }
   return host;
+}
+
+const Set<String> _youTubeEmbedHosts = <String>{
+  'youtube.com',
+  'www.youtube.com',
+  'youtube-nocookie.com',
+  'www.youtube-nocookie.com',
+};
+
+bool isYouTubeEmbedNavigation(Uri uri) {
+  if (uri.scheme == 'about') {
+    return true;
+  }
+  return uri.scheme == 'https' &&
+      _youTubeEmbedHosts.contains(uri.host.toLowerCase()) &&
+      uri.path.startsWith('/embed/');
 }
 
 bool isYouTubeEmbed(Embed embed) {
@@ -49,8 +66,12 @@ String youtubeEmbedPageOrigin() => InstanceEndpoints.webApp;
 String buildYouTubeAutoplayEmbedUrl(String videoUrl, {String? pageOrigin}) {
   final String origin = pageOrigin ?? youtubeEmbedPageOrigin();
   final Uri uri = Uri.parse(videoUrl);
+  final String host = uri.host.toLowerCase();
   return uri
       .replace(
+        host: host == 'youtube.com' || host == kYouTubeProviderHostname
+            ? _kYouTubeNoCookieHost
+            : uri.host,
         queryParameters: <String, String>{
           ...uri.queryParameters,
           'autoplay': '1',

@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
@@ -738,10 +739,18 @@ void main() {
     expect(log.completed.length - mark, 0, reason: 'idle');
 
     mark = log.completed.length;
+    final ReadStateWriteBatcher batcher = container.read(
+      readStateWriteBatcherProvider,
+    );
     for (int i = 0; i < 3; i++) {
-      container.read(readStateOverlayVersionProvider.notifier).bump();
+      batcher.enqueueAck(
+        channelId: 'elsewhere',
+        messageId: _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11, i)),
+        clearSticky: false,
+      );
       await Future<void>.delayed(Duration.zero);
     }
+    batcher.discard('elsewhere');
     await _waitForQuiet(log);
     expect(
       log.completed.length - mark,

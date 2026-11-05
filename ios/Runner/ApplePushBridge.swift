@@ -94,6 +94,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       identifier: PushNotificationPayload.messageReplyCategoryId,
       actions: [reply],
       intentIdentifiers: ["INSendMessageIntent"],
+      hiddenPreviewsBodyPlaceholder: NSLocalizedString("PUSH_NEW_MESSAGE", comment: ""),
       options: []
     )
     DispatchQueue.main.async {
@@ -407,34 +408,13 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     )
   }
 
-  private static func requestAuthorizationIfNeeded(completion: @escaping () -> Void) {
-    UNUserNotificationCenter.current().getNotificationSettings { settings in
-      switch settings.authorizationStatus {
-      case .notDetermined:
-        UNUserNotificationCenter.current().requestAuthorization(
-          options: [.alert, .badge, .sound]
-        ) { _, _ in
-          DispatchQueue.main.async {
-            completion()
-          }
-        }
-      default:
-        DispatchQueue.main.async {
-          completion()
-        }
-      }
-    }
-  }
-
   private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "registerRemoteNotifications":
       DispatchQueue.main.async {
         Self.logApns("registerRemoteNotifications requested")
-        Self.requestAuthorizationIfNeeded {
-          UIApplication.shared.registerForRemoteNotifications()
-          result(nil)
-        }
+        UIApplication.shared.registerForRemoteNotifications()
+        result(nil)
       }
     case "getDeviceToken":
       DispatchQueue.main.async {

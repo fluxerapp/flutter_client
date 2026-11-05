@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/android/channels.dart';
 import 'package:fluxer_app/core/push/android/conversation/history.dart';
 import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
 
@@ -33,7 +34,7 @@ void main() {
         ],
         title: 'Alice (#general, My Server)',
       );
-      expect(style.conversationTitle, 'general');
+      expect(style.conversationTitle, '#general');
       expect(style.groupConversation, isTrue);
       expect(style.messages, hasLength(1));
       expect(style.messages!.single.person?.name, 'Alice');
@@ -57,7 +58,27 @@ void main() {
       expect(style.groupConversation, isFalse);
     });
 
-    test('adds inline image metadata when present', () {
+    test('adds inline image metadata from a content uri', () {
+      final List<Message> messages = pushConversationMessages(
+        <PushConversationLine>[
+          const PushConversationLine(
+            messageId: '1',
+            senderName: 'Alice',
+            senderKey: 'a',
+            body: 'photo',
+            timestampMs: 1000,
+            imagePath: '/tmp/push.jpg',
+          ),
+        ],
+        imageUris: const <String, String>{
+          '/tmp/push.jpg': 'content://com.fluxer.fluxer_push_media/push.jpg',
+        },
+      );
+      expect(messages.single.dataMimeType, 'image/jpeg');
+      expect(messages.single.dataUri, startsWith('content://'));
+    });
+
+    test('omits an image with no content uri', () {
       final List<Message> messages =
           pushConversationMessages(<PushConversationLine>[
             const PushConversationLine(
@@ -69,8 +90,39 @@ void main() {
               imagePath: '/tmp/push.jpg',
             ),
           ]);
-      expect(messages.single.dataMimeType, 'image/jpeg');
-      expect(messages.single.dataUri, contains('push.jpg'));
+      expect(messages.single.dataMimeType, isNull);
+      expect(messages.single.dataUri, isNull);
+    });
+
+    test('keeps thread titles without a second hash', () {
+      expect(
+        resolvePushMessagingConversationTitle(const <String, String>{
+          'guild_id': '1',
+          'parent_id': '5',
+          'channel_name': 'plan',
+        }, title: 'Alice (#plan, #general, My Server)'),
+        '#plan, #general, My Server',
+      );
+    });
+
+    test('labels group dms without a hash', () {
+      expect(
+        resolvePushMessagingConversationTitle(
+          const <String, String>{},
+          title: 'Alice (Group DM)',
+        ),
+        'Group DM',
+      );
+    });
+
+    test('rebuilds the title from the stored raw title', () {
+      expect(
+        resolvePushNotificationDisplayTitle(const <String, String>{
+          'guild_id': '1',
+          'title': 'Alice (#general, My Server)',
+        }, title: null),
+        '#general',
+      );
     });
   });
 
@@ -114,5 +166,30 @@ void main() {
       (details.largeIcon as FilePathAndroidBitmap?)?.data,
       '/cache/live/avatar.jpg',
     );
+  });
+
+  test('sets accent, community and shortcut on conversation details', () {
+    final AndroidNotificationDetails details =
+        buildAndroidConversationNotificationDetails(
+          payload: const <String, String>{'guild_id': '1'},
+          lines: const <PushConversationLine>[
+            PushConversationLine(
+              messageId: '1',
+              senderName: 'Alice',
+              senderKey: 'a',
+              body: 'hey',
+              timestampMs: 1000,
+            ),
+          ],
+          conversationTag: 'channel:1',
+          alert: false,
+          title: 'Alice (#general, My, Server)',
+          shortcutId: 'channel:1',
+        );
+    expect(details.color, kAndroidPushAccentColor);
+    expect(details.subText, 'My, Server');
+    expect(details.shortcutId, 'channel:1');
+    expect(details.silent, isFalse);
+    expect(details.onlyAlertOnce, isTrue);
   });
 }

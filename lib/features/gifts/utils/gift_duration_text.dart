@@ -1,8 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
 const String kPremiumProductName = 'Plutonium';
+
+bool giftClaimBlockedInApp(GiftCodeResponse gift) {
+  return defaultTargetPlatform == TargetPlatform.iOS &&
+      gift.durationQuantity == 0 &&
+      !gift.redeemed;
+}
 
 String giftDurationText(FluxerLocalizations l10n, GiftCodeResponse gift) {
   if (gift.durationQuantity == 0) {

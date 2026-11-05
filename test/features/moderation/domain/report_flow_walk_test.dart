@@ -27,8 +27,8 @@ void main() {
         messageFlow.screen('private_info')!.kind,
         ReportFlowScreenKind.checklist,
       );
-      expect(userFlow.startScreenId, 'profile_intro');
-      expect(userFlow.screen('profile_intro')!.kind, ReportFlowScreenKind.info);
+      expect(userFlow.startScreenId, 'user_start');
+      expect(userFlow.screen('user_start')!.kind, ReportFlowScreenKind.choice);
       expect(
         userFlow.screen('crisis_support')!.kind,
         ReportFlowScreenKind.info,
@@ -94,8 +94,11 @@ void main() {
     test('a link option changes nothing', () {
       final ReportFlowWalk walk = ReportFlowWalk.start(messageFlow);
       expect(identical(walk.chooseOption('dsa'), walk), isTrue);
-      final ReportFlowWalk intro = ReportFlowWalk.start(userFlow);
-      expect(identical(intro.chooseOption('learn_more'), intro), isTrue);
+      final ReportFlowWalk userStart = ReportFlowWalk.start(userFlow);
+      expect(
+        identical(userStart.chooseOption('learn_more'), userStart),
+        isTrue,
+      );
     });
 
     test('an unknown option changes nothing', () {
@@ -116,16 +119,25 @@ void main() {
     });
 
     test('info screens push a bare step and go to the next screen', () {
-      final ReportFlowWalk walk = ReportFlowWalk.start(userFlow).continueInfo();
-      expect(walk.screenId, 'profile_parts');
-      expect(_posted(walk), <Map<String, Object>>[
-        <String, Object>{'screen_id': 'profile_intro'},
-      ]);
+      final ReportFlowWalk crisis = ReportFlowWalk.start(userFlow)
+          .chooseOption('profile')
+          .toggleItem('photo')
+          .continueChecklist()
+          .chooseOption('something_else')
+          .chooseOption('self_harm');
+      expect(crisis.screenId, 'crisis_support');
+      final ReportFlowWalk walk = crisis.continueInfo();
+      expect(walk.screenId, 'self_harm_profile');
+      expect(_posted(walk).last, <String, Object>{
+        'screen_id': 'crisis_support',
+      });
       expect(walk.canGoBack, isTrue);
     });
 
     test('checklist needs min_checked before it continues', () {
-      ReportFlowWalk walk = ReportFlowWalk.start(userFlow).continueInfo();
+      ReportFlowWalk walk = ReportFlowWalk.start(
+        userFlow,
+      ).chooseOption('profile');
       expect(walk.canContinueChecklist, isFalse);
       expect(identical(walk.continueChecklist(), walk), isTrue);
       walk = walk.toggleItem('name');
@@ -167,14 +179,14 @@ void main() {
       expect(back.back().steps, isEmpty);
     });
 
-    test('back from P2 returns to the intro', () {
+    test('back from the profile checklist returns to the start', () {
       final ReportFlowWalk parts = ReportFlowWalk.start(
         userFlow,
-      ).continueInfo();
-      final ReportFlowWalk intro = parts.back();
-      expect(intro.screenId, 'profile_intro');
-      expect(intro.steps, isEmpty);
-      expect(intro.canGoBack, isFalse);
+      ).chooseOption('profile');
+      final ReportFlowWalk userStart = parts.back();
+      expect(userStart.screenId, 'user_start');
+      expect(userStart.steps, isEmpty);
+      expect(userStart.canGoBack, isFalse);
     });
 
     test('back from the summary returns to the screen that submitted', () {

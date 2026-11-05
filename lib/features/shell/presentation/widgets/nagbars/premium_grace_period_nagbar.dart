@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_manage.dart';
@@ -8,6 +9,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_nagbar_manage.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
+import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
@@ -60,12 +62,17 @@ class _PremiumGracePeriodNagbarState
       final PremiumManageAction action = manage;
       onManage = () => unawaited(_openManage(action));
     }
-    final DateTime? expiryDate = DateTime.tryParse(settings.premiumUntil ?? '');
-    final String graceDate = expiryDate == null
+    final DateTime? graceEnd = premiumGraceEnd(
+      premiumUntil: settings.premiumUntil,
+      premiumGraceEndsAt: ref
+          .watch(currentUserPrivateReadProvider(watchAccountUserId(ref)))
+          ?.premiumGraceEndsAt,
+    );
+    final String graceDate = graceEnd == null
         ? ''
         : DateFormat.yMMMMd(
             Localizations.localeOf(context).toString(),
-          ).format(expiryDate.add(kPremiumGracePeriod).toLocal());
+          ).format(graceEnd.toLocal());
     return FluxerNagbar(
       isMobile: isMobile,
       backgroundColor: const Color(0xFFF97316),
@@ -76,7 +83,12 @@ class _PremiumGracePeriodNagbarState
           .dismissPremiumGracePeriod(),
       child: FluxerNagbarContent(
         isMobile: isMobile,
-        message: l10n.nagbarPremiumGracePeriod(kPremiumProductName, graceDate),
+        message: manage == null
+            ? l10n.nagbarPremiumGracePeriodNoAction(
+                kPremiumProductName,
+                graceDate,
+              )
+            : l10n.nagbarPremiumGracePeriod(kPremiumProductName, graceDate),
         onDismiss: () => ref
             .read(nagbarDismissalsProvider.notifier)
             .dismissPremiumGracePeriod(),

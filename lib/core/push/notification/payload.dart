@@ -7,29 +7,6 @@ const String kPushNotificationClearAction = 'clear_channel';
 
 String buildChannelTag(String channelId) => 'channel:$channelId';
 
-bool pushNotificationTagMatchesChannel(String? tag, String channelId) {
-  if (tag == null || tag.isEmpty || channelId.isEmpty) {
-    return false;
-  }
-  final String channelTag = buildChannelTag(channelId);
-  return tag == channelTag || tag.startsWith('$channelTag:');
-}
-
-String? pushMessageIdFromChannelTag(String? tag, String channelId) {
-  if (tag == null || channelId.isEmpty) {
-    return null;
-  }
-  final String prefix = '${buildChannelTag(channelId)}:';
-  if (!tag.startsWith(prefix)) {
-    return null;
-  }
-  final String messageId = tag.substring(prefix.length);
-  if (messageId.isEmpty) {
-    return null;
-  }
-  return messageId;
-}
-
 bool pushMessageIsCoveredByAck(String? messageId, String? upToMessageId) {
   if (upToMessageId == null || upToMessageId.isEmpty) {
     return true;
@@ -129,18 +106,21 @@ String? resolvePushNotificationTag(Map<String, String> payload) {
   return null;
 }
 
-final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), .+\)$');
+const String kPushGroupDmTitleSuffix = ' (Group DM)';
+
+final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), (.+)\)$');
 
 String? resolvePushConversationName(
   Map<String, String> payload, {
   String? title,
+  String groupDmLabel = 'Group DM',
 }) {
   final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
   if (messageTitle == null) {
     return null;
   }
-  if (messageTitle.endsWith(' (Group DM)')) {
-    return 'Group DM';
+  if (messageTitle.endsWith(kPushGroupDmTitleSuffix)) {
+    return groupDmLabel;
   }
   if (isDmPushPayload(enrichPushPayload(payload))) {
     return null;
@@ -161,6 +141,16 @@ String? resolvePushConversationName(
     return null;
   }
   return channelName;
+}
+
+String? resolvePushCommunityName(Map<String, String> payload, {String? title}) {
+  final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
+  if (messageTitle == null ||
+      _nonEmpty(payload['parent_id']) != null ||
+      isDmPushPayload(enrichPushPayload(payload))) {
+    return null;
+  }
+  return _nonEmpty(_guildTitlePattern.firstMatch(messageTitle)?.group(2));
 }
 
 String? resolvePushGroupTag(Map<String, String> payload) {

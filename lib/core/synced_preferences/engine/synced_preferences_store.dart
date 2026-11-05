@@ -79,6 +79,8 @@ class SyncedPreferencesStore {
   final Set<SyncedPreferenceField> _dirtyFields = {};
   final Set<SyncedPreferenceField> _inFlightFields = {};
   pb.SyncedPreferences? _inFlightSnapshot;
+  String? _decodedWireSource;
+  pb.SyncedPreferences _decodedWire = SyncedPreferencesEngine.createEmpty();
   final List<({String base, String acked})> _pendingEchoes = [];
   Timer? _pushTimer;
   Duration? _pushTimerDelay;
@@ -870,10 +872,18 @@ class SyncedPreferencesStore {
       error.response?.statusCode == 409 &&
       apiErrorCodeFromDioException(error) == _kSyncedPreferencesConflictCode;
 
+  pb.SyncedPreferences _decodeWire(String blob) {
+    if (blob != _decodedWireSource) {
+      _decodedWire = blob.isEmpty
+          ? SyncedPreferencesEngine.createEmpty()
+          : SyncedPreferencesEngine.decodeLenient(blob);
+      _decodedWireSource = blob;
+    }
+    return _decodedWire;
+  }
+
   Future<List<SyncedPreferenceField>> _changedRegisteredFields() async {
-    final wire = _wireBlob.isEmpty
-        ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(_wireBlob);
+    final wire = _decodeWire(_wireBlob);
     final changed = <SyncedPreferenceField>[];
     for (final entry in _adapters.entries) {
       if (!_ref.mounted) {
@@ -896,18 +906,20 @@ class SyncedPreferencesStore {
   }
 
   Future<pb.SyncedPreferences> _buildLocalSnapshot() async {
-    final wire = _wireBlob.isEmpty
-        ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(_wireBlob);
-    var snapshot = wire;
-    for (final entry in _adapters.entries) {
+    final wire = _decodeWire(_wireBlob);
+    final fieldChunks = <int, List<Uint8List>>{};
+    for (final adapter in _adapters.values) {
       if (!_ref.mounted) {
-        return snapshot;
+        return _withFieldChunks(wire, fieldChunks);
       }
-      final adapter = entry.value;
       final Object? local = await adapter.readLocalValue();
-      snapshot = _applyAdapterToProto(snapshot, adapter, local, wire: wire);
+      fieldChunks[adapter.field.fieldNumber] = _adapterFieldChunks(
+        adapter,
+        local,
+        wire: wire,
+      );
     }
+    final snapshot = _withFieldChunks(wire, fieldChunks);
     _local = snapshot;
     return snapshot;
   }
@@ -916,9 +928,7 @@ class SyncedPreferencesStore {
     required String baseWire,
     required Iterable<SyncedPreferenceField> fieldsToEncode,
   }) async {
-    final wire = baseWire.isEmpty
-        ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(baseWire);
+    final wire = _decodeWire(baseWire);
     final fieldMessages = <int, Uint8List>{};
     final fieldWireTypes = <int, int>{};
     for (final field in fieldsToEncode) {
@@ -974,8 +984,7 @@ class SyncedPreferencesStore {
         .writeToBuffer();
   }
 
-  pb.SyncedPreferences _applyAdapterToProto(
-    pb.SyncedPreferences target,
+  List<Uint8List> _adapterFieldChunks(
     SyncedFieldAdapter<Object?> adapter,
     Object? local, {
     required pb.SyncedPreferences wire,
@@ -988,10 +997,21 @@ class SyncedPreferencesStore {
         fieldWireType: adapter.fieldPushWireType,
       ),
     );
-    return SyncedPreferencesEngine.copyField(
-      target: target,
-      source: fieldOnly,
-      field: adapter.field,
+    return SyncedPreferencesWireCodec.extractFieldChunks(
+      SyncedPreferencesEngine.preferencesToBytes(fieldOnly),
+      adapter.field.fieldNumber,
+    );
+  }
+
+  pb.SyncedPreferences _withFieldChunks(
+    pb.SyncedPreferences target,
+    Map<int, List<Uint8List>> fieldChunks,
+  ) {
+    return SyncedPreferencesEngine.preferencesFromBytes(
+      SyncedPreferencesWireCodec.replaceFields(
+        target: SyncedPreferencesEngine.preferencesToBytes(target),
+        fieldChunks: fieldChunks,
+      ),
     );
   }
 
@@ -1005,10 +1025,13 @@ class SyncedPreferencesStore {
     if (_isStale(generation)) {
       return;
     }
-    final wire = _wireBlob.isEmpty
-        ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(_wireBlob);
-    _local = _applyAdapterToProto(_local, adapter, local, wire: wire);
+    _local = _withFieldChunks(_local, {
+      adapter.field.fieldNumber: _adapterFieldChunks(
+        adapter,
+        local,
+        wire: _decodeWire(_wireBlob),
+      ),
+    });
   }
 
   bool _statesEqual(SyncedFieldAdapter<Object?> adapter, Object? a, Object? b) {

@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
 import 'package:fluxer_app/features/shell/presentation/resizable_shell_sidebar_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_bar.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
@@ -100,16 +101,29 @@ Widget mobileSidebarForLocation(
     color: context.colors.channelSidebarBackground,
     child: SafeArea(
       bottom: false,
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const GuildNavbar(),
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: peekContentInset),
+            child: const NagbarContainer(),
+          ),
           Expanded(
-            child: peekContentInset > 0
-                ? Padding(
-                    padding: EdgeInsetsDirectional.only(end: peekContentInset),
-                    child: sidebar,
-                  )
-                : sidebar,
+            child: Row(
+              children: <Widget>[
+                const GuildNavbar(),
+                Expanded(
+                  child: peekContentInset > 0
+                      ? Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            end: peekContentInset,
+                          ),
+                          child: sidebar,
+                        )
+                      : sidebar,
+                ),
+              ],
+            ),
           ),
         ],
       ),

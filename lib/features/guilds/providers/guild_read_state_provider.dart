@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/channel_unread_presentation.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
@@ -114,8 +115,13 @@ class GuildReadState extends _$GuildReadState {
   final Map<String, List<String>> _channelIdsByGuild = <String, List<String>>{};
   Map<String, String> _roleSignatureByGuild = <String, String>{};
   Map<String, String> _memberSignatureByGuild = <String, String>{};
+  Map<String, String> _guildOwnerById = <String, String>{};
   ChannelUnreadPermissionSeedCache? _permissionSeedCache;
-  String _permissionSeedCacheSignature = '';
+  int _permissionInputsRevision = 0;
+  int _channelRevision = 0;
+  int _readStateRevision = 0;
+  int _joinedThreadRevision = 0;
+  int _guildSettingsRevision = 0;
   @override
   Map<String, GuildReadStateEntry> build() {
     final db = ref.watch(fluxerDatabaseProvider);
@@ -127,6 +133,7 @@ class GuildReadState extends _$GuildReadState {
 
     final readStateSub = db.readStateDao.watchReadStates().listen((rows) {
       final next = <String, ReadState>{for (final r in rows) r.channelId: r};
+      _readStateRevision++;
       final touched = _diffReadStates(_readStateSnapshot, next);
       for (final String channelId in touched) {
         if (_readStateAckOrMentionsChanged(
@@ -145,6 +152,7 @@ class GuildReadState extends _$GuildReadState {
     final joinedThreadSub = db.threadDao.watchJoinedMembers().listen((
       List<ThreadMember> rows,
     ) {
+      _joinedThreadRevision++;
       final Map<String, ThreadMember> joined = <String, ThreadMember>{
         for (final ThreadMember row in rows) row.threadId: row,
       };
@@ -164,6 +172,10 @@ class GuildReadState extends _$GuildReadState {
         .watchAllChannels(includeThreads: true)
         .listen((channels) {
           final next = <String, Channel>{for (final c in channels) c.id: c};
+          _channelRevision++;
+          if (_permissionInputsChanged(_channelSnapshot, next)) {
+            _invalidatePermissionSeedCache();
+          }
           final touched = _diffChannels(
             _channelSnapshot,
             next,
@@ -214,6 +226,7 @@ class GuildReadState extends _$GuildReadState {
     });
 
     final settingsSub = db.userGuildSettingsDao.watchAll().listen((rows) {
+      _guildSettingsRevision++;
       final changedGuilds = _updateGuildSettings(rows);
       if (changedGuilds.isEmpty) {
         return;
@@ -235,6 +248,9 @@ class GuildReadState extends _$GuildReadState {
           (Role role) => (role.guildId, '${role.id}:${role.permissions}'),
         ),
       );
+      if (!mapEquals(_roleSignatureByGuild, next)) {
+        _invalidatePermissionSeedCache();
+      }
       final Set<String> changed = _diffSignatures(_roleSignatureByGuild, next);
       _roleSignatureByGuild = next;
       _enqueueGuilds(changed, db, currentUserId);
@@ -249,6 +265,9 @@ class GuildReadState extends _$GuildReadState {
               for (final Member member in rows)
                 member.guildId: member.roleIdsJson,
             };
+            if (!mapEquals(_memberSignatureByGuild, next)) {
+              _invalidatePermissionSeedCache();
+            }
             final Set<String> changed = _diffSignatures(
               _memberSignatureByGuild,
               next,
@@ -268,7 +287,16 @@ class GuildReadState extends _$GuildReadState {
             ),
           ),
         );
+      final Map<String, String> owners = <String, String>{
+        for (final Server guild in guilds) guild.id: guild.ownerId ?? '',
+      };
+      if (!mapEquals(_guildOwnerById, owners)) {
+        _invalidatePermissionSeedCache();
+      }
+      final Set<String> ownerChanged = _diffSignatures(_guildOwnerById, owners);
+      _guildOwnerById = owners;
       _pruneRemovedGuilds(guilds.map((g) => g.id).toSet());
+      _enqueueGuilds(ownerChanged, db, currentUserId);
     });
 
     ref.listen<bool>(gatewayReadyProvider, (prev, next) {
@@ -370,24 +398,43 @@ class GuildReadState extends _$GuildReadState {
     _isInitialSeedComplete = false;
     _recomputeGeneration++;
     _clearCaches();
-    final guilds = await db.guildDao.getServers();
-    final allChannels = await db.channelDao.getAllChannels(
+    _pendingSeedChannelIds.clear();
+    final int permissionRevision = _permissionInputsRevision;
+    final UnreadPermissionInputs permissionInputs =
+        await loadUnreadPermissionInputs(db, currentUserId);
+    final List<Server> guilds = permissionInputs.guilds;
+    final int channelRevision = _channelRevision;
+    final List<Channel> allChannels = await db.channelDao.getAllChannels(
       includeThreads: true,
     );
-    _joinedThreadMembers = <String, ThreadMember>{
-      for (final ThreadMember row in await db.threadDao.getJoinedMembers())
-        row.threadId: row,
-    };
-    final allReadStates = await db.readStateDao.getReadStates();
-    final allSettings = await db.userGuildSettingsDao.getAll();
-    _channelSnapshot = {for (final c in allChannels) c.id: c};
+    if (channelRevision == _channelRevision) {
+      _channelSnapshot = {for (final c in allChannels) c.id: c};
+    }
+    final int joinedThreadRevision = _joinedThreadRevision;
+    final List<ThreadMember> joinedThreads = await db.threadDao
+        .getJoinedMembers();
+    if (joinedThreadRevision == _joinedThreadRevision) {
+      _joinedThreadMembers = <String, ThreadMember>{
+        for (final ThreadMember row in joinedThreads) row.threadId: row,
+      };
+    }
+    final int readStateRevision = _readStateRevision;
+    final List<ReadState> allReadStates = await db.readStateDao.getReadStates();
+    if (readStateRevision == _readStateRevision) {
+      _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
+    }
+    final int guildSettingsRevision = _guildSettingsRevision;
+    final List<UserGuildSettingsTableData> allSettings = await db
+        .userGuildSettingsDao
+        .getAll();
+    if (guildSettingsRevision == _guildSettingsRevision) {
+      _updateGuildSettings(allSettings);
+    }
     ref.read(channelLastMessageIndexProvider(readAccountUserId(ref))).seedAll(
       <String, String?>{
-        for (final Channel c in allChannels) c.id: c.lastMessageId,
+        for (final Channel c in _channelSnapshot.values) c.id: c.lastMessageId,
       },
     );
-    _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
-    _updateGuildSettings(allSettings);
     _guildNotificationContexts
       ..clear()
       ..addEntries(
@@ -400,14 +447,10 @@ class GuildReadState extends _$GuildReadState {
       );
     if (currentUserId != null && currentUserId.isNotEmpty) {
       for (final Server guild in guilds) {
-        if (_guildJoinedAtFetched.contains(guild.id)) {
-          continue;
-        }
-        final Member? member = await db.memberDao.getMemberByUserId(
-          currentUserId,
-          guild.id,
-        );
-        _guildJoinedAtMs[guild.id] = member?.joinedAt?.millisecondsSinceEpoch;
+        _guildJoinedAtMs[guild.id] = permissionInputs
+            .ownMemberByGuild[guild.id]
+            ?.joinedAt
+            ?.millisecondsSinceEpoch;
         _guildJoinedAtFetched.add(guild.id);
       }
     }
@@ -418,17 +461,20 @@ class GuildReadState extends _$GuildReadState {
     ];
     _rebuildChannelIdsByGuild();
     final ChannelUnreadPermissionSeedCache permissionCache =
-        await buildChannelUnreadPermissionSeedCache(
-          database: db,
+        buildChannelUnreadPermissionSeedCache(
           currentUserId: currentUserId,
           channels: trackableChannels,
-          guilds: guilds,
+          inputs: permissionInputs,
           channelSnapshot: _channelSnapshot,
         );
-    _permissionSeedCache = permissionCache;
-    _permissionSeedCacheSignature = _permissionSignatureKey();
+    if (permissionRevision == _permissionInputsRevision) {
+      _permissionSeedCache = permissionCache;
+    }
     final Map<String, ChannelLatestMessageResolution> latestByChannel =
         await resolveLatestMessageIdsForChannelsBulk(db, trackableChannels);
+    final ReadStateWriteBatcher batcher = ref.read(
+      readStateWriteBatcherProvider,
+    );
     final now = DateTime.now();
     final Map<String, UnreadState> unreadPatch = <String, UnreadState>{};
     for (final Channel channel in trackableChannels) {
@@ -451,7 +497,7 @@ class GuildReadState extends _$GuildReadState {
       final ChannelGuildUnreadPresentation presentation =
           _computeChannelPresentation(
             channel: channel,
-            readState: _effectiveReadState(channel.id),
+            readState: _effectiveReadState(channel.id, batcher),
             guildSettings: _guildSettings[channel.guildId],
             now: now,
             fallbackAckMs: fallbackAckMs,
@@ -521,8 +567,14 @@ class GuildReadState extends _$GuildReadState {
     if (_pendingReadStateRefresh.isNotEmpty) {
       final List<String> refreshIds = _pendingReadStateRefresh.toList();
       _pendingReadStateRefresh.clear();
+      final Map<String, ReadState> rows = <String, ReadState>{
+        for (final ReadState row in await db.readStateDao.getReadStatesFor(
+          refreshIds,
+        ))
+          row.channelId: row,
+      };
       for (final String id in refreshIds) {
-        final ReadState? row = await db.readStateDao.getReadState(id);
+        final ReadState? row = rows[id];
         if (row == null) {
           _readStateSnapshot.remove(id);
         } else {
@@ -534,33 +586,45 @@ class GuildReadState extends _$GuildReadState {
       final latestIds = _pendingLatestRefresh.toList();
       _pendingLatestRefresh.clear();
       final trustedFromRefresh = <String>[];
+      final Map<String, Channel> toResolve = <String, Channel>{};
       for (final id in latestIds) {
         final channel = _channelSnapshot[id];
         if (channel != null && _tracksUnread(channel.type)) {
           if (_pendingTrustIndex.remove(id)) {
             trustedFromRefresh.add(id);
           } else {
-            final Channel? fresh = await db.channelDao.getChannelById(id);
-            final String? pointer = fresh == null
-                ? channel.lastMessageId
-                : fresh.lastMessageId;
-            final Channel? current = _channelSnapshot[id];
-            if (fresh != null && current != null) {
-              _channelSnapshot[id] = current.copyWith(
-                lastMessageId: Value(pointer),
-              );
-            }
-            final resolved = await resolveLatestMessageIdForChannel(
-              db,
-              id,
-              channelLastMessageId: pointer,
-            );
-            _latestMessageIdByChannel[id] = resolved.id;
-            _channelLastExistsInCacheByChannel[id] = resolved.existsInCache;
+            toResolve[id] = channel;
           }
         } else {
           _latestMessageIdByChannel.remove(id);
           _channelLastExistsInCacheByChannel.remove(id);
+        }
+      }
+      if (toResolve.isNotEmpty) {
+        final Map<String, Channel> fresh = <String, Channel>{
+          for (final Channel row in await db.channelDao.getChannelsByIds(
+            toResolve.keys.toList(),
+          ))
+            row.id: row,
+        };
+        final List<Channel> pointers = <Channel>[];
+        for (final MapEntry<String, Channel> entry in toResolve.entries) {
+          final Channel? row = fresh[entry.key];
+          final Channel? current = _channelSnapshot[entry.key];
+          if (row != null && current != null) {
+            _channelSnapshot[entry.key] = current.copyWith(
+              lastMessageId: Value(row.lastMessageId),
+            );
+          }
+          pointers.add(row ?? entry.value);
+        }
+        final Map<String, ChannelLatestMessageResolution> resolved =
+            await resolveLatestMessageIdsForChannelsBulk(db, pointers);
+        for (final MapEntry<String, ChannelLatestMessageResolution> entry
+            in resolved.entries) {
+          _latestMessageIdByChannel[entry.key] = entry.value.id;
+          _channelLastExistsInCacheByChannel[entry.key] =
+              entry.value.existsInCache;
         }
       }
       _applyTrustedIndexLatestIds(trustedFromRefresh, lastMessageIndex);
@@ -573,6 +637,11 @@ class GuildReadState extends _$GuildReadState {
     if (pending.isEmpty) {
       return;
     }
+    final ChannelUnreadPermissionSeedCache permissionCache =
+        await _permissionSeedCacheForRecompute(db, currentUserId);
+    final ReadStateWriteBatcher batcher = ref.read(
+      readStateWriteBatcherProvider,
+    );
     final now = DateTime.now();
     final affectedGuilds = <String>{};
     final Map<String, UnreadState> unreadPatch = <String, UnreadState>{};
@@ -588,8 +657,6 @@ class GuildReadState extends _$GuildReadState {
         unreadPatch[id] = const UnreadState();
         continue;
       }
-      final ChannelUnreadPermissionSeedCache permissionCache =
-          await _permissionSeedCacheForRecompute(db, currentUserId);
       final ChannelUnreadPermissionOutcome? permissionOutcome =
           permissionCache.byChannelId[id];
       final bool canRead;
@@ -621,7 +688,7 @@ class GuildReadState extends _$GuildReadState {
       final ChannelGuildUnreadPresentation presentation =
           _computeChannelPresentation(
             channel: channel,
-            readState: _effectiveReadState(channel.id),
+            readState: _effectiveReadState(channel.id, batcher),
             guildSettings: _guildSettings[channel.guildId],
             now: now,
             fallbackAckMs: fallbackAckMs,
@@ -816,63 +883,42 @@ class GuildReadState extends _$GuildReadState {
       ..removeWhere((id, _) => removed.contains(id));
   }
 
-  String _channelOverwriteSignatureKey() {
-    final List<String> parts = <String>[];
-    for (final Channel channel in _channelSnapshot.values) {
-      if (!_tracksUnread(channel.type)) {
-        continue;
-      }
-      parts.add('${channel.id}:${channel.permissionOverwritesJson ?? ''}');
-    }
-    parts.sort();
-    return parts.join('|');
-  }
-
-  String _permissionSignatureKey() {
-    final List<String> roleParts =
-        _roleSignatureByGuild.entries
-            .map((MapEntry<String, String> e) => '${e.key}:${e.value}')
-            .toList()
-          ..sort();
-    final List<String> memberParts =
-        _memberSignatureByGuild.entries
-            .map((MapEntry<String, String> e) => '${e.key}:${e.value}')
-            .toList()
-          ..sort();
-    return '${roleParts.join('|')}|${memberParts.join('|')}|'
-        '${_channelOverwriteSignatureKey()}';
+  void _invalidatePermissionSeedCache() {
+    _permissionSeedCache = null;
+    _permissionInputsRevision++;
   }
 
   Future<ChannelUnreadPermissionSeedCache> _permissionSeedCacheForRecompute(
     FluxerDatabase db,
     String? currentUserId,
   ) async {
-    final String signature = _permissionSignatureKey();
     final ChannelUnreadPermissionSeedCache? cached = _permissionSeedCache;
-    if (cached != null && signature == _permissionSeedCacheSignature) {
+    if (cached != null) {
       return cached;
     }
-    final List<Server> guilds = await db.guildDao.getServers();
-    final List<Channel> trackableChannels = <Channel>[
-      for (final Channel channel in _channelSnapshot.values)
-        if (_tracksUnread(channel.type)) channel,
-    ];
+    final int revision = _permissionInputsRevision;
+    final UnreadPermissionInputs inputs = await loadUnreadPermissionInputs(
+      db,
+      currentUserId,
+    );
     final ChannelUnreadPermissionSeedCache built =
-        await buildChannelUnreadPermissionSeedCache(
-          database: db,
+        buildChannelUnreadPermissionSeedCache(
           currentUserId: currentUserId,
-          channels: trackableChannels,
-          guilds: guilds,
+          channels: <Channel>[
+            for (final Channel channel in _channelSnapshot.values)
+              if (_tracksUnread(channel.type)) channel,
+          ],
+          inputs: inputs,
           channelSnapshot: _channelSnapshot,
         );
-    _permissionSeedCache = built;
-    _permissionSeedCacheSignature = signature;
+    if (revision == _permissionInputsRevision) {
+      _permissionSeedCache = built;
+    }
     return built;
   }
 
   void _clearCaches() {
-    _permissionSeedCache = null;
-    _permissionSeedCacheSignature = '';
+    _invalidatePermissionSeedCache();
     _channelContributions.clear();
     _contributionGuild.clear();
     _latestMessageIdByChannel.clear();
@@ -935,11 +981,18 @@ class GuildReadState extends _$GuildReadState {
     return snowflakeTimestampMs(channel.id);
   }
 
-  ReadState? _effectiveReadState(String channelId) {
+  ReadState? _effectiveReadState(
+    String channelId,
+    ReadStateWriteBatcher batcher,
+  ) {
     final ReadState? persisted = _readStateSnapshot[channelId];
-    final ReadStateEffectiveFields effective = ref
-        .read(readStateWriteBatcherProvider)
-        .effectiveFields(channelId, persisted);
+    if (!batcher.hasOverlay(channelId)) {
+      return persisted;
+    }
+    final ReadStateEffectiveFields effective = batcher.effectiveFields(
+      channelId,
+      persisted,
+    );
     if (persisted == null &&
         effective.mentionCount == 0 &&
         (effective.lastMessageId == null || effective.lastMessageId!.isEmpty)) {
@@ -1112,6 +1165,26 @@ Set<String> _diffSignatures(
     if (previous.containsKey(entry.key) && previous[entry.key] != entry.value)
       entry.key,
 };
+
+bool _permissionInputsChanged(
+  Map<String, Channel> previous,
+  Map<String, Channel> next,
+) {
+  if (previous.length != next.length) {
+    return true;
+  }
+  for (final MapEntry<String, Channel> entry in next.entries) {
+    final Channel? old = previous[entry.key];
+    if (old == null ||
+        old.guildId != entry.value.guildId ||
+        old.type != entry.value.type ||
+        old.parentId != entry.value.parentId ||
+        old.permissionOverwritesJson != entry.value.permissionOverwritesJson) {
+      return true;
+    }
+  }
+  return false;
+}
 
 bool _channelEqualsExceptLastMessage(Channel a, Channel b) =>
     a.guildId == b.guildId &&

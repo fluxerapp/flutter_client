@@ -26,11 +26,6 @@ String embedMediaShareableUrl({
   return embedMediaEffectiveUrl(media);
 }
 
-String? embedMediaDownloadUrl(EmbedMedia media) {
-  final String url = embedMediaEffectiveUrl(media).trim();
-  return url.isEmpty ? null : url;
-}
-
 bool canOpenEmbedMediaViewer(EmbedMedia media) {
   return embedMediaEffectiveUrl(media).isNotEmpty;
 }
@@ -50,7 +45,6 @@ void openEmbedMediaViewer(
   String? embedPageUrl,
   bool animated = false,
   int? embedIndex,
-  EmbedMedia? downloadMedia,
   String? channelId,
   String? messageId,
   MessageMediaActionScope? actionScope,
@@ -67,7 +61,6 @@ void openEmbedMediaViewer(
           embedPageUrl: embedPageUrl,
           animated: animated || item.isAnimated,
           embedIndex: embedIndex,
-          downloadMedia: identical(item, media) ? downloadMedia : null,
         ),
       )
       .toList();
@@ -98,7 +91,6 @@ AttachmentMediaViewerItem buildEmbedMediaViewerItem({
   String? embedPageUrl,
   bool animated = false,
   int? embedIndex,
-  EmbedMedia? downloadMedia,
 }) {
   final String url = animated
       ? animatedEmbedImageUrl(embedMediaEffectiveUrl(media))
@@ -112,7 +104,6 @@ AttachmentMediaViewerItem buildEmbedMediaViewerItem({
     embedIndex: embedIndex,
     proxyUrl: media.proxyUrl,
     contentType: media.contentType,
-    downloadUrl: embedMediaDownloadUrl(downloadMedia ?? media),
     contentHash: media.contentHash,
   );
 }

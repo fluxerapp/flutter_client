@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/push/account/sync_retry.dart';
 import 'package:fluxer_app/core/push/android/local_notifications.dart';
 import 'package:fluxer_app/core/push/android/pipeline.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
@@ -17,9 +18,7 @@ import 'package:unifiedpush/unifiedpush.dart' as up;
 const String kFluxerUnifiedPushInstance = 'fluxer';
 
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
-const Duration _kRegistrationRetryDelay = Duration(seconds: 5);
 const Duration _kDecryptionHealCooldown = Duration(seconds: 30);
-const Duration _kBackgroundMessageWait = Duration(seconds: 25);
 
 bool _isUnifiedPushAndroid() =>
     PushProviderGuard.isUnifiedPush && Platform.isAndroid;
@@ -46,11 +45,10 @@ class UnifiedPushService implements PushService {
       <String, up.PushEndpoint>{};
   final Map<String, String> _vapidByInstance = <String, String>{};
   final Map<String, String> _registeredVapidByInstance = <String, String>{};
-  final Map<String, up.FailedReason> _failureByInstance =
-      <String, up.FailedReason>{};
+  final Map<String, PushSyncRetry> _registrationRetries =
+      <String, PushSyncRetry>{};
   final Map<String, DateTime> _healAtByInstance = <String, DateTime>{};
   final Set<String> _desiredInstances = <String>{};
-  final Set<String> _retryingInstances = <String>{};
 
   bool _initialized = false;
   bool _needsDistributorPicker = false;
@@ -58,7 +56,7 @@ class UnifiedPushService implements PushService {
   FluxerDatabase? _database;
   static bool _backgroundMode = false;
   Future<void>? _initializeFuture;
-  Completer<void>? _backgroundMessageHandled;
+  final UnifiedPushBackgroundWork _backgroundWork = UnifiedPushBackgroundWork();
   Future<void> _registrationQueue = Future<void>.value();
   final StreamController<void> _pickerRequests =
       StreamController<void>.broadcast();
@@ -89,19 +87,13 @@ class UnifiedPushService implements PushService {
       return;
     }
     _backgroundMode = true;
-    instance._backgroundMessageHandled = Completer<void>();
-    try {
-      await LocalPushNotifications().ensureInitialized();
-      await instance._ensureUnifiedPushInitialized();
-      await prepareUnifiedPushBackgroundNative();
-      await instance._backgroundMessageHandled!.future.timeout(
-        _kBackgroundMessageWait,
-        onTimeout: () {},
-      );
-    } finally {
-      await finishUnifiedPushBackgroundNative();
-      instance._backgroundMessageHandled = null;
-    }
+    await LocalPushNotifications().ensureInitialized();
+    listenForUnifiedPushBackgroundMessages(instance._onBackgroundMessage);
+    await prepareUnifiedPushBackgroundNative();
+    await runUnifiedPushBackgroundUntilIdle(
+      instance._backgroundWork,
+      finish: finishUnifiedPushBackgroundNative,
+    );
   }
 
   @override
@@ -152,6 +144,9 @@ class UnifiedPushService implements PushService {
       return;
     }
     _desiredInstances.add(instance);
+    if (!force) {
+      _retryFor(instance).beginExternalAttempt();
+    }
     await _ensureUnifiedPushInitialized();
     if (!await _ensureDistributor()) {
       return;
@@ -173,11 +168,12 @@ class UnifiedPushService implements PushService {
       return;
     }
     await _registerInstance(instance, resolved!);
-    await _waitForEndpoint(instance);
+    if (!_backgroundMode) {
+      await _waitForEndpoint(instance);
+    }
   }
 
   Future<void> _registerInstance(String instance, String vapid) async {
-    _failureByInstance.remove(instance);
     await up.UnifiedPush.register(instance: instance, vapid: vapid);
     _registeredVapidByInstance[instance] = vapid;
     _needsDistributorPicker = false;
@@ -191,7 +187,7 @@ class UnifiedPushService implements PushService {
     await up.UnifiedPush.unregister(instance);
     _endpointsByInstance.remove(instance);
     _registeredVapidByInstance.remove(instance);
-    _failureByInstance.remove(instance);
+    _registrationRetries.remove(instance)?.succeeded();
   }
 
   Future<void> _retainInstances(Set<String> keep) async {
@@ -269,7 +265,7 @@ class UnifiedPushService implements PushService {
   Stream<PushMessage> watchMessages() => _messages.stream;
 
   Future<void> _ensureUnifiedPushInitialized() {
-    if (_initialized) {
+    if (_initialized || _backgroundMode) {
       return Future<void>.value();
     }
     return _initializeFuture ??= _bindUnifiedPushCallbacks().whenComplete(() {
@@ -365,7 +361,7 @@ class UnifiedPushService implements PushService {
     if (instance.isEmpty) {
       return;
     }
-    _failureByInstance.remove(instance);
+    _retryFor(instance).succeeded();
     _endpointsByInstance[instance] = endpoint;
     _needsDistributorPicker = false;
     _endpointEvents.add(
@@ -383,28 +379,13 @@ class UnifiedPushService implements PushService {
     if (instance.isEmpty) {
       return;
     }
-    _failureByInstance[instance] = reason;
     if (kDebugMode) {
       debugPrint(
         '[UnifiedPushService] registration failed ($instance): $reason',
       );
     }
-    if (reason != up.FailedReason.actionRequired) {
-      unawaited(_retryRegistrationAfterFailure(instance, reason));
-    }
-  }
-
-  Future<void> _retryRegistrationAfterFailure(
-    String instance,
-    up.FailedReason reason,
-  ) async {
-    await Future<void>.delayed(Duration.zero);
-    if (!_desiredInstances.contains(instance)) {
-      return;
-    }
-    if (reason == up.FailedReason.vapidRequired &&
-        hasUnifiedPushVapid(await _resolveVapid(instance, null))) {
-      await syncInstance(instance: instance, force: true);
+    if (reason == up.FailedReason.actionRequired) {
+      _markDistributorPickerNeeded();
       return;
     }
     _scheduleRegistrationRetry(instance);
@@ -422,16 +403,24 @@ class UnifiedPushService implements PushService {
     _scheduleRegistrationRetry(instance);
   }
 
+  PushSyncRetry _retryFor(String instance) {
+    return _registrationRetries.putIfAbsent(instance, PushSyncRetry.new);
+  }
+
   void _scheduleRegistrationRetry(String instance) {
-    if (_backgroundMode || !_retryingInstances.add(instance)) {
+    if (_backgroundMode) {
       return;
     }
-    Future<void>.delayed(_kRegistrationRetryDelay, () async {
-      _retryingInstances.remove(instance);
+    _retryFor(instance).schedule(() {
       if (!_desiredInstances.contains(instance) || !_isUnifiedPushAndroid()) {
         return;
       }
-      await syncInstance(instance: instance, force: true);
+      unawaited(
+        syncInstance(
+          instance: instance,
+          force: true,
+        ).onError((Object _, StackTrace _) {}),
+      );
     });
   }
 
@@ -448,13 +437,25 @@ class UnifiedPushService implements PushService {
 
   Future<void> _onMessage(up.PushMessage message, String instance) async {
     if (instance.isEmpty) {
-      _completeBackgroundMessageWait();
       return;
     }
+    await _handleIncomingMessage(message, instance);
+  }
+
+  Future<void> _onBackgroundMessage(
+    Uint8List content,
+    String instance, {
+    required bool decrypted,
+  }) async {
+    _backgroundWork.messageStarted();
     try {
-      await _handleIncomingMessage(message, instance);
+      await _onMessage(up.PushMessage(content, decrypted), instance);
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[UnifiedPushService] background message failed: $e\n$st');
+      }
     } finally {
-      _completeBackgroundMessageWait();
+      _backgroundWork.messageFinished();
     }
   }
 
@@ -520,17 +521,6 @@ class UnifiedPushService implements PushService {
     } on Object {
       // Show the notification anyway.
     }
-  }
-
-  void _completeBackgroundMessageWait() {
-    if (!_backgroundMode) {
-      return;
-    }
-    final Completer<void>? pending = _backgroundMessageHandled;
-    if (pending == null || pending.isCompleted) {
-      return;
-    }
-    pending.complete();
   }
 
   Future<void> _healDecryptionFailure(String instance) async {

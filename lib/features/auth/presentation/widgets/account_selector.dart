@@ -5,7 +5,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_row.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -83,17 +82,6 @@ class AccountSelector extends ConsumerWidget {
                 color: colors.textPrimaryMuted,
               ),
             ),
-            if (ref.watch(loginViewModelProvider).errorMessage
-                case final errorMessage? when errorMessage.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.only(bottom: layout.s2),
-                child: Text(
-                  errorMessage,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textDanger,
-                  ),
-                ),
-              ),
             SizedBox(height: layout.s3),
             ...accounts.map(
               (account) => Padding(

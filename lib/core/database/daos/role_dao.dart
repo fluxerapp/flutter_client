@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -16,6 +17,12 @@ class RoleDao extends DatabaseAccessor<FluxerDatabase> with _$RoleDaoMixin {
             ..orderBy([(r) => OrderingTerm.desc(r.position)]))
           .get();
 
+  Future<List<Role>> getRolesForGuilds(List<String> guildIds) =>
+      (select(roles)
+            ..where((r) => r.guildId.isIn(guildIds))
+            ..orderBy([(r) => OrderingTerm.desc(r.position)]))
+          .get();
+
   Stream<List<Role>> watchRoles(String guildId) =>
       (select(roles)
             ..where((r) => r.guildId.equals(guildId))
@@ -23,19 +30,17 @@ class RoleDao extends DatabaseAccessor<FluxerDatabase> with _$RoleDaoMixin {
           .watch()
           .suppressDriftCancellation;
 
+  Future<List<Role>> getAllRoles() =>
+      (select(roles)..orderBy([(r) => OrderingTerm.desc(r.position)])).get();
+
   Stream<List<Role>> watchAllRoles() =>
       select(roles).watch().suppressDriftCancellation;
 
   Future<Role?> getRoleById(String id) =>
       (select(roles)..where((r) => r.id.equals(id))).getSingleOrNull();
 
-  Future<void> upsertRoles(List<RolesCompanion> roleList) async {
-    await batch((b) {
-      for (final role in roleList) {
-        b.insert(roles, role, onConflict: DoUpdate((_) => role));
-      }
-    });
-  }
+  Future<void> upsertRoles(List<RolesCompanion> roleList) =>
+      batch((Batch b) => batchUpsert(b, attachedDatabase, roles, roleList));
 
   Future<void> deleteRole(String id) =>
       (delete(roles)..where((r) => r.id.equals(id))).go();

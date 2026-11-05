@@ -67,6 +67,7 @@ void main() {
           dio: _dio(),
           challenge: const SudoChallenge(
             hasMfa: true,
+            password: false,
             totp: false,
             webauthn: true,
             backupCodes: false,
@@ -95,6 +96,7 @@ void main() {
         dio: _dio(),
         challenge: const SudoChallenge(
           hasMfa: true,
+          password: false,
           totp: true,
           webauthn: false,
           backupCodes: false,
@@ -122,6 +124,7 @@ void main() {
         dio: _dio(),
         challenge: const SudoChallenge(
           hasMfa: true,
+          password: false,
           totp: true,
           webauthn: false,
           backupCodes: false,
@@ -166,6 +169,7 @@ void main() {
       dio: _dio(),
       challenge: const SudoChallenge(
         hasMfa: true,
+        password: false,
         totp: false,
         webauthn: true,
         backupCodes: true,
@@ -197,6 +201,7 @@ void main() {
       dio: _dio(),
       challenge: const SudoChallenge(
         hasMfa: false,
+        password: true,
         totp: false,
         webauthn: false,
         backupCodes: false,
@@ -223,6 +228,7 @@ void main() {
         dio: _dio(),
         challenge: const SudoChallenge(
           hasMfa: true,
+          password: false,
           totp: true,
           webauthn: false,
           backupCodes: true,
@@ -234,4 +240,34 @@ void main() {
 
     expect(find.text('Invalid MFA code.'), findsOneWidget);
   });
+
+  testWidgets(
+    'a passwordless account with a verified email is offered an email code, '
+    'not a password',
+    (tester) async {
+      final navigatorKey = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(_app(navigatorKey));
+      await tester.pumpAndSettle();
+
+      unawaited(
+        showSudoVerificationSheet(
+          navigatorKey: navigatorKey,
+          dio: _dio(),
+          challenge: const SudoChallenge(
+            hasMfa: false,
+            password: false,
+            totp: false,
+            webauthn: false,
+            backupCodes: false,
+            emailCode: true,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final l10n = FluxerLocalizations.of(navigatorKey.currentContext!);
+      expect(find.text(l10n.sudoEmailCodeSend), findsOneWidget);
+      expect(find.byType(FluxerInput), findsNothing);
+    },
+  );
 }

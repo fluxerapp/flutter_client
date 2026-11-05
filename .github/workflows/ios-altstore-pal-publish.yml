@@ -1,0 +1,150 @@
+name: Publish AltStore PAL
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Marketing version (optional if resolving from latest stable-release-all)
+        required: false
+        type: string
+      build_number:
+        description: Build number (optional if resolving from latest stable-release-all)
+        required: false
+        type: string
+      tag:
+        description: Stable GitHub release tag (optional if present in metadata)
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  publish:
+    name: Publish ADP to stable release
+    runs-on: ubuntu-latest
+    environment: release-builds
+    steps:
+      - name: Resolve stable-release-all run
+        id: run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_BUILD: ${{ inputs.build_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -n "$INPUT_VERSION" ] && [ -n "$INPUT_BUILD" ]; then
+            echo "use_manual=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          run_id="$(gh run list \
+            --repo "$REPO" \
+            --workflow stable-release-all.yml \
+            --branch stable \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            -q '.[0].databaseId')"
+          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
+            echo "no successful stable-release-all run found on branch stable" >&2
+            exit 1
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: stable
+          token: ${{ steps.create-token.outputs.token }}
+
+      - name: Download AltStore PAL metadata artifact
+        if: steps.run.outputs.use_manual != '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          dest="$RUNNER_TEMP/altstore-pal-version"
+          gh run download "${{ steps.run.outputs.run_id }}" \
+            --repo "$REPO" \
+            -n altstore-pal-version \
+            -D "$dest"
+          metadata="$(find "$dest" -name 'altstore-pal-version.json' -print -quit)"
+          if [ -z "$metadata" ]; then
+            echo "altstore-pal-version.json was not in the artifact" >&2
+            exit 1
+          fi
+          mkdir -p build
+          cp "$metadata" build/altstore-pal-version.json
+
+      - name: Write manual metadata
+        if: steps.run.outputs.use_manual == '1'
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_BUILD: ${{ inputs.build_number }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          version = os.environ["INPUT_VERSION"].strip()
+          build = os.environ["INPUT_BUILD"].strip()
+          tag = os.environ.get("INPUT_TAG", "").strip()
+          if not version or not build:
+              raise SystemExit("version and build_number are required for manual publish")
+          payload = {
+              "version": version,
+              "buildVersion": build,
+              "stableReleaseTag": tag,
+          }
+          Path("build/altstore-pal-version.json").write_text(
+              json.dumps(payload, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5
+        with:
+          ruby-version: "4.0"
+
+      - name: Restore Bundler cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-ruby-4.0-${{ hashFiles('Gemfile.lock', 'Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-ruby-4.0-
+
+      - name: Install Ruby gems
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      - name: Publish AltStore PAL release assets
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+          METADATA_PATH: build/altstore-pal-version.json
+          STABLE_RELEASE_TAG: ${{ inputs.tag }}
+          GIT_BRANCH: stable
+          FLUXER_CI_APP_USER_ID: ${{ vars.FLUXER_CI_APP_USER_ID }}
+        run: bundle exec ruby .github/scripts/publish_altstore_pal.rb

@@ -162,6 +162,7 @@ void main() {
                 lastMessage: '',
                 lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
                 unreadCount: 2,
+                nsfw: false,
               ),
             ],
             unreadChannelIds: const {'1000000000000000001'},
@@ -265,6 +266,64 @@ void main() {
 
       await releaseTestWidgetTree(tester);
     });
+
+    testWidgets(
+      'announces the recipient name and selection only beside the open chat',
+      (tester) async {
+        const String channelId = '1000000000000000001';
+        final router = _buildRouter(
+          home: const DmNavbarItem(
+            channelId: channelId,
+            recipientId: '1000000000000000002',
+            displayName: 'Direct message',
+            type: 1,
+          ),
+        );
+        addTearDown(router.dispose);
+        final SemanticsHandle semantics = tester.ensureSemantics();
+        addTearDown(tester.view.reset);
+
+        Future<void> pumpAt(Size size) async {
+          tester.view
+            ..devicePixelRatio = 1
+            ..physicalSize = size;
+          await tester.pumpWidget(
+            _buildTestApp(
+              router: router,
+              activeChannelId: channelId,
+              dmViewState: DmViewState(
+                conversations: [
+                  DmConversation(
+                    id: channelId,
+                    type: 1,
+                    recipientId: '1000000000000000002',
+                    recipientName: 'Other User',
+                    lastMessage: '',
+                    lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
+                  ),
+                ],
+                friendsList: const [],
+                activeTab: FriendsTab.online,
+                searchQuery: '',
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+        }
+
+        await pumpAt(const Size(402, 874));
+        expect(find.bySemanticsLabel('Other User, unread'), findsOneWidget);
+
+        await pumpAt(const Size(1280, 800));
+        expect(
+          find.bySemanticsLabel('Other User, selected, unread'),
+          findsOneWidget,
+        );
+
+        semantics.dispose();
+        await releaseTestWidgetTree(tester);
+      },
+    );
 
     testWidgets('mention badge stays visible and unclipped when selected', (
       tester,

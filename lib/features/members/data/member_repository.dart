@@ -166,6 +166,17 @@ class MemberRepository {
     return _membersFromRows(guildId, rows);
   }
 
+  Future<List<Member>> getCachedMembersByUserIds(
+    String guildId,
+    List<String> userIds,
+  ) async {
+    final List<db.Member> rows = await _db.memberDao.getMembersByUserIds(
+      guildId,
+      userIds,
+    );
+    return _membersFromRows(guildId, rows);
+  }
+
   Future<bool> isGuildMemberCacheComplete(String guildId) async {
     final db.Server? server = await _db.guildDao.getServerById(guildId);
     if (server == null) {
@@ -191,7 +202,10 @@ class MemberRepository {
       guildId,
       scopeUserIds,
     );
-    final List<db.Role> roles = await _db.roleDao.getRoles(guildId);
+    final Map<String, db.Role> roles = <String, db.Role>{
+      for (final db.Role role in await _db.roleDao.getRoles(guildId))
+        role.id: role,
+    };
     final List<String> userIds = rows.map((db.Member m) => m.userId).toList();
     final List<db.User> userList = await _db.userDao.getUsersByIds(userIds);
     final Map<String, db.User> users = <String, db.User>{
@@ -221,7 +235,10 @@ class MemberRepository {
     if (members.isEmpty) {
       return const <Member>[];
     }
-    final List<db.Role> roles = await _db.roleDao.getRoles(guildId);
+    final Map<String, db.Role> roles = <String, db.Role>{
+      for (final db.Role role in await _db.roleDao.getRoles(guildId))
+        role.id: role,
+    };
     final List<String> userIds = members
         .map((db.Member m) => m.userId)
         .toList();

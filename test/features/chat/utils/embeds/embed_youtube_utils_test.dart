@@ -136,6 +136,7 @@ void main() {
         pageOrigin: 'https://web.fluxer.app',
       );
       final Uri uri = Uri.parse(url);
+      expect(uri.host, 'www.youtube-nocookie.com');
       expect(uri.path, '/embed/abc');
       expect(uri.queryParameters['rel'], '0');
       expect(uri.queryParameters['autoplay'], '1');
@@ -153,7 +154,30 @@ void main() {
       expect(url, contains('autoplay=1'));
       expect(url, contains('auto_play=1'));
       expect(url, contains('origin=https'));
-      expect(url, startsWith('https://www.youtube.com/embed/abc'));
+      expect(url, startsWith('https://www.youtube-nocookie.com/embed/abc'));
+    });
+  });
+
+  group('isYouTubeEmbedNavigation', () {
+    test('allows embed paths on YouTube hosts and about:blank', () {
+      for (final String url in <String>[
+        'https://youtube.com/embed/abc',
+        'https://www.youtube.com/embed/abc?autoplay=1',
+        'https://www.youtube-nocookie.com/embed/abc',
+        'about:blank',
+      ]) {
+        expect(isYouTubeEmbedNavigation(Uri.parse(url)), isTrue, reason: url);
+      }
+    });
+
+    test('refuses watch pages, channel pages and other hosts', () {
+      for (final String url in <String>[
+        'https://www.youtube.com/watch?v=abc',
+        'https://www.youtube.com/@channel',
+        'https://example.com/embed/abc',
+      ]) {
+        expect(isYouTubeEmbedNavigation(Uri.parse(url)), isFalse, reason: url);
+      }
     });
   });
 }

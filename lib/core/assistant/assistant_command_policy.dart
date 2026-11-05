@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/assistant/assistant_command_result.dart';
 class AssistantCommandSnapshot {
   const AssistantCommandSnapshot({
     required this.authenticated,
+    required this.startupPending,
     required this.gatewayReady,
     required this.connectionFailed,
     required this.inVoice,
@@ -15,6 +16,7 @@ class AssistantCommandSnapshot {
   });
 
   final bool authenticated;
+  final bool startupPending;
   final bool gatewayReady;
   final bool connectionFailed;
   final bool inVoice;
@@ -26,6 +28,8 @@ class AssistantCommandSnapshot {
 
   bool get isNavigationReady =>
       authenticated && gatewayReady && !connectionFailed;
+
+  bool get isSignedOut => !authenticated && !startupPending;
 }
 
 enum AssistantCommandGate {
@@ -60,7 +64,9 @@ AssistantCommandGate gateAssistantCommand({
   }
 
   if (!snapshot.authenticated) {
-    return AssistantCommandGate.needsLogin;
+    return snapshot.startupPending
+        ? AssistantCommandGate.waitForReady
+        : AssistantCommandGate.needsLogin;
   }
 
   if (assistantCommandNeedsDms(command) && snapshot.dmsDisabled) {

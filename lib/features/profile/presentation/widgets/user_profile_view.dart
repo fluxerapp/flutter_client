@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/domain/member_role_management.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/user_profile_roles_section.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
@@ -30,10 +31,13 @@ import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_not
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_action_card_row.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_bio_card.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_header.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_identity_avatar.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_loading_skeleton.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_note_card.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_popout_frame.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_relationship_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_self_card.dart';
 import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
@@ -50,19 +54,20 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 184;
-const double _kAvatarSize = 80;
-const double _kAvatarRingWidth = 3.2;
-const double _kAvatarOverlap = _kAvatarSize / 2 + _kAvatarRingWidth;
+const double _kAvatarOverlap =
+    kUserProfileAvatarSize / 2 + kUserProfileAvatarRingWidth;
 
 class UserProfileView extends ConsumerStatefulWidget {
   const UserProfileView({
@@ -75,6 +80,8 @@ class UserProfileView extends ConsumerStatefulWidget {
     this.showTopHandle = false,
     this.isWebhook = false,
     this.message,
+    this.popout = false,
+    this.onOpenFullProfile,
     super.key,
   });
 
@@ -87,6 +94,8 @@ class UserProfileView extends ConsumerStatefulWidget {
   final bool showTopHandle;
   final bool isWebhook;
   final Message? message;
+  final bool popout;
+  final VoidCallback? onOpenFullProfile;
 
   @override
   ConsumerState<UserProfileView> createState() => _UserProfileViewState();
@@ -231,7 +240,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         autoFocusNote: false,
         scrollController: scrollController,
         onCloseRequested: close,
-        showTopHandle: true,
+        showTopHandle: !usesDesktopPointerUi(sheetContext),
       ),
     );
   }
@@ -345,6 +354,76 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final EdgeInsets hostedSide = profileHostedSideContentInsets(context);
     final double contentPadLeft = layout.s4 + hostedSide.left;
     final double contentPadRight = layout.s4 + hostedSide.right;
+    void openActions(Offset position) {
+      unawaited(
+        UserProfileActionsSheet.show(
+          context,
+          ref,
+          relationship: relationship,
+          user: actionUser!,
+          isCurrentUser: isCurrentUser,
+          position: position,
+          hasGuildProfile: hasGuildProfile,
+          isShowingGlobalProfile: isShowingGlobalProfile,
+          onShowGlobalProfile: () {
+            setState(() => _showGlobalProfile = true);
+          },
+          onShowCommunityProfile: () {
+            setState(() => _showGlobalProfile = false);
+          },
+          displayName: displayName,
+          guildId: widget.guildId,
+          message: widget.message,
+          avatarUrl: avatarUrl,
+          avatarColor: avatarColor,
+          capabilities: menuCaps,
+          currentNick: guildMemberNick,
+          currentTimeoutUntil: guildMemberTimeoutUntil,
+          allGuildRoles: allGuildRoles,
+          memberRoleIds: memberRoleIds,
+          canManageRoles: canManageRoles,
+          isGuildOwner: isGuildOwner,
+          viewerHighestRole: viewerHighestRole,
+          canReportUserProfile: true,
+        ),
+      );
+    }
+
+    if (widget.popout) {
+      return _buildPopoutCard(
+        userId: userId,
+        username: username,
+        discriminator: discriminator,
+        displayName: displayName,
+        avatarUrl: avatarUrl,
+        avatarColor: avatarColor,
+        bannerColor: bannerColor,
+        bannerUrl: bannerUrl,
+        bio: bio,
+        accountMemberSince: accountMemberSince,
+        guildMemberSince: guildMemberSince,
+        guildName: guildName,
+        guildIconUrl: guildIconUrl,
+        memberRoles: memberRoles,
+        profileBadges: profileBadges,
+        connections: connections,
+        pronouns: pronouns,
+        customStatus: customStatus,
+        isCurrentUser: isCurrentUser,
+        isBlocked: isBlocked,
+        timezoneOffset: timezoneOffset,
+        profileGuildId: profileGuildId,
+        memberRoleIds: memberRoleIds,
+        allGuildRoles: allGuildRoles,
+        canManageRoles: canManageRoles,
+        isGuildOwner: isGuildOwner,
+        viewerHighestRole: viewerHighestRole,
+        isWebhook: isWebhook,
+        isBot: isBot,
+        isSystem: isSystem,
+        openActions: actionUser == null ? null : openActions,
+      );
+    }
     Widget scrollView = CustomScrollView(
       controller: widget.scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -392,7 +471,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 Positioned(
                   left: contentPadLeft,
                   top: _kBannerHeight - _kAvatarOverlap,
-                  child: _ProfileIdentityAvatar(
+                  child: UserProfileIdentityAvatar(
                     userId: userId,
                     displayName: displayName,
                     avatarUrl: avatarUrl,
@@ -477,43 +556,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                             onPressed: () => UserSettingsModal.show(context),
                           )
                         else
-                          _MoreButton(
-                            onTap: (Offset position) {
-                              unawaited(
-                                UserProfileActionsSheet.show(
-                                  context,
-                                  ref,
-                                  relationship: relationship,
-                                  user: actionUser,
-                                  isCurrentUser: isCurrentUser,
-                                  position: position,
-                                  hasGuildProfile: hasGuildProfile,
-                                  isShowingGlobalProfile:
-                                      isShowingGlobalProfile,
-                                  onShowGlobalProfile: () {
-                                    setState(() => _showGlobalProfile = true);
-                                  },
-                                  onShowCommunityProfile: () {
-                                    setState(() => _showGlobalProfile = false);
-                                  },
-                                  displayName: displayName,
-                                  guildId: widget.guildId,
-                                  message: widget.message,
-                                  avatarUrl: avatarUrl,
-                                  avatarColor: avatarColor,
-                                  capabilities: menuCaps,
-                                  currentNick: guildMemberNick,
-                                  currentTimeoutUntil: guildMemberTimeoutUntil,
-                                  allGuildRoles: allGuildRoles,
-                                  memberRoleIds: memberRoleIds,
-                                  canManageRoles: canManageRoles,
-                                  isGuildOwner: isGuildOwner,
-                                  viewerHighestRole: viewerHighestRole,
-                                  canReportUserProfile: true,
-                                ),
-                              );
-                            },
-                          ),
+                          _MoreButton(onTap: openActions),
                       ],
                     ),
                   ),
@@ -657,6 +700,171 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
   }
 
+  Widget _buildPopoutCard({
+    required String userId,
+    required String username,
+    required String discriminator,
+    required String displayName,
+    required String? avatarUrl,
+    required int? avatarColor,
+    required Color bannerColor,
+    required String? bannerUrl,
+    required String? bio,
+    required DateTime? accountMemberSince,
+    required DateTime? guildMemberSince,
+    required String? guildName,
+    required String? guildIconUrl,
+    required List<MemberRole> memberRoles,
+    required List<ProfileBadgeResponse> profileBadges,
+    required List<ConnectionResponse> connections,
+    required String? pronouns,
+    required String? customStatus,
+    required bool isCurrentUser,
+    required bool isBlocked,
+    required int? timezoneOffset,
+    required String? profileGuildId,
+    required Set<String> memberRoleIds,
+    required List<MemberRole> allGuildRoles,
+    required bool canManageRoles,
+    required bool isGuildOwner,
+    required MemberRole? viewerHighestRole,
+    required bool isWebhook,
+    required bool isBot,
+    required bool isSystem,
+    required ValueChanged<Offset>? openActions,
+  }) {
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    final layout = context.layout;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final VoidCallback? openFull = isWebhook ? null : widget.onOpenFullProfile;
+    final String? trimmedPronouns = pronouns?.trim();
+    final bool dmsDisabled = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.directMessagesDisabled,
+      ),
+    );
+    final Widget name = Text(
+      displayName,
+      style: textStyles.heading.copyWith(
+        color: colors.textPrimary,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+      ),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+    final Widget? footer = isWebhook
+        ? null
+        : isCurrentUser
+        ? FluxerButton.primary(
+            label: l10n.userProfileEditProfile,
+            icon: PhosphorIconsFill.pencil,
+            onPressed: () {
+              _requestClose();
+              unawaited(
+                UserSettingsModal.show(context, openProfileSection: true),
+              );
+            },
+          )
+        : dmsDisabled
+        ? null
+        : FluxerButton.primary(
+            label: isBlocked ? l10n.userProfileOpenDm : l10n.userProfileMessage,
+            icon: PhosphorIconsFill.chatTeardrop,
+            onPressed: () => _handleMessage(userId, isBlocked, username),
+          );
+
+    return UserProfilePopoutFrame(
+      scrollController: widget.scrollController,
+      accentColor: bannerColor,
+      bannerUrl: bannerUrl,
+      badges: profileBadges,
+      footer: footer,
+      topEndAction: openActions == null
+          ? null
+          : _MoreButton(onTap: openActions),
+      avatar: UserProfileIdentityAvatar(
+        userId: userId,
+        displayName: displayName,
+        avatarUrl: avatarUrl,
+        avatarColor: avatarColor,
+        showStatus: !isWebhook,
+        onTap: openFull,
+      ),
+      children: <Widget>[
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 6,
+          runSpacing: 4,
+          children: <Widget>[
+            if (openFull == null)
+              name
+            else
+              FluxerTappable(
+                onTap: openFull,
+                builder: (BuildContext context, Set<WidgetState> states) =>
+                    name,
+              ),
+            if (isBot || isSystem || isWebhook)
+              FluxerUserTag(isSystem: isSystem),
+          ],
+        ),
+        if (!isWebhook)
+          Text(
+            formatUserTag(
+              username,
+              discriminator,
+              uniqueUsernames:
+                  isCurrentUser || ref.watch(uniqueUsernamesProvider),
+              bot: isBot,
+            ),
+            style: textStyles.bodySmall.copyWith(
+              color: colors.textTertiary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        if (trimmedPronouns != null && trimmedPronouns.isNotEmpty)
+          Text(
+            trimmedPronouns,
+            style: textStyles.bodySmall.copyWith(color: colors.textTertiary),
+          ),
+        if (hasVisibleCustomStatus(customStatus)) ...<Widget>[
+          SizedBox(height: layout.s1),
+          UserProfileCustomStatus(text: customStatus),
+        ],
+        if (!isWebhook) ...<Widget>[
+          SizedBox(height: layout.s3),
+          UserProfileBioCard(
+            compact: true,
+            bio: bio,
+            userId: userId,
+            guildId: profileGuildId,
+            accountMemberSince: accountMemberSince,
+            guildMemberSince: guildMemberSince,
+            guildName: guildName,
+            guildIconUrl: guildIconUrl,
+            connections: connections,
+            timezoneOffset: timezoneOffset,
+          ),
+        ],
+        if (!isWebhook && profileGuildId != null) ...<Widget>[
+          SizedBox(height: layout.s3),
+          UserProfileRolesSection(
+            guildId: profileGuildId,
+            userId: userId,
+            memberRoles: memberRoles,
+            memberRoleIds: memberRoleIds,
+            allGuildRoles: allGuildRoles,
+            canManageRoles: canManageRoles,
+            isGuildOwner: isGuildOwner,
+            viewerHighestRole: viewerHighestRole,
+          ),
+        ],
+      ],
+    );
+  }
+
   Widget _buildWebhookProfile(BuildContext context) {
     final Message? message = widget.message;
     if (message == null) {
@@ -729,6 +937,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         currentUserCachedProfileProvider,
       );
       if (profile == null) {
+        if (widget.popout) {
+          return const _PopoutLoadingCard();
+        }
         return UserProfileLoadingSkeleton(
           scrollController: widget.scrollController,
           showTopHandle: widget.showTopHandle,
@@ -803,10 +1014,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           )
         : fetchedProfileAsync;
     return profileAsync.when(
-      loading: () => UserProfileLoadingSkeleton(
-        scrollController: widget.scrollController,
-        showTopHandle: widget.showTopHandle,
-      ),
+      loading: () => widget.popout
+          ? const _PopoutLoadingCard()
+          : UserProfileLoadingSkeleton(
+              scrollController: widget.scrollController,
+              showTopHandle: widget.showTopHandle,
+            ),
       error: (_, _) => _ErrorState(
         onRetry: () => ref.invalidate(
           userProfileProvider(userId: widget.userId, guildId: widget.guildId),
@@ -999,46 +1212,14 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   }
 }
 
-class _ProfileIdentityAvatar extends StatelessWidget {
-  const _ProfileIdentityAvatar({
-    required this.userId,
-    required this.displayName,
-    required this.avatarUrl,
-    required this.avatarColor,
-    required this.showStatus,
-    this.onTap,
-  });
-
-  final String userId;
-  final String displayName;
-  final String? avatarUrl;
-  final int? avatarColor;
-  final bool showStatus;
-  final VoidCallback? onTap;
+class _PopoutLoadingCard extends StatelessWidget {
+  const _PopoutLoadingCard();
 
   @override
   Widget build(BuildContext context) {
-    final Widget avatar = Container(
-      padding: const EdgeInsets.all(_kAvatarRingWidth),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: context.colors.backgroundPrimary,
-      ),
-      child: FluxerAvatar.userPresence(
-        fallbackText: displayName,
-        userId: userId,
-        imageUrl: avatarUrl,
-        avatarColor: avatarColor,
-        showStatus: showStatus,
-        size: _kAvatarSize,
-      ),
-    );
-    if (onTap == null) {
-      return avatar;
-    }
-    return FluxerTappable(
-      onTap: onTap,
-      builder: (BuildContext context, Set<WidgetState> states) => avatar,
+    return const SizedBox(
+      height: 240,
+      child: Center(child: FluxerLoadingSpinner()),
     );
   }
 }

@@ -190,14 +190,6 @@ String postLastActivityId(Channel post, String? lastMessageId) {
   return last;
 }
 
-String postSortKey(
-  Channel post,
-  ForumSortOrder sortOrder,
-  String? lastMessageId,
-) => sortOrder == ForumSortOrder.creationTime
-    ? post.id
-    : postLastActivityId(post, lastMessageId);
-
 bool matchesTagFilter(
   List<String> appliedTags,
   List<String> tagIds,
@@ -242,7 +234,8 @@ ForumPostList buildForumPostList({
     if (post.parentId != forumId || !post.isThread || !seen.add(post.id)) {
       continue;
     }
-    if (!matchesTagFilter(postAppliedTags(post), tagIds, tagMatch)) {
+    if (tagIds.isNotEmpty &&
+        !matchesTagFilter(postAppliedTags(post), tagIds, tagMatch)) {
       continue;
     }
     final bool archived = isPostArchived(post);
@@ -252,16 +245,27 @@ ForumPostList buildForumPostList({
     }
     (archived ? archivedPosts : activePosts).add(post);
   }
-  int byKey(Channel a, Channel b) => compareSnowflakeIds(
-    postSortKey(b, sortOrder, lastMessageIds[b.id]),
-    postSortKey(a, sortOrder, lastMessageIds[a.id]),
-  );
-  activePosts.sort(byKey);
-  archivedPosts.sort(byKey);
+  BigInt snowflake(String? id) => BigInt.tryParse(id ?? '') ?? BigInt.zero;
+  BigInt sortKey(Channel post) {
+    final BigInt created = snowflake(post.id);
+    if (sortOrder == ForumSortOrder.creationTime) {
+      return created;
+    }
+    final BigInt lastMessage = snowflake(lastMessageIds[post.id]);
+    return lastMessage > created ? lastMessage : created;
+  }
+
+  List<Channel> sorted(List<Channel> posts) {
+    final List<(Channel, BigInt)> keyed = <(Channel, BigInt)>[
+      for (final Channel post in posts) (post, sortKey(post)),
+    ]..sort(((Channel, BigInt) a, (Channel, BigInt) b) => b.$2.compareTo(a.$2));
+    return <Channel>[for (final (Channel post, _) in keyed) post];
+  }
+
   return ForumPostList(
     pinned: pinned,
-    active: activePosts,
-    archived: archivedPosts,
+    active: sorted(activePosts),
+    archived: sorted(archivedPosts),
   );
 }
 

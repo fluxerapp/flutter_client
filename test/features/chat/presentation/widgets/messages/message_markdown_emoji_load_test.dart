@@ -61,7 +61,7 @@ void main() {
   testWidgets(
     'messages rendered before the emoji registry loads switch to Twemoji',
     (WidgetTester tester) async {
-      expect(EmojiRegistry.unicodeEmojiRegexSync, isNull);
+      expect(EmojiRegistry.unicodeEmojiMatcherSync, isNull);
       final registryLoaded = Completer<void>();
       final show = ValueNotifier<bool>(true);
       addTearDown(show.dispose);

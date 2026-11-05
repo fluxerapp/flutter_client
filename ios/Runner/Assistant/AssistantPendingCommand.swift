@@ -76,26 +76,26 @@ enum AssistantPendingCommand {
     if inFlight {
       return nil
     }
-    guard let payload = AssistantDefaults.dictionary(forKey: key) else {
+    guard let payload = UserDefaults.standard.dictionary(forKey: key) else {
       return nil
     }
     let pendingAccount = payload["accountUserId"] as? String
     if let pendingAccount, !pendingAccount.isEmpty, pendingAccount != accountUserId {
       return nil
     }
-    AssistantDefaults.remove(forKey: key)
+    UserDefaults.standard.removeObject(forKey: key)
     return payload
   }
 
   static func clear() {
     lock.lock()
     inFlight = false
-    AssistantDefaults.remove(forKey: key)
+    UserDefaults.standard.removeObject(forKey: key)
     lock.unlock()
   }
 
   private static func storeLocked(_ payload: [String: Any]) {
-    AssistantDefaults.set(tagged(payload), forKey: key)
+    UserDefaults.standard.set(tagged(payload), forKey: key)
   }
 
   private static func tagged(_ payload: [String: Any]) -> [String: Any] {
@@ -108,7 +108,7 @@ enum AssistantPendingCommand {
 
   private static func clearStored() {
     lock.lock()
-    AssistantDefaults.remove(forKey: key)
+    UserDefaults.standard.removeObject(forKey: key)
     lock.unlock()
   }
 }

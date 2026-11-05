@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_pins_open_req
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../../../helpers/input_modality_override.dart';
 import '../../../../../../helpers/open_test_database.dart';
 import '../../../../../../helpers/test_l10n.dart';
 
@@ -44,6 +45,7 @@ void main() {
           FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
         ),
         channelPinsProvider(_channelId).overrideWith(_EmptyPins.new),
+        inputModalityOverride(touch: false),
       ],
     );
     addTearDown(container.dispose);

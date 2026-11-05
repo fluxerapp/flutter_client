@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_actions.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -63,10 +66,14 @@ class _BadgeListRow extends ConsumerWidget {
       badge,
       displayHeight: _kListBadgeHeight,
     );
-    final bool opensPremium = profileBadgeOpensPremiumSheet(badge);
-    final String? href = badge.href;
-    final bool opensLink = href != null && !opensPremium;
-    final bool tappable = opensPremium || opensLink;
+    final bool tappable = profileBadgeHasAction(
+      externalPurchaseLinksAllowed: ref.watch(
+        externalPurchaseLinksAllowedProvider,
+      ),
+      officialInstance: ref.watch(isActiveInstanceOfficialProvider),
+      billingNavVisible: ref.watch(premiumBillingNavVisibleProvider),
+      badge: badge,
+    );
 
     final Widget leading = imageUrl != null
         ? ProfileBadgeImage.fromBadge(badge, height: _kListBadgeHeight)

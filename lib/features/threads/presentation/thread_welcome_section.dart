@@ -5,7 +5,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -38,8 +40,10 @@ class ThreadWelcomeSection extends ConsumerWidget {
     final bool starterMissing =
         isPost &&
         (ref.watch(threadStarterMissingProvider(thread.id)).value ?? false);
+    final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
+    final bool ownerBlocked = threadOwnerBlocked(thread, blockedUserIds);
     final String? ownerId = thread.ownerId;
-    final String? ownerName = ownerId == null
+    final String? ownerName = ownerId == null || ownerBlocked
         ? null
         : watchMentionUserDisplayName(
             ref: ref,
@@ -71,7 +75,12 @@ class ThreadWelcomeSection extends ConsumerWidget {
           const SizedBox(height: 12),
           ClipRect(
             child: Text(
-              thread.name,
+              threadTitleText(
+                thread,
+                l10n,
+                blockedUserIds: blockedUserIds,
+                parent: parent,
+              ),
               style: context.textStyles.heading.copyWith(fontSize: 24),
             ),
           ),

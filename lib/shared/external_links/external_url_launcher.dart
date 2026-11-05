@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/first_party_site_link.dart';
 import 'package:fluxer_app/shared/external_links/platform_browser_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -166,25 +167,39 @@ Future<bool> openExternalUrl(
   ExternalUrlBrowserStyle? style,
   DefaultWebBrowser browser = DefaultWebBrowser.inApp,
 }) async {
+  final Uri target = Platform.isIOS ? withFirstPartySiteAppView(uri) : uri;
   if (!isFluxerNativeMobileOs) {
-    return launchUrl(uri, mode: LaunchMode.externalApplication);
+    return launchUrl(target, mode: LaunchMode.externalApplication);
   }
 
-  final String scheme = uri.scheme.toLowerCase();
+  final String scheme = target.scheme.toLowerCase();
   if (scheme == 'mailto' || scheme == 'tel' || scheme == 'sms') {
-    return _launchNativeApp(uri);
+    return _launchNativeApp(target);
   }
 
-  if (!_canOpenInSafariView(uri)) {
-    return launchUrl(uri, mode: LaunchMode.externalApplication);
+  if (!_canOpenInSafariView(target)) {
+    return launchUrl(target, mode: LaunchMode.externalApplication);
   }
 
-  if (await _tryLaunch(uri, LaunchMode.externalNonBrowserApplication)) {
+  if (await _tryLaunch(target, LaunchMode.externalNonBrowserApplication)) {
     return true;
   }
 
   if (browser == DefaultWebBrowser.inApp) {
-    return _openInAppBrowser(uri, style: style);
+    return _openInAppBrowser(target, style: style);
   }
-  return launchInDefaultWebBrowser(uri, browser);
+  return launchInDefaultWebBrowser(target, browser);
+}
+
+Future<bool> openInBrowserOnly(
+  Uri uri, {
+  DefaultWebBrowser browser = DefaultWebBrowser.inApp,
+}) async {
+  if (!isFluxerNativeMobileOs || !_canOpenInSafariView(uri)) {
+    return openExternalUrl(uri, browser: browser);
+  }
+  if (await launchInSpecificBrowser(uri, browser)) {
+    return true;
+  }
+  return _openInAppBrowser(uri);
 }

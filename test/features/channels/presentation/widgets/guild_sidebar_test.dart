@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,6 +51,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -58,6 +60,7 @@ import 'package:fluxer_dart/export.dart' show FluxerClient;
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/input_modality_override.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
 import '../../../../helpers/rendered_text_test_helpers.dart';
@@ -511,7 +514,7 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
-    testWidgets('tablet channel menu opens near the pressed row', (
+    testWidgets('tablet channel menu stays a sheet for touch input', (
       tester,
     ) async {
       _setWideSurface(tester);
@@ -525,18 +528,42 @@ void main() {
       );
       await _pumpSidebar(tester);
 
-      final Offset channelCenter = tester.getCenter(find.text('general'));
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
       expect(find.text('Copy link'), findsOneWidget);
       expect(
-        find.ancestor(
-          of: find.text('Copy link'),
-          matching: find.byType(Material),
-        ),
-        findsWidgets,
+        ModalRoute.of(tester.element(find.text('Copy link'))),
+        isA<FluxerSheetRoute<dynamic>>(),
       );
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('channel menu opens near the row for a mouse', (tester) async {
+      _setWideSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: [
+            ..._buildOverrides(
+              channelListState: _state(),
+              unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            ),
+            inputModalityOverride(touch: false),
+          ],
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      final Offset channelCenter = tester.getCenter(find.text('general'));
+      await tester.tap(
+        find.text('general'),
+        buttons: kSecondaryMouseButton,
+        kind: PointerDeviceKind.mouse,
+      );
+      await _pumpSidebar(tester);
+
+      expect(find.text('Copy link'), findsOneWidget);
+      expect(find.byType(FluxerDesktopMenuPanel), findsOneWidget);
 
       final Offset menuTopLeft = tester.getTopLeft(find.text('Copy link'));
       expect(menuTopLeft.dx, greaterThan(channelCenter.dx - 40));
@@ -2640,8 +2667,11 @@ class _FakeUserSettings extends UserSettingsViewModel {
 
 class _FakeSensitiveContent extends SensitiveContent {
   @override
-  SensitiveContentState build() =>
-      const SensitiveContentState(isLoading: false);
+  SensitiveContentState build() => const SensitiveContentState(
+    isLoading: false,
+    access: MatureAccess.allowed,
+    showLocked: false,
+  );
 }
 
 class _FakeMatureAgreements extends MatureContentAgreements {

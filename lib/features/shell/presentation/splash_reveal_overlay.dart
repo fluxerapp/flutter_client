@@ -255,7 +255,10 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Opacity(opacity: coverOpacity, child: const StarfieldBackground()),
+            Opacity(
+              opacity: coverOpacity,
+              child: const StarfieldBackground(animate: false),
+            ),
             Positioned(
               left: center.dx - logoHalf,
               top: center.dy - logoHalf,

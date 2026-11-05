@@ -16,13 +16,26 @@ import 'package:fluxer_dart/export.dart';
 
 enum PremiumStorePlan { monthly, yearly }
 
+enum PremiumStoreError { checkout, claimFailed }
+
+enum PremiumRestoreOutcome {
+  restored,
+  nothingToRestore,
+  ownedByOtherAccount,
+  failed,
+}
+
 class PremiumStoreState {
   const PremiumStoreState({
     this.monthly,
     this.yearly,
     this.loading = false,
     this.storeUnavailable = false,
+    this.loadFailed = false,
     this.purchasePending = false,
+    this.approvalPending = false,
+    this.ownedByOtherAccount = false,
+    this.lastError,
     this.purchasingPlan,
     this.errorSerial = 0,
     this.purchaseBlockedReason,
@@ -35,7 +48,11 @@ class PremiumStoreState {
   final PremiumStoreProduct? yearly;
   final bool loading;
   final bool storeUnavailable;
+  final bool loadFailed;
   final bool purchasePending;
+  final bool approvalPending;
+  final bool ownedByOtherAccount;
+  final PremiumStoreError? lastError;
   final PremiumStorePlan? purchasingPlan;
   final int errorSerial;
   final StorePurchaseBlockedReason? purchaseBlockedReason;
@@ -44,6 +61,9 @@ class PremiumStoreState {
   final Set<String> productIds;
 
   bool get subscriptionPurchaseBlocked {
+    if (ownedByOtherAccount) {
+      return true;
+    }
     return switch (purchaseBlockedReason) {
       StorePurchaseBlockedReason.lifetime ||
       StorePurchaseBlockedReason.existingSubscription ||
@@ -62,7 +82,11 @@ class PremiumStoreState {
     Object? purchasingPlan = _keep,
     bool? loading,
     bool? storeUnavailable,
+    bool? loadFailed,
     bool? purchasePending,
+    bool? approvalPending,
+    bool? ownedByOtherAccount,
+    Object? lastError = _keep,
     int? errorSerial,
     Object? purchaseBlockedReason = _keep,
     Object? blockingProvider = _keep,
@@ -81,7 +105,13 @@ class PremiumStoreState {
           : purchasingPlan as PremiumStorePlan?,
       loading: loading ?? this.loading,
       storeUnavailable: storeUnavailable ?? this.storeUnavailable,
+      loadFailed: loadFailed ?? this.loadFailed,
       purchasePending: purchasePending ?? this.purchasePending,
+      approvalPending: approvalPending ?? this.approvalPending,
+      ownedByOtherAccount: ownedByOtherAccount ?? this.ownedByOtherAccount,
+      lastError: identical(lastError, _keep)
+          ? this.lastError
+          : lastError as PremiumStoreError?,
       errorSerial: errorSerial ?? this.errorSerial,
       purchaseBlockedReason: identical(purchaseBlockedReason, _keep)
           ? this.purchaseBlockedReason
@@ -103,7 +133,7 @@ class _Keep {
 
 const Object _keep = _Keep();
 
-enum _AppStoreClaim { claimed, rejected, retryLater }
+enum _AppStoreClaim { claimed, ownedByOtherAccount, rejected, retryLater }
 
 final premiumStorePurchaseClientProvider = Provider<PremiumStorePurchaseClient>(
   (Ref ref) {
@@ -118,36 +148,31 @@ final premiumStoreProvider =
 
 class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
   int _loadGeneration = 0;
-  final Set<String> _finishedPurchaseIds = <String>{};
+  final Map<String, Future<_AppStoreClaim>> _claims =
+      <String, Future<_AppStoreClaim>>{};
+  Completer<List<PremiumStorePurchaseUpdate>>? _restoreBatch;
 
   @override
   PremiumStoreState build() {
     final PremiumStorePurchaseClient client = ref.watch(
       premiumStorePurchaseClientProvider,
     );
-    final AsyncValue<StoreBillingContextResponse?> billing = ref.watch(
+    final AsyncValue<StoreBillingContextResponse> billing = ref.watch(
       storeBillingContextProvider,
     );
     if (!ref.watch(premiumStorePurchasesEnabledProvider) ||
         !client.supportsPurchases) {
       return const PremiumStoreState(storeUnavailable: true);
     }
-    final StreamSubscription<List<PremiumStorePurchaseUpdate>> purchases =
-        client.purchaseUpdates.listen(
-          _onPurchases,
-          onError: (Object error, StackTrace stackTrace) {
-            _bumpError();
-          },
-        );
-    ref.onDispose(() {
-      unawaited(purchases.cancel());
-    });
+    if (billing.hasError) {
+      return const PremiumStoreState(loadFailed: true);
+    }
     if (billing.isLoading) {
       return const PremiumStoreState(loading: true);
     }
     final StoreBillingContextResponse? context = billing.value;
     if (context == null) {
-      return const PremiumStoreState(storeUnavailable: true);
+      return const PremiumStoreState(loadFailed: true);
     }
     final PremiumBillingStore? platform = client.billingStore;
     final PremiumStoreCatalog? catalog = premiumStoreCatalog(
@@ -162,6 +187,16 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
         billingStore: platform,
       );
     }
+    final StreamSubscription<List<PremiumStorePurchaseUpdate>> purchases =
+        client.purchaseUpdates.listen(
+          _onPurchases,
+          onError: (Object error, StackTrace stackTrace) {
+            _bumpError(PremiumStoreError.checkout);
+          },
+        );
+    ref.onDispose(() {
+      unawaited(purchases.cancel());
+    });
     unawaited(_start(client, catalog));
     return PremiumStoreState(
       loading: true,
@@ -170,6 +205,12 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
       billingStore: platform,
       productIds: catalog.productIds,
     );
+  }
+
+  void retry() {
+    ref
+      ..invalidate(storeBillingContextProvider)
+      ..invalidateSelf();
   }
 
   Future<void> buy(PremiumStorePlan plan) async {
@@ -194,31 +235,92 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
         return;
       }
       if (!started) {
-        state = state.copyWith(
-          purchasingPlan: null,
-          errorSerial: state.errorSerial + 1,
-        );
+        state = state.copyWith(purchasingPlan: null);
+        _bumpError(PremiumStoreError.checkout);
       }
     } on Object {
       if (!ref.mounted) {
         return;
       }
-      state = state.copyWith(
-        purchasingPlan: null,
-        errorSerial: state.errorSerial + 1,
-      );
+      state = state.copyWith(purchasingPlan: null);
+      _bumpError(PremiumStoreError.checkout);
     }
   }
 
-  Future<void> restore() async {
+  Future<PremiumRestoreOutcome> restore() async {
     if (!ref.read(premiumStorePurchasesEnabledProvider) ||
         state.storeUnavailable) {
+      return PremiumRestoreOutcome.failed;
+    }
+    return _restorePass(
+      ref.read(premiumStorePurchaseClientProvider),
+      userInitiated: true,
+    );
+  }
+
+  Future<void> checkOwnership() async {
+    if (!ref.read(premiumStorePurchasesEnabledProvider) ||
+        state.storeUnavailable ||
+        state.loadFailed ||
+        state.loading ||
+        _restoreBatch != null) {
       return;
     }
+    await _restorePass(
+      ref.read(premiumStorePurchaseClientProvider),
+      userInitiated: false,
+    );
+  }
+
+  Future<PremiumRestoreOutcome> _restorePass(
+    PremiumStorePurchaseClient client, {
+    required bool userInitiated,
+  }) async {
+    final Completer<List<PremiumStorePurchaseUpdate>> batch =
+        Completer<List<PremiumStorePurchaseUpdate>>();
+    _restoreBatch = batch;
     try {
-      await ref.read(premiumStorePurchaseClientProvider).restore();
+      await client.restore(userInitiated: userInitiated);
+      final List<PremiumStorePurchaseUpdate> restored =
+          (await batch.future.timeout(const Duration(seconds: 10)))
+              .where(
+                (PremiumStorePurchaseUpdate update) =>
+                    update.status == PremiumStorePurchaseStatus.restored &&
+                    state.productIds.contains(update.productId),
+              )
+              .toList();
+      final List<_AppStoreClaim> claims = await Future.wait(
+        restored.map(
+          (PremiumStorePurchaseUpdate purchase) =>
+              _finish(purchase, claimAgain: userInitiated),
+        ),
+      );
+      if (!ref.mounted) {
+        return PremiumRestoreOutcome.failed;
+      }
+      final bool claimed = claims.contains(_AppStoreClaim.claimed);
+      final bool ownedByOtherAccount = claims.contains(
+        _AppStoreClaim.ownedByOtherAccount,
+      );
+      state = state.copyWith(
+        ownedByOtherAccount: ownedByOtherAccount && !claimed,
+      );
+      if (restored.isEmpty) {
+        return PremiumRestoreOutcome.nothingToRestore;
+      }
+      if (claimed) {
+        return PremiumRestoreOutcome.restored;
+      }
+      if (ownedByOtherAccount) {
+        return PremiumRestoreOutcome.ownedByOtherAccount;
+      }
+      return PremiumRestoreOutcome.failed;
     } on Object {
-      _bumpError();
+      return PremiumRestoreOutcome.failed;
+    } finally {
+      if (identical(_restoreBatch, batch)) {
+        _restoreBatch = null;
+      }
     }
   }
 
@@ -227,23 +329,15 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     PremiumStoreCatalog catalog,
   ) async {
     final int generation = ++_loadGeneration;
-    final bool available = await client.isStoreAvailable();
-    if (!ref.mounted || generation != _loadGeneration) {
-      return;
-    }
-    if (!available) {
-      state = state.copyWith(loading: false, storeUnavailable: true);
-      return;
-    }
     try {
-      await client.restore();
-    } on Object {
-      // Billing can still list products if restore fails.
-    }
-    if (!ref.mounted || generation != _loadGeneration) {
-      return;
-    }
-    try {
+      final bool available = await client.isStoreAvailable();
+      if (!ref.mounted || generation != _loadGeneration) {
+        return;
+      }
+      if (!available) {
+        state = state.copyWith(loading: false, storeUnavailable: true);
+        return;
+      }
       final PremiumStoreProductSet products = await client.loadProducts(
         catalog,
       );
@@ -260,23 +354,33 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
       if (!ref.mounted || generation != _loadGeneration) {
         return;
       }
-      state = state.copyWith(loading: false);
+      state = state.copyWith(loading: false, loadFailed: true);
     }
   }
 
   void _onPurchases(List<PremiumStorePurchaseUpdate> purchases) {
+    final Completer<List<PremiumStorePurchaseUpdate>>? batch = _restoreBatch;
+    if (batch != null &&
+        !batch.isCompleted &&
+        purchases.every(
+          (PremiumStorePurchaseUpdate purchase) =>
+              purchase.status == PremiumStorePurchaseStatus.restored,
+        )) {
+      batch.complete(purchases);
+      return;
+    }
     for (final PremiumStorePurchaseUpdate purchase in purchases) {
       if (!state.productIds.contains(purchase.productId)) {
         continue;
       }
       switch (purchase.status) {
         case PremiumStorePurchaseStatus.pending:
-          break;
+          state = state.copyWith(purchasingPlan: null, approvalPending: true);
         case PremiumStorePurchaseStatus.canceled:
           state = state.copyWith(purchasingPlan: null);
         case PremiumStorePurchaseStatus.error:
           state = state.copyWith(purchasingPlan: null);
-          _bumpError();
+          _bumpError(PremiumStoreError.checkout);
         case PremiumStorePurchaseStatus.purchased:
         case PremiumStorePurchaseStatus.restored:
           unawaited(_finish(purchase));
@@ -284,61 +388,101 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     }
   }
 
-  Future<void> _finish(PremiumStorePurchaseUpdate purchase) async {
+  Future<_AppStoreClaim> _finish(
+    PremiumStorePurchaseUpdate purchase, {
+    bool claimAgain = false,
+  }) async {
     final String? purchaseId = purchase.purchaseId;
-    if (purchaseId != null && !_finishedPurchaseIds.add(purchaseId)) {
-      if (purchase.pendingCompletePurchase &&
-          state.billingStore != PremiumBillingStore.appStore) {
-        await _complete(purchase);
-      }
-      return;
+    final Future<_AppStoreClaim>? previous = purchaseId == null
+        ? null
+        : _claims[purchaseId];
+    if (previous != null && !claimAgain) {
+      return _replay(purchase, await previous);
     }
-    state = state.copyWith(purchasingPlan: null, purchasePending: true);
+    final Future<_AppStoreClaim> settled = _settle(purchase);
+    if (purchaseId != null) {
+      _claims[purchaseId] = settled;
+    }
+    final _AppStoreClaim claim = await settled;
+    if (claim == _AppStoreClaim.retryLater &&
+        purchaseId != null &&
+        identical(_claims[purchaseId], settled)) {
+      unawaited(_claims.remove(purchaseId));
+    }
+    return claim;
+  }
+
+  Future<_AppStoreClaim> _replay(
+    PremiumStorePurchaseUpdate purchase,
+    _AppStoreClaim claim,
+  ) async {
+    if (purchase.pendingCompletePurchase &&
+        state.billingStore != PremiumBillingStore.appStore) {
+      await _complete(purchase);
+    }
+    return claim;
+  }
+
+  Future<_AppStoreClaim> _settle(PremiumStorePurchaseUpdate purchase) async {
+    state = state.copyWith(
+      purchasingPlan: null,
+      purchasePending: true,
+      approvalPending: false,
+    );
     final _AppStoreClaim claim = await _claimAppStore(purchase);
     if (!ref.mounted) {
-      return;
+      return claim;
     }
     switch (claim) {
       case _AppStoreClaim.claimed:
+        state = state.copyWith(ownedByOtherAccount: false);
         await _complete(purchase);
+      case _AppStoreClaim.ownedByOtherAccount:
+        await _complete(purchase);
+        if (ref.mounted) {
+          state = state.copyWith(
+            purchasePending: false,
+            ownedByOtherAccount: true,
+          );
+        }
+        return claim;
       case _AppStoreClaim.rejected:
         await _complete(purchase);
         if (!ref.mounted) {
-          return;
+          return claim;
         }
         state = state.copyWith(purchasePending: false);
         if (purchase.status == PremiumStorePurchaseStatus.purchased) {
-          _bumpError();
+          _bumpError(PremiumStoreError.claimFailed);
         }
-        return;
+        return claim;
       case _AppStoreClaim.retryLater:
-        if (purchaseId != null) {
-          _finishedPurchaseIds.remove(purchaseId);
-        }
+        break;
     }
     await _refreshEntitlements();
     if (!ref.mounted) {
-      return;
+      return claim;
     }
     if (ref
         .read(currentUserEntitlementsProvider(readAccountUserId(ref)))
         .isEffectivelyPremium) {
       state = state.copyWith(purchasePending: false);
-      return;
+      return claim;
     }
     await Future<void>.delayed(const Duration(seconds: 2));
     if (!ref.mounted) {
-      return;
+      return claim;
     }
     await _refreshEntitlements();
     if (!ref.mounted) {
-      return;
+      return claim;
     }
     if (ref
         .read(currentUserEntitlementsProvider(readAccountUserId(ref)))
         .isEffectivelyPremium) {
       state = state.copyWith(purchasePending: false);
     }
+    return claim;
   }
 
   Future<_AppStoreClaim> _claimAppStore(
@@ -364,6 +508,11 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     } on DioException catch (error) {
       final int? status = error.response?.statusCode;
       if (status == 400 || status == 403) {
+        final Object? data = error.response?.data;
+        if (data is Map &&
+            data['code'] == 'STORE_PURCHASE_OWNED_BY_OTHER_ACCOUNT') {
+          return _AppStoreClaim.ownedByOtherAccount;
+        }
         return _AppStoreClaim.rejected;
       }
       return _AppStoreClaim.retryLater;
@@ -379,7 +528,7 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     try {
       await ref.read(premiumStorePurchaseClientProvider).complete(purchase);
     } on Object {
-      _bumpError();
+      _bumpError(PremiumStoreError.checkout);
     }
   }
 
@@ -394,10 +543,13 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     }
   }
 
-  void _bumpError() {
+  void _bumpError(PremiumStoreError error) {
     if (!ref.mounted) {
       return;
     }
-    state = state.copyWith(errorSerial: state.errorSerial + 1);
+    state = state.copyWith(
+      lastError: error,
+      errorSerial: state.errorSerial + 1,
+    );
   }
 }

@@ -81,9 +81,17 @@ void main() {
   });
 
   test('matches heart with and without variation selector', () {
-    final regex = EmojiRegistry.unicodeEmojiRegexSync;
-    expect(regex, isNotNull);
-    expect(regex!.hasMatch('❤️'), isTrue);
-    expect(regex.hasMatch('❤'), isTrue);
+    final UnicodeEmojiMatcher matcher = EmojiRegistry.unicodeEmojiMatcherSync!;
+    expect(matcher.matches('❤️'), [(start: 0, end: 2)]);
+    expect(matcher.matches('❤'), [(start: 0, end: 1)]);
+  });
+
+  test('takes the longest sequence at each position', () {
+    final UnicodeEmojiMatcher matcher = EmojiRegistry.unicodeEmojiMatcherSync!;
+    const String text = 'a 👍🏽 b 👨‍👩‍👧 😶‍🌫';
+    expect(
+      matcher.matches(text).map((m) => text.substring(m.start, m.end)).toList(),
+      ['👍🏽', '👨‍👩‍👧', '😶‍🌫'],
+    );
   });
 }

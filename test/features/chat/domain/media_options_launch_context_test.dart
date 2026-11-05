@@ -88,7 +88,7 @@ void main() {
         expect(context.downloadFilename, _testAttachmentImageFilename);
       });
 
-      test('downloads an embed video from its direct media URL', () {
+      test('does not download a third-party embed video', () {
         const ChatFullscreenVideoLaunchContext
         videoContext = ChatFullscreenVideoLaunchContext(
           source: ChatVideoSource(
@@ -99,37 +99,6 @@ void main() {
           embedIndex: 0,
         );
 
-        final MediaOptionsLaunchContext context =
-            MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
-
-        expect(
-          context.downloadUrl,
-          'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
-        );
-        expect(context.downloadFilename, isNull);
-      });
-
-      test('does not download a YouTube embed', () {
-        const Embed embed = Embed(
-          type: EmbedType.video,
-          url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-          providerUrl: 'https://www.youtube.com',
-          video: EmbedMedia(
-            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            proxyUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            width: 1280,
-            height: 720,
-          ),
-          thumbnail: EmbedMedia(
-            url: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-            proxyUrl:
-                'https://fluxerusercontent.com/external/sig/https/i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-          ),
-        );
-        final ChatFullscreenVideoLaunchContext videoContext =
-            ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(embed: embed);
-
-        expect(videoContext.isYouTubeEmbed, isTrue);
         final MediaOptionsLaunchContext context =
             MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
 

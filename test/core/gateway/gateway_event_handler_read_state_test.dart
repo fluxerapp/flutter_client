@@ -179,7 +179,6 @@ ReadyEvent _readyEvent({
 }) => ReadyEvent(
   sessionId: 'session-1',
   user: _privateUser(userId),
-  guilds: const [],
   rawGuilds: const [],
   privateChannels: const [],
   relationships: const [],
@@ -269,7 +268,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-1',
         user: _privateUser('me'),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
@@ -450,6 +448,47 @@ void main() {
     expect(readState?.lastMessageId, messageId);
     expect(readState?.mentionCount, 0);
     expect(readState?.manual, isFalse);
+  });
+
+  test('own created messages persist the batched ack', () async {
+    final db = openTestDatabase();
+    final String readId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String ownId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(readId),
+      ),
+    );
+    final ReadStateWriteBatcher writeBatcher = ReadStateWriteBatcher(
+      database: db,
+    );
+    addTearDown(writeBatcher.clearAll);
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      readStateWriteBatcher: writeBatcher,
+    );
+
+    await handler.handle(
+      MessageCreateEvent(
+        message: _message(id: ownId, channelId: 'channel-1', authorId: 'me'),
+      ),
+    );
+
+    final ReadState? readState = await db.readStateDao.getReadState(
+      'channel-1',
+    );
+    expect(readState?.lastMessageId, ownId);
+    expect(readState?.mentionCount, 0);
+    expect(writeBatcher.hasOverlay('channel-1'), isFalse);
   });
 
   test('an auto-acked incoming message is acked on the server', () async {
@@ -1972,7 +2011,7 @@ void main() {
       );
       expect(
         (await db.readStateDao.getReadState('channel-1'))?.lastMessageId,
-        olderId,
+        ownId,
       );
     },
   );

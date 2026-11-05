@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -23,6 +24,16 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
             ..where((m) => m.userId.equals(userId) & m.guildId.equals(guildId)))
           .watchSingleOrNull()
           .suppressDriftCancellation;
+
+  Future<List<Member>> getMembersForUserInGuilds(
+    String userId,
+    List<String> guildIds,
+  ) => (select(
+    members,
+  )..where((m) => m.userId.equals(userId) & m.guildId.isIn(guildIds))).get();
+
+  Future<List<Member>> getMembersForUser(String userId) =>
+      (select(members)..where((m) => m.userId.equals(userId))).get();
 
   Stream<List<Member>> watchMembersForUser(String userId) => (select(
     members,
@@ -85,11 +96,9 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     if (memberList.isEmpty) {
       return;
     }
-    await batch((b) {
-      for (final MembersCompanion member in memberList) {
-        b.insert(members, member, onConflict: DoUpdate((_) => member));
-      }
-    });
+    await batch(
+      (Batch b) => batchUpsert(b, attachedDatabase, members, memberList),
+    );
     final List<({String guildId, String userId})> accessPairs =
         <({String guildId, String userId})>[
           for (final MembersCompanion member in memberList)
@@ -97,6 +106,43 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
               (guildId: member.guildId.value, userId: member.userId.value),
         ];
     await touchMemberAccessPairs(accessPairs);
+  }
+
+  Future<void> upsertGuildMembersIfChanged(
+    String guildId,
+    Iterable<MembersCompanion> memberList,
+  ) async {
+    final Map<String, MembersCompanion> latestByUserId =
+        <String, MembersCompanion>{
+          for (final MembersCompanion member in memberList)
+            if (member.userId.present) member.userId.value: member,
+        };
+    if (latestByUserId.isEmpty) {
+      return;
+    }
+    final List<String> userIds = latestByUserId.keys.toList();
+    final Map<String, Member> stored = <String, Member>{};
+    for (var i = 0; i < userIds.length; i += _userIdLookupChunkSize) {
+      final int end = i + _userIdLookupChunkSize < userIds.length
+          ? i + _userIdLookupChunkSize
+          : userIds.length;
+      for (final Member row in await getMembersByUserIds(
+        guildId,
+        userIds.sublist(i, end),
+      )) {
+        stored[row.userId] = row;
+      }
+    }
+    await upsertMembers(<MembersCompanion>[
+      for (final MapEntry<String, MembersCompanion> entry
+          in latestByUserId.entries)
+        if (rowDiffersFromStored(
+          attachedDatabase,
+          entry.value,
+          stored[entry.key],
+        ))
+          entry.value,
+    ]);
   }
 
   Future<void> touchMemberAccessPairs(
@@ -117,21 +163,21 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
       return;
     }
     final DateTime now = DateTime.now().toUtc();
-    await batch((Batch b) {
-      for (final ({String guildId, String userId}) pair in pairs) {
-        final MemberCacheAccessCompanion companion =
+    await batch(
+      (Batch b) => batchUpsert(
+        b,
+        attachedDatabase,
+        memberCacheAccess,
+        <MemberCacheAccessCompanion>[
+          for (final ({String guildId, String userId}) pair in pairs)
             MemberCacheAccessCompanion.insert(
               userId: pair.userId,
               guildId: pair.guildId,
               lastAccessedAt: now,
-            );
-        b.insert(
-          memberCacheAccess,
-          companion,
-          onConflict: DoUpdate((_) => companion),
-        );
-      }
-    });
+            ),
+        ],
+      ),
+    );
   }
 
   Future<void> evictStaleMembers({
@@ -238,3 +284,5 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     await delete(members).go();
   }
 }
+
+const int _userIdLookupChunkSize = 500;

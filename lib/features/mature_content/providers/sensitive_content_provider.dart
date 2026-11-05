@@ -1,21 +1,20 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'dart:io';
-
-import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/age/declared_age_range_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_platform_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_geo_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,146 +25,87 @@ const int _friendRelationshipType = 1;
 class SensitiveContentState {
   const SensitiveContentState({
     this.isLoading = true,
-    this.nsfwAllowed = true,
-    this.friendDmFilter = ClientSensitiveMediaFilterLevel.show,
-    this.nonFriendDmFilter = ClientSensitiveMediaFilterLevel.show,
-    this.guildFilter = ClientSensitiveMediaFilterLevel.show,
+    this.access = MatureAccess.minor,
+    this.showLocked = true,
+    this.appStorePolicy = false,
+    this.inAppConsentAllowed = true,
+    this.friendDmFilter = ClientSensitiveMediaFilterLevel.blur,
+    this.nonFriendDmFilter = ClientSensitiveMediaFilterLevel.block,
+    this.guildFilter = ClientSensitiveMediaFilterLevel.blur,
   });
 
   final bool isLoading;
-  final bool nsfwAllowed;
+  final MatureAccess access;
+  final bool showLocked;
+  final bool appStorePolicy;
+  final bool inAppConsentAllowed;
   final ClientSensitiveMediaFilterLevel friendDmFilter;
   final ClientSensitiveMediaFilterLevel nonFriendDmFilter;
   final ClientSensitiveMediaFilterLevel guildFilter;
-
-  SensitiveContentState copyWith({
-    bool? isLoading,
-    bool? nsfwAllowed,
-    ClientSensitiveMediaFilterLevel? friendDmFilter,
-    ClientSensitiveMediaFilterLevel? nonFriendDmFilter,
-    ClientSensitiveMediaFilterLevel? guildFilter,
-  }) {
-    return SensitiveContentState(
-      isLoading: isLoading ?? this.isLoading,
-      nsfwAllowed: nsfwAllowed ?? this.nsfwAllowed,
-      friendDmFilter: friendDmFilter ?? this.friendDmFilter,
-      nonFriendDmFilter: nonFriendDmFilter ?? this.nonFriendDmFilter,
-      guildFilter: guildFilter ?? this.guildFilter,
-    );
-  }
-}
-
-SensitiveContentState _stateFromSettings({
-  required UserSettingsResponse settings,
-  required bool nsfwAllowed,
-}) {
-  return SensitiveContentState(
-    isLoading: false,
-    nsfwAllowed: nsfwAllowed,
-    friendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
-      settings.sensitiveContentFriendDmFilter.json ?? 0,
-    ),
-    nonFriendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
-      settings.sensitiveContentNonFriendDmFilter.json ?? 0,
-    ),
-    guildFilter: ClientSensitiveMediaFilterLevel.fromInt(
-      settings.sensitiveContentGuildFilter.json ?? 0,
-    ),
-  );
 }
 
 @Riverpod(keepAlive: true)
 class SensitiveContent extends _$SensitiveContent {
-  bool? _nsfwAllowedOverride;
-
   @override
   SensitiveContentState build() {
-    ref.watch(currentUserIdProvider);
-    _nsfwAllowedOverride = null;
-    ref.listen<UserSettingsResponse?>(userSettingsStatusProvider, (
-      UserSettingsResponse? previous,
-      UserSettingsResponse? next,
-    ) {
-      if (next == null) {
-        return;
-      }
-      unawaited(
-        Future.microtask(() {
-          if (!ref.mounted) {
-            return;
-          }
-          state = _stateFromSettings(
-            settings: next,
-            nsfwAllowed: _nsfwAllowedOverride ?? state.nsfwAllowed,
+    final String? userId = ref.watch(currentUserIdProvider);
+    final UserSettingsResponse? settings = ref.watch(
+      userSettingsStatusProvider,
+    );
+    final String? accountUserId = accountUserIdOrNull(ref, watch: true);
+    final UserPrivateResponse? user = accountUserId == null
+        ? null
+        : ref.watch(currentUserPrivateReadProvider(accountUserId));
+    final MatureGeoStatus geo =
+        ref.watch(matureGeoStatusProvider).value ?? MatureGeoStatus.none;
+    final DeclaredAgeFloor floor =
+        ref.watch(declaredAgeFloorProvider).value ?? DeclaredAgeFloor.none;
+    final bool appStorePolicy = ref.watch(matureContentAppStorePolicyProvider);
+    final bool serverAllowsMature = user?.nsfwAllowed ?? false;
+    final bool deviceDeclaredMinor = floor != DeclaredAgeFloor.none;
+    final bool iosOptIn = settings?.allowMatureContentOnIos ?? false;
+    final MatureAccess access = user == null
+        ? MatureAccess.minor
+        : resolveMatureAccess(
+            serverAllowsMature: serverAllowsMature,
+            deviceDeclaredMinor: deviceDeclaredMinor,
+            geo: geo,
+            ageVerifiedAdult: user.ageVerifiedAdult ?? false,
+            appStorePolicy: appStorePolicy,
+            iosOptIn: iosOptIn,
           );
-        }),
+    final bool inAppConsentAllowed = !appStorePolicy || iosOptIn;
+    final bool showLocked = resolveInAppShowLocked(
+      appStorePolicy: appStorePolicy,
+      serverAllowsMature: serverAllowsMature,
+      deviceDeclaredMinor: deviceDeclaredMinor,
+      iosOptIn: iosOptIn,
+    );
+    if (settings == null) {
+      return SensitiveContentState(
+        isLoading: userId != null,
+        access: access,
+        showLocked: showLocked,
+        appStorePolicy: appStorePolicy,
+        inAppConsentAllowed: inAppConsentAllowed,
       );
-    });
-    return const SensitiveContentState();
-  }
-
-  Future<void> hydrateFromLocal({UserPrivateResponse? validatedUser}) async {
-    final String? userId = ref.read(currentUserIdProvider);
-    if (userId == null || userId.isEmpty) {
-      state = state.copyWith(isLoading: false);
-      return;
     }
-    if (validatedUser != null) {
-      _nsfwAllowedOverride = validatedUser.nsfwAllowed;
-    }
-    final bool nsfwAllowed = _nsfwAllowedOverride ?? true;
-    try {
-      final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-      final db.UserSettingsTableData? row = await database.userSettingsDao
-          .getSettings(userId);
-      if (row == null) {
-        state = SensitiveContentState(
-          isLoading: false,
-          nsfwAllowed: nsfwAllowed,
-        );
-        return;
-      }
-      final Object? decoded = jsonDecode(row.data);
-      if (decoded is! Map<String, dynamic>) {
-        state = SensitiveContentState(
-          isLoading: false,
-          nsfwAllowed: nsfwAllowed,
-        );
-        return;
-      }
-      state = _stateFromSettings(
-        settings: UserSettingsResponse.fromJson(decoded),
-        nsfwAllowed: nsfwAllowed,
-      );
-    } on Object catch (error, stackTrace) {
-      talker.error(
-        'Failed to hydrate sensitive content settings',
-        error,
-        stackTrace,
-      );
-      state = state.copyWith(isLoading: false, nsfwAllowed: nsfwAllowed);
-    }
-  }
-
-  Future<void> load() async {
-    try {
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      final UserSettingsResponse settings = await client.users
-          .getCurrentUserSettings();
-      final UserPrivateResponse user = await client.users.getCurrentUser();
-      _nsfwAllowedOverride = user.nsfwAllowed;
-      state = _stateFromSettings(
-        settings: settings,
-        nsfwAllowed: user.nsfwAllowed,
-      );
-    } on Object catch (error, stackTrace) {
-      talker.error(
-        'Failed to load sensitive content settings',
-        error,
-        stackTrace,
-      );
-      state = state.copyWith(isLoading: false);
-    }
+    return SensitiveContentState(
+      isLoading: false,
+      access: access,
+      showLocked: showLocked,
+      appStorePolicy: appStorePolicy,
+      inAppConsentAllowed: inAppConsentAllowed,
+      friendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
+        settings.sensitiveContentFriendDmFilter.json ?? 0,
+      ),
+      nonFriendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
+        settings.sensitiveContentNonFriendDmFilter.json ?? 0,
+      ),
+      guildFilter: ClientSensitiveMediaFilterLevel.fromInt(
+        settings.sensitiveContentGuildFilter.json ?? 0,
+      ),
+    );
   }
 }
 
@@ -175,6 +115,22 @@ Future<ClientSensitiveMediaFilterLevel> sensitiveMediaFilterForChannel(
   String channelId,
 ) async {
   final SensitiveContentState settings = ref.watch(sensitiveContentProvider);
+  final ClientSensitiveMediaFilterLevel level = await _filterLevelForChannel(
+    ref,
+    settings,
+    channelId,
+  );
+  if (settings.showLocked && level == ClientSensitiveMediaFilterLevel.show) {
+    return ClientSensitiveMediaFilterLevel.blur;
+  }
+  return level;
+}
+
+Future<ClientSensitiveMediaFilterLevel> _filterLevelForChannel(
+  Ref ref,
+  SensitiveContentState settings,
+  String channelId,
+) async {
   ref.watch(friendsListProvider);
   if (settings.isLoading) {
     return ClientSensitiveMediaFilterLevel.blur;
@@ -214,7 +170,7 @@ Future<ClientSensitiveMediaFilterLevel> sensitiveMediaFilterForChannel(
       guild: guild,
       parentCategory: parentCategory,
     )) {
-      if (Platform.isIOS) {
+      if (settings.appStorePolicy) {
         return settings.guildFilter;
       }
       return ClientSensitiveMediaFilterLevel.show;

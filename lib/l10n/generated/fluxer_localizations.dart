@@ -251,11 +251,47 @@ abstract class FluxerLocalizations {
   /// **'Connected'**
   String get gatewayConnectedToast;
 
+  /// Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Fluxer reconnects when you\'re back online.'**
+  String get gatewayOfflineToast;
+
   /// Toast shown when the stored session is rejected by the server and the user is signed out to the login screen.
   ///
   /// In en, this message translates to:
   /// **'Your session has expired. Please sign in again.'**
   String get sessionExpiredToast;
+
+  /// Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted on {date}. Signing in before then cancels the deletion.'**
+  String accountDeletionScheduledNotice(String date);
+
+  /// Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is scheduled for deletion. Signing in before the deletion date cancels it.'**
+  String get accountDeletionScheduledNoticeNoDate;
+
+  /// Notice on the sign-in screen after the person chose "Delete now" for their account.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re deleting your account now. If your account has an email address, we\'ll email you when it\'s done.'**
+  String get accountDeletionImmediateNotice;
+
+  /// Notice on the sign-in screen after the person chose "Delete now" for their account, on an instance that does not send email.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re deleting your account now.'**
+  String get accountDeletionImmediateNoticeNoEmail;
+
+  /// Notice on the sign-in screen after the person disabled their account.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is disabled. Sign in again whenever you want to use it.'**
+  String get accountDisabledNotice;
 
   /// Error message on the splash screen when app startup fails.
   ///
@@ -341,6 +377,24 @@ abstract class FluxerLocalizations {
   /// **'Hey {displayName}, please verify your email address.'**
   String nagbarEmailVerificationMessage(String displayName);
 
+  /// Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and "Security & login".
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get verificationResendEmail;
+
+  /// Toast after the verification email was sent again.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent. Check your inbox.'**
+  String get verificationEmailSent;
+
+  /// Toast when the verification email was resent too often.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve requested too many verification emails. Please wait a moment and try again.'**
+  String get verificationEmailRateLimited;
+
   /// Nagbar CTA that opens user settings.
   ///
   /// In en, this message translates to:
@@ -389,11 +443,23 @@ abstract class FluxerLocalizations {
   /// **'Your subscription failed to renew, but you still have access to {productName} perks until {graceDate}. Take action now or you\'ll lose all perks.'**
   String nagbarPremiumGracePeriod(String productName, String graceDate);
 
+  /// Premium grace period nagbar body when the subscription can't be managed in this app, so the bar has no button.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {productName} subscription failed to renew. You keep your {productName} perks until {graceDate}.'**
+  String nagbarPremiumGracePeriodNoAction(String productName, String graceDate);
+
   /// Premium expired nagbar body.
   ///
   /// In en, this message translates to:
   /// **'Your {productName} subscription has expired. Renew now to keep your perks.'**
   String nagbarPremiumExpired(String productName);
+
+  /// Premium expired nagbar body when the bar has no button.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {productName} subscription has expired.'**
+  String nagbarPremiumExpiredNoAction(String productName);
 
   /// Nagbar CTA that opens the billing portal.
   ///
@@ -445,18 +511,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Enable 2FA'**
   String get nagbarEnableMfa;
-
-  /// Terms acceptance nagbar body.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'ve updated our terms. Please review and accept them to continue.'**
-  String get nagbarTermsAcceptance;
-
-  /// Terms acceptance nagbar CTA.
-  ///
-  /// In en, this message translates to:
-  /// **'Review terms'**
-  String get nagbarReviewTerms;
 
   /// Official community membership nagbar body.
   ///
@@ -523,6 +577,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Log in with a passkey'**
   String get logInWithPasskey;
+
+  /// Sentence under the sign-in button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
+  ///
+  /// In en, this message translates to:
+  /// **'{links, select, both{By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By signing in, you agree to the <terms>Terms of service</terms>.} other{By signing in, you agree to the <privacy>Privacy policy</privacy>.}}'**
+  String loginLegalAgreement(String links);
 
   /// Button label that starts single sign-on.
   ///
@@ -692,11 +752,29 @@ abstract class FluxerLocalizations {
   /// **'Try another method'**
   String get mfaTryAnotherMethod;
 
+  /// Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method.
+  ///
+  /// In en, this message translates to:
+  /// **'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in on the web instead.'**
+  String get mfaPasskeyUnavailable;
+
   /// Link to switch to WebAuthn from code entry.
   ///
   /// In en, this message translates to:
   /// **'Try security key / passkey instead'**
   String get mfaUseSecurityKey;
+
+  /// Link under the two-factor code field that switches the keyboard so a backup code with letters can be typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a backup code'**
+  String get mfaUseBackupCode;
+
+  /// Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a code from your authenticator app'**
+  String get mfaUseAuthenticatorCode;
 
   /// Title for the account selector on the login screen.
   ///
@@ -734,11 +812,11 @@ abstract class FluxerLocalizations {
   /// **'Expired'**
   String get accountExpired;
 
-  /// Message when selecting an expired account.
+  /// Notice above the sign-in form when a saved account's session expired. {name} is the account's username.
   ///
   /// In en, this message translates to:
-  /// **'Session expired for {identifier}. Please log in again.'**
-  String accountSessionExpired(String identifier);
+  /// **'Your session for {name} expired. Log in again.'**
+  String accountSessionExpiredNotice(String name);
 
   /// Title for the in-app account switcher sheet.
   ///
@@ -938,137 +1016,101 @@ abstract class FluxerLocalizations {
   /// **'Sign out'**
   String get signOut;
 
-  /// Title when account is permanently banned.
-  ///
-  /// In en, this message translates to:
-  /// **'Account permanently suspended'**
-  String get suspendedPermanentTitle;
-
   /// Title when account is temporarily suspended.
   ///
   /// In en, this message translates to:
   /// **'Account suspended'**
   String get suspendedTemporaryTitle;
 
-  /// Description for permanent suspension.
+  /// Title of the sign-in screen for an account suspended with no end date.
   ///
   /// In en, this message translates to:
-  /// **'Your account has been permanently suspended for violating our terms of service.'**
-  String get suspendedPermanentDescription;
+  /// **'Account banned'**
+  String get suspendedBannedTitle;
 
-  /// Description for temporary suspension.
+  /// Title of the sign-in screen for an account that is closed and will be deleted.
   ///
   /// In en, this message translates to:
-  /// **'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.'**
-  String get suspendedTemporaryDescription;
+  /// **'Account closed'**
+  String get suspendedClosedTitle;
 
-  /// Label for when the ban was issued.
+  /// Heading on the account restriction screen above what the team did and what it means.
   ///
   /// In en, this message translates to:
-  /// **'Issued'**
-  String get suspendedIssuedAt;
+  /// **'What happened'**
+  String get suspendedWhatHappened;
 
-  /// Label for when a temporary ban ends.
+  /// Heading on the account restriction screen above the rule that was broken and the findings.
   ///
   /// In en, this message translates to:
-  /// **'Ends'**
-  String get suspendedEndsAt;
+  /// **'Why'**
+  String get suspendedWhy;
 
-  /// Label for ban duration.
+  /// Heading on the account restriction screen above how the case came to the team and who decided it.
   ///
   /// In en, this message translates to:
-  /// **'Duration'**
-  String get suspendedDuration;
+  /// **'How we decided'**
+  String get suspendedHowWeDecided;
 
-  /// Value shown for permanent ban duration.
+  /// Heading on the account restriction screen above the appeal instructions.
   ///
   /// In en, this message translates to:
-  /// **'Permanent'**
-  String get suspendedPermanent;
+  /// **'How to appeal'**
+  String get suspendedHowToAppeal;
 
-  /// Label for ban reason.
+  /// Line on the account restriction screen with a note the team wrote to the account holder.
   ///
   /// In en, this message translates to:
-  /// **'Reason'**
-  String get suspendedReason;
+  /// **'Note from our team: {statement}'**
+  String suspendedNoteFromTeam(String statement);
 
-  /// Label for appeal deadline date.
+  /// Reference line on the account restriction screen. People quote this ID when they appeal.
   ///
   /// In en, this message translates to:
-  /// **'Appeal deadline'**
-  String get suspendedAppealDeadline;
+  /// **'Decision ID: {decisionId}'**
+  String suspendedDecisionId(String decisionId);
 
-  /// Warning about scheduled account deletion.
+  /// Shows the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.
   ///
   /// In en, this message translates to:
-  /// **'Your account is scheduled for deletion on {date}.'**
-  String suspendedDeletionWarning(String date);
+  /// **'Rule: {title}'**
+  String suspendedRule(String title);
 
-  /// Button to recheck ban status.
+  /// Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.
   ///
   /// In en, this message translates to:
-  /// **'Check for updates'**
-  String get suspendedRecheck;
+  /// **'If you think we got this wrong, email {email} and include your username.'**
+  String suspendedAppealNoDeadline(String email);
 
-  /// Recheck button with cooldown timer.
+  /// Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.
   ///
   /// In en, this message translates to:
-  /// **'Check again in {seconds}s'**
-  String suspendedRecheckCooldown(int seconds);
+  /// **'If you think we got this wrong, email {email} by {deadline}. Include the decision ID and your username. Appeals are free, and a person reviews each one.'**
+  String suspendedAppealNoEmail(String email, String deadline);
+
+  /// Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.
+  ///
+  /// In en, this message translates to:
+  /// **'If you think we got this wrong, email {email} by {deadline}. Write from the email address on your account if you can, and include the decision ID. Appeals are free, and a person reviews each one.'**
+  String suspendedAppealWithEmail(String email, String deadline);
+
+  /// Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To ask us to delete your account and data, email {email} from the address on your account.'**
+  String suspendedDeletionRequest(String email);
+
+  /// Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To ask us to delete your account and data, email {email} and include your username.'**
+  String suspendedDeletionRequestNoEmail(String email);
 
   /// Button to return to login screen.
   ///
   /// In en, this message translates to:
   /// **'Back to login'**
   String get suspendedBackToLogin;
-
-  /// Title for the appeal section.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal'**
-  String get suspendedAppealTitle;
-
-  /// Placeholder text for the appeal textarea.
-  ///
-  /// In en, this message translates to:
-  /// **'Explain why your suspension should be reconsidered (minimum 50 characters)...'**
-  String get suspendedAppealHint;
-
-  /// Button to submit an appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Submit appeal'**
-  String get suspendedAppealSubmit;
-
-  /// Badge for appeal with pending status.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending review'**
-  String get suspendedAppealPending;
-
-  /// Badge for accepted appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal accepted'**
-  String get suspendedAppealAccepted;
-
-  /// Badge for rejected appeal.
-  ///
-  /// In en, this message translates to:
-  /// **'Appeal rejected'**
-  String get suspendedAppealRejected;
-
-  /// Message when appeal is accepted.
-  ///
-  /// In en, this message translates to:
-  /// **'Your appeal has been accepted and your account has been reinstated.'**
-  String get suspendedAppealAcceptedDescription;
-
-  /// Button to sign in after appeal is accepted.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to your account'**
-  String get suspendedSignIn;
 
   /// Title for the forgot password screen.
   ///
@@ -1460,6 +1502,18 @@ abstract class FluxerLocalizations {
   /// **'Date of birth'**
   String get registerDateOfBirth;
 
+  /// Button that closes the date of birth wheel on iPhone and iPad.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get registerDateOfBirthDone;
+
+  /// VoiceOver value of the date of birth field before a date is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get registerDateOfBirthNotSet;
+
   /// Placeholder for the month select.
   ///
   /// In en, this message translates to:
@@ -1478,29 +1532,17 @@ abstract class FluxerLocalizations {
   /// **'Year'**
   String get registerYear;
 
-  /// Text before the Terms of Service link in the consent checkbox.
+  /// Sign-up consent checkbox text. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'I agree to the '**
-  String get registerConsentPrefix;
+  /// **'{links, select, both{I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{I agree to the <terms>Terms of service</terms>} other{I agree to the <privacy>Privacy policy</privacy>}}'**
+  String registerConsentLinks(String links);
 
-  /// Terms of Service link text in the consent checkbox.
+  /// Sign-up consent checkbox text on an instance that has no terms or privacy policy links.
   ///
   /// In en, this message translates to:
-  /// **'Terms of service'**
-  String get registerConsentTerms;
-
-  /// Conjunction between Terms and Privacy links.
-  ///
-  /// In en, this message translates to:
-  /// **' and '**
-  String get registerConsentAnd;
-
-  /// Privacy Policy link text in the consent checkbox.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy policy'**
-  String get registerConsentPrivacy;
+  /// **'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.'**
+  String get registerConsentBuiltInRules;
 
   /// Label for the confirm password field on the register screen.
   ///
@@ -1537,6 +1579,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'No passkeys found for this app. Log in with email and password instead.'**
   String get passkeyNoCredentials;
+
+  /// Error on the two-factor step when the account needs a passkey and none for it is available on this device.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no passkey for this account. Use the device or password manager where you saved it.'**
+  String get passkeyNoCredentialsForAccount;
 
   /// Error when device does not support passkeys.
   ///
@@ -1625,8 +1673,8 @@ abstract class FluxerLocalizations {
   /// Total member count on the invite embed card.
   ///
   /// In en, this message translates to:
-  /// **'{count} Members'**
-  String embedInviteMembers(String count);
+  /// **'{count, plural, one{{formattedCount} Member} other{{formattedCount} Members}}'**
+  String embedInviteMembers(int count, String formattedCount);
 
   /// Title when an invite is expired or invalid.
   ///
@@ -1796,17 +1844,11 @@ abstract class FluxerLocalizations {
   /// **'Shared theme'**
   String get embedThemeTitle;
 
-  /// Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client.
+  /// Subtitle on a shared theme link card. Themes can only be imported on web or desktop.
   ///
   /// In en, this message translates to:
   /// **'You can only import themes on web or desktop.'**
   String get embedThemeWebOnly;
-
-  /// Disabled button on a shared theme link embed. Themes can only be imported on web or desktop.
-  ///
-  /// In en, this message translates to:
-  /// **'Import theme'**
-  String get embedThemeImport;
 
   /// Gift duration title for a lifetime Visionary entitlement.
   ///
@@ -1909,6 +1951,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This gift has already been claimed.'**
   String get giftAcceptAlreadyClaimed;
+
+  /// Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there.
+  ///
+  /// In en, this message translates to:
+  /// **'This gift can\'t be claimed in the iOS app. You can claim it in the desktop app.'**
+  String get giftAcceptLifetimeNotInApp;
 
   /// Secondary dismiss button on the gift accept modal.
   ///
@@ -3044,6 +3092,60 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{1 community} other{{count} communities}}'**
   String emojiPlutoniumUpsellCommunity(int count);
 
+  /// Placeholder of the search field in the sticker picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the perfect sticker'**
+  String get stickerPickerSearchHint;
+
+  /// Title shown in the sticker picker when none of the user's communities have stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers available'**
+  String get stickerPickerEmptyNoCommunitiesTitle;
+
+  /// Body shown in the sticker picker when none of the user's communities have stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a community with stickers to use them here.'**
+  String get stickerPickerEmptyNoCommunitiesBody;
+
+  /// Title shown in the sticker picker when no stickers can be used in the current conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers available'**
+  String get stickerPickerEmptyHereTitle;
+
+  /// Body shown in the sticker picker when no stickers can be used in the current conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers are available in this conversation.'**
+  String get stickerPickerEmptyHereBody;
+
+  /// Title shown in the sticker picker when the search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No stickers found'**
+  String get stickerPickerNoResultsTitle;
+
+  /// Body shown in the sticker picker when the search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term.'**
+  String get stickerPickerNoResultsBody;
+
+  /// Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {stickerCount} from {communityCount} with Plutonium.'**
+  String stickerPlutoniumUpsellText(String stickerCount, String communityCount);
+
+  /// Sticker count label in the sticker picker upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 sticker} other{{count} stickers}}'**
+  String stickerPlutoniumUpsellStickerCount(int count);
+
   /// Title of the external link warning modal.
   ///
   /// In en, this message translates to:
@@ -3650,174 +3752,6 @@ abstract class FluxerLocalizations {
   /// **'Hide how many Operator Passes you have'**
   String get operatorPassHideCount;
 
-  /// Heading for Operators' wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Operators\' wall'**
-  String get operatorPassWallTitle;
-
-  /// Link to Operator Pass wall help.
-  ///
-  /// In en, this message translates to:
-  /// **'How the wall works'**
-  String get operatorPassWallHowItWorks;
-
-  /// Status when not on the Operators' wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Not listed.'**
-  String get operatorPassWallNotListed;
-
-  /// Label for the live wall entry.
-  ///
-  /// In en, this message translates to:
-  /// **'On the wall'**
-  String get operatorPassWallOnTheWall;
-
-  /// Label for a pending wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'In review'**
-  String get operatorPassWallInReview;
-
-  /// Review due date label.
-  ///
-  /// In en, this message translates to:
-  /// **'by {date}'**
-  String operatorPassWallReviewBy(String date);
-
-  /// Status when a wall name is live.
-  ///
-  /// In en, this message translates to:
-  /// **'Live'**
-  String get operatorPassWallLive;
-
-  /// Declined wall name status.
-  ///
-  /// In en, this message translates to:
-  /// **'Declined: {name}. {reason}.'**
-  String operatorPassWallDeclined(String name, String reason);
-
-  /// Team note on a declined wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Team note: {note}'**
-  String operatorPassWallTeamNote(String note);
-
-  /// Wall listing hidden by staff.
-  ///
-  /// In en, this message translates to:
-  /// **'Hidden by our team for now.'**
-  String get operatorPassWallHidden;
-
-  /// Link after hidden wall status.
-  ///
-  /// In en, this message translates to:
-  /// **'Why?'**
-  String get operatorPassWallHiddenWhy;
-
-  /// Wall listing removed when benefits are removed.
-  ///
-  /// In en, this message translates to:
-  /// **'Off the wall while your benefits are removed.'**
-  String get operatorPassWallRemoved;
-
-  /// Link to Operator Pass terms.
-  ///
-  /// In en, this message translates to:
-  /// **'Operator Pass terms'**
-  String get operatorPassTermsLink;
-
-  /// Switch to send profile changes to the wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Send profile changes to the wall'**
-  String get operatorPassWallSendChanges;
-
-  /// Switch for yearly Operators list opt-in.
-  ///
-  /// In en, this message translates to:
-  /// **'Add my name to the yearly Operators list'**
-  String get operatorPassWallReleaseList;
-
-  /// Hint for yearly Operators list opt-in.
-  ///
-  /// In en, this message translates to:
-  /// **'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.'**
-  String get operatorPassWallReleaseListHint;
-
-  /// Save Operators' wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get operatorPassWallSave;
-
-  /// Toast after saving wall settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Saved.'**
-  String get operatorPassWallSaved;
-
-  /// Toast when wall settings save fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t save. Try again.'**
-  String get operatorPassWallSaveFailed;
-
-  /// Label for wall name field in settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Name on the wall'**
-  String get operatorPassWallNameSettingsLabel;
-
-  /// Hint under wall name field.
-  ///
-  /// In en, this message translates to:
-  /// **'We check new names before they go live.'**
-  String get operatorPassWallNameHint;
-
-  /// Opt out of the Operators' wall.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t list me'**
-  String get operatorPassWallDontListMe;
-
-  /// Validation when wall name is empty.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a name, or check Don\'t list me.'**
-  String get operatorPassWallNameRequired;
-
-  /// Validation when wall name is too long.
-  ///
-  /// In en, this message translates to:
-  /// **'Use 32 characters or fewer.'**
-  String get operatorPassWallNameTooLong;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Breaks the community guidelines'**
-  String get operatorPassWallDeclineGuidelines;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Pretends to be someone else'**
-  String get operatorPassWallDeclineImpersonation;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Uses a name or image without the rights to it'**
-  String get operatorPassWallDeclineRights;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Not suitable for younger users'**
-  String get operatorPassWallDeclineAge;
-
   /// Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars.
   ///
   /// In en, this message translates to:
@@ -3842,11 +3776,11 @@ abstract class FluxerLocalizations {
   /// **'Plutonium'**
   String get plutoniumNotAvailableTitle;
 
-  /// Body text for the Plutonium not-available-yet bottom sheet.
+  /// Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build.
   ///
   /// In en, this message translates to:
-  /// **'In-app purchases are not available on this platform yet. Stay tuned — coming soon!'**
-  String get plutoniumNotAvailableBody;
+  /// **'Plutonium can\'t be bought in this version of the app.'**
+  String get plutoniumNotSoldHere;
 
   /// Label shown above the profile preview card in settings.
   ///
@@ -3974,6 +3908,66 @@ abstract class FluxerLocalizations {
   /// **'Verification failed. Please try again.'**
   String get sudoVerificationFailed;
 
+  /// Error in the identity check sheet when the password is wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'That password is wrong. Try again.'**
+  String get sudoWrongPassword;
+
+  /// Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address.
+  ///
+  /// In en, this message translates to:
+  /// **'Email me a code'**
+  String get sudoEmailCodeSend;
+
+  /// Shown in the identity check sheet after the code was sent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to your email address.'**
+  String get sudoEmailCodeSent;
+
+  /// Label of the code field in the identity check sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Code from the email'**
+  String get sudoEmailCodeLabel;
+
+  /// Link in the identity check sheet that sends another email code.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code'**
+  String get sudoEmailCodeResend;
+
+  /// Text in the identity check sheet for accounts that sign in with the instance's single sign-on.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to confirm it\'s you.'**
+  String get sudoSsoReauthHint;
+
+  /// Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get sudoSsoReauthButtonGeneric;
+
+  /// Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with {provider}'**
+  String sudoSsoReauthButton(String provider);
+
+  /// Error in the identity check sheet when the single sign-on returned another account.
+  ///
+  /// In en, this message translates to:
+  /// **'You signed in to a different account. Sign in with the account you\'re using here.'**
+  String get sudoSsoReauthWrongAccount;
+
+  /// Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Passkeys from this instance don\'t work in this app. Use your authenticator app or a backup code, or confirm on the web.'**
+  String get sudoPasskeyUnavailable;
+
   /// Top-level Account section heading in Security & Login settings.
   ///
   /// In en, this message translates to:
@@ -3997,6 +3991,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Protect your account with two-factor authentication and passkeys'**
   String get securitySectionDescription;
+
+  /// Description for the Security section heading when passkeys are not available on the instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect your account with two-factor authentication'**
+  String get securitySectionDescriptionNoPasskeys;
 
   /// Title for email settings section in Security & Login.
   ///
@@ -4568,6 +4568,90 @@ abstract class FluxerLocalizations {
   /// **'Temporarily disable your account. You can reactivate it later by signing back in.'**
   String get dangerZoneDisableDescription;
 
+  /// Description of the "Delete account" row in "Security & login" and in settings search.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account and personal data. You can delete your messages too.'**
+  String get dangerZoneDeleteEntryDescription;
+
+  /// First paragraph of the delete account sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account, profile and personal data are deleted. Messages you don\'t delete stay where you sent them, without your name or profile.'**
+  String get dangerZoneDeleteIntro;
+
+  /// Switch label in the delete account sheet. Off by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Also delete my messages'**
+  String get dangerZoneDeleteMessagesLabel;
+
+  /// Hint under the "Also delete my messages" switch in the delete account sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes every message you sent in DMs, group DMs and communities, together with your account.'**
+  String get dangerZoneDeleteMessagesHint;
+
+  /// Line in the delete account sheet. privacyDashboard is the "Privacy dashboard" settings page name, shown as a link.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep a copy of your data, request an export in the {privacyDashboard} first.'**
+  String dangerZoneDeleteExportHint(String privacyDashboard);
+
+  /// Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete in 14 days'**
+  String get dangerZoneDeleteLater;
+
+  /// Line in the delete account sheet on the official instance, about the 14-day grace period.
+  ///
+  /// In en, this message translates to:
+  /// **'You can cancel by signing in during the 14 days.'**
+  String get dangerZoneDeleteLaterHint;
+
+  /// Button in the delete account sheet on self-hosted instances, whose grace period the app does not know.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule deletion'**
+  String get dangerZoneDeleteSchedule;
+
+  /// Line in the delete account sheet on self-hosted instances.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is deleted after this instance\'s waiting period. Signing in before then cancels it.'**
+  String get dangerZoneDeleteScheduleHint;
+
+  /// Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete now'**
+  String get dangerZoneDeleteNow;
+
+  /// Title of the confirmation sheet after tapping "Delete now".
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account now?'**
+  String get dangerZoneDeleteNowConfirmTitle;
+
+  /// Body of the confirmation sheet after tapping "Delete now".
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is deleted right away and can\'t be recovered.'**
+  String get dangerZoneDeleteNowConfirmBody;
+
+  /// Notice in the delete account sheet when the Plutonium subscription was bought in the App Store.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription is billed by Apple. Deleting your account doesn\'t cancel it, so cancel it in the App Store first.'**
+  String get dangerZoneDeleteAppStoreBilling;
+
+  /// Notice in the delete account sheet when the Plutonium subscription was bought in Google Play.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription is billed by Google Play. Deleting your account doesn\'t cancel it, so cancel it in Google Play first.'**
+  String get dangerZoneDeleteGooglePlayBilling;
+
   /// Confirmation description for account disable.
   ///
   /// In en, this message translates to:
@@ -4580,71 +4664,23 @@ abstract class FluxerLocalizations {
   /// **'Delete account'**
   String get dangerZoneDeleteTitle;
 
-  /// Description for account delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Permanently delete your account and all associated data. This action cannot be undone.'**
-  String get dangerZoneDeleteDescription;
-
   /// Title for the guild ownership warning modal when trying to delete account.
   ///
   /// In en, this message translates to:
   /// **'Cannot delete account'**
   String get dangerZoneDeleteCannotDeleteAccount;
 
-  /// Warning message shown when user owns communities and tries to delete account.
+  /// Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account.
   ///
   /// In en, this message translates to:
-  /// **'You cannot delete your account while you own communities. Transfer ownership of the following communities first:'**
-  String get dangerZoneDeleteOwnsCommunities;
+  /// **'You own these communities. Delete each one, or give it to another member, before you delete your account.'**
+  String get dangerZoneDeleteOwnsCommunitiesList;
 
-  /// Shown when user owns more than 3 communities.
+  /// Help under the list of owned communities. Quotes the "Delete community", "Members" and "Transfer ownership" labels exactly.
   ///
   /// In en, this message translates to:
-  /// **'and {count} more'**
-  String dangerZoneDeleteAndXMore(int count);
-
-  /// Instructions for transferring community ownership.
-  ///
-  /// In en, this message translates to:
-  /// **'To transfer ownership, go to {settingsPath} and use the transfer ownership option.'**
-  String dangerZoneDeleteTransferInstructions(String settingsPath);
-
-  /// Confirmation description for account delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.'**
-  String get dangerZoneDeleteConfirmDescription;
-
-  /// First bullet point in delete confirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'You can cancel the deletion process within 14 days'**
-  String get dangerZoneDeleteBullet1;
-
-  /// Second bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'After 14 days, your account will be permanently deleted'**
-  String get dangerZoneDeleteBullet2;
-
-  /// Third bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'Once deletion is processed, you cannot recover access to your account'**
-  String get dangerZoneDeleteBullet3;
-
-  /// Fourth bullet point.
-  ///
-  /// In en, this message translates to:
-  /// **'You will not be able to delete your sent messages after your account is deleted'**
-  String get dangerZoneDeleteBullet4;
-
-  /// Disclaimer about data export before deletion.
-  ///
-  /// In en, this message translates to:
-  /// **'If you want to export your data or delete your messages first, please visit the Privacy dashboard section in User settings before proceeding.'**
-  String get dangerZoneDeleteDisclaimer;
+  /// **'Tap a community to open its settings. \"Delete community\" is at the bottom. To give it away, open \"Members\", tap a member, tap the three dots on their profile and choose \"Transfer ownership\".'**
+  String get dangerZoneDeleteOwnedCommunitiesHelp;
 
   /// Title for claim account sheet.
   ///
@@ -4687,12 +4723,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Account claimed successfully'**
   String get claimAccountSuccess;
-
-  /// Header for important information section.
-  ///
-  /// In en, this message translates to:
-  /// **'Important information:'**
-  String get importantInformation;
 
   /// Generic fallback error message.
   ///
@@ -6890,6 +6920,12 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t download attachment'**
   String get chatAttachmentDownloadFailedToast;
 
+  /// Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an "Open settings" action.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your photo library to save this attachment.'**
+  String chatAttachmentDownloadPhotosAccessToast(String productName);
+
   /// Tooltip when a file attachment link is no longer available.
   ///
   /// In en, this message translates to:
@@ -7040,11 +7076,23 @@ abstract class FluxerLocalizations {
   /// **'Reveal'**
   String get matureMediaRevealButton;
 
-  /// Accessibility label for the mature media reveal button.
+  /// Accessibility label for the button that reveals blurred sensitive media.
   ///
   /// In en, this message translates to:
-  /// **'Click to reveal'**
-  String get matureMediaRevealHint;
+  /// **'Reveal sensitive media'**
+  String get matureMediaRevealLabel;
+
+  /// Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive media is hidden on iPhone and iPad.'**
+  String get matureMediaAppLockedLabel;
+
+  /// Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive media is hidden for your account.'**
+  String get matureMediaMinorLockedLabel;
 
   /// Title for mature content gates and warnings.
   ///
@@ -7148,6 +7196,36 @@ abstract class FluxerLocalizations {
   /// **'This mature channel is not available to your account.'**
   String get matureChannelUnavailableBody;
 
+  /// Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch.
+  ///
+  /// In en, this message translates to:
+  /// **'18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
+  String get matureContentAppLockedBody;
+
+  /// Body of the gate shown in place of an 18+ community or channel when local law blocks it.
+  ///
+  /// In en, this message translates to:
+  /// **'Due to mature content laws where you are, mature content is not available from here.'**
+  String get matureContentRegionLockedBody;
+
+  /// Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device.
+  ///
+  /// In en, this message translates to:
+  /// **'Message in an 18+ channel'**
+  String get matureMessageHiddenPreview;
+
+  /// Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer isn\'t available on this account'**
+  String get ageRangeUnderMinimumTitle;
+
+  /// Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.'**
+  String get ageRangeUnderMinimumBody;
+
   /// Primary action on mature content gates.
   ///
   /// In en, this message translates to:
@@ -7213,6 +7291,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get sensitiveContentSaveButton;
+
+  /// Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels.
+  ///
+  /// In en, this message translates to:
+  /// **'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
+  String get sensitiveContentAppLockedHint;
 
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///
@@ -7595,7 +7679,7 @@ abstract class FluxerLocalizations {
   /// Section description for theme selection.
   ///
   /// In en, this message translates to:
-  /// **'Choose between dark, coal, or light appearance.'**
+  /// **'Choose between system, dark, coal, or light appearance.'**
   String get lookAndFeelThemeSectionDescription;
 
   /// Appearance section title for HDR image and video display.
@@ -8470,6 +8554,114 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Name is required.'**
   String get savedMediaNameRequired;
+
+  /// Action in the saved media item menu that opens the edit sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get savedMediaEdit;
+
+  /// Title of the sheet for editing a saved media item.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit saved media'**
+  String get savedMediaEditTitle;
+
+  /// Title of the sheet that confirms deleting a saved media item.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete saved media'**
+  String get savedMediaDeleteTitle;
+
+  /// Confirmation text in the delete saved media sheet. {name} is the saved item's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove \"{name}\" from your saved media?'**
+  String savedMediaDeleteConfirm(String name);
+
+  /// Error shown when deleting a saved media item fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete saved media.'**
+  String get savedMediaDeleteFailed;
+
+  /// Placeholder of the search field in the saved media picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Search saved media'**
+  String get savedMediaSearchHint;
+
+  /// Title shown in the saved media picker when the list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved media unavailable'**
+  String get savedMediaUnavailableTitle;
+
+  /// Body shown in the saved media picker when the list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a moment.'**
+  String get savedMediaUnavailableBody;
+
+  /// Title shown in the saved media picker when nothing has been saved yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved media'**
+  String get savedMediaEmptyTitle;
+
+  /// Body shown in the saved media picker when nothing has been saved yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save media from messages to see it here.'**
+  String get savedMediaEmptyBody;
+
+  /// Title shown in the saved media picker when the search or filter matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get savedMediaNoResultsTitle;
+
+  /// Body shown in the saved media picker when the search or filter matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term or filter.'**
+  String get savedMediaNoResultsBody;
+
+  /// Saved media picker filter that shows every item.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get savedMediaFilterAll;
+
+  /// Saved media picker filter that shows only images.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get savedMediaFilterImages;
+
+  /// Saved media picker filter that shows only videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get savedMediaFilterVideos;
+
+  /// Saved media picker filter that shows only audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get savedMediaFilterAudio;
+
+  /// Saved media picker filter that shows only GIFs.
+  ///
+  /// In en, this message translates to:
+  /// **'GIFs'**
+  String get savedMediaFilterGifs;
+
+  /// Small badge on a saved media tile that marks it as a GIF.
+  ///
+  /// In en, this message translates to:
+  /// **'GIF'**
+  String get savedMediaGifBadge;
 
   /// Title for the first-time GIF favorite storage prompt.
   ///
@@ -9765,6 +9957,12 @@ abstract class FluxerLocalizations {
   /// **'Dismiss'**
   String get voiceConnectionDismiss;
 
+  /// Accessibility label of the drag handle on the voice call controls sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice call controls'**
+  String get voiceCallControlsSheetLabel;
+
   /// Voice connection status when not connected.
   ///
   /// In en, this message translates to:
@@ -9927,6 +10125,12 @@ abstract class FluxerLocalizations {
   /// **'View profile'**
   String get voiceParticipantMenuViewProfile;
 
+  /// Voice participant menu item that opens the report flow for that person.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get voiceParticipantMenuReport;
+
   /// Voice participant context menu item to pin a participant tile in focus layout.
   ///
   /// In en, this message translates to:
@@ -10071,6 +10275,12 @@ abstract class FluxerLocalizations {
   /// **'Camera permission is required for video.'**
   String get voiceCameraPermissionRequired;
 
+  /// Shown in the call bar when the user tries to unmute and microphone access was denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow microphone access to unmute in this call.'**
+  String get voiceMicPermissionRequired;
+
   /// Error shown when toggling screen sharing fails for an unknown reason.
   ///
   /// In en, this message translates to:
@@ -10136,6 +10346,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Your stream is live for participants.'**
   String get voiceOwnScreenShareSubtitle;
+
+  /// Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Video from someone you blocked'**
+  String get voiceBlockedParticipantVideoHidden;
 
   /// Compact LIVE indicator on a screen-share tile (shown uppercase).
   ///
@@ -10406,6 +10622,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Message is too long'**
   String get characterCounterTooLong;
+
+  /// Toast shown when the user taps Send on a message over the character limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages can be up to {maxLength} characters. Shorten this one to send it.'**
+  String characterCounterTooLongToast(int maxLength);
 
   /// Character counter tooltip with a Plutonium upsell when nearing the limit.
   ///
@@ -11401,6 +11623,66 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t send reply'**
   String get notificationReplyFailed;
 
+  /// Android notification channel name for community messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get notificationChannelMessages;
+
+  /// Android notification channel name for direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages'**
+  String get notificationChannelDirectMessages;
+
+  /// Android notification channel name for new forum posts.
+  ///
+  /// In en, this message translates to:
+  /// **'New forum posts'**
+  String get notificationChannelForumPosts;
+
+  /// Android notification channel name for community messages when the message sound is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages without sound'**
+  String get notificationChannelMessagesSilent;
+
+  /// Android notification channel name for direct messages when the direct message sound is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages without sound'**
+  String get notificationChannelDirectMessagesSilent;
+
+  /// Description shown for Fluxer notification channels in Android settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages and alerts'**
+  String get notificationChannelDescription;
+
+  /// Notification text used when a push has no message body.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get notificationNewMessageFallback;
+
+  /// Name used for the signed-in user inside a conversation notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get notificationLocalUserName;
+
+  /// Notification title for a group direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DM'**
+  String get notificationGroupDmTitle;
+
+  /// Notification sender name used when a push has no sender.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get notificationUnknownSender;
+
   /// Action label for forwarding a message.
   ///
   /// In en, this message translates to:
@@ -11695,6 +11977,36 @@ abstract class FluxerLocalizations {
   /// **'Debug message'**
   String get chatMessageDebug;
 
+  /// Label at the top of a "> [!NOTE]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get messageAlertNote;
+
+  /// Label at the top of a "> [!TIP]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get messageAlertTip;
+
+  /// Label at the top of a "> [!IMPORTANT]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get messageAlertImportant;
+
+  /// Label at the top of a "> [!WARNING]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get messageAlertWarning;
+
+  /// Label at the top of a "> [!CAUTION]" alert block in a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Caution'**
+  String get messageAlertCaution;
+
   /// Title for the developer-mode message debug sheet that shows raw message JSON.
   ///
   /// In en, this message translates to:
@@ -11755,6 +12067,12 @@ abstract class FluxerLocalizations {
   /// **'Report profile'**
   String get reportFlowTitleUserProfile;
 
+  /// Report sheet title while the community report flow loads.
+  ///
+  /// In en, this message translates to:
+  /// **'Report community'**
+  String get reportFlowTitleCommunity;
+
   /// Report flow: title of the last screen, where the reporter reviews the report before sending it.
   ///
   /// In en, this message translates to:
@@ -11791,11 +12109,17 @@ abstract class FluxerLocalizations {
   /// **'Message you\'re reporting'**
   String get reportFlowSelectedMessage;
 
-  /// Report flow: heading above the card of the reported user on the first screen and the report summary screen.
+  /// Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile.
   ///
   /// In en, this message translates to:
-  /// **'Profile you\'re reporting'**
-  String get reportFlowSelectedUser;
+  /// **'Person you\'re reporting'**
+  String get reportFlowSelectedPerson;
+
+  /// Report sheet heading above the card of the community being reported.
+  ///
+  /// In en, this message translates to:
+  /// **'Community you\'re reporting'**
+  String get reportFlowSelectedCommunity;
 
   /// Report flow: heading above the list of answers the reporter picked, on the report summary screen.
   ///
@@ -11844,6 +12168,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'The {productName} safety team will review your report. We won\'t reveal that it came from you.'**
   String reportFlowThankYouBody(String productName);
+
+  /// Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports.
+  ///
+  /// In en, this message translates to:
+  /// **'The administrators of this instance will review your report. We won\'t reveal that it came from you.'**
+  String get reportFlowThankYouBodySelfHosted;
 
   /// Report flow: body of the thank-you screen when the chosen answer does not send a report. "Abusive or harmful content" is the name of an option on the first screen of the message report form.
   ///
@@ -11922,6 +12252,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve already reported this profile today.'**
   String get reportFlowAlreadyReportedProfile;
+
+  /// Report sheet note when the reporter already reported this community.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already reported this community.'**
+  String get reportFlowAlreadyReportedCommunity;
 
   /// Report flow: note on the report summary screen when the reporter sent too many reports.
   ///
@@ -12121,6 +12457,30 @@ abstract class FluxerLocalizations {
   /// **'OFF'**
   String get chatReplyMentionOff;
 
+  /// Text above the composer while replying to a message. {authorName} is the author of the message being replied to.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {authorName}'**
+  String chatReplyingTo(String authorName);
+
+  /// Line above a forwarded message. {source} is where the message was forwarded from.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded from {source}'**
+  String chatForwardedFrom(String source);
+
+  /// Label at the top of a forwarded message when the source is not shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded'**
+  String get chatForwardedLabel;
+
+  /// Label before the source of a forwarded message. The source (channel or conversation) is shown right after it as a separate element.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded from'**
+  String get chatForwardedFromLabel;
+
   /// Accessible label for the cancel-reply button in the reply bar.
   ///
   /// In en, this message translates to:
@@ -12258,6 +12618,36 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get mediaViewerDismissBackdrop;
+
+  /// Accessibility label of the play button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get videoPlayerPlay;
+
+  /// Accessibility label of the pause button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get videoPlayerPause;
+
+  /// Accessibility label of the volume button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get videoPlayerVolume;
+
+  /// Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback speed {speed}x'**
+  String videoPlayerPlaybackSpeed(String speed);
+
+  /// Accessibility label of the full screen button on an inline video.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get videoPlayerFullScreen;
 
   /// Accessibility label for the tap surface that shows or hides inline video playback controls.
   ///
@@ -13893,6 +14283,12 @@ abstract class FluxerLocalizations {
   /// **'Notification settings, muted'**
   String get channelHeaderNotificationSettingsMuted;
 
+  /// Accessibility label of the channel title in the channel header, which opens the channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Open channel details'**
+  String get channelHeaderOpenDetails;
+
   /// Title for the channel search bottom sheet.
   ///
   /// In en, this message translates to:
@@ -15105,6 +15501,12 @@ abstract class FluxerLocalizations {
   /// **'Close attachment picker'**
   String get composerCloseAttachmentPanel;
 
+  /// Accessibility label and tooltip for the composer button that sends the message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send message'**
+  String get composerSendMessage;
+
   /// Label for the native photo picker action on the attachment panel.
   ///
   /// In en, this message translates to:
@@ -15705,23 +16107,23 @@ abstract class FluxerLocalizations {
   /// **'Refund latest purchase'**
   String get premiumSelfServeRefundButton;
 
-  /// No description provided for @premiumDisclaimerAgreementPrefix.
+  /// Sentence under a purchase button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'By purchasing, you agree to our '**
-  String get premiumDisclaimerAgreementPrefix;
+  /// **'{links, select, both{By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agree to our <terms>Terms of service</terms>.} other{By purchasing, you agree to our <privacy>Privacy policy</privacy>.}}'**
+  String premiumDisclaimerAgreement(String links);
 
-  /// No description provided for @premiumDisclaimerAgreementPastPrefix.
+  /// Sentence shown to someone who already bought Plutonium. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'By purchasing, you agreed to our '**
-  String get premiumDisclaimerAgreementPastPrefix;
+  /// **'{links, select, both{By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agreed to our <terms>Terms of service</terms>.} other{By purchasing, you agreed to our <privacy>Privacy policy</privacy>.}}'**
+  String premiumDisclaimerAgreementPast(String links);
 
-  /// No description provided for @premiumDisclaimerAgreementMiddle.
+  /// The instance's legal links shown on their own. Keep the <terms> and <privacy> tags around each link label. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **' and '**
-  String get premiumDisclaimerAgreementMiddle;
+  /// **'{links, select, both{<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{<terms>Terms of service</terms>} other{<privacy>Privacy policy</privacy>}}'**
+  String instanceLegalLinksList(String links);
 
   /// No description provided for @premiumActiveUntil.
   ///
@@ -15812,6 +16214,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This plan isn\'t available. Contact the administrators of this instance.'**
   String get premiumPlanUnavailableSelfHosted;
+
+  /// Note under the Plutonium plan prices in app builds whose prices are higher to pay for the place the app was installed from. percent is a formatted percentage such as 5%.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices in this version of the app are a little higher because {percent} of each payment goes to the cost of distributing it.'**
+  String premiumDistributionPriceNote(String percent);
 
   /// No description provided for @premiumCompletePaymentTitle.
   ///
@@ -16059,6 +16467,18 @@ abstract class FluxerLocalizations {
   /// **'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.'**
   String get storePlutoniumStreamBody;
 
+  /// Title of the streaming perk on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream in higher quality'**
+  String get storePlutoniumStreamTitleIos;
+
+  /// Body of the streaming perk on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen or camera in up to 1080p at 60 frames per second in the app, and in up to 4K at 60 in the desktop app. Free accounts stream in up to 720p at 30.'**
+  String get storePlutoniumStreamBodyIos;
+
   /// No description provided for @storePlutoniumManageHeading.
   ///
   /// In en, this message translates to:
@@ -16191,11 +16611,23 @@ abstract class FluxerLocalizations {
   /// **'Up to 4K at 60 FPS'**
   String get storePlutoniumVideoPlutonium;
 
+  /// Plutonium cell of the video quality row in the iOS Plutonium comparison table.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 1080p at 60 FPS in the app, up to 4K at 60 FPS on desktop'**
+  String get storePlutoniumVideoPlutoniumIos;
+
   /// No description provided for @storePlutoniumTagFootnote.
   ///
   /// In en, this message translates to:
   /// **'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.'**
   String get storePlutoniumTagFootnote;
+
+  /// Footnote about the custom tag on the iOS Plutonium page.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same.'**
+  String get storePlutoniumTagFootnoteIos;
 
   /// No description provided for @storePlutoniumLearnVisionary.
   ///
@@ -16269,17 +16701,59 @@ abstract class FluxerLocalizations {
   /// **'Renews automatically through the App Store until you cancel.'**
   String get storePlutoniumRenewsThroughAppStore;
 
+  /// Link under the iOS Plutonium buttons to Apple's standard end user licence agreement.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple\'s standard Terms of Use (EULA)'**
+  String get storePlutoniumAppleEula;
+
   /// Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID.
   ///
   /// In en, this message translates to:
   /// **'Restore purchases'**
   String get storePlutoniumRestorePurchases;
 
+  /// Toast after "Restore purchases" on the iOS Plutonium page found and restored a subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Plutonium subscription was restored.'**
+  String get storePlutoniumRestoreDone;
+
+  /// Toast after "Restore purchases" on the iOS Plutonium page found nothing to restore.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no Plutonium subscription to restore for this Apple Account.'**
+  String get storePlutoniumRestoreNothing;
+
+  /// Toast when "Restore purchases" on the iOS Plutonium page failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t restore purchases. Try again in a moment.'**
+  String get storePlutoniumRestoreFailed;
+
   /// No description provided for @storePlutoniumAlreadySubscribed.
   ///
   /// In en, this message translates to:
   /// **'You already have a Fluxer Plutonium subscription.'**
   String get storePlutoniumAlreadySubscribed;
+
+  /// Shown on the iOS Plutonium page when the App Store subscription on this device belongs to another Fluxer account.
+  ///
+  /// In en, this message translates to:
+  /// **'The Apple Account on this device already pays for Plutonium on a different Fluxer account.'**
+  String get storePlutoniumOwnedByOtherAccount;
+
+  /// Title of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Plutonium wasn\'t added'**
+  String get storePlutoniumClaimFailedTitle;
+
+  /// Body of the dialog shown when the App Store confirmed a purchase but the server refused to add Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'The App Store confirmed your purchase, but Plutonium couldn\'t be added to this account. Tap \"Restore purchases\" to try again, or contact support if it still doesn\'t work.'**
+  String get storePlutoniumClaimFailedBody;
 
   /// No description provided for @storePlutoniumSavePercent.
   ///
@@ -16293,11 +16767,23 @@ abstract class FluxerLocalizations {
   /// **'Purchase received. Plutonium will show here once it activates.'**
   String get storePlutoniumWaiting;
 
-  /// No description provided for @storePlutoniumUnavailable.
+  /// Status line on the Plutonium page while a purchase waits for approval, for example Ask to Buy.
   ///
   /// In en, this message translates to:
-  /// **'Subscriptions in the app aren\'t available on this device yet.'**
-  String get storePlutoniumUnavailable;
+  /// **'Your purchase is waiting for approval. Plutonium is added to your account once it\'s approved.'**
+  String get storePlutoniumApprovalPending;
+
+  /// Message on the Plutonium page when the plans failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load Plutonium plans. Check your connection and try again.'**
+  String get storePlutoniumLoadFailed;
+
+  /// Button on the Plutonium page that loads the plans again after a failure.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get storePlutoniumRetry;
 
   /// No description provided for @storePlutoniumVisionaryStatus.
   ///
@@ -17427,10 +17913,10 @@ abstract class FluxerLocalizations {
   /// **'Send crash and performance reports'**
   String get advancedPerformanceReportingLabel;
 
-  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is.
+  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to. They are tied to a random per-install ID and leave out the account ID, instance names and message content. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.'**
+  /// **'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.'**
   String get advancedCrashReportingDescription;
 
   /// Title of the post-crash opt-in sheet for crash and error reporting.
@@ -17442,13 +17928,13 @@ abstract class FluxerLocalizations {
   /// Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.'**
+  /// **'Fluxer closed unexpectedly. Sending a crash report helps us find and fix the problem faster.'**
   String get observabilityReportingConsentSubtitle;
 
   /// Body copy on the post-crash crash reporting opt-in sheet explaining what is collected.
   ///
   /// In en, this message translates to:
-  /// **'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.'**
+  /// **'Reports include crash logs, errors, performance data, network request timings and the screens and taps that led up to a problem, linked to a random ID for this install. They never include message content, and they go only to Fluxer\'s own error tracker. You can turn this off at any time.'**
   String get observabilityReportingConsentBody;
 
   /// Hint on the post-crash crash reporting opt-in sheet for finding the setting later.
@@ -17466,8 +17952,14 @@ abstract class FluxerLocalizations {
   /// Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t want to enable'**
+  /// **'Don\'t ask again'**
   String get observabilityReportingConsentDecline;
+
+  /// Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get observabilityReportingConsentNotNow;
 
   /// Button label that opens a dedicated advanced settings modal.
   ///
@@ -18168,7 +18660,7 @@ abstract class FluxerLocalizations {
   /// No description provided for @advancedSettingBuiltInReverseImageSearchDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.'**
+  /// **'Enable or disable built-in reverse image search providers. Enabled providers appear in the options of images.'**
   String get advancedSettingBuiltInReverseImageSearchDescription;
 
   /// No description provided for @advancedSettingCustomReverseImageSearchLabel.
@@ -18188,6 +18680,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Add reverse image search'**
   String get advancedSettingAddReverseImageSearchLabel;
+
+  /// Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.
+  ///
+  /// In en, this message translates to:
+  /// **'Search with {engine}'**
+  String searchProviderSearchWith(String engine);
+
+  /// Menu action that translates the selected text with a translation provider. {engine} is the provider name.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate with {engine}'**
+  String searchProviderTranslateWith(String engine);
 
   /// No description provided for @advancedSettingEnableAtLeastOneReverseImageSearchLabel.
   ///
@@ -18353,6 +18857,24 @@ abstract class FluxerLocalizations {
   /// **'App logs'**
   String get userSettingsNavAppLogs;
 
+  /// User settings navigation item shown on self-hosted instances. It opens the privacy policy of Fluxer, the company that makes the app, which still receives push relay traffic and opt-in crash reports. Keep the name Fluxer as is.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer app privacy policy'**
+  String get userSettingsNavFluxerAppPrivacyPolicy;
+
+  /// Title of the user settings sheet on phones.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get userSettingsTitle;
+
+  /// Accessibility label of the app version footer in settings, which copies the app info when tapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy app info'**
+  String get userSettingsCopyAppInfo;
+
   /// User settings navigation item for staff developer tools.
   ///
   /// In en, this message translates to:
@@ -18370,6 +18892,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Feature flags'**
   String get userSettingsNavFeatureFlags;
+
+  /// User settings navigation item that opens the help center on the official instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Help and support'**
+  String get userSettingsNavHelp;
 
   /// User settings navigation item for release notes.
   ///
@@ -18416,7 +18944,7 @@ abstract class FluxerLocalizations {
   /// User settings navigation item to sign out of the account.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Sign out'**
   String get userSettingsNavLogOut;
 
   /// Title of the confirmation shown before logging out from user settings.
@@ -18893,6 +19421,12 @@ abstract class FluxerLocalizations {
   /// **'{domain} runs a newer version of Fluxer than this app. Update the app, then try again.'**
   String instanceRequiresNewerClient(String domain);
 
+  /// Error when adding an instance whose address uses http on the public internet. domain is the instance address.
+  ///
+  /// In en, this message translates to:
+  /// **'{domain} doesn\'t use a secure connection (https). Fluxer connects over http only to instances on your local network.'**
+  String instanceInsecureConnection(String domain);
+
   /// Title on the full-screen instance compatibility blocker.
   ///
   /// In en, this message translates to:
@@ -18952,12 +19486,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Connect to the instance to sign in'**
   String get instanceConnectionRequired;
-
-  /// Generic toast when a feature is not yet available.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get comingSoon;
 
   /// Label for the direct messages entry in the guild navbar.
   ///
@@ -19108,12 +19636,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Communities'**
   String get discoveryCommunities;
-
-  /// Explore sidebar section label for apps.
-  ///
-  /// In en, this message translates to:
-  /// **'Apps'**
-  String get discoveryApps;
 
   /// Title of the generic join error dialog on the Explore page.
   ///
@@ -19306,6 +19828,144 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Inbox'**
   String get friendsOpenInbox;
+
+  /// Title of the friends page on tablets and desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'My friends'**
+  String get friendsPageTitle;
+
+  /// Heading of the active now panel on the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Active now'**
+  String get friendsActiveNowTitle;
+
+  /// Title shown in the active now panel when no friends are in voice channels.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s quiet for now...'**
+  String get friendsActiveNowEmptyTitle;
+
+  /// Body shown in the active now panel when no friends are in voice channels.
+  ///
+  /// In en, this message translates to:
+  /// **'When friends are active in voice channels, their activity will appear here.'**
+  String get friendsActiveNowEmptyBody;
+
+  /// Friends page tab that lists online friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get friendsTabOnline;
+
+  /// Friends page tab that lists all friends.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get friendsTabAll;
+
+  /// Friends page tab that lists pending friend requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get friendsTabPending;
+
+  /// Friends page tab that lists blocked users.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get friendsTabBlocked;
+
+  /// Search placeholder on the online tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search online friends'**
+  String get friendsSearchOnline;
+
+  /// Search placeholder on the all tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get friendsSearchAll;
+
+  /// Search placeholder on the pending tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search pending requests'**
+  String get friendsSearchPending;
+
+  /// Search placeholder on the blocked tab of the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Search blocked users'**
+  String get friendsSearchBlocked;
+
+  /// Title shown on the friends page when the search matches nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends match that search'**
+  String get friendsEmptySearchTitle;
+
+  /// Body shown on the friends page when the search matches nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another name or check your spelling.'**
+  String get friendsEmptySearchBody;
+
+  /// Title shown on the online tab of the friends page when no friends are online.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends online'**
+  String get friendsEmptyOnlineTitle;
+
+  /// Body shown on the online tab of the friends page when no friends are online.
+  ///
+  /// In en, this message translates to:
+  /// **'When they come online, they\'ll appear right here.'**
+  String get friendsEmptyOnlineBody;
+
+  /// Title shown on the all tab of the friends page when the user has no friends.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends yet'**
+  String get friendsEmptyAllTitle;
+
+  /// Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely.
+  ///
+  /// In en, this message translates to:
+  /// **'Where we\'re going, we need more friends.'**
+  String get friendsEmptyAllBody;
+
+  /// Title shown on the pending tab of the friends page when there are no requests.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending requests'**
+  String get friendsEmptyPendingTitle;
+
+  /// Body shown on the pending tab of the friends page when there are no requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending friend requests show up here.'**
+  String get friendsEmptyPendingBody;
+
+  /// Body shown on the blocked tab of the friends page when no users are blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t blocked anyone.'**
+  String get friendsEmptyBlockedBody;
+
+  /// Status line under a user on the friends page when the current user sent them a friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Outgoing friend request'**
+  String get friendsOutgoingStatus;
+
+  /// Status line under a blocked user on the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get friendsBlockedStatus;
 
   /// Screen reader label for removing a friend from a profile.
   ///
@@ -19823,6 +20483,12 @@ abstract class FluxerLocalizations {
   /// **'Muted until {formattedDate}'**
   String guildNavbarMutedUntil(String formattedDate);
 
+  /// Hint under a channel or category in the notification menu when it is muted with no end time.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted'**
+  String get channelMutedHint;
+
   /// Guild tooltip when the community is staff-only.
   ///
   /// In en, this message translates to:
@@ -19960,6 +20626,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Copy community ID'**
   String get guildMenuCopyCommunityId;
+
+  /// Community menu item that opens the community report flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Report community'**
+  String get guildMenuReportCommunity;
 
   /// Guild menu hint showing when a community mute expires.
   ///
@@ -24472,6 +25144,12 @@ abstract class FluxerLocalizations {
   /// **'Direct messages'**
   String get dmListDirectMessagesTitle;
 
+  /// Button at the top of the direct messages list that opens the friends page.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get dmListFriendsButton;
+
   /// Placeholder for the shortcuts settings search field.
   ///
   /// In en, this message translates to:
@@ -25558,6 +26236,18 @@ abstract class FluxerLocalizations {
   /// **'The original message was deleted.'**
   String get forumPostStarterDeleted;
 
+  /// Forum post card title shown instead of the real title when the post author is blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Post from someone you blocked'**
+  String get forumPostBlockedAuthor;
+
+  /// Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread from someone you blocked'**
+  String get threadBlockedAuthor;
+
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
@@ -25617,6 +26307,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Mark as read'**
   String get forumMarkPostRead;
+
+  /// Forum post actions item that reports the post's first message.
+  ///
+  /// In en, this message translates to:
+  /// **'Report post'**
+  String get forumReportPost;
 
   /// Forum and media channel UI.
   ///
@@ -27099,6 +27795,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Checkout is blocked for this account.'**
   String get premiumCheckoutBlockedBodySelfHosted;
+
+  /// Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t connect to {domain}. Check your internet connection and try again.'**
+  String splashGatewayUnreachable(String domain);
 }
 
 class _FluxerLocalizationsDelegate

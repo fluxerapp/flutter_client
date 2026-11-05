@@ -19,15 +19,31 @@ const Set<String> _kSudoVerificationFields = <String>{
   'mfa_code',
   'webauthn_response',
   'webauthn_challenge',
+  'email_code_ticket',
+  'email_code',
 };
+
+const String kSudoSsoReauthedKey = '_sso_reauthed';
+
+bool isSudoCancellation(Object error) {
+  if (error is! DioException || error.response?.statusCode != 403) {
+    return false;
+  }
+  final Object? data = error.response?.data;
+  return data is Map && data['code'] == 'SUDO_MODE_REQUIRED';
+}
 
 class SudoChallenge {
   const SudoChallenge({
     required this.hasMfa,
+    required this.password,
     required this.totp,
     required this.webauthn,
     required this.backupCodes,
+    this.emailCode = false,
+    this.ssoReauth = false,
     this.error,
+    this.wrongPassword = false,
   });
 
   factory SudoChallenge.fromResponseData(Map<String, dynamic>? data) {
@@ -35,27 +51,42 @@ class SudoChallenge {
     final Map<String, dynamic> methodMap = methods is Map<String, dynamic>
         ? methods
         : const <String, dynamic>{};
+    final bool hasMfa = data?['has_mfa'] == true;
     return SudoChallenge(
-      hasMfa: data?['has_mfa'] == true,
+      hasMfa: hasMfa,
+      password: methodMap.containsKey('password')
+          ? methodMap['password'] == true
+          : !hasMfa,
       totp: methodMap['totp'] == true,
       webauthn: methodMap['webauthn'] == true,
       backupCodes: methodMap['backup_codes'] == true,
+      emailCode: methodMap['email_code'] == true,
+      ssoReauth: methodMap['sso_reauth'] == true,
     );
   }
 
   final bool hasMfa;
+  final bool password;
   final bool totp;
   final bool webauthn;
   final bool backupCodes;
+  final bool emailCode;
+  final bool ssoReauth;
   final String? error;
+  final bool wrongPassword;
 
-  SudoChallenge withError(String? error) => SudoChallenge(
-    hasMfa: hasMfa,
-    totp: totp,
-    webauthn: webauthn,
-    backupCodes: backupCodes,
-    error: error,
-  );
+  SudoChallenge withError(String? error, {bool wrongPassword = false}) =>
+      SudoChallenge(
+        hasMfa: hasMfa,
+        password: password,
+        totp: totp,
+        webauthn: webauthn,
+        backupCodes: backupCodes,
+        emailCode: emailCode,
+        ssoReauth: ssoReauth,
+        error: error,
+        wrongPassword: wrongPassword,
+      );
 }
 
 class SudoInterceptor extends Interceptor {
@@ -139,11 +170,17 @@ class SudoInterceptor extends Interceptor {
 
         if (credentials == null || credentials.isEmpty) {
           talker.debug('[SudoInterceptor] User cancelled verification');
-          handler.next(lastError);
+          handler.next(err);
           return;
         }
 
-        _mergeCredentials(opts, originalData, credentials);
+        if (credentials[kSudoSsoReauthedKey] == true) {
+          opts
+            ..data = originalData
+            ..headers.remove('Authorization');
+        } else {
+          _mergeCredentials(opts, originalData, credentials);
+        }
         opts.extra[_kSudoInternalKey] = true;
 
         talker.debug('[SudoInterceptor] Retrying with credentials');
@@ -170,6 +207,7 @@ class SudoInterceptor extends Interceptor {
             reissues = 0;
             challenge = challenge.withError(
               apiMessageFromDioException(retryError),
+              wrongPassword: _hasFieldError(body, 'password'),
             );
             continue;
           }
@@ -203,6 +241,15 @@ class SudoInterceptor extends Interceptor {
           error is Map<String, dynamic> &&
           _kSudoVerificationFields.contains(error['path']),
     );
+  }
+
+  bool _hasFieldError(Map<String, dynamic>? body, String path) {
+    final Object? errors = body?['errors'];
+    return errors is List<dynamic> &&
+        errors.any(
+          (Object? error) =>
+              error is Map<String, dynamic> && error['path'] == path,
+        );
   }
 
   void _mergeCredentials(

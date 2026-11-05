@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
@@ -48,12 +50,10 @@ import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart
 import 'package:fluxer_app/features/voice/utils/audio/audio_route_recovery.dart';
 import 'package:fluxer_app/features/voice/utils/audio/effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/utils/audio/entrance_sound_playback.dart';
-import 'package:fluxer_app/features/voice/utils/audio/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/audio/participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/voice_join_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
-import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
@@ -65,6 +65,7 @@ import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/lifecycle/lifecycle_log.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/android_screen_share_background.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
@@ -116,6 +117,7 @@ class VoiceSession extends _$VoiceSession {
   List<String>? _outboundRingRecipients;
   bool _togglingVideo = false;
   bool _togglingScreenShare = false;
+  bool _refreshingScreenShare = false;
   bool _reconcilingSelfStream = false;
   bool _selfStreamReconcileDirty = false;
   bool? _lastReportedSelfStream;
@@ -145,7 +147,6 @@ class VoiceSession extends _$VoiceSession {
   bool _ensuringMicrophone = false;
   StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
-  final List<Timer> _speakerOutputRetryTimers = <Timer>[];
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _lastKnownOutputDeviceIds;
   Set<String>? _pendingRecoveryInputIds;
@@ -179,6 +180,10 @@ class VoiceSession extends _$VoiceSession {
     }
 
     ref
+      ..listen<Set<String>>(
+        blockedUserIdsProvider,
+        (_, _) => unawaited(applyAllParticipantVolumes()),
+      )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
         VoiceSettingsState next,
@@ -630,10 +635,16 @@ class VoiceSession extends _$VoiceSession {
     }
     _preJoinPermissionsInFlight = true;
     bool joinMicrophoneGranted = false;
+    bool joinCameraGranted = false;
     try {
       joinMicrophoneGranted = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.microphone,
       );
+      if (initialSelfVideo) {
+        joinCameraGranted = await requestVoiceJoinMediaPermissionGranted(
+          SystemPermissionKind.camera,
+        );
+      }
     } finally {
       _preJoinPermissionsInFlight = false;
     }
@@ -641,7 +652,7 @@ class VoiceSession extends _$VoiceSession {
       return false;
     }
     _lastConnectRequestAt = now;
-    _startWithVideoAfterConnect = initialSelfVideo;
+    _startWithVideoAfterConnect = joinCameraGranted;
     final local = ref.read(localVoiceStateProvider);
     bool resolvedSelfMute = initialSelfDeaf || initialSelfMute;
     bool resolvedSelfDeaf = initialSelfDeaf;
@@ -1163,6 +1174,9 @@ class VoiceSession extends _$VoiceSession {
     List<VoiceP2pConnectionReportsRequestReports> reports,
   ) async {
     if (!ref.mounted) {
+      return;
+    }
+    if (isFluxerNativeMobileOs && !ref.read(observabilityReportingProvider)) {
       return;
     }
     try {
@@ -1894,7 +1908,7 @@ class VoiceSession extends _$VoiceSession {
           room: newRoom,
           settings: settings,
           enabled: true,
-          captureScreenAudio: true,
+          captureScreenAudio: screenShareCapturesSystemAudio,
         );
       }
     }
@@ -2168,7 +2182,6 @@ class VoiceSession extends _$VoiceSession {
     _cancelLiveKitConnectWatchdog();
     _cancelRegionHotSwapTimeout();
     _cancelDeferredServerDisconnect();
-    _cancelSpeakerOutputRetry();
     _startWithVideoAfterConnect = false;
     unawaited(
       playFluxerSoundEffect(
@@ -2236,7 +2249,6 @@ class VoiceSession extends _$VoiceSession {
     _cancelRegionHotSwapTimeout();
     unawaited(_abortRegionHotSwap());
     _cancelDeferredServerDisconnect();
-    _cancelSpeakerOutputRetry();
     unawaited(disableAndroidScreenShareBackground());
     _detachMediaDeviceChangeListener();
     _detachLocalParticipantListener();
@@ -2437,8 +2449,21 @@ class VoiceSession extends _$VoiceSession {
     SystemPermissionKind kind, {
     required String deniedErrorCode,
   }) async {
-    final SystemPermissionOutcome outcome = await requestSystemPermission(kind);
+    final SystemPermissionOutcome outcome;
+    try {
+      outcome = await requestSystemPermission(kind);
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[Voice] Permission $kind failed: $error',
+        error,
+        stackTrace,
+      );
+      return false;
+    }
     if (outcome == SystemPermissionOutcome.granted) {
+      if (state.errorMessage == deniedErrorCode) {
+        state = state.copyWith(clearError: true);
+      }
       return true;
     }
     if (outcome == SystemPermissionOutcome.requiresSettings) {
@@ -2502,8 +2527,9 @@ class VoiceSession extends _$VoiceSession {
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
     if (!nextMute) {
-      final bool micGranted = await requestVoiceJoinMediaPermissionGranted(
+      final bool micGranted = await _ensureSystemPermissionForVoice(
         SystemPermissionKind.microphone,
+        deniedErrorCode: kVoiceSessionErrorMicPermission,
       );
       if (!ref.mounted || !micGranted) {
         return;
@@ -2592,13 +2618,11 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (nextVideo) {
-      final bool camOk = await requestVoiceJoinMediaPermissionGranted(
+      final bool camOk = await _ensureSystemPermissionForVoice(
         SystemPermissionKind.camera,
+        deniedErrorCode: kVoiceSessionErrorCameraPermission,
       );
-      if (!ref.mounted) {
-        return;
-      }
-      if (!camOk) {
+      if (!ref.mounted || !camOk) {
         return;
       }
     }
@@ -2704,6 +2728,7 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     talker.debug('[Voice] toggleSelfStream requested: enable=$nextSelfStream');
+    _clearScreenShareError();
     _togglingScreenShare = true;
     try {
       final bool hasCapturePermission = await _requestScreenCapturePermission(
@@ -2716,14 +2741,6 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       if (nextSelfStream) {
-        final bool hasScreenShareAudioPermission =
-            await _ensureScreenShareAudioPermission();
-        if (!hasScreenShareAudioPermission) {
-          state = state.copyWith(
-            errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
-          );
-          return;
-        }
         final bool hasBackground = await enableAndroidScreenShareBackground(
           notificationText: screenShareNotificationText,
         );
@@ -2740,6 +2757,7 @@ class VoiceSession extends _$VoiceSession {
         }
         talker.debug('[Voice] Screen-share background service is running.');
       }
+      var awaitingBroadcast = false;
       try {
         final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
         final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
@@ -2750,12 +2768,14 @@ class VoiceSession extends _$VoiceSession {
                 : null,
           );
         } else if (room != null && lp != null) {
-          await applicator.setScreenShareEnabled(
+          awaitingBroadcast = await applicator.setScreenShareEnabled(
             participant: lp,
             room: room,
             settings: settings,
             enabled: nextSelfStream,
-            captureScreenAudio: nextSelfStream,
+            captureScreenAudio:
+                nextSelfStream && screenShareCapturesSystemAudio,
+            onBroadcastSettled: _onIosBroadcastSettled,
           );
         }
       } on Object catch (e, st) {
@@ -2769,6 +2789,9 @@ class VoiceSession extends _$VoiceSession {
           await disableAndroidScreenShareBackground();
         }
         state = state.copyWith(errorMessage: _classifyScreenShareException(e));
+        return;
+      }
+      if (awaitingBroadcast) {
         return;
       }
       if (!nextSelfStream) {
@@ -2788,23 +2811,38 @@ class VoiceSession extends _$VoiceSession {
         talker.warning(
           '[Voice] Screen-share track did not publish within the wait window.',
         );
+        await _cancelTimedOutAndroidScreenShare(room: room, participant: lp);
         await disableAndroidScreenShareBackground();
         state = state.copyWith(
           errorMessage: kVoiceSessionErrorScreenShareToggle,
         );
         return;
       }
-      unawaited(
-        playFluxerSoundEffect(
-          prefs: ref.read(soundPreferencesProvider),
-          sfx: ref.read(fluxerSfxProvider),
-          clip: nextSelfStream
-              ? FluxerSfxClip.streamStart
-              : FluxerSfxClip.streamStop,
-        ),
+      _playScreenShareSound(
+        nextSelfStream ? FluxerSfxClip.streamStart : FluxerSfxClip.streamStop,
       );
     } finally {
       _togglingScreenShare = false;
+    }
+  }
+
+  void _playScreenShareSound(FluxerSfxClip clip) {
+    unawaited(
+      playFluxerSoundEffect(
+        prefs: ref.read(soundPreferencesProvider),
+        sfx: ref.read(fluxerSfxProvider),
+        clip: clip,
+      ),
+    );
+  }
+
+  void _clearScreenShareError() {
+    final String? error = state.errorMessage;
+    if (error == kVoiceSessionErrorScreenShareToggle ||
+        error == kVoiceSessionErrorScreenSharePermissionDenied ||
+        error == kVoiceSessionErrorScreenShareUnsupported ||
+        error == kVoiceSessionErrorP2pScreenShareUnavailable) {
+      state = state.copyWith(clearError: true);
     }
   }
 
@@ -2825,22 +2863,43 @@ class VoiceSession extends _$VoiceSession {
     return hasCapturePermission;
   }
 
-  Future<bool> _ensureScreenShareAudioPermission() async {
+  void _onIosBroadcastSettled(Object? error) {
+    if (!ref.mounted) {
+      return;
+    }
+    if (error != null) {
+      talker.warning('[Voice] iOS broadcast publish failed: $error');
+      state = state.copyWith(
+        errorMessage: _classifyScreenShareException(error),
+      );
+      return;
+    }
+    unawaited(_reconcileSelfStreamState(reason: 'ios_broadcast_published'));
+    _playScreenShareSound(FluxerSfxClip.streamStart);
+  }
+
+  Future<void> _cancelTimedOutAndroidScreenShare({
+    required Room? room,
+    required LocalParticipant? participant,
+  }) async {
     if (!Platform.isAndroid) {
-      return true;
+      return;
     }
-    final bool hasMicrophonePermission =
-        await hasMicrophonePermissionForVoice();
-    if (hasMicrophonePermission) {
-      return true;
+    try {
+      final VoiceMeshTransport? mesh = state.mesh;
+      if (mesh != null) {
+        await mesh.setScreenShare(null);
+      } else if (room != null && participant != null) {
+        await _voiceSettingsApplicator().setScreenShareEnabled(
+          participant: participant,
+          room: room,
+          settings: ref.read(voiceSettingsProvider),
+          enabled: false,
+        );
+      }
+    } on Object catch (e) {
+      talker.warning('[Voice] Cancelling timed-out screen share failed: $e');
     }
-    talker.warning(
-      '[Voice] Screen-share audio requires microphone permission; requesting.',
-    );
-    return _ensureSystemPermissionForVoice(
-      SystemPermissionKind.microphone,
-      deniedErrorCode: kVoiceSessionErrorScreenSharePermissionDenied,
-    );
   }
 
   String _classifyScreenShareException(Object error) {
@@ -3022,6 +3081,10 @@ class VoiceSession extends _$VoiceSession {
       );
       final bool currentSelfStream =
           _selfConnectionVoiceState()?.selfStream ?? false;
+      if (actualSelfStream &&
+          _hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+        _clearScreenShareError();
+      }
       if (actualSelfStream == currentSelfStream) {
         return;
       }
@@ -3033,6 +3096,12 @@ class VoiceSession extends _$VoiceSession {
         '$currentSelfStream -> $actualSelfStream',
       );
       _lastReportedSelfStream = actualSelfStream;
+      if (!actualSelfStream &&
+          !_togglingScreenShare &&
+          !_refreshingScreenShare &&
+          !state.isReconnecting) {
+        unawaited(disableAndroidScreenShareBackground());
+      }
       await _applySelfStreamState(selfStream: actualSelfStream);
     } finally {
       _reconcilingSelfStream = false;
@@ -3202,7 +3271,7 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (Platform.isIOS) {
-      ref.read(voiceIosNativeRouteSyncProvider);
+      unawaited(ref.read(voiceIosNativeRouteSyncProvider.notifier).refresh());
     }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
         .listen(_scheduleAudioRouteRecovery);
@@ -3424,27 +3493,6 @@ class VoiceSession extends _$VoiceSession {
     await _applyAudioOutputDevice(settings.outputDeviceId);
   }
 
-  void _cancelSpeakerOutputRetry() {
-    for (final Timer timer in _speakerOutputRetryTimers) {
-      timer.cancel();
-    }
-    _speakerOutputRetryTimers.clear();
-  }
-
-  void _scheduleSpeakerOutputRetry() {
-    _cancelSpeakerOutputRetry();
-    for (final Duration delay in kVoiceCallKitSpeakerReapplyDelays) {
-      _speakerOutputRetryTimers.add(
-        Timer(delay, () {
-          if (!state.isInVoice) {
-            return;
-          }
-          unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
-        }),
-      );
-    }
-  }
-
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
     if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
       return;
@@ -3467,17 +3515,9 @@ class VoiceSession extends _$VoiceSession {
     final bool outputRoutingChanged =
         previous == null ||
         previous.outputDeviceId != next.outputDeviceId ||
-        previous.outputRoute != next.outputRoute;
+        (previous.outputRoute != next.outputRoute && !Platform.isIOS);
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
-      if (shouldReapplySpeakerOutputOnPreferenceChange(
-        isInVoice: state.isInVoice,
-        speakerPreferenceChanged:
-            previous != null && previous.outputRoute != next.outputRoute,
-        isAndroid: Platform.isAndroid,
-      )) {
-        _scheduleSpeakerOutputRetry();
-      }
     }
     final Room? room = state.liveKitRoom;
     final VoiceMeshTransport? mesh = state.mesh;
@@ -3540,7 +3580,12 @@ class VoiceSession extends _$VoiceSession {
           previous.preferredScreenShareCodec != next.preferredScreenShareCodec;
       if (screenShareCodecChanged &&
           _hasPublishedLocalScreenShareVideo(requireTrack: false)) {
-        await applicator.refreshScreenShare(room: room, settings: next);
+        _refreshingScreenShare = true;
+        try {
+          await applicator.refreshScreenShare(room: room, settings: next);
+        } finally {
+          _refreshingScreenShare = false;
+        }
       }
     }
     final bool participantVolumesChanged =
@@ -3590,7 +3635,7 @@ class VoiceSession extends _$VoiceSession {
         userId: userId,
       ),
       outputVolumePercent: settings.outputVolume,
-      locallyMuted: settings.participantLocalMutes[userId] ?? false,
+      locallyMuted: _effectiveLocalMutes(settings)[userId] ?? false,
     );
   }
 
@@ -3599,8 +3644,15 @@ class VoiceSession extends _$VoiceSession {
     await applyAllParticipantVolumesToMedia(
       media: state.media,
       participantVolumes: settings.participantVolumes,
-      participantLocalMutes: settings.participantLocalMutes,
+      participantLocalMutes: _effectiveLocalMutes(settings),
       outputVolumePercent: settings.outputVolume,
+    );
+  }
+
+  Map<String, bool> _effectiveLocalMutes(VoiceSettingsState settings) {
+    return effectiveParticipantLocalMutes(
+      participantLocalMutes: settings.participantLocalMutes,
+      blockedUserIds: ref.read(blockedUserIdsProvider),
     );
   }
 
@@ -3630,7 +3682,7 @@ class VoiceSession extends _$VoiceSession {
           userId: userId,
         ),
         outputVolumePercent: settings.outputVolume,
-        locallyMuted: settings.participantLocalMutes[userId] ?? false,
+        locallyMuted: _effectiveLocalMutes(settings)[userId] ?? false,
       );
     } on Object catch (error) {
       talker.warning('[Voice] Failed to apply participant volume: $error');

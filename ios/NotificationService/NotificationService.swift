@@ -76,8 +76,11 @@ final class NotificationService: UNNotificationServiceExtension {
         content.body = PushNotificationPayload.resolvedAlertBody(
             decryptedBody: userInfo["body"] as? String,
             currentBody: preservedBody,
-            fallback: Self.localizedPushBody()
+            fallback: NativeStrings.text("PUSH_NEW_MESSAGE", "New message")
         )
+        if let preview = PushNotificationPayload.localizedPreviewBody(from: userInfo) {
+            content.body = preview
+        }
     }
 
     private func downloadMedia(messageImageUrl: URL?, imageIdentifier: String, avatarUrl: URL?) {
@@ -180,22 +183,6 @@ private extension NotificationService {
         )
     }
 
-    static func localizedPushBody() -> String {
-        let appURL = Bundle.main.bundleURL
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-        let bundle = Bundle(url: appURL) ?? .main
-        let text = bundle.localizedString(
-            forKey: "PUSH_NEW_MESSAGE",
-            value: "New message",
-            table: nil
-        )
-        if text.isEmpty || text == "PUSH_NEW_MESSAGE" {
-            return "New message"
-        }
-        return text
-    }
-
     static func communicationContent(
         _ content: UNMutableNotificationContent,
         avatarData: Data?
@@ -206,13 +193,18 @@ private extension NotificationService {
             return content
         }
         let userInfo = content.userInfo
-        let title = content.title.isEmpty ? "Fluxer" : content.title
-        let senderId = PushNotificationPayload.resolveSenderIdentifier(from: userInfo) ?? title
+        guard let identity = PushNotificationPayload.resolveConversationIdentity(
+            from: userInfo,
+            title: content.title
+        ) else {
+            return content
+        }
+        let senderId = PushNotificationPayload.resolveSenderIdentifier(from: userInfo) ?? identity.senderName
         let avatar = avatarData.map { INImage(imageData: $0) }
         let sender = INPerson(
             personHandle: INPersonHandle(value: senderId, type: .unknown),
             nameComponents: nil,
-            displayName: title,
+            displayName: identity.senderName,
             image: avatar,
             contactIdentifier: nil,
             customIdentifier: senderId,
@@ -220,15 +212,11 @@ private extension NotificationService {
             suggestionType: .none
         )
         let threadId = content.threadIdentifier
-        let groupName = PushNotificationPayload.resolveSpeakableGroupName(
-            title: title,
-            userInfo: userInfo
-        )
         let intent = INSendMessageIntent(
             recipients: nil,
             outgoingMessageType: .outgoingMessageText,
             content: content.body,
-            speakableGroupName: groupName.map { INSpeakableString(spokenPhrase: $0) },
+            speakableGroupName: identity.groupName.map { INSpeakableString(spokenPhrase: $0) },
             conversationIdentifier: threadId.isEmpty ? nil : threadId,
             serviceName: nil,
             sender: sender,

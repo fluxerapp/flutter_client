@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
@@ -418,23 +419,60 @@ final StreamProviderFamily<ForumStoredPosts, String> forumStoredPostsProvider =
       final ChannelLastMessageIndex lastMessageIndex = ref.watch(
         channelLastMessageIndexProvider(readAccountUserId(ref)),
       );
-      Set<String> postIds = const <String>{};
+      ForumStoredPosts current = const ForumStoredPosts();
+      bool rowsChanged = true;
+      final Map<String, String> flushed = <String, String>{};
+      String newer(String? stored, String incoming) =>
+          stored == null || compareSnowflakeIds(incoming, stored) >= 0
+          ? incoming
+          : stored;
+      bool collectFlush(Map<String, String> updates) {
+        bool touched = false;
+        for (final MapEntry<String, String> update in updates.entries) {
+          if (current.lastMessageIds.containsKey(update.key)) {
+            flushed[update.key] = newer(flushed[update.key], update.value);
+            touched = true;
+          }
+        }
+        return touched;
+      }
+
       return mergeVoidStreams(<Stream<dynamic>>[
-        database.threadDao.watchThreadsForParent(forumId),
-        lastMessageIndex.flushStream.where(
-          (Map<String, String> updates) => updates.keys.any(postIds.contains),
-        ),
+        database.threadDao
+            .watchThreadsForParent(forumId)
+            .map((_) => rowsChanged = true),
+        lastMessageIndex.flushStream.map(collectFlush).where((bool hit) => hit),
       ]).asyncMap((_) async {
-        final List<db.Channel> rows = await database.threadDao
-            .getThreadsForParent(forumId);
-        postIds = <String>{for (final db.Channel row in rows) row.id};
-        return ForumStoredPosts(
-          posts: <Channel>[
-            for (final db.Channel row in rows) Channel.fromRow(row),
-          ],
-          lastMessageIds: <String, String?>{
-            for (final db.Channel row in rows) row.id: row.lastMessageId,
-          },
+        if (rowsChanged) {
+          rowsChanged = false;
+          flushed.clear();
+          final List<db.Channel> rows = await database.threadDao
+              .getThreadsForParent(forumId);
+          return current = ForumStoredPosts(
+            posts: <Channel>[
+              for (final db.Channel row in rows) Channel.fromRow(row),
+            ],
+            lastMessageIds: <String, String?>{
+              for (final db.Channel row in rows) row.id: row.lastMessageId,
+            },
+          );
+        }
+        if (flushed.isEmpty) {
+          return current;
+        }
+        final Map<String, String?> lastMessageIds = <String, String?>{
+          ...current.lastMessageIds,
+        };
+        for (final MapEntry<String, String> update in flushed.entries) {
+          lastMessageIds[update.key] = newer(
+            lastMessageIds[update.key],
+            update.value,
+          );
+        }
+        flushed.clear();
+        return current = ForumStoredPosts(
+          posts: current.posts,
+          lastMessageIds: lastMessageIds,
         );
       });
     });

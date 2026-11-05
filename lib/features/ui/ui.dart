@@ -20,6 +20,7 @@ export 'package:fluxer_app/features/ui/card_alignment_controls/fluxer_card_align
 export 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
 export 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 export 'package:fluxer_app/features/ui/color_picker/fluxer_color_picker_field.dart';
+export 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 export 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';

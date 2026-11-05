@@ -6,18 +6,30 @@ import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:riverpod/riverpod.dart' as rp;
 
 enum FavoriteMemeMediaFilter { all, images, videos, audio, gifs }
 
 final favoriteMemesProvider = rp.StreamProvider<List<FavoriteMeme>>((ref) {
   final db = ref.watch(fluxerDatabaseProvider);
+  final MatureAccess access = ref.watch(
+    sensitiveContentProvider.select((SensitiveContentState s) => s.access),
+  );
   return db.favoriteMemesDao.watchAll().map(
     (rows) => sortFavoriteMemesByNewest(
-      rows.map(FavoriteMeme.fromRow).toList(growable: false),
+      visibleFavoriteMemes(rows.map(FavoriteMeme.fromRow), access: access),
     ),
   );
 });
+
+List<FavoriteMeme> visibleFavoriteMemes(
+  Iterable<FavoriteMeme> memes, {
+  required MatureAccess access,
+}) => memes
+    .where((FavoriteMeme meme) => !meme.nsfw || access == MatureAccess.allowed)
+    .toList(growable: false);
 
 final Provider<FavoriteMediaRepository> favoriteMediaRepositoryProvider =
     Provider<FavoriteMediaRepository>((ref) {

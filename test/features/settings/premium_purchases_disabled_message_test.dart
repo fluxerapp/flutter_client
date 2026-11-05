@@ -128,6 +128,7 @@ Widget _storeBar() {
     purchaseDisabled: false,
     purchaseDisabledMessage: null,
     onBuy: (_) {},
+    onRetry: () {},
     onManage: null,
   );
 }
@@ -142,6 +143,7 @@ Widget _checkoutTrigger() {
         priceIds: const PriceIdsResponse(
           currency: 'USD',
           giftCurrency: 'USD',
+          distribution: null,
           monthly: 'price_monthly',
         ),
       ),

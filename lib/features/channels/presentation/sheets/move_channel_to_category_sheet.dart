@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart'
 import 'package:fluxer_app/features/channels/domain/guild_channel_ordering.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
@@ -38,6 +39,9 @@ Future<void> showMoveChannelToCategorySheet(
         title: l10n.channelMenuMoveToCategory,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         minChildSize: 0.25,
+        desktop: const FluxerDesktopPresentation(
+          surface: FluxerDesktopSurface.menu,
+        ),
         builder: (sheetContext, scrollController, _) {
           final layout = sheetContext.layout;
           Widget option(String label, String? parentId) {

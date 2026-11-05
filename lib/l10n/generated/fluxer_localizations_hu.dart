@@ -94,8 +94,33 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Csatlakoztatva';
 
   @override
+  String get gatewayOfflineToast =>
+      'Nincs internetkapcsolat. A Fluxer újracsatlakozik, amint újra online leszel.';
+
+  @override
   String get sessionExpiredToast =>
       'A munkamenet lejárt. Kérlek, jelentkezz be újra.';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'A fiókod $date napján törlődik. Ha előtte bejelentkezel, a törlés megszakad.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'A fiókod törlése ütemezve van. Ha a törlés napja előtt bejelentkezel, a törlés megszakad.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Most töröljük a fiókodat. Ha a fiókodhoz tartozik e-mail-cím, e-mailt küldünk, amikor elkészült.';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Most töröljük a fiókodat.';
+
+  @override
+  String get accountDisabledNotice =>
+      'A fiókod inaktiválva van. Jelentkezz be újra, amikor használni szeretnéd.';
 
   @override
   String splashStartupFailed(String error) {
@@ -150,6 +175,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String get verificationResendEmail => 'E-mail újraküldése';
+
+  @override
+  String get verificationEmailSent =>
+      'Ellenőrző e-mail elküldve. Nézd meg a beérkező üzeneteidet.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Túl sok ellenőrző e-mailt kértél. Kérjük, várj egy kicsit, majd próbáld újra.';
+
+  @override
   String get nagbarOpenSettings => 'Beállítások megnyitása';
 
   @override
@@ -184,8 +220,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'A(z) $productName előfizetésed nem újult meg. A(z) $productName előnyeid $graceDate napjáig megmaradnak.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'A(z) $productName előfizetésed lejárt. Újítsd meg most, hogy megtartsd a kedvezményeket.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'A(z) $productName előfizetésed lejárt.';
   }
 
   @override
@@ -224,13 +273,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Engedélyezd a 2FA-t';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Frissítettük a feltételeinket. Kérjük, tekintse át és fogadja el őket a folytatáshoz.';
-
-  @override
-  String get nagbarReviewTerms => 'Feltételek áttekintése';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Csatlakozz a(z) $communityName közösséghez, hogy beszélgethess a csapattal és naprakész maradj.';
   }
@@ -267,6 +309,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => 'Bejelentkezés kulcstartóval';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A bejelentkezéssel elfogadod a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A bejelentkezéssel elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -366,8 +421,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Próbálj másik módszert';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Ennek a példánynak a jelszókulcsai nem működnek ebben az alkalmazásban, és a fiókodhoz nincs más ellenőrzési mód. Jelentkezz be inkább a weben.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Biztonsági kulcs vagy jelszókulcs használata';
+
+  @override
+  String get mfaUseBackupCode => 'Biztonsági mentési kód használata';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Kód használata a hitelesítő alkalmazásból';
 
   @override
   String get accountSelectorTitle => 'Fiók kiválasztása';
@@ -392,8 +458,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get accountExpired => 'Lejárt';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'A munkamenet lejárt: $identifier. Kérlek, jelentkezz be újra.';
+  String accountSessionExpiredNotice(String name) {
+    return 'A(z) $name munkameneted lejárt. Jelentkezz be újra.';
   }
 
   @override
@@ -499,78 +565,68 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get signOut => 'Kijelentkezés';
 
   @override
-  String get suspendedPermanentTitle => 'Fiók véglegesen felfüggesztve';
-
-  @override
   String get suspendedTemporaryTitle => 'Fiók felfüggesztve';
 
   @override
-  String get suspendedPermanentDescription =>
-      'A fiókod véglegesen felfüggesztésre került a Szolgáltatási Feltételek megsértése miatt.';
+  String get suspendedBannedTitle => 'Fiók véglegesen felfüggesztve';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'A fiókod ideiglenesen felfüggesztésre került. A felfüggesztési időszak végeztével újra hozzáférhetsz a fiókodhoz.';
+  String get suspendedClosedTitle => 'Fiók lezárva';
 
   @override
-  String get suspendedIssuedAt => 'Kiadva';
+  String get suspendedWhatHappened => 'Mi történt';
 
   @override
-  String get suspendedEndsAt => 'Vége';
+  String get suspendedWhy => 'Miért';
 
   @override
-  String get suspendedDuration => 'Időtartam';
+  String get suspendedHowWeDecided => 'Hogyan döntöttünk';
 
   @override
-  String get suspendedPermanent => 'Végleges';
+  String get suspendedHowToAppeal => 'Így fellebbezhetsz';
 
   @override
-  String get suspendedReason => 'Ok (indoklás)';
-
-  @override
-  String get suspendedAppealDeadline => 'Fellebbezési határidő';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'A fiókod törlése ekkor lesz ütemezve: $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Megjegyzés a csapatunktól: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Frissítések keresése';
+  String suspendedDecisionId(String decisionId) {
+    return 'Döntésazonosító: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Újrapróbálkozás $seconds mp múlva';
+  String suspendedRule(String title) {
+    return 'Szabály: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, és add meg a felhasználónevedet.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, legkésőbb $deadline napjáig. Add meg a döntésazonosítót és a felhasználónevedet. A fellebbezés ingyenes, és mindegyiket egy ember vizsgálja meg.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Ha úgy gondolod, hogy tévedtünk, írj e-mailt ide: $email, legkésőbb $deadline napjáig. Ha tudsz, a fiókodhoz tartozó e-mail-címről írj, és add meg a döntésazonosítót. A fellebbezés ingyenes, és mindegyiket egy ember vizsgálja meg.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Ha azt szeretnéd, hogy töröljük a fiókodat és az adataidat, írj e-mailt ide: $email a fiókodhoz tartozó címről.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Ha azt szeretnéd, hogy töröljük a fiókodat és az adataidat, írj e-mailt ide: $email, és add meg a felhasználónevedet.';
   }
 
   @override
   String get suspendedBackToLogin => 'Vissza a bejelentkezéshez';
-
-  @override
-  String get suspendedAppealTitle => 'Fellebbezés';
-
-  @override
-  String get suspendedAppealHint =>
-      'Magyarázd el, miért kellene felülvizsgálni a felfüggesztésedet (minimum 50 karakter)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Fellebbezés küldése';
-
-  @override
-  String get suspendedAppealPending => 'Felülvizsgálat alatt';
-
-  @override
-  String get suspendedAppealAccepted => 'Fellebbezés elfogadva';
-
-  @override
-  String get suspendedAppealRejected => 'Fellebbezés elutasítva';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'A fellebbezésedet elfogadtuk, és a fiókod helyreállítva.';
-
-  @override
-  String get suspendedSignIn => 'Bejelentkezés a fiókodba';
 
   @override
   String get forgotPasswordTitle => 'Elfelejtetted a jelszavad?';
@@ -803,6 +859,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerDateOfBirth => 'Születési dátum';
 
   @override
+  String get registerDateOfBirthDone => 'Kész';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nincs beállítva';
+
+  @override
   String get registerMonth => 'Hónap';
 
   @override
@@ -812,16 +874,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerYear => 'Év';
 
   @override
-  String get registerConsentPrefix => 'Elfogadom a ';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Elfogadom a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>',
+      'terms': 'Elfogadom a <terms>Szolgáltatási feltételeket</terms>',
+      'other': 'Elfogadom az <privacy>Adatvédelmi irányelveket</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => 'Szolgáltatási feltételek';
-
-  @override
-  String get registerConsentAnd => ' és a ';
-
-  @override
-  String get registerConsentPrivacy => 'Adatvédelmi irányelvek';
+  String get registerConsentBuiltInRules =>
+      'Elfogadom, hogy ez a példány nem tűri a kifogásolható tartalmakat és a bántalmazó felhasználókat, és hogy az adminisztrátorai eltávolíthatják az e szabályokat megszegő tartalmakat és fiókokat.';
 
   @override
   String get registerConfirmPassword => 'Jelszó megerősítése';
@@ -843,6 +908,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get passkeyNoCredentials =>
       'Nincsenek hitelesítő adatok ehhez az alkalmazáshoz. Jelentkezz be inkább e-maillel és jelszóval.';
+
+  @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
 
   @override
   String get passkeyDeviceNotSupported =>
@@ -900,8 +969,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count tag';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount tag';
   }
 
   @override
@@ -1003,9 +1072,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Témákat csak weben vagy asztali gépen importálhatsz.';
 
   @override
-  String get embedThemeImport => 'Téma importálása';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return 'Látnok (élethossziglan $productName)';
   }
@@ -1096,6 +1162,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ezt az ajándékot már beváltották.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Ez az ajándék nem igényelhető az iOS-alkalmazásban. Az asztali alkalmazásban igényelheted.';
 
   @override
   String get giftAcceptMaybeLater => 'Talán később';
@@ -1746,6 +1816,50 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String get stickerPickerSearchHint => 'Találd meg a tökéletes matricát';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle =>
+      'Nincsenek elérhető matricák';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      'Csatlakozz egy matricákkal rendelkező közösséghez, hogy itt használhasd őket.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => 'Nincsenek elérhető matricák';
+
+  @override
+  String get stickerPickerEmptyHereBody =>
+      'Ebben a beszélgetésben nincsenek elérhető matricák.';
+
+  @override
+  String get stickerPickerNoResultsTitle => 'Nem található matrica';
+
+  @override
+  String get stickerPickerNoResultsBody =>
+      'Próbálj meg egy másik keresőkifejezést.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Oldd fel a Plutoniummal: $stickerCount $communityCount kínálatából.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matrica',
+      one: '1 matrica',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => 'Figyelmeztetés külső hivatkozásnál';
 
   @override
@@ -2022,22 +2136,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Jelvények';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Válaszd ki, mely jelvényeket látják mások a profilodon.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Még nincs egy jelvényed sem.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Nem sikerült betölteni a jelvényeidet.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '$badgeLabel megjelenítése a profilodon';
   }
 
   @override
@@ -2046,22 +2160,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Az összes jelvény megjelenítése';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count további jelvény, az összes megjelenítése',
+      one: '+$count további jelvény, az összes megjelenítése',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Csak akkor látszik, ha a Visionary-jelvényed látható, és nem normál előfizetésként jelenik meg.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium jelvény adatvédelme';
@@ -2116,117 +2230,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass ezóta: $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile =>
+      'Jelvény megjelenítése a profilomon';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Annak elrejtése, mikor kaptad meg az $operatorPassName-t';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
-
-  @override
-  String get operatorPassWallTitle => 'Operators\' wall';
-
-  @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
-
-  @override
-  String get operatorPassWallNotListed => 'Not listed.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'On the wall';
-
-  @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
-
-  @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Why?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
-
-  @override
-  String get operatorPassWallSave => 'Save';
-
-  @override
-  String get operatorPassWallSaved => 'Saved.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
-
-  @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
+  String get operatorPassHideCount =>
+      'Annak elrejtése, hány Operator Passod van';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2243,8 +2261,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Az alkalmazáson belüli vásárlások még nem érhetők el ezen a platformon. Maradj velünk – hamarosan!';
+  String get plutoniumNotSoldHere =>
+      'A Plutonium nem vásárolható meg az alkalmazás ezen verziójában.';
 
   @override
   String get profilePreviewLabel => 'Előnézet';
@@ -2317,6 +2335,42 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A hitelesítés sikertelen volt. Kérlek, próbáld újra.';
 
   @override
+  String get sudoWrongPassword => 'A jelszó helytelen. Próbáld újra.';
+
+  @override
+  String get sudoEmailCodeSend => 'Küldj egy kódot e-mailben';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Elküldtünk egy 6 jegyű kódot az e-mail-címedre.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Az e-mailben kapott kód';
+
+  @override
+  String get sudoEmailCodeResend => 'Küldj egy új kódot';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Jelentkezz be újra, hogy megerősítsd, hogy te vagy az.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Jelentkezz be újra';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Bejelentkezés ezzel: $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Egy másik fiókba jelentkeztél be. Azzal a fiókkal jelentkezz be, amelyet itt használsz.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Ennek a példánynak a jelszókulcsai nem működnek ebben az alkalmazásban. Használd a hitelesítő alkalmazásodat vagy egy biztonsági kódot, vagy erősítsd meg a weben.';
+
+  @override
   String get securityAccountTitle => 'Fiók';
 
   @override
@@ -2329,6 +2383,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Védje meg fiókodat kétfaktoros hitelesítéssel és jelszavaimáddal';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Védd meg a fiókodat kétfaktoros hitelesítéssel';
 
   @override
   String get securityLoginEmailSectionTitle => 'E-mail beállítások';
@@ -2662,6 +2720,58 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ideiglenesen inaktiválhatod a fiókodat. Később újraaktiválhatod, ha bejelentkezel.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Fiókod és személyes adataid törlése. Az üzeneteidet is törölheted.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'A fiókod, a profilod és a személyes adataid törlődnek. Azok az üzenetek, amelyeket nem törölsz, ott maradnak, ahová küldted őket, a neved és a profilod nélkül.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Az üzeneteim törlése is';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'A fiókoddal együtt törli az összes üzenetet, amelyet DM-ekben, csoportos beszélgetésekben és közösségekben küldtél.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Ha meg szeretnél tartani egy másolatot az adataidról, előbb kérj exportot itt: $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Törlés 14 nap múlva';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'A 14 nap alatt bejelentkezéssel megszakíthatod a törlést.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Törlés ütemezése';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'A fiókod a példány várakozási ideje után törlődik. Ha előtte bejelentkezel, a törlés megszakad.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Törlés most';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Most törlöd a fiókodat?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'A fiókod azonnal törlődik, és nem állítható vissza.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'A Plutonium-előfizetésedet az Apple számlázza. A fiókod törlése nem mondja le, ezért előbb mondd le az App Store-ban.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'A Plutonium-előfizetésedet a Google Play számlázza. A fiókod törlése nem mondja le, ezért előbb mondd le a Google Playen.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'A fiókod letiltása minden munkamenetből kiléptet. Bármikor újra aktiválhatod a fiókodat, ha újra bejelentkezel.';
 
@@ -2669,49 +2779,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Fiók törlése';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Véglegesen törli a fiókodat és minden kapcsolódó adatot. Ez nem vonható vissza.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'A fiók nem törölhető';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Nem törölheted a fiókodat, amíg közösségek tulajdonosa vagy. Először ruházd át a következő közösségek tulajdonjogát:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Ezeknek a közösségeknek te vagy a tulajdonosa. A fiókod törlése előtt mindegyiket töröld, vagy add át egy másik tagnak.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'és még $count ';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'A tulajdonjog átruházásához menj a $settingsPath menüpontra, és használd a tulajdonjog átruházása opciót.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Biztosan törölni szeretnéd a fiókodat? Ezzel a művelettel végleges törlésre jelölöd a fiókodat.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'A törlési folyamatot 14 napon belül visszavonhatod';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      '14 nap múlva fiókod véglegesen törlődik';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'A törlés feldolgozása után nem tudod visszaállítani a fiókodhoz való hozzáférést';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'A fiókod törlése után nem tudod törölni a küldött üzeneteidet';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Ha exportálni szeretnéd az adataidat, vagy először törölni szeretnéd az üzeneteidet, kérjük, mielőtt folytatnád, keresd fel az Adatvédelmi irányítópultot a Felhasználói beállításokban.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Koppints egy közösségre a beállításai megnyitásához. A „Közösség törlése” legalul található. Az átadáshoz nyisd meg a „Tagok” részt, koppints egy tagra, koppints a profilján a három pontra, és válaszd a „Tulajdonjog átruházása” lehetőséget.';
 
   @override
   String get claimAccountTitle => 'Fejezd be a fiókod regisztrációját';
@@ -2735,9 +2811,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'A fiókregisztráció sikeresen befejeződött';
-
-  @override
-  String get importantInformation => 'Fontos információ:';
 
   @override
   String get genericError => 'Hiba történt';
@@ -4268,6 +4341,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült letölteni a mellékletet';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'A(z) $productName alkalmazásnak hozzá kell férnie a fotókönyvtáradhoz a melléklet mentéséhez.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'A melléklet lejárt';
 
   @override
@@ -4394,7 +4472,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Felfedés';
 
   @override
-  String get matureMediaRevealHint => 'Kattints a megjelenítéshez';
+  String get matureMediaRevealLabel => 'Érzékeny média felfedése';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Az érzékeny média rejtve van iPhone-on és iPaden.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Az érzékeny média rejtve van a fiókod számára.';
 
   @override
   String get matureContentTitle => 'Felnőtt tartalom';
@@ -4460,6 +4546,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a felnőtt tartalmú csatorna nem érhető el a fiókod számára.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'A 18+ tartalom ki van kapcsolva iPhone-on és iPaden. Ha itt szeretnéd megtekinteni a 18+ jelölésű közösségeket és csatornákat, nyisd meg a Fluxert a weben vagy asztali gépen, a beállításaidban lépj az „Adatvédelem” részre, és kapcsold be a „18+ tartalom engedélyezése iPhone-on és iPaden” lehetőséget.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'A tartózkodási helyeden érvényes, felnőtt tartalomra vonatkozó jogszabályok miatt a felnőtt tartalom innen nem érhető el.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Üzenet egy 18+ csatornában';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'A Fluxer nem érhető el ezen a fiókon';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Az Apple Account által megosztott korcsoport 13 év alatti. A Fluxer csak 13 éves és idősebb személyeknek szól.';
+
+  @override
   String get matureContentProceedButton => 'Tovább';
 
   @override
@@ -4491,6 +4596,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Mentés';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Ha itt a „Megjelenítés” lehetőséget szeretnéd választani, nyisd meg a Fluxert a weben vagy asztali gépen, a beállításaidban lépj az „Adatvédelem” részre, és kapcsold be a „18+ tartalom engedélyezése iPhone-on és iPaden” lehetőséget.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -4713,7 +4822,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Válassz a sötét, a szénszínű vagy a világos megjelenés között.';
+      'Válassz a rendszer, a sötét, a szénszínű vagy a világos megjelenés között.';
 
   @override
   String get lookAndFeelHdrSectionTitle => 'Nagy dinamikatartomány';
@@ -5240,6 +5349,64 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => 'Név megadása kötelező.';
+
+  @override
+  String get savedMediaEdit => 'Szerkesztés';
+
+  @override
+  String get savedMediaEditTitle => 'Mentett média szerkesztése';
+
+  @override
+  String get savedMediaDeleteTitle => 'Mentett média törlése';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return 'Eltávolítod a(z) „$name” elemet a mentett médiáid közül?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => 'Nem sikerült törölni a mentett médiát.';
+
+  @override
+  String get savedMediaSearchHint => 'Mentett média keresése';
+
+  @override
+  String get savedMediaUnavailableTitle => 'A mentett média nem érhető el';
+
+  @override
+  String get savedMediaUnavailableBody => 'Próbáld újra egy kis idő múlva.';
+
+  @override
+  String get savedMediaEmptyTitle => 'Nincs mentett média';
+
+  @override
+  String get savedMediaEmptyBody =>
+      'Ments médiát az üzenetekből, hogy itt lásd.';
+
+  @override
+  String get savedMediaNoResultsTitle => 'Nincs találat';
+
+  @override
+  String get savedMediaNoResultsBody =>
+      'Próbálj meg egy másik keresőkifejezést vagy szűrőt.';
+
+  @override
+  String get savedMediaFilterAll => 'Összes';
+
+  @override
+  String get savedMediaFilterImages => 'Képek';
+
+  @override
+  String get savedMediaFilterVideos => 'Videók';
+
+  @override
+  String get savedMediaFilterAudio => 'Hang';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF-ek';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -6067,6 +6234,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceConnectionDismiss => 'Elvetés';
 
   @override
+  String get voiceCallControlsSheetLabel => 'Hanghívás vezérlői';
+
+  @override
   String get voiceConnectionDisconnected => 'Kapcsolat megszakadt';
 
   @override
@@ -6161,6 +6331,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Profil megtekintése';
 
   @override
+  String get voiceParticipantMenuReport => 'Bejelentés';
+
+  @override
   String get voiceParticipantMenuFocus => 'Felhasználó kiemelése';
 
   @override
@@ -6212,7 +6385,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Fejhallgató';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Hangkimenet módosítása';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Csak a videók megjelenítése';
@@ -6246,6 +6419,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A videóhoz kamerahasználati engedély szükséges.';
 
   @override
+  String get voiceMicPermissionRequired =>
+      'Engedélyezd a mikrofonhoz való hozzáférést, hogy feloldhasd a némítást ebben a hívásban.';
+
+  @override
   String get voiceErrorScreenShareToggle =>
       'Nem sikerült elindítani a képernyőmegosztást. Kérlek, próbáld újra.';
 
@@ -6276,7 +6453,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Nagyítás: $scale';
   }
 
   @override
@@ -6285,6 +6462,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'A streamed élőben látható a résztvevők számára.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Videó egy általad letiltott személytől';
 
   @override
   String get voiceLiveBadge => 'Élő';
@@ -6438,6 +6619,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Az üzenet túl hosszú';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Az üzenetek legfeljebb $maxLengthString karakteresek lehetnek. Rövidítsd le ezt az üzenetet, hogy elküldhesd.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -7101,6 +7291,37 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nem sikerült elküldeni a választ';
 
   @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
+
+  @override
   String get chatMessageForward => 'Továbbítás';
 
   @override
@@ -7269,6 +7490,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageDebug => 'Üzenet hibakeresése';
 
   @override
+  String get messageAlertNote => 'Megjegyzés';
+
+  @override
+  String get messageAlertTip => 'Tipp';
+
+  @override
+  String get messageAlertImportant => 'Fontos';
+
+  @override
+  String get messageAlertWarning => 'Figyelem';
+
+  @override
+  String get messageAlertCaution => 'Figyelem';
+
+  @override
   String get chatMessageDebugSheetTitle => 'Üzenet hibakeresése';
 
   @override
@@ -7300,6 +7536,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Profil bejelentése';
 
   @override
+  String get reportFlowTitleCommunity => 'Közösség bejelentése';
+
+  @override
   String get reportFlowSummaryTitle => 'A bejelentésed ellenőrzése';
 
   @override
@@ -7322,7 +7561,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Az általad bejelentett üzenet';
 
   @override
-  String get reportFlowSelectedUser => 'Az általad bejelentett profil';
+  String get reportFlowSelectedPerson => 'Az általad bejelentett személy';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Az általad bejelentett közösség';
 
   @override
   String get reportFlowReportCategory => 'A válaszaid';
@@ -7349,6 +7591,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'A(z) $productName biztonsági csapata áttekinti a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'A példány adminisztrátorai áttekintik a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7397,6 +7643,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Ezt a profilt ma már bejelentetted.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Már bejelentetted ezt a közösséget.';
 
   @override
   String get reportFlowRateLimited =>
@@ -7532,6 +7782,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatReplyMentionOff => 'KI';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return 'Válasz neki: $authorName';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return 'Továbbítva innen: $source';
+  }
+
+  @override
+  String get chatForwardedLabel => 'Továbbítva';
+
+  @override
+  String get chatForwardedFromLabel => 'Továbbítva innen:';
+
+  @override
   String get chatReplyCancel => 'Válasz visszavonása';
 
   @override
@@ -7608,6 +7874,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => 'Elvetés';
+
+  @override
+  String get videoPlayerPlay => 'Lejátszás';
+
+  @override
+  String get videoPlayerPause => 'Szüneteltetés';
+
+  @override
+  String get videoPlayerVolume => 'Hangerő';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return 'Lejátszási sebesség: ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => 'Teljes képernyő';
 
   @override
   String get chatAttachmentVideoToggleControls =>
@@ -8596,6 +8879,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Értesítési beállítások, némítva';
 
   @override
+  String get channelHeaderOpenDetails => 'Csatorna részleteinek megnyitása';
+
+  @override
   String get channelDetailsSearchTitle => 'Keresés';
 
   @override
@@ -9305,6 +9591,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get composerCloseAttachmentPanel => 'Mellékletválasztó bezárása';
 
   @override
+  String get composerSendMessage => 'Üzenet küldése';
+
+  @override
   String get chatAttachmentPanelPhotos => 'Képek';
 
   @override
@@ -9647,15 +9936,41 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Legutóbbi vásárlás visszatérítése';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'A vásárlással elfogadja a következőket ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A vásárlással elfogadod a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A vásárlással elfogadod az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'A vásárlással elfogadta a következőket ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms> és az <privacy>Adatvédelmi irányelveket</privacy>.',
+      'terms':
+          'A vásárlással elfogadtad a <terms>Szolgáltatási feltételeket</terms>.',
+      'other':
+          'A vásárlással elfogadtad az <privacy>Adatvédelmi irányelveket</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' és ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Szolgáltatási feltételek</terms> és <privacy>Adatvédelmi irányelvek</privacy>',
+      'terms': '<terms>Szolgáltatási feltételek</terms>',
+      'other': '<privacy>Adatvédelmi irányelvek</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -9714,6 +10029,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get premiumPlanUnavailableSelfHosted =>
       'Ez a csomag nem elérhető. Vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.';
+
+  @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Az alkalmazás ezen verziójában az árak kicsit magasabbak, mert minden fizetés $percent-a a terjesztés költségeit fedezi.';
+  }
 
   @override
   String get premiumCompletePaymentTitle => 'Fizetés befejezése';
@@ -9851,14 +10171,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ossz meg teljes hosszúságú videókat és nagy fájlokat anélkül, hogy előbb lekicsinyítenéd őket. Az ingyenes fiókok legfeljebb 25 MB-ot küldhetnek.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle =>
+      'Streamelj 4K felbontásban, 60 FPS sebességgel';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Oszd meg a képernyődet vagy a kamerádat akár 4K felbontásban, 60 képkocka/másodperc sebességgel. Az ingyenes fiókok 720p felbontásban, 30 képkocka/másodperc sebességgel streamelnek.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Streamelj jobb minőségben';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Oszd meg a képernyődet vagy a kamerádat akár 1080p felbontásban, 60 képkocka/másodperc sebességgel az alkalmazásban, és akár 4K felbontásban, 60 képkocka/másodperc sebességgel az asztali alkalmazásban. Az ingyenes fiókok legfeljebb 720p felbontásban, 30 képkocka/másodperc sebességgel streamelnek.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Az előfizetésed';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9936,8 +10264,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Akár 4K felbontás 60 FPS sebességgel';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Akár 1080p 60 FPS-sel az alkalmazásban, akár 4K 60 FPS-sel asztali gépen';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Csak olyan címkét választhatsz, amellyel még senki más nem rendelkezik ugyanazzal a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít. A #0000 címke a Fluxer Visionary tagok számára van fenntartva.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Csak olyan címkét választhatsz, amely még senkinél sincs meg ugyanezzel a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Tudj meg többet a Visionaryról.';
@@ -9984,11 +10320,38 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Az Apple általános felhasználási feltételei (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Vásárlások visszaállítása';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'A Plutonium-előfizetésed visszaállítva.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Ehhez az Apple Accounthoz nincs visszaállítható Plutonium-előfizetés.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Nem sikerült visszaállítani a vásárlásokat. Próbáld újra egy kicsit később.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Már van Fluxer Plutonium előfizetésed.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Az ezen az eszközön lévő Apple Account már egy másik Fluxer-fiók Plutonium-előfizetését fizeti.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'A Plutonium nem lett hozzáadva';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'Az App Store megerősítette a vásárlásodat, de a Plutoniumot nem sikerült hozzáadni ehhez a fiókhoz. Az újrapróbáláshoz koppints a „Vásárlások visszaállítása” gombra, vagy ha továbbra sem működik, lépj kapcsolatba az ügyfélszolgálattal.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -10000,8 +10363,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Vásárlás megérkezett. A Plutonium itt jelenik meg, amint aktiválódik.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Az alkalmazáson belüli előfizetések még nem érhetők el ezen az eszközön.';
+  String get storePlutoniumApprovalPending =>
+      'A vásárlásod jóváhagyásra vár. A jóváhagyás után a Plutonium hozzáadódik a fiókodhoz.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Nem sikerült betölteni a Plutonium-csomagokat. Ellenőrizd a kapcsolatodat, és próbáld újra.';
+
+  @override
+  String get storePlutoniumRetry => 'Újra';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10667,7 +11037,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Nem tartalmaznak példányneveket, azonosítókat vagy üzenettartalmat.';
+      'A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Egy ehhez a telepítéshez tartozó véletlenszerű azonosítóhoz kapcsolódnak, és nem tartalmazzák a fiókod azonosítóját, a példányneveket vagy az üzenettartalmat.';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -10675,11 +11045,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'A Fluxer váratlanul bezárult. Az anonim összeomlási és hibaadatok megosztása segít gyorsabban kijavítanunk a problémákat.';
+      'A Fluxer váratlanul bezárult. Egy összeomlási jelentés elküldésével segítesz nekünk gyorsabban megtalálni és kijavítani a problémát.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'A jelentések összeomlási naplókat, hibákat és alapvető teljesítményadatokat tartalmaznak. Nem osztjuk meg őket harmadik féllel, és bármikor kikapcsolhatod ezt.';
+      'A jelentések összeomlási naplókat, hibákat, teljesítményadatokat, hálózati kérések időzítéseit, valamint a problémához vezető képernyőket és koppintásokat tartalmaznak, ehhez a telepítéshez tartozó véletlenszerű azonosítóhoz kapcsolva. Üzenettartalmat soha nem tartalmaznak, és csak a Fluxer saját hibakövető rendszerébe kerülnek. Ezt bármikor kikapcsolhatod.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10691,8 +11061,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Összeomlási jelentések küldése';
 
   @override
-  String get observabilityReportingConsentDecline =>
-      'Nem szeretném bekapcsolni';
+  String get observabilityReportingConsentDecline => 'Ne kérdezze többet';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Most nem';
 
   @override
   String get advancedSettingsConfigure => 'Beállítás';
@@ -10761,11 +11133,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A logó kicsinyítése a kezdőképernyőről való kilépéskor';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Idézetek az indítóképernyőn';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Egy véletlenszerű idézet megjelenítése az indítóképernyőn. Nem szinkronizálódik az eszközök között.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Billentyűzetsúgók';
@@ -11124,7 +11496,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Beépített fordított képkereső szolgáltatók engedélyezése vagy letiltása. Az engedélyezett szolgáltatók megjelennek a képek, profilképek, borítóképek, matricák és emojik helyi menüjében.';
+      'A beépített fordított képkereső szolgáltatók be- vagy kikapcsolása. A bekapcsolt szolgáltatók a képek beállításai között jelennek meg.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11138,6 +11510,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
       'Fordított képkeresés hozzáadása';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return 'Keresés ezzel: $engine';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return 'Fordítás ezzel: $engine';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -11247,6 +11629,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavAppLogs => 'Alkalmazásnaplók';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'A Fluxer alkalmazás adatvédelmi irányelvei';
+
+  @override
+  String get userSettingsTitle => 'Beállítások';
+
+  @override
+  String get userSettingsCopyAppInfo => 'Alkalmazásadatok másolása';
+
+  @override
   String get userSettingsNavDeveloperTools => 'Fejlesztői eszközök';
 
   @override
@@ -11254,6 +11646,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get userSettingsNavFeatureFlags => 'Funkciójelzők';
+
+  @override
+  String get userSettingsNavHelp => 'Súgó és támogatás';
 
   @override
   String get userSettingsNavWhatsNew => 'Újdonságok';
@@ -11550,6 +11945,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return 'A(z) $domain nem használ biztonságos kapcsolatot (https). A Fluxer csak a helyi hálózatodon lévő példányokhoz csatlakozik http-n keresztül.';
+  }
+
+  @override
   String get instanceCompatibilityTitle => 'Ez a példány nem használható';
 
   @override
@@ -11582,9 +11982,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get instanceConnectionRequired =>
       'Csatlakozz az instanchoz a bejelentkezéshez';
-
-  @override
-  String get comingSoon => 'Hamarosan';
 
   @override
   String get guildNavbarDirectMessages => 'Közvetlen üzenetek';
@@ -11677,9 +12074,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => 'Közösségek';
-
-  @override
-  String get discoveryApps => 'Alkalmazások';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11797,6 +12191,81 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => 'Beérkezett üzenetek';
+
+  @override
+  String get friendsPageTitle => 'Ismerőseim';
+
+  @override
+  String get friendsActiveNowTitle => 'Most aktívak';
+
+  @override
+  String get friendsActiveNowEmptyTitle => 'Most csend van...';
+
+  @override
+  String get friendsActiveNowEmptyBody =>
+      'Amikor az ismerősök aktívak a hangcsatornákon, a tevékenységük itt fog megjelenni.';
+
+  @override
+  String get friendsTabOnline => 'Online';
+
+  @override
+  String get friendsTabAll => 'Összes';
+
+  @override
+  String get friendsTabPending => 'Függőben';
+
+  @override
+  String get friendsTabBlocked => 'Letiltva';
+
+  @override
+  String get friendsSearchOnline => 'Online ismerősök keresése';
+
+  @override
+  String get friendsSearchAll => 'Ismerősök keresése';
+
+  @override
+  String get friendsSearchPending => 'Függőben lévő ismerősjelölések keresése';
+
+  @override
+  String get friendsSearchBlocked => 'Letiltott felhasználók keresése';
+
+  @override
+  String get friendsEmptySearchTitle => 'Nincs a keresésnek megfelelő ismerős';
+
+  @override
+  String get friendsEmptySearchBody =>
+      'Próbálj meg egy másik nevet, vagy ellenőrizd a helyesírást.';
+
+  @override
+  String get friendsEmptyOnlineTitle => 'Nincs online ismerős';
+
+  @override
+  String get friendsEmptyOnlineBody =>
+      'Amikor online lesznek, itt fognak megjelenni.';
+
+  @override
+  String get friendsEmptyAllTitle => 'Még nincsenek ismerőseid';
+
+  @override
+  String get friendsEmptyAllBody =>
+      'Ahová tartunk, ott több ismerősre lesz szükségünk.';
+
+  @override
+  String get friendsEmptyPendingTitle =>
+      'Nincsenek függőben lévő ismerősjelölések';
+
+  @override
+  String get friendsEmptyPendingBody =>
+      'A függőben lévő ismerősjelölések itt jelennek meg.';
+
+  @override
+  String get friendsEmptyBlockedBody => 'Még senkit sem tiltottál le.';
+
+  @override
+  String get friendsOutgoingStatus => 'Kimenő ismerősjelölés';
+
+  @override
+  String get friendsBlockedStatus => 'Letiltva';
 
   @override
   String get profileRemoveFriend => 'Eltávolítás az ismerősök közül';
@@ -12085,6 +12554,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String get channelMutedHint => 'Némítva';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return 'Csak a $productName személyzetének hozzáférhető';
   }
@@ -12159,6 +12631,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Közösségi azonosító másolása';
+
+  @override
+  String get guildMenuReportCommunity => 'Közösség bejelentése';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -12275,11 +12750,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Szerepkör ikonja';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Tölts fel egy képet, vagy válassz egy emojit. A tagoknál a legmagasabb olyan szerepkörük ikonja látszik, amelynek van ikonja.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12287,68 +12762,69 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Legalább $minimumSize, legfeljebb $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Szerepkör ikonjának feltöltése';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'A szerepkör jelenlegi ikonja, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'A szerepkör jelenlegi ikonja, feltöltött kép';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Emoji kiválasztása';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Kép feltöltése';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Ikon eltávolítása';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Az animált ikonok nem támogatottak. Használj statikus képet.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Ez a fájltípus nem támogatott. Támogatott típusok: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Ezt a képet nem sikerült betölteni. Próbálj meg egy másikat.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Így jelennek meg az üzenetek';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Szerepkör ikonja, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Szerepkör ikonjának körbevágása';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Ikon mentése';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Körbevágás kihagyása';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Nem sikerült körbevágni az ikont. Próbáld újra.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Húzd a szerepkör ikonját az áthelyezéshez, és használd a görgőt vagy a csippentést a nagyításhoz. Az ajánlott minimális méret $minimumWidth×$minimumHeight képpont.';
   }
 
   @override
@@ -13720,25 +14196,28 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'A szerepkör ikonja erre lett beállítva: $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Megváltoztatta a szerepkör ikonját erről: $oldEmoji erre: $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Eltávolítva a szerepkör ikonja';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Beállított egy egyéni szerepkörikont';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Megváltoztatta az egyéni szerepkör ikonját';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Eltávolítva az egyéni szerepkör ikonja';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -14976,6 +15455,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => 'Közvetlen üzenetek';
 
   @override
+  String get dmListFriendsButton => 'Ismerősök';
+
+  @override
   String get keybindsSearchShortcuts => 'Billentyűparancsok keresése';
 
   @override
@@ -15623,6 +16105,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Az eredeti üzenetet törölték.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Bejegyzés egy általad letiltott személytől';
+
+  @override
+  String get threadBlockedAuthor => 'Szál egy általad letiltott személytől';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15669,6 +16158,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Megjelölés olvasottként';
+
+  @override
+  String get forumReportPost => 'Bejegyzés bejelentése';
 
   @override
   String get forumCopyPostLink => 'Link másolása';
@@ -16588,4 +17080,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
       'Ennél a fióknál le van tiltva a fizetés.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return 'Nem sikerült csatlakozni ehhez: $domain. Ellenőrizd az internetkapcsolatot, és próbáld újra.';
+  }
 }

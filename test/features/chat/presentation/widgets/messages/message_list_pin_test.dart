@@ -97,6 +97,67 @@ void main() {
   });
 
   group('MessageList tail glue', () {
+    testWidgets('a short pull from the tail is not returned by a later edit', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      final TestGesture gesture = await _holdDragTowardOlder(
+        tester,
+        distance: 24,
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+      await gesture.up();
+      await pumpFluxerFrames(tester);
+      final double restingPixels = position.pixels;
+      expect(position.maxScrollExtent - restingPixels, greaterThan(16));
+
+      final List<Message> current = List<Message>.of(
+        chatViewModel.testState.messages,
+      );
+      final int edited = current.length - 2;
+      current[edited] = current[edited].copyWith(content: 'one\ntwo\nthree');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (messages: current, origin: MessagesOrigin.realtimeEvent),
+      );
+      await pumpFluxerFrames(tester);
+
+      expect(position.pixels, moreOrLessEquals(restingPixels, epsilon: 1));
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('an underfill re-anchor waits for the finger to lift', (
+      WidgetTester tester,
+    ) async {
+      final AroundAckMessageListHarness harness = await _pumpTailList(tester);
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(messageListScrollable()),
+      );
+      await tester.pump();
+
+      final List<Message> messages = harness.chatViewModel.testState.messages;
+      harness.chatViewModel.testState = harness.chatViewModel.testState
+          .copyWith(
+            scrollToMessageSignal: (messages[messages.length - 2].id, 1),
+          );
+      await tester.pump();
+      await tester.pump();
+      final int epochWhileHeld = messageListAnchorEpoch(tester);
+      for (int frame = 0; frame < 6; frame += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(messageListAnchorEpoch(tester), epochWhileHeld);
+
+      await gesture.up();
+      await pumpFluxerFrames(tester);
+      expect(messageListAnchorEpoch(tester), greaterThan(epochWhileHeld));
+
+      await disposeMessageList(tester);
+    });
+
     testWidgets('an edit growing a row above the newest keeps the newest row '
         'at the bottom on every frame', (WidgetTester tester) async {
       final InstrumentedChatViewModel chatViewModel = await pumpBottomList(

@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -110,6 +111,35 @@ Future<bool> _hasAnyConnectivity() async {
   final List<ConnectivityResult> results = await Connectivity()
       .checkConnectivity();
   return results.any((ConnectivityResult r) => r != ConnectivityResult.none);
+}
+
+final Provider<Future<bool> Function()> gatewayConnectivityCheckProvider =
+    Provider<Future<bool> Function()>((Ref ref) => _hasAnyConnectivity);
+
+@Riverpod(keepAlive: true)
+class GatewayDeviceOffline extends _$GatewayDeviceOffline {
+  @override
+  bool build() => false;
+
+  void setOffline({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
+}
+
+@Riverpod(keepAlive: true)
+class AccountClosureInFlight extends _$AccountClosureInFlight {
+  @override
+  bool build() => false;
+
+  void setInFlight({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
 }
 
 bool shouldKeepGatewayConnectedForVoiceFromState({
@@ -241,6 +271,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         .setInFlight(value: false);
     ref.read(serverReachableProvider.notifier).setReachable(value: true);
     ref.read(gatewayConnectionFailedProvider.notifier).reset();
+    ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: false);
   }
 
   void markFailed() {
@@ -262,7 +293,8 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
   Future<void> handlePossibleSessionExpiry() async {
     if (sessionExpiryProbeInFlight ||
         !ref.read(authStateProvider) ||
-        ref.read(accountManagerProvider).isSwitching) {
+        ref.read(accountManagerProvider).isSwitching ||
+        ref.read(accountClosureInFlightProvider)) {
       return;
     }
     sessionExpiryProbeInFlight = true;
@@ -289,6 +321,22 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       return kGatewayResumeReconnectFailureTimeout;
     }
     return kGatewayReconnectFailureTimeout;
+  }
+
+  Future<void> markFailedUnlessOffline(void Function() retryLater) async {
+    final bool online = await ref.read(gatewayConnectivityCheckProvider)();
+    if (!ref.mounted ||
+        !ref.read(appUiForegroundProvider) ||
+        connection.state == GatewayState.connected) {
+      return;
+    }
+    if (!online) {
+      talker.warning('[Gateway] Reconnect timeout while the device is offline');
+      ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: true);
+      retryLater();
+      return;
+    }
+    markFailed();
   }
 
   void scheduleFailureTimeout() {
@@ -324,7 +372,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         }
         failureTimeoutPasses = 0;
         talker.warning('[Gateway] Reconnect failure timeout reached');
-        markFailed();
+        unawaited(markFailedUnlessOffline(scheduleFailureTimeout));
       }
     });
   }
@@ -366,6 +414,10 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       case GatewayState.disconnected:
         reconnectingState = null;
       case GatewayState.failed:
+        if (ref.read(accountClosureInFlightProvider)) {
+          talker.info('[Gateway] Gateway closed after the account was closed');
+          return;
+        }
         talker.error('[Gateway] Fatal gateway close');
         markFailed();
         unawaited(handlePossibleSessionExpiry());
@@ -500,16 +552,30 @@ void gatewayReconnectBannerListener(Ref ref) {
         state == GatewayState.reconnecting;
   }
 
-  ref.listen<bool>(gatewayConnectionFailedProvider, (
-    bool? previous,
-    bool next,
-  ) {
-    if (!next) {
-      return;
-    }
-    clearPendingReconnectBanner();
-    hideBanner();
-  });
+  ref
+    ..listen<bool>(gatewayConnectionFailedProvider, (
+      bool? previous,
+      bool next,
+    ) {
+      if (!next) {
+        return;
+      }
+      clearPendingReconnectBanner();
+      hideBanner();
+    })
+    ..listen<StartupGatewayFallback>(startupGatewayFallbackProvider, (
+      StartupGatewayFallback? previous,
+      StartupGatewayFallback next,
+    ) {
+      if (next != StartupGatewayFallback.cachedShell ||
+          connection.state == GatewayState.connected ||
+          ref.read(gatewayConnectionFailedProvider)) {
+        return;
+      }
+      clearPendingReconnectBanner();
+      reconnectBannerShown = true;
+      ref.read(gatewayReconnectBannerProvider.notifier).showReconnecting();
+    });
 
   final subscription = connection.stateChanges.listen((GatewayState state) {
     if (ref.read(gatewayConnectionFailedProvider)) {
@@ -520,12 +586,20 @@ void gatewayReconnectBannerListener(Ref ref) {
     }
     final GatewayState? prior = previousState;
     previousState = state;
+    final bool isConnected = state == GatewayState.connected;
+    if (isConnected) {
+      clearPendingReconnectBanner();
+      if (reconnectBannerShown) {
+        reconnectBannerShown = false;
+        ref.read(gatewayReconnectBannerProvider.notifier).showConnected();
+      }
+      return;
+    }
     if (prior == null) {
       return;
     }
     final bool wasConnected = prior == GatewayState.connected;
     final bool isReconnecting = isReconnectingState(state);
-    final bool isConnected = state == GatewayState.connected;
     if (wasConnected && isReconnecting) {
       final GatewayReconnectBanner banner = ref.read(
         gatewayReconnectBannerProvider.notifier,
@@ -550,16 +624,6 @@ void gatewayReconnectBannerListener(Ref ref) {
           ref.read(gatewayReconnectBannerProvider.notifier).showReconnecting();
         });
       }
-    }
-    if (isConnected && isReconnectingState(prior)) {
-      clearPendingReconnectBanner();
-      if (reconnectBannerShown) {
-        reconnectBannerShown = false;
-        ref.read(gatewayReconnectBannerProvider.notifier).showConnected();
-      }
-    }
-    if (isConnected) {
-      reconnectBannerShown = false;
     }
   });
 
@@ -587,6 +651,9 @@ Raw<StreamSubscription<List<ConnectivityResult>>?> connectivityListener(
     final bool hasConnection = results.any(
       (ConnectivityResult r) => r != ConnectivityResult.none,
     );
+    if (hasConnection) {
+      ref.read(gatewayDeviceOfflineProvider.notifier).setOffline(value: false);
+    }
     if (!hasConnection || connection.state == GatewayState.connected) {
       clearDebounce();
       return;

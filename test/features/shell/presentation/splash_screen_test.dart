@@ -39,6 +39,18 @@ class _UnavailableAppStartup extends AppStartup {
       Future<void>.error(const ServiceUnavailableException(statusCode: 503));
 }
 
+int _unavailableBuilds = 0;
+
+class _AutoRetriedUnavailableAppStartup extends AppStartup {
+  @override
+  Future<void> build() {
+    _unavailableBuilds++;
+    return Future<void>.error(
+      const ServiceUnavailableException(statusCode: 502),
+    );
+  }
+}
+
 class _GenericFailAppStartup extends AppStartup {
   @override
   Future<void> build() => Future<void>.error(Exception('boot failure'));
@@ -252,6 +264,37 @@ void main() {
     expect(find.text(testL10n.splashStatusPageLink), findsOneWidget);
     expect(find.text(testL10n.retry), findsOneWidget);
     expect(find.textContaining('Failed to start'), findsNothing);
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('outage copy and Retry stay up across automatic retries', (
+    tester,
+  ) async {
+    _unavailableBuilds = 0;
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        overrides: _splashOverrides(<Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
+          appStartupProvider.overrideWith(
+            _AutoRetriedUnavailableAppStartup.new,
+          ),
+          serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
+        ]),
+        child: const SplashScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(find.text(testL10n.splashConnectionLost), findsOneWidget);
+    expect(find.text(testL10n.retry), findsOneWidget);
+
+    for (final int ms in <int>[200, 400, 800]) {
+      await tester.pump(Duration(milliseconds: ms));
+      await tester.pump();
+      expect(find.text(testL10n.splashConnectionLost), findsOneWidget);
+      expect(find.text(testL10n.retry), findsOneWidget);
+    }
+    expect(_unavailableBuilds, greaterThanOrEqualTo(3));
     await releaseTestWidgetTree(tester);
   });
 

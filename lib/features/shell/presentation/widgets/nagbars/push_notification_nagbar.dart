@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/push_notification_permission_status_provider.dart';
+import 'package:fluxer_app/features/shell/utils/enable_push_notifications.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
@@ -39,15 +38,10 @@ class PushNotificationNagbar extends ConsumerWidget implements NagbarWidget {
           label: requiresSystemSettings
               ? l10n.nagbarOpenSettings
               : l10n.nagbarEnableNotifications,
-          onPressed: () async {
-            await ensureSystemPermission(
-              context,
-              SystemPermissionKind.notifications,
-            );
-            ref
-              ..invalidate(pushNotificationPermissionGrantedProvider)
-              ..invalidate(pushNotificationRequiresSystemSettingsProvider);
-          },
+          onPressed: () => enablePushNotifications(
+            context,
+            requiresSystemSettings: requiresSystemSettings,
+          ),
         ),
       ),
     );

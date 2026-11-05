@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,37 +25,55 @@ class InstanceCompatibilityGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ActiveInstanceCompatibilityIssue? issue = ref.watch(
-      activeInstanceCompatibilityProvider,
-    );
-    if (issue == null) {
+    final bool blocked = ref.watch(activeInstanceCompatibilityProvider) != null;
+    if (!blocked) {
       return child;
     }
     return Stack(
       fit: StackFit.expand,
       children: [
-        IgnorePointer(child: child),
-        Positioned.fill(child: _InstanceCompatibilityScreen(issue: issue)),
+        ExcludeSemantics(child: IgnorePointer(child: child)),
+        Positioned.fill(
+          child: Navigator(
+            onGenerateInitialRoutes: (NavigatorState navigator, String name) =>
+                <Route<void>>[
+                  PageRouteBuilder<void>(
+                    pageBuilder: (_, _, _) =>
+                        const _InstanceCompatibilityScreen(),
+                  ),
+                ],
+          ),
+        ),
       ],
     );
   }
 }
 
 class _InstanceCompatibilityScreen extends ConsumerWidget {
-  const _InstanceCompatibilityScreen({required this.issue});
-
-  final ActiveInstanceCompatibilityIssue issue;
+  const _InstanceCompatibilityScreen();
 
   Future<void> _retry(WidgetRef ref) async {
     await ref.read(wellKnownProvider.notifier).refresh(silent: false);
   }
 
   Future<void> _openAppUpdate(BuildContext context) async {
-    await handleExternalLinkTap(context, ExternalUrls.fluxerDownload);
+    await handleExternalLinkTap(
+      context,
+      Platform.isIOS
+          ? ExternalUrls.fluxerAppStore
+          : ExternalUrls.fluxerDownload,
+      skipWarning: true,
+    );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ActiveInstanceCompatibilityIssue? issue = ref.watch(
+      activeInstanceCompatibilityProvider,
+    );
+    if (issue == null) {
+      return const SizedBox.shrink();
+    }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String body = instanceCompatibilityBody(
       issue.reason,

@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 103;
+  int get schemaVersion => 108;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1632,6 +1632,56 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.database.customStatement(
           'DROP INDEX IF EXISTS idx_messages_author',
         );
+      }
+      if (from < 104) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'dm_channels',
+          columnName: dmChannels.nsfw.name,
+        )) {
+          await m.addColumn(dmChannels, dmChannels.nsfw);
+        }
+      }
+      if (from < 105 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'user_preferences',
+            columnName: userPreferencesTable.systemThemeChosenLocally.name,
+          )) {
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.systemThemeChosenLocally,
+        );
+        await m.database.customStatement(
+          'UPDATE user_preferences SET system_theme_chosen_locally = 1 '
+          "WHERE theme = 'system'",
+        );
+      }
+      if (from < 106 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'recent_instances',
+            columnName: recentInstances.url.name,
+          )) {
+        await m.addColumn(recentInstances, recentInstances.url);
+      }
+      if (from < 107) {
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_guild_emojis_guild '
+          'ON guild_emojis (guild_id)',
+        );
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_guild_stickers_guild '
+          'ON guild_stickers (guild_id)',
+        );
+      }
+      if (from < 108 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'auth_sessions',
+            columnName: authSessions.email.name,
+          )) {
+        await m.addColumn(authSessions, authSessions.email);
       }
     },
   );

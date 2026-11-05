@@ -184,6 +184,32 @@ void main() {
     },
   );
 
+  test('an unchanged SYNC flood writes no member or user rows', () async {
+    final container = buildContainer();
+    final FluxerDatabase database = container.read(fluxerDatabaseProvider);
+    MemberListOp page() => syncMembers(0, [
+      for (int i = 0; i < 100; i++) memberItem('u$i', status: 'online'),
+    ]);
+
+    enqueue(container, event(memberCount: 100, ops: [page()]));
+    await pumpEventQueue(times: 50);
+    expect(await database.memberDao.getMembers('g1'), hasLength(100));
+
+    final List<String> written = <String>[];
+    final subscription = database.tableUpdates().listen(
+      (updates) => written.addAll(updates.map((update) => update.table)),
+    );
+    addTearDown(subscription.cancel);
+    for (int i = 0; i < 20; i++) {
+      enqueue(container, event(memberCount: 100, ops: [page()]));
+    }
+    await waitForBatchWindow();
+    await pumpEventQueue(times: 50);
+
+    expect(listState(container)!.rows, hasLength(100));
+    expect(written, isNot(anyOf(contains('members'), contains('users'))));
+  });
+
   test('applies the local user own presence change immediately', () async {
     final container = buildContainer();
     container

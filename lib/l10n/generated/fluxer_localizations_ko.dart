@@ -91,7 +91,30 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get gatewayConnectedToast => '연결됨';
 
   @override
+  String get gatewayOfflineToast => '오프라인 상태입니다. 다시 온라인이 되면 Fluxer가 다시 연결됩니다.';
+
+  @override
   String get sessionExpiredToast => '세션이 만료되었습니다. 다시 로그인해 주세요.';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return '회원님의 계정은 $date에 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      '회원님의 계정은 삭제가 예약되어 있습니다. 삭제일 전에 로그인하면 삭제가 취소됩니다.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '지금 회원님의 계정을 삭제하고 있습니다. 계정에 이메일 주소가 있으면 삭제가 끝났을 때 이메일로 알려 드립니다.';
+
+  @override
+  String get accountDeletionImmediateNoticeNoEmail => '지금 회원님의 계정을 삭제하고 있습니다.';
+
+  @override
+  String get accountDisabledNotice =>
+      '회원님의 계정은 비활성화되어 있습니다. 다시 사용하고 싶을 때 언제든 로그인하세요.';
 
   @override
   String splashStartupFailed(String error) {
@@ -146,6 +169,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get verificationResendEmail => '이메일 재전송';
+
+  @override
+  String get verificationEmailSent => '인증 이메일을 보냈습니다. 받은편지함을 확인해 주세요.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      '인증 이메일을 너무 많이 요청했습니다. 잠시 기다렸다가 다시 시도해 주세요.';
+
+  @override
   String get nagbarOpenSettings => '설정 열기';
 
   @override
@@ -180,8 +213,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '$productName 구독을 갱신하지 못했습니다. $graceDate까지는 $productName 혜택을 계속 이용할 수 있습니다.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return '$productName 구독이 만료되었습니다. 혜택을 계속 이용하려면 지금 갱신하세요.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '$productName 구독이 만료되었습니다.';
   }
 
   @override
@@ -216,12 +262,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get nagbarEnableMfa => '2단계 인증 사용';
-
-  @override
-  String get nagbarTermsAcceptance => '약관이 업데이트되었습니다. 계속하려면 검토하고 동의해 주세요.';
-
-  @override
-  String get nagbarReviewTerms => '이용약관 검토';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
@@ -259,6 +299,17 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => '보안 키로 로그인';
+
+  @override
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '로그인하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+      'terms': '로그인하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.',
+      'other': '로그인하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -354,7 +405,17 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get mfaTryAnotherMethod => '다른 방법 시도';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '이 인스턴스의 패스키는 이 앱에서 작동하지 않으며, 회원님의 계정에는 다른 인증 방법이 없습니다. 대신 웹에서 로그인하세요.';
+
+  @override
   String get mfaUseSecurityKey => '보안 키/패스키로 시도하기';
+
+  @override
+  String get mfaUseBackupCode => '백업 코드 사용';
+
+  @override
+  String get mfaUseAuthenticatorCode => '인증 앱 코드 사용';
 
   @override
   String get accountSelectorTitle => '계정 선택';
@@ -377,8 +438,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get accountExpired => '만료됨';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '$identifier의 세션이 만료되었습니다. 다시 로그인하세요.';
+  String accountSessionExpiredNotice(String name) {
+    return '$name의 세션이 만료되었습니다. 다시 로그인하세요.';
   }
 
   @override
@@ -481,75 +542,68 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get signOut => '로그아웃';
 
   @override
-  String get suspendedPermanentTitle => '계정이 영구적으로 정지되었습니다.';
-
-  @override
   String get suspendedTemporaryTitle => '계정이 정지되었습니다.';
 
   @override
-  String get suspendedPermanentDescription => '서비스 약관 위반으로 계정이 영구적으로 정지되었습니다.';
+  String get suspendedBannedTitle => '계정 영구 정지';
 
   @override
-  String get suspendedTemporaryDescription =>
-      '계정이 일시적으로 정지되었습니다. 정지 기간이 끝나면 계정에 액세스할 수 있습니다.';
+  String get suspendedClosedTitle => '계정 폐쇄';
 
   @override
-  String get suspendedIssuedAt => '발급일';
+  String get suspendedWhatHappened => '조치 내용';
 
   @override
-  String get suspendedEndsAt => '종료일';
+  String get suspendedWhy => '사유';
 
   @override
-  String get suspendedDuration => '정지 기간';
+  String get suspendedHowWeDecided => '결정 과정';
 
   @override
-  String get suspendedPermanent => '영구';
+  String get suspendedHowToAppeal => '이의 제기 방법';
 
   @override
-  String get suspendedReason => '사유';
-
-  @override
-  String get suspendedAppealDeadline => '이의 제기 마감일';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '계정이 $date에 삭제될 예정입니다.';
+  String suspendedNoteFromTeam(String statement) {
+    return '팀에서 남긴 메모: $statement';
   }
 
   @override
-  String get suspendedRecheck => '업데이트 확인';
+  String suspendedDecisionId(String decisionId) {
+    return '결정 ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '$seconds초 후에 다시 확인';
+  String suspendedRule(String title) {
+    return '규칙: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '저희 결정이 잘못되었다고 생각되면 $email(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '저희 결정이 잘못되었다고 생각되면 $deadline까지 $email(으)로 이메일을 보내 주세요. 결정 ID와 사용자 이름을 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '저희 결정이 잘못되었다고 생각되면 $deadline까지 $email(으)로 이메일을 보내 주세요. 가능하면 계정에 등록된 이메일 주소로 보내고, 결정 ID를 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '계정과 데이터 삭제를 요청하려면 계정에 등록된 주소로 $email에 이메일을 보내 주세요.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '계정과 데이터 삭제를 요청하려면 $email(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.';
   }
 
   @override
   String get suspendedBackToLogin => '로그인으로 돌아가기';
-
-  @override
-  String get suspendedAppealTitle => '이의 제기';
-
-  @override
-  String get suspendedAppealHint => '정지가 재고되어야 하는 이유를 설명해주세요 (최소 50자)...';
-
-  @override
-  String get suspendedAppealSubmit => '이의 제기 제출';
-
-  @override
-  String get suspendedAppealPending => '검토 대기 중';
-
-  @override
-  String get suspendedAppealAccepted => '이의 제기 수락됨';
-
-  @override
-  String get suspendedAppealRejected => '이의 제기 거부됨';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '이의 제기가 수락되었으며 계정이 복구되었습니다.';
-
-  @override
-  String get suspendedSignIn => '계정에 로그인';
 
   @override
   String get forgotPasswordTitle => '비밀번호를 잊으셨나요?';
@@ -769,6 +823,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get registerDateOfBirth => '생년월일';
 
   @override
+  String get registerDateOfBirthDone => '완료';
+
+  @override
+  String get registerDateOfBirthNotSet => '설정 안 됨';
+
+  @override
   String get registerMonth => '월';
 
   @override
@@ -778,16 +838,18 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get registerYear => '년';
 
   @override
-  String get registerConsentPrefix => '동의합니다';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다',
+      'terms': '<terms>이용약관</terms>에 동의합니다',
+      'other': '<privacy>개인정보처리방침</privacy>에 동의합니다',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get registerConsentTerms => '이용약관';
-
-  @override
-  String get registerConsentAnd => ' 및 ';
-
-  @override
-  String get registerConsentPrivacy => '개인정보처리방침';
+  String get registerConsentBuiltInRules =>
+      '이 인스턴스는 불쾌한 콘텐츠나 악의적인 사용자를 용납하지 않으며, 관리자가 이 규칙을 위반하는 콘텐츠와 계정을 삭제할 수 있다는 데 동의합니다.';
 
   @override
   String get registerConfirmPassword => '비밀번호 확인';
@@ -808,6 +870,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get passkeyNoCredentials => '이 앱에 대한 패스키가 없습니다. 대신 이메일과 비밀번호로 로그인하세요.';
+
+  @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
 
   @override
   String get passkeyDeviceNotSupported => '이 기기에서는 패스키를 지원하지 않습니다.';
@@ -856,8 +922,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String embedInviteMembers(String count) {
-    return '$count명 멤버';
+  String embedInviteMembers(int count, String formattedCount) {
+    return '$formattedCount명 멤버';
   }
 
   @override
@@ -956,9 +1022,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get embedThemeWebOnly => '테마는 웹 또는 데스크톱에서만 가져올 수 있습니다.';
 
   @override
-  String get embedThemeImport => '테마 가져오기';
-
-  @override
   String embedGiftVisionaryLifetime(String productName) {
     return '평생 $productName 비저너리';
   }
@@ -1046,6 +1109,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => '이미 받은 선물입니다.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      '이 선물은 iOS 앱에서 받을 수 없습니다. 데스크톱 앱에서 받을 수 있습니다.';
 
   @override
   String get giftAcceptMaybeLater => '나중에';
@@ -1669,6 +1736,47 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get stickerPickerSearchHint => '원하는 스티커를 찾아보세요';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesTitle => '사용할 수 있는 스티커 없음';
+
+  @override
+  String get stickerPickerEmptyNoCommunitiesBody =>
+      '스티커가 있는 커뮤니티에 참여하면 여기에서 사용할 수 있습니다.';
+
+  @override
+  String get stickerPickerEmptyHereTitle => '사용할 수 있는 스티커 없음';
+
+  @override
+  String get stickerPickerEmptyHereBody => '이 대화에서 사용할 수 있는 스티커가 없습니다.';
+
+  @override
+  String get stickerPickerNoResultsTitle => '스티커를 찾을 수 없습니다';
+
+  @override
+  String get stickerPickerNoResultsBody => '다른 검색어를 사용해 보세요.';
+
+  @override
+  String stickerPlutoniumUpsellText(
+    String stickerCount,
+    String communityCount,
+  ) {
+    return 'Plutonium으로 $communityCount의 $stickerCount를 사용해 보세요.';
+  }
+
+  @override
+  String stickerPlutoniumUpsellStickerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '스티커 $count개',
+      one: '스티커 1개',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get externalLinkWarningTitle => '외부 링크 경고';
 
   @override
@@ -1925,22 +2033,20 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get emojiPickerTitle => '이모티콘';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => '배지';
 
   @override
-  String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+  String get profileBadgesSettingsDescription => '다른 사람이 내 프로필에서 볼 배지를 선택하세요.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => '아직 배지가 없습니다.';
 
   @override
-  String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+  String get profileBadgesSettingsLoadFailed => '배지를 불러오지 못했습니다.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return '내 프로필에 $badgeLabel 표시';
   }
 
   @override
@@ -1949,22 +2055,22 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => '모든 배지 보기';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '배지 +$count개 더 있음, 모두 보기',
+      one: '배지 +$count개 더 있음, 모두 보기',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Visionary 배지가 표시되고 구독으로 표시되지 않을 때만 보입니다.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 배지 개인 정보';
@@ -2013,117 +2119,19 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return '$since부터 Operator Pass 보유';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => '내 프로필에 배지 표시';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return '$operatorPassName를 받은 시기 숨기기';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
-
-  @override
-  String get operatorPassWallTitle => 'Operators\' wall';
-
-  @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
-
-  @override
-  String get operatorPassWallNotListed => 'Not listed.';
-
-  @override
-  String get operatorPassWallOnTheWall => 'On the wall';
-
-  @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
-  String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
-
-  @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
-
-  @override
-  String get operatorPassWallHiddenWhy => 'Why?';
-
-  @override
-  String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
-
-  @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
-
-  @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
-
-  @override
-  String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
-
-  @override
-  String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
-
-  @override
-  String get operatorPassWallSave => 'Save';
-
-  @override
-  String get operatorPassWallSaved => 'Saved.';
-
-  @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
-
-  @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
-
-  @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
-
-  @override
-  String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
-
-  @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
+  String get operatorPassHideCount => 'Operator Pass 개수 숨기기';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2139,8 +2147,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      '이 플랫폼에서는 아직 인앱 구매를 사용할 수 없습니다. 곧 출시될 예정이니 기대해 주세요!';
+  String get plutoniumNotSoldHere => '이 버전의 앱에서는 Plutonium을 구매할 수 없습니다.';
 
   @override
   String get profilePreviewLabel => '미리보기';
@@ -2211,6 +2218,40 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get sudoVerificationFailed => '인증에 실패했습니다. 다시 시도해 주세요.';
 
   @override
+  String get sudoWrongPassword => '비밀번호가 올바르지 않습니다. 다시 시도해 주세요.';
+
+  @override
+  String get sudoEmailCodeSend => '코드 이메일로 보내기';
+
+  @override
+  String get sudoEmailCodeSent => '이메일 주소로 6자리 코드를 보냈습니다.';
+
+  @override
+  String get sudoEmailCodeLabel => '이메일로 받은 코드';
+
+  @override
+  String get sudoEmailCodeResend => '새 코드 보내기';
+
+  @override
+  String get sudoSsoReauthHint => '본인 확인을 위해 다시 로그인하세요.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '다시 로그인';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '$provider(으)로 로그인';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      '다른 계정으로 로그인했습니다. 여기서 사용하는 계정으로 로그인하세요.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '이 인스턴스의 패스키는 이 앱에서 작동하지 않습니다. 인증 앱이나 백업 코드를 사용하거나 웹에서 확인하세요.';
+
+  @override
   String get securityAccountTitle => '계정';
 
   @override
@@ -2221,6 +2262,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get securitySectionDescription => '2단계 인증 및 암호 키로 계정을 보호하세요.';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys => '2단계 인증으로 계정을 보호하세요.';
 
   @override
   String get securityLoginEmailSectionTitle => '이메일 설정';
@@ -2537,6 +2581,56 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '계정을 일시적으로 비활성화합니다. 나중에 다시 로그인하여 재활성화할 수 있습니다.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      '계정과 개인 데이터를 삭제합니다. 메시지도 함께 삭제할 수 있습니다.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '회원님의 계정, 프로필, 개인 데이터가 삭제됩니다. 삭제하지 않은 메시지는 이름이나 프로필 없이 보낸 곳에 그대로 남습니다.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '내 메시지도 삭제';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'DM, 그룹 DM, 커뮤니티에서 보낸 모든 메시지를 계정과 함께 삭제합니다.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '데이터 사본을 보관하려면 먼저 $privacyDashboard에서 내보내기를 요청하세요.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14일 후 삭제';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '14일 동안 로그인하면 삭제를 취소할 수 있습니다.';
+
+  @override
+  String get dangerZoneDeleteSchedule => '삭제 예약';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      '이 인스턴스의 대기 기간이 지나면 계정이 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.';
+
+  @override
+  String get dangerZoneDeleteNow => '지금 삭제';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '지금 계정을 삭제할까요?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '계정이 즉시 삭제되며 복구할 수 없습니다.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '회원님의 Plutonium 구독은 Apple에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 App Store에서 구독을 취소하세요.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '회원님의 Plutonium 구독은 Google Play에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 Google Play에서 구독을 취소하세요.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '계정을 비활성화하면 모든 세션에서 로그아웃됩니다. 다시 로그인하여 언제든지 계정을 다시 활성화할 수 있습니다.';
 
@@ -2544,45 +2638,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => '계정 삭제';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      '회원님의 계정과 모든 관련 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '계정을 삭제할 수 없습니다';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      '커뮤니티를 소유하고 있는 동안에는 계정을 삭제할 수 없습니다. 먼저 다음 커뮤니티의 소유권을 이전하세요:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '회원님이 소유한 커뮤니티입니다. 계정을 삭제하기 전에 각 커뮤니티를 삭제하거나 다른 멤버에게 넘겨주세요.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '$count개 더';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '소유권을 이전하려면 $settingsPath로 이동하여 소유권 이전 옵션을 사용하세요.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      '정말로 계정을 삭제하시겠어요? 계정이 영구적으로 삭제되도록 예약됩니다.';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '14일 이내에 계정 삭제를 취소할 수 있습니다';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14일 후 계정이 영구적으로 삭제됩니다';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '계정 삭제가 처리되면 다시 복구할 수 없습니다';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '계정이 삭제된 후에는 보낸 메시지를 삭제할 수 없습니다.';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '데이터를 내보내거나 먼저 메시지를 삭제하려면 진행하기 전에 사용자 설정의 개인정보 보호 대시보드 섹션을 방문하세요.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '커뮤니티를 탭하면 설정이 열립니다. \"커뮤니티 삭제\"는 맨 아래에 있습니다. 넘겨주려면 \"멤버\"를 열고 멤버를 탭한 다음, 프로필에서 점 세 개를 탭하고 \"소유권 이전\"을 선택하세요.';
 
   @override
   String get claimAccountTitle => '계정 등록하기';
@@ -2606,9 +2670,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => '계정 등록 완료';
-
-  @override
-  String get importantInformation => '중요 안내:';
 
   @override
   String get genericError => '오류가 발생했습니다';
@@ -4091,6 +4152,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => '첨부 파일을 다운로드할 수 없습니다.';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '이 첨부 파일을 저장하려면 $productName에 사진 라이브러리 접근 권한이 필요합니다.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '첨부 파일 만료됨';
 
   @override
@@ -4216,7 +4282,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get matureMediaRevealButton => '보기';
 
   @override
-  String get matureMediaRevealHint => '클릭하여 보기';
+  String get matureMediaRevealLabel => '민감한 미디어 보기';
+
+  @override
+  String get matureMediaAppLockedLabel => 'iPhone 및 iPad에서는 민감한 미디어가 숨겨집니다.';
+
+  @override
+  String get matureMediaMinorLockedLabel => '회원님의 계정에서는 민감한 미디어가 숨겨집니다.';
 
   @override
   String get matureContentTitle => '성인 콘텐츠';
@@ -4278,6 +4350,24 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get matureChannelUnavailableBody => '이 성인 채널은 회원님의 계정에서 이용할 수 없습니다.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'iPhone 및 iPad에서는 18+ 콘텐츠가 꺼져 있습니다. 여기에서 18+로 표시된 커뮤니티와 채널을 보려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      '회원님이 있는 지역의 성인 콘텐츠 관련 법률로 인해 이곳에서는 성인 콘텐츠를 이용할 수 없습니다.';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 채널의 메시지';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '이 계정에서는 Fluxer를 이용할 수 없습니다';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '회원님의 Apple Account에서 공유한 연령대가 13세 미만입니다. Fluxer는 13세 이상만 이용할 수 있습니다.';
+
+  @override
   String get matureContentProceedButton => '계속하기';
 
   @override
@@ -4309,6 +4399,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => '저장';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '여기에서 \"표시\"를 선택하려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -4522,7 +4616,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      '어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.';
+      '시스템, 어둡게, 석탄색 또는 밝은 모양 중에서 선택하세요.';
 
   @override
   String get lookAndFeelHdrSectionTitle => '높은 동적 범위';
@@ -5019,6 +5113,62 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get savedMediaNameRequired => '이름을 입력해 주세요.';
+
+  @override
+  String get savedMediaEdit => '편집';
+
+  @override
+  String get savedMediaEditTitle => '저장된 미디어 편집';
+
+  @override
+  String get savedMediaDeleteTitle => '저장된 미디어 삭제';
+
+  @override
+  String savedMediaDeleteConfirm(String name) {
+    return '저장된 미디어에서 \"$name\"을(를) 삭제할까요?';
+  }
+
+  @override
+  String get savedMediaDeleteFailed => '저장된 미디어를 삭제하지 못했습니다.';
+
+  @override
+  String get savedMediaSearchHint => '저장된 미디어 검색';
+
+  @override
+  String get savedMediaUnavailableTitle => '저장된 미디어를 사용할 수 없음';
+
+  @override
+  String get savedMediaUnavailableBody => '잠시 후에 다시 시도해 주세요.';
+
+  @override
+  String get savedMediaEmptyTitle => '저장된 미디어 없음';
+
+  @override
+  String get savedMediaEmptyBody => '메시지의 미디어를 저장하면 여기에 표시됩니다.';
+
+  @override
+  String get savedMediaNoResultsTitle => '결과 없음';
+
+  @override
+  String get savedMediaNoResultsBody => '다른 검색어나 필터를 사용해 보세요.';
+
+  @override
+  String get savedMediaFilterAll => '전체';
+
+  @override
+  String get savedMediaFilterImages => '이미지';
+
+  @override
+  String get savedMediaFilterVideos => '동영상';
+
+  @override
+  String get savedMediaFilterAudio => '오디오';
+
+  @override
+  String get savedMediaFilterGifs => 'GIF';
+
+  @override
+  String get savedMediaGifBadge => 'GIF';
 
   @override
   String get gifFavoriteFirstTimeTitle => 'GIF 즐겨찾기를 어떻게 저장할까요?';
@@ -5798,6 +5948,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceConnectionDismiss => '닫기';
 
   @override
+  String get voiceCallControlsSheetLabel => '음성 통화 컨트롤';
+
+  @override
   String get voiceConnectionDisconnected => '연결 끊김';
 
   @override
@@ -5891,6 +6044,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => '프로필 보기';
 
   @override
+  String get voiceParticipantMenuReport => '신고';
+
+  @override
   String get voiceParticipantMenuFocus => '이 사람 포커스';
 
   @override
@@ -5939,7 +6095,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '헤드폰';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => '오디오 출력 변경';
 
   @override
   String get voicePanelOnlyShowVideosLabel => '동영상만 표시';
@@ -5971,6 +6127,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceCameraPermissionRequired => '동영상 통화를 위해 카메라 권한이 필요합니다.';
 
   @override
+  String get voiceMicPermissionRequired => '이 통화에서 음소거를 해제하려면 마이크 접근을 허용하세요.';
+
+  @override
   String get voiceErrorScreenShareToggle => '화면 공유를 시작할 수 없습니다. 다시 시도해 주세요.';
 
   @override
@@ -5996,7 +6155,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return '확대 $scale';
   }
 
   @override
@@ -6004,6 +6163,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => '참가자들에게 스트림이 공개됩니다.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '차단한 사람의 영상';
 
   @override
   String get voiceLiveBadge => '라이브';
@@ -6152,6 +6314,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => '메시지가 너무 깁니다';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return '메시지는 최대 $maxLengthString자까지 보낼 수 있습니다. 보내려면 이 메시지를 줄이세요.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -6771,6 +6942,37 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get notificationReplyFailed => '답장을 보낼 수 없습니다';
 
   @override
+  String get notificationChannelMessages => 'Messages';
+
+  @override
+  String get notificationChannelDirectMessages => 'Direct messages';
+
+  @override
+  String get notificationChannelForumPosts => 'New forum posts';
+
+  @override
+  String get notificationChannelMessagesSilent => 'Messages without sound';
+
+  @override
+  String get notificationChannelDirectMessagesSilent =>
+      'Direct messages without sound';
+
+  @override
+  String get notificationChannelDescription => 'Messages and alerts';
+
+  @override
+  String get notificationNewMessageFallback => 'New message';
+
+  @override
+  String get notificationLocalUserName => 'Me';
+
+  @override
+  String get notificationGroupDmTitle => 'Group DM';
+
+  @override
+  String get notificationUnknownSender => 'Unknown';
+
+  @override
   String get chatMessageForward => '전달';
 
   @override
@@ -6932,6 +7134,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageDebug => '메시지 디버그';
 
   @override
+  String get messageAlertNote => '메모';
+
+  @override
+  String get messageAlertTip => '팁';
+
+  @override
+  String get messageAlertImportant => '중요';
+
+  @override
+  String get messageAlertWarning => '경고';
+
+  @override
+  String get messageAlertCaution => '주의';
+
+  @override
   String get chatMessageDebugSheetTitle => '메시지 디버그';
 
   @override
@@ -6962,6 +7179,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => '프로필 신고';
 
   @override
+  String get reportFlowTitleCommunity => '커뮤니티 신고';
+
+  @override
   String get reportFlowSummaryTitle => '신고 내용 확인';
 
   @override
@@ -6983,7 +7203,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reportFlowSelectedMessage => '신고하려는 메시지';
 
   @override
-  String get reportFlowSelectedUser => '신고하려는 프로필';
+  String get reportFlowSelectedPerson => '신고하려는 사람';
+
+  @override
+  String get reportFlowSelectedCommunity => '신고할 커뮤니티';
 
   @override
   String get reportFlowReportCategory => '회원님의 답변';
@@ -7010,6 +7233,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productName 안전팀이 신고 내용을 검토합니다. 회원님이 신고했다는 사실은 밝히지 않습니다.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      '이 인스턴스의 관리자가 신고 내용을 검토합니다. 회원님이 신고했다는 사실은 밝히지 않습니다.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7055,6 +7282,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get reportFlowAlreadyReportedProfile => '이미 오늘 이 프로필을 신고했습니다.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '이미 이 커뮤니티를 신고했습니다.';
 
   @override
   String get reportFlowRateLimited => '신고를 너무 자주 보내고 있습니다. 나중에 다시 시도해 주세요.';
@@ -7178,6 +7408,22 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatReplyMentionOff => '꺼짐';
 
   @override
+  String chatReplyingTo(String authorName) {
+    return '$authorName님에게 답장 중';
+  }
+
+  @override
+  String chatForwardedFrom(String source) {
+    return '$source에서 전달됨';
+  }
+
+  @override
+  String get chatForwardedLabel => '전달됨';
+
+  @override
+  String get chatForwardedFromLabel => '전달 출처';
+
+  @override
   String get chatReplyCancel => '답장 취소';
 
   @override
@@ -7253,6 +7499,23 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get mediaViewerDismissBackdrop => '닫기';
+
+  @override
+  String get videoPlayerPlay => '재생';
+
+  @override
+  String get videoPlayerPause => '일시 정지';
+
+  @override
+  String get videoPlayerVolume => '볼륨';
+
+  @override
+  String videoPlayerPlaybackSpeed(String speed) {
+    return '재생 속도 ${speed}x';
+  }
+
+  @override
+  String get videoPlayerFullScreen => '전체 화면';
 
   @override
   String get chatAttachmentVideoToggleControls => '동영상 컨트롤 토글';
@@ -8189,6 +8452,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelHeaderNotificationSettingsMuted => '알림 설정, 음소거됨';
 
   @override
+  String get channelHeaderOpenDetails => '채널 세부 정보 열기';
+
+  @override
   String get channelDetailsSearchTitle => '검색';
 
   @override
@@ -8853,6 +9119,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get composerCloseAttachmentPanel => '첨부 파일 선택 창 닫기';
 
   @override
+  String get composerSendMessage => '메시지 보내기';
+
+  @override
   String get chatAttachmentPanelPhotos => '사진';
 
   @override
@@ -9185,13 +9454,36 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => '최근 구매 환불';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '구매함으로써 다음 사항에 동의합니다. ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '구매하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+      'terms': '구매하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.',
+      'other': '구매하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '구매함으로써 귀하는 당사의 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '구매 시 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.',
+      'terms': '구매 시 <terms>이용약관</terms>에 동의하셨습니다.',
+      'other': '구매 시 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 및 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>',
+      'terms': '<terms>이용약관</terms>',
+      'other': '<privacy>개인정보처리방침</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -9248,6 +9540,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get premiumPlanUnavailableSelfHosted =>
       '이용할 수 없는 플랜입니다. 이 인스턴스의 관리자에게 문의하세요.';
+
+  @override
+  String premiumDistributionPriceNote(String percent) {
+    return '이 버전의 앱은 각 결제 금액의 $percent가 배포 비용으로 쓰이기 때문에 가격이 조금 더 높습니다.';
+  }
 
   @override
   String get premiumCompletePaymentTitle => '결제 완료하기';
@@ -9383,14 +9680,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '전체 길이 동영상과 대용량 파일을 축소하지 않고 공유하세요. 무료 계정은 최대 25MB까지 보낼 수 있습니다.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => '60FPS로 4K 스트리밍';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      '최대 4K 60fps로 화면이나 카메라를 공유하세요. 무료 계정은 최대 720p 30fps로 스트리밍됩니다.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => '더 높은 화질로 스트리밍';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      '앱에서는 최대 1080p 60fps로, 데스크톱 앱에서는 최대 4K 60fps로 화면이나 카메라를 공유하세요. 무료 계정은 최대 720p 30fps로 스트리밍됩니다.';
+
+  @override
+  String get storePlutoniumManageHeading => '내 구독';
 
   @override
   String get storePlutoniumCompareTitle => '무료 및 Plutonium 비교';
@@ -9457,8 +9761,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => '최대 4K, 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      '앱에서 최대 1080p 60 FPS, 데스크톱에서 최대 4K 60 FPS';
+
+  @override
   String get storePlutoniumTagFootnote =>
       '동일한 사용자 이름을 가진 다른 사람이 사용하지 않는 태그만 선택할 수 있습니다. 사용자 이름은 대소문자를 구분하지 않으므로 Mina#4821과 mina#4821은 동일하게 간주됩니다. #0000 태그는 Fluxer Visionary 멤버를 위해 예약되어 있습니다.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      '동일한 사용자 이름을 가진 다른 사람이 사용하지 않는 태그만 선택할 수 있습니다. 사용자 이름은 대소문자를 구분하지 않으므로 Mina#4821과 mina#4821은 동일하게 간주됩니다.';
 
   @override
   String get storePlutoniumLearnVisionary => 'Visionary에 대해 자세히 알아보기.';
@@ -9500,10 +9812,34 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '취소할 때까지 App Store를 통해 자동 갱신됩니다.';
 
   @override
+  String get storePlutoniumAppleEula => 'Apple 표준 이용 약관(EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => '구매 복원';
 
   @override
+  String get storePlutoniumRestoreDone => 'Plutonium 구독이 복원되었습니다.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      '이 Apple Account에는 복원할 Plutonium 구독이 없습니다.';
+
+  @override
+  String get storePlutoniumRestoreFailed => '구매를 복원하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '이미 Fluxer Plutonium을 구독 중입니다.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      '이 기기의 Apple Account는 이미 다른 Fluxer 계정의 Plutonium 요금을 결제하고 있습니다.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium이 추가되지 않았습니다';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store에서 구매를 확인했지만 이 계정에 Plutonium을 추가하지 못했습니다. \"구매 복원\"을 탭하여 다시 시도하고, 그래도 안 되면 지원팀에 문의하세요.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9515,7 +9851,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '구매가 완료되었습니다. Plutonium이 활성화되면 여기에 표시됩니다.';
 
   @override
-  String get storePlutoniumUnavailable => '이 기기에서는 아직 앱 내 구독을 이용할 수 없습니다.';
+  String get storePlutoniumApprovalPending =>
+      '구매 승인을 기다리고 있습니다. 승인되면 계정에 Plutonium이 추가됩니다.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Plutonium 요금제를 불러오지 못했습니다. 연결 상태를 확인하고 다시 시도해 주세요.';
+
+  @override
+  String get storePlutoniumRetry => '다시 시도';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10141,18 +10485,18 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      '다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서에는 인스턴스 이름, ID, 메시지 내용이 포함되지 않습니다.';
+      '다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서는 이 설치의 임의 ID에 연결되며, 계정 ID, 인스턴스 이름, 메시지 내용은 포함되지 않습니다.';
 
   @override
   String get observabilityReportingConsentTitle => '충돌 문제 해결에 도움 주기';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer가 예기치 않게 종료되었습니다. 익명의 충돌 및 오류 데이터를 공유해 주시면 문제를 더 빨리 해결할 수 있습니다.';
+      'Fluxer가 예기치 않게 종료되었습니다. 충돌 보고서를 보내 주시면 문제를 더 빨리 찾아 해결하는 데 도움이 됩니다.';
 
   @override
   String get observabilityReportingConsentBody =>
-      '보고서에는 충돌 로그, 오류, 기본 성능 데이터가 포함됩니다. 제3자와 공유되지 않으며 언제든지 끌 수 있습니다.';
+      '보고서에는 충돌 로그, 오류, 성능 데이터, 네트워크 요청 시간, 문제가 발생하기까지의 화면과 탭 기록이 포함되며, 이 설치에 대한 임의 ID와 연결됩니다. 메시지 내용은 절대 포함되지 않으며, 보고서는 Fluxer 자체 오류 추적기로만 전송됩니다. 언제든지 이 기능을 끌 수 있습니다.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10163,7 +10507,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => '충돌 보고서 보내기';
 
   @override
-  String get observabilityReportingConsentDecline => '사용하지 않음';
+  String get observabilityReportingConsentDecline => '다시 묻지 않기';
+
+  @override
+  String get observabilityReportingConsentNotNow => '나중에';
 
   @override
   String get advancedSettingsConfigure => '구성';
@@ -10226,11 +10573,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '스플래시 화면을 나갈 때 로고를 축소합니다';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => '시작 화면 문구';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      '시작 화면에 임의의 문구를 표시합니다. 기기 간에 동기화되지 않습니다.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => '키보드 힌트';
@@ -10549,7 +10896,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      '내장된 이미지 역검색 제공자를 활성화하거나 비활성화합니다. 활성화된 제공자는 이미지, 아바타, 배너, 스티커 및 이모티콘의 상황별 메뉴에 표시됩니다.';
+      '내장 이미지 역검색 제공업체를 켜거나 끌 수 있습니다. 켜진 제공업체는 이미지 옵션에 표시됩니다.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel => '맞춤 이미지 역검색';
@@ -10561,6 +10908,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get advancedSettingAddReverseImageSearchLabel => '역방향 이미지 검색 추가';
+
+  @override
+  String searchProviderSearchWith(String engine) {
+    return '$engine(으)로 검색';
+  }
+
+  @override
+  String searchProviderTranslateWith(String engine) {
+    return '$engine(으)로 번역';
+  }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
@@ -10660,6 +11017,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavAppLogs => '앱 로그';
 
   @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 앱 개인정보처리방침';
+
+  @override
+  String get userSettingsTitle => '설정';
+
+  @override
+  String get userSettingsCopyAppInfo => '앱 정보 복사';
+
+  @override
   String get userSettingsNavDeveloperTools => '개발자 도구';
 
   @override
@@ -10667,6 +11033,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userSettingsNavFeatureFlags => '기능 플래그';
+
+  @override
+  String get userSettingsNavHelp => '도움말 및 지원';
 
   @override
   String get userSettingsNavWhatsNew => '새로운 기능';
@@ -10954,6 +11323,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain은(는) 보안 연결(https)을 사용하지 않습니다. Fluxer는 로컬 네트워크에 있는 인스턴스에만 http로 연결합니다.';
+  }
+
+  @override
   String get instanceCompatibilityTitle => '이 인스턴스를 사용할 수 없습니다';
 
   @override
@@ -10985,9 +11359,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get instanceConnectionRequired => '로그인하려면 인스턴스에 연결하세요';
-
-  @override
-  String get comingSoon => '출시 예정';
 
   @override
   String get guildNavbarDirectMessages => 'DM';
@@ -11078,9 +11449,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get discoveryCommunities => '커뮤니티';
-
-  @override
-  String get discoveryApps => '앱';
 
   @override
   String get discoveryJoinErrorGenericTitle => '이 커뮤니티에 참여할 수 없습니다';
@@ -11190,6 +11558,75 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get friendsOpenInbox => '받은 메시지함';
+
+  @override
+  String get friendsPageTitle => '내 친구';
+
+  @override
+  String get friendsActiveNowTitle => '활동 중';
+
+  @override
+  String get friendsActiveNowEmptyTitle => '지금은 조용하네요...';
+
+  @override
+  String get friendsActiveNowEmptyBody => '친구가 음성 채널에서 활동하면 여기에 표시됩니다.';
+
+  @override
+  String get friendsTabOnline => '온라인';
+
+  @override
+  String get friendsTabAll => '전체';
+
+  @override
+  String get friendsTabPending => '대기 중';
+
+  @override
+  String get friendsTabBlocked => '차단됨';
+
+  @override
+  String get friendsSearchOnline => '온라인 친구 검색';
+
+  @override
+  String get friendsSearchAll => '친구 검색';
+
+  @override
+  String get friendsSearchPending => '대기 중인 요청 검색';
+
+  @override
+  String get friendsSearchBlocked => '차단된 사용자 검색';
+
+  @override
+  String get friendsEmptySearchTitle => '검색 결과와 일치하는 친구가 없습니다';
+
+  @override
+  String get friendsEmptySearchBody => '다른 이름을 시도하거나 철자를 확인해 주세요.';
+
+  @override
+  String get friendsEmptyOnlineTitle => '온라인 상태인 친구가 없습니다';
+
+  @override
+  String get friendsEmptyOnlineBody => '온라인 상태가 되면 여기에 표시됩니다.';
+
+  @override
+  String get friendsEmptyAllTitle => '아직 친구가 없습니다';
+
+  @override
+  String get friendsEmptyAllBody => '새로운 친구를 더 많이 만나보세요.';
+
+  @override
+  String get friendsEmptyPendingTitle => '대기 중인 요청이 없어요';
+
+  @override
+  String get friendsEmptyPendingBody => '대기 중인 친구 요청이 여기에 표시됩니다.';
+
+  @override
+  String get friendsEmptyBlockedBody => '차단한 사람이 없습니다.';
+
+  @override
+  String get friendsOutgoingStatus => '보낸 친구 요청';
+
+  @override
+  String get friendsBlockedStatus => '차단됨';
 
   @override
   String get profileRemoveFriend => '친구 삭제';
@@ -11462,6 +11899,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get channelMutedHint => '음소거됨';
+
+  @override
   String guildNavbarStaffOnlyAccessible(String productName) {
     return '$productName 직원만 액세스할 수 있습니다';
   }
@@ -11535,6 +11975,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => '커뮤니티 ID 복사';
+
+  @override
+  String get guildMenuReportCommunity => '커뮤니티 신고';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -11647,11 +12090,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => '역할 아이콘';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      '이미지를 업로드하거나 이모티콘을 선택하세요. 멤버 이름 옆에는 아이콘이 있는 역할 중 가장 높은 역할의 아이콘이 표시됩니다.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -11659,68 +12102,66 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. 최소 $minimumSize, 최대 $maxSize.';
   }
 
   @override
-  String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+  String get guildSettingsRolesRoleIconUploadAccessibility => '역할 아이콘 업로드';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return '현재 역할 아이콘, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      '현재 역할 아이콘, 업로드한 이미지';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => '이모티콘 선택';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => '이미지 업로드';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => '아이콘 삭제';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      '움직이는 아이콘은 지원되지 않습니다. 정적 이미지를 사용하세요.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return '지원되지 않는 파일 형식입니다. 지원되는 형식은 $formats입니다.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      '이 이미지를 불러올 수 없습니다. 다른 이미지를 사용해 보세요.';
 
   @override
-  String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+  String get guildSettingsRolesRoleIconUsagePreviewMessage => '메시지가 표시되는 방식입니다';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return '역할 아이콘, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => '역할 아이콘 자르기';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => '아이콘 저장';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => '자르기 건너뛰기';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed => '아이콘 자르기에 실패했습니다. 다시 시도해 주세요.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return '역할 아이콘을 드래그하여 위치를 조정하고 스크롤 휠 또는 핀치로 확대/축소하세요. 권장 최소 크기는 $minimumWidth×$minimumHeight픽셀입니다.';
   }
 
   @override
@@ -13033,25 +13474,25 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return '역할 아이콘을 $emoji(으)로 설정했습니다';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return '역할 아이콘을 $oldEmoji에서 $newEmoji(으)로 변경했습니다';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => '역할 아이콘을 삭제했습니다';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => '커스텀 역할 아이콘을 설정했습니다';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => '커스텀 역할 아이콘을 변경했습니다';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => '커스텀 역할 아이콘을 삭제했습니다';
 
   @override
   String auditLogOptionChannel(String value) {
@@ -14212,6 +14653,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get dmListDirectMessagesTitle => 'DM';
 
   @override
+  String get dmListFriendsButton => '친구';
+
+  @override
   String get keybindsSearchShortcuts => '단축키 검색';
 
   @override
@@ -14816,6 +15260,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get forumPostStarterDeleted => '원본 메시지가 삭제되었습니다.';
 
   @override
+  String get forumPostBlockedAuthor => '차단한 사람의 게시물';
+
+  @override
+  String get threadBlockedAuthor => '차단한 사람의 스레드';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -14862,6 +15312,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => '읽음으로 표시';
+
+  @override
+  String get forumReportPost => '게시물 신고';
 
   @override
   String get forumCopyPostLink => '링크 복사';
@@ -15702,4 +16155,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted => '이 계정의 결제가 차단되었습니다.';
+
+  @override
+  String splashGatewayUnreachable(String domain) {
+    return '$domain에 연결할 수 없습니다. 인터넷 연결을 확인한 후 다시 시도해 주세요.';
+  }
 }

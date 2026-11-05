@@ -125,11 +125,11 @@ final class AssistantEntityStore {
     if let accountUserId, !accountUserId.isEmpty {
       payload["accountUserId"] = accountUserId
     }
-    AssistantDefaults.set(payload, forKey: Self.persistKey)
+    UserDefaults.standard.set(payload, forKey: Self.persistKey)
   }
 
   private func loadPersisted() {
-    let payload = AssistantDefaults.dictionary(forKey: Self.persistKey)
+    let payload = UserDefaults.standard.dictionary(forKey: Self.persistKey)
     let accountRaw = payload?["accountUserId"] as? String
     accountUserIdStorage = (accountRaw?.isEmpty == false) ? accountRaw : nil
     friendsStorage = Self.parseFriends(payload?["friends"])

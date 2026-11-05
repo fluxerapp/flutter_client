@@ -431,7 +431,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         _wrapSearchHeader(
           PickerSearchInput(
             controller: _searchController,
-            hintText: _hoveredSticker?.name ?? 'Find the perfect sticker',
+            hintText:
+                _hoveredSticker?.name ??
+                FluxerLocalizations.of(context).stickerPickerSearchHint,
             horizontalPadding: widget.searchHorizontalPadding ?? 12,
             topPadding: widget.searchTopPadding ?? (widget.isMobile ? 8 : 12),
             bottomPadding:
@@ -458,20 +460,21 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     FluxerColorTheme colors,
     _StickerPickerData data,
   ) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (data.allStickers.isEmpty) {
-      return const _StickerEmptyState(
+      return _StickerEmptyState(
         icon: PhosphorIconsDuotone.sticker,
-        title: 'No Stickers Available',
-        description: 'Join a community with stickers to get started!',
+        title: l10n.stickerPickerEmptyNoCommunitiesTitle,
+        description: l10n.stickerPickerEmptyNoCommunitiesBody,
       );
     }
 
     final visibleStickers = data.visibleStickers;
     if (visibleStickers.isEmpty) {
-      return const _StickerEmptyState(
+      return _StickerEmptyState(
         icon: PhosphorIconsDuotone.sticker,
-        title: 'No Stickers Available',
-        description: 'No stickers are available in this conversation.',
+        title: l10n.stickerPickerEmptyHereTitle,
+        description: l10n.stickerPickerEmptyHereBody,
       );
     }
     if (_searchQuery.trim().isNotEmpty) {
@@ -513,10 +516,11 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     List<StickerEntry> stickers,
   ) {
     if (stickers.isEmpty) {
-      return const _StickerEmptyState(
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      return _StickerEmptyState(
         icon: PhosphorIconsDuotone.smileySad,
-        title: 'No Stickers Found',
-        description: 'Try a different search term',
+        title: l10n.stickerPickerNoResultsTitle,
+        description: l10n.stickerPickerNoResultsBody,
       );
     }
 
@@ -629,16 +633,14 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     if (dismissed) {
       return const SizedBox.shrink();
     }
-    final stickerLabel = lockedStickers.length == 1
-        ? '1 sticker'
-        : '${lockedStickers.length} stickers';
-    final guildLabel = lockedGuilds.length == 1
-        ? 'another community'
-        : '${lockedGuilds.length} communities';
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: FluxerPlutoniumUpsell(
-        text: 'Unlock $stickerLabel from $guildLabel with Plutonium.',
+        text: l10n.stickerPlutoniumUpsellText(
+          l10n.stickerPlutoniumUpsellStickerCount(lockedStickers.length),
+          l10n.emojiPlutoniumUpsellCommunity(lockedGuilds.length),
+        ),
         onDismiss: () => unawaited(
           ref.read(plutoniumUpsellDismissedProvider.notifier).dismiss(),
         ),
@@ -667,7 +669,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     final label =
         labelOverride ??
         (category == 'favorites'
-            ? 'Favorites'
+            ? FluxerLocalizations.of(context).favoritesTitle
             : FluxerLocalizations.of(context).emojiFrequentlyUsed);
     if (widget.isMobile) {
       return ExpressionSectionHeader(
@@ -832,7 +834,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       children: [
         if (data.favoriteStickers.isNotEmpty)
           ExpressionRailButton(
-            label: 'Favorites',
+            label: FluxerLocalizations.of(context).favoritesTitle,
             icon: PhosphorIconsFill.star,
             onTap: () => _scrollToCategory('favorites'),
           ),

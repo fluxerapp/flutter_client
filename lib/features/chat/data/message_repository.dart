@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
@@ -18,10 +19,13 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+
+const int kDmPreviewPreloadBatchSize = 100;
 
 const Duration _kSendLookupClockSkew = Duration(minutes: 2);
 
@@ -406,6 +410,96 @@ class MessageRepository {
         e.error?.toString() ?? e.message ?? 'Failed to fetch message',
       );
     }
+  }
+
+  Future<void> preloadMissingDmPreviews() async {
+    final List<db.DmChannel> rows = await _db.dmChannelDao.getDmChannels();
+    final Map<String, db.Message> cached = await _db.messageDao
+        .getLastMessageForChannels(<String>[
+          for (final db.DmChannel row in rows) row.id,
+        ]);
+    final List<String> missing = <String>[
+      for (final db.DmChannel row in rows)
+        if (!isDmPersonalNotesType(row.type) &&
+            row.lastMessageId != null &&
+            cached[row.id]?.id != row.lastMessageId)
+          row.id,
+    ];
+    for (
+      int start = 0;
+      start < missing.length;
+      start += kDmPreviewPreloadBatchSize
+    ) {
+      final List<String> batch = missing.sublist(
+        start,
+        min(start + kDmPreviewPreloadBatchSize, missing.length),
+      );
+      final Response<Map<String, dynamic>> response = await _dio
+          .post<Map<String, dynamic>>(
+            '/users/@me/preload-messages',
+            data: <String, Object>{'channels': batch},
+          );
+      await _persistPreloadedMessages(<MessageResponseSchema>[
+        for (final Object? value
+            in (response.data ?? const <String, dynamic>{}).values)
+          if (value is Map<String, dynamic>)
+            MessageResponseSchema.fromJson(value),
+      ]);
+    }
+  }
+
+  Future<void> _persistPreloadedMessages(
+    List<MessageResponseSchema> data,
+  ) async {
+    if (data.isEmpty) {
+      return;
+    }
+    final Map<String, db.UsersCompanion> usersById =
+        <String, db.UsersCompanion>{};
+    final List<Message> messages = <Message>[];
+    for (final MessageResponseSchema sdk in data) {
+      if (sdk.webhookId == null) {
+        usersById[sdk.author.id] = userFromPartialSdk(sdk.author);
+      }
+      for (final UserPartialResponse mention in sdk.mentions) {
+        usersById[mention.id] = userFromPartialSdk(mention);
+      }
+      final MessageMentionContext mentionCtx =
+          await _mentionContextCache?.contextFor(
+            currentUserId: _currentUserId,
+            channelId: sdk.channelId,
+          ) ??
+          await buildMessageMentionContext(
+            _db,
+            currentUserId: _currentUserId,
+            channelId: sdk.channelId,
+          );
+      messages.add(
+        Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
+          isMentioned: messageMentionsUser(
+            mentionCtx,
+            authorId: sdk.author.id,
+            mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+            mentionEveryone: sdk.mentionEveryone,
+            mentionRoleIds: sdk.mentionRoles,
+          ),
+        ),
+      );
+    }
+    await _db.transaction(() async {
+      await upsertUsersCompanions(_db, usersById.values);
+      for (final Message message in await _upsertKeepingTranslations(
+        messages,
+      )) {
+        await _db.dmChannelDao.updateLastMessage(
+          message.channelId,
+          message.id,
+          message.content,
+          message.authorId,
+          message.timestamp,
+        );
+      }
+    });
   }
 
   Future<List<Message>> _getMessagesFallback({

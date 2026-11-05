@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/open_user_settings_deep_link.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -78,7 +79,9 @@ class ChannelMention extends ConsumerWidget {
       );
     }
     final String name =
-        channel?.name ?? fallback?.name ?? l10n.mentionUnknownChannel;
+        (channel == null ? null : watchThreadTitleText(ref, channel, l10n)) ??
+        fallback?.name ??
+        l10n.mentionUnknownChannel;
     final ChannelType type =
         channel?.type ??
         (fallback == null

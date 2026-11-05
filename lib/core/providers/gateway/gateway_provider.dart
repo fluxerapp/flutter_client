@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
@@ -227,6 +228,18 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+      unawaited(
+        ref
+            .read(messageRepositoryProvider)
+            .preloadMissingDmPreviews()
+            .catchError((Object error, StackTrace stack) {
+              talker.warning(
+                '[Gateway] DM preview preload failed',
+                error,
+                stack,
+              );
+            }),
+      );
     }),
     onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');

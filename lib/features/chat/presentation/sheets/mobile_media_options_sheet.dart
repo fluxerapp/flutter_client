@@ -13,6 +13,9 @@ import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -73,30 +76,51 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final MessageMediaActionScope? actionScope = launchContext.actionScope;
-    final bool downloadsHidden =
+    final bool matureMediaHidden =
         actionScope != null &&
-        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
+        watchMatureMediaHidden(
+          ref,
+          channelId: actionScope.message.channelId,
+          isMatureMedia: isMatureMessageMedia(
+            actionScope.message,
+            attachmentId: launchContext.attachmentId,
+            embedIndex: launchContext.embedIndex,
+          ),
+        );
+    final bool downloadsHidden =
+        matureMediaHidden ||
+        (actionScope != null &&
+            ref.watch(
+              mediaDownloadHiddenProvider(actionScope.message.channelId),
+            ));
     final String linkUrl = downloadsHidden
         ? ''
         : launchContext.fallbackUrl.trim();
     final String? downloadUrl = downloadsHidden
         ? null
         : launchContext.downloadUrl;
+    final String reverseImageSearchUrl = downloadsHidden
+        ? ''
+        : launchContext.reverseImageSearchUrl?.trim() ?? '';
+    final SearchProviderCategoryState reverseImageEngines = ref.watch(
+      advancedPreferencesProvider.select((s) => s.searchEngines.reverseImage),
+    );
     final Attachment? attachment = actionScope == null
         ? null
         : resolveMessageAttachment(
             actionScope.message,
             launchContext.attachmentId,
           );
-    final MessageMediaFavoriteTarget? favoriteTarget =
-        favoriteTargetForMessageMedia(
-          actionScope: actionScope,
-          attachmentId: launchContext.attachmentId,
-          embedIndex: launchContext.embedIndex,
-          filename: launchContext.filename,
-          fallbackContentHash: launchContext.contentHash,
-          attachment: attachment,
-        );
+    final MessageMediaFavoriteTarget? favoriteTarget = matureMediaHidden
+        ? null
+        : favoriteTargetForMessageMedia(
+            actionScope: actionScope,
+            attachmentId: launchContext.attachmentId,
+            embedIndex: launchContext.embedIndex,
+            filename: launchContext.filename,
+            fallbackContentHash: launchContext.contentHash,
+            attachment: attachment,
+          );
     final MediaFavoriteState favoriteState = watchMediaFavoriteState(
       ref,
       target: favoriteTarget,
@@ -132,6 +156,22 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
           label: l10n.chatAttachmentDownload,
           onTap: () => unawaited(_download(downloadUrl)),
         ),
+      if (reverseImageSearchUrl.isNotEmpty)
+        for (final SearchProviderEngine engine in _reverseImageEnginesInOrder(
+          reverseImageEngines,
+        ))
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsBold.magnifyingGlass,
+            label: l10n.searchProviderSearchWith(engine.name),
+            onTap: () => unawaited(
+              _openLink(
+                buildSearchProviderUrl(
+                  urlTemplate: engine.urlTemplate,
+                  value: reverseImageSearchUrl,
+                ),
+              ),
+            ),
+          ),
     ];
     final List<Widget> groups = <Widget>[
       if (mediaItems.isNotEmpty) FluxerMenuGroup(children: mediaItems),
@@ -199,6 +239,23 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       state: favoriteState,
       action: action,
     );
+  }
+
+  List<SearchProviderEngine> _reverseImageEnginesInOrder(
+    SearchProviderCategoryState category,
+  ) {
+    final List<SearchProviderEngine> engines = category.enabledEngines;
+    final int defaultIndex = engines.indexWhere(
+      (SearchProviderEngine engine) => engine.id == category.defaultEngineId,
+    );
+    if (defaultIndex <= 0) {
+      return engines;
+    }
+    return <SearchProviderEngine>[
+      engines[defaultIndex],
+      ...engines.take(defaultIndex),
+      ...engines.skip(defaultIndex + 1),
+    ];
   }
 
   Future<void> _copyLink(String linkUrl) async {

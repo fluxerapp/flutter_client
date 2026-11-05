@@ -78,7 +78,7 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
 
     return AnimatedBuilder(
       animation: _controller,
-      child: widget.child,
+      child: RepaintBoundary(child: widget.child),
       builder: (BuildContext context, Widget? child) {
         final bool reducedMotion = MediaQuery.disableAnimationsOf(context);
         final double scale = splashRevealShellScale(

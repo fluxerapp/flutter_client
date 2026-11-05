@@ -1,6 +1,7 @@
 import AppIntents
 import Flutter
 import Foundation
+import Intents
 
 final class AssistantBridge: NSObject {
   static let shared = AssistantBridge()
@@ -8,13 +9,20 @@ final class AssistantBridge: NSObject {
   private static let methodChannelName = "fluxer_app/assistant"
   static let readyWaitNanoseconds: UInt64 = 20_000_000_000
   private static let pollNanoseconds: UInt64 = 50_000_000
-  private static let fallbackSpoken = "Fluxer could not complete that."
+  private static var fallbackSpoken: String { String(localized: "Fluxer could not complete that.") }
 
   private var methodChannel: FlutterMethodChannel?
   private var isRegisteredWithEngine = false
+  private let backgroundQueue = DispatchQueue(label: "app.fluxer.assistant", qos: .utility)
 
   private override init() {
     super.init()
+  }
+
+  func refreshAppShortcutsInBackground() {
+    backgroundQueue.async {
+      AssistantAppShortcuts.updateAppShortcutParameters()
+    }
   }
 
   func register(engineBridge: FlutterImplicitEngineBridge) {
@@ -64,11 +72,22 @@ final class AssistantBridge: NSObject {
   private func handleMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "updateEntities":
-      AssistantEntityStore.shared.replace(call.arguments)
-      AssistantAppShortcuts.updateAppShortcutParameters()
-      result(nil)
+      let arguments = call.arguments
+      backgroundQueue.async {
+        AssistantEntityStore.shared.replace(arguments)
+        AssistantAppShortcuts.updateAppShortcutParameters()
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
     case "takePending":
       result(AssistantPendingCommand.takeIfAccount(call.arguments as? String))
+    case "deleteInteractions":
+      INInteraction.deleteAll { _ in
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
     default:
       result(FlutterMethodNotImplemented)
     }

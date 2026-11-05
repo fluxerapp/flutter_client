@@ -2,6 +2,13 @@ name: Draft Stable Release
 
 on:
   workflow_call:
+    outputs:
+      release_id:
+        description: GitHub release ID for the stable draft
+        value: ${{ jobs.draft.outputs.release_id }}
+      tag_name:
+        description: Tag name for the stable draft release
+        value: ${{ jobs.draft.outputs.tag_name }}
 
 permissions: {}
 
@@ -9,6 +16,9 @@ jobs:
   draft:
     name: Update stable release draft
     runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.release_drafter.outputs.id }}
+      tag_name: ${{ steps.release_drafter.outputs.tag_name }}
     steps:
       - name: Create token
         id: create-token
@@ -23,8 +33,13 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
+          ref: stable
           token: ${{ steps.create-token.outputs.token }}
           persist-credentials: false
+
+      - name: Resolve stable version
+        id: resolve_stable_version
+        run: python3 .github/scripts/app_version.py read
 
       - id: release_drafter
         uses: release-drafter/release-drafter@693d20e7c1ce1a81d3a41962f85914253b518449
@@ -32,3 +47,4 @@ jobs:
           config-name: release-drafter-stable.yml
           token: ${{ steps.create-token.outputs.token }}
           commitish: stable
+          version: ${{ steps.resolve_stable_version.outputs.release_drafter_version }}

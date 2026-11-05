@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/channels.dart';
@@ -8,6 +9,11 @@ part 'thread_dao.g.dart';
 
 const List<int> _threadTypes = <int>[10, 11, 12];
 const Duration threadArchivedRetention = Duration(days: 7);
+
+typedef JoinedThreadsSnapshot = ({
+  List<ThreadMembersCompanion> joined,
+  Set<String> listedIds,
+});
 
 @DriftAccessor(tables: [Channels, ThreadMembers])
 class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
@@ -54,9 +60,6 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
-  Future<List<ThreadMember>> getMembersForGuild(String guildId) =>
-      (select(threadMembers)..where((m) => m.guildId.equals(guildId))).get();
-
   Stream<Set<String>> watchJoinedThreadIds() => select(threadMembers)
       .watch()
       .map(
@@ -86,31 +89,56 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
     String guildId,
     List<ThreadMembersCompanion> joined, {
     required Set<String> listedIds,
-  }) => transaction(() async {
-    final List<String> unlistedIds = <String>[
-      for (final ThreadMember row in await getMembersForGuild(guildId))
-        if (!listedIds.contains(row.threadId)) row.threadId,
-    ];
-    await (delete(threadMembers)..where((m) => m.guildId.equals(guildId))).go();
-    final List<String> staleIds = unlistedIds.isEmpty
-        ? const <String>[]
-        : <String>[
-            for (final Channel row
-                in await (select(channels)..where(
-                      (c) => c.id.isIn(unlistedIds) & c.type.isIn(_threadTypes),
-                    ))
-                    .get())
-              if (row.threadArchived != true) row.id,
-          ];
-    await _deleteThreadRows(staleIds);
-    if (joined.isNotEmpty) {
-      await batch((Batch b) {
-        for (final ThreadMembersCompanion member in joined) {
-          b.insert(threadMembers, member, onConflict: DoUpdate((_) => member));
-        }
-      });
+  }) async =>
+      (await reconcileJoinedForGuilds(<String, JoinedThreadsSnapshot>{
+        guildId: (joined: joined, listedIds: listedIds),
+      }))[guildId] ??
+      const <String>[];
+
+  Future<Map<String, List<String>>> reconcileJoinedForGuilds(
+    Map<String, JoinedThreadsSnapshot> snapshots,
+  ) => transaction(() async {
+    if (snapshots.isEmpty) {
+      return const <String, List<String>>{};
     }
-    return staleIds;
+    final List<String> guildIds = snapshots.keys.toList();
+    final Map<String, String> unlistedGuildById = <String, String>{
+      for (final ThreadMember row in await (select(
+        threadMembers,
+      )..where((m) => m.guildId.isIn(guildIds))).get())
+        if (!(snapshots[row.guildId]?.listedIds.contains(row.threadId) ?? true))
+          row.threadId: row.guildId,
+    };
+    await (delete(threadMembers)..where((m) => m.guildId.isIn(guildIds))).go();
+    final Map<String, List<String>> staleByGuild = <String, List<String>>{};
+    if (unlistedGuildById.isNotEmpty) {
+      for (final Channel row
+          in await (select(channels)..where(
+                (c) =>
+                    c.id.isIn(unlistedGuildById.keys) &
+                    c.type.isIn(_threadTypes),
+              ))
+              .get()) {
+        if (row.threadArchived != true) {
+          (staleByGuild[unlistedGuildById[row.id]!] ??= <String>[]).add(row.id);
+        }
+      }
+    }
+    await _deleteThreadRows(<String>[
+      for (final List<String> ids in staleByGuild.values) ...ids,
+    ]);
+    await batch(
+      (Batch b) => batchUpsert(
+        b,
+        attachedDatabase,
+        threadMembers,
+        <ThreadMembersCompanion>[
+          for (final JoinedThreadsSnapshot snapshot in snapshots.values)
+            ...snapshot.joined,
+        ],
+      ),
+    );
+    return staleByGuild;
   });
 
   Future<void> replaceActiveForParents({
@@ -142,12 +170,8 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
       )..where((m) => m.threadId.isIn(leftIds))).go();
     }
     await batch((Batch b) {
-      for (final ChannelsCompanion thread in threads) {
-        b.insert(channels, thread, onConflict: DoUpdate((_) => thread));
-      }
-      for (final ThreadMembersCompanion member in members) {
-        b.insert(threadMembers, member, onConflict: DoUpdate((_) => member));
-      }
+      batchUpsert(b, attachedDatabase, channels, threads);
+      batchUpsert(b, attachedDatabase, threadMembers, members);
     });
   });
 

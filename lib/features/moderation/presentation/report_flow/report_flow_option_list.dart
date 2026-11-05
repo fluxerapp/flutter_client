@@ -63,6 +63,7 @@ String reportFlowLinkUrl(String url, IarContext target) {
       'type': 'user',
       'user_id': userId,
     },
+    IarGuildContext() => <String, String>{'type': 'guild'},
   };
   return uri
       .replace(

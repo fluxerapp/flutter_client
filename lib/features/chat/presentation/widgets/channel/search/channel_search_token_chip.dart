@@ -112,19 +112,25 @@ class ChannelSearchTokenChip extends ConsumerWidget {
           children: <Widget>[
             Flexible(child: label),
             if (remove != null)
-              FluxerGestureDetector(
-                key: ValueKey<String>('search-token-remove-${token.signature}'),
-                behavior: HitTestBehavior.opaque,
-                onTap: remove,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 6,
+              Semantics(
+                button: true,
+                label: MaterialLocalizations.of(context).deleteButtonTooltip,
+                child: FluxerGestureDetector(
+                  key: ValueKey<String>(
+                    'search-token-remove-${token.signature}',
                   ),
-                  child: PhosphorIcon(
-                    PhosphorIconsBold.x,
-                    size: 12,
-                    color: colors.textSecondary,
+                  behavior: HitTestBehavior.opaque,
+                  onTap: remove,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 6,
+                    ),
+                    child: PhosphorIcon(
+                      PhosphorIconsBold.x,
+                      size: 12,
+                      color: colors.textSecondary,
+                    ),
                   ),
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/constants/contact_emails.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -97,6 +98,7 @@ Future<void> startPremiumCheckout({
       priceId: priceId,
       countryCode: countryCode,
       paymentMethod: paymentMethod,
+      distribution: AppBuildConfig.distribution,
     );
     final UrlResponse response = selected.isGift
         ? await client.billing.createGiftCheckoutSession(body: body)

@@ -2,14 +2,24 @@ package com.fluxer.notifications
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
+import androidx.core.app.Person
+import androidx.core.content.FileProvider
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import java.io.File
 import java.math.BigInteger
+
+class FluxerPushMediaProvider : FileProvider()
 
 class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     private var channel: MethodChannel? = null
@@ -20,6 +30,7 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
         channel = MethodChannel(binding.binaryMessenger, CHANNEL_NAME).also {
             it.setMethodCallHandler(this)
         }
+        onMessengerAttached?.invoke(binding.applicationContext, binding.binaryMessenger)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -51,17 +62,49 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
             METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED -> {
                 result.success(isNotificationSoundSuppressed(appContext))
             }
+            METHOD_CONTENT_URI_FOR_IMAGE -> {
+                result.success(call.argument<String>(ARG_PATH)?.let { contentUriForImage(appContext, it) })
+            }
+            METHOD_PUBLISH_CONVERSATION_SHORTCUT -> {
+                val id = call.argument<String>(ARG_ID)
+                val label = call.argument<String>(ARG_LABEL)
+                if (id.isNullOrEmpty() || label.isNullOrEmpty()) {
+                    result.success(false)
+                    return
+                }
+                result.success(
+                    publishConversationShortcut(
+                        appContext,
+                        id,
+                        label,
+                        call.argument<String>(ARG_ICON_PATH),
+                    ),
+                )
+            }
             else -> result.notImplemented()
         }
     }
 
     companion object {
+        @Volatile
+        var onMessengerAttached: ((Context, BinaryMessenger) -> Unit)? = null
+
         const val CHANNEL_NAME = "fluxer_app/android_notifications"
         private const val METHOD_CANCEL_FOR_CHANNEL = "cancelForChannel"
         private const val METHOD_CANCEL_ALL = "cancelAll"
         private const val METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED = "isNotificationSoundSuppressed"
+        private const val METHOD_CONTENT_URI_FOR_IMAGE = "contentUriForImage"
+        private const val METHOD_PUBLISH_CONVERSATION_SHORTCUT = "publishConversationShortcut"
         private const val ARG_CHANNEL_ID = "channelId"
         private const val ARG_MESSAGE_ID = "messageId"
+        private const val ARG_PATH = "path"
+        private const val ARG_ID = "id"
+        private const val ARG_LABEL = "label"
+        private const val ARG_ICON_PATH = "iconPath"
+        private const val MEDIA_AUTHORITY_SUFFIX = ".fluxer_push_media"
+        private const val SYSTEM_UI_PACKAGE = "com.android.systemui"
+        private const val CONVERSATION_CATEGORY = "android.shortcut.conversation"
+        private const val CONVERSATION_SHORTCUT_PREFIX = "channel:"
         private const val EXTRA_CHANNEL_ID = "channel_id"
         private const val EXTRA_TAG = "tag"
         private const val EXTRA_NOTIFICATION_TAG = "notification_tag"
@@ -77,9 +120,6 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
             val manager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
                     ?: return 0
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                return 0
-            }
             val channelTag = "channel:$channelId"
             val channelPrefix = "$channelTag:"
             val matched = mutableListOf<StatusBarNotification>()
@@ -135,6 +175,63 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
             val manager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
             manager?.cancelAll()
+            removeConversationShortcuts(context)
+        }
+
+        private fun contentUriForImage(context: Context, path: String): String? {
+            return runCatching {
+                val uri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}$MEDIA_AUTHORITY_SUFFIX",
+                    File(path),
+                )
+                context.grantUriPermission(
+                    SYSTEM_UI_PACKAGE,
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                )
+                uri.toString()
+            }.getOrNull()
+        }
+
+        private fun publishConversationShortcut(
+            context: Context,
+            id: String,
+            label: String,
+            iconPath: String?,
+        ): Boolean {
+            return runCatching {
+                val launchIntent = context.packageManager
+                    .getLaunchIntentForPackage(context.packageName)
+                    ?: return false
+                val icon = iconPath
+                    ?.let(BitmapFactory::decodeFile)
+                    ?.let(IconCompat::createWithBitmap)
+                val person = Person.Builder().setKey(id).setName(label).setIcon(icon).build()
+                val shortcut = ShortcutInfoCompat.Builder(context, id)
+                    .setShortLabel(label)
+                    .setLongLived(true)
+                    .setCategories(setOf(CONVERSATION_CATEGORY))
+                    .setPerson(person)
+                    .setIntent(launchIntent)
+                    .apply {
+                        if (icon != null) {
+                            setIcon(icon)
+                        }
+                    }
+                    .build()
+                ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
+                true
+            }.getOrDefault(false)
+        }
+
+        private fun removeConversationShortcuts(context: Context) {
+            runCatching {
+                val ids = ShortcutManagerCompat.getDynamicShortcuts(context)
+                    .map { it.id }
+                    .filter { it.startsWith(CONVERSATION_SHORTCUT_PREFIX) }
+                ShortcutManagerCompat.removeLongLivedShortcuts(context, ids)
+            }
         }
 
         private fun notificationMatchesChannel(

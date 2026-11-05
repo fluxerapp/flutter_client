@@ -4,15 +4,23 @@ import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.da
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_utils.dart';
 
-bool userSettingsShowBillingNav(WidgetRef ref) {
+final premiumBillingNavVisibleProvider = Provider<bool>((Ref ref) {
   return resolvePremiumBillingNavVisible(
     commerceVisible: ref.watch(shouldShowPremiumCommerceProvider),
-    ossWebCheckout: isOssWebCheckoutBuild,
+    webCheckout: isWebCheckoutBuild,
     storePage: isPremiumStorePageActive(),
     officialInstance: ref.watch(isActiveInstanceOfficialProvider),
   );
+});
+
+final premiumGiftBillingNavVisibleProvider = Provider<bool>((Ref ref) {
+  return ref.watch(premiumBillingNavVisibleProvider) && isWebCheckoutBuild;
+});
+
+bool userSettingsShowBillingNav(WidgetRef ref) {
+  return ref.watch(premiumBillingNavVisibleProvider);
 }
 
 bool userSettingsShowGiftBillingNav(WidgetRef ref) {
-  return userSettingsShowBillingNav(ref) && isOssWebCheckoutBuild;
+  return ref.watch(premiumGiftBillingNavVisibleProvider);
 }

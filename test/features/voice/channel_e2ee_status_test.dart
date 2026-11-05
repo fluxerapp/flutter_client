@@ -102,5 +102,18 @@ void main() {
         ChannelE2eeStatus.encrypted,
       );
     });
+
+    test('an empty DM call is never shown as encrypted', () {
+      expect(
+        computeChannelE2eeStatus(
+          voiceStates: <String, VoiceState>{},
+          guildId: null,
+          channelId: 'dm',
+          guildHasVoiceE2ee: true,
+          emptyChannelStatus: ChannelE2eeStatus.encrypted,
+        ),
+        ChannelE2eeStatus.none,
+      );
+    });
   });
 }

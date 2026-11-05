@@ -7,23 +7,24 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);
-  final colors = context.colors;
-  final textStyles = context.textStyles;
 
   return FluxerBottomSheet.show<bool>(
     context,
     useRootNavigator: true,
-    isDismissible: false,
-    enableDrag: false,
     title: l10n.observabilityReportingConsentTitle,
-    subtitle: Text(
-      l10n.observabilityReportingConsentSubtitle,
-      style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+    subtitle: Builder(
+      builder: (BuildContext subtitleContext) => Text(
+        l10n.observabilityReportingConsentSubtitle,
+        style: subtitleContext.textStyles.bodySmall.copyWith(
+          color: subtitleContext.colors.textSecondary,
+        ),
+      ),
     ),
     builder: (sheetContext, close) =>
         _ObservabilityReportingConsentSheetContent(
           onAgree: () =>
               Navigator.of(sheetContext, rootNavigator: true).pop(true),
+          onNotNow: () => Navigator.of(sheetContext, rootNavigator: true).pop(),
           onDecline: () =>
               Navigator.of(sheetContext, rootNavigator: true).pop(false),
         ),
@@ -33,10 +34,12 @@ Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
 class _ObservabilityReportingConsentSheetContent extends StatelessWidget {
   const _ObservabilityReportingConsentSheetContent({
     required this.onAgree,
+    required this.onNotNow,
     required this.onDecline,
   });
 
   final VoidCallback onAgree;
+  final VoidCallback onNotNow;
   final VoidCallback onDecline;
 
   @override
@@ -49,43 +52,44 @@ class _ObservabilityReportingConsentSheetContent extends StatelessWidget {
       color: colors.textSecondary,
     );
 
-    return PopScope(
-      canPop: false,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: layout.s4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _ObservabilityReportingConsentInfoRow(
-              icon: PhosphorIconsFill.shieldCheck,
-              iconColor: colors.textSecondary,
-              text: l10n.observabilityReportingConsentBody,
-              style: bodyStyle,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _ObservabilityReportingConsentInfoRow(
+            icon: PhosphorIconsFill.shieldCheck,
+            iconColor: colors.textSecondary,
+            text: l10n.observabilityReportingConsentBody,
+            style: bodyStyle,
+          ),
+          SizedBox(height: layout.s3),
+          _ObservabilityReportingConsentInfoRow(
+            icon: PhosphorIconsFill.gear,
+            iconColor: colors.textSecondary,
+            text: l10n.observabilityReportingConsentEnableLater(
+              l10n.advancedPerformanceReportingLabel,
             ),
-            SizedBox(height: layout.s3),
-            _ObservabilityReportingConsentInfoRow(
-              icon: PhosphorIconsFill.gear,
-              iconColor: colors.textSecondary,
-              text: l10n.observabilityReportingConsentEnableLater(
-                l10n.advancedPerformanceReportingLabel,
-              ),
-              style: bodyStyle,
-            ),
-            SizedBox(height: layout.s4),
-            FluxerButton.primary(
-              onPressed: onAgree,
-              icon: PhosphorIconsBold.paperPlaneTilt,
-              label: l10n.observabilityReportingConsentAgree,
-            ),
-            SizedBox(height: layout.s2),
-            FluxerButton.secondary(
-              onPressed: onDecline,
-              icon: PhosphorIconsBold.x,
-              label: l10n.observabilityReportingConsentDecline,
-            ),
-          ],
-        ),
+            style: bodyStyle,
+          ),
+          SizedBox(height: layout.s4),
+          FluxerButton.primary(
+            onPressed: onAgree,
+            icon: PhosphorIconsBold.paperPlaneTilt,
+            label: l10n.observabilityReportingConsentAgree,
+          ),
+          SizedBox(height: layout.s2),
+          FluxerButton.secondary(
+            onPressed: onNotNow,
+            label: l10n.observabilityReportingConsentNotNow,
+          ),
+          SizedBox(height: layout.s2),
+          FluxerButton.ghost(
+            onPressed: onDecline,
+            label: l10n.observabilityReportingConsentDecline,
+          ),
+        ],
       ),
     );
   }

@@ -20,14 +20,22 @@ double _reconnectMarkBounce(double t) {
   return clamped < 1 ? (1 - clamped) * clamped * 4 : 0;
 }
 
-Size _measureLabel(BuildContext context, String text, TextStyle style) {
+const int _labelMaxLines = 3;
+
+Size _measureLabel(
+  BuildContext context,
+  String text,
+  TextStyle style,
+  double maxWidth,
+) {
   final DefaultTextStyle defaults = DefaultTextStyle.of(context);
   final TextPainter painter = TextPainter(
     text: TextSpan(text: text, style: defaults.style.merge(style)),
     textDirection: Directionality.of(context),
     textScaler: MediaQuery.textScalerOf(context),
-    maxLines: 1,
-  )..layout();
+    maxLines: _labelMaxLines,
+    ellipsis: '\u2026',
+  )..layout(maxWidth: maxWidth);
   final Size size = painter.size;
   painter.dispose();
   return size;
@@ -242,11 +250,15 @@ class _GatewayReconnectBannerState
     final FluxerColorTheme colors = context.colors;
     final FluxerLayoutTheme layout = context.layout;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String reconnectingMessage = l10n.gatewayReconnectingToast;
+    final bool deviceOffline = ref.watch(gatewayDeviceOfflineProvider);
+    final String reconnectingMessage = deviceOffline
+        ? l10n.gatewayOfflineToast
+        : l10n.gatewayReconnectingToast;
     final String connectedMessage = l10n.gatewayConnectedToast;
     final bool connected =
         _contentPhase == GatewayReconnectBannerPhase.connected;
-    final bool retryable = phase == GatewayReconnectBannerPhase.reconnecting;
+    final bool retryable =
+        phase == GatewayReconnectBannerPhase.reconnecting && !deviceOffline;
     final BorderRadius pillRadius = layout.radiusFull;
     final TextStyle reconnectingStyle = context.textStyles.bodyMedium.copyWith(
       fontWeight: FontWeight.w600,
@@ -320,21 +332,14 @@ class _GatewayReconnectBannerState
                                   children: [
                                     ?mark,
                                     SizedBox(width: layout.s3),
-                                    _PhaseLabel(
-                                      progress: _labelController.value,
-                                      reconnectingMessage: reconnectingMessage,
-                                      connectedMessage: connectedMessage,
-                                      reconnectingStyle: reconnectingStyle,
-                                      connectedStyle: connectedStyle,
-                                      reconnectingSize: _measureLabel(
-                                        context,
-                                        reconnectingMessage,
-                                        reconnectingStyle,
-                                      ),
-                                      connectedSize: _measureLabel(
-                                        context,
-                                        connectedMessage,
-                                        connectedStyle,
+                                    Flexible(
+                                      child: _PhaseLabel(
+                                        progress: _labelController.value,
+                                        reconnectingMessage:
+                                            reconnectingMessage,
+                                        connectedMessage: connectedMessage,
+                                        reconnectingStyle: reconnectingStyle,
+                                        connectedStyle: connectedStyle,
                                       ),
                                     ),
                                   ],
@@ -368,8 +373,6 @@ class _PhaseLabel extends StatelessWidget {
     required this.connectedMessage,
     required this.reconnectingStyle,
     required this.connectedStyle,
-    required this.reconnectingSize,
-    required this.connectedSize,
   });
 
   final double progress;
@@ -377,8 +380,6 @@ class _PhaseLabel extends StatelessWidget {
   final String connectedMessage;
   final TextStyle reconnectingStyle;
   final TextStyle connectedStyle;
-  final Size reconnectingSize;
-  final Size connectedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -388,38 +389,86 @@ class _PhaseLabel extends StatelessWidget {
     );
     final TextStyle connectedStyle = defaults.style.merge(this.connectedStyle);
     final double t = Curves.easeInOutCubic.transform(progress);
-    return SizedBox(
-      width:
-          (lerpDouble(reconnectingSize.width, connectedSize.width, t) ??
-                  connectedSize.width)
-              .ceilToDouble(),
-      child: ClipRect(
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            if (t < 1)
-              Opacity(
-                opacity: 1 - t,
-                child: Text(
-                  reconnectingMessage,
-                  style: reconnectingStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-            if (t > 0)
-              Opacity(
-                opacity: t,
-                child: Text(
-                  connectedMessage,
-                  style: connectedStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Size reconnectingSize = _measureLabel(
+          context,
+          reconnectingMessage,
+          reconnectingStyle,
+          constraints.maxWidth,
+        );
+        final Size connectedSize = _measureLabel(
+          context,
+          connectedMessage,
+          connectedStyle,
+          constraints.maxWidth,
+        );
+        return SizedBox(
+          width:
+              (lerpDouble(reconnectingSize.width, connectedSize.width, t) ??
+                      connectedSize.width)
+                  .ceilToDouble()
+                  .clamp(0, constraints.maxWidth),
+          child: ClipRect(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                if (t < 1)
+                  Opacity(
+                    opacity: 1 - t,
+                    child: _FixedWidthLabel(
+                      width: reconnectingSize.width,
+                      maxWidth: constraints.maxWidth,
+                      child: Text(
+                        reconnectingMessage,
+                        style: reconnectingStyle,
+                        maxLines: _labelMaxLines,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                if (t > 0)
+                  Opacity(
+                    opacity: t,
+                    child: _FixedWidthLabel(
+                      width: connectedSize.width,
+                      maxWidth: constraints.maxWidth,
+                      child: Text(
+                        connectedMessage,
+                        style: connectedStyle,
+                        maxLines: _labelMaxLines,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _FixedWidthLabel extends StatelessWidget {
+  const _FixedWidthLabel({
+    required this.width,
+    required this.maxWidth,
+    required this.child,
+  });
+
+  final double width;
+  final double maxWidth;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final double resolved = width.ceilToDouble().clamp(0, maxWidth);
+    return UnconstrainedBox(
+      alignment: Alignment.centerLeft,
+      constrainedAxis: Axis.vertical,
+      clipBehavior: Clip.hardEdge,
+      child: SizedBox(width: resolved, child: child),
     );
   }
 }

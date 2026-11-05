@@ -8,10 +8,10 @@ import 'package:fluxer_app/features/members/utils/guild_settings_path.dart';
 import 'package:fluxer_app/features/members/utils/member_role_actions.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ManageMemberRolesPicker {
@@ -30,7 +30,7 @@ class ManageMemberRolesPicker {
     required MemberRole? viewerHighestRole,
     String? title,
   }) async {
-    if (isMobileLayout(context) || position == null) {
+    if (!usesDesktopPointerUi(context) || position == null) {
       await ManageMemberRolesSheet.show(
         context,
         ref,
@@ -89,6 +89,10 @@ class ManageMemberRolesSheet {
       useRootNavigator: true,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
+      desktop: const FluxerDesktopPresentation(
+        surface: FluxerDesktopSurface.popout,
+        width: 320,
+      ),
       builder: (sheetContext, scrollController, close) {
         return ListView(
           controller: scrollController,

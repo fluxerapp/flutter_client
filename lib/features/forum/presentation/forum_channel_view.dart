@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.da
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_posts_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -42,11 +43,23 @@ class ForumChannelView extends ConsumerStatefulWidget {
   ConsumerState<ForumChannelView> createState() => _ForumChannelViewState();
 }
 
+typedef _ForumPostsInputs = ({
+  String forumId,
+  bool searching,
+  List<String> listIds,
+  ForumStoredPosts stored,
+  ForumSortOrder sortOrder,
+  List<String> tagIds,
+  ForumTagMatch tagMatch,
+});
+
 class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
   final TextEditingController _searchController = TextEditingController();
   String? _snapshotAckId;
   bool _snapshotTaken = false;
   String _prefetchKey = '';
+  _ForumPostsInputs? _postsInputs;
+  late ({ForumPostList posts, List<Channel> ordered}) _orderedPosts;
   StreamSubscription<GatewayState>? _gatewayStates;
 
   @override
@@ -77,6 +90,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
       _snapshotTaken = false;
       _snapshotAckId = null;
       _prefetchKey = '';
+      _postsInputs = null;
       _searchController.text = ref
           .read(forumPostsProvider(widget.channelId))
           .query;
@@ -89,7 +103,10 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
       return;
     }
     ref.read(forumPostUnreadsProvider.notifier).resetRequests();
-    setState(() => _prefetchKey = '');
+    setState(() {
+      _prefetchKey = '';
+      _postsInputs = null;
+    });
   }
 
   @override
@@ -120,6 +137,45 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
       _snapshotTaken = true;
     });
     await ref.read(readStateRepositoryProvider).ackLatest(forumId);
+  }
+
+  ({ForumPostList posts, List<Channel> ordered}) _orderPosts(
+    Channel forum,
+    _ForumPostsInputs inputs,
+  ) {
+    if (inputs == _postsInputs) {
+      return _orderedPosts;
+    }
+    final List<Channel> stored = inputs.stored.posts;
+    final Map<String, Channel> byId = <String, Channel>{
+      for (final Channel post in stored) post.id: post,
+    };
+    final List<Channel> listed = <Channel>[
+      for (final String id in inputs.listIds)
+        if (byId[id] case final Channel post) post,
+    ];
+    final ForumPostList posts = inputs.searching
+        ? ForumPostList(
+            pinned: null,
+            active: listed,
+            archived: const <Channel>[],
+          )
+        : buildForumPostList(
+            forumId: inputs.forumId,
+            known: stored,
+            extra: listed,
+            sortOrder: inputs.sortOrder,
+            tagIds: inputs.tagIds,
+            tagMatch: inputs.tagMatch,
+            lastMessageIds: inputs.stored.lastMessageIds,
+          );
+    _postsInputs = inputs;
+    _orderedPosts = (
+      posts: posts,
+      ordered: <Channel>[?posts.pinned, ...posts.active, ...posts.archived],
+    );
+    _prefetch(forum, _orderedPosts.ordered);
+    return _orderedPosts;
   }
 
   void _prefetch(Channel forum, List<Channel> posts) {
@@ -170,10 +226,6 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
     final ForumStoredPosts storedPosts =
         ref.watch(forumStoredPostsProvider(forum.id)).value ??
         const ForumStoredPosts();
-    final List<Channel> stored = storedPosts.posts;
-    final Map<String, Channel> byId = <String, Channel>{
-      for (final Channel post in stored) post.id: post,
-    };
     final ThreadActor? actor = ref.watch(
       parentThreadActorProvider(forum.guildId, forum.id),
     );
@@ -191,33 +243,15 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
         ? ForumListKind.search
         : ForumListKind.archived;
     final ForumListState list = view.list(kind);
-    final ForumPostList posts = view.isSearching
-        ? ForumPostList(
-            pinned: null,
-            active: <Channel>[
-              for (final String id in list.ids)
-                if (byId[id] case final Channel post) post,
-            ],
-            archived: const <Channel>[],
-          )
-        : buildForumPostList(
-            forumId: forum.id,
-            known: stored,
-            extra: <Channel>[
-              for (final String id in list.ids)
-                if (byId[id] case final Channel post) post,
-            ],
-            sortOrder: view.sortOrder(forum),
-            tagIds: view.tagFilter,
-            tagMatch: forumTagMatch(forum),
-            lastMessageIds: storedPosts.lastMessageIds,
-          );
-    final List<Channel> ordered = <Channel>[
-      ?posts.pinned,
-      ...posts.active,
-      ...posts.archived,
-    ];
-    _prefetch(forum, ordered);
+    final (:ForumPostList posts, :List<Channel> ordered) = _orderPosts(forum, (
+      forumId: forum.id,
+      searching: view.isSearching,
+      listIds: list.ids,
+      stored: storedPosts,
+      sortOrder: view.sortOrder(forum),
+      tagIds: view.tagFilter,
+      tagMatch: forumTagMatch(forum),
+    ));
 
     final bool handheldLayout = isForumHandheldLayout(context);
     final EdgeInsets contentPadding = EdgeInsets.fromLTRB(
@@ -424,10 +458,19 @@ class _ForumPostItem extends ConsumerWidget {
       ),
       unreadCount: unreadCount,
       hasUnread: hasUnread,
+      authorBlocked:
+          post.ownerId != null &&
+          ref.watch(blockedUserIdsProvider).contains(post.ownerId),
     );
     void open() => unawaited(openForumPost(context, ref, post));
     void actions() => unawaited(
-      showForumPostActionsSheet(context, ref, forum: forum, post: post),
+      showForumPostActionsSheet(
+        context,
+        ref,
+        forum: forum,
+        post: post,
+        title: forumPostTitleText(data, FluxerLocalizations.of(context)),
+      ),
     );
     if (gallery) {
       return ForumPostTile(data: data, onTap: open, onLongPress: actions);

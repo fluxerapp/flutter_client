@@ -296,7 +296,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'P1 to P3 harassment',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['photo', 'profile_text'],
@@ -308,6 +308,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     reason: 'harassment',
     category: 'harassment',
     categoryLabels: <String>[
+      'Something in their profile',
       'Pictures',
       'Profile text',
       'Abusive or harmful content',
@@ -318,7 +319,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'P4 age not stated',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['profile_text'],
@@ -339,7 +340,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'P4 age stated',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['profile_text'],
@@ -362,7 +363,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'P4 self-harm worry',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['profile_text'],
@@ -387,7 +388,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'P5 private information',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['profile_text'],
@@ -406,6 +407,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     reason: 'doxxing',
     category: 'inappropriate_profile',
     categoryLabels: <String>[
+      'Something in their profile',
       'Profile text',
       'Something else',
       "Their profile shares someone's private details",
@@ -417,7 +419,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'spam profile',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['name'],
@@ -436,7 +438,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'staff impersonation',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['photo', 'name'],
@@ -455,7 +457,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'hateful profile',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['profile_text'],
@@ -475,7 +477,7 @@ const List<ReportFlowTestWalk> userTestWalks = <ReportFlowTestWalk>[
     name: 'csam in a profile',
     target: ReportFlowTargetType.user,
     actions: <Map<String, Object>>[
-      <String, Object>{'screen_id': 'profile_intro'},
+      <String, Object>{'screen_id': 'user_start', 'option_id': 'profile'},
       <String, Object>{
         'screen_id': 'profile_parts',
         'item_ids': <String>['photo'],

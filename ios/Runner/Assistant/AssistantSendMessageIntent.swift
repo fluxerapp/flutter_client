@@ -24,8 +24,8 @@ struct SendDirectMessageIntent: AppIntent {
     }
     let name = friend.name.trimmingCharacters(in: .whitespacesAndNewlines)
     let prompt = name.isEmpty
-      ? "Send \"\(text)\"?"
-      : "Send \"\(text)\" to \(name)?"
+      ? String(localized: "Send \"\(text)\"?")
+      : String(localized: "Send \"\(text)\" to \(name)?")
     try await confirmAssistantAction(prompt)
     AssistantPendingCommand.queueSend(friendId: friend.id, text: text)
     return .result()

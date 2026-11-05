@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -12,7 +13,7 @@ part 'user_dao.g.dart';
 class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
   UserDao(super.attachedDatabase);
 
-  static const int _presenceLookupChunkSize = 500;
+  static const int _idLookupChunkSize = 500;
 
   Future<User?> getUserById(String id) =>
       (select(users)..where((u) => u.id.equals(id))).getSingleOrNull();
@@ -45,11 +46,35 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
     if (userList.isEmpty) {
       return;
     }
-    await batch((b) {
-      for (final user in userList) {
-        b.insert(users, user, onConflict: DoUpdate((_) => user));
+    await batch((Batch b) => batchUpsert(b, attachedDatabase, users, userList));
+  }
+
+  Future<void> upsertUsersIfChanged(Iterable<UsersCompanion> userList) async {
+    final Map<String, UsersCompanion> latestById = <String, UsersCompanion>{
+      for (final UsersCompanion user in userList)
+        if (user.id.present) user.id.value: user,
+    };
+    if (latestById.isEmpty) {
+      return;
+    }
+    final List<String> ids = latestById.keys.toList();
+    final Map<String, User> stored = <String, User>{};
+    for (var i = 0; i < ids.length; i += _idLookupChunkSize) {
+      for (final User row in await getUsersByIds(
+        ids.sublist(i, math.min(i + _idLookupChunkSize, ids.length)),
+      )) {
+        stored[row.id] = row;
       }
-    });
+    }
+    await upsertUsers(<UsersCompanion>[
+      for (final MapEntry<String, UsersCompanion> entry in latestById.entries)
+        if (rowDiffersFromStored(
+          attachedDatabase,
+          entry.value,
+          stored[entry.key],
+        ))
+          entry.value,
+    ]);
   }
 
   Future<void> updateUserMentionFlags(String id, int? mentionFlags) =>
@@ -82,10 +107,10 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
       final userIds = latestByUserId.keys.toList();
       final stored =
           <String, ({String status, String? customStatus, bool mobile})>{};
-      for (var i = 0; i < userIds.length; i += _presenceLookupChunkSize) {
+      for (var i = 0; i < userIds.length; i += _idLookupChunkSize) {
         final chunk = userIds.sublist(
           i,
-          math.min(i + _presenceLookupChunkSize, userIds.length),
+          math.min(i + _idLookupChunkSize, userIds.length),
         );
         final rows =
             await (selectOnly(users)

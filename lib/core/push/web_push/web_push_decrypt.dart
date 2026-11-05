@@ -17,9 +17,11 @@ Future<PushMessage?> decryptWebPushForAccounts({
       continue;
     }
     final Uint8List privateKeyBytes;
+    final Uint8List publicKeyBytes;
     final Uint8List authSecretBytes;
     try {
       privateKeyBytes = decodeWebPushKey(privateKey);
+      publicKeyBytes = decodeWebPushKey(account.publicKey);
       authSecretBytes = decodeWebPushKey(account.authSecret);
     } on FormatException {
       continue;
@@ -27,6 +29,7 @@ Future<PushMessage?> decryptWebPushForAccounts({
     final String? plaintext = await decryptWebPushRecord(
       record: record,
       privateKey: privateKeyBytes,
+      publicKey: publicKeyBytes,
       authSecret: authSecretBytes,
     );
     if (plaintext == null) {

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -19,12 +20,26 @@ class GuildStickerDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> replaceForGuild(
     String guildId,
     List<GuildStickersCompanion> stickers,
+  ) => replaceForGuilds(<String, List<GuildStickersCompanion>>{
+    guildId: stickers,
+  });
+
+  Future<void> replaceForGuilds(
+    Map<String, List<GuildStickersCompanion>> stickersByGuildId,
   ) async {
-    await (delete(guildStickers)..where((s) => s.guildId.equals(guildId))).go();
-    await batch((b) {
-      for (final sticker in stickers) {
-        b.insert(guildStickers, sticker);
-      }
+    if (stickersByGuildId.isEmpty) {
+      return;
+    }
+    await batch((Batch b) {
+      b.deleteWhere(
+        guildStickers,
+        (row) => row.guildId.isIn(stickersByGuildId.keys),
+      );
+      batchUpsert(b, attachedDatabase, guildStickers, <GuildStickersCompanion>[
+        for (final List<GuildStickersCompanion> rows
+            in stickersByGuildId.values)
+          ...rows,
+      ]);
     });
   }
 

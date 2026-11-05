@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/discovery/domain/discovery_supported_languages.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -63,6 +64,9 @@ Future<void> showDiscoveryLanguagePicker({
         context,
         title: l10n.discoveryFilterByLanguage,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+        desktop: const FluxerDesktopPresentation(
+          surface: FluxerDesktopSurface.menu,
+        ),
         builder:
             (BuildContext sheetContext, ScrollController scrollController, _) {
               return _DiscoveryLanguageSelectSheet(

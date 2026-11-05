@@ -42,11 +42,6 @@ class DmViewState {
                   f.status != 'offline',
             )
             .toList();
-        if (filtered.isEmpty) {
-          filtered = friendsList
-              .where((f) => f.friendStatus == FriendStatus.accepted)
-              .toList();
-        }
       case FriendsTab.all:
         filtered = friendsList
             .where((f) => f.friendStatus == FriendStatus.accepted)
@@ -107,10 +102,9 @@ class DmViewModel extends _$DmViewModel {
     _dmSub = dmRepo.watchDmChannels().listen(
       (convos) {
         state = state.copyWith(
-          conversations: convos,
+          conversations: _withAckOverlay(convos),
           hasReceivedInitialConversations: true,
         );
-        _applyAckOverlay();
       },
       onError: (Object error) {
         talker.error('[DmViewModel] DM watch error: $error');
@@ -148,10 +142,18 @@ class DmViewModel extends _$DmViewModel {
     if (!state.hasReceivedInitialConversations || state.conversations.isEmpty) {
       return;
     }
+    final List<DmConversation> next = _withAckOverlay(state.conversations);
+    if (identical(next, state.conversations)) {
+      return;
+    }
+    state = state.copyWith(conversations: next);
+  }
+
+  List<DmConversation> _withAckOverlay(List<DmConversation> conversations) {
     final batcher = ref.read(readStateWriteBatcherProvider);
     var changed = false;
     final List<DmConversation> next = <DmConversation>[];
-    for (final DmConversation convo in state.conversations) {
+    for (final DmConversation convo in conversations) {
       if (!batcher.hasOverlay(convo.id)) {
         next.add(convo);
         continue;
@@ -176,10 +178,7 @@ class DmViewModel extends _$DmViewModel {
       changed = true;
       next.add(convo.withUnreadCount(count));
     }
-    if (!changed) {
-      return;
-    }
-    state = state.copyWith(conversations: next);
+    return changed ? next : conversations;
   }
 
   void selectTab(FriendsTab tab) {

@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/threads/data/thread_api_errors.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
+import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -141,7 +142,9 @@ Future<void> confirmDeleteThread(
   final bool? confirmed = await FluxerConfirmSheet.show(
     context,
     title: l10n.threadDelete,
-    description: l10n.threadDeleteConfirm(thread.name),
+    description: l10n.threadDeleteConfirm(
+      readThreadTitleText(ref, thread, l10n),
+    ),
     confirmLabel: l10n.threadDelete,
     isDanger: true,
   );

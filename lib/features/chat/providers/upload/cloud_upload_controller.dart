@@ -42,11 +42,9 @@ class CloudUploadController extends _$CloudUploadController {
   final Set<String> _sentSendBodies = <String>{};
   final Set<String> _stagedPaths = <String>{};
   String _channelId = '';
-  String _accountUserId = '';
 
   @override
   CloudComposerAttachments build(String accountUserId, String channelId) {
-    _accountUserId = accountUserId;
     _channelId = channelId;
     ref.onDispose(() {
       for (final _AttachmentUpload upload in _uploads.values) {

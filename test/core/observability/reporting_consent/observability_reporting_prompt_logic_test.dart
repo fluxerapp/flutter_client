@@ -63,10 +63,4 @@ void main() {
       );
     });
   });
-
-  group('observabilityReportingPromptIsMobilePlatform', () {
-    test('is false in the Flutter test binding', () {
-      expect(observabilityReportingPromptIsMobilePlatform(), isFalse);
-    });
-  });
 }

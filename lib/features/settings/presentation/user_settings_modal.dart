@@ -5,25 +5,15 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
-import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
-import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
-import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
@@ -61,6 +51,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_utils.dart';
+import 'package:fluxer_app/features/settings/utils/sign_out_current_account.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/confirm_user_settings_logout.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_deep_link_scope.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_nav_l10n.dart';
@@ -162,7 +153,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
   }) async {
     await FluxerPageSheet.showScrollable<void>(
       context,
-      title: 'Settings',
+      title: FluxerLocalizations.of(context).userSettingsTitle,
       presentation: FluxerPageSheetPresentation.root,
       builder: (sheetContext, scrollController, close) =>
           _MobileSettingsNavBody(
@@ -196,6 +187,8 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     super.initState();
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? sectionIndex = widget.initialSection == null
@@ -204,9 +197,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
             widget.initialSection!,
             showBilling: showBilling,
             showGifts: userSettingsShowGiftBillingNav(ref),
+            showWhatsNew: showWhatsNew,
             showGiveFeedback: showGiveFeedback,
+            showHelp: showHelp,
             showJoinFluxerLabs: showJoinFluxerLabs,
             isTouchPrimary: isTouchPrimary,
+            showAppLogs: _showAppLogs(),
           );
     if (sectionIndex != null) {
       _selectedIndex = sectionIndex;
@@ -249,15 +245,31 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final state = ref.watch(userSettingsViewModelProvider);
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsDesktopNavEntry> desktopNav =
         buildUserSettingsDesktopNav(
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
+          showWhatsNew: showWhatsNew,
           showGiveFeedback: showGiveFeedback,
+          showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
+          showAppLogs: state.developerMode || AppBuildConfig.isCanary,
+          showPrivacyPolicy: ref.watch(
+            refreshedActiveInstanceProvider.select(
+              (instance) => instance.privacyUrl != null,
+            ),
+          ),
+          showFluxerAppPrivacyPolicy: userSettingsShowFluxerAppPrivacyNav(ref),
+          showTerms: ref.watch(
+            refreshedActiveInstanceProvider.select(
+              (instance) => instance.termsUrl != null,
+            ),
+          ),
         );
 
     return WideSettingsModalFrame(
@@ -435,6 +447,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_logout());
       return;
     }
+    if (entry.isAppLogs) {
+      _openAppLogs();
+      return;
+    }
     if (entry.isJoinFluxerLabs) {
       unawaited(_joinFluxerLabs());
       return;
@@ -443,8 +459,28 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_openFeedback());
       return;
     }
+    if (entry.isHelp) {
+      unawaited(_openHelp());
+      return;
+    }
     if (entry.isWhatsNew) {
       unawaited(_openWhatsNew());
+      return;
+    }
+    if (entry.isPrivacyPolicy) {
+      unawaited(
+        _openLegalUrl(ref.read(refreshedActiveInstanceProvider).privacyUrl),
+      );
+      return;
+    }
+    if (entry.isFluxerAppPrivacyPolicy) {
+      unawaited(_openLegalUrl(InstanceConstants.defaultPrivacyUrl));
+      return;
+    }
+    if (entry.isTermsOfService) {
+      unawaited(
+        _openLegalUrl(ref.read(refreshedActiveInstanceProvider).termsUrl),
+      );
       return;
     }
     if (entry.isSeparator) {
@@ -465,8 +501,32 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
   }
 
+  Future<void> _openHelp() async {
+    await handleExternalLinkTap(context, InstanceConstants.helpCenterUrl);
+  }
+
   Future<void> _openWhatsNew() async {
     await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
+  }
+
+  Future<void> _openLegalUrl(String? url) async {
+    if (url == null) {
+      return;
+    }
+    await handleExternalLinkTap(context, url, skipWarning: true);
+  }
+
+  bool _showAppLogs() =>
+      ref.read(userSettingsViewModelProvider).developerMode ||
+      AppBuildConfig.isCanary;
+
+  void _openAppLogs() {
+    unawaited(
+      pushTalkerLogScreen(
+        context,
+        title: FluxerLocalizations.of(context).userSettingsNavAppLogs,
+      ),
+    );
   }
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
@@ -479,15 +539,20 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     }
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? index = indexForUserSettingsSection(
       hit.section,
       showBilling: showBilling,
       showGifts: userSettingsShowGiftBillingNav(ref),
+      showWhatsNew: showWhatsNew,
       showGiveFeedback: showGiveFeedback,
+      showHelp: showHelp,
       showJoinFluxerLabs: showJoinFluxerLabs,
       isTouchPrimary: isTouchPrimary,
+      showAppLogs: _showAppLogs(),
     );
     if (index == null) {
       return;
@@ -502,36 +567,9 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
 
-    final userId = ref.read(currentUserIdProvider) ?? '';
-
-    await ref.read(gatewayConnectionProvider).disconnect();
-    ref.read(gatewayReadyProvider.notifier).reset();
-
-    ref
-      ..invalidate(gatewayConnectionProvider)
-      ..invalidate(gatewayEventListenerProvider)
-      ..invalidate(gatewayStateListenerProvider)
-      ..invalidate(gatewayForegroundListenerProvider)
-      ..invalidate(gatewayReconnectBannerListenerProvider)
-      ..invalidate(gatewayReconnectBannerProvider)
-      ..invalidate(gatewayConnectionFailedProvider)
-      ..invalidate(connectivityListenerProvider)
-      ..invalidate(typingIndicatorsProvider)
-      ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
-      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
-      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
-      ..invalidate(currentUserIdProvider)
-      ..invalidate(dmViewModelProvider)
-      ..invalidate(guildListViewModelProvider)
-      ..invalidate(organizedGuildListProvider)
-      ..invalidate(folderExpandedStateProvider)
-      ..invalidate(channelListViewModelProvider)
-      ..invalidate(chatViewModelProvider)
-      ..invalidate(userSettingsViewModelProvider)
-      ..invalidate(loginViewModelProvider);
-
-    await ref.read(accountManagerProvider.notifier).signOut(userId);
+    await signOutCurrentAccount(
+      ProviderScope.containerOf(context, listen: false),
+    );
     if (mounted) {
       Navigator.of(context).pop();
     }
@@ -555,15 +593,20 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       onNavigateSection: (UserSettingsSection target) {
         final bool showBilling = userSettingsShowBillingNav(ref);
         final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+        final bool showHelp = userSettingsShowHelpNav(ref);
+        final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
         final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
         final bool isTouchPrimary = ref.read(inputModalityProvider);
         final int? index = indexForUserSettingsSection(
           target,
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
+          showWhatsNew: showWhatsNew,
           showGiveFeedback: showGiveFeedback,
+          showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
+          showAppLogs: _showAppLogs(),
         );
         if (index != null) {
           setState(() => _selectedIndex = index);
@@ -572,16 +615,20 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     );
   }
 
-  Widget _buildCloseButton({Color? color}) => InkWell(
-    onTap: () => Navigator.of(context).pop(),
-    borderRadius: BorderRadius.circular(20),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: PhosphorIcon(
-        PhosphorIconsBold.x,
-        size: 18,
-        color: color ?? context.colors.interactiveNormal,
+  Widget _buildCloseButton({Color? color}) => Semantics(
+    button: true,
+    label: FluxerLocalizations.of(context).uiClose,
+    child: InkWell(
+      onTap: () => Navigator.of(context).pop(),
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: PhosphorIcon(
+          PhosphorIconsBold.x,
+          size: 18,
+          color: color ?? context.colors.interactiveNormal,
+        ),
       ),
     ),
   );
@@ -663,6 +710,8 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final layout = context.layout;
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
+    final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
@@ -677,6 +726,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     );
     final UserSettingsViewState settingsState = ref.watch(
       userSettingsViewModelProvider,
+    );
+    final String? privacyUrl = ref.watch(
+      refreshedActiveInstanceProvider.select((instance) => instance.privacyUrl),
+    );
+    final String? termsUrl = ref.watch(
+      refreshedActiveInstanceProvider.select((instance) => instance.termsUrl),
     );
 
     return FluxerSettingsNavList(
@@ -713,13 +768,30 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
+              showAppLogs:
+                  settingsState.developerMode || AppBuildConfig.isCanary,
               onOpenWhatsNew: () => unawaited(_openWhatsNew()),
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onGiveFeedback: () => unawaited(_openFeedback()),
+              onOpenHelp: () => unawaited(_openHelp()),
               onLogout: _logout,
+              onOpenPrivacyPolicy: privacyUrl == null
+                  ? null
+                  : () => unawaited(_openLegalUrl(privacyUrl)),
+              onOpenFluxerAppPrivacyPolicy:
+                  userSettingsShowFluxerAppPrivacyNav(ref)
+                  ? () => unawaited(
+                      _openLegalUrl(InstanceConstants.defaultPrivacyUrl),
+                    )
+                  : null,
+              onOpenTerms: termsUrl == null
+                  ? null
+                  : () => unawaited(_openLegalUrl(termsUrl)),
               showBilling: showBilling,
               showGifts: userSettingsShowGiftBillingNav(ref),
+              showWhatsNew: showWhatsNew,
               showGiveFeedback: showGiveFeedback,
+              showHelp: showHelp,
               showJoinFluxerLabs: showJoinFluxerLabs,
               isTouchPrimary: isTouchPrimary,
             ),
@@ -778,12 +850,28 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
   }
 
+  Future<void> _openHelp() async {
+    await handleExternalLinkTap(context, InstanceConstants.helpCenterUrl);
+  }
+
   Future<void> _openWhatsNew() async {
     await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
   }
 
+  Future<void> _openLegalUrl(String? url) async {
+    if (url == null) {
+      return;
+    }
+    await handleExternalLinkTap(context, url, skipWarning: true);
+  }
+
   void _openAppLogs() {
-    unawaited(pushTalkerLogScreen(context));
+    unawaited(
+      pushTalkerLogScreen(
+        context,
+        title: FluxerLocalizations.of(context).userSettingsNavAppLogs,
+      ),
+    );
   }
 
   Future<void> _logout() async {
@@ -791,36 +879,9 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       return;
     }
 
-    final userId = ref.read(currentUserIdProvider) ?? '';
-
-    await ref.read(gatewayConnectionProvider).disconnect();
-    ref.read(gatewayReadyProvider.notifier).reset();
-
-    ref
-      ..invalidate(gatewayConnectionProvider)
-      ..invalidate(gatewayEventListenerProvider)
-      ..invalidate(gatewayStateListenerProvider)
-      ..invalidate(gatewayForegroundListenerProvider)
-      ..invalidate(gatewayReconnectBannerListenerProvider)
-      ..invalidate(gatewayReconnectBannerProvider)
-      ..invalidate(gatewayConnectionFailedProvider)
-      ..invalidate(connectivityListenerProvider)
-      ..invalidate(typingIndicatorsProvider)
-      ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
-      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
-      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
-      ..invalidate(currentUserIdProvider)
-      ..invalidate(dmViewModelProvider)
-      ..invalidate(guildListViewModelProvider)
-      ..invalidate(organizedGuildListProvider)
-      ..invalidate(folderExpandedStateProvider)
-      ..invalidate(channelListViewModelProvider)
-      ..invalidate(chatViewModelProvider)
-      ..invalidate(userSettingsViewModelProvider)
-      ..invalidate(loginViewModelProvider);
-
-    await ref.read(accountManagerProvider.notifier).signOut(userId);
+    await signOutCurrentAccount(
+      ProviderScope.containerOf(context, listen: false),
+    );
     if (mounted) {
       Navigator.of(context, rootNavigator: true).pop();
     }
@@ -1136,7 +1197,7 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
         }
         final Widget buildInfo = Semantics(
           button: true,
-          label: 'Copy app info',
+          label: l10n.userSettingsCopyAppInfo,
           child: FluxerGestureDetector(
             onTap: () => _copyBuildInfoToClipboard(context, info),
             child: Text(

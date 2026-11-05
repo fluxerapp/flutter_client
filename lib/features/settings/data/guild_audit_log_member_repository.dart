@@ -61,9 +61,9 @@ class GuildAuditLogMemberRepository {
     return _buildDisplays(guildId: guildId, userIds: uniqueUserIds);
   }
 
-  Future<void> _upsertAuditLogUsers(Iterable<GuildAuditLogUser> users) async {
-    for (final GuildAuditLogUser user in users) {
-      await _database.userDao.upsertUser(
+  Future<void> _upsertAuditLogUsers(Iterable<GuildAuditLogUser> users) {
+    return _database.userDao.upsertUsers(<db.UsersCompanion>[
+      for (final GuildAuditLogUser user in users)
         db.UsersCompanion.insert(
           id: user.id,
           username: user.username,
@@ -73,25 +73,25 @@ class GuildAuditLogMemberRepository {
           bot: Value(user.isBot),
           memberSince: Value(dateTimeFromUserSnowflakeOrNull(user.id)),
         ),
-      );
-    }
+    ]);
   }
 
   Future<List<String>> _missingMemberUserIds({
     required String guildId,
     required Set<String> userIds,
   }) async {
-    final List<String> missingUserIds = <String>[];
-    for (final String userId in userIds) {
-      final db.Member? existing = await _database.memberDao.getMemberByUserId(
-        userId,
-        guildId,
-      );
-      if (existing == null) {
-        missingUserIds.add(userId);
-      }
-    }
-    return missingUserIds;
+    final Set<String> presentUserIds = <String>{
+      for (final db.Member member
+          in await _database.memberDao.getMembersByUserIds(
+            guildId,
+            userIds.toList(),
+          ))
+        member.userId,
+    };
+    return <String>[
+      for (final String userId in userIds)
+        if (!presentUserIds.contains(userId)) userId,
+    ];
   }
 
   Future<void> _requestMissingMembersViaGateway({
@@ -131,19 +131,25 @@ class GuildAuditLogMemberRepository {
     final Map<String, String?> nicknameByUserId = await _database
         .relationshipDao
         .getNicknamesByUserId();
+    final List<String> ids = userIds.toList();
+    final Map<String, db.User> userById = <String, db.User>{
+      for (final db.User user in await _database.userDao.getUsersByIds(ids))
+        user.id: user,
+    };
+    final Map<String, db.Member> memberByUserId = <String, db.Member>{
+      for (final db.Member member
+          in await _database.memberDao.getMembersByUserIds(guildId, ids))
+        member.userId: member,
+    };
     final Map<String, GuildUserDisplay> displays = <String, GuildUserDisplay>{};
     for (final String userId in userIds) {
-      final db.User? user = await _database.userDao.getUserById(userId);
+      final db.User? user = userById[userId];
       if (user == null) {
         continue;
       }
-      final db.Member? member = await _database.memberDao.getMemberByUserId(
-        userId,
-        guildId,
-      );
       displays[userId] = resolveGuildUserDisplayFromRows(
         user: user,
-        member: member,
+        member: memberByUserId[userId],
         guildId: guildId,
         friendNickname: nicknameByUserId[userId],
       );

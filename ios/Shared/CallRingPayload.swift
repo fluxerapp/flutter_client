@@ -22,7 +22,9 @@ struct CallRingFields: Equatable {
 }
 
 enum CallRingResolver {
-  static let fallbackHandle = "Incoming call"
+  static var fallbackHandle: String {
+    NativeStrings.text("CALL_INCOMING", "Incoming call")
+  }
   static let minimumDurationMs = 1000
   static let defaultDurationMs = 45_000
   static let expiryDeliveryGraceMs: Int64 = 10_000

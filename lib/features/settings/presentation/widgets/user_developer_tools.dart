@@ -429,10 +429,10 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
                   'Install: ${ref.watch(appStoreDistributionProvider).value?.name ?? AppStoreDistribution.unknown.name}',
               children: [
                 FluxerSettingsSwitchItem(
-                  label: 'Sandbox purchases in TestFlight',
+                  label: 'Plutonium purchases in this build',
                   description:
-                      'Show Plutonium purchases in TestFlight builds to test '
-                      'sandbox purchases. Stays on this device.',
+                      'Turns on Plutonium purchases in canary and Xcode builds, '
+                      'which block them by default. Stays on this device.',
                   value:
                       ref.watch(sandboxStorePurchasesProvider).value ?? false,
                   onChanged: (bool value) => unawaited(

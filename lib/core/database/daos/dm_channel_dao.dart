@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -25,17 +26,18 @@ class DmChannelDao extends DatabaseAccessor<FluxerDatabase>
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
+  Stream<DmChannel?> watchDmChannel(String channelId) =>
+      (select(dmChannels)..where((d) => d.id.equals(channelId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
+
   Future<List<DmChannel>> getDmChannels() => (select(
     dmChannels,
   )..orderBy([(d) => OrderingTerm.desc(d.lastMessageTime)])).get();
 
-  Future<void> upsertDmChannels(List<DmChannelsCompanion> channelList) async {
-    await batch((b) {
-      for (final channel in channelList) {
-        b.insert(dmChannels, channel, onConflict: DoUpdate((_) => channel));
-      }
-    });
-  }
+  Future<void> upsertDmChannels(List<DmChannelsCompanion> channelList) => batch(
+    (Batch b) => batchUpsert(b, attachedDatabase, dmChannels, channelList),
+  );
 
   Future<void> updateLastMessage(
     String channelId,

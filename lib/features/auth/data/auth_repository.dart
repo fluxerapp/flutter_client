@@ -8,11 +8,13 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_legacy_endpoint_migrator.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
-import 'package:fluxer_app/features/auth/domain/ban_view.dart';
+import 'package:fluxer_app/features/auth/domain/enforcement_notice.dart';
 import 'package:fluxer_app/features/auth/domain/ip_auth_poll_result.dart';
 import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
@@ -155,9 +157,19 @@ class AuthRepository {
     }
   }
 
+  RegisterRequestThemeTheme _registerTheme(FluxerThemeMode mode) =>
+      switch (mode) {
+        FluxerThemeMode.dark => RegisterRequestThemeTheme.dark,
+        FluxerThemeMode.darkLegacy => RegisterRequestThemeTheme.darkLegacy,
+        FluxerThemeMode.coal => RegisterRequestThemeTheme.coal,
+        FluxerThemeMode.light => RegisterRequestThemeTheme.light,
+        FluxerThemeMode.system => RegisterRequestThemeTheme.system,
+      };
+
   Future<RegistrationResult> register({
     required String? email,
     required String password,
+    required FluxerThemeMode theme,
     String? dateOfBirth,
     String? username,
     String? displayName,
@@ -179,6 +191,7 @@ class AuthRepository {
               : null,
           inviteCode: JsonNullable.of(inviteCode),
           registrationUrlCode: JsonNullable.of(registrationUrlCode),
+          theme: _registerTheme(theme),
         ),
       );
 
@@ -485,6 +498,19 @@ class AuthRepository {
     }
   }
 
+  bool _resolveUsernameSignIn(String? instanceSnapshotJson) {
+    if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
+      return false;
+    }
+    try {
+      return InstanceRuntimeConfig.fromWellKnown(
+        InstanceConfigSnapshot.fromJson(instanceSnapshotJson).wellKnown,
+      ).usernameSignIn;
+    } on Object {
+      return false;
+    }
+  }
+
   String? _parseDisplayDomain(String? instanceSnapshotJson) {
     if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
       return null;
@@ -525,10 +551,12 @@ class AuthRepository {
 
   Future<Map<String, dynamic>> getMfaWebauthnOptions({
     required String ticket,
+    String? rpId,
   }) async {
     try {
       final options = await _client.auth.getWebauthnMfaOptions(
         body: MfaTicketRequest(ticket: ticket),
+        rpId: rpId,
       );
       return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
@@ -559,9 +587,11 @@ class AuthRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getPasskeyLoginOptions() async {
+  Future<Map<String, dynamic>> getPasskeyLoginOptions({String? rpId}) async {
     try {
-      final options = await _client.auth.getWebauthnAuthenticationOptions();
+      final options = await _client.auth.getWebauthnAuthenticationOptions(
+        rpId: rpId,
+      );
       return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
       throw _failureFromDio(error);
@@ -584,7 +614,7 @@ class AuthRepository {
     }
   }
 
-  Future<AuthSession> completeSso({
+  Future<LoginResult> completeSso({
     required String code,
     required String state,
   }) async {
@@ -593,7 +623,14 @@ class AuthRepository {
         body: SsoCompleteRequest(code: code, state: state),
       );
       if (response.toJson()['mfa'] == true) {
-        throw const AuthFailure('MFA is required to complete SSO.');
+        final SsoCompleteResponseVariant2 mfa = response.toVariant2();
+        return LoginMfaRequired(
+          MfaChallenge(
+            ticket: mfa.ticket,
+            totp: mfa.totp,
+            webauthn: mfa.webauthn,
+          ),
+        );
       }
       final SsoCompleteResponseVariant1 success = response.toVariant1();
       final AuthSession session = AuthSession(
@@ -606,7 +643,26 @@ class AuthRepository {
         discriminator: success.user.discriminator,
         avatar: success.user.avatar,
       );
-      return session;
+      return LoginSuccess(session);
+    } on DioException catch (error) {
+      throw _failureFromDio(error);
+    }
+  }
+
+  Future<({String token, String userId})?> completeSsoReauth({
+    required String code,
+    required String state,
+  }) async {
+    try {
+      final SsoCompleteResponse response = await _client.auth.completeSso(
+        body: SsoCompleteRequest(code: code, state: state),
+      );
+      final Map<String, dynamic> json = response.toJson();
+      if (json['mfa'] == true || json['token'] is! String) {
+        return null;
+      }
+      final SsoCompleteResponseVariant1 success = response.toVariant1();
+      return (token: success.token, userId: success.userId);
     } on DioException catch (error) {
       throw _failureFromDio(error);
     }
@@ -654,6 +710,8 @@ class AuthRepository {
           avatar: s.avatar,
           displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
           mediaBaseUrl: _resolveMediaBaseUrl(s.instanceSnapshotJson),
+          email: s.email,
+          usernameSignIn: _resolveUsernameSignIn(s.instanceSnapshotJson),
         ),
       );
     }
@@ -677,14 +735,6 @@ class AuthRepository {
           totp: mfaResponse.totp,
           webauthn: mfaResponse.webauthn,
         ),
-      );
-    }
-
-    final banViewToken = json['ban_view_token'] as String?;
-    final banType = json['ban_type'] as String?;
-    if (banViewToken != null && banType != null) {
-      return LoginSuspended(
-        BanViewInfo(token: banViewToken, banType: BanType.fromString(banType)),
       );
     }
 
@@ -755,6 +805,20 @@ class AuthRepository {
     }
 
     final responseData = error.response?.data;
+
+    if (apiCode == 'ACCOUNT_SUSPENDED_TEMPORARILY' ||
+        apiCode == 'ACCOUNT_SUSPENDED_PERMANENTLY') {
+      final EnforcementNotice? notice = responseData is Map<String, dynamic>
+          ? EnforcementNotice.tryParse(responseData['notice'])
+          : null;
+      if (notice != null || apiCode == 'ACCOUNT_SUSPENDED_PERMANENTLY') {
+        return AuthFailure(
+          'This account is restricted.',
+          kind: AuthFailureKind.accountRestricted,
+          notice: notice,
+        );
+      }
+    }
 
     if (responseData is Map<String, dynamic>) {
       final rawErrors = responseData['errors'];

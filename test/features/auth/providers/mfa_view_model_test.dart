@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:passkeys/authenticator.dart';
@@ -68,7 +70,6 @@ void main() {
 
     final state = container.read(mfaViewModelProvider(challenge));
 
-    expect(challenge.hasMultipleMethods, isFalse);
     expect(state.selectedMethod, MfaMethod.totp);
     expect(state.error, isNull);
   });
@@ -85,7 +86,6 @@ void main() {
 
     final state = container.read(mfaViewModelProvider(challenge));
 
-    expect(challenge.hasMultipleMethods, isFalse);
     expect(state.selectedMethod, isNull);
     expect(
       state.error,
@@ -102,6 +102,9 @@ void main() {
             _WebauthnFailingAuthRepository(NoCredentialsAvailableException()),
           ),
           passkeyAuthenticatorProvider.overrideWithValue(_NoopAuthenticator()),
+          authInstanceSnapshotProvider.overrideWithValue(
+            InstanceConfigSnapshot.officialDefault(),
+          ),
         ],
       );
       addTearDown(container.dispose);
@@ -116,7 +119,7 @@ void main() {
       await container.read(provider.notifier).startWebauthn();
 
       final state = container.read(provider);
-      expect(state.errorType, LoginError.passkeyNoCredentials);
+      expect(state.errorType, LoginError.passkeyNoCredentialsForAccount);
       expect(state.webauthnLoading, isFalse);
     },
   );
@@ -128,7 +131,10 @@ class _WebauthnFailingAuthRepository implements AuthRepository {
   final Object error;
 
   @override
-  Future<Map<String, dynamic>> getMfaWebauthnOptions({required String ticket}) {
+  Future<Map<String, dynamic>> getMfaWebauthnOptions({
+    required String ticket,
+    String? rpId,
+  }) {
     return Future<Map<String, dynamic>>.error(error);
   }
 
