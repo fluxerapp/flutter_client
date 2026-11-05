@@ -11,7 +11,8 @@ bool shouldShowPremiumCommerce(Ref ref) {
   final InstanceRuntimeConfig config = ref.watch(instanceRuntimeConfigProvider);
   return resolvePremiumCommerceVisible(
     selfHosted: config.selfHosted,
-    ossWebCheckout: AppBuildConfig.isOssWebCheckout,
+    webCheckout: AppBuildConfig.isWebCheckout,
     selfHostedCheckoutAvailable: config.premiumEnabled && config.stripeEnabled,
+    distributionBuild: AppBuildConfig.distribution != null,
   );
 }

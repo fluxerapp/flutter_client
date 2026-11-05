@@ -14456,6 +14456,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "Οι τιμές σε αυτή την έκδοση της εφαρμογής είναι λίγο υψηλότερες, επειδή το {percent} κάθε πληρωμής πηγαίνει στο κόστος διανομής της.",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "Ολοκλήρωση πληρωμής",
     "premiumCompletePaymentBody": "Μεταβαίνετε τώρα στο Stripe για να ολοκληρώσετε την πληρωμή. Επιστρέψτε στο Fluxer μόλις την ολοκληρώσετε.",
     "premiumChoosePaymentMethodTitle": "Επιλέξτε τρόπο πληρωμής",

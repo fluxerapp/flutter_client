@@ -9945,6 +9945,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu plan kullanılamıyor. Bu kurulumun yöneticileriyle iletişime geçin.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Uygulamanın bu sürümünde fiyatlar biraz daha yüksektir, çünkü her ödemenin $percent kadarı dağıtım maliyetine gider.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Ödemeyi tamamla';
 
   @override

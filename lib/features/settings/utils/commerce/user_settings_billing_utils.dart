@@ -10,7 +10,7 @@ bool isUserSettingsBillingSection(UserSettingsSection section) {
   return userSettingsBillingSections.contains(section);
 }
 
-bool get isOssWebCheckoutBuild => AppBuildConfig.isOssWebCheckout;
+bool get isWebCheckoutBuild => AppBuildConfig.isWebCheckout;
 
 bool isUserSettingsBillingSectionAvailable(
   UserSettingsSection section, {

@@ -9940,6 +9940,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Paket ini tidak tersedia. Hubungi administrator instance ini.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Harga di versi aplikasi ini sedikit lebih tinggi karena $percent dari setiap pembayaran digunakan untuk biaya distribusinya.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Selesaikan pembayaran';
 
   @override

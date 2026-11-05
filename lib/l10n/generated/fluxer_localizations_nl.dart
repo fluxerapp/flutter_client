@@ -10006,6 +10006,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Dit abonnement is niet beschikbaar. Neem contact op met de beheerders van deze instantie.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'De prijzen in deze versie van de app zijn iets hoger, omdat $percent van elke betaling naar de kosten van de distributie gaat.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Betaling afronden';
 
   @override

@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 
-enum _Build { ios, androidFcm, androidOss }
+enum _Build { ios, iosMarketplace, androidFcm, androidOss }
 
 enum _Instance { official, selfHosted, selfHostedWithoutCheckout }
 
@@ -36,6 +37,24 @@ const List<_Cell> _matrix = <_Cell>[
   ),
   _Cell(
     build: _Build.ios,
+    instance: _Instance.selfHostedWithoutCheckout,
+    inAppPurchase: false,
+    webCheckout: false,
+  ),
+  _Cell(
+    build: _Build.iosMarketplace,
+    instance: _Instance.official,
+    inAppPurchase: false,
+    webCheckout: true,
+  ),
+  _Cell(
+    build: _Build.iosMarketplace,
+    instance: _Instance.selfHosted,
+    inAppPurchase: false,
+    webCheckout: false,
+  ),
+  _Cell(
+    build: _Build.iosMarketplace,
     instance: _Instance.selfHostedWithoutCheckout,
     inAppPurchase: false,
     webCheckout: false,
@@ -80,7 +99,7 @@ const List<_Cell> _matrix = <_Cell>[
 
 PushProviderKind _pushProvider(_Build build) {
   return switch (build) {
-    _Build.ios => PushProviderKind.apple,
+    _Build.ios || _Build.iosMarketplace => PushProviderKind.apple,
     _Build.androidFcm => PushProviderKind.firebaseMessaging,
     _Build.androidOss => PushProviderKind.unifiedPush,
   };
@@ -91,7 +110,7 @@ void main() {
     test('stays off for OSS', () {
       expect(
         resolvePremiumStorePage(
-          ossWebCheckout: true,
+          webCheckout: true,
           desktopOs: false,
           pushProvider: PushProviderKind.unifiedPush,
         ),
@@ -102,7 +121,7 @@ void main() {
     test('stays off on desktop', () {
       expect(
         resolvePremiumStorePage(
-          ossWebCheckout: false,
+          webCheckout: false,
           desktopOs: true,
           pushProvider: PushProviderKind.firebaseMessaging,
         ),
@@ -113,7 +132,7 @@ void main() {
     test('stays off for UnifiedPush', () {
       expect(
         resolvePremiumStorePage(
-          ossWebCheckout: false,
+          webCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.unifiedPush,
         ),
@@ -124,7 +143,7 @@ void main() {
     test('turns on for FCM mobile', () {
       expect(
         resolvePremiumStorePage(
-          ossWebCheckout: false,
+          webCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.firebaseMessaging,
         ),
@@ -135,7 +154,7 @@ void main() {
     test('turns on for APNS mobile', () {
       expect(
         resolvePremiumStorePage(
-          ossWebCheckout: false,
+          webCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.apple,
         ),
@@ -155,6 +174,7 @@ void main() {
         isAndroid: false,
         isIOS: true,
         pushProvider: PushProviderKind.apple,
+        webCheckout: false,
         officialInstance: officialInstance,
         appStoreDistribution: distribution,
         stableBuild: stableBuild,
@@ -225,6 +245,7 @@ void main() {
             isAndroid: true,
             isIOS: false,
             pushProvider: PushProviderKind.firebaseMessaging,
+            webCheckout: false,
             officialInstance: true,
             appStoreDistribution: distribution,
             stableBuild: false,
@@ -240,13 +261,20 @@ void main() {
     for (final _Cell cell in _matrix) {
       test('${cell.build.name} on ${cell.instance.name}', () {
         final PushProviderKind pushProvider = _pushProvider(cell.build);
-        final bool ossWebCheckout =
-            pushProvider == PushProviderKind.unifiedPush;
-        final bool official = cell.instance == _Instance.official;
-        final bool inAppPurchase = resolvePremiumStorePurchasesEnabled(
-          isAndroid: cell.build != _Build.ios,
-          isIOS: cell.build == _Build.ios,
+        final bool webCheckout = AppBuildConfig.resolveWebCheckout(
           pushProvider: pushProvider,
+          distribution: cell.build == _Build.iosMarketplace
+              ? 'ios_marketplace'
+              : null,
+        );
+        final bool official = cell.instance == _Instance.official;
+        final bool ios =
+            cell.build == _Build.ios || cell.build == _Build.iosMarketplace;
+        final bool inAppPurchase = resolvePremiumStorePurchasesEnabled(
+          isAndroid: !ios,
+          isIOS: ios,
+          pushProvider: pushProvider,
+          webCheckout: webCheckout,
           officialInstance: official,
           appStoreDistribution: AppStoreDistribution.production,
           stableBuild: true,
@@ -254,14 +282,15 @@ void main() {
         );
         final bool commerceVisible = resolvePremiumCommerceVisible(
           selfHosted: !official,
-          ossWebCheckout: ossWebCheckout,
+          webCheckout: webCheckout,
           selfHostedCheckoutAvailable: cell.instance == _Instance.selfHosted,
+          distributionBuild: cell.build == _Build.iosMarketplace,
         );
         final bool billingNav = resolvePremiumBillingNavVisible(
           commerceVisible: commerceVisible,
-          ossWebCheckout: ossWebCheckout,
+          webCheckout: webCheckout,
           storePage: resolvePremiumStorePage(
-            ossWebCheckout: ossWebCheckout,
+            webCheckout: webCheckout,
             desktopOs: false,
             pushProvider: pushProvider,
           ),
@@ -269,7 +298,7 @@ void main() {
         );
 
         expect(inAppPurchase, cell.inAppPurchase);
-        expect(billingNav && ossWebCheckout, cell.webCheckout);
+        expect(billingNav && webCheckout, cell.webCheckout);
         expect(commerceVisible, cell.inAppPurchase || cell.webCheckout);
         expect(billingNav, cell.inAppPurchase || cell.webCheckout);
       });
@@ -282,6 +311,7 @@ void main() {
             isAndroid: false,
             isIOS: false,
             pushProvider: pushProvider,
+            webCheckout: false,
             officialInstance: true,
             appStoreDistribution: AppStoreDistribution.production,
             stableBuild: true,
@@ -297,7 +327,7 @@ void main() {
       expect(
         resolvePremiumBillingNavVisible(
           commerceVisible: true,
-          ossWebCheckout: false,
+          webCheckout: false,
           storePage: true,
           officialInstance: false,
         ),

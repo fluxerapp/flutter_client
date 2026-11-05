@@ -16215,6 +16215,12 @@ abstract class FluxerLocalizations {
   /// **'This plan isn\'t available. Contact the administrators of this instance.'**
   String get premiumPlanUnavailableSelfHosted;
 
+  /// Note under the Plutonium plan prices in app builds whose prices are higher to pay for the place the app was installed from. percent is a formatted percentage such as 5%.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices in this version of the app are a little higher because {percent} of each payment goes to the cost of distributing it.'**
+  String premiumDistributionPriceNote(String percent);
+
   /// No description provided for @premiumCompletePaymentTitle.
   ///
   /// In en, this message translates to:

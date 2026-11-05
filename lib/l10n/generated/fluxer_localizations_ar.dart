@@ -9891,6 +9891,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'هذه الخطة غير متاحة. اتصل بمسؤولي هذا المثيل.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'الأسعار في هذا الإصدار من التطبيق أعلى قليلًا لأن $percent من كل دفعة يذهب إلى تكلفة توزيعه.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'إتمام الدفع';
 
   @override

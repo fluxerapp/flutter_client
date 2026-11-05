@@ -63,4 +63,15 @@ void main() {
       );
     });
   });
+
+  group('formatBasisPointsPercent', () {
+    test('drops decimals for whole percents and keeps them otherwise', () {
+      expect(formatBasisPointsPercent(basisPoints: 500, locale: 'en'), '5%');
+      expect(formatBasisPointsPercent(basisPoints: 250, locale: 'en'), '2.5%');
+      expect(
+        formatBasisPointsPercent(basisPoints: 1275, locale: 'en'),
+        '12.75%',
+      );
+    });
+  });
 }

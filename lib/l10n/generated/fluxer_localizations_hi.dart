@@ -9935,6 +9935,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'यह प्लान उपलब्ध नहीं है। इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'ऐप के इस संस्करण में कीमतें थोड़ी ज़्यादा हैं, क्योंकि हर भुगतान का $percent इसके वितरण की लागत में जाता है।';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'भुगतान पूरा करें';
 
   @override

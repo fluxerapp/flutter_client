@@ -10031,6 +10031,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a csomag nem elérhető. Vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Az alkalmazás ezen verziójában az árak kicsit magasabbak, mert minden fizetés $percent-a a terjesztés költségeit fedezi.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Fizetés befejezése';
 
   @override
