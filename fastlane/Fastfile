@@ -749,7 +749,7 @@ platform :ios do
     flutter_build_number = next_testflight_build_number(
       api_key: api_key,
       app_identifier: app_identifier
-    )
+    ) + ENV.fetch("IOS_BUILD_NUMBER_OFFSET", "0").to_i
     UI.message("Building AltStore PAL #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
     build_stable_ipa!(

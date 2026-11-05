@@ -23,6 +23,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_27.app/Contents/Developer
       FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
       STABLE_RELEASE_TAG: ${{ inputs.stable_release_tag }}
+      IOS_BUILD_NUMBER_OFFSET: "1"
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
