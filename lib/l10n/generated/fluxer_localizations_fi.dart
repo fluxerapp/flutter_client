@@ -9966,6 +9966,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä tilaus ei ole saatavilla. Ota yhteyttä tämän instanssin ylläpitäjiin.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Tämän sovellusversion hinnat ovat hieman korkeammat, koska $percent jokaisesta maksusta menee sovelluksen jakelukustannuksiin.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Suorita maksu';
 
   @override

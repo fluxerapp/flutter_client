@@ -9953,6 +9953,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Dette abonnement er ikke tilgængeligt. Kontakt administratorerne af denne instans.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Priserne i denne version af appen er lidt højere, fordi $percent af hver betaling går til omkostningerne ved at distribuere den.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Gennemfør betaling';
 
   @override

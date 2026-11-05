@@ -9550,6 +9550,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'このプランはご利用いただけません。このインスタンスの管理者にお問い合わせください。';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'このバージョンのアプリでは、各支払いの$percentが配信費用に充てられるため、価格が少し高くなっています。';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => '支払いを完了';
 
   @override

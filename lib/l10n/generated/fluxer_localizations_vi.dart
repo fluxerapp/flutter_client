@@ -9938,6 +9938,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Gói này không khả dụng. Hãy liên hệ quản trị viên của máy chủ này.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Giá trong phiên bản ứng dụng này cao hơn một chút vì $percent của mỗi khoản thanh toán được dùng cho chi phí phân phối ứng dụng.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Hoàn tất thanh toán';
 
   @override

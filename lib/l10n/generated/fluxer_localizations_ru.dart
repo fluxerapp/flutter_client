@@ -10045,6 +10045,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Этот тариф недоступен. Обратитесь к администраторам этого экземпляра.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Цены в этой версии приложения немного выше, потому что $percent от каждого платежа идут на расходы на его распространение.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Завершить оплату';
 
   @override

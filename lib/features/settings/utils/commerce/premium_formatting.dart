@@ -48,6 +48,21 @@ String formatPremiumPriceLabel({
   return formatted ?? placeholder;
 }
 
+String formatBasisPointsPercent({
+  required int basisPoints,
+  required String locale,
+}) {
+  final int decimalDigits = basisPoints % 100 == 0
+      ? 0
+      : basisPoints % 10 == 0
+      ? 1
+      : 2;
+  return NumberFormat.decimalPercentPattern(
+    locale: locale,
+    decimalDigits: decimalDigits,
+  ).format(basisPoints / 10000);
+}
+
 String formatGiftMetadataDuration(
   GiftCodeMetadataResponse gift,
   FluxerLocalizations l10n,

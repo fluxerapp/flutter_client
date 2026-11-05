@@ -10677,6 +10677,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "Giá trong phiên bản ứng dụng này cao hơn một chút vì {percent} của mỗi khoản thanh toán được dùng cho chi phí phân phối ứng dụng.",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "Hoàn tất thanh toán",
     "premiumCompletePaymentBody": "Bạn sẽ được chuyển hướng đến Stripe để hoàn tất thanh toán. Quay lại Fluxer sau khi hoàn tất.",
     "premiumChoosePaymentMethodTitle": "Chọn phương thức thanh toán",

@@ -128,6 +128,21 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       currency: giftCurrency,
       locale: locale,
     );
+    final PriceDistributionResponse? distribution = priceIds.distribution;
+    final Widget? distributionNote = distribution == null
+        ? null
+        : Text(
+            l10n.premiumDistributionPriceNote(
+              formatBasisPointsPercent(
+                basisPoints: distribution.rateBps,
+                locale: locale,
+              ),
+            ),
+            textAlign: TextAlign.center,
+            style: textStyles.bodySmall.copyWith(
+              color: colors.textPrimaryMuted,
+            ),
+          );
     final bool showPurchaseGrid =
         !status.shouldShowPremiumCard || status.canStartSubscription;
     final PremiumManageAction? manage = _manageAction(status);
@@ -254,6 +269,10 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
                               purchaseDisabled: purchaseDisabled,
                             ),
                     ),
+                    if (distributionNote != null) ...[
+                      SizedBox(height: layout.s2),
+                      distributionNote,
+                    ],
                     if (status.isGiftSubscription && !_isGiftMode) ...[
                       SizedBox(height: layout.s2),
                       Text(
@@ -304,6 +323,10 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
                         purchaseDisabled: purchaseDisabled,
                       ),
                     ),
+                    if (distributionNote != null) ...[
+                      SizedBox(height: layout.s2),
+                      distributionNote,
+                    ],
                   ],
                 ],
               ),

@@ -10051,6 +10051,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šis planas nepasiekiamas. Susisiekite su šios instancijos administratoriais.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Šios programėlės versijos kainos šiek tiek didesnės, nes $percent kiekvieno mokėjimo skiriama jos platinimo išlaidoms.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Užbaigti mokėjimą';
 
   @override

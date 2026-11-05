@@ -9978,6 +9978,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Den här planen är inte tillgänglig. Kontakta administratörerna för den här instansen.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Priserna i den här versionen av appen är lite högre eftersom $percent av varje betalning går till kostnaden för att distribuera den.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Slutför betalning';
 
   @override

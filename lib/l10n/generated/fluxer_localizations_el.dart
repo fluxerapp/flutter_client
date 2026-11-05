@@ -10079,6 +10079,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Οι τιμές σε αυτή την έκδοση της εφαρμογής είναι λίγο υψηλότερες, επειδή το $percent κάθε πληρωμής πηγαίνει στο κόστος διανομής της.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Ολοκλήρωση πληρωμής';
 
   @override

@@ -10096,6 +10096,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Ce forfait n\'est pas disponible. Contactez les administrateurs de cette instance.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Les prix de cette version de l\'application sont un peu plus élevés, car $percent de chaque paiement servent à couvrir les frais de sa distribution.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Finaliser le paiement';
 
   @override

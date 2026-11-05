@@ -9982,6 +9982,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovaj plan nije dostupan. Obratite se administratorima ove instance.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Cijene u ovoj verziji aplikacije malo su više jer $percent svake uplate odlazi na troškove njezine distribucije.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Dovrši plaćanje';
 
   @override

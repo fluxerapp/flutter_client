@@ -14456,6 +14456,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "此版本应用的价格略高，因为每笔付款的 {percent} 用于支付其分发成本。",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "完成支付",
     "premiumCompletePaymentBody": "您即将跳转至 Stripe 完成支付。完成后请返回 Fluxer。",
     "premiumChoosePaymentMethodTitle": "选择付款方式",

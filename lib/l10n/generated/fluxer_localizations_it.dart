@@ -10018,6 +10018,11 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Questo piano non è disponibile. Contatta gli amministratori di questa istanza.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'I prezzi in questa versione dell\'app sono un po\' più alti perché il $percent di ogni pagamento copre i costi della sua distribuzione.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Completa il pagamento';
 
   @override

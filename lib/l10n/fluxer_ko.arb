@@ -14456,6 +14456,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "이 버전의 앱은 각 결제 금액의 {percent}가 배포 비용으로 쓰이기 때문에 가격이 조금 더 높습니다.",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "결제 완료하기",
     "premiumCompletePaymentBody": "결제를 완료하기 위해 Stripe로 이동합니다. 완료 후 Fluxer로 돌아오세요.",
     "premiumChoosePaymentMethodTitle": "결제 수단 선택",
