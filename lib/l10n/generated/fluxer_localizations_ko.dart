@@ -9542,6 +9542,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이용할 수 없는 플랜입니다. 이 인스턴스의 관리자에게 문의하세요.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return '이 버전의 앱은 각 결제 금액의 $percent가 배포 비용으로 쓰이기 때문에 가격이 조금 더 높습니다.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => '결제 완료하기';
 
   @override

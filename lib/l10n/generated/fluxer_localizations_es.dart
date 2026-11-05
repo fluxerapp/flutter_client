@@ -10062,6 +10062,11 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Este plan no está disponible. Contacta con los administradores de esta instancia.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Los precios de esta versión de la app son algo más altos porque el $percent de cada pago se destina al coste de su distribución.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Completar pago';
 
   @override
@@ -27151,6 +27156,11 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get premiumPlanUnavailableSelfHosted =>
       'Este plan no está disponible. Contacta a los administradores de esta instancia.';
+
+  @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Los precios de esta versión de la app son algo más altos porque el $percent de cada pago se destina al costo de su distribución.';
+  }
 
   @override
   String get premiumCompletePaymentTitle => 'Completar pago';

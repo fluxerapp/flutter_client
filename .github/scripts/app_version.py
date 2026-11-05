@@ -29,6 +29,10 @@ class AppVersion:
         return f"{self.year}.{self.month:02d}.{self.public_release}"
 
     @property
+    def release_drafter_version(self) -> str:
+        return f"{self.year}.{self.month}.{self.public_release}"
+
+    @property
     def pubspec_value(self) -> str:
         if self.build:
             return f"{self.name}{self.build}"
@@ -125,6 +129,7 @@ def _write_version_output(version: AppVersion) -> None:
         return
     with open(github_output, "a", encoding="utf-8") as handle:
         handle.write(f"version={version.name}\n")
+        handle.write(f"release_drafter_version={version.release_drafter_version}\n")
 
 
 def read_pubspec_app_version() -> int:

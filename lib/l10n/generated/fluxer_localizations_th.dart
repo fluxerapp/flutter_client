@@ -9858,6 +9858,11 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'แพ็กเกจนี้ไม่พร้อมใช้งาน โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'ราคาในแอปเวอร์ชันนี้สูงขึ้นเล็กน้อย เนื่องจาก $percent ของการชำระเงินแต่ละครั้งใช้เป็นต้นทุนการจัดจำหน่ายแอป';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'ชำระเงินให้เสร็จสมบูรณ์';
 
   @override

@@ -9346,6 +9346,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get premiumPlanUnavailableSelfHosted => '此套餐不可用。请联系此实例的管理员。';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return '此版本应用的价格略高，因为每笔付款的 $percent 用于支付其分发成本。';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => '完成支付';
 
   @override
@@ -25113,6 +25118,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get premiumPlanUnavailableSelfHosted => '此方案無法使用。請聯絡此實例的管理員。';
+
+  @override
+  String premiumDistributionPriceNote(String percent) {
+    return '此版本應用程式的價格略高，因為每筆付款的 $percent 用於支付其發行成本。';
+  }
 
   @override
   String get premiumCompletePaymentTitle => '完成付款';

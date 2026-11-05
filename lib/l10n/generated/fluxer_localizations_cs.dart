@@ -9998,6 +9998,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Tento tarif není k dispozici. Kontaktujte správce této instance.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Ceny v této verzi aplikace jsou o něco vyšší, protože $percent z každé platby jde na náklady na její distribuci.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Dokončit platbu';
 
   @override

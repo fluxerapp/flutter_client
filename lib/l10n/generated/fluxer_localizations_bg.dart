@@ -10035,6 +10035,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Този план не е наличен. Свържи се с администраторите на тази инстанция.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Цените в тази версия на приложението са малко по-високи, защото $percent от всяко плащане отиват за разходите по разпространението му.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Завършване на плащането';
 
   @override

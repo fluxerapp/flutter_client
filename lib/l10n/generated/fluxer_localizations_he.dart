@@ -9813,6 +9813,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'התוכנית הזו אינה זמינה. יש ליצור קשר עם מנהלי המערכת של המופע הזה.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'המחירים בגרסה זו של האפליקציה מעט גבוהים יותר, כי $percent מכל תשלום מיועדים לעלות ההפצה שלה.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'השלם תשלום';
 
   @override

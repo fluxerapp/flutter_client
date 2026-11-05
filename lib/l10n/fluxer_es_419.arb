@@ -14032,6 +14032,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "Los precios de esta versión de la app son algo más altos porque el {percent} de cada pago se destina al costo de su distribución.",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentBody": "Ahora serás redirigido a Stripe para completar el pago. Regresa a Fluxer una vez que lo hayas hecho.",
     "premiumChoosePaymentMethodTitle": "Elige un método de pago",
     "premiumPixPaymentPromptDescription": "Paga con Pix automático para autorizar cargos recurrentes directamente desde tu banco brasileño. O elige usar tarjeta para ingresar una tarjeta de crédito en la siguiente pantalla de Stripe.",

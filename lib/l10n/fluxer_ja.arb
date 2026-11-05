@@ -14456,6 +14456,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "このバージョンのアプリでは、各支払いの{percent}が配信費用に充てられるため、価格が少し高くなっています。",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "支払いを完了",
     "premiumCompletePaymentBody": "支払いを完了するためにStripeに移動します。完了したらFluxerに戻ってください。",
     "premiumChoosePaymentMethodTitle": "支払い方法を選択",

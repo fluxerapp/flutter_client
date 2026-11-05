@@ -10042,6 +10042,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Цей тарифний план недоступний. Зверніться до адміністраторів цього екземпляра.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Ціни в цій версії застосунку трохи вищі, тому що $percent від кожного платежу йдуть на витрати на його поширення.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Завершити оплату';
 
   @override

@@ -7,14 +7,14 @@ import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billin
 final premiumBillingNavVisibleProvider = Provider<bool>((Ref ref) {
   return resolvePremiumBillingNavVisible(
     commerceVisible: ref.watch(shouldShowPremiumCommerceProvider),
-    ossWebCheckout: isOssWebCheckoutBuild,
+    webCheckout: isWebCheckoutBuild,
     storePage: isPremiumStorePageActive(),
     officialInstance: ref.watch(isActiveInstanceOfficialProvider),
   );
 });
 
 final premiumGiftBillingNavVisibleProvider = Provider<bool>((Ref ref) {
-  return ref.watch(premiumBillingNavVisibleProvider) && isOssWebCheckoutBuild;
+  return ref.watch(premiumBillingNavVisibleProvider) && isWebCheckoutBuild;
 });
 
 bool userSettingsShowBillingNav(WidgetRef ref) {

@@ -10023,6 +10023,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Acest plan nu este disponibil. Contactează administratorii acestei instanțe.';
 
   @override
+  String premiumDistributionPriceNote(String percent) {
+    return 'Prețurile din această versiune a aplicației sunt puțin mai mari, deoarece $percent din fiecare plată merge către costurile de distribuire a acesteia.';
+  }
+
+  @override
   String get premiumCompletePaymentTitle => 'Finalizează plata';
 
   @override

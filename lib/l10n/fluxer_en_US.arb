@@ -14714,6 +14714,15 @@
     "@premiumPlanUnavailableSelfHosted": {
         "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
     },
+    "premiumDistributionPriceNote": "Prices in this version of the app are a little higher because {percent} of each payment goes to the cost of distributing it.",
+    "@premiumDistributionPriceNote": {
+        "description": "Note under the Plutonium plan prices in app builds whose prices include an extra charge for the place the app was installed from. percent is a formatted percentage such as 5%.",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "premiumCompletePaymentTitle": "Complete payment",
     "premiumCompletePaymentBody": "You are now navigating to Stripe to complete the payment. Return to Fluxer once you've completed it.",
     "premiumChoosePaymentMethodTitle": "Choose payment method",
