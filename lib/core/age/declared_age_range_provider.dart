@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
 enum DeclaredAgeFloor { none, minor, underMinimum }
@@ -49,8 +50,9 @@ bool declaredAgeReportingSupported({
   required bool isWeb,
   required TargetPlatform platform,
   required bool isFirebaseMessaging,
+  required bool officialInstance,
 }) {
-  if (isWeb) {
+  if (isWeb || !officialInstance) {
     return false;
   }
   return switch (platform) {
@@ -65,6 +67,7 @@ final declaredAgeReportingSupportedProvider = Provider<bool>((Ref ref) {
     isWeb: kIsWeb,
     platform: defaultTargetPlatform,
     isFirebaseMessaging: PushProviderGuard.isFirebaseMessaging,
+    officialInstance: ref.watch(isActiveInstanceOfficialProvider),
   );
 });
 

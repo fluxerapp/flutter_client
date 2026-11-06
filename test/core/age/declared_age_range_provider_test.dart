@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/age/declared_age_range_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 
 void main() {
   test('maps the shared age range to a floor', () {
@@ -114,11 +118,13 @@ void main() {
       TargetPlatform platform, {
       bool isWeb = false,
       bool isFirebaseMessaging = false,
+      bool officialInstance = true,
     }) {
       return declaredAgeReportingSupported(
         isWeb: isWeb,
         platform: platform,
         isFirebaseMessaging: isFirebaseMessaging,
+        officialInstance: officialInstance,
       );
     }
 
@@ -134,5 +140,48 @@ void main() {
       isFalse,
     );
     expect(supported(TargetPlatform.iOS, isWeb: true), isFalse);
+    expect(supported(TargetPlatform.iOS, officialInstance: false), isFalse);
+    expect(
+      supported(
+        TargetPlatform.android,
+        isFirebaseMessaging: true,
+        officialInstance: false,
+      ),
+      isFalse,
+    );
+  });
+
+  test('the age range is only requested on the official instance', () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    var calls = 0;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(declaredAgeRangeChannel, (
+          MethodCall call,
+        ) async {
+          calls += 1;
+          return <String, Object?>{'status': 'sharing', 'lowerBound': 18};
+        });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(declaredAgeRangeChannel, null);
+    });
+
+    Future<Map<Object?, Object?>?> request(bool official) {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          isActiveInstanceOfficialProvider.overrideWithValue(official),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.read(currentUserIdProvider.notifier).set('user-1');
+      return container.read(declaredAgePayloadProvider.future);
+    }
+
+    expect(await request(false), isNull);
+    expect(calls, 0);
+    expect(await request(true), isNotNull);
+    expect(calls, 1);
   });
 }

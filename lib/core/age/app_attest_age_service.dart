@@ -76,9 +76,16 @@ class AppAttestAgeService extends _$AppAttestAgeService {
   Timer? _retryTimer;
   Duration _retryDelay = _initialRetryDelay;
 
+  bool get _enabled =>
+      defaultTargetPlatform == TargetPlatform.iOS &&
+      ref.read(declaredAgeReportingSupportedProvider);
+
   @override
   int build() {
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
+      return 0;
+    }
+    if (!ref.watch(declaredAgeReportingSupportedProvider)) {
       return 0;
     }
     ref
@@ -103,7 +110,7 @@ class AppAttestAgeService extends _$AppAttestAgeService {
   }
 
   Future<void> sync() async {
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
+    if (!_enabled) {
       return;
     }
     if (_syncInFlight) {

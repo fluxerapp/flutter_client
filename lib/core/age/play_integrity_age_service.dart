@@ -109,7 +109,7 @@ class PlayIntegrityAgeService extends _$PlayIntegrityAgeService {
 
   @override
   bool build() {
-    if (!_supported) {
+    if (!ref.watch(playAgeAssuranceSupportedProvider)) {
       return false;
     }
     ref
