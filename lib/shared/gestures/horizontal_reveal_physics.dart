@@ -4,6 +4,16 @@ import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognize
 
 enum HorizontalRevealEdge { left, right }
 
+HorizontalRevealEdge horizontalRevealStartEdge(TextDirection direction) =>
+    direction == TextDirection.rtl
+    ? HorizontalRevealEdge.right
+    : HorizontalRevealEdge.left;
+
+HorizontalRevealEdge horizontalRevealEndEdge(TextDirection direction) =>
+    direction == TextDirection.rtl
+    ? HorizontalRevealEdge.left
+    : HorizontalRevealEdge.right;
+
 AnimationController createHorizontalRevealController({
   required TickerProvider vsync,
   VoidCallback? onTranslateChanged,
@@ -95,7 +105,7 @@ void rescaleHorizontalRevealOnWidthChange({
 
 Map<Type, GestureRecognizerFactory> horizontalRevealDragGestures({
   required AnimationController translateController,
-  required HorizontalRevealEdge edge,
+  required HorizontalRevealEdge Function() edge,
   required bool Function(PointerDownEvent) shouldDefer,
   required void Function(double deltaDx) onDragUpdate,
   required void Function(DragEndDetails details) onDragEnd,
@@ -107,7 +117,7 @@ Map<Type, GestureRecognizerFactory> horizontalRevealDragGestures({
         >(
           () => DirectionalHorizontalDragRecognizer(
             directions: () => horizontalRevealDragDirections(
-              edge: edge,
+              edge: edge(),
               translate: translateController.value,
             ),
             shouldDefer: shouldDefer,

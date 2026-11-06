@@ -1,5 +1,5 @@
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const IconData kPlutoniumProductIcon = PhosphorIconsFill.atom;
 

@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'thread_welcome_section.g.dart';

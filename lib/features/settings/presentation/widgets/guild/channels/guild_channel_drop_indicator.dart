@@ -33,9 +33,9 @@ class GuildChannelDropIndicator extends StatelessWidget {
     final Color color = isValid
         ? context.colors.brandPrimary
         : context.colors.textPrimaryMuted.withValues(alpha: 0.6);
-    return Positioned(
-      left: isIndented ? 8 : 0,
-      right: kGuildChannelSettingsRowHorizontalPadding,
+    return PositionedDirectional(
+      start: isIndented ? 8 : 0,
+      end: kGuildChannelSettingsRowHorizontalPadding,
       top: position == ChannelReorderIndicatorPosition.top
           ? -kGuildChannelDropIndicatorEdgeOffset
           : null,

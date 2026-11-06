@@ -18,7 +18,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const double _kHeaderHeight = 66;
 const double _kHeaderTitleFontSize = 20;
@@ -142,7 +142,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
+                  padding: EdgeInsetsDirectional.fromSTEB(
                     kNotificationRowHorizontalPadding,
                     0,
                     layout.s2,
@@ -194,8 +194,8 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          right: kNotificationRowHorizontalPadding - layout.s2,
+                        padding: EdgeInsetsDirectional.only(
+                          end: kNotificationRowHorizontalPadding - layout.s2,
                         ),
                         child: NotificationsTabBar(
                           labels: <String>[

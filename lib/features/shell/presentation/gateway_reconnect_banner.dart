@@ -411,7 +411,7 @@ class _PhaseLabel extends StatelessWidget {
                   .clamp(0, constraints.maxWidth),
           child: ClipRect(
             child: Stack(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               children: [
                 if (t < 1)
                   Opacity(
@@ -465,7 +465,7 @@ class _FixedWidthLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final double resolved = width.ceilToDouble().clamp(0, maxWidth);
     return UnconstrainedBox(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       constrainedAxis: Axis.vertical,
       clipBehavior: Clip.hardEdge,
       child: SizedBox(width: resolved, child: child),

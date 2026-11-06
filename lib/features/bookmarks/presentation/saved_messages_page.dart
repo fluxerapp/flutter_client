@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/bookmarks/presentation/widgets/message_list_
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class SavedMessagesPage extends ConsumerWidget {
   const SavedMessagesPage({super.key});

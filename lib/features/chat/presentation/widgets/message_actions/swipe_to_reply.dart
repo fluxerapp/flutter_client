@@ -8,8 +8,8 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMaxDragFraction = 0.30;
 const double _kTriggerFraction = 0.20;
@@ -43,6 +43,7 @@ class SwipeToReply extends StatefulWidget {
 
 class _SwipeToReplyState extends State<SwipeToReply>
     with TickerProviderStateMixin {
+  bool _isRtl = false;
   final GlobalKey _contentKey = GlobalKey();
   late final AnimationController _springController;
   late final AnimationController _holdController;
@@ -102,7 +103,8 @@ class _SwipeToReplyState extends State<SwipeToReply>
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    final next = (_dragOffset.value + details.delta.dx).clamp(-_maxDrag, 0.0);
+    final double logicalDelta = _isRtl ? -details.delta.dx : details.delta.dx;
+    final next = (_dragOffset.value + logicalDelta).clamp(-_maxDrag, 0.0);
     final bool pastThreshold = next <= -_triggerOffset;
     if (!_hasCrossedThreshold && pastThreshold) {
       _hasCrossedThreshold = true;
@@ -197,6 +199,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
     if (_maxDrag == 0) {
       _measureBounds();
     }
+    _isRtl = Directionality.of(context) == TextDirection.rtl;
     final double leadingReserve = leadingEdgeHorizontalSwipeReserveWidth(
       context,
     );
@@ -213,11 +216,11 @@ class _SwipeToReplyState extends State<SwipeToReply>
                 : (-offset / _maxDrag).clamp(0.0, 1.0);
             final double cornerRadius = _kMaxCornerRadius * progress;
             return Transform.translate(
-              offset: Offset(offset, 0),
+              offset: Offset(_isRtl ? -offset : offset, 0),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(cornerRadius),
-                  bottomRight: Radius.circular(cornerRadius),
+                borderRadius: BorderRadiusDirectional.only(
+                  topEnd: Radius.circular(cornerRadius),
+                  bottomEnd: Radius.circular(cornerRadius),
                 ),
                 child: child,
               ),
@@ -253,8 +256,11 @@ class _SwipeToReplyState extends State<SwipeToReply>
                     DirectionalHorizontalDragRecognizer
                   >(
                     () => DirectionalHorizontalDragRecognizer(
-                      directions: () => const <HorizontalClaimDirection>{
-                        HorizontalClaimDirection.left,
+                      directions: () => <HorizontalClaimDirection>{
+                        if (_isRtl)
+                          HorizontalClaimDirection.right
+                        else
+                          HorizontalClaimDirection.left,
                       },
                       shouldDefer: _shouldDeferToHorizontalScroll,
                     ),
@@ -281,9 +287,9 @@ class _SwipeToReplyState extends State<SwipeToReply>
     final Color ringColor = context.colors.textOnBrandPrimary;
     return Positioned.fill(
       child: Align(
-        alignment: Alignment.centerRight,
+        alignment: AlignmentDirectional.centerEnd,
         child: Padding(
-          padding: const EdgeInsets.only(right: _kIconRightPadding),
+          padding: const EdgeInsetsDirectional.only(end: _kIconRightPadding),
           child: Opacity(
             opacity: progress,
             child: Transform.scale(

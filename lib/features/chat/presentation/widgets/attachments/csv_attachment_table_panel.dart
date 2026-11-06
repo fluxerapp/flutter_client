@@ -101,7 +101,9 @@ class _CsvTable extends StatelessWidget {
           return Container(
             constraints: BoxConstraints(minWidth: minCellWidth),
             padding: cellPadding,
-            alignment: isHeader ? Alignment.topLeft : Alignment.centerLeft,
+            alignment: isHeader
+                ? AlignmentDirectional.topStart
+                : AlignmentDirectional.centerStart,
             color: backgroundColor,
             child: Text(value, style: isHeader ? headerStyle : tableStyle),
           );

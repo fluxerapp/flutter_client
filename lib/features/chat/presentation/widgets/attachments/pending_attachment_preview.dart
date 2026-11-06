@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 
 const MethodChannel _attachmentMediaChannel = MethodChannel(

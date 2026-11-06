@@ -46,7 +46,9 @@ class EmojiSearchBar extends StatelessWidget {
         : FluxerLocalizations.of(context).emojiSearchPlaceholder;
 
     return Padding(
-      padding: EdgeInsets.only(right: showSkinTone ? horizontalPadding : 0),
+      padding: EdgeInsetsDirectional.only(
+        end: showSkinTone ? horizontalPadding : 0,
+      ),
       child: Row(
         children: [
           Expanded(

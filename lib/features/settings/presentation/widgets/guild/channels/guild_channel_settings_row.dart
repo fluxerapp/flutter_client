@@ -258,8 +258,8 @@ class _GuildChannelSettingsRowContent extends StatelessWidget {
           color: context.colors.textPrimaryMuted,
         );
         final Widget rowBody = Padding(
-          padding: EdgeInsets.only(
-            left: isCategory ? 0 : 8,
+          padding: EdgeInsetsDirectional.only(
+            start: isCategory ? 0 : 8,
             top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
             bottom: isCategory ? 4 : 1,
           ),
@@ -322,8 +322,8 @@ class _GuildChannelSettingsRowContent extends StatelessWidget {
           );
         }
         return Padding(
-          padding: EdgeInsets.only(
-            left: isCategory ? 0 : 8,
+          padding: EdgeInsetsDirectional.only(
+            start: isCategory ? 0 : 8,
             top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
             bottom: isCategory ? 4 : 1,
           ),
@@ -391,8 +391,8 @@ class _DragFeedbackRow extends StatelessWidget {
         ? entry.category?.channels.length
         : null;
     return Padding(
-      padding: EdgeInsets.only(
-        left: isCategory ? 0 : 8,
+      padding: EdgeInsetsDirectional.only(
+        start: isCategory ? 0 : 8,
         top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
         bottom: isCategory ? 4 : 1,
       ),
@@ -414,7 +414,7 @@ class _DragFeedbackRow extends StatelessWidget {
           ),
           if (categoryCount != null)
             Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsetsDirectional.only(end: 8),
               child: Text(
                 '$categoryCount',
                 style: context.textStyles.channelName.copyWith(

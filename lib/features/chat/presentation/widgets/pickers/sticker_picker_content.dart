@@ -29,8 +29,8 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kDesktopStickerColumns = 4;
 const _kMobileStickerColumns = 5;
@@ -720,7 +720,11 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
             ),
             const SizedBox(width: 8),
             AnimatedRotation(
-              turns: isCollapsed ? -0.25 : 0,
+              turns: !isCollapsed
+                  ? 0
+                  : Directionality.of(context) == TextDirection.rtl
+                  ? 0.25
+                  : -0.25,
               duration: context.motion.panel,
               child: PhosphorIcon(
                 PhosphorIconsBold.caretDown,
@@ -795,7 +799,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     width: 46,
     decoration: BoxDecoration(
       color: colors.backgroundPrimary,
-      border: Border(right: BorderSide(color: colors.backgroundModifierAccent)),
+      border: BorderDirectional(
+        end: BorderSide(color: colors.backgroundModifierAccent),
+      ),
     ),
     child: ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),

@@ -83,8 +83,8 @@ class FluxerAvatarStack extends StatelessWidget {
         children: [
           if (paintOutline)
             for (var i = 0; i < slotCount; i++)
-              Positioned(
-                left: i * step,
+              PositionedDirectional(
+                start: i * step,
                 top: 0,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -95,8 +95,8 @@ class FluxerAvatarStack extends StatelessWidget {
                 ),
               ),
           for (var i = 0; i < visibleAvatars.length; i++)
-            Positioned(
-              left: i * step + outlinePad,
+            PositionedDirectional(
+              start: i * step + outlinePad,
               top: outlinePad,
               child: wrapSlot(
                 visibleAvatars[i],
@@ -104,8 +104,8 @@ class FluxerAvatarStack extends StatelessWidget {
               ),
             ),
           if (hasOverflow)
-            Positioned(
-              left: visibleAvatars.length * step + outlinePad,
+            PositionedDirectional(
+              start: visibleAvatars.length * step + outlinePad,
               top: outlinePad,
               child: wrapSlot(
                 overflowBuilder?.call(context, remaining) ??

@@ -21,12 +21,12 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 100;
 const double _kAvatarSize = 80;
@@ -271,9 +271,9 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
               ],
             ),
             if (hasBadges)
-              Positioned(
+              PositionedDirectional(
                 top: bannerH + 10,
-                right: 10,
+                end: 10,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: colors.backgroundSecondary.withValues(alpha: 0.8),
@@ -354,8 +354,8 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
             height: bannerH,
             child: bannerContent,
           ),
-          Positioned(
-            left: _kAvatarLeft,
+          PositionedDirectional(
+            start: _kAvatarLeft,
             top: avatarTop,
             child: Container(
               decoration: BoxDecoration(

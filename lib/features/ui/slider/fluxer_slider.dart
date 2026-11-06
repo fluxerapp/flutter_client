@@ -244,7 +244,10 @@ class _FluxerSliderState extends State<FluxerSlider> {
     final renderBox = context.findRenderObject()! as RenderBox;
     final localX = renderBox.globalToLocal(details.globalPosition).dx;
     final clampedX = (localX - _kTrackPadding).clamp(0.0, trackWidth);
-    final percent = (clampedX / trackWidth) * 100.0;
+    final logicalX = Directionality.of(context) == TextDirection.rtl
+        ? trackWidth - clampedX
+        : clampedX;
+    final percent = (logicalX / trackWidth) * 100.0;
 
     if (widget.stickToMarkers) {
       final sorted = _sortedMarkers;
@@ -316,7 +319,10 @@ class _FluxerSliderState extends State<FluxerSlider> {
     final renderBox = context.findRenderObject()! as RenderBox;
     final localX = renderBox.globalToLocal(details.globalPosition).dx;
     final clampedX = (localX - _kTrackPadding).clamp(0.0, trackWidth);
-    final percent = (clampedX / trackWidth) * 100.0;
+    final logicalX = Directionality.of(context) == TextDirection.rtl
+        ? trackWidth - clampedX
+        : clampedX;
+    final percent = (logicalX / trackWidth) * 100.0;
 
     if (widget.stickToMarkers) {
       final sorted = _sortedMarkers;
@@ -431,8 +437,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                   return Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Positioned(
-                        left: markerX,
+                      PositionedDirectional(
+                        start: markerX,
                         top: 0,
                         child: SizedBox(
                           width: widget.markerLabelWidth,
@@ -551,11 +557,13 @@ class _FluxerSliderState extends State<FluxerSlider> {
                             ],
                           ),
                           child: FractionallySizedBox(
-                            alignment: Alignment.centerLeft,
+                            alignment: AlignmentDirectional.centerStart,
                             widthFactor: valuePct / 100.0,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
+                                  begin: AlignmentDirectional.centerStart,
+                                  end: AlignmentDirectional.centerEnd,
                                   colors: <Color>[
                                     colors.brandPrimary,
                                     Color.lerp(
@@ -575,8 +583,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                         ),
                       ),
 
-                      Positioned(
-                        left:
+                      PositionedDirectional(
+                        start:
                             _kTrackPadding +
                             (valuePct / 100.0) * trackWidth -
                             _thumbSize / 2,

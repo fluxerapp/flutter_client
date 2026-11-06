@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FluxerConnectionIcon extends StatelessWidget {
   const FluxerConnectionIcon({required this.type, super.key, this.size = 20});

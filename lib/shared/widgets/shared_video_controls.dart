@@ -70,12 +70,17 @@ class SharedVideoControls extends StatelessWidget {
                               details.globalPosition.dx,
                               sliderContext,
                             ),
-                        child: LinearProgressIndicator(
-                          value: progress,
-                          minHeight: 4,
-                          backgroundColor: Colors.white.withValues(alpha: 0.24),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            context.colors.brandPrimary,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 4,
+                            backgroundColor: Colors.white.withValues(
+                              alpha: 0.24,
+                            ),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              context.colors.brandPrimary,
+                            ),
                           ),
                         ),
                       );

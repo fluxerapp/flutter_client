@@ -63,7 +63,7 @@ class ChannelListTypingIndicator extends ConsumerWidget {
         ? colors.textPrimary
         : colors.textSecondary;
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsetsDirectional.only(start: 4),
       child: FluxerTooltip(
         richMessage: _TypingTooltipText(userIds: userIds, guildId: guildId),
         child: RepaintBoundary(

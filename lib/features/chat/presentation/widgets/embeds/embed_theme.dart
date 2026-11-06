@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class EmbedTheme extends StatelessWidget {
   const EmbedTheme({super.key});

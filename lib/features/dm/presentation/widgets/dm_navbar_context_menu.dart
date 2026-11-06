@@ -1,9 +1,10 @@
+import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum DmNavbarAction {
   markAsRead,
@@ -253,7 +254,12 @@ class _ContextMenuPage extends StatelessWidget {
     );
 
     final menuHeight = estimateContextMenuHeight(items);
-    final opensLeft = position.dx + kContextMenuWidth > overlaySize.width - 8;
+    final opensLeft = contextMenuOpensLeft(
+      context,
+      anchorX: position.dx,
+      menuWidth: kContextMenuWidth,
+      overlayWidth: overlaySize.width,
+    );
     final opensUp = position.dy + menuHeight > overlaySize.height - 8;
 
     var left = opensLeft ? position.dx - kContextMenuWidth : position.dx;

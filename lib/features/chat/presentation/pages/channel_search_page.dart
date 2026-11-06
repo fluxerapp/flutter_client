@@ -591,7 +591,7 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(
+                  padding: EdgeInsetsDirectional.fromSTEB(
                     showInAppBack ? layout.s1 : layout.s2,
                     layout.s2,
                     layout.s1,

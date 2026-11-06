@@ -226,7 +226,7 @@ class NotificationSectionHeader extends StatelessWidget {
     return Semantics(
       header: true,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
+        padding: const EdgeInsetsDirectional.fromSTEB(
           kNotificationRowHorizontalPadding + 1,
           kNotificationSectionTopPadding,
           kNotificationRowHorizontalPadding,

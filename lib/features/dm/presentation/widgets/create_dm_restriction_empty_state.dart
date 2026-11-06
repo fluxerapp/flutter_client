@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class CreateDmRestrictionEmptyState extends ConsumerWidget {
   const CreateDmRestrictionEmptyState({required this.restriction, super.key});

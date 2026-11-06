@@ -61,6 +61,37 @@ Future<void> _slowDrag(
 }
 
 void main() {
+  testWidgets('RTL replies on a rightward drag and ignores leftward', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.rtl,
+        child: _buildApp(
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: SwipeToReply(
+              onReply: () => replyCount++,
+              child: const ColoredBox(color: Color(0xFF112233)),
+            ),
+          ),
+        ),
+      ),
+    );
+    final Offset center = tester.getCenter(
+      find.byKey(const ValueKey<String>('swipeViewport')),
+    );
+
+    await _slowDrag(tester, center, const Offset(-200, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 0);
+
+    await _slowDrag(tester, center, const Offset(200, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 1);
+  });
+
   testWidgets(
     'horizontal drag starting in leading edge reserve does not reply',
     (tester) async {

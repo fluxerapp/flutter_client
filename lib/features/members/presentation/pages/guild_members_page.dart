@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/members/presentation/widgets/guild_members_a
 import 'package:fluxer_app/features/members/presentation/widgets/guild_members_desktop_table.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class GuildMembersPage extends ConsumerWidget {
   const GuildMembersPage({required this.guildId, super.key});

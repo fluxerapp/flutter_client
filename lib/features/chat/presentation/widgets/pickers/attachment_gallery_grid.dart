@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class AttachmentGalleryGrid extends StatelessWidget {
   const AttachmentGalleryGrid({
@@ -163,8 +163,8 @@ class _AssetCellState extends State<_AssetCell> {
                       },
                 ),
                 if (widget.item.isVideo && widget.item.duration != null)
-                  Positioned(
-                    left: layout.s1_5,
+                  PositionedDirectional(
+                    start: layout.s1_5,
                     bottom: layout.s1_5,
                     child: Text(
                       formatGalleryVideoDuration(widget.item.duration!),
@@ -176,9 +176,9 @@ class _AssetCellState extends State<_AssetCell> {
                   ),
                 if (widget.selected)
                   const ColoredBox(color: Color.fromRGBO(0, 0, 0, 0.4)),
-                Positioned(
+                PositionedDirectional(
                   top: layout.s1_5,
-                  right: layout.s1_5,
+                  end: layout.s1_5,
                   child: _SelectionMark(selected: widget.selected),
                 ),
               ],

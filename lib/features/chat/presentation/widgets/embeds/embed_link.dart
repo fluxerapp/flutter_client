@@ -59,7 +59,9 @@ class EmbedLink extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: dimensions.maxWidth),
           decoration: BoxDecoration(
             color: context.colors.embedBackground,
-            border: Border(left: BorderSide(color: sideColor, width: 4)),
+            border: BorderDirectional(
+              start: BorderSide(color: sideColor, width: 4),
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Padding(

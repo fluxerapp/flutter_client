@@ -77,6 +77,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -88,7 +89,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kMentionColor = Color.from(
   alpha: 1,
@@ -669,15 +669,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         : showMentionHighlight
         ? _kMentionColor.withValues(alpha: 0.1)
         : Colors.transparent;
-    final Border? rowBorder = showJumpHighlight
-        ? Border(
-            left: BorderSide(
+    final BoxBorder? rowBorder = showJumpHighlight
+        ? BorderDirectional(
+            start: BorderSide(
               color: context.colors.brandPrimaryLight,
               width: _kJumpHighlightBarWidth,
             ),
           )
         : showMentionHighlight
-        ? const Border(left: BorderSide(color: _kMentionColor, width: 2))
+        ? const BorderDirectional(
+            start: BorderSide(color: _kMentionColor, width: 2),
+          )
         : null;
     final Color? hoverTintColor = showJumpHighlight
         ? null
@@ -742,15 +744,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           padding: contentOnly
               ? EdgeInsets.zero
               : widget.inboxPreviewMode
-              ? EdgeInsets.only(
-                  left: hasLeftAccentBar ? 7 : 8,
-                  right: 8,
+              ? EdgeInsetsDirectional.only(
+                  start: hasLeftAccentBar ? 7 : 8,
+                  end: 8,
                   top: isGrouped ? 2 : 8,
                   bottom: isGrouped ? 2 : 8,
                 )
-              : EdgeInsets.only(
-                  left: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
-                  right: kMessageRowPaddingHorizontal,
+              : EdgeInsetsDirectional.only(
+                  start: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
+                  end: kMessageRowPaddingHorizontal,
                   top: 2,
                   bottom: 2,
                 ),
@@ -779,8 +781,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     _wrapMessageSendingDim(
                       dim: dimMessagePartsExceptAttachments,
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          left: messageDisplayCompact
+                        padding: EdgeInsetsDirectional.only(
+                          start: messageDisplayCompact
                               ? compactMessageBodyStart(
                                   timestampColumnWidth:
                                       _compactTimestampColumnWidth(context),
@@ -869,9 +871,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     if (!_hovered.value) {
                       return const SizedBox.shrink();
                     }
-                    return Positioned(
+                    return PositionedDirectional(
                       top: 0,
-                      right: 0,
+                      end: 0,
                       child: _buildFailedActions(context),
                     );
                   },
@@ -910,9 +912,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                         if (!showBar) {
                           return const SizedBox.shrink();
                         }
-                        return Positioned(
+                        return PositionedDirectional(
                           top: 0,
-                          right: 0,
+                          end: 0,
                           child: _buildActions(
                             context,
                             onlyMoreButton: showMessageActionBarOnlyMoreButton,
@@ -1093,7 +1095,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   Widget _messageRowChrome({
     required Decoration decoration,
-    required EdgeInsets padding,
+    required EdgeInsetsGeometry padding,
     required Color? hoverTintColor,
     required Widget child,
   }) {
@@ -1166,16 +1168,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             lineBottom: replyAreaHeight - 5,
             horizontalEnd: contentStart - _kReplyLineEndGap,
             color: context.colors.interactiveMuted,
+            textDirection: Directionality.of(context),
           ),
           child: Padding(
-            padding: EdgeInsets.only(
-              left: contentStart,
+            padding: EdgeInsetsDirectional.only(
+              start: contentStart,
               bottom: _kReplyBottomGap,
             ),
             child: SizedBox(
               height: replyRowHeight,
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: InlineReplyPreview(
                   message: msg,
                   guildId: guildId,
@@ -1203,16 +1206,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           lineBottom: lineBottom,
           horizontalEnd: horizontalEnd,
           color: context.colors.interactiveMuted,
+          textDirection: Directionality.of(context),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: replyContentLeft,
+          padding: const EdgeInsetsDirectional.only(
+            start: replyContentLeft,
             bottom: _kReplyBottomGap,
           ),
           child: SizedBox(
             height: replyRowHeight,
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: InlineReplyPreview(
                 message: msg,
                 guildId: guildId,
@@ -1613,7 +1617,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 ? () => _openAuthorProfile(context, msg)
                 : null,
             child: Padding(
-              padding: const EdgeInsets.only(right: kCompactTimestampGap),
+              padding: const EdgeInsetsDirectional.only(
+                end: kCompactTimestampGap,
+              ),
               child: FluxerAvatar.user(
                 key: ValueKey<String>(
                   'compact-msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
@@ -1723,7 +1729,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: kCompactUsernameGap),
+                    padding: const EdgeInsetsDirectional.only(
+                      end: kCompactUsernameGap,
+                    ),
                     child: _buildCompactAuthorPrefix(
                       context,
                       msg,
@@ -1747,7 +1755,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           width: timestampColumnWidth,
           child: showCompactMetadata
               ? Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: _buildCompactTimestamp(
                     context,
                     isGrouped: isGrouped,
@@ -1765,7 +1773,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ?compactBody,
               if (blockContent.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(left: blockContentPadding),
+                  padding: EdgeInsetsDirectional.only(
+                    start: blockContentPadding,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: blockContent,
@@ -1803,7 +1813,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             child: SizedBox(
               width: kMessageAvatarColumnWidth,
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: ValueListenableBuilder<bool>(
                   valueListenable: _hovered,
                   builder: (context, hovered, child) => AnimatedOpacity(
@@ -1958,7 +1968,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                         ),
                         if (iconRole != null && iconRole.hasIcon)
                           Padding(
-                            padding: const EdgeInsets.only(left: 4),
+                            padding: const EdgeInsetsDirectional.only(start: 4),
                             child: RoleIcon(role: iconRole, size: 20),
                           ),
                         for (final Widget tag in _authorTags(context, msg)) ...[
@@ -2021,17 +2031,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: _kJumpHighlightBg,
-        border: Border(
-          left: BorderSide(
+        border: BorderDirectional(
+          start: BorderSide(
             color: context.colors.brandPrimaryLight,
             width: _kJumpHighlightBarWidth,
           ),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.only(
-          left: kMessageRowPaddingHorizontal + _kJumpHighlightBarWidth,
-          right: kMessageRowPaddingHorizontal,
+        padding: EdgeInsetsDirectional.only(
+          start: kMessageRowPaddingHorizontal + _kJumpHighlightBarWidth,
+          end: kMessageRowPaddingHorizontal,
           top: isGrouped ? 2 : 8,
           bottom: isGrouped ? 2 : 8,
         ),
@@ -2100,7 +2110,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 6),
+                              padding: const EdgeInsetsDirectional.only(end: 6),
                               child: PhosphorIcon(
                                 PhosphorIconsBold.eye,
                                 size: 14,

@@ -31,10 +31,10 @@ class QuickSwitcherSegmentedTabs extends StatelessWidget {
             padding: const EdgeInsets.all(3),
             child: Stack(
               children: [
-                AnimatedPositioned(
+                AnimatedPositionedDirectional(
                   duration: motion.normal,
                   curve: motion.curve,
-                  left: tabWidth * selectedIndex,
+                  start: tabWidth * selectedIndex,
                   width: tabWidth,
                   top: 0,
                   bottom: 0,

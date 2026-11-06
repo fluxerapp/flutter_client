@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_p
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class VoiceConnectionDetailsPopout extends ConsumerStatefulWidget {
   const VoiceConnectionDetailsPopout({required this.onClose, super.key});

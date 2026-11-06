@@ -17,9 +17,9 @@ class VoiceChatUnreadBadge extends ConsumerWidget {
     if (unread == null || !unread.hasUnread) {
       return const SizedBox.shrink();
     }
-    return Positioned(
+    return PositionedDirectional(
       top: 0,
-      right: 0,
+      end: 0,
       child: ExcludeSemantics(
         child: FluxerBadgeEntrance(
           child: FluxerBadge.count(

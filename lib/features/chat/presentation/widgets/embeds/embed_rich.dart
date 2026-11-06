@@ -96,7 +96,9 @@ class EmbedRich extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 440),
           decoration: BoxDecoration(
             color: context.colors.embedBackground,
-            border: Border(left: BorderSide(color: sideColor, width: 4)),
+            border: BorderDirectional(
+              start: BorderSide(color: sideColor, width: 4),
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Padding(
@@ -331,7 +333,7 @@ class _EmbedFieldTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: 6, right: 8),
+    padding: const EdgeInsetsDirectional.only(bottom: 6, end: 8),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

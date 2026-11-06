@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 enum FluxerAlertVariant { info, warning, danger }
 
@@ -50,7 +50,9 @@ class FluxerWarningAlert extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: FluxerBottomSheet.cardColorOf(context),
-          border: Border(left: BorderSide(color: borderColor, width: 4)),
+          border: BorderDirectional(
+            start: BorderSide(color: borderColor, width: 4),
+          ),
           borderRadius: layout.radiusSm,
         ),
         padding: EdgeInsets.symmetric(

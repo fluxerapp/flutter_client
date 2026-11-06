@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class AnnouncementFollowBarrier extends StatelessWidget {
   const AnnouncementFollowBarrier({required this.channel, super.key});
@@ -22,7 +22,7 @@ class AnnouncementFollowBarrier extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: const EdgeInsetsDirectional.only(end: 8),
             child: PhosphorIcon(
               PhosphorIconsFill.megaphone,
               size: 18,

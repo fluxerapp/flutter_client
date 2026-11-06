@@ -32,8 +32,8 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentMediaViewerItem {
   const AttachmentMediaViewerItem({
@@ -690,12 +690,13 @@ class _AttachmentMediaViewerShellState
           _executeClose();
           return KeyEventResult.handled;
         }
+        final bool isRtl = Directionality.of(context) == TextDirection.rtl;
         if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-          _executePrevious();
+          isRtl ? _executeNext() : _executePrevious();
           return KeyEventResult.handled;
         }
         if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-          _executeNext();
+          isRtl ? _executePrevious() : _executeNext();
           return KeyEventResult.handled;
         }
         return KeyEventResult.ignored;

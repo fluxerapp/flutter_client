@@ -30,9 +30,9 @@ import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FavoritesChannelList extends ConsumerWidget {
   const FavoritesChannelList({
@@ -532,8 +532,8 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
               isCircle: true,
               size: _avatarSize,
             ),
-            Positioned(
-              right: -2,
+            PositionedDirectional(
+              end: -2,
               bottom: -2,
               child: Container(
                 width: _badgeSize,

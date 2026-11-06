@@ -129,7 +129,7 @@ class _DmVoiceCallFullscreenPageState
                   ),
                   actions: const <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 8),
+                      padding: EdgeInsetsDirectional.only(end: 8),
                       child: FlipCameraButton(),
                     ),
                   ],

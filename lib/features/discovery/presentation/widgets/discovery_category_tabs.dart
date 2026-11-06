@@ -88,7 +88,7 @@ class DiscoveryCategoryTabs extends ConsumerWidget {
       padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, layout.s2),
       height: discoveryCategoryTabsExtent(context),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

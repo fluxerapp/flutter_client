@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -34,7 +35,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 part 'widgets/user_area_popout_card.dart';
 

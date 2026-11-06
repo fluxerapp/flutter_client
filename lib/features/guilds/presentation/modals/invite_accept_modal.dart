@@ -24,9 +24,9 @@ import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart'
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String _foodPatternAsset = 'assets/images/i-like-food.svg';
 
@@ -81,9 +81,9 @@ class _InviteAcceptModalDialog extends ConsumerWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   InviteAcceptModalBody(code: code),
-                  Positioned(
+                  PositionedDirectional(
                     top: 12,
-                    right: 12,
+                    end: 12,
                     child: _InviteAcceptCloseButton(
                       onPressed: () => Navigator.of(context).pop(),
                     ),
@@ -289,8 +289,8 @@ class _InviteFoodPattern extends StatelessWidget {
                 children: <Widget>[
                   for (int row = 0; row < rows; row++)
                     for (int col = 0; col < columns; col++)
-                      Positioned(
-                        left: col * _tileSize,
+                      PositionedDirectional(
+                        start: col * _tileSize,
                         top: row * _tileSize,
                         width: _tileSize,
                         height: _tileSize,
@@ -570,7 +570,7 @@ class _InviteGuildHeader extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 6),
+              padding: const EdgeInsetsDirectional.only(start: 6),
               child: FluxerGuildBadge(features: features, badgeIds: badgeIds),
             ),
           ],

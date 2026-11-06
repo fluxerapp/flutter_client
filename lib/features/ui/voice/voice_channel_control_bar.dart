@@ -19,8 +19,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kVoiceControlCircleSize = 52;
 const double kVoiceControlCompactCircleSize = 44;

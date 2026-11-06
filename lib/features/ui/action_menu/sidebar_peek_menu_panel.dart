@@ -172,7 +172,11 @@ class _SidebarPeekMenuFollowerState extends State<SidebarPeekMenuFollower> {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final Offset nextOrigin = Offset(
-      computeSidebarPeekMenuLeft(anchorRight: anchorRight),
+      Directionality.of(context) == TextDirection.rtl
+          ? mediaQuery.size.width -
+                anchorTopLeft.dx +
+                kSidebarPeekMenuHorizontalGap
+          : computeSidebarPeekMenuLeft(anchorRight: anchorRight),
       computeSidebarPeekMenuTop(
         anchorCenterY: anchorCenterY,
         menuHeight: menuHeight,
@@ -190,8 +194,10 @@ class _SidebarPeekMenuFollowerState extends State<SidebarPeekMenuFollower> {
       WidgetsBinding.instance.addPostFrameCallback(_schedulePositionUpdate);
       return const SizedBox.shrink();
     }
+    final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Positioned(
-      left: _origin!.dx,
+      left: isRtl ? null : _origin!.dx,
+      right: isRtl ? _origin!.dx : null,
       top: _origin!.dy,
       child: KeyedSubtree(key: _menuKey, child: widget.child),
     );

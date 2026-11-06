@@ -56,12 +56,12 @@ import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_fullscreen.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _tileHudButtonExtent = 34;
 const double _tileHudButtonGap = 8;
@@ -1766,7 +1766,7 @@ class _VoiceChannelParticipantGridState
     final double mainSidePadding = isScreenShareMain && !landscape
         ? 0
         : voiceGridEdgePaddingPx;
-    final EdgeInsets mainPadding = EdgeInsets.fromLTRB(
+    final EdgeInsetsGeometry mainPadding = EdgeInsetsDirectional.fromSTEB(
       mainSidePadding,
       voiceGridEdgePaddingPx,
       landscape && hasSecondary ? 0 : mainSidePadding,
@@ -1881,10 +1881,10 @@ class _VoiceChannelParticipantGridState
                 children: <Widget>[
                   Positioned.fill(child: mainFrame),
                   if (landscape)
-                    Positioned(
+                    PositionedDirectional(
                       top: voiceGridEdgePaddingPx,
                       bottom: voiceGridEdgePaddingPx,
-                      right: voiceGridEdgePaddingPx,
+                      end: voiceGridEdgePaddingPx,
                       width: filmstripCrossAxis,
                       child: ListView.separated(
                         scrollCacheExtent: const ScrollCacheExtent.pixels(0),
@@ -1950,7 +1950,9 @@ class _VoiceChannelParticipantGridState
           if (hasSecondary) ...<Widget>[
             const SizedBox(width: 10),
             Padding(
-              padding: const EdgeInsets.only(right: voiceGridEdgePaddingPx),
+              padding: const EdgeInsetsDirectional.only(
+                end: voiceGridEdgePaddingPx,
+              ),
               child: SizedBox(
                 width: filmstripCrossAxis,
                 child: ListView.separated(
@@ -2618,9 +2620,9 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                 children: <Widget>[
                                   if (tileSource ==
                                       VoiceParticipantTileSource.screenShare)
-                                    Positioned(
+                                    PositionedDirectional(
                                       top: metrics.inset,
-                                      right: metrics.inset,
+                                      end: metrics.inset,
                                       child: screenShareFullscreenExpanded
                                           ? _TileHudVisibility(
                                               child: _HudStreamStatusBadge(
@@ -2644,17 +2646,17 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                                     .screenShare &&
                                             !isOwnScreenShareTile &&
                                             isActiveScreenShare)
-                                          Positioned(
+                                          PositionedDirectional(
                                             top: metrics.inset,
-                                            left: metrics.inset,
+                                            start: metrics.inset,
                                             child: _StopWatchingButton(
                                               onStopWatching: onStopWatching,
                                             ),
                                           ),
                                         if (extraDeviceCount > 0)
-                                          Positioned(
+                                          PositionedDirectional(
                                             top: metrics.inset,
-                                            left: metrics.inset,
+                                            start: metrics.inset,
                                             child: FluxerGestureDetector(
                                               onTap: () {
                                                 ref
@@ -2671,9 +2673,9 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                               ),
                                             ),
                                           ),
-                                        Positioned(
-                                          left: 8,
-                                          right: 8 + tileHudTrailingInset,
+                                        PositionedDirectional(
+                                          start: 8,
+                                          end: 8 + tileHudTrailingInset,
                                           bottom: 8,
                                           child: _VoiceParticipantNameplate(
                                             l10n: l10n,
@@ -2683,8 +2685,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                         ),
                                         if (showPinButton ||
                                             showTileFullscreenButton)
-                                          Positioned(
-                                            right: metrics.inset,
+                                          PositionedDirectional(
+                                            end: metrics.inset,
                                             bottom: metrics.inset,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -3404,7 +3406,7 @@ class _VoiceParticipantNameplate extends StatelessWidget {
     return Semantics(
       label: semantics.toString(),
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: AlignmentDirectional.bottomStart,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: context.colors.backgroundSecondary,

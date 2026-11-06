@@ -19,9 +19,9 @@ import 'package:fluxer_app/features/voice/utils/connection/session_navigation.da
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceCallBar extends ConsumerWidget {
   const VoiceCallBar({super.key});

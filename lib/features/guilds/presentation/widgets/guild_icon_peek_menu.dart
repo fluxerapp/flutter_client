@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_panel.dart'
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const Duration kGuildPeekHoldDelay = Duration(milliseconds: 400);
 const double kGuildPeekHoldCancelThreshold = 4;
@@ -214,7 +214,9 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
     final List<GuildIconPeekAction> visibleActions =
         visibleGuildIconPeekActions(hasUnread: hasUnread);
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart.resolve(
+        Directionality.of(context),
+      ),
       child: SidebarPeekMenuPanel(
         title: guildName,
         sections: [

@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/ui/animation/animation_controller_visibility
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/app_locale_display.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MessageTranslationIndicator extends StatelessWidget {
   const MessageTranslationIndicator({

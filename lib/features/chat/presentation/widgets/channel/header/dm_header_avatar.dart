@@ -61,8 +61,8 @@ class DmHeaderAvatar extends ConsumerWidget {
             size: kDmHeaderAvatarSize,
           ),
         if (showE2eeBadge)
-          Positioned(
-            right: -2,
+          PositionedDirectional(
+            end: -2,
             top: -2,
             child: ChannelIcon(
               type: ChannelType.guildVoice,

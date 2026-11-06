@@ -16,8 +16,8 @@ class _AvatarStack extends StatelessWidget {
       child: Stack(
         children: [
           for (var i = 0; i < avatarUrls.length; i++)
-            Positioned(
-              left: i * 20.0,
+            PositionedDirectional(
+              start: i * 20.0,
               child: Container(
                 width: 28,
                 height: 28,
@@ -181,11 +181,21 @@ class _GuildNotificationChannelIcon extends ConsumerWidget {
 class _TooltipShapePainter extends CustomPainter {
   final Color fillColor;
   final Color borderColor;
+  final TextDirection textDirection;
 
-  _TooltipShapePainter({required this.fillColor, required this.borderColor});
+  _TooltipShapePainter({
+    required this.fillColor,
+    required this.borderColor,
+    required this.textDirection,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (textDirection == TextDirection.rtl) {
+      canvas
+        ..translate(size.width, 0)
+        ..scale(-1, 1);
+    }
     const r = _kBorderRadius;
     const left = _kArrowWidth;
     final centerY = size.height / 2;
@@ -226,5 +236,7 @@ class _TooltipShapePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_TooltipShapePainter old) =>
-      old.fillColor != fillColor || old.borderColor != borderColor;
+      old.fillColor != fillColor ||
+      old.borderColor != borderColor ||
+      old.textDirection != textDirection;
 }

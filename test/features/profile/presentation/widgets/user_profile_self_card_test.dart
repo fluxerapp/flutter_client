@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';

@@ -105,8 +105,8 @@ class _GuildListItemState extends State<_GuildListItem> {
         alignment: Alignment.center,
         children: [
           const SizedBox(width: kGuildNavbarWidth),
-          Positioned(
-            left: 0,
+          PositionedDirectional(
+            start: 0,
             top: 0,
             bottom: 0,
             child: Center(
@@ -186,9 +186,9 @@ class _GuildListItemState extends State<_GuildListItem> {
                             ),
                             if (!widget.isUnavailable &&
                                 _displayMentionCount > 0)
-                              Positioned(
+                              PositionedDirectional(
                                 bottom: GuildNavbarPill.badgeInset,
-                                right: GuildNavbarPill.badgeInset,
+                                end: GuildNavbarPill.badgeInset,
                                 child: FluxerBadgeEntrance(
                                   child: FluxerBadge.count(
                                     count: _displayMentionCount,
@@ -199,9 +199,9 @@ class _GuildListItemState extends State<_GuildListItem> {
                               ),
                             if (!widget.isUnavailable &&
                                 widget.voiceActivity != VoiceActivityType.none)
-                              Positioned(
+                              PositionedDirectional(
                                 top: -4,
-                                right: -4,
+                                end: -4,
                                 child: _VoiceActivityBadge(
                                   type: widget.voiceActivity,
                                 ),
@@ -211,9 +211,9 @@ class _GuildListItemState extends State<_GuildListItem> {
                                 widget.invitesPaused &&
                                 _displayMentionCount == 0 &&
                                 widget.voiceActivity == VoiceActivityType.none)
-                              const Positioned(
+                              const PositionedDirectional(
                                 bottom: -4,
-                                right: -4,
+                                end: -4,
                                 child: _PauseBadge(),
                               ),
                           ],

@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.d
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -24,7 +25,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart'
     show GuildUserDisplay, messagePrefersPersistedAuthorDisplay;
 import 'package:fluxer_dart/models/mention_reply_preferences.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kReplyPreviewFontSize = 14;
 const double _kReplyPreviewLineHeight = 18 / _kReplyPreviewFontSize;
@@ -321,6 +321,7 @@ class ReplyConnectorPainter extends CustomPainter {
   final double lineBottom;
   final double horizontalEnd;
   final Color color;
+  final TextDirection textDirection;
 
   ReplyConnectorPainter({
     required this.avatarCenterX,
@@ -328,6 +329,7 @@ class ReplyConnectorPainter extends CustomPainter {
     required this.lineBottom,
     required this.horizontalEnd,
     required this.color,
+    this.textDirection = TextDirection.ltr,
   });
 
   @override
@@ -339,6 +341,12 @@ class ReplyConnectorPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     const radius = 6.0;
+
+    if (textDirection == TextDirection.rtl) {
+      canvas
+        ..translate(size.width, 0)
+        ..scale(-1, 1);
+    }
 
     final path = Path()
       ..moveTo(avatarCenterX, lineBottom)
@@ -358,7 +366,8 @@ class ReplyConnectorPainter extends CustomPainter {
       lineTop != oldDelegate.lineTop ||
       lineBottom != oldDelegate.lineBottom ||
       horizontalEnd != oldDelegate.horizontalEnd ||
-      color != oldDelegate.color;
+      color != oldDelegate.color ||
+      textDirection != oldDelegate.textDirection;
 }
 
 class CompactReplyConnectorPainter extends CustomPainter {
@@ -367,6 +376,7 @@ class CompactReplyConnectorPainter extends CustomPainter {
   final double lineBottom;
   final double horizontalEnd;
   final Color color;
+  final TextDirection textDirection;
 
   CompactReplyConnectorPainter({
     required this.spineCenterX,
@@ -374,6 +384,7 @@ class CompactReplyConnectorPainter extends CustomPainter {
     required this.lineBottom,
     required this.horizontalEnd,
     required this.color,
+    this.textDirection = TextDirection.ltr,
   });
 
   @override
@@ -388,6 +399,12 @@ class CompactReplyConnectorPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     const radius = 6.0;
+
+    if (textDirection == TextDirection.rtl) {
+      canvas
+        ..translate(size.width, 0)
+        ..scale(-1, 1);
+    }
 
     final path = Path()
       ..moveTo(spineCenterX, lineBottom)
@@ -407,7 +424,8 @@ class CompactReplyConnectorPainter extends CustomPainter {
       lineTop != oldDelegate.lineTop ||
       lineBottom != oldDelegate.lineBottom ||
       horizontalEnd != oldDelegate.horizontalEnd ||
-      color != oldDelegate.color;
+      color != oldDelegate.color ||
+      textDirection != oldDelegate.textDirection;
 }
 
 class ReplyInputBar extends ConsumerWidget {

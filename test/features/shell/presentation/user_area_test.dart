@@ -23,8 +23,8 @@ import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provi
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart' show VoiceState;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/test_l10n.dart';

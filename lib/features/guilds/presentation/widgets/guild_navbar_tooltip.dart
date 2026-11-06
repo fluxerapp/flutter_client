@@ -54,20 +54,21 @@ class _RightTooltipState extends State<_RightTooltip>
     final borderColor =
         widget.borderColor ?? context.colors.backgroundHeaderSecondary;
 
+    final TextDirection direction = Directionality.of(context);
     _entry = OverlayEntry(
       builder: (_) => UnconstrainedBox(
         child: CompositedTransformFollower(
           link: _layerLink,
-          targetAnchor: Alignment.centerRight,
-          followerAnchor: Alignment.centerLeft,
-          offset: const Offset(8, 0),
+          targetAnchor: AlignmentDirectional.centerEnd.resolve(direction),
+          followerAnchor: AlignmentDirectional.centerStart.resolve(direction),
+          offset: Offset(direction == TextDirection.rtl ? -8 : 8, 0),
           showWhenUnlinked: false,
           child: IgnorePointer(
             child: FadeTransition(
               opacity: _fadeAnim,
               child: ScaleTransition(
                 scale: _scaleAnim,
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart.resolve(direction),
                 child: Material(
                   color: Colors.transparent,
                   child: ConstrainedBox(
@@ -78,11 +79,12 @@ class _RightTooltipState extends State<_RightTooltip>
                       painter: _TooltipShapePainter(
                         fillColor: bgColor,
                         borderColor: borderColor,
+                        textDirection: direction,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: _kArrowWidth + 16,
-                          right: 16,
+                        padding: const EdgeInsetsDirectional.only(
+                          start: _kArrowWidth + 16,
+                          end: 16,
                           top: 12,
                           bottom: 12,
                         ),

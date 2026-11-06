@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/utils/participant/participant_menu_capabilities.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 VoiceParticipantMenuLabels _labels() {
   return const VoiceParticipantMenuLabels(

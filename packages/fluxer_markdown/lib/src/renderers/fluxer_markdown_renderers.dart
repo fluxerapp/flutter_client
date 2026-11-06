@@ -13,6 +13,7 @@ import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart'
 import 'package:fluxer_markdown/src/utils/ansi_palette.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
+import 'package:fluxer_markdown/src/utils/first_strong_text_direction.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
@@ -227,7 +228,7 @@ Widget defaultFluxerAlertBuilder(
     decoration: BoxDecoration(
       color: color.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(8),
-      border: Border(left: BorderSide(color: color, width: 4)),
+      border: BorderDirectional(start: BorderSide(color: color, width: 4)),
     ),
     child: body,
   );
@@ -662,6 +663,7 @@ class _MarkdownBlockRenderer {
     final effectiveStyle = style ?? baseStyle;
     final TextScaler effectiveTextScaler =
         textScaler ?? MediaQuery.textScalerOf(context);
+    final ui.TextDirection? contentDirection = _inlineContentDirection(nodes);
     final spans = _MarkdownInlineRenderer(
       context: context,
       baseStyle: effectiveStyle,
@@ -698,6 +700,7 @@ class _MarkdownBlockRenderer {
       text: TextSpan(style: effectiveStyle, children: spans),
       baseStyle: effectiveStyle,
       textAlign: textAlign ?? TextAlign.start,
+      textDirection: contentDirection,
       textScaler: effectiveTextScaler,
       maxLines: maxLines,
       overflow: overflow,
@@ -823,14 +826,17 @@ class _MarkdownBlockRenderer {
       return const SizedBox.shrink();
     }
 
-    return FluxerCodeBlockWidget(
-      element: codeElement,
-      isDark: isDark,
-      baseStyle: baseStyle,
-      codeTextStyle: config.codeTextStyle,
-      codeBackgroundColor: config.inlineCodeBackgroundColor,
-      onCopyCode: config.onCopyCode,
-      ansiPalette: config.ansiPalette,
+    return Directionality(
+      textDirection: ui.TextDirection.ltr,
+      child: FluxerCodeBlockWidget(
+        element: codeElement,
+        isDark: isDark,
+        baseStyle: baseStyle,
+        codeTextStyle: config.codeTextStyle,
+        codeBackgroundColor: config.inlineCodeBackgroundColor,
+        onCopyCode: config.onCopyCode,
+        ansiPalette: config.ansiPalette,
+      ),
     );
   }
 
@@ -857,7 +863,7 @@ class _MarkdownBlockRenderer {
       textScaler: textScaler,
       textDirection: Directionality.of(context),
     );
-    final markerTextAlign = ordered ? TextAlign.right : TextAlign.start;
+    final markerTextAlign = ordered ? TextAlign.end : TextAlign.start;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: FluxerMarkupSpacing.listItemGap,
@@ -1152,16 +1158,21 @@ class _MarkdownBlockRenderer {
     return switch (alignment) {
       'center' => TextAlign.center,
       'right' => TextAlign.right,
-      _ => TextAlign.left,
+      'left' => TextAlign.left,
+      _ => TextAlign.start,
     };
   }
 
-  Alignment _tableCellAlignment(TextAlign textAlign, {required bool isHeader}) {
+  AlignmentGeometry _tableCellAlignment(
+    TextAlign textAlign, {
+    required bool isHeader,
+  }) {
     final double vertical = isHeader ? -1 : 0;
     return switch (textAlign) {
       TextAlign.center => Alignment(0, vertical),
       TextAlign.right => Alignment(1, vertical),
-      _ => Alignment(-1, vertical),
+      TextAlign.left => Alignment(-1, vertical),
+      _ => AlignmentDirectional(-1, vertical),
     };
   }
 }
@@ -1725,6 +1736,21 @@ bool _allNodesAreEmoji(List<md.Node> nodes) {
   return analysis.isEmojiOnly &&
       analysis.emojiCount > 0 &&
       analysis.emojiCount <= kFluxerMarkdownJumboMaxCount;
+}
+
+ui.TextDirection? _inlineContentDirection(List<md.Node> nodes) {
+  for (final md.Node node in nodes) {
+    final ui.TextDirection? direction = switch (node) {
+      md.Text() => firstStrongTextDirection(node.text),
+      md.Element(tag: 'strong' || 'em' || 'del' || 'underline' || 'a') =>
+        _inlineContentDirection(node.children ?? const <md.Node>[]),
+      _ => null,
+    };
+    if (direction != null) {
+      return direction;
+    }
+  }
+  return null;
 }
 
 bool _isInlineListNode(md.Node node) {

@@ -114,7 +114,7 @@ class _CommunityIconRow extends StatelessWidget {
       ...guilds.map((g) => _CommunityIcon(guild: g)),
       if (extraCount > 0)
         Container(
-          margin: const EdgeInsets.only(left: 4),
+          margin: const EdgeInsetsDirectional.only(start: 4),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
             color: const Color.fromRGBO(255, 255, 255, 0.15),
@@ -141,7 +141,7 @@ class _CommunityIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconUrl = guild.iconUrl;
     return Padding(
-      padding: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsetsDirectional.only(end: 4),
       child: Container(
         width: 20,
         height: 20,
@@ -190,7 +190,7 @@ class _PreviewEmojiRow extends StatelessWidget {
     children: emojis
         .map(
           (e) => Padding(
-            padding: const EdgeInsets.only(right: 6),
+            padding: const EdgeInsetsDirectional.only(end: 6),
             child: Container(
               width: 32,
               height: 32,

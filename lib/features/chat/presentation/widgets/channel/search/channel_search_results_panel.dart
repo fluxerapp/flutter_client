@@ -17,8 +17,8 @@ import 'package:fluxer_app/features/chat/utils/search/channel_search_utils.dart'
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kChannelSearchResultsPanelWidth = 420;
 
@@ -53,8 +53,8 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colors.backgroundSecondary,
-          border: Border(
-            left: BorderSide(color: context.colors.backgroundModifierHover),
+          border: BorderDirectional(
+            start: BorderSide(color: context.colors.backgroundModifierHover),
           ),
         ),
         child: Column(
@@ -424,7 +424,7 @@ class _SearchResultsHeader extends StatelessWidget {
             children: <Widget>[
               if (state.isSearching || state.indexing)
                 const Padding(
-                  padding: EdgeInsets.only(right: 12),
+                  padding: EdgeInsetsDirectional.only(end: 12),
                   child: SizedBox(
                     width: 18,
                     height: 18,

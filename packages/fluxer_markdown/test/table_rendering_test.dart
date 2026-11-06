@@ -330,7 +330,7 @@ void main() {
       final Container headerCell = tester.widget<Container>(
         _tableCellWithColor(_headerBackgroundColor).first,
       );
-      expect(headerCell.alignment, Alignment.topLeft);
+      expect(headerCell.alignment, AlignmentDirectional.topStart);
       expect(
         headerCell.padding,
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -361,7 +361,7 @@ void main() {
       final Container bodyCell = tester.widget<Container>(
         _tableCellWithColor(_rowOddBackgroundColor).first,
       );
-      expect(bodyCell.alignment, Alignment.centerLeft);
+      expect(bodyCell.alignment, AlignmentDirectional.centerStart);
     });
 
     testWidgets('table cell content respects padding inset', (tester) async {

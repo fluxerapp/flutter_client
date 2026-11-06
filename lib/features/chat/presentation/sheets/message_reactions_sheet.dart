@@ -249,7 +249,7 @@ class _ReactionTabRow extends StatelessWidget {
         children: [
           for (final reaction in reactions)
             Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsetsDirectional.only(end: 8),
               child: _ReactionTab(
                 reaction: reaction,
                 isSelected:

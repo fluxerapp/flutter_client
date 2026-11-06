@@ -5,13 +5,14 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_panel.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSubmenuGap = 4.0;
 
@@ -250,8 +251,12 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
             ),
           );
 
-    final opensLeft =
-        widget.position.dx + menuWidth > widget.overlaySize.width - 8;
+    final opensLeft = contextMenuOpensLeft(
+      context,
+      anchorX: widget.position.dx,
+      menuWidth: menuWidth,
+      overlayWidth: widget.overlaySize.width,
+    );
     final opensUp =
         widget.position.dy + mainHeight > widget.overlaySize.height - 8;
 
@@ -640,7 +645,7 @@ class GuildFolderPeekMenuPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: SidebarPeekMenuPanel(
         title: folderName,
         sections: buildFolderSidebarPeekSections(

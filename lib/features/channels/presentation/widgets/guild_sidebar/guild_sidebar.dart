@@ -96,6 +96,7 @@ import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -103,7 +104,6 @@ import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 part 'guild_sidebar_banner_layout.dart';
 part 'guild_sidebar_category_header.dart';
@@ -198,7 +198,9 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
-        border: Border(right: BorderSide(color: context.colors.borderColor)),
+        border: BorderDirectional(
+          end: BorderSide(color: context.colors.borderColor),
+        ),
       ),
       child: Column(
         children: [

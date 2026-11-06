@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/chat/utils/composer/slowmode_format.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const Duration _kTickInterval = Duration(seconds: 1);
 const Duration _kShakeDuration = Duration(milliseconds: 300);
@@ -128,7 +128,7 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
     final showCountdown = remaining > Duration.zero && !isImmune;
     _ensureTicker(showCountdown);
     return Padding(
-      padding: EdgeInsets.only(left: widget.leadingSpacing),
+      padding: EdgeInsetsDirectional.only(start: widget.leadingSpacing),
       child: AnimatedBuilder(
         animation: _shakeOffset,
         builder: (BuildContext context, Widget? child) {

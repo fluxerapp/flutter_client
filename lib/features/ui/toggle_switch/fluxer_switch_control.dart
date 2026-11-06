@@ -52,10 +52,10 @@ class FluxerSwitchControl extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                AnimatedPositioned(
+                AnimatedPositionedDirectional(
                   duration: motion.fast,
                   curve: motion.curve,
-                  left: thumbOffset,
+                  start: thumbOffset,
                   top: thumbInset,
                   child: Container(
                     width: thumbSize,

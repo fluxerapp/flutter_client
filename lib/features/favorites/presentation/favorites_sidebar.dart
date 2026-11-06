@@ -29,7 +29,9 @@ class FavoritesSidebar extends ConsumerWidget {
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
         border: channelSidebarHasFixedWidth(context)
-            ? Border(right: BorderSide(color: context.colors.borderColor))
+            ? BorderDirectional(
+                end: BorderSide(color: context.colors.borderColor),
+              )
             : null,
       ),
       child: Column(

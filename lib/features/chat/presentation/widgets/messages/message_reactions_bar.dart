@@ -8,11 +8,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wal
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kReactionEmojiSize = 19.0;
 const _kAddReactionIconSize = 19.0;
