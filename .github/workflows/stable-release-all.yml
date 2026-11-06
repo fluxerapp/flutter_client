@@ -13,11 +13,11 @@ jobs:
     uses: ./.github/workflows/_draft-stable-release.yml
     secrets: inherit
 
-  ios-app-store:
-    name: iOS App Store build
-    needs: draft-release
-    uses: ./.github/workflows/ios-production-release.yml
-    secrets: inherit
+  # ios-app-store:
+  #   name: iOS App Store build
+  #   needs: draft-release
+  #   uses: ./.github/workflows/ios-production-release.yml
+  #   secrets: inherit
 
   ios-altstore-pal:
     name: iOS AltStore PAL build
