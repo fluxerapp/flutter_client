@@ -16,9 +16,7 @@ module AltstorePal
 
   APP_STORE_BLOCKING_VERSION_STATES = [
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::WAITING_FOR_REVIEW,
-    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::IN_REVIEW,
-    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::READY_FOR_REVIEW,
-    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::PREPARE_FOR_SUBMISSION
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::IN_REVIEW
   ].freeze
 
   NOTARIZATION_ACCEPTED_STATES = [
@@ -58,19 +56,84 @@ module AltstorePal
     find_app_store_version(app, app_version: app_version, platform: platform)
   end
 
-  def assert_can_submit_for_notarization!(version)
+  def bump_marketing_version(base_marketing_version, bump)
+    parts = base_marketing_version.split(".")
+    if parts.length != 3
+      fail!("Expected year.month.public marketing version, got #{base_marketing_version}")
+    end
+    year, month, public_release = parts
+    "#{year}.#{month}.#{public_release.to_i + bump}"
+  end
+
+  def notarization_submission_status(version)
+    return :missing if version.nil?
+
     review_type = version.review_type.to_s
     state = version.app_version_state.to_s
 
     if review_type == Spaceship::ConnectAPI::AppStoreVersion::ReviewType::APP_STORE &&
        APP_STORE_BLOCKING_VERSION_STATES.include?(state)
+      return :blocked_app_store_review
+    end
+
+    return :already_accepted if NOTARIZATION_ACCEPTED_STATES.include?(state)
+
+    :ready
+  end
+
+  def ensure_notarization_review_type!(version)
+    notarization = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
+    return if version.review_type.to_s == notarization
+
+    version.update(attributes: { reviewType: notarization })
+  end
+
+  def prepare_altstore_pal_build_version(
+    api_key:,
+    app_identifier:,
+    base_marketing_version:,
+    platform: Spaceship::ConnectAPI::Platform::IOS
+  )
+    connect_api(api_key)
+    app = Spaceship::ConnectAPI::App.find(app_identifier)
+    max_bumps = 32
+
+    (1..max_bumps).each do |bump|
+      candidate = bump_marketing_version(base_marketing_version, bump)
+      existing = find_app_store_version(app, app_version: candidate, platform: platform)
+      status = notarization_submission_status(existing)
+      next if status == :already_accepted || status == :blocked_app_store_review
+
+      version = ensure_app_store_version(app, app_version: candidate, platform: platform)
+      fail!("Could not find or create App Store version #{candidate}.") if version.nil?
+
+      ensure_notarization_review_type!(version)
+      if bump > 1
+        log("AltStore PAL marketing version #{candidate} (pubspec #{base_marketing_version})")
+      end
+      log("Prepared App Store Connect version #{candidate} for notarization.")
+      return candidate
+    end
+
+    fail!(
+      "Could not find an App Store Connect version for AltStore PAL notarization " \
+      "after #{max_bumps} bumps from #{base_marketing_version}."
+    )
+  end
+
+  def assert_can_submit_for_notarization!(version)
+    status = notarization_submission_status(version)
+
+    if status == :blocked_app_store_review
+      state = version.app_version_state.to_s
       fail!(
-        "App Store version #{version.version_string} uses App Store review (#{state}). " \
-        "Wait for App Store review to finish or use a new marketing version for AltStore PAL."
+        "App Store Connect version #{version.version_string} is in App Store review (#{state}). " \
+        "Remove it from App Store review in App Store Connect or pick a higher marketing version."
       )
     end
 
-    if NOTARIZATION_ACCEPTED_STATES.include?(state)
+    if status == :already_accepted
+      state = version.app_version_state.to_s
       log("Version #{version.version_string} is already accepted (#{state}); skipping notarization submit.")
       return :already_accepted
     end
@@ -99,8 +162,10 @@ module AltstorePal
     connect_api(api_key)
     platform = Spaceship::ConnectAPI::Platform::IOS
     app = Spaceship::ConnectAPI::App.find(app_identifier)
-    version = ensure_app_store_version(app, app_version: app_version, platform: platform)
-    fail!("Could not find or create App Store version #{app_version}.") if version.nil?
+    version = find_app_store_version(app, app_version: app_version, platform: platform)
+    fail!("App Store Connect version #{app_version} was not found. Re-run the AltStore PAL build lane.") if version.nil?
+
+    ensure_notarization_review_type!(version)
 
     status = assert_can_submit_for_notarization!(version)
     return if status == :already_accepted
@@ -113,17 +178,16 @@ module AltstorePal
       platform: platform
     )
 
-    version.update(attributes: { reviewType: Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION })
+    version = find_app_store_version(app, app_version: app_version, platform: platform)
+    ensure_notarization_review_type!(version)
 
-    in_progress = app.get_in_progress_review_submission(platform: platform)
-    if in_progress
-      fail!("Another App Store Connect review submission is already in progress (#{in_progress.state}).")
+    existing_submission = version.fetch_app_store_version_submission
+    if existing_submission
+      log("Version #{app_version} already has a submission; skipping create.")
+      return
     end
 
-    submission = app.get_ready_review_submission(platform: platform)
-    submission ||= app.create_review_submission(platform: platform)
-    submission.add_app_store_version_to_review_items(app_store_version_id: version.id)
-    submission.submit_for_review
+    version.create_app_store_version_submission
 
     log("Submitted #{app_version} (#{build_number}) for notarization review.")
   end
