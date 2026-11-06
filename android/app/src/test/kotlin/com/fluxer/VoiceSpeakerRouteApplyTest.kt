@@ -4,10 +4,16 @@ import android.content.Context
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
+import android.os.Bundle
+import com.hiennv.flutter_callkit_incoming.CallkitConnection
+import com.hiennv.flutter_callkit_incoming.Data
+import com.hiennv.flutter_callkit_incoming.addCall
+import com.hiennv.flutter_callkit_incoming.removeAllCalls
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +40,12 @@ class VoiceSpeakerRouteApplyTest {
         speaker = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, id = 1)
         earpiece = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE, id = 2)
         shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece))
+    }
+
+    @After
+    fun tearDown() {
+        CallkitConnection.clearAll()
+        removeAllCalls(RuntimeEnvironment.getApplication())
     }
 
     private fun communicationDevice(type: Int, id: Int): AudioDeviceInfo {
@@ -76,5 +88,30 @@ class VoiceSpeakerRouteApplyTest {
         assertNull(audioManager.communicationDevice)
         @Suppress("DEPRECATION")
         assertTrue(audioManager.isSpeakerphoneOn)
+    }
+
+    @Test
+    fun telecomConnectionsOnlyIncludeCallsWithALiveConnection() {
+        val context = RuntimeEnvironment.getApplication()
+        addCall(context, Data(mapOf("id" to "stored-only")))
+        assertTrue(telecomCallConnections(context).isEmpty())
+
+        addCall(context, Data(mapOf("id" to "live")))
+        val connection = CallkitConnection(context, "live", Bundle())
+
+        assertEquals(listOf(connection), telecomCallConnections(context))
+    }
+
+    @Test
+    fun routeDiagnosticsReportCommunicationDeviceAndTelecomCalls() {
+        val context = RuntimeEnvironment.getApplication()
+        audioManager.setCommunicationDevice(earpiece)
+        val connection = CallkitConnection(context, "live", Bundle())
+
+        val diagnostics = voiceRouteDiagnostics(audioManager, listOf(connection), true)
+
+        assertTrue(diagnostics, diagnostics.contains("commDevice=earpiece"))
+        assertTrue(diagnostics, diagnostics.contains("telecomOwnsRoute=true"))
+        assertTrue(diagnostics, diagnostics.contains("telecomCalls=[NEW/unknown]"))
     }
 }
