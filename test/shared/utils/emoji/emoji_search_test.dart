@@ -16,6 +16,16 @@ int? tierOf(
 
 void main() {
   group('emojiMatchTier', () {
+    test('ignores underscores and hyphens in names', () {
+      expect(tierOf(<String>['foo_bar'], 'foobar'), emojiTierNameStartsWith);
+      expect(tierOf(<String>['t_rex'], 'trex'), emojiTierNameStartsWith);
+      expect(tierOf(<String>['x-ray'], 'xray'), emojiTierNameStartsWith);
+      expect(tierOf(<String>['big_foo_bar'], 'foobar'), emojiTierNameContains);
+      expect(tierOf(<String>['foo_bar'], 'foob_ar'), emojiTierNameStartsWith);
+      expect(tierOf(<String>['foo_bar'], 'foo_bar'), emojiTierExactName);
+      expect(tierOf(<String>['foo_bar'], 'qux'), isNull);
+    });
+
     test('returns ascending tiers from exact to keyword-contains', () {
       expect(tierOf(<String>['smile'], 'smile'), emojiTierExactName);
       expect(tierOf(<String>['smiley'], 'smile'), emojiTierNameStartsWith);
