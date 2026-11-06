@@ -6326,6 +6326,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Tai nghe';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Đổi đầu ra âm thanh';
 
   @override

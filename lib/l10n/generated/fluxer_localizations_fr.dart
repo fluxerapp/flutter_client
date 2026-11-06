@@ -6444,6 +6444,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Écouteurs';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Changer la sortie audio';
 
   @override

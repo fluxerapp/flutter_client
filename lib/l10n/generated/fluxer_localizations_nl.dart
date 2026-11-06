@@ -6371,6 +6371,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Koptelefoon';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Audio-uitvoer wijzigen';
 
   @override

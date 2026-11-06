@@ -23,11 +23,17 @@ internal enum class VoiceOutputRoute {
     Speaker,
     Earpiece,
     Headset,
+    Bluetooth,
 }
 
-internal val headsetCommunicationDeviceTypes: List<Int> = listOf(
+internal val bluetoothCommunicationDeviceTypes: List<Int> = listOf(
     AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
     AudioDeviceInfo.TYPE_BLE_HEADSET,
+    AudioDeviceInfo.TYPE_BLE_SPEAKER,
+    AudioDeviceInfo.TYPE_HEARING_AID,
+)
+
+internal val headsetCommunicationDeviceTypes: List<Int> = listOf(
     AudioDeviceInfo.TYPE_WIRED_HEADSET,
     AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
     AudioDeviceInfo.TYPE_USB_HEADSET,
@@ -37,6 +43,7 @@ internal fun voiceOutputRouteFromName(name: String?): VoiceOutputRoute {
     return when (name) {
         "earpiece" -> VoiceOutputRoute.Earpiece
         "headset" -> VoiceOutputRoute.Headset
+        "bluetooth" -> VoiceOutputRoute.Bluetooth
         else -> VoiceOutputRoute.Speaker
     }
 }
@@ -50,6 +57,7 @@ internal fun communicationDeviceTypeForRoute(
         VoiceOutputRoute.Speaker -> listOf(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER)
         VoiceOutputRoute.Earpiece -> listOf(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE)
         VoiceOutputRoute.Headset -> headsetCommunicationDeviceTypes
+        VoiceOutputRoute.Bluetooth -> bluetoothCommunicationDeviceTypes
     }
     for (type in preferredTypes) {
         if (type in available) {
@@ -65,30 +73,6 @@ internal fun communicationDeviceForRoute(
 ): AudioDeviceInfo? {
     val type = communicationDeviceTypeForRoute(route, devices.map { it.type }) ?: return null
     return devices.firstOrNull { it.type == type }
-}
-
-internal fun activeCommunicationDeviceTypeMatchesRoute(
-    route: VoiceOutputRoute,
-    activeDeviceType: Int?,
-    speakerphoneOn: Boolean,
-    sdkAtLeast31: Boolean,
-): Boolean {
-    if (!sdkAtLeast31) {
-        return when (route) {
-            VoiceOutputRoute.Speaker -> speakerphoneOn
-            VoiceOutputRoute.Earpiece, VoiceOutputRoute.Headset -> !speakerphoneOn
-        }
-    }
-    return when (route) {
-        VoiceOutputRoute.Speaker ->
-            speakerphoneOn && activeDeviceType != AudioDeviceInfo.TYPE_BUILTIN_EARPIECE &&
-                (activeDeviceType == null ||
-                    activeDeviceType == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER)
-        VoiceOutputRoute.Earpiece ->
-            activeDeviceType == AudioDeviceInfo.TYPE_BUILTIN_EARPIECE
-        VoiceOutputRoute.Headset ->
-            activeDeviceType != null && activeDeviceType in headsetCommunicationDeviceTypes
-    }
 }
 
 internal fun speakerphoneOnForRoute(route: VoiceOutputRoute): Boolean {
@@ -117,20 +101,25 @@ internal fun routeFollowUpDelaysMs(
     }
 }
 
-internal fun telecomRouteForVoiceOutput(
-    route: VoiceOutputRoute,
-    supportedRouteMask: Int,
-): Int {
+internal fun telecomRouteForVoiceOutput(route: VoiceOutputRoute): Int {
     return when (route) {
         VoiceOutputRoute.Speaker -> CallAudioState.ROUTE_SPEAKER
         VoiceOutputRoute.Earpiece -> CallAudioState.ROUTE_EARPIECE
-        VoiceOutputRoute.Headset ->
-            if (supportedRouteMask and CallAudioState.ROUTE_BLUETOOTH != 0) {
-                CallAudioState.ROUTE_BLUETOOTH
-            } else {
-                CallAudioState.ROUTE_WIRED_HEADSET
-            }
+        VoiceOutputRoute.Headset -> CallAudioState.ROUTE_WIRED_HEADSET
+        VoiceOutputRoute.Bluetooth -> CallAudioState.ROUTE_BLUETOOTH
     }
+}
+
+internal fun telecomRouteRequestNeeded(
+    target: Int,
+    currentRoute: Int?,
+    supportedRouteMask: Int?,
+    force: Boolean,
+): Boolean {
+    if (supportedRouteMask != null && supportedRouteMask and target == 0) {
+        return false
+    }
+    return force || currentRoute != target
 }
 
 internal fun availableVoiceOutputRouteNames(
@@ -138,11 +127,15 @@ internal fun availableVoiceOutputRouteNames(
     hasEarpiece: Boolean,
 ): List<String> {
     val names = mutableListOf("speaker")
-    if (AudioDeviceInfo.TYPE_BUILTIN_EARPIECE in outputTypes || hasEarpiece) {
+    val wiredConnected = outputTypes.any { it in headsetCommunicationDeviceTypes }
+    if (!wiredConnected && (AudioDeviceInfo.TYPE_BUILTIN_EARPIECE in outputTypes || hasEarpiece)) {
         names.add("earpiece")
     }
-    if (outputTypes.any { it in headsetCommunicationDeviceTypes }) {
+    if (wiredConnected) {
         names.add("headset")
+    }
+    if (outputTypes.any { it in bluetoothCommunicationDeviceTypes }) {
+        names.add("bluetooth")
     }
     return names
 }
@@ -195,6 +188,9 @@ class VoiceSpeakerRouteBridge(
             }
             "availableRoutes" -> {
                 result.success(availableVoiceOutputRouteNames(outputTypes(audioManager), hasEarpiece()))
+            }
+            "bluetoothDeviceName" -> {
+                result.success(bluetoothDeviceName(audioManager))
             }
             else -> result.notImplemented()
         }
@@ -280,12 +276,25 @@ internal fun outputTypes(audioManager: AudioManager): Set<Int> {
     return emptySet()
 }
 
+internal fun bluetoothDeviceName(audioManager: AudioManager): String? {
+    val devices = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        audioManager.availableCommunicationDevices
+    } else {
+        audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).toList()
+    }
+    return communicationDeviceForRoute(VoiceOutputRoute.Bluetooth, devices)
+        ?.productName
+        ?.toString()
+        ?.takeIf { it.isNotBlank() }
+}
+
 internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutputRoute) {
     audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
     val speakerphoneOn = speakerphoneOnForRoute(route)
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
         @Suppress("DEPRECATION")
         audioManager.isSpeakerphoneOn = speakerphoneOn
+        setBluetoothSco(audioManager, route == VoiceOutputRoute.Bluetooth)
         return
     }
     if (route == VoiceOutputRoute.Speaker &&
@@ -312,6 +321,18 @@ internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutpu
     audioManager.isSpeakerphoneOn = speakerphoneOn
 }
 
+@Suppress("DEPRECATION")
+private fun setBluetoothSco(audioManager: AudioManager, enabled: Boolean) {
+    if (audioManager.isBluetoothScoOn == enabled) {
+        return
+    }
+    if (enabled) {
+        audioManager.startBluetoothSco()
+    } else {
+        audioManager.stopBluetoothSco()
+    }
+}
+
 internal fun telecomCallConnections(context: Context): List<CallkitConnection> {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
         return emptyList()
@@ -326,8 +347,8 @@ internal fun applyTelecomCallRoute(
     force: Boolean,
 ) {
     val state = connection.callAudioState
-    val target = telecomRouteForVoiceOutput(route, state?.supportedRouteMask ?: 0)
-    if (force || state?.route != target) {
+    val target = telecomRouteForVoiceOutput(route)
+    if (telecomRouteRequestNeeded(target, state?.route, state?.supportedRouteMask, force)) {
         connection.setAudioRoute(target)
     }
 }
@@ -366,6 +387,8 @@ internal fun releaseCallSpeaker(audioManager: AudioManager) {
     audioManager.isSpeakerphoneOn = false
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         audioManager.clearCommunicationDevice()
+    } else {
+        setBluetoothSco(audioManager, false)
     }
     audioManager.mode = AudioManager.MODE_NORMAL
     @Suppress("DEPRECATION")

@@ -5977,6 +5977,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '耳机';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => '更改音频输出';
 
   @override

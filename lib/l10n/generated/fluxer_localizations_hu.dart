@@ -6385,6 +6385,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Fejhallgató';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Hangkimenet módosítása';
 
   @override

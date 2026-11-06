@@ -93,6 +93,21 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  Future<void> selectOutputRoute(VoiceOutputRoute route) async {
+    state = state.copyWith(
+      outputRoute: isBuiltInVoiceOutputRoute(route) ? route : null,
+      outputRouteOverride: route,
+    );
+    _schedulePersist();
+  }
+
+  void clearOutputRouteOverride() {
+    if (state.outputRouteOverride == null) {
+      return;
+    }
+    state = state.copyWith(clearOutputRouteOverride: true);
+  }
+
   Future<void> setCameraFacing(VoiceCameraFacing value) async {
     state = state.copyWith(cameraFacing: value);
     _schedulePersist();

@@ -28,6 +28,30 @@ void main() {
       );
       expect(settings.outputRoute, VoiceOutputRoute.headset);
     });
+
+    test('does not persist the route override', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        outputRouteOverride: VoiceOutputRoute.earpiece,
+      );
+      final VoiceSettingsState restored = VoiceSettingsState.fromJson(
+        settings.toJson(),
+      );
+      expect(restored.outputRouteOverride, isNull);
+    });
+
+    test('copyWith keeps or clears the route override', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        outputRouteOverride: VoiceOutputRoute.bluetooth,
+      );
+      expect(
+        settings.copyWith(inputVolume: 50).outputRouteOverride,
+        VoiceOutputRoute.bluetooth,
+      );
+      expect(
+        settings.copyWith(clearOutputRouteOverride: true).outputRouteOverride,
+        isNull,
+      );
+    });
   });
 
   group('VoiceSettingsState prioritizeSpeakingParticipants', () {

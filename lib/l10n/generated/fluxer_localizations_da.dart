@@ -6339,6 +6339,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Hovedtelefoner';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Skift lydudgang';
 
   @override

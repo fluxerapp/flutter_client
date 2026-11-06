@@ -167,6 +167,19 @@ Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
   }
 }
 
+Future<String?> readBluetoothVoiceDeviceName() async {
+  if (defaultTargetPlatform != TargetPlatform.android) {
+    return null;
+  }
+  try {
+    return await _voiceSpeakerRouteChannel.invokeMethod<String>(
+      'bluetoothDeviceName',
+    );
+  } on Object {
+    return null;
+  }
+}
+
 class VoiceIosNativeRouteSync extends Notifier<VoiceActiveOutputRoute?> {
   @override
   VoiceActiveOutputRoute? build() {
@@ -244,4 +257,34 @@ final NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>
 voiceAvailableOutputRoutesProvider =
     NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>(
       VoiceAvailableOutputRoutes.new,
+    );
+
+class VoiceBluetoothDeviceName extends Notifier<String?> {
+  @override
+  String? build() {
+    final StreamSubscription<List<MediaDevice>> subscription = Hardware
+        .instance
+        .onDeviceChange
+        .stream
+        .listen((_) {
+          unawaited(_refresh());
+        });
+    ref.onDispose(subscription.cancel);
+    unawaited(_refresh());
+    return null;
+  }
+
+  Future<void> _refresh() async {
+    final String? name = await readBluetoothVoiceDeviceName();
+    if (!ref.mounted) {
+      return;
+    }
+    state = name;
+  }
+}
+
+final NotifierProvider<VoiceBluetoothDeviceName, String?>
+voiceBluetoothDeviceNameProvider =
+    NotifierProvider<VoiceBluetoothDeviceName, String?>(
+      VoiceBluetoothDeviceName.new,
     );

@@ -8090,7 +8090,11 @@
     },
     "voiceOutputRouteHeadset": "Headphones",
     "@voiceOutputRouteHeadset": {
-        "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
+        "description": "Voice output route that plays call audio through a connected headset."
+    },
+    "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
     },
     "voiceChangeAudioOutputLabel": "Change audio output",
     "@voiceChangeAudioOutputLabel": {

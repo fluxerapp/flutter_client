@@ -6346,6 +6346,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Hodetelefoner';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Endre lydutgang';
 
   @override

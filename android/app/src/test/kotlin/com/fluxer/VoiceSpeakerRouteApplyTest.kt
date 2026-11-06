@@ -39,7 +39,9 @@ class VoiceSpeakerRouteApplyTest {
             .getSystemService(Context.AUDIO_SERVICE) as AudioManager
         speaker = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, id = 1)
         earpiece = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE, id = 2)
-        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece))
+        }
     }
 
     @After
@@ -88,6 +90,46 @@ class VoiceSpeakerRouteApplyTest {
         assertNull(audioManager.communicationDevice)
         @Suppress("DEPRECATION")
         assertTrue(audioManager.isSpeakerphoneOn)
+    }
+
+    @Test
+    fun bluetoothRoutePinsTheBluetoothDevice() {
+        val buds = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece, buds))
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth)
+
+        assertEquals(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, audioManager.communicationDevice?.type)
+        @Suppress("DEPRECATION")
+        assertFalse(audioManager.isSpeakerphoneOn)
+    }
+
+    @Test
+    fun bluetoothDeviceNameIsNullWithoutABluetoothDevice() {
+        assertNull(bluetoothDeviceName(audioManager))
+    }
+
+    @Test
+    fun bluetoothDeviceNameUsesTheProductName() {
+        val buds = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
+        val port = ReflectionHelpers.getField<Any>(buds, "mPort")
+        ReflectionHelpers.setField(port, "mName", "Galaxy Buds2 Pro")
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, buds))
+
+        assertEquals("Galaxy Buds2 Pro", bluetoothDeviceName(audioManager))
+    }
+
+    @Test
+    @Config(sdk = [Build.VERSION_CODES.R])
+    fun olderAndroidBluetoothRouteTurnsSpeakerphoneOff() {
+        @Suppress("DEPRECATION")
+        audioManager.isSpeakerphoneOn = true
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth)
+        releaseCallSpeaker(audioManager)
+
+        @Suppress("DEPRECATION")
+        assertFalse(audioManager.isSpeakerphoneOn)
     }
 
     @Test

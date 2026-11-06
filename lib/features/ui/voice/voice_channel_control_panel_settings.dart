@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_output_route_radio_group.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
@@ -24,9 +23,6 @@ import 'package:livekit_client/livekit_client.dart';
 
 const Key kVoiceControlPanelSettingsKey = Key('voice-control-panel-settings');
 const Key kVoiceControlPanelShowChatKey = Key('voice-control-panel-show-chat');
-const Key kVoiceControlPanelUseEarpieceKey = Key(
-  'voice-control-panel-use-earpiece',
-);
 const Key kVoiceControlPanelOnlyShowVideosKey = Key(
   'voice-control-panel-only-show-videos',
 );
@@ -179,12 +175,8 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
           FluxerListSection(
             header: l10n.voicePanelSettingsSectionTitle,
             children: <Widget>[
-              if (showNativeVoiceAudioRoutePicker())
-                const VoiceChangeAudioOutputPanelRow()
-              else if (canSwitchSpeaker)
-                const VoiceOutputRouteRadioGroup(
-                  controlKey: kVoiceControlPanelUseEarpieceKey,
-                ),
+              if (showNativeVoiceAudioRoutePicker() || canSwitchSpeaker)
+                const VoiceChangeAudioOutputPanelRow(),
               VoicePanelSettingSwitchRow(
                 key: kVoiceControlPanelOnlyShowVideosKey,
                 icon: PhosphorIconsFill.videoCamera,

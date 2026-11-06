@@ -31,6 +31,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/voice_setting
 import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
@@ -149,6 +150,7 @@ class VoiceSession extends _$VoiceSession {
   Timer? _audioRouteRecoveryTimer;
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _lastKnownOutputDeviceIds;
+  Set<VoiceOutputRoute>? _lastKnownOutputRoutes;
   Set<String>? _pendingRecoveryInputIds;
   Set<String>? _pendingRecoveryOutputIds;
   bool _isRecoveringAudioRoute = false;
@@ -2232,6 +2234,7 @@ class VoiceSession extends _$VoiceSession {
     _selfStreamReconcileDirty = false;
     _handledRoomConnectedAttempt = null;
     state = const VoiceSessionState();
+    ref.read(voiceSettingsProvider.notifier).clearOutputRouteOverride();
   }
 
   void _teardownOnDispose() {
@@ -3273,8 +3276,18 @@ class VoiceSession extends _$VoiceSession {
     if (Platform.isIOS) {
       unawaited(ref.read(voiceIosNativeRouteSyncProvider.notifier).refresh());
     }
+    if (Platform.isAndroid) {
+      unawaited(_seedKnownOutputRoutes());
+    }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
         .listen(_scheduleAudioRouteRecovery);
+  }
+
+  Future<void> _seedKnownOutputRoutes() async {
+    final Set<VoiceOutputRoute> routes = await readAvailableVoiceOutputRoutes();
+    if (_mediaDeviceChangeSubscription != null) {
+      _lastKnownOutputRoutes ??= routes;
+    }
   }
 
   void _detachMediaDeviceChangeListener() {
@@ -3284,6 +3297,7 @@ class VoiceSession extends _$VoiceSession {
     _pendingRecoveryOutputIds = null;
     _lastKnownInputDeviceIds = null;
     _lastKnownOutputDeviceIds = null;
+    _lastKnownOutputRoutes = null;
     _isRecoveringAudioRoute = false;
     unawaited(_mediaDeviceChangeSubscription?.cancel());
     _mediaDeviceChangeSubscription = null;
@@ -3329,6 +3343,15 @@ class VoiceSession extends _$VoiceSession {
     required Set<String> outputIds,
   }) async {
     if (_isRecoveringAudioRoute) {
+      _audioRouteRecoveryTimer?.cancel();
+      _audioRouteRecoveryTimer = Timer(kVoiceAudioRouteRecoveryDebounce, () {
+        unawaited(
+          _recoverAudioAfterDeviceChange(
+            inputIds: inputIds,
+            outputIds: outputIds,
+          ),
+        );
+      });
       return;
     }
     final Room? room = state.liveKitRoom;
@@ -3351,7 +3374,26 @@ class VoiceSession extends _$VoiceSession {
     _lastKnownInputDeviceIds = inputIds;
     _lastKnownOutputDeviceIds = outputIds;
 
-    if (!inputChanged && !outputChanged) {
+    bool outputRoutesChanged = false;
+    if (Platform.isAndroid) {
+      final Set<VoiceOutputRoute> routes =
+          await readAvailableVoiceOutputRoutes();
+      if (!ref.mounted || _mediaDeviceChangeSubscription == null) {
+        return;
+      }
+      final Set<VoiceOutputRoute>? previousRoutes = _lastKnownOutputRoutes;
+      outputRoutesChanged =
+          previousRoutes != null && !setEquals(previousRoutes, routes);
+      if (didConnectExternalVoiceOutputRoute(
+        previous: previousRoutes,
+        current: routes,
+      )) {
+        ref.read(voiceSettingsProvider.notifier).clearOutputRouteOverride();
+      }
+      _lastKnownOutputRoutes = routes;
+    }
+
+    if (!inputChanged && !outputChanged && !outputRoutesChanged) {
       return;
     }
 
@@ -3367,7 +3409,7 @@ class VoiceSession extends _$VoiceSession {
       if (shouldReapplyMobileVoiceOutputOnDeviceChange(
         isIos: isIos,
         isAndroid: isAndroid,
-        outputChanged: outputChanged,
+        outputChanged: outputChanged || outputRoutesChanged,
       )) {
         await _runAudioRouteRecoveryStep(
           'applySpeakerOutput',
@@ -3515,7 +3557,9 @@ class VoiceSession extends _$VoiceSession {
     final bool outputRoutingChanged =
         previous == null ||
         previous.outputDeviceId != next.outputDeviceId ||
-        (previous.outputRoute != next.outputRoute && !Platform.isIOS);
+        ((previous.outputRoute != next.outputRoute ||
+                previous.outputRouteOverride != next.outputRouteOverride) &&
+            !Platform.isIOS);
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
     }

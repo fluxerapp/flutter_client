@@ -6380,6 +6380,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Cuffie';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Cambia uscita audio';
 
   @override

@@ -6366,6 +6366,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Slušalice';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Promijeni audioizlaz';
 
   @override

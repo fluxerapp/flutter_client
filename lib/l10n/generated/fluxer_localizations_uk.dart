@@ -6394,6 +6394,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Навушники';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Змінити аудіовихід';
 
   @override

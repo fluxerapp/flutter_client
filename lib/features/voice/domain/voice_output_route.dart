@@ -1,4 +1,4 @@
-enum VoiceOutputRoute { speaker, earpiece, headset }
+enum VoiceOutputRoute { speaker, earpiece, headset, bluetooth }
 
 const Set<VoiceOutputRoute> kPhoneVoiceOutputRoutes = <VoiceOutputRoute>{
   VoiceOutputRoute.speaker,
@@ -37,6 +37,47 @@ VoiceOutputRoute resolveVoiceOutputRoute({
     return VoiceOutputRoute.headset;
   }
   return VoiceOutputRoute.earpiece;
+}
+
+VoiceOutputRoute resolveVoiceCallOutputRoute({
+  required VoiceOutputRoute preference,
+  required VoiceOutputRoute? override,
+  required Set<VoiceOutputRoute> available,
+}) {
+  if (override != null && available.contains(override)) {
+    return override;
+  }
+  if (available.contains(VoiceOutputRoute.bluetooth)) {
+    return VoiceOutputRoute.bluetooth;
+  }
+  if (available.contains(VoiceOutputRoute.headset)) {
+    return VoiceOutputRoute.headset;
+  }
+  if (isBuiltInVoiceOutputRoute(preference) && available.contains(preference)) {
+    return preference;
+  }
+  if (available.contains(VoiceOutputRoute.speaker)) {
+    return VoiceOutputRoute.speaker;
+  }
+  return VoiceOutputRoute.earpiece;
+}
+
+bool isBuiltInVoiceOutputRoute(VoiceOutputRoute route) {
+  return route == VoiceOutputRoute.speaker ||
+      route == VoiceOutputRoute.earpiece;
+}
+
+bool didConnectExternalVoiceOutputRoute({
+  required Set<VoiceOutputRoute>? previous,
+  required Set<VoiceOutputRoute> current,
+}) {
+  if (previous == null) {
+    return false;
+  }
+  return current.any(
+    (VoiceOutputRoute route) =>
+        !isBuiltInVoiceOutputRoute(route) && !previous.contains(route),
+  );
 }
 
 bool liveKitPrefersSpeaker(VoiceOutputRoute route) {

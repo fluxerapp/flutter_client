@@ -6325,6 +6325,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Headphone';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Ubah output audio';
 
   @override

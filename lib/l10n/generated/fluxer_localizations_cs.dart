@@ -6367,6 +6367,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Sluchátka';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Změnit výstup zvuku';
 
   @override

@@ -6388,6 +6388,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Căști';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Schimbă ieșirea audio';
 
   @override

@@ -10221,11 +10221,17 @@ abstract class FluxerLocalizations {
   /// **'Earpiece'**
   String get voiceOutputRouteEarpiece;
 
-  /// Voice output route that plays call audio through a connected Bluetooth or wired headset.
+  /// Voice output route that plays call audio through a connected headset.
   ///
   /// In en, this message translates to:
   /// **'Headphones'**
   String get voiceOutputRouteHeadset;
+
+  /// Voice output route that plays call audio through a connected Bluetooth device when its name is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth'**
+  String get voiceOutputRouteBluetooth;
 
   /// Opens the system audio route picker for voice calls on iOS.
   ///
