@@ -92,16 +92,6 @@ def flutter_marketing_version
   version.to_s.split("+", 2).first
 end
 
-def altstore_pal_marketing_version
-  base = flutter_marketing_version
-  parts = base.split(".")
-  if parts.length != 3
-    UI.user_error!("Expected year.month.public marketing version, got #{base}")
-  end
-  year, month, public_release = parts
-  "#{year}.#{month}.#{public_release.to_i + 1}"
-end
-
 def canary_number_dart_define_args
   canary_number = ENV["CANARY_NUMBER"].to_s.strip
   return [] if canary_number.empty?
@@ -756,7 +746,11 @@ platform :ios do
 
     app_identifier = "com.fluxer"
     pubspec_marketing_version = flutter_marketing_version
-    flutter_build_name = altstore_pal_marketing_version
+    flutter_build_name = AltstorePal.prepare_altstore_pal_build_version(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      base_marketing_version: pubspec_marketing_version
+    )
     build_number_offset = ENV.fetch("IOS_BUILD_NUMBER_OFFSET", "1").to_i
     flutter_build_number = next_testflight_build_number(
       api_key: api_key,
