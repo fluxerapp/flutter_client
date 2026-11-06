@@ -30,6 +30,7 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_search.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
 
 const _kGridColumns = 9;
@@ -885,10 +886,25 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   ) {
     final unicodeResults = EmojiRegistry.search(widget.searchQuery);
     final guildEmojis = data.guildEmojisByGuild.values.expand((e) => e);
-    final query = widget.searchQuery.toLowerCase();
-    final customResults = guildEmojis
-        .where((e) => e.name.toLowerCase().contains(query))
-        .toList();
+    final query = normalizeEmojiSearchQuery(widget.searchQuery);
+    final rankedCustom = <(int, GuildEmojiEntry)>[];
+    for (final GuildEmojiEntry e in guildEmojis) {
+      final int? tier = query.isEmpty
+          ? null
+          : emojiMatchTier(
+              names: <String>[e.name],
+              namesLower: <String>[e.nameLower],
+              keywordsLower: const <String>[],
+              query: query,
+            );
+      if (tier != null) {
+        rankedCustom.add((tier, e));
+      }
+    }
+    rankedCustom.sort(
+      (a, b) => a.$1 != b.$1 ? a.$1 - b.$1 : a.$2.name.compareTo(b.$2.name),
+    );
+    final customResults = rankedCustom.map((r) => r.$2).toList();
 
     if (unicodeResults.isEmpty && customResults.isEmpty) {
       return Center(
