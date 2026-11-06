@@ -6,7 +6,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'fluxer_localizations_ar.dart';
+import 'fluxer_localizations_art.dart';
+import 'fluxer_localizations_be.dart';
 import 'fluxer_localizations_bg.dart';
+import 'fluxer_localizations_bn.dart';
+import 'fluxer_localizations_ca.dart';
 import 'fluxer_localizations_cs.dart';
 import 'fluxer_localizations_da.dart';
 import 'fluxer_localizations_de.dart';
@@ -14,6 +18,7 @@ import 'fluxer_localizations_el.dart';
 import 'fluxer_localizations_en.dart';
 import 'fluxer_localizations_es.dart';
 import 'fluxer_localizations_fi.dart';
+import 'fluxer_localizations_fil.dart';
 import 'fluxer_localizations_fr.dart';
 import 'fluxer_localizations_he.dart';
 import 'fluxer_localizations_hi.dart';
@@ -24,12 +29,16 @@ import 'fluxer_localizations_it.dart';
 import 'fluxer_localizations_ja.dart';
 import 'fluxer_localizations_ko.dart';
 import 'fluxer_localizations_lt.dart';
+import 'fluxer_localizations_lv.dart';
 import 'fluxer_localizations_nb.dart';
 import 'fluxer_localizations_nl.dart';
 import 'fluxer_localizations_pl.dart';
 import 'fluxer_localizations_pt.dart';
 import 'fluxer_localizations_ro.dart';
 import 'fluxer_localizations_ru.dart';
+import 'fluxer_localizations_sk.dart';
+import 'fluxer_localizations_sl.dart';
+import 'fluxer_localizations_sq.dart';
 import 'fluxer_localizations_sv.dart';
 import 'fluxer_localizations_th.dart';
 import 'fluxer_localizations_tr.dart';
@@ -125,7 +134,11 @@ abstract class FluxerLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ar'),
+    Locale('art'),
+    Locale('be'),
     Locale('bg'),
+    Locale('bn'),
+    Locale('ca'),
     Locale('cs'),
     Locale('da'),
     Locale('de'),
@@ -135,6 +148,7 @@ abstract class FluxerLocalizations {
     Locale('es'),
     Locale('es', '419'),
     Locale('fi'),
+    Locale('fil'),
     Locale('fr'),
     Locale('he'),
     Locale('hi'),
@@ -145,6 +159,7 @@ abstract class FluxerLocalizations {
     Locale('ja'),
     Locale('ko'),
     Locale('lt'),
+    Locale('lv'),
     Locale('nb'),
     Locale('nl'),
     Locale('pl'),
@@ -152,6 +167,9 @@ abstract class FluxerLocalizations {
     Locale('pt', 'BR'),
     Locale('ro'),
     Locale('ru'),
+    Locale('sk'),
+    Locale('sl'),
+    Locale('sq'),
     Locale('sv'),
     Locale('th'),
     Locale('tr'),
@@ -28369,7 +28387,11 @@ class _FluxerLocalizationsDelegate
   @override
   bool isSupported(Locale locale) => <String>[
     'ar',
+    'art',
+    'be',
     'bg',
+    'bn',
+    'ca',
     'cs',
     'da',
     'de',
@@ -28377,6 +28399,7 @@ class _FluxerLocalizationsDelegate
     'en',
     'es',
     'fi',
+    'fil',
     'fr',
     'he',
     'hi',
@@ -28387,12 +28410,16 @@ class _FluxerLocalizationsDelegate
     'ja',
     'ko',
     'lt',
+    'lv',
     'nb',
     'nl',
     'pl',
     'pt',
     'ro',
     'ru',
+    'sk',
+    'sl',
+    'sq',
     'sv',
     'th',
     'tr',
@@ -28452,8 +28479,16 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return FluxerLocalizationsAr();
+    case 'art':
+      return FluxerLocalizationsArt();
+    case 'be':
+      return FluxerLocalizationsBe();
     case 'bg':
       return FluxerLocalizationsBg();
+    case 'bn':
+      return FluxerLocalizationsBn();
+    case 'ca':
+      return FluxerLocalizationsCa();
     case 'cs':
       return FluxerLocalizationsCs();
     case 'da':
@@ -28468,6 +28503,8 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsEs();
     case 'fi':
       return FluxerLocalizationsFi();
+    case 'fil':
+      return FluxerLocalizationsFil();
     case 'fr':
       return FluxerLocalizationsFr();
     case 'he':
@@ -28488,6 +28525,8 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsKo();
     case 'lt':
       return FluxerLocalizationsLt();
+    case 'lv':
+      return FluxerLocalizationsLv();
     case 'nb':
       return FluxerLocalizationsNb();
     case 'nl':
@@ -28500,6 +28539,12 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsRo();
     case 'ru':
       return FluxerLocalizationsRu();
+    case 'sk':
+      return FluxerLocalizationsSk();
+    case 'sl':
+      return FluxerLocalizationsSl();
+    case 'sq':
+      return FluxerLocalizationsSq();
     case 'sv':
       return FluxerLocalizationsSv();
     case 'th':

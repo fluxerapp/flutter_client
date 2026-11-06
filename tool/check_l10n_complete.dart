@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 const Set<String> _incubatingLocales = <String>{
+  'art',
   'be',
   'bn',
   'ca',
@@ -10,7 +11,6 @@ const Set<String> _incubatingLocales = <String>{
   'sk',
   'sl',
   'sq',
-  'tok',
 };
 
 String _localeOf(File file) {
