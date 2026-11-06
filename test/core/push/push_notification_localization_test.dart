@@ -43,13 +43,25 @@ void main() {
       );
     });
 
-    test('is empty for threads because the title already includes it', () {
+    test('drops the parent channel from a thread title', () {
       expect(
         resolvePushCommunityName(const <String, String>{
           'guild_id': '1',
           'parent_id': '5',
-        }, title: 'Alice (#plan, #general, My Server)'),
-        isNull,
+        }, title: 'Alice (#plan, #general, My, Server)'),
+        'My, Server',
+      );
+    });
+
+    test('keeps commas in thread and parent names apart from the guild', () {
+      expect(
+        resolvePushCommunityName(const <String, String>{
+          'guild_id': '1',
+          'parent_id': '5',
+          'channel_name': 'a, b',
+          'parent_name': 'c, d',
+        }, title: 'Alice (#a, b, #c, d, My Server)'),
+        'My Server',
       );
     });
 

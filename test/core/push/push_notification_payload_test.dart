@@ -118,7 +118,7 @@ void main() {
           'parent_id': '5',
           'channel_name': 'release plan',
         }, title: 'Alice (#release plan, #general, My Server)'),
-        '#release plan, #general, My Server',
+        'release plan',
       );
     });
 
@@ -138,7 +138,7 @@ void main() {
           'parent_id': '5',
           'channel_name': 'a, b',
         }, title: 'Alice (#a, b, #general, My Server)'),
-        '#a, b, #general, My Server',
+        'a, b',
       );
     });
 
@@ -178,6 +178,22 @@ void main() {
           'guild_id': 'null',
         }, title: 'Alice'),
         isNull,
+      );
+    });
+  });
+
+  group('withPushConversationIdentity', () {
+    test('replaces identity values sent in the push', () {
+      expect(
+        withPushConversationIdentity(const <String, String>{
+          'title': 'Alice',
+          kPushConversationNameKey: 'Pushed name',
+          kPushConversationIconPathKey: '/pushed/path.png',
+        }, name: 'Weekend plans'),
+        <String, String>{
+          'title': 'Alice',
+          kPushConversationNameKey: 'Weekend plans',
+        },
       );
     });
   });
