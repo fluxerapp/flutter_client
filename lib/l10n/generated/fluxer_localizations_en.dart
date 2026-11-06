@@ -23461,6 +23461,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get voiceOutputRouteHeadset => 'Headphones';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Change audio output';
 
   @override
@@ -40257,6 +40260,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
 
   @override
   String get voiceChangeAudioOutputLabel => 'Change audio output';

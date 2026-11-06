@@ -6134,7 +6134,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '耳机';
 
   @override
-  String get voiceOutputRouteBluetooth => 'Bluetooth';
+  String get voiceOutputRouteBluetooth => '蓝牙';
 
   @override
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
@@ -22133,6 +22133,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceOutputRouteHeadset => '耳機';
+
+  @override
+  String get voiceOutputRouteBluetooth => '藍牙';
 
   @override
   String get voiceChangeAudioOutputLabel => '變更音訊輸出';
