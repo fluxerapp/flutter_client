@@ -37,12 +37,9 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 ## Download
 
-> [!CAUTION]
-> The Fluxer Flutter Android mobile client is still in beta so things can be broken. There is currently no set release date for the app, but you can join our public beta!.
-
 | Platform | Channel | Status | Get it |
 | --- | --- | --- | --- |
-| iOS | App Store | Soon | — |
+| iOS | App Store | Soon (Submitted on Nov 1st) | — |
 | iOS | AltStore PAL | Soon | — |
 | iOS | TestFlight | Unavailable (Apple-side bug, support contacted) | [Join TestFlight](https://testflight.apple.com/join/PKZR6pK9) |
 | Android | Google Play | Early Access (Beta) | [Download](https://play.google.com/store/apps/details?id=com.fluxer) |
