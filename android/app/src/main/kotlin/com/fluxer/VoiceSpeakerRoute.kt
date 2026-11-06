@@ -102,6 +102,17 @@ private fun String?.equalsSamsung(): Boolean {
     return this?.equals("samsung", ignoreCase = true) == true
 }
 
+internal fun routeFollowUpDelaysMs(
+    manufacturer: String?,
+    brand: String? = null,
+): List<Long> {
+    return if (routesSpeakerWithCommunicationDevice(manufacturer, brand)) {
+        listOf(ROUTE_FOLLOW_UP_MS, 1000L, 2500L, 5000L)
+    } else {
+        listOf(ROUTE_FOLLOW_UP_MS)
+    }
+}
+
 internal fun availableVoiceOutputRouteNames(
     outputTypes: Set<Int>,
     hasEarpiece: Boolean,
@@ -168,10 +179,18 @@ class VoiceSpeakerRouteBridge(
         mainHandler.postDelayed(work, ROUTE_FOLLOW_UP_MS)
     }
 
-    private fun scheduleRouteFollowUp(audioManager: AudioManager, route: VoiceOutputRoute) {
-        val work = Runnable { applyVoiceOutputRoute(audioManager, route) }
+    private fun scheduleRouteFollowUp(
+        audioManager: AudioManager,
+        route: VoiceOutputRoute,
+        delaysMs: List<Long> = routeFollowUpDelaysMs(Build.MANUFACTURER, Build.BRAND),
+    ) {
+        val delayMs = delaysMs.firstOrNull() ?: return
+        val work = Runnable {
+            applyVoiceOutputRoute(audioManager, route)
+            scheduleRouteFollowUp(audioManager, route, delaysMs.drop(1))
+        }
         routeFollowUp = work
-        mainHandler.postDelayed(work, ROUTE_FOLLOW_UP_MS)
+        mainHandler.postDelayed(work, delayMs)
     }
 
     private fun cancelRouteFollowUp() {
@@ -224,16 +243,15 @@ internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutpu
         audioManager.isSpeakerphoneOn = true
         return
     }
-    @Suppress("DEPRECATION")
-    audioManager.isSpeakerphoneOn = speakerphoneOn
     val device = communicationDeviceForRoute(
         route,
         audioManager.availableCommunicationDevices,
-    ) ?: return
-    if (audioManager.communicationDevice?.id == device.id) {
-        return
+    )
+    if (device != null && audioManager.communicationDevice?.id != device.id) {
+        if (!audioManager.setCommunicationDevice(device)) {
+            audioManager.clearCommunicationDevice()
+        }
     }
-    audioManager.setCommunicationDevice(device)
     @Suppress("DEPRECATION")
     audioManager.isSpeakerphoneOn = speakerphoneOn
 }

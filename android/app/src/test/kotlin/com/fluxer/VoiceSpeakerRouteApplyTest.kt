@@ -1,0 +1,80 @@
+package com.fluxer
+
+import android.content.Context
+import android.media.AudioDeviceInfo
+import android.media.AudioManager
+import android.os.Build
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.AudioDeviceInfoBuilder
+import org.robolectric.shadows.ShadowBuild
+import org.robolectric.util.ReflectionHelpers
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.S])
+class VoiceSpeakerRouteApplyTest {
+    private lateinit var audioManager: AudioManager
+    private lateinit var speaker: AudioDeviceInfo
+    private lateinit var earpiece: AudioDeviceInfo
+
+    @Before
+    fun setUp() {
+        ShadowBuild.setManufacturer("samsung")
+        audioManager = RuntimeEnvironment.getApplication()
+            .getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        speaker = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, id = 1)
+        earpiece = communicationDevice(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE, id = 2)
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece))
+    }
+
+    private fun communicationDevice(type: Int, id: Int): AudioDeviceInfo {
+        val device = AudioDeviceInfoBuilder.newBuilder().setType(type).build()
+        val port = ReflectionHelpers.getField<Any>(device, "mPort")
+        val handle = ReflectionHelpers.getField<Any>(port, "mHandle")
+        ReflectionHelpers.setField(handle, "mId", id)
+        return device
+    }
+
+    @Test
+    fun samsungSpeakerRoutePinsSpeakerFromEarpiece() {
+        audioManager.setCommunicationDevice(earpiece)
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
+
+        assertEquals(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, audioManager.communicationDevice?.type)
+        @Suppress("DEPRECATION")
+        assertTrue(audioManager.isSpeakerphoneOn)
+        assertEquals(AudioManager.MODE_IN_COMMUNICATION, audioManager.mode)
+    }
+
+    @Test
+    fun samsungEarpieceRoutePinsEarpieceFromSpeaker() {
+        audioManager.setCommunicationDevice(speaker)
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Earpiece)
+
+        assertEquals(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE, audioManager.communicationDevice?.type)
+        @Suppress("DEPRECATION")
+        assertFalse(audioManager.isSpeakerphoneOn)
+    }
+
+    @Test
+    fun samsungSpeakerRouteKeepsSpeakerphoneWhenDeviceIsUnavailable() {
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(earpiece))
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
+
+        assertNull(audioManager.communicationDevice)
+        @Suppress("DEPRECATION")
+        assertTrue(audioManager.isSpeakerphoneOn)
+    }
+}
