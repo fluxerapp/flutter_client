@@ -4511,6 +4511,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपके क्षेत्र के वयस्क सामग्री कानूनों के कारण, वयस्क सामग्री यहाँ से उपलब्ध नहीं है।';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => '18+ चैनल में मैसेज';
 
   @override
@@ -4519,6 +4527,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'आपके Apple Account द्वारा शेयर की गई आयु सीमा 13 से कम है। Fluxer सिर्फ़ 13 साल और उससे ज़्यादा उम्र के लोगों के लिए है।';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'आगे बढ़ें';
@@ -4556,6 +4568,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'यहाँ \"दिखाएँ\" चुनने के लिए, वेब या डेस्कटॉप पर Fluxer खोलें, अपनी सेटिंग्स में \"गोपनीयता\" पर जाएँ और \"iPhone और iPad पर 18+ सामग्री की अनुमति दें\" चालू करें।';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

@@ -4534,6 +4534,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Sijaintisi aikuissisältöä koskevien lakien vuoksi aikuissisältö ei ole saatavilla siellä, missä olet.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Viesti 18+-kanavalla';
 
   @override
@@ -4543,6 +4551,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Apple Accountisi jakama ikäryhmä on alle 13 vuotta. Fluxer on tarkoitettu vain 13 vuotta täyttäneille.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Jatka';
@@ -4580,6 +4592,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Jos haluat valita täällä ”Näytä”, avaa Fluxer verkossa tai työpöytäsovelluksessa, siirry asetuksissa kohtaan ”Tietosuoja” ja ota käyttöön ”Salli 18+-sisältö iPhonessa ja iPadissa”.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

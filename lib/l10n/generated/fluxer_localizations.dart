@@ -7208,6 +7208,18 @@ abstract class FluxerLocalizations {
   /// **'Due to mature content laws where you are, mature content is not available from here.'**
   String get matureContentRegionLockedBody;
 
+  /// Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and the app was downloaded from outside Google Play, which cannot verify age.
+  ///
+  /// In en, this message translates to:
+  /// **'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.'**
+  String get matureContentInstallFromPlayBody;
+
+  /// Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and Google Play has not verified the user's age yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.'**
+  String get matureContentVerifyInPlayBody;
+
   /// Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device.
   ///
   /// In en, this message translates to:
@@ -7225,6 +7237,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.'**
   String get ageRangeUnderMinimumBody;
+
+  /// Body of the full-screen page shown on Android when the age range shared through Google Play is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.'**
+  String get ageRangeUnderMinimumBodyGoogle;
 
   /// Primary action on mature content gates.
   ///
@@ -7297,6 +7315,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
   String get sensitiveContentAppLockedHint;
+
+  /// Hint under the sensitive content settings on Android when the app was downloaded from outside Google Play, which cannot verify age.
+  ///
+  /// In en, this message translates to:
+  /// **'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.'**
+  String get sensitiveContentInstallFromPlayHint;
+
+  /// Hint under the sensitive content settings on Android when Google Play requires the user to verify their age in the Play Store.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.'**
+  String get sensitiveContentVerifyInPlayHint;
 
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///

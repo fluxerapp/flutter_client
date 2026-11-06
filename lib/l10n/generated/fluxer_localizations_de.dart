@@ -4564,6 +4564,14 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Aufgrund der Gesetze zu nicht jugendfreien Inhalten an deinem Standort sind nicht jugendfreie Inhalte von hier aus nicht verfügbar.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Nachricht in einem 18+-Kanal';
 
   @override
@@ -4573,6 +4581,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Die von deinem Apple Account geteilte Altersspanne liegt unter 13. Fluxer ist nur für Personen ab 13 Jahren.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Weiter';
@@ -4611,6 +4623,14 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Um hier „Anzeigen“ zu wählen, öffne Fluxer im Web oder auf dem Desktop, gehe in deinen Einstellungen zu „Datenschutz“ und aktiviere „18+-Inhalte auf iPhone und iPad erlauben“.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

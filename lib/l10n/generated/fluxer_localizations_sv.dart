@@ -4529,6 +4529,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'På grund av lagar om vuxet innehåll där du befinner dig är vuxet innehåll inte tillgängligt härifrån.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Meddelande i en 18+-kanal';
 
   @override
@@ -4538,6 +4546,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Åldersintervallet som ditt Apple Account delar är under 13 år. Fluxer är bara för personer som är 13 år eller äldre.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Fortsätt';
@@ -4575,6 +4587,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Om du vill välja ”Visa” här, öppna Fluxer på webben eller på datorn, gå till ”Integritet” i dina inställningar och aktivera ”Tillåt 18+-innehåll på iPhone och iPad”.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

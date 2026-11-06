@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/mature_content_gate_copy.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_geo_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/shell/navigation/invoke_shell_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -76,6 +77,10 @@ class _MatureContentChannelGateBody extends ConsumerWidget {
       reason: reason,
       context: gateContext,
       channelType: channelType,
+      playInstallRequired: ref.watch(matureGatePlayInstallRequiredProvider),
+      playVerificationRequired: ref.watch(
+        matureGatePlayVerificationRequiredProvider,
+      ),
     );
     return Center(
       child: Padding(

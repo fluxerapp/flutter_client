@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/mature_content_gate_copy.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_geo_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -43,6 +44,10 @@ Future<bool> showChannelAccessGateSheet({
     reason: reason,
     context: gateContext,
     channelType: channelType,
+    playInstallRequired: container.read(matureGatePlayInstallRequiredProvider),
+    playVerificationRequired: container.read(
+      matureGatePlayVerificationRequiredProvider,
+    ),
   );
   final bool? confirmed = await FluxerBottomSheet.show<bool>(
     context,

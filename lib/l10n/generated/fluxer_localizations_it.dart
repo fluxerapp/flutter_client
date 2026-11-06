@@ -4549,6 +4549,14 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'A causa delle leggi sui contenuti per adulti del luogo in cui ti trovi, i contenuti per adulti non sono disponibili da qui.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Messaggio in un canale 18+';
 
   @override
@@ -4558,6 +4566,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'La fascia d\'età condivisa dal tuo Apple Account è inferiore a 13 anni. Fluxer è solo per persone dai 13 anni in su.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Continua';
@@ -4596,6 +4608,14 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Per scegliere \"Mostra\" qui, apri Fluxer sul web o su desktop, vai su \"Privacy\" nelle impostazioni e attiva \"Consenti contenuti 18+ su iPhone e iPad\".';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

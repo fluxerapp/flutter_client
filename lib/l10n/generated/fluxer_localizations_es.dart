@@ -4578,6 +4578,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Debido a las leyes sobre contenido para adultos de tu ubicación, el contenido para adultos no está disponible desde aquí.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Mensaje en un canal 18+';
 
   @override
@@ -4587,6 +4595,10 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'El rango de edad que comparte tu Apple Account es inferior a 13 años. Fluxer es solo para personas de 13 años o más.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Continuar';
@@ -4625,6 +4637,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Para elegir «Mostrar» aquí, abre Fluxer en la web o en el escritorio, ve a «Privacidad» en tus ajustes y activa «Permitir contenido 18+ en iPhone y iPad».';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

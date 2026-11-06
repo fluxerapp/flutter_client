@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/age/play_integrity_age_service.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -81,6 +82,20 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
             if (sensitive.access == MatureAccess.appLocked)
               Text(
                 l10n.sensitiveContentAppLockedHint,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
+            if (ref.watch(playInstallRequiredProvider))
+              Text(
+                l10n.sensitiveContentInstallFromPlayHint,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
+            if (ref.watch(playVerificationRequiredProvider))
+              Text(
+                l10n.sensitiveContentVerifyInPlayHint,
                 style: context.textStyles.bodySmall.copyWith(
                   color: context.colors.textSecondary,
                 ),

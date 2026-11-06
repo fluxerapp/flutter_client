@@ -4575,6 +4575,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Λόγω των νόμων για το περιεχόμενο για ενήλικες στην περιοχή σας, το περιεχόμενο για ενήλικες δεν είναι διαθέσιμο από εδώ.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Μήνυμα σε κανάλι 18+';
 
   @override
@@ -4584,6 +4592,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Το εύρος ηλικίας που κοινοποιεί ο Apple Account σας είναι κάτω από 13. Το Fluxer απευθύνεται μόνο σε άτομα 13 ετών και άνω.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Συνέχεια';
@@ -4622,6 +4634,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Για να επιλέξετε «Εμφάνιση» εδώ, ανοίξτε το Fluxer στο web ή στην εφαρμογή για υπολογιστές, μεταβείτε στο «Απόρρητο» στις ρυθμίσεις σας και ενεργοποιήστε το «Να επιτρέπεται περιεχόμενο 18+ σε iPhone και iPad».';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

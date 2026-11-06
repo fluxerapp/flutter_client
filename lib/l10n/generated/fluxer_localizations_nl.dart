@@ -4539,6 +4539,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Door de wetgeving over inhoud voor volwassenen op je locatie is inhoud voor volwassenen hier niet beschikbaar.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Bericht in een 18+-kanaal';
 
   @override
@@ -4548,6 +4556,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'De leeftijdscategorie die je Apple Account deelt, is jonger dan 13. Fluxer is alleen voor mensen van 13 jaar en ouder.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Doorgaan';
@@ -4586,6 +4598,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Om hier \"Tonen\" te kiezen, open je Fluxer op het web of in de desktop-app, ga je in je instellingen naar \"Privacy\" en schakel je \"18+-inhoud toestaan op iPhone en iPad\" in.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

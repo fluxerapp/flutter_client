@@ -4561,6 +4561,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Dėl jūsų buvimo vietoje galiojančių suaugusiesiems skirto turinio įstatymų šis turinys iš čia nepasiekiamas.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Žinutė 18+ kanale';
 
   @override
@@ -4569,6 +4577,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Jūsų Apple Account bendrinamas amžiaus intervalas yra mažesnis nei 13 metų. Fluxer skirtas tik 13 metų ir vyresniems asmenims.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Tęsti';
@@ -4606,6 +4618,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Norėdami čia pasirinkti „Rodyti“, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {

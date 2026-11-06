@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/age/declared_age_range_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -65,7 +66,9 @@ class _UnderMinimumLockScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    l10n.ageRangeUnderMinimumBody,
+                    defaultTargetPlatform == TargetPlatform.android
+                        ? l10n.ageRangeUnderMinimumBodyGoogle
+                        : l10n.ageRangeUnderMinimumBody,
                     textAlign: TextAlign.center,
                     style: context.textStyles.bodyMedium.copyWith(
                       color: context.colors.textSecondary,

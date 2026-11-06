@@ -147,13 +147,13 @@ jobs:
         run: tool/measure/write_native_measure_config.sh
 
       - name: Build beta split APKs
-        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
+        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
       - name: Build beta combined APK
-        run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
+        run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
       - name: Build beta app bundle
-        run: flutter build appbundle --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
+        run: flutter build appbundle --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5

@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/age/play_integrity_age_service.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
@@ -36,4 +37,16 @@ Future<MatureGeoStatus> matureGeoStatus(Ref ref) async {
     talker.warning('Failed to resolve the client location', error, stackTrace);
     return MatureGeoStatus.none;
   }
+}
+
+@Riverpod(keepAlive: true)
+bool matureGatePlayInstallRequired(Ref ref) {
+  return ref.watch(playInstallRequiredProvider) &&
+      ref.watch(matureGeoStatusProvider).value == MatureGeoStatus.restricted;
+}
+
+@Riverpod(keepAlive: true)
+bool matureGatePlayVerificationRequired(Ref ref) {
+  return ref.watch(playVerificationRequiredProvider) &&
+      ref.watch(matureGeoStatusProvider).value == MatureGeoStatus.restricted;
 }

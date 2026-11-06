@@ -5799,6 +5799,14 @@
     "@matureContentRegionLockedBody": {
         "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
     },
+    "matureContentInstallFromPlayBody": "Your age can't be verified on this copy of Fluxer because it wasn't installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.",
+    "@matureContentInstallFromPlayBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and the app was downloaded from outside Google Play, which cannot verify age."
+    },
+    "matureContentVerifyInPlayBody": "Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.",
+    "@matureContentVerifyInPlayBody": {
+        "description": "Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and Google Play has not verified the user's age yet."
+    },
     "matureMessageHiddenPreview": "Message in an 18+ channel",
     "@matureMessageHiddenPreview": {
         "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
@@ -5810,6 +5818,10 @@
     "ageRangeUnderMinimumBody": "The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.",
     "@ageRangeUnderMinimumBody": {
         "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
+    },
+    "ageRangeUnderMinimumBodyGoogle": "The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.",
+    "@ageRangeUnderMinimumBodyGoogle": {
+        "description": "Body of the full-screen page shown on Android when the age range shared through Google Play is under 13."
     },
     "matureContentProceedButton": "Proceed",
     "@matureContentProceedButton": {
@@ -5858,6 +5870,14 @@
     "sensitiveContentAppLockedHint": "To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".",
     "@sensitiveContentAppLockedHint": {
         "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "sensitiveContentInstallFromPlayHint": "This copy of Fluxer wasn't installed from Google Play, so it can't verify your age. To verify your age here, install Fluxer from Google Play.",
+    "@sensitiveContentInstallFromPlayHint": {
+        "description": "Hint under the sensitive content settings on Android when the app was downloaded from outside Google Play, which cannot verify age."
+    },
+    "sensitiveContentVerifyInPlayHint": "Google Play hasn't verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.",
+    "@sensitiveContentVerifyInPlayHint": {
+        "description": "Hint under the sensitive content settings on Android when Google Play requires the user to verify their age in the Play Store."
     },
     "chatUploadingAttachmentsSummary": "Uploading {count, plural, =1{1 file} other{{count} files}}",
     "@chatUploadingAttachmentsSummary": {

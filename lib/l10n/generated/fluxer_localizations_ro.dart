@@ -4558,6 +4558,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Din cauza legilor privind conținutul matur din zona ta, conținutul matur nu este disponibil de aici.';
 
   @override
+  String get matureContentInstallFromPlayBody =>
+      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
+
+  @override
+  String get matureContentVerifyInPlayBody =>
+      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
+
+  @override
   String get matureMessageHiddenPreview => 'Mesaj într-un canal 18+';
 
   @override
@@ -4567,6 +4575,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBody =>
       'Intervalul de vârstă partajat de Apple Account este sub 13 ani. Fluxer este doar pentru persoane de 13 ani sau mai mult.';
+
+  @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
 
   @override
   String get matureContentProceedButton => 'Continuă';
@@ -4604,6 +4616,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'Pentru a alege „Afișare” aici, deschide Fluxer pe web sau pe desktop, mergi la „Confidențialitate” în setări și activează „Permite conținut 18+ pe iPhone și iPad”.';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentVerifyInPlayHint =>
+      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
