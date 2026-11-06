@@ -3,11 +3,14 @@
     android:height="24dp"
     android:viewportWidth="256"
     android:viewportHeight="256">
+    <path
+        android:fillColor="@color/ic_launcher_background"
+        android:pathData="M128,0a128,128 0,1 0,0 256a128,128 0,1 0,0 -256Z"/>
     <group
         android:pivotX="128"
         android:pivotY="128"
-        android:scaleX="0.68"
-        android:scaleY="0.68">
+        android:scaleX="0.62"
+        android:scaleY="0.62">
         <path
             android:fillColor="@android:color/white"
             android:pathData="M232,128A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/>
