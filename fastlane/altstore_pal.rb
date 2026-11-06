@@ -19,6 +19,14 @@ module AltstorePal
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::IN_REVIEW
   ].freeze
 
+  REVIEW_TYPE_MUTABLE_STATES = [
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::PREPARE_FOR_SUBMISSION,
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::DEVELOPER_REJECTED,
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::REJECTED,
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::METADATA_REJECTED,
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::INVALID_BINARY
+  ].freeze
+
   NOTARIZATION_ACCEPTED_STATES = [
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::READY_FOR_DISTRIBUTION,
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::PENDING_DEVELOPER_RELEASE,
@@ -48,11 +56,15 @@ module AltstorePal
     end
   end
 
-  def ensure_app_store_version(app, app_version:, platform: Spaceship::ConnectAPI::Platform::IOS)
-    version = find_app_store_version(app, app_version: app_version, platform: platform)
-    return version if version
-
-    app.ensure_version!(app_version, platform: platform)
+  def create_notarization_version(app, app_version:, platform:)
+    Spaceship::ConnectAPI.post_app_store_version(
+      app_id: app.id,
+      attributes: {
+        versionString: app_version,
+        platform: platform,
+        reviewType: Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
+      }
+    )
     find_app_store_version(app, app_version: app_version, platform: platform)
   end
 
@@ -83,9 +95,21 @@ module AltstorePal
 
   def ensure_notarization_review_type!(version)
     notarization = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
-    return if version.review_type.to_s == notarization
+    return true if version.review_type.to_s == notarization
 
-    version.update(attributes: { reviewType: notarization })
+    state = version.app_version_state.to_s
+    return false unless state.empty? || REVIEW_TYPE_MUTABLE_STATES.include?(state)
+
+    begin
+      version.update(attributes: { reviewType: notarization })
+    rescue Spaceship::UnexpectedResponse => error
+      return false if error.message.include?("reviewType")
+
+      raise
+    end
+
+    refreshed = Spaceship::ConnectAPI::AppStoreVersion.get(app_store_version_id: version.id)
+    refreshed&.review_type.to_s == notarization
   end
 
   def prepare_altstore_pal_build_version(
@@ -104,10 +128,9 @@ module AltstorePal
       status = notarization_submission_status(existing)
       next if status == :already_accepted || status == :blocked_app_store_review
 
-      version = ensure_app_store_version(app, app_version: candidate, platform: platform)
+      version = existing || create_notarization_version(app, app_version: candidate, platform: platform)
       fail!("Could not find or create App Store version #{candidate}.") if version.nil?
-
-      ensure_notarization_review_type!(version)
+      next unless ensure_notarization_review_type!(version)
       if bump > 1
         log("AltStore PAL marketing version #{candidate} (pubspec #{base_marketing_version})")
       end
@@ -148,9 +171,15 @@ module AltstorePal
       build_number: build_number.to_s,
       platform: platform
     )
-    build = builds.first
-    fail!("Build #{app_version} (#{build_number}) was not found in App Store Connect.") if build.nil?
-    fail!("Build #{app_version} (#{build_number}) is still processing.") unless build.processed?
+    valid = Spaceship::ConnectAPI::Build::ProcessingState::VALID
+    build = builds.find { |item| item.version.to_s == build_number.to_s && item.processing_state == valid }
+    if build.nil?
+      state = builds.first&.processing_state
+      fail!(
+        "Build #{app_version} (#{build_number}) is not a valid processed build" \
+        "#{state ? " (#{state})" : ""}."
+      )
+    end
 
     Spaceship::ConnectAPI.patch_app_store_version_with_build(
       app_store_version_id: version.id,
@@ -165,7 +194,12 @@ module AltstorePal
     version = find_app_store_version(app, app_version: app_version, platform: platform)
     fail!("App Store Connect version #{app_version} was not found. Re-run the AltStore PAL build lane.") if version.nil?
 
-    ensure_notarization_review_type!(version)
+    unless ensure_notarization_review_type!(version)
+      fail!(
+        "App Store Connect version #{app_version} is #{version.review_type} " \
+        "(#{version.app_version_state}) and its review type cannot be changed."
+      )
+    end
 
     status = assert_can_submit_for_notarization!(version)
     return if status == :already_accepted
@@ -179,7 +213,22 @@ module AltstorePal
     )
 
     version = find_app_store_version(app, app_version: app_version, platform: platform)
-    ensure_notarization_review_type!(version)
+    fail!("App Store Connect version #{app_version} was not found after attaching the build.") if version.nil?
+    unless ensure_notarization_review_type!(version)
+      fail!(
+        "App Store Connect version #{app_version} is #{version.review_type} " \
+        "(#{version.app_version_state}) and its review type cannot be changed."
+      )
+    end
+
+    in_progress = app.get_in_progress_review_submission(platform: platform)
+    if in_progress
+      fail!(
+        "Another App Store Connect review is already #{in_progress.state}. " \
+        "Not submitting #{app_version}, so that review is left alone. " \
+        "The build is uploaded and can be submitted after that review finishes."
+      )
+    end
 
     existing_submission = version.fetch_app_store_version_submission
     if existing_submission
@@ -222,6 +271,15 @@ module AltstorePal
     app = Spaceship::ConnectAPI::App.find(APP_IDENTIFIER)
     app_store_version = find_app_store_version(app, app_version: version)
     fail!("App Store version #{version} was not found.") if app_store_version.nil?
+
+    review_type = app_store_version.review_type.to_s
+    notarization = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
+    unless review_type == notarization
+      fail!(
+        "App Store Connect version #{version} review type is #{review_type}. " \
+        "Refusing to publish an App Store review build to AltStore."
+      )
+    end
 
     state = app_store_version.app_version_state.to_s
     unless NOTARIZATION_ACCEPTED_STATES.include?(state)
