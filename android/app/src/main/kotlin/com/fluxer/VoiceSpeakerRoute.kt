@@ -8,6 +8,9 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.telecom.CallAudioState
+import com.hiennv.flutter_callkit_incoming.CallkitConnection
+import com.hiennv.flutter_callkit_incoming.getDataActiveCalls
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -113,6 +116,22 @@ internal fun routeFollowUpDelaysMs(
     }
 }
 
+internal fun telecomRouteForVoiceOutput(
+    route: VoiceOutputRoute,
+    supportedRouteMask: Int,
+): Int {
+    return when (route) {
+        VoiceOutputRoute.Speaker -> CallAudioState.ROUTE_SPEAKER
+        VoiceOutputRoute.Earpiece -> CallAudioState.ROUTE_EARPIECE
+        VoiceOutputRoute.Headset ->
+            if (supportedRouteMask and CallAudioState.ROUTE_BLUETOOTH != 0) {
+                CallAudioState.ROUTE_BLUETOOTH
+            } else {
+                CallAudioState.ROUTE_WIRED_HEADSET
+            }
+    }
+}
+
 internal fun availableVoiceOutputRouteNames(
     outputTypes: Set<Int>,
     hasEarpiece: Boolean,
@@ -156,7 +175,7 @@ class VoiceSpeakerRouteBridge(
                     setVoiceCallVolumeKeys(true)
                     scheduleRouteFollowUp(audioManager, route)
                 }
-                applyVoiceOutputRoute(audioManager, route)
+                applyRoute(audioManager, route)
                 result.success(null)
             }
             "clearRouteHold" -> {
@@ -186,11 +205,18 @@ class VoiceSpeakerRouteBridge(
     ) {
         val delayMs = delaysMs.firstOrNull() ?: return
         val work = Runnable {
-            applyVoiceOutputRoute(audioManager, route)
+            applyRoute(audioManager, route)
             scheduleRouteFollowUp(audioManager, route, delaysMs.drop(1))
         }
         routeFollowUp = work
         mainHandler.postDelayed(work, delayMs)
+    }
+
+    private fun applyRoute(audioManager: AudioManager, route: VoiceOutputRoute) {
+        applyVoiceOutputRoute(audioManager, route)
+        if (routesSpeakerWithCommunicationDevice(Build.MANUFACTURER, Build.BRAND)) {
+            applyTelecomCallRoute(context, route)
+        }
     }
 
     private fun cancelRouteFollowUp() {
@@ -254,6 +280,21 @@ internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutpu
     }
     @Suppress("DEPRECATION")
     audioManager.isSpeakerphoneOn = speakerphoneOn
+}
+
+@Suppress("DEPRECATION")
+internal fun applyTelecomCallRoute(context: Context, route: VoiceOutputRoute) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        return
+    }
+    for (call in getDataActiveCalls(context)) {
+        val connection = CallkitConnection.find(call.id) ?: continue
+        val state = connection.callAudioState
+        val target = telecomRouteForVoiceOutput(route, state?.supportedRouteMask ?: 0)
+        if (state?.route != target) {
+            connection.setAudioRoute(target)
+        }
+    }
 }
 
 internal fun releaseCallSpeaker(audioManager: AudioManager) {

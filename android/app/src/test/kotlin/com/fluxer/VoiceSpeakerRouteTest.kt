@@ -1,6 +1,7 @@
 package com.fluxer
 
 import android.media.AudioDeviceInfo
+import android.telecom.CallAudioState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -40,6 +41,32 @@ class VoiceSpeakerRouteTest {
         assertEquals(listOf(400L, 1000L, 2500L, 5000L), routeFollowUpDelaysMs("Google", "samsung"))
         assertEquals(listOf(400L), routeFollowUpDelaysMs("Google"))
         assertEquals(listOf(400L), routeFollowUpDelaysMs(null))
+    }
+
+    @Test
+    fun mapsVoiceOutputRoutesToTelecomRoutes() {
+        assertEquals(
+            CallAudioState.ROUTE_SPEAKER,
+            telecomRouteForVoiceOutput(VoiceOutputRoute.Speaker, 0),
+        )
+        assertEquals(
+            CallAudioState.ROUTE_EARPIECE,
+            telecomRouteForVoiceOutput(VoiceOutputRoute.Earpiece, 0),
+        )
+        assertEquals(
+            CallAudioState.ROUTE_BLUETOOTH,
+            telecomRouteForVoiceOutput(
+                VoiceOutputRoute.Headset,
+                CallAudioState.ROUTE_BLUETOOTH or CallAudioState.ROUTE_SPEAKER,
+            ),
+        )
+        assertEquals(
+            CallAudioState.ROUTE_WIRED_HEADSET,
+            telecomRouteForVoiceOutput(
+                VoiceOutputRoute.Headset,
+                CallAudioState.ROUTE_WIRED_HEADSET or CallAudioState.ROUTE_SPEAKER,
+            ),
+        )
     }
 
     @Test
