@@ -41,6 +41,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/local_setting
 import 'package:fluxer_app/features/settings/utils/bundled_licenses.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
@@ -108,6 +109,7 @@ void _runFluxerApp(ProviderContainer container) {
 Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();
+  registerEnglishBackedIntlLocales();
   final Future<void> rootCertificates = _bootstrapStep(
     'app.bootstrap.root_certificates',
     trustBundledRootCertificates,
