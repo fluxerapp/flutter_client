@@ -16,22 +16,50 @@ total_start="${SECONDS}"
 # shellcheck source=dart_source_files.sh
 source "${ROOT}/tool/dart_source_files.sh"
 
-_log() {
-  printf 'before_commit: %s\n' "$*"
+if [[ -t 1 ]]; then
+  reset=$'\033[0m'
+  bold=$'\033[1m'
+  dim=$'\033[2m'
+  red=$'\033[31m'
+  green=$'\033[32m'
+  cyan=$'\033[36m'
+else
+  reset=''
+  bold=''
+  dim=''
+  red=''
+  green=''
+  cyan=''
+fi
+
+step_total=4
+step_index=0
+
+_info() {
+  printf '%s%s%s\n' "${dim}" "$*" "${reset}"
 }
 
 _step() {
   local label="$1"
   shift
+  step_index=$((step_index + 1))
   local start="${SECONDS}"
-  _log "${label}"
-  "$@"
-  _log "${label} done ($((SECONDS - start))s)"
+  printf '\n%s[%d/%d] %s%s\n' "${cyan}${bold}" "${step_index}" "${step_total}" "${label}" "${reset}"
+
+  local status=0
+  "$@" || status=$?
+
+  local elapsed=$((SECONDS - start))
+  if ((status != 0)); then
+    printf '%s  ✘ %s failed after %ss (exit %d)%s\n' "${red}${bold}" "${label}" "${elapsed}" "${status}" "${reset}"
+    printf '%s✘ before_commit stopped. Fix the issues above and run it again.%s\n' "${red}${bold}" "${reset}"
+    exit "${status}"
+  fi
+  printf '%s  ✔ Done in %ss%s\n' "${green}" "${elapsed}" "${reset}"
 }
 
-save_editor_buffers() {
-  # shellcheck source=save_editor_buffers.sh
-  source "${ROOT}/tool/save_editor_buffers.sh"
+_finish() {
+  printf '\n%s✔ before_commit passed%s %s(%ss)%s\n' "${green}${bold}" "${reset}" "${dim}" "$((SECONDS - total_start))" "${reset}"
 }
 
 dart_fix_root_for() {
@@ -60,7 +88,7 @@ dart_fix_root_for() {
 
 run_analyze() {
   if [[ "${BEFORE_COMMIT_SKIP_ANALYZE:-}" == 1 ]]; then
-    _log "Skipping analyze (BEFORE_COMMIT_SKIP_ANALYZE=1)."
+    _info "Skipped (BEFORE_COMMIT_SKIP_ANALYZE=1)."
     return 0
   fi
   bash "${ROOT}/tool/flutter_analyze.sh"
@@ -101,6 +129,7 @@ apply_dart_fix() {
 
   while IFS= read -r root; do
     [[ -n "${root}" ]] || continue
+    _info "dart fix: ${root}"
     dart fix --apply "${root}"
   done <<< "${unique}"
 }
@@ -115,37 +144,37 @@ if [[ "${BEFORE_COMMIT_ALL:-}" == 1 ]]; then
   dart_files=()
 fi
 
+printf '%sbefore_commit%s\n' "${bold}" "${reset}"
+
 if ((${#dart_files[@]} == 0)); then
   if [[ "${BEFORE_COMMIT_ALL:-}" == 1 ]]; then
-    _step "Saving editor buffers" save_editor_buffers
+    _info "Scope: whole project"
     _step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
     _step "Applying dart fix (full project)" dart fix --apply
     _step "Formatting tracked Dart files" bash "${ROOT}/tool/format_dart.sh"
     _step "Analyzing project" run_analyze
-    _log "All steps finished ($((SECONDS - total_start))s total)."
+    _finish
     exit 0
   fi
 
   if [[ -n "$(dart_source_files_list_tracked | head -n 1)" ]]; then
-    _log "No changed Dart files (set BEFORE_COMMIT_ALL=1 to fix/format the whole tree)."
+    _info "No changed Dart files. Set BEFORE_COMMIT_ALL=1 to fix and format the whole tree."
     exit 0
   fi
 
-  _log "No Dart source files in this repo."
+  _info "No Dart source files in this repo."
   exit 0
 fi
 
-_step "Saving editor buffers" save_editor_buffers
-_step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
+_info "Scope: ${#dart_files[@]} changed Dart file(s)"
 
 fix_label="Applying dart fix (${#dart_files[@]} files)"
 if ((${#dart_files[@]} > 200)); then
   fix_label="Applying dart fix (full project; ${#dart_files[@]} files changed)"
 fi
+
+_step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
 _step "${fix_label}" apply_dart_fix
-
 _step "Formatting ${#dart_files[@]} Dart files" dart format "${dart_files[@]}"
-
 _step "Analyzing project" run_analyze
-
-_log "All steps finished ($((SECONDS - total_start))s total)."
+_finish
