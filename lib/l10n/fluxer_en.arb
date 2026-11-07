@@ -7903,6 +7903,123 @@
     "@voiceCallControlsSheetLabel": {
         "description": "Accessibility label of the drag handle on the voice call controls sheet."
     },
+    "voiceCallBarOpenCallHint": "Opens the call",
+    "@voiceCallBarOpenCallHint": {
+        "description": "Accessibility hint on the minimized call bar, describing that activating it opens the call screen."
+    },
+    "voiceParticipantSpeaking": "Speaking",
+    "@voiceParticipantSpeaking": {
+        "description": "Screen reader state added to a voice participant tile while that participant is talking."
+    },
+    "voiceParticipantOptionsAction": "Participant options",
+    "@voiceParticipantOptionsAction": {
+        "description": "Screen reader action on a voice participant tile that opens the participant menu."
+    },
+    "voiceParticipantOtherDevicesLabel": "{count, plural, =1{Show 1 more device} other{Show {count} more devices}}",
+    "@voiceParticipantOtherDevicesLabel": {
+        "description": "Screen reader label for the chip on a participant tile that reveals that participant's other connected devices.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voicePipReturnToCallLabel": "Return to call",
+    "@voicePipReturnToCallLabel": {
+        "description": "Screen reader label for the floating picture-in-picture call window."
+    },
+    "voiceAnnounceUserJoined": "{name} joined",
+    "@voiceAnnounceUserJoined": {
+        "description": "Screen reader announcement when someone joins the voice call.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceAnnounceUserLeft": "{name} left",
+    "@voiceAnnounceUserLeft": {
+        "description": "Screen reader announcement when someone leaves the voice call.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceAnnounceUsersJoined": "{count, plural, =1{1 person joined} other{{count} people joined}}",
+    "@voiceAnnounceUsersJoined": {
+        "description": "Screen reader announcement when several people join the voice call at once.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceAnnounceUsersLeft": "{count, plural, =1{1 person left} other{{count} people left}}",
+    "@voiceAnnounceUsersLeft": {
+        "description": "Screen reader announcement when several people leave the voice call at once.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceAnnounceSomeone": "Someone",
+    "@voiceAnnounceSomeone": {
+        "description": "Fallback name in voice call announcements when the participant's name is not loaded yet."
+    },
+    "voiceAnnounceConnected": "Connected to voice",
+    "@voiceAnnounceConnected": {
+        "description": "Screen reader announcement when the voice call connects."
+    },
+    "voiceAnnounceReconnecting": "Reconnecting to voice",
+    "@voiceAnnounceReconnecting": {
+        "description": "Screen reader announcement when the voice connection drops and starts reconnecting."
+    },
+    "voiceAnnounceReconnected": "Reconnected to voice",
+    "@voiceAnnounceReconnected": {
+        "description": "Screen reader announcement when the voice connection recovers."
+    },
+    "voiceAnnounceDisconnected": "Disconnected from voice",
+    "@voiceAnnounceDisconnected": {
+        "description": "Screen reader announcement when you leave or are removed from the voice call."
+    },
+    "voiceAnnounceMoved": "Now in a different voice channel",
+    "@voiceAnnounceMoved": {
+        "description": "Screen reader announcement when your voice connection switches to a different channel, whether you or a moderator moved you."
+    },
+    "voiceAnnounceServerMuted": "A moderator muted you",
+    "@voiceAnnounceServerMuted": {
+        "description": "Screen reader announcement when a moderator mutes you in a voice channel."
+    },
+    "voiceAnnounceServerUnmuted": "A moderator unmuted you",
+    "@voiceAnnounceServerUnmuted": {
+        "description": "Screen reader announcement when a moderator removes your server mute."
+    },
+    "voiceAnnounceServerDeafened": "A moderator deafened you",
+    "@voiceAnnounceServerDeafened": {
+        "description": "Screen reader announcement when a moderator deafens you in a voice channel."
+    },
+    "voiceAnnounceServerUndeafened": "A moderator undeafened you",
+    "@voiceAnnounceServerUndeafened": {
+        "description": "Screen reader announcement when a moderator removes your server deafen."
+    },
+    "voiceAnnounceMicMuted": "Microphone muted",
+    "@voiceAnnounceMicMuted": {
+        "description": "Screen reader announcement after muting with the screen reader gesture."
+    },
+    "voiceAnnounceMicUnmuted": "Microphone unmuted",
+    "@voiceAnnounceMicUnmuted": {
+        "description": "Screen reader announcement after unmuting with the screen reader gesture."
+    },
+    "accessibilityAnnounceCallJoinsAndLeavesLabel": "Announce call joins and leaves",
+    "@accessibilityAnnounceCallJoinsAndLeavesLabel": {
+        "description": "Toggle label for screen reader announcements when people join or leave your voice call."
+    },
+    "accessibilityAnnounceCallJoinsAndLeavesDescription": "Let screen readers say who joins or leaves the voice call you're in. Connection changes and moderator actions are always announced.",
+    "@accessibilityAnnounceCallJoinsAndLeavesDescription": {
+        "description": "Toggle description for screen reader announcements when people join or leave your voice call."
+    },
     "voiceConnectionDisconnected": "Disconnected",
     "@voiceConnectionDisconnected": {
         "description": "Voice connection status when not connected."

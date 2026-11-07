@@ -160,6 +160,10 @@ import flutter_callkit_incoming
     )
   }
 
+  override func accessibilityPerformMagicTap() -> Bool {
+    VoiceMagicTapBridge.shared.performMagicTap()
+  }
+
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     VoipRegistry.shared.register(messenger: engineBridge.applicationRegistrar.messenger())
@@ -193,6 +197,7 @@ import flutter_callkit_incoming
       messenger: engineBridge.applicationRegistrar.messenger()
     )
     registerMeasureReporting(messenger: engineBridge.applicationRegistrar.messenger())
+    VoiceMagicTapBridge.shared.register(messenger: engineBridge.applicationRegistrar.messenger())
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {
@@ -265,5 +270,40 @@ final class UploadKeepAliveBridge {
     }
     UIApplication.shared.endBackgroundTask(task)
     task = .invalid
+  }
+}
+
+final class VoiceMagicTapBridge {
+  static let shared = VoiceMagicTapBridge()
+
+  private var channel: FlutterMethodChannel?
+  private var isInCall = false
+
+  func register(messenger: FlutterBinaryMessenger) {
+    if channel != nil {
+      return
+    }
+    let channel = FlutterMethodChannel(
+      name: "fluxer_app/voice_magic_tap",
+      binaryMessenger: messenger
+    )
+    channel.setMethodCallHandler { [weak self] call, result in
+      switch call.method {
+      case "setInCall":
+        self?.isInCall = (call.arguments as? Bool) ?? false
+        result(nil)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    self.channel = channel
+  }
+
+  func performMagicTap() -> Bool {
+    guard isInCall, let channel else {
+      return false
+    }
+    channel.invokeMethod("magicTap", arguments: nil)
+    return true
   }
 }

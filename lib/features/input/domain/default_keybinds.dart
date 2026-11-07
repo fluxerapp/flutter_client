@@ -388,6 +388,21 @@ List<DefaultKeybind> buildDefaultKeybinds() {
       section: KeybindSection.voiceAndVideo,
     ),
     const DefaultKeybind(
+      action: KeybindAction.voiceToggleVideo,
+      combo: KeybindCombo(key: 'o', ctrlOrMeta: true, shift: true),
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
+      action: KeybindAction.voiceToggleScreenShare,
+      combo: KeybindCombo(key: 's', ctrlOrMeta: true, shift: true),
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
+      action: KeybindAction.voiceDisconnect,
+      combo: KeybindCombo(key: 'x', ctrlOrMeta: true, shift: true),
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
       action: KeybindAction.voiceAnswerCall,
       combo: KeybindCombo(key: 'Enter', ctrlOrMeta: true),
       section: KeybindSection.voiceAndVideo,

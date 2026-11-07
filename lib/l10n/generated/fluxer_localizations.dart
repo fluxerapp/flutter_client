@@ -9993,6 +9993,144 @@ abstract class FluxerLocalizations {
   /// **'Voice call controls'**
   String get voiceCallControlsSheetLabel;
 
+  /// Accessibility hint on the minimized call bar, describing that activating it opens the call screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the call'**
+  String get voiceCallBarOpenCallHint;
+
+  /// Screen reader state added to a voice participant tile while that participant is talking.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaking'**
+  String get voiceParticipantSpeaking;
+
+  /// Screen reader action on a voice participant tile that opens the participant menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant options'**
+  String get voiceParticipantOptionsAction;
+
+  /// Screen reader label for the chip on a participant tile that reveals that participant's other connected devices.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Show 1 more device} other{Show {count} more devices}}'**
+  String voiceParticipantOtherDevicesLabel(int count);
+
+  /// Screen reader label for the floating picture-in-picture call window.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to call'**
+  String get voicePipReturnToCallLabel;
+
+  /// Screen reader announcement when someone joins the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} joined'**
+  String voiceAnnounceUserJoined(String name);
+
+  /// Screen reader announcement when someone leaves the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} left'**
+  String voiceAnnounceUserLeft(String name);
+
+  /// Screen reader announcement when several people join the voice call at once.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person joined} other{{count} people joined}}'**
+  String voiceAnnounceUsersJoined(int count);
+
+  /// Screen reader announcement when several people leave the voice call at once.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person left} other{{count} people left}}'**
+  String voiceAnnounceUsersLeft(int count);
+
+  /// Fallback name in voice call announcements when the participant's name is not loaded yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone'**
+  String get voiceAnnounceSomeone;
+
+  /// Screen reader announcement when the voice call connects.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to voice'**
+  String get voiceAnnounceConnected;
+
+  /// Screen reader announcement when the voice connection drops and starts reconnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting to voice'**
+  String get voiceAnnounceReconnecting;
+
+  /// Screen reader announcement when the voice connection recovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnected to voice'**
+  String get voiceAnnounceReconnected;
+
+  /// Screen reader announcement when you leave or are removed from the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected from voice'**
+  String get voiceAnnounceDisconnected;
+
+  /// Screen reader announcement when your voice connection switches to a different channel, whether you or a moderator moved you.
+  ///
+  /// In en, this message translates to:
+  /// **'Now in a different voice channel'**
+  String get voiceAnnounceMoved;
+
+  /// Screen reader announcement when a moderator mutes you in a voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator muted you'**
+  String get voiceAnnounceServerMuted;
+
+  /// Screen reader announcement when a moderator removes your server mute.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator unmuted you'**
+  String get voiceAnnounceServerUnmuted;
+
+  /// Screen reader announcement when a moderator deafens you in a voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator deafened you'**
+  String get voiceAnnounceServerDeafened;
+
+  /// Screen reader announcement when a moderator removes your server deafen.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator undeafened you'**
+  String get voiceAnnounceServerUndeafened;
+
+  /// Screen reader announcement after muting with the screen reader gesture.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone muted'**
+  String get voiceAnnounceMicMuted;
+
+  /// Screen reader announcement after unmuting with the screen reader gesture.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone unmuted'**
+  String get voiceAnnounceMicUnmuted;
+
+  /// Toggle label for screen reader announcements when people join or leave your voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Announce call joins and leaves'**
+  String get accessibilityAnnounceCallJoinsAndLeavesLabel;
+
+  /// Toggle description for screen reader announcements when people join or leave your voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Let screen readers say who joins or leaves the voice call you\'re in. Connection changes and moderator actions are always announced.'**
+  String get accessibilityAnnounceCallJoinsAndLeavesDescription;
+
   /// Voice connection status when not connected.
   ///
   /// In en, this message translates to:

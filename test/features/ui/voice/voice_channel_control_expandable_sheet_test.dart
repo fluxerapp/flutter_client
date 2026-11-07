@@ -1,3 +1,6 @@
+import 'dart:ui' show Tristate;
+
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -48,6 +51,44 @@ void main() {
       expect(find.byKey(kVoiceControlSheetDragHandleKey), findsOneWidget);
       expect(find.byType(VoiceChannelControlBarContent), findsOneWidget);
       expect(find.byType(PhosphorIcon), findsWidgets);
+    });
+
+    testWidgets('screen reader tap on the handle expands and collapses', (
+      tester,
+    ) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      await _pumpExpandableSheet(tester, colorTheme: colorTheme);
+      final Finder handleLabel = find.bySemanticsLabel('Voice call controls');
+      final Finder bar = find.byKey(kVoiceControlMorphingBarKey);
+      final double startHeight = tester.getSize(bar).height;
+      SemanticsNode node = tester.getSemantics(handleLabel);
+      expect(node.flagsCollection.isExpanded, Tristate.isFalse);
+      tester.semantics.tap(find.semantics.byLabel('Voice call controls'));
+      await tester.pumpAndSettle();
+      expect(tester.getSize(bar).height, greaterThan(startHeight));
+      expect(find.byType(VoiceChannelControlPanelSettings), findsOneWidget);
+      node = tester.getSemantics(handleLabel);
+      expect(node.flagsCollection.isExpanded, Tristate.isTrue);
+      tester.semantics.performAction(
+        find.semantics.byLabel('Voice call controls'),
+        SemanticsAction.dismiss,
+      );
+      await tester.pumpAndSettle();
+      expect(tester.getSize(bar).height, closeTo(startHeight, 1));
+      handle.dispose();
+    });
+
+    testWidgets('mute button keeps a stable label and reports toggled', (
+      tester,
+    ) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      await _pumpExpandableSheet(tester, colorTheme: colorTheme);
+      final SemanticsNode mute = tester.getSemantics(
+        find.bySemanticsLabel('Mute'),
+      );
+      expect(mute.flagsCollection.isToggled, Tristate.isFalse);
+      expect(find.bySemanticsLabel('Unmute'), findsNothing);
+      handle.dispose();
     });
 
     testWidgets('collapsed bar width fits control buttons', (tester) async {

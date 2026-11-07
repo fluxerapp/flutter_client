@@ -6319,6 +6319,105 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get voiceCallControlsSheetLabel => 'Commandes de l\'appel vocal';
 
   @override
+  String get voiceCallBarOpenCallHint => 'Opens the call';
+
+  @override
+  String get voiceParticipantSpeaking => 'Speaking';
+
+  @override
+  String get voiceParticipantOptionsAction => 'Participant options';
+
+  @override
+  String voiceParticipantOtherDevicesLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count more devices',
+      one: 'Show 1 more device',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voicePipReturnToCallLabel => 'Return to call';
+
+  @override
+  String voiceAnnounceUserJoined(String name) {
+    return '$name joined';
+  }
+
+  @override
+  String voiceAnnounceUserLeft(String name) {
+    return '$name left';
+  }
+
+  @override
+  String voiceAnnounceUsersJoined(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people joined',
+      one: '1 person joined',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String voiceAnnounceUsersLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people left',
+      one: '1 person left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceAnnounceSomeone => 'Someone';
+
+  @override
+  String get voiceAnnounceConnected => 'Connected to voice';
+
+  @override
+  String get voiceAnnounceReconnecting => 'Reconnecting to voice';
+
+  @override
+  String get voiceAnnounceReconnected => 'Reconnected to voice';
+
+  @override
+  String get voiceAnnounceDisconnected => 'Disconnected from voice';
+
+  @override
+  String get voiceAnnounceMoved => 'Now in a different voice channel';
+
+  @override
+  String get voiceAnnounceServerMuted => 'A moderator muted you';
+
+  @override
+  String get voiceAnnounceServerUnmuted => 'A moderator unmuted you';
+
+  @override
+  String get voiceAnnounceServerDeafened => 'A moderator deafened you';
+
+  @override
+  String get voiceAnnounceServerUndeafened => 'A moderator undeafened you';
+
+  @override
+  String get voiceAnnounceMicMuted => 'Microphone muted';
+
+  @override
+  String get voiceAnnounceMicUnmuted => 'Microphone unmuted';
+
+  @override
+  String get accessibilityAnnounceCallJoinsAndLeavesLabel =>
+      'Announce call joins and leaves';
+
+  @override
+  String get accessibilityAnnounceCallJoinsAndLeavesDescription =>
+      'Let screen readers say who joins or leaves the voice call you\'re in. Connection changes and moderator actions are always announced.';
+
+  @override
   String get voiceConnectionDisconnected => 'Déconnecté';
 
   @override

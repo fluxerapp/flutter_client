@@ -2511,17 +2511,42 @@ class _VoiceParticipantCard extends ConsumerWidget {
         blocked: blocked,
       ),
     );
+    final bool speaking = ref.watch(
+      voiceActiveSpeakersProvider.select(
+        (VoiceActiveSpeakersState speakers) =>
+            speakers.isParticipantSpeaking(participant),
+      ),
+    );
     final StringBuffer semantics = StringBuffer(display);
-    if (voice.selfMute || voice.mute || voice.suppress) {
-      semantics.write(' ${l10n.voiceParticipantTooltipMuted}');
+    if (speaking) {
+      semantics.write(', ${l10n.voiceParticipantSpeaking}');
     }
-    if (voice.selfDeaf || voice.deaf) {
-      semantics.write(' ${l10n.voiceParticipantTooltipDeafened}');
+    if (voice.mute || voice.suppress) {
+      semantics.write(', ${l10n.voiceParticipantTooltipCommunityMuted}');
+    } else if (voice.selfMute) {
+      semantics.write(', ${l10n.voiceParticipantTooltipMuted}');
     }
+    if (voice.deaf) {
+      semantics.write(', ${l10n.voiceParticipantTooltipCommunityDeafened}');
+    } else if (voice.selfDeaf) {
+      semantics.write(', ${l10n.voiceParticipantTooltipDeafened}');
+    }
+    void openContextMenuFromSemantics() {
+      final RenderObject? box = context.findRenderObject();
+      final Offset position = box is RenderBox && box.hasSize
+          ? box.localToGlobal(box.size.center(Offset.zero))
+          : Offset.zero;
+      onContextMenu(position);
+    }
+
     return Semantics(
       button: true,
       label: semantics.toString(),
       onTap: onTap,
+      customSemanticsActions: <CustomSemanticsAction, VoidCallback>{
+        CustomSemanticsAction(label: l10n.voiceParticipantOptionsAction):
+            openContextMenuFromSemantics,
+      },
       child: DecoratedBox(
         decoration: BoxDecoration(color: cardColor, borderRadius: radius),
         child: ClipRRect(
@@ -3389,22 +3414,7 @@ class _VoiceParticipantNameplate extends StatelessWidget {
         ? context.colors.statusDanger
         : const Color(0xFFFFFFFF);
     final String? connectionId = voice.connectionId;
-    final StringBuffer semantics = StringBuffer(display);
-    if (connectionId != null && connectionId.isNotEmpty) {
-      semantics.write(' $connectionId');
-    }
-    if (showMute) {
-      semantics.write(
-        ' ${hasCommunityMic ? l10n.voiceParticipantTooltipCommunityMuted : l10n.voiceParticipantTooltipMuted}',
-      );
-    }
-    if (showDeaf) {
-      semantics.write(
-        ' ${voice.deaf ? l10n.voiceParticipantTooltipCommunityDeafened : l10n.voiceParticipantTooltipDeafened}',
-      );
-    }
-    return Semantics(
-      label: semantics.toString(),
+    return ExcludeSemantics(
       child: Align(
         alignment: AlignmentDirectional.bottomStart,
         child: DecoratedBox(
@@ -3585,17 +3595,24 @@ class _ExtraDevicesChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colors.backgroundSecondary,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Text(
-          '+$count',
-          style: context.textStyles.smallText.copyWith(
-            color: context.colors.textPrimary,
+    return Semantics(
+      button: true,
+      label: FluxerLocalizations.of(
+        context,
+      ).voiceParticipantOtherDevicesLabel(count),
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.colors.backgroundSecondary,
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Text(
+            '+$count',
+            style: context.textStyles.smallText.copyWith(
+              color: context.colors.textPrimary,
+            ),
           ),
         ),
       ),
