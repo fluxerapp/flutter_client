@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_comp
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_voice_button_visibility.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -56,6 +57,11 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
             channelId,
           ).select((AsyncValue<bool> value) => value.value ?? false),
         );
+    final bool isReplaceCommand = ref.watch(
+      chatViewModelProvider.select(
+        (s) => parseComposerCommand(s.messageText) is ComposerReplaceCommand,
+      ),
+    );
     final bool canUseVoice = perms.isVoiceEnabled && !isSlowmodeBlocked;
     final bool touchActions = isTouchPrimaryInput(ref);
     final bool showSendButtonPreference = ref.watch(
@@ -88,7 +94,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
         perms.isComposerEnabled &&
         sendOnPressed != null &&
         !isOverCharacterLimit &&
-        !isSlowmodeBlocked;
+        (!isSlowmodeBlocked || isReplaceCommand);
     final bool voiceVisuallyEnabled = !voiceDisabled;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final FluxerButtonSize voiceSize = useHoldToRecord

@@ -34,6 +34,22 @@ void main() {
       expect(cmd.global, isTrue);
     });
 
+    test('a trailing space stays part of the replacement', () {
+      final cmd = parseComposerCommand('s/abc/123 ') as ComposerReplaceCommand;
+      expect(cmd.replacement, '123 ');
+    });
+
+    test('a trailing line break is not part of the replacement', () {
+      final cmd = parseComposerCommand('s/abc/123\n') as ComposerReplaceCommand;
+      expect(cmd.replacement, '123');
+    });
+
+    test('a keyboard-capitalised S/ still parses as a replace', () {
+      final cmd = parseComposerCommand('S/abc/123') as ComposerReplaceCommand;
+      expect(cmd.source, 'abc');
+      expect(cmd.replacement, '123');
+    });
+
     test('an unknown slash command is plain content sent verbatim', () {
       final cmd = parseComposerCommand('/foo bar') as ComposerContentSend;
       expect(cmd.content, '/foo bar');
