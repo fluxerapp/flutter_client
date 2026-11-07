@@ -7214,18 +7214,6 @@ abstract class FluxerLocalizations {
   /// **'Due to mature content laws where you are, mature content is not available from here.'**
   String get matureContentRegionLockedBody;
 
-  /// Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and the app was downloaded from outside Google Play, which cannot verify age.
-  ///
-  /// In en, this message translates to:
-  /// **'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.'**
-  String get matureContentInstallFromPlayBody;
-
-  /// Body of the gate shown in place of an 18+ community or channel on Android when local law requires age verification and Google Play has not verified the user's age yet.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.'**
-  String get matureContentVerifyInPlayBody;
-
   /// Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device.
   ///
   /// In en, this message translates to:
@@ -7249,6 +7237,54 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.'**
   String get ageRangeUnderMinimumBodyGoogle;
+
+  /// Text above the "Unlock mature content" button in the sensitive content settings on iPhone and iPad, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Apple for the age range on the Apple Account, and the app sends it to Fluxer only if it is 18 or over.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.'**
+  String get ageRangeUnlockBody;
+
+  /// Text above the "Unlock mature content" button in the sensitive content settings on Android, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Google Play for the age range on the Google Account, and the app sends it to Fluxer only if it is 18 or over.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.'**
+  String get ageRangeUnlockBodyGoogle;
+
+  /// Link to the help article about unlocking mature content with the age range from Apple or Google, shown in the sensitive content settings.
+  ///
+  /// In en, this message translates to:
+  /// **'How unlocking mature content works'**
+  String get ageRangeUnlockHelpLink;
+
+  /// Button in the sensitive content settings that asks Apple or Google Play for the age range on the account. Apple or Google shows its own prompt first.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock mature content'**
+  String get ageRangeUnlockButton;
+
+  /// Shown in the sensitive content settings on iPhone and iPad when the age range from the Apple Account is under 18. The app keeps it on the device and never sends it.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.'**
+  String get ageRangeUnlockUnderAdult;
+
+  /// Shown in the sensitive content settings on Android when the age range from the Google Account is under 18. The app keeps it on the device and never sends it.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.'**
+  String get ageRangeUnlockUnderAdultGoogle;
+
+  /// Shown under the "Unlock mature content" button when sending an age range of 18 or over to Fluxer failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer couldn\'t unlock mature content. Please try again later.'**
+  String get ageRangeUnlockFailed;
+
+  /// Shown under the "Unlock mature content" button when the account has no date of birth, which Fluxer needs before it accepts an age range.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account needs a date of birth before Fluxer can use your age range.'**
+  String get ageRangeUnlockDateOfBirthRequired;
 
   /// Primary action on mature content gates.
   ///
@@ -7322,17 +7358,17 @@ abstract class FluxerLocalizations {
   /// **'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
   String get sensitiveContentAppLockedHint;
 
-  /// Hint under the sensitive content settings on Android when the app was downloaded from outside Google Play, which cannot verify age.
+  /// Hint under the "Unlock mature content" button on Android when the app was downloaded from outside Google Play, which can't get the age range from Google Play.
   ///
   /// In en, this message translates to:
-  /// **'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.'**
+  /// **'Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.'**
   String get sensitiveContentInstallFromPlayHint;
 
-  /// Hint under the sensitive content settings on Android when Google Play requires the user to verify their age in the Play Store.
+  /// Hint under the "Unlock mature content" button on Android when Google Play needs the user to finish a step in the Play Store before it shares an age range. The quoted label must match ageRangeUnlockButton.
   ///
   /// In en, this message translates to:
-  /// **'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.'**
-  String get sensitiveContentVerifyInPlayHint;
+  /// **'Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.'**
+  String get sensitiveContentFinishInPlayHint;
 
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///

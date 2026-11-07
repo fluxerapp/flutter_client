@@ -20,7 +20,7 @@ import io.flutter.plugin.common.MethodChannel
 
 internal const val AGE_STATUS_SHARING = "sharing"
 internal const val AGE_STATUS_DECLINED = "declined"
-internal const val AGE_STATUS_VERIFICATION_REQUIRED = "verification_required"
+internal const val AGE_STATUS_PLAY_STORE_ACTION_REQUIRED = "play_store_action_required"
 internal const val AGE_STATUS_NOT_INSTALLED_FROM_PLAY = "not_installed_from_play"
 internal const val AGE_STATUS_UNAVAILABLE = "unavailable"
 internal const val INTEGRITY_ERROR_TRANSIENT = "transient"
@@ -38,7 +38,7 @@ internal fun ageRangeSourceWireValue(source: Int?): String? =
 internal fun ageAccessStatusPayload(status: Int?): Map<String, Any>? =
     when (status) {
         AgeSignalsStatus.SHARED -> null
-        AgeSignalsStatus.VERIFICATION_REQUIRED -> mapOf("status" to AGE_STATUS_VERIFICATION_REQUIRED)
+        AgeSignalsStatus.VERIFICATION_REQUIRED -> mapOf("status" to AGE_STATUS_PLAY_STORE_ACTION_REQUIRED)
         else -> mapOf("status" to AGE_STATUS_DECLINED)
     }
 
@@ -78,7 +78,7 @@ internal fun integrityErrorCode(errorCode: Int?): String =
         else -> INTEGRITY_ERROR_UNAVAILABLE
     }
 
-class PlayAgeAssuranceBridge(
+class PlayAgeRangeBridge(
     private val activity: MainActivity,
 ) {
     private var tokenProvider: StandardIntegrityTokenProvider? = null
