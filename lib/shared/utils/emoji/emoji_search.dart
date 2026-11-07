@@ -16,6 +16,7 @@ const Map<String, String> _kPunctuationQueryAliases = <String, String>{
 
 final RegExp _kLeadingColons = RegExp('^:+');
 final RegExp _kTrailingColons = RegExp(r':+$');
+final RegExp _kNameSeparators = RegExp('[_-]');
 
 const int _kCodeUnitUnderscore = 0x5F;
 const int _kCodeUnitLowerS = 0x73;
@@ -30,6 +31,9 @@ String normalizeEmojiSearchQuery(String raw) {
       .replaceAll(' ', '_');
   return (_kPunctuationQueryAliases[stripped] ?? stripped).toLowerCase();
 }
+
+String _compactEmojiName(String value) =>
+    value.replaceAll(_kNameSeparators, '');
 
 bool _isUpperAsciiLetter(int codeUnit) =>
     codeUnit >= _kCodeUnitUpperA && codeUnit <= _kCodeUnitUpperZ;
@@ -75,8 +79,13 @@ int? emojiMatchTier({
       return emojiTierExactName;
     }
   }
-  for (final String lower in namesLower) {
-    if (lower.startsWith(query)) {
+  final String compactQuery = _compactEmojiName(query);
+  final List<String> compactNames = namesLower
+      .map(_compactEmojiName)
+      .toList(growable: false);
+  for (int i = 0; i < namesLower.length; i++) {
+    if (namesLower[i].startsWith(query) ||
+        (compactQuery.isNotEmpty && compactNames[i].startsWith(compactQuery))) {
       return emojiTierNameStartsWith;
     }
   }
@@ -85,8 +94,9 @@ int? emojiMatchTier({
       return emojiTierNameBoundary;
     }
   }
-  for (final String lower in namesLower) {
-    if (lower.contains(query)) {
+  for (int i = 0; i < namesLower.length; i++) {
+    if (namesLower[i].contains(query) ||
+        (compactQuery.isNotEmpty && compactNames[i].contains(compactQuery))) {
       return emojiTierNameContains;
     }
   }

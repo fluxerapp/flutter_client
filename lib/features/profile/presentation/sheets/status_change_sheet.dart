@@ -16,11 +16,11 @@ import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const List<PresenceStatus> kSelectablePresenceStatuses = <PresenceStatus>[
   PresenceStatus.online,
@@ -291,7 +291,12 @@ class _ExpandableStatusMenuItemState extends State<_ExpandableStatusMenuItem>
                       const SizedBox(width: 12),
                     ],
                     RotationTransition(
-                      turns: Tween<double>(begin: 0, end: 0.25).animate(_size),
+                      turns: Tween<double>(
+                        begin: 0,
+                        end: Directionality.of(context) == TextDirection.rtl
+                            ? -0.25
+                            : 0.25,
+                      ).animate(_size),
                       child: PhosphorIcon(
                         PhosphorIconsBold.caretRight,
                         size: FluxerDesktopSurfaceScope.isMenu(context)

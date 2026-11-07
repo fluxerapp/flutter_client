@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/permissions/permission_cache_reset.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/user_entitlements.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -373,6 +374,9 @@ class UserSettingsViewState {
       !usernameSignIn && isProfileLoaded && hasVerifiedEmail && !verified;
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
+
+  bool get lacksMfa =>
+      isProfileLoaded && !mfaEnabled && authenticatorTypes.isEmpty;
 
   bool get trustAllDomains =>
       external_link_utils.trustAllDomains(trustedDomains);
@@ -1284,6 +1288,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
   }
 
   void applyPrivateProfile(UserPrivateResponse profile) {
+    final bool lacksMfaBefore = state.lacksMfa;
     final db = ref.read(fluxerDatabaseProvider);
     unawaited(
       db.userDao.upsertUser(
@@ -1363,6 +1368,9 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     ref
         .read(currentUserPremiumTypeProvider(readAccountUserId(ref)).notifier)
         .set(profile.premiumType?.json ?? 0);
+    if (state.lacksMfa != lacksMfaBefore) {
+      clearAllPermissionCaches(ref);
+    }
   }
 
   void updateDisplayName(String value) {

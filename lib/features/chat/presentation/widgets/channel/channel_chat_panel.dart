@@ -434,8 +434,8 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
     return Positioned.fill(
       child: Stack(
         children: <Widget>[
-          Positioned(
-            right: isMobile ? MobileComposerLayout.sideInset : 8,
+          PositionedDirectional(
+            end: isMobile ? MobileComposerLayout.sideInset : 8,
             bottom: isMobile ? bottom : bottom + 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -583,9 +583,9 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
                 ? const ChatWallpaperComposerFade()
                 : WideComposerFade(surfaceColor: context.colors.chatBackground),
           ),
-        Positioned(
-          left: statusRailPaddingStart,
-          right: statusRailPaddingEnd,
+        PositionedDirectional(
+          start: statusRailPaddingStart,
+          end: statusRailPaddingEnd,
           bottom: 0,
           height: WideComposerLayout.statusLineHeight,
           child: Row(
@@ -593,7 +593,7 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
             children: <Widget>[
               Expanded(
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: leadingStatus,
                 ),
               ),
@@ -602,8 +602,8 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
           ),
         ),
         if (neko != null)
-          Positioned(
-            right: isMobile
+          PositionedDirectional(
+            end: isMobile
                 ? MobileComposerLayout.nekoInsetEnd
                 : statusRailPaddingStart,
             bottom: nekoBottom,

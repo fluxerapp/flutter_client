@@ -107,8 +107,29 @@ String? resolvePushNotificationTag(Map<String, String> payload) {
 }
 
 const String kPushGroupDmTitleSuffix = ' (Group DM)';
+const String kPushConversationNameKey = 'conversation_name';
+const String kPushConversationIconPathKey = 'conversation_icon_path';
 
 final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), (.+)\)$');
+final RegExp _threadParentPrefix = RegExp('^#[^,]+, ');
+
+bool isPushGroupDmTitle(String? title) =>
+    title != null && title.endsWith(kPushGroupDmTitleSuffix);
+
+Map<String, String> withPushConversationIdentity(
+  Map<String, String> payload, {
+  String? name,
+  String? iconPath,
+}) {
+  return <String, String>{
+    for (final MapEntry<String, String> entry in payload.entries)
+      if (entry.key != kPushConversationNameKey &&
+          entry.key != kPushConversationIconPathKey)
+        entry.key: entry.value,
+    kPushConversationNameKey: ?name,
+    kPushConversationIconPathKey: ?iconPath,
+  };
+}
 
 String? resolvePushConversationName(
   Map<String, String> payload, {
@@ -119,38 +140,54 @@ String? resolvePushConversationName(
   if (messageTitle == null) {
     return null;
   }
-  if (messageTitle.endsWith(kPushGroupDmTitleSuffix)) {
-    return groupDmLabel;
+  if (isPushGroupDmTitle(messageTitle)) {
+    return _nonEmpty(payload[kPushConversationNameKey]) ?? groupDmLabel;
   }
   if (isDmPushPayload(enrichPushPayload(payload))) {
     return null;
   }
-  if (_nonEmpty(payload['parent_id']) != null) {
-    final String? threadName = _nonEmpty(payload['channel_name']);
-    if (threadName != null) {
-      final int open = messageTitle.indexOf(' (#$threadName, ');
-      if (open >= 0 && messageTitle.endsWith(')')) {
-        return messageTitle.substring(open + 2, messageTitle.length - 1);
-      }
-      return threadName;
-    }
-  }
-  final RegExpMatch? match = _guildTitlePattern.firstMatch(messageTitle);
-  final String? channelName = match?.group(1);
-  if (channelName == null || channelName.isEmpty) {
-    return null;
-  }
-  return channelName;
+  final String? threadName = _nonEmpty(payload['parent_id']) == null
+      ? null
+      : _nonEmpty(payload['channel_name']);
+  return threadName ??
+      _nonEmpty(_guildTitlePattern.firstMatch(messageTitle)?.group(1));
 }
 
 String? resolvePushCommunityName(Map<String, String> payload, {String? title}) {
   final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
-  if (messageTitle == null ||
-      _nonEmpty(payload['parent_id']) != null ||
-      isDmPushPayload(enrichPushPayload(payload))) {
+  if (messageTitle == null || isDmPushPayload(enrichPushPayload(payload))) {
     return null;
   }
-  return _nonEmpty(_guildTitlePattern.firstMatch(messageTitle)?.group(2));
+  final String? community = _guildTitlePattern
+      .firstMatch(messageTitle)
+      ?.group(2);
+  if (_nonEmpty(payload['parent_id']) == null) {
+    return _nonEmpty(community);
+  }
+  final String? tail =
+      _threadTitleTail(messageTitle, _nonEmpty(payload['channel_name'])) ??
+      community;
+  if (tail == null) {
+    return null;
+  }
+  final String? parentName = _nonEmpty(payload['parent_name']);
+  final String parentPrefix = '#$parentName, ';
+  if (parentName != null && tail.startsWith(parentPrefix)) {
+    return _nonEmpty(tail.substring(parentPrefix.length));
+  }
+  return _nonEmpty(tail.replaceFirst(_threadParentPrefix, ''));
+}
+
+String? _threadTitleTail(String title, String? threadName) {
+  if (threadName == null || !title.endsWith(')')) {
+    return null;
+  }
+  final String marker = ' (#$threadName, ';
+  final int open = title.indexOf(marker);
+  if (open < 0) {
+    return null;
+  }
+  return title.substring(open + marker.length, title.length - 1);
 }
 
 String? resolvePushGroupTag(Map<String, String> payload) {

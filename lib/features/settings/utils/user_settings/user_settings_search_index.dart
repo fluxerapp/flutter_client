@@ -560,6 +560,15 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ),
   ),
   _UserSettingsSearchOption(
+    id: 'accessibility:screen-reader-call-joins',
+    section: UserSettingsSection.accessibility,
+    fieldId: 'screen-reader',
+    label: _l((l10n) => l10n.accessibilityAnnounceCallJoinsAndLeavesLabel),
+    description: _l(
+      (l10n) => l10n.accessibilityAnnounceCallJoinsAndLeavesDescription,
+    ),
+  ),
+  _UserSettingsSearchOption(
     id: 'accessibility:focus-ring',
     section: UserSettingsSection.accessibility,
     fieldId: 'keyboard',

@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
@@ -492,80 +493,89 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
         ),
       );
     }
+    void expandFromPip() {
+      navigateToActiveVoiceSession(context, voice: voice);
+      _beginExpand(pipRect: pipRect);
+    }
+
     return Positioned.fromRect(
       rect: pipRect,
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          _flightVideo(video: video, t: 0, dragging: _dragging),
-          FluxerGestureDetector(
-            key: kVoiceInAppPipKey,
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              navigateToActiveVoiceSession(context, voice: voice);
-              _beginExpand(pipRect: pipRect);
-            },
-            onPanStart: (_) {
-              _stopMove();
-              _playedMoveHaptic = false;
-              _dragging = true;
-              _dragOrigin = _visualOrigin ?? origin;
-              _visualOrigin = _dragOrigin;
-              _markPaint();
-            },
-            onPanUpdate: (DragUpdateDetails details) {
-              if (voicePipShouldPlayMoveHaptic(
-                alreadyPlayed: _playedMoveHaptic,
-                delta: details.delta,
-              )) {
-                _playedMoveHaptic = true;
-                FluxerHaptics.medium();
-              }
-              _dragOrigin = voicePipClampOrigin(
-                origin: (_dragOrigin ?? origin) + details.delta,
-                cardSize: card,
-                safeRect: safe,
-              );
-              _visualOrigin = _dragOrigin;
-              _markPaint();
-            },
-            onPanEnd: (DragEndDetails details) {
-              _playedMoveHaptic = false;
-              final Offset from = _dragOrigin ?? origin;
-              final Offset release = voicePipOriginAfterRelease(
-                origin: from,
-                cardSize: card,
-                safeRect: safe,
-                velocity: details.velocity.pixelsPerSecond,
-              );
-              ref.read(voicePipPlacementProvider.notifier).setOffset(release);
-              _dragging = false;
-              _dragOrigin = null;
-              _visualOrigin = from;
-              _markPaint();
-              _animateOriginTo(
-                release,
-                velocity: details.velocity.pixelsPerSecond,
-              );
-            },
-            onPanCancel: () {
-              _playedMoveHaptic = false;
-              final Offset from = _dragOrigin ?? _visualOrigin ?? origin;
-              final Offset release = voicePipSnapToNearestEdge(
-                origin: from,
-                cardSize: card,
-                safeRect: safe,
-              );
-              ref.read(voicePipPlacementProvider.notifier).setOffset(release);
-              _dragging = false;
-              _dragOrigin = null;
-              _visualOrigin = from;
-              _markPaint();
-              _animateOriginTo(release);
-            },
-            child: const SizedBox.expand(),
-          ),
-        ],
+      child: Semantics(
+        container: true,
+        button: true,
+        label: FluxerLocalizations.of(context).voicePipReturnToCallLabel,
+        onTap: expandFromPip,
+        excludeSemantics: true,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            _flightVideo(video: video, t: 0, dragging: _dragging),
+            FluxerGestureDetector(
+              key: kVoiceInAppPipKey,
+              behavior: HitTestBehavior.opaque,
+              onTap: expandFromPip,
+              onPanStart: (_) {
+                _stopMove();
+                _playedMoveHaptic = false;
+                _dragging = true;
+                _dragOrigin = _visualOrigin ?? origin;
+                _visualOrigin = _dragOrigin;
+                _markPaint();
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                if (voicePipShouldPlayMoveHaptic(
+                  alreadyPlayed: _playedMoveHaptic,
+                  delta: details.delta,
+                )) {
+                  _playedMoveHaptic = true;
+                  FluxerHaptics.medium();
+                }
+                _dragOrigin = voicePipClampOrigin(
+                  origin: (_dragOrigin ?? origin) + details.delta,
+                  cardSize: card,
+                  safeRect: safe,
+                );
+                _visualOrigin = _dragOrigin;
+                _markPaint();
+              },
+              onPanEnd: (DragEndDetails details) {
+                _playedMoveHaptic = false;
+                final Offset from = _dragOrigin ?? origin;
+                final Offset release = voicePipOriginAfterRelease(
+                  origin: from,
+                  cardSize: card,
+                  safeRect: safe,
+                  velocity: details.velocity.pixelsPerSecond,
+                );
+                ref.read(voicePipPlacementProvider.notifier).setOffset(release);
+                _dragging = false;
+                _dragOrigin = null;
+                _visualOrigin = from;
+                _markPaint();
+                _animateOriginTo(
+                  release,
+                  velocity: details.velocity.pixelsPerSecond,
+                );
+              },
+              onPanCancel: () {
+                _playedMoveHaptic = false;
+                final Offset from = _dragOrigin ?? _visualOrigin ?? origin;
+                final Offset release = voicePipSnapToNearestEdge(
+                  origin: from,
+                  cardSize: card,
+                  safeRect: safe,
+                );
+                ref.read(voicePipPlacementProvider.notifier).setOffset(release);
+                _dragging = false;
+                _dragOrigin = null;
+                _visualOrigin = from;
+                _markPaint();
+                _animateOriginTo(release);
+              },
+              child: const SizedBox.expand(),
+            ),
+          ],
+        ),
       ),
     );
   }

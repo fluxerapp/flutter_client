@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_status_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const double kAvatarClusterMemberScale = 0.625;
 const double kAvatarClusterCutoutScale = 0.084;
@@ -91,9 +91,9 @@ class FluxerAvatarCluster extends StatelessWidget {
       height: size,
       child: Stack(
         children: [
-          Positioned(
+          PositionedDirectional(
             top: 0,
-            left: 0,
+            start: 0,
             child: ClipPath(
               clipper: _StackBackClipper(
                 memberSize: memberSize,
@@ -102,9 +102,9 @@ class FluxerAvatarCluster extends StatelessWidget {
               child: _buildMemberCircle(members[0], memberSize),
             ),
           ),
-          Positioned(
+          PositionedDirectional(
             top: frontOffset,
-            left: frontOffset,
+            start: frontOffset,
             child: _buildMemberCircle(members[1], memberSize),
           ),
         ],

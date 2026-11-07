@@ -117,7 +117,15 @@ class _SteppedCarouselTransition extends StatelessWidget {
 
         return Opacity(
           opacity: animation.value.clamp(0, 1),
-          child: Transform.translate(offset: Offset(offset, 0), child: child),
+          child: Transform.translate(
+            offset: Offset(
+              Directionality.of(context) == TextDirection.rtl
+                  ? -offset
+                  : offset,
+              0,
+            ),
+            child: child,
+          ),
         );
       },
     );

@@ -518,6 +518,12 @@ abstract class FluxerLocalizations {
   /// **'Join {communityName} to chat with the team and stay up to date.'**
   String nagbarGuildMembershipCta(String communityName);
 
+  /// Community banner shown when moderation actions in that community require two-factor authentication and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderation actions in {communityName} require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.'**
+  String nagbarGuildMfaRequirement(String communityName);
+
   /// Official community membership nagbar CTA.
   ///
   /// In en, this message translates to:
@@ -7226,6 +7232,60 @@ abstract class FluxerLocalizations {
   /// **'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.'**
   String get ageRangeUnderMinimumBody;
 
+  /// Body of the full-screen page shown on Android when the age range shared through Google Play is under 13.
+  ///
+  /// In en, this message translates to:
+  /// **'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.'**
+  String get ageRangeUnderMinimumBodyGoogle;
+
+  /// Text above the "Unlock mature content" button in the sensitive content settings on iPhone and iPad, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Apple for the age range on the Apple Account, and the app sends it to Fluxer only if it is 18 or over.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.'**
+  String get ageRangeUnlockBody;
+
+  /// Text above the "Unlock mature content" button in the sensitive content settings on Android, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Google Play for the age range on the Google Account, and the app sends it to Fluxer only if it is 18 or over.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.'**
+  String get ageRangeUnlockBodyGoogle;
+
+  /// Link to the help article about unlocking mature content with the age range from Apple or Google, shown in the sensitive content settings.
+  ///
+  /// In en, this message translates to:
+  /// **'How unlocking mature content works'**
+  String get ageRangeUnlockHelpLink;
+
+  /// Button in the sensitive content settings that asks Apple or Google Play for the age range on the account. Apple or Google shows its own prompt first.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock mature content'**
+  String get ageRangeUnlockButton;
+
+  /// Shown in the sensitive content settings on iPhone and iPad when the age range from the Apple Account is under 18. The app keeps it on the device and never sends it.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.'**
+  String get ageRangeUnlockUnderAdult;
+
+  /// Shown in the sensitive content settings on Android when the age range from the Google Account is under 18. The app keeps it on the device and never sends it.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.'**
+  String get ageRangeUnlockUnderAdultGoogle;
+
+  /// Shown under the "Unlock mature content" button when sending an age range of 18 or over to Fluxer failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer couldn\'t unlock mature content. Please try again later.'**
+  String get ageRangeUnlockFailed;
+
+  /// Shown under the "Unlock mature content" button when the account has no date of birth, which Fluxer needs before it accepts an age range.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account needs a date of birth before Fluxer can use your age range.'**
+  String get ageRangeUnlockDateOfBirthRequired;
+
   /// Primary action on mature content gates.
   ///
   /// In en, this message translates to:
@@ -7297,6 +7357,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".'**
   String get sensitiveContentAppLockedHint;
+
+  /// Hint under the "Unlock mature content" button on Android when the app was downloaded from outside Google Play, which can't get the age range from Google Play.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.'**
+  String get sensitiveContentInstallFromPlayHint;
+
+  /// Hint under the "Unlock mature content" button on Android when Google Play needs the user to finish a step in the Play Store before it shares an age range. The quoted label must match ageRangeUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.'**
+  String get sensitiveContentFinishInPlayHint;
 
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///
@@ -9963,6 +10035,144 @@ abstract class FluxerLocalizations {
   /// **'Voice call controls'**
   String get voiceCallControlsSheetLabel;
 
+  /// Accessibility hint on the minimized call bar, describing that activating it opens the call screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the call'**
+  String get voiceCallBarOpenCallHint;
+
+  /// Screen reader state added to a voice participant tile while that participant is talking.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaking'**
+  String get voiceParticipantSpeaking;
+
+  /// Screen reader action on a voice participant tile that opens the participant menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant options'**
+  String get voiceParticipantOptionsAction;
+
+  /// Screen reader label for the chip on a participant tile that reveals that participant's other connected devices.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Show 1 more device} other{Show {count} more devices}}'**
+  String voiceParticipantOtherDevicesLabel(int count);
+
+  /// Screen reader label for the floating picture-in-picture call window.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to call'**
+  String get voicePipReturnToCallLabel;
+
+  /// Screen reader announcement when someone joins the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} joined'**
+  String voiceAnnounceUserJoined(String name);
+
+  /// Screen reader announcement when someone leaves the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} left'**
+  String voiceAnnounceUserLeft(String name);
+
+  /// Screen reader announcement when several people join the voice call at once.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person joined} other{{count} people joined}}'**
+  String voiceAnnounceUsersJoined(int count);
+
+  /// Screen reader announcement when several people leave the voice call at once.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person left} other{{count} people left}}'**
+  String voiceAnnounceUsersLeft(int count);
+
+  /// Fallback name in voice call announcements when the participant's name is not loaded yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone'**
+  String get voiceAnnounceSomeone;
+
+  /// Screen reader announcement when the voice call connects.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to voice'**
+  String get voiceAnnounceConnected;
+
+  /// Screen reader announcement when the voice connection drops and starts reconnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting to voice'**
+  String get voiceAnnounceReconnecting;
+
+  /// Screen reader announcement when the voice connection recovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnected to voice'**
+  String get voiceAnnounceReconnected;
+
+  /// Screen reader announcement when you leave or are removed from the voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected from voice'**
+  String get voiceAnnounceDisconnected;
+
+  /// Screen reader announcement when your voice connection switches to a different channel, whether you or a moderator moved you.
+  ///
+  /// In en, this message translates to:
+  /// **'Now in a different voice channel'**
+  String get voiceAnnounceMoved;
+
+  /// Screen reader announcement when a moderator mutes you in a voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator muted you'**
+  String get voiceAnnounceServerMuted;
+
+  /// Screen reader announcement when a moderator removes your server mute.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator unmuted you'**
+  String get voiceAnnounceServerUnmuted;
+
+  /// Screen reader announcement when a moderator deafens you in a voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator deafened you'**
+  String get voiceAnnounceServerDeafened;
+
+  /// Screen reader announcement when a moderator removes your server deafen.
+  ///
+  /// In en, this message translates to:
+  /// **'A moderator undeafened you'**
+  String get voiceAnnounceServerUndeafened;
+
+  /// Screen reader announcement after muting with the screen reader gesture.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone muted'**
+  String get voiceAnnounceMicMuted;
+
+  /// Screen reader announcement after unmuting with the screen reader gesture.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone unmuted'**
+  String get voiceAnnounceMicUnmuted;
+
+  /// Toggle label for screen reader announcements when people join or leave your voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Announce call joins and leaves'**
+  String get accessibilityAnnounceCallJoinsAndLeavesLabel;
+
+  /// Toggle description for screen reader announcements when people join or leave your voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Let screen readers say who joins or leaves the voice call you\'re in. Connection changes and moderator actions are always announced.'**
+  String get accessibilityAnnounceCallJoinsAndLeavesDescription;
+
   /// Voice connection status when not connected.
   ///
   /// In en, this message translates to:
@@ -10221,11 +10431,35 @@ abstract class FluxerLocalizations {
   /// **'Earpiece'**
   String get voiceOutputRouteEarpiece;
 
-  /// Voice output route that plays call audio through a connected Bluetooth or wired headset.
+  /// Voice output route that plays call audio through a connected headset.
   ///
   /// In en, this message translates to:
   /// **'Headphones'**
   String get voiceOutputRouteHeadset;
+
+  /// Connection type of a classic Bluetooth device that can play call audio, also shown when the device name is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth'**
+  String get voiceOutputRouteBluetooth;
+
+  /// Connection type of a Bluetooth Low Energy audio device that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth LE'**
+  String get voiceOutputRouteBluetoothLe;
+
+  /// Connection type of a connected hearing aid that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Hearing aid'**
+  String get voiceOutputRouteHearingAid;
+
+  /// Connection type of a USB headset that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'USB headset'**
+  String get voiceOutputRouteUsb;
 
   /// Opens the system audio route picker for voice calls on iOS.
   ///
@@ -26889,6 +27123,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred. Try again.'**
   String get errorUnexpectedTryAgain;
+
+  /// Title of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication required'**
+  String get errorTwoFactorRequiredTitle;
+
+  /// Body of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.'**
+  String get errorTwoFactorRequiredMessage;
+
+  /// Button in the two-factor required dialog that opens the security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up 2FA'**
+  String get errorTwoFactorRequiredSetUp;
+
+  /// Error dialog body when adding or removing a role on a community member fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update this member\'s roles. Try again.'**
+  String get memberRolesUpdateFailed;
 
   /// Title of the dialog shown when the account is temporarily limited from messaging.
   ///

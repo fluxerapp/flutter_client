@@ -19,7 +19,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class AccountSwitcherSheet {
   AccountSwitcherSheet._();
@@ -223,7 +223,7 @@ class _AccountSwitcherRow extends StatelessWidget {
         return ColoredBox(
           color: isPressed ? colors.listItemPressedBg : Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 10, 6, 10),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 6, 10),
             child: Row(
               children: [
                 FluxerAvatar.user(

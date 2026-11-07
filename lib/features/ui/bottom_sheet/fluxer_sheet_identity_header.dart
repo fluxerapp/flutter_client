@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class FluxerSheetIdentityHeader extends StatelessWidget {
   const FluxerSheetIdentityHeader({
@@ -51,9 +51,9 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
             Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: onClose != null && closeOnLeading ? 40 : 0,
-                    right: onClose != null && !closeOnLeading ? 40 : 0,
+                  padding: EdgeInsetsDirectional.only(
+                    start: onClose != null && closeOnLeading ? 40 : 0,
+                    end: onClose != null && !closeOnLeading ? 40 : 0,
                   ),
                   child: Row(
                     children: [
@@ -102,9 +102,9 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
                   ),
                 ),
                 if (onClose != null)
-                  Positioned(
-                    left: closeOnLeading ? 0 : null,
-                    right: closeOnLeading ? null : 0,
+                  PositionedDirectional(
+                    start: closeOnLeading ? 0 : null,
+                    end: closeOnLeading ? null : 0,
                     top: 0,
                     child: closeOnLeading
                         ? FluxerSheetCloseButton(

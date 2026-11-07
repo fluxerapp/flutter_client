@@ -60,12 +60,12 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DMList extends ConsumerStatefulWidget {
   const DMList({super.key});
@@ -381,7 +381,11 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            Positioned(right: 16, bottom: 16, child: _buildComposeFab(context)),
+            PositionedDirectional(
+              end: 16,
+              bottom: 16,
+              child: _buildComposeFab(context),
+            ),
         ],
       ),
     );
@@ -541,7 +545,12 @@ class _DMListState extends ConsumerState<DMList> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
         child: Container(
-          padding: EdgeInsets.fromLTRB(iconOnlyTitle ? 12 : 16, 8, 8, 8),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            iconOnlyTitle ? 12 : 16,
+            8,
+            8,
+            8,
+          ),
           child: Row(
             children: [
               if (iconOnlyTitle) ...[
@@ -597,9 +606,9 @@ class _DMListState extends ConsumerState<DMList> {
                     ),
                   ),
                   if (pendingCount > 0)
-                    Positioned(
+                    PositionedDirectional(
                       top: -6,
-                      right: -6,
+                      end: -6,
                       child: FluxerBadgeEntrance(
                         child: FluxerBadge.count(
                           count: pendingCount,
@@ -733,7 +742,10 @@ class _DMListState extends ConsumerState<DMList> {
       horizontal: context.layout.s2,
       vertical: _kMobileRowGap / 2,
     ),
-    padding: EdgeInsets.only(left: context.layout.s2, right: context.layout.s3),
+    padding: EdgeInsetsDirectional.only(
+      start: context.layout.s2,
+      end: context.layout.s3,
+    ),
     onTap: () {
       if (userId != null) {
         unawaited(_navigateToDmChannel(userId));
@@ -898,7 +910,10 @@ class _DMListState extends ConsumerState<DMList> {
               horizontal: layout.s2,
               vertical: rowGap / 2,
             ),
-            padding: EdgeInsets.only(left: layout.s2, right: layout.s3),
+            padding: EdgeInsetsDirectional.only(
+              start: layout.s2,
+              end: layout.s3,
+            ),
             semanticLabel: navigationItemSemanticLabel(
               l10n: l10n,
               name: displayName,
@@ -956,7 +971,7 @@ class _DMListState extends ConsumerState<DMList> {
                         children: [
                           if (isPinned)
                             Padding(
-                              padding: const EdgeInsets.only(right: 4),
+                              padding: const EdgeInsetsDirectional.only(end: 4),
                               child: PhosphorIcon(
                                 PhosphorIconsFill.pushPin,
                                 size: 12,
@@ -973,7 +988,9 @@ class _DMListState extends ConsumerState<DMList> {
                           ),
                           if (!c.isGroup && isBotOrSystemDmRecipient(c))
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 4,
+                              ),
                               child: FluxerUserTag(isSystem: c.isSystem),
                             ),
                         ],
@@ -990,7 +1007,7 @@ class _DMListState extends ConsumerState<DMList> {
                 const SizedBox(width: 8),
                 FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerRight,
+                  alignment: AlignmentDirectional.centerEnd,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,

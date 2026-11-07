@@ -90,6 +90,11 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuState({
     currentUserId: ownUserId,
     everyonePermissions: everyonePermissions,
     memberRoles: viewerRoles,
+    guildMfaRestricted: isGuildMfaRestricted(
+      guildMfaLevel: guildInfo?.mfaLevel ?? 0,
+      isGuildOwner: isGuildOwner,
+      userLacksMfa: ref.read(userSettingsViewModelProvider).lacksMfa,
+    ),
   );
   final bool canManageRoles = hasPermission(
     viewerPermissions,

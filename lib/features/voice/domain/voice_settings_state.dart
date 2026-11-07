@@ -101,6 +101,8 @@ class VoiceSettingsState {
     this.noiseSuppression = true,
     this.autoGainControl = true,
     this.outputRoute = VoiceOutputRoute.speaker,
+    this.outputRouteOverride,
+    this.outputDeviceOverride,
     this.cameraResolution = CameraResolution.medium,
     this.cameraFacing = VoiceCameraFacing.front,
     this.mirrorCamera = true,
@@ -130,6 +132,8 @@ class VoiceSettingsState {
   final bool noiseSuppression;
   final bool autoGainControl;
   final VoiceOutputRoute outputRoute;
+  final VoiceOutputRoute? outputRouteOverride;
+  final int? outputDeviceOverride;
   final CameraResolution cameraResolution;
   final VoiceCameraFacing cameraFacing;
   final bool mirrorCamera;
@@ -162,6 +166,9 @@ class VoiceSettingsState {
     bool? noiseSuppression,
     bool? autoGainControl,
     VoiceOutputRoute? outputRoute,
+    VoiceOutputRoute? outputRouteOverride,
+    int? outputDeviceOverride,
+    bool clearOutputRouteOverride = false,
     CameraResolution? cameraResolution,
     VoiceCameraFacing? cameraFacing,
     bool? mirrorCamera,
@@ -191,6 +198,12 @@ class VoiceSettingsState {
       noiseSuppression: noiseSuppression ?? this.noiseSuppression,
       autoGainControl: autoGainControl ?? this.autoGainControl,
       outputRoute: outputRoute ?? this.outputRoute,
+      outputRouteOverride: clearOutputRouteOverride
+          ? null
+          : outputRouteOverride ?? this.outputRouteOverride,
+      outputDeviceOverride: clearOutputRouteOverride
+          ? null
+          : outputDeviceOverride ?? this.outputDeviceOverride,
       cameraResolution: cameraResolution ?? this.cameraResolution,
       cameraFacing: cameraFacing ?? this.cameraFacing,
       mirrorCamera: mirrorCamera ?? this.mirrorCamera,

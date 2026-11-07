@@ -25,9 +25,9 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridGap = 8.0;
 const _kGridHorizontalPadding = 10.0;
@@ -645,9 +645,9 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
           child: Stack(
             children: [
               for (final position in visiblePositions)
-                Positioned(
+                PositionedDirectional(
                   key: ValueKey<String>(widget.memes[position.index].id),
-                  left: position.left,
+                  start: position.left,
                   top: position.top,
                   width: position.width,
                   height: position.height,
@@ -866,8 +866,8 @@ class _FavoriteMediaTile extends StatelessWidget {
                       ),
                     ),
                     if (meme.mediaType == FavoriteMemeMediaType.gif)
-                      Positioned(
-                        left: 8,
+                      PositionedDirectional(
+                        start: 8,
                         top: 8,
                         child: _MediaBadge(
                           label: FluxerLocalizations.of(

@@ -109,6 +109,7 @@ CustomTransitionPage<void> shellSlideTransitionPage({
           Widget child,
         ) {
           return SlideTransition(
+            textDirection: Directionality.of(context),
             position: SidebarDrawerSliderScope.isPresentingOf(context)
                 ? _kSettledOffset
                 : Tween<Offset>(

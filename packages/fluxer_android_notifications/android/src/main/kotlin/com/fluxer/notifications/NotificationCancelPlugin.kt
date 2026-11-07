@@ -211,6 +211,7 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
                 val shortcut = ShortcutInfoCompat.Builder(context, id)
                     .setShortLabel(label)
                     .setLongLived(true)
+                    .setExcludedFromSurfaces(ShortcutInfoCompat.SURFACE_LAUNCHER)
                     .setCategories(setOf(CONVERSATION_CATEGORY))
                     .setPerson(person)
                     .setIntent(launchIntent)

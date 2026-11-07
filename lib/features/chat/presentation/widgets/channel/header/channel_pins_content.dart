@@ -14,7 +14,7 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ChannelPinsContent extends ConsumerStatefulWidget {
   const ChannelPinsContent({
@@ -75,7 +75,7 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(
+          padding: EdgeInsetsDirectional.fromSTEB(
             context.layout.s4,
             context.layout.s3,
             context.layout.s2,

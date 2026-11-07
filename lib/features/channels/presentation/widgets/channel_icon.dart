@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_access_icon_flags.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const String _kAssetText = 'assets/images/icons/channels/text.svg';
 const String _kAssetTextLocked = 'assets/images/icons/channels/text_locked.svg';

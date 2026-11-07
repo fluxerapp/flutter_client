@@ -14,32 +14,38 @@ import 'package:fluxer_dart/export.dart';
 import '../../../helpers/test_account_user_id.dart';
 
 class _AdultUser extends CurrentUserPrivateRead {
+  _AdultUser({this.matureContentUnlocked});
+
+  final bool? matureContentUnlocked;
+
   @override
-  UserPrivateResponse? build(String accountUserId) => _adult();
+  UserPrivateResponse? build(String accountUserId) =>
+      _adult(matureContentUnlocked: matureContentUnlocked);
 }
 
 Future<SensitiveContentState> _resolve({
   required UserSettingsResponse? settings,
+  bool appStorePolicy = true,
+  MatureGeoStatus geo = MatureGeoStatus.none,
+  bool? matureContentUnlocked,
+  DeclaredAgeFloor floor = DeclaredAgeFloor.none,
 }) async {
   final ProviderContainer container = ProviderContainer(
     overrides: <Override>[
-      matureContentAppStorePolicyProvider.overrideWithValue(true),
-      currentUserPrivateReadProvider(
-        kTestAccountUserId,
-      ).overrideWith(_AdultUser.new),
+      matureContentAppStorePolicyProvider.overrideWithValue(appStorePolicy),
+      currentUserPrivateReadProvider(kTestAccountUserId).overrideWith(
+        () => _AdultUser(matureContentUnlocked: matureContentUnlocked),
+      ),
       userSettingsStatusProvider.overrideWithValue(settings),
       matureGeoStatusProvider.overrideWith(
-        (ref) => Future<MatureGeoStatus>.value(MatureGeoStatus.none),
+        (ref) => Future<MatureGeoStatus>.value(geo),
       ),
-      declaredAgeFloorProvider.overrideWith(
-        (ref) => Future<DeclaredAgeFloor>.value(DeclaredAgeFloor.none),
-      ),
+      declaredAgeFloorProvider.overrideWithValue(floor),
     ],
   );
   addTearDown(container.dispose);
   container.listen(sensitiveContentProvider, (_, _) {});
   await container.read(matureGeoStatusProvider.future);
-  await container.read(declaredAgeFloorProvider.future);
   return container.read(sensitiveContentProvider);
 }
 
@@ -65,55 +71,95 @@ void main() {
     expect(state.access, MatureAccess.allowed);
     expect(state.showLocked, isFalse);
   });
+
+  test(
+    'a restricted region unlocks once the server reports an adult',
+    () async {
+      final UserSettingsResponse settings = _settings(
+        allowMatureContentOnIos: true,
+      );
+      for (final bool appStorePolicy in <bool>[true, false]) {
+        expect(
+          (await _resolve(
+            settings: settings,
+            appStorePolicy: appStorePolicy,
+            geo: MatureGeoStatus.restricted,
+          )).access,
+          MatureAccess.regionLocked,
+        );
+        expect(
+          (await _resolve(
+            settings: settings,
+            appStorePolicy: appStorePolicy,
+            geo: MatureGeoStatus.restricted,
+            matureContentUnlocked: true,
+          )).access,
+          MatureAccess.allowed,
+        );
+      }
+    },
+  );
+
+  test('an age range under 18 on the device keeps 18+ off', () async {
+    final SensitiveContentState state = await _resolve(
+      settings: _settings(allowMatureContentOnIos: true),
+      geo: MatureGeoStatus.restricted,
+      matureContentUnlocked: true,
+      floor: DeclaredAgeFloor.minor,
+    );
+    expect(state.access, MatureAccess.minor);
+  });
 }
 
-UserPrivateResponse _adult() => UserPrivateResponse.fromJson({
-  'id': '100',
-  'username': 'tester',
-  'discriminator': '0001',
-  'global_name': null,
-  'avatar': null,
-  'avatar_color': null,
-  'bot': false,
-  'system': false,
-  'flags': 0,
-  'is_staff': false,
-  'acls': <String>[],
-  'traits': <String>[],
-  'email': null,
-  'phone': null,
-  'bio': null,
-  'pronouns': null,
-  'accent_color': null,
-  'banner': null,
-  'banner_color': null,
-  'mfa_enabled': false,
-  'verified': true,
-  'has_verified_phone': false,
-  'premium_type': null,
-  'premium_since': null,
-  'premium_until': null,
-  'premium_will_cancel': false,
-  'premium_billing_cycle': null,
-  'premium_lifetime_sequence': null,
-  'premium_badge_hidden': false,
-  'premium_badge_masked': false,
-  'premium_badge_timestamp_hidden': false,
-  'premium_badge_sequence_hidden': false,
-  'premium_purchase_disabled': false,
-  'premium_enabled_override': false,
-  'premium_discriminator': false,
-  'premium_perks_disabled': false,
-  'password_last_changed_at': null,
-  'required_actions': <String>[],
-  'nsfw_allowed': true,
-  'has_dismissed_premium_onboarding': false,
-  'has_ever_purchased': false,
-  'has_unread_gift_inventory': false,
-  'unread_gift_inventory_count': 0,
-  'used_mobile_client': true,
-  'pending_bulk_message_deletion': null,
-});
+UserPrivateResponse _adult({bool? matureContentUnlocked}) =>
+    UserPrivateResponse.fromJson({
+      'mature_content_unlocked': ?matureContentUnlocked,
+      'id': '100',
+      'username': 'tester',
+      'discriminator': '0001',
+      'global_name': null,
+      'avatar': null,
+      'avatar_color': null,
+      'bot': false,
+      'system': false,
+      'flags': 0,
+      'is_staff': false,
+      'acls': <String>[],
+      'traits': <String>[],
+      'email': null,
+      'phone': null,
+      'bio': null,
+      'pronouns': null,
+      'accent_color': null,
+      'banner': null,
+      'banner_color': null,
+      'mfa_enabled': false,
+      'verified': true,
+      'has_verified_phone': false,
+      'premium_type': null,
+      'premium_since': null,
+      'premium_until': null,
+      'premium_will_cancel': false,
+      'premium_billing_cycle': null,
+      'premium_lifetime_sequence': null,
+      'premium_badge_hidden': false,
+      'premium_badge_masked': false,
+      'premium_badge_timestamp_hidden': false,
+      'premium_badge_sequence_hidden': false,
+      'premium_purchase_disabled': false,
+      'premium_enabled_override': false,
+      'premium_discriminator': false,
+      'premium_perks_disabled': false,
+      'password_last_changed_at': null,
+      'required_actions': <String>[],
+      'nsfw_allowed': true,
+      'has_dismissed_premium_onboarding': false,
+      'has_ever_purchased': false,
+      'has_unread_gift_inventory': false,
+      'unread_gift_inventory_count': 0,
+      'used_mobile_client': true,
+      'pending_bulk_message_deletion': null,
+    });
 
 UserSettingsResponse _settings({required bool allowMatureContentOnIos}) {
   return UserSettingsResponse.fromJson(<String, Object?>{

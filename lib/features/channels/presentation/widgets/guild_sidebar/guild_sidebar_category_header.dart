@@ -49,9 +49,9 @@ class _CategoryHeader extends ConsumerWidget {
                   )
                 : null,
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 12,
-                right: 8,
+              padding: const EdgeInsetsDirectional.only(
+                start: 12,
+                end: 8,
                 top: 16,
                 bottom: 4,
               ),

@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/utils/guild/guild_bans_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildBansListItem extends ConsumerWidget {
   GuildBansListItem({

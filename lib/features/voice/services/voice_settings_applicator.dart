@@ -1,3 +1,5 @@
+// ignore_for_file: document_ignores, implementation_imports
+
 import 'dart:async';
 import 'dart:io';
 
@@ -674,16 +676,29 @@ class VoiceSettingsApplicator {
     }
     final Set<VoiceOutputRoute> available =
         await readAvailableVoiceOutputRoutes();
-    final VoiceOutputRoute route = resolveVoiceOutputRoute(
-      preference: settings.outputRoute,
-      available: available,
-    );
+    final VoiceOutputRoute route =
+        defaultTargetPlatform == TargetPlatform.android
+        ? resolveVoiceCallOutputRoute(
+            preference: settings.outputRoute,
+            override: settings.outputRouteOverride,
+            available: available,
+          )
+        : resolveVoiceOutputRoute(
+            preference: settings.outputRoute,
+            available: available,
+          );
     if (defaultTargetPlatform != TargetPlatform.android) {
       await _applyLiveKitOutputRoutePreference(route);
     }
     final bool nativeHold =
         defaultTargetPlatform == TargetPlatform.android && holdRoute;
-    await applyNativeVoiceOutputRoute(route, hold: nativeHold);
+    await applyNativeVoiceOutputRoute(
+      route,
+      deviceId: settings.outputRouteOverride == route
+          ? settings.outputDeviceOverride
+          : null,
+      hold: nativeHold,
+    );
   }
 
   String? _resolveDeviceId(String deviceId) {

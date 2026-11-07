@@ -516,7 +516,7 @@ class _SettledVideoSizeState extends State<_SettledVideoSize> {
         }
         return FittedBox(
           fit: BoxFit.fill,
-          alignment: Alignment.topLeft,
+          alignment: AlignmentDirectional.topStart,
           child: SizedBox(
             width: layout.width,
             height: layout.height,

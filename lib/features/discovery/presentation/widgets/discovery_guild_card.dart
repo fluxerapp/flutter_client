@@ -21,11 +21,11 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String _discoverableFeature = 'DISCOVERABLE';
 const double _discoveryGuildIconSize = 48;
@@ -118,7 +118,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(
+                    padding: EdgeInsetsDirectional.fromSTEB(
                       layout.s3,
                       layout.s3,
                       isMobile ? layout.s8 : layout.s3,
@@ -232,9 +232,9 @@ class DiscoveryGuildCard extends ConsumerWidget {
               ),
             ),
             if (isMobile)
-              Positioned(
+              PositionedDirectional(
                 top: layout.s1,
-                right: layout.s1,
+                end: layout.s1,
                 child: _DiscoveryCardMenuButton(
                   tooltip: l10n.chatMessageMore,
                   onPressed: (Offset position) {

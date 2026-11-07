@@ -155,6 +155,17 @@ class UserAccessibility extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityAnnounceCallJoinsAndLeavesLabel,
+                    description:
+                        l10n.accessibilityAnnounceCallJoinsAndLeavesDescription,
+                    value: appearance.announceCallJoinsAndLeaves,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setAnnounceCallJoinsAndLeaves(
+                        value: value,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

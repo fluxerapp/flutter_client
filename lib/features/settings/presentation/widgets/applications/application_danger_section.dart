@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ApplicationDangerSection extends StatelessWidget {
   const ApplicationDangerSection({
@@ -28,7 +28,7 @@ class ApplicationDangerSection extends StatelessWidget {
           ),
         ),
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: AlignmentDirectional.centerStart,
           child: FluxerButton.dangerPrimary(
             onPressed: isDeleting ? null : onDelete,
             label: l10n.applicationsDelete,

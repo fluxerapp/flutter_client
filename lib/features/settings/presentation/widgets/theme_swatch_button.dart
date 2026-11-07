@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ThemeSwatchButton extends StatelessWidget {
   const ThemeSwatchButton({
@@ -84,9 +84,9 @@ class ThemeSwatchButton extends StatelessWidget {
                   ),
                 ),
                 if (isSelected && !isLoading)
-                  const Positioned(
+                  const PositionedDirectional(
                     top: -4,
-                    right: -4,
+                    end: -4,
                     child: FluxerSelectedCheck(size: _checkmarkSize),
                   ),
               ],

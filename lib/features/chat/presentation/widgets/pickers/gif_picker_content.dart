@@ -35,11 +35,11 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSearchDebounce = Duration(milliseconds: 400);
 const _kMaxSearchLength = 100;
@@ -309,7 +309,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
                 onTap: _goToLanding,
                 minSize: const Size(40, 44),
                 builder: (context, states) => Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 10),
+                  padding: const EdgeInsetsDirectional.only(start: 16, end: 10),
                   child: PhosphorIcon(
                     PhosphorIconsBold.caretLeft,
                     size: 16,
@@ -919,9 +919,9 @@ class _CategoryGridState extends State<_CategoryGrid> {
     final top = row * (tileHeight + gap);
     final left = _kMasonryHorizontalPadding + column * (tileWidth + gap);
 
-    return Positioned(
+    return PositionedDirectional(
       key: ValueKey<String>('${category.title}:${category.previewUrl}'),
-      left: left,
+      start: left,
       top: top,
       width: tileWidth,
       height: tileHeight,
@@ -1153,11 +1153,11 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
             child: Stack(
               children: [
                 for (final position in visiblePositions)
-                  Positioned(
+                  PositionedDirectional(
                     key: ValueKey<String>(
                       widget.itemKeyFor(widget.items[position.index]),
                     ),
-                    left: position.left,
+                    start: position.left,
                     top: position.top,
                     width: position.width,
                     height: position.height,
@@ -1438,9 +1438,9 @@ class _GifTile extends StatelessWidget {
                   ),
                 if (dimmed) const ColoredBox(color: _kGifCategoryPressDim),
                 if (!isCategory && isFavorite)
-                  Positioned(
+                  PositionedDirectional(
                     top: layout.s2,
-                    right: layout.s2,
+                    end: layout.s2,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.62),

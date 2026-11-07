@@ -2,8 +2,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/role_icon.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildRoleListItem extends StatelessWidget {
   const GuildRoleListItem({
@@ -65,7 +65,7 @@ class GuildRoleListItem extends StatelessWidget {
         ),
         if (isLocked)
           Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsetsDirectional.only(start: 4),
             child: PhosphorIcon(
               PhosphorIconsFill.lock,
               size: 14,

@@ -98,6 +98,9 @@ class _ChannelDetailsDrawerOverlayState
 
   double _screenWidth(BuildContext context) => MediaQuery.sizeOf(context).width;
 
+  HorizontalRevealEdge _revealEdge() =>
+      horizontalRevealEndEdge(Directionality.of(context));
+
   Duration _revealDuration(BuildContext context) =>
       horizontalSwipeRevealDuration(context);
 
@@ -189,7 +192,7 @@ class _ChannelDetailsDrawerOverlayState
       return;
     }
     _translateController.value = applyHorizontalRevealDrag(
-      edge: HorizontalRevealEdge.right,
+      edge: _revealEdge(),
       translate: _translateController.value,
       deltaDx: delta,
       min: 0,
@@ -206,7 +209,7 @@ class _ChannelDetailsDrawerOverlayState
       return;
     }
     final bool shouldStayOpen = horizontalRevealShouldOpen(
-      edge: HorizontalRevealEdge.right,
+      edge: _revealEdge(),
       translate: _translateController.value,
       maxExtent: width,
       primaryVelocity: details.primaryVelocity ?? 0,
@@ -235,7 +238,7 @@ class _ChannelDetailsDrawerOverlayState
   Map<Type, GestureRecognizerFactory> _drawerGestures() {
     return horizontalRevealDragGestures(
       translateController: _translateController,
-      edge: HorizontalRevealEdge.right,
+      edge: _revealEdge,
       shouldDefer: _shouldDeferDrawerGesture,
       onDragUpdate: _applyDragDelta,
       onDragEnd: (DragEndDetails details) {
@@ -282,7 +285,12 @@ class _ChannelDetailsDrawerOverlayState
                 ),
               ),
             Transform.translate(
-              offset: Offset(width - translate, 0),
+              offset: Offset(
+                _revealEdge() == HorizontalRevealEdge.right
+                    ? width - translate
+                    : translate - width,
+                0,
+              ),
               child: SizedBox(width: width, child: slider),
             ),
           ],

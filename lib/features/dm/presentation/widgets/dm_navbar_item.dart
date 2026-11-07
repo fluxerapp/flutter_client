@@ -161,8 +161,8 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
                   children: [
-                    Positioned(
-                      left: 0,
+                    PositionedDirectional(
+                      start: 0,
                       top: 0,
                       bottom: 0,
                       child: Center(
@@ -200,9 +200,9 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                                 size: GuildNavbarIconShape.size,
                               ),
                             if (showBadge)
-                              Positioned(
+                              PositionedDirectional(
                                 bottom: GuildNavbarPill.badgeInset,
-                                right: GuildNavbarPill.badgeInset,
+                                end: GuildNavbarPill.badgeInset,
                                 child: Opacity(
                                   opacity: unreadState.faded ? 0.5 : 1.0,
                                   child: FluxerBadgeEntrance(

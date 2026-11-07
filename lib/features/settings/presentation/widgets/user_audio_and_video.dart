@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_output_route_radio_group.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
@@ -124,7 +123,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
     final bool useNativeVoiceAudioRoutePicker =
         showNativeVoiceAudioRoutePicker();
-    final bool useAndroidVoiceOutputRouteRadio =
+    final bool useAndroidVoiceOutputRoutePicker =
         defaultTargetPlatform == TargetPlatform.android && canSwitchSpeaker;
 
     return SingleChildScrollView(
@@ -139,10 +138,9 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
             description: l10n.audioAndVideoAudioSectionDescription,
             isFirst: true,
             children: [
-              if (useNativeVoiceAudioRoutePicker)
+              if (useNativeVoiceAudioRoutePicker ||
+                  useAndroidVoiceOutputRoutePicker)
                 const VoiceChangeAudioOutputSettingsRow()
-              else if (useAndroidVoiceOutputRouteRadio)
-                const VoiceOutputRouteSettingsControl()
               else ...<Widget>[
                 FluxerSelect<String>(
                   label: l10n.audioAndVideoInputDeviceLabel,

@@ -261,7 +261,9 @@ class _ChannelMembersPanel extends StatelessWidget {
       width: _kPanelWidth,
       decoration: BoxDecoration(
         color: context.colors.memberListBackground,
-        border: Border(left: BorderSide(color: context.colors.borderColor)),
+        border: BorderDirectional(
+          start: BorderSide(color: context.colors.borderColor),
+        ),
       ),
       child: child,
     );

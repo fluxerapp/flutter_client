@@ -53,7 +53,7 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 2, right: layout.s2),
+              padding: EdgeInsetsDirectional.only(top: 2, end: layout.s2),
               child: PlutoniumProductIcon(
                 size: 16,
                 color: colors.textOnBrandPrimary,

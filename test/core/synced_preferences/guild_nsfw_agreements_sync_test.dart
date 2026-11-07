@@ -35,25 +35,28 @@ void main() {
     store = container.read(syncedPreferencesStoreProvider);
   });
 
-  test('an age gate accepted on web applies on mobile', () async {
-    await store.hydrateFromUserSettings(
-      syncedPreferencesUserSettings(
-        pb.SyncedPreferences(
-          guildNsfwAgreements: pb.GuildNsfwAgreements(
-            agreedChannelIds: ['c1'],
-            agreedGuildIds: ['g1'],
-            agreedCategoryIds: ['k1'],
+  test(
+    'a mature content agreement accepted on web applies on mobile',
+    () async {
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(
+          pb.SyncedPreferences(
+            guildNsfwAgreements: pb.GuildNsfwAgreements(
+              agreedChannelIds: ['c1'],
+              agreedGuildIds: ['g1'],
+              agreedCategoryIds: ['k1'],
+            ),
           ),
         ),
-      ),
-    );
+      );
 
-    final agreements = await database.userPreferencesDao
-        .getMatureContentAgreements(_userId);
-    expect(agreements.agreedChannelIds, ['c1']);
-    expect(agreements.agreedGuildIds, ['g1']);
-    expect(agreements.agreedCategoryIds, ['k1']);
-  });
+      final agreements = await database.userPreferencesDao
+          .getMatureContentAgreements(_userId);
+      expect(agreements.agreedChannelIds, ['c1']);
+      expect(agreements.agreedGuildIds, ['g1']);
+      expect(agreements.agreedCategoryIds, ['k1']);
+    },
+  );
 
   test('a mobile agreement is pushed without touching other fields', () async {
     await store.hydrateFromUserSettings(

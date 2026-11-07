@@ -33,6 +33,7 @@ class SwipeToOpenChannelDetails extends ConsumerStatefulWidget {
 class _SwipeToOpenChannelDetailsState
     extends ConsumerState<SwipeToOpenChannelDetails> {
   final GlobalKey _contentKey = GlobalKey();
+  bool _isRtl = false;
 
   bool _shouldDeferToHorizontalScroll(PointerDownEvent event) {
     if (DeferHorizontalDragWhileCoasting.of(context)) {
@@ -72,6 +73,7 @@ class _SwipeToOpenChannelDetailsState
     if (!widget.enabled || !ChatSwipeToReplyScope.enabledOf(context)) {
       return widget.child;
     }
+    _isRtl = Directionality.of(context) == TextDirection.rtl;
     final double leadingReserve = leadingEdgeHorizontalSwipeReserveWidth(
       context,
     );
@@ -93,8 +95,11 @@ class _SwipeToOpenChannelDetailsState
                     DirectionalHorizontalDragRecognizer
                   >(
                     () => DirectionalHorizontalDragRecognizer(
-                      directions: () => const <HorizontalClaimDirection>{
-                        HorizontalClaimDirection.left,
+                      directions: () => <HorizontalClaimDirection>{
+                        if (_isRtl)
+                          HorizontalClaimDirection.right
+                        else
+                          HorizontalClaimDirection.left,
                       },
                       shouldDefer: _shouldDeferToHorizontalScroll,
                     ),

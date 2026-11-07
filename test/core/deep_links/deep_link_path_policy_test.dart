@@ -255,7 +255,6 @@ const List<String> _ignoredDeepLinkPaths = [
   '/report',
   '/admin',
   '/premium-callback',
-  '/age-verification-callback',
   '/connection-callback',
   '/theme-studio',
   '/theme/my-theme',

@@ -54,8 +54,8 @@ class _ShellSidebarResizeHandleState
       context.colors.backgroundSecondaryLighter.withValues(alpha: 0.65),
     );
 
-    return Positioned(
-      left: -_kHandleHitWidth / 2,
+    return PositionedDirectional(
+      start: -_kHandleHitWidth / 2,
       top: 0,
       bottom: widget.userAreaHeight,
       width: _kHandleHitWidth,
@@ -145,12 +145,13 @@ class _ShellSidebarResizeHandleState
       unawaited(ref.read(shellSidebarWidthProvider.notifier).reset());
       return KeyEventResult.handled;
     }
+    final double step = (largeStep ? 48 : 12) * _widthGrowthSign();
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _nudge(largeStep ? -48 : -12);
+      _nudge(-step);
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      _nudge(largeStep ? 48 : 12);
+      _nudge(step);
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.home) {
@@ -163,6 +164,9 @@ class _ShellSidebarResizeHandleState
     }
     return KeyEventResult.ignored;
   }
+
+  double _widthGrowthSign() =>
+      Directionality.of(context) == TextDirection.rtl ? -1 : 1;
 
   double? _dragStartWidth;
   double _dragDelta = 0;
@@ -179,7 +183,7 @@ class _ShellSidebarResizeHandleState
     if (start == null) {
       return;
     }
-    _dragDelta += details.delta.dx;
+    _dragDelta += details.delta.dx * _widthGrowthSign();
     _applySidebarWidth(start + _dragDelta, persist: false);
   }
 

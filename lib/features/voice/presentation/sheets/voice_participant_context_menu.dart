@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/moderation/presentation/report_flow/open_rep
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_guild_moderation_entries.dart';
@@ -26,12 +27,12 @@ import 'package:fluxer_app/features/voice/utils/participant/participant_menu_cap
 import 'package:fluxer_app/features/voice/utils/participant/participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceParticipantContextMenu {
   VoiceParticipantContextMenu._();
@@ -666,8 +667,12 @@ class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
     }
 
     final double menuHeight = _estimateContextMenuHeight(target);
-    final bool opensLeft =
-        position.dx + kVoiceParticipantContextMenuWidth > overlaySize.width - 8;
+    final bool opensLeft = contextMenuOpensLeft(
+      context,
+      anchorX: position.dx,
+      menuWidth: kVoiceParticipantContextMenuWidth,
+      overlayWidth: overlaySize.width,
+    );
     final bool opensUp = position.dy + menuHeight > overlaySize.height - 8;
     final double left =
         (opensLeft

@@ -46,7 +46,11 @@ class MediaAltText extends ConsumerWidget {
       children: [
         child,
         if (!showCaption)
-          Positioned(right: 6, bottom: 6, child: AltTextBadge(altText: text)),
+          PositionedDirectional(
+            end: 6,
+            bottom: 6,
+            child: AltTextBadge(altText: text),
+          ),
       ],
     );
     if (!showCaption) {

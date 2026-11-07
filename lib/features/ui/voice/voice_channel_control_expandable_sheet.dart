@@ -1,6 +1,7 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/semantics.dart' show OrdinalSortKey;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_system_ui_sync.dart';
@@ -93,7 +94,11 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
               children: <Widget>[
                 MediaQuery(
                   data: mediaQuery.copyWith(padding: gridStageInsets),
-                  child: child,
+                  child: Semantics(
+                    container: true,
+                    sortKey: const OrdinalSortKey(1),
+                    child: child,
+                  ),
                 ),
                 Positioned(
                   left: 0,
@@ -156,13 +161,17 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
                       opacity: showsOverlay ? 1 : 0,
                       child: IgnorePointer(
                         ignoring: !showsOverlay,
-                        child: VoiceChannelControlExpandableSheet(
-                          channelId: channelId ?? sessionChannelId,
-                          isConnected: isConnected,
-                          connectionId: connectionId,
-                          parentHeight: constraints.maxHeight,
-                          parentWidth: constraints.maxWidth,
-                          positioned: false,
+                        child: Semantics(
+                          container: true,
+                          sortKey: const OrdinalSortKey(0),
+                          child: VoiceChannelControlExpandableSheet(
+                            channelId: channelId ?? sessionChannelId,
+                            isConnected: isConnected,
+                            connectionId: connectionId,
+                            parentHeight: constraints.maxHeight,
+                            parentWidth: constraints.maxWidth,
+                            positioned: false,
+                          ),
                         ),
                       ),
                     ),
@@ -451,6 +460,20 @@ class _VoiceChannelControlExpandableSheetState
     _resetDragHaptics();
   }
 
+  void _toggleSheetFromSemantics() {
+    final double target = _panelBodyVisible
+        ? _collapsedHeightCache
+        : _expandedHeightCache;
+    if (!_panelBodyVisible) {
+      ref.read(voiceCallOverlayProvider.notifier).reveal();
+    }
+    updateExpandableSheetHeight(
+      heightNotifier: _heightNotifier,
+      nextHeight: target,
+    );
+    _syncPanelBodyVisibility(target);
+  }
+
   bool _isPanelListAtTop() {
     return !_scrollController.hasClients || _scrollController.offset <= 0;
   }
@@ -602,9 +625,13 @@ class _VoiceChannelControlExpandableSheetState
                                                       CrossAxisAlignment
                                                           .stretch,
                                                   children: <Widget>[
-                                                    const VoiceChannelControlSheetDragHandle(
+                                                    VoiceChannelControlSheetDragHandle(
                                                       key:
                                                           kVoiceControlSheetDragHandleKey,
+                                                      expanded:
+                                                          _panelBodyVisible,
+                                                      onToggle:
+                                                          _toggleSheetFromSemantics,
                                                     ),
                                                     ClipRect(
                                                       child: VoiceChannelControlBarContent(
@@ -705,13 +732,23 @@ class _VoiceControlPanelSettingsBody extends StatelessWidget {
 }
 
 class VoiceChannelControlSheetDragHandle extends StatelessWidget {
-  const VoiceChannelControlSheetDragHandle({super.key});
+  const VoiceChannelControlSheetDragHandle({
+    this.expanded = false,
+    this.onToggle,
+    super.key,
+  });
+
+  final bool expanded;
+  final VoidCallback? onToggle;
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
+      expanded: onToggle == null ? null : expanded,
       label: FluxerLocalizations.of(context).voiceCallControlsSheetLabel,
+      onTap: onToggle,
+      onDismiss: expanded ? onToggle : null,
       child: SizedBox(
         height: kVoiceControlSheetHandleHeight,
         width: double.infinity,

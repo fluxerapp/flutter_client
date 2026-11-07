@@ -2,12 +2,12 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum FluxerUnreadBarEdge { left, right, top, bottom }
+enum FluxerUnreadBarEdge { start, end, top, bottom }
 
 class FluxerUnreadBar extends StatelessWidget {
   const FluxerUnreadBar({
     required this.visible,
-    this.edge = FluxerUnreadBarEdge.left,
+    this.edge = FluxerUnreadBarEdge.start,
     this.thickness = 8,
     this.length = 8,
     this.alignment = 0.5,
@@ -39,33 +39,37 @@ class FluxerUnreadBar extends StatelessWidget {
   bool get _isHorizontal =>
       edge == FluxerUnreadBarEdge.top || edge == FluxerUnreadBarEdge.bottom;
 
-  Alignment get _alignment {
+  AlignmentGeometry get _alignment {
     final along = alignment * 2 - 1;
     return switch (edge) {
-      FluxerUnreadBarEdge.left => Alignment(-1, along),
-      FluxerUnreadBarEdge.right => Alignment(1, along),
+      FluxerUnreadBarEdge.start => AlignmentDirectional(-1, along),
+      FluxerUnreadBarEdge.end => AlignmentDirectional(1, along),
       FluxerUnreadBarEdge.top => Alignment(along, -1),
       FluxerUnreadBarEdge.bottom => Alignment(along, 1),
     };
   }
 
-  Offset get _bleedOffset {
+  Offset _bleedOffset(TextDirection direction) {
+    final double startBleed = direction == TextDirection.rtl ? bleed : -bleed;
     return switch (edge) {
-      FluxerUnreadBarEdge.left => Offset(-bleed, 0),
-      FluxerUnreadBarEdge.right => Offset(bleed, 0),
+      FluxerUnreadBarEdge.start => Offset(startBleed, 0),
+      FluxerUnreadBarEdge.end => Offset(-startBleed, 0),
       FluxerUnreadBarEdge.top => Offset(0, -bleed),
       FluxerUnreadBarEdge.bottom => Offset(0, bleed),
     };
   }
 
-  BorderRadius _borderRadius() {
+  BorderRadiusGeometry _borderRadius() {
     final r = Radius.circular(thickness);
     return switch (edge) {
-      FluxerUnreadBarEdge.left => BorderRadius.only(
-        topRight: r,
-        bottomRight: r,
+      FluxerUnreadBarEdge.start => BorderRadiusDirectional.only(
+        topEnd: r,
+        bottomEnd: r,
       ),
-      FluxerUnreadBarEdge.right => BorderRadius.only(topLeft: r, bottomLeft: r),
+      FluxerUnreadBarEdge.end => BorderRadiusDirectional.only(
+        topStart: r,
+        bottomStart: r,
+      ),
       FluxerUnreadBarEdge.top => BorderRadius.only(
         bottomLeft: r,
         bottomRight: r,
@@ -90,7 +94,7 @@ class FluxerUnreadBar extends StatelessWidget {
           child: Align(
             alignment: _alignment,
             child: Transform.translate(
-              offset: _bleedOffset,
+              offset: _bleedOffset(Directionality.of(context)),
               child: AnimatedContainer(
                 duration: duration ?? context.motion.panel,
                 curve: context.motion.curve,

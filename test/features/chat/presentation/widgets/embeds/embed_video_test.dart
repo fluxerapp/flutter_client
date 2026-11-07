@@ -39,10 +39,8 @@ bool _hasEmbedChrome(WidgetTester tester) {
     if (decoration is! BoxDecoration) {
       return false;
     }
-    final Border? border = decoration.border is Border
-        ? decoration.border! as Border
-        : null;
-    return border != null && border.left.width == 4;
+    final BoxBorder? border = decoration.border;
+    return border is BorderDirectional && border.start.width == 4;
   });
 }
 

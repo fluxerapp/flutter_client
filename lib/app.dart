@@ -5,7 +5,7 @@ import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoTheme, CupertinoThemeData;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/age/declared_age_range_gate.dart';
+import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
 import 'package:fluxer_app/core/instance/account_identity_sync.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/accessibility/presentation/reduced_motion_scope.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
+import 'package:fluxer_app/features/accessibility/providers/screen_reader_active_provider.dart';
 import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_gate.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_app_background.dart';
@@ -32,6 +33,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_layer.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_accessibility_layer.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -140,13 +142,17 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
           themeAnimationDuration: Duration.zero,
           routerConfig: router,
           builder: (context, child) {
-            final Widget layered = InputModalityListener(
-              child: AppUiLifecycleObserver(
-                child: AccountIdentitySync(
-                  child: RecoveryKitGate(
-                    child: DeclaredAgeRangeGate(
-                      child: IncomingVoiceCallLayer(
-                        child: VoicePipLayer(child: child!),
+            final Widget layered = ScreenReaderActiveSync(
+              child: InputModalityListener(
+                child: AppUiLifecycleObserver(
+                  child: AccountIdentitySync(
+                    child: RecoveryKitGate(
+                      child: DeclaredAgeRangeLock(
+                        child: IncomingVoiceCallLayer(
+                          child: VoiceCallAccessibilityLayer(
+                            child: VoicePipLayer(child: child!),
+                          ),
+                        ),
                       ),
                     ),
                   ),

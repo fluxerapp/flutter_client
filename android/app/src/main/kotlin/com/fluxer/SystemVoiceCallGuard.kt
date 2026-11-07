@@ -10,7 +10,7 @@ internal fun isExternalVoiceCallActive(
     context: Context,
     fluxerOwnsVoice: Boolean,
 ): Boolean {
-    if (fluxerOwnsVoice) {
+    if (fluxerOwnsVoice || FluxerRouteOwnership.holdsRoute) {
         return false
     }
     try {

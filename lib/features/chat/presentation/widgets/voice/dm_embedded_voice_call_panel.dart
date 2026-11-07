@@ -15,9 +15,9 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kDmEmbeddedVoiceMinHeight = 160;
 const double _kDmEmbeddedVoiceMaxHeight = 520;
@@ -77,7 +77,7 @@ class _DmEmbeddedVoiceCallPanelState
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 8),
+                            padding: const EdgeInsetsDirectional.only(start: 8),
                             child: Icon(
                               PhosphorIconsBold.dotsNine,
                               size: 20,

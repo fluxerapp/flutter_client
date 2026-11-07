@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
+import 'package:fluxer_app/features/accessibility/providers/screen_reader_active_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -18,6 +19,7 @@ class VoiceCallOverlayState {
     this.isExiting = false,
     this.isMenuPinned = false,
     this.isKeyboardPinned = false,
+    this.isScreenReaderPinned = false,
   });
 
   final bool isVisible;
@@ -25,8 +27,13 @@ class VoiceCallOverlayState {
   final bool isExiting;
   final bool isMenuPinned;
   final bool isKeyboardPinned;
+  final bool isScreenReaderPinned;
 
-  bool get isPinned => isSheetExpanded || isMenuPinned || isKeyboardPinned;
+  bool get isPinned =>
+      isSheetExpanded ||
+      isMenuPinned ||
+      isKeyboardPinned ||
+      isScreenReaderPinned;
 
   bool get showsOverlay => isVisible || isPinned;
 
@@ -36,6 +43,7 @@ class VoiceCallOverlayState {
     bool? isExiting,
     bool? isMenuPinned,
     bool? isKeyboardPinned,
+    bool? isScreenReaderPinned,
   }) {
     return VoiceCallOverlayState(
       isVisible: isVisible ?? this.isVisible,
@@ -43,6 +51,7 @@ class VoiceCallOverlayState {
       isExiting: isExiting ?? this.isExiting,
       isMenuPinned: isMenuPinned ?? this.isMenuPinned,
       isKeyboardPinned: isKeyboardPinned ?? this.isKeyboardPinned,
+      isScreenReaderPinned: isScreenReaderPinned ?? this.isScreenReaderPinned,
     );
   }
 }
@@ -72,8 +81,30 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
       })
       ..listen<bool>(keyboardModeProvider, (bool? previous, bool next) {
         setKeyboardPinned(value: next);
+      })
+      ..listen<bool>(screenReaderActiveProvider, (bool? previous, bool next) {
+        _setScreenReaderPinned(value: next);
       });
-    return const VoiceCallOverlayState();
+    return VoiceCallOverlayState(
+      isScreenReaderPinned: ref.read(screenReaderActiveProvider),
+    );
+  }
+
+  bool get _screenReaderActive => ref.read(screenReaderActiveProvider);
+
+  void _setScreenReaderPinned({required bool value}) {
+    if (state.isExiting || state.isScreenReaderPinned == value) {
+      return;
+    }
+    if (value) {
+      _cancelAutoHide();
+      state = state.copyWith(isScreenReaderPinned: true, isVisible: true);
+      return;
+    }
+    state = state.copyWith(isScreenReaderPinned: false);
+    if (state.isVisible && !state.isPinned) {
+      scheduleAutoHide();
+    }
   }
 
   void registerPhoneExitHost() {
@@ -116,7 +147,10 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
       pending.complete();
     }
     if (updateState && state.isExiting) {
-      state = state.copyWith(isExiting: false);
+      state = state.copyWith(
+        isExiting: false,
+        isScreenReaderPinned: _screenReaderActive,
+      );
     }
   }
 
@@ -126,7 +160,10 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
     }
     _cancelAutoHide();
     _pinReleaseTimer?.cancel();
-    state = const VoiceCallOverlayState(isVisible: false);
+    state = VoiceCallOverlayState(
+      isVisible: false,
+      isScreenReaderPinned: _screenReaderActive,
+    );
   }
 
   void reveal() {
@@ -241,7 +278,7 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
     _cancelAutoHide();
     _pinReleaseTimer?.cancel();
     _completePhoneExit();
-    state = const VoiceCallOverlayState();
+    state = VoiceCallOverlayState(isScreenReaderPinned: _screenReaderActive);
   }
 
   void _cancelAutoHide() {

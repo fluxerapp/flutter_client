@@ -90,11 +90,13 @@ class _GuildNavbarDmTransitionState extends State<GuildNavbarDmTransition>
       builder: (BuildContext context, Widget? child) => ClipRect(
         clipBehavior: _controller.isCompleted ? Clip.none : Clip.hardEdge,
         child: Align(
-          alignment: Alignment.topLeft,
+          alignment: AlignmentDirectional.topStart,
           heightFactor: _curve.value.clamp(0.0, 1.0),
           child: Transform.translate(
             offset: Offset(
-              -GuildNavbarDmTransition.slideDistance * (1 - _curve.value),
+              (Directionality.of(context) == TextDirection.rtl ? 1 : -1) *
+                  GuildNavbarDmTransition.slideDistance *
+                  (1 - _curve.value),
               0,
             ),
             child: child,

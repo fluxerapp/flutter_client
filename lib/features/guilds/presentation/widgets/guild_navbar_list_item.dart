@@ -87,8 +87,8 @@ class GuildNavbarPill extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: faded ? color.withValues(alpha: color.a * 0.5) : color,
-          borderRadius: const BorderRadius.horizontal(
-            right: Radius.circular(width),
+          borderRadius: const BorderRadiusDirectional.horizontal(
+            end: Radius.circular(width),
           ),
         ),
       ),

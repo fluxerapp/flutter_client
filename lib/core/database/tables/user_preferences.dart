@@ -127,6 +127,8 @@ class UserPreferencesTable extends Table {
       boolean().withDefault(const Constant(true))();
   BoolColumn get screenReaderAnnounceNewMessages =>
       boolean().withDefault(const Constant(false))();
+  BoolColumn get announceCallJoinsAndLeaves =>
+      boolean().withDefault(const Constant(true))();
   BoolColumn get syncReducedMotionWithSystem =>
       boolean().withDefault(const Constant(true))();
   BoolColumn get reducedMotionOverride =>

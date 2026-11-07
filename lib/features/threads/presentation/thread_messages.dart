@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_references_p
 import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 bool isThreadSystemMessageType(int type) =>
     type == messageTypeThreadCreated || type == messageTypeThreadStarterMessage;
@@ -210,7 +210,7 @@ class MessageThreadChip extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Material(
           color: context.colors.backgroundSecondaryAlt,
           borderRadius: BorderRadius.circular(8),

@@ -5,6 +5,7 @@ export 'package:fluxer_markdown/src/utils/ansi_palette.dart';
 export 'package:fluxer_markdown/src/utils/bounded_text.dart';
 export 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 export 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
+export 'package:fluxer_markdown/src/utils/first_strong_text_direction.dart';
 export 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 export 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 export 'package:fluxer_markdown/src/utils/visible_content.dart';

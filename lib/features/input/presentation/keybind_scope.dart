@@ -86,6 +86,10 @@ class _KeybindScopeState extends ConsumerState<KeybindScope> {
 
   bool _handleTabKey() {
     final bool wasKeyboardMode = ref.read(keyboardModeProvider);
+    if (wasKeyboardMode &&
+        !ref.read(composerFocusCoordinatorProvider).composerHasFocus()) {
+      return false;
+    }
     ref.read(keyboardModeProvider.notifier).enter();
     if (!wasKeyboardMode) {
       ref.read(focusedMessageProvider.notifier).clear();

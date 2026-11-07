@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/members/providers/member_list_subscription_p
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/instance_runtime_config_override.dart';

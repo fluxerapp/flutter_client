@@ -14,11 +14,12 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/audio/mic_test_track.dart';
+import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceMicTestSection extends ConsumerStatefulWidget {
   const VoiceMicTestSection({super.key});
@@ -47,6 +48,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
   @override
   void dispose() {
     unawaited(_disposeTestResources());
+    unawaited(clearNativeVoiceOutputRouteHold());
     _levelNotifier.dispose();
     super.dispose();
   }
@@ -199,6 +201,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
 
   Future<void> _stopTest() async {
     await _disposeTestResources();
+    await clearNativeVoiceOutputRouteHold();
     if (!mounted) {
       return;
     }

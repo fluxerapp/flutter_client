@@ -154,8 +154,8 @@ class AttachmentImage extends ConsumerWidget {
                   ),
                 ),
                 if (showGifIndicator && animate)
-                  Positioned(
-                    left: 8,
+                  PositionedDirectional(
+                    start: 8,
                     bottom: 8,
                     child: DecoratedBox(
                       decoration: BoxDecoration(

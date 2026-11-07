@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 108;
+const int _expectedSchemaVersion = 109;
 
 const int _guardedBaselineVersion = 67;
 
@@ -42,6 +42,7 @@ const Map<String, List<String>> _guardedColumns = <String, List<String>>{
     'save_gif_favorites_as_saved_media',
     'search_engines_json',
     'screen_reader_announce_new_messages',
+    'announce_call_joins_and_leaves',
     'sync_reduced_motion_with_system',
     'reduced_motion_override',
     'enable_tts_command',

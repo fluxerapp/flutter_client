@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum GuildAction {
   markAsRead,

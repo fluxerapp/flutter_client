@@ -369,6 +369,15 @@
             }
         }
     },
+    "nagbarGuildMfaRequirement": "Moderation actions in {communityName} require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.",
+    "@nagbarGuildMfaRequirement": {
+        "description": "Community banner shown when moderation actions in that community require two-factor authentication and the account has none set up.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
     "nagbarJoinCommunity": "Join {communityName}",
     "@nagbarJoinCommunity": {
         "description": "Official community membership nagbar CTA.",
@@ -5811,6 +5820,42 @@
     "@ageRangeUnderMinimumBody": {
         "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
     },
+    "ageRangeUnderMinimumBodyGoogle": "The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.",
+    "@ageRangeUnderMinimumBodyGoogle": {
+        "description": "Body of the full-screen page shown on Android when the age range shared through Google Play is under 13."
+    },
+    "ageRangeUnlockBody": "Where you are, the law says a date of birth you type in isn't enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it's 18 or over. An age range under 18 stays on this device.",
+    "@ageRangeUnlockBody": {
+        "description": "Text above the \"Unlock mature content\" button in the sensitive content settings on iPhone and iPad, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Apple for the age range on the Apple Account, and the app sends it to Fluxer only if it is 18 or over."
+    },
+    "ageRangeUnlockBodyGoogle": "Where you are, the law says a date of birth you type in isn't enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it's 18 or over. An age range under 18 stays on this device.",
+    "@ageRangeUnlockBodyGoogle": {
+        "description": "Text above the \"Unlock mature content\" button in the sensitive content settings on Android, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Google Play for the age range on the Google Account, and the app sends it to Fluxer only if it is 18 or over."
+    },
+    "ageRangeUnlockHelpLink": "How unlocking mature content works",
+    "@ageRangeUnlockHelpLink": {
+        "description": "Link to the help article about unlocking mature content with the age range from Apple or Google, shown in the sensitive content settings."
+    },
+    "ageRangeUnlockButton": "Unlock mature content",
+    "@ageRangeUnlockButton": {
+        "description": "Button in the sensitive content settings that asks Apple or Google Play for the age range on the account. Apple or Google shows its own prompt first."
+    },
+    "ageRangeUnlockUnderAdult": "Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn't sent to Fluxer.",
+    "@ageRangeUnlockUnderAdult": {
+        "description": "Shown in the sensitive content settings on iPhone and iPad when the age range from the Apple Account is under 18. The app keeps it on the device and never sends it."
+    },
+    "ageRangeUnlockUnderAdultGoogle": "Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn't sent to Fluxer.",
+    "@ageRangeUnlockUnderAdultGoogle": {
+        "description": "Shown in the sensitive content settings on Android when the age range from the Google Account is under 18. The app keeps it on the device and never sends it."
+    },
+    "ageRangeUnlockFailed": "Fluxer couldn't unlock mature content. Please try again later.",
+    "@ageRangeUnlockFailed": {
+        "description": "Shown under the \"Unlock mature content\" button when sending an age range of 18 or over to Fluxer failed."
+    },
+    "ageRangeUnlockDateOfBirthRequired": "Your account needs a date of birth before Fluxer can use your age range.",
+    "@ageRangeUnlockDateOfBirthRequired": {
+        "description": "Shown under the \"Unlock mature content\" button when the account has no date of birth, which Fluxer needs before it accepts an age range."
+    },
     "matureContentProceedButton": "Proceed",
     "@matureContentProceedButton": {
         "description": "Primary action on mature content gates."
@@ -5858,6 +5903,14 @@
     "sensitiveContentAppLockedHint": "To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".",
     "@sensitiveContentAppLockedHint": {
         "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
+    },
+    "sensitiveContentInstallFromPlayHint": "Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.",
+    "@sensitiveContentInstallFromPlayHint": {
+        "description": "Hint under the \"Unlock mature content\" button on Android when the app was downloaded from outside Google Play, which can't get the age range from Google Play."
+    },
+    "sensitiveContentFinishInPlayHint": "Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.",
+    "@sensitiveContentFinishInPlayHint": {
+        "description": "Hint under the \"Unlock mature content\" button on Android when Google Play needs the user to finish a step in the Play Store before it shares an age range. The quoted label must match ageRangeUnlockButton."
     },
     "chatUploadingAttachmentsSummary": "Uploading {count, plural, =1{1 file} other{{count} files}}",
     "@chatUploadingAttachmentsSummary": {
@@ -7883,6 +7936,123 @@
     "@voiceCallControlsSheetLabel": {
         "description": "Accessibility label of the drag handle on the voice call controls sheet."
     },
+    "voiceCallBarOpenCallHint": "Opens the call",
+    "@voiceCallBarOpenCallHint": {
+        "description": "Accessibility hint on the minimized call bar, describing that activating it opens the call screen."
+    },
+    "voiceParticipantSpeaking": "Speaking",
+    "@voiceParticipantSpeaking": {
+        "description": "Screen reader state added to a voice participant tile while that participant is talking."
+    },
+    "voiceParticipantOptionsAction": "Participant options",
+    "@voiceParticipantOptionsAction": {
+        "description": "Screen reader action on a voice participant tile that opens the participant menu."
+    },
+    "voiceParticipantOtherDevicesLabel": "{count, plural, =1{Show 1 more device} other{Show {count} more devices}}",
+    "@voiceParticipantOtherDevicesLabel": {
+        "description": "Screen reader label for the chip on a participant tile that reveals that participant's other connected devices.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voicePipReturnToCallLabel": "Return to call",
+    "@voicePipReturnToCallLabel": {
+        "description": "Screen reader label for the floating picture-in-picture call window."
+    },
+    "voiceAnnounceUserJoined": "{name} joined",
+    "@voiceAnnounceUserJoined": {
+        "description": "Screen reader announcement when someone joins the voice call.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceAnnounceUserLeft": "{name} left",
+    "@voiceAnnounceUserLeft": {
+        "description": "Screen reader announcement when someone leaves the voice call.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceAnnounceUsersJoined": "{count, plural, =1{1 person joined} other{{count} people joined}}",
+    "@voiceAnnounceUsersJoined": {
+        "description": "Screen reader announcement when several people join the voice call at once.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceAnnounceUsersLeft": "{count, plural, =1{1 person left} other{{count} people left}}",
+    "@voiceAnnounceUsersLeft": {
+        "description": "Screen reader announcement when several people leave the voice call at once.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceAnnounceSomeone": "Someone",
+    "@voiceAnnounceSomeone": {
+        "description": "Fallback name in voice call announcements when the participant's name is not loaded yet."
+    },
+    "voiceAnnounceConnected": "Connected to voice",
+    "@voiceAnnounceConnected": {
+        "description": "Screen reader announcement when the voice call connects."
+    },
+    "voiceAnnounceReconnecting": "Reconnecting to voice",
+    "@voiceAnnounceReconnecting": {
+        "description": "Screen reader announcement when the voice connection drops and starts reconnecting."
+    },
+    "voiceAnnounceReconnected": "Reconnected to voice",
+    "@voiceAnnounceReconnected": {
+        "description": "Screen reader announcement when the voice connection recovers."
+    },
+    "voiceAnnounceDisconnected": "Disconnected from voice",
+    "@voiceAnnounceDisconnected": {
+        "description": "Screen reader announcement when you leave or are removed from the voice call."
+    },
+    "voiceAnnounceMoved": "Now in a different voice channel",
+    "@voiceAnnounceMoved": {
+        "description": "Screen reader announcement when your voice connection switches to a different channel, whether you or a moderator moved you."
+    },
+    "voiceAnnounceServerMuted": "A moderator muted you",
+    "@voiceAnnounceServerMuted": {
+        "description": "Screen reader announcement when a moderator mutes you in a voice channel."
+    },
+    "voiceAnnounceServerUnmuted": "A moderator unmuted you",
+    "@voiceAnnounceServerUnmuted": {
+        "description": "Screen reader announcement when a moderator removes your server mute."
+    },
+    "voiceAnnounceServerDeafened": "A moderator deafened you",
+    "@voiceAnnounceServerDeafened": {
+        "description": "Screen reader announcement when a moderator deafens you in a voice channel."
+    },
+    "voiceAnnounceServerUndeafened": "A moderator undeafened you",
+    "@voiceAnnounceServerUndeafened": {
+        "description": "Screen reader announcement when a moderator removes your server deafen."
+    },
+    "voiceAnnounceMicMuted": "Microphone muted",
+    "@voiceAnnounceMicMuted": {
+        "description": "Screen reader announcement after muting with the screen reader gesture."
+    },
+    "voiceAnnounceMicUnmuted": "Microphone unmuted",
+    "@voiceAnnounceMicUnmuted": {
+        "description": "Screen reader announcement after unmuting with the screen reader gesture."
+    },
+    "accessibilityAnnounceCallJoinsAndLeavesLabel": "Announce call joins and leaves",
+    "@accessibilityAnnounceCallJoinsAndLeavesLabel": {
+        "description": "Toggle label for screen reader announcements when people join or leave your voice call."
+    },
+    "accessibilityAnnounceCallJoinsAndLeavesDescription": "Let screen readers say who joins or leaves the voice call you're in. Connection changes and moderator actions are always announced.",
+    "@accessibilityAnnounceCallJoinsAndLeavesDescription": {
+        "description": "Toggle description for screen reader announcements when people join or leave your voice call."
+    },
     "voiceConnectionDisconnected": "Disconnected",
     "@voiceConnectionDisconnected": {
         "description": "Voice connection status when not connected."
@@ -8090,7 +8260,23 @@
     },
     "voiceOutputRouteHeadset": "Headphones",
     "@voiceOutputRouteHeadset": {
-        "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
+        "description": "Voice output route that plays call audio through a connected headset."
+    },
+    "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Connection type of a classic Bluetooth device that can play call audio, also shown when the device name is unknown."
+    },
+    "voiceOutputRouteBluetoothLe": "Bluetooth LE",
+    "@voiceOutputRouteBluetoothLe": {
+        "description": "Connection type of a Bluetooth Low Energy audio device that can play call audio."
+    },
+    "voiceOutputRouteHearingAid": "Hearing aid",
+    "@voiceOutputRouteHearingAid": {
+        "description": "Connection type of a connected hearing aid that can play call audio."
+    },
+    "voiceOutputRouteUsb": "USB headset",
+    "@voiceOutputRouteUsb": {
+        "description": "Connection type of a USB headset that can play call audio."
     },
     "voiceChangeAudioOutputLabel": "Change audio output",
     "@voiceChangeAudioOutputLabel": {
@@ -19347,6 +19533,22 @@
     "errorUnexpectedTryAgain": "An unexpected error occurred. Try again.",
     "@errorUnexpectedTryAgain": {
         "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorTwoFactorRequiredTitle": "Two-factor authentication required",
+    "@errorTwoFactorRequiredTitle": {
+        "description": "Title of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up."
+    },
+    "errorTwoFactorRequiredMessage": "This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.",
+    "@errorTwoFactorRequiredMessage": {
+        "description": "Body of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up."
+    },
+    "errorTwoFactorRequiredSetUp": "Set up 2FA",
+    "@errorTwoFactorRequiredSetUp": {
+        "description": "Button in the two-factor required dialog that opens the security settings."
+    },
+    "memberRolesUpdateFailed": "Couldn't update this member's roles. Try again.",
+    "@memberRolesUpdateFailed": {
+        "description": "Error dialog body when adding or removing a role on a community member fails."
     },
     "errorMessagingPausedTitle": "Messaging is paused",
     "@errorMessagingPausedTitle": {

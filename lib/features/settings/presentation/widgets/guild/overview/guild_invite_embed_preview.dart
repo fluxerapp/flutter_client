@@ -41,7 +41,7 @@ class GuildInviteEmbedPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final Widget? splash = _buildSplash();
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: Container(
         constraints: isMobileLayout(context)
             ? null
@@ -86,7 +86,9 @@ class GuildInviteEmbedPreview extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 4,
+                              ),
                               child: FluxerGuildBadge(features: features),
                             ),
                           ],

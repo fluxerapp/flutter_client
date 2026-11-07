@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mu
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileMutualsSection extends StatelessWidget {
   const UserProfileMutualsSection({

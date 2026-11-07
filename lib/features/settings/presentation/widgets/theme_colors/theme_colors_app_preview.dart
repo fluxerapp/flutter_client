@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/theme_colors/t
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_colors/theme_colors_preview_content.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ThemeColorsAppPreview extends StatelessWidget {
   const ThemeColorsAppPreview({super.key});
@@ -48,7 +48,9 @@ class ThemeColorsChannelListPreview extends StatelessWidget {
             width: railWidth,
             decoration: BoxDecoration(
               color: colors.serverSidebarBackground,
-              border: Border(right: BorderSide(color: colors.borderColor)),
+              border: BorderDirectional(
+                end: BorderSide(color: colors.borderColor),
+              ),
             ),
             padding: EdgeInsets.symmetric(vertical: layout.s2),
             child: Column(
@@ -93,7 +95,7 @@ class ThemeColorsChannelListPreview extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: layout.s3),
                       child: Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         child: Text(
                           ThemeColorsPreviewContent.communityName,
                           style: textStyles.label.copyWith(

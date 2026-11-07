@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/members/utils/member_list_access.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const double kMemberListRowHeight = 50;
 const double kMemberListGroupHeaderHeight = 28;
@@ -187,7 +187,7 @@ class _MemberListDetailsGroupHeaderSkeleton extends StatelessWidget {
           right: context.layout.s4,
         ),
         child: const Align(
-          alignment: Alignment.centerLeft,
+          alignment: AlignmentDirectional.centerStart,
           child: _MemberListSkeletonBar(width: 108, height: 10),
         ),
       ),
@@ -286,7 +286,7 @@ class MemberListDetailsGroupHeader extends StatelessWidget {
           right: context.layout.s4,
         ),
         child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: AlignmentDirectional.centerStart,
           child: Row(
             children: <Widget>[
               if (iconRole != null && iconRole!.hasIcon) ...<Widget>[

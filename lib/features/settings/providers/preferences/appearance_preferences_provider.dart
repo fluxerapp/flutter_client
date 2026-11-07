@@ -73,6 +73,7 @@ class AppearancePreferencesState {
     this.showMediaFavoriteButton = true,
     this.showSuppressEmbedsButton = true,
     this.screenReaderAnnounceNewMessages = false,
+    this.announceCallJoinsAndLeaves = true,
     this.syncReducedMotionWithSystem = true,
     this.reducedMotionOverride = false,
     this.enableTtsCommand = true,
@@ -115,6 +116,7 @@ class AppearancePreferencesState {
   final bool showMediaFavoriteButton;
   final bool showSuppressEmbedsButton;
   final bool screenReaderAnnounceNewMessages;
+  final bool announceCallJoinsAndLeaves;
   final bool syncReducedMotionWithSystem;
   final bool reducedMotionOverride;
   final bool enableTtsCommand;
@@ -157,6 +159,7 @@ class AppearancePreferencesState {
     bool? showMediaFavoriteButton,
     bool? showSuppressEmbedsButton,
     bool? screenReaderAnnounceNewMessages,
+    bool? announceCallJoinsAndLeaves,
     bool? syncReducedMotionWithSystem,
     bool? reducedMotionOverride,
     bool? enableTtsCommand,
@@ -212,6 +215,8 @@ class AppearancePreferencesState {
       screenReaderAnnounceNewMessages:
           screenReaderAnnounceNewMessages ??
           this.screenReaderAnnounceNewMessages,
+      announceCallJoinsAndLeaves:
+          announceCallJoinsAndLeaves ?? this.announceCallJoinsAndLeaves,
       syncReducedMotionWithSystem:
           syncReducedMotionWithSystem ?? this.syncReducedMotionWithSystem,
       reducedMotionOverride:
@@ -300,6 +305,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         showMediaFavoriteButton: prefs.showMediaFavoriteButton,
         showSuppressEmbedsButton: prefs.showSuppressEmbedsButton,
         screenReaderAnnounceNewMessages: prefs.screenReaderAnnounceNewMessages,
+        announceCallJoinsAndLeaves: prefs.announceCallJoinsAndLeaves,
         syncReducedMotionWithSystem: prefs.syncReducedMotionWithSystem,
         reducedMotionOverride: prefs.reducedMotionOverride,
         enableTtsCommand: prefs.enableTtsCommand,
@@ -353,6 +359,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         showMediaFavoriteButton: value.showMediaFavoriteButton,
         showSuppressEmbedsButton: value.showSuppressEmbedsButton,
         screenReaderAnnounceNewMessages: value.screenReaderAnnounceNewMessages,
+        announceCallJoinsAndLeaves: value.announceCallJoinsAndLeaves,
         enableTtsCommand: value.enableTtsCommand,
         ttsRate: value.ttsRate,
         alwaysUnderlineLinks: value.alwaysUnderlineLinks,
@@ -551,6 +558,12 @@ class AppearancePreferences extends _$AppearancePreferences {
     _markAccessibilityDirty();
   }
 
+  Future<void> setAnnounceCallJoinsAndLeaves({required bool value}) async {
+    state = state.copyWith(announceCallJoinsAndLeaves: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
   Future<void> setSyncReducedMotionWithSystem({required bool value}) async {
     state = state.copyWith(syncReducedMotionWithSystem: value);
     await _persist();
@@ -738,6 +751,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         screenReaderAnnounceNewMessages: Value(
           state.screenReaderAnnounceNewMessages,
         ),
+        announceCallJoinsAndLeaves: Value(state.announceCallJoinsAndLeaves),
         syncReducedMotionWithSystem: Value(state.syncReducedMotionWithSystem),
         reducedMotionOverride: Value(state.reducedMotionOverride),
         enableTtsCommand: Value(state.enableTtsCommand),

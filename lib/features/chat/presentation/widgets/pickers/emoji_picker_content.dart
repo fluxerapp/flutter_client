@@ -26,11 +26,12 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_search.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
 const _kMobileGridColumns = 9;
@@ -885,10 +886,25 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   ) {
     final unicodeResults = EmojiRegistry.search(widget.searchQuery);
     final guildEmojis = data.guildEmojisByGuild.values.expand((e) => e);
-    final query = widget.searchQuery.toLowerCase();
-    final customResults = guildEmojis
-        .where((e) => e.name.toLowerCase().contains(query))
-        .toList();
+    final query = normalizeEmojiSearchQuery(widget.searchQuery);
+    final rankedCustom = <(int, GuildEmojiEntry)>[];
+    for (final GuildEmojiEntry e in guildEmojis) {
+      final int? tier = query.isEmpty
+          ? null
+          : emojiMatchTier(
+              names: <String>[e.name],
+              namesLower: <String>[e.nameLower],
+              keywordsLower: const <String>[],
+              query: query,
+            );
+      if (tier != null) {
+        rankedCustom.add((tier, e));
+      }
+    }
+    rankedCustom.sort(
+      (a, b) => a.$1 != b.$1 ? a.$1 - b.$1 : a.$2.name.compareTo(b.$2.name),
+    );
+    final customResults = rankedCustom.map((r) => r.$2).toList();
 
     if (unicodeResults.isEmpty && customResults.isEmpty) {
       return Center(
@@ -1210,7 +1226,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
               ),
               const SizedBox(width: 8),
               AnimatedRotation(
-                turns: isCollapsed ? -0.25 : 0,
+                turns: !isCollapsed
+                    ? 0
+                    : Directionality.of(context) == TextDirection.rtl
+                    ? 0.25
+                    : -0.25,
                 duration: context.motion.panel,
                 child: PhosphorIcon(
                   PhosphorIconsBold.caretDown,
@@ -1371,8 +1391,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       width: 46,
       decoration: BoxDecoration(
         color: colors.backgroundPrimary,
-        border: Border(
-          right: BorderSide(color: colors.backgroundModifierAccent),
+        border: BorderDirectional(
+          end: BorderSide(color: colors.backgroundModifierAccent),
         ),
       ),
       child: ListenableBuilder(

@@ -58,8 +58,7 @@ class SensitiveContent extends _$SensitiveContent {
         : ref.watch(currentUserPrivateReadProvider(accountUserId));
     final MatureGeoStatus geo =
         ref.watch(matureGeoStatusProvider).value ?? MatureGeoStatus.none;
-    final DeclaredAgeFloor floor =
-        ref.watch(declaredAgeFloorProvider).value ?? DeclaredAgeFloor.none;
+    final DeclaredAgeFloor floor = ref.watch(declaredAgeFloorProvider);
     final bool appStorePolicy = ref.watch(matureContentAppStorePolicyProvider);
     final bool serverAllowsMature = user?.nsfwAllowed ?? false;
     final bool deviceDeclaredMinor = floor != DeclaredAgeFloor.none;
@@ -70,7 +69,7 @@ class SensitiveContent extends _$SensitiveContent {
             serverAllowsMature: serverAllowsMature,
             deviceDeclaredMinor: deviceDeclaredMinor,
             geo: geo,
-            ageVerifiedAdult: user.ageVerifiedAdult ?? false,
+            matureContentUnlocked: user.matureContentUnlocked ?? false,
             appStorePolicy: appStorePolicy,
             iosOptIn: iosOptIn,
           );

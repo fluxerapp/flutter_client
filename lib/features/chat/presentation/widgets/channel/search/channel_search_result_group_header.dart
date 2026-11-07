@@ -12,8 +12,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelSearchResultGroupHeader extends ConsumerWidget {
   const ChannelSearchResultGroupHeader({
@@ -108,12 +108,12 @@ class ChannelSearchResultGroupHeader extends ConsumerWidget {
   ) {
     if (dm != null && dm.isGroup) {
       return Padding(
-        padding: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsetsDirectional.only(end: 8),
         child: GroupDmAvatar.conversation(dm, size: 20),
       );
     }
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsetsDirectional.only(end: 8),
       child: ChannelIcon(
         type: channel.type,
         color: context.colors.textPrimaryMuted,

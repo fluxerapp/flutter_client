@@ -24,6 +24,7 @@ class Guild {
   final bool unavailable;
   final int disabledOperations;
   final int verificationLevel;
+  final int mfaLevel;
   final bool nsfw;
   final int contentWarningLevel;
   final String? contentWarningText;
@@ -45,6 +46,7 @@ class Guild {
     this.unavailable = false,
     this.disabledOperations = 0,
     this.verificationLevel = 0,
+    this.mfaLevel = 0,
     this.nsfw = false,
     this.contentWarningLevel = 0,
     this.contentWarningText,
@@ -68,6 +70,7 @@ class Guild {
       unavailable: row.unavailable,
       disabledOperations: row.disabledOperations,
       verificationLevel: row.verificationLevel,
+      mfaLevel: row.mfaLevel,
       nsfw: row.nsfw,
       contentWarningLevel: row.contentWarningLevel,
       contentWarningText: row.contentWarningText,
@@ -94,6 +97,7 @@ class Guild {
             other.unavailable == unavailable &&
             other.disabledOperations == disabledOperations &&
             other.verificationLevel == verificationLevel &&
+            other.mfaLevel == mfaLevel &&
             other.nsfw == nsfw &&
             other.contentWarningLevel == contentWarningLevel &&
             other.contentWarningText == contentWarningText &&
@@ -117,6 +121,7 @@ class Guild {
     unavailable,
     disabledOperations,
     verificationLevel,
+    mfaLevel,
     nsfw,
     contentWarningLevel,
     contentWarningText,

@@ -56,8 +56,11 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
     if (claimsClearHorizontalDrag(
       deltaFromStart: delta,
       slop: tracked.slop,
-      directions: const <HorizontalClaimDirection>{
-        HorizontalClaimDirection.left,
+      directions: <HorizontalClaimDirection>{
+        if (Directionality.of(context) == TextDirection.rtl)
+          HorizontalClaimDirection.right
+        else
+          HorizontalClaimDirection.left,
       },
     )) {
       return;
