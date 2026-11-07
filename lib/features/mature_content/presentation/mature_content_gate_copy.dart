@@ -21,8 +21,6 @@ MatureContentGateCopy resolveMatureContentGateCopy({
   required MatureContentGateReason reason,
   required ResolvedMatureGateContext context,
   ChannelType? channelType,
-  bool playInstallRequired = false,
-  bool playVerificationRequired = false,
 }) {
   final bool hasCustomWarningText =
       context.effectiveWarningText != null &&
@@ -31,16 +29,9 @@ MatureContentGateCopy resolveMatureContentGateCopy({
       ? context.effectiveWarningText!
       : l10n.defaultContentWarningBody;
   if (reason == MatureContentGateReason.regionLocked) {
-    String body = l10n.matureContentRegionLockedBody;
-    if (playVerificationRequired) {
-      body = l10n.matureContentVerifyInPlayBody;
-    }
-    if (playInstallRequired) {
-      body = l10n.matureContentInstallFromPlayBody;
-    }
     return MatureContentGateCopy(
       title: l10n.matureContentTitle,
-      body: body,
+      body: l10n.matureContentRegionLockedBody,
       primaryButtonLabel: null,
       canProceed: false,
     );

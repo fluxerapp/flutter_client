@@ -48,13 +48,13 @@ void main() {
 
   test('both push flavors define the bridge MainActivity registers', () {
     final String fcm = File(
-      '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/PlayAgeAssuranceBridge.kt',
+      '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/PlayAgeRangeBridge.kt',
     ).readAsStringSync();
     final String unifiedPush = File(
-      '${projectRoot.path}/android/app/src/unifiedpush/kotlin/com/fluxer/PlayAgeAssuranceBridge.kt',
+      '${projectRoot.path}/android/app/src/unifiedpush/kotlin/com/fluxer/PlayAgeRangeBridge.kt',
     ).readAsStringSync();
-    expect(fcm, contains('class PlayAgeAssuranceBridge('));
-    expect(unifiedPush, contains('class PlayAgeAssuranceBridge('));
+    expect(fcm, contains('class PlayAgeRangeBridge('));
+    expect(unifiedPush, contains('class PlayAgeRangeBridge('));
     expect(unifiedPush, isNot(contains('com.google')));
   });
 }

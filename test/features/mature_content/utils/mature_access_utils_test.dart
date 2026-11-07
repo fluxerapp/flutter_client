@@ -6,7 +6,7 @@ MatureAccess _access({
   bool serverAllowsMature = true,
   bool deviceDeclaredMinor = false,
   MatureGeoStatus geo = MatureGeoStatus.none,
-  bool ageVerifiedAdult = false,
+  bool matureContentUnlocked = false,
   bool appStorePolicy = false,
   bool iosOptIn = false,
 }) {
@@ -14,7 +14,7 @@ MatureAccess _access({
     serverAllowsMature: serverAllowsMature,
     deviceDeclaredMinor: deviceDeclaredMinor,
     geo: geo,
-    ageVerifiedAdult: ageVerifiedAdult,
+    matureContentUnlocked: matureContentUnlocked,
     appStorePolicy: appStorePolicy,
     iosOptIn: iosOptIn,
   );
@@ -42,16 +42,19 @@ void main() {
     expect(_access(appStorePolicy: true, iosOptIn: true), MatureAccess.allowed);
   });
 
-  test('a verified adult passes restricted regions but not blocked ones', () {
-    expect(
-      _access(geo: MatureGeoStatus.restricted, ageVerifiedAdult: true),
-      MatureAccess.allowed,
-    );
-    expect(
-      _access(geo: MatureGeoStatus.blocked, ageVerifiedAdult: true),
-      MatureAccess.regionLocked,
-    );
-  });
+  test(
+    'an account with mature content unlocked passes restricted regions but not blocked ones',
+    () {
+      expect(
+        _access(geo: MatureGeoStatus.restricted, matureContentUnlocked: true),
+        MatureAccess.allowed,
+      );
+      expect(
+        _access(geo: MatureGeoStatus.blocked, matureContentUnlocked: true),
+        MatureAccess.regionLocked,
+      );
+    },
+  );
 
   test('other platforms ignore the iOS opt-in', () {
     expect(_access(), MatureAccess.allowed);

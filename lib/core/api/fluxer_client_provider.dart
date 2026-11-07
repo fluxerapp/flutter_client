@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/age/declared_age_range_gate.dart';
+import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/api/accept_language_interceptor.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
@@ -122,7 +122,7 @@ Dio _buildFluxerDio({
       showSudoSheet: (SudoChallenge challenge) => showSudoVerificationSheet(
         navigatorKey: rootNavigatorKey.currentState != null
             ? rootNavigatorKey
-            : declaredAgeGateNavigatorKey,
+            : declaredAgeRangeNavigatorKey,
         dio: dio,
         challenge: challenge,
         passkeysSupported: passkeysSupportedFor(instanceSnapshot.apiBaseUrl),

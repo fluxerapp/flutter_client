@@ -8,7 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 
-class PlayAgeAssuranceBridgeTest {
+class PlayAgeRangeBridgeTest {
     @Test
     fun sharedAccessContinuesToAgeSignals() {
         assertNull(ageAccessStatusPayload(AgeSignalsStatus.SHARED))
@@ -23,9 +23,9 @@ class PlayAgeAssuranceBridgeTest {
     }
 
     @Test
-    fun verificationRequiredIsReported() {
+    fun playStoreActionRequiredIsReported() {
         assertEquals(
-            mapOf("status" to AGE_STATUS_VERIFICATION_REQUIRED),
+            mapOf("status" to AGE_STATUS_PLAY_STORE_ACTION_REQUIRED),
             ageAccessStatusPayload(AgeSignalsStatus.VERIFICATION_REQUIRED),
         )
     }

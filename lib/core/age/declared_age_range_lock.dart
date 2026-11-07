@@ -9,23 +9,22 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-final GlobalKey<NavigatorState> declaredAgeGateNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'declaredAgeGate');
+final GlobalKey<NavigatorState> declaredAgeRangeNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'declaredAgeRange');
 
-class DeclaredAgeRangeGate extends ConsumerWidget {
-  const DeclaredAgeRangeGate({required this.child, super.key});
+class DeclaredAgeRangeLock extends ConsumerWidget {
+  const DeclaredAgeRangeLock({required this.child, super.key});
 
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final DeclaredAgeFloor floor =
-        ref.watch(declaredAgeFloorProvider).value ?? DeclaredAgeFloor.none;
+    final DeclaredAgeFloor floor = ref.watch(declaredAgeFloorProvider);
     if (floor != DeclaredAgeFloor.underMinimum) {
       return child;
     }
     return Navigator(
-      key: declaredAgeGateNavigatorKey,
+      key: declaredAgeRangeNavigatorKey,
       onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
         settings: settings,
         transitionDuration: Duration.zero,

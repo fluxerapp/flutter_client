@@ -5,7 +5,7 @@ import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoTheme, CupertinoThemeData;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/age/declared_age_range_gate.dart';
+import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
 import 'package:fluxer_app/core/instance/account_identity_sync.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -147,7 +147,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
                 child: AppUiLifecycleObserver(
                   child: AccountIdentitySync(
                     child: RecoveryKitGate(
-                      child: DeclaredAgeRangeGate(
+                      child: DeclaredAgeRangeLock(
                         child: IncomingVoiceCallLayer(
                           child: VoiceCallAccessibilityLayer(
                             child: VoicePipLayer(child: child!),

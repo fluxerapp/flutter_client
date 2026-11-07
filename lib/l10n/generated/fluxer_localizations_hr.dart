@@ -4545,14 +4545,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Zbog zakona o sadržaju za odrasle na vašem području sadržaj za odrasle nije dostupan s vaše lokacije.';
 
   @override
-  String get matureContentInstallFromPlayBody =>
-      'Your age can\'t be verified on this copy of Fluxer because it wasn\'t installed from Google Play. To verify your age and view this content, install Fluxer from Google Play.';
-
-  @override
-  String get matureContentVerifyInPlayBody =>
-      'Google Play needs to verify your age before this content can be shown. Open the Play Store to finish verifying, then return to Fluxer.';
-
-  @override
   String get matureMessageHiddenPreview => 'Poruka u kanalu 18+';
 
   @override
@@ -4565,6 +4557,36 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get ageRangeUnderMinimumBodyGoogle =>
       'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
+
+  @override
+  String get ageRangeUnlockBody =>
+      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+
+  @override
+  String get ageRangeUnlockBodyGoogle =>
+      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+
+  @override
+  String get ageRangeUnlockHelpLink => 'How unlocking mature content works';
+
+  @override
+  String get ageRangeUnlockButton => 'Unlock mature content';
+
+  @override
+  String get ageRangeUnlockUnderAdult =>
+      'Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+
+  @override
+  String get ageRangeUnlockUnderAdultGoogle =>
+      'Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+
+  @override
+  String get ageRangeUnlockFailed =>
+      'Fluxer couldn\'t unlock mature content. Please try again later.';
+
+  @override
+  String get ageRangeUnlockDateOfBirthRequired =>
+      'Your account needs a date of birth before Fluxer can use your age range.';
 
   @override
   String get matureContentProceedButton => 'Nastavi';
@@ -4605,11 +4627,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get sensitiveContentInstallFromPlayHint =>
-      'This copy of Fluxer wasn\'t installed from Google Play, so it can\'t verify your age. To verify your age here, install Fluxer from Google Play.';
+      'Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.';
 
   @override
-  String get sensitiveContentVerifyInPlayHint =>
-      'Google Play hasn\'t verified your age yet. Open the Play Store to finish verifying, then return to Fluxer.';
+  String get sensitiveContentFinishInPlayHint =>
+      'Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
