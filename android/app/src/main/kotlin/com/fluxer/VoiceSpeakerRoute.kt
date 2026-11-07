@@ -19,6 +19,11 @@ import io.flutter.plugin.common.MethodChannel
 private const val CHANNEL_NAME = "fluxer_app/voice_speaker_route"
 private const val ROUTE_FOLLOW_UP_MS = 400L
 
+internal object FluxerRouteOwnership {
+    @Volatile
+    var holdsRoute: Boolean = false
+}
+
 internal enum class VoiceOutputRoute {
     Speaker,
     Earpiece,
@@ -254,6 +259,7 @@ class VoiceSpeakerRouteBridge(
                     scheduleRouteFollowUp(audioManager, route, deviceId)
                 }
                 applyRoute(audioManager, route, deviceId, force = true)
+                FluxerRouteOwnership.holdsRoute = true
                 result.success(null)
             }
             "clearRouteHold" -> {
@@ -288,6 +294,10 @@ class VoiceSpeakerRouteBridge(
     private fun clearRouteHold(audioManager: AudioManager) {
         cancelRouteFollowUp()
         telecomOwnsRoute = false
+        if (!FluxerRouteOwnership.holdsRoute) {
+            return
+        }
+        FluxerRouteOwnership.holdsRoute = false
         setVoiceCallVolumeKeys(false)
         releaseCallSpeaker(audioManager)
         val work = Runnable { releaseCallSpeaker(audioManager) }
