@@ -11619,7 +11619,7 @@
         },
         {
             "names": [
-                "woman_with_veil",
+                "person_with_veil",
                 "bride_with_veil"
             ],
             "surrogates": "👰",
@@ -11632,31 +11632,31 @@
             "skins": [
                 {
                     "names": [
-                        "woman_with_veil_tone1"
+                        "person_with_veil_tone1"
                     ],
                     "surrogates": "👰🏻"
                 },
                 {
                     "names": [
-                        "woman_with_veil_tone2"
+                        "person_with_veil_tone2"
                     ],
                     "surrogates": "👰🏼"
                 },
                 {
                     "names": [
-                        "woman_with_veil_tone3"
+                        "person_with_veil_tone3"
                     ],
                     "surrogates": "👰🏽"
                 },
                 {
                     "names": [
-                        "woman_with_veil_tone4"
+                        "person_with_veil_tone4"
                     ],
                     "surrogates": "👰🏾"
                 },
                 {
                     "names": [
-                        "woman_with_veil_tone5"
+                        "person_with_veil_tone5"
                     ],
                     "surrogates": "👰🏿"
                 }
@@ -30925,8 +30925,7 @@
         },
         {
             "names": [
-                "e_mail",
-                "email"
+                "envelope"
             ],
             "surrogates": "✉️",
             "keywords": [
@@ -30937,7 +30936,8 @@
         },
         {
             "names": [
-                "e_mail"
+                "e_mail",
+                "email"
             ],
             "surrogates": "📧",
             "keywords": [
