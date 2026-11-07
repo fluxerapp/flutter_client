@@ -1114,10 +1114,7 @@ class _MarkdownBlockRenderer {
     );
     return Padding(
       padding: EdgeInsets.only(bottom: baseFontSize * 0.75),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: tableWidget,
-      ),
+      child: _TableHorizontalScroller(child: tableWidget),
     );
   }
 
@@ -2482,6 +2479,136 @@ class _FluxerLatexCodeBlockBody extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+// The thumb flashes when the table comes on screen because mobile scrollbars
+// stay hidden until scrolled. It ignores touches, since a thin thumb is easy
+// to grab by accident while scrolling the chat.
+class _TableHorizontalScroller extends StatefulWidget {
+  const _TableHorizontalScroller({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_TableHorizontalScroller> createState() =>
+      _TableHorizontalScrollerState();
+}
+
+class _TableHorizontalScrollerState extends State<_TableHorizontalScroller> {
+  final ScrollController _controller = ScrollController();
+  ScrollPosition? _outerPosition;
+  bool _isThumbOnScreen = false;
+  bool _isThumbCheckScheduled = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final ScrollPosition? outerPosition = Scrollable.maybeOf(context)?.position;
+    if (outerPosition != _outerPosition) {
+      _outerPosition?.removeListener(_scheduleThumbCheck);
+      _outerPosition = outerPosition?..addListener(_scheduleThumbCheck);
+    }
+    _scheduleThumbCheck();
+  }
+
+  /// Scroll listeners fire before the list lays out at its new offset, so
+  /// the table is only measured once the frame is done.
+  void _scheduleThumbCheck() {
+    if (_isThumbCheckScheduled) {
+      return;
+    }
+    _isThumbCheckScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isThumbCheckScheduled = false;
+      _updateThumbOnScreen();
+    });
+  }
+
+  void _updateThumbOnScreen() {
+    if (!mounted) {
+      return;
+    }
+    final bool thumbOnScreen = _bottomEdgeOverlapsViewport();
+    if (thumbOnScreen == _isThumbOnScreen) {
+      return;
+    }
+    _isThumbOnScreen = thumbOnScreen;
+    if (thumbOnScreen) {
+      _flashThumb();
+    }
+  }
+
+  bool _bottomEdgeOverlapsViewport() {
+    final RenderObject? box = context.findRenderObject();
+    if (box is! RenderBox || !box.attached || !box.hasSize) {
+      return false;
+    }
+    final RenderObject? viewport = Scrollable.maybeOf(
+      context,
+    )?.context.findRenderObject();
+    if (viewport is! RenderBox || !viewport.hasSize) {
+      return true;
+    }
+    final Rect bottomEdge = Rect.fromLTRB(
+      0,
+      box.size.height - 1,
+      box.size.width,
+      box.size.height,
+    );
+    return MatrixUtils.transformRect(
+      box.getTransformTo(viewport),
+      bottomEdge,
+    ).overlaps(Offset.zero & viewport.size);
+  }
+
+  void _flashThumb() {
+    if (!mounted || !_controller.hasClients) {
+      return;
+    }
+    final ScrollPosition position = _controller.position;
+    final BuildContext? scrollContext = position.context.notificationContext;
+    if (scrollContext == null) {
+      return;
+    }
+    ScrollUpdateNotification(
+      metrics: position.copyWith(),
+      context: scrollContext,
+      scrollDelta: 0,
+    ).dispatch(scrollContext);
+    ScrollEndNotification(
+      metrics: position.copyWith(),
+      context: scrollContext,
+    ).dispatch(scrollContext);
+  }
+
+  @override
+  void dispose() {
+    _outerPosition?.removeListener(_scheduleThumbCheck);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Scrollbar insets its track by the screen's safe-area padding, which
+    // would lift the thumb up the table when the chat has a bottom inset.
+    return MediaQuery.removePadding(
+      context: context,
+      removeLeft: true,
+      removeTop: true,
+      removeRight: true,
+      removeBottom: true,
+      child: Scrollbar(
+        controller: _controller,
+        interactive: false,
+        child: SingleChildScrollView(
+          controller: _controller,
+          scrollDirection: Axis.horizontal,
+          child: widget.child,
+        ),
       ),
     );
   }
