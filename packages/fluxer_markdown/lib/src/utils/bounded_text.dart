@@ -59,8 +59,25 @@ class FluxerBoundedTextClip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(child: child);
+    return ClipRect(clipper: const _VerticalTextClipper(), child: child);
   }
+}
+
+/// Clips stacked combining marks above and below the text box but lets glyphs
+/// overhang sideways, so the last italic letter of a line is not cut off.
+class _VerticalTextClipper extends CustomClipper<Rect> {
+  const _VerticalTextClipper();
+
+  @override
+  Rect getClip(Size size) {
+    // A glyph's overhang is smaller than its line height, and the box is at
+    // least one line tall.
+    final double overhang = size.height;
+    return Rect.fromLTRB(-overhang, 0, size.width + overhang, size.height);
+  }
+
+  @override
+  bool shouldReclip(_VerticalTextClipper oldClipper) => false;
 }
 
 Widget wrapBoundedTextClip({required Widget child, int? maxLines}) {
