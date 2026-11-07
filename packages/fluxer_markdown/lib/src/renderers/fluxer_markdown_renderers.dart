@@ -2417,9 +2417,6 @@ class FluxerCodeBlockWidget extends StatelessWidget {
     final knownLang = kFluxerMarkdownLanguages.containsKey(rawLang)
         ? rawLang
         : null;
-    if (knownLang == null && rawLang.isNotEmpty) {
-      code = '$rawLang\n$code';
-    }
 
     final TextStyle monoStyle = codeTextStyleFrom(
       baseStyle,
