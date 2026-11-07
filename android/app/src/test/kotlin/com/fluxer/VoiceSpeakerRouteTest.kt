@@ -240,4 +240,24 @@ class VoiceSpeakerRouteTest {
             ),
         )
     }
+
+    @Test
+    fun bluetoothAddressesMatchExactlyOrByAnonymizedSuffix() {
+        assertTrue(bluetoothAddressesMatch("AA:BB:CC:DD:EE:FF", "aa:bb:cc:dd:ee:ff"))
+        assertTrue(bluetoothAddressesMatch("XX:XX:XX:XX:EE:FF", "AA:BB:CC:DD:EE:FF"))
+        assertFalse(bluetoothAddressesMatch("AA:BB:CC:DD:EE:FF", "11:22:33:44:EE:FF"))
+        assertFalse(bluetoothAddressesMatch("XX:XX:XX:XX:EE:FF", "AA:BB:CC:DD:EE:00"))
+        assertFalse(bluetoothAddressesMatch(null, "AA:BB:CC:DD:EE:FF"))
+    }
+
+    @Test
+    fun deviceKindsMapToTheirRoutes() {
+        assertEquals(
+            VoiceOutputDeviceKind.BluetoothLe,
+            voiceOutputDeviceKind(AudioDeviceInfo.TYPE_BLE_SPEAKER),
+        )
+        assertEquals(VoiceOutputRoute.Headset, VoiceOutputDeviceKind.Usb.route)
+        assertEquals(VoiceOutputRoute.Bluetooth, VoiceOutputDeviceKind.HearingAid.route)
+        assertNull(voiceOutputDeviceKind(AudioDeviceInfo.TYPE_BLUETOOTH_A2DP))
+    }
 }

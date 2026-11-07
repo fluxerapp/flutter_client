@@ -10,13 +10,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-const List<VoiceOutputRoute> _kVoiceOutputRouteOrder = <VoiceOutputRoute>[
-  VoiceOutputRoute.speaker,
-  VoiceOutputRoute.earpiece,
-  VoiceOutputRoute.bluetooth,
-  VoiceOutputRoute.headset,
-];
-
 String voiceOutputRouteLabel(FluxerLocalizations l10n, VoiceOutputRoute route) {
   switch (route) {
     case VoiceOutputRoute.speaker:
@@ -43,6 +36,43 @@ PhosphorIconData voiceOutputRouteIcon(VoiceOutputRoute route) {
   }
 }
 
+String voiceOutputDeviceKindLabel(
+  FluxerLocalizations l10n,
+  VoiceOutputDeviceKind kind,
+) {
+  switch (kind) {
+    case VoiceOutputDeviceKind.earpiece:
+      return l10n.voiceOutputRouteEarpiece;
+    case VoiceOutputDeviceKind.speaker:
+      return l10n.voiceOutputRouteSpeaker;
+    case VoiceOutputDeviceKind.wired:
+      return l10n.voiceOutputRouteHeadset;
+    case VoiceOutputDeviceKind.usb:
+      return l10n.voiceOutputRouteUsb;
+    case VoiceOutputDeviceKind.bluetooth:
+      return l10n.voiceOutputRouteBluetooth;
+    case VoiceOutputDeviceKind.bluetoothLe:
+      return l10n.voiceOutputRouteBluetoothLe;
+    case VoiceOutputDeviceKind.hearingAid:
+      return l10n.voiceOutputRouteHearingAid;
+  }
+}
+
+PhosphorIconData voiceOutputDeviceKindIcon(VoiceOutputDeviceKind kind) {
+  switch (kind) {
+    case VoiceOutputDeviceKind.usb:
+      return PhosphorIconsFill.usb;
+    case VoiceOutputDeviceKind.hearingAid:
+      return PhosphorIconsFill.ear;
+    case VoiceOutputDeviceKind.earpiece:
+    case VoiceOutputDeviceKind.speaker:
+    case VoiceOutputDeviceKind.wired:
+    case VoiceOutputDeviceKind.bluetooth:
+    case VoiceOutputDeviceKind.bluetoothLe:
+      return voiceOutputRouteIcon(kind.route);
+  }
+}
+
 VoiceOutputRoute watchVoiceCallOutputRoute(WidgetRef ref) {
   final VoiceSettingsState settings = ref.watch(voiceSettingsProvider);
   return resolveVoiceCallOutputRoute(
@@ -52,19 +82,53 @@ VoiceOutputRoute watchVoiceCallOutputRoute(WidgetRef ref) {
   );
 }
 
+List<VoiceOutputDevice> _watchVoiceOutputDeviceOptions(WidgetRef ref) {
+  return voiceOutputDeviceOptions(
+    devices: ref.watch(voiceOutputDevicesProvider),
+    available: ref.watch(voiceAvailableOutputRoutesProvider),
+  );
+}
+
+VoiceOutputDevice? _watchSelectedVoiceOutputDevice(
+  WidgetRef ref,
+  List<VoiceOutputDevice> options,
+  VoiceOutputRoute route,
+) {
+  return selectedVoiceOutputDevice(
+    options: options,
+    route: route,
+    overrideDeviceId: ref.watch(
+      voiceSettingsProvider.select(
+        (VoiceSettingsState settings) => settings.outputDeviceOverride,
+      ),
+    ),
+  );
+}
+
 String watchVoiceCallOutputRouteName(
   WidgetRef ref,
   FluxerLocalizations l10n,
   VoiceOutputRoute route,
 ) {
-  final String? bluetoothName = ref.watch(voiceBluetoothDeviceNameProvider);
-  if (route == VoiceOutputRoute.bluetooth && bluetoothName != null) {
-    return bluetoothName;
+  final VoiceOutputDevice? device = _watchSelectedVoiceOutputDevice(
+    ref,
+    _watchVoiceOutputDeviceOptions(ref),
+    route,
+  );
+  final String? name = device?.name;
+  if (name != null && !isBuiltInVoiceOutputRoute(route)) {
+    return name;
   }
   return voiceOutputRouteLabel(l10n, route);
 }
 
 Future<void> showVoiceOutputRouteSheet(BuildContext context) {
+  unawaited(
+    ProviderScope.containerOf(
+      context,
+      listen: false,
+    ).read(voiceOutputDevicesProvider.notifier).refresh(),
+  );
   return FluxerBottomSheet.show<void>(
     context,
     useRootNavigator: true,
@@ -84,29 +148,31 @@ class _VoiceOutputRouteSheetBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final Set<VoiceOutputRoute> available = ref.watch(
-      voiceAvailableOutputRoutesProvider,
+    final List<VoiceOutputDevice> options = _watchVoiceOutputDeviceOptions(ref);
+    final VoiceOutputDevice? selected = _watchSelectedVoiceOutputDevice(
+      ref,
+      options,
+      watchVoiceCallOutputRoute(ref),
     );
-    final VoiceOutputRoute selected = watchVoiceCallOutputRoute(ref);
     return FluxerBottomSheetContent(
       child: FluxerMenuGroup(
         children: <Widget>[
-          for (final VoiceOutputRoute route in _kVoiceOutputRouteOrder)
-            if (available.contains(route))
-              FluxerBottomSheetMenuItem(
-                label: watchVoiceCallOutputRouteName(ref, l10n, route),
-                icon: voiceOutputRouteIcon(route),
-                isSelected: route == selected,
-                trailing: FluxerRadioIndicator(selected: route == selected),
-                onTap: () {
-                  unawaited(
-                    ref
-                        .read(voiceSettingsProvider.notifier)
-                        .selectOutputRoute(route),
-                  );
-                  onClose();
-                },
-              ),
+          for (final VoiceOutputDevice device in options)
+            FluxerBottomSheetMenuItem(
+              label: voiceOutputDeviceKindLabel(l10n, device.kind),
+              hint: device.name,
+              icon: voiceOutputDeviceKindIcon(device.kind),
+              isSelected: device == selected,
+              trailing: FluxerRadioIndicator(selected: device == selected),
+              onTap: () {
+                unawaited(
+                  ref
+                      .read(voiceSettingsProvider.notifier)
+                      .selectOutputDevice(device),
+                );
+                onClose();
+              },
+            ),
         ],
       ),
     );

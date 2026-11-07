@@ -8240,7 +8240,19 @@
     },
     "voiceOutputRouteBluetooth": "Bluetooth",
     "@voiceOutputRouteBluetooth": {
-        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
+        "description": "Connection type of a classic Bluetooth device that can play call audio, also shown when the device name is unknown."
+    },
+    "voiceOutputRouteBluetoothLe": "Bluetooth LE",
+    "@voiceOutputRouteBluetoothLe": {
+        "description": "Connection type of a Bluetooth Low Energy audio device that can play call audio."
+    },
+    "voiceOutputRouteHearingAid": "Hearing aid",
+    "@voiceOutputRouteHearingAid": {
+        "description": "Connection type of a connected hearing aid that can play call audio."
+    },
+    "voiceOutputRouteUsb": "USB headset",
+    "@voiceOutputRouteUsb": {
+        "description": "Connection type of a USB headset that can play call audio."
     },
     "voiceChangeAudioOutputLabel": "Change audio output",
     "@voiceChangeAudioOutputLabel": {

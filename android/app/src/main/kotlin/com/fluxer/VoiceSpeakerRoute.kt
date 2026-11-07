@@ -48,6 +48,83 @@ internal fun voiceOutputRouteFromName(name: String?): VoiceOutputRoute {
     }
 }
 
+internal enum class VoiceOutputDeviceKind(
+    val wireName: String,
+    val route: VoiceOutputRoute,
+) {
+    Earpiece("earpiece", VoiceOutputRoute.Earpiece),
+    Speaker("speaker", VoiceOutputRoute.Speaker),
+    Wired("wired", VoiceOutputRoute.Headset),
+    Usb("usb", VoiceOutputRoute.Headset),
+    Bluetooth("bluetooth", VoiceOutputRoute.Bluetooth),
+    BluetoothLe("bluetoothLe", VoiceOutputRoute.Bluetooth),
+    HearingAid("hearingAid", VoiceOutputRoute.Bluetooth),
+}
+
+internal fun voiceOutputDeviceKind(type: Int): VoiceOutputDeviceKind? {
+    return when (type) {
+        AudioDeviceInfo.TYPE_BUILTIN_EARPIECE -> VoiceOutputDeviceKind.Earpiece
+        AudioDeviceInfo.TYPE_BUILTIN_SPEAKER -> VoiceOutputDeviceKind.Speaker
+        AudioDeviceInfo.TYPE_WIRED_HEADSET,
+        AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+        -> VoiceOutputDeviceKind.Wired
+        AudioDeviceInfo.TYPE_USB_HEADSET -> VoiceOutputDeviceKind.Usb
+        AudioDeviceInfo.TYPE_BLUETOOTH_SCO -> VoiceOutputDeviceKind.Bluetooth
+        AudioDeviceInfo.TYPE_BLE_HEADSET,
+        AudioDeviceInfo.TYPE_BLE_SPEAKER,
+        -> VoiceOutputDeviceKind.BluetoothLe
+        AudioDeviceInfo.TYPE_HEARING_AID -> VoiceOutputDeviceKind.HearingAid
+        else -> null
+    }
+}
+
+internal data class VoiceOutputDevice(
+    val id: Int,
+    val kind: VoiceOutputDeviceKind,
+    val name: String?,
+    val active: Boolean,
+) {
+    fun toMap(): Map<String, Any?> = mapOf(
+        "id" to id,
+        "kind" to kind.wireName,
+        "name" to name,
+        "active" to active,
+    )
+}
+
+internal fun voiceOutputDevices(
+    devices: List<AudioDeviceInfo>,
+    hasEarpiece: Boolean,
+    activeDeviceId: Int?,
+): List<VoiceOutputDevice> {
+    val routeNames = availableVoiceOutputRouteNames(devices.map { it.type }.toSet(), hasEarpiece)
+    return devices
+        .mapNotNull { device ->
+            val kind = voiceOutputDeviceKind(device.type) ?: return@mapNotNull null
+            VoiceOutputDevice(
+                id = device.id,
+                kind = kind,
+                name = device.productName?.toString()?.takeIf { it.isNotBlank() },
+                active = device.id == activeDeviceId,
+            )
+        }
+        .filter { it.kind.route.name.lowercase() in routeNames }
+        .distinctBy { it.kind to it.name }
+        .sortedBy { it.kind.ordinal }
+}
+
+internal fun bluetoothAddressesMatch(first: String?, second: String?): Boolean {
+    if (first.isNullOrBlank() || second.isNullOrBlank()) {
+        return false
+    }
+    if (first.equals(second, ignoreCase = true)) {
+        return true
+    }
+    val anonymized = first.startsWith("XX", ignoreCase = true) ||
+        second.startsWith("XX", ignoreCase = true)
+    return anonymized && first.takeLast(5).equals(second.takeLast(5), ignoreCase = true)
+}
+
 internal fun communicationDeviceTypeForRoute(
     route: VoiceOutputRoute,
     deviceTypes: Iterable<Int>,
@@ -70,7 +147,12 @@ internal fun communicationDeviceTypeForRoute(
 internal fun communicationDeviceForRoute(
     route: VoiceOutputRoute,
     devices: List<AudioDeviceInfo>,
+    deviceId: Int? = null,
 ): AudioDeviceInfo? {
+    val requested = devices.firstOrNull { it.id == deviceId }
+    if (requested != null && voiceOutputDeviceKind(requested.type)?.route == route) {
+        return requested
+    }
     val type = communicationDeviceTypeForRoute(route, devices.map { it.type }) ?: return null
     return devices.firstOrNull { it.type == type }
 }
@@ -161,6 +243,7 @@ class VoiceSpeakerRouteBridge(
             "setRoute" -> {
                 val route = voiceOutputRouteFromName(call.argument<String>("route"))
                 val hold = call.argument<Boolean>("hold") ?: false
+                val deviceId = call.argument<Int>("deviceId")
                 cancelRouteFollowUp()
                 if (!hold && isExternalVoiceCallActive(context, fluxerOwnsVoice = false)) {
                     result.success(null)
@@ -168,9 +251,9 @@ class VoiceSpeakerRouteBridge(
                 }
                 if (hold) {
                     setVoiceCallVolumeKeys(true)
-                    scheduleRouteFollowUp(audioManager, route)
+                    scheduleRouteFollowUp(audioManager, route, deviceId)
                 }
-                applyRoute(audioManager, route, force = true)
+                applyRoute(audioManager, route, deviceId, force = true)
                 result.success(null)
             }
             "clearRouteHold" -> {
@@ -189,8 +272,14 @@ class VoiceSpeakerRouteBridge(
             "availableRoutes" -> {
                 result.success(availableVoiceOutputRouteNames(outputTypes(audioManager), hasEarpiece()))
             }
-            "bluetoothDeviceName" -> {
-                result.success(bluetoothDeviceName(audioManager))
+            "outputDevices" -> {
+                result.success(
+                    voiceOutputDevices(
+                        outputDevices(audioManager),
+                        hasEarpiece(),
+                        activeCommunicationDeviceId(audioManager),
+                    ).map { it.toMap() },
+                )
             }
             else -> result.notImplemented()
         }
@@ -209,12 +298,13 @@ class VoiceSpeakerRouteBridge(
     private fun scheduleRouteFollowUp(
         audioManager: AudioManager,
         route: VoiceOutputRoute,
+        deviceId: Int?,
         delaysMs: List<Long> = routeFollowUpDelaysMs(Build.MANUFACTURER, Build.BRAND),
     ) {
         val delayMs = delaysMs.firstOrNull() ?: return
         val work = Runnable {
-            applyRoute(audioManager, route)
-            scheduleRouteFollowUp(audioManager, route, delaysMs.drop(1))
+            applyRoute(audioManager, route, deviceId)
+            scheduleRouteFollowUp(audioManager, route, deviceId, delaysMs.drop(1))
         }
         routeFollowUp = work
         mainHandler.postDelayed(work, delayMs)
@@ -223,6 +313,7 @@ class VoiceSpeakerRouteBridge(
     private fun applyRoute(
         audioManager: AudioManager,
         route: VoiceOutputRoute,
+        deviceId: Int?,
         force: Boolean = false,
     ) {
         val connections = if (routesSpeakerWithCommunicationDevice(Build.MANUFACTURER, Build.BRAND)) {
@@ -232,16 +323,22 @@ class VoiceSpeakerRouteBridge(
         }
         if (connections.isEmpty()) {
             telecomOwnsRoute = false
-            applyVoiceOutputRoute(audioManager, route)
+            applyVoiceOutputRoute(audioManager, route, deviceId)
             return
         }
+        val bluetoothAddress = requestedBluetoothAddress(audioManager, route, deviceId)
         val handingOff = !telecomOwnsRoute
         if (handingOff) {
             telecomOwnsRoute = true
             releaseCallSpeaker(audioManager)
         }
         for (connection in connections) {
-            applyTelecomCallRoute(connection, route, force = force || handingOff)
+            applyTelecomCallRoute(
+                connection,
+                route,
+                bluetoothAddress,
+                force = force || handingOff,
+            )
         }
     }
 
@@ -266,29 +363,43 @@ class VoiceSpeakerRouteBridge(
     }
 }
 
-internal fun outputTypes(audioManager: AudioManager): Set<Int> {
+internal fun outputDevices(audioManager: AudioManager): List<AudioDeviceInfo> {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        return audioManager.availableCommunicationDevices.map { it.type }.toSet()
+        return audioManager.availableCommunicationDevices
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).map { it.type }.toSet()
-    }
-    return emptySet()
+    return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).toList()
 }
 
-internal fun bluetoothDeviceName(audioManager: AudioManager): String? {
-    val devices = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        audioManager.availableCommunicationDevices
-    } else {
-        audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).toList()
-    }
-    return communicationDeviceForRoute(VoiceOutputRoute.Bluetooth, devices)
-        ?.productName
-        ?.toString()
-        ?.takeIf { it.isNotBlank() }
+internal fun outputTypes(audioManager: AudioManager): Set<Int> {
+    return outputDevices(audioManager).map { it.type }.toSet()
 }
 
-internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutputRoute) {
+private fun activeCommunicationDeviceId(audioManager: AudioManager): Int? {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        return null
+    }
+    return audioManager.communicationDevice?.id
+}
+
+private fun requestedBluetoothAddress(
+    audioManager: AudioManager,
+    route: VoiceOutputRoute,
+    deviceId: Int?,
+): String? {
+    if (route != VoiceOutputRoute.Bluetooth ||
+        deviceId == null ||
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+    ) {
+        return null
+    }
+    return outputDevices(audioManager).firstOrNull { it.id == deviceId }?.address
+}
+
+internal fun applyVoiceOutputRoute(
+    audioManager: AudioManager,
+    route: VoiceOutputRoute,
+    deviceId: Int? = null,
+) {
     audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
     val speakerphoneOn = speakerphoneOnForRoute(route)
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -311,6 +422,7 @@ internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutpu
     val device = communicationDeviceForRoute(
         route,
         audioManager.availableCommunicationDevices,
+        deviceId,
     )
     if (device != null && audioManager.communicationDevice?.id != device.id) {
         if (!audioManager.setCommunicationDevice(device)) {
@@ -344,10 +456,24 @@ internal fun telecomCallConnections(context: Context): List<CallkitConnection> {
 internal fun applyTelecomCallRoute(
     connection: CallkitConnection,
     route: VoiceOutputRoute,
+    bluetoothAddress: String?,
     force: Boolean,
 ) {
     val state = connection.callAudioState
     val target = telecomRouteForVoiceOutput(route)
+    if (bluetoothAddress != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && state != null) {
+        val bluetoothDevice = state.supportedBluetoothDevices.firstOrNull {
+            bluetoothAddressesMatch(it.address, bluetoothAddress)
+        }
+        if (bluetoothDevice != null) {
+            val alreadyActive = state.route == CallAudioState.ROUTE_BLUETOOTH &&
+                bluetoothAddressesMatch(state.activeBluetoothDevice?.address, bluetoothAddress)
+            if (force || !alreadyActive) {
+                connection.requestBluetoothAudio(bluetoothDevice)
+            }
+            return
+        }
+    }
     if (telecomRouteRequestNeeded(target, state?.route, state?.supportedRouteMask, force)) {
         connection.setAudioRoute(target)
     }
@@ -376,6 +502,7 @@ internal fun voiceRouteDiagnostics(
     }
     return "mode=${audioManager.mode} " +
         "commDevice=$communicationDevice " +
+        "commDeviceId=${activeCommunicationDeviceId(audioManager)} " +
         "speakerphoneOn=${audioManager.isSpeakerphoneOn} " +
         "telecomOwnsRoute=$telecomOwnsRoute " +
         "telecomCalls=$telecomCalls " +

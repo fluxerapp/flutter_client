@@ -30,6 +30,7 @@ bool showNativeVoiceAudioRoutePicker() {
 
 Future<void> applyNativeVoiceOutputRoute(
   VoiceOutputRoute route, {
+  int? deviceId,
   bool hold = false,
 }) async {
   if (defaultTargetPlatform != TargetPlatform.android &&
@@ -39,7 +40,11 @@ Future<void> applyNativeVoiceOutputRoute(
   try {
     await _voiceSpeakerRouteChannel.invokeMethod<void>(
       'setRoute',
-      <String, Object>{'route': route.name, 'hold': hold},
+      <String, Object>{
+        'route': route.name,
+        'hold': hold,
+        'deviceId': ?deviceId,
+      },
     );
   } on Object {
     return;
@@ -167,16 +172,19 @@ Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
   }
 }
 
-Future<String?> readBluetoothVoiceDeviceName() async {
+Future<List<VoiceOutputDevice>> readVoiceOutputDevices() async {
   if (defaultTargetPlatform != TargetPlatform.android) {
-    return null;
+    return const <VoiceOutputDevice>[];
   }
   try {
-    return await _voiceSpeakerRouteChannel.invokeMethod<String>(
-      'bluetoothDeviceName',
-    );
+    final List<Object?>? devices = await _voiceSpeakerRouteChannel
+        .invokeMethod<List<Object?>>('outputDevices');
+    return <VoiceOutputDevice>[
+      for (final Object? value in devices ?? const <Object?>[])
+        ?VoiceOutputDevice.fromNative(value),
+    ];
   } on Object {
-    return null;
+    return const <VoiceOutputDevice>[];
   }
 }
 
@@ -259,32 +267,32 @@ voiceAvailableOutputRoutesProvider =
       VoiceAvailableOutputRoutes.new,
     );
 
-class VoiceBluetoothDeviceName extends Notifier<String?> {
+class VoiceOutputDevices extends Notifier<List<VoiceOutputDevice>> {
   @override
-  String? build() {
+  List<VoiceOutputDevice> build() {
     final StreamSubscription<List<MediaDevice>> subscription = Hardware
         .instance
         .onDeviceChange
         .stream
         .listen((_) {
-          unawaited(_refresh());
+          unawaited(refresh());
         });
     ref.onDispose(subscription.cancel);
-    unawaited(_refresh());
-    return null;
+    unawaited(refresh());
+    return const <VoiceOutputDevice>[];
   }
 
-  Future<void> _refresh() async {
-    final String? name = await readBluetoothVoiceDeviceName();
-    if (!ref.mounted) {
+  Future<void> refresh() async {
+    final List<VoiceOutputDevice> devices = await readVoiceOutputDevices();
+    if (!ref.mounted || listEquals(devices, state)) {
       return;
     }
-    state = name;
+    state = devices;
   }
 }
 
-final NotifierProvider<VoiceBluetoothDeviceName, String?>
-voiceBluetoothDeviceNameProvider =
-    NotifierProvider<VoiceBluetoothDeviceName, String?>(
-      VoiceBluetoothDeviceName.new,
+final NotifierProvider<VoiceOutputDevices, List<VoiceOutputDevice>>
+voiceOutputDevicesProvider =
+    NotifierProvider<VoiceOutputDevices, List<VoiceOutputDevice>>(
+      VoiceOutputDevices.new,
     );

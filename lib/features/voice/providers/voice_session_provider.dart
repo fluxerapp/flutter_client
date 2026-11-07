@@ -151,6 +151,7 @@ class VoiceSession extends _$VoiceSession {
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _lastKnownOutputDeviceIds;
   Set<VoiceOutputRoute>? _lastKnownOutputRoutes;
+  Set<int>? _lastKnownOutputDeviceIdsOnPhone;
   Set<String>? _pendingRecoveryInputIds;
   Set<String>? _pendingRecoveryOutputIds;
   bool _isRecoveringAudioRoute = false;
@@ -3285,8 +3286,10 @@ class VoiceSession extends _$VoiceSession {
 
   Future<void> _seedKnownOutputRoutes() async {
     final Set<VoiceOutputRoute> routes = await readAvailableVoiceOutputRoutes();
+    final List<VoiceOutputDevice> devices = await readVoiceOutputDevices();
     if (_mediaDeviceChangeSubscription != null) {
       _lastKnownOutputRoutes ??= routes;
+      _lastKnownOutputDeviceIdsOnPhone ??= voiceOutputDeviceIds(devices);
     }
   }
 
@@ -3298,6 +3301,7 @@ class VoiceSession extends _$VoiceSession {
     _lastKnownInputDeviceIds = null;
     _lastKnownOutputDeviceIds = null;
     _lastKnownOutputRoutes = null;
+    _lastKnownOutputDeviceIdsOnPhone = null;
     _isRecoveringAudioRoute = false;
     unawaited(_mediaDeviceChangeSubscription?.cancel());
     _mediaDeviceChangeSubscription = null;
@@ -3378,19 +3382,32 @@ class VoiceSession extends _$VoiceSession {
     if (Platform.isAndroid) {
       final Set<VoiceOutputRoute> routes =
           await readAvailableVoiceOutputRoutes();
+      final List<VoiceOutputDevice> devices = await readVoiceOutputDevices();
       if (!ref.mounted || _mediaDeviceChangeSubscription == null) {
         return;
       }
       final Set<VoiceOutputRoute>? previousRoutes = _lastKnownOutputRoutes;
+      final Set<int>? previousDeviceIds = _lastKnownOutputDeviceIdsOnPhone;
       outputRoutesChanged =
           previousRoutes != null && !setEquals(previousRoutes, routes);
-      if (didConnectExternalVoiceOutputRoute(
+      final VoiceOutputDevice? connected =
+          newlyConnectedExternalVoiceOutputDevice(
+            previousIds: previousDeviceIds,
+            devices: devices,
+          );
+      final VoiceSettings settingsNotifier = ref.read(
+        voiceSettingsProvider.notifier,
+      );
+      if (connected != null && routes.contains(connected.route)) {
+        await settingsNotifier.selectOutputDevice(connected);
+      } else if (didConnectExternalVoiceOutputRoute(
         previous: previousRoutes,
         current: routes,
       )) {
-        ref.read(voiceSettingsProvider.notifier).clearOutputRouteOverride();
+        settingsNotifier.clearOutputRouteOverride();
       }
       _lastKnownOutputRoutes = routes;
+      _lastKnownOutputDeviceIdsOnPhone = voiceOutputDeviceIds(devices);
     }
 
     if (!inputChanged && !outputChanged && !outputRoutesChanged) {
@@ -3558,7 +3575,8 @@ class VoiceSession extends _$VoiceSession {
         previous == null ||
         previous.outputDeviceId != next.outputDeviceId ||
         ((previous.outputRoute != next.outputRoute ||
-                previous.outputRouteOverride != next.outputRouteOverride) &&
+                previous.outputRouteOverride != next.outputRouteOverride ||
+                previous.outputDeviceOverride != next.outputDeviceOverride) &&
             !Platform.isIOS);
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);

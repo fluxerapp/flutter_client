@@ -178,4 +178,148 @@ void main() {
       );
     });
   });
+
+  group('voiceOutputDeviceOptions', () {
+    const VoiceOutputDevice car = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetooth,
+      id: 3,
+      name: 'Car Audio',
+    );
+    const VoiceOutputDevice buds = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetoothLe,
+      id: 4,
+      name: 'Test Earbuds',
+      active: true,
+    );
+    const VoiceOutputDevice speaker = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.speaker,
+      id: 1,
+      name: 'Test Phone',
+    );
+
+    test('lists every device in type order and fills missing routes', () {
+      final List<VoiceOutputDevice> options = voiceOutputDeviceOptions(
+        devices: const <VoiceOutputDevice>[buds, speaker, car],
+        available: <VoiceOutputRoute>{
+          ...kPhoneVoiceOutputRoutes,
+          VoiceOutputRoute.bluetooth,
+        },
+      );
+      expect(options, <VoiceOutputDevice>[
+        const VoiceOutputDevice(kind: VoiceOutputDeviceKind.earpiece),
+        speaker,
+        car,
+        buds,
+      ]);
+    });
+
+    test('drops devices whose route is not available', () {
+      final List<VoiceOutputDevice> options = voiceOutputDeviceOptions(
+        devices: const <VoiceOutputDevice>[speaker, car],
+        available: <VoiceOutputRoute>{VoiceOutputRoute.speaker},
+      );
+      expect(options, <VoiceOutputDevice>[speaker]);
+    });
+
+    test('selects the chosen device, then the active one, then the first', () {
+      const List<VoiceOutputDevice> options = <VoiceOutputDevice>[
+        speaker,
+        car,
+        buds,
+      ];
+      expect(
+        selectedVoiceOutputDevice(
+          options: options,
+          route: VoiceOutputRoute.bluetooth,
+          overrideDeviceId: 3,
+        ),
+        car,
+      );
+      expect(
+        selectedVoiceOutputDevice(
+          options: options,
+          route: VoiceOutputRoute.bluetooth,
+          overrideDeviceId: 99,
+        ),
+        buds,
+      );
+      expect(
+        selectedVoiceOutputDevice(
+          options: const <VoiceOutputDevice>[speaker, car],
+          route: VoiceOutputRoute.bluetooth,
+          overrideDeviceId: null,
+        ),
+        car,
+      );
+      expect(
+        selectedVoiceOutputDevice(
+          options: options,
+          route: VoiceOutputRoute.speaker,
+          overrideDeviceId: 3,
+        ),
+        speaker,
+      );
+    });
+
+    test('reads native device maps', () {
+      expect(
+        VoiceOutputDevice.fromNative(<String, Object?>{
+          'id': 4,
+          'kind': 'bluetoothLe',
+          'name': 'Test Earbuds',
+          'active': true,
+        }),
+        buds,
+      );
+      expect(
+        VoiceOutputDevice.fromNative(<String, Object?>{'kind': 'unknown'}),
+        isNull,
+      );
+    });
+  });
+
+  group('newlyConnectedExternalVoiceOutputDevice', () {
+    const VoiceOutputDevice speaker = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.speaker,
+      id: 1,
+    );
+    const VoiceOutputDevice car = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetooth,
+      id: 3,
+    );
+    const VoiceOutputDevice buds = VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetoothLe,
+      id: 4,
+    );
+
+    test('finds a headset that joins an already connected one', () {
+      expect(
+        newlyConnectedExternalVoiceOutputDevice(
+          previousIds: voiceOutputDeviceIds(const <VoiceOutputDevice>[
+            speaker,
+            car,
+          ]),
+          devices: const <VoiceOutputDevice>[speaker, car, buds],
+        ),
+        buds,
+      );
+    });
+
+    test('ignores built-in devices and the first reading', () {
+      expect(
+        newlyConnectedExternalVoiceOutputDevice(
+          previousIds: <int>{3},
+          devices: const <VoiceOutputDevice>[speaker, car],
+        ),
+        isNull,
+      );
+      expect(
+        newlyConnectedExternalVoiceOutputDevice(
+          previousIds: null,
+          devices: const <VoiceOutputDevice>[speaker, car],
+        ),
+        isNull,
+      );
+    });
+  });
 }

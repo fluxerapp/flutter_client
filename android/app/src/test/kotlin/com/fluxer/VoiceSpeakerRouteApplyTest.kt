@@ -55,6 +55,7 @@ class VoiceSpeakerRouteApplyTest {
         val port = ReflectionHelpers.getField<Any>(device, "mPort")
         val handle = ReflectionHelpers.getField<Any>(port, "mHandle")
         ReflectionHelpers.setField(handle, "mId", id)
+        ReflectionHelpers.setField(port, "mName", "")
         return device
     }
 
@@ -104,19 +105,63 @@ class VoiceSpeakerRouteApplyTest {
         assertFalse(audioManager.isSpeakerphoneOn)
     }
 
-    @Test
-    fun bluetoothDeviceNameIsNullWithoutABluetoothDevice() {
-        assertNull(bluetoothDeviceName(audioManager))
+    private fun namedDevice(type: Int, id: Int, name: String): AudioDeviceInfo {
+        val device = communicationDevice(type, id)
+        val port = ReflectionHelpers.getField<Any>(device, "mPort")
+        ReflectionHelpers.setField(port, "mName", name)
+        return device
     }
 
     @Test
-    fun bluetoothDeviceNameUsesTheProductName() {
-        val buds = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
-        val port = ReflectionHelpers.getField<Any>(buds, "mPort")
-        ReflectionHelpers.setField(port, "mName", "Galaxy Buds2 Pro")
-        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, buds))
+    fun outputDevicesListEveryCallDeviceInTypeOrder() {
+        val car = namedDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3, name = "Car Audio")
+        val buds = namedDevice(AudioDeviceInfo.TYPE_BLE_HEADSET, id = 4, name = "Test Earbuds")
+        val devices = voiceOutputDevices(
+            listOf(buds, speaker, car, earpiece),
+            hasEarpiece = true,
+            activeDeviceId = 3,
+        )
 
-        assertEquals("Galaxy Buds2 Pro", bluetoothDeviceName(audioManager))
+        assertEquals(
+            listOf(
+                VoiceOutputDeviceKind.Earpiece,
+                VoiceOutputDeviceKind.Speaker,
+                VoiceOutputDeviceKind.Bluetooth,
+                VoiceOutputDeviceKind.BluetoothLe,
+            ),
+            devices.map { it.kind },
+        )
+        assertEquals(listOf(3), devices.filter { it.active }.map { it.id })
+        assertEquals("Test Earbuds", devices.last().name)
+    }
+
+    @Test
+    fun outputDevicesHideTheEarpieceWhileWiredIsConnected() {
+        val wired = communicationDevice(AudioDeviceInfo.TYPE_WIRED_HEADSET, id = 5)
+        val devices = voiceOutputDevices(
+            listOf(speaker, earpiece, wired),
+            hasEarpiece = true,
+            activeDeviceId = null,
+        )
+
+        assertEquals(
+            listOf(VoiceOutputDeviceKind.Speaker, VoiceOutputDeviceKind.Wired),
+            devices.map { it.kind },
+        )
+    }
+
+    @Test
+    fun bluetoothRouteUsesTheRequestedDevice() {
+        ShadowBuild.setManufacturer("Google")
+        val car = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
+        val buds = communicationDevice(AudioDeviceInfo.TYPE_BLE_HEADSET, id = 4)
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, car, buds))
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth, deviceId = 4)
+        assertEquals(4, audioManager.communicationDevice?.id)
+
+        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth, deviceId = 1)
+        assertEquals(3, audioManager.communicationDevice?.id)
     }
 
     @Test

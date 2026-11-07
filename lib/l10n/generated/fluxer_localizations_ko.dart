@@ -6222,6 +6222,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceOutputRouteBluetooth => 'Bluetooth';
 
   @override
+  String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
+
+  @override
+  String get voiceOutputRouteHearingAid => 'Hearing aid';
+
+  @override
+  String get voiceOutputRouteUsb => 'USB headset';
+
+  @override
   String get voiceChangeAudioOutputLabel => '오디오 출력 변경';
 
   @override

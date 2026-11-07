@@ -10401,11 +10401,29 @@ abstract class FluxerLocalizations {
   /// **'Headphones'**
   String get voiceOutputRouteHeadset;
 
-  /// Voice output route that plays call audio through a connected Bluetooth device when its name is unknown.
+  /// Connection type of a classic Bluetooth device that can play call audio, also shown when the device name is unknown.
   ///
   /// In en, this message translates to:
   /// **'Bluetooth'**
   String get voiceOutputRouteBluetooth;
+
+  /// Connection type of a Bluetooth Low Energy audio device that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth LE'**
+  String get voiceOutputRouteBluetoothLe;
+
+  /// Connection type of a connected hearing aid that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Hearing aid'**
+  String get voiceOutputRouteHearingAid;
+
+  /// Connection type of a USB headset that can play call audio.
+  ///
+  /// In en, this message translates to:
+  /// **'USB headset'**
+  String get voiceOutputRouteUsb;
 
   /// Opens the system audio route picker for voice calls on iOS.
   ///

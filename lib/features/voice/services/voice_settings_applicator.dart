@@ -692,7 +692,13 @@ class VoiceSettingsApplicator {
     }
     final bool nativeHold =
         defaultTargetPlatform == TargetPlatform.android && holdRoute;
-    await applyNativeVoiceOutputRoute(route, hold: nativeHold);
+    await applyNativeVoiceOutputRoute(
+      route,
+      deviceId: settings.outputRouteOverride == route
+          ? settings.outputDeviceOverride
+          : null,
+      hold: nativeHold,
+    );
   }
 
   String? _resolveDeviceId(String deviceId) {

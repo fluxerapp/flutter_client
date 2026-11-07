@@ -134,7 +134,7 @@ void main() {
         voiceAvailableOutputRoutesProvider.overrideWith(
           _BluetoothAvailableRoutes.new,
         ),
-        voiceBluetoothDeviceNameProvider.overrideWith(_BudsDeviceName.new),
+        voiceOutputDevicesProvider.overrideWith(_TwoBluetoothOutputDevices.new),
       ],
     );
     addTearDown(container.dispose);
@@ -157,23 +157,48 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Galaxy Buds2 Pro'), findsOneWidget);
+    expect(find.text('Car Audio'), findsOneWidget);
     expect(find.text(testL10n.voiceOutputRouteSpeaker), findsNothing);
 
     await tester.tap(find.byKey(kVoiceChangeAudioOutputKey));
     await tester.pumpAndSettle();
 
-    expect(find.text(testL10n.voiceOutputRouteSpeaker), findsOneWidget);
-    expect(find.text(testL10n.voiceOutputRouteEarpiece), findsOneWidget);
+    final List<String> labels = <String>[
+      testL10n.voiceOutputRouteEarpiece,
+      testL10n.voiceOutputRouteSpeaker,
+      testL10n.voiceOutputRouteBluetooth,
+      testL10n.voiceOutputRouteBluetoothLe,
+    ];
+    for (final String label in labels) {
+      expect(find.text(label), findsOneWidget);
+    }
+    final List<double> rowTops = <double>[
+      for (final String label in labels) tester.getTopLeft(find.text(label)).dy,
+    ];
+    expect(rowTops, orderedEquals(<double>[...rowTops]..sort()));
     expect(find.text(testL10n.voiceOutputRouteHeadset), findsNothing);
-    expect(find.text('Galaxy Buds2 Pro'), findsNWidgets(2));
+    expect(find.text('Test Phone'), findsOneWidget);
+    expect(find.text('Car Audio'), findsNWidgets(2));
+    expect(find.text('Galaxy Buds2 Pro'), findsOneWidget);
 
+    await tester.tap(find.text(testL10n.voiceOutputRouteBluetoothLe));
+    await tester.pumpAndSettle();
+
+    VoiceSettingsState settings = container.read(voiceSettingsProvider);
+    expect(settings.outputRouteOverride, VoiceOutputRoute.bluetooth);
+    expect(settings.outputDeviceOverride, 4);
+    expect(find.text('Galaxy Buds2 Pro'), findsOneWidget);
+    expect(find.text('Car Audio'), findsNothing);
+
+    await tester.tap(find.byKey(kVoiceChangeAudioOutputKey));
+    await tester.pumpAndSettle();
     await tester.tap(find.text(testL10n.voiceOutputRouteEarpiece));
     await tester.pumpAndSettle();
 
-    final VoiceSettingsState settings = container.read(voiceSettingsProvider);
+    settings = container.read(voiceSettingsProvider);
     expect(settings.outputRoute, VoiceOutputRoute.earpiece);
     expect(settings.outputRouteOverride, VoiceOutputRoute.earpiece);
+    expect(settings.outputDeviceOverride, isNull);
     expect(find.text('Galaxy Buds2 Pro'), findsNothing);
     expect(find.text(testL10n.voiceOutputRouteEarpiece), findsOneWidget);
 
@@ -251,7 +276,27 @@ class _BluetoothAvailableRoutes extends VoiceAvailableOutputRoutes {
   };
 }
 
-class _BudsDeviceName extends VoiceBluetoothDeviceName {
+class _TwoBluetoothOutputDevices extends VoiceOutputDevices {
   @override
-  String? build() => 'Galaxy Buds2 Pro';
+  List<VoiceOutputDevice> build() => const <VoiceOutputDevice>[
+    VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.speaker,
+      id: 1,
+      name: 'Test Phone',
+    ),
+    VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetoothLe,
+      id: 4,
+      name: 'Galaxy Buds2 Pro',
+    ),
+    VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.bluetooth,
+      id: 3,
+      name: 'Car Audio',
+      active: true,
+    ),
+  ];
+
+  @override
+  Future<void> refresh() async {}
 }

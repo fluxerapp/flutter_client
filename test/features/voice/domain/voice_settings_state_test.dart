@@ -32,25 +32,30 @@ void main() {
     test('does not persist the route override', () {
       const VoiceSettingsState settings = VoiceSettingsState(
         outputRouteOverride: VoiceOutputRoute.earpiece,
+        outputDeviceOverride: 7,
       );
       final VoiceSettingsState restored = VoiceSettingsState.fromJson(
         settings.toJson(),
       );
       expect(restored.outputRouteOverride, isNull);
+      expect(restored.outputDeviceOverride, isNull);
     });
 
     test('copyWith keeps or clears the route override', () {
       const VoiceSettingsState settings = VoiceSettingsState(
         outputRouteOverride: VoiceOutputRoute.bluetooth,
+        outputDeviceOverride: 7,
       );
       expect(
         settings.copyWith(inputVolume: 50).outputRouteOverride,
         VoiceOutputRoute.bluetooth,
       );
-      expect(
-        settings.copyWith(clearOutputRouteOverride: true).outputRouteOverride,
-        isNull,
+      expect(settings.copyWith(inputVolume: 50).outputDeviceOverride, 7);
+      final VoiceSettingsState cleared = settings.copyWith(
+        clearOutputRouteOverride: true,
       );
+      expect(cleared.outputRouteOverride, isNull);
+      expect(cleared.outputDeviceOverride, isNull);
     });
   });
 
