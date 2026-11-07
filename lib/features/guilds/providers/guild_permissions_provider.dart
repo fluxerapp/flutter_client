@@ -124,6 +124,7 @@ class GuildPermissions extends _$GuildPermissions {
   ) async {
     final db = ref.read(fluxerDatabaseProvider);
     final String currentUserId = ref.read(userSettingsViewModelProvider).userId;
+    final bool userLacksMfa = ref.read(userSettingsViewModelProvider).lacksMfa;
 
     final Map<String, Server> guildsById = <String, Server>{
       for (final Server guild in await db.guildDao.getServersByIds(guildIds))
@@ -156,6 +157,7 @@ class GuildPermissions extends _$GuildPermissions {
           roles: rolesByGuildId[guildId] ?? const <Role>[],
           memberRow: memberByGuildId[guildId],
           currentUserId: currentUserId,
+          userLacksMfa: userLacksMfa,
         ),
     };
   }
@@ -165,6 +167,7 @@ class GuildPermissions extends _$GuildPermissions {
     required List<Role> roles,
     required Member? memberRow,
     required String currentUserId,
+    required bool userLacksMfa,
   }) {
     if (guild == null) {
       return (value: 0, shouldCache: false);
@@ -196,6 +199,11 @@ class GuildPermissions extends _$GuildPermissions {
       currentUserId: currentUserId,
       everyonePermissions: everyonePermissions,
       memberRoles: memberRoles,
+      guildMfaRestricted: isGuildMfaRestricted(
+        guildMfaLevel: guild.mfaLevel,
+        isGuildOwner: false,
+        userLacksMfa: userLacksMfa,
+      ),
     );
     return (value: value, shouldCache: true);
   }

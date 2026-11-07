@@ -164,13 +164,23 @@ class _ManageMemberRolesPickerContentState
         _memberRoleIds.add(role.id);
       }
     });
-    await toggleMemberRole(
+    final bool succeeded = await toggleMemberRole(
       ref,
       guildId: widget.guildId,
       userId: widget.userId,
       roleId: role.id,
       hasRole: hasRole,
     );
+    if (succeeded || !mounted) {
+      return;
+    }
+    setState(() {
+      if (hasRole) {
+        _memberRoleIds.add(role.id);
+      } else {
+        _memberRoleIds.remove(role.id);
+      }
+    });
   }
 
   void _openGuildRolesSettings() {

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_dart/export.dart';
 
 class GuildMemberRoleRepository {
@@ -19,7 +19,7 @@ class GuildMemberRoleRepository {
         roleId: roleId,
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -35,11 +35,7 @@ class GuildMemberRoleRepository {
         roleId: roleId,
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error));
+      throw ApiException.fromDio(error);
     }
-  }
-
-  String _messageFromDio(DioException error) {
-    return userFacingErrorMessage(error, "Couldn't update roles");
   }
 }

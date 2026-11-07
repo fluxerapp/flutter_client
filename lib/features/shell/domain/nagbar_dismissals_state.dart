@@ -7,6 +7,7 @@ class NagbarDismissalsState {
     this.giftInventoryDismissed = false,
     this.guildMembershipCtaDismissed = false,
     this.visionaryMfaDismissed = false,
+    this.guildMfaRequirementDismissed = const <String>{},
   });
 
   final bool pushNotificationDismissed;
@@ -16,6 +17,7 @@ class NagbarDismissalsState {
   final bool giftInventoryDismissed;
   final bool guildMembershipCtaDismissed;
   final bool visionaryMfaDismissed;
+  final Set<String> guildMfaRequirementDismissed;
 
   NagbarDismissalsState copyWith({
     bool? pushNotificationDismissed,
@@ -25,6 +27,7 @@ class NagbarDismissalsState {
     bool? giftInventoryDismissed,
     bool? guildMembershipCtaDismissed,
     bool? visionaryMfaDismissed,
+    Set<String>? guildMfaRequirementDismissed,
   }) {
     return NagbarDismissalsState(
       pushNotificationDismissed:
@@ -41,6 +44,8 @@ class NagbarDismissalsState {
           guildMembershipCtaDismissed ?? this.guildMembershipCtaDismissed,
       visionaryMfaDismissed:
           visionaryMfaDismissed ?? this.visionaryMfaDismissed,
+      guildMfaRequirementDismissed:
+          guildMfaRequirementDismissed ?? this.guildMfaRequirementDismissed,
     );
   }
 }

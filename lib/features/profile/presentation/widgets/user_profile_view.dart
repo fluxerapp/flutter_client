@@ -1094,6 +1094,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             currentUserId: ownUserId,
             everyonePermissions: everyonePermissions,
             memberRoles: viewerRoles,
+            guildMfaRestricted: isGuildMfaRestricted(
+              guildMfaLevel: guildInfo?.mfaLevel ?? 0,
+              isGuildOwner: isGuildOwner,
+              userLacksMfa: ref.watch(
+                userSettingsViewModelProvider.select(
+                  (UserSettingsViewState s) => s.lacksMfa,
+                ),
+              ),
+            ),
           );
           canManageRoles = hasPermission(
             viewerPermissions,

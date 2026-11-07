@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/permission_cache_reset.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
@@ -444,17 +445,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onSavedMessageDelete: (messageId) => ifMounted(() {
       ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
     }),
-    onPermissionsClearAll: () => ifMounted(() {
-      ref
-          .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
-          .clearAll();
-      ref
-          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
-          .clearAll();
-      ref
-        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
-        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
-    }),
+    onPermissionsClearAll: () => ifMounted(() => clearAllPermissionCaches(ref)),
     onMessageCreate: (MessageCreateDispatch dispatch) => ifMounted(() {
       final MessageResponseSchema message = dispatch.event.message;
       final AbandonedMessageSends abandoned = ref.read(

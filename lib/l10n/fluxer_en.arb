@@ -369,6 +369,15 @@
             }
         }
     },
+    "nagbarGuildMfaRequirement": "Moderation actions in {communityName} require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.",
+    "@nagbarGuildMfaRequirement": {
+        "description": "Community banner shown when moderation actions in that community require two-factor authentication and the account has none set up.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
     "nagbarJoinCommunity": "Join {communityName}",
     "@nagbarJoinCommunity": {
         "description": "Official community membership nagbar CTA.",
@@ -19488,6 +19497,22 @@
     "errorUnexpectedTryAgain": "An unexpected error occurred. Try again.",
     "@errorUnexpectedTryAgain": {
         "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorTwoFactorRequiredTitle": "Two-factor authentication required",
+    "@errorTwoFactorRequiredTitle": {
+        "description": "Title of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up."
+    },
+    "errorTwoFactorRequiredMessage": "This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.",
+    "@errorTwoFactorRequiredMessage": {
+        "description": "Body of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up."
+    },
+    "errorTwoFactorRequiredSetUp": "Set up 2FA",
+    "@errorTwoFactorRequiredSetUp": {
+        "description": "Button in the two-factor required dialog that opens the security settings."
+    },
+    "memberRolesUpdateFailed": "Couldn't update this member's roles. Try again.",
+    "@memberRolesUpdateFailed": {
+        "description": "Error dialog body when adding or removing a role on a community member fails."
     },
     "errorMessagingPausedTitle": "Messaging is paused",
     "@errorMessagingPausedTitle": {

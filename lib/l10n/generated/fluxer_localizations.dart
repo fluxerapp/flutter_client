@@ -518,6 +518,12 @@ abstract class FluxerLocalizations {
   /// **'Join {communityName} to chat with the team and stay up to date.'**
   String nagbarGuildMembershipCta(String communityName);
 
+  /// Community banner shown when moderation actions in that community require two-factor authentication and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderation actions in {communityName} require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.'**
+  String nagbarGuildMfaRequirement(String communityName);
+
   /// Official community membership nagbar CTA.
   ///
   /// In en, this message translates to:
@@ -27063,6 +27069,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred. Try again.'**
   String get errorUnexpectedTryAgain;
+
+  /// Title of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication required'**
+  String get errorTwoFactorRequiredTitle;
+
+  /// Body of the dialog shown when a community requires two-factor authentication for a moderation action and the account has none set up.
+  ///
+  /// In en, this message translates to:
+  /// **'This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.'**
+  String get errorTwoFactorRequiredMessage;
+
+  /// Button in the two-factor required dialog that opens the security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up 2FA'**
+  String get errorTwoFactorRequiredSetUp;
+
+  /// Error dialog body when adding or removing a role on a community member fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update this member\'s roles. Try again.'**
+  String get memberRolesUpdateFailed;
 
   /// Title of the dialog shown when the account is temporarily limited from messaging.
   ///

@@ -279,6 +279,11 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   }
 
   @override
+  String nagbarGuildMfaRequirement(String communityName) {
+    return 'Moderation actions in $communityName require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.';
+  }
+
+  @override
   String nagbarJoinCommunity(String communityName) {
     return 'Unirse a $communityName';
   }
@@ -16679,6 +16684,21 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get errorUnexpectedTryAgain =>
       'Ha ocurrido un error inesperado. Inténtalo de nuevo.';
+
+  @override
+  String get errorTwoFactorRequiredTitle =>
+      'Two-factor authentication required';
+
+  @override
+  String get errorTwoFactorRequiredMessage =>
+      'This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.';
+
+  @override
+  String get errorTwoFactorRequiredSetUp => 'Set up 2FA';
+
+  @override
+  String get memberRolesUpdateFailed =>
+      'Couldn\'t update this member\'s roles. Try again.';
 
   @override
   String get errorMessagingPausedTitle => 'El envío de mensajes está en pausa';

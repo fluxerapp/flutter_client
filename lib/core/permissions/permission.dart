@@ -76,3 +76,27 @@ bool hasPermission(int permissions, Permission permission) =>
 
 bool bypassesSlowmode(int permissions) =>
     hasPermission(permissions, Permission.bypassSlowmode);
+
+final int elevatedPermissions =
+    Permission.kickMembers.value |
+    Permission.banMembers.value |
+    Permission.administrator.value |
+    Permission.manageChannels.value |
+    Permission.manageGuild.value |
+    Permission.manageRoles.value |
+    Permission.manageMessages.value |
+    Permission.manageWebhooks.value |
+    Permission.manageExpressions.value |
+    Permission.moderateMembers.value |
+    Permission.manageThreads.value;
+
+const int guildMfaLevelElevated = 1;
+
+bool isGuildMfaRestricted({
+  required int guildMfaLevel,
+  required bool isGuildOwner,
+  required bool userLacksMfa,
+}) => guildMfaLevel == guildMfaLevelElevated && !isGuildOwner && userLacksMfa;
+
+int applyGuildMfaRestriction(int permissions, {required bool restricted}) =>
+    restricted ? permissions & ~elevatedPermissions : permissions;

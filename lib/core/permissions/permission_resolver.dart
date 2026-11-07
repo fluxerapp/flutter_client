@@ -6,6 +6,7 @@ int resolveGuildPermissions({
   required String currentUserId,
   required int everyonePermissions,
   required List<MemberRole> memberRoles,
+  bool guildMfaRestricted = false,
 }) {
   if (currentUserId == guildOwnerId) {
     return allPermissions;
@@ -18,8 +19,8 @@ int resolveGuildPermissions({
   }
 
   if (permissions & Permission.administrator.value != 0) {
-    return allPermissions;
+    permissions = allPermissions;
   }
 
-  return permissions;
+  return applyGuildMfaRestriction(permissions, restricted: guildMfaRestricted);
 }
