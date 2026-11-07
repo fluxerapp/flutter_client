@@ -149,12 +149,11 @@ class AccountManager extends _$AccountManager {
     }
   }
 
-  Future<bool> _validateToken(String token, {String? baseUrl}) async {
+  Future<bool> _validateToken(String token, {required String baseUrl}) async {
     try {
-      final String resolvedBaseUrl = baseUrl ?? ref.read(fluxerBaseUrlProvider);
       await Dio(
         BaseOptions(
-          baseUrl: resolvedBaseUrl,
+          baseUrl: baseUrl,
           headers: {'Authorization': formatSessionAuthorizationHeader(token)},
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5),
@@ -194,12 +193,15 @@ class AccountManager extends _$AccountManager {
 
   Future<bool> expireSessionIfInvalid() async {
     final String? token = ref.read(fluxerAuthTokenProvider);
-    if (token == null || token.isEmpty) {
+    final String? issuerBaseUrl = ref
+        .read(fluxerAuthTokenProvider.notifier)
+        .issuerBaseUrl;
+    if (token == null || token.isEmpty || issuerBaseUrl == null) {
       return false;
     }
     bool isValid;
     try {
-      isValid = await _validateToken(token);
+      isValid = await _validateToken(token, baseUrl: issuerBaseUrl);
     } on Exception {
       return false;
     }
@@ -224,10 +226,11 @@ class AccountManager extends _$AccountManager {
 
     if (session != null) {
       try {
-        final baseUrl = ref.read(fluxerBaseUrlProvider);
+        final InstanceConfigSnapshot instance = await authRepository
+            .resolveInstanceSnapshotForUser(userId);
         await Dio(
           BaseOptions(
-            baseUrl: baseUrl,
+            baseUrl: instance.apiBaseUrl,
             headers: {
               'Authorization': formatSessionAuthorizationHeader(session.token),
             },

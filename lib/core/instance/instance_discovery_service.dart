@@ -122,6 +122,29 @@ class InstanceDiscoveryService {
     }
   }
 
+  void _assertEndpointsBelongToInstance(
+    InstanceConfigSnapshot snapshot, {
+    required String enteredHost,
+  }) {
+    final String apiHost = Uri.tryParse(snapshot.apiBaseUrl)?.host ?? '';
+    final String gatewayUrl = snapshot.gatewayUrl.trim();
+    final bool officialApi = _normalizer.isOfficialInstanceInput(
+      snapshot.apiBaseUrl,
+    );
+    if ((!officialApi && !isHostWithinInstance(apiHost, enteredHost)) ||
+        (gatewayUrl.isNotEmpty &&
+            !isGatewayTrustedForApi(gatewayUrl, snapshot.apiBaseUrl))) {
+      talker.warning(
+        '[InstanceDiscovery] Rejecting endpoints outside $enteredHost '
+        'api=${snapshot.apiBaseUrl} gateway=$gatewayUrl',
+      );
+      throw const InstanceDiscoveryException(
+        'Instance endpoints do not belong to the requested instance',
+        reason: InstanceDiscoveryFailureReason.invalidDiscoveryResponse,
+      );
+    }
+  }
+
   Future<InstanceConfigSnapshot> connectToEndpoint(String input) async {
     if (_normalizer.isOfficialInstanceInput(input)) {
       return InstanceConfigSnapshot.officialDefault();
@@ -183,6 +206,10 @@ class InstanceDiscoveryService {
         snapshot.gatewayUrl,
         snapshot.mediaBaseUrl,
       ]);
+      _assertEndpointsBelongToInstance(
+        snapshot,
+        enteredHost: Uri.parse(wellKnownUrl).host,
+      );
       talker.info(
         '[InstanceDiscovery] Connected to ${snapshot.displayDomain} '
         'api=${snapshot.apiBaseUrl}',

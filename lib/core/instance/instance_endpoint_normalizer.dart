@@ -159,3 +159,42 @@ bool isPublicCleartextEndpoint(String endpoint) {
   }
   return !isLocalNetworkHost(url.host);
 }
+
+bool isHostWithinInstance(String host, String instanceHost) {
+  final String candidate = host.trim().toLowerCase();
+  final String reference = instanceHost.trim().toLowerCase();
+  if (candidate.isEmpty || reference.isEmpty) {
+    return false;
+  }
+  if (candidate == reference) {
+    return true;
+  }
+  if (InternetAddress.tryParse(candidate) != null ||
+      InternetAddress.tryParse(reference) != null) {
+    return false;
+  }
+  final String root = reference.startsWith('api.')
+      ? reference.substring('api.'.length)
+      : reference;
+  return candidate == root || candidate.endsWith('.$root');
+}
+
+bool isGatewayTrustedForApi(String gatewayUrl, String apiBaseUrl) {
+  final Uri? gateway = Uri.tryParse(gatewayUrl.trim());
+  final Uri? api = Uri.tryParse(apiBaseUrl.trim());
+  if (gateway == null || api == null) {
+    return false;
+  }
+  final String gatewayHost = gateway.host;
+  switch (gateway.scheme.toLowerCase()) {
+    case 'wss':
+      break;
+    case 'ws':
+      if (!isLocalNetworkHost(gatewayHost)) {
+        return false;
+      }
+    default:
+      return false;
+  }
+  return isHostWithinInstance(gatewayHost, api.host);
+}
