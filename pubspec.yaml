@@ -17,7 +17,7 @@ dependencies:
   audioplayers: ^6.8.1
   cached_network_image_ce: ^4.13.2
   clock: ^1.1.3
-  code_assets: ^1.0.0
+  code_assets: ^2.2.0
   connectivity_plus: ^7.3.1
   country_flags: ^4.1.2
   crop_your_image: ^2.0.0
@@ -64,7 +64,7 @@ dependencies:
   gal: ^2.3.3
   go_router: ^18.0.1
   highlight: ^0.7.0
-  hooks: ^1.0.3
+  hooks: ^2.2.0
   http: ^1.5.0
   image: ^4.8.0
   image_picker: ^1.2.3
@@ -92,7 +92,7 @@ dependencies:
     git:
       url: https://github.com/fluxerapp/media-kit
       path: media_kit_video
-  native_toolchain_c: ^0.17.6
+  native_toolchain_c: ^0.19.6
   package_info_plus: ^10.2.1
   passkeys: ^2.23.1
   path: ^1.9.1
@@ -114,7 +114,7 @@ dependencies:
   shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
   smart_keyboard_insets: ^0.3.0
-  sqlite3: ^3.5.2
+  sqlite3: ^3.9.0
   super_clipboard: ^0.9.1
   talker: ^5.1.20
   talker_dio_logger: ^5.1.20
@@ -177,13 +177,14 @@ dependency_overrides:
       url: https://github.com/fluxerapp/media-kit
       path: libs/windows/media_kit_libs_windows_video
   mockito: 5.8.1
+  native_toolchain_cmake: ^0.3.2
   # Fork pins wakelock_plus ^1.8.1 (dbus ^0.8); keep 1.8.0 for desktop_drop.
   wakelock_plus: 1.8.0
 
 dev_dependencies:
   accessibility_radar: ^0.3.0
   build_runner: ^2.15.0
-  drift_dev: 2.35.0
+  drift_dev: 2.35.2
   fake_async: ^1.3.3
   file: ^7.0.1
   flutter_driver:
