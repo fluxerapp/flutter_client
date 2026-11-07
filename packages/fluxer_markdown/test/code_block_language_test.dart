@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 
@@ -29,5 +30,14 @@ void main() {
 
     expect(find.text('print("hi")'), findsOneWidget);
     expect(find.textContaining('n\nprint'), findsNothing);
+  });
+
+  testWidgets('cc highlights as C++ like the web client', (
+    WidgetTester tester,
+  ) async {
+    await _pumpCodeBlock(tester, _fence('cc', 'int x = 1;\n'));
+
+    expect(find.byType(FluxerHighlightedCode), findsOneWidget);
+    expect(find.textContaining('cc\n'), findsNothing);
   });
 }
