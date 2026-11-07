@@ -15,6 +15,40 @@ class PreviewLanguageOption {
       canonicalCode.isNotEmpty && canonicalCode != code;
 }
 
+const Set<String> _highlightLanguageIds = <String>{
+  'bash',
+  'cpp',
+  'cs',
+  'css',
+  'dart',
+  'diff',
+  'dockerfile',
+  'go',
+  'graphql',
+  'java',
+  'javascript',
+  'json',
+  'kotlin',
+  'lua',
+  'makefile',
+  'markdown',
+  'nginx',
+  'objectivec',
+  'php',
+  'powershell',
+  'python',
+  'ruby',
+  'rust',
+  'scala',
+  'scss',
+  'shell',
+  'sql',
+  'swift',
+  'typescript',
+  'xml',
+  'yaml',
+};
+
 String previewLanguageCanonicalCode(String code) {
   final String normalized = code.trim().toLowerCase();
   if (normalized.isEmpty) {
@@ -40,6 +74,11 @@ String previewLanguageCanonicalCode(String code) {
       .where((MapEntry<String, Mode> entry) => identical(entry.value, mode))
       .map((MapEntry<String, Mode> entry) => entry.key)
       .toList(growable: false);
+  for (final String candidate in candidates) {
+    if (_highlightLanguageIds.contains(candidate)) {
+      return candidate;
+    }
+  }
   final List<String> primary = candidates
       .where((String key) => !aliases.contains(key))
       .toList();
