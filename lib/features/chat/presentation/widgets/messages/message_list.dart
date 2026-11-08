@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -3652,7 +3653,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool isAuthorBlocked = blockedUserIds.contains(message.authorId);
     final bool canAddReactionsForMessage =
         channelCanAddReactions && !isAuthorBlocked;
-    final double leading = leadingGroupSpacing(
+    final double groupLeading = leadingGroupSpacing(
       isGroupStart: !isGrouped,
       isNewDay: startsNewDay,
       hasPrevious: previousMessage != null || forceLeadingSpacing,
@@ -3661,6 +3662,14 @@ class _MessageListState extends ConsumerState<MessageList> {
           (previousMessage?.isSystemMessage ?? false),
       spacing: renderSettings.messageGroupSpacing,
     );
+    final double leading = showUnreadOverlay
+        ? math.max(
+            groupLeading > 0
+                ? groupLeading
+                : renderSettings.messageGroupSpacing,
+            kUnreadDividerHeight,
+          )
+        : groupLeading;
     final Object layoutSignature = (
       isGrouped,
       showUnreadOverlay,
