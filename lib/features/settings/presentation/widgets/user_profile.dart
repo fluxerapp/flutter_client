@@ -33,7 +33,6 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 
 const int _kMaxDisplayNameLength = 32;
 const int _kMaxPronounsLength = 40;
-const int _kMaxBioLength = 320;
 const int _kDefaultProfileAccentColor = 0x4641D9;
 
 int _accentColorPickerValue(UserSettingsViewState state) {
@@ -167,7 +166,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
             controller.insertEmoji(
               emoji.name,
               emoji.surrogates,
-              maxActualLength: _kMaxBioLength,
+              maxActualLength: ref.read(
+                instanceLimitProvider(LimitKeys.maxBioLength),
+              ),
             );
             _notifyBioChanged();
           },
@@ -814,6 +815,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     final controller = state.isPerGuildProfile
         ? _guildBioController
         : _bioController;
+    final int maxBioLength = ref.watch(
+      instanceLimitProvider(LimitKeys.maxBioLength),
+    );
     final onChanged = state.isPerGuildProfile
         ? () => vm.updateGuildBio(controller.actualText)
         : () => vm.updateBio(controller.actualText);
@@ -826,7 +830,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         allowedTriggers: const <ComposerAutocompleteTriggerKind>{
           ComposerAutocompleteTriggerKind.emoji,
         },
-        maxActualLength: _kMaxBioLength,
+        maxActualLength: maxBioLength,
         onApplied: onChanged,
         child: FluxerInput.multiline(
           controller: controller,
@@ -836,12 +840,12 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           maxLines: 8,
           showCounter: true,
           counterLength: () => controller.actualTextLength,
-          counterMax: _kMaxBioLength,
+          counterMax: maxBioLength,
           helperText: l10n.aboutMeHelperText,
           inputFormatters: [
             InlineTokenWireLengthFormatter(
               controller,
-              maxWireLength: _kMaxBioLength,
+              maxWireLength: maxBioLength,
             ),
           ],
           onChanged: (_) => onChanged(),
@@ -853,7 +857,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
               controller.insertEmoji(
                 emoji.name,
                 emoji.surrogates,
-                maxActualLength: _kMaxBioLength,
+                maxActualLength: maxBioLength,
               );
               onChanged();
             },
