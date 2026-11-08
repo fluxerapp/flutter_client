@@ -1,4 +1,4 @@
-name: Stable Release (iOS)
+name: Stable Release (iOS + Android)
 
 on:
   workflow_dispatch:
@@ -6,12 +6,31 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 jobs:
   draft-release:
     name: Draft stable release
     uses: ./.github/workflows/_draft-stable-release.yml
     secrets: inherit
+
+  allocate-android-build-number:
+    name: Allocate Android build number
+    runs-on: ubuntu-latest
+    environment: release-builds
+    outputs:
+      build_number: ${{ steps.android_build_number.outputs.build_number }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Fetch Android build number from Nodus
+        id: android_build_number
+        env:
+          NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+          NODUS_APP: fluxer
+        run: bash .github/scripts/fetch_nodus_android_build_number.sh
 
   # ios-app-store:
   #   name: iOS App Store build
@@ -27,12 +46,80 @@ jobs:
   #     stable_release_tag: ${{ needs.draft-release.outputs.tag_name }}
   #   secrets: inherit
 
-  # android-fcm:
-  #   name: Android FCM build
-  #   uses: ./.github/workflows/android-stable-fcm.yml
-  #   secrets: inherit
-  #
-  # android-oss:
-  #   name: Android OSS build
-  #   uses: ./.github/workflows/android-stable-oss.yml
-  #   secrets: inherit
+  android-fcm:
+    name: Android FCM build
+    needs:
+      - draft-release
+      - allocate-android-build-number
+    uses: ./.github/workflows/android-stable-fcm.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
+    secrets: inherit
+
+  android-oss:
+    name: Android OSS build
+    needs:
+      - draft-release
+      - allocate-android-build-number
+    uses: ./.github/workflows/android-stable-oss.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
+    secrets: inherit
+
+  publish-release-assets:
+    name: Upload Android assets to draft release
+    needs: [draft-release, android-fcm, android-oss]
+    if: |
+      always() &&
+      needs.draft-release.result == 'success' &&
+      needs.android-fcm.result == 'success' &&
+      needs.android-oss.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download FCM APK artifacts
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: stable-fcm-apk
+          path: release-assets/fcm
+
+      - name: Download FCM AAB artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: stable-fcm-aab
+          path: release-assets/fcm
+
+      - name: Download OSS APK artifacts
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: stable-oss-apk
+          path: release-assets/oss
+
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+
+      - name: Upload Android assets to draft release
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+          TAG: ${{ needs.draft-release.outputs.tag_name }}
+        run: |
+          set -euo pipefail
+          if [ -z "$TAG" ]; then
+            echo "::error::Draft release tag name is missing"
+            exit 1
+          fi
+          shopt -s globstar nullglob
+          assets=(release-assets/**/*.apk release-assets/**/*.aab)
+          if [ "${#assets[@]}" -eq 0 ]; then
+            echo "::error::No Android files found to upload"
+            exit 1
+          fi
+          echo "Uploading ${#assets[@]} Android asset(s) to release $TAG"
+          gh release upload "$TAG" "${assets[@]}" --repo "${{ github.repository }}" --clobber
+          gh release view "$TAG" --repo "${{ github.repository }}"
