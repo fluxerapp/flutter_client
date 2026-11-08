@@ -20,6 +20,20 @@ bool isPendingShareReady({
   return isAuthenticated && isShellReady && !isConnectionFailed;
 }
 
+/// On Android the plugin reports the link that opened the app as a `url`
+/// share. The deep link handler owns those, so only real shares remain.
+List<SharedMediaFile> withoutLaunchLinks(
+  List<SharedMediaFile> files, {
+  required bool isAndroid,
+}) {
+  if (!isAndroid) {
+    return files;
+  }
+  return files
+      .where((SharedMediaFile file) => file.type != SharedMediaType.url)
+      .toList(growable: false);
+}
+
 @Riverpod(keepAlive: true)
 class PendingShare extends _$PendingShare {
   StreamSubscription<List<SharedMediaFile>>? _mediaSubscription;
@@ -76,7 +90,11 @@ class PendingShare extends _$PendingShare {
     });
   }
 
-  void _handleMedia(List<SharedMediaFile> files) {
+  void _handleMedia(List<SharedMediaFile> received) {
+    final List<SharedMediaFile> files = withoutLaunchLinks(
+      received,
+      isAndroid: Platform.isAndroid,
+    );
     if (files.isEmpty) {
       return;
     }

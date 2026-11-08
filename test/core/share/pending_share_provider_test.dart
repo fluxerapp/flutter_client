@@ -53,6 +53,23 @@ void main() {
     });
   });
 
+  group('withoutLaunchLinks', () {
+    final List<SharedMediaFile> launchLink = <SharedMediaFile>[
+      SharedMediaFile(
+        path: 'https://web.fluxer.app/notifications',
+        type: SharedMediaType.url,
+      ),
+    ];
+
+    test('drops the link that opened the app on Android', () {
+      expect(withoutLaunchLinks(launchLink, isAndroid: true), isEmpty);
+    });
+
+    test('keeps shared links on iOS', () {
+      expect(withoutLaunchLinks(launchLink, isAndroid: false), launchLink);
+    });
+  });
+
   group('PendingShare', () {
     test('build returns null on non-mobile platforms', () {
       final ProviderContainer container = ProviderContainer();
