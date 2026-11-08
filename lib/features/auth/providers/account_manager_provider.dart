@@ -208,6 +208,11 @@ class AccountManager extends _$AccountManager {
     if (isValid) {
       return false;
     }
+    await expireCurrentSession();
+    return true;
+  }
+
+  Future<void> expireCurrentSession() async {
     final String? userId = ref.read(currentUserIdProvider);
     if (userId != null && userId.isNotEmpty) {
       await ref.read(fluxerDatabaseProvider).authSessionDao.markInvalid(userId);
@@ -217,7 +222,6 @@ class AccountManager extends _$AccountManager {
     await loadAccounts();
     ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
     ref.read(authStateProvider.notifier).setAuthenticated(value: false);
-    return true;
   }
 
   Future<void> removeAccount(String userId) async {

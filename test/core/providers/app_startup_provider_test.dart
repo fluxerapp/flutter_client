@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/shell_cache.dart';
 import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -30,7 +31,9 @@ import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/open_test_database.dart';
 import '../../helpers/recording_asset_channel.dart';
@@ -617,6 +620,238 @@ void main() {
     final session = await db.authSessionDao.getSession('user-1');
     expect(session!.isValid, isFalse);
   });
+
+  group('cache-first launch', () {
+    test('opens the shell without waiting for /users/@me or READY', () async {
+      _mockLaunchPreferences(cacheFirstLaunch: true);
+      final db = openTestDatabase();
+      final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+      await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+      await _seedTrustedCache(db);
+      final Completer<void> releaseUsersMe = Completer<void>();
+      final container = _startupContainer(
+        db: db,
+        tokens: tokens,
+        apiBaseUrl: 'https://self.example/api',
+        adapter: _HoldingUsersMeAdapter(release: releaseUsersMe),
+      );
+      addTearDown(() {
+        if (!releaseUsersMe.isCompleted) {
+          releaseUsersMe.complete();
+        }
+        container.dispose();
+      });
+      await container.read(localSettingsProvider.notifier).load();
+
+      container.listen(appStartupProvider, (_, _) {});
+      await container.read(appStartupProvider.future);
+      await pumpEventQueue();
+
+      expect(
+        container.read(startupGatewayFallbackProvider),
+        StartupGatewayFallback.cacheFirst,
+      );
+      expect(container.read(shellDataReadyProvider), isTrue);
+      expect(container.read(authStateProvider), isTrue);
+      expect(container.read(currentUserIdProvider), 'user-1');
+
+      container.read(gatewayReadyProvider.notifier).setReady();
+      expect(
+        container.read(startupGatewayFallbackProvider),
+        StartupGatewayFallback.none,
+      );
+      expect(container.read(shellDataReadyProvider), isTrue);
+    });
+
+    for (final (String name, bool enabled, int generation, Duration liveAgo)
+        in <(String, bool, int, Duration)>[
+          (
+            'the toggle is off',
+            false,
+            kShellCacheGeneration,
+            const Duration(hours: 1),
+          ),
+          (
+            'the cache generation is stale',
+            true,
+            kShellCacheGeneration - 1,
+            const Duration(hours: 1),
+          ),
+          (
+            'the cache was last live over 7 days ago',
+            true,
+            kShellCacheGeneration,
+            kShellCacheMaxAge + const Duration(hours: 1),
+          ),
+        ]) {
+      test('waits for /users/@me when $name', () async {
+        _mockLaunchPreferences(
+          cacheFirstLaunch: enabled,
+          generation: generation,
+          liveAgo: liveAgo,
+        );
+        final db = openTestDatabase();
+        final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+        await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+        await _seedTrustedCache(db);
+        final Completer<void> releaseUsersMe = Completer<void>();
+        final container = _startupContainer(
+          db: db,
+          tokens: tokens,
+          apiBaseUrl: 'https://self.example/api',
+          adapter: _HoldingUsersMeAdapter(release: releaseUsersMe),
+        );
+        addTearDown(() {
+          if (!releaseUsersMe.isCompleted) {
+            releaseUsersMe.complete();
+          }
+          container.dispose();
+        });
+        await container.read(localSettingsProvider.notifier).load();
+        container.listen(appStartupProvider, (_, _) {});
+
+        await pumpEventQueue();
+
+        expect(container.read(appStartupProvider), isA<AsyncLoading<void>>());
+        expect(container.read(shellDataReadyProvider), isFalse);
+      });
+    }
+
+    test(
+      'waits for /users/@me when the cache belongs to another user',
+      () async {
+        _mockLaunchPreferences(cacheFirstLaunch: true);
+        final db = openTestDatabase();
+        final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+        await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+        await db.userSettingsDao.upsertSettings(
+          UserSettingsTableCompanion.insert(userId: 'user-2', data: '{}'),
+        );
+        final Completer<void> releaseUsersMe = Completer<void>();
+        final container = _startupContainer(
+          db: db,
+          tokens: tokens,
+          apiBaseUrl: 'https://self.example/api',
+          adapter: _HoldingUsersMeAdapter(release: releaseUsersMe),
+        );
+        addTearDown(() {
+          if (!releaseUsersMe.isCompleted) {
+            releaseUsersMe.complete();
+          }
+          container.dispose();
+        });
+        await container.read(localSettingsProvider.notifier).load();
+        container.listen(appStartupProvider, (_, _) {});
+
+        await pumpEventQueue();
+
+        expect(container.read(appStartupProvider), isA<AsyncLoading<void>>());
+      },
+    );
+
+    test('a failed background check retries once when READY arrives', () async {
+      _mockLaunchPreferences(cacheFirstLaunch: true);
+      final db = openTestDatabase();
+      final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+      await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+      await _seedTrustedCache(db);
+      final _CountingUsersMeAdapter adapter = _CountingUsersMeAdapter();
+      final container = _startupContainer(
+        db: db,
+        tokens: tokens,
+        apiBaseUrl: 'https://self.example/api',
+        adapter: adapter,
+      );
+      addTearDown(container.dispose);
+      await container.read(localSettingsProvider.notifier).load();
+      container.listen(appStartupProvider, (_, _) {});
+
+      await container.read(appStartupProvider.future);
+      await pumpEventQueue();
+      expect(adapter.usersMeRequests, 1);
+      expect(container.read(authStateProvider), isTrue);
+
+      container.read(gatewayReadyProvider.notifier).setReady();
+      await pumpEventQueue();
+      expect(adapter.usersMeRequests, 2);
+
+      container.read(gatewayReadyProvider.notifier)
+        ..reset()
+        ..setReady();
+      await pumpEventQueue();
+      expect(adapter.usersMeRequests, 2);
+      expect(container.read(authStateProvider), isTrue);
+    });
+
+    test('a background 401 on the stored host signs out', () async {
+      _mockLaunchPreferences(cacheFirstLaunch: true);
+      final db = openTestDatabase();
+      final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+      await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+      await _seedTrustedCache(db);
+      final container = _startupContainer(
+        db: db,
+        tokens: tokens,
+        apiBaseUrl: 'https://self.example/api',
+        statusCode: 401,
+      );
+      addTearDown(container.dispose);
+      await container.read(localSettingsProvider.notifier).load();
+
+      await container.read(appStartupProvider.future);
+      await pumpEventQueue();
+
+      final session = await db.authSessionDao.getSession('user-1');
+      expect(session!.isValid, isFalse);
+      expect(container.read(authStateProvider), isFalse);
+    });
+
+    test('a background 401 from another host keeps the session', () async {
+      _mockLaunchPreferences(cacheFirstLaunch: true);
+      final db = openTestDatabase();
+      final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+      await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+      await _seedTrustedCache(db);
+      final container = _startupContainer(
+        db: db,
+        tokens: tokens,
+        apiBaseUrl: 'https://other.example/api',
+        statusCode: 401,
+      );
+      addTearDown(container.dispose);
+      await container.read(localSettingsProvider.notifier).load();
+
+      await container.read(appStartupProvider.future);
+      await pumpEventQueue();
+
+      final session = await db.authSessionDao.getSession('user-1');
+      expect(session!.isValid, isTrue);
+      expect(container.read(authStateProvider), isTrue);
+    });
+  });
+}
+
+Future<void> _seedTrustedCache(FluxerDatabase db) async {
+  await db.userSettingsDao.upsertSettings(
+    UserSettingsTableCompanion.insert(userId: 'user-1', data: '{}'),
+  );
+  await db.userDao.upsertUser(
+    UsersCompanion.insert(id: 'user-1', username: 'me'),
+  );
+}
+
+void _mockLaunchPreferences({
+  required bool cacheFirstLaunch,
+  int generation = kShellCacheGeneration,
+  Duration liveAgo = const Duration(hours: 1),
+}) {
+  SharedPreferences.setMockInitialValues(<String, Object>{
+    'cache_first_launch': cacheFirstLaunch,
+    'shell_cache_generation': generation,
+    'shell_cache_live_at': DateTime.now()
+        .subtract(liveAgo)
+        .millisecondsSinceEpoch,
+  });
 }
 
 Future<void> _saveSession(
@@ -639,10 +874,11 @@ ProviderContainer _startupContainer({
   required FluxerDatabase db,
   required MapAuthTokenStorage tokens,
   required String apiBaseUrl,
-  required int statusCode,
+  int? statusCode,
+  HttpClientAdapter? adapter,
 }) {
   final Dio dio = Dio(BaseOptions(baseUrl: apiBaseUrl))
-    ..httpClientAdapter = _UsersMeAdapter(statusCode: statusCode);
+    ..httpClientAdapter = adapter ?? _UsersMeAdapter(statusCode: statusCode);
   return ProviderContainer(
     retry: (int retryCount, Object error) => null,
     overrides: [
@@ -682,6 +918,31 @@ class _UsersMeAdapter implements HttpClientAdapter {
       statusMessage: 'Service Unavailable',
       headers: <String, List<String>>{
         Headers.contentTypeHeader: <String>['text/html'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _CountingUsersMeAdapter implements HttpClientAdapter {
+  int usersMeRequests = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    if (options.path.endsWith('/users/@me')) {
+      usersMeRequests++;
+    }
+    return ResponseBody.fromString(
+      'error',
+      500,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>['text/plain'],
       },
     );
   }

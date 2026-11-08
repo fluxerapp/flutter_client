@@ -11,9 +11,17 @@ import 'package:fluxer_app/core/talker.dart';
 
 const Duration kStartupGatewayFallbackDelay = Duration(seconds: 6);
 
+const Duration kStartupCacheFirstIndicatorDelay = Duration(seconds: 3);
+
 const Duration kStartupOfflineConfirmDelay = Duration(seconds: 2);
 
-enum StartupGatewayFallback { none, cachedShell, unreachable }
+enum StartupGatewayFallback { none, cacheFirst, cachedShell, unreachable }
+
+extension StartupGatewayFallbackShell on StartupGatewayFallback {
+  bool get showsShell =>
+      this == StartupGatewayFallback.cacheFirst ||
+      this == StartupGatewayFallback.cachedShell;
+}
 
 Future<bool> hasCachedShellData(FluxerDatabase database, String userId) async =>
     await database.userSettingsDao.getSettings(userId) != null;
@@ -40,7 +48,9 @@ class StartupGatewayFallbackNotifier extends Notifier<StartupGatewayFallback> {
           _cancelTimer();
           return;
         }
-        if (_armed && state == StartupGatewayFallback.none) {
+        if (_armed &&
+            (state == StartupGatewayFallback.none ||
+                state == StartupGatewayFallback.cacheFirst)) {
           unawaited(_schedule(_generation));
         }
       });
@@ -57,6 +67,13 @@ class StartupGatewayFallbackNotifier extends Notifier<StartupGatewayFallback> {
     if (ref.read(appUiForegroundProvider)) {
       unawaited(_schedule(_generation));
     }
+  }
+
+  void openFromCache() {
+    if (!_armed || ref.read(gatewayReadyProvider)) {
+      return;
+    }
+    state = StartupGatewayFallback.cacheFirst;
   }
 
   void apiUnreachable() {
@@ -115,10 +132,15 @@ class StartupGatewayFallbackNotifier extends Notifier<StartupGatewayFallback> {
       return;
     }
     _cancelTimer();
-    _timer = Timer(kStartupGatewayFallbackDelay, () {
-      _timer = null;
-      unawaited(_fallBack(generation, deviceOffline: false));
-    });
+    _timer = Timer(
+      state == StartupGatewayFallback.cacheFirst
+          ? kStartupCacheFirstIndicatorDelay
+          : kStartupGatewayFallbackDelay,
+      () {
+        _timer = null;
+        unawaited(_fallBack(generation, deviceOffline: false));
+      },
+    );
   }
 
   Future<void> _fallBack(int generation, {required bool deviceOffline}) async {
@@ -149,3 +171,9 @@ startupGatewayFallbackProvider =
     NotifierProvider<StartupGatewayFallbackNotifier, StartupGatewayFallback>(
       StartupGatewayFallbackNotifier.new,
     );
+
+final Provider<bool> shellDataReadyProvider = Provider<bool>(
+  (Ref ref) =>
+      ref.watch(gatewayReadyProvider) ||
+      ref.watch(startupGatewayFallbackProvider).showsShell,
+);

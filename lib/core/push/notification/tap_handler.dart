@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/push/notification/path_resolver.dart';
@@ -98,7 +98,7 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
     }
     if (!shouldApplyPendingPushNavigation(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
       splashExitAllowed: ref.read(splashExitAllowedProvider),
     )) {

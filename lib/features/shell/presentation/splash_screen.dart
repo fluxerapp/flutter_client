@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility_messages.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
+import 'package:fluxer_app/core/observability/startup_timeline.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
@@ -141,10 +142,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _outageRetryTimer = null;
   }
 
-  bool _shellDataReady() =>
-      ref.read(gatewayReadyProvider) ||
-      ref.read(startupGatewayFallbackProvider) ==
-          StartupGatewayFallback.cachedShell;
+  bool _shellDataReady() => ref.read(shellDataReadyProvider);
 
   void _cancelSplashIfReady() {
     final AsyncValue<void> startup = ref.read(appStartupProvider);
@@ -221,6 +219,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _hydrationWaitTimer?.cancel();
     _hydrationWaitTimer = null;
     _exitRevealStarted = true;
+    StartupTimeline.instance.markShellShown(
+      ref.read(gatewayReadyProvider)
+          ? StartupShellSource.live
+          : StartupShellSource.cache,
+    );
     _cancelSplashTimers();
     _pulseController.stop();
 
@@ -387,14 +390,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ),
           );
     final bool isStartupComplete = startup is AsyncData<void>;
-    final bool isGatewayReady = ref.watch(gatewayReadyProvider);
     final StartupGatewayFallback gatewayFallback = ref.watch(
       startupGatewayFallbackProvider,
     );
-    final bool isReady =
-        isStartupComplete &&
-        (isGatewayReady ||
-            gatewayFallback == StartupGatewayFallback.cachedShell);
+    final bool isReady = isStartupComplete && ref.watch(shellDataReadyProvider);
     final bool showUnreachable =
         isStartupComplete &&
         !isReady &&

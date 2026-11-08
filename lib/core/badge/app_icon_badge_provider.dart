@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -24,7 +24,7 @@ class AppIconBadge extends _$AppIconBadge {
       (_, _) {},
     );
     final bool ready =
-        ref.watch(gatewayReadyProvider) &&
+        ref.watch(shellDataReadyProvider) &&
         ref.watch(guildReadStateReadyProvider);
     if (!ready) {
       return previous;

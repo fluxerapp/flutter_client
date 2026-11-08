@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/deep_links/deep_link_log_sanitizer.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
@@ -228,7 +228,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
   void _processDeepLink(Uri uri) {
     final bool ready = isPendingNavigationReady(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     );
     if (!ready) {

@@ -20,6 +20,7 @@ import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
+import 'package:fluxer_app/core/observability/startup_timeline.dart';
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -218,6 +219,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 }
 
 Future<void> main(List<String> args) async {
+  StartupTimeline.instance.start();
   await runZonedGuarded<Future<void>>(
     () async {
       await _bootstrapFluxer(args);

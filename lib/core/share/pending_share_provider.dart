@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -14,10 +14,10 @@ part 'pending_share_provider.g.dart';
 
 bool isPendingShareReady({
   required bool isAuthenticated,
-  required bool isGatewayReady,
+  required bool isShellReady,
   required bool isConnectionFailed,
 }) {
-  return isAuthenticated && isGatewayReady && !isConnectionFailed;
+  return isAuthenticated && isShellReady && !isConnectionFailed;
 }
 
 @Riverpod(keepAlive: true)
@@ -33,7 +33,7 @@ class PendingShare extends _$PendingShare {
     unawaited(_listenToMedia());
 
     ref
-      ..listen<bool>(gatewayReadyProvider, (_, bool next) {
+      ..listen<bool>(shellDataReadyProvider, (_, bool next) {
         if (next) {
           flushIfReady();
         }
@@ -107,7 +107,7 @@ class PendingShare extends _$PendingShare {
     }
     if (!isPendingShareReady(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     )) {
       return;

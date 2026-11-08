@@ -168,7 +168,7 @@ GoRouter fluxerRouter(Ref ref) {
       (_, _) => refreshNotifier.notify(),
     )
     ..listen(gatewayReadyProvider, (_, _) => refreshNotifier.notify())
-    ..listen(startupGatewayFallbackProvider, (_, _) => refreshNotifier.notify())
+    ..listen(shellDataReadyProvider, (_, _) => refreshNotifier.notify())
     ..listen(splashExitAllowedProvider, (_, _) => refreshNotifier.notify())
     ..listen(appStartupProvider, (_, _) => refreshNotifier.notify())
     ..listen(accountManagerProvider, (_, _) => refreshNotifier.notify())
@@ -255,12 +255,8 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
-      final bool showCachedShell =
-          ref.read(startupGatewayFallbackProvider) ==
-          StartupGatewayFallback.cachedShell;
       if (isAuthenticated &&
-          !isGatewayReady &&
-          !showCachedShell &&
+          !ref.read(shellDataReadyProvider) &&
           !isOnReconnecting &&
           !isAddingAccount) {
         if (!isOnLoading) {

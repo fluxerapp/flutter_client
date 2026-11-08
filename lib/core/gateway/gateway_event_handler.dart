@@ -191,6 +191,7 @@ class GatewayEventHandler {
     this.onUserSettingsHydrate,
     this.onCurrentUserUpdate,
     this.onSessionChanging,
+    this.isCacheOwnedBy,
     this.onUnavailableGuildsReady,
     this.onGuildAvailabilityChanged,
     this.onGuildAvailable,
@@ -278,6 +279,7 @@ class GatewayEventHandler {
   final UserSettingsHydrateCallback? onUserSettingsHydrate;
   final CurrentUserUpdateCallback? onCurrentUserUpdate;
   final SessionChangingCallback? onSessionChanging;
+  final Future<bool> Function(String userId)? isCacheOwnedBy;
   final UnavailableGuildsReadyCallback? onUnavailableGuildsReady;
   final GuildAvailabilityChangedCallback? onGuildAvailabilityChanged;
   final GuildAvailableCallback? onGuildAvailable;
@@ -796,8 +798,15 @@ class GatewayEventHandler {
         _hasCommittedReady &&
         _lastReadyUserId != null &&
         _lastReadyUserId == event.user.id;
-    final bool shouldFullWipe = !isSameUserReconnect;
-    if (shouldFullWipe) {
+    final bool diffAgainstCache =
+        isSameUserReconnect ||
+        (!_hasCommittedReady &&
+            await (isCacheOwnedBy?.call(event.user.id) ?? Future.value(false)));
+    final bool shouldFullWipe = !diffAgainstCache;
+    final String readyMode = shouldFullWipe
+        ? 'full'
+        : (isSameUserReconnect ? 'incremental' : 'cache');
+    if (!isSameUserReconnect) {
       _emit(onSessionChanging);
     }
     talker.info(
@@ -809,7 +818,7 @@ class GatewayEventHandler {
       ', readStates: ${event.readStates.length}'
       ', dropped: ${event.droppedItems}'
       ', user: ${event.user.id}'
-      ', mode: ${shouldFullWipe ? 'full' : 'incremental'}',
+      ', mode: $readyMode',
     );
 
     _currentUserId = event.user.id;
@@ -847,7 +856,9 @@ class GatewayEventHandler {
     final bool keepCachedMessages =
         shouldFullWipe &&
         await database.userSettingsDao.getSettings(event.user.id) != null;
-    final Set<String> localGuildIdsBeforeReady = isSameUserReconnect
+    final bool trimCachedMessages =
+        keepCachedMessages || (diffAgainstCache && !isSameUserReconnect);
+    final Set<String> localGuildIdsBeforeReady = diffAgainstCache
         ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
         : const <String>{};
 
@@ -1028,7 +1039,7 @@ class GatewayEventHandler {
           if (guildData.voiceStates.isNotEmpty) {
             readyVoiceStates.addAll(guildData.voiceStates);
           }
-          if (guildData.emojis.isNotEmpty || isSameUserReconnect) {
+          if (guildData.emojis.isNotEmpty || diffAgainstCache) {
             emojiReplacements[guildId] = guildData.emojis
                 .map(
                   (e) => db.GuildEmojisCompanion.insert(
@@ -1040,7 +1051,7 @@ class GatewayEventHandler {
                 )
                 .toList();
           }
-          if (guildData.stickers.isNotEmpty || isSameUserReconnect) {
+          if (guildData.stickers.isNotEmpty || diffAgainstCache) {
             stickerReplacements[guildId] = guildData.stickers
                 .map(
                   (s) => db.GuildStickersCompanion.insert(
@@ -1090,7 +1101,7 @@ class GatewayEventHandler {
         await database.guildEmojiDao.replaceForGuilds(emojiReplacements);
         await database.guildStickerDao.replaceForGuilds(stickerReplacements);
 
-        if (isSameUserReconnect) {
+        if (diffAgainstCache) {
           prunedChannelIds.addAll(
             (await _pruneGuildSnapshots(
               channelIdsByGuildId: snapshotChannelIdsByGuildId,
@@ -1148,7 +1159,7 @@ class GatewayEventHandler {
       await database.dmChannelDao.upsertDmChannels([
         buildPersonalNotesDmCompanion(userId: event.user.id),
       ]);
-      if (isSameUserReconnect) {
+      if (diffAgainstCache) {
         final List<String> closedDmIds = await database.dmChannelDao
             .deleteDmChannelsNotIn(<String>{
               event.user.id,
@@ -1347,7 +1358,7 @@ class GatewayEventHandler {
 
       await database.threadDao.pruneArchived(now: DateTime.now());
 
-      if (keepCachedMessages) {
+      if (trimCachedMessages) {
         await database.messageDao.deleteMessagesOutsideKnownChannels();
         await database.messageDao.keepNewestMessagesPerChannel(
           _cachedMessagesKeptPerChannel,
