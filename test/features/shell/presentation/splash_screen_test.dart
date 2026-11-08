@@ -372,6 +372,36 @@ void main() {
     },
   );
 
+  testWidgets('keeps the logo at the screen center when copy is shown', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.625;
+    tester.view.padding = const FakeViewPadding(top: 126, bottom: 63);
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        retry: (int retryCount, Object error) => null,
+        overrides: _splashOverrides(<Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
+          appStartupProvider.overrideWith(_UnavailableAppStartup.new),
+          serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
+        ]),
+        child: const SplashScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text(testL10n.retry), findsOneWidget);
+    final Size screen = tester.view.physicalSize / tester.view.devicePixelRatio;
+    expect(
+      tester.getCenter(find.byType(InstanceBrandMark)),
+      screen.center(Offset.zero),
+    );
+    await releaseTestWidgetTree(tester);
+  });
+
   testWidgets('exposes a live status region and hides decorative branding', (
     tester,
   ) async {
