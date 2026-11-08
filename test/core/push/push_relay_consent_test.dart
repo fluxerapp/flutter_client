@@ -74,19 +74,19 @@ void main() {
         shouldPromptForPushRelayConsent(
           relayUrl: relayEndpoint,
           isConsentGranted: false,
-          hasDecision: false,
+          hasDeclinedOnAccount: false,
           isOfficialInstance: false,
         ),
         isTrue,
       );
     });
 
-    test('does not prompt again after consent was declined', () {
+    test('does not prompt again after this account declined', () {
       expect(
         shouldPromptForPushRelayConsent(
           relayUrl: relayEndpoint,
           isConsentGranted: false,
-          hasDecision: true,
+          hasDeclinedOnAccount: true,
           isOfficialInstance: false,
         ),
         isFalse,
@@ -98,7 +98,7 @@ void main() {
         shouldPromptForPushRelayConsent(
           relayUrl: relayEndpoint,
           isConsentGranted: true,
-          hasDecision: true,
+          hasDeclinedOnAccount: true,
           isOfficialInstance: false,
         ),
         isFalse,
@@ -110,7 +110,7 @@ void main() {
         shouldPromptForPushRelayConsent(
           relayUrl: _kNtfyEndpoint,
           isConsentGranted: false,
-          hasDecision: false,
+          hasDeclinedOnAccount: false,
           isOfficialInstance: false,
         ),
         isFalse,
@@ -119,7 +119,7 @@ void main() {
         shouldPromptForPushRelayConsent(
           relayUrl: _kSelfHostedEndpoint,
           isConsentGranted: false,
-          hasDecision: false,
+          hasDeclinedOnAccount: false,
           isOfficialInstance: false,
         ),
         isFalse,
@@ -152,7 +152,7 @@ void main() {
         shouldPromptForPushRelayConsent(
           relayUrl: relayEndpoint,
           isConsentGranted: false,
-          hasDecision: false,
+          hasDeclinedOnAccount: false,
           isOfficialInstance: true,
         ),
         isFalse,

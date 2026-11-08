@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'push_relay_consent_provider.g.dart';
 
 const String _kPushRelayConsentGrantedKey = 'push_relay_consent_granted';
+const String _kPushRelayConsentDeclinedUsersKey =
+    'push_relay_consent_declined_users';
 
 bool pushRelayConsentIsAvailable() {
   if (!PushProviderGuard.isApple && !PushProviderGuard.isFirebaseMessaging) {
@@ -22,7 +24,7 @@ bool pushRelayConsentIsAvailable() {
 class PushRelayConsent extends _$PushRelayConsent {
   Future<void>? _loadInFlight;
   bool _isLoaded = false;
-  bool _hasDecision = false;
+  Set<String> _declinedUserIds = <String>{};
 
   @override
   bool build() => false;
@@ -44,24 +46,48 @@ class PushRelayConsent extends _$PushRelayConsent {
     if (_isLoaded) {
       return;
     }
-    final bool? stored = preferences.getBool(_kPushRelayConsentGrantedKey);
-    _hasDecision = stored != null;
-    state = stored ?? false;
+    _declinedUserIds =
+        (preferences.getStringList(_kPushRelayConsentDeclinedUsersKey) ??
+                const <String>[])
+            .toSet();
+    state = preferences.getBool(_kPushRelayConsentGrantedKey) ?? false;
     _isLoaded = true;
   }
 
-  Future<void> setEnabled({required bool value}) async {
-    _hasDecision = true;
+  bool hasDeclined(String userId) => _declinedUserIds.contains(userId);
+
+  Future<void> grant() async {
     _isLoaded = true;
-    state = value;
+    state = true;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_kPushRelayConsentGrantedKey, value);
+    await preferences.setBool(_kPushRelayConsentGrantedKey, true);
+  }
+
+  Future<void> revoke({required Set<String> userIds}) async {
+    _isLoaded = true;
+    state = false;
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(_kPushRelayConsentGrantedKey, false);
+    await decline(userIds);
+  }
+
+  Future<void> decline(Set<String> userIds) async {
+    if (userIds.every(_declinedUserIds.contains)) {
+      return;
+    }
+    _declinedUserIds = <String>{..._declinedUserIds, ...userIds};
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setStringList(
+      _kPushRelayConsentDeclinedUsersKey,
+      _declinedUserIds.toList(),
+    );
   }
 }
 
 Future<bool> ensurePushRelayConsent(
   Ref ref,
   String relayUrl, {
+  required String userId,
   bool allowPrompt = true,
 }) async {
   final bool isOfficialInstance = ref.read(isActiveInstanceOfficialProvider);
@@ -79,10 +105,12 @@ Future<bool> ensurePushRelayConsent(
       shouldPromptForPushRelayConsent(
         relayUrl: relayUrl,
         isConsentGranted: isConsentGranted,
-        hasDecision: consent._hasDecision,
+        hasDeclinedOnAccount: consent.hasDeclined(userId),
         isOfficialInstance: isOfficialInstance,
       )) {
-    ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+    ref
+        .read(pushRelayConsentPromptProvider.notifier)
+        .requestPrompt(userId: userId);
   }
   return false;
 }
@@ -90,6 +118,14 @@ Future<bool> ensurePushRelayConsent(
 Future<void> recordPushRelayConsentSheetResult({
   required PushRelayConsent consent,
   required bool? agreed,
+  required Set<String> userIds,
 }) async {
-  await consent.setEnabled(value: agreed ?? false);
+  switch (agreed) {
+    case true:
+      await consent.grant();
+    case false:
+      await consent.decline(userIds);
+    case null:
+      return;
+  }
 }

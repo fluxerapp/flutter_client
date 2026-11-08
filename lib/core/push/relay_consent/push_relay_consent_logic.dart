@@ -17,7 +17,7 @@ bool isPushRelayConsentRequired({
 bool shouldPromptForPushRelayConsent({
   required String relayUrl,
   required bool isConsentGranted,
-  required bool hasDecision,
+  required bool hasDeclinedOnAccount,
   required bool isOfficialInstance,
 }) {
   if (!isPushRelayConsentRequired(
@@ -27,5 +27,5 @@ bool shouldPromptForPushRelayConsent({
   )) {
     return false;
   }
-  return !hasDecision;
+  return !hasDeclinedOnAccount;
 }

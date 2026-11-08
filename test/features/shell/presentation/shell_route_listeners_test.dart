@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -28,8 +29,10 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_route_listeners.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
@@ -226,6 +229,11 @@ void main() {
   testWidgets('relay consent requested before shell mount shows once', (
     WidgetTester tester,
   ) async {
+    SharedPreferences.setMockInitialValues(<String, Object>{});
+    tester.view
+      ..physicalSize = const Size(1170, 2532)
+      ..devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
     final GatewayConnection gatewayConnection = GatewayConnection(
       token: 'test-token',
       dio: Dio(),
@@ -255,7 +263,9 @@ void main() {
     );
     addTearDown(container.dispose);
 
-    container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+    container
+        .read(pushRelayConsentPromptProvider.notifier)
+        .requestPrompt(userId: 'user-1');
 
     final colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
@@ -282,8 +292,32 @@ void main() {
     expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
     expect(container.read(pushRelayConsentPromptProvider), isFalse);
 
-    container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+    container
+        .read(pushRelayConsentPromptProvider.notifier)
+        .requestPrompt(userId: 'user-1');
     expect(container.read(pushRelayConsentPromptProvider), isFalse);
+
+    await tester.pump(const Duration(seconds: 1));
+    await tester.tap(find.text(testL10n.pushRelayConsentDecline));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.text(testL10n.pushRelayConsentTitle), findsNothing);
+    expect(
+      container.read(pushRelayConsentProvider.notifier).hasDeclined('user-1'),
+      isTrue,
+    );
+    expect(container.read(pushRelayConsentProvider), isFalse);
+    expect(
+      container.read(toastProvider).map((ToastEntry e) => e.toast.message),
+      contains(
+        testL10n.pushRelayConsentDeclinedToast(
+          testL10n.notificationsPushRelayConsentLabel,
+        ),
+      ),
+    );
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pump(const Duration(seconds: 1));
   });
 
   testWidgets(
@@ -341,7 +375,9 @@ void main() {
       container
           .read(observabilityReportingPromptProvider.notifier)
           .requestPrompt();
-      container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+      container
+          .read(pushRelayConsentPromptProvider.notifier)
+          .requestPrompt(userId: 'user-1');
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(
@@ -369,6 +405,84 @@ void main() {
       expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
     },
   );
+  testWidgets('a relay prompt waits while the official instance is active', (
+    WidgetTester tester,
+  ) async {
+    SharedPreferences.setMockInitialValues(<String, Object>{});
+    final GatewayConnection gatewayConnection = GatewayConnection(
+      token: 'test-token',
+      dio: Dio(),
+    );
+    addTearDown(gatewayConnection.dispose);
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        routeStateProvider.overrideWith(
+          () => _TestRouteStateNotifier(_RouteStateSource()),
+        ),
+        guildListViewModelProvider.overrideWithValue(
+          const GuildListViewState(guilds: <Guild>[]),
+        ),
+        channelRepositoryProvider.overrideWithValue(
+          _RecordingChannelRepository(),
+        ),
+        gatewayConnectionProvider.overrideWithValue(gatewayConnection),
+        pushNotificationsCoordinatorProvider.overrideWithValue(false),
+        appIconBadgeCoordinatorProvider.overrideWithValue(null),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
+        isActiveInstanceOfficialProvider.overrideWith(
+          (Ref ref) => ref.watch(_officialActiveProvider),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          navigatorKey: rootNavigatorKey,
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const ShellRouteListeners(child: SizedBox.shrink()),
+        ),
+      ),
+    );
+    container
+        .read(pushRelayConsentPromptProvider.notifier)
+        .requestPrompt(userId: 'self-hosted-user');
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text(testL10n.pushRelayConsentTitle), findsNothing);
+    expect(container.read(pushRelayConsentPromptProvider), isTrue);
+
+    container.read(_officialActiveProvider.notifier).value = false;
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
+  });
+}
+
+final NotifierProvider<_OfficialActive, bool> _officialActiveProvider =
+    NotifierProvider<_OfficialActive, bool>(_OfficialActive.new);
+
+class _OfficialActive extends Notifier<bool> {
+  @override
+  bool build() => true;
+
+  bool get value => state;
+
+  set value(bool next) => state = next;
 }
 
 class _ActiveGuildFrameRecorder extends ConsumerWidget {
