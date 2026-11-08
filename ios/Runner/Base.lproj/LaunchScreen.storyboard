@@ -19,12 +19,432 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="196.33333333333334" y="426" width="0.33333333333334281" height="0.33333333333331439"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchBackground" translatesAutoresizingMaskIntoConstraints="NO" id="v001-lc-00">
+                                <rect key="frame" x="0.00" y="0.00" width="393.00" height="852.00"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchGlowTop" translatesAutoresizingMaskIntoConstraints="NO" id="v007-lc-00">
+                                <rect key="frame" x="-224.01" y="-248.85" width="668.10" height="668.10"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondAttribute="height" multiplier="1:1" id="c006-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchGlowBottom" translatesAutoresizingMaskIntoConstraints="NO" id="v014-lc-00">
+                                <rect key="frame" x="27.51" y="420.93" width="589.50" height="589.50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondAttribute="height" multiplier="1:1" id="c013-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar00" translatesAutoresizingMaskIntoConstraints="NO" id="v022-lc-00">
+                                <rect key="frame" x="9.72" y="96.24" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c020-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c021-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar01" translatesAutoresizingMaskIntoConstraints="NO" id="v027-lc-00">
+                                <rect key="frame" x="17.08" y="61.66" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c025-lc-00"/>
+                                    <constraint firstAttribute="height" constant="13" id="c026-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar02" translatesAutoresizingMaskIntoConstraints="NO" id="v032-lc-00">
+                                <rect key="frame" x="29.37" y="573.36" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c030-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c031-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar03" translatesAutoresizingMaskIntoConstraints="NO" id="v037-lc-00">
+                                <rect key="frame" x="37.23" y="743.76" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c035-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c036-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar04" translatesAutoresizingMaskIntoConstraints="NO" id="v042-lc-00">
+                                <rect key="frame" x="49.02" y="232.56" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c040-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c041-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar05" translatesAutoresizingMaskIntoConstraints="NO" id="v047-lc-00">
+                                <rect key="frame" x="64.24" y="487.66" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c045-lc-00"/>
+                                    <constraint firstAttribute="height" constant="13" id="c046-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar00" translatesAutoresizingMaskIntoConstraints="NO" id="v052-lc-00">
+                                <rect key="frame" x="76.53" y="121.80" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c050-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c051-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar06" translatesAutoresizingMaskIntoConstraints="NO" id="v057-lc-00">
+                                <rect key="frame" x="88.32" y="283.68" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c055-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c056-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar03" translatesAutoresizingMaskIntoConstraints="NO" id="v062-lc-00">
+                                <rect key="frame" x="96.18" y="445.56" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c060-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c061-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar07" translatesAutoresizingMaskIntoConstraints="NO" id="v067-lc-00">
+                                <rect key="frame" x="107.47" y="623.98" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c065-lc-00"/>
+                                    <constraint firstAttribute="height" constant="13" id="c066-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar08" translatesAutoresizingMaskIntoConstraints="NO" id="v072-lc-00">
+                                <rect key="frame" x="123.69" y="53.64" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c070-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c071-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar04" translatesAutoresizingMaskIntoConstraints="NO" id="v077-lc-00">
+                                <rect key="frame" x="131.55" y="317.76" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c075-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c076-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar09" translatesAutoresizingMaskIntoConstraints="NO" id="v082-lc-00">
+                                <rect key="frame" x="147.27" y="556.32" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c080-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c081-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar10" translatesAutoresizingMaskIntoConstraints="NO" id="v087-lc-00">
+                                <rect key="frame" x="158.56" y="70.18" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c085-lc-00"/>
+                                    <constraint firstAttribute="height" constant="13" id="c086-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar06" translatesAutoresizingMaskIntoConstraints="NO" id="v092-lc-00">
+                                <rect key="frame" x="174.78" y="402.96" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c090-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c091-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar03" translatesAutoresizingMaskIntoConstraints="NO" id="v097-lc-00">
+                                <rect key="frame" x="182.64" y="692.64" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c095-lc-00"/>
+                                    <constraint firstAttribute="height" constant="12" id="c096-lc-00"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar11" translatesAutoresizingMaskIntoConstraints="NO" id="v102-lc-01">
+                                <rect key="frame" x="202.29" y="198.48" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c100-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c101-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar12" translatesAutoresizingMaskIntoConstraints="NO" id="v107-lc-01">
+                                <rect key="frame" x="221.94" y="777.84" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c105-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c106-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar13" translatesAutoresizingMaskIntoConstraints="NO" id="v112-lc-01">
+                                <rect key="frame" x="233.23" y="521.74" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c110-lc-01"/>
+                                    <constraint firstAttribute="height" constant="13" id="c111-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar14" translatesAutoresizingMaskIntoConstraints="NO" id="v117-lc-01">
+                                <rect key="frame" x="245.52" y="258.12" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c115-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c116-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar15" translatesAutoresizingMaskIntoConstraints="NO" id="v122-lc-01">
+                                <rect key="frame" x="261.24" y="147.36" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c120-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c121-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar09" translatesAutoresizingMaskIntoConstraints="NO" id="v127-lc-01">
+                                <rect key="frame" x="273.03" y="726.72" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c125-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c126-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar11" translatesAutoresizingMaskIntoConstraints="NO" id="v132-lc-01">
+                                <rect key="frame" x="280.89" y="394.44" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c130-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c131-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar16" translatesAutoresizingMaskIntoConstraints="NO" id="v137-lc-01">
+                                <rect key="frame" x="311.83" y="87.22" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c135-lc-01"/>
+                                    <constraint firstAttribute="height" constant="13" id="c136-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar08" translatesAutoresizingMaskIntoConstraints="NO" id="v142-lc-01">
+                                <rect key="frame" x="335.91" y="658.56" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c140-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c141-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar08" translatesAutoresizingMaskIntoConstraints="NO" id="v147-lc-01">
+                                <rect key="frame" x="351.63" y="539.28" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c145-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c146-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar17" translatesAutoresizingMaskIntoConstraints="NO" id="v152-lc-01">
+                                <rect key="frame" x="363.42" y="292.20" width="12.00" height="12.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c150-lc-01"/>
+                                    <constraint firstAttribute="height" constant="12" id="c151-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar05" translatesAutoresizingMaskIntoConstraints="NO" id="v157-lc-01">
+                                <rect key="frame" x="374.71" y="777.34" width="13.00" height="13.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="13" id="c155-lc-01"/>
+                                    <constraint firstAttribute="height" constant="13" id="c156-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar18" translatesAutoresizingMaskIntoConstraints="NO" id="v162-lc-01">
+                                <rect key="frame" x="18.01" y="297.22" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c160-lc-01"/>
+                                    <constraint firstAttribute="height" constant="19" id="c161-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar19" translatesAutoresizingMaskIntoConstraints="NO" id="v167-lc-01">
+                                <rect key="frame" x="25.37" y="347.84" width="20.00" height="20.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c165-lc-01"/>
+                                    <constraint firstAttribute="height" constant="20" id="c166-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar20" translatesAutoresizingMaskIntoConstraints="NO" id="v172-lc-01">
+                                <rect key="frame" x="53.38" y="672.10" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c170-lc-01"/>
+                                    <constraint firstAttribute="height" constant="19" id="c171-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar21" translatesAutoresizingMaskIntoConstraints="NO" id="v177-lc-01">
+                                <rect key="frame" x="65.17" y="552.82" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c175-lc-01"/>
+                                    <constraint firstAttribute="height" constant="19" id="c176-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar22" translatesAutoresizingMaskIntoConstraints="NO" id="v182-lc-01">
+                                <rect key="frame" x="96.11" y="194.48" width="20.00" height="20.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c180-lc-01"/>
+                                    <constraint firstAttribute="height" constant="20" id="c181-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar23" translatesAutoresizingMaskIntoConstraints="NO" id="v187-lc-01">
+                                <rect key="frame" x="116.26" y="160.90" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c185-lc-01"/>
+                                    <constraint firstAttribute="height" constant="19" id="c186-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar20" translatesAutoresizingMaskIntoConstraints="NO" id="v192-lc-01">
+                                <rect key="frame" x="135.91" y="757.30" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c190-lc-01"/>
+                                    <constraint firstAttribute="height" constant="19" id="c191-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar24" translatesAutoresizingMaskIntoConstraints="NO" id="v197-lc-01">
+                                <rect key="frame" x="166.85" y="586.40" width="20.00" height="20.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c195-lc-01"/>
+                                    <constraint firstAttribute="height" constant="20" id="c196-lc-01"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar25" translatesAutoresizingMaskIntoConstraints="NO" id="v202-lc-02">
+                                <rect key="frame" x="190.93" y="109.78" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c200-lc-02"/>
+                                    <constraint firstAttribute="height" constant="19" id="c201-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar26" translatesAutoresizingMaskIntoConstraints="NO" id="v207-lc-02">
+                                <rect key="frame" x="214.51" y="271.66" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c205-lc-02"/>
+                                    <constraint firstAttribute="height" constant="19" id="c206-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar27" translatesAutoresizingMaskIntoConstraints="NO" id="v212-lc-02">
+                                <rect key="frame" x="249.38" y="433.04" width="20.00" height="20.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c210-lc-02"/>
+                                    <constraint firstAttribute="height" constant="20" id="c211-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar28" translatesAutoresizingMaskIntoConstraints="NO" id="v217-lc-02">
+                                <rect key="frame" x="273.46" y="723.22" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c215-lc-02"/>
+                                    <constraint firstAttribute="height" constant="19" id="c216-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar26" translatesAutoresizingMaskIntoConstraints="NO" id="v222-lc-02">
+                                <rect key="frame" x="320.62" y="203.50" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c220-lc-02"/>
+                                    <constraint firstAttribute="height" constant="19" id="c221-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar29" translatesAutoresizingMaskIntoConstraints="NO" id="v227-lc-02">
+                                <rect key="frame" x="339.77" y="381.92" width="20.00" height="20.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c225-lc-02"/>
+                                    <constraint firstAttribute="height" constant="20" id="c226-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchStar30" translatesAutoresizingMaskIntoConstraints="NO" id="v232-lc-02">
+                                <rect key="frame" x="367.78" y="467.62" width="19.00" height="19.00"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="c230-lc-02"/>
+                                    <constraint firstAttribute="height" constant="19" id="c231-lc-02"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                                <rect key="frame" x="154" y="383.5" width="85" height="85"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="85" id="lgW-85-aaa"/>
+                                    <constraint firstAttribute="height" constant="85" id="lgH-85-aaa"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549019999999" green="0.023529411760000001" blue="0.086274509800000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="v001-lc-00" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="c002-lc-00"/>
+                            <constraint firstItem="v001-lc-00" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="c003-lc-00"/>
+                            <constraint firstItem="v001-lc-00" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="c004-lc-00"/>
+                            <constraint firstItem="v001-lc-00" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="c005-lc-00"/>
+                            <constraint firstItem="v007-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.28" id="c008-lc-00"/>
+                            <constraint firstItem="v007-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.1" id="c009-lc-00"/>
+                            <constraint firstItem="v007-lc-00" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1.7" id="c010-lc-00"/>
+                            <constraint firstItem="v007-lc-00" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="1.7" id="c011-lc-00"/>
+                            <constraint firstItem="v007-lc-00" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1.7" priority="750" id="c012-lc-00"/>
+                            <constraint firstItem="v014-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.82" id="c015-lc-00"/>
+                            <constraint firstItem="v014-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.84" id="c016-lc-00"/>
+                            <constraint firstItem="v014-lc-00" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1.5" id="c017-lc-00"/>
+                            <constraint firstItem="v014-lc-00" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="1.5" id="c018-lc-00"/>
+                            <constraint firstItem="v014-lc-00" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1.5" priority="750" id="c019-lc-00"/>
+                            <constraint firstItem="v022-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.04" id="c023-lc-00"/>
+                            <constraint firstItem="v022-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.12" id="c024-lc-00"/>
+                            <constraint firstItem="v027-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.06" id="c028-lc-00"/>
+                            <constraint firstItem="v027-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.08" id="c029-lc-00"/>
+                            <constraint firstItem="v032-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.09" id="c033-lc-00"/>
+                            <constraint firstItem="v032-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.68" id="c034-lc-00"/>
+                            <constraint firstItem="v037-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.11" id="c038-lc-00"/>
+                            <constraint firstItem="v037-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.88" id="c039-lc-00"/>
+                            <constraint firstItem="v042-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.14" id="c043-lc-00"/>
+                            <constraint firstItem="v042-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.28" id="c044-lc-00"/>
+                            <constraint firstItem="v047-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.18" id="c048-lc-00"/>
+                            <constraint firstItem="v047-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.58" id="c049-lc-00"/>
+                            <constraint firstItem="v052-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.21" id="c053-lc-00"/>
+                            <constraint firstItem="v052-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.15" id="c054-lc-00"/>
+                            <constraint firstItem="v057-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.24" id="c058-lc-00"/>
+                            <constraint firstItem="v057-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.34" id="c059-lc-00"/>
+                            <constraint firstItem="v062-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.26" id="c063-lc-00"/>
+                            <constraint firstItem="v062-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.53" id="c064-lc-00"/>
+                            <constraint firstItem="v067-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.29" id="c068-lc-00"/>
+                            <constraint firstItem="v067-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.74" id="c069-lc-00"/>
+                            <constraint firstItem="v072-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.33" id="c073-lc-00"/>
+                            <constraint firstItem="v072-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.07" id="c074-lc-00"/>
+                            <constraint firstItem="v077-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.35" id="c078-lc-00"/>
+                            <constraint firstItem="v077-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.38" id="c079-lc-00"/>
+                            <constraint firstItem="v082-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.39" id="c083-lc-00"/>
+                            <constraint firstItem="v082-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.66" id="c084-lc-00"/>
+                            <constraint firstItem="v087-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.42" id="c088-lc-00"/>
+                            <constraint firstItem="v087-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.09" id="c089-lc-00"/>
+                            <constraint firstItem="v092-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.46" id="c093-lc-00"/>
+                            <constraint firstItem="v092-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.48" id="c094-lc-00"/>
+                            <constraint firstItem="v097-lc-00" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.48" id="c098-lc-00"/>
+                            <constraint firstItem="v097-lc-00" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.82" id="c099-lc-00"/>
+                            <constraint firstItem="v102-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.53" id="c103-lc-01"/>
+                            <constraint firstItem="v102-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.24" id="c104-lc-01"/>
+                            <constraint firstItem="v107-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.58" id="c108-lc-01"/>
+                            <constraint firstItem="v107-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.92" id="c109-lc-01"/>
+                            <constraint firstItem="v112-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.61" id="c113-lc-01"/>
+                            <constraint firstItem="v112-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.62" id="c114-lc-01"/>
+                            <constraint firstItem="v117-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.64" id="c118-lc-01"/>
+                            <constraint firstItem="v117-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.31" id="c119-lc-01"/>
+                            <constraint firstItem="v122-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.68" id="c123-lc-01"/>
+                            <constraint firstItem="v122-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.18" id="c124-lc-01"/>
+                            <constraint firstItem="v127-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.71" id="c128-lc-01"/>
+                            <constraint firstItem="v127-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.86" id="c129-lc-01"/>
+                            <constraint firstItem="v132-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.73" id="c133-lc-01"/>
+                            <constraint firstItem="v132-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.47" id="c134-lc-01"/>
+                            <constraint firstItem="v137-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.81" id="c138-lc-01"/>
+                            <constraint firstItem="v137-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.11" id="c139-lc-01"/>
+                            <constraint firstItem="v142-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.87" id="c143-lc-01"/>
+                            <constraint firstItem="v142-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.78" id="c144-lc-01"/>
+                            <constraint firstItem="v147-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.91" id="c148-lc-01"/>
+                            <constraint firstItem="v147-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.64" id="c149-lc-01"/>
+                            <constraint firstItem="v152-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.94" id="c153-lc-01"/>
+                            <constraint firstItem="v152-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.35" id="c154-lc-01"/>
+                            <constraint firstItem="v157-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.97" id="c158-lc-01"/>
+                            <constraint firstItem="v157-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.92" id="c159-lc-01"/>
+                            <constraint firstItem="v162-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.07" id="c163-lc-01"/>
+                            <constraint firstItem="v162-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.36" id="c164-lc-01"/>
+                            <constraint firstItem="v167-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.09" id="c168-lc-01"/>
+                            <constraint firstItem="v167-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.42" id="c169-lc-01"/>
+                            <constraint firstItem="v172-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.16" id="c173-lc-01"/>
+                            <constraint firstItem="v172-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.8" id="c174-lc-01"/>
+                            <constraint firstItem="v177-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.19" id="c178-lc-01"/>
+                            <constraint firstItem="v177-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.66" id="c179-lc-01"/>
+                            <constraint firstItem="v182-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.27" id="c183-lc-01"/>
+                            <constraint firstItem="v182-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.24" id="c184-lc-01"/>
+                            <constraint firstItem="v187-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.32" id="c188-lc-01"/>
+                            <constraint firstItem="v187-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.2" id="c189-lc-01"/>
+                            <constraint firstItem="v192-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.37" id="c193-lc-01"/>
+                            <constraint firstItem="v192-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.9" id="c194-lc-01"/>
+                            <constraint firstItem="v197-lc-01" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.45" id="c198-lc-01"/>
+                            <constraint firstItem="v197-lc-01" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.7" id="c199-lc-01"/>
+                            <constraint firstItem="v202-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.51" id="c203-lc-02"/>
+                            <constraint firstItem="v202-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.14" id="c204-lc-02"/>
+                            <constraint firstItem="v207-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.57" id="c208-lc-02"/>
+                            <constraint firstItem="v207-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.33" id="c209-lc-02"/>
+                            <constraint firstItem="v212-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.66" id="c213-lc-02"/>
+                            <constraint firstItem="v212-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.52" id="c214-lc-02"/>
+                            <constraint firstItem="v217-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.72" id="c218-lc-02"/>
+                            <constraint firstItem="v217-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.86" id="c219-lc-02"/>
+                            <constraint firstItem="v222-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.84" id="c223-lc-02"/>
+                            <constraint firstItem="v222-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.25" id="c224-lc-02"/>
+                            <constraint firstItem="v227-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.89" id="c228-lc-02"/>
+                            <constraint firstItem="v227-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.46" id="c229-lc-02"/>
+                            <constraint firstItem="v232-lc-02" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="trailing" multiplier="0.96" id="c233-lc-02"/>
+                            <constraint firstItem="v232-lc-02" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="0.56" id="c234-lc-02"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
                         </constraints>
@@ -36,6 +456,40 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="0.3333333432674408" height="0.3333333432674408"/>
+        <image name="LaunchBackground" width="393.0" height="852.0"/>
+        <image name="LaunchGlowBottom" width="512" height="512"/>
+        <image name="LaunchGlowTop" width="512" height="512"/>
+        <image name="LaunchImage" width="85" height="85"/>
+        <image name="LaunchStar00" width="12" height="12"/>
+        <image name="LaunchStar01" width="13" height="13"/>
+        <image name="LaunchStar02" width="12" height="12"/>
+        <image name="LaunchStar03" width="12" height="12"/>
+        <image name="LaunchStar04" width="12" height="12"/>
+        <image name="LaunchStar05" width="13" height="13"/>
+        <image name="LaunchStar06" width="12" height="12"/>
+        <image name="LaunchStar07" width="13" height="13"/>
+        <image name="LaunchStar08" width="12" height="12"/>
+        <image name="LaunchStar09" width="12" height="12"/>
+        <image name="LaunchStar10" width="13" height="13"/>
+        <image name="LaunchStar11" width="12" height="12"/>
+        <image name="LaunchStar12" width="12" height="12"/>
+        <image name="LaunchStar13" width="13" height="13"/>
+        <image name="LaunchStar14" width="12" height="12"/>
+        <image name="LaunchStar15" width="12" height="12"/>
+        <image name="LaunchStar16" width="13" height="13"/>
+        <image name="LaunchStar17" width="12" height="12"/>
+        <image name="LaunchStar18" width="19" height="19"/>
+        <image name="LaunchStar19" width="20" height="20"/>
+        <image name="LaunchStar20" width="19" height="19"/>
+        <image name="LaunchStar21" width="19" height="19"/>
+        <image name="LaunchStar22" width="20" height="20"/>
+        <image name="LaunchStar23" width="19" height="19"/>
+        <image name="LaunchStar24" width="20" height="20"/>
+        <image name="LaunchStar25" width="19" height="19"/>
+        <image name="LaunchStar26" width="19" height="19"/>
+        <image name="LaunchStar27" width="20" height="20"/>
+        <image name="LaunchStar28" width="19" height="19"/>
+        <image name="LaunchStar29" width="20" height="20"/>
+        <image name="LaunchStar30" width="19" height="19"/>
     </resources>
 </document>
