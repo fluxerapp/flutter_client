@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
@@ -61,6 +62,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const Color _splashLinkText = Color(0xFFC4B8F0);
   static const Color _splashQuoteText = Color(0xFFD6D0EC);
 
+  static const Duration _zoomRevealMinVisible = Duration(seconds: 3);
+
   late final AnimationController _pulseController;
   SplashQuote? _selectedQuote;
   Timer? _statusTimer;
@@ -75,6 +78,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _hydrationWaitExpired = false;
   Timer? _hydrationWaitTimer;
   bool _enteredForAccountSwitch = false;
+  DateTime? _visibleSince;
   SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
   ServiceStatusIncident? _frozenIncident;
@@ -91,6 +95,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       if (!mounted) {
         return;
       }
+      _visibleSince = clock.now();
       ref.read(splashExitAllowedProvider.notifier).reset();
       if (ref.read(localSettingsProvider).splashQuotesEnabled) {
         _selectedQuote = pickRandomSplashQuote();
@@ -168,6 +173,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _hydrationWaitTimer?.cancel();
     _hydrationWaitTimer = null;
     _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
+    _visibleSince = clock.now();
     _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     _revealComplete?.reset();
     ref.read(splashExitAllowedProvider.notifier).reset();
@@ -233,7 +239,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _pulseController.stop();
 
-    final bool useLogoZoomTransition =
+    final bool usePageZoomTransition =
         !_enteredForAccountSwitch &&
         ref.read(
           appearancePreferencesProvider.select(
@@ -241,19 +247,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 state.mobileSplashZoomAnimation,
           ),
         );
-    if (StartupFirstFrameGate.isHeld) {
-      if (!useLogoZoomTransition) {
-        ref.read(splashRevealZoomProvider.notifier).setZoom(value: false);
-        _revealComplete?.complete();
-        _allowSplashExit();
-        setState(() {});
-        return;
-      }
-      StartupFirstFrameGate.release();
-    }
+    final bool useLogoZoomTransition =
+        usePageZoomTransition && _splashLingered();
+    StartupFirstFrameGate.release();
     ref
         .read(splashRevealZoomProvider.notifier)
-        .setZoom(value: useLogoZoomTransition);
+        .setZoom(value: usePageZoomTransition);
     final Color brand = context.colors.brandPrimary;
     SplashRevealOverlay.show(
       context: context,
@@ -268,6 +267,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
     _allowSplashExit();
     setState(() {});
+  }
+
+  bool _splashLingered() {
+    final DateTime? splashShownAt = _visibleSince;
+    if (StartupFirstFrameGate.isHeld || splashShownAt == null) {
+      return false;
+    }
+    final DateTime? gateReleasedAt = StartupFirstFrameGate.releasedAt;
+    final DateTime visibleSince =
+        gateReleasedAt != null && gateReleasedAt.isAfter(splashShownAt)
+        ? gateReleasedAt
+        : splashShownAt;
+    return clock.now().difference(visibleSince) >= _zoomRevealMinVisible;
   }
 
   bool _unreadsHydrated() =>

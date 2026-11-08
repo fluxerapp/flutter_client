@@ -18,7 +18,6 @@ import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
-import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/service_status/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
@@ -61,6 +60,11 @@ class _GenericFailAppStartup extends AppStartup {
 class _ReadyAppStartup extends AppStartup {
   @override
   Future<void> build() async {}
+}
+
+class _SlowAppStartup extends AppStartup {
+  @override
+  Future<void> build() => Future<void>.delayed(const Duration(seconds: 3));
 }
 
 class _ReadyGateway extends GatewayReady {
@@ -125,13 +129,16 @@ List<Override> _splashOverrides(List<Override> overrides) {
 Future<bool> _revealCompleteAfter(
   WidgetTester tester, {
   required bool switching,
+  bool lingered = true,
 }) async {
   await tester.pumpWidget(
     pumpFluxerApp(
       disableAnimations: false,
       overrides: _splashOverrides(<Override>[
         fluxerDatabaseProvider.overrideWithValue(_database),
-        appStartupProvider.overrideWith(_ReadyAppStartup.new),
+        appStartupProvider.overrideWith(
+          lingered ? _SlowAppStartup.new : _ReadyAppStartup.new,
+        ),
         gatewayReadyProvider.overrideWith(_ReadyGateway.new),
         authStateProvider.overrideWith(_Authenticated.new),
         appearancePreferencesProvider.overrideWithValue(
@@ -149,6 +156,9 @@ Future<bool> _revealCompleteAfter(
   final ProviderContainer container = ProviderScope.containerOf(
     tester.element(find.byType(SplashScreen)),
   );
+  if (lingered) {
+    await tester.pump(const Duration(seconds: 3));
+  }
   container.read(guildReadStateReadyProvider.notifier).markReady();
   await tester.pump();
   await tester.pump();
@@ -209,6 +219,16 @@ void main() {
     await releaseTestWidgetTree(tester);
   });
 
+  testWidgets('quick launch reveal fades without the logo zoom', (
+    tester,
+  ) async {
+    expect(
+      await _revealCompleteAfter(tester, switching: false, lingered: false),
+      isTrue,
+    );
+    await releaseTestWidgetTree(tester);
+  });
+
   testWidgets('account switch reveal skips the logo zoom', (tester) async {
     expect(await _revealCompleteAfter(tester, switching: true), isTrue);
     await releaseTestWidgetTree(tester);
@@ -247,49 +267,7 @@ void main() {
   });
 
   testWidgets(
-    'a held cached launch without zoom leaves the splash without the logo reveal',
-    (tester) async {
-      StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
-      await tester.pumpWidget(
-        pumpFluxerApp(
-          disableAnimations: false,
-          overrides: _splashOverrides(<Override>[
-            fluxerDatabaseProvider.overrideWithValue(_database),
-            appStartupProvider.overrideWith(_ReadyAppStartup.new),
-            gatewayReadyProvider.overrideWith(_ReadyGateway.new),
-            authStateProvider.overrideWith(_Authenticated.new),
-            appearancePreferencesProvider.overrideWithValue(
-              const AppearancePreferencesState(
-                mobileSplashZoomAnimation: false,
-              ),
-            ),
-            unreadDmChannelsProvider.overrideWithValue(
-              const UnreadDmState(loaded: true),
-            ),
-          ]),
-          child: const SplashScreen(),
-        ),
-      );
-      await tester.pump();
-      final ProviderContainer container = ProviderScope.containerOf(
-        tester.element(find.byType(SplashScreen)),
-      );
-      container.read(guildReadStateReadyProvider.notifier).markReady();
-      await tester.pump();
-      await tester.pump();
-
-      expect(container.read(splashExitAllowedProvider), isTrue);
-      expect(container.read(splashRevealZoomProvider), isFalse);
-      expect(container.read(splashRevealCompleteProvider), isTrue);
-      expect(StartupFirstFrameGate.isHeld, isTrue);
-
-      await releaseTestWidgetTree(tester);
-      expect(StartupFirstFrameGate.isHeld, isFalse);
-    },
-  );
-
-  testWidgets(
-    'a held cached launch with zoom releases the frame and plays the zoom',
+    'a held cached launch releases the frame and fades into the shell',
     (tester) async {
       StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
       await tester.pumpWidget(
@@ -323,8 +301,9 @@ void main() {
       expect(container.read(splashRevealCompleteProvider), isFalse);
       expect(StartupFirstFrameGate.isHeld, isFalse);
 
-      await tester.pump(SplashRevealOverlay.totalDuration);
-      await tester.pump(const Duration(milliseconds: 500));
+      for (var i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
       expect(container.read(splashRevealCompleteProvider), isTrue);
       await releaseTestWidgetTree(tester);
     },
