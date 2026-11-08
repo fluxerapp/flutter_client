@@ -12,7 +12,6 @@ class SplashRevealOverlay {
 
   static const double logoSize = 85;
   static const double pulseScale = 0.8;
-  static const double fadeEndScale = 0.45;
   static const double expandScale = 500;
   static const double pulseEndFraction = 0.08;
   static const double shellStartScale = 1.1;
@@ -437,7 +436,7 @@ double splashRevealLogoScale(
   required bool reducedMotion,
   required bool useLogoZoomTransition,
 }) {
-  if (reducedMotion) {
+  if (reducedMotion || !useLogoZoomTransition) {
     return 1;
   }
   if (progress <= SplashRevealOverlay.pulseEndFraction) {
@@ -445,14 +444,6 @@ double splashRevealLogoScale(
       progress / SplashRevealOverlay.pulseEndFraction,
     );
     return lerpDouble(1, SplashRevealOverlay.pulseScale, t)!;
-  }
-  if (!useLogoZoomTransition) {
-    final double fadeT = splashRevealFadePhaseProgress(progress);
-    return lerpDouble(
-      SplashRevealOverlay.pulseScale,
-      SplashRevealOverlay.fadeEndScale,
-      Curves.easeOut.transform(fadeT),
-    )!;
   }
   final double expandT = splashRevealFadePhaseProgress(progress);
   return lerpDouble(

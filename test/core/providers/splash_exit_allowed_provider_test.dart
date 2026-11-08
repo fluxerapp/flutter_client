@@ -110,15 +110,22 @@ void main() {
       );
     });
 
-    test('fades instead of expanding when zoom is disabled', () {
-      expect(
-        splashRevealLogoScale(
+    test('keeps scale at 1 when zoom is disabled', () {
+      for (final double progress in <double>[
+        0,
+        SplashRevealOverlay.pulseEndFraction,
+        0.5,
+        1,
+      ]) {
+        expect(
+          splashRevealLogoScale(
+            progress,
+            reducedMotion: false,
+            useLogoZoomTransition: false,
+          ),
           1,
-          reducedMotion: false,
-          useLogoZoomTransition: false,
-        ),
-        SplashRevealOverlay.fadeEndScale,
-      );
+        );
+      }
     });
   });
 
