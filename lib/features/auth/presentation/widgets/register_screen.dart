@@ -144,7 +144,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               children: [
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: AlignmentDirectional.centerEnd,
                   child: CupertinoButton(
                     onPressed: () => Navigator.of(sheetContext).pop(),
                     child: Text(l10n.registerDateOfBirthDone),

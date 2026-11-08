@@ -134,8 +134,8 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                               ),
                             ),
                           ),
-                        Positioned(
-                          left: contentPadLeft,
+                        PositionedDirectional(
+                          start: contentPadLeft,
                           top: _kBannerHeight - _kAvatarOverlap,
                           child: Container(
                             padding: const EdgeInsets.all(4),
@@ -151,8 +151,8 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: contentPadRight,
+                        PositionedDirectional(
+                          end: contentPadRight,
                           top: _kBannerHeight + layout.s2,
                           child: Row(
                             children: <Widget>[
@@ -175,7 +175,7 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.fromLTRB(
+                  padding: EdgeInsetsDirectional.fromSTEB(
                     contentPadLeft,
                     layout.s2,
                     contentPadRight,
@@ -314,7 +314,7 @@ class _ProfileSkeletonLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: widthFactor,
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: _ProfileSkeletonShape(
         height: height,
         width: double.infinity,

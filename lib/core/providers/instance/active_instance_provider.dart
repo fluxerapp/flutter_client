@@ -97,8 +97,13 @@ String fluxerBaseUrl(Ref ref) {
 
 @Riverpod(keepAlive: true)
 String? activeInstanceGatewayUrl(Ref ref) {
-  final String gateway = ref.watch(activeInstanceProvider).gatewayUrl.trim();
-  return gateway.isEmpty ? null : gateway;
+  final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
+  final String gateway = instance.gatewayUrl.trim();
+  if (gateway.isEmpty ||
+      !isGatewayTrustedForApi(gateway, instance.apiBaseUrl)) {
+    return null;
+  }
+  return gateway;
 }
 
 @Riverpod(keepAlive: true)

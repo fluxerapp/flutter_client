@@ -34,6 +34,7 @@ class AccessibilityLocalState {
     this.customThemeCssEditedLocally = false,
     this.showUserAvatarsInCompactMode = false,
     this.screenReaderAnnounceNewMessages = false,
+    this.announceCallJoinsAndLeaves = true,
     this.showMediaDeleteButton = true,
     this.showMediaDownloadButton = true,
     this.showMediaFavoriteButton = true,
@@ -83,6 +84,7 @@ class AccessibilityLocalState {
   final bool customThemeCssEditedLocally;
   final AdvancedAccessibilityLocalState advanced;
   final bool screenReaderAnnounceNewMessages;
+  final bool announceCallJoinsAndLeaves;
   final bool showMediaDeleteButton;
   final bool showMediaDownloadButton;
   final bool showMediaFavoriteButton;
@@ -167,6 +169,7 @@ class AccessibilitySyncedField
       customThemeCssEditedLocally: theme.customThemeCssEditedLocally,
       screenReaderAnnounceNewMessages:
           appearance.screenReaderAnnounceNewMessages,
+      announceCallJoinsAndLeaves: appearance.announceCallJoinsAndLeaves,
       showMediaDeleteButton: appearance.showMediaDeleteButton,
       showMediaDownloadButton: appearance.showMediaDownloadButton,
       showMediaFavoriteButton: appearance.showMediaFavoriteButton,
@@ -297,6 +300,7 @@ class AccessibilitySyncedField
         a.showSuppressEmbedsButton == b.showSuppressEmbedsButton &&
         a.screenReaderAnnounceNewMessages ==
             b.screenReaderAnnounceNewMessages &&
+        a.announceCallJoinsAndLeaves == b.announceCallJoinsAndLeaves &&
         a.enableTtsCommand == b.enableTtsCommand &&
         a.ttsRate == b.ttsRate &&
         a.alwaysUnderlineLinks == b.alwaysUnderlineLinks &&
@@ -413,6 +417,7 @@ class AccessibilitySyncedField
       showMediaFavoriteButton: remote.showMediaFavoriteButton,
       showSuppressEmbedsButton: remote.showSuppressEmbedsButton,
       screenReaderAnnounceNewMessages: remote.screenReaderAnnounceNewMessages,
+      announceCallJoinsAndLeaves: remote.announceCallJoinsAndLeaves,
       enableTtsCommand: remote.enableTtsCommand,
       ttsRate: remote.ttsRate,
       alwaysUnderlineLinks: remote.alwaysUnderlineLinks,
@@ -518,6 +523,9 @@ class AccessibilitySyncedField
       screenReaderAnnounceNewMessages:
           proto.hasScreenReaderAnnounceNewMessages() &&
           proto.screenReaderAnnounceNewMessages,
+      announceCallJoinsAndLeaves:
+          !proto.hasAnnounceCallJoinsAndLeaves() ||
+          proto.announceCallJoinsAndLeaves,
       advanced: AdvancedAccessibilityLocalState(
         enableTextSelection:
             proto.hasEnableTextSelection() && proto.enableTextSelection,
@@ -640,6 +648,7 @@ class AccessibilitySyncedField
           ..showSuppressEmbedsButton = local.showSuppressEmbedsButton
           ..screenReaderAnnounceNewMessages =
               local.screenReaderAnnounceNewMessages
+          ..announceCallJoinsAndLeaves = local.announceCallJoinsAndLeaves
           ..enableTtsCommand = local.enableTtsCommand
           ..ttsRate = local.ttsRate
           ..alwaysUnderlineLinks = local.alwaysUnderlineLinks
@@ -699,6 +708,7 @@ class AccessibilitySyncedField
       showMediaFavoriteButton: local.showMediaFavoriteButton,
       showSuppressEmbedsButton: local.showSuppressEmbedsButton,
       screenReaderAnnounceNewMessages: local.screenReaderAnnounceNewMessages,
+      announceCallJoinsAndLeaves: local.announceCallJoinsAndLeaves,
       enableTtsCommand: local.enableTtsCommand,
       ttsRate: local.ttsRate,
       alwaysUnderlineLinks: local.alwaysUnderlineLinks,

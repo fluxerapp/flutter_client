@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/age/declared_age_range_gate.dart';
+import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/api/accept_language_interceptor.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
@@ -86,7 +86,13 @@ Dio _buildFluxerDio({
     ),
   );
   String? readToken() => ref.read(fluxerAuthTokenProvider);
-  dio.interceptors.add(SessionAuthInterceptor(readToken: readToken));
+  dio.interceptors.add(
+    SessionAuthInterceptor(
+      readToken: readToken,
+      readTokenBaseUrl: () =>
+          container.read(fluxerAuthTokenProvider.notifier).issuerBaseUrl,
+    ),
+  );
   dio.interceptors.add(SkipAuthInterceptor());
   dio.interceptors.add(RetryInterceptor(dio: dio, readToken: readToken));
   final RateLimitPacer rateLimitPacer = RateLimitPacer();
@@ -116,21 +122,24 @@ Dio _buildFluxerDio({
       },
     ),
   );
-  dio.interceptors.add(
-    SudoInterceptor(
+  final SudoInterceptor sudoInterceptor = SudoInterceptor(
+    dio: dio,
+    showSudoSheet: (SudoChallenge challenge) => showSudoVerificationSheet(
+      navigatorKey: rootNavigatorKey.currentState != null
+          ? rootNavigatorKey
+          : declaredAgeRangeNavigatorKey,
       dio: dio,
-      showSudoSheet: (SudoChallenge challenge) => showSudoVerificationSheet(
-        navigatorKey: rootNavigatorKey.currentState != null
-            ? rootNavigatorKey
-            : declaredAgeGateNavigatorKey,
-        dio: dio,
-        challenge: challenge,
-        passkeysSupported: passkeysSupportedFor(instanceSnapshot.apiBaseUrl),
-        reauthenticateWithSso: () => _reauthenticateWithSso(container),
-        ssoProviderName: instanceSnapshot.ssoConfig?.displayName,
-      ),
+      challenge: challenge,
+      passkeysSupported: passkeysSupportedFor(instanceSnapshot.apiBaseUrl),
+      reauthenticateWithSso: () => _reauthenticateWithSso(container),
+      ssoProviderName: instanceSnapshot.ssoConfig?.displayName,
     ),
   );
+  ref.listen<String?>(
+    fluxerAuthTokenProvider,
+    (String? previous, String? next) => sudoInterceptor.clearCachedToken(),
+  );
+  dio.interceptors.add(sudoInterceptor);
   if (kDebugMode) {
     dio.interceptors.add(
       TalkerDioLogger(
@@ -226,13 +235,37 @@ FluxerClient authFluxerClient(Ref ref) {
 
 @Riverpod(keepAlive: true)
 class FluxerAuthToken extends _$FluxerAuthToken {
-  @override
-  String? build() => null;
+  String? _issuerBaseUrl;
 
-  void setToken(String? token) {
+  String? get issuerBaseUrl => _issuerBaseUrl;
+
+  @override
+  String? build() {
+    _issuerBaseUrl = null;
+    return null;
+  }
+
+  void setToken(String? token, {String? issuerBaseUrl}) {
+    final String? issuer = token == null || token.isEmpty
+        ? null
+        : issuerBaseUrl ?? ref.read(fluxerBaseUrlProvider);
+    if (state == token && _issuerBaseUrl == issuer) {
+      return;
+    }
+    _issuerBaseUrl = issuer;
     if (state == token) {
+      ref.notifyListeners();
       return;
     }
     state = token;
+  }
+
+  bool isIssuedBy(String apiBaseUrl) {
+    final String? token = state;
+    final String? issuer = _issuerBaseUrl;
+    return token != null &&
+        token.isNotEmpty &&
+        issuer != null &&
+        isSameBaseUrl(issuer, apiBaseUrl);
   }
 }

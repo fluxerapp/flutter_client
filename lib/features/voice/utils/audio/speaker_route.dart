@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
@@ -16,12 +17,20 @@ const EventChannel _voiceSpeakerRouteEventsChannel = EventChannel(
   'fluxer_app/voice_speaker_route_events',
 );
 
+const List<Duration> _kVoiceRouteLogDelays = <Duration>[
+  Duration(milliseconds: 1500),
+  Duration(seconds: 10),
+];
+
+final List<Timer> _voiceRouteLogTimers = <Timer>[];
+
 bool showNativeVoiceAudioRoutePicker() {
   return defaultTargetPlatform == TargetPlatform.iOS;
 }
 
 Future<void> applyNativeVoiceOutputRoute(
   VoiceOutputRoute route, {
+  int? deviceId,
   bool hold = false,
 }) async {
   if (defaultTargetPlatform != TargetPlatform.android &&
@@ -31,10 +40,46 @@ Future<void> applyNativeVoiceOutputRoute(
   try {
     await _voiceSpeakerRouteChannel.invokeMethod<void>(
       'setRoute',
-      <String, Object>{'route': route.name, 'hold': hold},
+      <String, Object>{
+        'route': route.name,
+        'hold': hold,
+        'deviceId': ?deviceId,
+      },
     );
   } on Object {
     return;
+  }
+  if (hold && defaultTargetPlatform == TargetPlatform.android) {
+    _scheduleVoiceRouteLogs(route);
+  }
+}
+
+void _cancelVoiceRouteLogs() {
+  for (final Timer timer in _voiceRouteLogTimers) {
+    timer.cancel();
+  }
+  _voiceRouteLogTimers.clear();
+}
+
+void _scheduleVoiceRouteLogs(VoiceOutputRoute route) {
+  _cancelVoiceRouteLogs();
+  for (final Duration delay in _kVoiceRouteLogDelays) {
+    _voiceRouteLogTimers.add(
+      Timer(delay, () => unawaited(_logVoiceRoute(route, delay))),
+    );
+  }
+}
+
+Future<void> _logVoiceRoute(VoiceOutputRoute route, Duration delay) async {
+  try {
+    final String? diagnostics = await _voiceSpeakerRouteChannel
+        .invokeMethod<String>('routeDiagnostics');
+    talker.info(
+      '[VoiceRoute] requested=${route.name} '
+      'after=${delay.inMilliseconds}ms $diagnostics',
+    );
+  } on Object catch (error) {
+    talker.warning('[VoiceRoute] diagnostics failed: $error');
   }
 }
 
@@ -42,6 +87,7 @@ Future<void> clearNativeVoiceOutputRouteHold() async {
   if (defaultTargetPlatform != TargetPlatform.android) {
     return;
   }
+  _cancelVoiceRouteLogs();
   try {
     await _voiceSpeakerRouteChannel.invokeMethod<void>('clearRouteHold');
   } on Object {
@@ -126,6 +172,22 @@ Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
   }
 }
 
+Future<List<VoiceOutputDevice>> readVoiceOutputDevices() async {
+  if (defaultTargetPlatform != TargetPlatform.android) {
+    return const <VoiceOutputDevice>[];
+  }
+  try {
+    final List<Object?>? devices = await _voiceSpeakerRouteChannel
+        .invokeMethod<List<Object?>>('outputDevices');
+    return <VoiceOutputDevice>[
+      for (final Object? value in devices ?? const <Object?>[])
+        ?VoiceOutputDevice.fromNative(value),
+    ];
+  } on Object {
+    return const <VoiceOutputDevice>[];
+  }
+}
+
 class VoiceIosNativeRouteSync extends Notifier<VoiceActiveOutputRoute?> {
   @override
   VoiceActiveOutputRoute? build() {
@@ -203,4 +265,34 @@ final NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>
 voiceAvailableOutputRoutesProvider =
     NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>(
       VoiceAvailableOutputRoutes.new,
+    );
+
+class VoiceOutputDevices extends Notifier<List<VoiceOutputDevice>> {
+  @override
+  List<VoiceOutputDevice> build() {
+    final StreamSubscription<List<MediaDevice>> subscription = Hardware
+        .instance
+        .onDeviceChange
+        .stream
+        .listen((_) {
+          unawaited(refresh());
+        });
+    ref.onDispose(subscription.cancel);
+    unawaited(refresh());
+    return const <VoiceOutputDevice>[];
+  }
+
+  Future<void> refresh() async {
+    final List<VoiceOutputDevice> devices = await readVoiceOutputDevices();
+    if (!ref.mounted || listEquals(devices, state)) {
+      return;
+    }
+    state = devices;
+  }
+}
+
+final NotifierProvider<VoiceOutputDevices, List<VoiceOutputDevice>>
+voiceOutputDevicesProvider =
+    NotifierProvider<VoiceOutputDevices, List<VoiceOutputDevice>>(
+      VoiceOutputDevices.new,
     );

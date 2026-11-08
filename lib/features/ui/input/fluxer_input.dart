@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/widgets/auto_text_direction_builder.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class FluxerInput extends StatelessWidget {
@@ -254,43 +255,49 @@ class FluxerInput extends StatelessWidget {
     final Widget field = _accessibleField(
       field: wrapBoundedTextClip(
         maxLines: maxLines,
-        child: TextFormField(
+        child: AutoTextDirectionBuilder(
           controller: controller,
-          focusNode: focusNode,
-          textInputAction: textInputAction,
-          style: style,
-          strutStyle: shouldApplyBoundedTextMetrics(maxLines: maxLines)
-              ? boundedStrutFor(textStyles.inputText.merge(style))
-              : null,
-          decoration: InputDecoration(
-            hintText: hint,
-            errorText: errorText,
-            errorMaxLines: 4,
-            prefixIcon: prefixIcon,
-            suffixIcon: effectiveSuffix,
-            counterText: maxLength != null ? '' : null,
-          ),
-          obscureText: obscureText,
-          autofillHints: autofillHints,
-          enabled: enabled,
-          autofocus: autofocus,
-          readOnly: readOnly,
-          maxLength: maxLength,
-          onChanged: onChanged,
-          onFieldSubmitted: onSubmitted,
-          onTapOutside: onTapOutside,
-          validator: validator,
-          keyboardType: keyboardType,
-          textCapitalization: textCapitalization ?? TextCapitalization.none,
-          autocorrect: autocorrect,
-          enableSuggestions: enableSuggestions,
-          inputFormatters: inputFormatters,
-          contextMenuBuilder: contextMenuBuilder,
-          maxLines: maxLines,
-          minLines: minLines,
-          selectionWidthStyle: _usesTightSelectionWidth
-              ? BoxWidthStyle.tight
-              : null,
+          builder: (BuildContext context, TextDirection? direction) =>
+              TextFormField(
+                textDirection: direction,
+                controller: controller,
+                focusNode: focusNode,
+                textInputAction: textInputAction,
+                style: style,
+                strutStyle: shouldApplyBoundedTextMetrics(maxLines: maxLines)
+                    ? boundedStrutFor(textStyles.inputText.merge(style))
+                    : null,
+                decoration: InputDecoration(
+                  hintText: hint,
+                  errorText: errorText,
+                  errorMaxLines: 4,
+                  prefixIcon: prefixIcon,
+                  suffixIcon: effectiveSuffix,
+                  counterText: maxLength != null ? '' : null,
+                ),
+                obscureText: obscureText,
+                autofillHints: autofillHints,
+                enabled: enabled,
+                autofocus: autofocus,
+                readOnly: readOnly,
+                maxLength: maxLength,
+                onChanged: onChanged,
+                onFieldSubmitted: onSubmitted,
+                onTapOutside: onTapOutside,
+                validator: validator,
+                keyboardType: keyboardType,
+                textCapitalization:
+                    textCapitalization ?? TextCapitalization.none,
+                autocorrect: autocorrect,
+                enableSuggestions: enableSuggestions,
+                inputFormatters: inputFormatters,
+                contextMenuBuilder: contextMenuBuilder,
+                maxLines: maxLines,
+                minLines: minLines,
+                selectionWidthStyle: _usesTightSelectionWidth
+                    ? BoxWidthStyle.tight
+                    : null,
+              ),
         ),
       ),
     );
@@ -356,53 +363,64 @@ class FluxerInput extends StatelessWidget {
                     child: _accessibleField(
                       field: wrapBoundedTextClip(
                         maxLines: maxLines,
-                        child: TextFormField(
+                        child: AutoTextDirectionBuilder(
                           controller: controller,
-                          focusNode: focusNode,
-                          textInputAction: textInputAction,
-                          style: style,
-                          strutStyle:
-                              shouldApplyBoundedTextMetrics(maxLines: maxLines)
-                              ? boundedStrutFor(
-                                  textStyles.inputText.merge(style),
-                                )
-                              : null,
-                          decoration: InputDecoration(
-                            hintText: hint,
-                            errorText: errorText,
-                            errorMaxLines: 4,
-                            prefixIcon: prefixIcon,
-                            suffixIcon: suffix,
-                            counterText: maxLength != null ? '' : null,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedErrorBorder: InputBorder.none,
-                            filled: false,
-                          ),
-                          obscureText: obscureText,
-                          autofillHints: autofillHints,
-                          enabled: enabled,
-                          autofocus: autofocus,
-                          readOnly: readOnly,
-                          maxLength: maxLength,
-                          onChanged: onChanged,
-                          onFieldSubmitted: onSubmitted,
-                          onTapOutside: onTapOutside,
-                          validator: validator,
-                          keyboardType: keyboardType,
-                          textCapitalization:
-                              textCapitalization ?? TextCapitalization.none,
-                          autocorrect: autocorrect,
-                          enableSuggestions: enableSuggestions,
-                          inputFormatters: inputFormatters,
-                          contextMenuBuilder: contextMenuBuilder,
-                          maxLines: maxLines,
-                          minLines: minLines,
-                          selectionWidthStyle: _usesTightSelectionWidth
-                              ? BoxWidthStyle.tight
-                              : null,
+                          builder:
+                              (
+                                BuildContext context,
+                                TextDirection? direction,
+                              ) => TextFormField(
+                                textDirection: direction,
+                                controller: controller,
+                                focusNode: focusNode,
+                                textInputAction: textInputAction,
+                                style: style,
+                                strutStyle:
+                                    shouldApplyBoundedTextMetrics(
+                                      maxLines: maxLines,
+                                    )
+                                    ? boundedStrutFor(
+                                        textStyles.inputText.merge(style),
+                                      )
+                                    : null,
+                                decoration: InputDecoration(
+                                  hintText: hint,
+                                  errorText: errorText,
+                                  errorMaxLines: 4,
+                                  prefixIcon: prefixIcon,
+                                  suffixIcon: suffix,
+                                  counterText: maxLength != null ? '' : null,
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  filled: false,
+                                ),
+                                obscureText: obscureText,
+                                autofillHints: autofillHints,
+                                enabled: enabled,
+                                autofocus: autofocus,
+                                readOnly: readOnly,
+                                maxLength: maxLength,
+                                onChanged: onChanged,
+                                onFieldSubmitted: onSubmitted,
+                                onTapOutside: onTapOutside,
+                                validator: validator,
+                                keyboardType: keyboardType,
+                                textCapitalization:
+                                    textCapitalization ??
+                                    TextCapitalization.none,
+                                autocorrect: autocorrect,
+                                enableSuggestions: enableSuggestions,
+                                inputFormatters: inputFormatters,
+                                contextMenuBuilder: contextMenuBuilder,
+                                maxLines: maxLines,
+                                minLines: minLines,
+                                selectionWidthStyle: _usesTightSelectionWidth
+                                    ? BoxWidthStyle.tight
+                                    : null,
+                              ),
                         ),
                       ),
                     ),
@@ -453,64 +471,80 @@ class FluxerInput extends StatelessWidget {
             _accessibleField(
               field: wrapBoundedTextClip(
                 maxLines: maxLines,
-                child: TextFormField(
+                child: AutoTextDirectionBuilder(
                   controller: controller,
-                  focusNode: focusNode,
-                  textInputAction: textInputAction,
-                  style: style,
-                  strutStyle: shouldApplyBoundedTextMetrics(maxLines: maxLines)
-                      ? boundedStrutFor(textStyles.inputText.merge(style))
-                      : null,
-                  decoration: InputDecoration(
-                    hintText: hint,
-                    errorText: errorText,
-                    errorMaxLines: 4,
-                    prefixIcon: prefixIcon,
-                    counterText: maxLength != null ? '' : null,
-                    contentPadding: suffix == null
-                        ? null
-                        : themePadding.copyWith(
-                            right: math.max(themePadding.right, suffixInset),
-                          ),
-                  ),
-                  obscureText: obscureText,
-                  autofillHints: autofillHints,
-                  enabled: enabled,
-                  autofocus: autofocus,
-                  readOnly: readOnly,
-                  maxLength: maxLength,
-                  onChanged: onChanged,
-                  onFieldSubmitted: onSubmitted,
-                  onTapOutside: onTapOutside,
-                  validator: validator,
-                  keyboardType: keyboardType,
-                  textCapitalization:
-                      textCapitalization ?? TextCapitalization.none,
-                  autocorrect: autocorrect,
-                  enableSuggestions: enableSuggestions,
-                  inputFormatters: inputFormatters,
-                  contextMenuBuilder: contextMenuBuilder,
-                  maxLines: maxLines,
-                  minLines: minLines,
-                  selectionWidthStyle: _usesTightSelectionWidth
-                      ? BoxWidthStyle.tight
-                      : null,
+                  builder: (BuildContext context, TextDirection? direction) =>
+                      TextFormField(
+                        textDirection: direction,
+                        controller: controller,
+                        focusNode: focusNode,
+                        textInputAction: textInputAction,
+                        style: style,
+                        strutStyle:
+                            shouldApplyBoundedTextMetrics(maxLines: maxLines)
+                            ? boundedStrutFor(textStyles.inputText.merge(style))
+                            : null,
+                        decoration: InputDecoration(
+                          hintText: hint,
+                          errorText: errorText,
+                          errorMaxLines: 4,
+                          prefixIcon: prefixIcon,
+                          counterText: maxLength != null ? '' : null,
+                          contentPadding: suffix == null
+                              ? null
+                              : Directionality.of(context) == TextDirection.rtl
+                              ? themePadding.copyWith(
+                                  left: math.max(
+                                    themePadding.left,
+                                    suffixInset,
+                                  ),
+                                )
+                              : themePadding.copyWith(
+                                  right: math.max(
+                                    themePadding.right,
+                                    suffixInset,
+                                  ),
+                                ),
+                        ),
+                        obscureText: obscureText,
+                        autofillHints: autofillHints,
+                        enabled: enabled,
+                        autofocus: autofocus,
+                        readOnly: readOnly,
+                        maxLength: maxLength,
+                        onChanged: onChanged,
+                        onFieldSubmitted: onSubmitted,
+                        onTapOutside: onTapOutside,
+                        validator: validator,
+                        keyboardType: keyboardType,
+                        textCapitalization:
+                            textCapitalization ?? TextCapitalization.none,
+                        autocorrect: autocorrect,
+                        enableSuggestions: enableSuggestions,
+                        inputFormatters: inputFormatters,
+                        contextMenuBuilder: contextMenuBuilder,
+                        maxLines: maxLines,
+                        minLines: minLines,
+                        selectionWidthStyle: _usesTightSelectionWidth
+                            ? BoxWidthStyle.tight
+                            : null,
+                      ),
                 ),
               ),
             ),
             if (suffix != null)
-              Positioned(
+              PositionedDirectional(
                 top: layout.s2,
-                right: layout.s2,
+                end: layout.s2,
                 child: SizedBox.square(
                   dimension: _multilineSuffixExtent,
                   child: suffix,
                 ),
               ),
             if (showCounter && (counterMax != null || maxLength != null))
-              Positioned(
+              PositionedDirectional(
                 bottom: layout.s2,
-                right: layout.s2,
+                end: layout.s2,
                 child: ValueListenableBuilder<TextEditingValue>(
                   valueListenable: controller ?? TextEditingController(),
                   builder: (context, value, _) => FluxerCharacterCounter(

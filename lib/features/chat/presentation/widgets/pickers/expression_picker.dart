@@ -216,7 +216,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
         children: widget.visibleTabs.map((tab) {
           final isActive = tab == _selectedTab;
           return Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: const EdgeInsetsDirectional.only(end: 4),
             child: FluxerGestureDetector(
               onTap: () => _selectTab(tab),
               child: Container(

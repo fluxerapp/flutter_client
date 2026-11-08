@@ -44,6 +44,11 @@ class NagbarDismissalsSyncedField
       giftInventoryDismissed: proto.giftInventory,
       guildMembershipCtaDismissed: proto.guildMembershipCta,
       visionaryMfaDismissed: proto.visionaryMfa,
+      guildMfaRequirementDismissed: <String>{
+        for (final MapEntry<String, bool> entry
+            in proto.guildMfaRequirement.entries)
+          if (entry.value) entry.key,
+      },
     );
   }
 
@@ -57,6 +62,13 @@ class NagbarDismissalsSyncedField
       ..giftInventory = local.giftInventoryDismissed
       ..guildMembershipCta = local.guildMembershipCtaDismissed
       ..visionaryMfa = local.visionaryMfaDismissed;
+    proto.guildMfaRequirement
+      ..clear()
+      ..addEntries(
+        local.guildMfaRequirementDismissed.map(
+          (String guildId) => MapEntry<String, bool>(guildId, true),
+        ),
+      );
   }
 
   @override
@@ -75,6 +87,11 @@ class NagbarDismissalsSyncedField
         a.premiumOnboardingDismissed == b.premiumOnboardingDismissed &&
         a.giftInventoryDismissed == b.giftInventoryDismissed &&
         a.guildMembershipCtaDismissed == b.guildMembershipCtaDismissed &&
-        a.visionaryMfaDismissed == b.visionaryMfaDismissed;
+        a.visionaryMfaDismissed == b.visionaryMfaDismissed &&
+        a.guildMfaRequirementDismissed.length ==
+            b.guildMfaRequirementDismissed.length &&
+        a.guildMfaRequirementDismissed.containsAll(
+          b.guildMfaRequirementDismissed,
+        );
   }
 }

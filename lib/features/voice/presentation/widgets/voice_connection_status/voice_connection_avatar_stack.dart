@@ -38,8 +38,8 @@ class VoiceConnectionAvatarStack extends ConsumerWidget {
         clipBehavior: Clip.none,
         children: <Widget>[
           for (int i = 0; i < visible.length; i++)
-            Positioned(
-              left: i * (28 - overlap),
+            PositionedDirectional(
+              start: i * (28 - overlap),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,

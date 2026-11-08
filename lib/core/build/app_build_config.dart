@@ -38,6 +38,11 @@ class AppBuildConfig {
   static const String _distributionValue = String.fromEnvironment(
     'FLUXER_DISTRIBUTION',
   );
+  static const String _playIntegrityCloudProjectNumberValue =
+      // ignore: do_not_use_environment -- compile-time build flavor config
+      String.fromEnvironment('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER');
+  static String get playIntegrityCloudProjectNumber =>
+      _playIntegrityCloudProjectNumberValue.trim();
   static AppBuildEnvironment get environment {
     switch (_environmentValue) {
       case 'canary':

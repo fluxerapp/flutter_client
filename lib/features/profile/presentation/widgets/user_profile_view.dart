@@ -54,6 +54,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
@@ -63,7 +64,6 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 184;
 const double _kAvatarOverlap =
@@ -468,8 +468,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       ),
                     ),
                   ),
-                Positioned(
-                  left: contentPadLeft,
+                PositionedDirectional(
+                  start: contentPadLeft,
                   top: _kBannerHeight - _kAvatarOverlap,
                   child: UserProfileIdentityAvatar(
                     userId: userId,
@@ -481,8 +481,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   ),
                 ),
                 if (!isWebhook)
-                  Positioned(
-                    right: contentPadRight,
+                  PositionedDirectional(
+                    end: contentPadRight,
                     top: _kBannerHeight + layout.s2,
                     child: Row(
                       children: <Widget>[
@@ -565,7 +565,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           ),
         ),
         SliverPadding(
-          padding: EdgeInsets.fromLTRB(
+          padding: EdgeInsetsDirectional.fromSTEB(
             contentPadLeft,
             layout.s2,
             contentPadRight,
@@ -1094,6 +1094,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             currentUserId: ownUserId,
             everyonePermissions: everyonePermissions,
             memberRoles: viewerRoles,
+            guildMfaRestricted: isGuildMfaRestricted(
+              guildMfaLevel: guildInfo?.mfaLevel ?? 0,
+              isGuildOwner: isGuildOwner,
+              userLacksMfa: ref.watch(
+                userSettingsViewModelProvider.select(
+                  (UserSettingsViewState s) => s.lacksMfa,
+                ),
+              ),
+            ),
           );
           canManageRoles = hasPermission(
             viewerPermissions,
@@ -1300,9 +1309,9 @@ class _ErrorState extends StatelessWidget {
           ),
         ),
         if (onClose != null)
-          Positioned(
+          PositionedDirectional(
             top: layout.s2,
-            right: layout.s2,
+            end: layout.s2,
             child: FluxerButton.circleAlt(
               onPressed: onClose,
               icon: PhosphorIconsBold.x,

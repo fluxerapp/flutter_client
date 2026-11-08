@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.da
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 List<FluxerSelectItem<String?>> buildDiscoveryLanguageSelectItems(
   FluxerLocalizations l10n,

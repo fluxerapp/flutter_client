@@ -2,6 +2,7 @@ package com.fluxer
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import com.hiennv.flutter_callkit_incoming.CallkitEventCallback
@@ -25,6 +26,15 @@ class MainActivity : AudioServiceActivity() {
             return
         }
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { view ->
+                view.animate()
+                    .alpha(0f)
+                    .setDuration(200L)
+                    .withEndAction { view.remove() }
+                    .start()
+            }
+        }
         FlutterCallkitIncomingPlugin.registerEventCallback(callkitEventCallback)
     }
 
@@ -79,6 +89,7 @@ class MainActivity : AudioServiceActivity() {
             VoiceTaskRemovedRegistry.bridge = bridge
         }
         AppRestartBridge(this).register(flutterEngine)
+        PlayAgeRangeBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)
         MeasureReporting.register(flutterEngine, application)

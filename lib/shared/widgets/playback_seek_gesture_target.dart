@@ -28,6 +28,10 @@ class PlaybackSeekGestureTarget extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth;
+        final Widget timeline = Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(child: child),
+        );
         return SizedBox(
           key: enabled ? kPlaybackSeekShellGestureBlockKey : null,
           height: touchTargetHeight,
@@ -43,9 +47,9 @@ class PlaybackSeekGestureTarget extends StatelessWidget {
                   onHorizontalDragUpdate: (DragUpdateDetails details) {
                     _seekFromLocalDx(details.localPosition.dx, width);
                   },
-                  child: Center(child: child),
+                  child: timeline,
                 )
-              : Center(child: child),
+              : timeline,
         );
       },
     );

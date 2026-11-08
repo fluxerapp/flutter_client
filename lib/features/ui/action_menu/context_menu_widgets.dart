@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const kContextMenuWidth = 220.0;
 const kContextMenuTitleHeight = 40.0;
@@ -92,7 +92,7 @@ class ContextMenuTitle extends StatelessWidget {
     return SizedBox(
       height: kContextMenuTitleHeight,
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s1),
           child: Text(

@@ -123,6 +123,12 @@ String keybindActionLabel(FluxerLocalizations l10n, KeybindAction action) {
       return l10n.voiceControlMute;
     case KeybindAction.voiceToggleDeafen:
       return l10n.voiceControlDeafen;
+    case KeybindAction.voiceToggleVideo:
+      return l10n.voiceControlVideo;
+    case KeybindAction.voiceToggleScreenShare:
+      return l10n.voiceControlScreenShare;
+    case KeybindAction.voiceDisconnect:
+      return l10n.voiceControlDisconnect;
     case KeybindAction.voiceAnswerCall:
       return l10n.keybindActionAnswerCall;
     case KeybindAction.voiceDeclineCall:

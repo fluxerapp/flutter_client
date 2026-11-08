@@ -5,10 +5,13 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_dispatcher.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/observability/startup_timeline.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/permission_cache_reset.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/shell_cache.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
@@ -157,7 +160,14 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     })
     ..listen<Set<String>>(blockedUserIdsProvider, (_, Set<String> next) {
       mentionCache.blockedUserIds = next;
-    }, fireImmediately: true);
+    }, fireImmediately: true)
+    ..listen<bool>(appUiForegroundProvider, (bool? previous, bool foreground) {
+      if ((previous ?? false) &&
+          !foreground &&
+          ref.read(gatewayReadyProvider)) {
+        unawaited(markShellCacheLive());
+      }
+    });
   void syncVoiceSessionFromStates(List<VoiceState> states) {
     final String? userId = currentUserId;
     if (userId != null) {
@@ -207,6 +217,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       }
       final String? recoveryGuildId = ref.read(contextualGuildIdProvider);
       ref.read(gatewayReadyProvider.notifier).setReady();
+      StartupTimeline.instance.markLive();
+      unawaited(markShellCacheLive());
       ref.read(guildSyncProvider(readAccountUserId(ref)).notifier).clearAll();
       clearGuildRolesPrefetchState();
       clearVoiceParticipantUsersCache();
@@ -244,6 +256,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');
       ref.read(gatewayReadyProvider.notifier).setReady();
+      unawaited(markShellCacheLive());
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
       ref.read(voiceSessionProvider.notifier).handleGatewayResumed();
@@ -444,17 +457,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onSavedMessageDelete: (messageId) => ifMounted(() {
       ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
     }),
-    onPermissionsClearAll: () => ifMounted(() {
-      ref
-          .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
-          .clearAll();
-      ref
-          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
-          .clearAll();
-      ref
-        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
-        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
-    }),
+    onPermissionsClearAll: () => ifMounted(() => clearAllPermissionCaches(ref)),
     onMessageCreate: (MessageCreateDispatch dispatch) => ifMounted(() {
       final MessageResponseSchema message = dispatch.event.message;
       final AbandonedMessageSends abandoned = ref.read(
@@ -497,9 +500,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           );
         }),
     onOwnMessageCreated: (channelId, sentAt) => ifMounted(() {
-      ref.read(chatViewModelProvider.notifier)
-        ..clearStickyUnreadFor(channelId)
-        ..cancelPendingOutgoingAck(channelId);
+      ref.read(chatViewModelProvider.notifier).clearStickyUnreadFor(channelId);
       ref
           .read(slowmodeTrackerProvider.notifier)
           .updateSendTimestamp(channelId, sentAt);
@@ -546,6 +547,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           )
           .setCredentials(credentials);
     }),
+    isCacheOwnedBy: (String userId) async =>
+        ref.mounted && await isShellCacheTrusted(db, userId),
     onSessionChanging: () => ifMounted(() {
       ref.read(syncedPreferencesStoreProvider).markSessionChanging();
     }),

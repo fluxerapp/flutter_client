@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/push/notification/pending_route.dart';
@@ -12,21 +12,21 @@ part 'pending_path_provider.g.dart';
 
 bool isPendingNavigationReady({
   required bool isAuthenticated,
-  required bool isGatewayReady,
+  required bool isShellReady,
   required bool isConnectionFailed,
 }) {
-  return isAuthenticated && isGatewayReady && !isConnectionFailed;
+  return isAuthenticated && isShellReady && !isConnectionFailed;
 }
 
 bool shouldApplyPendingPushNavigation({
   required bool isAuthenticated,
-  required bool isGatewayReady,
+  required bool isShellReady,
   required bool isConnectionFailed,
   required bool splashExitAllowed,
 }) {
   return isPendingNavigationReady(
         isAuthenticated: isAuthenticated,
-        isGatewayReady: isGatewayReady,
+        isShellReady: isShellReady,
         isConnectionFailed: isConnectionFailed,
       ) &&
       splashExitAllowed;
@@ -37,7 +37,7 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
   @override
   PendingPushNotificationRoute? build() {
     ref
-      ..listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
+      ..listen<bool>(shellDataReadyProvider, (bool? previous, bool next) {
         if (!next) {
           return;
         }
@@ -75,6 +75,16 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
     flushIfReady();
   }
 
+  /// Queues [path] for the READY flush without flushing now. Flushing would
+  /// resolve the same missing target against the cache again and re-queue it.
+  void storeUntilGatewayReady(String path) {
+    state = PendingPushNotificationRoute(
+      path: path,
+      accountUserId: ref.read(currentUserIdProvider),
+    );
+    talker.info('[PendingNavigation] Queued path until READY: $path');
+  }
+
   void clear() {
     state = null;
   }
@@ -86,7 +96,7 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
     }
     if (!shouldApplyPendingPushNavigation(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
       splashExitAllowed: ref.read(splashExitAllowedProvider),
     )) {

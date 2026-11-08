@@ -6,13 +6,14 @@ class ChannelUnreadIndicator extends StatelessWidget {
 
   final bool faded;
 
-  static Widget positioned({required bool faded, Key? key}) => Positioned(
-    key: key,
-    left: 1,
-    top: 0,
-    bottom: 0,
-    child: Center(child: ChannelUnreadIndicator(faded: faded)),
-  );
+  static Widget positioned({required bool faded, Key? key}) =>
+      PositionedDirectional(
+        key: key,
+        start: 1,
+        top: 0,
+        bottom: 0,
+        child: Center(child: ChannelUnreadIndicator(faded: faded)),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,9 @@ class ChannelUnreadIndicator extends StatelessWidget {
       height: 8,
       decoration: BoxDecoration(
         color: context.colors.textPrimary,
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(9999),
-          bottomRight: Radius.circular(9999),
+        borderRadius: const BorderRadiusDirectional.only(
+          topEnd: Radius.circular(9999),
+          bottomEnd: Radius.circular(9999),
         ),
       ),
     );

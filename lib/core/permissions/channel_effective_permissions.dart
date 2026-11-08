@@ -30,6 +30,7 @@ bool _guildIsListed(Ref ref, String guildId) {
 
 typedef _GuildPermissionInputs = ({
   String? ownerId,
+  int mfaLevel,
   int everyonePermissions,
   List<MemberRole> memberRoles,
   bool memberRecordPresent,
@@ -72,6 +73,7 @@ class _GuildPermissionInputsCache {
     if (currentUserId == server.ownerId) {
       return (
         ownerId: server.ownerId,
+        mfaLevel: server.mfaLevel,
         everyonePermissions: 0,
         memberRoles: const <MemberRole>[],
         memberRecordPresent: false,
@@ -95,6 +97,7 @@ class _GuildPermissionInputsCache {
         : Set<String>.from(jsonDecode(roleIdsJson) as List<dynamic>);
     return (
       ownerId: server.ownerId,
+      mfaLevel: server.mfaLevel,
       everyonePermissions: everyoneRolePermissionsFromString(
         everyoneRole?.permissions,
       ),
@@ -137,6 +140,16 @@ Future<_GuildPermissionInputs?> _readGuildPermissionInputs({
       .read(_guildPermissionInputsCacheProvider)
       .read(guildId: guildId, currentUserId: currentUserId);
 }
+
+bool _isMfaRestricted(
+  Ref ref,
+  _GuildPermissionInputs inputs,
+  String currentUserId,
+) => isGuildMfaRestricted(
+  guildMfaLevel: inputs.mfaLevel,
+  isGuildOwner: currentUserId == inputs.ownerId,
+  userLacksMfa: ref.read(userSettingsViewModelProvider).lacksMfa,
+);
 
 bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
   if (outcome == null || !outcome.shouldCache) {
@@ -191,6 +204,7 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     memberRoles: inputs.memberRoles,
     memberRecordPresent: inputs.memberRecordPresent,
     overwriteJsonLayersRootToLeaf: layers,
+    guildMfaRestricted: _isMfaRestricted(ref, inputs, currentUserId),
   );
   return (
     value: isThreadChannelType(channelRow.type)
@@ -250,6 +264,7 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
   if (currentUserId == inputs.ownerId) {
     return all((value: allPermissions, shouldCache: true));
   }
+  final bool guildMfaRestricted = _isMfaRestricted(ref, inputs, currentUserId);
   int evaluateWithOverwrites(List<List<ChannelOverwriteEntry>> layers) =>
       evaluateChannelPermissionBitsWithOverwrites(
         guildOwnerId: inputs.ownerId ?? '',
@@ -259,6 +274,7 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
         memberRoles: inputs.memberRoles,
         memberRecordPresent: inputs.memberRecordPresent,
         overwriteLayersRootToLeaf: layers,
+        guildMfaRestricted: guildMfaRestricted,
       );
   final int guildPermissionBits = evaluateWithOverwrites(
     const <List<ChannelOverwriteEntry>>[],
@@ -357,6 +373,7 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
     memberRoles: inputs.memberRoles,
     memberRecordPresent: inputs.memberRecordPresent,
     overwriteJsonLayersRootToLeaf: [leafOverwritesJson],
+    guildMfaRestricted: _isMfaRestricted(ref, inputs, currentUserId),
   );
   return (
     value: isThread ? threadViewPermissions(value) : value,

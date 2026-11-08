@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_pr
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

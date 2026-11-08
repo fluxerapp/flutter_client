@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 enum FolderMenuAction {
   markAsRead,

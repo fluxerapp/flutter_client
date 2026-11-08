@@ -30,8 +30,8 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kChannelHeaderSearchFieldWidth = 244;
 
@@ -1632,7 +1632,7 @@ class _ScopeButtonState extends State<_ScopeButton> {
             onHover: (bool hovered) => setState(() => _hovered = hovered),
             borderRadius: BorderRadius.circular(6),
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsetsDirectional.only(end: 8),
               child: SizedBox(
                 width: 16,
                 height: 16,
@@ -1644,8 +1644,8 @@ class _ScopeButtonState extends State<_ScopeButton> {
                       size: 16,
                       color: iconColor,
                     ),
-                    Positioned(
-                      left: -4,
+                    PositionedDirectional(
+                      start: -4,
                       bottom: -4,
                       child: DecoratedBox(
                         decoration: BoxDecoration(

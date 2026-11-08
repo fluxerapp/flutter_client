@@ -23,8 +23,8 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<void> openForumPost(BuildContext context, WidgetRef ref, Channel post) =>
     openThread(context, ref, post, fromParent: true);

@@ -24,9 +24,9 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class EmbedInvite extends ConsumerWidget {
   const EmbedInvite({required this.code, super.key});
@@ -209,7 +209,7 @@ class _GuildInviteCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 4),
+              padding: const EdgeInsetsDirectional.only(start: 4),
               child: FluxerGuildBadge(
                 features: features,
                 badgeIds: localGuild?.badgeIds ?? invite.guild.badgeIds,

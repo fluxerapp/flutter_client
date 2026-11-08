@@ -810,11 +810,11 @@ class ChatExpressionExpandableSheetState
                 : composerPanelMotionDuration(context);
             return Stack(
               children: <Widget>[
-                AnimatedPositioned(
+                AnimatedPositionedDirectional(
                   duration: duration,
                   curve: _snapCurve,
-                  left: 0,
-                  right: 0,
+                  start: 0,
+                  end: 0,
                   top: 0,
                   height: math.max(0, sheetTop + kExpressionSheetCornerRadius),
                   child: ClipPath(

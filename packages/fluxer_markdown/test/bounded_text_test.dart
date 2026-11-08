@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart' show RenderClipRect;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:material_ui/material_ui.dart';
@@ -62,6 +63,39 @@ void main() {
 
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       expect(richText.strutStyle?.forceStrutHeight, isTrue);
+    },
+  );
+
+  testWidgets(
+    'bounded text lets glyphs overhang sideways but clips above and below',
+    (WidgetTester tester) async {
+      const TextStyle style = TextStyle(
+        fontSize: 24,
+        fontStyle: FontStyle.italic,
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Center(
+            child: buildFluxerBoundedRichText(
+              text: const TextSpan(text: 'Half', style: style),
+              baseStyle: style,
+              textWidthBasis: TextWidthBasis.longestLine,
+            ),
+          ),
+        ),
+      );
+
+      final RenderClipRect clip = tester.renderObject<RenderClipRect>(
+        find.descendant(
+          of: find.byType(FluxerBoundedTextClip),
+          matching: find.byType(ClipRect),
+        ),
+      );
+      final Rect clipRect = clip.clipper!.getClip(clip.size);
+      expect(clipRect.left, lessThan(0));
+      expect(clipRect.right, greaterThan(clip.size.width));
+      expect(clipRect.top, 0);
+      expect(clipRect.bottom, clip.size.height);
     },
   );
 }

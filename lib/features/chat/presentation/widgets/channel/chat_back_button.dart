@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ChatBackButton extends StatelessWidget {
   const ChatBackButton({
@@ -39,9 +39,9 @@ class ChatBackButton extends StatelessWidget {
             style: IconButton.styleFrom(shape: const CircleBorder()),
           ),
           if (unreadCount > 0)
-            Positioned(
+            PositionedDirectional(
               bottom: -6,
-              left: 16,
+              start: 16,
               child: ExcludeSemantics(
                 child: FluxerBadgeEntrance(
                   child: FluxerBadge.count(

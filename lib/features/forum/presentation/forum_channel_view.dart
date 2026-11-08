@@ -30,9 +30,9 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart' show GatewayState;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ForumChannelView extends ConsumerStatefulWidget {
   const ForumChannelView({required this.channelId, super.key});
@@ -686,7 +686,7 @@ class _ForumTagFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
         child: Padding(
           padding: EdgeInsets.fromLTRB(horizontal, top, horizontal, bottom),
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(

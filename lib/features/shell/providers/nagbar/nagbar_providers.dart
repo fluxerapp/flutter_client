@@ -86,6 +86,17 @@ class NagbarDismissals extends _$NagbarDismissals {
     );
   }
 
+  Future<void> dismissGuildMfaRequirement(String guildId) async {
+    await _setDismissed(
+      (NagbarDismissalsState value) => value.copyWith(
+        guildMfaRequirementDismissed: <String>{
+          ...value.guildMfaRequirementDismissed,
+          guildId,
+        },
+      ),
+    );
+  }
+
   Future<void> _setDismissed(
     NagbarDismissalsState Function(NagbarDismissalsState current) update,
   ) async {

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/category_channel_route_handler.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout
 import 'package:fluxer_app/features/forum/presentation/forum_channel_view.dart';
 import 'package:fluxer_app/features/forum/providers/forum_header_search_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_mfa_requirement_nagbar.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_unavailable_screen.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/staff_only_guild_nagbar.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -280,6 +282,9 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                         children: [
                           if (isGuildStaffOnlyAccessible(guild))
                             StaffOnlyGuildNagbar(guildId: widget.guildId),
+                          if (guild != null &&
+                              guild.mfaLevel == guildMfaLevelElevated)
+                            GuildMfaRequirementNagbar(guild: guild),
                           if (!hideableVoiceHeader) header,
                           Expanded(
                             child: Stack(

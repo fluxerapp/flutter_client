@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -89,6 +91,114 @@ class ComposerMentionController extends InlineTokenTextEditingController {
   );
 
   int _applyWireTextGeneration = 0;
+
+  static final RegExp _typedWireToken = RegExp(
+    r'<@[&!]?\d+>|<#\d+>|<a?:[a-zA-Z0-9_]+:\d+>',
+  );
+
+  // Longer than any wire token (a custom emoji with a 32 character name).
+  static const int _kWireTokenSearchMargin = 64;
+
+  @override
+  set value(TextEditingValue newValue) {
+    final String previousText = text;
+    super.value = newValue;
+    _chipEditedWireTokens(previousText);
+  }
+
+  /// Keyboards insert pasted text as a plain edit, which bypasses the app's
+  /// paste handler, so wire tokens they bring in are chipped here.
+  void _chipEditedWireTokens(String previousText) {
+    final String current = text;
+    if (current == previousText) {
+      return;
+    }
+    final int shortest = previousText.length < current.length
+        ? previousText.length
+        : current.length;
+    int prefix = 0;
+    while (prefix < shortest &&
+        previousText.codeUnitAt(prefix) == current.codeUnitAt(prefix)) {
+      prefix++;
+    }
+    int suffix = 0;
+    while (suffix < shortest - prefix &&
+        previousText.codeUnitAt(previousText.length - 1 - suffix) ==
+            current.codeUnitAt(current.length - 1 - suffix)) {
+      suffix++;
+    }
+    final int editEnd = current.length - suffix;
+    final int windowStart = (prefix - _kWireTokenSearchMargin).clamp(
+      0,
+      current.length,
+    );
+    final int windowEnd = (editEnd + _kWireTokenSearchMargin).clamp(
+      0,
+      current.length,
+    );
+    int? start;
+    int? end;
+    for (final RegExpMatch match in _typedWireToken.allMatches(
+      current.substring(windowStart, windowEnd),
+    )) {
+      final int matchStart = windowStart + match.start;
+      final int matchEnd = windowStart + match.end;
+      if (matchStart < editEnd && matchEnd > prefix) {
+        start ??= matchStart;
+        end = matchEnd;
+      }
+    }
+    if (start == null || end == null) {
+      return;
+    }
+    final TextRange composing = value.composing;
+    if (composing.isValid && composing.start < end && composing.end > start) {
+      return;
+    }
+    unawaited(_replaceWithChips(current, start, end));
+  }
+
+  Future<void> _replaceWithChips(
+    String expectedText,
+    int start,
+    int end,
+  ) async {
+    // The field sets the selection right after the edit, and every value
+    // update prunes tokens missing from the text, so allocate only after it.
+    await Future<void>.value();
+    if (text != expectedText) {
+      return;
+    }
+    final String fragment = await mentionWireToDisplayFragment(
+      expectedText.substring(start, end),
+      includePlainShortcodes: false,
+    );
+    if (text != expectedText) {
+      return;
+    }
+    final int delta = fragment.length - (end - start);
+    int shift(int offset) {
+      if (offset <= start) {
+        return offset;
+      }
+      return offset >= end ? offset + delta : start + fragment.length;
+    }
+
+    final TextSelection selection = value.selection;
+    final TextRange composing = value.composing;
+    value = TextEditingValue(
+      text: expectedText.replaceRange(start, end, fragment),
+      selection: selection.isValid
+          ? selection.copyWith(
+              baseOffset: shift(selection.baseOffset),
+              extentOffset: shift(selection.extentOffset),
+            )
+          : selection,
+      composing: composing.isValid
+          ? TextRange(start: shift(composing.start), end: shift(composing.end))
+          : TextRange.empty,
+    );
+  }
 
   void _endComposingForForcedApply(bool force) {
     if (force && value.composing.isValid) {

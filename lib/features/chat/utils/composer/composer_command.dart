@@ -145,7 +145,9 @@ ReactionShorthandEmoji? _customFromMarkdown(String markdown) {
   );
 }
 
-final RegExp _replaceCommandRegex = RegExp(r'^s/(.+?)/(.*?)(?:/(g)?)?$');
+// Accepts `S/` because mobile keyboards capitalise the first letter.
+final RegExp _replaceCommandRegex = RegExp(r'^[sS]/(.+?)/(.*?)(?:/(g)?)?$');
+final RegExp _trailingLineBreaks = RegExp(r'[\r\n]+$');
 final RegExp _userMentionWire = RegExp(r'<@!?(\d+)>');
 
 ComposerCommand parseComposerCommand(String wireText) {
@@ -156,7 +158,9 @@ ComposerCommand parseComposerCommand(String wireText) {
     return ComposerReactionShorthand(reaction.group(1)!);
   }
 
-  final RegExpMatch? replace = _replaceCommandRegex.firstMatch(trimmed);
+  final RegExpMatch? replace = _replaceCommandRegex.firstMatch(
+    wireText.trimLeft().replaceFirst(_trailingLineBreaks, ''),
+  );
   if (replace != null) {
     final String source = replace.group(1) ?? '';
     if (source.isNotEmpty) {

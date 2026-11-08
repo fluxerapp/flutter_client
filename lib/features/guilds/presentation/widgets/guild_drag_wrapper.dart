@@ -14,9 +14,9 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildDragData {
   const GuildDragData({required this.itemId, required this.isFolder});

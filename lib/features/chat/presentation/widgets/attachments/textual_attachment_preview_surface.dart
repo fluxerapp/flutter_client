@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const double kTextualPreviewLineHeight = 18;
 const double kTextualPreviewMaxWidth = 400;
@@ -65,7 +65,7 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
           )
         : ClipRect(
             child: OverflowBox(
-              alignment: Alignment.topLeft,
+              alignment: AlignmentDirectional.topStart,
               minHeight: 0,
               maxHeight: double.infinity,
               child: Padding(padding: scrollPad, child: scrollChild),
@@ -76,9 +76,9 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
       children: [
         Positioned.fill(child: SelectionArea(child: body)),
         if (showCopy)
-          Positioned(
+          PositionedDirectional(
             top: 4,
-            right: 4,
+            end: 4,
             child: _TextualPreviewCopyButton(
               text: copyTextContent!,
               surfaceColor: surfaceColor,

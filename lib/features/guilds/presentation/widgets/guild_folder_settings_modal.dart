@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_toggle_switch.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class GuildFolderSettingsModal extends ConsumerStatefulWidget {
   const GuildFolderSettingsModal({required this.folderId, super.key});

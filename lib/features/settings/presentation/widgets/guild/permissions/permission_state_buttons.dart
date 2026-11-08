@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const double _kPermissionStateButtonSize = 32;
 const double _kActiveStatusMixRatio = 0.88;
@@ -54,8 +54,8 @@ class PermissionStateButtons extends StatelessWidget {
             semanticLabel: l10n.permissionOverwriteDeny,
             disabled: disabled,
             onPressed: () => onStateChange(ChannelPermissionState.deny),
-            borderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(7),
+            borderRadius: const BorderRadiusDirectional.horizontal(
+              start: Radius.circular(7),
             ),
           ),
           Container(
@@ -92,8 +92,8 @@ class PermissionStateButtons extends StatelessWidget {
             semanticLabel: l10n.permissionOverwriteAllow,
             disabled: disabled,
             onPressed: () => onStateChange(ChannelPermissionState.allow),
-            borderRadius: const BorderRadius.horizontal(
-              right: Radius.circular(7),
+            borderRadius: const BorderRadiusDirectional.horizontal(
+              end: Radius.circular(7),
             ),
           ),
         ],
@@ -125,7 +125,7 @@ class _StateButton extends StatelessWidget {
   final String semanticLabel;
   final bool disabled;
   final VoidCallback onPressed;
-  final BorderRadius? borderRadius;
+  final BorderRadiusGeometry? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class _StateButton extends StatelessWidget {
         borderRadius: borderRadius,
         child: InkWell(
           onTap: disabled ? null : onPressed,
-          borderRadius: borderRadius,
+          borderRadius: borderRadius?.resolve(Directionality.of(context)),
           hoverColor: isActive ? null : hoverBackgroundColor,
           child: SizedBox(
             width: _kPermissionStateButtonSize,

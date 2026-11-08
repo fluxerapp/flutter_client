@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/push/notification/pending_path_provider.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/pending_app_location.dart';
@@ -64,7 +65,10 @@ class PreReconnectingLocation extends _$PreReconnectingLocation {
       currentUserId: currentUserId,
       inMemory: preferred ?? saved,
     );
-    if (preferred != null) {
+    // A cached launch opens before READY, so a target the cache doesn't know
+    // yet (a new DM, a just-joined channel) stays pending for the READY flush.
+    if (preferred != null &&
+        (location == preferred || ref.read(gatewayReadyProvider))) {
       ref.read(pendingPushNotificationPathProvider.notifier).clear();
     }
     await pendingLocation.mark(location);

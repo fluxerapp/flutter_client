@@ -19,8 +19,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kVoiceControlCircleSize = 52;
 const double kVoiceControlCompactCircleSize = 44;
@@ -224,6 +224,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
             ? context.colors.statusDanger
             : context.colors.backgroundTertiary,
         tooltip: isMuted ? l10n.voiceControlUnmute : l10n.voiceControlMute,
+        semanticLabel: l10n.voiceControlMute,
         icon: isMuted
             ? PhosphorIconsFill.microphoneSlash
             : PhosphorIconsFill.microphone,
@@ -242,6 +243,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
         tooltip: isDeafened
             ? l10n.voiceControlUndeafen
             : l10n.voiceControlDeafen,
+        semanticLabel: l10n.voiceControlDeafen,
         icon: isDeafened
             ? PhosphorIconsFill.speakerSlash
             : PhosphorIconsFill.speakerHigh,
@@ -377,6 +379,7 @@ class _VoiceControlCircle extends StatefulWidget {
     required this.icon,
     required this.onPressed,
     this.toggled,
+    this.semanticLabel,
   });
 
   final double size;
@@ -385,6 +388,7 @@ class _VoiceControlCircle extends StatefulWidget {
   final PhosphorIconData icon;
   final VoidCallback? onPressed;
   final bool? toggled;
+  final String? semanticLabel;
 
   @override
   State<_VoiceControlCircle> createState() => _VoiceControlCircleState();
@@ -392,6 +396,7 @@ class _VoiceControlCircle extends StatefulWidget {
 
 class _VoiceControlCircleState extends State<_VoiceControlCircle> {
   bool _pressed = false;
+  bool _focused = false;
 
   void _setPressed(bool value) {
     if (widget.onPressed == null || _pressed == value) {
@@ -412,7 +417,13 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
         curve: Curves.easeOut,
         width: widget.size,
         height: widget.size,
-        decoration: BoxDecoration(color: widget.color, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: widget.color,
+          shape: BoxShape.circle,
+          border: _focused && enabled
+              ? Border.all(color: context.colors.textPrimary, width: 2)
+              : null,
+        ),
         child: Center(
           child: ExcludeSemantics(
             child: PhosphorIcon(
@@ -428,19 +439,36 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
     );
     return Semantics(
       button: true,
-      label: widget.tooltip,
+      label: widget.semanticLabel ?? widget.tooltip,
       toggled: widget.toggled,
       enabled: enabled,
       child: Tooltip(
         message: widget.tooltip,
         excludeFromSemantics: true,
-        child: FluxerGestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (_) => _setPressed(true),
-          onTapUp: (_) => _setPressed(false),
-          onTapCancel: () => _setPressed(false),
-          onTap: widget.onPressed,
-          child: circle,
+        child: FocusableActionDetector(
+          enabled: enabled,
+          includeFocusSemantics: false,
+          onShowFocusHighlight: (bool value) {
+            if (_focused != value) {
+              setState(() => _focused = value);
+            }
+          },
+          actions: <Type, Action<Intent>>{
+            ActivateIntent: CallbackAction<ActivateIntent>(
+              onInvoke: (ActivateIntent intent) {
+                widget.onPressed?.call();
+                return null;
+              },
+            ),
+          },
+          child: FluxerGestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (_) => _setPressed(true),
+            onTapUp: (_) => _setPressed(false),
+            onTapCancel: () => _setPressed(false),
+            onTap: widget.onPressed,
+            child: circle,
+          ),
         ),
       ),
     );

@@ -55,6 +55,9 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   final ValueNotifier<bool> _sliderTickersEnabled = ValueNotifier<bool>(true);
   final ValueNotifier<bool> _baseTickersEnabled = ValueNotifier<bool>(true);
 
+  HorizontalRevealEdge _revealEdge() =>
+      horizontalRevealStartEdge(Directionality.of(context));
+
   Duration _revealDuration(BuildContext context) =>
       widget.revealDuration ?? horizontalSwipeRevealDuration(context);
 
@@ -254,7 +257,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     final maxTranslate = _maxRevealTranslate(width);
     final minTranslate = _isSidebarDrawerLocked() ? maxTranslate : 0.0;
     _animationController.value = applyHorizontalRevealDrag(
-      edge: HorizontalRevealEdge.left,
+      edge: _revealEdge(),
       translate: _animationController.value,
       deltaDx: delta,
       min: minTranslate,
@@ -278,6 +281,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
       primaryVelocity: details.primaryVelocity ?? 0,
       completionThreshold: completionThreshold,
       peekWidth: peekWidth,
+      edge: _revealEdge(),
     );
     final resolvedSide =
         _isSidebarDrawerLocked() && targetSide == RevealSide.main
@@ -409,7 +413,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         ? <Type, GestureRecognizerFactory>{}
         : horizontalRevealDragGestures(
             translateController: _animationController,
-            edge: HorizontalRevealEdge.left,
+            edge: _revealEdge,
             shouldDefer: _shouldDeferDrawerGesture,
             onDragUpdate: _onTranslate,
             onDragEnd: (DragEndDetails details) {
@@ -485,7 +489,12 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
                 }
               }
               return Transform.translate(
-                offset: Offset(_animationController.value, 0),
+                offset: Offset(
+                  _revealEdge() == HorizontalRevealEdge.left
+                      ? _animationController.value
+                      : -_animationController.value,
+                  0,
+                ),
                 child: layer,
               );
             },
@@ -623,6 +632,7 @@ RevealSide sidebarDrawerTargetForDrag({
   required double completionThreshold,
   double? peekWidth,
   double flingVelocity = kDrawerSwipeFlingVelocityPxPerSecond,
+  HorizontalRevealEdge edge = HorizontalRevealEdge.left,
 }) {
   if (width <= 0) {
     return RevealSide.main;
@@ -634,7 +644,7 @@ RevealSide sidebarDrawerTargetForDrag({
     return RevealSide.main;
   }
   final bool open = horizontalRevealShouldOpen(
-    edge: HorizontalRevealEdge.left,
+    edge: edge,
     translate: translate,
     maxExtent: maxReveal,
     primaryVelocity: primaryVelocity,

@@ -16,6 +16,8 @@ void main() {
     List<Map<String, dynamic>> presences = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>>? users,
     Map<String, String>? notes,
+    List<UserGuildSettingsResponse>? userGuildSettings,
+    List<Map<String, dynamic>>? rtcRegions,
   }) {
     return handler.handle(
       ReadyEvent(
@@ -28,6 +30,8 @@ void main() {
         presences: presences,
         users: users,
         notes: notes,
+        userGuildSettings: userGuildSettings,
+        rtcRegions: rtcRegions,
       ),
     );
   }
@@ -481,8 +485,86 @@ void main() {
         );
       },
     );
+
+    test('guild settings missing from READY go back to the defaults', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+      );
+      await sendReady(
+        handler,
+        sessionId: 'session-1',
+        userGuildSettings: <UserGuildSettingsResponse>[
+          _guildSettings('g-kept'),
+          _guildSettings('g-reset', muted: true),
+        ],
+      );
+
+      await sendReady(
+        handler,
+        sessionId: 'session-2',
+        userGuildSettings: <UserGuildSettingsResponse>[
+          _guildSettings('g-kept'),
+        ],
+      );
+
+      expect(
+        await database.userGuildSettingsDao.getByGuildId('g-kept'),
+        isNotNull,
+      );
+      expect(
+        await database.userGuildSettingsDao.getByGuildId('g-reset'),
+        isNull,
+      );
+    });
+
+    test('RTC regions missing from READY are removed', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+      );
+      await sendReady(
+        handler,
+        sessionId: 'session-1',
+        rtcRegions: <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'eu'},
+          <String, dynamic>{'id': 'retired'},
+        ],
+      );
+
+      await sendReady(
+        handler,
+        sessionId: 'session-2',
+        rtcRegions: <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'eu'},
+        ],
+      );
+
+      expect(
+        (await database.select(database.rtcRegionsTable).get())
+            .map((RtcRegionsTableData row) => row.id)
+            .toList(),
+        <String>['eu'],
+      );
+    });
   });
 }
+
+UserGuildSettingsResponse _guildSettings(
+  String guildId, {
+  bool muted = false,
+}) => UserGuildSettingsResponse(
+  guildId: guildId,
+  messageNotifications: UserNotificationSettings.allMessages,
+  muted: muted,
+  muteConfig: null,
+  mobilePush: true,
+  suppressEveryone: false,
+  suppressRoles: false,
+  hideMutedChannels: false,
+  channelOverrides: const {},
+  version: 1,
+);
 
 Map<String, dynamic> _userPartial(String id) => <String, dynamic>{
   'id': id,

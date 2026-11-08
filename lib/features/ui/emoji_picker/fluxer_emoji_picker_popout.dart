@@ -147,16 +147,28 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
           child: CompositedTransformFollower(
             link: _layerLink,
             targetAnchor: _openUpward
-                ? Alignment.topRight
-                : Alignment.bottomRight,
+                ? AlignmentDirectional.topEnd.resolve(
+                    Directionality.of(context),
+                  )
+                : AlignmentDirectional.bottomEnd.resolve(
+                    Directionality.of(context),
+                  ),
             followerAnchor: _openUpward
-                ? Alignment.bottomRight
-                : Alignment.topRight,
+                ? AlignmentDirectional.bottomEnd.resolve(
+                    Directionality.of(context),
+                  )
+                : AlignmentDirectional.topEnd.resolve(
+                    Directionality.of(context),
+                  ),
             offset: Offset(0, _openUpward ? -4 : 4),
             child: Align(
               alignment: _openUpward
-                  ? Alignment.bottomRight
-                  : Alignment.topRight,
+                  ? AlignmentDirectional.bottomEnd.resolve(
+                      Directionality.of(context),
+                    )
+                  : AlignmentDirectional.topEnd.resolve(
+                      Directionality.of(context),
+                    ),
               child: SizedBox(
                 width: _kWidth,
                 height: _kHeight,

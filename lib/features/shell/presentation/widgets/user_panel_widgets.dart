@@ -189,6 +189,8 @@ class _UserPanelMediaButtonState extends State<UserPanelMediaButton> {
     final Widget button = Semantics(
       button: true,
       enabled: canInteract,
+      toggled: widget.isActive,
+      label: widget.tooltip,
       child: MouseRegion(
         onEnter: canInteract ? (_) => setState(() => _hovered = true) : null,
         onExit: canInteract ? (_) => setState(() => _hovered = false) : null,
@@ -223,6 +225,10 @@ class _UserPanelMediaButtonState extends State<UserPanelMediaButton> {
     if (widget.tooltip == null || widget.tooltip!.isEmpty) {
       return button;
     }
-    return Tooltip(message: widget.tooltip, child: button);
+    return Tooltip(
+      message: widget.tooltip,
+      excludeFromSemantics: true,
+      child: button,
+    );
   }
 }

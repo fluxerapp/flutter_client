@@ -26,9 +26,9 @@ import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 bool canStartThreadIn(Channel parent, ThreadActor? actor) {
   if (!isTextThreadParentType(parent.type) || actor == null) {

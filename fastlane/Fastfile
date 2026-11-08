@@ -826,6 +826,29 @@ platform :android do
       skip_upload_screenshots: true
     )
   end
+
+  desc "Upload stable FCM app bundle to Google Play as a draft release (not rolled out)"
+  lane :upload_stable_fcm_aab do
+    aab_path = File.join(
+      project_root_path,
+      "build/app/outputs/bundle/stableFcmRelease/app-stable-fcm-release.aab"
+    )
+    unless File.exist?(aab_path)
+      UI.user_error!("Stable FCM AAB not found (expected #{aab_path})")
+    end
+
+    upload_to_play_store(
+      package_name: "com.fluxer",
+      aab: aab_path,
+      track: fetchOptionalEnvironmentValue("PLAY_STORE_TRACK", "production"),
+      release_status: "draft",
+      json_key_data: fetchRequiredEnvironmentValue("SUPPLY_JSON_KEY_DATA"),
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
 end
 
 platform :mac do

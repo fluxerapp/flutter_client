@@ -96,13 +96,13 @@ import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
 
@@ -128,7 +128,7 @@ Widget _composerOpacity({
 Widget _composerSlot({
   required BuildContext context,
   required bool visible,
-  required Alignment alignment,
+  required AlignmentGeometry alignment,
   required Widget child,
 }) {
   return AnimatedSize(
@@ -316,7 +316,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return wrapped;
     }
     return Padding(
-      padding: const EdgeInsets.only(left: WideComposerLayout.actionGap),
+      padding: const EdgeInsetsDirectional.only(
+        start: WideComposerLayout.actionGap,
+      ),
       child: wrapped,
     );
   }
@@ -1372,7 +1374,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   _composerSlot(
                     context: context,
                     visible: perms.canShowAttachControls,
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
@@ -1435,7 +1437,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             _composerSlot(
                               context: context,
                               visible: composerButtonTabs.isNotEmpty,
-                              alignment: Alignment.centerRight,
+                              alignment: AlignmentDirectional.centerEnd,
                               child: _buildLargeExpressionPickerActions(
                                 context: context,
                                 channelId: channelId,
@@ -1733,7 +1735,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       _composerSlot(
                         context: context,
                         visible: perms.canShowAttachControls,
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         child: Padding(
                           padding: const EdgeInsetsDirectional.only(
                             end: MobileComposerLayout.attachGap,
@@ -1781,7 +1783,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       _composerSlot(
                         context: context,
                         visible: perms.isComposerEnabled,
-                        alignment: Alignment.centerRight,
+                        alignment: AlignmentDirectional.centerEnd,
                         child: _mobileComposerButtonCell(
                           _buildMobilePickerButton(context, perms),
                         ),
@@ -1789,7 +1791,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       _composerSlot(
                         context: context,
                         visible: perms.isComposerEnabled,
-                        alignment: Alignment.centerRight,
+                        alignment: AlignmentDirectional.centerEnd,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -1836,8 +1838,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               ),
             ),
             if (recording && !_voiceRecording.isLocked)
-              Positioned(
-                right: 8,
+              PositionedDirectional(
+                end: 8,
                 top: -52,
                 child: VoiceMessageLockChip(controller: _voiceRecording),
               ),

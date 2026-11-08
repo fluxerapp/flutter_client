@@ -101,6 +101,130 @@ void main() {
       expect(find.textContaining('Vue', findRichText: true), findsOneWidget);
     });
 
+    group('wide table scrollbar', () {
+      const Color thumbColor = Color(0xFF778899);
+      final String wideTable = [
+        '|${List<String>.generate(30, (int i) => 'c$i').join('|')}|',
+        '|${List<String>.filled(30, '-').join('|')}|',
+        '|${List<String>.generate(30, (int i) => 'v$i').join('|')}|',
+      ].join('\n');
+
+      Future<void> pumpWideTable(
+        WidgetTester tester, {
+        double offsetAbove = 0,
+      }) {
+        return tester.pumpWidget(
+          MaterialApp(
+            theme: ThemeData(
+              scrollbarTheme: ScrollbarThemeData(
+                thumbColor: WidgetStateProperty.all(thumbColor),
+                radius: const Radius.circular(4),
+                thickness: WidgetStateProperty.all<double>(6),
+              ),
+            ),
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(padding: const EdgeInsets.only(bottom: 40)),
+              child: child!,
+            ),
+            home: Scaffold(
+              body: ListView(
+                // An explicit padding leaves the screen inset in MediaQuery
+                // for the table, as the chat's message list does.
+                padding: EdgeInsets.zero,
+                children: [
+                  SizedBox(height: offsetAbove),
+                  FluxerMarkdown(
+                    astParser: parseTestMarkdownAst,
+                    data: wideTable,
+                    config: _testMarkdownConfig,
+                    baseStyle: _baseStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      PaintPattern paintsThumbOnBottomEdge(WidgetTester tester) {
+        final double tableHeight = tester.getSize(find.byType(Table)).height;
+        return paints..something((Symbol method, List<dynamic> arguments) {
+          return method == #drawRRect &&
+              (arguments[1] as Paint).color.toARGB32() ==
+                  thumbColor.toARGB32() &&
+              ((arguments[0] as RRect).bottom - tableHeight).abs() < 1;
+        });
+      }
+
+      testWidgets(
+        'flashes a themed thumb on the table bottom edge, then fades it',
+        (tester) async {
+          await pumpWideTable(tester);
+          await tester.pumpAndSettle();
+
+          expect(find.byType(Scrollbar), paintsThumbOnBottomEdge(tester));
+
+          await tester.pump(const Duration(seconds: 1));
+          await tester.pumpAndSettle();
+
+          expect(
+            find.byType(Scrollbar),
+            isNot(paintsThumbOnBottomEdge(tester)),
+          );
+        },
+        variant: TargetPlatformVariant.only(TargetPlatform.android),
+      );
+
+      testWidgets(
+        'flashes the thumb when a table built off screen scrolls into view',
+        (tester) async {
+          // 700 is past the 600 tall test screen but inside the list's cache
+          // extent, so the table is built before it is visible, as in a chat.
+          await pumpWideTable(tester, offsetAbove: 700);
+          await tester.pump(const Duration(seconds: 1));
+          await tester.pumpAndSettle();
+          expect(find.byType(Table, skipOffstage: false), findsOneWidget);
+
+          final ScrollPosition list = tester
+              .state<ScrollableState>(find.byType(Scrollable).first)
+              .position;
+          list.jumpTo(list.maxScrollExtent);
+          await tester.pumpAndSettle();
+
+          expect(find.byType(Scrollbar), paintsThumbOnBottomEdge(tester));
+          await tester.pump(const Duration(seconds: 1));
+          await tester.pumpAndSettle();
+        },
+        variant: TargetPlatformVariant.only(TargetPlatform.android),
+      );
+
+      testWidgets(
+        'dragging on the thumb scrolls like the table, not like a thumb',
+        (tester) async {
+          await pumpWideTable(tester);
+          await tester.pumpAndSettle();
+          final Rect area = tester.getRect(find.byType(Scrollbar));
+
+          await tester.dragFrom(
+            area.bottomLeft + const Offset(20, -4),
+            const Offset(200, 0),
+          );
+          await tester.pumpAndSettle();
+
+          final ScrollableState scrollable = tester.state(
+            find.descendant(
+              of: find.byType(Scrollbar),
+              matching: find.byType(Scrollable),
+            ),
+          );
+          expect(scrollable.position.pixels, 0);
+        },
+        variant: TargetPlatformVariant.only(TargetPlatform.android),
+      );
+    });
+
     testWidgets('uses configured header and zebra row backgrounds', (
       tester,
     ) async {
@@ -330,7 +454,7 @@ void main() {
       final Container headerCell = tester.widget<Container>(
         _tableCellWithColor(_headerBackgroundColor).first,
       );
-      expect(headerCell.alignment, Alignment.topLeft);
+      expect(headerCell.alignment, AlignmentDirectional.topStart);
       expect(
         headerCell.padding,
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -361,7 +485,7 @@ void main() {
       final Container bodyCell = tester.widget<Container>(
         _tableCellWithColor(_rowOddBackgroundColor).first,
       );
-      expect(bodyCell.alignment, Alignment.centerLeft);
+      expect(bodyCell.alignment, AlignmentDirectional.centerStart);
     });
 
     testWidgets('table cell content respects padding inset', (tester) async {

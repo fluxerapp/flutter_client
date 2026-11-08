@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class SystemDmComposerBarrier extends ConsumerWidget {
   const SystemDmComposerBarrier({this.message, super.key});
@@ -36,7 +36,7 @@ class SystemDmComposerBarrier extends ConsumerWidget {
           child: Row(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsetsDirectional.only(end: 8),
                 child: PhosphorIcon(
                   PhosphorIconsFill.info,
                   size: 18,

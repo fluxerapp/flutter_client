@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_constants.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_settings_status_badge.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
@@ -23,8 +24,8 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 part 'fluxer_bottom_sheet_desktop.dart';
 
@@ -1943,6 +1944,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
   final bool? toggled;
   final Color? labelColor;
   final bool dense;
+  final Widget? labelBadge;
 
   const FluxerBottomSheetMenuItem({
     required this.label,
@@ -1959,6 +1961,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
     this.toggled,
     this.labelColor,
     this.dense = false,
+    this.labelBadge,
   });
 
   @override
@@ -2054,13 +2057,16 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          label,
-                          style: context.textStyles.username.copyWith(
-                            color: enabled ? baseColor : colors.textTertiary,
+                        FluxerLabelWithBadge(
+                          badge: labelBadge,
+                          label: Text(
+                            label,
+                            style: context.textStyles.username.copyWith(
+                              color: enabled ? baseColor : colors.textTertiary,
+                            ),
+                            maxLines: dense ? 1 : null,
+                            overflow: dense ? TextOverflow.ellipsis : null,
                           ),
-                          maxLines: dense ? 1 : null,
-                          overflow: dense ? TextOverflow.ellipsis : null,
                         ),
                         if (hint != null)
                           Text(

@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_message
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/pump_fluxer_app.dart';

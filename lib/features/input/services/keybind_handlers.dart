@@ -43,7 +43,6 @@ import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_prov
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -363,11 +362,38 @@ void registerKeybindHandlers({
       return true;
     })
     ..register(KeybindAction.voiceToggleMute, () async {
-      await ref.read(localVoiceStateProvider.notifier).toggleSelfMute();
+      await ref.read(voiceSessionProvider.notifier).toggleSelfMute();
       return true;
     })
     ..register(KeybindAction.voiceToggleDeafen, () async {
       await ref.read(voiceSessionProvider.notifier).toggleSelfDeafen();
+      return true;
+    })
+    ..register(KeybindAction.voiceToggleVideo, () async {
+      if (!ref.read(voiceSessionProvider).isConnected) {
+        return false;
+      }
+      await ref.read(voiceSessionProvider.notifier).toggleSelfVideo();
+      return true;
+    })
+    ..register(KeybindAction.voiceToggleScreenShare, () async {
+      if (!ref.read(voiceSessionProvider).isConnected) {
+        return false;
+      }
+      await ref
+          .read(voiceSessionProvider.notifier)
+          .toggleSelfStream(
+            screenShareNotificationText: ref
+                .read(appLocalizationsProvider)
+                .voiceScreenShareNotificationText,
+          );
+      return true;
+    })
+    ..register(KeybindAction.voiceDisconnect, () async {
+      if (!ref.read(voiceSessionProvider).isInVoice) {
+        return false;
+      }
+      await ref.read(voiceSessionProvider.notifier).leaveVoice();
       return true;
     })
     ..register(KeybindAction.voiceAnswerCall, () async {

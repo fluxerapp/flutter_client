@@ -179,7 +179,7 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
       environment: environmentName,
       deviceTokenHex: hex,
     );
-    if (!await ensurePushRelayConsent(ref, relayUrl)) {
+    if (!await ensurePushRelayConsent(ref, relayUrl, userId: userId)) {
       _logApnsWarning('sync aborted: push relay consent not granted');
       await _unregisterWithoutConsent(userId: userId, relayUrl: relayUrl);
       return;

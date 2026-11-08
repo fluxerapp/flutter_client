@@ -1,3 +1,5 @@
+import 'dart:ui' show TextDirection;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
@@ -77,6 +79,27 @@ void main() {
           max: 100,
         ),
         5,
+      );
+    });
+  });
+
+  group('logical reveal edges', () {
+    test('start and end follow the text direction', () {
+      expect(
+        horizontalRevealStartEdge(TextDirection.ltr),
+        HorizontalRevealEdge.left,
+      );
+      expect(
+        horizontalRevealStartEdge(TextDirection.rtl),
+        HorizontalRevealEdge.right,
+      );
+      expect(
+        horizontalRevealEndEdge(TextDirection.ltr),
+        HorizontalRevealEdge.right,
+      );
+      expect(
+        horizontalRevealEndEdge(TextDirection.rtl),
+        HorizontalRevealEdge.left,
       );
     });
   });

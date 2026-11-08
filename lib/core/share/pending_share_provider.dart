@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -14,10 +14,24 @@ part 'pending_share_provider.g.dart';
 
 bool isPendingShareReady({
   required bool isAuthenticated,
-  required bool isGatewayReady,
+  required bool isShellReady,
   required bool isConnectionFailed,
 }) {
-  return isAuthenticated && isGatewayReady && !isConnectionFailed;
+  return isAuthenticated && isShellReady && !isConnectionFailed;
+}
+
+/// On Android the plugin reports the link that opened the app as a `url`
+/// share. The deep link handler owns those, so only real shares remain.
+List<SharedMediaFile> withoutLaunchLinks(
+  List<SharedMediaFile> files, {
+  required bool isAndroid,
+}) {
+  if (!isAndroid) {
+    return files;
+  }
+  return files
+      .where((SharedMediaFile file) => file.type != SharedMediaType.url)
+      .toList(growable: false);
 }
 
 @Riverpod(keepAlive: true)
@@ -33,7 +47,7 @@ class PendingShare extends _$PendingShare {
     unawaited(_listenToMedia());
 
     ref
-      ..listen<bool>(gatewayReadyProvider, (_, bool next) {
+      ..listen<bool>(shellDataReadyProvider, (_, bool next) {
         if (next) {
           flushIfReady();
         }
@@ -76,7 +90,11 @@ class PendingShare extends _$PendingShare {
     });
   }
 
-  void _handleMedia(List<SharedMediaFile> files) {
+  void _handleMedia(List<SharedMediaFile> received) {
+    final List<SharedMediaFile> files = withoutLaunchLinks(
+      received,
+      isAndroid: Platform.isAndroid,
+    );
     if (files.isEmpty) {
       return;
     }
@@ -107,7 +125,7 @@ class PendingShare extends _$PendingShare {
     }
     if (!isPendingShareReady(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     )) {
       return;

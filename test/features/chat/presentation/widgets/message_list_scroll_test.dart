@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_scroll_position.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/unread_dividers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -39,6 +40,35 @@ import 'messages/message_list_test_harness.dart';
 
 void main() {
   group('unread center open path', () {
+    testWidgets('NEW between grouped messages sits in the gap between them', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final AroundAckMessageListHarness harness =
+          await createAroundAckMessageListHarness(ackIndex: 42);
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+      await tester.pump();
+
+      final Rect separator = tester.getRect(find.byType(UnreadSeparator));
+      final Rect lastRead = tester.getRect(messageItemFor(harness.ackId));
+      final Rect firstUnread = tester.getRect(
+        messageItemFor(harness.firstUnreadId),
+      );
+      expect(separator.top, greaterThanOrEqualTo(lastRead.bottom - 0.5));
+      expect(separator.bottom, lessThanOrEqualTo(firstUnread.top + 0.5));
+
+      await disposeMessageList(tester);
+    });
+
     testWidgets(
       'first frame centers the NEW divider and keeps read messages chronological',
       (WidgetTester tester) async {

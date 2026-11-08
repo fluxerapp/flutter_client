@@ -12,11 +12,12 @@ import 'package:fluxer_app/features/chat/utils/messages/message_action_permissio
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kMenuWidth = 220.0;
 
@@ -139,7 +140,12 @@ class _ContextMenuPage extends ConsumerWidget {
     final items = _buildItems(context, ref);
     final estimatedHeight = _estimateHeight(items);
 
-    final opensLeft = position.dx + _kMenuWidth > overlaySize.width - 8;
+    final opensLeft = contextMenuOpensLeft(
+      context,
+      anchorX: position.dx,
+      menuWidth: _kMenuWidth,
+      overlayWidth: overlaySize.width,
+    );
     final opensUp = position.dy + estimatedHeight > overlaySize.height - 8;
 
     var left = opensLeft ? position.dx - _kMenuWidth : position.dx;

@@ -6,7 +6,7 @@ MatureAccess resolveMatureAccess({
   required bool serverAllowsMature,
   required bool deviceDeclaredMinor,
   required MatureGeoStatus geo,
-  required bool ageVerifiedAdult,
+  required bool matureContentUnlocked,
   required bool appStorePolicy,
   required bool iosOptIn,
 }) {
@@ -16,7 +16,7 @@ MatureAccess resolveMatureAccess({
   if (geo == MatureGeoStatus.blocked) {
     return MatureAccess.regionLocked;
   }
-  if (geo == MatureGeoStatus.restricted && !ageVerifiedAdult) {
+  if (geo == MatureGeoStatus.restricted && !matureContentUnlocked) {
     return MatureAccess.regionLocked;
   }
   if (appStorePolicy && !iosOptIn) {

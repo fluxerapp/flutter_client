@@ -136,7 +136,13 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     return CustomSingleChildLayout(
       delegate: _FluxerTooltipPositionDelegate(
         target: target,
-        position: widget.position,
+        position: switch ((widget.position, Directionality.of(context))) {
+          (FluxerTooltipPosition.left, TextDirection.rtl) =>
+            FluxerTooltipPosition.right,
+          (FluxerTooltipPosition.right, TextDirection.rtl) =>
+            FluxerTooltipPosition.left,
+          (final FluxerTooltipPosition position, _) => position,
+        },
         gap: _tooltipGap,
         padding: safePadding + const EdgeInsets.all(_screenInset),
       ),

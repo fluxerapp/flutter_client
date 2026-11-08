@@ -26,13 +26,13 @@ final class PushMediaInstanceUrls {
   }
 }
 
-Future<PushMediaInstanceUrls> loadPushMediaInstanceUrls(
+Future<PushMediaInstanceUrls> readPushMediaInstanceUrls(
+  FluxerDatabase database,
   String? targetUserId,
 ) async {
   if (targetUserId == null || targetUserId.isEmpty) {
     return PushMediaInstanceUrls.official();
   }
-  final FluxerDatabase database = FluxerDatabase();
   try {
     final String? json = await database.authSessionDao.getInstanceSnapshotJson(
       targetUserId,
@@ -45,7 +45,5 @@ Future<PushMediaInstanceUrls> loadPushMediaInstanceUrls(
     );
   } on Object {
     return PushMediaInstanceUrls.official();
-  } finally {
-    await database.close();
   }
 }

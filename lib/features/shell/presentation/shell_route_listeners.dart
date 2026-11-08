@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/age/app_attest_age_service.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
@@ -44,9 +43,14 @@ import 'package:fluxer_app/features/members/providers/member_list_viewport_provi
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
+import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
+import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ShellRouteListeners extends ConsumerStatefulWidget {
@@ -167,6 +171,20 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           _schedulePushRelayConsentPrompt();
         });
       }, fireImmediately: true);
+      ref.listenManual<bool>(isActiveInstanceOfficialProvider, (
+        bool? previous,
+        bool next,
+      ) {
+        if (next || !ref.read(pushRelayConsentPromptProvider)) {
+          return;
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          _schedulePushRelayConsentPrompt();
+        });
+      });
     }
 
     if (observabilityReportingPromptIsMobilePlatform()) {
@@ -281,29 +299,65 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       });
       return;
     }
-    if (!ref
+    final Set<String>? userIds = ref
         .read(pushRelayConsentPromptProvider.notifier)
-        .beginPresentation()) {
+        .beginPresentation();
+    if (userIds == null) {
       return;
     }
-    unawaited(_presentPushRelayConsent(rootContext));
+    unawaited(_presentPushRelayConsent(rootContext, userIds));
   }
 
-  Future<void> _presentPushRelayConsent(BuildContext rootContext) async {
+  Future<void> _presentPushRelayConsent(
+    BuildContext rootContext,
+    Set<String> userIds,
+  ) async {
     final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
+    final PushRelayConsent consent = ref.read(
+      pushRelayConsentProvider.notifier,
+    );
+    final Toast toasts = ref.read(toastProvider.notifier);
     try {
       final bool? agreed = await showPushRelayConsentSheet(rootContext);
-      if (!mounted) {
-        return;
-      }
       await recordPushRelayConsentSheetResult(
-        consent: ref.read(pushRelayConsentProvider.notifier),
+        consent: consent,
         agreed: agreed,
+        userIds: userIds,
       );
+      if (agreed == false && mounted) {
+        _showPushRelayDeclinedToast(toasts);
+      }
     } finally {
       promptNotifier.endPresentation();
       _scheduleDeferredObservabilityReportingConsent();
     }
+  }
+
+  void _showPushRelayDeclinedToast(Toast toasts) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    toasts.show(
+      FluxerToast(
+        message: l10n.pushRelayConsentDeclinedToast(
+          l10n.notificationsPushRelayConsentLabel,
+        ),
+        action: FluxerToastAction(
+          label: l10n.pushRelayConsentDeclinedToastAction,
+          onPressed: () {
+            final BuildContext? rootContext = rootNavigatorKey.currentContext;
+            if (rootContext == null || !rootContext.mounted) {
+              return;
+            }
+            unawaited(
+              UserSettingsModal.show(
+                rootContext,
+                initialSection: UserSettingsSection.notifications,
+                initialFieldId: 'push-relay',
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   bool _isPushRelayConsentPresentationInFlight() {
@@ -556,8 +610,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   Widget build(BuildContext context) {
     ref
       ..watch(pushNotificationsCoordinatorProvider)
-      ..watch(appIconBadgeCoordinatorProvider)
-      ..watch(appAttestAgeServiceProvider);
+      ..watch(appIconBadgeCoordinatorProvider);
     if (defaultTargetPlatform == TargetPlatform.iOS &&
         ref.watch(premiumStorePurchasesEnabledProvider)) {
       ref.listen(premiumStoreProvider, (_, _) {});

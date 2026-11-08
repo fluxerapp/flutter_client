@@ -285,6 +285,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
+  String nagbarGuildMfaRequirement(String communityName) {
+    return 'Moderation actions in $communityName require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.';
+  }
+
+  @override
   String nagbarJoinCommunity(String communityName) {
     return 'انضم إلى $communityName';
   }
@@ -4530,6 +4535,40 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'الفئة العمرية التي يشاركها Apple Account الخاص بك أقل من 13 عامًا. Fluxer مخصص فقط للأشخاص الذين تبلغ أعمارهم 13 عامًا فأكثر.';
 
   @override
+  String get ageRangeUnderMinimumBodyGoogle =>
+      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
+
+  @override
+  String get ageRangeUnlockBody =>
+      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+
+  @override
+  String get ageRangeUnlockBodyGoogle =>
+      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+
+  @override
+  String get ageRangeUnlockHelpLink => 'How unlocking mature content works';
+
+  @override
+  String get ageRangeUnlockButton => 'Unlock mature content';
+
+  @override
+  String get ageRangeUnlockUnderAdult =>
+      'Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+
+  @override
+  String get ageRangeUnlockUnderAdultGoogle =>
+      'Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+
+  @override
+  String get ageRangeUnlockFailed =>
+      'Fluxer couldn\'t unlock mature content. Please try again later.';
+
+  @override
+  String get ageRangeUnlockDateOfBirthRequired =>
+      'Your account needs a date of birth before Fluxer can use your age range.';
+
+  @override
   String get matureContentProceedButton => 'متابعة';
 
   @override
@@ -4565,6 +4604,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get sensitiveContentAppLockedHint =>
       'لاختيار «إظهار» هنا، افتح Fluxer على الويب أو على سطح المكتب، وانتقل إلى «الخصوصية» في إعداداتك وفعّل «السماح بمحتوى 18+ على iPhone وiPad».';
+
+  @override
+  String get sensitiveContentInstallFromPlayHint =>
+      'Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.';
+
+  @override
+  String get sensitiveContentFinishInPlayHint =>
+      'Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6183,6 +6230,105 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get voiceCallControlsSheetLabel => 'عناصر التحكم في المكالمة الصوتية';
 
   @override
+  String get voiceCallBarOpenCallHint => 'Opens the call';
+
+  @override
+  String get voiceParticipantSpeaking => 'Speaking';
+
+  @override
+  String get voiceParticipantOptionsAction => 'Participant options';
+
+  @override
+  String voiceParticipantOtherDevicesLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count more devices',
+      one: 'Show 1 more device',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voicePipReturnToCallLabel => 'Return to call';
+
+  @override
+  String voiceAnnounceUserJoined(String name) {
+    return '$name joined';
+  }
+
+  @override
+  String voiceAnnounceUserLeft(String name) {
+    return '$name left';
+  }
+
+  @override
+  String voiceAnnounceUsersJoined(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people joined',
+      one: '1 person joined',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String voiceAnnounceUsersLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people left',
+      one: '1 person left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceAnnounceSomeone => 'Someone';
+
+  @override
+  String get voiceAnnounceConnected => 'Connected to voice';
+
+  @override
+  String get voiceAnnounceReconnecting => 'Reconnecting to voice';
+
+  @override
+  String get voiceAnnounceReconnected => 'Reconnected to voice';
+
+  @override
+  String get voiceAnnounceDisconnected => 'Disconnected from voice';
+
+  @override
+  String get voiceAnnounceMoved => 'Now in a different voice channel';
+
+  @override
+  String get voiceAnnounceServerMuted => 'A moderator muted you';
+
+  @override
+  String get voiceAnnounceServerUnmuted => 'A moderator unmuted you';
+
+  @override
+  String get voiceAnnounceServerDeafened => 'A moderator deafened you';
+
+  @override
+  String get voiceAnnounceServerUndeafened => 'A moderator undeafened you';
+
+  @override
+  String get voiceAnnounceMicMuted => 'Microphone muted';
+
+  @override
+  String get voiceAnnounceMicUnmuted => 'Microphone unmuted';
+
+  @override
+  String get accessibilityAnnounceCallJoinsAndLeavesLabel =>
+      'Announce call joins and leaves';
+
+  @override
+  String get accessibilityAnnounceCallJoinsAndLeavesDescription =>
+      'Let screen readers say who joins or leaves the voice call you\'re in. Connection changes and moderator actions are always announced.';
+
+  @override
   String get voiceConnectionDisconnected => 'غير متصل';
 
   @override
@@ -6326,6 +6472,18 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get voiceOutputRouteHeadset => 'سماعات الرأس';
+
+  @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
+  String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
+
+  @override
+  String get voiceOutputRouteHearingAid => 'Hearing aid';
+
+  @override
+  String get voiceOutputRouteUsb => 'USB headset';
 
   @override
   String get voiceChangeAudioOutputLabel => 'تغيير مخرج الصوت';
@@ -10738,6 +10896,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get pushRelayConsentDecline => 'ليس الآن';
+
+  @override
+  String pushRelayConsentDeclinedToast(String settingLabel) {
+    return 'Push notifications stay off for this account on this device. You can turn them on later with \"$settingLabel\" in notification settings.';
+  }
+
+  @override
+  String get pushRelayConsentDeclinedToastAction => 'Open settings';
 
   @override
   String get userSettingsNavLanguageAndTime => 'اللغة والوقت';
@@ -16267,6 +16433,21 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get errorUnexpectedTryAgain =>
       'حدث خطأ غير متوقع. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errorTwoFactorRequiredTitle =>
+      'Two-factor authentication required';
+
+  @override
+  String get errorTwoFactorRequiredMessage =>
+      'This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.';
+
+  @override
+  String get errorTwoFactorRequiredSetUp => 'Set up 2FA';
+
+  @override
+  String get memberRolesUpdateFailed =>
+      'Couldn\'t update this member\'s roles. Try again.';
 
   @override
   String get errorMessagingPausedTitle => 'إرسال الرسائل متوقف مؤقتًا';

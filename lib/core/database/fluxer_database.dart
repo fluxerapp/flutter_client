@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 108;
+  int get schemaVersion => 109;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1682,6 +1682,17 @@ class FluxerDatabase extends _$FluxerDatabase {
             columnName: authSessions.email.name,
           )) {
         await m.addColumn(authSessions, authSessions.email);
+      }
+      if (from < 109 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'user_preferences',
+            columnName: userPreferencesTable.announceCallJoinsAndLeaves.name,
+          )) {
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.announceCallJoinsAndLeaves,
+        );
       }
     },
   );

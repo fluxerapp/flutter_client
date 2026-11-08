@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -54,6 +55,7 @@ enum ApiErrorAction {
   updateSticker,
   deleteSticker,
   timeoutMember,
+  updateMemberRoles,
   removeTimeout,
   kickMember,
   banMember,
@@ -95,6 +97,7 @@ final class ApiErrorToast extends ApiErrorPresentation {
 }
 
 const String _sudoModeRequiredCode = 'SUDO_MODE_REQUIRED';
+const String _twoFactorRequiredCode = 'TWO_FACTOR_REQUIRED';
 
 typedef _ErrorCopy = ({String title, String body});
 
@@ -362,6 +365,10 @@ _ErrorCopy _copyFor(
     ApiErrorAction.removeTimeout => (
       title: l10n.errorSomethingWentWrongTitle,
       body: l10n.moderationRemoveTimeoutFailed,
+    ),
+    ApiErrorAction.updateMemberRoles => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.memberRolesUpdateFailed),
     ),
     ApiErrorAction.kickMember => (
       title: l10n.errorSomethingWentWrongTitle,
@@ -794,7 +801,12 @@ Future<void> showApiError(
   Object error, {
   ApiErrorDetails details = const ApiErrorDetails(),
 }) async {
-  if (ApiException.from(error).code == _sudoModeRequiredCode) {
+  final String? code = ApiException.from(error).code;
+  if (code == _sudoModeRequiredCode) {
+    return;
+  }
+  if (code == _twoFactorRequiredCode) {
+    await showTwoFactorRequiredDialog(context);
     return;
   }
   final ApiErrorPresentation presentation = presentApiErrorFrom(
@@ -820,6 +832,31 @@ Future<void> showApiError(
             ),
           );
   }
+}
+
+Future<void> showTwoFactorRequiredDialog(BuildContext context) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final bool? openSettings = await FluxerModal.show<bool>(
+    context,
+    title: l10n.errorTwoFactorRequiredTitle,
+    centered: true,
+    useRootNavigator: true,
+    builder: (BuildContext dialogContext, VoidCallback close) => Text(
+      l10n.errorTwoFactorRequiredMessage,
+      style: dialogContext.textStyles.bodySmall.copyWith(height: 1.4),
+    ),
+    actionsBuilder: (pop) => [
+      FluxerButton.secondary(onPressed: pop, label: l10n.uiClose),
+      FluxerButton.primary(
+        onPressed: () => pop(true),
+        label: l10n.errorTwoFactorRequiredSetUp,
+      ),
+    ],
+  );
+  if (openSettings != true || !context.mounted) {
+    return;
+  }
+  await UserSettingsModal.show(context, openSecuritySection: true);
 }
 
 Future<void> showErrorDialog(

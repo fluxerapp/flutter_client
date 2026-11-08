@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
   FluxerLocalizations l10n,
@@ -75,7 +75,9 @@ class GuildSettingsDesktopSidebar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: sidebarBackground,
-        border: Border(right: BorderSide(color: context.colors.borderColor)),
+        border: BorderDirectional(
+          end: BorderSide(color: context.colors.borderColor),
+        ),
       ),
       child: SizedBox(
         width: kWideSettingsSidebarWidth,

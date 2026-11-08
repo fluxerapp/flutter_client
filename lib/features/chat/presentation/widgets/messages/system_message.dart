@@ -21,10 +21,10 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/utils/connection/connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Color _kSystemMessageOnlineIconColor = Color(0xFF22C55E);
 const Color _kSystemMessageRemoveIconColor = Color(0xFFEF4444);
@@ -205,7 +205,7 @@ class SystemMessage extends ConsumerWidget {
                 SizedBox(
                   width: timestampColumnWidth,
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       compactTime,
                       style: compactTimestampStyle,
@@ -316,8 +316,8 @@ class SystemMessage extends ConsumerWidget {
             ),
             if (showReactions)
               Padding(
-                padding: const EdgeInsets.only(
-                  left: kMessageAvatarColumnWidth,
+                padding: const EdgeInsetsDirectional.only(
+                  start: kMessageAvatarColumnWidth,
                   top: 4,
                 ),
                 child: MessageReactionsBar(

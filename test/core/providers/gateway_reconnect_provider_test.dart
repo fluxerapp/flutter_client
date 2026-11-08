@@ -427,7 +427,7 @@ void main() {
       expect(
         isPendingNavigationReady(
           isAuthenticated: false,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: false,
         ),
         isFalse,
@@ -435,7 +435,7 @@ void main() {
       expect(
         isPendingNavigationReady(
           isAuthenticated: true,
-          isGatewayReady: false,
+          isShellReady: false,
           isConnectionFailed: false,
         ),
         isFalse,
@@ -443,7 +443,7 @@ void main() {
       expect(
         isPendingNavigationReady(
           isAuthenticated: true,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: true,
         ),
         isFalse,
@@ -451,7 +451,7 @@ void main() {
       expect(
         isPendingNavigationReady(
           isAuthenticated: true,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: false,
         ),
         isTrue,

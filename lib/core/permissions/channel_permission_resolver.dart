@@ -101,6 +101,7 @@ int evaluateChannelEffectivePermissionBits({
   required List<MemberRole> memberRoles,
   required bool memberRecordPresent,
   required List<String?> overwriteJsonLayersRootToLeaf,
+  bool guildMfaRestricted = false,
 }) {
   return evaluateChannelPermissionBitsWithOverwrites(
     guildOwnerId: guildOwnerId,
@@ -112,6 +113,7 @@ int evaluateChannelEffectivePermissionBits({
     overwriteLayersRootToLeaf: overwriteJsonLayersRootToLeaf.nonNulls.map(
       parseChannelPermissionOverwritesJson,
     ),
+    guildMfaRestricted: guildMfaRestricted,
   );
 }
 
@@ -123,6 +125,7 @@ int evaluateChannelPermissionBitsWithOverwrites({
   required List<MemberRole> memberRoles,
   required bool memberRecordPresent,
   required Iterable<List<ChannelOverwriteEntry>> overwriteLayersRootToLeaf,
+  bool guildMfaRestricted = false,
 }) {
   if (currentUserId == guildOwnerId) {
     return allPermissions;
@@ -132,7 +135,10 @@ int evaluateChannelPermissionBitsWithOverwrites({
     baseInt |= r.permissions;
   }
   if ((baseInt & Permission.administrator.value) != 0) {
-    return allPermissions;
+    return applyGuildMfaRestriction(
+      allPermissions,
+      restricted: guildMfaRestricted,
+    );
   }
   final Set<String> memberRoleIds = <String>{
     for (final MemberRole r in memberRoles) r.id,
@@ -148,5 +154,8 @@ int evaluateChannelPermissionBitsWithOverwrites({
       memberRecordPresent: memberRecordPresent,
     );
   }
-  return (mask & _channelPermissionMask).toInt();
+  return applyGuildMfaRestriction(
+    (mask & _channelPermissionMask).toInt(),
+    restricted: guildMfaRestricted,
+  );
 }

@@ -48,6 +48,7 @@
 
     <!-- Without a category, Xiaomi Game Turbo treats the app as a game and caps it at 60 Hz (flutter/flutter#192600). -->
     <application
+        android:supportsRtl="true"
         android:name=".FluxerApplication"
         android:allowBackup="false"
         android:label="${appLabel}"
@@ -87,9 +88,16 @@
                 <data android:scheme="fluxer" android:host="invite" />
                 <data android:scheme="fluxer" android:host="gift" />
                 <data android:scheme="fluxer" android:host="users" />
-                <data android:scheme="fluxer" android:host="settings" android:pathPrefix="/user" />
                 <data android:scheme="fluxer" android:host="notifications" />
                 <data android:scheme="fluxer" android:host="you" />
+            </intent-filter>
+            <!-- Separate filter: Android merges every data element in a filter,
+                 so this pathPrefix would also apply to the hosts above. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="fluxer" android:host="settings" android:pathPrefix="/user" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

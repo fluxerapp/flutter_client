@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
   const ChatVideoPlaybackFailureOverlay({
@@ -71,9 +71,9 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   Center(child: content),
-                  Positioned(
+                  PositionedDirectional(
                     top: 4,
-                    left: 8,
+                    start: 8,
                     child: IconButton(
                       onPressed: onClose,
                       style: IconButton.styleFrom(
@@ -89,9 +89,9 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
                     ),
                   ),
                   if (onOpenOptions != null)
-                    Positioned(
+                    PositionedDirectional(
                       top: 4,
-                      right: 8,
+                      end: 8,
                       child: IconButton(
                         onPressed: onOpenOptions,
                         style: IconButton.styleFrom(

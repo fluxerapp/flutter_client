@@ -49,6 +49,73 @@ void main() {
       );
     }
 
+    for (final (String name, bool owned) in <(String, bool)>[
+      ('diffs against a cache the user owns', true),
+      ('wipes a cache the user does not own', false),
+    ]) {
+      test('first READY of a process $name', () async {
+        final database = openTestDatabase();
+        await database.guildDao.upsertServer(
+          ServersCompanion.insert(id: '200', name: 'Kept Guild'),
+        );
+        await database.guildDao.upsertServer(
+          ServersCompanion.insert(id: 'left', name: 'Left Guild'),
+        );
+        await database.userDao.upsertUser(
+          UsersCompanion.insert(id: 'cached-user', username: 'cached'),
+        );
+        final List<String> ownerChecks = <String>[];
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          isCacheOwnedBy: (String userId) async {
+            ownerChecks.add(userId);
+            return owned;
+          },
+        );
+
+        await sendReady(handler, rawGuilds: [_guildRaw(id: '200')]);
+
+        expect(ownerChecks, <String>['100']);
+        expect(await database.guildDao.getServerById('200'), isNotNull);
+        expect(await database.guildDao.getServerById('left'), isNull);
+        expect(
+          await database.userDao.getUserById('cached-user'),
+          owned ? isNotNull : isNull,
+        );
+
+        await sendReady(
+          handler,
+          rawGuilds: [_guildRaw(id: '200')],
+          sessionId: 'session-2',
+        );
+        expect(ownerChecks, hasLength(1));
+      });
+    }
+
+    test(
+      'a cached READY with no guilds drops the guild the user left',
+      () async {
+        final database = openTestDatabase();
+        await database.guildDao.upsertServer(
+          ServersCompanion.insert(id: 'left', name: 'Left Guild'),
+        );
+        await database.channelDao.upsertChannel(
+          ChannelsCompanion.insert(id: 'left-chan', guildId: 'left', name: 'x'),
+        );
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          isCacheOwnedBy: (String userId) async => true,
+        );
+
+        await sendReady(handler);
+
+        expect(await database.guildDao.getServerById('left'), isNull);
+        expect(await database.channelDao.getChannelById('left-chan'), isNull);
+      },
+    );
+
     test('incremental READY prunes guilds missing from payload', () async {
       final ctx = await buildHandler();
       await sendReady(ctx.handler, rawGuilds: [_guildRaw(id: '200')]);

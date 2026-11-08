@@ -14,8 +14,8 @@ import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.da
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 typedef FluxerActionMenuBuilder =
     List<Widget> Function(BuildContext context, VoidCallback close);

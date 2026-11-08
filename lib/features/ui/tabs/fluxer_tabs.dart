@@ -87,8 +87,8 @@ class _FluxerTabItem extends StatelessWidget {
           curve: motion.curve,
           decoration: BoxDecoration(
             border: isVertical
-                ? Border(
-                    left: BorderSide(
+                ? BorderDirectional(
+                    start: BorderSide(
                       color: isSelected
                           ? colors.brandPrimaryLight
                           : Colors.transparent,

@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceChannelParticipantsList extends ConsumerWidget {
   const VoiceChannelParticipantsList({
@@ -34,7 +34,7 @@ class VoiceChannelParticipantsList extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     return Padding(
-      padding: const EdgeInsets.only(left: 24),
+      padding: const EdgeInsetsDirectional.only(start: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -187,7 +187,7 @@ class _VoiceParticipantStatusIcons extends StatelessWidget {
       children: <Widget>[
         if (selfVideo)
           Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: const EdgeInsetsDirectional.only(end: 4),
             child: PhosphorIcon(
               PhosphorIconsFill.videoCamera,
               size: 14,
@@ -196,7 +196,7 @@ class _VoiceParticipantStatusIcons extends StatelessWidget {
           ),
         if (showMic)
           Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: const EdgeInsetsDirectional.only(end: 4),
             child: PhosphorIcon(
               PhosphorIconsFill.microphoneSlash,
               size: 14,
@@ -207,7 +207,7 @@ class _VoiceParticipantStatusIcons extends StatelessWidget {
           ),
         if (showDeaf)
           Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: const EdgeInsetsDirectional.only(end: 4),
             child: PhosphorIcon(
               PhosphorIconsFill.speakerSlash,
               size: 14,

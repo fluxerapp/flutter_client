@@ -74,6 +74,9 @@ const Map<KeybindSection, List<KeybindAction>> kShortcutSectionDisplayOrder =
       KeybindSection.voiceAndVideo: <KeybindAction>[
         KeybindAction.voiceToggleMute,
         KeybindAction.voiceToggleDeafen,
+        KeybindAction.voiceToggleVideo,
+        KeybindAction.voiceToggleScreenShare,
+        KeybindAction.voiceDisconnect,
         KeybindAction.voiceToggleSoundboard,
         KeybindAction.voiceStartDmCall,
         KeybindAction.voiceAnswerCall,

@@ -49,7 +49,12 @@ void main() {
         .any(
           (padding) =>
               padding.padding ==
-              const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
+              const EdgeInsetsDirectional.only(
+                start: 20,
+                end: 20,
+                top: 12,
+                bottom: 12,
+              ),
         );
 
     expect(hasSymmetricPadding, isTrue);

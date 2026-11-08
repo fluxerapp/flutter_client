@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 export 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
 
@@ -116,7 +116,7 @@ class ExpressionSectionHeader extends StatelessWidget {
           0,
         ),
         child: Align(
-          alignment: Alignment.topLeft,
+          alignment: AlignmentDirectional.topStart,
           child: Text(
             label,
             maxLines: 1,

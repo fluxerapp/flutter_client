@@ -32,9 +32,9 @@ import 'package:fluxer_app/features/settings/providers/preferences/chat_preferen
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ForwardedMessageContent extends ConsumerWidget {
   const ForwardedMessageContent({
@@ -438,7 +438,7 @@ class _ForwardedSourceButtonState
     return ChatSurfaceTheme(
       builder: (BuildContext context) {
         return Align(
-          alignment: Alignment.centerLeft,
+          alignment: AlignmentDirectional.centerStart,
           child: Material(
             color: context.colors.backgroundSecondary,
             borderRadius: BorderRadius.circular(6),

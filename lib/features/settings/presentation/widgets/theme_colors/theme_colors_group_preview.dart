@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class ThemeColorsGroupPreview extends StatelessWidget {
   const ThemeColorsGroupPreview({required this.groupId, super.key});
@@ -255,8 +255,8 @@ class _EmbedPreview extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: colors.embedBackground,
-              border: Border(
-                left: BorderSide(color: colors.embedBorder, width: 4),
+              border: BorderDirectional(
+                start: BorderSide(color: colors.embedBorder, width: 4),
               ),
               borderRadius: BorderRadius.circular(4),
             ),
@@ -441,7 +441,7 @@ class _ToastStyleRow extends StatelessWidget {
     final textStyles = context.textStyles;
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: layout.s3,

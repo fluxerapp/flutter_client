@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_comp
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class SlashCommandParamBar extends StatelessWidget {
   const SlashCommandParamBar({
@@ -31,7 +31,7 @@ class SlashCommandParamBar extends StatelessWidget {
     )!;
     final Color muted = context.colors.textPrimaryMuted;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
+      padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 6, 0),
       child: SizedBox(
         height: WideComposerLayout.actionRowMinHeight,
         child: Row(

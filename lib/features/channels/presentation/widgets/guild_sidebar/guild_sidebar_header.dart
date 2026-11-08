@@ -169,7 +169,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
                 guild!.isDiscoverable ||
                 guild!.badgeIds.isNotEmpty))
           Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: const EdgeInsetsDirectional.only(end: 4),
             child: FluxerGuildBadge(
               features: guild!.features,
               badgeIds: guild!.badgeIds,

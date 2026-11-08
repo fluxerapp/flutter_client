@@ -305,7 +305,7 @@ class _SlashSlotField extends StatelessWidget {
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: prefixBg,
-                  border: Border(right: BorderSide(color: border)),
+                  border: BorderDirectional(end: BorderSide(color: border)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 7),

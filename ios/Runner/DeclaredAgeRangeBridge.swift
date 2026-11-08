@@ -17,6 +17,10 @@ final class DeclaredAgeRangeBridge {
     )
     channel.setMethodCallHandler { call, result in
       switch call.method {
+      case "requirement":
+        Task { @MainActor in
+          result(await Self.requirement())
+        }
       case "request":
         Task { @MainActor in
           result(await Self.request())
@@ -29,14 +33,33 @@ final class DeclaredAgeRangeBridge {
   }
 
   @MainActor
+  private static func requirement() async -> [String: Bool] {
+    guard #available(iOS 26.2, *) else {
+      return ["available": false, "required": false]
+    }
+    return ["available": true, "required": await isRequired()]
+  }
+
+  @available(iOS 26.2, *)
+  @MainActor
+  private static func isRequired() async -> Bool {
+    do {
+      if #available(iOS 26.4, *) {
+        return try await AgeRangeService.shared.requiredRegulatoryFeatures
+          .contains(.declaredAgeRangeRequired)
+      }
+      return try await AgeRangeService.shared.isEligibleForAgeFeatures
+    } catch {
+      return false
+    }
+  }
+
+  @MainActor
   private static func request() async -> [String: Any] {
     guard #available(iOS 26.2, *) else {
       return ["status": "unavailable"]
     }
     do {
-      guard try await AgeRangeService.shared.isEligibleForAgeFeatures else {
-        return ["status": "ineligible"]
-      }
       guard let presenter = topViewController() else {
         return ["status": "unavailable"]
       }

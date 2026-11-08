@@ -128,7 +128,7 @@ class WideSettingsContentLayout extends StatelessWidget {
         kSettingsScrollBottomPadding,
       ),
       child: Align(
-        alignment: Alignment.topLeft,
+        alignment: AlignmentDirectional.topStart,
         child: ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: wideSettingsContentMaxWidth(context),

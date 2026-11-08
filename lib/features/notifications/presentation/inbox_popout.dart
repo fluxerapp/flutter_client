@@ -19,7 +19,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 enum InboxTab { unreads, bookmarks, mentions }
 
@@ -147,16 +147,28 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
           child: CompositedTransformFollower(
             link: _layerLink,
             targetAnchor: _openUpward
-                ? Alignment.topRight
-                : Alignment.bottomRight,
+                ? AlignmentDirectional.topEnd.resolve(
+                    Directionality.of(context),
+                  )
+                : AlignmentDirectional.bottomEnd.resolve(
+                    Directionality.of(context),
+                  ),
             followerAnchor: _openUpward
-                ? Alignment.bottomRight
-                : Alignment.topRight,
+                ? AlignmentDirectional.bottomEnd.resolve(
+                    Directionality.of(context),
+                  )
+                : AlignmentDirectional.topEnd.resolve(
+                    Directionality.of(context),
+                  ),
             offset: Offset(0, _openUpward ? -4 : 4),
             child: Align(
               alignment: _openUpward
-                  ? Alignment.bottomRight
-                  : Alignment.topRight,
+                  ? AlignmentDirectional.bottomEnd.resolve(
+                      Directionality.of(context),
+                    )
+                  : AlignmentDirectional.topEnd.resolve(
+                      Directionality.of(context),
+                    ),
               child: SizedBox(
                 width: width,
                 height: height,
@@ -267,8 +279,8 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
         DecoratedBox(
           decoration: BoxDecoration(
             color: colors.backgroundSecondary,
-            border: Border(
-              right: BorderSide(color: colors.backgroundModifierAccent),
+            border: BorderDirectional(
+              end: BorderSide(color: colors.backgroundModifierAccent),
             ),
           ),
           child: SizedBox(

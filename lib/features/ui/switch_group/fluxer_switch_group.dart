@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
+import 'package:fluxer_app/features/ui/badge/fluxer_settings_status_badge.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -24,6 +25,7 @@ class FluxerSwitchGroupItem extends StatelessWidget {
     required this.onChanged,
     this.description,
     this.enabled = true,
+    this.labelBadge,
     super.key,
   });
 
@@ -32,10 +34,12 @@ class FluxerSwitchGroupItem extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
   final bool enabled;
+  final Widget? labelBadge;
 
   @override
   Widget build(BuildContext context) => FluxerBottomSheetMenuItem(
     label: label,
+    labelBadge: labelBadge,
     hint: description,
     enabled: enabled,
     toggled: value,
@@ -72,6 +76,7 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
     required this.onChanged,
     this.description,
     this.enabled = true,
+    this.labelBadge,
     super.key,
   }) : grouped = false;
 
@@ -81,6 +86,7 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
     required this.onChanged,
     this.description,
     this.enabled = true,
+    this.labelBadge,
     super.key,
   }) : grouped = true;
 
@@ -90,6 +96,7 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
   final ValueChanged<bool> onChanged;
   final bool enabled;
   final bool grouped;
+  final Widget? labelBadge;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +109,7 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
           value: value,
           onChanged: onChanged,
           enabled: enabled,
+          labelBadge: labelBadge,
         ),
       );
     }
@@ -140,14 +148,17 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      label,
-                      style: textStyles.bodySmall.copyWith(
-                        color: enabled
-                            ? colors.textPrimary
-                            : colors.textTertiary,
-                        fontWeight: FontWeight.w500,
-                        height: 1.4,
+                    FluxerLabelWithBadge(
+                      badge: labelBadge,
+                      label: Text(
+                        label,
+                        style: textStyles.bodySmall.copyWith(
+                          color: enabled
+                              ? colors.textPrimary
+                              : colors.textTertiary,
+                          fontWeight: FontWeight.w500,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                     if (description != null) ...[

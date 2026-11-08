@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/settings/utils/bot_username.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ApplicationBotProfileSection extends StatelessWidget {
   const ApplicationBotProfileSection({
@@ -64,7 +64,7 @@ class ApplicationBotProfileSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: ClipOval(
                 child: SizedBox(
                   width: 80,

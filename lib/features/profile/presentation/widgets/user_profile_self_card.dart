@@ -18,9 +18,9 @@ import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kRowIconSize = 32;
 const double _kRowGlyphSize = 18;
@@ -267,8 +267,8 @@ class _StackedAccountAvatars extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           for (int i = shown.length - 1; i >= 0; i--)
-            Positioned(
-              left: step * i,
+            PositionedDirectional(
+              start: step * i,
               top: 0,
               child: DecoratedBox(
                 decoration: BoxDecoration(

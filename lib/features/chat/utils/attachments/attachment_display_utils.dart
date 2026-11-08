@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 const Set<String> kImageAttachmentExtensions = <String>{
   'png',

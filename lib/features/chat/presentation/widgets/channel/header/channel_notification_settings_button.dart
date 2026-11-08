@@ -11,8 +11,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 typedef ChannelNotificationAnchorBuilder =
     Widget Function(
@@ -131,11 +131,17 @@ class _ChannelNotificationSettingsButtonState
           opacity: _fadeAnimation,
           child: CompositedTransformFollower(
             link: _layerLink,
-            targetAnchor: Alignment.bottomRight,
-            followerAnchor: Alignment.topRight,
+            targetAnchor: AlignmentDirectional.bottomEnd.resolve(
+              Directionality.of(context),
+            ),
+            followerAnchor: AlignmentDirectional.topEnd.resolve(
+              Directionality.of(context),
+            ),
             offset: const Offset(0, 4),
             child: Align(
-              alignment: Alignment.topRight,
+              alignment: AlignmentDirectional.topEnd.resolve(
+                Directionality.of(context),
+              ),
               child: IntrinsicWidth(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(

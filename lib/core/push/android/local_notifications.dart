@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/badge/push_badge_count_parser.dart';
 import 'package:fluxer_app/core/push/android/channels.dart';
 import 'package:fluxer_app/core/push/android/conversation/history.dart';
+import 'package:fluxer_app/core/push/android/conversation/identity.dart';
 import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
 import 'package:fluxer_app/core/push/android/media/cache.dart';
 import 'package:fluxer_app/core/push/android/media/instance_urls.dart';
@@ -362,8 +364,11 @@ final class LocalPushNotifications {
       Map<String, String>.from(payload)
         ..[kLocalNotificationMessageIdKey] = messageId,
     );
-    final PushMediaInstanceUrls mediaEndpoints =
-        await loadPushMediaInstanceUrls(payload['target_user_id']);
+    final PushConversationContext context = await loadPushConversationContext(
+      payload,
+      title: title,
+    );
+    final PushMediaInstanceUrls mediaEndpoints = context.endpoints;
     final List<String?> media = await Future.wait<String?>(<Future<String?>>[
       _downloadOptional(
         pushAuthorAvatarUrl(payload, endpoints: mediaEndpoints),
@@ -372,6 +377,13 @@ final class LocalPushNotifications {
       _downloadOptional(
         pushAttachmentImageUrl(payload, endpoints: mediaEndpoints),
         downloadPushNotificationImage,
+      ),
+      _downloadOptional(
+        pushConversationIconDownloadUrl(
+          context.identity.iconUrl,
+          endpoints: mediaEndpoints,
+        ),
+        downloadPushNotificationAvatar,
       ),
     ]);
     final String senderName = resolvePushSenderName(title);
@@ -399,7 +411,11 @@ final class LocalPushNotifications {
           await AndroidPushConversationHistoryStore.appendLine(
             conversationTag: conversationTag,
             line: line,
-            payload: <String, String>{...payload, 'title': title},
+            payload: withPushConversationIdentity(
+              <String, String>{...payload, 'title': title},
+              name: context.identity.name,
+              iconPath: media[2],
+            ),
           );
       await _publishAndroidConversationNotification(
         conversationTag: conversationTag,
@@ -481,11 +497,16 @@ final class LocalPushNotifications {
     replyPayload[kLocalNotificationMessageIdKey] = latest.messageId;
     final String payloadJson = jsonEncode(replyPayload);
     final bool soundEnabled = await isPushNotificationSoundEnabled(payload);
+    final String? storedIconPath = payload[kPushConversationIconPathKey];
+    final String? conversationIconPath =
+        storedIconPath != null && File(storedIconPath).existsSync()
+        ? storedIconPath
+        : null;
     final bool shortcutPublished = await publishAndroidConversationShortcut(
       id: conversationTag,
       label: displayTitle,
       iconPath: resolvePushGroupConversation(payload, title: title)
-          ? null
+          ? conversationIconPath
           : latest.avatarPath,
     );
     final String? shortcutId = shortcutPublished ? conversationTag : null;
@@ -500,6 +521,7 @@ final class LocalPushNotifications {
           alert: alert,
           soundEnabled: soundEnabled,
           shortcutId: shortcutId,
+          conversationIconPath: conversationIconPath,
           imageUris: await _imageContentUris(shownLines),
         );
     final bool shown = await _showAndroidConversationNotification(

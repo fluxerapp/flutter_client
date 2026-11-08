@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billin
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/widgets/auto_text_direction_builder.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class ComposerInputField extends ConsumerWidget {
@@ -148,69 +149,82 @@ class ComposerInputField extends ConsumerWidget {
                         : ValueListenableBuilder<bool>(
                             valueListenable: showComposerCounter,
                             builder: (BuildContext context, bool showCounter, Widget? _) {
-                              final EdgeInsets padding = showCounter
-                                  ? basePadding +
-                                        const EdgeInsets.only(
-                                          right: 28,
-                                          bottom: 18,
-                                        )
+                              final EdgeInsetsGeometry padding = showCounter
+                                  ? basePadding.add(
+                                      const EdgeInsetsDirectional.only(
+                                        end: 28,
+                                        bottom: 18,
+                                      ),
+                                    )
                                   : basePadding;
                               Widget field(int lines) {
-                                return TextField(
-                                  key: const ValueKey<String>(
-                                    'channel-composer-field',
-                                  ),
+                                return AutoTextDirectionBuilder(
                                   controller: controller,
-                                  focusNode: fieldFocusNode,
-                                  scrollController: composerScrollController,
-                                  enabled: perms.isComposerEnabled,
-                                  style: context.textStyles.inputText,
-                                  strutStyle: boundedStrutFor(
-                                    context.textStyles.inputText.copyWith(
-                                      height: kInlineEmojiLineHeight,
-                                    ),
-                                  ),
-                                  minLines: math.min(minLines, lines),
-                                  maxLines: lines,
-                                  selectionWidthStyle: BoxWidthStyle.tight,
-                                  magnifierConfiguration:
-                                      _magnifierConfiguration,
-                                  decoration: decoration.copyWith(
-                                    contentPadding: padding,
-                                  ),
-                                  textAlignVertical: textAlignVertical,
-                                  cursorColor: cursorColor,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  autocorrect: true,
-                                  enableInlinePrediction: true,
-                                  contextMenuBuilder:
-                                      clipboardScope.buildContextMenu,
-                                  contentInsertionConfiguration:
-                                      perms.isAttachEnabled
-                                      ? ContentInsertionConfiguration(
-                                          onContentInserted:
-                                              (
-                                                KeyboardInsertedContent content,
-                                              ) {
-                                                unawaited(() async {
-                                                  final FileUploadValidationResult?
-                                                  result =
-                                                      await handleComposerContentInserted(
-                                                        ref: ref,
-                                                        channelId: channelId,
-                                                        content: content,
-                                                        isAttachEnabled: perms
-                                                            .isAttachEnabled,
-                                                      );
-                                                  if (result != null) {
-                                                    onValidationResult(result);
-                                                  }
-                                                }());
-                                              },
-                                        )
-                                      : null,
-                                  onTap: onComposerFieldTap,
+                                  builder:
+                                      (
+                                        BuildContext context,
+                                        TextDirection? direction,
+                                      ) => TextField(
+                                        textDirection: direction,
+                                        key: const ValueKey<String>(
+                                          'channel-composer-field',
+                                        ),
+                                        controller: controller,
+                                        focusNode: fieldFocusNode,
+                                        scrollController:
+                                            composerScrollController,
+                                        enabled: perms.isComposerEnabled,
+                                        style: context.textStyles.inputText,
+                                        strutStyle: boundedStrutFor(
+                                          context.textStyles.inputText.copyWith(
+                                            height: kInlineEmojiLineHeight,
+                                          ),
+                                        ),
+                                        minLines: math.min(minLines, lines),
+                                        maxLines: lines,
+                                        selectionWidthStyle:
+                                            BoxWidthStyle.tight,
+                                        magnifierConfiguration:
+                                            _magnifierConfiguration,
+                                        decoration: decoration.copyWith(
+                                          contentPadding: padding,
+                                        ),
+                                        textAlignVertical: textAlignVertical,
+                                        cursorColor: cursorColor,
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
+                                        autocorrect: true,
+                                        enableInlinePrediction: true,
+                                        contextMenuBuilder:
+                                            clipboardScope.buildContextMenu,
+                                        contentInsertionConfiguration:
+                                            perms.isAttachEnabled
+                                            ? ContentInsertionConfiguration(
+                                                onContentInserted:
+                                                    (
+                                                      KeyboardInsertedContent
+                                                      content,
+                                                    ) {
+                                                      unawaited(() async {
+                                                        final FileUploadValidationResult?
+                                                        result = await handleComposerContentInserted(
+                                                          ref: ref,
+                                                          channelId: channelId,
+                                                          content: content,
+                                                          isAttachEnabled: perms
+                                                              .isAttachEnabled,
+                                                        );
+                                                        if (result != null) {
+                                                          onValidationResult(
+                                                            result,
+                                                          );
+                                                        }
+                                                      }());
+                                                    },
+                                              )
+                                            : null,
+                                        onTap: onComposerFieldTap,
+                                      ),
                                 );
                               }
 
@@ -235,8 +249,8 @@ class ComposerInputField extends ConsumerWidget {
                           ),
                   ),
                 ),
-                Positioned(
-                  right: 8,
+                PositionedDirectional(
+                  end: 8,
                   bottom: 8,
                   child: ListenableBuilder(
                     listenable: controller,

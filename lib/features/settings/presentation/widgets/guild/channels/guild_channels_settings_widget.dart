@@ -21,8 +21,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildChannelsSettingsWidget extends ConsumerStatefulWidget {
   const GuildChannelsSettingsWidget({
@@ -615,8 +615,8 @@ class _GuildChannelsSettingsWidgetState
         return Stack(
           children: <Widget>[
             list,
-            Positioned(
-              right: context.layout.s4,
+            PositionedDirectional(
+              end: context.layout.s4,
               bottom: context.layout.s4,
               child: _buildCreateFab(context),
             ),

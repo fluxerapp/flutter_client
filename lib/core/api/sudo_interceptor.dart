@@ -100,6 +100,11 @@ class SudoInterceptor extends Interceptor {
   String? _cachedToken;
   DateTime? _cachedTokenExpiry;
 
+  void clearCachedToken() {
+    _cachedToken = null;
+    _cachedTokenExpiry = null;
+  }
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final token = _cachedToken;

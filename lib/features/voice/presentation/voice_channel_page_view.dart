@@ -24,8 +24,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_chat_jump.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceChannelPageView extends ConsumerStatefulWidget {
   const VoiceChannelPageView({
@@ -213,9 +213,9 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
           child: Stack(
             children: <Widget>[
               content,
-              Positioned(
+              PositionedDirectional(
                 top: 12,
-                right: 12,
+                end: 12,
                 child: _DesktopVoiceChatToggle(
                   key: kDesktopVoiceChatToggleKey,
                   channelId: widget.channelId,
@@ -363,13 +363,15 @@ class _DesktopVoiceChatDock extends StatelessWidget {
       width: _kDesktopChatPanelWidth,
       decoration: BoxDecoration(
         color: context.colors.chatBackground,
-        border: Border(left: BorderSide(color: context.colors.borderColor)),
+        border: BorderDirectional(
+          start: BorderSide(color: context.colors.borderColor),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 8, 10),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 14, 8, 10),
             child: Row(
               children: <Widget>[
                 Expanded(

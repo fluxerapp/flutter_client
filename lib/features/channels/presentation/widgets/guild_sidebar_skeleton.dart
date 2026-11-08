@@ -90,14 +90,19 @@ class _GuildSidebarCategorySkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 8, top: 16, bottom: 4),
+      padding: const EdgeInsetsDirectional.only(
+        start: 12,
+        end: 8,
+        top: 16,
+        bottom: 4,
+      ),
       child: SizedBox(
         height: _lineHeight,
         child: Row(
           children: <Widget>[
             Expanded(
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: _GuildSidebarSkeletonBar(width: labelWidth, height: 10),
               ),
             ),

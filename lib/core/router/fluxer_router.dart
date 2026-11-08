@@ -1,5 +1,6 @@
 import 'dart:async' show unawaited;
 
+import 'package:fluxer_app/core/bootstrap/startup_first_frame_gate.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_navigator_observer.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -168,7 +169,7 @@ GoRouter fluxerRouter(Ref ref) {
       (_, _) => refreshNotifier.notify(),
     )
     ..listen(gatewayReadyProvider, (_, _) => refreshNotifier.notify())
-    ..listen(startupGatewayFallbackProvider, (_, _) => refreshNotifier.notify())
+    ..listen(shellDataReadyProvider, (_, _) => refreshNotifier.notify())
     ..listen(splashExitAllowedProvider, (_, _) => refreshNotifier.notify())
     ..listen(appStartupProvider, (_, _) => refreshNotifier.notify())
     ..listen(accountManagerProvider, (_, _) => refreshNotifier.notify())
@@ -255,12 +256,8 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
-      final bool showCachedShell =
-          ref.read(startupGatewayFallbackProvider) ==
-          StartupGatewayFallback.cachedShell;
       if (isAuthenticated &&
-          !isGatewayReady &&
-          !showCachedShell &&
+          !ref.read(shellDataReadyProvider) &&
           !isOnReconnecting &&
           !isAddingAccount) {
         if (!isOnLoading) {
@@ -690,6 +687,7 @@ GoRouter fluxerRouter(Ref ref) {
             shellFadeTransitionPage(
               context: context,
               key: state.pageKey,
+              duration: StartupFirstFrameGate.isHeld ? Duration.zero : null,
               child: AppLayout(navigationShell: navigationShell),
             ),
         branches: [

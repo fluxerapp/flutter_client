@@ -87,6 +87,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? showAltTextOnImages,
+    $core.bool? announceCallJoinsAndLeaves,
   }) {
     final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -210,6 +211,8 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
     if (showAltTextOnImages != null)
       result.showAltTextOnImages = showAltTextOnImages;
+    if (announceCallJoinsAndLeaves != null)
+      result.announceCallJoinsAndLeaves = announceCallJoinsAndLeaves;
     return result;
   }
 
@@ -301,6 +304,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
     ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aOB(67, _omitFieldNames ? '' : 'announceCallJoinsAndLeaves')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -922,6 +926,15 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasShowAltTextOnImages() => $_has(64);
   @$pb.TagNumber(65)
   void clearShowAltTextOnImages() => $_clearField(65);
+
+  @$pb.TagNumber(67)
+  $core.bool get announceCallJoinsAndLeaves => $_getBF(65);
+  @$pb.TagNumber(67)
+  set announceCallJoinsAndLeaves($core.bool value) => $_setBool(65, value);
+  @$pb.TagNumber(67)
+  $core.bool hasAnnounceCallJoinsAndLeaves() => $_has(65);
+  @$pb.TagNumber(67)
+  void clearAnnounceCallJoinsAndLeaves() => $_clearField(67);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {

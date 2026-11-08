@@ -71,20 +71,20 @@ class UserProfilePopoutFrame extends StatelessWidget {
                               bannerColor: accentColor,
                             ),
                           ),
-                          Positioned(
-                            left: _kAvatarLeft,
+                          PositionedDirectional(
+                            start: _kAvatarLeft,
                             top: _kAvatarTop,
                             child: avatar,
                           ),
                           if (action != null)
-                            Positioned(
+                            PositionedDirectional(
                               top: layout.s2,
-                              right: layout.s2,
+                              end: layout.s2,
                               child: action,
                             ),
-                          Positioned(
+                          PositionedDirectional(
                             top: _kBannerHeight + layout.s1,
-                            right: layout.s3,
+                            end: layout.s3,
                             child: UserProfileBadges(
                               badges: badges,
                               maxVisible: kProfileBadgesCompactMaxVisible,

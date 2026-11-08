@@ -60,9 +60,9 @@ class _ChannelSearchResultMessageCardState
                   ),
                 ),
                 if (_hovered)
-                  Positioned(
+                  PositionedDirectional(
                     top: 6,
-                    right: 6,
+                    end: 6,
                     child: Material(
                       color: context.colors.backgroundPrimary,
                       borderRadius: BorderRadius.circular(4),

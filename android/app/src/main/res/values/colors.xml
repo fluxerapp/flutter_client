@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="launch_background">#080616</color>
+    <color name="splash_brand">#413CDD</color>
+    <color name="splash_symbol">#FFFFFF</color>
 </resources>

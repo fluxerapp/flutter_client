@@ -209,6 +209,18 @@ String? pushAuthorAvatarUrl(
   );
 }
 
+String? pushConversationIconDownloadUrl(
+  String? iconUrl, {
+  required PushMediaInstanceUrls endpoints,
+}) {
+  if (iconUrl == null) {
+    return null;
+  }
+  return resolvePushAvatarDownloadUrl(
+    alignPushMediaUrlWithInstance(iconUrl, endpoints),
+  );
+}
+
 String resolvePushAvatarDownloadUrl(String raw) {
   final Uri? uri = Uri.tryParse(raw);
   if (uri != null && isFluxerStaticDefaultAvatarUrl(uri)) {

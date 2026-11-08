@@ -64,6 +64,48 @@ void main() {
       expect(completed, isTrue);
     });
 
+    testWidgets('keeps the starfield behind the logo as it expands', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          Builder(
+            builder: (BuildContext context) {
+              return Scaffold(
+                body: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      SplashRevealOverlay.show(
+                        context: context,
+                        coverColor: const Color(0xFF080616),
+                        logoBrandColor: const Color(0xFF7A57BF),
+                        logoBrandSymbolColor: Colors.white,
+                        logoCenterGlobal: const Offset(200, 400),
+                        useLogoZoomTransition: true,
+                        animationsEnabled: true,
+                      );
+                    },
+                    child: const Text('reveal'),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('reveal'));
+      await tester.pump();
+      for (var i = 0; i < 15; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+
+      expect(find.byType(InstanceBrandMark), findsNothing);
+      expect(find.byType(StarfieldBackground), findsOneWidget);
+
+      await tester.pumpAndSettle();
+    });
+
     testWidgets('disposing mid-animation does not throw', (tester) async {
       await tester.pumpWidget(
         _wrap(

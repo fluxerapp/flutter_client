@@ -92,4 +92,30 @@ void main() {
     );
     expect(_sliderValue(tester), '40.0');
   });
+
+  testWidgets('RTL maps the left of the track to the maximum', (tester) async {
+    double? committed;
+    await tester.pumpWidget(
+      _app(
+        Directionality(
+          textDirection: TextDirection.rtl,
+          child: FluxerSlider(
+            value: 100,
+            defaultValue: 100,
+            maxValue: 200,
+            step: 1,
+            onValueChange: (double next) => committed = next,
+          ),
+        ),
+      ),
+    );
+    final Rect bounds = tester.getRect(find.byType(FluxerSlider));
+    await tester.tapAt(bounds.centerLeft + const Offset(20, 0));
+    await tester.pump();
+    expect(committed, greaterThan(150));
+
+    await tester.tapAt(bounds.centerRight - const Offset(20, 0));
+    await tester.pump();
+    expect(committed, lessThan(50));
+  });
 }

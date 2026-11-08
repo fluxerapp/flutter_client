@@ -12,7 +12,7 @@ String resolvePushSenderName(String? title) {
   if (messageTitle == null) {
     return pushNotificationLocalizations().notificationUnknownSender;
   }
-  if (messageTitle.endsWith(kPushGroupDmTitleSuffix)) {
+  if (isPushGroupDmTitle(messageTitle)) {
     return messageTitle.substring(
       0,
       messageTitle.length - kPushGroupDmTitleSuffix.length,
@@ -75,10 +75,8 @@ bool resolvePushGroupConversation(
   String? title,
 }) {
   final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
-  if (messageTitle != null && messageTitle.endsWith(kPushGroupDmTitleSuffix)) {
-    return true;
-  }
-  return !isDmPushPayload(enrichPushPayload(payload));
+  return isPushGroupDmTitle(messageTitle) ||
+      !isDmPushPayload(enrichPushPayload(payload));
 }
 
 String? resolvePushMessagingConversationTitle(
@@ -93,12 +91,11 @@ String? resolvePushMessagingConversationTitle(
     title: title,
     groupDmLabel: pushNotificationLocalizations().notificationGroupDmTitle,
   );
-  if (name == null ||
-      name.startsWith('#') ||
-      isDmPushPayload(enrichPushPayload(payload))) {
+  if (name == null || isDmPushPayload(enrichPushPayload(payload))) {
     return name;
   }
-  return '#$name';
+  final String? community = resolvePushCommunityName(payload, title: title);
+  return community == null ? '#$name' : '$community #$name';
 }
 
 String resolvePushNotificationDisplayTitle(
@@ -167,15 +164,20 @@ AndroidNotificationDetails buildAndroidConversationNotificationDetails({
   int? badgeCount,
   int? whenMillis,
   String? shortcutId,
+  String? conversationIconPath,
   Map<String, String> imageUris = const <String, String>{},
 }) {
   final PushConversationLine? latest = lines.isEmpty ? null : lines.last;
   final AndroidNotificationSound? androidSound = alert && soundEnabled
       ? resolvePushNotificationAndroidSound(payload)
       : null;
-  final FilePathAndroidBitmap? largeIcon = latest?.avatarPath == null
+  final String? largeIconPath =
+      resolvePushGroupConversation(payload, title: title)
+      ? conversationIconPath
+      : latest?.avatarPath;
+  final FilePathAndroidBitmap? largeIcon = largeIconPath == null
       ? null
-      : FilePathAndroidBitmap(latest!.avatarPath!);
+      : FilePathAndroidBitmap(largeIconPath);
   return AndroidNotificationDetails(
     androidPushChannelId(payload, soundEnabled: soundEnabled),
     androidPushChannelName(payload, soundEnabled: soundEnabled),
@@ -187,7 +189,6 @@ AndroidNotificationDetails buildAndroidConversationNotificationDetails({
     icon: kAndroidPushNotificationIcon,
     color: kAndroidPushAccentColor,
     largeIcon: largeIcon,
-    subText: resolvePushCommunityName(payload, title: title),
     shortcutId: shortcutId,
     styleInformation: buildPushMessagingStyle(
       payload: payload,

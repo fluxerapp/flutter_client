@@ -47,6 +47,38 @@ void main() {
     );
   });
 
+  test('gives every emoji names no other emoji uses', () {
+    final Map<String, String> owners = <String, String>{};
+    final List<String> shared = <String>[];
+    for (final EmojiEntry emoji in EmojiRegistry.allEmojis) {
+      for (final String name in emoji.names) {
+        final String? owner = owners[name];
+        if (owner != null && owner != emoji.surrogates) {
+          shared.add(name);
+        }
+        owners[name] = emoji.surrogates;
+      }
+    }
+    expect(shared, isEmpty);
+  });
+
+  test('resolves the envelope and e-mail emoji to their own names', () {
+    expect(
+      EmojiRegistry.entryBySurrogates('\u2709\uFE0F')?.primaryName,
+      'envelope',
+    );
+    expect(EmojiRegistry.entryByName('envelope')?.surrogates, '\u2709\uFE0F');
+    expect(EmojiRegistry.entryByName('e_mail')?.surrogates, '\u{1F4E7}');
+    expect(
+      EmojiRegistry.entryByName('person_with_veil')?.surrogates,
+      '\u{1F470}',
+    );
+    expect(
+      EmojiRegistry.entryByName('woman_with_veil')?.surrogates,
+      '\u{1F470}\u200D\u2640\uFE0F',
+    );
+  });
+
   test('resolves skin tone surrogates from skins array', () {
     final EmojiEntry? wave = EmojiRegistry.entryByName('wave');
     expect(wave, isNotNull);

@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 class SettingsSidebar extends StatelessWidget {
   final List<SettingsSidebarItem> items;
@@ -57,7 +57,7 @@ class SettingsSidebar extends StatelessWidget {
             ),
           if (username != null)
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 8, 16, 24),
+              padding: const EdgeInsetsDirectional.fromSTEB(18, 8, 16, 24),
               child: Row(
                 children: [
                   FluxerAvatar.user(
@@ -82,7 +82,7 @@ class SettingsSidebar extends StatelessWidget {
           Expanded(
             child: items.isEmpty && emptySearchMessage != null
                 ? Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 8, 16, 8),
+                    padding: const EdgeInsetsDirectional.fromSTEB(28, 8, 16, 8),
                     child: Text(
                       emptySearchMessage!,
                       style: context.textStyles.bodyMedium.copyWith(

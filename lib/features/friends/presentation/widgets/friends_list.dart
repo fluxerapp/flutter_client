@@ -24,11 +24,11 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kActiveNowMinWidth = 1100.0;
 const _kActiveNowWidth = 352.0;
@@ -245,7 +245,7 @@ class FriendsList extends ConsumerWidget {
   ) {
     final isActive = tab == activeTab;
     return Padding(
-      padding: EdgeInsets.only(right: context.layout.s2),
+      padding: EdgeInsetsDirectional.only(end: context.layout.s2),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -330,7 +330,7 @@ class FriendsList extends ConsumerWidget {
         bottom: context.layout.s2,
       ),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Text(
           '$label \u2014 $friendCount',
           style: context.textStyles.smallText,
@@ -342,8 +342,8 @@ class FriendsList extends ConsumerWidget {
   Widget _buildActiveNowPanel(BuildContext context) => Container(
     width: _kActiveNowWidth,
     decoration: BoxDecoration(
-      border: Border(
-        left: BorderSide(color: context.colors.backgroundModifierAccent),
+      border: BorderDirectional(
+        start: BorderSide(color: context.colors.backgroundModifierAccent),
       ),
     ),
     child: Column(
@@ -356,7 +356,7 @@ class FriendsList extends ConsumerWidget {
             bottom: context.layout.s3,
           ),
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               FluxerLocalizations.of(context).friendsActiveNowTitle,
               style: context.textStyles.channelName.copyWith(

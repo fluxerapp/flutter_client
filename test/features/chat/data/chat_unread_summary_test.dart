@@ -210,75 +210,82 @@ void main() {
     expect(summary.isEstimated, isFalse);
   });
 
-  group('resolveVisualUnreadId', () {
-    const messages = [
-      ChatUnreadMessageRef(id: '100'),
-      ChatUnreadMessageRef(id: '110'),
-      ChatUnreadMessageRef(id: '120'),
-    ];
+  test('skips own messages when choosing the oldest unread', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '100'),
+        ChatUnreadMessageRef(id: '110', isOwn: true),
+        ChatUnreadMessageRef(id: '120'),
+      ],
+      ackLastMessageId: '100',
+      mentionCount: 0,
+      channelLastMessageId: '120',
+      hasMoreNewerMessages: false,
+      hasMoreOlderMessages: true,
+      cachedUnreadCount: 0,
+    );
 
+    expect(summary.oldestUnreadMessageId, '120');
+    expect(summary.displayUnreadCount, 1);
+  });
+
+  test('reports no unread when only own messages follow the ack', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '100'),
+        ChatUnreadMessageRef(id: '110', isOwn: true),
+      ],
+      ackLastMessageId: '100',
+      mentionCount: 0,
+      channelLastMessageId: '110',
+      hasMoreNewerMessages: false,
+      hasMoreOlderMessages: true,
+      cachedUnreadCount: 0,
+    );
+
+    expect(summary.oldestUnreadMessageId, isNull);
+    expect(summary.displayUnreadCount, 0);
+  });
+
+  group('resolveVisualUnreadId', () {
     test('falls back to oldest unread when no sticky is set', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: null,
-          oldestUnreadId: '110',
-        ),
+        resolveVisualUnreadId(stickyUnreadId: null, oldestUnreadId: '110'),
         '110',
       );
     });
 
     test('returns the sticky id when present as a non-own message', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: '110',
-          oldestUnreadId: '120',
-        ),
+        resolveVisualUnreadId(stickyUnreadId: '110', oldestUnreadId: '120'),
         '110',
       );
     });
 
-    test('falls back to oldest when the sticky id is not loaded', () {
+    test('keeps the sticky id when it is not loaded', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: '999',
-          oldestUnreadId: '120',
-        ),
-        '120',
+        resolveVisualUnreadId(stickyUnreadId: '999', oldestUnreadId: '120'),
+        '999',
       );
     });
 
     test('keeps a sticky pointing at an own message', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: '100',
-          oldestUnreadId: '120',
-        ),
+        resolveVisualUnreadId(stickyUnreadId: '100', oldestUnreadId: '120'),
         '100',
       );
     });
 
     test('keeps the sticky divider after ack when count is zero', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: '110',
-          oldestUnreadId: null,
-        ),
+        resolveVisualUnreadId(stickyUnreadId: '110', oldestUnreadId: null),
         '110',
       );
     });
 
     test('returns null when neither anchor is available', () {
       expect(
-        resolveVisualUnreadId(
-          messages: messages,
-          stickyUnreadId: null,
-          oldestUnreadId: null,
-        ),
+        resolveVisualUnreadId(stickyUnreadId: null, oldestUnreadId: null),
         isNull,
       );
     });
