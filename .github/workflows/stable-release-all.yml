@@ -19,13 +19,13 @@ jobs:
   #   uses: ./.github/workflows/ios-production-release.yml
   #   secrets: inherit
 
-  ios-altstore-pal:
-    name: iOS AltStore PAL build
-    needs: draft-release
-    uses: ./.github/workflows/ios-altstore-pal.yml
-    with:
-      stable_release_tag: ${{ needs.draft-release.outputs.tag_name }}
-    secrets: inherit
+  # ios-altstore-pal:
+  #   name: iOS AltStore PAL build
+  #   needs: draft-release
+  #   uses: ./.github/workflows/ios-altstore-pal.yml
+  #   with:
+  #     stable_release_tag: ${{ needs.draft-release.outputs.tag_name }}
+  #   secrets: inherit
 
   # android-fcm:
   #   name: Android FCM build
