@@ -30,20 +30,24 @@ bool isShellCacheFresh(DateTime? liveAt, DateTime now) {
   return now.difference(liveAt) <= kShellCacheMaxAge;
 }
 
-Future<bool> isShellCacheTrusted(
-  FluxerDatabase database,
-  String userId, {
-  DateTime? now,
-}) async {
+Future<bool> isShellCacheMarkedFresh({DateTime? now}) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   if (preferences.getInt(_kShellCacheGenerationKey) != kShellCacheGeneration) {
     return false;
   }
   final int? liveAtMs = preferences.getInt(_kShellCacheLiveAtKey);
-  if (!isShellCacheFresh(
+  return isShellCacheFresh(
     liveAtMs == null ? null : DateTime.fromMillisecondsSinceEpoch(liveAtMs),
     now ?? DateTime.now(),
-  )) {
+  );
+}
+
+Future<bool> isShellCacheTrusted(
+  FluxerDatabase database,
+  String userId, {
+  DateTime? now,
+}) async {
+  if (!await isShellCacheMarkedFresh(now: now)) {
     return false;
   }
   if (await database.userSettingsDao.getSettings(userId) == null) {

@@ -1,5 +1,6 @@
 import 'dart:async' show unawaited;
 
+import 'package:fluxer_app/core/bootstrap/startup_first_frame_gate.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_navigator_observer.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -686,6 +687,7 @@ GoRouter fluxerRouter(Ref ref) {
             shellFadeTransitionPage(
               context: context,
               key: state.pageKey,
+              duration: StartupFirstFrameGate.isHeld ? Duration.zero : null,
               child: AppLayout(navigationShell: navigationShell),
             ),
         branches: [

@@ -444,11 +444,6 @@ class AppStartup extends _$AppStartup {
       ref.read(startupGatewayFallbackProvider.notifier).arm();
       gatewayBound = true;
 
-      final bool hasCache = await hasCachedShellData(database, session.userId);
-      if (!ref.mounted) {
-        return;
-      }
-
       if (await isShellCacheTrusted(database, session.userId)) {
         if (!ref.mounted) {
           return;
@@ -457,6 +452,11 @@ class AppStartup extends _$AppStartup {
         ref.read(startupGatewayFallbackProvider.notifier).openFromCache();
         openedFromCache = true;
         break;
+      }
+
+      final bool hasCache = await hasCachedShellData(database, session.userId);
+      if (!ref.mounted) {
+        return;
       }
 
       try {

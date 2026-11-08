@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/bootstrap/startup_first_frame_gate.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -243,6 +244,69 @@ void main() {
     expect(container.read(splashExitAllowedProvider), isTrue);
     await releaseTestWidgetTree(tester);
   });
+
+  testWidgets(
+    'a held cached launch leaves the splash without the logo reveal',
+    (tester) async {
+      StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          disableAnimations: false,
+          overrides: _splashOverrides(<Override>[
+            fluxerDatabaseProvider.overrideWithValue(_database),
+            appStartupProvider.overrideWith(_ReadyAppStartup.new),
+            gatewayReadyProvider.overrideWith(_ReadyGateway.new),
+            authStateProvider.overrideWith(_Authenticated.new),
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+            unreadDmChannelsProvider.overrideWithValue(
+              const UnreadDmState(loaded: true),
+            ),
+          ]),
+          child: const SplashScreen(),
+        ),
+      );
+      await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(SplashScreen)),
+      );
+      container.read(guildReadStateReadyProvider.notifier).markReady();
+      await tester.pump();
+      await tester.pump();
+
+      expect(container.read(splashExitAllowedProvider), isTrue);
+      expect(container.read(splashRevealZoomProvider), isFalse);
+      expect(container.read(splashRevealCompleteProvider), isTrue);
+      expect(StartupFirstFrameGate.isHeld, isTrue);
+
+      await releaseTestWidgetTree(tester);
+      expect(StartupFirstFrameGate.isHeld, isFalse);
+    },
+  );
+
+  testWidgets(
+    'a launch waiting for the gateway releases the held first frame',
+    (tester) async {
+      StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          overrides: _splashOverrides(<Override>[
+            fluxerDatabaseProvider.overrideWithValue(_database),
+            appStartupProvider.overrideWith(_ReadyAppStartup.new),
+            authStateProvider.overrideWith(_Authenticated.new),
+          ]),
+          child: const SplashScreen(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(StartupFirstFrameGate.isHeld, isFalse);
+      expect(find.byType(InstanceBrandMark), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    },
+  );
 
   testWidgets('503 startup shows outage copy and status links', (tester) async {
     await tester.pumpWidget(

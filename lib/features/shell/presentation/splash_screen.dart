@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/bootstrap/startup_first_frame_gate.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility_messages.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
@@ -122,6 +123,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _hydrationWaitTimer?.cancel();
     _pulseController.dispose();
+    StartupFirstFrameGate.release();
     final SplashRevealComplete? revealComplete = _revealComplete;
     if (!_exitRevealStarted && revealComplete != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -202,9 +204,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     if (startup is! AsyncData<void> ||
         !_shellDataReady() ||
         ref.read(accountManagerProvider).isSwitching) {
+      if (!startup.isLoading) {
+        StartupFirstFrameGate.release();
+      }
       return;
     }
     if (!ref.read(authStateProvider)) {
+      StartupFirstFrameGate.release();
       _revealComplete?.complete();
       return;
     }
@@ -226,6 +232,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
     _cancelSplashTimers();
     _pulseController.stop();
+
+    if (StartupFirstFrameGate.isHeld) {
+      ref.read(splashRevealZoomProvider.notifier).setZoom(value: false);
+      _revealComplete?.complete();
+      _allowSplashExit();
+      setState(() {});
+      return;
+    }
 
     final bool useLogoZoomTransition =
         !_enteredForAccountSwitch &&
