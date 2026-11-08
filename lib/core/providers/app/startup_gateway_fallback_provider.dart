@@ -74,6 +74,10 @@ class StartupGatewayFallbackNotifier extends Notifier<StartupGatewayFallback> {
       return;
     }
     state = StartupGatewayFallback.cacheFirst;
+    if (_timer != null) {
+      _cancelTimer();
+      unawaited(_schedule(_generation));
+    }
   }
 
   void apiUnreachable() {
