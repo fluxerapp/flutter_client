@@ -42,11 +42,11 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 | iOS | App Store | Soon (Submitted on Nov 1st) | — |
 | iOS | AltStore PAL | Soon | — |
 | iOS | TestFlight | Unavailable (Apple-side bug, support contacted) | [Join TestFlight](https://testflight.apple.com/join/PKZR6pK9) |
-| Android | Google Play | Early Access (Beta) | [Download](https://play.google.com/store/apps/details?id=com.fluxer) |
-| Android | GitHub APK | Beta | [Releases](https://github.com/fluxerapp/flutter_client/releases) (FCM/OSS below) |
-| Android | Obtainium | Beta | [Auto-updates from GitHub](#auto-updates-with-obtainium) |
-| Android | F-Droid | After beta | — |
-| Android | Accrescent | Planned after beta (when submissions reopen) | — |
+| Android | Google Play | Stable / Beta | [Download](https://play.google.com/store/apps/details?id=com.fluxer) |
+| Android | GitHub APK | Stable / Beta | [Releases](https://github.com/fluxerapp/flutter_client/releases) (FCM/OSS below) |
+| Android | Obtainium | Stable / Beta | [Auto-updates from GitHub](#auto-updates-with-obtainium) |
+| Android | F-Droid | Soon | — |
+| Android | Accrescent | Waiting for Accrescent submissions to be open | — |
 
 ### Android (APK)
 
