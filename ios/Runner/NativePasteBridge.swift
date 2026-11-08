@@ -136,8 +136,12 @@ final class NativePasteBridge: NSObject {
   }
 
   private func filename(_ suggestedName: String?, type: UTType) -> String {
-    let stem = suggestedName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-    let base = stem.isEmpty ? "clipboard" : stem
+    let stem = (suggestedName ?? "")
+      .replacingOccurrences(of: "/", with: "_")
+      .replacingOccurrences(of: "\\", with: "_")
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    let isDotsOnly = !stem.isEmpty && stem.allSatisfy { $0 == "." }
+    let base = stem.isEmpty || isDotsOnly ? "clipboard" : stem
     guard let ext = type.preferredFilenameExtension, (base as NSString).pathExtension.isEmpty
     else {
       return base

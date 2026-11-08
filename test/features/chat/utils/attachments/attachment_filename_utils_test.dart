@@ -24,6 +24,34 @@ void main() {
     });
   });
 
+  group('path traversal', () {
+    test('replaces separators in explicit names', () {
+      final XFile file = XFile.fromData(Uint8List(1), name: 'x');
+      final String name = resolveUploadFilename(
+        file: file,
+        explicitName: r'..\..\..\Roaming\Startup\x.exe',
+      );
+      expect(name, isNot(contains('/')));
+      expect(name, isNot(contains(r'\')));
+      expect(name, '.._.._.._Roaming_Startup_x.exe');
+    });
+
+    test('replaces forward slashes', () {
+      expect(
+        sanitizeAttachmentFilename('../../etc/passwd'),
+        '.._.._etc_passwd',
+      );
+    });
+
+    test('falls back for dot-only names', () {
+      expect(sanitizeAttachmentFilename('..'), 'attachment.bin');
+      expect(
+        filenameForMimeType('.', mimeType: 'image/png', defaultStem: 'clip'),
+        'clip.png',
+      );
+    });
+  });
+
   group('resolveUploadFilename', () {
     test('uses explicit picker name over temp path basename', () {
       final XFile file = XFile(
