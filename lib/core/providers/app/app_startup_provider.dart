@@ -311,6 +311,13 @@ class AppStartup extends _$AppStartup {
 
   void _retrySessionCheckWhenLive(FluxerDatabase database, String userId) {
     _sessionCheckRetry?.close();
+    _sessionCheckRetry = null;
+    if (ref.read(gatewayReadyProvider)) {
+      unawaited(
+        _validateSessionInBackground(database, userId, retryWhenLive: false),
+      );
+      return;
+    }
     _sessionCheckRetry = ref.listen<bool>(gatewayReadyProvider, (
       bool? previous,
       bool ready,

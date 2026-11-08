@@ -768,6 +768,45 @@ void main() {
       expect(container.read(authStateProvider), isTrue);
     });
 
+    test(
+      'a background check that fails after READY still retries once',
+      () async {
+        _mockLaunchPreferences();
+        final db = openTestDatabase();
+        final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+        await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+        await _seedTrustedCache(db);
+        final Completer<void> release = Completer<void>();
+        final _CountingUsersMeAdapter adapter = _CountingUsersMeAdapter(
+          release: release,
+        );
+        final container = _startupContainer(
+          db: db,
+          tokens: tokens,
+          apiBaseUrl: 'https://self.example/api',
+          adapter: adapter,
+        );
+        addTearDown(() {
+          if (!release.isCompleted) {
+            release.complete();
+          }
+          container.dispose();
+        });
+        container.listen(appStartupProvider, (_, _) {});
+
+        await container.read(appStartupProvider.future);
+        await pumpEventQueue();
+        expect(adapter.usersMeRequests, 1);
+
+        container.read(gatewayReadyProvider.notifier).setReady();
+        await pumpEventQueue();
+        release.complete();
+        await pumpEventQueue();
+
+        expect(adapter.usersMeRequests, 2);
+      },
+    );
+
     test('a background 401 on the stored host signs out', () async {
       _mockLaunchPreferences();
       final db = openTestDatabase();
@@ -908,6 +947,9 @@ class _UsersMeAdapter implements HttpClientAdapter {
 }
 
 class _CountingUsersMeAdapter implements HttpClientAdapter {
+  _CountingUsersMeAdapter({this.release});
+
+  final Completer<void>? release;
   int usersMeRequests = 0;
 
   @override
@@ -919,6 +961,7 @@ class _CountingUsersMeAdapter implements HttpClientAdapter {
     if (options.path.endsWith('/users/@me')) {
       usersMeRequests++;
     }
+    await release?.future;
     return ResponseBody.fromString(
       'error',
       500,
