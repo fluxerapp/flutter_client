@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
+import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/service_status/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
@@ -246,7 +247,49 @@ void main() {
   });
 
   testWidgets(
-    'a held cached launch leaves the splash without the logo reveal',
+    'a held cached launch without zoom leaves the splash without the logo reveal',
+    (tester) async {
+      StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          disableAnimations: false,
+          overrides: _splashOverrides(<Override>[
+            fluxerDatabaseProvider.overrideWithValue(_database),
+            appStartupProvider.overrideWith(_ReadyAppStartup.new),
+            gatewayReadyProvider.overrideWith(_ReadyGateway.new),
+            authStateProvider.overrideWith(_Authenticated.new),
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(
+                mobileSplashZoomAnimation: false,
+              ),
+            ),
+            unreadDmChannelsProvider.overrideWithValue(
+              const UnreadDmState(loaded: true),
+            ),
+          ]),
+          child: const SplashScreen(),
+        ),
+      );
+      await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(SplashScreen)),
+      );
+      container.read(guildReadStateReadyProvider.notifier).markReady();
+      await tester.pump();
+      await tester.pump();
+
+      expect(container.read(splashExitAllowedProvider), isTrue);
+      expect(container.read(splashRevealZoomProvider), isFalse);
+      expect(container.read(splashRevealCompleteProvider), isTrue);
+      expect(StartupFirstFrameGate.isHeld, isTrue);
+
+      await releaseTestWidgetTree(tester);
+      expect(StartupFirstFrameGate.isHeld, isFalse);
+    },
+  );
+
+  testWidgets(
+    'a held cached launch with zoom releases the frame and plays the zoom',
     (tester) async {
       StartupFirstFrameGate.hold(limit: const Duration(minutes: 1));
       await tester.pumpWidget(
@@ -276,12 +319,14 @@ void main() {
       await tester.pump();
 
       expect(container.read(splashExitAllowedProvider), isTrue);
-      expect(container.read(splashRevealZoomProvider), isFalse);
-      expect(container.read(splashRevealCompleteProvider), isTrue);
-      expect(StartupFirstFrameGate.isHeld, isTrue);
-
-      await releaseTestWidgetTree(tester);
+      expect(container.read(splashRevealZoomProvider), isTrue);
+      expect(container.read(splashRevealCompleteProvider), isFalse);
       expect(StartupFirstFrameGate.isHeld, isFalse);
+
+      await tester.pump(SplashRevealOverlay.totalDuration);
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(container.read(splashRevealCompleteProvider), isTrue);
+      await releaseTestWidgetTree(tester);
     },
   );
 

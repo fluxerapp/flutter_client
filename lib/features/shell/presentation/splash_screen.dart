@@ -233,14 +233,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _pulseController.stop();
 
-    if (StartupFirstFrameGate.isHeld) {
-      ref.read(splashRevealZoomProvider.notifier).setZoom(value: false);
-      _revealComplete?.complete();
-      _allowSplashExit();
-      setState(() {});
-      return;
-    }
-
     final bool useLogoZoomTransition =
         !_enteredForAccountSwitch &&
         ref.read(
@@ -249,6 +241,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 state.mobileSplashZoomAnimation,
           ),
         );
+    if (StartupFirstFrameGate.isHeld) {
+      if (!useLogoZoomTransition) {
+        ref.read(splashRevealZoomProvider.notifier).setZoom(value: false);
+        _revealComplete?.complete();
+        _allowSplashExit();
+        setState(() {});
+        return;
+      }
+      StartupFirstFrameGate.release();
+    }
     ref
         .read(splashRevealZoomProvider.notifier)
         .setZoom(value: useLogoZoomTransition);
