@@ -1108,26 +1108,29 @@ class GatewayEventHandler {
               roleIdsByGuildId: snapshotRoleIdsByGuildId,
             )).channelIds,
           );
-          final readyGuildIds = <String>{
-            for (final rawGuild in event.rawGuilds)
-              if (rawGuild['id'] is String) rawGuild['id'] as String,
-          };
-          final Set<String> localIdsNow = (await database.guildDao.getServers())
-              .map((row) => row.id)
-              .toSet();
-          prunedGuildIds.addAll(
-            await removeGuildsNotInLocalDb(
-              database,
-              guildIdsKeptAfterMembershipSync(
-                apiGuildIds: readyGuildIds,
-                localGuildIdsBeforeFetch: localGuildIdsBeforeReady,
-                localGuildIdsAfterUpsert: localIdsNow,
-              ),
-            ),
-          );
         }
 
         fanoutMs = phase.elapsedMilliseconds;
+      }
+
+      if (diffAgainstCache) {
+        final readyGuildIds = <String>{
+          for (final rawGuild in event.rawGuilds)
+            if (rawGuild['id'] is String) rawGuild['id'] as String,
+        };
+        final Set<String> localIdsNow = (await database.guildDao.getServers())
+            .map((row) => row.id)
+            .toSet();
+        prunedGuildIds.addAll(
+          await removeGuildsNotInLocalDb(
+            database,
+            guildIdsKeptAfterMembershipSync(
+              apiGuildIds: readyGuildIds,
+              localGuildIdsBeforeFetch: localGuildIdsBeforeReady,
+              localGuildIdsAfterUpsert: localIdsNow,
+            ),
+          ),
+        );
       }
 
       phase
@@ -1303,6 +1306,7 @@ class GatewayEventHandler {
 
       final guildSettings = event.userGuildSettings;
       if (guildSettings != null) {
+        await database.userGuildSettingsDao.clearAll();
         await database.userGuildSettingsDao
             .upsertAll(<db.UserGuildSettingsTableCompanion>[
               for (final gs in guildSettings)
@@ -1348,6 +1352,7 @@ class GatewayEventHandler {
 
       final rtcRegions = event.rtcRegions;
       if (rtcRegions != null) {
+        await database.rtcRegionsDao.clearAll();
         for (final region in rtcRegions) {
           final id = region['id'] as String?;
           if (id == null) {

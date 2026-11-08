@@ -93,6 +93,29 @@ void main() {
       });
     }
 
+    test(
+      'a cached READY with no guilds drops the guild the user left',
+      () async {
+        final database = openTestDatabase();
+        await database.guildDao.upsertServer(
+          ServersCompanion.insert(id: 'left', name: 'Left Guild'),
+        );
+        await database.channelDao.upsertChannel(
+          ChannelsCompanion.insert(id: 'left-chan', guildId: 'left', name: 'x'),
+        );
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          isCacheOwnedBy: (String userId) async => true,
+        );
+
+        await sendReady(handler);
+
+        expect(await database.guildDao.getServerById('left'), isNull);
+        expect(await database.channelDao.getChannelById('left-chan'), isNull);
+      },
+    );
+
     test('incremental READY prunes guilds missing from payload', () async {
       final ctx = await buildHandler();
       await sendReady(ctx.handler, rawGuilds: [_guildRaw(id: '200')]);
