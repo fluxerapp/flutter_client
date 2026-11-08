@@ -55,7 +55,6 @@ import 'package:fluxer_app/features/settings/providers/preferences/advanced_pref
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/default_apps_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/service_status/service_status_maintenance_provider.dart';
@@ -450,8 +449,7 @@ class AppStartup extends _$AppStartup {
         return;
       }
 
-      if (ref.read(localSettingsProvider).cacheFirstLaunch &&
-          await isShellCacheTrusted(database, session.userId)) {
+      if (await isShellCacheTrusted(database, session.userId)) {
         if (!ref.mounted) {
           return;
         }

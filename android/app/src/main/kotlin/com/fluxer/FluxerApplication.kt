@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.fluxer.notifications.NotificationCancelPlugin
+import io.flutter.FlutterInjector
 
 private const val DATA_TRANSPORT_ALARM_RECEIVER =
     "com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
@@ -14,6 +15,7 @@ private const val DATA_TRANSPORT_ALARM_RECEIVER =
 class FluxerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        FlutterInjector.instance().flutterLoader().startInitialization(this)
         NotificationCancelPlugin.onMessengerAttached = { context, messenger ->
             NotificationReplyBridge(context).register(messenger)
         }

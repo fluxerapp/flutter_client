@@ -18,12 +18,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
-const String _kCacheFirstLaunchLabel = 'Fast launch from cache';
-
-const String _kCacheFirstLaunchDescription =
-    'Opens straight to the servers and messages saved on this device, then '
-    'updates them once connected.';
-
 class UserAdvancedSettings extends ConsumerWidget {
   const UserAdvancedSettings({super.key, this.scrollController});
 
@@ -141,19 +135,6 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(localSettingsProvider.notifier)
                     .setSplashQuotesEnabled(value: value),
-              ),
-              FluxerSettingsSwitchItem(
-                label: _kCacheFirstLaunchLabel,
-                description: _kCacheFirstLaunchDescription,
-                labelBadge: const FluxerSettingsStatusBadge.experimental(),
-                value: ref.watch(
-                  localSettingsProvider.select(
-                    (state) => state.cacheFirstLaunch,
-                  ),
-                ),
-                onChanged: (value) => ref
-                    .read(localSettingsProvider.notifier)
-                    .setCacheFirstLaunch(value: value),
               ),
               if (showKeyboardShortcutAdvancedSettings(context))
                 FluxerSettingsSwitchItem(

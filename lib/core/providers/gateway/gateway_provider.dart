@@ -56,7 +56,6 @@ import 'package:fluxer_app/features/notifications/providers/mention_filters_prov
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
-import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/connections_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
@@ -551,9 +550,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           .setCredentials(credentials);
     }),
     isCacheOwnedBy: (String userId) async =>
-        ref.mounted &&
-        ref.read(localSettingsProvider).cacheFirstLaunch &&
-        await isShellCacheTrusted(db, userId),
+        ref.mounted && await isShellCacheTrusted(db, userId),
     onSessionChanging: () => ifMounted(() {
       ref.read(syncedPreferencesStoreProvider).markSessionChanging();
     }),

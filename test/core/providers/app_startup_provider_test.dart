@@ -31,7 +31,6 @@ import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
-import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -146,6 +145,8 @@ class _FakeWellKnown extends WellKnown {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() => SharedPreferences.setMockInitialValues(<String, Object>{}));
 
   test('retry recovers the provider after a failed startup', () async {
     var failStartup = true;
@@ -623,7 +624,7 @@ void main() {
 
   group('cache-first launch', () {
     test('opens the shell without waiting for /users/@me or READY', () async {
-      _mockLaunchPreferences(cacheFirstLaunch: true);
+      _mockLaunchPreferences();
       final db = openTestDatabase();
       final MapAuthTokenStorage tokens = MapAuthTokenStorage();
       await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -641,7 +642,6 @@ void main() {
         }
         container.dispose();
       });
-      await container.read(localSettingsProvider.notifier).load();
 
       container.listen(appStartupProvider, (_, _) {});
       await container.read(appStartupProvider.future);
@@ -663,33 +663,21 @@ void main() {
       expect(container.read(shellDataReadyProvider), isTrue);
     });
 
-    for (final (String name, bool enabled, int generation, Duration liveAgo)
-        in <(String, bool, int, Duration)>[
-          (
-            'the toggle is off',
-            false,
-            kShellCacheGeneration,
-            const Duration(hours: 1),
-          ),
+    for (final (String name, int generation, Duration liveAgo)
+        in <(String, int, Duration)>[
           (
             'the cache generation is stale',
-            true,
             kShellCacheGeneration - 1,
             const Duration(hours: 1),
           ),
           (
             'the cache was last live over 7 days ago',
-            true,
             kShellCacheGeneration,
             kShellCacheMaxAge + const Duration(hours: 1),
           ),
         ]) {
       test('waits for /users/@me when $name', () async {
-        _mockLaunchPreferences(
-          cacheFirstLaunch: enabled,
-          generation: generation,
-          liveAgo: liveAgo,
-        );
+        _mockLaunchPreferences(generation: generation, liveAgo: liveAgo);
         final db = openTestDatabase();
         final MapAuthTokenStorage tokens = MapAuthTokenStorage();
         await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -707,7 +695,6 @@ void main() {
           }
           container.dispose();
         });
-        await container.read(localSettingsProvider.notifier).load();
         container.listen(appStartupProvider, (_, _) {});
 
         await pumpEventQueue();
@@ -720,7 +707,7 @@ void main() {
     test(
       'waits for /users/@me when the cache belongs to another user',
       () async {
-        _mockLaunchPreferences(cacheFirstLaunch: true);
+        _mockLaunchPreferences();
         final db = openTestDatabase();
         final MapAuthTokenStorage tokens = MapAuthTokenStorage();
         await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -740,7 +727,6 @@ void main() {
           }
           container.dispose();
         });
-        await container.read(localSettingsProvider.notifier).load();
         container.listen(appStartupProvider, (_, _) {});
 
         await pumpEventQueue();
@@ -750,7 +736,7 @@ void main() {
     );
 
     test('a failed background check retries once when READY arrives', () async {
-      _mockLaunchPreferences(cacheFirstLaunch: true);
+      _mockLaunchPreferences();
       final db = openTestDatabase();
       final MapAuthTokenStorage tokens = MapAuthTokenStorage();
       await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -763,7 +749,6 @@ void main() {
         adapter: adapter,
       );
       addTearDown(container.dispose);
-      await container.read(localSettingsProvider.notifier).load();
       container.listen(appStartupProvider, (_, _) {});
 
       await container.read(appStartupProvider.future);
@@ -784,7 +769,7 @@ void main() {
     });
 
     test('a background 401 on the stored host signs out', () async {
-      _mockLaunchPreferences(cacheFirstLaunch: true);
+      _mockLaunchPreferences();
       final db = openTestDatabase();
       final MapAuthTokenStorage tokens = MapAuthTokenStorage();
       await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -796,7 +781,6 @@ void main() {
         statusCode: 401,
       );
       addTearDown(container.dispose);
-      await container.read(localSettingsProvider.notifier).load();
 
       await container.read(appStartupProvider.future);
       await pumpEventQueue();
@@ -807,7 +791,7 @@ void main() {
     });
 
     test('a background 401 from another host keeps the session', () async {
-      _mockLaunchPreferences(cacheFirstLaunch: true);
+      _mockLaunchPreferences();
       final db = openTestDatabase();
       final MapAuthTokenStorage tokens = MapAuthTokenStorage();
       await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
@@ -819,7 +803,6 @@ void main() {
         statusCode: 401,
       );
       addTearDown(container.dispose);
-      await container.read(localSettingsProvider.notifier).load();
 
       await container.read(appStartupProvider.future);
       await pumpEventQueue();
@@ -841,12 +824,10 @@ Future<void> _seedTrustedCache(FluxerDatabase db) async {
 }
 
 void _mockLaunchPreferences({
-  required bool cacheFirstLaunch,
   int generation = kShellCacheGeneration,
   Duration liveAgo = const Duration(hours: 1),
 }) {
   SharedPreferences.setMockInitialValues(<String, Object>{
-    'cache_first_launch': cacheFirstLaunch,
     'shell_cache_generation': generation,
     'shell_cache_live_at': DateTime.now()
         .subtract(liveAgo)

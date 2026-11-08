@@ -11,6 +11,7 @@ class StartupTimeline {
 
   final Stopwatch _stopwatch = Stopwatch();
   StartupShellSource? _shellSource;
+  bool _firstFrameRecorded = false;
   bool _shellRecorded = false;
   bool _liveRecorded = false;
 
@@ -22,6 +23,21 @@ class StartupTimeline {
   }
 
   Duration get elapsed => _stopwatch.elapsed;
+
+  void markFirstFrame() {
+    if (_firstFrameRecorded || !_stopwatch.isRunning) {
+      return;
+    }
+    _firstFrameRecorded = true;
+    final Duration elapsed = _stopwatch.elapsed;
+    debugPrint(
+      '[StartupTimeline] startup.first_frame=${elapsed.inMilliseconds}ms',
+    );
+    FluxerObservability.instance.recordMilestone(
+      'startup.first_frame',
+      elapsed: elapsed,
+    );
+  }
 
   void markShellShown(StartupShellSource source) {
     if (_shellRecorded || !_stopwatch.isRunning) {
@@ -61,6 +77,7 @@ class StartupTimeline {
       ..stop()
       ..reset();
     _shellSource = null;
+    _firstFrameRecorded = false;
     _shellRecorded = false;
     _liveRecorded = false;
   }

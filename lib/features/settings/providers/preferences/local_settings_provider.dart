@@ -8,33 +8,28 @@ const String _kHapticsEnabledKey = 'haptics_enabled';
 const String _kSplashQuotesEnabledKey = 'splash_quotes_enabled';
 const String _kOpenCommunitiesToLastChannelKey =
     'open_communities_to_last_channel';
-const String _kCacheFirstLaunchKey = 'cache_first_launch';
 
 class LocalSettingsState {
   const LocalSettingsState({
     this.hapticsEnabled = true,
     this.splashQuotesEnabled = false,
     this.openCommunitiesToLastChannel = false,
-    this.cacheFirstLaunch = false,
   });
 
   final bool hapticsEnabled;
   final bool splashQuotesEnabled;
   final bool openCommunitiesToLastChannel;
-  final bool cacheFirstLaunch;
 
   LocalSettingsState copyWith({
     bool? hapticsEnabled,
     bool? splashQuotesEnabled,
     bool? openCommunitiesToLastChannel,
-    bool? cacheFirstLaunch,
   }) {
     return LocalSettingsState(
       hapticsEnabled: hapticsEnabled ?? this.hapticsEnabled,
       splashQuotesEnabled: splashQuotesEnabled ?? this.splashQuotesEnabled,
       openCommunitiesToLastChannel:
           openCommunitiesToLastChannel ?? this.openCommunitiesToLastChannel,
-      cacheFirstLaunch: cacheFirstLaunch ?? this.cacheFirstLaunch,
     );
   }
 }
@@ -55,7 +50,6 @@ class LocalSettings extends _$LocalSettings {
           preferences.getBool(_kSplashQuotesEnabledKey) ?? false,
       openCommunitiesToLastChannel:
           preferences.getBool(_kOpenCommunitiesToLastChannelKey) ?? false,
-      cacheFirstLaunch: preferences.getBool(_kCacheFirstLaunchKey) ?? false,
     );
   }
 
@@ -76,11 +70,5 @@ class LocalSettings extends _$LocalSettings {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setBool(_kOpenCommunitiesToLastChannelKey, value);
     state = state.copyWith(openCommunitiesToLastChannel: value);
-  }
-
-  Future<void> setCacheFirstLaunch({required bool value}) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_kCacheFirstLaunchKey, value);
-    state = state.copyWith(cacheFirstLaunch: value);
   }
 }

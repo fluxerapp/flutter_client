@@ -104,13 +104,17 @@ void _runFluxerApp(ProviderContainer container) {
 Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();
-  await trustBundledRootCertificates();
+  final Future<void> rootCertificates = _bootstrapStep(
+    'app.bootstrap.root_certificates',
+    trustBundledRootCertificates,
+  );
   unawaited(ApplePushService.installReplyHandler());
   assertPushProviderBuildConfig();
   if (Platform.isAndroid &&
       PushProviderGuard.isUnifiedPush &&
       args.contains('--unifiedpush-bg')) {
     DartPluginRegistrant.ensureInitialized();
+    await rootCertificates;
     await UnifiedPushService.ensureBackgroundInitialized();
     return;
   }
@@ -145,6 +149,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     );
   }
   await Future.wait<void>([
+    rootCertificates,
     () async {
       await _bootstrapStep(
         'app.bootstrap.foreground_session',
@@ -215,6 +220,11 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerObservability.instance.traceSync(
     'app.run',
     () => _runFluxerApp(container),
+  );
+  unawaited(
+    WidgetsBinding.instance.waitUntilFirstFrameRasterized.then(
+      (_) => StartupTimeline.instance.markFirstFrame(),
+    ),
   );
 }
 
