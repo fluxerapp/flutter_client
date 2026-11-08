@@ -75,6 +75,16 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
     flushIfReady();
   }
 
+  /// Queues [path] for the READY flush without flushing now. Flushing would
+  /// resolve the same missing target against the cache again and re-queue it.
+  void storeUntilGatewayReady(String path) {
+    state = PendingPushNotificationRoute(
+      path: path,
+      accountUserId: ref.read(currentUserIdProvider),
+    );
+    talker.info('[PendingNavigation] Queued path until READY: $path');
+  }
+
   void clear() {
     state = null;
   }
