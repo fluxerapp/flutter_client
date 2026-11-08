@@ -108,6 +108,12 @@ class AckBatcher {
     cancel(channelId);
   }
 
+  String? outstandingAck(String channelId) {
+    final String? pending = _pending[channelId]?.messageId;
+    final String? inFlight = _inFlight[channelId];
+    return compareSnowflakeIds(pending, inFlight) >= 0 ? pending : inFlight;
+  }
+
   void clear() {
     _pending.clear();
     _inFlight.clear();
@@ -203,51 +209,61 @@ class AckBatcher {
     }
 
     for (final chunk in chunks) {
-      final body = ReadStateAckRequest(
-        readStates: chunk
-            .map(
-              (_SentAck e) => ReadStateAckRequestReadStates(
-                channelId: e.channelId,
-                messageId: e.messageId,
-              ),
-            )
-            .toList(),
-      );
-      for (final _SentAck entry in chunk) {
-        _inFlight[entry.channelId] = entry.messageId;
-      }
-      try {
-        final response = await _client.readStates.ackReadStates(body: body);
-        _clearInFlight(chunk);
-        _removeSent(chunk);
-        final onResponse = this.onResponse;
-        if (onResponse != null) {
-          await onResponse(response);
-        }
-      } on Object catch (e, s) {
-        _clearInFlight(chunk);
-        _logFailure('bulk ack chunk failed', e, s);
-        if (_isRejected(e)) {
-          _removeSent(chunk);
-          continue;
-        }
-        final int retryAfterMs = e is DioException
-            ? retryAfterMsFromDioException(e) ?? 0
-            : 0;
-        for (final _SentAck entry in chunk) {
-          final current = _pending[entry.channelId];
-          if (current == null || current.messageId != entry.messageId) {
-            continue;
-          }
-          current.attempt += 1;
-          final Duration backoff = _retryDelay(current.attempt);
-          current.deadline = clock.now().add(
-            Duration(milliseconds: max(backoff.inMilliseconds, retryAfterMs)),
-          );
-        }
-      }
+      await _sendChunk(chunk);
     }
     _rescheduleTimer();
+  }
+
+  Future<void> _sendChunk(List<_SentAck> chunk) async {
+    final body = ReadStateAckRequest(
+      readStates: chunk
+          .map(
+            (_SentAck e) => ReadStateAckRequestReadStates(
+              channelId: e.channelId,
+              messageId: e.messageId,
+            ),
+          )
+          .toList(),
+    );
+    for (final _SentAck entry in chunk) {
+      _inFlight[entry.channelId] = entry.messageId;
+    }
+    try {
+      final response = await _client.readStates.ackReadStates(body: body);
+      _clearInFlight(chunk);
+      _removeSent(chunk);
+      final onResponse = this.onResponse;
+      if (onResponse != null) {
+        await onResponse(response);
+      }
+    } on Object catch (e, s) {
+      _clearInFlight(chunk);
+      _logFailure('bulk ack chunk failed', e, s);
+      if (_isRejected(e)) {
+        if (chunk.length > 1) {
+          for (final _SentAck entry in chunk) {
+            await _sendChunk(<_SentAck>[entry]);
+          }
+          return;
+        }
+        _removeSent(chunk);
+        return;
+      }
+      final int retryAfterMs = e is DioException
+          ? retryAfterMsFromDioException(e) ?? 0
+          : 0;
+      for (final _SentAck entry in chunk) {
+        final current = _pending[entry.channelId];
+        if (current == null || current.messageId != entry.messageId) {
+          continue;
+        }
+        current.attempt += 1;
+        final Duration backoff = _retryDelay(current.attempt);
+        current.deadline = clock.now().add(
+          Duration(milliseconds: max(backoff.inMilliseconds, retryAfterMs)),
+        );
+      }
+    }
   }
 
   void _removeSent(List<_SentAck> chunk) {

@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
 
@@ -22,6 +23,7 @@ class ChannelStreamItem {
     this.dividerDate,
     this.showUnreadDividerBefore = false,
     this.dividerHasUnread = false,
+    this.unreadMessageId,
   });
 
   final ChannelStreamType type;
@@ -30,6 +32,7 @@ class ChannelStreamItem {
   final DateTime? dividerDate;
   final bool showUnreadDividerBefore;
   final bool dividerHasUnread;
+  final String? unreadMessageId;
 
   Message? get singleMessage => messages.length == 1 ? messages.first : null;
 
@@ -191,6 +194,9 @@ createIndexedChannelStream({
   String? activeCollapsedGroupKey;
   ChannelStreamItem? activeCollapsedItem;
   bool unreadBoundaryPending = oldestUnreadMessageId != null;
+  final bool unreadBoundaryInWindow =
+      unreadBoundaryPending &&
+      compareSnowflakeIds(messages.first.id, oldestUnreadMessageId) < 0;
 
   for (var i = 0; i < messages.length; i++) {
     final Message message = messages[i];
@@ -227,6 +233,7 @@ createIndexedChannelStream({
           messages: <Message>[...activeCollapsedItem.messages, message],
           groupKey: activeCollapsedItem.groupKey,
           showUnreadDividerBefore: activeCollapsedItem.showUnreadDividerBefore,
+          unreadMessageId: activeCollapsedItem.unreadMessageId,
         );
         stream[stream.length - 1] = activeCollapsedItem;
         targetItem = activeCollapsedItem;
@@ -260,12 +267,16 @@ createIndexedChannelStream({
       index._groupByMessageId[message.id] = targetGroupKey;
     }
 
-    if (unreadBoundaryPending && oldestUnreadMessageId == message.id) {
+    if (unreadBoundaryPending &&
+        (oldestUnreadMessageId == message.id ||
+            (unreadBoundaryInWindow &&
+                compareSnowflakeIds(message.id, oldestUnreadMessageId) > 0))) {
       final ChannelStreamItem? previousItem = stream.length > 1
           ? stream[stream.length - 2]
           : null;
       if (previousItem?.type == ChannelStreamType.divider &&
-          previousItem?.dividerDate != null) {
+          previousItem?.dividerDate != null &&
+          targetItem.messages.first.id == message.id) {
         stream[stream.length - 2] = ChannelStreamItem(
           type: ChannelStreamType.divider,
           dividerDate: previousItem!.dividerDate,
@@ -278,6 +289,7 @@ createIndexedChannelStream({
           messages: targetItem.messages,
           groupKey: targetItem.groupKey,
           showUnreadDividerBefore: true,
+          unreadMessageId: collapsedType != null ? message.id : null,
         );
         if (collapsedType != null) {
           activeCollapsedItem = stream[targetIndex];

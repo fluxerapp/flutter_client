@@ -217,6 +217,80 @@ void main() {
     });
   });
 
+  group('unread boundary', () {
+    test('marks the message right after the ack', () {
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: <Message>[
+          _message(id: '10', authorId: 'a'),
+          _message(id: '20', authorId: 'b'),
+        ],
+        oldestUnreadMessageId: '20',
+        context: _context,
+      );
+      final ChannelStreamItem marked = stream.singleWhere(
+        (ChannelStreamItem item) => item.showUnreadDividerBefore,
+      );
+      expect(marked.singleMessage?.id, '20');
+    });
+
+    test('falls back to the first newer message when the id is missing', () {
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: <Message>[
+          _message(id: '10', authorId: 'a'),
+          _message(id: '30', authorId: 'b'),
+          _message(id: '40', authorId: 'c'),
+        ],
+        oldestUnreadMessageId: '20',
+        context: _context,
+      );
+      final ChannelStreamItem marked = stream.singleWhere(
+        (ChannelStreamItem item) => item.showUnreadDividerBefore,
+      );
+      expect(marked.singleMessage?.id, '30');
+    });
+
+    test('shows no divider when the boundary is older than the window', () {
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: <Message>[
+          _message(id: '30', authorId: 'a'),
+          _message(id: '40', authorId: 'b'),
+        ],
+        oldestUnreadMessageId: '20',
+        context: _context,
+      );
+      expect(
+        stream.where((ChannelStreamItem item) => item.showUnreadDividerBefore),
+        isEmpty,
+      );
+      expect(
+        stream.where((ChannelStreamItem item) => item.dividerHasUnread),
+        isEmpty,
+      );
+    });
+
+    test('remembers which message inside a collapsed group is unread', () {
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: <Message>[
+          _message(id: '10', authorId: 'blocked'),
+          _message(id: '20', authorId: 'blocked'),
+          _message(id: '30', authorId: 'blocked'),
+        ],
+        oldestUnreadMessageId: '20',
+        context: _context,
+      );
+      final ChannelStreamItem group = stream.singleWhere(
+        (ChannelStreamItem item) => item.type.isCollapsedGroup,
+      );
+      expect(group.showUnreadDividerBefore, isTrue);
+      expect(group.unreadMessageId, '20');
+      expect(group.messages.map((Message m) => m.id), <String>[
+        '10',
+        '20',
+        '30',
+      ]);
+    });
+  });
+
   group('buildMessageCollapseAssignments', () {
     test('matches stream group keys', () {
       final List<Message> messages = <Message>[

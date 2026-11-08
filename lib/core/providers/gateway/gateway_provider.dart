@@ -500,9 +500,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           );
         }),
     onOwnMessageCreated: (channelId, sentAt) => ifMounted(() {
-      ref.read(chatViewModelProvider.notifier)
-        ..clearStickyUnreadFor(channelId)
-        ..cancelPendingOutgoingAck(channelId);
+      ref.read(chatViewModelProvider.notifier).clearStickyUnreadFor(channelId);
       ref
           .read(slowmodeTrackerProvider.notifier)
           .updateSendTimestamp(channelId, sentAt);

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
@@ -9,6 +11,42 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 const double _kUnreadDividerHeight = 16;
 const double _kUnreadDateDividerHeight = 20;
+const double kDateDividerContentHeight = _kUnreadDateDividerHeight;
+
+class UnreadSeparatorOverlay extends StatelessWidget {
+  const UnreadSeparatorOverlay({
+    required this.show,
+    required this.lineCenter,
+    required this.child,
+    super.key,
+  });
+
+  final bool show;
+  final double lineCenter;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.passthrough,
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        if (show)
+          Positioned(
+            top: math.min(
+              lineCenter - _kUnreadDividerHeight / 2,
+              lineCenter * 2 - _kUnreadDividerHeight,
+            ),
+            left: 0,
+            right: 0,
+            height: _kUnreadDividerHeight,
+            child: const IgnorePointer(child: UnreadSeparator()),
+          ),
+      ],
+    );
+  }
+}
 
 class UnreadSeparator extends StatelessWidget {
   const UnreadSeparator({super.key});

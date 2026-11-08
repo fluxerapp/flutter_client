@@ -1,9 +1,10 @@
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 
 class ChatUnreadMessageRef {
-  const ChatUnreadMessageRef({required this.id});
+  const ChatUnreadMessageRef({required this.id, this.isOwn = false});
 
   final String id;
+  final bool isOwn;
 }
 
 class ChatUnreadSummary {
@@ -47,6 +48,9 @@ ChatUnreadSummary computeChatUnreadSummary({
       hasLoadedAckBoundary = true;
       continue;
     }
+    if (message.isOwn) {
+      continue;
+    }
     oldestUnread ??= message.id;
     loadedUnreadCount++;
   }
@@ -82,15 +86,10 @@ ChatUnreadSummary computeChatUnreadSummary({
 }
 
 String? resolveVisualUnreadId({
-  required Iterable<ChatUnreadMessageRef> messages,
   required String? stickyUnreadId,
   required String? oldestUnreadId,
 }) {
-  if (stickyUnreadId == null || stickyUnreadId.isEmpty) {
-    return oldestUnreadId;
-  }
-  final bool hasVisibleSticky = messages.any(
-    (ChatUnreadMessageRef message) => message.id == stickyUnreadId,
-  );
-  return hasVisibleSticky ? stickyUnreadId : oldestUnreadId;
+  return stickyUnreadId == null || stickyUnreadId.isEmpty
+      ? oldestUnreadId
+      : stickyUnreadId;
 }
