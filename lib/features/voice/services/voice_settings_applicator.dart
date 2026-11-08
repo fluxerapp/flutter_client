@@ -6,12 +6,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
-import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
-import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart';
 import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
@@ -29,19 +28,19 @@ part 'voice_settings_applicator.g.dart';
 class VoiceSettingsApplicator {
   const VoiceSettingsApplicator({
     required this.noiseFilterSupported,
-    required this.higherVideoQuality,
+    required this.videoQualityCaps,
     required this.meshPhoneCap,
   });
 
   final bool noiseFilterSupported;
-  final bool higherVideoQuality;
+  final VideoQualityCaps videoQualityCaps;
   final bool meshPhoneCap;
 
   VoiceSettingsApplicator forChannelMode(VoiceChannelMode mode) {
     final bool isP2p = mode == VoiceChannelMode.p2p;
     return VoiceSettingsApplicator(
       noiseFilterSupported: noiseFilterSupported,
-      higherVideoQuality: higherVideoQuality || isP2p,
+      videoQualityCaps: isP2p ? VideoQualityCaps.full : videoQualityCaps,
       meshPhoneCap: isFluxerMobileOs && isP2p,
     );
   }
@@ -49,7 +48,7 @@ class VoiceSettingsApplicator {
   VoiceSettingsState _clampVideo(VoiceSettingsState settings) {
     return clampVoiceVideoSettings(
       settings,
-      higherVideoQuality: higherVideoQuality,
+      caps: videoQualityCaps,
       meshPhoneCap: meshPhoneCap,
       phoneScreenShareCap: isFluxerNativeMobileOs,
     );
@@ -717,12 +716,9 @@ VoiceSettingsApplicator voiceSettingsApplicator(Ref ref) {
         data: (VoiceNoiseFilterState value) => value.isSupported,
         orElse: () => false,
       );
-  final bool higherVideoQuality = ref.watch(
-    instanceFeatureEnabledProvider(LimitKeys.featureHigherVideoQuality),
-  );
   return VoiceSettingsApplicator(
     noiseFilterSupported: noiseFilterSupported,
-    higherVideoQuality: higherVideoQuality,
+    videoQualityCaps: ref.watch(instanceVideoQualityCapsProvider),
     meshPhoneCap: false,
   );
 }

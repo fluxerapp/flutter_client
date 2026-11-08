@@ -116,8 +116,8 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     final VoicePromptsPreferences promptsNotifier = ref.read(
       voicePromptsPreferencesProvider.notifier,
     );
-    final bool higherQualityEnabled = ref.watch(
-      voiceHigherVideoQualityProvider,
+    final VideoQualityCaps videoQualityCaps = ref.watch(
+      voiceVideoQualityCapsProvider,
     );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
@@ -230,8 +230,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   FluxerRadioGroup<CameraResolution>(
                     value: settings.cameraResolution,
                     onChanged: (CameraResolution value) {
-                      if (!higherQualityEnabled &&
-                          isHigherVideoQualityCameraResolution(value)) {
+                      if (!videoQualityCaps.allowsCameraResolution(value)) {
                         return;
                       }
                       unawaited(settingsNotifier.setCameraResolution(value));
@@ -259,8 +258,9 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   FluxerRadioGroup<ScreenshareResolution>(
                     value: settings.screenshareResolution,
                     onChanged: (ScreenshareResolution value) {
-                      if (!higherQualityEnabled &&
-                          isHigherVideoQualityScreenShareResolution(value)) {
+                      if (!videoQualityCaps.allowsScreenShareResolution(
+                        value,
+                      )) {
                         return;
                       }
                       unawaited(
@@ -290,8 +290,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   FluxerRadioGroup<int>(
                     value: settings.videoFrameRate,
                     onChanged: (int value) {
-                      if (!higherQualityEnabled &&
-                          isHigherVideoQualityFrameRate(value)) {
+                      if (!videoQualityCaps.allowsFrameRate(value)) {
                         return;
                       }
                       unawaited(settingsNotifier.setVideoFrameRate(value));
@@ -313,7 +312,10 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   ),
                 ],
               ),
-              if (!higherQualityEnabled)
+              if (!videoQualityCaps.allowsScreenShareResolution(
+                    ScreenshareResolution.high,
+                  ) &&
+                  !videoQualityCaps.allowsFrameRate(60))
                 Padding(
                   padding: EdgeInsets.only(top: layout.s3),
                   child: Text(
