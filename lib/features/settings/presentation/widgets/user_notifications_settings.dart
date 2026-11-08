@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_sheet.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -250,8 +252,10 @@ Future<void> _handlePushRelayConsentChanged({
   final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
   await consent.ensureLoaded();
 
+  final String? userId = ref.read(currentUserIdProvider);
+
   if (!value) {
-    await consent.setEnabled(value: false);
+    await consent.revoke(userIds: await _signedInUserIds(ref, userId));
     await _unregisterPushRelayMobileDevices(ref);
     return;
   }
@@ -260,10 +264,26 @@ Future<void> _handlePushRelayConsentChanged({
     return;
   }
   final bool? agreed = await showPushRelayConsentSheet(context);
-  if (!context.mounted) {
-    return;
-  }
-  await recordPushRelayConsentSheetResult(consent: consent, agreed: agreed);
+  await recordPushRelayConsentSheetResult(
+    consent: consent,
+    agreed: agreed,
+    userIds: <String>{?userId},
+  );
+}
+
+Future<Set<String>> _signedInUserIds(
+  WidgetRef ref,
+  String? activeUserId,
+) async {
+  final sessions = await ref
+      .read(fluxerDatabaseProvider)
+      .authSessionDao
+      .getAllSessions();
+  return <String>{
+    ?activeUserId,
+    for (final session in sessions)
+      if (session.isValid) session.userId,
+  };
 }
 
 Future<void> _unregisterPushRelayMobileDevices(WidgetRef ref) async {

@@ -11016,6 +11016,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get pushRelayConsentDecline => 'Teď ne';
 
   @override
+  String pushRelayConsentDeclinedToast(String settingLabel) {
+    return 'Push notifications stay off for this account on this device. You can turn them on later with \"$settingLabel\" in notification settings.';
+  }
+
+  @override
+  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+
+  @override
   String get userSettingsNavLanguageAndTime => 'Jazyk a čas';
 
   @override
