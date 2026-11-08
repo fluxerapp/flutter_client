@@ -41,7 +41,8 @@ object SsoAuthSessionTasks {
             context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
                 ?: return
         for (task in activityManager.appTasks) {
-            if (isSsoAuthSessionTask(task.taskInfo)) {
+            val info = task.taskInfo ?: continue
+            if (isSsoAuthSessionTask(info)) {
                 task.finishAndRemoveTask()
             }
         }
@@ -53,7 +54,7 @@ object SsoAuthSessionTasks {
         val mainClassName = MainActivity::class.java.name
         if (activityManager != null) {
             for (task in activityManager.appTasks) {
-                val info = task.taskInfo
+                val info = task.taskInfo ?: continue
                 if (
                     info.baseActivity?.className == mainClassName ||
                     info.topActivity?.className == mainClassName
