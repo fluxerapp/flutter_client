@@ -62,8 +62,21 @@ String? uploadFilenameOverrideFromPickerXFile(XFile file) {
   return basename;
 }
 
+final RegExp _unsafeFilenameCharacters = RegExp(r'[/\\:*?"<>|\x00-\x1f\x7f]');
+final RegExp _dotsOnly = RegExp(r'^\.+$');
+
+String stripUnsafeFilenameCharacters(String name) {
+  final String replaced = name
+      .replaceAll(_unsafeFilenameCharacters, '_')
+      .trim();
+  if (_dotsOnly.hasMatch(replaced)) {
+    return '';
+  }
+  return replaced;
+}
+
 String sanitizeAttachmentFilename(String name, {String? mimeType}) {
-  final String trimmed = name.trim();
+  final String trimmed = stripUnsafeFilenameCharacters(name);
   if (!isGenericImagePickerTempBasename(trimmed)) {
     return filenameForMimeType(trimmed, mimeType: mimeType);
   }
@@ -84,7 +97,7 @@ String filenameForMimeType(
   String? mimeType,
   String defaultStem = 'attachment',
 }) {
-  final String trimmed = name.trim();
+  final String trimmed = stripUnsafeFilenameCharacters(name);
   if (mimeType == null || mimeType.isEmpty) {
     return trimmed.isNotEmpty ? trimmed : '$defaultStem.bin';
   }

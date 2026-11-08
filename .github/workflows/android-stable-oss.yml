@@ -1,0 +1,151 @@
+name: Android Stable OSS Build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      android_build_number:
+        description: Pre-allocated Nodus Android versionCode for this release
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  build-stable-oss:
+    name: Build stable OSS APK (UnifiedPush)
+    runs-on: macos-26
+    environment: release-builds
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ github.event_name == 'workflow_call' && 'stable' || github.ref }}
+          submodules: recursive
+
+      - name: Resolve stable version name
+        id: stable_version_name
+        run: python3 .github/scripts/app_version.py read
+
+      - name: Resolve Android build number
+        id: android_build_number
+        env:
+          NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+          NODUS_APP: fluxer
+          PREALLOCATED_BUILD_NUMBER: ${{ inputs.android_build_number }}
+        run: bash .github/scripts/resolve_nodus_android_build_number.sh
+
+      - name: Sync submodules
+        run: git submodule update --init --recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Restore Gradle cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-stable-oss-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-stable-oss-
+            ${{ runner.os }}-gradle-
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Configure OSS build tree
+        run: dart tool/configure_build.dart --profile=oss
+
+      - name: Set up Rust for the native markdown parser
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+            . "$HOME/.cargo/env"
+          fi
+          rustup show active-toolchain || rustup toolchain install stable
+          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+          flutter config --enable-native-assets
+
+      - name: Resolve unifiedpush_linux to the stub
+        run: bash tool/apply_macos_pub_overrides.sh
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: dart run build_runner build
+
+      - name: Create Android signing files
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          KEYSTORE_PATH="$RUNNER_TEMP/upload-keystore.jks"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+          cat > android/key.properties << EOF
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyPassword=$ANDROID_KEY_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          storeFile=$KEYSTORE_PATH
+          EOF
+
+      - name: Write Android ADI registration file
+        env:
+          ANDROID_ADI_REGISTRATION_SNIPPET: ${{ secrets.ANDROID_ADI_REGISTRATION_SNIPPET }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ANDROID_ADI_REGISTRATION_SNIPPET" ]; then
+            echo "::warning::ANDROID_ADI_REGISTRATION_SNIPPET secret is not set. Add the Play Console identifier under Settings -> Secrets and variables -> Actions -> Secrets if you need adi-registration.properties in the APK."
+            exit 0
+          fi
+          mkdir -p android/app/src/main/assets
+          printf '%s\n' "$ANDROID_ADI_REGISTRATION_SNIPPET" > android/app/src/main/assets/adi-registration.properties
+
+      - name: Write Measure Android config
+        env:
+          MEASURE_RELEASE_CHANNEL: stable
+          MEASURE_ANDROID_API_KEY_STABLE: ${{ secrets.MEASURE_ANDROID_API_KEY_STABLE }}
+          MEASURE_ANDROID_API_KEY: ${{ secrets.MEASURE_ANDROID_API_KEY }}
+          MEASURE_API_URL: ${{ secrets.MEASURE_API_URL }}
+        run: tool/measure/write_native_measure_config.sh
+
+      - name: Build stable OSS split APKs
+        run: flutter build apk --release --split-per-abi --flavor stableUnifiedpush --build-name ${{ steps.stable_version_name.outputs.version }} --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=unifiedpush --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Build stable OSS combined APK
+        run: flutter build apk --release --flavor stableUnifiedpush --build-name ${{ steps.stable_version_name.outputs.version }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=unifiedpush --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Rename stable OSS APK artifacts
+        run: bash .github/scripts/rename_oss_apk_artifacts.sh stableunifiedpush
+
+      - name: Attest stable OSS release binaries
+        uses: ./.github/actions/attest-android-binaries
+        with:
+          patterns: build/app/outputs/flutter-apk/*-stableoss-release.apk
+
+      - name: Upload stable OSS APK artifacts
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: stable-oss-apk
+          path: build/app/outputs/flutter-apk/*-stableoss-release.apk
+          if-no-files-found: error

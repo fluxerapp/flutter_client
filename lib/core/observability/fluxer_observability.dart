@@ -332,6 +332,26 @@ class FluxerObservability {
     );
   }
 
+  void recordMilestone(
+    String name, {
+    required Duration elapsed,
+    Map<String, AttributeValue> attributes = const <String, AttributeValue>{},
+  }) {
+    if (!isEnabled) {
+      return;
+    }
+    final Span? span = startSpan(
+      name,
+      attributes: <String, AttributeValue>{
+        ...attributes,
+        'startup.elapsed_ms': IntAttr(elapsed.inMilliseconds),
+      },
+    );
+    if (span != null) {
+      _endObservabilitySpan(span, elapsed: elapsed);
+    }
+  }
+
   void recordLifecycleState(AppLifecycleState state) {
     if (!isEnabled) {
       return;

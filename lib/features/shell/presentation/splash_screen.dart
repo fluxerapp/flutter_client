@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/bootstrap/startup_first_frame_gate.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility_messages.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
+import 'package:fluxer_app/core/observability/startup_timeline.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
@@ -59,6 +62,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const Color _splashLinkText = Color(0xFFC4B8F0);
   static const Color _splashQuoteText = Color(0xFFD6D0EC);
 
+  static const Duration _zoomRevealMinVisible = Duration(seconds: 3);
+
   late final AnimationController _pulseController;
   SplashQuote? _selectedQuote;
   Timer? _statusTimer;
@@ -73,6 +78,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _hydrationWaitExpired = false;
   Timer? _hydrationWaitTimer;
   bool _enteredForAccountSwitch = false;
+  DateTime? _visibleSince;
   SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
   ServiceStatusIncident? _frozenIncident;
@@ -89,6 +95,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       if (!mounted) {
         return;
       }
+      _visibleSince = clock.now();
       ref.read(splashExitAllowedProvider.notifier).reset();
       if (ref.read(localSettingsProvider).splashQuotesEnabled) {
         _selectedQuote = pickRandomSplashQuote();
@@ -121,6 +128,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _hydrationWaitTimer?.cancel();
     _pulseController.dispose();
+    StartupFirstFrameGate.release();
     final SplashRevealComplete? revealComplete = _revealComplete;
     if (!_exitRevealStarted && revealComplete != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -141,10 +149,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _outageRetryTimer = null;
   }
 
-  bool _shellDataReady() =>
-      ref.read(gatewayReadyProvider) ||
-      ref.read(startupGatewayFallbackProvider) ==
-          StartupGatewayFallback.cachedShell;
+  bool _shellDataReady() => ref.read(shellDataReadyProvider);
 
   void _cancelSplashIfReady() {
     final AsyncValue<void> startup = ref.read(appStartupProvider);
@@ -168,6 +173,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _hydrationWaitTimer?.cancel();
     _hydrationWaitTimer = null;
     _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
+    _visibleSince = clock.now();
     _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     _revealComplete?.reset();
     ref.read(splashExitAllowedProvider.notifier).reset();
@@ -204,9 +210,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     if (startup is! AsyncData<void> ||
         !_shellDataReady() ||
         ref.read(accountManagerProvider).isSwitching) {
+      if (!startup.isLoading) {
+        StartupFirstFrameGate.release();
+      }
       return;
     }
     if (!ref.read(authStateProvider)) {
+      StartupFirstFrameGate.release();
       _revealComplete?.complete();
       return;
     }
@@ -221,10 +231,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _hydrationWaitTimer?.cancel();
     _hydrationWaitTimer = null;
     _exitRevealStarted = true;
+    StartupTimeline.instance.markShellShown(
+      ref.read(gatewayReadyProvider)
+          ? StartupShellSource.live
+          : StartupShellSource.cache,
+    );
     _cancelSplashTimers();
     _pulseController.stop();
 
-    final bool useLogoZoomTransition =
+    final bool usePageZoomTransition =
         !_enteredForAccountSwitch &&
         ref.read(
           appearancePreferencesProvider.select(
@@ -232,9 +247,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 state.mobileSplashZoomAnimation,
           ),
         );
+    final bool useLogoZoomTransition =
+        usePageZoomTransition && _splashLingered();
+    StartupFirstFrameGate.release();
     ref
         .read(splashRevealZoomProvider.notifier)
-        .setZoom(value: useLogoZoomTransition);
+        .setZoom(value: usePageZoomTransition);
     final Color brand = context.colors.brandPrimary;
     SplashRevealOverlay.show(
       context: context,
@@ -249,6 +267,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
     _allowSplashExit();
     setState(() {});
+  }
+
+  bool _splashLingered() {
+    final DateTime? splashShownAt = _visibleSince;
+    if (StartupFirstFrameGate.isHeld || splashShownAt == null) {
+      return false;
+    }
+    final DateTime? gateReleasedAt = StartupFirstFrameGate.releasedAt;
+    final DateTime visibleSince =
+        gateReleasedAt != null && gateReleasedAt.isAfter(splashShownAt)
+        ? gateReleasedAt
+        : splashShownAt;
+    return clock.now().difference(visibleSince) >= _zoomRevealMinVisible;
   }
 
   bool _unreadsHydrated() =>
@@ -387,14 +418,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ),
           );
     final bool isStartupComplete = startup is AsyncData<void>;
-    final bool isGatewayReady = ref.watch(gatewayReadyProvider);
     final StartupGatewayFallback gatewayFallback = ref.watch(
       startupGatewayFallbackProvider,
     );
-    final bool isReady =
-        isStartupComplete &&
-        (isGatewayReady ||
-            gatewayFallback == StartupGatewayFallback.cachedShell);
+    final bool isReady = isStartupComplete && ref.watch(shellDataReadyProvider);
     final bool showUnreachable =
         isStartupComplete &&
         !isReady &&
@@ -529,248 +556,288 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: StarfieldBackground(
-        child: SafeArea(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 512),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Column(
+              children: [
+                const Spacer(),
+                SizedBox(
+                  height: _logoHeight * 2,
+                  width: _logoHeight * 2,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      SizedBox(
-                        height: _logoHeight * 2,
-                        width: _logoHeight * 2,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            if (!_exitRevealStarted &&
-                                MediaQuery.disableAnimationsOf(context))
-                              Transform.scale(
-                                scale: 1.25,
+                      if (!_exitRevealStarted &&
+                          MediaQuery.disableAnimationsOf(context))
+                        Transform.scale(
+                          scale: 1.25,
+                          child: Container(
+                            width: _logoHeight,
+                            height: _logoHeight,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: context.colors.brandPrimary.withValues(
+                                alpha: 0.35,
+                              ),
+                            ),
+                          ),
+                        )
+                      else if (!_exitRevealStarted)
+                        RepaintBoundary(
+                          child: AnimatedBuilder(
+                            animation: _pulseController,
+                            builder: (BuildContext context, Widget? child) {
+                              const double startScale = 0.4;
+                              const double endScale = 1.4;
+                              final double scale =
+                                  startScale +
+                                  (endScale - startScale) *
+                                      Curves.easeOut.transform(
+                                        _pulseController.value,
+                                      );
+                              final double opacity =
+                                  (1 -
+                                      Curves.easeIn.transform(
+                                        _pulseController.value,
+                                      )) *
+                                  0.5;
+                              return Transform.scale(
+                                scale: scale,
                                 child: Container(
                                   width: _logoHeight,
                                   height: _logoHeight,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: context.colors.brandPrimary
-                                        .withValues(alpha: 0.35),
+                                        .withValues(alpha: opacity),
                                   ),
                                 ),
-                              )
-                            else if (!_exitRevealStarted)
-                              RepaintBoundary(
-                                child: AnimatedBuilder(
-                                  animation: _pulseController,
-                                  builder:
-                                      (BuildContext context, Widget? child) {
-                                        const double startScale = 0.4;
-                                        const double endScale = 1.4;
-                                        final double scale =
-                                            startScale +
-                                            (endScale - startScale) *
-                                                Curves.easeOut.transform(
-                                                  _pulseController.value,
-                                                );
-                                        final double opacity =
-                                            (1 -
-                                                Curves.easeIn.transform(
-                                                  _pulseController.value,
-                                                )) *
-                                            0.5;
-                                        return Transform.scale(
-                                          scale: scale,
-                                          child: Container(
-                                            width: _logoHeight,
-                                            height: _logoHeight,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: context.colors.brandPrimary
-                                                  .withValues(alpha: opacity),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                ),
-                              ),
-                            if (!_exitRevealStarted)
-                              ExcludeSemantics(
-                                child: KeyedSubtree(
-                                  key: _logoKey,
-                                  child: InstanceBrandMark(
-                                    size: _logoHeight,
-                                    backgroundColor:
-                                        context.colors.brandPrimary,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                      _fadeExitContent(
-                        child: Semantics(
-                          container: true,
-                          liveRegion: true,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: serviceUnavailable
-                                ? Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        strings.splashConnectionLost,
-                                        style: context.textStyles.smallText
-                                            .copyWith(
-                                              color: _splashQuoteText,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        strings.reconnectingBody,
-                                        style: context.textStyles.smallText
-                                            .copyWith(color: _splashMutedText),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  )
-                                : showUnreachable
-                                ? Text(
-                                    strings.splashGatewayUnreachable(
-                                      displayDomain,
-                                    ),
-                                    style: context.textStyles.smallText
-                                        .copyWith(color: _splashQuoteText),
-                                    textAlign: TextAlign.center,
-                                  )
-                                : showStartupError || showCompatibilityIssue
-                                ? Text(
-                                    statusText,
-                                    style: context.textStyles.smallText
-                                        .copyWith(
-                                          color: context.colors.textDanger,
-                                        ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                : _buildNormalMessageArea(
-                                    context,
-                                    strings,
-                                    visibleIncident,
-                                    displayText,
-                                    incidentCtaStyle,
-                                    splashQuotesEnabled: splashQuotesEnabled,
-                                  ),
+                              );
+                            },
                           ),
                         ),
-                      ),
-                      if (serviceUnavailable ||
-                          showStartupError ||
-                          showCompatibilityIssue ||
-                          showUnreachable)
-                        _fadeExitContent(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 16),
-                              FluxerButton.primary(
-                                onPressed: () {
-                                  if (showCompatibilityIssue) {
-                                    unawaited(
-                                      ref
-                                          .read(wellKnownProvider.notifier)
-                                          .refresh(silent: false),
-                                    );
-                                    return;
-                                  }
-                                  if (serviceUnavailable) {
-                                    _scheduleOutageRetry();
-                                  }
-                                  unawaited(
-                                    ref
-                                        .read(appStartupProvider.notifier)
-                                        .retry(),
-                                  );
-                                },
-                                label: strings.retry,
-                                fitContent: true,
-                              ),
-                              const SizedBox(height: 12),
-                              const OfflineAccountSwitcherLink(),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 24,
-                child: _fadeExitContent(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (showConnectionFooter)
-                        AnimatedOpacity(
-                          opacity: 1,
-                          duration: _footerFadeDuration,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ServiceStatusConnectionFooter(
-                                  promptStyle: footerPromptStyle,
-                                  linkStyle: footerLinkStyle,
-                                ),
-                                if (!serviceUnavailable &&
-                                    !showStartupError &&
-                                    !showUnreachable) ...[
-                                  const SizedBox(height: 12),
-                                  const OfflineAccountSwitcherLink(),
-                                ],
-                              ],
+                      if (!_exitRevealStarted)
+                        ExcludeSemantics(
+                          child: KeyedSubtree(
+                            key: _logoKey,
+                            child: InstanceBrandMark(
+                              size: _logoHeight,
+                              backgroundColor: context.colors.brandPrimary,
                             ),
                           ),
                         ),
-                      if (showSelfHostedAccountSwitcher) ...[
-                        const OfflineAccountSwitcherLink(),
-                        const SizedBox(height: 16),
-                      ],
-                      if (showConnectionFooter) const SizedBox(height: 16),
-                      FluxerTappable(
-                        onTap: () =>
-                            unawaited(openOfflineInstanceEscape(context, ref)),
-                        semanticLabel: displayDomain,
-                        builder:
-                            (BuildContext context, Set<WidgetState> states) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  InstanceDomainIcon(
-                                    isOfficial: isOfficialInstance,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    displayDomain,
-                                    style: instanceFooterStyle,
-                                  ),
-                                ],
-                              );
-                            },
-                      ),
                     ],
                   ),
                 ),
+                Expanded(
+                  child: SafeArea(
+                    top: false,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 512),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _fadeExitContent(
+                                child: Semantics(
+                                  container: true,
+                                  liveRegion: true,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                    ),
+                                    child: serviceUnavailable
+                                        ? Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                strings.splashConnectionLost,
+                                                style: context
+                                                    .textStyles
+                                                    .smallText
+                                                    .copyWith(
+                                                      color: _splashQuoteText,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                strings.reconnectingBody,
+                                                style: context
+                                                    .textStyles
+                                                    .smallText
+                                                    .copyWith(
+                                                      color: _splashMutedText,
+                                                    ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          )
+                                        : showUnreachable
+                                        ? Text(
+                                            strings.splashGatewayUnreachable(
+                                              displayDomain,
+                                            ),
+                                            style: context.textStyles.smallText
+                                                .copyWith(
+                                                  color: _splashQuoteText,
+                                                ),
+                                            textAlign: TextAlign.center,
+                                          )
+                                        : showStartupError ||
+                                              showCompatibilityIssue
+                                        ? Text(
+                                            statusText,
+                                            style: context.textStyles.smallText
+                                                .copyWith(
+                                                  color:
+                                                      context.colors.textDanger,
+                                                ),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        : _buildNormalMessageArea(
+                                            context,
+                                            strings,
+                                            visibleIncident,
+                                            displayText,
+                                            incidentCtaStyle,
+                                            splashQuotesEnabled:
+                                                splashQuotesEnabled,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              if (serviceUnavailable ||
+                                  showStartupError ||
+                                  showCompatibilityIssue ||
+                                  showUnreachable)
+                                _fadeExitContent(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(height: 16),
+                                      FluxerButton.primary(
+                                        onPressed: () {
+                                          if (showCompatibilityIssue) {
+                                            unawaited(
+                                              ref
+                                                  .read(
+                                                    wellKnownProvider.notifier,
+                                                  )
+                                                  .refresh(silent: false),
+                                            );
+                                            return;
+                                          }
+                                          if (serviceUnavailable) {
+                                            _scheduleOutageRetry();
+                                          }
+                                          unawaited(
+                                            ref
+                                                .read(
+                                                  appStartupProvider.notifier,
+                                                )
+                                                .retry(),
+                                          );
+                                        },
+                                        label: strings.retry,
+                                        fitContent: true,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      const OfflineAccountSwitcherLink(),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SafeArea(
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 24,
+                    child: _fadeExitContent(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (showConnectionFooter)
+                            AnimatedOpacity(
+                              opacity: 1,
+                              duration: _footerFadeDuration,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ServiceStatusConnectionFooter(
+                                      promptStyle: footerPromptStyle,
+                                      linkStyle: footerLinkStyle,
+                                    ),
+                                    if (!serviceUnavailable &&
+                                        !showStartupError &&
+                                        !showUnreachable) ...[
+                                      const SizedBox(height: 12),
+                                      const OfflineAccountSwitcherLink(),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if (showSelfHostedAccountSwitcher) ...[
+                            const OfflineAccountSwitcherLink(),
+                            const SizedBox(height: 16),
+                          ],
+                          if (showConnectionFooter) const SizedBox(height: 16),
+                          FluxerTappable(
+                            onTap: () => unawaited(
+                              openOfflineInstanceEscape(context, ref),
+                            ),
+                            semanticLabel: displayDomain,
+                            builder:
+                                (
+                                  BuildContext context,
+                                  Set<WidgetState> states,
+                                ) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InstanceDomainIcon(
+                                        isOfficial: isOfficialInstance,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        displayDomain,
+                                        style: instanceFooterStyle,
+                                      ),
+                                    ],
+                                  );
+                                },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

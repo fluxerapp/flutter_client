@@ -374,4 +374,43 @@ void main() {
 
     expect(controller.toWireText(), 'hello world');
   });
+
+  testWidgets('a mention pasted by the keyboard becomes a mention chip', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+    await tester.showKeyboard(find.byType(TextField));
+
+    tester.testTextInput.updateEditingValue(
+      const TextEditingValue(
+        text: 'Hi <@123> there',
+        selection: TextSelection.collapsed(offset: 15),
+      ),
+    );
+    await tester.pump();
+
+    expect(controller.text, isNot(contains('<@123>')));
+    expect(controller.toWireText(), 'Hi <@123> there');
+    expect(controller.selection, const TextSelection.collapsed(offset: 10));
+  });
+
+  testWidgets('a keyboard paste is chipped while the next word is composing', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+    await tester.showKeyboard(find.byType(TextField));
+
+    tester.testTextInput.updateEditingValue(
+      const TextEditingValue(
+        text: '<#456> there',
+        selection: TextSelection.collapsed(offset: 12),
+        composing: TextRange(start: 7, end: 12),
+      ),
+    );
+    await tester.pump();
+
+    expect(controller.text, isNot(contains('<#456>')));
+    expect(controller.toWireText(), '<#456> there');
+    expect(controller.value.composing, const TextRange(start: 2, end: 7));
+  });
 }

@@ -17,8 +17,9 @@ const int kGatewayChannelThreads = 1 << 2;
 
 @Riverpod(keepAlive: true)
 bool gatewayHasAuthToken(Ref ref) {
-  final String? token = ref.watch(fluxerAuthTokenProvider);
-  return token != null && token.isNotEmpty;
+  ref.watch(fluxerAuthTokenProvider);
+  final String apiBaseUrl = ref.watch(fluxerBaseUrlProvider);
+  return ref.read(fluxerAuthTokenProvider.notifier).isIssuedBy(apiBaseUrl);
 }
 
 @Riverpod(keepAlive: true)

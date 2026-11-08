@@ -76,6 +76,9 @@ class ChatReadAckGate {
     _lastAttemptAtByChannelId[channelId] = now;
   }
 
+  bool isAttemptInFlight(String channelId) =>
+      _pendingChannelIds.contains(channelId);
+
   void markAttemptFinished(String channelId) {
     _pendingChannelIds.remove(channelId);
   }

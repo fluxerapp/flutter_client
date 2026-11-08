@@ -13471,6 +13471,19 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToast": "Push notifications stay off for this account on this device. You can turn them on later with \"{settingLabel}\" in notification settings.",
+    "@pushRelayConsentDeclinedToast": {
+        "description": "Toast shown after someone chooses not to use the push relay for now. Points to the setting that turns it on later.",
+        "placeholders": {
+            "settingLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "pushRelayConsentDeclinedToastAction": "Open settings",
+    "@pushRelayConsentDeclinedToastAction": {
+        "description": "Toast action that opens the notification settings at the push relay toggle."
+    },
     "userSettingsNavLanguageAndTime": "Language & time",
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."

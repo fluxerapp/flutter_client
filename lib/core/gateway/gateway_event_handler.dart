@@ -191,6 +191,7 @@ class GatewayEventHandler {
     this.onUserSettingsHydrate,
     this.onCurrentUserUpdate,
     this.onSessionChanging,
+    this.isCacheOwnedBy,
     this.onUnavailableGuildsReady,
     this.onGuildAvailabilityChanged,
     this.onGuildAvailable,
@@ -278,6 +279,7 @@ class GatewayEventHandler {
   final UserSettingsHydrateCallback? onUserSettingsHydrate;
   final CurrentUserUpdateCallback? onCurrentUserUpdate;
   final SessionChangingCallback? onSessionChanging;
+  final Future<bool> Function(String userId)? isCacheOwnedBy;
   final UnavailableGuildsReadyCallback? onUnavailableGuildsReady;
   final GuildAvailabilityChangedCallback? onGuildAvailabilityChanged;
   final GuildAvailableCallback? onGuildAvailable;
@@ -796,8 +798,15 @@ class GatewayEventHandler {
         _hasCommittedReady &&
         _lastReadyUserId != null &&
         _lastReadyUserId == event.user.id;
-    final bool shouldFullWipe = !isSameUserReconnect;
-    if (shouldFullWipe) {
+    final bool diffAgainstCache =
+        isSameUserReconnect ||
+        (!_hasCommittedReady &&
+            await (isCacheOwnedBy?.call(event.user.id) ?? Future.value(false)));
+    final bool shouldFullWipe = !diffAgainstCache;
+    final String readyMode = shouldFullWipe
+        ? 'full'
+        : (isSameUserReconnect ? 'incremental' : 'cache');
+    if (!isSameUserReconnect) {
       _emit(onSessionChanging);
     }
     talker.info(
@@ -809,7 +818,7 @@ class GatewayEventHandler {
       ', readStates: ${event.readStates.length}'
       ', dropped: ${event.droppedItems}'
       ', user: ${event.user.id}'
-      ', mode: ${shouldFullWipe ? 'full' : 'incremental'}',
+      ', mode: $readyMode',
     );
 
     _currentUserId = event.user.id;
@@ -847,7 +856,9 @@ class GatewayEventHandler {
     final bool keepCachedMessages =
         shouldFullWipe &&
         await database.userSettingsDao.getSettings(event.user.id) != null;
-    final Set<String> localGuildIdsBeforeReady = isSameUserReconnect
+    final bool trimCachedMessages =
+        keepCachedMessages || (diffAgainstCache && !isSameUserReconnect);
+    final Set<String> localGuildIdsBeforeReady = diffAgainstCache
         ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
         : const <String>{};
 
@@ -1028,7 +1039,7 @@ class GatewayEventHandler {
           if (guildData.voiceStates.isNotEmpty) {
             readyVoiceStates.addAll(guildData.voiceStates);
           }
-          if (guildData.emojis.isNotEmpty || isSameUserReconnect) {
+          if (guildData.emojis.isNotEmpty || diffAgainstCache) {
             emojiReplacements[guildId] = guildData.emojis
                 .map(
                   (e) => db.GuildEmojisCompanion.insert(
@@ -1040,7 +1051,7 @@ class GatewayEventHandler {
                 )
                 .toList();
           }
-          if (guildData.stickers.isNotEmpty || isSameUserReconnect) {
+          if (guildData.stickers.isNotEmpty || diffAgainstCache) {
             stickerReplacements[guildId] = guildData.stickers
                 .map(
                   (s) => db.GuildStickersCompanion.insert(
@@ -1090,33 +1101,36 @@ class GatewayEventHandler {
         await database.guildEmojiDao.replaceForGuilds(emojiReplacements);
         await database.guildStickerDao.replaceForGuilds(stickerReplacements);
 
-        if (isSameUserReconnect) {
+        if (diffAgainstCache) {
           prunedChannelIds.addAll(
             (await _pruneGuildSnapshots(
               channelIdsByGuildId: snapshotChannelIdsByGuildId,
               roleIdsByGuildId: snapshotRoleIdsByGuildId,
             )).channelIds,
           );
-          final readyGuildIds = <String>{
-            for (final rawGuild in event.rawGuilds)
-              if (rawGuild['id'] is String) rawGuild['id'] as String,
-          };
-          final Set<String> localIdsNow = (await database.guildDao.getServers())
-              .map((row) => row.id)
-              .toSet();
-          prunedGuildIds.addAll(
-            await removeGuildsNotInLocalDb(
-              database,
-              guildIdsKeptAfterMembershipSync(
-                apiGuildIds: readyGuildIds,
-                localGuildIdsBeforeFetch: localGuildIdsBeforeReady,
-                localGuildIdsAfterUpsert: localIdsNow,
-              ),
-            ),
-          );
         }
 
         fanoutMs = phase.elapsedMilliseconds;
+      }
+
+      if (diffAgainstCache) {
+        final readyGuildIds = <String>{
+          for (final rawGuild in event.rawGuilds)
+            if (rawGuild['id'] is String) rawGuild['id'] as String,
+        };
+        final Set<String> localIdsNow = (await database.guildDao.getServers())
+            .map((row) => row.id)
+            .toSet();
+        prunedGuildIds.addAll(
+          await removeGuildsNotInLocalDb(
+            database,
+            guildIdsKeptAfterMembershipSync(
+              apiGuildIds: readyGuildIds,
+              localGuildIdsBeforeFetch: localGuildIdsBeforeReady,
+              localGuildIdsAfterUpsert: localIdsNow,
+            ),
+          ),
+        );
       }
 
       phase
@@ -1148,7 +1162,7 @@ class GatewayEventHandler {
       await database.dmChannelDao.upsertDmChannels([
         buildPersonalNotesDmCompanion(userId: event.user.id),
       ]);
-      if (isSameUserReconnect) {
+      if (diffAgainstCache) {
         final List<String> closedDmIds = await database.dmChannelDao
             .deleteDmChannelsNotIn(<String>{
               event.user.id,
@@ -1230,10 +1244,19 @@ class GatewayEventHandler {
           final String? sticky = keepManual
               ? existing?.stickyUnreadMessageId
               : null;
+          final String? outstandingAck = keepManual
+              ? null
+              : ackBatcher?.outstandingAck(rs.id);
+          final bool localAckAhead =
+              compareSnowflakeIds(outstandingAck, rs.lastMessageId) > 0;
+          final String? lastMessageId = localAckAhead
+              ? outstandingAck
+              : rs.lastMessageId;
+          final int mentionCount = localAckAhead ? 0 : rs.mentionCount;
           final db.ReadStatesCompanion companion = db.ReadStatesCompanion(
             channelId: Value(rs.id),
-            lastMessageId: Value(rs.lastMessageId),
-            mentionCount: Value(rs.mentionCount),
+            lastMessageId: Value(lastMessageId),
+            mentionCount: Value(mentionCount),
             lastPinTimestamp: Value(rs.lastPinTimestamp),
             manual: Value(keepManual),
             stickyUnreadMessageId: Value(sticky),
@@ -1245,8 +1268,8 @@ class GatewayEventHandler {
           }
           readStateWriteBatcher?.adoptPersisted(
             channelId: rs.id,
-            lastMessageId: rs.lastMessageId,
-            mentionCount: rs.mentionCount,
+            lastMessageId: lastMessageId,
+            mentionCount: mentionCount,
             manual: keepManual,
             stickyUnreadMessageId: sticky,
             lastPinTimestamp: rs.lastPinTimestamp,
@@ -1255,8 +1278,8 @@ class GatewayEventHandler {
           );
           existingByChannelId[rs.id] = db.ReadState(
             channelId: rs.id,
-            lastMessageId: rs.lastMessageId,
-            mentionCount: rs.mentionCount,
+            lastMessageId: lastMessageId,
+            mentionCount: mentionCount,
             lastPinTimestamp: rs.lastPinTimestamp,
             manual: keepManual,
             stickyUnreadMessageId: sticky,
@@ -1283,6 +1306,7 @@ class GatewayEventHandler {
 
       final guildSettings = event.userGuildSettings;
       if (guildSettings != null) {
+        await database.userGuildSettingsDao.clearAll();
         await database.userGuildSettingsDao
             .upsertAll(<db.UserGuildSettingsTableCompanion>[
               for (final gs in guildSettings)
@@ -1328,6 +1352,7 @@ class GatewayEventHandler {
 
       final rtcRegions = event.rtcRegions;
       if (rtcRegions != null) {
+        await database.rtcRegionsDao.clearAll();
         for (final region in rtcRegions) {
           final id = region['id'] as String?;
           if (id == null) {
@@ -1347,7 +1372,7 @@ class GatewayEventHandler {
 
       await database.threadDao.pruneArchived(now: DateTime.now());
 
-      if (keepCachedMessages) {
+      if (trimCachedMessages) {
         await database.messageDao.deleteMessagesOutsideKnownChannels();
         await database.messageDao.keepNewestMessagesPerChannel(
           _cachedMessagesKeptPerChannel,
@@ -1909,7 +1934,7 @@ class GatewayEventHandler {
   }) async {
     switch (decision.kind) {
       case ReadStateIncomingMessageKind.ackCurrentUserMessage:
-        ackBatcher?.cancel(msg.channelId);
+        ackBatcher?.cancelIfCovered(msg.channelId, msg.id);
         await _enqueueOrAckReadState(
           channelId: msg.channelId,
           messageId: msg.id,

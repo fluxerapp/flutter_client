@@ -496,6 +496,47 @@ void main() {
       });
     });
 
+    test('a rejected batch is re-sent one channel at a time', () {
+      fakeAsync((FakeAsync async) {
+        final adapter = _BulkAckAdapter()
+          ..scriptedFailures.addAll(<ResponseBody>[
+            ResponseBody.fromString('{}', 400),
+            ResponseBody.fromString('{}', 400),
+          ]);
+        final batcher = retryingBatcher(adapter, const Duration(seconds: 10))
+          ..queue(
+            channelId: 'c-bad',
+            messageId: 'm-1',
+            immediate: true,
+            hadMentions: false,
+          )
+          ..queue(
+            channelId: 'c-good',
+            messageId: 'm-2',
+            immediate: true,
+            hadMentions: false,
+          );
+
+        async.elapse(const Duration(minutes: 5));
+        expect(adapter.recordedBatches, [
+          [
+            {'channel_id': 'c-bad', 'message_id': 'm-1'},
+            {'channel_id': 'c-good', 'message_id': 'm-2'},
+          ],
+          [
+            {'channel_id': 'c-bad', 'message_id': 'm-1'},
+          ],
+          [
+            {'channel_id': 'c-good', 'message_id': 'm-2'},
+          ],
+        ]);
+        expect(batcher.outstandingAck('c-bad'), isNull);
+        expect(batcher.outstandingAck('c-good'), isNull);
+        unawaited(batcher.dispose());
+        async.flushMicrotasks();
+      });
+    });
+
     test('a newer ack queued during the backoff is the one re-sent', () {
       fakeAsync((FakeAsync async) {
         final adapter = _BulkAckAdapter()..handshakeFailures = 1;

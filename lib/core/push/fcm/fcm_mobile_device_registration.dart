@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_sync_coalescing.dart';
 import 'package:fluxer_app/core/push/notification/permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_logic.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
@@ -193,7 +194,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       appId: AppBuildConfig.mobilePushAppId,
       deviceToken: token,
     );
-    if (!await ensurePushRelayConsent(ref, relayUrl)) {
+    if (!await ensurePushRelayConsent(ref, relayUrl, userId: userId)) {
       if (kDebugMode) {
         debugPrint(
           '[FcmMobileDeviceRegistration] push relay consent not granted',
@@ -305,12 +306,26 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
         apiBaseUrl.isEmpty) {
       return true;
     }
+    final bool isConsentGranted = ref.read(pushRelayConsentProvider);
+    final bool isOfficialInstance = const InstanceEndpointNormalizer()
+        .isOfficialInstanceInput(apiBaseUrl);
     if (isPushRelayConsentRequired(
       relayUrl: relayUrl,
-      isConsentGranted: ref.read(pushRelayConsentProvider),
-      isOfficialInstance: const InstanceEndpointNormalizer()
-          .isOfficialInstanceInput(apiBaseUrl),
+      isConsentGranted: isConsentGranted,
+      isOfficialInstance: isOfficialInstance,
     )) {
+      if (shouldPromptForPushRelayConsent(
+        relayUrl: relayUrl,
+        isConsentGranted: isConsentGranted,
+        hasDeclinedOnAccount: ref
+            .read(pushRelayConsentProvider.notifier)
+            .hasDeclined(userId),
+        isOfficialInstance: isOfficialInstance,
+      )) {
+        ref
+            .read(pushRelayConsentPromptProvider.notifier)
+            .requestPrompt(userId: userId);
+      }
       return true;
     }
     final Dio dio = createPushAccountDio(

@@ -697,6 +697,7 @@ class ChatViewModel extends _$ChatViewModel {
   int _syncRetryAttempt = 0;
   final Random _syncRetryRandom = Random();
   bool _stickySnapshotArmed = false;
+  bool _ackRerunRequested = false;
   bool _viewportWasAtTail = false;
   Timer? _draftSaveTimer;
   final Map<String, Future<void>> _pendingDraftWrites =
@@ -1425,6 +1426,7 @@ class ChatViewModel extends _$ChatViewModel {
         sendError: null,
       ),
     );
+    _followLiveTailAppend(nextMessages);
     state = state.copyWith(
       write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       pendingAutoAckMessageId: _pendingAutoAckCovering(sent.id),
@@ -3339,7 +3341,9 @@ class ChatViewModel extends _$ChatViewModel {
       if (newerConsult.needsTailProbe) {
         _confirmProvisionalTail(channelId);
       }
-      if (targetMessageId == null) {
+      if (targetMessageId != null) {
+        await _onMessagesLoaded(channelId);
+      } else {
         _markChannelNetworkRefresh(channelId);
         _markMessagesReconciled(channelId);
         await _onMessagesLoaded(channelId);
@@ -3455,19 +3459,19 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   Future<void> _onMessagesLoaded(String channelId) async {
-    if (state.channelId != channelId) {
+    if (state.channelId != channelId || state.stickyUnreadMessageId != null) {
       return;
     }
     final readState = await ref
         .read(fluxerDatabaseProvider)
         .readStateDao
         .getReadState(channelId);
+    if (state.channelId != channelId || state.stickyUnreadMessageId != null) {
+      return;
+    }
     final unreadId = _stickyUnreadIdForCurrentMessages(readState: readState);
     if (unreadId != null) {
-      if (state.channelId == channelId) {
-        state = state.copyWith(stickyUnreadMessageId: unreadId);
-      }
-      return;
+      state = state.copyWith(stickyUnreadMessageId: unreadId);
     }
   }
 
@@ -4329,6 +4333,8 @@ class ChatViewModel extends _$ChatViewModel {
       );
       if (retryDelay != null && retryDelay > Duration.zero) {
         _scheduleReadAckRetry(retryDelay);
+      } else if (!force && _readAckGate.isAttemptInFlight(channelId)) {
+        _ackRerunRequested = true;
       }
       return;
     }
@@ -4402,15 +4408,18 @@ class ChatViewModel extends _$ChatViewModel {
       if (!force) {
         unawaited(_ensureUnreadBoundaryLoaded(channelId, readState: readState));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       debugPrint('[ChatViewModel] Failed to ack channel: $e');
     } finally {
       _readAckGate.markAttemptFinished(channelId);
+      final bool rerunRequested = _ackRerunRequested;
+      _ackRerunRequested = false;
       if (!force &&
           ref.mounted &&
           state.channelId == channelId &&
           _autoAckEligible &&
-          newestServerBackedMessageId(state.messages) != visibleTailId) {
+          (rerunRequested ||
+              newestServerBackedMessageId(state.messages) != visibleTailId)) {
         unawaited(ackCurrentChannel());
       }
     }
@@ -4520,22 +4529,21 @@ class ChatViewModel extends _$ChatViewModel {
   String? _stickyUnreadIdForCurrentMessages({
     required db.ReadState? readState,
   }) {
-    final String? unreadId = _firstUnreadForCurrentMessages(
-      readState: readState,
-    );
-    if (unreadId == null) {
+    final String? ack = readState?.lastMessageId;
+    if (ack == null ||
+        _firstUnreadForCurrentMessages(readState: readState) == null) {
       return null;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
-    if (currentUserId == null || currentUserId.isEmpty) {
-      return unreadId;
-    }
     for (final Message message in state.messages) {
-      if (message.id == unreadId) {
-        return message.authorId == currentUserId ? null : unreadId;
+      if (isLocalOnlyMessage(message) ||
+          compareSnowflakeIds(message.id, ack) <= 0 ||
+          (currentUserId != null && message.authorId == currentUserId)) {
+        continue;
       }
+      return message.id;
     }
-    return unreadId;
+    return null;
   }
 
   String _unreadBoundaryKey(String channelId, String ackMessageId) =>
@@ -4589,15 +4597,12 @@ class ChatViewModel extends _$ChatViewModel {
     clearStickyUnread();
   }
 
-  void cancelPendingOutgoingAck(String channelId) =>
-      ref.read(ackBatcherProvider).cancel(channelId);
-
   void applyExternalAck(String channelId, {required bool manual}) {
     if (channelId.isEmpty) {
       return;
     }
-    ref.read(ackBatcherProvider).cancel(channelId);
     if (manual) {
+      ref.read(ackBatcherProvider).cancel(channelId);
       _readAckGate.markManualUnread(channelId);
     } else {
       _readAckGate.clearManualUnread(channelId);

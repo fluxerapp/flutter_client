@@ -227,7 +227,9 @@ Future<void> _applyChannelJumpResolution({
         );
       }
     case ChannelJumpPending(:final path):
-      container.read(pendingPushNotificationPathProvider.notifier).store(path);
+      container
+          .read(pendingPushNotificationPathProvider.notifier)
+          .storeUntilGatewayReady(path);
     case ChannelJumpInPlace(:final channelId, :final messageId):
       container
           .read(channelJumpTargetLedgerProvider.notifier)

@@ -17907,6 +17907,18 @@ abstract class FluxerLocalizations {
   /// **'Not now'**
   String get pushRelayConsentDecline;
 
+  /// Toast shown after someone chooses not to use the push relay for now. Points to the setting that turns it on later.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications stay off for this account on this device. You can turn them on later with \"{settingLabel}\" in notification settings.'**
+  String pushRelayConsentDeclinedToast(String settingLabel);
+
+  /// Toast action that opens the notification settings at the push relay toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get pushRelayConsentDeclinedToastAction;
+
   /// User settings navigation item for language and time settings.
   ///
   /// In en, this message translates to:

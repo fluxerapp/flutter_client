@@ -316,7 +316,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: true,
           isNewDay: false,
-          isUnreadBoundary: false,
           hasPrevious: true,
           bothSystem: false,
           spacing: 16,
@@ -330,7 +329,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: true,
           isNewDay: false,
-          isUnreadBoundary: false,
           hasPrevious: true,
           bothSystem: true,
           spacing: 16,
@@ -344,7 +342,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: false,
           isNewDay: false,
-          isUnreadBoundary: false,
           hasPrevious: true,
           bothSystem: false,
           spacing: 16,
@@ -358,21 +355,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: true,
           isNewDay: true,
-          isUnreadBoundary: false,
-          hasPrevious: true,
-          bothSystem: false,
-          spacing: 16,
-        ),
-        0,
-      );
-    });
-
-    test('returns zero at an unread boundary', () {
-      expect(
-        leadingGroupSpacing(
-          isGroupStart: true,
-          isNewDay: false,
-          isUnreadBoundary: true,
           hasPrevious: true,
           bothSystem: false,
           spacing: 16,
@@ -386,7 +368,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: true,
           isNewDay: false,
-          isUnreadBoundary: false,
           hasPrevious: false,
           bothSystem: false,
           spacing: 16,
@@ -400,7 +381,6 @@ void main() {
         leadingGroupSpacing(
           isGroupStart: true,
           isNewDay: false,
-          isUnreadBoundary: false,
           hasPrevious: true,
           bothSystem: false,
           spacing: 0,

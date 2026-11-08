@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -18,7 +18,7 @@ class PendingHomeQuickAction extends _$PendingHomeQuickAction {
   @override
   HomeQuickAction? build() {
     ref
-      ..listen<bool>(gatewayReadyProvider, (_, bool next) {
+      ..listen<bool>(shellDataReadyProvider, (_, bool next) {
         if (next) {
           flushIfReady();
         }
@@ -79,7 +79,7 @@ class PendingHomeQuickAction extends _$PendingHomeQuickAction {
     }
     if (!isPendingNavigationReady(
       isAuthenticated: ref.read(authStateProvider),
-      isGatewayReady: ref.read(gatewayReadyProvider),
+      isShellReady: ref.read(shellDataReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     )) {
       return;

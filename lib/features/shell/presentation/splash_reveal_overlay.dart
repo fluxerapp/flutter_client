@@ -12,7 +12,6 @@ class SplashRevealOverlay {
 
   static const double logoSize = 85;
   static const double pulseScale = 0.8;
-  static const double fadeEndScale = 0.45;
   static const double expandScale = 500;
   static const double pulseEndFraction = 0.08;
   static const double shellStartScale = 1.1;
@@ -185,6 +184,10 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
     return renderObject.globalToLocal(widget.logoCenterGlobal);
   }
 
+  static const Widget _starfield = RepaintBoundary(
+    child: StarfieldBackground(animate: false),
+  );
+
   ({Color fill, Color symbol}) _logoColors(double t) {
     final Color fill = Color.lerp(widget.logoBrandColor, widget.coverColor, t)!;
     final Color symbol = Color.lerp(
@@ -216,16 +219,19 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
     if (expandPhase) {
       return ExcludeSemantics(
         child: IgnorePointer(
-          child: CustomPaint(
-            painter: _SplashRevealPainter(
-              coverColor: widget.coverColor,
-              symbolColor: SplashRevealOverlay.silhouetteSymbolColor,
-              center: center,
-              scale: scale,
-              opacity: coverOpacity,
-              symbolOpacity: splashRevealSymbolOpacity(_progress),
-            ),
-            child: const SizedBox.expand(),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Opacity(opacity: coverOpacity, child: _starfield),
+              CustomPaint(
+                painter: _SplashRevealPainter(
+                  symbolColor: SplashRevealOverlay.silhouetteSymbolColor,
+                  center: center,
+                  scale: scale,
+                  symbolOpacity: splashRevealSymbolOpacity(_progress),
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -255,10 +261,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Opacity(
-              opacity: coverOpacity,
-              child: const StarfieldBackground(animate: false),
-            ),
+            Opacity(opacity: coverOpacity, child: _starfield),
             Positioned(
               left: center.dx - logoHalf,
               top: center.dy - logoHalf,
@@ -285,24 +288,20 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
 
 class _SplashRevealPainter extends CustomPainter {
   _SplashRevealPainter({
-    required this.coverColor,
     required this.symbolColor,
     required this.center,
     required this.scale,
-    required this.opacity,
     required this.symbolOpacity,
   });
 
-  final Color coverColor;
   final Color symbolColor;
   final Offset center;
   final double scale;
-  final double opacity;
   final double symbolOpacity;
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (opacity <= 0 && symbolOpacity <= 0) {
+    if (symbolOpacity <= 0) {
       return;
     }
 
@@ -310,12 +309,6 @@ class _SplashRevealPainter extends CustomPainter {
         SplashRevealOverlay.logoSize / SplashRevealOverlay.symbolViewBox;
     canvas
       ..clipRect(Offset.zero & size)
-      ..drawRect(
-        Offset.zero & size,
-        Paint()
-          ..color = coverColor.withValues(alpha: opacity)
-          ..isAntiAlias = true,
-      )
       ..save()
       ..translate(center.dx, center.dy)
       ..scale(scale)
@@ -337,10 +330,8 @@ class _SplashRevealPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _SplashRevealPainter oldDelegate) {
     return oldDelegate.scale != scale ||
-        oldDelegate.opacity != opacity ||
         oldDelegate.symbolOpacity != symbolOpacity ||
         oldDelegate.center != center ||
-        oldDelegate.coverColor != coverColor ||
         oldDelegate.symbolColor != symbolColor;
   }
 }
@@ -437,7 +428,7 @@ double splashRevealLogoScale(
   required bool reducedMotion,
   required bool useLogoZoomTransition,
 }) {
-  if (reducedMotion) {
+  if (reducedMotion || !useLogoZoomTransition) {
     return 1;
   }
   if (progress <= SplashRevealOverlay.pulseEndFraction) {
@@ -445,14 +436,6 @@ double splashRevealLogoScale(
       progress / SplashRevealOverlay.pulseEndFraction,
     );
     return lerpDouble(1, SplashRevealOverlay.pulseScale, t)!;
-  }
-  if (!useLogoZoomTransition) {
-    final double fadeT = splashRevealFadePhaseProgress(progress);
-    return lerpDouble(
-      SplashRevealOverlay.pulseScale,
-      SplashRevealOverlay.fadeEndScale,
-      Curves.easeOut.transform(fadeT),
-    )!;
   }
   final double expandT = splashRevealFadePhaseProgress(progress);
   return lerpDouble(

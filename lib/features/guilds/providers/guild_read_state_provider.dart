@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
+import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -311,7 +312,13 @@ class GuildReadState extends _$GuildReadState {
       }
     });
 
-    if (ref.read(gatewayReadyProvider)) {
+    ref.listen<bool>(shellDataReadyProvider, (bool? prev, bool next) {
+      if (!(prev ?? false) && next && !ref.read(gatewayReadyProvider)) {
+        _requestSeed(db, currentUserId);
+      }
+    });
+
+    if (ref.read(shellDataReadyProvider)) {
       _requestSeed(db, currentUserId);
     }
 

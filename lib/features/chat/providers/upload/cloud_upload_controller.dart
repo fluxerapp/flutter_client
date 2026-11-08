@@ -163,7 +163,12 @@ class CloudUploadController extends _$CloudUploadController {
     required Future<void> Function(File dest) write,
   }) async {
     final Directory dir = await Directory.systemTemp.createTemp('upload_');
-    final File dest = File('${dir.path}/$safeName');
+    final String destPath = path_lib.join(dir.path, safeName);
+    if (!path_lib.isWithin(dir.path, destPath)) {
+      await dir.delete(recursive: true);
+      throw FileSystemException('Unsafe upload filename', safeName);
+    }
+    final File dest = File(destPath);
     await write(dest);
     _stagedPaths.add(dest.path);
     return XFile(dest.path, mimeType: mimeType, name: safeName);

@@ -12,7 +12,7 @@ void main() {
       expect(
         isPendingShareReady(
           isAuthenticated: true,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: false,
         ),
         isTrue,
@@ -23,7 +23,7 @@ void main() {
       expect(
         isPendingShareReady(
           isAuthenticated: false,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: false,
         ),
         isFalse,
@@ -34,7 +34,7 @@ void main() {
       expect(
         isPendingShareReady(
           isAuthenticated: true,
-          isGatewayReady: false,
+          isShellReady: false,
           isConnectionFailed: false,
         ),
         isFalse,
@@ -45,11 +45,28 @@ void main() {
       expect(
         isPendingShareReady(
           isAuthenticated: true,
-          isGatewayReady: true,
+          isShellReady: true,
           isConnectionFailed: true,
         ),
         isFalse,
       );
+    });
+  });
+
+  group('withoutLaunchLinks', () {
+    final List<SharedMediaFile> launchLink = <SharedMediaFile>[
+      SharedMediaFile(
+        path: 'https://web.fluxer.app/notifications',
+        type: SharedMediaType.url,
+      ),
+    ];
+
+    test('drops the link that opened the app on Android', () {
+      expect(withoutLaunchLinks(launchLink, isAndroid: true), isEmpty);
+    });
+
+    test('keeps shared links on iOS', () {
+      expect(withoutLaunchLinks(launchLink, isAndroid: false), launchLink);
     });
   });
 

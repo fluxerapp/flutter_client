@@ -117,6 +117,25 @@ void main() {
       expect(snapshot.displayDomain, 'chat.example.com');
     });
 
+    for (final MapEntry<String, String> endpoint in <String, String>{
+      'gateway': 'wss://gateway.evil.example',
+      'api_client': 'https://evil.example/v1',
+    }.entries) {
+      test('connectToEndpoint rejects a foreign ${endpoint.key} host', () {
+        final Map<String, dynamic> discovery = buildDiscovery();
+        (discovery['endpoints'] as Map<String, dynamic>)[endpoint.key] =
+            endpoint.value;
+        final InstanceDiscoveryService service = InstanceDiscoveryService(
+          dio: buildDio(responseJson: discovery),
+        );
+
+        expect(
+          service.connectToEndpoint('chat.example.com'),
+          throwsA(isA<InstanceDiscoveryException>()),
+        );
+      });
+    }
+
     test('connectToEndpoint accepts servers without premium fields', () async {
       final Map<String, dynamic> discovery = buildDiscovery();
       (discovery['features'] as Map<String, dynamic>)
@@ -274,8 +293,12 @@ void main() {
         final TestWidgetsFlutterBinding binding =
             TestWidgetsFlutterBinding.ensureInitialized()
               ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        final Map<String, dynamic> discovery = buildDiscovery();
+        (discovery['endpoints'] as Map<String, dynamic>)
+          ..['api_client'] = 'http://192.168.1.20:8080/v1'
+          ..['gateway'] = 'ws://192.168.1.20:8080/gateway';
         final _UnreachableOnceAdapter adapter = _UnreachableOnceAdapter(
-          buildDiscovery(),
+          discovery,
         );
         final InstanceDiscoveryService service = InstanceDiscoveryService(
           dio: Dio()..httpClientAdapter = adapter,
@@ -289,7 +312,7 @@ void main() {
           ..handleAppLifecycleStateChanged(AppLifecycleState.inactive)
           ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
 
-        expect((await connect).displayDomain, 'chat.example.com');
+        expect((await connect).apiBaseUrl, 'http://192.168.1.20:8080/v1');
         expect(adapter.requests, 2);
       },
     );

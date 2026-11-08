@@ -77,6 +77,27 @@ void main() {
       '/channels/@me/789',
     );
   });
+
+  test('a deep link while the shell shows behind the splash is queued', () {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        deepLinkHandlerProvider.overrideWith(_InertDeepLinkHandler.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    container.read(authStateProvider.notifier).setAuthenticated(value: true);
+    container.read(gatewayReadyProvider.notifier).setReady();
+
+    container
+        .read(deepLinkHandlerProvider.notifier)
+        .handlePath('/channels/@me/123');
+
+    expect(
+      container.read(pendingPushNotificationPathProvider)?.path,
+      '/channels/@me/123',
+    );
+  });
 }
 
 final class _RecordingDeepLinkHandler extends DeepLinkHandler {
@@ -89,4 +110,9 @@ final class _RecordingDeepLinkHandler extends DeepLinkHandler {
   void handlePath(String path) {
     handledPaths.add(path);
   }
+}
+
+final class _InertDeepLinkHandler extends DeepLinkHandler {
+  @override
+  void build() {}
 }
