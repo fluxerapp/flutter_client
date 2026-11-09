@@ -316,6 +316,17 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
+  String get signInWithBrowser => 'Sign in with your browser';
+
+  @override
+  String get signInWithBrowserPasskeyHint =>
+      'To use a passkey on this instance, sign in with your browser.';
+
+  @override
+  String get browserSignInFailed =>
+      'Couldn\'t sign in with your browser. Try again.';
+
+  @override
   String loginLegalAgreement(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
@@ -426,7 +437,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get mfaPasskeyUnavailable =>
-      'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in on the web instead.';
+      'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in with your browser instead.';
 
   @override
   String get mfaUseSecurityKey => 'Try security key / passkey instead';

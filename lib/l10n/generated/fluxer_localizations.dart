@@ -584,6 +584,24 @@ abstract class FluxerLocalizations {
   /// **'Log in with a passkey'**
   String get logInWithPasskey;
 
+  /// Button on the iOS sign-in and verification screens for a self-hosted instance. It opens the instance's web sign-in in a browser sheet, where the user can use a passkey, and signs the app in when they finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your browser'**
+  String get signInWithBrowser;
+
+  /// Short note under the Sign in with your browser button on iOS for a self-hosted instance, where passkeys only work in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'To use a passkey on this instance, sign in with your browser.'**
+  String get signInWithBrowserPasskeyHint;
+
+  /// Error on the sign-in screen when signing in through the browser sheet fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t sign in with your browser. Try again.'**
+  String get browserSignInFailed;
+
   /// Sentence under the sign-in button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
@@ -761,7 +779,7 @@ abstract class FluxerLocalizations {
   /// Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method.
   ///
   /// In en, this message translates to:
-  /// **'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in on the web instead.'**
+  /// **'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in with your browser instead.'**
   String get mfaPasskeyUnavailable;
 
   /// Link to switch to WebAuthn from code entry.

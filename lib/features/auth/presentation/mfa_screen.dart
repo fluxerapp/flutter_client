@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/data/browser_sign_in_service.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
@@ -39,8 +40,12 @@ class MfaScreen extends ConsumerWidget {
         : vm.error;
     final bool offerWebauthn =
         challenge.webauthn && ref.watch(authInstanceSupportsPasskeysProvider);
-    final bool passkeyOnlyUnavailable =
-        challenge.webauthn && !offerWebauthn && !challenge.totp;
+    final bool passkeyUnavailable = challenge.webauthn && !offerWebauthn;
+    final bool passkeyOnlyUnavailable = passkeyUnavailable && !challenge.totp;
+    final bool offerBrowserSignIn =
+        passkeyUnavailable &&
+        ref.watch(authInstanceOffersBrowserSignInProvider);
+    final bool busy = vm.isSubmitting || vm.browserSignInLoading;
 
     ref.listen(
       mfaViewModelProvider(challenge).select((s) => s.completedSession),
@@ -57,14 +62,25 @@ class MfaScreen extends ConsumerWidget {
       children: [
         Center(child: Text(l10n.mfaTitle, style: textStyles.heading)),
         SizedBox(height: layout.s4),
-        if (passkeyOnlyUnavailable)
+        if (passkeyOnlyUnavailable) ...[
           Text(
             l10n.mfaPasskeyUnavailable,
             style: textStyles.bodySmall.copyWith(
               color: context.colors.textPrimaryMuted,
             ),
-          )
-        else if (vm.selectedMethod == null)
+          ),
+          if (offerBrowserSignIn) ...[
+            SizedBox(height: layout.s4),
+            FluxerButton.primary(
+              onPressed: vm.browserSignInLoading
+                  ? null
+                  : () => unawaited(notifier.signInWithBrowser()),
+              label: l10n.signInWithBrowser,
+              icon: PhosphorIconsFill.globe,
+              isLoading: vm.browserSignInLoading,
+            ),
+          ],
+        ] else if (vm.selectedMethod == null)
           _MethodSelector(
             challenge: challenge,
             offerWebauthn: offerWebauthn,
@@ -82,6 +98,13 @@ class MfaScreen extends ConsumerWidget {
           AuthFormErrorText(errorText),
         ],
         SizedBox(height: layout.s6),
+        if (offerBrowserSignIn && !passkeyOnlyUnavailable) ...[
+          FluxerTextLink(
+            text: l10n.signInWithBrowser,
+            onTap: busy ? null : () => unawaited(notifier.signInWithBrowser()),
+          ),
+          SizedBox(height: layout.s2),
+        ],
         if (vm.selectedMethod != null && challenge.totp && offerWebauthn) ...[
           if (vm.selectedMethod != MfaMethod.webauthn)
             Padding(
@@ -97,7 +120,7 @@ class MfaScreen extends ConsumerWidget {
           ),
           SizedBox(height: layout.s2),
         ],
-        FluxerTextLink(text: l10n.back, onTap: vm.isSubmitting ? null : onBack),
+        FluxerTextLink(text: l10n.back, onTap: busy ? null : onBack),
       ],
     );
   }

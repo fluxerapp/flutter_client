@@ -423,6 +423,18 @@
     "@logInWithPasskey": {
         "description": "Secondary login using a passkey."
     },
+    "signInWithBrowser": "Sign in with your browser",
+    "@signInWithBrowser": {
+        "description": "Button on the iOS sign-in and verification screens for a self-hosted instance. It opens the instance's web sign-in in a browser sheet, where the user can use a passkey, and signs the app in when they finish."
+    },
+    "signInWithBrowserPasskeyHint": "To use a passkey on this instance, sign in with your browser.",
+    "@signInWithBrowserPasskeyHint": {
+        "description": "Short note under the Sign in with your browser button on iOS for a self-hosted instance, where passkeys only work in the browser."
+    },
+    "browserSignInFailed": "Couldn't sign in with your browser. Try again.",
+    "@browserSignInFailed": {
+        "description": "Error on the sign-in screen when signing in through the browser sheet fails."
+    },
     "loginLegalAgreement": "{links, select, both{By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By signing in, you agree to the <terms>Terms of service</terms>.} other{By signing in, you agree to the <privacy>Privacy policy</privacy>.}}",
     "@loginLegalAgreement": {
         "description": "Sentence under the sign-in button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.",
@@ -564,7 +576,7 @@
     "@mfaTryAnotherMethod": {
         "description": "Link to switch to a different MFA method."
     },
-    "mfaPasskeyUnavailable": "Passkeys from this instance don't work in this app, and your account has no other verification method. Sign in on the web instead.",
+    "mfaPasskeyUnavailable": "Passkeys from this instance don't work in this app, and your account has no other verification method. Sign in with your browser instead.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
     },
