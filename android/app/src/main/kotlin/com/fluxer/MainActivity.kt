@@ -7,10 +7,14 @@ import android.os.Bundle
 import android.view.KeyEvent
 import com.hiennv.flutter_callkit_incoming.CallkitEventCallback
 import com.hiennv.flutter_callkit_incoming.FlutterCallkitIncomingPlugin
-import com.ryanheise.audioservice.AudioServiceActivity
+import com.ryanheise.audioservice.AudioServiceFragmentActivity
+import io.flutter.embedding.android.FlutterActivityLaunchConfigs
+import io.flutter.embedding.android.FlutterFragment
+import io.flutter.embedding.android.RenderMode
+import io.flutter.embedding.android.TransparencyMode
 import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity : AudioServiceActivity() {
+class MainActivity : AudioServiceFragmentActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
     private var ownsMainEngine = false
 
@@ -67,7 +71,26 @@ class MainActivity : AudioServiceActivity() {
         }
     }
 
-    override fun popSystemNavigator(): Boolean = moveTaskToBack(true)
+    override fun createFlutterFragment(): FlutterFragment {
+        return FlutterFragment.CachedEngineFragmentBuilder(
+            MainFlutterFragment::class.java,
+            requireNotNull(cachedEngineId),
+        )
+            .renderMode(renderMode)
+            .transparencyMode(
+                if (backgroundMode == FlutterActivityLaunchConfigs.BackgroundMode.opaque) {
+                    TransparencyMode.opaque
+                } else {
+                    TransparencyMode.transparent
+                },
+            )
+            .handleDeeplinking(shouldHandleDeeplinking())
+            .shouldAttachEngineToActivity(shouldAttachEngineToActivity())
+            .destroyEngineWithFragment(shouldDestroyEngineWithHost())
+            .shouldDelayFirstAndroidViewDraw(renderMode == RenderMode.surface)
+            .shouldAutomaticallyHandleOnBackPressed(true)
+            .build()
+    }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (imeEditingShortcutBridge.dispatch(event)) {

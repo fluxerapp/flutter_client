@@ -286,6 +286,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Fluxer uses Face ID to unlock the app when app lock is turned on.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network.</string>
 	<key>NSMicrophoneUsageDescription</key>

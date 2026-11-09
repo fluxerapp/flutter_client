@@ -28089,6 +28089,270 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Can\'t connect to {domain}. Check your internet connection and try again.'**
   String splashGatewayUnreachable(String domain);
+
+  /// App lock: appLockSettingTitle
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get appLockSettingTitle;
+
+  /// App lock: appLockConfigure
+  ///
+  /// In en, this message translates to:
+  /// **'Configure'**
+  String get appLockConfigure;
+
+  /// App lock: appLockSettingDescription
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer asks for your PIN after it has been in the background for the time you choose.'**
+  String get appLockSettingDescription;
+
+  /// App lock: appLockTimeoutLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get appLockTimeoutLabel;
+
+  /// App lock: appLockTimeoutImmediately
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get appLockTimeoutImmediately;
+
+  /// App lock: appLockTimeoutThirtySeconds
+  ///
+  /// In en, this message translates to:
+  /// **'30 seconds'**
+  String get appLockTimeoutThirtySeconds;
+
+  /// App lock: appLockTimeoutOneMinute
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute'**
+  String get appLockTimeoutOneMinute;
+
+  /// App lock: appLockTimeoutFiveMinutes
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get appLockTimeoutFiveMinutes;
+
+  /// App lock: appLockTimeoutFifteenMinutes
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get appLockTimeoutFifteenMinutes;
+
+  /// App lock: appLockTimeoutOneHour
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get appLockTimeoutOneHour;
+
+  /// App lock: appLockTurnOff
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off app lock'**
+  String get appLockTurnOff;
+
+  /// App lock: appLockTurnOffConfirmTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off app lock?'**
+  String get appLockTurnOffConfirmTitle;
+
+  /// App lock: appLockTurnOffConfirmBody
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer will open without asking for your PIN.'**
+  String get appLockTurnOffConfirmBody;
+
+  /// App lock: appLockEnterCurrentPinTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN'**
+  String get appLockEnterCurrentPinTitle;
+
+  /// App lock: appLockEnterCurrentPinSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current {digits}-digit PIN to continue.'**
+  String appLockEnterCurrentPinSubtitle(int digits);
+
+  /// App lock: appLockSetPinTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Set a PIN'**
+  String get appLockSetPinTitle;
+
+  /// App lock: appLockCreatePinSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a {digits}-digit PIN.'**
+  String appLockCreatePinSubtitle(int digits);
+
+  /// App lock: appLockConfirmPinSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the PIN again to confirm'**
+  String get appLockConfirmPinSubtitle;
+
+  /// App lock: appLockPinMismatch
+  ///
+  /// In en, this message translates to:
+  /// **'The PINs don\'t match. Try again.'**
+  String get appLockPinMismatch;
+
+  /// App lock: appLockTooManyAttemptsShort
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait before trying again.'**
+  String get appLockTooManyAttemptsShort;
+
+  /// App lock: appLockUnlockTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Fluxer'**
+  String get appLockUnlockTitle;
+
+  /// App lock: appLockUnlockSubtitlePin
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your {digits}-digit PIN'**
+  String appLockUnlockSubtitlePin(int digits);
+
+  /// App lock: appLockCooldownMessage
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {time}.'**
+  String appLockCooldownMessage(String time);
+
+  /// App lock: appLockWrongPin
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN'**
+  String get appLockWrongPin;
+
+  /// App lock: appLockForgotPin
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot PIN? Sign out'**
+  String get appLockForgotPin;
+
+  /// App lock: appLockSignOutConfirmTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out and turn off app lock?'**
+  String get appLockSignOutConfirmTitle;
+
+  /// App lock: appLockSignOutConfirmBody
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be signed out on this device and app lock will be turned off.'**
+  String get appLockSignOutConfirmBody;
+
+  /// App lock: appLockBiometricReason
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Fluxer'**
+  String get appLockBiometricReason;
+
+  /// App lock: appLockPinFieldLabel
+  ///
+  /// In en, this message translates to:
+  /// **'PIN'**
+  String get appLockPinFieldLabel;
+
+  /// App lock: appLockBiometricFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t match. Try again.'**
+  String get appLockBiometricFailed;
+
+  /// App lock: appLockBiometricFaceId
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID'**
+  String get appLockBiometricFaceId;
+
+  /// App lock: appLockBiometricFaceUnlock
+  ///
+  /// In en, this message translates to:
+  /// **'face unlock'**
+  String get appLockBiometricFaceUnlock;
+
+  /// App lock: appLockBiometricFingerprint
+  ///
+  /// In en, this message translates to:
+  /// **'fingerprint'**
+  String get appLockBiometricFingerprint;
+
+  /// App lock: appLockBiometricTouchId
+  ///
+  /// In en, this message translates to:
+  /// **'Touch ID'**
+  String get appLockBiometricTouchId;
+
+  /// App lock: appLockBiometricGeneric
+  ///
+  /// In en, this message translates to:
+  /// **'biometrics'**
+  String get appLockBiometricGeneric;
+
+  /// App lock: appLockUseBiometric
+  ///
+  /// In en, this message translates to:
+  /// **'Use {method}'**
+  String appLockUseBiometric(String method);
+
+  /// App lock: appLockUnlockSubtitleWithBiometric
+  ///
+  /// In en, this message translates to:
+  /// **'Use {method} or enter your PIN'**
+  String appLockUnlockSubtitleWithBiometric(String method);
+
+  /// App lock: appLockBiometricSwitchLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with {method}'**
+  String appLockBiometricSwitchLabel(String method);
+
+  /// App lock: appLockSetPinButton
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get appLockSetPinButton;
+
+  /// App lock: appLockChangePinButton
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get appLockChangePinButton;
+
+  /// App lock: appLockRowDescription
+  ///
+  /// In en, this message translates to:
+  /// **'Require a PIN to open Fluxer'**
+  String get appLockRowDescription;
+
+  /// App lock: appLockRowDescriptionWithBiometric
+  ///
+  /// In en, this message translates to:
+  /// **'Require a PIN or {method} to open Fluxer'**
+  String appLockRowDescriptionWithBiometric(String method);
+
+  /// App lock: appLockBiometricSwitchHint
+  ///
+  /// In en, this message translates to:
+  /// **'Your PIN still works too'**
+  String get appLockBiometricSwitchHint;
+
+  /// App lock: appLockBiometricEither
+  ///
+  /// In en, this message translates to:
+  /// **'{first} or {second}'**
+  String appLockBiometricEither(String first, String second);
 }
 
 class _FluxerLocalizationsDelegate

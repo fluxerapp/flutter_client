@@ -75,6 +75,7 @@ dependencies:
   in_app_purchase_storekit: ^0.4.16
   intl: ^0.20.2
   livekit_client: ^2.13.2
+  local_auth: ^3.0.2
   local_translation: ^0.1.1
   markdown: ^7.3.1
   material_ui: ^1.5.0
