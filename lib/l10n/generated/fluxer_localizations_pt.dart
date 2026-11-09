@@ -23773,6 +23773,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get voiceOutputRouteHeadset => 'Fones de ouvido';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Alterar saída de áudio';
 
   @override

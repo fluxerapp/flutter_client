@@ -849,6 +849,15 @@
 				nl,
 				ro,
 				vi,
+				be,
+				bn,
+				ca,
+				fil,
+				lv,
+				"pt-PT",
+				sk,
+				sl,
+				sq,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (

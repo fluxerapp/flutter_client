@@ -16321,6 +16321,10 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
+    },
     "appIconOptionDefault": "Predeterminado",
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."

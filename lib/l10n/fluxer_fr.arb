@@ -16104,6 +16104,10 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
+    },
     "doubleTapReactionEdit": "Modifier",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

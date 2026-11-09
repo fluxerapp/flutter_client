@@ -205,6 +205,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/flags/
     - assets/images/
     - assets/images/plutonium/
     - assets/sounds/

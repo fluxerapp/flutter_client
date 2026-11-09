@@ -31,8 +31,19 @@ sdk.Locale apiLocaleFromFlutterLocale(ui.Locale locale) {
   }
 
   return _localeByWireValue[languageCode] ??
-      _localeByLanguageCode[languageCode] ??
+      _localeForLanguageCode(languageCode) ??
       sdk.Locale.enUs;
+}
+
+sdk.Locale? _localeForLanguageCode(String languageCode) {
+  for (final String wireValue
+      in _wireValuesByLanguageCode[languageCode] ?? const <String>[]) {
+    final sdk.Locale? locale = _localeByWireValue[wireValue];
+    if (locale != null) {
+      return locale;
+    }
+  }
+  return null;
 }
 
 const Set<String> _traditionalChineseSubtags = <String>{
@@ -44,15 +55,18 @@ const Set<String> _traditionalChineseSubtags = <String>{
 
 const Set<String> _simplifiedChineseSubtags = <String>{'hans', 'cn', 'sg'};
 
-const Map<String, sdk.Locale> _localeByLanguageCode = <String, sdk.Locale>{
-  'en': sdk.Locale.enUs,
-  'es': sdk.Locale.esEs,
-  'nb': sdk.Locale.no,
-  'nn': sdk.Locale.no,
-  'pt': sdk.Locale.ptBr,
-  'sv': sdk.Locale.svSe,
-  'zh': sdk.Locale.zhCn,
-};
+const Map<String, List<String>> _wireValuesByLanguageCode =
+    <String, List<String>>{
+      'art': <String>['tok'],
+      'en': <String>['en-us'],
+      'es': <String>['es-es'],
+      'nb': <String>['no'],
+      'nn': <String>['no'],
+      'pt': <String>['pt-pt', 'pt-br'],
+      'sv': <String>['sv-se'],
+      'tl': <String>['fil'],
+      'zh': <String>['zh-cn'],
+    };
 
 final Map<String, sdk.Locale> _localeByWireValue = <String, sdk.Locale>{
   for (final locale in sdk.Locale.$valuesDefined)

@@ -160,6 +160,8 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
             verified: c.verified,
             visibilityFlags: visibilityFlags,
             sortOrder: c.sortOrder,
+            providerId: c.providerId,
+            url: c.url,
           );
         }
         return c;

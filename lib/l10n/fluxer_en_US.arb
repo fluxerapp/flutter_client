@@ -17203,6 +17203,10 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
+    },
     "notificationsMentionedYouIn": "{author} mentioned you in {place}:",
     "@notificationsMentionedYouIn": {
         "description": "Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.",
