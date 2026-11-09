@@ -303,6 +303,17 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get logInWithPasskey => '使用密匙登录';
 
   @override
+  String get signInWithBrowser => 'Sign in with your browser';
+
+  @override
+  String get signInWithBrowserPasskeyHint =>
+      'To use a passkey on this instance, sign in with your browser.';
+
+  @override
+  String get browserSignInFailed =>
+      'Couldn\'t sign in with your browser. Try again.';
+
+  @override
   String loginLegalAgreement(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both': '登录即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。',

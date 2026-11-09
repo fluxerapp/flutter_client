@@ -1,13 +1,16 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/data/browser_sign_in_service.dart';
 import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:passkeys/exceptions.dart';
@@ -26,6 +29,7 @@ class MfaViewState {
   final String? error;
   final LoginError? errorType;
   final bool webauthnLoading;
+  final bool browserSignInLoading;
   final AuthSession? completedSession;
 
   const MfaViewState({
@@ -35,6 +39,7 @@ class MfaViewState {
     required this.error,
     required this.errorType,
     required this.webauthnLoading,
+    required this.browserSignInLoading,
     required this.completedSession,
   });
 
@@ -45,6 +50,7 @@ class MfaViewState {
     Object? error = _unset,
     Object? errorType = _unset,
     bool? webauthnLoading,
+    bool? browserSignInLoading,
     Object? completedSession = _unset,
   }) {
     return MfaViewState(
@@ -58,6 +64,7 @@ class MfaViewState {
           ? this.errorType
           : errorType as LoginError?,
       webauthnLoading: webauthnLoading ?? this.webauthnLoading,
+      browserSignInLoading: browserSignInLoading ?? this.browserSignInLoading,
       completedSession: completedSession == _unset
           ? this.completedSession
           : completedSession as AuthSession?,
@@ -92,6 +99,7 @@ class MfaViewModel extends _$MfaViewModel {
           : null,
       errorType: null,
       webauthnLoading: false,
+      browserSignInLoading: false,
       completedSession: null,
     );
   }
@@ -179,6 +187,45 @@ class MfaViewModel extends _$MfaViewModel {
         'Session timed out. Go back and log in again.',
       _ => message,
     };
+  }
+
+  Future<void> signInWithBrowser() async {
+    if (state.browserSignInLoading) {
+      return;
+    }
+    state = state.copyWith(
+      browserSignInLoading: true,
+      error: null,
+      errorType: null,
+    );
+    try {
+      final AuthSession session = await ref
+          .read(browserSignInServiceProvider)
+          .signIn(
+            instance: ref.read(authInstanceSnapshotProvider),
+            identifier: ref.read(loginViewModelProvider).email,
+            usernameSignIn: ref
+                .read(authInstanceRuntimeConfigProvider)
+                .usernameSignIn,
+          );
+      state = state.copyWith(
+        browserSignInLoading: false,
+        completedSession: session,
+      );
+    } on BrowserSignInCancelledException {
+      state = state.copyWith(browserSignInLoading: false);
+    } on AuthFailure catch (e) {
+      state = state.copyWith(
+        browserSignInLoading: false,
+        error: _failureMessage(e),
+      );
+    } on Object catch (e) {
+      talker.error('[MfaViewModel] Browser sign-in error: $e');
+      state = state.copyWith(
+        browserSignInLoading: false,
+        error: ref.read(appLocalizationsProvider).browserSignInFailed,
+      );
+    }
   }
 
   Future<void> startWebauthn() async {
