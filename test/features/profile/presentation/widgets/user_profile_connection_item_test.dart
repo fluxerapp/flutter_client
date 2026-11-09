@@ -43,6 +43,8 @@ Widget _app(List<ConnectionResponse> connections, double textScale) {
 
 ConnectionResponse _connection(ConnectionType type, String id) =>
     ConnectionResponse(
+      providerId: null,
+      url: null,
       id: id,
       type: type,
       name: 'mystie.dev',
