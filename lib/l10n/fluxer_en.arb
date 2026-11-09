@@ -20232,7 +20232,7 @@
   "@appLockConfigure": {
     "description": "App lock: appLockConfigure"
   },
-  "appLockSettingDescription": "Fluxer asks for your PIN after it has been in the background for the time you choose.",
+  "appLockSettingDescription": "Fluxer asks for your PIN after it has been in the background for the time you choose. App lock applies to every account on this device.",
   "@appLockSettingDescription": {
     "description": "App lock: appLockSettingDescription"
   },
@@ -20422,6 +20422,19 @@
   "appLockRowDescription": "Require a PIN to open Fluxer",
   "@appLockRowDescription": {
     "description": "App lock: appLockRowDescription"
+  },
+  "appLockRowDescriptionEnabled": "On. Locks after {duration} in the background.",
+  "@appLockRowDescriptionEnabled": {
+    "description": "App lock: settings row description while app lock is on",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "appLockRowDescriptionEnabledImmediately": "On. Locks as soon as you leave Fluxer.",
+  "@appLockRowDescriptionEnabledImmediately": {
+    "description": "App lock: settings row description while app lock is on with no delay"
   },
   "appLockRowDescriptionWithBiometric": "Require a PIN or {method} to open Fluxer",
   "@appLockRowDescriptionWithBiometric": {

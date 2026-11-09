@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_biometric_label.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_pin_input.dart';
+import 'package:fluxer_app/features/app_lock/presentation/app_lock_timeout_label.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
@@ -119,17 +120,6 @@ class _AppLockSheetBodyState extends ConsumerState<_AppLockSheetBody> {
     await _controller.disable();
   }
 
-  String _timeoutLabel(FluxerLocalizations l10n, AppLockTimeout timeout) {
-    return switch (timeout) {
-      AppLockTimeout.immediately => l10n.appLockTimeoutImmediately,
-      AppLockTimeout.thirtySeconds => l10n.appLockTimeoutThirtySeconds,
-      AppLockTimeout.oneMinute => l10n.appLockTimeoutOneMinute,
-      AppLockTimeout.fiveMinutes => l10n.appLockTimeoutFiveMinutes,
-      AppLockTimeout.fifteenMinutes => l10n.appLockTimeoutFifteenMinutes,
-      AppLockTimeout.oneHour => l10n.appLockTimeoutOneHour,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -197,7 +187,7 @@ class _AppLockSheetBodyState extends ConsumerState<_AppLockSheetBody> {
                             in AppLockTimeout.values)
                           FluxerRadioItem<AppLockTimeout>(
                             value: timeout,
-                            label: _timeoutLabel(l10n, timeout),
+                            label: appLockTimeoutLabel(l10n, timeout),
                           ),
                       ],
                     ),

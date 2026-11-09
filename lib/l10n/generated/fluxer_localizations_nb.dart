@@ -17139,7 +17139,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get appLockSettingDescription =>
-      'Fluxer asks for your PIN after it has been in the background for the time you choose.';
+      'Fluxer asks for your PIN after it has been in the background for the time you choose. App lock applies to every account on this device.';
 
   @override
   String get appLockTimeoutLabel => 'Lock after';
@@ -17271,6 +17271,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get appLockRowDescription => 'Require a PIN to open Fluxer';
+
+  @override
+  String appLockRowDescriptionEnabled(String duration) {
+    return 'On. Locks after $duration in the background.';
+  }
+
+  @override
+  String get appLockRowDescriptionEnabledImmediately =>
+      'On. Locks as soon as you leave Fluxer.';
 
   @override
   String appLockRowDescriptionWithBiometric(String method) {

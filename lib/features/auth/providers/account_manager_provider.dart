@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
+import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -181,6 +182,7 @@ class AccountManager extends _$AccountManager {
     await loadAccounts();
 
     if (state.accounts.isEmpty) {
+      await _turnOffAppLock();
       if (!keepInstance) {
         ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
       }
@@ -250,5 +252,16 @@ class AccountManager extends _$AccountManager {
     await PushAccountLifecycle.forgetStoredAccount(ref, userId);
     await authRepository.removeStoredAccount(userId);
     await loadAccounts();
+    if (state.accounts.isEmpty) {
+      await _turnOffAppLock();
+    }
+  }
+
+  Future<void> _turnOffAppLock() async {
+    try {
+      await ref.read(appLockControllerProvider.notifier).disable();
+    } on Object catch (e) {
+      talker.warning('[AccountManager] Failed to turn off app lock: $e');
+    }
   }
 }

@@ -28105,7 +28105,7 @@ abstract class FluxerLocalizations {
   /// App lock: appLockSettingDescription
   ///
   /// In en, this message translates to:
-  /// **'Fluxer asks for your PIN after it has been in the background for the time you choose.'**
+  /// **'Fluxer asks for your PIN after it has been in the background for the time you choose. App lock applies to every account on this device.'**
   String get appLockSettingDescription;
 
   /// App lock: appLockTimeoutLabel
@@ -28335,6 +28335,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Require a PIN to open Fluxer'**
   String get appLockRowDescription;
+
+  /// App lock: settings row description while app lock is on
+  ///
+  /// In en, this message translates to:
+  /// **'On. Locks after {duration} in the background.'**
+  String appLockRowDescriptionEnabled(String duration);
+
+  /// App lock: settings row description while app lock is on with no delay
+  ///
+  /// In en, this message translates to:
+  /// **'On. Locks as soon as you leave Fluxer.'**
+  String get appLockRowDescriptionEnabledImmediately;
 
   /// App lock: appLockRowDescriptionWithBiometric
   ///
