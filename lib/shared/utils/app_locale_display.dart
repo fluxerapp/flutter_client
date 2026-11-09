@@ -36,6 +36,7 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Arabic',
         nativeName: 'العربية',
         languageCode: 'ar',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'be': AppLocaleDisplayInfo(
         name: 'Belarusian',
@@ -107,7 +108,7 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Spanish (Latin America)',
         nativeName: 'Español (Latinoamérica)',
         languageCode: 'es',
-        countryCode: 'MX',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'fi': AppLocaleDisplayInfo(
         name: 'Finnish',
