@@ -81,7 +81,7 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
       guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
-      connectionProviders: const <InstanceConnectionProviderSchema>[],
+      connectionProviders: <InstanceConnectionProviderSchema>[],
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,

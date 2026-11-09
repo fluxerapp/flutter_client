@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/observability/observability_reporting_provider.d
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
 import 'package:fluxer_app/core/observability/startup_timeline.dart';
+import 'package:fluxer_app/core/platform/android_proc_info.dart';
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -63,6 +64,15 @@ void _configureImagePicker() {
 }
 
 const Duration _kCachedLaunchFirstFrameLimit = Duration(milliseconds: 1500);
+const Duration _kWarmProcessFirstFrameLimit = Duration(milliseconds: 300);
+const Duration _kWarmProcessMinAge = Duration(seconds: 10);
+
+Duration _cachedLaunchFirstFrameLimit(Duration? processAge) {
+  if (processAge != null && processAge > _kWarmProcessMinAge) {
+    return _kWarmProcessFirstFrameLimit;
+  }
+  return _kCachedLaunchFirstFrameLimit;
+}
 
 Future<void> _bootstrapStep(String name, Future<void> Function() step) async {
   try {
@@ -107,6 +117,7 @@ void _runFluxerApp(ProviderContainer container) {
 }
 
 Future<void> _bootstrapFluxer(List<String> args) async {
+  final Duration? processAge = androidProcessAge();
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();
   registerEnglishBackedIntlLocales();
@@ -133,8 +144,9 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     installNativePasteHandler();
   }
   configureFluxerMobileDetection();
-  configureFluxerImageCache();
-  configureFluxerGpuResourceCache();
+  final int? totalMemoryBytes = androidTotalMemoryBytes();
+  configureFluxerImageCache(totalMemoryBytes: totalMemoryBytes);
+  configureFluxerGpuResourceCache(totalMemoryBytes: totalMemoryBytes);
   configureFluxerTouchResampling();
   configureFluxerErrorUi();
   FluxerObservability.instance.installGlobalErrorHandlers();
@@ -215,7 +227,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if ((Platform.isAndroid || Platform.isIOS) &&
       await isShellCacheMarkedFresh()) {
-    StartupFirstFrameGate.hold(limit: _kCachedLaunchFirstFrameLimit);
+    StartupFirstFrameGate.hold(limit: _cachedLaunchFirstFrameLimit(processAge));
   }
 
   _bootstrapChatAttachmentAudioAfterSplashReveal(container);

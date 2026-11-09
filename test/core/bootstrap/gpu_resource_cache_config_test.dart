@@ -37,6 +37,24 @@ void main() {
     },
   );
 
+  test('low-memory android devices get a 32 MiB Skia cache', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+    configureFluxerGpuResourceCache(totalMemoryBytes: 3800 << 20);
+    await Future<void>.delayed(Duration.zero);
+
+    expect(calls.single.arguments, 33554432);
+  });
+
+  test('6 GB android devices keep the 64 MiB Skia cache', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+    configureFluxerGpuResourceCache(totalMemoryBytes: 5800 << 20);
+    await Future<void>.delayed(Duration.zero);
+
+    expect(calls.single.arguments, 67108864);
+  });
+
   test('non-android platforms leave the engine cache limit alone', () async {
     for (final TargetPlatform platform in <TargetPlatform>[
       TargetPlatform.iOS,

@@ -445,7 +445,7 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
       guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
-      connectionProviders: const <InstanceConnectionProviderSchema>[],
+      connectionProviders: <InstanceConnectionProviderSchema>[],
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,

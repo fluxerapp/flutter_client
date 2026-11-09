@@ -16,7 +16,6 @@ import io.flutter.embedding.engine.FlutterEngine
 
 class MainActivity : AudioServiceFragmentActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
-    private var ownsMainEngine = false
 
     private val callkitEventCallback = object : CallkitEventCallback {
         override fun onCallEvent(
@@ -60,15 +59,8 @@ class MainActivity : AudioServiceFragmentActivity() {
     }
 
     override fun onDestroy() {
-        val ownedEngine = ownsMainEngine
-        ownsMainEngine = false
-        VoiceTaskRemovedRegistry.bridge = null
-        stopVoiceTaskRemovedWatcher(applicationContext)
         FlutterCallkitIncomingPlugin.unregisterEventCallback(callkitEventCallback)
         super.onDestroy()
-        if (ownedEngine) {
-            MainEngineState.onEngineStopped()
-        }
     }
 
     override fun createFlutterFragment(): FlutterFragment {
@@ -101,8 +93,7 @@ class MainActivity : AudioServiceFragmentActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        ownsMainEngine = true
-        MainEngineState.onEngineStarted()
+        MainEngineKeepAlive.attach(this, flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(this).register(flutterEngine)
