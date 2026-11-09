@@ -19,7 +19,10 @@ abstract final class LimitKeys {
   static const String maxAttachmentFileSize = 'max_attachment_file_size';
   static const String maxBioLength = 'max_bio_length';
   static const String maxBookmarks = 'max_bookmarks';
+  static const String maxCameraResolution = 'max_camera_resolution';
   static const String maxChannelsPerCategory = 'max_channels_per_category';
+  static const String maxScreenShareFrameRate = 'max_screen_share_frame_rate';
+  static const String maxScreenShareResolution = 'max_screen_share_resolution';
   static const String maxCustomBackgrounds = 'max_custom_backgrounds';
   static const String maxEmbedsPerMessage = 'max_embeds_per_message';
   static const String maxFavoriteMemeTags = 'max_favorite_meme_tags';
@@ -70,6 +73,9 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.maxAttachmentsPerMessage: LimitScope.both,
   LimitKeys.maxBioLength: LimitScope.user,
   LimitKeys.maxBookmarks: LimitScope.user,
+  LimitKeys.maxCameraResolution: LimitScope.user,
+  LimitKeys.maxScreenShareFrameRate: LimitScope.user,
+  LimitKeys.maxScreenShareResolution: LimitScope.user,
   LimitKeys.maxChannelsPerCategory: LimitScope.guild,
   LimitKeys.maxCustomBackgrounds: LimitScope.user,
   LimitKeys.maxEmbedsPerMessage: LimitScope.both,
@@ -118,6 +124,9 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.maxAttachmentFileSize,
   LimitKeys.maxBioLength,
   LimitKeys.maxBookmarks,
+  LimitKeys.maxCameraResolution,
+  LimitKeys.maxScreenShareFrameRate,
+  LimitKeys.maxScreenShareResolution,
   LimitKeys.maxChannelsPerCategory,
   LimitKeys.maxCustomBackgrounds,
   LimitKeys.maxEmbedsPerMessage,

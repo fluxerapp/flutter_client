@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dar
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../helpers/test_l10n.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -32,7 +33,7 @@ Widget _wrap(Widget child) {
       voiceSettingsApplicatorProvider.overrideWithValue(
         const VoiceSettingsApplicator(
           noiseFilterSupported: false,
-          higherVideoQuality: false,
+          videoQualityCaps: VideoQualityCaps.base,
           meshPhoneCap: false,
         ),
       ),
