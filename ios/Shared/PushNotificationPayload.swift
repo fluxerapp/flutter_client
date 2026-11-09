@@ -8,6 +8,7 @@ struct PushConversationIdentity: Equatable {
 
 enum PushNotificationPayload {
   static let messageReplyCategoryId = "fluxer_message"
+  static let groupDmTitleSuffix = " (Group DM)"
   static let messageReplyActionId = "fluxer_reply"
 
   static func canReply(from userInfo: [AnyHashable: Any]) -> Bool {
@@ -84,22 +85,26 @@ enum PushNotificationPayload {
 
   static func resolveConversationIdentity(
     from userInfo: [AnyHashable: Any],
-    title: String
+    title: String,
+    groupDmNames: [String: Any]? = storedGroupDmNames()
   ) -> PushConversationIdentity? {
     if payloadText("preview_kind", in: userInfo) == "mature" {
       return nil
     }
+    let storedName = resolveStoredGroupDmName(from: userInfo, groupDmNames: groupDmNames)
     if let author = payloadText("author_name", in: userInfo) {
       return PushConversationIdentity(
         senderName: author,
-        groupName: structuredGroupName(from: userInfo)
+        groupName: structuredGroupName(from: userInfo, storedGroupDmName: storedName)
       )
     }
     let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else {
       return nil
     }
-    let groupName = resolveSpeakableGroupName(title: trimmed, userInfo: userInfo)
+    let groupName = trimmed.hasSuffix(groupDmTitleSuffix)
+      ? storedName ?? groupDmLabel
+      : resolveSpeakableGroupName(title: trimmed, userInfo: userInfo)
     guard groupName != nil, let open = trimmed.range(of: " (", options: .backwards) else {
       return PushConversationIdentity(senderName: trimmed, groupName: nil)
     }
@@ -109,7 +114,14 @@ enum PushNotificationPayload {
     )
   }
 
-  private static func structuredGroupName(from userInfo: [AnyHashable: Any]) -> String? {
+  private static var groupDmLabel: String {
+    NativeStrings.text("PUSH_GROUP_DM", "Group DM")
+  }
+
+  private static func structuredGroupName(
+    from userInfo: [AnyHashable: Any],
+    storedGroupDmName: String?
+  ) -> String? {
     let name = payloadText("conversation_name", in: userInfo)
     switch payloadText("conversation_kind", in: userInfo) {
     case "guild":
@@ -121,7 +133,7 @@ enum PushNotificationPayload {
       }
       return NativeStrings.format("PUSH_CHANNEL_IN_COMMUNITY", "#%1$@, %2$@", name, guild)
     case "group_dm":
-      return name ?? NativeStrings.text("PUSH_GROUP_DM", "Group DM")
+      return name ?? storedGroupDmName ?? groupDmLabel
     default:
       return nil
     }
@@ -171,8 +183,8 @@ enum PushNotificationPayload {
   }
 
   static func resolveSpeakableGroupName(title: String) -> String? {
-    if title.hasSuffix(" (Group DM)") {
-      return NativeStrings.text("PUSH_GROUP_DM", "Group DM")
+    if title.hasSuffix(groupDmTitleSuffix) {
+      return groupDmLabel
     }
     guard let open = title.range(of: " (#", options: .backwards),
       let comma = title.range(of: ", ", range: open.upperBound..<title.endIndex),
@@ -432,6 +444,35 @@ enum PushNotificationPayload {
       directMessageSoundSettingKey: directMessage,
     ]
     defaults.set(settings, forKey: notificationSoundSettingsKey)
+  }
+
+  static let groupDmNamesKey = "fluxer_push_group_dm_names"
+
+  static func storedGroupDmNames() -> [String: Any]? {
+    return UserDefaults(suiteName: appGroupSuiteName)?
+      .dictionary(forKey: groupDmNamesKey)
+  }
+
+  static func storeGroupDmNames(userId: String, names: [String: String]) {
+    guard let defaults = UserDefaults(suiteName: appGroupSuiteName) else {
+      return
+    }
+    var stored = defaults.dictionary(forKey: groupDmNamesKey) ?? [:]
+    stored[userId] = names
+    defaults.set(stored, forKey: groupDmNamesKey)
+  }
+
+  static func resolveStoredGroupDmName(
+    from userInfo: [AnyHashable: Any],
+    groupDmNames: [String: Any]?
+  ) -> String? {
+    guard let userId = targetUserId(from: userInfo),
+      let channelId = resolveChannelId(from: userInfo),
+      let names = groupDmNames?[userId] as? [String: String]
+    else {
+      return nil
+    }
+    return nonEmptyText(names[channelId])
   }
 
   static func resolveNotificationSound(

@@ -250,6 +250,64 @@ class RunnerTests: XCTestCase {
     )
   }
 
+  func testStructuredGroupDmUsesTheStoredNameWhenThePushHasNone() {
+    let userInfo: [AnyHashable: Any] = [
+      "channel_id": "300",
+      "target_user_id": "1",
+      "data": ["author_name": "peer", "conversation_kind": "group_dm"],
+    ]
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: userInfo,
+        title: "peer (Group DM)",
+        groupDmNames: ["1": ["300": "Weekend plans"]]
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "Weekend plans")
+    )
+  }
+
+  func testStructuredGroupDmPrefersThePushedName() {
+    let userInfo: [AnyHashable: Any] = [
+      "channel_id": "300",
+      "target_user_id": "1",
+      "data": [
+        "author_name": "peer",
+        "conversation_kind": "group_dm",
+        "conversation_name": "Renamed",
+      ],
+    ]
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: userInfo,
+        title: "peer (Group DM)",
+        groupDmNames: ["1": ["300": "Weekend plans"]]
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "Renamed")
+    )
+  }
+
+  func testLegacyGroupDmTitleUsesTheStoredName() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: ["channel_id": "300", "target_user_id": "1"],
+        title: "peer (Group DM)",
+        groupDmNames: ["1": ["300": "Weekend plans"]]
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "Weekend plans")
+    )
+  }
+
+  func testStoredGroupDmNamesAreScopedToTheTargetAccount() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveConversationIdentity(
+        from: ["channel_id": "300", "target_user_id": "2"],
+        title: "peer (Group DM)",
+        groupDmNames: ["1": ["300": "Weekend plans"]]
+      ),
+      PushConversationIdentity(senderName: "peer", groupName: "Group DM")
+    )
+  }
+
   func testLegacyGuildTitleStillSplitsAuthorAndChannel() {
     XCTAssertEqual(
       PushNotificationPayload.resolveConversationIdentity(

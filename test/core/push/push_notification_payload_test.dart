@@ -196,6 +196,16 @@ void main() {
         },
       );
     });
+
+    test('keeps the pushed group name when none is found locally', () {
+      expect(
+        withPushConversationIdentity(const <String, String>{
+          kPushConversationNameKey: 'Pushed name',
+          kPushConversationIconPathKey: '/pushed/path.png',
+        }),
+        <String, String>{kPushConversationNameKey: 'Pushed name'},
+      );
+    });
   });
 
   group('resolvePushGroupTag', () {

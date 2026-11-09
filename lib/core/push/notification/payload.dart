@@ -123,9 +123,7 @@ Map<String, String> withPushConversationIdentity(
 }) {
   return <String, String>{
     for (final MapEntry<String, String> entry in payload.entries)
-      if (entry.key != kPushConversationNameKey &&
-          entry.key != kPushConversationIconPathKey)
-        entry.key: entry.value,
+      if (entry.key != kPushConversationIconPathKey) entry.key: entry.value,
     kPushConversationNameKey: ?name,
     kPushConversationIconPathKey: ?iconPath,
   };
