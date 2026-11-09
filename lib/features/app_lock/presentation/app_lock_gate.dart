@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
+import 'package:fluxer_app/core/platform/android_app_lock_recents.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_screen.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -19,6 +23,9 @@ class _AppLockGateState extends ConsumerState<AppLockGate> {
   @override
   void initState() {
     super.initState();
+    if (!isFluxerNativeMobileOs) {
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         unawaited(ref.read(appLockControllerProvider.notifier).load());
@@ -44,6 +51,13 @@ class _AppLockGateState extends ConsumerState<AppLockGate> {
 
   @override
   Widget build(BuildContext context) {
+    if (!isFluxerNativeMobileOs) {
+      return widget.child;
+    }
+    ref.listen(
+      appLockControllerProvider.select((AppLockState lock) => lock.enabled),
+      (_, bool enabled) => unawaited(setAndroidHideInRecents(hide: enabled)),
+    );
     final AppLockState lock = ref.watch(appLockControllerProvider);
     final Widget? overlay = _overlay(lock);
     final bool covered = overlay != null;
@@ -63,17 +77,59 @@ class _AppLockGateState extends ConsumerState<AppLockGate> {
   }
 }
 
-class _AppLockNavigator extends StatelessWidget {
+class _AppLockNavigator extends ConsumerStatefulWidget {
   const _AppLockNavigator();
 
   @override
+  ConsumerState<_AppLockNavigator> createState() => _AppLockNavigatorState();
+}
+
+class _AppLockNavigatorState extends ConsumerState<_AppLockNavigator> {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  ChildBackButtonDispatcher? _backDispatcher;
+
+  @override
+  void initState() {
+    super.initState();
+    final BackButtonDispatcher root = ref
+        .read(fluxerRouterProvider)
+        .backButtonDispatcher;
+    if (root is RootBackButtonDispatcher) {
+      _backDispatcher = ChildBackButtonDispatcher(root)
+        ..addCallback(_onBack)
+        ..takePriority();
+    }
+    unawaited(SystemNavigator.setFrameworkHandlesBack(true));
+  }
+
+  @override
+  void dispose() {
+    _backDispatcher?.removeCallback(_onBack);
+    unawaited(SystemNavigator.setFrameworkHandlesBack(true));
+    super.dispose();
+  }
+
+  Future<bool> _onBack() async {
+    final NavigatorState? navigator = _navigatorKey.currentState;
+    if (navigator != null && await navigator.maybePop()) {
+      return true;
+    }
+    await SystemNavigator.pop();
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
-        settings: settings,
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (_, _, _) => const AppLockScreen(),
+    return NotificationListener<NavigationNotification>(
+      onNotification: (_) => true,
+      child: Navigator(
+        key: _navigatorKey,
+        onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
+          settings: settings,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+          pageBuilder: (_, _, _) => const AppLockScreen(),
+        ),
       ),
     );
   }

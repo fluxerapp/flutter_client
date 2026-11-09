@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:clock/clock.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,9 +14,15 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 class _MemorySecretStore implements AppLockSecretStore {
   final Map<String, String> values = <String, String>{};
+  bool unavailable = false;
 
   @override
-  Future<String?> read(String key) async => values[key];
+  Future<String?> read(String key) async {
+    if (unavailable) {
+      throw StateError('keychain locked');
+    }
+    return values[key];
+  }
 
   @override
   Future<void> write(String key, String value) async {
@@ -38,7 +45,8 @@ class _FakeBiometricAuthenticator implements AppLockBiometricAuthenticator {
   Future<List<AppLockBiometricKind>> availableKinds() async => kinds;
 
   @override
-  Future<bool> authenticate({required String reason}) async => succeeds;
+  Future<AppLockBiometricResult> authenticate({required String reason}) async =>
+      succeeds ? AppLockBiometricResult.success : AppLockBiometricResult.failed;
 }
 
 class _SeededRandom implements Random {
@@ -193,6 +201,24 @@ void main() {
       expect(harness.state.isLocked, isFalse);
     });
 
+    test('retries loading on resume when storage was unavailable', () async {
+      await atNow(() => harness.controller.setPin('123456'));
+
+      final _Harness reloaded = harness.reloaded();
+      addTearDown(reloaded.dispose);
+      reloaded.secrets.unavailable = true;
+      await atNow(() => reloaded.controller.load());
+      expect(reloaded.state.loaded, isFalse);
+
+      reloaded.secrets.unavailable = false;
+      await atNow(() async {
+        reloaded.controller.onLifecycleChanged(AppLifecycleState.resumed);
+        await pumpEventQueue();
+      });
+      expect(reloaded.state.loaded, isTrue);
+      expect(reloaded.state.isLocked, isTrue);
+    });
+
     test('starts locked on load when a PIN is configured', () async {
       await atNow(() => harness.controller.setPin('123456'));
 
@@ -310,11 +336,29 @@ void main() {
       );
 
       lifecycle(AppLifecycleState.hidden);
+      expect(harness.state.isLocked, isTrue);
       lifecycle(AppLifecycleState.resumed);
       expect(harness.state.isLocked, isTrue);
     });
 
-    test('inactive covers the content without starting the timeout', () async {
+    test('inactive leaves the content visible on Android', () async {
+      await atNow(() => harness.controller.setPin('123456'));
+      await atNow(() => harness.controller.unlockWithPin('123456'));
+
+      lifecycle(AppLifecycleState.inactive);
+      expect(harness.state.isPrivacyCovered, isFalse);
+      expect(harness.state.isLocked, isFalse);
+
+      lifecycle(AppLifecycleState.hidden);
+      expect(harness.state.isPrivacyCovered, isTrue);
+
+      lifecycle(AppLifecycleState.resumed);
+      expect(harness.state.isPrivacyCovered, isFalse);
+    });
+
+    test('inactive covers the content without locking on iOS', () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      addTearDown(() => debugDefaultTargetPlatformOverride = null);
       await atNow(() => harness.controller.setPin('123456'));
       await atNow(() => harness.controller.unlockWithPin('123456'));
 
@@ -346,7 +390,7 @@ void main() {
           await atNow(
             () => reloaded.controller.unlockWithBiometric(reason: 'r'),
           ),
-          isFalse,
+          AppLockBiometricResult.failed,
         );
         expect(reloaded.state.isLocked, isTrue);
 
@@ -355,7 +399,7 @@ void main() {
           await atNow(
             () => reloaded.controller.unlockWithBiometric(reason: 'r'),
           ),
-          isTrue,
+          AppLockBiometricResult.success,
         );
         expect(reloaded.state.isLocked, isFalse);
       },

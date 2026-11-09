@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:clock/clock.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_biometric_authenticator.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_config.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_pin_hasher.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_store.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_lock_controller.g.dart';
@@ -95,11 +98,28 @@ AppLockBiometricAuthenticator appLockBiometricAuthenticator(Ref ref) =>
 @Riverpod(keepAlive: true)
 class AppLockController extends _$AppLockController {
   DateTime? _backgroundedAt;
+  bool _loadRequested = false;
+  bool _loading = false;
 
   @override
   AppLockState build() => const AppLockState();
 
   Future<void> load() async {
+    _loadRequested = true;
+    if (state.loaded || _loading) {
+      return;
+    }
+    _loading = true;
+    try {
+      await _load();
+    } on Object catch (error) {
+      talker.warning('[AppLock] Failed to load app lock settings: $error');
+    } finally {
+      _loading = false;
+    }
+  }
+
+  Future<void> _load() async {
     final AppLockStore store = ref.read(appLockStoreProvider);
     final AppLockInstallMarker marker = ref.read(appLockInstallMarkerProvider);
     if (!await marker.isMarked()) {
@@ -125,16 +145,30 @@ class AppLockController extends _$AppLockController {
     if (!state.enabled) {
       return;
     }
-    if (lifecycle == AppLifecycleState.paused ||
-        lifecycle == AppLifecycleState.hidden) {
+    final bool backgrounded =
+        lifecycle == AppLifecycleState.paused ||
+        lifecycle == AppLifecycleState.hidden;
+    if (backgrounded) {
       _backgroundedAt ??= clock.now();
     }
-    if (!state.isPrivacyCovered) {
-      state = state.copyWith(isPrivacyCovered: true);
+    final bool cover =
+        backgrounded ||
+        (lifecycle == AppLifecycleState.inactive &&
+            defaultTargetPlatform == TargetPlatform.iOS);
+    final bool lockNow =
+        backgrounded && state.timeout.duration == Duration.zero;
+    if ((cover && !state.isPrivacyCovered) || (lockNow && !state.isLocked)) {
+      state = state.copyWith(
+        isPrivacyCovered: state.isPrivacyCovered || cover,
+        isLocked: state.isLocked || lockNow,
+      );
     }
   }
 
   void _onResumed() {
+    if (_loadRequested && !state.loaded) {
+      unawaited(load());
+    }
     final DateTime? since = _backgroundedAt;
     _backgroundedAt = null;
     if (!state.enabled) {
@@ -180,17 +214,20 @@ class AppLockController extends _$AppLockController {
     return AppLockUnlockResult.wrongPin;
   }
 
-  Future<bool> unlockWithBiometric({required String reason}) async {
-    final bool ok = await verifyBiometric(reason: reason);
-    if (ok) {
+  Future<AppLockBiometricResult> unlockWithBiometric({
+    required String reason,
+  }) async {
+    final AppLockBiometricResult result = await verifyBiometric(reason: reason);
+    if (result == AppLockBiometricResult.success) {
       await _markUnlocked();
     }
-    return ok;
+    return result;
   }
 
-  Future<bool> verifyBiometric({required String reason}) => ref
-      .read(appLockBiometricAuthenticatorProvider)
-      .authenticate(reason: reason);
+  Future<AppLockBiometricResult> verifyBiometric({required String reason}) =>
+      ref
+          .read(appLockBiometricAuthenticatorProvider)
+          .authenticate(reason: reason);
 
   Future<List<AppLockBiometricKind>> availableBiometricKinds() =>
       ref.read(appLockBiometricAuthenticatorProvider).availableKinds();

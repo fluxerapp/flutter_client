@@ -2,10 +2,12 @@ import 'package:local_auth/local_auth.dart';
 
 enum AppLockBiometricKind { face, fingerprint, generic }
 
+enum AppLockBiometricResult { success, failed, canceled }
+
 abstract interface class AppLockBiometricAuthenticator {
   Future<List<AppLockBiometricKind>> availableKinds();
 
-  Future<bool> authenticate({required String reason});
+  Future<AppLockBiometricResult> authenticate({required String reason});
 }
 
 class LocalAuthBiometricAuthenticator implements AppLockBiometricAuthenticator {
@@ -38,14 +40,26 @@ class LocalAuthBiometricAuthenticator implements AppLockBiometricAuthenticator {
   }
 
   @override
-  Future<bool> authenticate({required String reason}) async {
+  Future<AppLockBiometricResult> authenticate({required String reason}) async {
     try {
-      return await _auth.authenticate(
+      final bool ok = await _auth.authenticate(
         localizedReason: reason,
         biometricOnly: true,
       );
+      return ok
+          ? AppLockBiometricResult.success
+          : AppLockBiometricResult.failed;
+    } on LocalAuthException catch (error) {
+      return switch (error.code) {
+        LocalAuthExceptionCode.userCanceled ||
+        LocalAuthExceptionCode.systemCanceled ||
+        LocalAuthExceptionCode.uiUnavailable ||
+        LocalAuthExceptionCode.authInProgress =>
+          AppLockBiometricResult.canceled,
+        _ => AppLockBiometricResult.failed,
+      };
     } on Exception {
-      return false;
+      return AppLockBiometricResult.failed;
     }
   }
 }

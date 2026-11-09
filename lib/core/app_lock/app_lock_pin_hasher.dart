@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:math';
 
 import 'package:cryptography/cryptography.dart';
@@ -39,17 +40,20 @@ class AppLockPinHasher {
     return _constantTimeEquals(expected, actual);
   }
 
-  Future<List<int>> _derive(String pin, List<int> salt) async {
-    final Pbkdf2 algorithm = Pbkdf2(
-      macAlgorithm: Hmac.sha256(),
-      iterations: iterations,
-      bits: _keyBits,
-    );
-    final SecretKey key = await algorithm.deriveKey(
-      secretKey: SecretKey(utf8.encode(pin)),
-      nonce: salt,
-    );
-    return key.extractBytes();
+  Future<List<int>> _derive(String pin, List<int> salt) {
+    final int rounds = iterations;
+    return Isolate.run(() async {
+      final Pbkdf2 algorithm = Pbkdf2(
+        macAlgorithm: Hmac.sha256(),
+        iterations: rounds,
+        bits: _keyBits,
+      );
+      final SecretKey key = await algorithm.deriveKey(
+        secretKey: SecretKey(utf8.encode(pin)),
+        nonce: salt,
+      );
+      return key.extractBytes();
+    });
   }
 
   bool _constantTimeEquals(List<int> a, List<int> b) {

@@ -28249,7 +28249,7 @@ abstract class FluxerLocalizations {
   /// App lock: appLockSignOutConfirmBody
   ///
   /// In en, this message translates to:
-  /// **'You\'ll be signed out on this device and app lock will be turned off.'**
+  /// **'Every account on this device will be signed out and app lock will be turned off.'**
   String get appLockSignOutConfirmBody;
 
   /// App lock: appLockBiometricReason

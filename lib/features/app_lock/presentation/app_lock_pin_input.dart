@@ -31,6 +31,7 @@ class _AppLockPinInputState extends State<AppLockPinInput>
   static const Duration _digitDuration = Duration(milliseconds: 180);
   static const Duration _resetDelay = Duration(milliseconds: 280);
   static const Duration _shakeDuration = Duration(milliseconds: 420);
+  static const Duration _keyboardRetryDelay = Duration(milliseconds: 350);
 
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
@@ -38,12 +39,18 @@ class _AppLockPinInputState extends State<AppLockPinInput>
     vsync: this,
     duration: _shakeDuration,
   );
+  late final AppLifecycleListener _lifecycle;
   Timer? _resetTimer;
+  Timer? _keyboardTimer;
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChanged);
+    _lifecycle = AppLifecycleListener(onResume: _showKeyboard);
+    if (widget.autofocus) {
+      _keyboardTimer = Timer(_keyboardRetryDelay, _showKeyboard);
+    }
   }
 
   @override
@@ -63,6 +70,8 @@ class _AppLockPinInputState extends State<AppLockPinInput>
 
   @override
   void dispose() {
+    _lifecycle.dispose();
+    _keyboardTimer?.cancel();
     _resetTimer?.cancel();
     _shake.dispose();
     _controller.dispose();
@@ -73,6 +82,12 @@ class _AppLockPinInputState extends State<AppLockPinInput>
   }
 
   void _onFocusChanged() => setState(() {});
+
+  void _showKeyboard() {
+    if (widget.enabled && _focusNode.hasFocus) {
+      unawaited(SystemChannels.textInput.invokeMethod<void>('TextInput.show'));
+    }
+  }
 
   void _onChanged(String value) {
     setState(() {});

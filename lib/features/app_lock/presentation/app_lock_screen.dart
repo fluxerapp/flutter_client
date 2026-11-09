@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_biometric_label.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_pin_input.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
@@ -86,8 +87,13 @@ class _AppLockScreenState extends ConsumerState<AppLockScreen> {
       return;
     }
     setState(() => _kinds = kinds);
-    if (_canUseBiometric) {
+    if (!_canUseBiometric) {
+      return;
+    }
+    if (WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed) {
       unawaited(_unlockWithBiometric());
+    } else {
+      _promptOnResume = true;
     }
   }
 
@@ -111,10 +117,10 @@ class _AppLockScreenState extends ConsumerState<AppLockScreen> {
       _biometricFailed = false;
     });
     try {
-      final bool ok = await ref
+      final AppLockBiometricResult result = await ref
           .read(appLockControllerProvider.notifier)
           .unlockWithBiometric(reason: l10n.appLockBiometricReason);
-      if (mounted && !ok) {
+      if (mounted && result == AppLockBiometricResult.failed) {
         setState(() => _biometricFailed = true);
       }
     } finally {
@@ -152,9 +158,16 @@ class _AppLockScreenState extends ConsumerState<AppLockScreen> {
     if (confirmed != true || !mounted) {
       return;
     }
-    final String? userId = ref.read(currentUserIdProvider);
-    if (userId != null) {
-      await ref.read(accountManagerProvider.notifier).signOut(userId);
+    final AccountManager accounts = ref.read(accountManagerProvider.notifier);
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    for (final StoredAccount account
+        in ref.read(accountManagerProvider).accounts) {
+      if (account.userId != currentUserId) {
+        await accounts.removeAccount(account.userId);
+      }
+    }
+    if (currentUserId != null) {
+      await accounts.signOut(currentUserId);
     }
     await ref.read(appLockControllerProvider.notifier).disable();
   }

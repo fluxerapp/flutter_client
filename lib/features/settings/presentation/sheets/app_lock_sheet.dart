@@ -92,10 +92,10 @@ class _AppLockSheetBodyState extends ConsumerState<_AppLockSheetBody> {
       await _controller.setBiometricEnabled(enabled: false);
       return;
     }
-    final bool ok = await _controller.verifyBiometric(
+    final AppLockBiometricResult result = await _controller.verifyBiometric(
       reason: FluxerLocalizations.of(context).appLockBiometricReason,
     );
-    if (ok && mounted) {
+    if (result == AppLockBiometricResult.success && mounted) {
       await _controller.setBiometricEnabled(enabled: true);
     }
   }

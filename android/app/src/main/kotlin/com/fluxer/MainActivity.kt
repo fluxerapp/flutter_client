@@ -112,6 +112,7 @@ class MainActivity : AudioServiceFragmentActivity() {
             VoiceTaskRemovedRegistry.bridge = bridge
         }
         AppRestartBridge(this).register(flutterEngine)
+        AppLockBridge(this).register(flutterEngine)
         PlayAgeRangeBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)

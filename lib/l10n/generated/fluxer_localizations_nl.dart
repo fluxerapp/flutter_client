@@ -17313,7 +17313,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get appLockSignOutConfirmBody =>
-      'You\'ll be signed out on this device and app lock will be turned off.';
+      'Every account on this device will be signed out and app lock will be turned off.';
 
   @override
   String get appLockBiometricReason => 'Unlock Fluxer';
