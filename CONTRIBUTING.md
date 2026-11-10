@@ -186,7 +186,7 @@ flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/cana
 
 ## Desktop builds
 
-We plan to provide desktop builds in the future but they will be labeled as Fluxer Lite clients. These builds will not replace the Electron version but be a separate version you can download.
+We plan to provide desktop builds in the future but they will be labeled as Fluxer Oxygen clients. These builds will not replace the Electron version but be a separate version you can download.
 
 ## Community app icon designs
 

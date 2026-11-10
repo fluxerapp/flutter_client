@@ -121,6 +121,13 @@ final class LocalPushNotifications {
         linux: defaultTargetPlatform == TargetPlatform.linux
             ? const LinuxInitializationSettings(defaultActionName: 'Open')
             : null,
+        windows: defaultTargetPlatform == TargetPlatform.windows
+            ? const WindowsInitializationSettings(
+                appName: 'Fluxer Oxygen',
+                appUserModelId: 'com.fluxer.oxygen',
+                guid: '02357f68-878d-4d1b-b915-7d7a1ac79a85',
+              )
+            : null,
       );
       final bool? ok = await _plugin.initialize(
         settings: settings,

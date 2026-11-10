@@ -10,6 +10,7 @@ add_executable(${BINARY_NAME}
 apply_standard_settings(${BINARY_NAME})
 
 add_definitions(-DAPPLICATION_ID="${APPLICATION_ID}")
+add_definitions(-DAPPLICATION_NAME="${APPLICATION_NAME}")
 
 target_link_libraries(${BINARY_NAME} PRIVATE flutter)
 target_link_libraries(${BINARY_NAME} PRIVATE PkgConfig::GTK)

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.parakeetsoft" "\0"
-            VALUE "FileDescription", "fluxer_app" "\0"
+            VALUE "CompanyName", "Fluxer Platform AB" "\0"
+            VALUE "FileDescription", "Fluxer Oxygen" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "fluxer_app" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.parakeetsoft. All rights reserved." "\0"
-            VALUE "OriginalFilename", "fluxer_app.exe" "\0"
-            VALUE "ProductName", "fluxer_app" "\0"
+            VALUE "InternalName", "fluxer_oxygen" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Fluxer Platform AB. All rights reserved." "\0"
+            VALUE "OriginalFilename", "fluxer_oxygen.exe" "\0"
+            VALUE "ProductName", "Fluxer Oxygen" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
