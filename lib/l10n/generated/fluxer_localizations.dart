@@ -28419,6 +28419,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'In a call'**
   String get voiceDiagnosticsInCallHint;
+
+  /// Tooltip and accessible label on the channel header updater icon in the desktop app. Clicking it downloads the update, then restarts the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Update available'**
+  String get oxygenUpdateAvailable;
+
+  /// Tooltip and accessible label on the channel header updater icon in the desktop app while an update the user started is downloading. The app restarts by itself when it is done.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating…'**
+  String get oxygenUpdating;
 }
 
 class _FluxerLocalizationsDelegate

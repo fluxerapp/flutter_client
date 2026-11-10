@@ -17568,4 +17568,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceDiagnosticsInCallHint => 'In a call';
+
+  @override
+  String get oxygenUpdateAvailable => 'Update available';
+
+  @override
+  String get oxygenUpdating => 'Updating…';
 }

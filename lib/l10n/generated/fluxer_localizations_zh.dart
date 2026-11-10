@@ -16184,6 +16184,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceDiagnosticsInCallHint => 'In a call';
+
+  @override
+  String get oxygenUpdateAvailable => 'Update available';
+
+  @override
+  String get oxygenUpdating => 'Updating…';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).

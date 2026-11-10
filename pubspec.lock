@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.11"
+  build_cli_annotations:
+    dependency: transitive
+    description:
+      name: build_cli_annotations
+      sha256: e563c2e01de8974566a1998410d3f6f03521788160a02503b0b1f1a46c7b3d95
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   build_config:
     dependency: transitive
     description:
@@ -970,6 +978,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.3"
+  flutter_rust_bridge:
+    dependency: transitive
+    description:
+      name: flutter_rust_bridge
+      sha256: "37ef40bc6f863652e865f0b2563ea07f0d3c58d8efad803cc01933a4b2ee067e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.11.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -1753,6 +1769,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.2"
+  native_toolchain_rust:
+    dependency: transitive
+    description:
+      name: native_toolchain_rust
+      sha256: dc8e5f20c0cb7052372bc302f075607086d86354b37199e89ec9d3d35589e519
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   nm:
     dependency: transitive
     description:
@@ -2743,6 +2767,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.2"
+  toml:
+    dependency: transitive
+    description:
+      name: toml
+      sha256: "35a35f782228656a2af31e8c73d1353cc4ef3d683fd68af1111b44631879c05e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.0"
   typed_data:
     dependency: transitive
     description:
@@ -2927,6 +2959,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.4"
+  velopack_flutter:
+    dependency: "direct main"
+    description:
+      name: velopack_flutter
+      sha256: b23179aa33352f263b5d77b026caf2c3506b29a6c02a56f405ffd6c0c0e5c152
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
   visibility_detector:
     dependency: "direct main"
     description:

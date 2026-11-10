@@ -17177,6 +17177,12 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get voiceDiagnosticsInCallHint => 'In a call';
+
+  @override
+  String get oxygenUpdateAvailable => 'Update available';
+
+  @override
+  String get oxygenUpdating => 'Updating…';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).

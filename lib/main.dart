@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/desktop/oxygen_updater.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
@@ -117,6 +118,12 @@ void _runFluxerApp(ProviderContainer container) {
 }
 
 Future<void> _bootstrapFluxer(List<String> args) async {
+  if (isFluxerDesktopOs) {
+    await _bootstrapStep(
+      'app.bootstrap.oxygen_updater',
+      OxygenUpdater.initialize,
+    );
+  }
   final Duration? processAge = androidProcessAge();
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();

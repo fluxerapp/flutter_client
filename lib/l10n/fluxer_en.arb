@@ -20484,5 +20484,13 @@
   "voiceDiagnosticsInCallHint": "In a call",
   "@voiceDiagnosticsInCallHint": {
     "description": "Muted hint next to the copy voice diagnostics action when the user is currently connected to a voice call."
+  },
+  "oxygenUpdateAvailable": "Update available",
+  "@oxygenUpdateAvailable": {
+    "description": "Tooltip and accessible label on the channel header updater icon in the desktop app. Clicking it downloads the update, then restarts the app."
+  },
+  "oxygenUpdating": "Updating…",
+  "@oxygenUpdating": {
+    "description": "Tooltip and accessible label on the channel header updater icon in the desktop app while an update the user started is downloading. The app restarts by itself when it is done."
   }
 }

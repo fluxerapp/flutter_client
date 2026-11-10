@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/cha
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_search_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_notification_settings_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_overlay_button.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/oxygen_update_header_button.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -62,7 +63,10 @@ class ChannelHeaderToolbar extends ConsumerWidget {
     if (!showMessageActions) {
       return Row(
         mainAxisSize: MainAxisSize.min,
-        children: _buildCallButtons(context, ref),
+        children: [
+          ..._buildCallButtons(context, ref),
+          OxygenUpdateHeaderButton(highContrast: highContrast),
+        ],
       );
     }
 
@@ -158,6 +162,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
             dm: dm,
             highContrast: highContrast,
           ),
+        OxygenUpdateHeaderButton(highContrast: highContrast),
         if (isWideLayout(context))
           InboxPopoutButton(
             anchorBuilder:
