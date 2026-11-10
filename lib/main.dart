@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/desktop/desktop_window.dart';
 import 'package:fluxer_app/core/desktop/oxygen_updater.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
@@ -47,12 +48,6 @@ import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
-import 'package:window_manager/window_manager.dart';
-
-Future<void> _showDesktopWindow() async {
-  await windowManager.show();
-  await windowManager.focus();
-}
 
 void _configureImagePicker() {
   if (!Platform.isAndroid) {
@@ -207,20 +202,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if (isFluxerDesktopOs) {
     await _bootstrapStep('app.bootstrap.window', () async {
-      await windowManager.ensureInitialized();
-
-      const windowOptions = WindowOptions(
-        size: Size(1280, 720),
-        minimumSize: Size(200, 200),
-        center: true,
-        titleBarStyle: TitleBarStyle.hidden,
-        title: 'Fluxer Oxygen',
-      );
-
-      await windowManager.waitUntilReadyToShow(windowOptions);
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        unawaited(_showDesktopWindow());
-      });
+      await configureDesktopWindow();
     });
   }
 

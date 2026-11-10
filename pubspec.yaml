@@ -114,6 +114,7 @@ dependencies:
   record: ^7.1.1
   riverpod: ^3.4.3
   riverpod_annotation: ^4.0.7
+  screen_retriever: ^0.2.2
   sensors_plus: ^7.1.0
   shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
