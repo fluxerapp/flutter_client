@@ -120,22 +120,6 @@
                 <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/reset" />
                 <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/notifications" />
                 <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/you" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/channels" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/invite" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/gift" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/users" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/settings/user" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/reset" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/notifications" />
-                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/you" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/channels" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/invite" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/gift" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/users" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/settings/user" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/reset" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/notifications" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/you" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
