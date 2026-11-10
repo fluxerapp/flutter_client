@@ -341,22 +341,33 @@ void main() {
       expect(harness.state.isLocked, isTrue);
     });
 
-    test('inactive leaves the content visible on Android', () async {
+    test('losing focus does not start the timeout', () async {
       await atNow(() => harness.controller.setPin('123456'));
       await atNow(() => harness.controller.unlockWithPin('123456'));
+      await atNow(
+        () => harness.controller.setTimeout(AppLockTimeout.immediately),
+      );
 
       lifecycle(AppLifecycleState.inactive);
       expect(harness.state.isPrivacyCovered, isFalse);
+      now = now.add(const Duration(minutes: 5));
+      lifecycle(AppLifecycleState.resumed);
       expect(harness.state.isLocked, isFalse);
+    });
 
-      lifecycle(AppLifecycleState.hidden);
+    test('a native pause covers the app until it resumes', () async {
+      await atNow(() => harness.controller.setPin('123456'));
+      await atNow(() => harness.controller.unlockWithPin('123456'));
+
+      harness.controller.coverForPrivacy();
       expect(harness.state.isPrivacyCovered, isTrue);
 
       lifecycle(AppLifecycleState.resumed);
       expect(harness.state.isPrivacyCovered, isFalse);
+      expect(harness.state.isLocked, isFalse);
     });
 
-    test('inactive covers the content without locking on iOS', () async {
+    test('losing focus covers the app on iOS', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
       addTearDown(() => debugDefaultTargetPlatformOverride = null);
       await atNow(() => harness.controller.setPin('123456'));
@@ -368,7 +379,6 @@ void main() {
 
       lifecycle(AppLifecycleState.resumed);
       expect(harness.state.isPrivacyCovered, isFalse);
-      expect(harness.state.isLocked, isFalse);
     });
 
     test(

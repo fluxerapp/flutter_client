@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
-import 'package:fluxer_app/core/platform/android_app_lock_recents.dart';
+import 'package:fluxer_app/core/platform/android_app_lock.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/app_lock/presentation/app_lock_screen.dart';
@@ -26,11 +26,22 @@ class _AppLockGateState extends ConsumerState<AppLockGate> {
     if (!isFluxerNativeMobileOs) {
       return;
     }
+    setAndroidAppLockPausedHandler(
+      ref.read(appLockControllerProvider.notifier).coverForPrivacy,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         unawaited(ref.read(appLockControllerProvider.notifier).load());
       }
     });
+  }
+
+  @override
+  void dispose() {
+    if (isFluxerNativeMobileOs) {
+      setAndroidAppLockPausedHandler(null);
+    }
+    super.dispose();
   }
 
   Widget? _overlay(AppLockState lock) {
@@ -56,7 +67,8 @@ class _AppLockGateState extends ConsumerState<AppLockGate> {
     }
     ref.listen(
       appLockControllerProvider.select((AppLockState lock) => lock.enabled),
-      (_, bool enabled) => unawaited(setAndroidHideInRecents(hide: enabled)),
+      (_, bool enabled) =>
+          unawaited(setAndroidAppLockEnabled(enabled: enabled)),
     );
     final AppLockState lock = ref.watch(appLockControllerProvider);
     final Widget? overlay = _overlay(lock);

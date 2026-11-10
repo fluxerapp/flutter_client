@@ -16,6 +16,7 @@ import io.flutter.embedding.engine.FlutterEngine
 
 class MainActivity : AudioServiceFragmentActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
+    private val appLockBridge = AppLockBridge(this)
 
     private val callkitEventCallback = object : CallkitEventCallback {
         override fun onCallEvent(
@@ -51,6 +52,11 @@ class MainActivity : AudioServiceFragmentActivity() {
     override fun onStart() {
         super.onStart()
         MainEngineState.onActivityStarted()
+    }
+
+    override fun onPause() {
+        appLockBridge.onPause()
+        super.onPause()
     }
 
     override fun onStop() {
@@ -103,7 +109,7 @@ class MainActivity : AudioServiceFragmentActivity() {
             VoiceTaskRemovedRegistry.bridge = bridge
         }
         AppRestartBridge(this).register(flutterEngine)
-        AppLockBridge(this).register(flutterEngine)
+        appLockBridge.register(flutterEngine)
         PlayAgeRangeBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)

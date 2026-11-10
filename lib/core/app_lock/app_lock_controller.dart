@@ -148,20 +148,21 @@ class AppLockController extends _$AppLockController {
     final bool backgrounded =
         lifecycle == AppLifecycleState.paused ||
         lifecycle == AppLifecycleState.hidden;
-    if (backgrounded) {
-      _backgroundedAt ??= clock.now();
+    if (backgrounded || defaultTargetPlatform == TargetPlatform.iOS) {
+      coverForPrivacy();
     }
-    final bool cover =
-        backgrounded ||
-        (lifecycle == AppLifecycleState.inactive &&
-            defaultTargetPlatform == TargetPlatform.iOS);
-    final bool lockNow =
-        backgrounded && state.timeout.duration == Duration.zero;
-    if ((cover && !state.isPrivacyCovered) || (lockNow && !state.isLocked)) {
-      state = state.copyWith(
-        isPrivacyCovered: state.isPrivacyCovered || cover,
-        isLocked: state.isLocked || lockNow,
-      );
+    if (!backgrounded) {
+      return;
+    }
+    _backgroundedAt ??= clock.now();
+    if (state.timeout.duration == Duration.zero && !state.isLocked) {
+      state = state.copyWith(isLocked: true);
+    }
+  }
+
+  void coverForPrivacy() {
+    if (state.enabled && !state.isPrivacyCovered) {
+      state = state.copyWith(isPrivacyCovered: true);
     }
   }
 
@@ -171,19 +172,16 @@ class AppLockController extends _$AppLockController {
     }
     final DateTime? since = _backgroundedAt;
     _backgroundedAt = null;
-    if (!state.enabled) {
-      if (state.isPrivacyCovered) {
-        state = state.copyWith(isPrivacyCovered: false);
-      }
-      return;
-    }
     final bool timedOut =
+        state.enabled &&
         since != null &&
         clock.now().difference(since) >= state.timeout.duration;
-    state = state.copyWith(
-      isPrivacyCovered: false,
-      isLocked: state.isLocked || timedOut,
-    );
+    if (state.isPrivacyCovered || (timedOut && !state.isLocked)) {
+      state = state.copyWith(
+        isPrivacyCovered: false,
+        isLocked: state.isLocked || timedOut,
+      );
+    }
   }
 
   Future<AppLockUnlockResult> unlockWithPin(String pin) async {
