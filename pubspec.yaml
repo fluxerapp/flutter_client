@@ -29,6 +29,7 @@ dependencies:
   dio: ^5.11.1
   drift: ^2.35.0
   dynamic_app_icon_flutter_plus: ^2.2.1
+  dynamic_color: ^2.1.0
   ffi: ^2.2.0
   file_picker: ^12.2.0
   fixnum: ^1.1.1
@@ -79,6 +80,7 @@ dependencies:
   local_auth: ^3.0.2
   local_translation: ^0.1.1
   markdown: ^7.3.1
+  material_color_utilities: ^0.13.0
   material_ui: ^1.5.0
   # Temp: fluxerapp/media-kit fork (revert to pub.dev versions in the future).
   measure_flutter: ^0.9.1

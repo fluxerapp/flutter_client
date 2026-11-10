@@ -125,6 +125,8 @@ class UserPreferencesTable extends Table {
       boolean().withDefault(const Constant(true))();
   BoolColumn get syncThemeColorsToThemeStudio =>
       boolean().withDefault(const Constant(true))();
+  BoolColumn get useSystemDynamicColors =>
+      boolean().withDefault(const Constant(false))();
   BoolColumn get screenReaderAnnounceNewMessages =>
       boolean().withDefault(const Constant(false))();
   BoolColumn get announceCallJoinsAndLeaves =>

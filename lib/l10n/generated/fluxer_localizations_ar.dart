@@ -4896,6 +4896,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تعطّل سمة النظام تلقائيًا المزامنة لتتبع تفضيلات نظامك على هذا الجهاز.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'لم نتمكن من مزامنة السمة إلى حسابك. يرجى المحاولة مرة أخرى.';
 

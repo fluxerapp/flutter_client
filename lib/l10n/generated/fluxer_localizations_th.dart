@@ -4855,6 +4855,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ธีมระบบจะปิดใช้งานการซิงค์โดยอัตโนมัติเพื่อติดตามการตั้งค่าระบบของคุณบนอุปกรณ์นี้';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'ไม่สามารถซิงค์ธีมไปยังบัญชีของคุณได้ โปรดลองอีกครั้ง';
 

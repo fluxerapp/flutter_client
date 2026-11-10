@@ -4919,6 +4919,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Sistemska tema automatski onemogućuje sinkronizaciju kako bi pratila preferencije vašeg sustava na ovom uređaju.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Nismo uspjeli sinkronizirati temu s vašim računom. Molimo pokušajte ponovno.';
 

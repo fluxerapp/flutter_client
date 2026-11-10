@@ -4889,6 +4889,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'सिस्टम थीम इस डिवाइस पर आपकी सिस्टम की प्राथमिकता को ट्रैक करने के लिए सिंक को स्वचालित रूप से अक्षम कर देती है।';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'आपके खाते में थीम सिंक नहीं हो सकी। कृपया पुनः प्रयास करें।';
 

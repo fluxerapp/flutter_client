@@ -4640,6 +4640,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '系统主题会自动禁用同步，以跟踪此设备上的系统偏好设置。';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed => '无法将主题同步到您的帐户。请重试。';
 
   @override

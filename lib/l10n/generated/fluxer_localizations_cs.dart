@@ -4925,6 +4925,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Motiv systému automaticky zakáže synchronizaci, aby sledoval preference vašeho systému na tomto zařízení.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Motiv se nepodařilo synchronizovat s vaším účtem. Zkuste to prosím znovu.';
 

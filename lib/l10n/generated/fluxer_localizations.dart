@@ -7880,6 +7880,18 @@ abstract class FluxerLocalizations {
   /// **'System theme automatically disables sync to track your system\'s preference on this device.'**
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription;
 
+  /// Label for the Android toggle that tints the app theme with the system's Material You (dynamic) colors.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Material You colors'**
+  String get lookAndFeelUseSystemDynamicColorsLabel;
+
+  /// Description for the Material You dynamic colors toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tint the theme with your device\'s system colors.'**
+  String get lookAndFeelUseSystemDynamicColorsDescription;
+
   /// Toast message shown when the server PATCH for a theme change or sync toggle fails.
   ///
   /// In en, this message translates to:

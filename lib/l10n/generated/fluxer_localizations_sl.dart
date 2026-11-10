@@ -4884,6 +4884,14 @@ class FluxerLocalizationsSl extends FluxerLocalizations {
       'System theme automatically disables sync to track your system\'s preference on this device.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Couldn\'t sync theme to your account. Please try again.';
 

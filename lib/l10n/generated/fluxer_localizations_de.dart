@@ -4950,6 +4950,14 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Das Systemdesign deaktiviert die Synchronisierung automatisch, um deine Systemeinstellungen auf diesem Gerät zu verfolgen.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Das Theme konnte nicht mit deinem Account synchronisiert werden. Bitte versuche es erneut.';
 

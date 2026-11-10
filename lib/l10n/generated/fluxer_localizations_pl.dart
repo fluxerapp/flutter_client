@@ -4954,6 +4954,14 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Motyw systemowy automatycznie wyłącza synchronizację, aby śledzić preferencje Twojego systemu na tym urządzeniu.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Nie udało się zsynchronizować motywu z Twoim kontem. Spróbuj ponownie.';
 

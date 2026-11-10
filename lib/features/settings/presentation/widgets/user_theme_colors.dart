@@ -248,11 +248,13 @@ class _UserThemeColorsState extends ConsumerState<UserThemeColors> {
       propertyName: propertyName,
       editingMode: editingMode,
       saturationFactor: themePref.saturationFactor,
+      dynamicPalette: themePref.activeDynamicPalette,
     );
     final defaultColor = defaultThemeColorForProperty(
       propertyName,
       mode: editingMode,
       saturationFactor: themePref.saturationFactor,
+      dynamicPalette: themePref.activeDynamicPalette,
     );
     final overridden = isThemeColorOverriddenForMode(
       customThemeCss: themePref.customThemeCss,

@@ -4899,6 +4899,14 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Systemtema deaktiverer automatisk synkronisering for at spore din systemspræference på denne enhed.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Kunne ikke synkronisere tema til din konto. Prøv igen.';
 

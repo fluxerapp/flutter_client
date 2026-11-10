@@ -4721,6 +4721,14 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'システムテーマは、このデバイスでのシステムの設定を追跡するために、自動的に同期を無効にします。';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed => 'テーマをアカウントに同期できませんでした。もう一度お試しください。';
 
   @override

@@ -4937,6 +4937,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Tema sistemului dezactivează automat sincronizarea pentru a urmări preferința sistemului tău pe acest dispozitiv.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Nu am putut sincroniza tema în contul tău. Te rugăm să încerci din nou.';
 

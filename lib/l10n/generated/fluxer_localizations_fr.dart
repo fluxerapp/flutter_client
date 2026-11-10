@@ -4980,6 +4980,14 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Le thème du système désactive automatiquement la synchronisation pour suivre les préférences de votre système sur cet appareil.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Impossible de synchroniser le thème avec votre compte. Veuillez réessayer.';
 

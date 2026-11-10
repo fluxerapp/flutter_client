@@ -4851,6 +4851,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'ערכת נושא של המערכת משביתה באופן אוטומטי את הסנכרון כדי לעקוב אחר העדפות המערכת שלך במכשיר זה.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'לא הצלחנו לסנכרן את הערכה לחשבונך. נסה שוב.';
 

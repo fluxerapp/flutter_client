@@ -4882,6 +4882,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Chủ đề hệ thống tự động tắt đồng bộ hóa để theo dõi tùy chọn của hệ thống trên thiết bị này.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Không thể đồng bộ giao diện với tài khoản của bạn. Vui lòng thử lại.';
 

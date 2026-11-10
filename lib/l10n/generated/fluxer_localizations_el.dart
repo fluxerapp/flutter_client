@@ -4958,6 +4958,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Το θέμα συστήματος απενεργοποιεί αυτόματα τον συγχρονισμό για να παρακολουθεί την προτίμηση του συστήματός σας σε αυτήν τη συσκευή.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Δεν ήταν δυνατός ο συγχρονισμός του θέματος στον λογαριασμό σας. Δοκιμάστε ξανά.';
 

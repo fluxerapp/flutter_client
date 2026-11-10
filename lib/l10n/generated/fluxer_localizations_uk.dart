@@ -4941,6 +4941,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Системна тема автоматично вимикає синхронізацію, щоб відстежувати ваші системні налаштування на цьому пристрої.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Не вдалося синхронізувати тему з вашим обліковим записом. Спробуйте ще раз.';
 

@@ -6269,6 +6269,14 @@
   "@lookAndFeelSyncThemeAcrossDevicesSystemDescription": {
     "description": "Description shown under the sync toggle when System theme is active and the toggle is therefore disabled."
   },
+  "lookAndFeelUseSystemDynamicColorsLabel": "Use Material You colors",
+  "@lookAndFeelUseSystemDynamicColorsLabel": {
+    "description": "Label for the Android toggle that tints the app theme with the system's Material You (dynamic) colors."
+  },
+  "lookAndFeelUseSystemDynamicColorsDescription": "Tint the theme with your device's system colors.",
+  "@lookAndFeelUseSystemDynamicColorsDescription": {
+    "description": "Description for the Material You dynamic colors toggle."
+  },
   "lookAndFeelThemeSyncFailed": "Couldn't sync theme to your account. Please try again.",
   "@lookAndFeelThemeSyncFailed": {
     "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."

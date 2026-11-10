@@ -4935,6 +4935,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A Rendszer téma automatikusan letiltja a szinkronizálást, hogy ezen az eszközön kövesse a rendszered preferenciáit.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Nem sikerült szinkronizálni a témát a fiókoddal. Kérlek, próbáld újra.';
 

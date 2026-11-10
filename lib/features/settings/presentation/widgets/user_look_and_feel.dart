@@ -156,6 +156,18 @@ class UserLookAndFeel extends ConsumerWidget {
                 enabled: !isSystem && swatchesEnabled,
                 onChanged: (value) => unawaited(changeSync(value: value)),
               ),
+              if (themePref.systemDynamicColorsAvailable)
+                FluxerSwitchGroupItem(
+                  label: l10n.lookAndFeelUseSystemDynamicColorsLabel,
+                  description:
+                      l10n.lookAndFeelUseSystemDynamicColorsDescription,
+                  value: themePref.useSystemDynamicColors,
+                  onChanged: (value) => unawaited(
+                    ref
+                        .read(themePreferenceProvider.notifier)
+                        .setUseSystemDynamicColors(value: value),
+                  ),
+                ),
               FluxerSettingsConfigureRow(
                 title: l10n.lookAndFeelThemeColorsTitle,
                 description: l10n.lookAndFeelThemeColorsConfigureDescription,

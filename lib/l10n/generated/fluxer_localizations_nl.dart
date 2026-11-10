@@ -4920,6 +4920,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Systeemthema schakelt synchronisatie automatisch uit om de voorkeur van uw systeem op dit apparaat te volgen.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Kon de thema-instellingen niet synchroniseren met je account. Probeer het opnieuw.';
 

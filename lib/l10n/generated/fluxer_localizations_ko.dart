@@ -4726,6 +4726,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '시스템 테마는 이 기기에서 시스템의 기본 설정을 추적하기 위해 동기화를 자동으로 비활성화합니다.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed => '테마를 계정으로 동기화할 수 없습니다. 다시 시도해 주세요.';
 
   @override

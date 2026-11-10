@@ -4886,6 +4886,14 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Tema sistem secara otomatis menonaktifkan sinkronisasi untuk melacak preferensi sistem Anda di perangkat ini.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Tema tidak dapat disinkronkan ke akun Anda. Coba lagi.';
 

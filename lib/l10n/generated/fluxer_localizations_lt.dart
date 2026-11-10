@@ -4939,6 +4939,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Sistemos tema automatiškai išjungia sinchronizavimą, kad būtų galima stebėti jūsų sistemos nuostatas šiame įrenginyje.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'Nepavyko sinchronizuoti temos su jūsų paskyra. Pabandykite dar kartą.';
 
