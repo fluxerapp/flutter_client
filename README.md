@@ -14,7 +14,7 @@
   <a href="https://weblate.fluxer.tools/engage/flutter-client/"><img src="https://weblate.fluxer.tools/widget/flutter-client/svg-badge.svg" alt="Translation status"></a>
 </p>
 
-# Fluxer Flutter Client
+# Fluxer Mobile / Oxygen
 
 <p align="center">
   <a href="https://github.com/fluxerapp/flutter_client/releases">
