@@ -43,7 +43,6 @@ import super_native_extensions
 import url_launcher_macos
 import wakelock_plus
 import webcrypto
-import window_manager
 import window_to_front
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
@@ -85,6 +84,5 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))
   WakelockPlusMacosPlugin.register(with: registry.registrar(forPlugin: "WakelockPlusMacosPlugin"))
   WebcryptoPlugin.register(with: registry.registrar(forPlugin: "WebcryptoPlugin"))
-  WindowManagerPlugin.register(with: registry.registrar(forPlugin: "WindowManagerPlugin"))
   WindowToFrontPlugin.register(with: registry.registrar(forPlugin: "WindowToFrontPlugin"))
 }
