@@ -200,5 +200,7 @@ class VoiceSpeakerRouteApplyTest {
         assertTrue(diagnostics, diagnostics.contains("commDevice=earpiece"))
         assertTrue(diagnostics, diagnostics.contains("telecomOwnsRoute=true"))
         assertTrue(diagnostics, diagnostics.contains("telecomCalls=[NEW/unknown]"))
+        assertTrue(diagnostics, Regex("callVolume=\\d+/\\d+ ").containsMatchIn(diagnostics))
+        assertTrue(diagnostics, diagnostics.contains("sdk=${Build.VERSION.SDK_INT} "))
     }
 }

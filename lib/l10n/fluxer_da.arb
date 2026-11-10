@@ -19939,5 +19939,21 @@
     "notificationUnknownSender": "Ukendt",
     "@notificationUnknownSender": {
         "description": "Notification sender name used when a push has no sender."
+    },
+    "voiceDiagnosticsCopy": "Copy voice diagnostics",
+    "@voiceDiagnosticsCopy": {
+        "description": "Action label that copies voice call diagnostics as JSON to the clipboard so they can be shared with the developers."
+    },
+    "voiceDiagnosticsCopyDescription": "Share with the developers to help fix call issues",
+    "@voiceDiagnosticsCopyDescription": {
+        "description": "Subtitle under the copy voice diagnostics row in the voice call controls sheet."
+    },
+    "voiceDiagnosticsCopied": "Copied voice diagnostics to clipboard",
+    "@voiceDiagnosticsCopied": {
+        "description": "Toast shown after voice diagnostics JSON was copied to the clipboard."
+    },
+    "voiceDiagnosticsInCallHint": "In a call",
+    "@voiceDiagnosticsInCallHint": {
+        "description": "Muted hint next to the copy voice diagnostics action when the user is currently connected to a voice call."
     }
 }

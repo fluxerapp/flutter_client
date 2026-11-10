@@ -514,8 +514,11 @@ internal fun voiceRouteDiagnostics(
         "commDevice=$communicationDevice " +
         "commDeviceId=${activeCommunicationDeviceId(audioManager)} " +
         "speakerphoneOn=${audioManager.isSpeakerphoneOn} " +
+        "callVolume=${audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL)}" +
+        "/${audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL)} " +
         "telecomOwnsRoute=$telecomOwnsRoute " +
         "telecomCalls=$telecomCalls " +
+        "sdk=${Build.VERSION.SDK_INT} " +
         "build=${Build.DISPLAY}"
 }
 
