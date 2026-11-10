@@ -1091,6 +1091,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  fluxer_billing:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_billing"
+      relative: true
+    source: path
+    version: "1.0.0"
   fluxer_dart:
     dependency: "direct main"
     description:
@@ -1310,7 +1317,7 @@ packages:
     source: hosted
     version: "0.2.2"
   in_app_purchase:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase
       sha256: d8317ec2ed6fe33199957d67ee67e08a4fd4871ef93b91d7611d8ee560892afc
@@ -1318,7 +1325,7 @@ packages:
     source: hosted
     version: "3.3.1"
   in_app_purchase_android:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase_android
       sha256: b76ab601573f8a848e72d015496257235066ba3479bef6300482239f417e0d72
@@ -1334,7 +1341,7 @@ packages:
     source: hosted
     version: "1.4.1"
   in_app_purchase_storekit:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase_storekit
       sha256: fb2744b928bb0fcbfc95d1833469b3f638a44670aac3e278695930d3727011b6

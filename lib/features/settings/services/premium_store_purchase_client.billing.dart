@@ -4,10 +4,7 @@ import 'package:fluxer_app/features/settings/services/plutonium_store_products.d
 import 'package:fluxer_app/features/settings/services/premium_store_product_matching.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.stub.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_update.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/billing_client_wrappers.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
-import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:fluxer_billing/fluxer_billing.dart';
 
 export 'package:fluxer_app/features/settings/services/premium_store_purchase_client.stub.dart'
     show
