@@ -42,6 +42,14 @@ jobs:
       android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
+  macos-oxygen:
+    name: macOS Oxygen build (Velopack)
+    needs: allocate-android-build-number
+    uses: ./.github/workflows/macos-canary.yml
+    with:
+      build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
+    secrets: inherit
+
   # ios-testflight:
   #   name: iOS TestFlight build
   #   uses: ./.github/workflows/ios-canary-testflight.yml
