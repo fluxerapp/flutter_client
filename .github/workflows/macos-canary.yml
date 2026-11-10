@@ -125,9 +125,6 @@ jobs:
             --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --dart-define=CANARY_NUMBER="$BUILD_NUMBER"
 
-      - name: Install CocoaPods dependencies
-        run: pod install --project-directory=macos
-
       - name: Build unsigned universal app
         run: |
           xcodebuild \
