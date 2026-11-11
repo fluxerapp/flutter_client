@@ -255,6 +255,7 @@ void main() {
       emojiId: null,
       emojiName: null,
     );
+    final Map<bool, double> heights = <bool, double>{};
     for (final bool selected in <bool>[false, true]) {
       for (final bool compact in <bool>[false, true]) {
         await tester.pumpWidget(
@@ -280,8 +281,20 @@ void main() {
                     .decoration!
                 as BoxDecoration;
         expect(decoration.border, isNull);
-        expect(decoration.borderRadius, BorderRadius.circular(6));
+        expect(decoration.borderRadius, BorderRadius.circular(8));
+        heights[compact] = tester.getSize(find.byType(ForumTagChip)).height;
+        expect(
+          heights[compact],
+          closeTo(
+            ForumTagChip.rowHeight(
+              tester.element(find.byType(ForumTagChip)),
+              compact: compact,
+            ),
+            1,
+          ),
+        );
       }
     }
+    expect(heights[false]! - heights[true]!, inInclusiveRange(4, 16));
   });
 }
