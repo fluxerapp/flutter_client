@@ -12255,14 +12255,14 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get friendsPageTitle => 'My friends';
 
   @override
-  String get friendsActiveNowTitle => 'Active now';
+  String get friendsActiveNowTitle => 'In voice now';
 
   @override
-  String get friendsActiveNowEmptyTitle => 'It\'s quiet for now...';
+  String get friendsActiveNowEmptyTitle => 'Nobody is in a voice channel';
 
   @override
   String get friendsActiveNowEmptyBody =>
-      'When friends are active in voice channels, their activity will appear here.';
+      'Friends who join a voice channel will show up here.';
 
   @override
   String get friendsTabOnline => 'Online';
@@ -12306,7 +12306,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get friendsEmptyAllTitle => 'No friends yet';
 
   @override
-  String get friendsEmptyAllBody => 'Where we\'re going, we need more friends.';
+  String get friendsEmptyAllBody => 'Add a friend with their username and tag.';
 
   @override
   String get friendsEmptyPendingTitle => 'No pending requests';

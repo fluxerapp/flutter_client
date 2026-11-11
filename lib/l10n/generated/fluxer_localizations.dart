@@ -20212,22 +20212,22 @@ abstract class FluxerLocalizations {
   /// **'My friends'**
   String get friendsPageTitle;
 
-  /// Heading of the active now panel on the friends page.
+  /// Heading of the panel on the friends page that lists friends who are in a voice channel.
   ///
   /// In en, this message translates to:
-  /// **'Active now'**
+  /// **'In voice now'**
   String get friendsActiveNowTitle;
 
   /// Title shown in the active now panel when no friends are in voice channels.
   ///
   /// In en, this message translates to:
-  /// **'It\'s quiet for now...'**
+  /// **'Nobody is in a voice channel'**
   String get friendsActiveNowEmptyTitle;
 
   /// Body shown in the active now panel when no friends are in voice channels.
   ///
   /// In en, this message translates to:
-  /// **'When friends are active in voice channels, their activity will appear here.'**
+  /// **'Friends who join a voice channel will show up here.'**
   String get friendsActiveNowEmptyBody;
 
   /// Friends page tab that lists online friends.
@@ -20308,10 +20308,10 @@ abstract class FluxerLocalizations {
   /// **'No friends yet'**
   String get friendsEmptyAllTitle;
 
-  /// Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely.
+  /// Body shown on the all tab of the friends page when the user has no friends.
   ///
   /// In en, this message translates to:
-  /// **'Where we\'re going, we need more friends.'**
+  /// **'Add a friend with their username and tag.'**
   String get friendsEmptyAllBody;
 
   /// Title shown on the pending tab of the friends page when there are no requests.

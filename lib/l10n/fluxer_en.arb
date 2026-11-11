@@ -14698,15 +14698,15 @@
   "@friendsPageTitle": {
     "description": "Title of the friends page on tablets and desktop."
   },
-  "friendsActiveNowTitle": "Active now",
+  "friendsActiveNowTitle": "In voice now",
   "@friendsActiveNowTitle": {
-    "description": "Heading of the active now panel on the friends page."
+    "description": "Heading of the panel on the friends page that lists friends who are in a voice channel."
   },
-  "friendsActiveNowEmptyTitle": "It's quiet for now...",
+  "friendsActiveNowEmptyTitle": "Nobody is in a voice channel",
   "@friendsActiveNowEmptyTitle": {
     "description": "Title shown in the active now panel when no friends are in voice channels."
   },
-  "friendsActiveNowEmptyBody": "When friends are active in voice channels, their activity will appear here.",
+  "friendsActiveNowEmptyBody": "Friends who join a voice channel will show up here.",
   "@friendsActiveNowEmptyBody": {
     "description": "Body shown in the active now panel when no friends are in voice channels."
   },
@@ -14762,9 +14762,9 @@
   "@friendsEmptyAllTitle": {
     "description": "Title shown on the all tab of the friends page when the user has no friends."
   },
-  "friendsEmptyAllBody": "Where we're going, we need more friends.",
+  "friendsEmptyAllBody": "Add a friend with their username and tag.",
   "@friendsEmptyAllBody": {
-    "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
+    "description": "Body shown on the all tab of the friends page when the user has no friends."
   },
   "friendsEmptyPendingTitle": "No pending requests",
   "@friendsEmptyPendingTitle": {
