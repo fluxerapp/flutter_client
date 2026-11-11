@@ -163,7 +163,7 @@ class DesktopTray {
         if (_quitting) {
           return;
         }
-        if (Platform.isMacOS || _preferences.closeToTray) {
+        if (_preferences.closeToTray) {
           request.cancel();
           _hideWindow();
         }
