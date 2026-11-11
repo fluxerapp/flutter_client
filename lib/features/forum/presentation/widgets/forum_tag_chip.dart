@@ -70,9 +70,8 @@ class ForumTagChip extends StatelessWidget {
     final double lineHeight = painter.height;
     painter.dispose();
     final double verticalPadding = compact ? 4 : 16;
-    const double border = 2;
     final double emojiSize = compact ? 12 : 14;
-    return math.max(lineHeight, emojiSize) + verticalPadding + border;
+    return math.max(lineHeight, emojiSize) + verticalPadding;
   }
 
   static double pinnedHeaderExtent(BuildContext context) {
@@ -89,15 +88,8 @@ class ForumTagChip extends StatelessWidget {
           ? EdgeInsets.symmetric(horizontal: layout.s2, vertical: 2)
           : const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: selected
-            ? colors.brandPrimary
-            : compact
-            ? colors.backgroundModifierHover
-            : colors.backgroundSecondaryAlt,
-        borderRadius: BorderRadius.circular(compact ? 999 : 20),
-        border: Border.all(
-          color: selected ? colors.brandPrimary : colors.borderColor,
-        ),
+        color: selected ? colors.brandPrimary : colors.backgroundTertiary,
+        borderRadius: layout.radiusMd,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

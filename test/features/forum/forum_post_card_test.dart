@@ -7,8 +7,10 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_post_card.dart';
+import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/export.dart' show ForumTagResponse;
 
 import '../../helpers/test_l10n.dart';
 
@@ -188,6 +190,46 @@ void main() {
         expect(_footerText('2d'), findsOneWidget, reason: 'width $width');
       }
       _expectNoClippedText(tester);
+    }
+  });
+
+  testWidgets('tag chips are borderless rounded rectangles', (
+    WidgetTester tester,
+  ) async {
+    const ForumTagResponse tag = ForumTagResponse(
+      id: '1',
+      name: 'Ideas',
+      moderated: false,
+      emojiId: null,
+      emojiName: null,
+    );
+    for (final bool selected in <bool>[false, true]) {
+      for (final bool compact in <bool>[false, true]) {
+        await tester.pumpWidget(
+          _app(
+            Center(
+              child: ForumTagChip(
+                tag: tag,
+                selected: selected,
+                compact: compact,
+              ),
+            ),
+            width: 390,
+          ),
+        );
+        final BoxDecoration decoration =
+            tester
+                    .widget<Container>(
+                      find.descendant(
+                        of: find.byType(ForumTagChip),
+                        matching: find.byType(Container),
+                      ),
+                    )
+                    .decoration!
+                as BoxDecoration;
+        expect(decoration.border, isNull);
+        expect(decoration.borderRadius, BorderRadius.circular(6));
+      }
     }
   });
 }
