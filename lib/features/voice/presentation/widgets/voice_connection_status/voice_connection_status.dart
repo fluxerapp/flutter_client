@@ -12,8 +12,10 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_modal.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_status/voice_connection_avatar_stack.dart';
@@ -30,6 +32,7 @@ import 'package:fluxer_app/features/voice/utils/connection/session_navigation.da
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -56,44 +59,47 @@ class _FailedVoiceConnectionStatus extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
+    final bool desktop = usesDesktopPointerUi(context);
+    void retry() {
+      unawaited(
+        ref.read(voiceSessionProvider.notifier).retryFailedVoiceConnection(),
+      );
+    }
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4, vertical: layout.s2),
+      padding: EdgeInsets.symmetric(
+        horizontal: desktop ? kUserAreaDesktopInnerInset : layout.s4,
+        vertical: layout.s2,
+      ),
       child: Row(
         children: <Widget>[
           Expanded(
-            child: TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                alignment: AlignmentDirectional.centerStart,
-                foregroundColor: context.colors.statusDanger,
-              ),
-              onPressed: () {
-                unawaited(
-                  ref
-                      .read(voiceSessionProvider.notifier)
-                      .retryFailedVoiceConnection(),
-                );
-              },
-              child: Text(
-                l10n.voiceConnectionFailed,
-                style: context.textStyles.categoryName.copyWith(
-                  height: 18 / 14,
-                  color: context.colors.statusDanger,
-                ),
-              ),
-            ),
+            child: desktop
+                ? _DesktopVoiceStatusButton(
+                    label: l10n.voiceConnectionFailed,
+                    color: context.colors.statusDanger,
+                    onTap: retry,
+                  )
+                : TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: AlignmentDirectional.centerStart,
+                      foregroundColor: context.colors.statusDanger,
+                    ),
+                    onPressed: retry,
+                    child: Text(
+                      l10n.voiceConnectionFailed,
+                      style: context.textStyles.categoryName.copyWith(
+                        height: 18 / 14,
+                        color: context.colors.statusDanger,
+                      ),
+                    ),
+                  ),
           ),
           UserPanelControlButton(
             icon: const PhosphorIcon(PhosphorIconsBold.arrowClockwise),
             tooltip: l10n.voiceConnectionRetry,
-            onPressed: () {
-              unawaited(
-                ref
-                    .read(voiceSessionProvider.notifier)
-                    .retryFailedVoiceConnection(),
-              );
-            },
+            onPressed: retry,
           ),
           SizedBox(width: layout.s2),
           UserPanelControlButton(
@@ -206,9 +212,13 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
     final String channelSourceLabel = _isGuildVoice
         ? '$channelLabel / $guildLabel'
         : channelLabel;
+    final bool desktop = usesDesktopPointerUi(context);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4, vertical: layout.s2),
+      padding: EdgeInsets.symmetric(
+        horizontal: desktop ? kUserAreaDesktopInnerInset : layout.s4,
+        vertical: layout.s2,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -221,7 +231,29 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
               Expanded(
                 child: FluxerPopout(
                   position: FluxerPopoutPosition.above,
+                  gap: desktop ? 16 : 4,
+                  fadeOnDesktop: false,
+                  backgroundColor: desktop
+                      ? fluxerFormSurfaceBackground(context)
+                      : null,
                   anchorBuilder: (BuildContext context, VoidCallback toggle) {
+                    if (desktop) {
+                      return _DesktopVoiceStatusButton(
+                        label: statusText,
+                        color: statusColor,
+                        onTap: toggle,
+                        onSecondaryTapUp: (TapUpDetails details) {
+                          unawaited(
+                            _showDisplayOptions(
+                              context,
+                              ref,
+                              details.globalPosition,
+                              desktop: desktop,
+                            ),
+                          );
+                        },
+                      );
+                    }
                     return FluxerGestureDetector(
                       onLongPressStart: (LongPressStartDetails details) {
                         unawaited(
@@ -229,6 +261,7 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
                             context,
                             ref,
                             details.globalPosition,
+                            desktop: desktop,
                           ),
                         );
                       },
@@ -275,29 +308,47 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
             ],
           ),
           SizedBox(height: layout.s3),
-          Tooltip(
-            message: l10n.voiceJumpToChannel(channelSourceLabel),
-            child: InkWell(
+          if (desktop)
+            _DesktopChannelSourceLink(
+              semanticLabel: l10n.voiceJumpToChannel(channelSourceLabel),
+              channelLabel: channelLabel,
+              guildLabel: _isGuildVoice ? guildLabel : null,
               onTap: () => _navigateToChannel(context),
-              child: Text.rich(
-                TextSpan(
-                  style: context.textStyles.timestamp.copyWith(
-                    color: colors.textSecondary,
-                    height: 16 / 12,
+              onSecondaryTapUp: (TapUpDetails details) {
+                unawaited(
+                  _showDisplayOptions(
+                    context,
+                    ref,
+                    details.globalPosition,
+                    desktop: desktop,
                   ),
-                  children: _isGuildVoice
-                      ? <InlineSpan>[
-                          TextSpan(text: channelLabel),
-                          const TextSpan(text: ' / '),
-                          TextSpan(text: guildLabel),
-                        ]
-                      : <InlineSpan>[TextSpan(text: channelLabel)],
+                );
+              },
+            )
+          else
+            Tooltip(
+              message: l10n.voiceJumpToChannel(channelSourceLabel),
+              child: InkWell(
+                onTap: () => _navigateToChannel(context),
+                child: Text.rich(
+                  TextSpan(
+                    style: context.textStyles.timestamp.copyWith(
+                      color: colors.textSecondary,
+                      height: 16 / 12,
+                    ),
+                    children: _isGuildVoice
+                        ? <InlineSpan>[
+                            TextSpan(text: channelLabel),
+                            const TextSpan(text: ' / '),
+                            TextSpan(text: guildLabel),
+                          ]
+                        : <InlineSpan>[TextSpan(text: channelLabel)],
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ),
           if (showConnectionId) ...<Widget>[
             SizedBox(height: layout.s2),
             Row(
@@ -329,7 +380,10 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
           ],
           if (showAvatars) ...<Widget>[
             SizedBox(height: layout.s2),
-            VoiceConnectionAvatarStack(guildChannelKey: _guildChannelKey()),
+            VoiceConnectionAvatarStack(
+              guildChannelKey: _guildChannelKey(),
+              desktop: desktop,
+            ),
           ],
           const VoiceConnectionLocalControls(),
         ],
@@ -340,42 +394,61 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
   Future<void> _showDisplayOptions(
     BuildContext context,
     WidgetRef ref,
-    Offset position,
-  ) async {
+    Offset position, {
+    required bool desktop,
+  }) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     await FluxerActionMenu.show(
       context,
       position: position,
       builder: (BuildContext menuContext, VoidCallback close) {
+        void toggleAvatars() {
+          close();
+          unawaited(
+            ref
+                .read(voiceSettingsProvider.notifier)
+                .setShowVoiceConnectionAvatarStack(
+                  value: !settings.showVoiceConnectionAvatarStack,
+                ),
+          );
+        }
+
+        void toggleConnectionId() {
+          close();
+          unawaited(
+            ref
+                .read(voiceSettingsProvider.notifier)
+                .setShowVoiceConnectionId(
+                  value: !settings.showVoiceConnectionId,
+                ),
+          );
+        }
+
+        if (desktop) {
+          return <Widget>[
+            FluxerMenuCheckboxItem(
+              label: l10n.voiceShowCallAvatars,
+              isChecked: settings.showVoiceConnectionAvatarStack,
+              onPressed: toggleAvatars,
+            ),
+            FluxerMenuCheckboxItem(
+              label: l10n.voiceShowConnectionId,
+              isChecked: settings.showVoiceConnectionId,
+              onPressed: toggleConnectionId,
+            ),
+          ];
+        }
         return <Widget>[
           FluxerMenuRadioItem(
             label: l10n.voiceShowCallAvatars,
             isSelected: settings.showVoiceConnectionAvatarStack,
-            onPressed: () {
-              close();
-              unawaited(
-                ref
-                    .read(voiceSettingsProvider.notifier)
-                    .setShowVoiceConnectionAvatarStack(
-                      value: !settings.showVoiceConnectionAvatarStack,
-                    ),
-              );
-            },
+            onPressed: toggleAvatars,
           ),
           FluxerMenuRadioItem(
             label: l10n.voiceShowConnectionId,
             isSelected: settings.showVoiceConnectionId,
-            onPressed: () {
-              close();
-              unawaited(
-                ref
-                    .read(voiceSettingsProvider.notifier)
-                    .setShowVoiceConnectionId(
-                      value: !settings.showVoiceConnectionId,
-                    ),
-              );
-            },
+            onPressed: toggleConnectionId,
           ),
         ];
       },
@@ -404,7 +477,115 @@ class _VoiceLatencyIcon extends ConsumerWidget {
       message: latencyMs == null
           ? l10n.voiceMeasuringLatency
           : l10n.voicePingMs(latencyMs),
-      child: VoiceSignalStrengthIcon(tone: tone),
+      child: VoiceSignalStrengthIcon(
+        tone: tone,
+        desktop: usesDesktopPointerUi(context),
+      ),
+    );
+  }
+}
+
+class _DesktopVoiceStatusButton extends StatelessWidget {
+  const _DesktopVoiceStatusButton({
+    required this.label,
+    required this.color,
+    required this.onTap,
+    this.onSecondaryTapUp,
+  });
+
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+  final GestureTapUpCallback? onSecondaryTapUp;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerTappable(
+      onTap: onTap,
+      onSecondaryTapUp: onSecondaryTapUp,
+      semanticLabel: label,
+      excludeChildSemantics: true,
+      builder: (BuildContext context, Set<WidgetState> states) => Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: context.textStyles.categoryName.copyWith(
+            height: 18 / 14,
+            color: color,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DesktopChannelSourceLink extends StatelessWidget {
+  const _DesktopChannelSourceLink({
+    required this.semanticLabel,
+    required this.channelLabel,
+    required this.guildLabel,
+    required this.onTap,
+    required this.onSecondaryTapUp,
+  });
+
+  final String semanticLabel;
+  final String channelLabel;
+  final String? guildLabel;
+  final VoidCallback onTap;
+  final GestureTapUpCallback onSecondaryTapUp;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color color = context.colors.textSecondary;
+    final String? guildLabel = this.guildLabel;
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: FluxerTappable(
+        onTap: onTap,
+        onSecondaryTapUp: onSecondaryTapUp,
+        link: true,
+        semanticLabel: semanticLabel,
+        excludeChildSemantics: true,
+        builder: (BuildContext context, Set<WidgetState> states) {
+          final TextStyle style = context.textStyles.timestamp.copyWith(
+            color: color,
+            height: 16 / 12,
+            decoration: states.contains(WidgetState.hovered)
+                ? TextDecoration.underline
+                : TextDecoration.none,
+            decorationColor: color,
+          );
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Flexible(
+                child: Text(
+                  channelLabel,
+                  style: style,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (guildLabel != null) ...<Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Text('/', style: style, maxLines: 1),
+                ),
+                Flexible(
+                  child: Text(
+                    guildLabel,
+                    style: style,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
+      ),
     );
   }
 }

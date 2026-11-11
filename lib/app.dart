@@ -38,6 +38,7 @@ import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/widgets/beta_banner.dart';
 import 'package:fluxer_app/shared/widgets/input_modality_listener.dart';
 import 'package:foldable/foldable.dart';
@@ -194,7 +195,11 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
             );
             final Widget scaled = ReducedMotionScope(
               enabled: disableAnimations,
-              child: FluxerAppTextScale(child: AppLockGate(child: content)),
+              child: FluxerAppTextScale(
+                child: DesktopPointerUiScope(
+                  child: AppLockGate(child: content),
+                ),
+              ),
             );
             final ThemeData materialTheme = Theme.of(context);
             final CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context)

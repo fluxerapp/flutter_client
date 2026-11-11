@@ -14,7 +14,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
-const _kSubmenuGap = 4.0;
+const _kSubmenuGap = 3.0;
 
 Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
   BuildContext context,
@@ -91,6 +91,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
   return Navigator.of(context).push<FolderMenuAction>(
     _FolderContextMenuRoute(
+      animate: !usesDesktopPointerUi(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
@@ -103,6 +104,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
 
 class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   _FolderContextMenuRoute({
+    required this.animate,
     required this.barrierLabel,
     required this.position,
     required this.overlaySize,
@@ -117,8 +119,11 @@ class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
   final List<FolderMenuGroup> groups;
   final bool verticallyCenterAtPosition;
 
+  final bool animate;
+
   @override
-  Duration get transitionDuration => kContextMenuEntranceDuration;
+  Duration get transitionDuration =>
+      animate ? kContextMenuEntranceDuration : Duration.zero;
 
   @override
   bool get barrierDismissible => true;

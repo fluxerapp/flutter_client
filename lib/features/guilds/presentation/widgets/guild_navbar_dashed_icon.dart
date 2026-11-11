@@ -51,8 +51,8 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
       border: isEngaged ? 1 : 0,
     );
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      padding: EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacingOf(context) / 2,
       ),
       child: Center(
         child: _RightTooltip(
@@ -81,9 +81,11 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
                         Widget? _,
                       ) {
                         final double radius =
-                            GuildNavbarIconShape.idleRadius +
-                            (GuildNavbarIconShape.activeRadius -
-                                    GuildNavbarIconShape.idleRadius) *
+                            GuildNavbarIconShape.idleRadiusOf(context) +
+                            (GuildNavbarIconShape.activeRadiusOf(context) -
+                                    GuildNavbarIconShape.idleRadiusOf(
+                                      context,
+                                    )) *
                                 visual.shape;
                         return DecoratedBox(
                           decoration: BoxDecoration(
@@ -103,7 +105,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
                               )!,
                             ),
                             child: SizedBox.square(
-                              dimension: GuildNavbarIconShape.size,
+                              dimension: GuildNavbarIconShape.sizeOf(context),
                               child: Center(
                                 child: PhosphorIcon(
                                   widget.icon,

@@ -1,117 +1,11 @@
+import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-const double kVoiceParticipantContextMenuWidth = 260;
-
-class VoiceParticipantContextMenuCheckboxItem extends StatefulWidget {
-  const VoiceParticipantContextMenuCheckboxItem({
-    required this.label,
-    required this.isChecked,
-    required this.onTap,
-    this.icon,
-    super.key,
-  });
-
-  final String label;
-  final bool isChecked;
-  final VoidCallback onTap;
-  final PhosphorIconData? icon;
-
-  @override
-  State<VoiceParticipantContextMenuCheckboxItem> createState() =>
-      _VoiceParticipantContextMenuCheckboxItemState();
-}
-
-class _VoiceParticipantContextMenuCheckboxItemState
-    extends State<VoiceParticipantContextMenuCheckboxItem> {
-  var _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final Color textColor = _isHovered
-        ? colors.textPrimary
-        : colors.textSecondary;
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
-      child: FluxerGestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.onTap,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 36),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-          margin: const EdgeInsets.symmetric(vertical: 1),
-          decoration: BoxDecoration(
-            color: _isHovered
-                ? colors.backgroundModifierHover
-                : Colors.transparent,
-            borderRadius: layout.radiusSm,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.label,
-                  style: context.textStyles.label.copyWith(color: textColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (widget.icon != null) ...[
-                SizedBox(width: layout.s3),
-                PhosphorIcon(widget.icon!, size: layout.s5, color: textColor),
-              ],
-              SizedBox(width: layout.s2),
-              _MenuCheckbox(isChecked: widget.isChecked),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MenuCheckbox extends StatelessWidget {
-  const _MenuCheckbox({required this.isChecked});
-
-  final bool isChecked;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Container(
-      width: 18,
-      height: 18,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isChecked
-              ? colors.brandPrimary
-              : colors.backgroundHeaderSecondary,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(3),
-        color: isChecked ? colors.brandPrimary : Colors.transparent,
-      ),
-      child: isChecked
-          ? Center(
-              child: PhosphorIcon(
-                PhosphorIconsBold.check,
-                size: 11,
-                color: colors.textOnBrandPrimary,
-              ),
-            )
-          : null,
-    );
-  }
-}
-
-class VoiceParticipantContextMenuVolumeItem extends StatelessWidget {
+class VoiceParticipantContextMenuVolumeItem extends StatefulWidget {
   const VoiceParticipantContextMenuVolumeItem({
     required this.label,
     required this.value,
@@ -124,20 +18,44 @@ class VoiceParticipantContextMenuVolumeItem extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   @override
+  State<VoiceParticipantContextMenuVolumeItem> createState() =>
+      _VoiceParticipantContextMenuVolumeItemState();
+}
+
+class _VoiceParticipantContextMenuVolumeItemState
+    extends State<VoiceParticipantContextMenuVolumeItem> {
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    final layout = context.layout;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-      child: VoiceParticipantVolumeSlider(
-        label: label,
-        value: value,
-        onChanged: onChanged,
-        mini: true,
-        labelStyle: context.textStyles.label.copyWith(
-          color: context.colors.textSecondary,
+    final colors = context.colors;
+    final TextStyle labelStyle = fluxerDesktopMenuLabelStyle(
+      context,
+    ).copyWith(color: colors.textPrimary);
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 7),
+        decoration: BoxDecoration(
+          color: _hovered
+              ? colors.surfaceInteractiveHoverBg
+              : Colors.transparent,
+          borderRadius: context.layout.radiusMd,
         ),
-        valueStyle: context.textStyles.label.copyWith(
-          color: context.colors.textPrimary,
+        child: VoiceParticipantVolumeSlider(
+          label: widget.label,
+          value: widget.value,
+          onChanged: widget.onChanged,
+          mini: true,
+          gap: 4,
+          headerInset: 8,
+          labelStyle: labelStyle,
+          valueStyle: labelStyle.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: colors.textTertiaryMuted,
+          ),
         ),
       ),
     );
@@ -183,6 +101,8 @@ class VoiceParticipantVolumeSlider extends StatefulWidget {
     required this.labelStyle,
     required this.valueStyle,
     this.mini = false,
+    this.gap,
+    this.headerInset = 0,
     super.key,
   });
 
@@ -192,6 +112,8 @@ class VoiceParticipantVolumeSlider extends StatefulWidget {
   final TextStyle labelStyle;
   final TextStyle valueStyle;
   final bool mini;
+  final double? gap;
+  final double headerInset;
 
   @override
   State<VoiceParticipantVolumeSlider> createState() =>
@@ -225,27 +147,48 @@ class _VoiceParticipantVolumeSliderState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Expanded(child: Text(widget.label, style: widget.labelStyle)),
-            Text('$_volume%', style: widget.valueStyle),
-          ],
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: widget.headerInset),
+          child: Row(
+            children: [
+              Expanded(child: Text(widget.label, style: widget.labelStyle)),
+              Text('$_volume%', style: widget.valueStyle),
+            ],
+          ),
         ),
-        SizedBox(height: widget.mini ? context.layout.s2 : 12),
-        FluxerSlider(
-          defaultValue: _volume.toDouble(),
-          minValue: kMinVoiceVolumePercent.toDouble(),
-          maxValue: kMaxVoiceVolumePercent.toDouble(),
-          factoryDefaultValue: kDefaultVoiceVolumePercent.toDouble(),
-          mini: widget.mini,
-          asValueChanges: (double next) => _setVolume(next.round()),
-          onValueChange: (double next) {
-            final int rounded = next.round();
-            _setVolume(rounded);
-            widget.onChanged(rounded);
-          },
+        SizedBox(height: widget.gap ?? (widget.mini ? context.layout.s2 : 12)),
+        _NoIntrinsicWidth(
+          child: FluxerSlider(
+            defaultValue: _volume.toDouble(),
+            minValue: kMinVoiceVolumePercent.toDouble(),
+            maxValue: kMaxVoiceVolumePercent.toDouble(),
+            factoryDefaultValue: kDefaultVoiceVolumePercent.toDouble(),
+            mini: widget.mini,
+            asValueChanges: (double next) => _setVolume(next.round()),
+            onValueChange: (double next) {
+              final int rounded = next.round();
+              _setVolume(rounded);
+              widget.onChanged(rounded);
+            },
+          ),
         ),
       ],
     );
   }
+}
+
+class _NoIntrinsicWidth extends SingleChildRenderObjectWidget {
+  const _NoIntrinsicWidth({required Widget super.child});
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderNoIntrinsicWidth();
+}
+
+class _RenderNoIntrinsicWidth extends RenderProxyBox {
+  @override
+  double computeMinIntrinsicWidth(double height) => 0;
+
+  @override
+  double computeMaxIntrinsicWidth(double height) => 0;
 }

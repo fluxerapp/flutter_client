@@ -30,3 +30,23 @@ Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
 bool _canMarkChannelRead(Channel channel) =>
     channel.type != ChannelType.guildCategory &&
     channel.type != ChannelType.guildLink;
+
+Color _desktopSidebarRowTextColor(
+  BuildContext context, {
+  bool hovered = false,
+  bool selected = false,
+  bool unread = false,
+  bool category = false,
+}) {
+  final colors = context.colors;
+  if (hovered) {
+    return category ? colors.textPrimary : colors.textChat;
+  }
+  if (selected) {
+    return colors.textPrimary;
+  }
+  if (Theme.of(context).brightness == Brightness.light) {
+    return unread || category ? colors.textPrimary : colors.textTertiary;
+  }
+  return unread ? colors.textSecondary : colors.textTertiaryMuted;
+}

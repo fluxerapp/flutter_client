@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 enum FluxerSliderMarkerPosition { above }
 
@@ -482,6 +483,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
     final valuePct = _valuePercent.clamp(0.0, 100.0);
     final totalHeight =
         widget.markerAreaHeight + (_hasMarkers ? widget.markerAreaHeight : 0);
+    final bool desktop = usesDesktopPointerUi(context);
 
     return OverlayPortal(
       controller: _tooltipController,
@@ -492,7 +494,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
         value: _effectiveValue.toStringAsFixed(1),
         enabled: !widget.disabled,
         child: Opacity(
-          opacity: widget.disabled ? 0.6 : 1.0,
+          opacity: widget.disabled ? (desktop ? 0.55 : 0.6) : 1.0,
           child: LayoutBuilder(
             builder: (context, constraints) {
               final trackWidth = constraints.maxWidth - _kTrackPadding * 2;
@@ -546,7 +548,9 @@ class _FluxerSliderState extends State<FluxerSlider> {
                               colors.backgroundTertiary,
                               0.18,
                             ),
-                            borderRadius: layout.radiusSm,
+                            borderRadius: desktop
+                                ? BorderRadius.circular(999)
+                                : layout.radiusSm,
                             boxShadow: [
                               BoxShadow(
                                 color: colors.backgroundPrimary.withValues(
@@ -577,6 +581,9 @@ class _FluxerSliderState extends State<FluxerSlider> {
                                 border: Border.all(
                                   color: Colors.white.withValues(alpha: 0.12),
                                 ),
+                                borderRadius: desktop
+                                    ? BorderRadius.circular(999)
+                                    : null,
                               ),
                             ),
                           ),
@@ -597,37 +604,43 @@ class _FluxerSliderState extends State<FluxerSlider> {
                             : (totalHeight - _thumbSize) / 2,
                         child: MouseRegion(
                           onEnter: (_) {
-                            _isHovering = true;
+                            setState(() => _isHovering = true);
                             _showTooltip();
                           },
                           onExit: (_) {
-                            _isHovering = false;
+                            setState(() => _isHovering = false);
                             if (!_isDragging) {
                               _hideTooltip();
                             }
                           },
                           child: CompositedTransformTarget(
                             link: _thumbLayerLink,
-                            child: Container(
-                              width: _thumbSize,
-                              height: _thumbSize,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white.withValues(alpha: 0.95),
-                                border: Border.all(
-                                  color: colors.borderColor.withValues(
-                                    alpha: 0.6,
+                            child: desktop
+                                ? _buildDesktopThumb(colors)
+                                : Container(
+                                    width: _thumbSize,
+                                    height: _thumbSize,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.95,
+                                      ),
+                                      border: Border.all(
+                                        color: colors.borderColor.withValues(
+                                          alpha: 0.6,
+                                        ),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(
+                                            alpha: 0.1,
+                                          ),
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.1),
-                                    blurRadius: 3,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
                         ),
                       ),
@@ -637,6 +650,58 @@ class _FluxerSliderState extends State<FluxerSlider> {
               );
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktopThumb(FluxerColorTheme colors) {
+    final bool hovered = _isHovering && !widget.disabled;
+    final Duration duration = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 120);
+    return AnimatedScale(
+      scale: _isDragging ? 1.06 : 1,
+      duration: duration,
+      curve: Curves.fastOutSlowIn,
+      child: AnimatedContainer(
+        duration: duration,
+        curve: Curves.fastOutSlowIn,
+        width: _thumbSize,
+        height: _thumbSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Color(0xF5FFFFFF), Color(0xEBF5F6F8)],
+          ),
+          border: Border.all(
+            color: hovered
+                ? Color.lerp(
+                    colors.backgroundPrimary,
+                    colors.brandPrimary,
+                    0.62,
+                  )!
+                : Color.lerp(
+                    colors.backgroundPrimary,
+                    colors.brandPrimary,
+                    0.2,
+                  )!,
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.22),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: hovered ? 0.22 : 0.18),
+              blurRadius: hovered ? 16 : 14,
+              offset: Offset(0, hovered ? 8 : 6),
+            ),
+          ],
         ),
       ),
     );

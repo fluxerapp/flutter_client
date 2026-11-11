@@ -76,6 +76,7 @@ Future<T?> _showFluxerDesktopSheet<T>(
         child: isModal
             ? _FluxerDesktopModalFrame(
                 width: presentation.width ?? defaultModalWidth,
+                borderRadius: presentation.borderRadius ?? 8,
                 maxHeight: maxHeight,
                 child: content,
               )
@@ -136,10 +137,10 @@ Widget? _buildDesktopHeader(
     );
   }
   final Widget? closeButton = isDismissible
-      ? const _FluxerDesktopModalCloseButton()
+      ? const FluxerDesktopModalCloseButton()
       : null;
   return Padding(
-    padding: EdgeInsets.only(top: context.layout.s4, bottom: context.layout.s3),
+    padding: EdgeInsets.symmetric(vertical: context.layout.s4),
     child: FluxerBottomSheetHeader(
       title: title ?? '',
       subtitle: subtitle,
@@ -159,18 +160,21 @@ Widget? _buildDesktopHeader(
   );
 }
 
-class _FluxerDesktopModalCloseButton extends StatelessWidget {
-  const _FluxerDesktopModalCloseButton();
+class FluxerDesktopModalCloseButton extends StatelessWidget {
+  const FluxerDesktopModalCloseButton({this.onTap, super.key});
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return FluxerTappable(
-      onTap: () => Navigator.of(context).maybePop(),
+      onTap: onTap ?? () => Navigator.of(context).maybePop(),
       semanticLabel: FluxerLocalizations.of(context).uiClose,
       excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) {
         final bool hovered = states.contains(WidgetState.hovered);
+        final bool pressed = states.contains(WidgetState.pressed);
         return Container(
           width: 32,
           height: 32,
@@ -179,12 +183,19 @@ class _FluxerDesktopModalCloseButton extends StatelessWidget {
             color: hovered
                 ? colors.backgroundModifierHover
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: context.layout.radiusSm,
           ),
-          child: PhosphorIcon(
-            PhosphorIconsBold.x,
-            size: 18,
-            color: hovered ? colors.textPrimary : colors.textPrimaryMuted,
+          child: Opacity(
+            opacity: pressed
+                ? 0.8
+                : hovered
+                ? 1
+                : 0.5,
+            child: PhosphorIcon(
+              PhosphorIconsBold.x,
+              size: 24,
+              color: hovered ? colors.textPrimary : colors.textPrimaryMuted,
+            ),
           ),
         );
       },
@@ -196,18 +207,20 @@ class _FluxerDesktopModalFrame extends StatelessWidget {
   const _FluxerDesktopModalFrame({
     required this.child,
     required this.width,
+    required this.borderRadius,
     this.maxHeight,
   });
 
   final Widget child;
   final double width;
+  final double borderRadius;
   final double? maxHeight;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final BorderRadius radius = BorderRadius.circular(8);
+    final BorderRadius radius = BorderRadius.circular(borderRadius);
     final double available = math.max(
       0,
       mediaQuery.size.height -
@@ -300,6 +313,7 @@ class _FluxerDesktopAnchoredFrame extends StatelessWidget {
         : FluxerDesktopPopoutPanel(
             width: presentation.width ?? _kDesktopPopoutWidth,
             showBorder: presentation.showPanelBorder,
+            borderRadius: presentation.borderRadius ?? 8,
             child: FluxerBottomSheetScope(
               bottomScrollPadding: context.layout.s3,
               child: scoped,
@@ -311,6 +325,9 @@ class _FluxerDesktopAnchoredFrame extends StatelessWidget {
         anchor: anchor,
         position: position,
         placement: presentation.placement,
+        positionGap: surface == FluxerDesktopSurface.menu
+            ? kFluxerDesktopMenuPointerOffset
+            : 0,
       ),
       child: maxHeight == null
           ? panel
@@ -432,38 +449,6 @@ class _FluxerDesktopScrollableBodyState
           );
         },
       ),
-    );
-  }
-}
-
-class _FluxerDesktopCheckbox extends StatelessWidget {
-  const _FluxerDesktopCheckbox({required this.isChecked});
-
-  final bool isChecked;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Container(
-      width: 16,
-      height: 16,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: isChecked ? colors.brandPrimary : Colors.transparent,
-        border: Border.all(
-          color: isChecked
-              ? colors.brandPrimary
-              : colors.backgroundModifierAccent,
-        ),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: isChecked
-          ? PhosphorIcon(
-              PhosphorIconsBold.check,
-              size: 11,
-              color: colors.textOnBrandPrimary,
-            )
-          : null,
     );
   }
 }

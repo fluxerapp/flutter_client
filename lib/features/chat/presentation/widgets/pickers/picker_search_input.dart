@@ -3,11 +3,14 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 const double kPickerSearchInputHeight = 40;
 
@@ -29,7 +32,7 @@ class PickerSearchInput extends StatefulWidget {
     this.autofocus = false,
     this.enabled = true,
     super.key,
-  });
+  }) : desktopSettingsStyle = false;
 
   const PickerSearchInput.inline({
     required this.hintText,
@@ -43,6 +46,7 @@ class PickerSearchInput extends StatefulWidget {
     this.onActivated,
     this.autofocus = false,
     this.enabled = true,
+    this.desktopSettingsStyle = false,
     super.key,
   }) : horizontalPadding = 0,
        rightPadding = null,
@@ -64,6 +68,7 @@ class PickerSearchInput extends StatefulWidget {
   final VoidCallback? onActivated;
   final bool autofocus;
   final bool enabled;
+  final bool desktopSettingsStyle;
 
   @override
   State<PickerSearchInput> createState() => _PickerSearchInputState();
@@ -137,6 +142,8 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
     final bool autofocus =
         widget.autofocus && !FluxerBottomSheet.isInSheet(context);
     final BorderRadius radius = BorderRadius.circular(8);
+    final bool desktopSettings =
+        widget.desktopSettingsStyle && usesDesktopPointerUi(context);
     final OutlineInputBorder idleBorder = OutlineInputBorder(
       borderRadius: radius,
       borderSide: BorderSide(color: colors.backgroundModifierAccent),
@@ -164,6 +171,15 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                     return ValueListenableBuilder<TextEditingValue>(
                       valueListenable: _controller,
                       builder: (context, value, _) {
+                        if (desktopSettings) {
+                          return _buildDesktopSettingsField(
+                            context,
+                            focusNode: focusNode,
+                            autofocus: autofocus,
+                            contextMenuBuilder: clipboardScope.buildContextMenu,
+                            text: value.text,
+                          );
+                        }
                         return TextField(
                           controller: _controller,
                           focusNode: focusNode,
@@ -242,6 +258,98 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
     );
   }
 
+  Widget _buildDesktopSettingsField(
+    BuildContext context, {
+    required FocusNode focusNode,
+    required bool autofocus,
+    required EditableTextContextMenuBuilder contextMenuBuilder,
+    required String text,
+  }) {
+    final colors = context.colors;
+    final BorderRadius radius = context.layout.radiusLg;
+    final OutlineInputBorder idleBorder = OutlineInputBorder(
+      borderRadius: radius,
+      borderSide: BorderSide(color: colors.backgroundModifierAccent),
+    );
+    final TextStyle textStyle = context.textStyles.inputText.copyWith(
+      fontSize: 13,
+      height: 18 / 13,
+      color: colors.textPrimary,
+    );
+    final bool hasText = text.isNotEmpty;
+    return TextField(
+      controller: _controller,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      enabled: widget.enabled,
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+      maxLength: widget.maxLength,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      textInputAction: TextInputAction.search,
+      autocorrect: false,
+      cursorColor: colors.textPrimary,
+      style: textStyle,
+      contextMenuBuilder: contextMenuBuilder,
+      decoration: InputDecoration(
+        counterText: '',
+        isDense: true,
+        hintText: widget.hintText,
+        hintStyle: textStyle.copyWith(color: colors.textTertiary),
+        constraints: const BoxConstraints(minHeight: 34),
+        prefixIcon: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 12, end: 9),
+          child: Icon(
+            PhosphorIconsBold.magnifyingGlass,
+            size: 16,
+            color: colors.textTertiary,
+          ),
+        ),
+        prefixIconConstraints: const BoxConstraints(minWidth: 37),
+        suffixIcon: hasText
+            ? Padding(
+                padding: const EdgeInsetsDirectional.only(end: 8),
+                child: _SettingsSearchClearButton(
+                  label: FluxerLocalizations.of(
+                    context,
+                  ).userSettingsSearchClear,
+                  onTap: _clearAndRefocus,
+                ),
+              )
+            : null,
+        suffixIconConstraints: const BoxConstraints(minWidth: 36),
+        filled: true,
+        fillColor: fluxerFormSurfaceBackground(context),
+        contentPadding: EdgeInsetsDirectional.fromSTEB(
+          0,
+          8,
+          hasText ? 13 : 17,
+          8,
+        ),
+        border: idleBorder,
+        enabledBorder: idleBorder,
+        disabledBorder: idleBorder,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: radius,
+          borderSide: BorderSide(
+            color: fluxerCssColorMix(
+              colors.backgroundModifierAccent,
+              colors.textTertiary,
+              0.72,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _clearAndRefocus() {
+    _controller.clear();
+    widget.onChanged?.call('');
+    widget.onCleared?.call();
+    _focusNode.requestFocus();
+  }
+
   Color _resolveSearchInputFillColor(
     BuildContext context,
     FluxerColorTheme colors,
@@ -287,6 +395,35 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _SettingsSearchClearButton extends StatelessWidget {
+  const _SettingsSearchClearButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return FluxerButton.desktop(
+      icon: PhosphorIconsBold.x,
+      semanticLabel: label,
+      onPressed: onTap,
+      extent: 28,
+      iconSize: 14,
+      borderRadius: 6,
+      color: colors.textTertiary,
+      hoverBackground: colors.surfaceInteractiveHoverBg,
+      border: Colors.transparent,
+      hoverBorder: fluxerCssColorMix(
+        colors.backgroundModifierAccent,
+        colors.textTertiary,
+        0.72,
+      ),
+      duration: const Duration(milliseconds: 120),
     );
   }
 }

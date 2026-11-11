@@ -66,17 +66,27 @@ class FluxerNagbar extends StatelessWidget {
                   end: 0,
                   child: FluxerFocusRing(
                     focused: false,
-                    child: IconButton(
-                      onPressed: onDismiss,
-                      icon: Icon(PhosphorIconsBold.x, color: textColor),
-                      tooltip: MaterialLocalizations.of(
+                    child: Semantics(
+                      button: true,
+                      label: MaterialLocalizations.of(
                         context,
                       ).closeButtonTooltip,
-                      visualDensity: VisualDensity.compact,
-                      padding: EdgeInsets.all(layout.s1),
-                      constraints: const BoxConstraints(
-                        minWidth: 32,
-                        minHeight: 32,
+                      onTap: onDismiss,
+                      excludeSemantics: true,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: onDismiss,
+                          child: Padding(
+                            padding: EdgeInsets.all(layout.s1),
+                            child: Icon(
+                              PhosphorIconsBold.x,
+                              color: textColor,
+                              size: 20,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

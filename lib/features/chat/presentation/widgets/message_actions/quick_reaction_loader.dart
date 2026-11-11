@@ -196,7 +196,7 @@ Future<QuickReactionItem?> _resolveUsageKey(
   return null;
 }
 
-class MessageQuickReactionRow extends ConsumerStatefulWidget {
+class MessageQuickReactionRow extends StatelessWidget {
   const MessageQuickReactionRow({
     required this.channelId,
     required this.guildId,
@@ -211,12 +211,42 @@ class MessageQuickReactionRow extends ConsumerStatefulWidget {
   final VoidCallback? onAddMore;
 
   @override
-  ConsumerState<MessageQuickReactionRow> createState() =>
-      _MessageQuickReactionRowState();
+  Widget build(BuildContext context) {
+    return MessageQuickReactionItems(
+      channelId: channelId,
+      guildId: guildId,
+      builder: (BuildContext context, List<QuickReactionItem> items) =>
+          QuickReactionRow(
+            items: items,
+            onReaction: onReaction,
+            onAddMore: onAddMore,
+          ),
+    );
+  }
 }
 
-class _MessageQuickReactionRowState
-    extends ConsumerState<MessageQuickReactionRow> {
+class MessageQuickReactionItems extends ConsumerStatefulWidget {
+  const MessageQuickReactionItems({
+    required this.channelId,
+    required this.guildId,
+    required this.builder,
+    this.reuseCached = false,
+    super.key,
+  });
+
+  final String channelId;
+  final String? guildId;
+  final bool reuseCached;
+  final Widget Function(BuildContext context, List<QuickReactionItem> items)
+  builder;
+
+  @override
+  ConsumerState<MessageQuickReactionItems> createState() =>
+      _MessageQuickReactionItemsState();
+}
+
+class _MessageQuickReactionItemsState
+    extends ConsumerState<MessageQuickReactionItems> {
   String? _requestedScope;
 
   Future<void> _load(String? guildId) async {
@@ -241,6 +271,16 @@ class _MessageQuickReactionRowState
     );
   }
 
+  bool _hasCachedScope(String? guildId) {
+    final ResolvedQuickReactions? cached = ref.read(
+      lastResolvedQuickReactionsProvider(readAccountUserId(ref)),
+    );
+    return cached != null &&
+        cached.userId == ref.read(currentUserIdProvider) &&
+        cached.channelId == widget.channelId &&
+        cached.guildId == guildId;
+  }
+
   @override
   Widget build(BuildContext context) {
     final String? guildId =
@@ -251,17 +291,18 @@ class _MessageQuickReactionRowState
     final String scope = '${widget.channelId}:${guildId ?? ''}';
     if (scope != _requestedScope) {
       _requestedScope = scope;
-      unawaited(_load(guildId));
+      if (!widget.reuseCached || !_hasCachedScope(guildId)) {
+        unawaited(_load(guildId));
+      }
     }
-    return QuickReactionRow(
-      items: quickReactionItemsFor(
+    return widget.builder(
+      context,
+      quickReactionItemsFor(
         ref.watch(lastResolvedQuickReactionsProvider(watchAccountUserId(ref))),
         userId: ref.watch(currentUserIdProvider),
         channelId: widget.channelId,
         guildId: guildId,
       ),
-      onReaction: widget.onReaction,
-      onAddMore: widget.onAddMore,
     );
   }
 }

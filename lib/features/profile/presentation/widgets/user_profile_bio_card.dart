@@ -51,6 +51,7 @@ class UserProfileBioCard extends ConsumerWidget {
     final memberSince =
         accountMemberSince ??
         (userId.isEmpty ? null : dateTimeFromUserSnowflakeOrNull(userId));
+    final double sectionGap = compact ? layout.s2 : layout.s4;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -64,29 +65,34 @@ class UserProfileBioCard extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (hasBio) ...[
-              Text(
-                l10n.userProfileAboutMe,
-                style: textStyles.label.copyWith(
-                  color: colors.textChat,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
+              if (!compact) ...[
+                Text(
+                  l10n.userProfileAboutMe,
+                  style: textStyles.label.copyWith(
+                    color: colors.textChat,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              SizedBox(height: layout.s2),
+                SizedBox(height: layout.s2),
+              ],
               MessageMarkdown(
                 data: trimmedBio,
                 guildId: guildId,
                 markdownContext: FluxerMarkdownContext.restrictedUserBio,
                 baseStyle: textStyles.bodySmall.copyWith(
                   color: colors.textChat,
-                  height: 1.35,
+                  height: compact ? 1.5 : 1.35,
                 ),
               ),
-              SizedBox(height: layout.s4),
+              SizedBox(height: sectionGap),
             ],
             if (timezoneOffset != null) ...[
-              UserProfileTimezoneSection(timezoneOffset: timezoneOffset!),
-              SizedBox(height: layout.s4),
+              UserProfileTimezoneSection(
+                timezoneOffset: timezoneOffset!,
+                compact: compact,
+              ),
+              SizedBox(height: sectionGap),
             ],
             if (memberSince != null) ...[
               Text(
@@ -95,9 +101,10 @@ class UserProfileBioCard extends ConsumerWidget {
                   color: colors.textPrimary,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
+                  height: compact ? 20 / 14 : null,
                 ),
               ),
-              SizedBox(height: layout.s2),
+              SizedBox(height: compact ? layout.s1 : layout.s2),
               Wrap(
                 spacing: layout.s2,
                 runSpacing: layout.s1,
@@ -126,6 +133,7 @@ class UserProfileBioCard extends ConsumerWidget {
                         style: textStyles.bodySmall.copyWith(
                           color: colors.textChat,
                           fontSize: 14,
+                          height: compact ? 20 / 14 : null,
                         ),
                       ),
                     ],
@@ -149,6 +157,7 @@ class UserProfileBioCard extends ConsumerWidget {
                           style: textStyles.bodySmall.copyWith(
                             color: colors.textChat,
                             fontSize: 14,
+                            height: compact ? 20 / 14 : null,
                           ),
                         ),
                       ],
@@ -157,7 +166,7 @@ class UserProfileBioCard extends ConsumerWidget {
               ),
             ],
             if (connections.isNotEmpty) ...[
-              SizedBox(height: layout.s4),
+              SizedBox(height: sectionGap),
               UserProfileConnectionsSection(
                 connections: connections,
                 embedded: true,

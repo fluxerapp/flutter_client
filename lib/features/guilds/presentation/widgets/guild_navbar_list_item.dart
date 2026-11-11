@@ -16,6 +16,26 @@ class GuildNavbarIconShape extends StatelessWidget {
   static const double idleRadius = size * 0.5;
   static const double activeRadius = size * 0.3;
   static const double itemSpacing = 8;
+  static const double desktopSize = 44;
+  static const double desktopItemSpacing = 6;
+  static const double desktopFaceIconSize = 28;
+  static const double desktopFolderSize = 48;
+  static const double desktopFolderRadius = desktopFolderSize * 0.3;
+  static const double desktopFolderEmphasizedRadius = desktopFolderSize * 0.24;
+  static const double desktopFolderExpandedRadius = desktopFolderSize * 0.32;
+  static const double desktopFolderMiniIconRadius = desktopFolderRadius * 0.38;
+
+  static bool _desktop(BuildContext context) => usesDesktopPointerUi(context);
+
+  static double sizeOf(BuildContext context) =>
+      _desktop(context) ? desktopSize : size;
+
+  static double itemSpacingOf(BuildContext context) =>
+      _desktop(context) ? desktopItemSpacing : itemSpacing;
+
+  static double idleRadiusOf(BuildContext context) => sizeOf(context) * 0.5;
+
+  static double activeRadiusOf(BuildContext context) => sizeOf(context) * 0.3;
 
   final bool isActive;
   final bool hasImage;
@@ -25,6 +45,9 @@ class GuildNavbarIconShape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final double size = sizeOf(context);
+    final double idleRadius = size * 0.5;
+    final double activeRadius = size * 0.3;
     final double target = isActive ? 1 : 0;
     final Color idleBackground = isUnavailable
         ? colors.statusDanger
@@ -67,6 +90,9 @@ class GuildNavbarPill extends StatelessWidget {
   const GuildNavbarPill({required this.height, this.faded = false, super.key});
 
   static const double width = 4;
+  static const double desktopBarWidth = 5.6;
+  static const double desktopInset = -2.4;
+  static const double desktopTrackWidth = 8;
   static const double selectedHeight = 40;
   static const double hoverHeight = 20;
   static const double unreadHeight = 8;
@@ -81,12 +107,36 @@ class GuildNavbarPill extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final Color color = context.colors.textPrimary;
+    final Color fill = faded ? color.withValues(alpha: color.a * 0.5) : color;
+    if (usesDesktopPointerUi(context)) {
+      const double hidden =
+          -(desktopInset + (desktopTrackWidth - desktopBarWidth) / 2);
+      return ClipRect(
+        child: SizedBox(
+          width: desktopBarWidth - hidden,
+          height: height,
+          child: OverflowBox(
+            alignment: AlignmentDirectional.centerEnd,
+            minWidth: desktopBarWidth,
+            maxWidth: desktopBarWidth,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: fill,
+                borderRadius: const BorderRadiusDirectional.horizontal(
+                  end: Radius.circular(desktopBarWidth),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return SizedBox(
       width: width,
       height: height,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: faded ? color.withValues(alpha: color.a * 0.5) : color,
+          color: fill,
           borderRadius: const BorderRadiusDirectional.horizontal(
             end: Radius.circular(width),
           ),

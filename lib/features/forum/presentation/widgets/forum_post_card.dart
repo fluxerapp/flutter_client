@@ -12,13 +12,32 @@ import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
+
+Color _forumCardFill(
+  BuildContext context,
+  Set<WidgetState> states, {
+  required bool desktop,
+  required Color cardBackground,
+}) {
+  if (desktop) {
+    return states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.pressed)
+        ? fluxerDesktopHoverOver(context, cardBackground)
+        : cardBackground;
+  }
+  return states.contains(WidgetState.pressed)
+      ? context.colors.backgroundModifierSelected
+      : cardBackground;
+}
 
 Color forumPostCardBackgroundColor(FluxerColorTheme colors) {
   if (colors.backgroundSecondary == colors.backgroundPrimary) {
@@ -138,6 +157,7 @@ class ForumPostCard extends StatelessWidget {
         : _previewAttachment(message);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
     final Color cardBackground = forumPostCardBackgroundColor(colors);
+    final bool desktop = usesDesktopPointerUi(context);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -147,12 +167,15 @@ class ForumPostCard extends StatelessWidget {
           horizontal: layout.s4,
           vertical: layout.s1,
         ),
-        padding: EdgeInsets.all(layout.s3),
+        padding: EdgeInsets.all(desktop ? layout.s3 + 1 : layout.s3),
         decoration: BoxDecoration(
-          color: states.contains(WidgetState.pressed)
-              ? colors.backgroundModifierSelected
-              : cardBackground,
-          borderRadius: layout.radiusXl,
+          color: _forumCardFill(
+            context,
+            states,
+            desktop: desktop,
+            cardBackground: cardBackground,
+          ),
+          borderRadius: desktop ? layout.radiusLg : layout.radiusXl,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,16 +247,20 @@ class ForumPostTile extends StatelessWidget {
         : _previewAttachment(data.firstMessage);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
     final Color cardBackground = forumPostCardBackgroundColor(colors);
+    final bool desktop = usesDesktopPointerUi(context);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
       semanticLabel: forumPostTitleText(data, l10n),
       builder: (BuildContext context, Set<WidgetState> states) => ClipRRect(
-        borderRadius: layout.radiusXl,
+        borderRadius: desktop ? layout.radiusLg : layout.radiusXl,
         child: ColoredBox(
-          color: states.contains(WidgetState.pressed)
-              ? colors.backgroundModifierSelected
-              : cardBackground,
+          color: _forumCardFill(
+            context,
+            states,
+            desktop: desktop,
+            cardBackground: cardBackground,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

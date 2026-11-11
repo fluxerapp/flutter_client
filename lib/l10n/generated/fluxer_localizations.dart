@@ -2348,6 +2348,12 @@ abstract class FluxerLocalizations {
   /// **'Incoming voice call'**
   String get incomingVoiceCallTitle;
 
+  /// Subtitle under the caller name on the desktop incoming call card.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice call'**
+  String get incomingVoiceCallSubtitle;
+
   /// Button to answer an incoming ringing voice call.
   ///
   /// In en, this message translates to:
@@ -19300,6 +19306,47 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Try a different name or use @ / # / ! / * prefixes to filter results.'**
   String get quickSwitcherEmptyHint;
+
+  /// Label for the button in the desktop direct messages sidebar header that opens the quick switcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick switcher'**
+  String get quickSwitcherTitle;
+
+  /// Footer hint in the desktop quick switcher. Each placeholder is a prefix symbol shown as a small key chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Start searches with {peoplePrefix} {textChannelPrefix} {voiceChannelPrefix} {communityPrefix} to narrow down results.'**
+  String quickSwitcherFooterPrefixHint(
+    String peoplePrefix,
+    String textChannelPrefix,
+    String voiceChannelPrefix,
+    String communityPrefix,
+  );
+
+  /// Short label in the Explore page sidebar. Keep it concise.
+  ///
+  /// In en, this message translates to:
+  /// **'Apps'**
+  String get discoverySidebarApps;
+
+  /// Short label in the Explore page sidebar. Keep it concise.
+  ///
+  /// In en, this message translates to:
+  /// **'Themes'**
+  String get discoverySidebarThemes;
+
+  /// Small badge on disabled Explore sidebar navigation items for sections not available yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get discoverySidebarComingSoon;
+
+  /// Accessible label for a disabled Explore sidebar navigation item.
+  ///
+  /// In en, this message translates to:
+  /// **'{itemLabel}, coming soon'**
+  String discoverySidebarComingSoonItem(String itemLabel);
 
   /// Quick switcher section header for user results.
   ///

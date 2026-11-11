@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 
 const double _kThreadSpineInset = 22;
@@ -25,6 +26,11 @@ const double _kThreadSpineWidth = 11;
 const double _kThreadSpineStroke = 2;
 const double _kThreadSpineRadius = 5;
 const double _kThreadSpineGap = 3;
+const double _kChannelIconSize = 20;
+final double _kDesktopThreadSpineInset =
+    kFluxerDesktopSidebarRowMargin.resolve(TextDirection.ltr).left +
+    kFluxerDesktopSidebarRowPadding.resolve(TextDirection.ltr).left +
+    (_kChannelIconSize - _kThreadSpineStroke) / 2;
 
 class ThreadSidebarTile extends ConsumerWidget {
   const ThreadSidebarTile({
@@ -92,6 +98,10 @@ class ThreadSidebarTile extends ConsumerWidget {
     final Color textColor = muted && !isSelected
         ? baseColor.withValues(alpha: baseColor.a * 0.5)
         : baseColor;
+    final bool desktop = usesDesktopPointerUi(context);
+    final double spineInset = desktop
+        ? _kDesktopThreadSpineInset
+        : _kThreadSpineInset;
     return Stack(
       key: tileKey,
       clipBehavior: Clip.none,
@@ -101,7 +111,7 @@ class ThreadSidebarTile extends ConsumerWidget {
             faded: state.isUnreadIndicatorMuted,
           ),
         PositionedDirectional(
-          start: _kThreadSpineInset,
+          start: spineInset,
           top: 0,
           bottom: 0,
           width: _kThreadSpineWidth,
@@ -115,17 +125,29 @@ class ThreadSidebarTile extends ConsumerWidget {
         ),
         Row(
           children: <Widget>[
-            const SizedBox(width: _kThreadSpineInset + _kThreadSpineWidth),
+            SizedBox(width: spineInset + _kThreadSpineWidth),
             Expanded(
               child: FluxerSelectableRow(
                 isSelected: isSelected,
-                selectedColor: context.colors.backgroundModifierSelected,
-                borderRadius: BorderRadius.circular(4),
-                margin: const EdgeInsetsDirectional.only(
-                  end: 5,
-                  top: 1,
-                  bottom: 1,
-                ),
+                selectedColor: desktop
+                    ? context.colors.surfaceInteractiveSelectedBg
+                    : context.colors.backgroundModifierSelected,
+                hoverColor: desktop
+                    ? context.colors.surfaceInteractiveHoverBg
+                    : null,
+                pressedColor: desktop
+                    ? context.colors.surfaceInteractiveHoverBg
+                    : null,
+                borderRadius: desktop
+                    ? context.layout.radiusMd
+                    : BorderRadius.circular(4),
+                margin: desktop
+                    ? const EdgeInsetsDirectional.only(end: 8, top: 1)
+                    : const EdgeInsetsDirectional.only(
+                        end: 5,
+                        top: 1,
+                        bottom: 1,
+                      ),
                 padding: const EdgeInsetsDirectional.fromSTEB(6, 6, 8, 6),
                 semanticLabel: navigationItemSemanticLabel(
                   l10n: FluxerLocalizations.of(context),
@@ -142,26 +164,37 @@ class ThreadSidebarTile extends ConsumerWidget {
                     unawaited(showThreadMenuSheet(context, ref, thread)),
                 onSecondaryTapUp: (_) =>
                     unawaited(showThreadMenuSheet(context, ref, thread)),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: context.textStyles.channelName.copyWith(
-                          color: textColor,
-                          fontSize: 14,
-                          height: 20 / 14,
-                          fontWeight: FontWeight.w500,
+                childBuilder: (BuildContext context, Set<WidgetState> states) =>
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: context.textStyles.channelName.copyWith(
+                              color:
+                                  desktop &&
+                                      !isSelected &&
+                                      states.contains(WidgetState.hovered)
+                                  ? (muted
+                                        ? context.colors.textChat.withValues(
+                                            alpha:
+                                                context.colors.textChat.a * 0.5,
+                                          )
+                                        : context.colors.textChat)
+                                  : textColor,
+                              fontSize: 14,
+                              height: 20 / 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                        if (showMentionBadge) ...<Widget>[
+                          const SizedBox(width: 4),
+                          FluxerBadge.count(count: mentionCount),
+                        ],
+                      ],
                     ),
-                    if (showMentionBadge) ...<Widget>[
-                      const SizedBox(width: 4),
-                      FluxerBadge.count(count: mentionCount),
-                    ],
-                  ],
-                ),
               ),
             ),
           ],

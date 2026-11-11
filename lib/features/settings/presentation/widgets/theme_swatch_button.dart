@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class ThemeSwatchButton extends StatelessWidget {
   const ThemeSwatchButton({
@@ -31,12 +32,15 @@ class ThemeSwatchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final bool desktop = usesDesktopPointerUi(context);
     final onLightBackground = _estimateLuminance(backgroundColor) > 0.5;
     final contrastColor = onLightBackground ? Colors.black : Colors.white;
     final borderColor = isSelected
         ? colors.brandPrimary
         : onLightBackground
         ? colors.borderColor
+        : desktop
+        ? Colors.white
         : colors.textPrimary;
 
     final interactive = enabled && !isLoading;
@@ -48,7 +52,11 @@ class ThemeSwatchButton extends StatelessWidget {
         button: true,
         enabled: interactive,
         child: Opacity(
-          opacity: enabled ? 1 : 0.4,
+          opacity: enabled
+              ? 1
+              : desktop
+              ? 0.48
+              : 0.4,
           child: SizedBox(
             width: _size,
             height: _size,
@@ -64,6 +72,12 @@ class ThemeSwatchButton extends StatelessWidget {
                     child: InkWell(
                       onTap: interactive ? onTap : null,
                       customBorder: const CircleBorder(),
+                      splashFactory: desktop ? NoSplash.splashFactory : null,
+                      highlightColor: desktop ? Colors.transparent : null,
+                      hoverColor: desktop ? Colors.transparent : null,
+                      mouseCursor: desktop && !interactive
+                          ? SystemMouseCursors.forbidden
+                          : null,
                       child: isLoading
                           ? Center(
                               child: FluxerLoadingSpinner(

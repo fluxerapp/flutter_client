@@ -74,26 +74,29 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(
-            context.layout.s4,
-            context.layout.s3,
-            context.layout.s2,
-            context.layout.s2,
-          ),
+        Container(
+          constraints: const BoxConstraints(minHeight: 68),
+          padding: const EdgeInsets.all(16),
           child: Row(
+            spacing: 4,
             children: [
+              PhosphorIcon(
+                PhosphorIconsRegular.pushPin,
+                size: 24,
+                color: context.colors.textPrimaryMuted,
+              ),
               Expanded(
                 child: Text(
-                  l10n.channelDetailsTabPins,
-                  style: context.textStyles.heading,
+                  l10n.channelHeaderPinnedMessages,
+                  style: context.textStyles.heading.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 1.25,
+                    color: context.colors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              FluxerButton.ghost(
-                onPressed: widget.onClose,
-                icon: PhosphorIconsBold.x,
-                isSquare: true,
-                semanticLabel: l10n.uiClose,
               ),
             ],
           ),

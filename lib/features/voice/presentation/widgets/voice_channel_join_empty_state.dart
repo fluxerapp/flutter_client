@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
@@ -71,14 +70,14 @@ class VoiceChannelJoinEmptyState extends ConsumerWidget {
               ? ChannelIcon(
                   type: ChannelType.guildVoice,
                   size: layout.iconSize,
-                  color: context.colors.textPrimary,
+                  color: voiceJoinEmptyMarkForeground(context),
                 )
               : ChannelIcon(
                   type: channel!.type,
                   channel: channel,
                   effectivePermissionBits: effectivePermissionBits,
                   size: layout.iconSize,
-                  color: context.colors.textPrimary,
+                  color: voiceJoinEmptyMarkForeground(context),
                   e2eeEncrypted: showE2eeIcon,
                 ),
         ),

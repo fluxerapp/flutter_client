@@ -60,18 +60,39 @@ class StatusFlyoutMenu extends ConsumerWidget {
     final Widget row = FluxerDesktopMenuRow(
       label: presenceStatusLabel(statusValue, l10n),
       hint: presenceStatusDescription(statusValue, l10n),
-      leading: FluxerStatusIndicator(status: statusValue, size: 14),
+      hintColor: context.colors.textTertiary,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      leading: Padding(
+        padding: const EdgeInsets.only(top: 1),
+        child: SizedBox.square(
+          dimension: 18,
+          child: Center(
+            child: FluxerStatusIndicator(status: statusValue, size: 14),
+          ),
+        ),
+      ),
       trailing: hasExpiryOptions
-          ? PhosphorIcon(
-              PhosphorIconsBold.caretRight,
-              size: kFluxerDesktopMenuCaretSize,
-              color: context.colors.textSecondary,
+          ? Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: SizedBox.square(
+                dimension: 16,
+                child: Center(
+                  child: PhosphorIcon(
+                    PhosphorIconsBold.caretRight,
+                    size: kFluxerDesktopMenuCaretSize,
+                    color: context.colors.textSecondary,
+                  ),
+                ),
+              ),
             )
           : null,
       onTap: () => _select(ref, status),
     );
     if (!hasExpiryOptions) {
-      return row;
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1),
+        child: row,
+      );
     }
     return FluxerDesktopHoverFlyout(
       width: kStatusExpiryFlyoutWidth,

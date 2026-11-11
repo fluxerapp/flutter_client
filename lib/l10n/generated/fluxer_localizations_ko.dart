@@ -1315,6 +1315,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get incomingVoiceCallTitle => '수신 음성 통화';
 
   @override
+  String get incomingVoiceCallSubtitle => 'Voice call';
+
+  @override
   String get incomingVoiceCallAccept => '수락';
 
   @override
@@ -11288,6 +11291,33 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get quickSwitcherEmptyHint =>
       '다른 이름을 사용하거나 @ / # / ! / * 접두사를 사용하여 결과를 필터링해 보세요.';
+
+  @override
+  String get quickSwitcherTitle => 'Quick switcher';
+
+  @override
+  String quickSwitcherFooterPrefixHint(
+    String peoplePrefix,
+    String textChannelPrefix,
+    String voiceChannelPrefix,
+    String communityPrefix,
+  ) {
+    return 'Start searches with $peoplePrefix $textChannelPrefix $voiceChannelPrefix $communityPrefix to narrow down results.';
+  }
+
+  @override
+  String get discoverySidebarApps => 'Apps';
+
+  @override
+  String get discoverySidebarThemes => 'Themes';
+
+  @override
+  String get discoverySidebarComingSoon => 'Coming soon';
+
+  @override
+  String discoverySidebarComingSoonItem(String itemLabel) {
+    return '$itemLabel, coming soon';
+  }
 
   @override
   String get quickSwitcherSectionPeople => '사람';

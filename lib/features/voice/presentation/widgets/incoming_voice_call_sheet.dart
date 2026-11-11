@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -8,10 +10,12 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_desktop_card.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
 const String kIncomingVoiceResultAccept = 'accept';
@@ -58,6 +62,15 @@ Future<String?> showIncomingVoiceCallSheet(
     channelId: channelId,
     l10n: l10n,
   );
+  if (usesDesktopPointerUi(context)) {
+    return _showDesktopCard(
+      context,
+      ref: ref,
+      channelId: channelId,
+      dm: dm,
+      callerName: headerTitle,
+    );
+  }
   return FluxerBottomSheet.showScrollable<String>(
     context,
     useRootNavigator: true,
@@ -72,6 +85,72 @@ Future<String?> showIncomingVoiceCallSheet(
         channelId: channelId,
       );
     },
+  );
+}
+
+Future<String?> _showDesktopCard(
+  BuildContext context, {
+  required WidgetRef ref,
+  required String channelId,
+  required DmConversation? dm,
+  required String callerName,
+}) async {
+  final StreamController<void> dismissals = StreamController<void>();
+  final ProviderSubscription<List<String>> subscription = ref.listenManual(
+    pendingIncomingVoiceChannelIdsProvider,
+    (List<String>? _, List<String> next) {
+      if (!next.contains(channelId)) {
+        dismissals.add(null);
+      }
+    },
+  );
+  try {
+    return await showIncomingVoiceCallDesktopCard(
+      context,
+      callerName: callerName,
+      avatar: _incomingCallAvatar(context, dm: dm),
+      remoteDismiss: dismissals.stream,
+      remoteDismissResult: kIncomingVoiceResultRemoteDismiss,
+    );
+  } finally {
+    subscription.close();
+    await dismissals.close();
+  }
+}
+
+Widget _incomingCallAvatar(
+  BuildContext context, {
+  required DmConversation? dm,
+}) {
+  const double size = 80;
+  if (dm != null && dm.isGroup) {
+    return GroupDmAvatar.conversation(dm, size: size);
+  }
+  if (dm != null) {
+    return FluxerAvatar.userPresence(
+      fallbackText: dm.recipientName,
+      userId: dm.recipientId,
+      imageUrl: FluxerMediaUrl.userAvatar(
+        userId: dm.recipientId,
+        hash: dm.recipientAvatar,
+      ),
+      size: size,
+    );
+  }
+  return Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: context.colors.backgroundTertiary,
+    ),
+    child: Center(
+      child: PhosphorIcon(
+        PhosphorIconsFill.phone,
+        size: 36,
+        color: context.colors.textSecondary,
+      ),
+    ),
   );
 }
 
@@ -167,7 +246,7 @@ class _IncomingVoiceCallSheetBodyState
             ],
           ),
           SizedBox(height: layout.s4),
-          Center(child: _buildAvatar(context, dm: dm)),
+          Center(child: _incomingCallAvatar(context, dm: dm)),
           SizedBox(height: layout.s3),
           Text(
             centeredName,
@@ -213,39 +292,6 @@ class _IncomingVoiceCallSheetBodyState
             child: Text(l10n.incomingVoiceCallIgnore),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildAvatar(BuildContext context, {required DmConversation? dm}) {
-    const double size = 80;
-    if (dm != null && dm.isGroup) {
-      return GroupDmAvatar.conversation(dm, size: size);
-    }
-    if (dm != null) {
-      return FluxerAvatar.userPresence(
-        fallbackText: dm.recipientName,
-        userId: dm.recipientId,
-        imageUrl: FluxerMediaUrl.userAvatar(
-          userId: dm.recipientId,
-          hash: dm.recipientAvatar,
-        ),
-        size: size,
-      );
-    }
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: context.colors.backgroundTertiary,
-      ),
-      child: Center(
-        child: PhosphorIcon(
-          PhosphorIconsFill.phone,
-          size: 36,
-          color: context.colors.textSecondary,
-        ),
       ),
     );
   }

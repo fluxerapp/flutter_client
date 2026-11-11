@@ -8,6 +8,8 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/guild_ban_actions_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/guild_ban_details_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_status_slate.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_text.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_list_item.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -21,6 +23,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 
@@ -90,7 +93,11 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
       slivers: <Widget>[
         SliverToBoxAdapter(child: _buildHeader(context, l10n)),
         SliverPadding(
-          padding: const EdgeInsets.only(bottom: kSettingsScrollBottomPadding),
+          padding: EdgeInsets.only(
+            bottom: usesDesktopPointerUi(context)
+                ? 16 + kDesktopSettingsScrollBottomPadding
+                : kSettingsScrollBottomPadding,
+          ),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((
               BuildContext context,
@@ -123,6 +130,21 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
     FluxerLocalizations l10n,
     GuildBansState state,
   ) {
+    if (usesDesktopPointerUi(context) &&
+        (state.bans.isNotEmpty || state.hasSuccessfulEmptyLoad)) {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: state.bans.isEmpty
+            ? DesktopSettingsStatusSlate(
+                icon: PhosphorIconsRegular.prohibit,
+                title: l10n.guildSettingsBansEmpty,
+                fullHeight: true,
+              )
+            : DesktopSettingsNotice(
+                text: l10n.guildSettingsBansNoSearchResults,
+              ),
+      );
+    }
     if (state.bans.isEmpty && state.hasSuccessfulEmptyLoad) {
       return GuildBansEmptyState(l10n: l10n);
     }
@@ -144,6 +166,30 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
   }
 
   Widget _buildHeader(BuildContext context, FluxerLocalizations l10n) {
+    if (usesDesktopPointerUi(context)) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            DesktopSettingsPageTitle(
+              title: l10n.guildSettingsBannedUsersTitle,
+              description: l10n.guildSettingsBansDescription,
+            ),
+            const SizedBox(height: 16),
+            PickerSearchInput.inline(
+              controller: _searchController,
+              hintText: l10n.guildSettingsBansSearchHint,
+              onChanged: (String value) {
+                ref
+                    .read(guildBansProvider(widget.guildId).notifier)
+                    .setSearchQuery(value);
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return Padding(
       padding: EdgeInsets.fromLTRB(
         context.layout.s4,

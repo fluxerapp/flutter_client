@@ -144,3 +144,40 @@ bool voicePipShouldPlayMoveHaptic({
 }) {
   return !alreadyPlayed && delta.distanceSquared > 0;
 }
+
+const double kVoicePipDesktopEdgeMargin = 20;
+const double kVoicePipDesktopDefaultWidth = 320;
+const double kVoicePipDesktopMinWidth = 240;
+const double kVoicePipDesktopRadius = 12;
+
+Size voicePipDesktopCardSize(Size viewport) {
+  final double maxWidth =
+      math.min(viewport.width, viewport.height * 16 / 9) * 0.7;
+  final double width = math.max(
+    kVoicePipDesktopMinWidth,
+    math.min(kVoicePipDesktopDefaultWidth, maxWidth),
+  );
+  return Size(width, width * 9 / 16);
+}
+
+Offset voicePipSnapToNearestCorner({
+  required Offset origin,
+  required Size cardSize,
+  required Rect safeRect,
+}) {
+  final Offset clamped = voicePipClampOrigin(
+    origin: origin,
+    cardSize: cardSize,
+    safeRect: safeRect,
+  );
+  final Offset center = clamped + cardSize.center(Offset.zero);
+  final bool right = center.dx > safeRect.center.dx;
+  final bool bottom = center.dy > safeRect.center.dy;
+  return voicePipOriginForCorner(
+    corner: bottom
+        ? (right ? VoicePipCorner.bottomRight : VoicePipCorner.bottomLeft)
+        : (right ? VoicePipCorner.topRight : VoicePipCorner.topLeft),
+    safeRect: safeRect,
+    cardSize: cardSize,
+  );
+}

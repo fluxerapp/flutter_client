@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class UserLookAndFeel extends ConsumerWidget {
   const UserLookAndFeel({this.scrollController, super.key});
@@ -140,7 +141,9 @@ class UserLookAndFeel extends ConsumerWidget {
                     label: l10n.lookAndFeelThemeSystem,
                     backgroundColor: systemSwatchColor,
                     isSelected: isSystem,
-                    centerIcon: PhosphorIconsFill.arrowsCounterClockwise,
+                    centerIcon: usesDesktopPointerUi(context)
+                        ? PhosphorIconsBold.arrowsCounterClockwise
+                        : PhosphorIconsFill.arrowsCounterClockwise,
                     enabled: swatchesEnabled,
                     isLoading: inflightMode == FluxerThemeMode.system,
                     onTap: () => unawaited(changeTheme(FluxerThemeMode.system)),

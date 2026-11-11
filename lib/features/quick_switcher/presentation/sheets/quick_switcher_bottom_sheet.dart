@@ -6,15 +6,18 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_result_unread_state.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_desktop_body.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_friends_list.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_result_row.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_segmented_tabs.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/utils/quick_switcher_navigation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class QuickSwitcherBottomSheet {
   QuickSwitcherBottomSheet._();
@@ -22,20 +25,34 @@ class QuickSwitcherBottomSheet {
   static Future<void> show(BuildContext context, WidgetRef ref) {
     final l10n = FluxerLocalizations.of(context);
     ref.read(quickSwitcherProvider.notifier).open(l10n);
-    return FluxerBottomSheet.showScrollable<void>(
-      context,
-      useRootNavigator: true,
-      minChildSize: 0.5,
-      builder: (sheetContext, scrollController, close) {
-        return _QuickSwitcherSheetBody(
-          scrollController: scrollController,
-          onClose: () {
-            ref.read(quickSwitcherProvider.notifier).close();
-            close();
-          },
-        );
-      },
-    ).whenComplete(() {
+    VoidCallback closeWith(VoidCallback close) => () {
+      ref.read(quickSwitcherProvider.notifier).close();
+      close();
+    };
+    final Future<void> sheet = usesDesktopPointerUi(context)
+        ? FluxerBottomSheet.show<void>(
+            context,
+            useRootNavigator: true,
+            desktop: const FluxerDesktopPresentation(
+              surface: FluxerDesktopSurface.modal,
+              width: kQuickSwitcherDesktopWidth,
+              borderRadius: 12,
+            ),
+            builder: (BuildContext sheetContext, VoidCallback close) =>
+                QuickSwitcherDesktopBody(onClose: closeWith(close)),
+          )
+        : FluxerBottomSheet.showScrollable<void>(
+            context,
+            useRootNavigator: true,
+            minChildSize: 0.5,
+            builder: (sheetContext, scrollController, close) {
+              return _QuickSwitcherSheetBody(
+                scrollController: scrollController,
+                onClose: closeWith(close),
+              );
+            },
+          );
+    return sheet.whenComplete(() {
       if (ref.read(quickSwitcherProvider).isOpen) {
         ref.read(quickSwitcherProvider.notifier).close();
       }

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -31,6 +32,16 @@ String? quickReactionUsageKey(QuickReactionItem item) => switch (item) {
     null => null,
   },
   CustomQuickReaction(:final emoji) => emoji.favoriteKey,
+};
+
+String quickReactionShortcode(QuickReactionItem item) => switch (item) {
+  UnicodeQuickReaction(:final emoji) => switch (EmojiRegistry.entryBySurrogates(
+    emoji,
+  )) {
+    final EmojiEntry entry => ':${entry.primaryName}:',
+    null => emoji,
+  },
+  CustomQuickReaction(:final emoji) => ':${emoji.name}:',
 };
 
 const List<QuickReactionItem> kQuickReactionDefaults = [
@@ -69,7 +80,7 @@ class QuickReactionRow extends StatelessWidget {
             Expanded(
               child: _QuickReactionButton(
                 onTap: () => onReaction(item),
-                child: _QuickReactionGlyph(item: item),
+                child: QuickReactionGlyph(item: item),
               ),
             ),
           if (onAddMore != null)
@@ -89,23 +100,24 @@ class QuickReactionRow extends StatelessWidget {
   }
 }
 
-class _QuickReactionGlyph extends StatelessWidget {
-  const _QuickReactionGlyph({required this.item});
+class QuickReactionGlyph extends StatelessWidget {
+  const QuickReactionGlyph({required this.item, this.size = 24, super.key});
 
   final QuickReactionItem item;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return switch (item) {
       UnicodeQuickReaction(:final emoji) => UnicodeEmojiWidget(
         emoji: emoji,
-        size: 24,
+        size: size,
       ),
       CustomQuickReaction(:final emoji) => CachedEmojiImage(
         emojiId: emoji.id,
         animated: false,
         requestSize: kCustomEmojiFetchSize,
-        size: 24,
+        size: size,
       ),
     };
   }
@@ -137,15 +149,26 @@ class _QuickReactionButtonState extends State<_QuickReactionButton> {
         },
         child: AspectRatio(
           aspectRatio: 1,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: _isHovered
-                  ? context.colors.backgroundModifierSelected
-                  : context.colors.backgroundModifierHover,
-              borderRadius: context.layout.radiusLg,
-            ),
-            child: Center(child: widget.child),
-          ),
+          child: FluxerDesktopSurfaceScope.isMenu(context)
+              ? AnimatedContainer(
+                  duration: context.motion.normal,
+                  decoration: BoxDecoration(
+                    color: _isHovered
+                        ? context.colors.backgroundModifierAccent
+                        : context.colors.backgroundModifierSelected,
+                    borderRadius: context.layout.radiusMd,
+                  ),
+                  child: Center(child: widget.child),
+                )
+              : DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: _isHovered
+                        ? context.colors.backgroundModifierSelected
+                        : context.colors.backgroundModifierHover,
+                    borderRadius: context.layout.radiusLg,
+                  ),
+                  child: Center(child: widget.child),
+                ),
         ),
       ),
     );

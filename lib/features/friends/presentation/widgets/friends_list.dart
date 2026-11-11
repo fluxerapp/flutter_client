@@ -26,8 +26,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 
 const _kActiveNowMinWidth = 1100.0;
@@ -73,6 +75,7 @@ class FriendsList extends ConsumerWidget {
                     context,
                     activeTab: activeTab,
                     friendCount: filteredFriends.length,
+                    desktop: usesDesktopPointerUi(context),
                   ),
                   Expanded(
                     child: _buildFriendsList(
@@ -155,14 +158,24 @@ class FriendsList extends ConsumerWidget {
                     (config) => config.directMessagesDisabled,
                   ),
                 ))
-                  FluxerButton.primary(
-                    label: FluxerLocalizations.of(
-                      context,
-                    ).profileSendFriendRequest,
-                    size: FluxerButtonSize.compact,
-                    fitContent: true,
-                    onPressed: () => AddFriendPage.show(context),
-                  ),
+                  if (usesDesktopPointerUi(context))
+                    _DesktopFriendsTabButton(
+                      label: FluxerLocalizations.of(
+                        context,
+                      ).profileSendFriendRequest,
+                      isActive: false,
+                      primary: true,
+                      onTap: () => AddFriendPage.show(context),
+                    )
+                  else
+                    FluxerButton.primary(
+                      label: FluxerLocalizations.of(
+                        context,
+                      ).profileSendFriendRequest,
+                      size: FluxerButtonSize.compact,
+                      fitContent: true,
+                      onPressed: () => AddFriendPage.show(context),
+                    ),
               ],
             ),
           ),
@@ -244,6 +257,16 @@ class FriendsList extends ConsumerWidget {
     FriendsTab activeTab,
   ) {
     final isActive = tab == activeTab;
+    if (usesDesktopPointerUi(context)) {
+      return Padding(
+        padding: EdgeInsetsDirectional.only(end: context.layout.s2),
+        child: _DesktopFriendsTabButton(
+          label: label,
+          isActive: isActive,
+          onTap: () => ref.read(dmViewModelProvider.notifier).selectTab(tab),
+        ),
+      );
+    }
     return Padding(
       padding: EdgeInsetsDirectional.only(end: context.layout.s2),
       child: Material(
@@ -320,8 +343,26 @@ class FriendsList extends ConsumerWidget {
     BuildContext context, {
     required FriendsTab activeTab,
     required int friendCount,
+    bool desktop = false,
   }) {
     final label = _tabLabel(FluxerLocalizations.of(context), activeTab);
+    if (desktop) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            '$label \u2014 $friendCount',
+            style: context.textStyles.smallText.copyWith(
+              color: context.colors.textPrimaryMuted,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              height: 16 / 12,
+            ),
+          ),
+        ),
+      );
+    }
     return Padding(
       padding: EdgeInsets.only(
         left: context.layout.s4,
@@ -455,6 +496,33 @@ class FriendsList extends ConsumerWidget {
             ],
           ),
         ),
+      );
+    }
+    if (usesDesktopPointerUi(context)) {
+      return _DesktopFriendsListView(
+        friends: filteredFriends,
+        statusText: (Friend friend) =>
+            _statusText(FluxerLocalizations.of(context), friend),
+        onOpenProfile: (Friend friend) =>
+            unawaited(FluxerUserProfileSheet.show(context, userId: friend.id)),
+        onMessage: (Friend friend) =>
+            unawaited(_openFriendChat(context, ref, friend)),
+        onMore: (BuildContext rowContext, Friend friend) =>
+            _openFriendMenu(rowContext, ref, friend),
+        onAccept: (Friend friend) => unawaited(
+          _runRelationshipAction(
+            context,
+            ref,
+            ApiErrorAction.acceptFriendRequest,
+            () => ref
+                .read(friendRepositoryProvider)
+                .acceptFriendRequest(friend.id),
+          ),
+        ),
+        onIgnore: (Friend friend) =>
+            unawaited(_confirmRemoveRelationship(context, ref, friend)),
+        onCancel: (Friend friend) =>
+            unawaited(_confirmCancelOutgoingRequest(context, ref, friend)),
       );
     }
     return ListView.builder(
@@ -807,5 +875,433 @@ class FriendsList extends ConsumerWidget {
       }
       await showApiError(context, errorAction, e);
     }
+  }
+}
+
+class _DesktopFriendsTabButton extends StatelessWidget {
+  const _DesktopFriendsTabButton({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+    this.primary = false,
+  });
+
+  final String label;
+  final bool isActive;
+  final bool primary;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return FluxerTappable(
+      onTap: onTap,
+      semanticLabel: label,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool hovered = states.contains(WidgetState.hovered);
+        final Color background = primary
+            ? colors.brandPrimary
+            : isActive
+            ? colors.backgroundModifierSelected
+            : hovered
+            ? colors.backgroundModifierHover
+            : Colors.transparent;
+        final Color foreground = primary
+            ? colors.brandPrimaryFill
+            : isActive || hovered
+            ? colors.textPrimary
+            : colors.textPrimaryMuted;
+        return Opacity(
+          opacity: primary && hovered ? 0.9 : 1,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: context.layout.radiusMd,
+            ),
+            child: Text(
+              label,
+              style: context.textStyles.channelName.copyWith(
+                color: foreground,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                height: 24 / 16,
+              ),
+              maxLines: 1,
+              softWrap: false,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DesktopFriendsListView extends StatefulWidget {
+  const _DesktopFriendsListView({
+    required this.friends,
+    required this.statusText,
+    required this.onOpenProfile,
+    required this.onMessage,
+    required this.onMore,
+    required this.onAccept,
+    required this.onIgnore,
+    required this.onCancel,
+  });
+
+  final List<Friend> friends;
+  final String Function(Friend friend) statusText;
+  final void Function(Friend friend) onOpenProfile;
+  final void Function(Friend friend) onMessage;
+  final Future<void> Function(BuildContext context, Friend friend) onMore;
+  final void Function(Friend friend) onAccept;
+  final void Function(Friend friend) onIgnore;
+  final void Function(Friend friend) onCancel;
+
+  @override
+  State<_DesktopFriendsListView> createState() =>
+      _DesktopFriendsListViewState();
+}
+
+class _DesktopFriendsListViewState extends State<_DesktopFriendsListView> {
+  final ValueNotifier<int?> _hoveredIndex = ValueNotifier<int?>(null);
+  int? _menuIndex;
+
+  @override
+  void dispose() {
+    _hoveredIndex.dispose();
+    super.dispose();
+  }
+
+  Future<void> _openMore(BuildContext rowContext, int index) async {
+    setState(() => _menuIndex = index);
+    try {
+      await widget.onMore(rowContext, widget.friends[index]);
+    } finally {
+      if (mounted) {
+        setState(() => _menuIndex = null);
+      }
+    }
+  }
+
+  void _setHovered(int index, {required bool hovered}) {
+    if (hovered) {
+      _hoveredIndex.value = index;
+    } else if (_hoveredIndex.value == index) {
+      _hoveredIndex.value = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 16),
+      itemCount: widget.friends.length,
+      itemBuilder: (BuildContext context, int index) {
+        final Friend friend = widget.friends[index];
+        return ValueListenableBuilder<int?>(
+          valueListenable: _hoveredIndex,
+          builder: (BuildContext context, int? hoveredIndex, _) {
+            bool highlightedAt(int i) => hoveredIndex == i || _menuIndex == i;
+            final bool highlighted = highlightedAt(index);
+            return _DesktopFriendRow(
+              friend: friend,
+              statusText: widget.statusText(friend),
+              highlighted: highlighted,
+              menuOpen: _menuIndex == index,
+              showSeparator:
+                  !highlighted && !(index > 0 && highlightedAt(index - 1)),
+              onHoverChanged: (bool hovered) =>
+                  _setHovered(index, hovered: hovered),
+              onTap: () => widget.onOpenProfile(friend),
+              onMessage: () => widget.onMessage(friend),
+              onMore: (BuildContext rowContext) =>
+                  unawaited(_openMore(rowContext, index)),
+              onAccept: () => widget.onAccept(friend),
+              onIgnore: () => widget.onIgnore(friend),
+              onCancel: () => widget.onCancel(friend),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _DesktopFriendRow extends StatelessWidget {
+  const _DesktopFriendRow({
+    required this.friend,
+    required this.statusText,
+    required this.highlighted,
+    required this.menuOpen,
+    required this.showSeparator,
+    required this.onHoverChanged,
+    required this.onTap,
+    required this.onMessage,
+    required this.onMore,
+    required this.onAccept,
+    required this.onIgnore,
+    required this.onCancel,
+  });
+
+  final Friend friend;
+  final String statusText;
+  final bool highlighted;
+  final bool menuOpen;
+  final bool showSeparator;
+  final ValueChanged<bool> onHoverChanged;
+  final VoidCallback onTap;
+  final VoidCallback onMessage;
+  final ValueChanged<BuildContext> onMore;
+  final VoidCallback onAccept;
+  final VoidCallback onIgnore;
+  final VoidCallback onCancel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool offline = friend.status == 'offline';
+    final TextStyle subtextStyle = offline
+        ? fluxerDesktopRowSubtextStyle(context).copyWith(
+            color: fluxerCssColorMix(
+              colors.textTertiary,
+              Colors.transparent,
+              0.85,
+            ),
+          )
+        : fluxerDesktopRowSubtextStyle(context);
+    final List<Widget> actions = <Widget>[
+      if (friend.friendStatus == FriendStatus.accepted) ...<Widget>[
+        _DesktopFriendActionButton(
+          icon: PhosphorIconsFill.chatTeardrop,
+          tooltip: l10n.friendsMessageFriend,
+          tone: _DesktopFriendActionTone.neutral,
+          onTap: onMessage,
+        ),
+        Builder(
+          builder: (BuildContext buttonContext) => _DesktopFriendActionButton(
+            icon: PhosphorIconsBold.dotsThreeVertical,
+            tooltip: l10n.friendsFriendActions,
+            tone: _DesktopFriendActionTone.neutral,
+            active: menuOpen,
+            onTap: () => onMore(buttonContext),
+          ),
+        ),
+      ],
+      if (friend.friendStatus == FriendStatus.pendingIncoming) ...<Widget>[
+        _DesktopFriendActionButton(
+          icon: PhosphorIconsBold.check,
+          tooltip: l10n.friendsAcceptRequest,
+          tone: _DesktopFriendActionTone.brand,
+          onTap: onAccept,
+        ),
+        _DesktopFriendActionButton(
+          icon: PhosphorIconsBold.x,
+          tooltip: l10n.friendsDeclineRequest,
+          tone: _DesktopFriendActionTone.ignore,
+          onTap: onIgnore,
+        ),
+      ],
+      if (friend.friendStatus == FriendStatus.pendingOutgoing)
+        _DesktopFriendActionButton(
+          icon: PhosphorIconsBold.x,
+          tooltip: l10n.friendsCancelRequest,
+          tone: _DesktopFriendActionTone.danger,
+          onTap: onCancel,
+        ),
+    ];
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => onHoverChanged(true),
+      onExit: (_) => onHoverChanged(false),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Stack(
+          children: <Widget>[
+            PositionedDirectional(
+              start: 8,
+              end: 6.4,
+              top: 0,
+              bottom: 0,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: highlighted
+                      ? colors.backgroundModifierHover
+                      : Colors.transparent,
+                  borderRadius: context.layout.radiusMd,
+                  border: showSeparator
+                      ? Border(
+                          top: BorderSide(
+                            color: colors.backgroundModifierAccent,
+                          ),
+                        )
+                      : null,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: <Widget>[
+                  FluxerAvatar.userPresence(
+                    fallbackText: friend.displayName,
+                    userId: friend.id,
+                    imageUrl: FluxerMediaUrl.userAvatar(
+                      userId: friend.id,
+                      hash: friend.avatar,
+                    ),
+                    avatarColor: friend.avatarColor,
+                    size: 36,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: Text(
+                                friend.displayName,
+                                style: context.textStyles.channelName.copyWith(
+                                  color: colors.textPrimary,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  height: 20 / 16,
+                                ),
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (highlighted) ...<Widget>[
+                              const SizedBox(width: 6),
+                              Text(
+                                formatUserTag(
+                                  friend.username,
+                                  friend.discriminator,
+                                  uniqueUsernames: true,
+                                ),
+                                style: context.textStyles.timestamp.copyWith(
+                                  color: colors.textTertiary,
+                                  fontSize: 12,
+                                  height: 16 / 12,
+                                ),
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
+                            ],
+                          ],
+                        ),
+                        if (friend.friendStatus == FriendStatus.accepted &&
+                            hasVisibleCustomStatus(friend.customStatus))
+                          CustomStatusDisplay(
+                            stored: friend.customStatus,
+                            maxLines: 1,
+                            emojiSize: 14,
+                            textStyle: subtextStyle,
+                          )
+                        else
+                          Text(
+                            statusText,
+                            style: subtextStyle,
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
+                  ),
+                  for (int i = 0; i < actions.length; i++) ...<Widget>[
+                    if (i > 0) const SizedBox(width: 8),
+                    actions[i],
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum _DesktopFriendActionTone { neutral, brand, ignore, danger }
+
+class _DesktopFriendActionButton extends StatelessWidget {
+  const _DesktopFriendActionButton({
+    required this.icon,
+    required this.tooltip,
+    required this.tone,
+    required this.onTap,
+    this.active = false,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final _DesktopFriendActionTone tone;
+  final VoidCallback onTap;
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final Color hoverBg = colors.backgroundModifierHover;
+    final Color selectedBg = colors.backgroundModifierSelected;
+    final (
+      Color background,
+      Color hoverBackground,
+      Color foreground,
+      Color hoverForeground,
+    ) = switch (tone) {
+      _DesktopFriendActionTone.neutral => (
+        fluxerCssColorMix(hoverBg, colors.textPrimaryMuted, 0.94),
+        fluxerCssColorMix(hoverBg, selectedBg, 0.84),
+        colors.textPrimaryMuted,
+        colors.textPrimary,
+      ),
+      _DesktopFriendActionTone.brand => (
+        fluxerCssColorMix(hoverBg, colors.brandPrimary, 0.86),
+        fluxerCssColorMix(selectedBg, colors.brandPrimary, 0.78),
+        colors.textPrimary,
+        colors.textPrimary,
+      ),
+      _DesktopFriendActionTone.ignore => (
+        fluxerCssColorMix(hoverBg, colors.textPrimaryMuted, 0.9),
+        fluxerCssColorMix(hoverBg, selectedBg, 0.8),
+        colors.textPrimary,
+        colors.textPrimary,
+      ),
+      _DesktopFriendActionTone.danger => (
+        fluxerCssColorMix(hoverBg, colors.statusDanger, 0.86),
+        fluxerCssColorMix(selectedBg, colors.statusDanger, 0.76),
+        fluxerCssColorMix(colors.statusDanger, colors.textPrimary, 0.82),
+        fluxerCssColorMix(colors.statusDanger, colors.textPrimary, 0.88),
+      ),
+    };
+    return FluxerButton.desktop(
+      icon: icon,
+      semanticLabel: tooltip,
+      showTooltip: true,
+      onPressed: onTap,
+      extent: 36,
+      iconSize: 20,
+      circle: true,
+      active: active,
+      background: background,
+      hoverBackground: hoverBackground,
+      color: foreground,
+      hoverColor: hoverForeground,
+      shadows: const <BoxShadow>[
+        BoxShadow(
+          color: Color(0x1F000000),
+          offset: Offset(0, 1),
+          blurRadius: 2,
+        ),
+      ],
+    );
   }
 }

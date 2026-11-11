@@ -12,8 +12,19 @@ class _CategoryHeader extends ConsumerWidget {
   final bool isCollapsed;
   final String guildId;
 
+  void _toggleCollapsed(WidgetRef ref) {
+    unawaited(
+      ref
+          .read(guildUserSettingsRepositoryProvider)
+          .toggleCategoryCollapsed(guildId: guildId, categoryId: category.id),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, ref);
+    }
     return Semantics(
       button: true,
       expanded: !isCollapsed,
@@ -26,16 +37,7 @@ class _CategoryHeader extends ConsumerWidget {
             highlightColor: Colors.transparent,
             mouseCursor: SystemMouseCursors.click,
             hoverColor: context.colors.backgroundModifierHover,
-            onTap: () {
-              unawaited(
-                ref
-                    .read(guildUserSettingsRepositoryProvider)
-                    .toggleCategoryCollapsed(
-                      guildId: guildId,
-                      categoryId: category.id,
-                    ),
-              );
-            },
+            onTap: () => _toggleCollapsed(ref),
             onSecondaryTapUp: (details) => unawaited(
               _showCategoryActions(context, ref, details.globalPosition),
             ),
@@ -76,6 +78,90 @@ class _CategoryHeader extends ConsumerWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context, WidgetRef ref) {
+    final Color idle = _desktopSidebarRowTextColor(context, category: true);
+    final int? permissionBits = ref.watch(
+      channelPermissionCacheProvider(
+        watchAccountUserId(ref),
+      ).select((ChannelPermissionCaches caches) => caches[category.id]),
+    );
+    final bool canManageChannels =
+        permissionBits != null &&
+        hasPermission(permissionBits, Permission.manageChannels);
+    return Semantics(
+      button: true,
+      expanded: !isCollapsed,
+      label: category.name,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.only(start: 8, end: 8, top: 4),
+        child: FluxerSelectableRow(
+          isSelected: false,
+          selectedColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          pressedColor: Colors.transparent,
+          borderRadius: context.layout.radiusMd,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          onTap: () => _toggleCollapsed(ref),
+          onContextMenuRequested: (details) =>
+              _showCategoryActions(context, ref, details.globalPosition),
+          childBuilder: (BuildContext context, Set<WidgetState> states) {
+            final bool hovered = states.contains(WidgetState.hovered);
+            final bool showCreate =
+                canManageChannels &&
+                (hovered || states.contains(WidgetState.focused));
+            return Row(
+              children: <Widget>[
+                Expanded(
+                  child: ExcludeSemantics(
+                    child: Text(
+                      category.name,
+                      style: context.textStyles.categoryName.copyWith(
+                        color: _desktopSidebarRowTextColor(
+                          context,
+                          hovered: hovered,
+                          category: true,
+                        ),
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                if (showCreate) ...<Widget>[
+                  const SizedBox(width: 4),
+                  FluxerButton.desktop(
+                    icon: PhosphorIconsBold.plus,
+                    semanticLabel: FluxerLocalizations.of(
+                      context,
+                    ).guildNavbarCreateChannel,
+                    showTooltip: true,
+                    extent: 16,
+                    color: idle,
+                    hoverBackground: Colors.transparent,
+                    onPressed: () =>
+                        unawaited(_createChannelInCategory(context, ref)),
+                  ),
+                ],
+                const SizedBox(width: 4),
+                ExcludeSemantics(
+                  child: RotatedBox(
+                    quarterTurns: isCollapsed ? 3 : 0,
+                    child: PhosphorIcon(
+                      PhosphorIconsBold.caretDown,
+                      size: 12,
+                      color: idle,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -215,14 +301,7 @@ class _CategoryHeader extends ConsumerWidget {
         unawaited(_readStateRepository(ref).ackLatestBulk(channelIds));
       case CategoryMenuAction.toggleCollapse:
         close();
-        unawaited(
-          ref
-              .read(guildUserSettingsRepositoryProvider)
-              .toggleCategoryCollapsed(
-                guildId: guildId,
-                categoryId: category.id,
-              ),
-        );
+        _toggleCollapsed(ref);
       case CategoryMenuAction.toggleCollapseAll:
         close();
         unawaited(

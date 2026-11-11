@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/utils/guild/guild_expression_permis
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 enum GuildCloneAllowedKind { emoji, sticker }
@@ -57,13 +58,16 @@ class _GuildCloneAllowedToggleState
     final String description = widget.kind == GuildCloneAllowedKind.emoji
         ? l10n.guildSettingsCloneEmojiDescription
         : l10n.guildSettingsCloneStickerDescription;
+    final bool desktop = usesDesktopPointerUi(context);
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        context.layout.s4,
-        context.layout.s4,
-        0,
-      ),
+      padding: desktop
+          ? const EdgeInsets.only(bottom: 16)
+          : EdgeInsets.fromLTRB(
+              context.layout.s4,
+              context.layout.s4,
+              context.layout.s4,
+              0,
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -85,14 +89,20 @@ class _GuildCloneAllowedToggleState
             ],
           ),
           if (!canManage) ...<Widget>[
-            SizedBox(height: context.layout.s2),
+            SizedBox(height: desktop ? 8 : context.layout.s2),
             Text(
               l10n.guildSettingsClonePermissionHint(
                 permissionTitle(l10n, Permission.manageGuild),
               ),
-              style: context.textStyles.bodySmall.copyWith(
-                color: context.colors.textPrimaryMuted,
-              ),
+              style: desktop
+                  ? context.textStyles.bodySmall.copyWith(
+                      fontSize: 12,
+                      height: 1.5,
+                      color: context.colors.textChatMuted,
+                    )
+                  : context.textStyles.bodySmall.copyWith(
+                      color: context.colors.textPrimaryMuted,
+                    ),
             ),
           ],
         ],

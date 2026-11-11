@@ -54,6 +54,7 @@ class UserAreaPopout {
         placement: FluxerDesktopPlacement.aboveStart,
         anchorContext: context,
         showPanelBorder: false,
+        borderRadius: 6,
       ),
       builder: (BuildContext sheetContext, VoidCallback close) =>
           _DesktopUserAreaCard(onClose: close),

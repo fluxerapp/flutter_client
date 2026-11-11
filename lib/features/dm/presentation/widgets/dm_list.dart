@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/group_dm_invites_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_message_preview_row.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_quick_switcher_header.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_row_timestamp.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
@@ -62,6 +63,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
@@ -80,6 +82,8 @@ const double _kMobileAvatarSize = 32;
 const double _kDesktopRowExtent = 42;
 const double _kDesktopRowGap = 2;
 const double _kDesktopAvatarSize = 32;
+const double _kDesktopPointerRowHeight = 42;
+const double _kDesktopPointerRowExtent = _kDesktopPointerRowHeight + 1;
 const String _kPersonalNotesRowKey = 'personal-notes';
 
 class _DMListState extends ConsumerState<DMList> {
@@ -287,6 +291,7 @@ class _DMListState extends ConsumerState<DMList> {
     );
 
     final isMobile = isMobileLayout(context);
+    final bool desktop = !isMobile && usesDesktopPointerUi(context);
     final pinnedIds = ref.watch(pinnedDmChannelIdsProvider).value ?? {};
     final mutedIds = ref.watch(mutedDmChannelIdsProvider).value ?? {};
 
@@ -310,6 +315,17 @@ class _DMListState extends ConsumerState<DMList> {
               if (isMobile) ...[
                 _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
+              ] else if (desktop) ...[
+                const DmListQuickSwitcherHeader(),
+                _buildDesktopNav(context),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Container(
+                    height: 1,
+                    color: context.colors.userAreaDividerColor,
+                  ),
+                ),
+                _buildDesktopDmHeader(context),
               ] else ...[
                 Builder(
                   builder: (context) {
@@ -373,6 +389,7 @@ class _DMListState extends ConsumerState<DMList> {
                         selectedId,
                         routedChannelId: routedChannelId,
                         isMobile: isMobile,
+                        desktop: desktop,
                         pinnedIds: pinnedIds,
                         mutedIds: mutedIds,
                       )
@@ -652,11 +669,19 @@ class _DMListState extends ConsumerState<DMList> {
     required bool isMobile,
     required Set<String> pinnedIds,
     required Set<String> mutedIds,
+    bool desktop = false,
   }) {
     final userId = ref.watch(currentUserIdProvider);
     final listPadding = isMobile
         ? EdgeInsets.only(top: context.layout.s1, bottom: 96)
+        : desktop
+        ? const EdgeInsets.only(bottom: 8)
         : EdgeInsets.zero;
+    final double rowExtent = isMobile
+        ? _kMobileRowExtent
+        : desktop
+        ? _kDesktopPointerRowExtent
+        : _kDesktopRowExtent;
     final int leadingRows = isMobile ? 1 : 0;
     if (_needsScrollRestore && convos.isNotEmpty) {
       final int routedConvoIndex = convos.indexWhere(
@@ -666,7 +691,7 @@ class _DMListState extends ConsumerState<DMList> {
         routedRowIndex: routedConvoIndex >= 0
             ? routedConvoIndex + leadingRows
             : null,
-        rowExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
+        rowExtent: rowExtent,
         topPadding: listPadding.top,
       );
     }
@@ -681,7 +706,7 @@ class _DMListState extends ConsumerState<DMList> {
           physics: const AlwaysScrollableScrollPhysics(),
           scrollCacheExtent: const ScrollCacheExtent.pixels(600),
           padding: listPadding,
-          itemExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
+          itemExtent: rowExtent,
           itemCount: convos.length + leadingRows,
           findChildIndexCallback: (Key key) {
             if (key is! ValueKey<String>) {
@@ -710,6 +735,20 @@ class _DMListState extends ConsumerState<DMList> {
             final convo = convos[index - leadingRows];
             final isSelected = convo.id == selectedId;
 
+            if (desktop) {
+              return Consumer(
+                key: ValueKey<String>(convo.id),
+                builder: (BuildContext context, WidgetRef rowRef, _) =>
+                    _buildDesktopConvoTile(
+                      context,
+                      rowRef: rowRef,
+                      convo: convo,
+                      isSelected: isSelected,
+                      isPinned: pinnedIds.contains(convo.id),
+                      isMuted: mutedIds.contains(convo.id),
+                    ),
+              );
+            }
             return Consumer(
               key: ValueKey<String>(convo.id),
               builder: (BuildContext context, WidgetRef rowRef, _) =>
@@ -851,6 +890,383 @@ class _DMListState extends ConsumerState<DMList> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDesktopNav(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, _) {
+        final location = ref.watch(currentLocationProvider);
+        final userId = ref.watch(currentUserIdProvider);
+        final bool isFriends = location == RoutePaths.me;
+        final bool isNotes =
+            userId != null && location == RoutePaths.dmChannel(userId);
+        return Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Column(
+            children: <Widget>[
+              _buildDesktopNavItem(
+                context,
+                icon: PhosphorIconsFill.usersThree,
+                label: l10n.dmListFriendsButton,
+                isSelected: isFriends,
+                badgeCount:
+                    ref.watch(pendingFriendRequestCountProvider).value ?? 0,
+                onTap: () => navigateToDmFriendsContent(context),
+              ),
+              _buildDesktopNavItem(
+                context,
+                icon: PhosphorIconsFill.notePencil,
+                label: l10n.personalNotesTitle,
+                isSelected: isNotes,
+                onTap: () {
+                  if (userId != null) {
+                    unawaited(_navigateToDmChannel(userId));
+                  }
+                },
+                onContextMenu: userId == null
+                    ? null
+                    : (TapUpDetails details) => _showPersonalNotesContextMenu(
+                        context,
+                        channelId: userId,
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _desktopSelectableRow(
+    BuildContext context, {
+    required bool isSelected,
+    required VoidCallback onTap,
+    required Widget Function(BuildContext context, Set<WidgetState> states)
+    childBuilder,
+    Future<void> Function(TapUpDetails details)? onContextMenu,
+    String? semanticLabel,
+  }) => FluxerSelectableRow(
+    isSelected: isSelected,
+    selectedColor: fluxerCssColorMix(
+      context.colors.surfaceInteractiveSelectedBg,
+      Colors.transparent,
+      0.35,
+    ),
+    hoverColor: context.colors.surfaceInteractiveHoverBg,
+    pressedColor: context.colors.surfaceInteractiveHoverBg,
+    borderRadius: context.layout.radiusMd,
+    margin: const EdgeInsetsDirectional.only(start: 8, end: 8, bottom: 1),
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    height: _kDesktopPointerRowHeight,
+    semanticLabel: semanticLabel,
+    onTap: onTap,
+    onContextMenuRequested: onContextMenu,
+    childBuilder: childBuilder,
+  );
+
+  Widget _buildDesktopNavItem(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isSelected = false,
+    Future<void> Function(TapUpDetails details)? onContextMenu,
+    int badgeCount = 0,
+  }) {
+    final colors = context.colors;
+    return _desktopSelectableRow(
+      context,
+      isSelected: isSelected,
+      onTap: onTap,
+      onContextMenu: onContextMenu,
+      childBuilder: (BuildContext context, Set<WidgetState> states) {
+        final bool hovered = states.contains(WidgetState.hovered);
+        return Row(
+          children: <Widget>[
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? colors.brandPrimary
+                    : hovered
+                    ? fluxerCssColorMix(
+                        colors.guildListForeground,
+                        Colors.white,
+                        0.9,
+                      )
+                    : colors.guildListForeground,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: PhosphorIcon(
+                  icon,
+                  size: 20,
+                  color: isSelected
+                      ? colors.brandPrimaryFill
+                      : colors.textPrimary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: fluxerDesktopRowTitleStyle(context).copyWith(
+                  color: isSelected
+                      ? colors.surfaceInteractiveSelectedColor
+                      : hovered
+                      ? colors.textPrimary
+                      : colors.textPrimaryMuted,
+                ),
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (badgeCount > 0)
+              ExcludeSemantics(
+                child: FluxerBadgeEntrance(
+                  child: FluxerBadge.count(count: badgeCount),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildDesktopDmHeader(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Color muted = context.colors.textPrimaryMuted;
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 17, 16, 8),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              l10n.dmListDirectMessagesTitle,
+              style: context.textStyles.label.copyWith(
+                color: muted,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                height: 16 / 13,
+              ),
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, _) {
+              final bool isRestricted = ref.watch(
+                userSettingsViewModelProvider.select(
+                  (UserSettingsViewState s) =>
+                      getCreateDmRestriction(s) != null,
+                ),
+              );
+              return FluxerTooltip(
+                message: l10n.createDm,
+                child: Semantics(
+                  label: l10n.createDm,
+                  button: true,
+                  enabled: !isRestricted,
+                  child: FluxerTappable(
+                    onTap: isRestricted
+                        ? null
+                        : () => unawaited(CreateDmFlow.show(context)),
+                    builder: (BuildContext context, Set<WidgetState> states) {
+                      final bool hovered =
+                          !isRestricted && states.contains(WidgetState.hovered);
+                      return Opacity(
+                        opacity: isRestricted ? 0.45 : 1,
+                        child: PhosphorIcon(
+                          PhosphorIconsBold.plus,
+                          size: 16,
+                          color: hovered ? context.colors.textPrimary : muted,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _closeDmFromRow(
+    BuildContext context,
+    DmConversation convo,
+    String displayName,
+  ) {
+    void close() => unawaited(
+      ref
+          .read(dmViewModelProvider.notifier)
+          .closeDmChannel(convo.id, isGroup: convo.isGroup),
+    );
+    if (!convo.isGroup) {
+      close();
+      return;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    unawaited(
+      FluxerConfirmModal.show(
+        context,
+        title: l10n.dmLeaveGroup,
+        description: l10n.channelDetailsLeaveGroupDescription(displayName),
+        confirmLabel: l10n.dmLeaveGroup,
+        isDanger: true,
+        onConfirm: close,
+      ),
+    );
+  }
+
+  Widget _buildDesktopConvoTile(
+    BuildContext context, {
+    required WidgetRef rowRef,
+    required DmConversation convo,
+    required bool isSelected,
+    bool isPinned = false,
+    bool isMuted = false,
+  }) {
+    final c = convo;
+    final colors = context.colors;
+    final hasUnread = c.unreadCount > 0;
+    final currentUserId = rowRef.watch(currentUserIdProvider);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String displayName = c.displayNameWith(
+      c.isGroup
+          ? null
+          : rowRef.watch(friendNicknameProvider(c.recipientId)).value,
+      l10n: l10n,
+      currentUserId: currentUserId,
+    );
+    final Widget avatar = Consumer(
+      builder: (context, ref, _) {
+        final bool isTyping = ref.watch(dmAvatarIsTypingProvider(c));
+        if (c.isGroup) {
+          return GroupDmAvatar.conversation(
+            c,
+            size: _kDesktopAvatarSize,
+            isTyping: isTyping,
+          );
+        }
+        return FluxerAvatar.userPresence(
+          fallbackText: displayName,
+          userId: c.recipientId,
+          imageUrl: FluxerMediaUrl.userAvatar(
+            userId: c.recipientId,
+            hash: c.recipientAvatar,
+          ),
+          showStatus: shouldShowDmRecipientPresence(c) || isTyping,
+          isTyping: isTyping,
+          size: _kDesktopAvatarSize,
+        );
+      },
+    );
+    final Widget row = _desktopSelectableRow(
+      context,
+      isSelected: isSelected,
+      semanticLabel: navigationItemSemanticLabel(
+        l10n: l10n,
+        name: displayName,
+        isSelected: isSelected,
+        hasUnread: hasUnread,
+        isMuted: isMuted,
+      ),
+      onTap: () => unawaited(_navigateToDmChannel(c.id)),
+      onContextMenu: (_) => _showDmContextMenu(context, c),
+      childBuilder: (BuildContext context, Set<WidgetState> states) {
+        final bool hovered = states.contains(WidgetState.hovered);
+        final Color baseColor = isSelected
+            ? colors.surfaceInteractiveSelectedColor
+            : hovered || hasUnread
+            ? colors.textPrimary
+            : isMuted
+            ? colors.textTertiaryMuted
+            : colors.textPrimaryMuted;
+        final TextStyle subtextStyle = isSelected || hovered
+            ? fluxerDesktopRowSubtextStyle(context).copyWith(
+                color: fluxerCssColorMix(
+                  isSelected
+                      ? colors.surfaceInteractiveSelectedColor
+                      : colors.textPrimary,
+                  Colors.transparent,
+                  0.85,
+                ),
+              )
+            : fluxerDesktopRowSubtextStyle(context);
+        return Row(
+          children: <Widget>[
+            avatar,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      if (isPinned)
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 2.4),
+                          child: PhosphorIcon(
+                            PhosphorIconsFill.pushPin,
+                            size: 14,
+                            color: baseColor,
+                          ),
+                        ),
+                      Flexible(
+                        child: Text(
+                          displayName,
+                          style: fluxerDesktopRowTitleStyle(
+                            context,
+                          ).copyWith(color: baseColor),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (!c.isGroup && isBotOrSystemDmRecipient(c))
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 4),
+                          child: FluxerUserTag(isSystem: c.isSystem),
+                        ),
+                    ],
+                  ),
+                  DmListTileSubtext(
+                    conversation: c,
+                    style: subtextStyle,
+                    hasUnread: hasUnread,
+                    currentUserId: currentUserId,
+                  ),
+                ],
+              ),
+            ),
+            if (hovered)
+              FluxerButton.desktop(
+                icon: PhosphorIconsBold.x,
+                semanticLabel: c.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
+                color: baseColor,
+                hoverColor: baseColor,
+                hoverBackground: Colors.transparent,
+                onPressed: () => _closeDmFromRow(context, c, displayName),
+              ),
+          ],
+        );
+      },
+    );
+    return Stack(
+      clipBehavior: Clip.none,
+      children: <Widget>[
+        if (hasUnread) ChannelUnreadIndicator.positioned(faded: isMuted),
+        Opacity(opacity: isMuted && !isSelected ? 0.5 : 1, child: row),
+      ],
     );
   }
 

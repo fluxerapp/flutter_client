@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_card.dart';
@@ -9,11 +12,14 @@ import 'package:fluxer_dart/export.dart';
 
 const double discoveryGridMinCardWidth = 380;
 const double discoveryGridGap = 16;
+const double _kDesktopCardMinWidth = 320;
+const double _kDesktopCardMaxWidth = 400;
 
 List<Widget> buildDiscoveryGuildGridSlivers({
   required BuildContext context,
   required DiscoveryState state,
   required bool isMobile,
+  bool desktopPointer = false,
 }) {
   final colors = context.colors;
   final layout = context.layout;
@@ -43,6 +49,54 @@ List<Widget> buildDiscoveryGuildGridSlivers({
           ),
         ),
       ),
+    ];
+  }
+  if (desktopPointer) {
+    return <Widget>[
+      SliverPadding(
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
+        sliver: SliverLayoutBuilder(
+          builder: (BuildContext context, SliverConstraints constraints) {
+            final double width = constraints.crossAxisExtent;
+            final int columns = math.max(
+              1,
+              ((width + discoveryGridGap) /
+                      (_kDesktopCardMinWidth + discoveryGridGap))
+                  .floor(),
+            );
+            final double columnWidth =
+                ((width - discoveryGridGap * (columns - 1)) / columns)
+                    .clamp(0, _kDesktopCardMaxWidth)
+                    .toDouble();
+            final double gridWidth =
+                columnWidth * columns + discoveryGridGap * (columns - 1);
+            final double inset = math.max(0, (width - gridWidth) / 2);
+            return SliverPadding(
+              padding: EdgeInsets.only(
+                left: inset,
+                right: inset,
+                bottom: discoveryGridGap,
+              ),
+              sliver: SliverMasonryGrid.count(
+                crossAxisCount: columns,
+                mainAxisSpacing: discoveryGridGap,
+                crossAxisSpacing: discoveryGridGap,
+                childCount: state.guilds.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return DiscoveryGuildCard(guild: state.guilds[index]);
+                },
+              ),
+            );
+          },
+        ),
+      ),
+      if (state.isLoadingMore)
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Center(child: FluxerLoadingSpinner()),
+          ),
+        ),
     ];
   }
   return <Widget>[

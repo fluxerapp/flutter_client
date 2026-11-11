@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 class VoiceConnectionLocalControls extends ConsumerWidget {
@@ -37,6 +38,7 @@ class VoiceConnectionLocalControls extends ConsumerWidget {
         .maybeWhen(data: (bool value) => value, orElse: () => false);
     final bool canVideo = hasCamera && _canUseVideo(ref, voice.channelId);
     final bool canToggleCamera = isConnected && canVideo;
+    final bool desktop = usesDesktopPointerUi(context);
 
     final List<Widget> controls = <Widget>[];
     if (hasCamera) {
@@ -44,9 +46,13 @@ class VoiceConnectionLocalControls extends ConsumerWidget {
         Expanded(
           child: UserPanelMediaButton(
             icon: PhosphorIcon(
-              isCameraOn
-                  ? PhosphorIconsFill.videoCamera
-                  : PhosphorIconsFill.videoCameraSlash,
+              desktop
+                  ? (isCameraOn
+                        ? PhosphorIconsFill.camera
+                        : PhosphorIconsFill.cameraSlash)
+                  : (isCameraOn
+                        ? PhosphorIconsFill.videoCamera
+                        : PhosphorIconsFill.videoCameraSlash),
             ),
             isActive: isCameraOn,
             enabled: canToggleCamera,

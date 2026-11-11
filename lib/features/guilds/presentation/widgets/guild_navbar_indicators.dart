@@ -78,6 +78,9 @@ class _GuildBadge extends StatelessWidget {
   }
 }
 
+double _ringBadgeOffset(BuildContext context) =>
+    usesDesktopPointerUi(context) ? -7 : -4;
+
 class _VoiceActivityBadge extends StatelessWidget {
   final VoiceActivityType type;
 
@@ -96,9 +99,10 @@ class _VoiceActivityBadge extends StatelessWidget {
       case VoiceActivityType.none:
         return const SizedBox.shrink();
     }
+    final double size = usesDesktopPointerUi(context) ? 26 : 24;
     return Container(
-      width: 24,
-      height: 24,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: context.colors.statusOnline,
         shape: BoxShape.circle,

@@ -106,8 +106,6 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
 
-const double _kDesktopComposerAttachIconSize = 26;
-const double _kWideComposerActionExtent = WideComposerLayout.actionButtonExtent;
 const double _kWideComposerIconSize = 24;
 
 Widget _composerOpacity({
@@ -263,26 +261,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _composerFocused = false;
   final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
-  Widget _wideComposerIconButton({
-    required BuildContext context,
-    required IconData icon,
-    required VoidCallback? onPressed,
-    String? tooltip,
-    double iconSize = _kWideComposerIconSize,
-  }) {
-    return IconButton(
-      icon: PhosphorIcon(icon, size: iconSize),
-      color: context.colors.interactiveNormal,
-      tooltip: tooltip,
-      onPressed: onPressed,
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(
-        minWidth: _kWideComposerActionExtent,
-        minHeight: _kWideComposerActionExtent,
-      ),
-    );
-  }
-
   Widget _buildComposerActionButton({
     required BuildContext context,
     required IconData icon,
@@ -300,10 +278,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             semanticLabel: tooltip,
             onPressed: onPressed,
           )
-        : _wideComposerIconButton(
-            context: context,
+        : WideComposerMouseButton(
             icon: icon,
-            iconSize: iconSize,
             tooltip: tooltip,
             onPressed: onPressed,
           );
@@ -1382,12 +1358,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           builder: (BuildContext attachContext) {
                             return _buildComposerActionButton(
                               context: context,
-                              icon: touchActions
-                                  ? PhosphorIconsBold.plus
-                                  : PhosphorIconsFill.plusCircle,
-                              iconSize: touchActions
-                                  ? 20
-                                  : _kDesktopComposerAttachIconSize,
+                              icon: PhosphorIconsBold.plus,
+                              iconSize: 20,
                               tooltip: l10n.chatAttachmentSourceBrowse,
                               onPressed: perms.isAttachEnabled
                                   ? () => unawaited(
@@ -1397,7 +1369,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             );
                           },
                         ),
-                        const SizedBox(width: WideComposerLayout.actionGap),
+                        SizedBox(
+                          width: touchActions
+                              ? WideComposerLayout.actionGap
+                              : WideComposerLayout.mouseContentGap,
+                        ),
                       ],
                     ),
                   ),
@@ -1413,7 +1389,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       decoration: inputDecoration,
                     ),
                   ),
-                  const SizedBox(width: WideComposerLayout.actionGap),
+                  SizedBox(
+                    width: touchActions
+                        ? WideComposerLayout.actionGap
+                        : WideComposerLayout.mouseContentGap,
+                  ),
                   ListenableBuilder(
                     listenable: _controller,
                     builder: (BuildContext context, Widget? child) {
@@ -1476,8 +1456,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required List<ExpressionPickerTab> composerButtonTabs,
     required List<ExpressionPickerTab> popoutTabs,
   }) {
+    final bool touchActions = isTouchPrimaryInput(ref);
     return Row(
       mainAxisSize: MainAxisSize.min,
+      spacing: touchActions ? 0 : WideComposerLayout.mouseActionGap,
       children: [
         if (composerButtonTabs.contains(ExpressionPickerTab.gifs))
           FluxerEmojiPickerPopout(
@@ -1500,7 +1482,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: PhosphorIconsFill.gif,
+              icon: touchActions
+                  ? PhosphorIconsFill.gif
+                  : PhosphorIconsRegular.gif,
               tooltip: FluxerLocalizations.of(context).emojiTabGifs,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
@@ -1532,7 +1516,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: PhosphorIconsFill.image,
+              icon: touchActions
+                  ? PhosphorIconsFill.image
+                  : PhosphorIconsRegular.imageSquare,
               tooltip: FluxerLocalizations.of(context).emojiTabMedia,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
@@ -1564,7 +1550,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: PhosphorIconsFill.sticker,
+              icon: touchActions
+                  ? PhosphorIconsFill.sticker
+                  : PhosphorIconsRegular.sticker,
               tooltip: FluxerLocalizations.of(context).emojiTabStickers,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,5 +99,6 @@ double watchResolvedShellChannelSidebarWidth(
     windowSize: windowSize,
     layout: layout,
     userPreference: userPreference,
+    desktop: usesDesktopPointerUi(context),
   );
 }

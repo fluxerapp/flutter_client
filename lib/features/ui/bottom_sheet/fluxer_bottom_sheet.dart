@@ -1643,8 +1643,11 @@ class FluxerBottomSheetHeader extends StatelessWidget {
         : null;
 
     final bool inMenu = FluxerDesktopSurfaceScope.isMenu(context);
+    final bool inModal =
+        FluxerDesktopSurfaceScope.maybeOf(context) ==
+        FluxerDesktopSurface.modal;
     final bool alignStart =
-        inMenu || effectiveLeading != null || trailing != null;
+        inMenu || inModal || effectiveLeading != null || trailing != null;
 
     return Padding(
       padding: inMenu
@@ -1672,6 +1675,12 @@ class FluxerBottomSheetHeader extends StatelessWidget {
                           ? fluxerDesktopMenuLabelStyle(context).copyWith(
                               color: colors.textPrimary,
                               fontWeight: FontWeight.w600,
+                            )
+                          : inModal
+                          ? context.textStyles.channelName.copyWith(
+                              color: colors.textPrimary,
+                              fontSize: 18,
+                              height: 20 / 18,
                             )
                           : context.textStyles.channelName.copyWith(
                               color: colors.textPrimary,
@@ -1971,7 +1980,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
         labelColor ?? (isDanger ? colors.menuDangerText : colors.textPrimary);
 
     if (FluxerDesktopSurfaceScope.isMenu(context)) {
-      return _buildDesktopRow(context, baseColor);
+      return _buildDesktopRow(context);
     }
 
     return FluxerTappable(
@@ -2096,7 +2105,15 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
     );
   }
 
-  Widget _buildDesktopRow(BuildContext context, Color baseColor) {
+  Widget _buildDesktopRow(BuildContext context) {
+    final colors = context.colors;
+    final Color baseColor =
+        labelColor ??
+        (!enabled
+            ? colors.interactiveMuted
+            : isDanger
+            ? fluxerDesktopMenuDangerText(colors)
+            : colors.textPrimary);
     final Widget? iconWidget = icon == null
         ? null
         : PhosphorIcon(
@@ -2113,8 +2130,11 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
       selected: isSelected,
       toggled: toggled,
       labelColor: labelColor,
-      leading: leading ?? iconWidget,
-      trailing: trailing ?? (isSelected ? const FluxerSelectedCheck() : null),
+      leading: leading,
+      trailing:
+          trailing ??
+          (isSelected ? const FluxerSelectedCheck() : null) ??
+          iconWidget,
     );
   }
 }
@@ -2297,7 +2317,7 @@ class FluxerBottomSheetCheckboxItem extends StatelessWidget {
         label: label,
         onTap: onTap,
         checked: isChecked,
-        trailing: _FluxerDesktopCheckbox(isChecked: isChecked),
+        trailing: FluxerDesktopMenuCheckbox(isChecked: isChecked),
       );
     }
 

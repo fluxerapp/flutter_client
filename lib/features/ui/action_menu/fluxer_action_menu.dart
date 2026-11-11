@@ -1,5 +1,4 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
     show
         FluxerBottomSheet,
@@ -69,41 +68,16 @@ class FluxerActionMenu {
     required Offset position,
     required FluxerActionMenuBuilder builder,
   }) {
-    final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
-    final RenderObject? overlay = navigator.overlay?.context.findRenderObject();
-    final Offset localPosition = overlay is RenderBox
-        ? overlay.globalToLocal(position)
-        : position;
-
-    return pushFluxerDesktopRoute<void>(
+    return pushFluxerDesktopMenu<void>(
       context,
-      navigator: navigator,
-      surface: FluxerDesktopSurface.menu,
-      builder: (BuildContext menuContext) {
-        void close() {
-          final ModalRoute<dynamic>? route = ModalRoute.of(menuContext);
-          if (route == null || !route.isActive) {
-            return;
-          }
-          if (route.isCurrent) {
-            navigator.pop();
-          } else {
-            navigator.removeRoute(route);
-          }
-        }
-
-        return CustomSingleChildLayout(
-          delegate: FluxerDesktopAnchoredLayoutDelegate(
-            posture: deviceFoldPostureOf(menuContext),
-            position: localPosition,
-          ),
-          child: FluxerDesktopMenuPanel(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: builder(menuContext, close),
-              ),
+      position: position,
+      builder: (BuildContext menuContext, VoidCallback close) {
+        return FluxerDesktopMenuPanel.fitContent(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: builder(menuContext, close),
             ),
           ),
         );
@@ -219,30 +193,35 @@ class FluxerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color foreground = isDanger
-        ? context.colors.menuDangerText
-        : context.colors.textPrimary;
+    final colors = context.colors;
+    final Color foreground = !enabled
+        ? colors.interactiveMuted
+        : isDanger
+        ? fluxerDesktopMenuDangerText(colors)
+        : colors.textPrimary;
     final Color iconForeground = iconColor ?? foreground;
+    final Widget? iconWidget = icon == null
+        ? null
+        : PhosphorIcon(
+            icon!,
+            size: kFluxerDesktopMenuIconSize,
+            color: iconForeground,
+          );
+    final Widget? trailingIconWidget = trailingIcon == null
+        ? null
+        : PhosphorIcon(
+            trailingIcon!,
+            size: kFluxerDesktopMenuIconSize,
+            color: iconForeground,
+          );
     return FluxerDesktopMenuRow(
       label: label,
       hint: hint,
       onTap: onPressed,
       enabled: enabled,
       isDanger: isDanger,
-      leading: icon == null
-          ? null
-          : PhosphorIcon(
-              icon!,
-              size: kFluxerDesktopMenuIconSize,
-              color: iconForeground,
-            ),
-      trailing: trailingIcon == null
-          ? null
-          : PhosphorIcon(
-              trailingIcon!,
-              size: kFluxerDesktopMenuIconSize,
-              color: iconForeground,
-            ),
+      leading: trailingIconWidget == null ? null : iconWidget,
+      trailing: trailingIconWidget ?? iconWidget,
     );
   }
 }
@@ -272,6 +251,42 @@ class FluxerMenuRadioItem extends StatelessWidget {
       enabled: enabled,
       selected: isSelected,
       trailing: FluxerRadioIndicator(selected: isSelected),
+    );
+  }
+}
+
+class FluxerMenuCheckboxItem extends StatelessWidget {
+  const FluxerMenuCheckboxItem({
+    required this.label,
+    required this.onPressed,
+    required this.isChecked,
+    this.hint,
+    this.enabled = true,
+    this.isDanger = false,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+  final bool isChecked;
+  final String? hint;
+  final bool enabled;
+  final bool isDanger;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerDesktopMenuRow(
+      label: label,
+      hint: hint,
+      onTap: onPressed,
+      enabled: enabled,
+      isDanger: isDanger,
+      checked: isChecked,
+      trailingBuilder: (BuildContext context, {required bool highlighted}) =>
+          FluxerDesktopMenuCheckbox(
+            isChecked: isChecked,
+            dangerHighlighted: isDanger && highlighted,
+          ),
     );
   }
 }

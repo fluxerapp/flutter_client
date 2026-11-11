@@ -1376,6 +1376,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get incomingVoiceCallTitle => 'Входящо гласово повикване';
 
   @override
+  String get incomingVoiceCallSubtitle => 'Voice call';
+
+  @override
   String get incomingVoiceCallAccept => 'Приемане';
 
   @override
@@ -11924,6 +11927,33 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get quickSwitcherEmptyHint =>
       'Опитай с друго име или използвай префиксите @ / # / ! / *, за да филтрираш резултатите.';
+
+  @override
+  String get quickSwitcherTitle => 'Quick switcher';
+
+  @override
+  String quickSwitcherFooterPrefixHint(
+    String peoplePrefix,
+    String textChannelPrefix,
+    String voiceChannelPrefix,
+    String communityPrefix,
+  ) {
+    return 'Start searches with $peoplePrefix $textChannelPrefix $voiceChannelPrefix $communityPrefix to narrow down results.';
+  }
+
+  @override
+  String get discoverySidebarApps => 'Apps';
+
+  @override
+  String get discoverySidebarThemes => 'Themes';
+
+  @override
+  String get discoverySidebarComingSoon => 'Coming soon';
+
+  @override
+  String discoverySidebarComingSoonItem(String itemLabel) {
+    return '$itemLabel, coming soon';
+  }
 
   @override
   String get quickSwitcherSectionPeople => 'Хора';

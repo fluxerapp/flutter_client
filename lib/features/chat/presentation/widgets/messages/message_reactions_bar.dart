@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -16,6 +17,8 @@ import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
 const _kReactionEmojiSize = 19.0;
 const _kAddReactionIconSize = 19.0;
+const _kDesktopReactionEmojiSize = 20.0;
+const _kDesktopAddReactionIconSize = 20.0;
 
 typedef ReactionToggleCallback =
     void Function(String emoji, {String? emojiId, bool animated});
@@ -65,14 +68,16 @@ class MessageReactionsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool desktop = usesDesktopPointerUi(context);
     return ChatSurfaceTheme(
       builder: (BuildContext context) => Wrap(
         spacing: 4,
-        runSpacing: 4,
+        runSpacing: desktop ? 0 : 4,
         children: [
           for (final reaction in reactions)
             _ReactionChip(
               reaction: reaction,
+              desktop: desktop,
               onTap: () {
                 FluxerHaptics.selection();
                 onReactionTap(
@@ -93,6 +98,7 @@ class MessageReactionsBar extends StatelessWidget {
               channelId: channelId,
               onReaction: onReactionTap,
               isMobile: isMobile,
+              desktop: desktop,
             ),
         ],
       ),
@@ -103,16 +109,21 @@ class MessageReactionsBar extends StatelessWidget {
 class _ReactionChip extends StatelessWidget {
   const _ReactionChip({
     required this.reaction,
+    required this.desktop,
     required this.onTap,
     this.onLongPress,
   });
 
   final Reaction reaction;
+  final bool desktop;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
+    final double emojiSize = desktop
+        ? _kDesktopReactionEmojiSize
+        : _kReactionEmojiSize;
     final hasReacted = reaction.hasReacted;
     final String emojiName = reaction.emoji;
     return Semantics(
@@ -122,91 +133,157 @@ class _ReactionChip extends StatelessWidget {
       child: FluxerGestureDetector(
         onTap: onTap,
         onLongPress: onLongPress,
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: ExcludeSemantics(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-              decoration: BoxDecoration(
-                color: _chipBackground(context, hasReacted: hasReacted),
-                border: Border.all(
-                  color: _chipBorderColor(context, hasReacted: hasReacted),
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (reaction.isCustom)
-                    CachedEmojiImage(
-                      emojiId: reaction.emojiId!,
-                      animated: reaction.animated,
-                      requestSize: kCustomEmojiFetchSize,
-                      size: _kReactionEmojiSize,
-                      pauseWhenOffscreen: false,
-                    )
-                  else
-                    UnicodeEmojiWidget(
-                      emoji: reaction.emoji,
-                      size: _kReactionEmojiSize,
-                    ),
-                  const SizedBox(width: 6),
-                  Text(
-                    '${reaction.count}',
-                    style: context.textStyles.smallText.copyWith(
-                      color: _chipCountColor(context, hasReacted: hasReacted),
-                      fontWeight: FontWeight.w700,
-                    ),
+        child: ExcludeSemantics(
+          child: _ReactionChipSurface(
+            desktop: desktop,
+            hasReacted: hasReacted,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (reaction.isCustom)
+                  CachedEmojiImage(
+                    emojiId: reaction.emojiId!,
+                    animated: reaction.animated,
+                    requestSize: kCustomEmojiFetchSize,
+                    size: emojiSize,
+                    pauseWhenOffscreen: false,
+                  )
+                else
+                  UnicodeEmojiWidget(emoji: reaction.emoji, size: emojiSize),
+                const SizedBox(width: 6),
+                Text(
+                  '${reaction.count}',
+                  style: context.textStyles.smallText.copyWith(
+                    color: _chipCountColor(context, hasReacted: hasReacted),
+                    fontWeight: desktop ? FontWeight.w600 : FontWeight.w700,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+}
 
-  Color _chipBackground(BuildContext context, {required bool hasReacted}) {
-    final colors = context.colors;
-    if (hasReacted) {
-      return selectedReactionChipColors(context).background;
+class _ReactionChipSurface extends StatefulWidget {
+  const _ReactionChipSurface({
+    required this.desktop,
+    required this.hasReacted,
+    required this.child,
+  });
+
+  final bool desktop;
+  final bool hasReacted;
+  final Widget child;
+
+  @override
+  State<_ReactionChipSurface> createState() => _ReactionChipSurfaceState();
+}
+
+class _ReactionChipSurfaceState extends State<_ReactionChipSurface> {
+  bool _hovered = false;
+
+  void _setHovered(bool value) {
+    if (_hovered != value) {
+      setState(() => _hovered = value);
     }
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    if (isLight) {
-      return Color.lerp(
-        colors.backgroundSecondary,
-        colors.brandPrimaryLight,
-        0.06,
-      )!;
-    }
-    if (colors.backgroundSecondary == colors.backgroundPrimary) {
-      return colors.backgroundSecondaryAlt;
-    }
-    return colors.backgroundPrimary;
   }
 
-  Color _chipBorderColor(BuildContext context, {required bool hasReacted}) {
-    final colors = context.colors;
-    if (hasReacted) {
-      return selectedReactionChipColors(context).border;
-    }
-    if (Theme.of(context).brightness == Brightness.light) {
-      return Color.lerp(
-        colors.backgroundSecondary,
-        colors.brandPrimaryLight,
-        0.10,
-      )!;
-    }
-    return Colors.transparent;
+  @override
+  Widget build(BuildContext context) {
+    final bool desktop = widget.desktop;
+    final bool hasReacted = widget.hasReacted;
+    final bool hovered = _hovered && desktop;
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: desktop ? (_) => _setHovered(true) : null,
+      onExit: desktop ? (_) => _setHovered(false) : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        decoration: BoxDecoration(
+          color: hovered
+              ? (hasReacted
+                    ? selectedReactionChipColors(context).hover
+                    : _chipHoverBackground(context))
+              : _chipBackground(context, hasReacted: hasReacted),
+          border: Border.all(
+            color: hovered && !hasReacted
+                ? _chipHoverBorderColor(context)
+                : _chipBorderColor(context, hasReacted: hasReacted),
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: widget.child,
+      ),
+    );
   }
+}
 
-  Color _chipCountColor(BuildContext context, {required bool hasReacted}) {
-    if (!hasReacted) {
-      return context.colors.textTertiary;
-    }
-    return selectedReactionChipColors(context).foreground;
+Color _chipBackground(BuildContext context, {required bool hasReacted}) {
+  final colors = context.colors;
+  if (hasReacted) {
+    return selectedReactionChipColors(context).background;
   }
+  final isLight = Theme.of(context).brightness == Brightness.light;
+  if (isLight) {
+    return Color.lerp(
+      colors.backgroundSecondary,
+      colors.brandPrimaryLight,
+      0.06,
+    )!;
+  }
+  if (colors.backgroundSecondary == colors.backgroundPrimary) {
+    return colors.backgroundSecondaryAlt;
+  }
+  return colors.backgroundPrimary;
+}
+
+Color _chipHoverBackground(BuildContext context) {
+  final colors = context.colors;
+  if (Theme.of(context).brightness == Brightness.light) {
+    return fluxerCssColorMix(
+      colors.brandPrimaryLight,
+      colors.backgroundSecondary,
+      0.08,
+    );
+  }
+  return colors.backgroundModifierHover;
+}
+
+Color _chipHoverBorderColor(BuildContext context) {
+  final colors = context.colors;
+  if (Theme.of(context).brightness == Brightness.light) {
+    return fluxerCssColorMix(
+      colors.brandPrimary,
+      colors.backgroundSecondary,
+      0.12,
+    );
+  }
+  return colors.backgroundModifierAccent;
+}
+
+Color _chipBorderColor(BuildContext context, {required bool hasReacted}) {
+  final colors = context.colors;
+  if (hasReacted) {
+    return selectedReactionChipColors(context).border;
+  }
+  if (Theme.of(context).brightness == Brightness.light) {
+    return Color.lerp(
+      colors.backgroundSecondary,
+      colors.brandPrimaryLight,
+      0.10,
+    )!;
+  }
+  return Colors.transparent;
+}
+
+Color _chipCountColor(BuildContext context, {required bool hasReacted}) {
+  if (!hasReacted) {
+    return context.colors.textTertiary;
+  }
+  return selectedReactionChipColors(context).foreground;
 }
 
 class _InlineAddReactionButton extends StatefulWidget {
@@ -214,11 +291,13 @@ class _InlineAddReactionButton extends StatefulWidget {
     required this.channelId,
     required this.onReaction,
     required this.isMobile,
+    required this.desktop,
   });
 
   final String channelId;
   final ReactionToggleCallback onReaction;
   final bool isMobile;
+  final bool desktop;
 
   @override
   State<_InlineAddReactionButton> createState() =>
@@ -289,7 +368,9 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
             ),
             child: PhosphorIcon(
               PhosphorIconsFill.smiley,
-              size: _kAddReactionIconSize,
+              size: widget.isMobile || !widget.desktop
+                  ? _kAddReactionIconSize
+                  : _kDesktopAddReactionIconSize,
               color: isActive ? colors.textPrimary : colors.textTertiary,
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class WideSettingsModalOverlay extends StatelessWidget {
@@ -16,10 +17,10 @@ class WideSettingsModalOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EdgeInsets insets = wideSettingsModalInsets(
-      context,
-      maxModalWidth: maxModalWidth,
-    );
+    final bool desktop = usesDesktopPointerUi(context);
+    final EdgeInsets insets = desktop
+        ? wideSettingsDesktopModalInsets(context)
+        : wideSettingsModalInsets(context, maxModalWidth: maxModalWidth);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -35,7 +36,11 @@ class WideSettingsModalOverlay extends StatelessWidget {
             padding: insets,
             child: Center(
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: maxModalWidth),
+                constraints: BoxConstraints(
+                  maxWidth: desktop
+                      ? wideSettingsDesktopModalMaxWidth(context)
+                      : maxModalWidth,
+                ),
                 child: child,
               ),
             ),
