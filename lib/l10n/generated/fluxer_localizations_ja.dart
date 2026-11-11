@@ -7580,6 +7580,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessagesLoadError => 'メッセージを読み込めませんでした。';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'メッセージの読み込みに失敗しました';
 
   @override

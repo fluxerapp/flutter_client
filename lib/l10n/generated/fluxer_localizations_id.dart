@@ -7868,6 +7868,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Tidak dapat memuat pesan.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Pesan gagal dimuat';
 
   @override

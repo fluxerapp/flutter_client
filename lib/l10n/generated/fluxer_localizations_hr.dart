@@ -7913,6 +7913,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nije moguće učitati poruke.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Učitavanje poruka nije uspjelo';
 
   @override

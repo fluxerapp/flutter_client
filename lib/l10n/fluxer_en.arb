@@ -9965,6 +9965,14 @@
   "@chatMessagesLoadError": {
     "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
   },
+  "dmEmptyStateTitle": "No messages yet",
+  "@dmEmptyStateTitle": {
+    "description": "Title shown in an empty one-to-one direct message before anyone has sent a message."
+  },
+  "dmEmptyStateBody": "Send a message to start the conversation.",
+  "@dmEmptyStateBody": {
+    "description": "Body shown under the title in an empty one-to-one direct message."
+  },
   "chatMessagesFailedToLoad": "Messages failed to load",
   "@chatMessagesFailedToLoad": {
     "description": "Shown in a bottom bar when message history fails to load while scrolling in a channel."

@@ -7876,6 +7876,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Mesajlar yüklenemedi.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Mesajlar yüklenemedi';
 
   @override

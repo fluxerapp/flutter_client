@@ -7885,6 +7885,12 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Kunne ikke indlæse beskeder.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Kunne ikke indlæse beskeder';
 
   @override

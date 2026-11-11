@@ -7944,6 +7944,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nem sikerült betölteni az üzeneteket.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Az üzenetek betöltése sikertelen';
 
   @override

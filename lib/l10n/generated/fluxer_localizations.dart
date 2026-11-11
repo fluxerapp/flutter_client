@@ -12709,6 +12709,18 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t load messages.'**
   String get chatMessagesLoadError;
 
+  /// Title shown in an empty one-to-one direct message before anyone has sent a message.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get dmEmptyStateTitle;
+
+  /// Body shown under the title in an empty one-to-one direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a message to start the conversation.'**
+  String get dmEmptyStateBody;
+
   /// Shown in a bottom bar when message history fails to load while scrolling in a channel.
   ///
   /// In en, this message translates to:

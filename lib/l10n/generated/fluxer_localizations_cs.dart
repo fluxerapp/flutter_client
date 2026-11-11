@@ -7926,6 +7926,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nepodařilo se načíst zprávy.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Zprávy se nepodařilo načíst';
 
   @override

@@ -7573,6 +7573,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessagesLoadError => '메시지를 불러올 수 없습니다.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => '메시지를 불러오지 못했습니다';
 
   @override

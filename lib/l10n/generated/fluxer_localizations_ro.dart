@@ -7941,6 +7941,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nu am putut încărca mesajele.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Mesajele nu s-au putut încărca';
 
   @override

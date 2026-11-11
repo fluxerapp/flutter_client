@@ -7873,6 +7873,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Không thể tải tin nhắn.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Không tải được tin nhắn';
 
   @override

@@ -7976,6 +7976,12 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get chatMessagesLoadError => 'No se pudieron cargar los mensajes.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'No se pudieron cargar los mensajes';
 
   @override

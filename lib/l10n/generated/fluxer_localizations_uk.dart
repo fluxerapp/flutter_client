@@ -7961,6 +7961,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Не вдалося завантажити повідомлення.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Не вдалося завантажити повідомлення';
 
   @override

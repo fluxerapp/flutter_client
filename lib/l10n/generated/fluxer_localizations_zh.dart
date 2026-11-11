@@ -7417,6 +7417,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessagesLoadError => '无法加载消息。';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => '消息加载失败';
 
   @override

@@ -7902,6 +7902,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Viestien lataaminen epäonnistui.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Viestien lataus epäonnistui';
 
   @override

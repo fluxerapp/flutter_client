@@ -7905,6 +7905,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Kunde inte ladda meddelanden.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Det gick inte att ladda meddelanden';
 
   @override

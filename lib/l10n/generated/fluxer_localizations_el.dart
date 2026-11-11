@@ -7977,6 +7977,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Δεν ήταν δυνατή η φόρτωση μηνυμάτων.';
 
   @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+
+  @override
   String get chatMessagesFailedToLoad => 'Τα μηνύματα δεν φορτώθηκαν';
 
   @override
