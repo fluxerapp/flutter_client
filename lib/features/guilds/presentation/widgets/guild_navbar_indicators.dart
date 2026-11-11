@@ -54,24 +54,13 @@ class _GuildBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isPartnered) {
-      return Container(
-        width: 16,
-        height: 16,
-        decoration: BoxDecoration(
-          color: context.colors.brandPrimary,
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: PhosphorIcon(
-            PhosphorIconsBold.infinity,
-            color: context.colors.textOnBrandPrimary,
-            size: 10,
-          ),
-        ),
+      return FluxerBrandLogo(
+        size: 16,
+        symbolColor: context.colors.textOnBrandPrimary,
       );
     }
     return PhosphorIcon(
-      PhosphorIconsFill.sealCheck,
+      PhosphorIconsFill.checkCircle,
       color: context.colors.textPrimary,
       size: 16,
     );
