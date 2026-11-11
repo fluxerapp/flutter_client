@@ -3814,21 +3814,21 @@ class FluxerLocalizationsArt extends FluxerLocalizations {
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name li sitelen...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 en $name2 li sitelen...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1 en $name2 en $name3 li sietelen...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'jan mute li sitelen...';
 
   @override
   String get typingIndicatorHandful =>

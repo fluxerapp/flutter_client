@@ -513,34 +513,34 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get statusDontClear => 'Don\'t clear';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => '10 সেকেন্ডের জন্য';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 সেকেন্ড';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 মিনিট';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 মিনিট (আধঘন্টা)';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 ঘণ্টা';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 ঘণ্টা';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 ঘণ্টা';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 ঘণ্টা';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 ঘণ্টা (1 দিন)';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 দিন';
 
   @override
   String get statusDndDescription =>
@@ -586,13 +586,13 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get suspendedClosedTitle => 'Account closed';
 
   @override
-  String get suspendedWhatHappened => 'What happened';
+  String get suspendedWhatHappened => 'কী ঘটেছে';
 
   @override
-  String get suspendedWhy => 'Why';
+  String get suspendedWhy => 'কেন করা হয়েছে';
 
   @override
-  String get suspendedHowWeDecided => 'How we decided';
+  String get suspendedHowWeDecided => 'কিভাবে আমরা সিদ্ধান্ত নিলাম';
 
   @override
   String get suspendedHowToAppeal => 'How to appeal';
@@ -865,22 +865,22 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'A 4-digit tag will be added automatically to ensure uniqueness';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'জন্মতারিখ';
 
   @override
-  String get registerDateOfBirthDone => 'Done';
+  String get registerDateOfBirthDone => 'হয়ে গেছে';
 
   @override
   String get registerDateOfBirthNotSet => 'Not set';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'মাস';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'দিন';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'বছর';
 
   @override
   String registerConsentLinks(String links) {
@@ -1433,28 +1433,28 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => '15 মিনিটের জন্য';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => '30 মিনিটের (আধঘন্টার) জন্য';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => '1 ঘণ্টার জন্য';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => '3 ঘণ্টার জন্য';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => '4 ঘণ্টার জন্য';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => '8 ঘণ্টার জন্য';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => '24 ঘণ্টার (একদিনের) জন্য';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => '3 দিনের জন্য';
 
   @override
   String get dmMuteForever => 'Until I turn it back on';
@@ -3777,58 +3777,58 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get durationPermanent => 'Permanent';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 সেকেন্ড (1 মিনিট)';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 মিনিট';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 মিনিট';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 ঘণ্টা';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 ঘণ্টা';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 দিন';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 দিন';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 দিন';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 সপ্তাহ';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 সপ্তাহ';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 মাস';
 
   @override
   String get durationCustom => 'Custom…';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name লিখছেন…';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 আর $name2 লিখছেন…';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1, $name2 আর $name3 লিখছেন…';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'অনেকে লিখছেন…';
 
   @override
   String get typingIndicatorHandful =>
@@ -10945,7 +10945,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get pushRelayConsentDeclinedToastAction => 'Open settings';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & time';
+  String get userSettingsNavLanguageAndTime => 'ভাষা ও সময়';
 
   @override
   String get languageAndTimeLanguageSectionTitle => 'Interface language';
