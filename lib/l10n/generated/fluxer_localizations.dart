@@ -26631,6 +26631,24 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, one {{count} new message} other {{count} new messages}}'**
   String forumPostNewMessages(int count);
 
+  /// Short label in the footer of a forum post card, meaning a number of new messages. Keep it as short as possible, it shares one line with the message count and the time.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 new} other{{count} new}}'**
+  String forumPostNewMessagesShort(int count);
+
+  /// Short label in the footer of a forum post card when it has new messages but the number is unknown. Keep it as short as possible.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get forumPostHasNewMessagesShort;
+
+  /// Screen reader label in the footer of a forum post card when it has new messages but the number is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'New messages'**
+  String get forumPostHasNewMessages;
+
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
