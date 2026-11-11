@@ -5149,7 +5149,7 @@ class FluxerLocalizationsCa extends FluxerLocalizations {
       'When enabled, shortcut badges are hidden in tooltip popups.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Community list';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
@@ -5200,7 +5200,7 @@ class FluxerLocalizationsCa extends FluxerLocalizations {
 
   @override
   String lookAndFeelCollapseDMsDescription(String productName) {
-    return 'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
+    return 'When enabled, unread DMs in the community list are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
   }
 
   @override

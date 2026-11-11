@@ -6567,13 +6567,13 @@
   "@lookAndFeelHideKeyboardHintsDescription": {
     "description": "Toggle description for the hide-keyboard-hints switch."
   },
-  "lookAndFeelGuildSidebarTitle": "Guild sidebar",
+  "lookAndFeelGuildSidebarTitle": "Community list",
   "@lookAndFeelGuildSidebarTitle": {
-    "description": "Subsection title under Interface — guild sidebar config."
+    "description": "Subsection title under Interface for the community list settings."
   },
   "lookAndFeelGuildSidebarDescription": "Configure how direct messages and communities behave in the sidebar.",
   "@lookAndFeelGuildSidebarDescription": {
-    "description": "Subsection description for guild sidebar config."
+    "description": "Subsection description for the community list settings."
   },
   "guildUnavailableOutageTooltip": "{count, plural, =1{1 community is temporarily unavailable due to a flux capacitor malfunction.} other{{count} communities are temporarily unavailable due to a flux capacitor malfunction.}}",
   "@guildUnavailableOutageTooltip": {
@@ -6620,7 +6620,7 @@
   "@lookAndFeelCollapseDMsLabel": {
     "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
   },
-  "lookAndFeelCollapseDMsDescription": "When enabled, unread DMs in the guild sidebar are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.",
+  "lookAndFeelCollapseDMsDescription": "When enabled, unread DMs in the community list are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.",
   "@lookAndFeelCollapseDMsDescription": {
     "description": "Toggle description for the DM folder collapse behavior.",
     "placeholders": {

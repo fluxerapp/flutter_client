@@ -8312,13 +8312,13 @@ abstract class FluxerLocalizations {
   /// **'When enabled, shortcut badges are hidden in tooltip popups.'**
   String get lookAndFeelHideKeyboardHintsDescription;
 
-  /// Subsection title under Interface — guild sidebar config.
+  /// Subsection title under Interface for the community list settings.
   ///
   /// In en, this message translates to:
-  /// **'Guild sidebar'**
+  /// **'Community list'**
   String get lookAndFeelGuildSidebarTitle;
 
-  /// Subsection description for guild sidebar config.
+  /// Subsection description for the community list settings.
   ///
   /// In en, this message translates to:
   /// **'Configure how direct messages and communities behave in the sidebar.'**
@@ -8378,7 +8378,7 @@ abstract class FluxerLocalizations {
   /// Toggle description for the DM folder collapse behavior.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.'**
+  /// **'When enabled, unread DMs in the community list are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.'**
   String lookAndFeelCollapseDMsDescription(String productName);
 
   /// Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list.
