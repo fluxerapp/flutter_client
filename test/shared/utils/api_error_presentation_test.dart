@@ -73,7 +73,7 @@ void main() {
       'MAX_FRIENDS':
           'Your friends list is full, or theirs is. Remove someone and try again.',
       'NO_USERS_WITH_FLUXERTAG_EXIST': 'No user found with that username.',
-      'DISCRIMINATOR_REQUIRED': 'Enter a valid username (Username#0000).',
+      'DISCRIMINATOR_REQUIRED': 'Enter a username, then # and the 4-digit tag.',
     };
 
     for (final MapEntry<String, String> entry in expectedBodies.entries) {

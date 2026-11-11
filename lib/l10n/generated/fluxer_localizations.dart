@@ -2681,7 +2681,7 @@ abstract class FluxerLocalizations {
   /// Placeholder for the add friend username input.
   ///
   /// In en, this message translates to:
-  /// **'Username#0000'**
+  /// **'username#1234'**
   String get addFriendUsernameHint;
 
   /// Accessibility label for the add friend username input.
@@ -2705,7 +2705,7 @@ abstract class FluxerLocalizations {
   /// Error when the username format is invalid.
   ///
   /// In en, this message translates to:
-  /// **'Enter a valid username (Username#0000).'**
+  /// **'Enter a username, then # and the 4-digit tag.'**
   String get addFriendInvalidUsername;
 
   /// Success message after sending a friend request by tag.

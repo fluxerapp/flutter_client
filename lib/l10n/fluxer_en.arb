@@ -2033,7 +2033,7 @@
   "@addFriendSheetTitle": {
     "description": "Title for the mobile add friends bottom sheet."
   },
-  "addFriendUsernameHint": "Username#0000",
+  "addFriendUsernameHint": "username#1234",
   "@addFriendUsernameHint": {
     "description": "Placeholder for the add friend username input."
   },
@@ -2049,7 +2049,7 @@
   "@addFriendNoUserFound": {
     "description": "Error when no user matches the entered username."
   },
-  "addFriendInvalidUsername": "Enter a valid username (Username#0000).",
+  "addFriendInvalidUsername": "Enter a username, then # and the 4-digit tag.",
   "@addFriendInvalidUsername": {
     "description": "Error when the username format is invalid."
   },

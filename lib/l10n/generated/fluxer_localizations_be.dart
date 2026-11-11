@@ -1553,7 +1553,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get addFriendSheetTitle => 'Add friend';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'username#1234';
 
   @override
   String get addFriendUsernameLabel => 'Friend\'s username';
@@ -1566,7 +1566,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Enter a username, then # and the 4-digit tag.';
 
   @override
   String get addFriendOutgoingSuccess => 'Friend request sent';
