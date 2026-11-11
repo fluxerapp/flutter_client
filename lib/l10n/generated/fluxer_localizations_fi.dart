@@ -9699,11 +9699,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Tervetuloa kanavalle $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Tämä on alku $channelName:lle.';
   }

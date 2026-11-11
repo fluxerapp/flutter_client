@@ -9095,11 +9095,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return '欢迎来到 $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return '这是 $channelName 的开始。';
   }
@@ -25221,11 +25216,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
     return '由 $name 建立。將於 $time 過期。';
-  }
-
-  @override
-  String channelWelcomeHeading(String channelName) {
-    return '歡迎來到 $channelName';
   }
 
   @override

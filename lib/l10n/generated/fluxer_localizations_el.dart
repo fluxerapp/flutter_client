@@ -9803,11 +9803,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Καλώς ήρθατε στο $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Αυτή είναι η αρχή του $channelName.';
   }

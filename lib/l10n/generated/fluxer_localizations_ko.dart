@@ -9281,11 +9281,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return '$channelName에 오신 것을 환영합니다';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return '$channelName의 시작입니다.';
   }

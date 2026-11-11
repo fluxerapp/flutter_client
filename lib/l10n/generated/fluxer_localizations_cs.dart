@@ -9728,11 +9728,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Vítejte v kanálu $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Toto je začátek $channelName.';
   }

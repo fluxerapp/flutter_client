@@ -9770,11 +9770,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Ласкаво просимо до $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Це початок $channelName.';
   }

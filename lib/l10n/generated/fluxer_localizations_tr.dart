@@ -9677,11 +9677,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return '$channelName kanalına hoş geldiniz';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Bu, $channelName sohbetinin başlangıcı.';
   }

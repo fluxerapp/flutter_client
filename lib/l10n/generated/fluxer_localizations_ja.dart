@@ -9292,11 +9292,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return '$channelNameへようこそ';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return '$channelName の始まりです。';
   }

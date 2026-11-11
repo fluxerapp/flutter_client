@@ -9627,11 +9627,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'مرحباً بك في $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'هذه بداية $channelName.';
   }

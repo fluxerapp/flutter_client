@@ -9820,11 +9820,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Bienvenue sur $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Ceci est le début de $channelName.';
   }

@@ -9753,11 +9753,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Üdvözlünk a(z) $channelName csatornában';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Ez a(z) $channelName eleje.';
   }

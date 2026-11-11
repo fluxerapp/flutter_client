@@ -9788,11 +9788,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Bienvenido a $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Este es el inicio de $channelName.';
   }
@@ -27236,11 +27231,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
     return 'Creado por $name. Caduca en $time.';
-  }
-
-  @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Bienvenido a $channelName';
   }
 
   @override

@@ -9744,11 +9744,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Benvenuto in $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Questo è l\'inizio di $channelName.';
   }

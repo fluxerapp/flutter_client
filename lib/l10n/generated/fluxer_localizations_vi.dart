@@ -9671,11 +9671,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Chào mừng bạn đến với $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Đây là phần bắt đầu của $channelName.';
   }

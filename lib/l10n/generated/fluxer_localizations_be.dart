@@ -9631,13 +9631,8 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
-    return 'This is the start of $channelName.';
+    return 'There are no older messages in $channelName.';
   }
 
   @override

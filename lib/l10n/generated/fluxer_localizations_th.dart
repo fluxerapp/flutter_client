@@ -9591,11 +9591,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'ยินดีต้อนรับสู่ $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'นี่คือจุดเริ่มต้นของ $channelName';
   }

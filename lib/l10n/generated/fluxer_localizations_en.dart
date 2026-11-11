@@ -9631,13 +9631,8 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
-    return 'This is the start of $channelName.';
+    return 'There are no older messages in $channelName.';
   }
 
   @override
@@ -26746,11 +26741,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'This is the start of $channelName.';
   }
@@ -43554,11 +43544,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
     return 'Created by $name. Expires in $time.';
-  }
-
-  @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
   }
 
   @override

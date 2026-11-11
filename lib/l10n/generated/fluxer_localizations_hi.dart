@@ -9667,11 +9667,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return '$channelName में आपका स्वागत है';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'यह $channelName की शुरुआत है।';
   }

@@ -15759,16 +15759,10 @@ abstract class FluxerLocalizations {
   /// **'Created by {name}. Expires in {time}.'**
   String groupDmInviteCreatedByExpires(String name, String time);
 
-  /// Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).
+  /// Text under the channel title at the top of a community channel, shown above its oldest message and when the channel is empty. {channelName} already includes the leading # (e.g. #general).
   ///
   /// In en, this message translates to:
-  /// **'Welcome to {channelName}'**
-  String channelWelcomeHeading(String channelName);
-
-  /// Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).
-  ///
-  /// In en, this message translates to:
-  /// **'This is the start of {channelName}.'**
+  /// **'There are no older messages in {channelName}.'**
   String channelWelcomeDescription(String channelName);
 
   /// Placeholder in the message composer when viewing personal notes.

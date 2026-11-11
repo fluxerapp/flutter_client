@@ -9707,11 +9707,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String channelWelcomeHeading(String channelName) {
-    return 'Välkommen till $channelName';
-  }
-
-  @override
   String channelWelcomeDescription(String channelName) {
     return 'Det här är början på $channelName.';
   }
