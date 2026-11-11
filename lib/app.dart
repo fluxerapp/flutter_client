@@ -126,7 +126,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
       instanceRuntimeConfigProvider.select((config) => config.productName),
     );
     if (isFluxerDesktopOs) {
-      desktopMainWindow?.title = productName;
+      setDesktopMainWindowTitle(productName);
     }
 
     return FluxerAppZoomScope(

@@ -16,20 +16,9 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
-import 'package:nativeapi/nativeapi.dart' show DisplayManager;
 import 'package:window_manager/window_manager.dart';
 
 const kNativeTitlebarHeight = 32.0;
-
-void _popUpWindowMenu() {
-  final Window? window = desktopMainWindow;
-  if (window == null || !Window.isSystemMenuSupported()) {
-    return;
-  }
-  final Offset cursor = DisplayManager.instance.getCursorPosition().toOffset();
-  final Offset origin = window.contentBounds.toRect().topLeft;
-  window.showSystemMenu((cursor - origin).toNative());
-}
 
 class NativeTitlebar extends ConsumerWidget {
   const NativeTitlebar({super.key});
@@ -54,7 +43,7 @@ class NativeTitlebar extends ConsumerWidget {
     return Material(
       color: context.colors.backgroundSecondaryAlt,
       child: FluxerGestureDetector(
-        onSecondaryTap: _popUpWindowMenu,
+        onSecondaryTap: popUpDesktopMainWindowMenu,
         child: SizedBox(
           height: kNativeTitlebarHeight,
           child: Stack(
@@ -100,16 +89,16 @@ class NativeTitlebar extends ConsumerWidget {
                           color: context.colors.borderColor,
                         ),
                       ),
-                      _WindowButton(
+                      const _WindowButton(
                         icon: PhosphorIconsBold.minus,
-                        onPressed: () => desktopMainWindow?.minimize(),
+                        onPressed: minimizeDesktopMainWindow,
                       ),
                       const _MaximizeButton(),
                       _WindowButton(
                         icon: PhosphorIconsBold.x,
                         hoverColor: context.colors.textDanger,
                         hoverIconColor: context.colors.textOnBrandPrimary,
-                        onPressed: () => desktopMainWindow?.close(),
+                        onPressed: closeDesktopMainWindow,
                       ),
                     ],
                   ],
@@ -144,63 +133,19 @@ class NativeTitlebar extends ConsumerWidget {
   }
 }
 
-class _MaximizeButton extends StatefulWidget {
+class _MaximizeButton extends StatelessWidget {
   const _MaximizeButton();
 
   @override
-  State<_MaximizeButton> createState() => _MaximizeButtonState();
-}
-
-class _MaximizeButtonState extends State<_MaximizeButton> {
-  bool _isMaximized = false;
-  ListenerId? _listenerId;
-
-  @override
-  void initState() {
-    super.initState();
-    final Window? window = desktopMainWindow;
-    if (window != null) {
-      _isMaximized = window.isMaximized;
-      _listenerId = window.addListener(_onWindowEvent);
-    }
-  }
-
-  @override
-  void dispose() {
-    final ListenerId? listenerId = _listenerId;
-    if (listenerId != null) {
-      desktopMainWindow?.removeListener(listenerId);
-    }
-    super.dispose();
-  }
-
-  void _onWindowEvent(WindowEvent event) {
-    if (event is! WindowMaximizedEvent && event is! WindowRestoredEvent) {
-      return;
-    }
-    final bool isMaximized = desktopMainWindow?.isMaximized ?? false;
-    if (mounted && isMaximized != _isMaximized) {
-      setState(() => _isMaximized = isMaximized);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return _WindowButton(
-      icon: _isMaximized
-          ? PhosphorIconsBold.cornersIn
-          : PhosphorIconsBold.square,
-      onPressed: () {
-        final Window? window = desktopMainWindow;
-        if (window == null) {
-          return;
-        }
-        if (window.isMaximized) {
-          window.unmaximize();
-        } else {
-          window.maximize();
-        }
-      },
+    return ListenableBuilder(
+      listenable: desktopMainWindow,
+      builder: (BuildContext context, _) => _WindowButton(
+        icon: desktopMainWindow.isMaximized
+            ? PhosphorIconsBold.cornersIn
+            : PhosphorIconsBold.square,
+        onPressed: toggleMaximizeDesktopMainWindow,
+      ),
     );
   }
 }

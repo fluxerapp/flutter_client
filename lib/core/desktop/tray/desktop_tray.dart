@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart' show WidgetsBinding;
@@ -9,18 +10,10 @@ import 'package:fluxer_app/core/desktop/tray/desktop_tray_state.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/desktop_behavior_preferences_provider.dart';
-import 'package:nativeapi/nativeapi.dart' show Application;
 import 'package:tray_manager/tray_manager.dart';
-import 'package:window_manager/window_manager.dart'
-    show
-        WindowBlurredEvent,
-        WindowCloseRequestedEvent,
-        WindowEvent,
-        WindowFocusedEvent,
-        WindowMinimizedEvent,
-        WindowRestoredEvent;
+import 'package:window_manager/window_manager.dart';
 
-class DesktopTray {
+class DesktopTray with TrayListener, WindowListener {
   DesktopTray._(this._container) {
     _actions = DesktopTrayActions(
       _container,
@@ -33,9 +26,9 @@ class DesktopTray {
 
   final ProviderContainer _container;
   late final DesktopTrayActions _actions;
-  TrayIcon? _trayIcon;
-  DesktopTrayMenu? _menu;
+  bool _trayVisible = false;
   bool _quitting = false;
+  String? _visibilityLabelShown;
 
   static Future<void> start(ProviderContainer container) async {
     if (_instance != null) {
@@ -54,7 +47,9 @@ class DesktopTray {
 
   Future<void> _start() async {
     await _container.read(desktopBehaviorPreferencesProvider.notifier).load();
-    desktopMainWindow?.addListener(_onWindowEvent);
+    windowManager.addListener(this);
+    trayManager.addListener(this);
+    desktopMainWindow.addListener(_syncVisibilityLabel);
     WidgetsBinding.instance.addPostFrameCallback((_) => _attach());
   }
 
@@ -74,46 +69,35 @@ class DesktopTray {
   void _applyPreferences(DesktopBehaviorPreferencesState preferences) {
     if (!preferences.showTrayIcon) {
       _disposeTray();
-    } else if (_trayIcon == null) {
-      _createTray();
+    } else if (!_trayVisible) {
+      unawaited(_createTray());
     }
   }
 
-  void _createTray() {
-    final TrayIcon? trayIcon = TrayIcon.create();
-    if (trayIcon == null) {
-      talker.warning('[DesktopTray] Unable to create tray icon');
+  Future<void> _createTray() async {
+    _trayVisible = true;
+    try {
+      await trayManager.setIcon(
+        desktopTrayIconAsset(),
+        isTemplate: Platform.isMacOS,
+      );
+    } on Object catch (error, stackTrace) {
+      _trayVisible = false;
+      talker.error(
+        '[DesktopTray] Unable to create tray icon',
+        error,
+        stackTrace,
+      );
       return;
     }
-    final Image? icon = ImageAsset.fromAsset(desktopTrayIconAsset());
-    if (icon == null) {
-      talker.warning('[DesktopTray] Tray icon asset could not be loaded');
-      trayIcon.dispose();
-      return;
-    }
-    trayIcon
-      ..isIconTemplate = Platform.isMacOS
-      ..icon = icon
-      ..setContextMenuTrigger(
-        Platform.isMacOS
-            ? ContextMenuTrigger.clicked
-            : ContextMenuTrigger.rightClicked,
-      )
-      ..addListener(_onTrayEvent)
-      ..setVisible(true);
-    _trayIcon = trayIcon;
     _rebuildMenu(_menuState);
   }
 
   void _disposeTray() {
-    final TrayIcon? trayIcon = _trayIcon;
-    _trayIcon = null;
-    _menu?.disposeLater();
-    _menu = null;
-    if (trayIcon != null) {
-      trayIcon
-        ..setContextMenu(null)
-        ..dispose();
+    if (_trayVisible) {
+      _trayVisible = false;
+      _visibilityLabelShown = null;
+      unawaited(_guard('destroy', trayManager.destroy));
     }
     if (!_quitting && !isDesktopMainWindowShown()) {
       _showWindow();
@@ -121,64 +105,65 @@ class DesktopTray {
   }
 
   void _rebuildMenu(DesktopTrayMenuState state) {
-    final TrayIcon? trayIcon = _trayIcon;
-    if (trayIcon == null) {
+    if (!_trayVisible) {
       return;
     }
-    final DesktopTrayMenu? menu = DesktopTrayMenu.build(
+    final String visibilityLabel = _visibilityLabel(state);
+    _visibilityLabelShown = visibilityLabel;
+    final Menu menu = buildDesktopTrayMenu(
       state: state,
-      visibilityLabel: _visibilityLabel(state),
+      visibilityLabel: visibilityLabel,
       onToggleWindow: _toggleWindow,
       actions: _actions,
     );
-    if (menu == null) {
+    unawaited(
+      _guard('update menu', () async {
+        if (!Platform.isLinux) {
+          await trayManager.setToolTip(state.productName);
+        }
+        await trayManager.setContextMenu(menu);
+      }),
+    );
+  }
+
+  Future<void> _guard(String action, Future<void> Function() run) async {
+    try {
+      await run();
+    } on Object catch (error, stackTrace) {
+      talker.warning('[DesktopTray] Failed to $action', error, stackTrace);
+    }
+  }
+
+  @override
+  void onTrayIconMouseDown() {
+    if (Platform.isMacOS) {
+      unawaited(_guard('open menu', trayManager.popUpContextMenu));
+    } else {
+      _toggleWindow();
+    }
+  }
+
+  @override
+  void onTrayIconRightMouseDown() {
+    unawaited(_guard('open menu', trayManager.popUpContextMenu));
+  }
+
+  @override
+  void onWindowClose() {
+    if (_quitting) {
       return;
     }
-    final DesktopTrayMenu? previous = _menu;
-    _menu = menu;
-    trayIcon
-      ..setTooltip(state.productName)
-      ..setContextMenu(menu.menu);
-    previous?.disposeLater();
-  }
-
-  void _onTrayEvent(TrayIconEvent event) {
-    switch (event) {
-      case TrayIconClickedEvent():
-        if (!Platform.isMacOS) {
-          _toggleWindow();
-        }
-      case TrayIconDoubleClickedEvent():
-        _showWindow();
-      case TrayIconRightClickedEvent():
-        if (Platform.isMacOS) {
-          _trayIcon?.openContextMenu();
-        }
+    if (_preferences.closeToTray && _trayVisible) {
+      _hideWindow();
+    } else {
+      _quit();
     }
   }
 
-  void _onWindowEvent(WindowEvent event) {
-    switch (event) {
-      case WindowCloseRequestedEvent(:final request):
-        if (_quitting) {
-          return;
-        }
-        if (_preferences.closeToTray) {
-          request.cancel();
-          _hideWindow();
-        }
-      case WindowMinimizedEvent():
-        if (_preferences.minimizeToTray && _trayIcon != null) {
-          _hideWindow();
-        } else {
-          _syncVisibilityLabel();
-        }
-      case WindowRestoredEvent() ||
-          WindowFocusedEvent() ||
-          WindowBlurredEvent():
-        _syncVisibilityLabel();
-      default:
-        break;
+  @override
+  void onWindowMinimize() {
+    if (_preferences.minimizeToTray && _trayVisible) {
+      _hideWindow();
     }
   }
 
@@ -189,17 +174,17 @@ class DesktopTray {
   }
 
   void _syncVisibilityLabel() {
-    _menu?.visibilityItem?.label = _visibilityLabel(_menuState);
+    if (_trayVisible && _visibilityLabel(_menuState) != _visibilityLabelShown) {
+      _rebuildMenu(_menuState);
+    }
   }
 
   void _showWindow() {
     revealDesktopMainWindow();
-    _syncVisibilityLabel();
   }
 
   void _hideWindow() {
     hideDesktopMainWindow();
-    _syncVisibilityLabel();
   }
 
   void _toggleWindow() {
@@ -211,8 +196,11 @@ class DesktopTray {
   }
 
   void _quit() {
+    if (_quitting) {
+      return;
+    }
     _quitting = true;
     _disposeTray();
-    Application.instance.quit(0);
+    unawaited(quitDesktopApp());
   }
 }

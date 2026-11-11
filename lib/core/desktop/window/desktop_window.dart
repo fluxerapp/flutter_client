@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
@@ -16,10 +17,7 @@ TitleBarStyle? _titleBarStyle() {
 }
 
 Future<void> configureDesktopWindow() async {
-  final Window? window = desktopMainWindow;
-  if (window == null) {
-    return;
-  }
+  await windowManager.ensureInitialized();
 
   final (
     DesktopWindowState? saved,
@@ -39,47 +37,40 @@ Future<void> configureDesktopWindow() async {
     savedArea ?? primary,
   );
 
-  final TitleBarStyle? titleBarStyle = _titleBarStyle();
-  if (titleBarStyle != null) {
-    window
-      ..titleBarStyle = titleBarStyle
-      ..isWindowControlButtonsVisible = true;
-  }
-  if (window.isFullScreen) {
-    window.isFullScreen = false;
-  }
-  if (window.isMaximized) {
-    window.unmaximize();
-  }
-  if (window.isMinimized) {
-    window.restore();
-  }
-  window
-    ..setSize(size.toNative(), false)
-    ..minimumSize = kDesktopWindowMinimumSize.toNative();
+  await windowManager.waitUntilReadyToShow(
+    WindowOptions(
+      size: size,
+      minimumSize: kDesktopWindowMinimumSize,
+      center: savedArea == null,
+      titleBarStyle: _titleBarStyle(),
+      windowButtonVisibility: Platform.isMacOS ? true : null,
+    ),
+  );
   if (saved != null && savedArea != null) {
-    window.position = clampIntoWorkArea(
-      saved.bounds.topLeft,
-      size,
-      savedArea,
-    ).toNative();
-  } else {
-    window.center();
+    await windowManager.setPosition(
+      clampIntoWorkArea(saved.bounds.topLeft, size, savedArea),
+    );
+  }
+  if (!Platform.isMacOS) {
+    await windowManager.setPreventClose(true);
   }
 
-  DesktopWindowStateTracker(window, window.bounds.toRect()).attach();
+  await desktopMainWindow.attach();
+  windowManager.addListener(
+    DesktopWindowStateTracker(await windowManager.getBounds()),
+  );
 
   final bool maximized = saved?.maximized ?? false;
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    _showDesktopWindow(window, maximized: maximized);
+    unawaited(_showDesktopWindow(maximized: maximized));
   });
 }
 
-void _showDesktopWindow(Window window, {required bool maximized}) {
+Future<void> _showDesktopWindow({required bool maximized}) async {
   if (maximized) {
-    window.maximize();
+    await windowManager.maximize();
   }
-  window
-    ..show()
-    ..focus();
+  await windowManager.show();
+  await windowManager.focus();
+  await desktopMainWindow.refresh();
 }

@@ -71,28 +71,26 @@ Future<void> saveDesktopWindowState(DesktopWindowState state) async {
   }
 }
 
-class DesktopWindowStateTracker {
-  DesktopWindowStateTracker(this._window, this._normalBounds);
+class DesktopWindowStateTracker with WindowListener {
+  DesktopWindowStateTracker(this._normalBounds);
 
-  final Window _window;
   Rect _normalBounds;
   Timer? _debounce;
 
-  void attach() {
-    _window.addListener(_onEvent);
-  }
+  @override
+  void onWindowResize() => _scheduleSave();
 
-  void _onEvent(WindowEvent event) {
-    switch (event) {
-      case WindowResizedEvent() ||
-          WindowMovedEvent() ||
-          WindowMaximizedEvent() ||
-          WindowRestoredEvent():
-        _scheduleSave();
-      default:
-        break;
-    }
-  }
+  @override
+  void onWindowMove() => _scheduleSave();
+
+  @override
+  void onWindowMaximize() => _scheduleSave();
+
+  @override
+  void onWindowUnmaximize() => _scheduleSave();
+
+  @override
+  void onWindowRestore() => _scheduleSave();
 
   void _scheduleSave() {
     _debounce?.cancel();
@@ -100,12 +98,18 @@ class DesktopWindowStateTracker {
   }
 
   Future<void> _save() async {
-    if (_window.isFullScreen || _window.isMinimized) {
+    final bool maximized;
+    try {
+      if (await windowManager.isFullScreen() ||
+          await windowManager.isMinimized()) {
+        return;
+      }
+      maximized = await windowManager.isMaximized();
+      if (!maximized) {
+        _normalBounds = await windowManager.getBounds();
+      }
+    } on Object {
       return;
-    }
-    final bool maximized = _window.isMaximized;
-    if (!maximized) {
-      _normalBounds = _window.bounds.toRect();
     }
     await saveDesktopWindowState(
       DesktopWindowState(bounds: _normalBounds, maximized: maximized),

@@ -11,100 +11,55 @@ import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:tray_manager/tray_manager.dart';
 
-const int _statusRadioGroup = 1;
-const int _accountRadioGroup = 2;
-
-class DesktopTrayMenu {
-  DesktopTrayMenu._(this.menu, this.visibilityItem, this._disposers);
-
-  final Menu menu;
-  final MenuItem? visibilityItem;
-  final List<VoidCallback> _disposers;
-
-  void disposeLater() {
-    Timer.run(() {
-      for (final VoidCallback dispose in _disposers) {
-        dispose();
-      }
-    });
-  }
-
-  static DesktopTrayMenu? build({
-    required DesktopTrayMenuState state,
-    required String visibilityLabel,
-    required VoidCallback onToggleWindow,
-    required DesktopTrayActions actions,
-  }) {
-    final Menu? menu = Menu.create();
-    if (menu == null) {
-      return null;
-    }
-    final _MenuBuilder builder = _MenuBuilder(menu);
-    final MenuItem? visibilityItem = builder.item(
-      menu,
-      visibilityLabel,
-      onToggleWindow,
-    );
-    builder
-      ..accountSection(state, actions)
-      ..voiceSection(state, actions)
-      ..appSection(state, actions);
-    return DesktopTrayMenu._(menu, visibilityItem, builder.disposers);
-  }
+Menu buildDesktopTrayMenu({
+  required DesktopTrayMenuState state,
+  required String visibilityLabel,
+  required VoidCallback onToggleWindow,
+  required DesktopTrayActions actions,
+}) {
+  final _MenuBuilder builder = _MenuBuilder();
+  builder
+    ..item(builder.root, visibilityLabel, onToggleWindow)
+    ..accountSection(state, actions)
+    ..voiceSection(state, actions)
+    ..appSection(state, actions);
+  return Menu(items: builder.root);
 }
 
 class _MenuBuilder {
-  _MenuBuilder(this.root) : disposers = <VoidCallback>[root.dispose];
+  final List<MenuItem> root = <MenuItem>[];
 
-  final Menu root;
-  final List<VoidCallback> disposers;
-
-  MenuItem? item(
-    Menu target,
+  void item(
+    List<MenuItem> target,
     String label,
     VoidCallback onClick, {
-    int? radioGroup,
-    bool checked = false,
+    bool? checked,
   }) {
-    final MenuItem? item = MenuItem.createWithLabelAndType(
-      label,
-      radioGroup == null ? MenuItemType.normal : MenuItemType.radio,
+    void onItemClick(MenuItem _) => _runMenuAction(onClick);
+    target.add(
+      checked == null
+          ? MenuItem(label: label, onClick: onItemClick)
+          : MenuItem.checkbox(
+              label: label,
+              checked: checked,
+              onClick: onItemClick,
+            ),
     );
-    if (item == null) {
-      return null;
-    }
-    if (radioGroup != null) {
-      item
-        ..radioGroup = radioGroup
-        ..state = checked ? MenuItemState.checked : MenuItemState.unchecked;
-    }
-    item.addListener((MenuEvent event) {
-      if (event is MenuItemClickedEvent) {
-        _runMenuAction(onClick);
-      }
-    });
-    target.addItem(item);
-    disposers.add(item.dispose);
-    return item;
   }
 
-  Menu? submenu(String label) {
-    final Menu? submenu = Menu.create();
-    final MenuItem? item = MenuItem.createWithLabelAndType(
-      label,
-      MenuItemType.submenu,
+  List<MenuItem> submenu(String label) {
+    final List<MenuItem> items = <MenuItem>[];
+    root.add(
+      MenuItem.submenu(
+        label: label,
+        submenu: Menu(items: items),
+      ),
     );
-    if (submenu == null || item == null) {
-      submenu?.dispose();
-      item?.dispose();
-      return null;
-    }
-    item.submenu = submenu;
-    root.addItem(item);
-    disposers
-      ..add(item.dispose)
-      ..add(submenu.dispose);
-    return submenu;
+    return items;
+  }
+
+  void separator(List<MenuItem> target) {
+    target.add(MenuItem.separator());
   }
 
   void accountSection(DesktopTrayMenuState state, DesktopTrayActions actions) {
@@ -113,37 +68,30 @@ class _MenuBuilder {
     }
     final FluxerLocalizations l10n = state.l10n;
     item(root, l10n.desktopTrayOpenSettings, actions.openSettings);
-    root.addSeparator();
-    final Menu? statusMenu = submenu(l10n.desktopTrayStatus);
-    if (statusMenu != null) {
-      for (final PresenceStatus status in kSelectablePresenceStatuses) {
-        final String value = status.json ?? 'online';
-        item(
-          statusMenu,
-          presenceStatusLabel(value, l10n),
-          () => actions.setStatus(status),
-          radioGroup: _statusRadioGroup,
-          checked: state.presenceStatus == value,
-        );
-      }
+    separator(root);
+    final List<MenuItem> statusMenu = submenu(l10n.desktopTrayStatus);
+    for (final PresenceStatus status in kSelectablePresenceStatuses) {
+      final String value = status.json ?? 'online';
+      item(
+        statusMenu,
+        presenceStatusLabel(value, l10n),
+        () => actions.setStatus(status),
+        checked: state.presenceStatus == value,
+      );
     }
     if (state.accounts.isEmpty) {
       return;
     }
-    final Menu? accountsMenu = submenu(l10n.desktopTrayAccounts);
-    if (accountsMenu == null) {
-      return;
-    }
+    final List<MenuItem> accountsMenu = submenu(l10n.desktopTrayAccounts);
     for (final DesktopTrayAccount account in state.accounts) {
       item(
         accountsMenu,
         account.label,
         () => unawaited(actions.switchAccount(account.userId)),
-        radioGroup: _accountRadioGroup,
         checked: account.isCurrent,
       );
     }
-    accountsMenu.addSeparator();
+    separator(accountsMenu);
     item(accountsMenu, l10n.accountManageTitle, actions.openAccountSwitcher);
   }
 
@@ -153,7 +101,7 @@ class _MenuBuilder {
     }
     final FluxerLocalizations l10n = state.l10n;
     final String? channelLabel = state.voiceChannelLabel;
-    root.addSeparator();
+    separator(root);
     item(
       root,
       state.selfMute ? l10n.desktopTrayUnmuteMic : l10n.desktopTrayMuteMic,
@@ -175,7 +123,7 @@ class _MenuBuilder {
 
   void appSection(DesktopTrayMenuState state, DesktopTrayActions actions) {
     final FluxerLocalizations l10n = state.l10n;
-    root.addSeparator();
+    separator(root);
     if (state.updaterEnabled) {
       if (state.updateAvailable) {
         item(
@@ -191,7 +139,7 @@ class _MenuBuilder {
       l10n.desktopTrayCopyBuildInfo,
       () => unawaited(actions.copyBuildInfo()),
     );
-    root.addSeparator();
+    separator(root);
     item(
       root,
       l10n.desktopTrayRestart(state.productName),
