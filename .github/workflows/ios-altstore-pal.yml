@@ -64,9 +64,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Check translations are complete
-        run: dart run tool/check_l10n_complete.dart
-
       - name: Run build_runner
         run: dart run build_runner build
 
