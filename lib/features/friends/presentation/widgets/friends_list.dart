@@ -32,7 +32,7 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 
-const _kActiveNowMinWidth = 1100.0;
+const _kActiveNowMinPaneWidth = 1100.0;
 const _kActiveNowWidth = 352.0;
 
 class FriendsList extends ConsumerWidget {
@@ -51,46 +51,49 @@ class FriendsList extends ConsumerWidget {
       appearancePreferencesProvider.select((s) => s.showActiveNow),
     );
 
-    final showActiveNow =
-        showActiveNowPref &&
-        MediaQuery.sizeOf(context).width >= _kActiveNowMinWidth;
-
     return ColoredBox(
       color: context.colors.chatBackground,
       child: SafeArea(
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  _buildTopBar(
-                    context,
-                    ref,
-                    activeTab,
-                    showActiveNow: showActiveNow,
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final bool showActiveNow =
+                showActiveNowPref &&
+                constraints.maxWidth >= _kActiveNowMinPaneWidth;
+            return Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      _buildTopBar(
+                        context,
+                        ref,
+                        activeTab,
+                        showActiveNow: showActiveNow,
+                      ),
+                      Divider(color: context.colors.borderColor, height: 1),
+                      _buildSearchBar(context, ref, activeTab),
+                      _buildSectionHeader(
+                        context,
+                        activeTab: activeTab,
+                        friendCount: filteredFriends.length,
+                        desktop: usesDesktopPointerUi(context),
+                      ),
+                      Expanded(
+                        child: _buildFriendsList(
+                          context,
+                          ref,
+                          activeTab: activeTab,
+                          filteredFriends: filteredFriends,
+                          searchQuery: searchQuery,
+                        ),
+                      ),
+                    ],
                   ),
-                  Divider(color: context.colors.borderColor, height: 1),
-                  _buildSearchBar(context, ref, activeTab),
-                  _buildSectionHeader(
-                    context,
-                    activeTab: activeTab,
-                    friendCount: filteredFriends.length,
-                    desktop: usesDesktopPointerUi(context),
-                  ),
-                  Expanded(
-                    child: _buildFriendsList(
-                      context,
-                      ref,
-                      activeTab: activeTab,
-                      filteredFriends: filteredFriends,
-                      searchQuery: searchQuery,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (showActiveNow) _buildActiveNowPanel(context),
-          ],
+                ),
+                if (showActiveNow) _buildActiveNowPanel(context),
+              ],
+            );
+          },
         ),
       ),
     );
