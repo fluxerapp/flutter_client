@@ -212,7 +212,7 @@ class MessageThreadChip extends ConsumerWidget {
       child: Align(
         alignment: AlignmentDirectional.centerStart,
         child: Material(
-          color: context.colors.backgroundSecondaryAlt,
+          color: context.colors.backgroundHeaderSecondary,
           borderRadius: BorderRadius.circular(8),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
@@ -233,7 +233,7 @@ class MessageThreadChip extends ConsumerWidget {
                   PhosphorIcon(
                     PhosphorIconsBold.chatsCircle,
                     size: 16,
-                    color: context.colors.textPrimaryMuted,
+                    color: context.colors.textSecondary,
                   ),
                   const SizedBox(width: 8),
                   Flexible(
