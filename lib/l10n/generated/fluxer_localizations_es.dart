@@ -11097,7 +11097,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Abrir ajustes';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Idioma y hora';
@@ -23735,6 +23735,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get voiceOutputRouteHeadset => 'Auriculares';
 
   @override
+  String get voiceOutputRouteBluetooth => 'Bluetooth';
+
+  @override
   String get voiceChangeAudioOutputLabel => 'Cambiar salida de audio';
 
   @override
@@ -28248,6 +28251,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get pushRelayConsentDecline => 'Ahora no';
+
+  @override
+  String get pushRelayConsentDeclinedToastAction => 'Abrir configuración';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Idioma y hora';

@@ -8600,6 +8600,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "เปิดการตั้งค่า",
     "addGuildCreateGuidelinesLink": "แนวทางปฏิบัติของชุมชน {productName}",
     "@addGuildCreateGuidelinesLink": {
         "description": "Link label for community guidelines on the create sub-view.",
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "บลูทูธ",
     "doubleTapReactionEdit": "แก้ไข",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

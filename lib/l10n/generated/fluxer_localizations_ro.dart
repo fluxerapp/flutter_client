@@ -11050,7 +11050,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Deschide setările';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Limbă și timp';

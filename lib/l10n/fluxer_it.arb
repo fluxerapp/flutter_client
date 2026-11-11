@@ -11353,6 +11353,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Apri impostazioni",
     "guildSettingsInvitesTitle": "Inviti",
     "@guildSettingsInvitesTitle": {
         "description": "Title for the invites settings tab."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Modifica",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

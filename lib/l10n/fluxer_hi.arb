@@ -11403,6 +11403,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "सेटिंग्स खोलें",
     "userSettingsNavLanguageAndTime": "भाषा और समय",
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."
@@ -16121,6 +16122,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "ब्लूटूथ",
     "doubleTapReactionEdit": "एडिट करें",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

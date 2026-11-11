@@ -9106,6 +9106,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "設定を開く",
     "mentionConfirmRoleBody": "{count}人のメンバーに{roleName}ロールを通知します。続行しますか？",
     "@mentionConfirmRoleBody": {
         "description": "Body of the large role mention confirmation dialog.",
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "編集",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

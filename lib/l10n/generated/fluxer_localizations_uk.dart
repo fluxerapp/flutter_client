@@ -11069,7 +11069,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Відкрити налаштування';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Мова та час';

@@ -8910,6 +8910,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Avaa asetukset",
     "languageAndTimeLanguageSectionTitle": "Käyttöliittymän kieli",
     "@languageAndTimeLanguageSectionTitle": {
         "description": "Settings section title for interface language preference."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Muokkaa",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

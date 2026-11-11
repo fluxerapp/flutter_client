@@ -10968,7 +10968,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Åbn indstillinger';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Sprog og tid';

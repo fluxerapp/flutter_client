@@ -6474,7 +6474,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'سماعات الرأس';
 
   @override
-  String get voiceOutputRouteBluetooth => 'Bluetooth';
+  String get voiceOutputRouteBluetooth => 'بلوتوث';
 
   @override
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
@@ -10903,7 +10903,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'فتح الإعدادات';
 
   @override
   String get userSettingsNavLanguageAndTime => 'اللغة والوقت';

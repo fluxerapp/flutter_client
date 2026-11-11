@@ -9886,6 +9886,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Åbn indstillinger",
     "languageAndTimeTimeFormat24Hour": "24-timers",
     "@languageAndTimeTimeFormat24Hour": {
         "description": "Time format option for 24-hour display."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Rediger",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

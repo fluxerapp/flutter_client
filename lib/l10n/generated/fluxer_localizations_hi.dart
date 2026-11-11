@@ -6471,7 +6471,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'हेडफ़ोन';
 
   @override
-  String get voiceOutputRouteBluetooth => 'Bluetooth';
+  String get voiceOutputRouteBluetooth => 'ब्लूटूथ';
 
   @override
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
@@ -10946,7 +10946,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'सेटिंग्स खोलें';
 
   @override
   String get userSettingsNavLanguageAndTime => 'भाषा और समय';

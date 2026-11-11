@@ -6097,6 +6097,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Abrir configurações",
     "userSettingsNavLanguageAndTime": "Idioma e Hora",
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."
@@ -11028,6 +11029,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "voicePanelOnlyShowVideosLabel": "Mostrar apenas vídeos",
     "@voicePanelOnlyShowVideosLabel": {
         "description": "Switch label to hide voice participants who do not have their camera on."

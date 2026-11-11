@@ -10977,7 +10977,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Åpne innstillinger';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Språk og tid';

@@ -11062,7 +11062,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Beállítások megnyitása';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Nyelv és idő';

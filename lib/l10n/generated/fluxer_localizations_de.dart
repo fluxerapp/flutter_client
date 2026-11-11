@@ -11093,7 +11093,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Einstellungen öffnen';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Sprache & Uhrzeit';

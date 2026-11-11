@@ -6241,7 +6241,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '헤드폰';
 
   @override
-  String get voiceOutputRouteBluetooth => 'Bluetooth';
+  String get voiceOutputRouteBluetooth => '블루투스';
 
   @override
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
@@ -10515,7 +10515,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => '설정 열기';
 
   @override
   String get userSettingsNavLanguageAndTime => '언어 및 시간';

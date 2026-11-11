@@ -14499,6 +14499,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Abrir configuración",
     "languageAndTimeLanguageSectionDescription": "Elige el idioma que se usará en toda la app",
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
@@ -16321,6 +16322,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "appIconOptionDefault": "Predeterminado",
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."

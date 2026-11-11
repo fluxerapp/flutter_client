@@ -10964,7 +10964,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Mở cài đặt';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Ngôn ngữ & Thời gian';

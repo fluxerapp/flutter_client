@@ -11266,6 +11266,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "فتح الإعدادات",
     "channelDetailsEditChannel": "تعديل القناة",
     "@channelDetailsEditChannel": {
         "description": "Channel details menu action to edit a guild channel."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "بلوتوث",
     "doubleTapReactionEdit": "تعديل",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

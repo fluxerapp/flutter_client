@@ -8941,6 +8941,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "開啟設定",
     "voiceJoinFailedTitle": "無法加入語音",
     "@voiceJoinFailedTitle": {
         "description": "Title for the modal shown when a voice join attempt fails."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "藍牙",
     "doubleTapReactionEdit": "編輯",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

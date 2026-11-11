@@ -8865,6 +8865,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Відкрити налаштування",
     "createDmUnaddableIntro": "Цих людей не можна додати до цього групового чату:",
     "@createDmUnaddableIntro": {
         "description": "Intro text listing users who cannot be added to a group DM."
@@ -16112,6 +16113,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Редагувати",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

@@ -11025,7 +11025,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Instellingen openen';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Taal en tijd';

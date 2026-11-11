@@ -11009,7 +11009,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Otvori postavke';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Jezik i vrijeme';

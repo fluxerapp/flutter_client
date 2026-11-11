@@ -10813,7 +10813,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'פתח הגדרות';
 
   @override
   String get userSettingsNavLanguageAndTime => 'שפה ושעה';

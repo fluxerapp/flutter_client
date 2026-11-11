@@ -11077,7 +11077,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Atidaryti nustatymus';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Kalba ir laikas';

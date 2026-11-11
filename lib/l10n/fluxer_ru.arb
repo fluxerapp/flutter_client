@@ -11562,6 +11562,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Открыть настройки",
     "channelSettingsEditCategory": "Изменить категорию",
     "@channelSettingsEditCategory": {
         "description": "Context menu action to edit a category."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Изменить",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

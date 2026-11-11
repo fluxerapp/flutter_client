@@ -11284,6 +11284,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Abrir ajustes",
     "channelSettingsMatureContentSectionDescription": "Anular la configuración de nivel {scopeLevel} para este canal. El contenido para adultos se mostrará tras una pantalla de confirmación antes de entrar.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -16103,6 +16104,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Editar",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

@@ -11021,7 +11021,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Otevřít nastavení';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Jazyk a čas';

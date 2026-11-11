@@ -6123,7 +6123,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => '耳机';
 
   @override
-  String get voiceOutputRouteBluetooth => 'Bluetooth';
+  String get voiceOutputRouteBluetooth => '蓝牙';
 
   @override
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
@@ -10299,7 +10299,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => '打开设置';
 
   @override
   String get userSettingsNavLanguageAndTime => '语言与时间';
@@ -21970,6 +21970,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get voiceOutputRouteHeadset => '耳機';
 
   @override
+  String get voiceOutputRouteBluetooth => '藍牙';
+
+  @override
   String get voiceChangeAudioOutputLabel => '變更音訊輸出';
 
   @override
@@ -26129,6 +26132,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get pushRelayConsentDecline => '暫時不要';
+
+  @override
+  String get pushRelayConsentDeclinedToastAction => '開啟設定';
 
   @override
   String get userSettingsNavLanguageAndTime => '語言與時間';

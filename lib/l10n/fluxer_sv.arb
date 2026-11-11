@@ -8686,6 +8686,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "Öppna inställningar",
     "voiceJoinFailedTitle": "Kunde inte ansluta till röstsamtal",
     "@voiceJoinFailedTitle": {
         "description": "Title for the modal shown when a voice join attempt fails."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "Bluetooth",
     "doubleTapReactionEdit": "Redigera",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

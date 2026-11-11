@@ -11688,6 +11688,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "打开设置",
     "systemPermissionMicrophoneMessage": "{productName} 没有麦克风访问权限。你可以在设备隐私设置中启用它。",
     "@systemPermissionMicrophoneMessage": {
         "description": "Body text when microphone access must be enabled in system settings.",
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "蓝牙",
     "doubleTapReactionEdit": "编辑",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."

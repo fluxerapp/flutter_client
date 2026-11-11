@@ -8779,6 +8779,7 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
+    "pushRelayConsentDeclinedToastAction": "설정 열기",
     "permissionManageRolesDescription": "본인의 최고 역할보다 낮은 역할을 생성, 수정 또는 삭제합니다. 채널 권한 재정의도 수정할 수 있습니다.",
     "@permissionManageRolesDescription": {
         "description": "Permission description."
@@ -16104,6 +16105,7 @@
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
+    "voiceOutputRouteBluetooth": "블루투스",
     "doubleTapReactionEdit": "편집",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
