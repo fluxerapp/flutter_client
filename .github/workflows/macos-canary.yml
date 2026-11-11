@@ -245,6 +245,15 @@ jobs:
             --keychain "$KEYCHAIN_PATH"
           rm -f "$KEY_PATH"
 
+      - name: Sign nested frameworks
+        run: |
+          FRAMEWORKS_DIR="$APP_PATH/Contents/Frameworks"
+          find "$FRAMEWORKS_DIR" -maxdepth 1 \( -name "*.framework" -o -name "*.dylib" \) -print0 \
+            | while IFS= read -r -d '' item; do
+                codesign --force --timestamp --options runtime --sign "$APP_IDENTITY" --keychain "$KEYCHAIN_PATH" "$item"
+              done
+          codesign --verify --strict --verbose=1 "$FRAMEWORKS_DIR"/*.framework "$FRAMEWORKS_DIR"/*.dylib
+
       - name: Download previous release for delta packages
         run: |
           mkdir -p Releases
@@ -269,7 +278,29 @@ jobs:
             --signAppIdentity "$APP_IDENTITY" \
             --signInstallIdentity "$INSTALLER_IDENTITY" \
             --signEntitlements "$ENTITLEMENTS_PATH" \
+            --signDisableDeep \
             --notaryProfile fluxer-oxygen-notary
+
+      - name: Verify packaged app and updater launch
+        run: |
+          VERIFY_DIR="$RUNNER_TEMP/vpk-verify"
+          rm -rf "$VERIFY_DIR"
+          mkdir -p "$VERIFY_DIR"
+          PORTABLE_ZIP="$(find Releases -maxdepth 1 -name '*-Portable.zip' -newer "$RUNNER_TEMP/vpk-pack.marker" | head -1)"
+          ditto -x -k "$PORTABLE_ZIP" "$VERIFY_DIR"
+          VERIFY_APP="$(find "$VERIFY_DIR" -maxdepth 1 -name '*.app' | head -1)"
+          codesign --verify --deep --strict --verbose=1 "$VERIFY_APP"
+          spctl -a -vv "$VERIFY_APP"
+          echo "UpdateMac entitlements:"
+          codesign -d --entitlements - "$VERIFY_APP/Contents/MacOS/UpdateMac" 2>/dev/null || true
+          set +e
+          "$VERIFY_APP/Contents/MacOS/UpdateMac" --help >/dev/null 2>&1
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -ge 128 ]; then
+            echo "::error::UpdateMac was killed on launch (exit $STATUS); its code signature or entitlements are invalid."
+            exit 1
+          fi
 
       - name: Lay out release feed
         run: |
