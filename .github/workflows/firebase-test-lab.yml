@@ -102,6 +102,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
+          flutter-version: 3.47.9
 
       - name: Set up Rust for the native markdown parser
         run: |
