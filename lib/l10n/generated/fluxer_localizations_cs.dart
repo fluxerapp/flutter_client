@@ -298,9 +298,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get nagbarEnableNotifications => 'Zapnout oznámení';
 
   @override
-  String get welcomeBack => 'Vítejte zpět';
-
-  @override
   String get email => 'E-mail';
 
   @override
@@ -366,6 +363,19 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get register => 'Registrovat se';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => 'NEBO';

@@ -395,10 +395,6 @@
   "@nagbarEnableNotifications": {
     "description": "Push notification permission nagbar CTA."
   },
-  "welcomeBack": "Welcome back",
-  "@welcomeBack": {
-    "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-  },
   "email": "Email",
   "@email": {
     "description": "Generic label for an email field."
@@ -481,6 +477,28 @@
   "register": "Register",
   "@register": {
     "description": "Generic label to create a new account."
+  },
+  "loginHeading": "Sign in to {productName}",
+  "@loginHeading": {
+    "description": "Heading on the sign-in screen. {productName} is the name of the instance the user is signing in to, for example Fluxer.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "loginNewAccountPrompt": "New to {productName}? ",
+  "@loginNewAccountPrompt": {
+    "description": "Lead text before the create account link on the sign-in screen. The trailing space keeps spacing before the link.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "loginCreateAccountLink": "Create an account",
+  "@loginCreateAccountLink": {
+    "description": "Link on the sign-in screen that opens the registration screen."
   },
   "orDivider": "OR",
   "@orDivider": {

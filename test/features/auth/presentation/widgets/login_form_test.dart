@@ -74,6 +74,29 @@ void main() {
     expect(state.canLogin, isTrue);
   });
 
+  testWidgets('names the instance in the heading and the account prompt', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          authInstanceSnapshotProvider.overrideWith(
+            (ref) => InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: _app(const LoginForm()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sign in to Fluxer'), findsOneWidget);
+    expect(find.text('New to Fluxer? '), findsOneWidget);
+    expect(find.text('Create an account'), findsOneWidget);
+    expect(find.text('Welcome back'), findsNothing);
+    expect(find.text('Register'), findsNothing);
+  });
+
   testWidgets('updating email in the view model syncs to the input field', (
     tester,
   ) async {

@@ -205,6 +205,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
       ),
     );
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
+    final String productName = ref.watch(
+      authInstanceRuntimeConfigProvider.select((config) => config.productName),
+    );
 
     ref
       ..listen(loginViewModelProvider.select((state) => state.email), (
@@ -230,7 +233,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
           children: [
             Center(
               child: Text(
-                widget.heading ?? strings.welcomeBack,
+                widget.heading ?? strings.loginHeading(productName),
                 style: context.textStyles.heading,
               ),
             ),
@@ -368,14 +371,14 @@ class _LoginFormState extends ConsumerState<LoginForm>
               children: [
                 Flexible(
                   child: Text(
-                    strings.needAccountPrompt,
+                    strings.loginNewAccountPrompt(productName),
                     style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textTertiary,
                     ),
                   ),
                 ),
                 FluxerTextLink(
-                  text: strings.register,
+                  text: strings.loginCreateAccountLink,
                   onTap: notifier.showRegisterScreen,
                   style: context.textStyles.bodySmall,
                 ),

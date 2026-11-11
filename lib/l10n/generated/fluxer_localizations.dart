@@ -560,12 +560,6 @@ abstract class FluxerLocalizations {
   /// **'Enable notifications'**
   String get nagbarEnableNotifications;
 
-  /// Greeting on the login screen; usable wherever returning users are welcomed.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome back'**
-  String get welcomeBack;
-
   /// Generic label for an email field.
   ///
   /// In en, this message translates to:
@@ -667,6 +661,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Register'**
   String get register;
+
+  /// Heading on the sign-in screen. {productName} is the name of the instance the user is signing in to, for example Fluxer.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to {productName}'**
+  String loginHeading(String productName);
+
+  /// Lead text before the create account link on the sign-in screen. The trailing space keeps spacing before the link.
+  ///
+  /// In en, this message translates to:
+  /// **'New to {productName}? '**
+  String loginNewAccountPrompt(String productName);
+
+  /// Link on the sign-in screen that opens the registration screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get loginCreateAccountLink;
 
   /// Divider between alternative actions (e.g. email login vs SSO).
   ///

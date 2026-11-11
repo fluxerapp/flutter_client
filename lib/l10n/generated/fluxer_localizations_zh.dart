@@ -282,9 +282,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get nagbarEnableNotifications => '开启通知';
 
   @override
-  String get welcomeBack => '欢迎回来';
-
-  @override
   String get email => '邮箱';
 
   @override
@@ -347,6 +344,19 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get register => '注册';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => '或';
@@ -16587,9 +16597,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get nagbarEnableNotifications => '開啟通知';
-
-  @override
-  String get welcomeBack => '歡迎回來';
 
   @override
   String get email => '電子郵件';

@@ -297,9 +297,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get nagbarEnableNotifications => 'Activează notificările';
 
   @override
-  String get welcomeBack => 'Bine ai revenit';
-
-  @override
   String get email => 'E-mail';
 
   @override
@@ -366,6 +363,19 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get register => 'Înregistrare';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => 'SAU';

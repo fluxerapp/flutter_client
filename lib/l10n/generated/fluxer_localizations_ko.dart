@@ -285,9 +285,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get nagbarEnableNotifications => '알림 켜기';
 
   @override
-  String get welcomeBack => '다시 오신 것을 환영합니다';
-
-  @override
   String get email => '이메일';
 
   @override
@@ -351,6 +348,19 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get register => '가입하기';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => '또는';

@@ -295,9 +295,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get nagbarEnableNotifications => 'Értesítések engedélyezése';
 
   @override
-  String get welcomeBack => 'Üdv újra';
-
-  @override
   String get email => 'E-mail';
 
   @override
@@ -365,6 +362,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get register => 'Regisztráció';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => 'VAGY';
