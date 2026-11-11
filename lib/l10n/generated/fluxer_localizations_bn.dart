@@ -10363,7 +10363,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Animated profile and badge, and a custom tag number';
 
   @override
   String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';

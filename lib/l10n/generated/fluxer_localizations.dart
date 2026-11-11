@@ -16974,7 +16974,7 @@ abstract class FluxerLocalizations {
   /// No description provided for @storePlutoniumHighlightProfile.
   ///
   /// In en, this message translates to:
-  /// **'Animated profile, badge, and custom 4-digit number'**
+  /// **'Animated profile and badge, and a custom tag number'**
   String get storePlutoniumHighlightProfile;
 
   /// No description provided for @storePlutoniumHighlightFiles.
