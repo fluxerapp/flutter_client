@@ -117,35 +117,12 @@ class UserArea extends ConsumerWidget {
                                 ),
                                 SizedBox(width: layout.s2),
                                 Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        user.displayName,
-                                        style: context.textStyles.label
-                                            .copyWith(height: 18 / 14),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 1),
-                                      Text(
-                                        formatUserTag(
-                                          user.username,
-                                          user.discriminator,
-                                          uniqueUsernames: true,
-                                        ),
-                                        style: context.textStyles.timestamp
-                                            .copyWith(
-                                              color: colors.textPrimaryMuted
-                                                  .withValues(alpha: 0.85),
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w500,
-                                              height: 16 / 11,
-                                            ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
+                                  child: Text(
+                                    user.displayName,
+                                    style: context.textStyles.label.copyWith(
+                                      height: 18 / 14,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
