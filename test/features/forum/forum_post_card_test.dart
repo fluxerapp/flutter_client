@@ -42,7 +42,7 @@ const Channel _forum = Channel(
   defaultReactionEmojiJson: '{"emoji_id":null,"emoji_name":"👍"}',
 );
 
-ForumPostCardData _data({int unreadCount = 4}) {
+ForumPostCardData _data({int unreadCount = 4, bool thumbnail = false}) {
   final DateTime twoDaysAgo = DateTime.now().subtract(
     const Duration(days: 2, hours: 1),
   );
@@ -71,6 +71,18 @@ ForumPostCardData _data({int unreadCount = 4}) {
           'with the one you would join and when you are free.',
       timestamp: twoDaysAgo,
       reactions: const <Reaction>[Reaction(emoji: '👍', count: 17)],
+      attachments: thumbnail
+          ? const <Attachment>[
+              Attachment(
+                id: '300',
+                filename: 'photo.png',
+                url: 'https://media.invalid/photo.png',
+                contentType: 'image/png',
+                width: 800,
+                height: 600,
+              ),
+            ]
+          : const <Attachment>[],
     ),
     unreadCount: unreadCount,
     hasUnread: unreadCount > 0,
@@ -108,6 +120,9 @@ void main() {
   testWidgets('a 390 pt list card keeps every footer part on one line', (
     WidgetTester tester,
   ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
     await tester.pumpWidget(
       _app(
         ForumPostCard(
@@ -128,6 +143,43 @@ void main() {
     expect(_footerText('2d'), findsOneWidget);
     _expectOneLine(tester, <String>['17', '1.2K', '4 new', '2d']);
     _expectNoClippedText(tester);
+  });
+
+  testWidgets('the footer spans the card under the thumbnail', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final Map<bool, Rect> footers = <bool, Rect>{};
+    final Map<bool, double> timeRight = <bool, double>{};
+    for (final bool thumbnail in <bool>[false, true]) {
+      await tester.pumpWidget(
+        _app(
+          ForumPostCard(
+            data: _data(thumbnail: thumbnail),
+            onTap: () {},
+            showReaction: true,
+            onToggleReaction: () {},
+          ),
+          width: 390,
+        ),
+      );
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      footers[thumbnail] = tester.getRect(
+        find.byKey(const ValueKey<String>('forumPostFooter')),
+      );
+      timeRight[thumbnail] = tester.getRect(_footerText('2d')).right;
+      if (thumbnail) {
+        final Rect image = tester.getRect(find.byType(ClipRRect).last);
+        expect(image.width, 80);
+        expect(footers[thumbnail]!.top, greaterThanOrEqualTo(image.bottom));
+        expect(footers[thumbnail]!.right, closeTo(image.right, 0.5));
+      }
+    }
+    expect(footers[true]!.width, closeTo(footers[false]!.width, 0.5));
+    expect(timeRight[true], closeTo(timeRight[false]!, 0.5));
   });
 
   testWidgets('a wide list card keeps the same footer on one line', (

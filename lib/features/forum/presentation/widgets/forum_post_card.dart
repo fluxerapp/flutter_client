@@ -157,65 +157,67 @@ class ForumPostCard extends StatelessWidget {
               : cardBackground,
           borderRadius: layout.radiusXl,
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  if (tags.isNotEmpty) ...<Widget>[
-                    Wrap(
-                      spacing: layout.s1,
-                      runSpacing: layout.s1,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        for (final ForumTagResponse tag in tags.take(
-                          forumCardMaxTags,
-                        ))
-                          ForumTagChip(tag: tag, compact: true),
-                        if (tags.length > forumCardMaxTags)
-                          Text(
-                            '+${tags.length - forumCardMaxTags}',
-                            style: context.textStyles.smallText.copyWith(
-                              color: colors.textTertiary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (tags.isNotEmpty) ...<Widget>[
+                        Wrap(
+                          spacing: layout.s1,
+                          runSpacing: layout.s1,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: <Widget>[
+                            for (final ForumTagResponse tag in tags.take(
+                              forumCardMaxTags,
+                            ))
+                              ForumTagChip(tag: tag, compact: true),
+                            if (tags.length > forumCardMaxTags)
+                              Text(
+                                '+${tags.length - forumCardMaxTags}',
+                                style: context.textStyles.smallText.copyWith(
+                                  color: colors.textTertiary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: layout.s2),
                       ],
+                      _ForumPostTitle(data: data),
+                      if (!data.authorBlocked) ...<Widget>[
+                        SizedBox(height: layout.s1),
+                        _ForumPostSnippet(data: data),
+                      ],
+                    ],
+                  ),
+                ),
+                if (previewUrl != null) ...<Widget>[
+                  SizedBox(width: layout.s3),
+                  ClipRRect(
+                    borderRadius: layout.radiusMd,
+                    child: _ForumPreviewImage(
+                      url: previewUrl,
+                      width: forumCardThumbnailSize(context),
+                      height: forumCardThumbnailSize(context),
                     ),
-                    SizedBox(height: layout.s2),
-                  ],
-                  _ForumPostTitle(data: data),
-                  if (!data.authorBlocked) ...<Widget>[
-                    SizedBox(height: layout.s1),
-                    _ForumPostSnippet(data: data),
-                  ],
-                  SizedBox(height: layout.s2),
-                  _ForumPostMeta(
-                    data: data,
-                    l10n: l10n,
-                    reaction: showReaction
-                        ? _DefaultReactionButton(
-                            data: data,
-                            onTap: onToggleReaction,
-                          )
-                        : null,
                   ),
                 ],
-              ),
+              ],
             ),
-            if (previewUrl != null) ...<Widget>[
-              SizedBox(width: layout.s3),
-              ClipRRect(
-                borderRadius: layout.radiusMd,
-                child: _ForumPreviewImage(
-                  url: previewUrl,
-                  width: forumCardThumbnailSize(context),
-                  height: forumCardThumbnailSize(context),
-                ),
-              ),
-            ],
+            SizedBox(height: layout.s2),
+            _ForumPostMeta(
+              data: data,
+              l10n: l10n,
+              reaction: showReaction
+                  ? _DefaultReactionButton(data: data, onTap: onToggleReaction)
+                  : null,
+            ),
           ],
         ),
       ),
