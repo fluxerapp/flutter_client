@@ -1,14 +1,13 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/messages/message_content_stripper.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_name_resolvers.dart';
 import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts.dart';
 import 'package:fluxer_app/features/voice/tts/tts_should_speak.dart';
 import 'package:fluxer_app/features/voice/tts/tts_text_formatter.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
 const int kTtsRecentMessageIdCapacity = 10;
@@ -130,7 +129,7 @@ Future<String?> buildIncomingTtsText({
   final String? guildId = channel?.guildId;
 
   if (!message.isUserMessage) {
-    final String authorName = await _resolveUserDisplayName(
+    final String authorName = await resolveMessageUserDisplayName(
       database: database,
       userId: message.authorId,
       guildId: guildId,
@@ -144,7 +143,7 @@ Future<String?> buildIncomingTtsText({
     );
   }
 
-  final String authorName = await _resolveUserDisplayName(
+  final String authorName = await resolveMessageUserDisplayName(
     database: database,
     userId: message.authorId,
     guildId: guildId,
@@ -166,7 +165,7 @@ Future<String?> buildIncomingTtsText({
       message.replyToId!,
     );
     if (replyRow != null) {
-      replyAuthorName = await _resolveUserDisplayName(
+      replyAuthorName = await resolveMessageUserDisplayName(
         database: database,
         userId: replyRow.authorId,
         guildId: guildId,
@@ -175,16 +174,17 @@ Future<String?> buildIncomingTtsText({
     }
   }
 
-  final Map<String, String> userNames = await _resolveUserMentions(
+  final Map<String, String> userNames = await resolveMessageUserMentionNames(
     database: database,
     guildId: guildId,
     content: content,
   );
-  final Map<String, String> channelNames = await _resolveChannelMentions(
-    database: database,
-    content: content,
-  );
-  final Map<String, String> roleNames = await _resolveRoleMentions(
+  final Map<String, String> channelNames =
+      await resolveMessageChannelMentionNames(
+        database: database,
+        content: content,
+      );
+  final Map<String, String> roleNames = await resolveMessageRoleMentionNames(
     database: database,
     guildId: guildId,
     content: content,
@@ -262,100 +262,4 @@ Future<UserGuildSettingsResponse?> _loadGuildSettings({
     return null;
   }
   return decodeUserGuildSettings(row.data);
-}
-
-Future<String> _resolveUserDisplayName({
-  required db.FluxerDatabase database,
-  required String userId,
-  required String? guildId,
-  String? fallbackDisplayName,
-}) async {
-  final db.User? user = await database.userDao.getUserById(userId);
-  db.Member? member;
-  if (guildId != null && guildId.isNotEmpty) {
-    member = await database.memberDao.getMemberByUserId(userId, guildId);
-  }
-  final String? friendNickname =
-      (await database.relationshipDao.getRelationship(userId))?.nickname;
-  final String? userUsername = user?.username.trim();
-  final String? fallback = fallbackDisplayName?.trim();
-  final String username = (userUsername != null && userUsername.isNotEmpty)
-      ? userUsername
-      : (fallback != null && fallback.isNotEmpty ? fallback : userId);
-  return resolveDisplayName(
-    username: username,
-    guildNickname: member?.nick,
-    friendNickname: friendNickname,
-    fallbackDisplayName: fallbackDisplayName,
-    globalName: user?.globalName,
-  );
-}
-
-Future<Map<String, String>> _resolveUserMentions({
-  required db.FluxerDatabase database,
-  required String? guildId,
-  required String content,
-}) async {
-  final Map<String, String> names = <String, String>{};
-  for (final RegExpMatch match in MessageContentPatterns.userMention.allMatches(
-    content,
-  )) {
-    final String userId = match.group(1)!;
-    if (names.containsKey(userId)) {
-      continue;
-    }
-    names[userId] = await _resolveUserDisplayName(
-      database: database,
-      userId: userId,
-      guildId: guildId,
-    );
-  }
-  return names;
-}
-
-Future<Map<String, String>> _resolveChannelMentions({
-  required db.FluxerDatabase database,
-  required String content,
-}) async {
-  final Map<String, String> names = <String, String>{};
-  for (final RegExpMatch match
-      in MessageContentPatterns.channelMention.allMatches(content)) {
-    final String channelId = match.group(1)!;
-    if (names.containsKey(channelId)) {
-      continue;
-    }
-    final db.Channel? channel = await database.channelDao.getChannelById(
-      channelId,
-    );
-    final String name = channel?.name.trim() ?? '';
-    if (name.isNotEmpty) {
-      names[channelId] = name;
-    }
-  }
-  return names;
-}
-
-Future<Map<String, String>> _resolveRoleMentions({
-  required db.FluxerDatabase database,
-  required String? guildId,
-  required String content,
-}) async {
-  final Map<String, String> names = <String, String>{};
-  if (guildId == null || guildId.isEmpty) {
-    return names;
-  }
-  for (final RegExpMatch match in MessageContentPatterns.roleMention.allMatches(
-    content,
-  )) {
-    final String roleId = match.group(1)!;
-    if (names.containsKey(roleId)) {
-      continue;
-    }
-    final db.Role? role = await database.roleDao.getRoleById(roleId);
-    final String name = role?.name.trim() ?? '';
-    if (name.isNotEmpty) {
-      names[roleId] = name;
-    }
-  }
-  return names;
 }

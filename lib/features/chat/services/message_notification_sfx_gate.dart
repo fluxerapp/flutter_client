@@ -98,7 +98,7 @@ class FluxerMessageNotificationSfxEvaluator {
     required bool viewingChannel,
     required bool hasObscuringOverlay,
   }) async {
-    if (!_passesBasicAuthorChecks(
+    if (!isNotifiableMessageAuthor(
       message: message,
       currentUserId: currentUserId,
       blockedUserIds: blockedUserIds,
@@ -120,58 +120,51 @@ class FluxerMessageNotificationSfxEvaluator {
     if (!deduper.claim(message.id)) {
       return null;
     }
-    if (selfIsDnd) {
-      deduper.release(message.id);
-      return null;
-    }
-    if ((message.flags & messageFlagSuppressNotifications) != 0) {
-      deduper.release(message.id);
-      return null;
-    }
-    if (snapshot.isChannelMuted) {
-      deduper.release(message.id);
-      return null;
-    }
-    final UserNotificationSettings? level = snapshot.notificationLevel;
-    if (snapshot.isDm) {
-      if (!shouldNotifyMessageBasedOnSettings(
-        level: level ?? UserNotificationSettings.allMessages,
-        isMentioned: snapshot.mentionsCurrentUser,
-        isPrivateChannel: true,
-        isPrivateChannelMuted: false,
-      )) {
-        deduper.release(message.id);
-        return null;
-      }
-      return const MessageNotificationSfxPlayRequest(
-        clipKind: MessageNotificationSfxClipKind.directMessage,
-      );
-    }
-    if (!shouldNotifyMessageBasedOnSettings(
-      level: level ?? UserNotificationSettings.allMessages,
-      isMentioned: snapshot.mentionsCurrentUser,
-      isPrivateChannel: false,
-      isPrivateChannelMuted: false,
+    if (!passesMessageNotificationRules(
+      message: message,
+      snapshot: snapshot,
+      selfIsDnd: selfIsDnd,
     )) {
       deduper.release(message.id);
       return null;
     }
-    return const MessageNotificationSfxPlayRequest(
-      clipKind: MessageNotificationSfxClipKind.message,
+    return MessageNotificationSfxPlayRequest(
+      clipKind: snapshot.isDm
+          ? MessageNotificationSfxClipKind.directMessage
+          : MessageNotificationSfxClipKind.message,
     );
   }
+}
 
-  bool _passesBasicAuthorChecks({
-    required MessageResponseSchema message,
-    required String currentUserId,
-    required Set<String> blockedUserIds,
-  }) {
-    if (message.author.id == currentUserId) {
-      return false;
-    }
-    if (blockedUserIds.contains(message.author.id)) {
-      return false;
-    }
-    return true;
+bool isNotifiableMessageAuthor({
+  required MessageResponseSchema message,
+  required String currentUserId,
+  required Set<String> blockedUserIds,
+}) {
+  if (message.author.id == currentUserId) {
+    return false;
   }
+  return !blockedUserIds.contains(message.author.id);
+}
+
+bool passesMessageNotificationRules({
+  required MessageResponseSchema message,
+  required MessagePersistSnapshot snapshot,
+  required bool selfIsDnd,
+}) {
+  if (selfIsDnd) {
+    return false;
+  }
+  if ((message.flags & messageFlagSuppressNotifications) != 0) {
+    return false;
+  }
+  if (snapshot.isChannelMuted) {
+    return false;
+  }
+  return shouldNotifyMessageBasedOnSettings(
+    level: snapshot.notificationLevel ?? UserNotificationSettings.allMessages,
+    isMentioned: snapshot.mentionsCurrentUser,
+    isPrivateChannel: snapshot.isDm,
+    isPrivateChannelMuted: false,
+  );
 }

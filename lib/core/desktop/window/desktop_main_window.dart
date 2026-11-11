@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:nativeapi/nativeapi.dart' show Application;
 import 'package:window_manager/window_manager.dart';
 
 Window? _mainWindow;
@@ -17,6 +20,18 @@ Window? get desktopMainWindow {
 bool isDesktopMainWindowShown() {
   final Window? window = desktopMainWindow;
   return window != null && window.isVisible && !window.isMinimized;
+}
+
+bool isDesktopMainWindowFocused() {
+  final Window? window = desktopMainWindow;
+  return window != null && isDesktopMainWindowShown() && window.isFocused;
+}
+
+void revealDesktopMainWindow() {
+  showDesktopMainWindow();
+  if (Platform.isMacOS) {
+    Application.instance.show();
+  }
 }
 
 void showDesktopMainWindow() {

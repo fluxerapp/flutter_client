@@ -7149,6 +7149,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get notificationUnknownSender => '알 수 없음';
 
   @override
+  String notificationAttachmentPreview(String filename) {
+    return 'Attachment: $filename';
+  }
+
+  @override
+  String notificationStickerPreview(String name) {
+    return 'Sticker: $name';
+  }
+
+  @override
   String get chatMessageForward => '전달';
 
   @override

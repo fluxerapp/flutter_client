@@ -7448,6 +7448,16 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get notificationUnknownSender => 'Ukjent';
 
   @override
+  String notificationAttachmentPreview(String filename) {
+    return 'Attachment: $filename';
+  }
+
+  @override
+  String notificationStickerPreview(String name) {
+    return 'Sticker: $name';
+  }
+
+  @override
   String get chatMessageForward => 'Videresend';
 
   @override

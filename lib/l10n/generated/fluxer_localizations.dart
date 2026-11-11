@@ -11965,6 +11965,18 @@ abstract class FluxerLocalizations {
   /// **'Unknown'**
   String get notificationUnknownSender;
 
+  /// Desktop notification body for a message that only contains an attachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment: {filename}'**
+  String notificationAttachmentPreview(String filename);
+
+  /// Desktop notification body for a message that only contains stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker: {name}'**
+  String notificationStickerPreview(String name);
+
   /// Action label for forwarding a message.
   ///
   /// In en, this message translates to:

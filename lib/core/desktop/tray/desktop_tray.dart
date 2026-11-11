@@ -193,10 +193,7 @@ class DesktopTray {
   }
 
   void _showWindow() {
-    showDesktopMainWindow();
-    if (Platform.isMacOS) {
-      Application.instance.show();
-    }
+    revealDesktopMainWindow();
     _syncVisibilityLabel();
   }
 

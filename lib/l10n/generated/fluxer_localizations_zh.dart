@@ -7003,6 +7003,16 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get notificationUnknownSender => '未知';
 
   @override
+  String notificationAttachmentPreview(String filename) {
+    return 'Attachment: $filename';
+  }
+
+  @override
+  String notificationStickerPreview(String name) {
+    return 'Sticker: $name';
+  }
+
+  @override
   String get chatMessageForward => '转发';
 
   @override

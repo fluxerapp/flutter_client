@@ -9393,6 +9393,24 @@
   "@notificationUnknownSender": {
     "description": "Notification sender name used when a push has no sender."
   },
+  "notificationAttachmentPreview": "Attachment: {filename}",
+  "@notificationAttachmentPreview": {
+    "description": "Desktop notification body for a message that only contains an attachment.",
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationStickerPreview": "Sticker: {name}",
+  "@notificationStickerPreview": {
+    "description": "Desktop notification body for a message that only contains stickers.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "chatMessageForward": "Forward",
   "@chatMessageForward": {
     "description": "Action label for forwarding a message."

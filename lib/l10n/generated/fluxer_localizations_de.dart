@@ -7523,6 +7523,16 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get notificationUnknownSender => 'Unbekannt';
 
   @override
+  String notificationAttachmentPreview(String filename) {
+    return 'Attachment: $filename';
+  }
+
+  @override
+  String notificationStickerPreview(String name) {
+    return 'Sticker: $name';
+  }
+
+  @override
   String get chatMessageForward => 'Weiterleiten';
 
   @override
