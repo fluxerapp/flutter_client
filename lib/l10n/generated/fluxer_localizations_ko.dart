@@ -4900,6 +4900,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => '메시지 표시 모드';
 
   @override

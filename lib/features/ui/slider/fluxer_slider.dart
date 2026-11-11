@@ -1,12 +1,14 @@
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
-enum FluxerSliderMarkerPosition { above }
+enum FluxerSliderMarkerPosition { above, below }
 
 class FluxerSlider extends StatefulWidget {
   const FluxerSlider({
@@ -29,6 +31,7 @@ class FluxerSlider extends StatefulWidget {
     this.asValueChanges,
     this.step,
     this.semanticLabel,
+    this.semanticValue,
     this.markerLabelWidth = 24,
     this.markerAreaHeight = 24,
     this.shrinkMarkerLabels = true,
@@ -54,6 +57,7 @@ class FluxerSlider extends StatefulWidget {
   final ValueChanged<double>? asValueChanges;
   final double? step;
   final String? semanticLabel;
+  final String Function(double value)? semanticValue;
   final double markerLabelWidth;
   final double markerAreaHeight;
   final bool shrinkMarkerLabels;
@@ -69,6 +73,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
   late double _value;
   bool _isDragging = false;
   bool _isHovering = false;
+  bool _hasFocus = false;
   int? _stickToMarkerIndex;
 
   static const double _kTrackPadding = 5;
@@ -79,6 +84,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
   static const double _kMarkerDashWidth = 2;
   static const double _kMarkerDashHeight = 24;
   static const double _kTooltipGap = 8;
+  static const double _kMarkerGapBelow = 2;
 
   @override
   void initState() {
@@ -196,6 +202,58 @@ class _FluxerSliderState extends State<FluxerSlider> {
     }
     final closestIndex = _findClosestMarkerIndex(_effectiveValue, sorted);
     return positions[closestIndex];
+  }
+
+  bool get _marksBelow =>
+      widget.markerPosition == FluxerSliderMarkerPosition.below;
+
+  bool get _canStepMarkers =>
+      widget.stickToMarkers && _hasMarkers && !widget.disabled;
+
+  int get _currentMarkerIndex =>
+      _findClosestMarkerIndex(_effectiveValue, _sortedMarkers);
+
+  void _selectMarker(int index) {
+    final List<double> sorted = _sortedMarkers;
+    final double next = sorted[index.clamp(0, sorted.length - 1)];
+    if (next == _effectiveValue) {
+      return;
+    }
+    setState(() => _value = next);
+    widget.onValueChange?.call(next);
+  }
+
+  String _semanticValueFor(double value) =>
+      widget.semanticValue?.call(value) ?? value.toStringAsFixed(1);
+
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (!_canStepMarkers || event is KeyUpEvent) {
+      return KeyEventResult.ignored;
+    }
+    final LogicalKeyboardKey key = event.logicalKey;
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
+    final int index = _currentMarkerIndex;
+    final int? target;
+    if (key == LogicalKeyboardKey.arrowUp) {
+      target = index + 1;
+    } else if (key == LogicalKeyboardKey.arrowDown) {
+      target = index - 1;
+    } else if (key == LogicalKeyboardKey.arrowRight) {
+      target = rtl ? index - 1 : index + 1;
+    } else if (key == LogicalKeyboardKey.arrowLeft) {
+      target = rtl ? index + 1 : index - 1;
+    } else if (key == LogicalKeyboardKey.home) {
+      target = 0;
+    } else if (key == LogicalKeyboardKey.end) {
+      target = _sortedMarkers.length - 1;
+    } else {
+      target = null;
+    }
+    if (target == null) {
+      return KeyEventResult.ignored;
+    }
+    _selectMarker(target);
+    return KeyEventResult.handled;
   }
 
   void _showTooltip() {
@@ -445,11 +503,6 @@ class _FluxerSliderState extends State<FluxerSlider> {
                           width: widget.markerLabelWidth,
                           height: widget.markerAreaHeight,
                           child: Column(
-                            mainAxisAlignment:
-                                widget.markerPosition ==
-                                    FluxerSliderMarkerPosition.above
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
                             children:
                                 widget.markerPosition ==
                                     FluxerSliderMarkerPosition.above
@@ -481,8 +534,18 @@ class _FluxerSliderState extends State<FluxerSlider> {
     final sorted = _sortedMarkers;
     final positions = _markerPositions(sorted);
     final valuePct = _valuePercent.clamp(0.0, 100.0);
-    final totalHeight =
-        widget.markerAreaHeight + (_hasMarkers ? widget.markerAreaHeight : 0);
+    final bool marksAbove = _hasMarkers && !_marksBelow;
+    final bool marksBelow = _hasMarkers && _marksBelow;
+    final double totalHeight = marksBelow
+        ? _kThumbSize + _kMarkerGapBelow + widget.markerAreaHeight
+        : widget.markerAreaHeight + (_hasMarkers ? widget.markerAreaHeight : 0);
+    final bool canStep = _canStepMarkers;
+    final int markerIndex = canStep ? _currentMarkerIndex : 0;
+    final bool canIncrease = canStep && markerIndex < sorted.length - 1;
+    final bool canDecrease = canStep && markerIndex > 0;
+    final bool showFocusRing =
+        _hasFocus &&
+        FocusManager.instance.highlightMode == FocusHighlightMode.traditional;
     final bool desktop = usesDesktopPointerUi(context);
 
     return OverlayPortal(
@@ -491,164 +554,181 @@ class _FluxerSliderState extends State<FluxerSlider> {
       child: Semantics(
         slider: true,
         label: widget.semanticLabel,
-        value: _effectiveValue.toStringAsFixed(1),
+        value: _semanticValueFor(_effectiveValue),
+        increasedValue: canIncrease
+            ? _semanticValueFor(sorted[markerIndex + 1])
+            : null,
+        decreasedValue: canDecrease
+            ? _semanticValueFor(sorted[markerIndex - 1])
+            : null,
+        onIncrease: canIncrease ? () => _selectMarker(markerIndex + 1) : null,
+        onDecrease: canDecrease ? () => _selectMarker(markerIndex - 1) : null,
         enabled: !widget.disabled,
-        child: Opacity(
-          opacity: widget.disabled ? (desktop ? 0.55 : 0.6) : 1.0,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final trackWidth = constraints.maxWidth - _kTrackPadding * 2;
+        child: Focus(
+          canRequestFocus: canStep,
+          skipTraversal: !canStep,
+          onKeyEvent: _handleKeyEvent,
+          onFocusChange: (bool focused) => setState(() => _hasFocus = focused),
+          child: Opacity(
+            opacity: widget.disabled ? (desktop ? 0.55 : 0.6) : 1.0,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final trackWidth = constraints.maxWidth - _kTrackPadding * 2;
 
-              return FluxerGestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onHorizontalDragStart: _handleDragStart,
-                onHorizontalDragUpdate: (details) =>
-                    _handleDragUpdate(details, constraints),
-                onHorizontalDragEnd: _handleDragEnd,
-                onHorizontalDragCancel: _handleDragCancel,
-                onTapUp: (details) => _handleTrackTap(details, constraints),
-                child: SizedBox(
-                  height: totalHeight,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      if (_hasMarkers)
+                return FluxerGestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onHorizontalDragStart: _handleDragStart,
+                  onHorizontalDragUpdate: (details) =>
+                      _handleDragUpdate(details, constraints),
+                  onHorizontalDragEnd: _handleDragEnd,
+                  onHorizontalDragCancel: _handleDragCancel,
+                  onTapUp: (details) => _handleTrackTap(details, constraints),
+                  child: SizedBox(
+                    height: totalHeight,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        if (_hasMarkers)
+                          Positioned(
+                            left: _kTrackPadding,
+                            right: _kTrackPadding,
+                            top: marksBelow
+                                ? _kThumbSize + _kMarkerGapBelow
+                                : 0,
+                            height: widget.markerAreaHeight,
+                            child: ExcludeSemantics(
+                              child: _buildMarkers(
+                                sorted,
+                                positions,
+                                colors,
+                                textStyles,
+                              ),
+                            ),
+                          ),
+
                         Positioned(
-                          left: _kTrackPadding,
-                          right: _kTrackPadding,
-                          top:
-                              widget.markerPosition ==
-                                  FluxerSliderMarkerPosition.above
-                              ? 0
-                              : totalHeight - widget.markerAreaHeight,
-                          height: widget.markerAreaHeight,
-                          child: _buildMarkers(
-                            sorted,
-                            positions,
-                            colors,
-                            textStyles,
-                          ),
-                        ),
-
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top:
-                            _hasMarkers &&
-                                widget.markerPosition ==
-                                    FluxerSliderMarkerPosition.above
-                            ? widget.markerAreaHeight +
-                                  (_kThumbSize - _barHeight) / 2
-                            : (totalHeight - _barHeight) / 2,
-                        height: _barHeight,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Color.lerp(
-                              colors.interactiveMuted,
-                              colors.backgroundTertiary,
-                              0.18,
-                            ),
-                            borderRadius: desktop
-                                ? BorderRadius.circular(999)
-                                : layout.radiusSm,
-                            boxShadow: [
-                              BoxShadow(
-                                color: colors.backgroundPrimary.withValues(
-                                  alpha: 0.2,
-                                ),
-                                spreadRadius: 0.5,
+                          left: 0,
+                          right: 0,
+                          top: marksAbove
+                              ? widget.markerAreaHeight +
+                                    (_kThumbSize - _barHeight) / 2
+                              : marksBelow
+                              ? (_kThumbSize - _barHeight) / 2
+                              : (totalHeight - _barHeight) / 2,
+                          height: _barHeight,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Color.lerp(
+                                colors.interactiveMuted,
+                                colors.backgroundTertiary,
+                                0.18,
                               ),
-                            ],
-                          ),
-                          child: FractionallySizedBox(
-                            alignment: AlignmentDirectional.centerStart,
-                            widthFactor: valuePct / 100.0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: AlignmentDirectional.centerStart,
-                                  end: AlignmentDirectional.centerEnd,
-                                  colors: <Color>[
-                                    colors.brandPrimary,
-                                    Color.lerp(
-                                          colors.brandPrimaryLight,
-                                          Colors.white,
-                                          0.16,
-                                        ) ??
-                                        colors.brandPrimaryLight,
-                                  ],
-                                ),
-                                border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.12),
-                                ),
-                                borderRadius: desktop
-                                    ? BorderRadius.circular(999)
-                                    : null,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      PositionedDirectional(
-                        start:
-                            _kTrackPadding +
-                            (valuePct / 100.0) * trackWidth -
-                            _thumbSize / 2,
-                        top:
-                            _hasMarkers &&
-                                widget.markerPosition ==
-                                    FluxerSliderMarkerPosition.above
-                            ? widget.markerAreaHeight +
-                                  (_kThumbSize - _thumbSize) / 2
-                            : (totalHeight - _thumbSize) / 2,
-                        child: MouseRegion(
-                          onEnter: (_) {
-                            setState(() => _isHovering = true);
-                            _showTooltip();
-                          },
-                          onExit: (_) {
-                            setState(() => _isHovering = false);
-                            if (!_isDragging) {
-                              _hideTooltip();
-                            }
-                          },
-                          child: CompositedTransformTarget(
-                            link: _thumbLayerLink,
-                            child: desktop
-                                ? _buildDesktopThumb(colors)
-                                : Container(
-                                    width: _thumbSize,
-                                    height: _thumbSize,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white.withValues(
-                                        alpha: 0.95,
-                                      ),
-                                      border: Border.all(
-                                        color: colors.borderColor.withValues(
-                                          alpha: 0.6,
-                                        ),
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.1,
-                                          ),
-                                          blurRadius: 3,
-                                          offset: const Offset(0, 1),
-                                        ),
-                                      ],
-                                    ),
+                              borderRadius: desktop
+                                  ? BorderRadius.circular(999)
+                                  : layout.radiusSm,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colors.backgroundPrimary.withValues(
+                                    alpha: 0.2,
                                   ),
+                                  spreadRadius: 0.5,
+                                ),
+                              ],
+                            ),
+                            child: FractionallySizedBox(
+                              alignment: AlignmentDirectional.centerStart,
+                              widthFactor: valuePct / 100.0,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: AlignmentDirectional.centerStart,
+                                    end: AlignmentDirectional.centerEnd,
+                                    colors: <Color>[
+                                      colors.brandPrimary,
+                                      Color.lerp(
+                                            colors.brandPrimaryLight,
+                                            Colors.white,
+                                            0.16,
+                                          ) ??
+                                          colors.brandPrimaryLight,
+                                    ],
+                                  ),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.12),
+                                  ),
+                                  borderRadius: desktop
+                                      ? BorderRadius.circular(999)
+                                      : null,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+
+                        PositionedDirectional(
+                          start:
+                              _kTrackPadding +
+                              (valuePct / 100.0) * trackWidth -
+                              _thumbSize / 2,
+                          top: marksAbove
+                              ? widget.markerAreaHeight +
+                                    (_kThumbSize - _thumbSize) / 2
+                              : marksBelow
+                              ? (_kThumbSize - _thumbSize) / 2
+                              : (totalHeight - _thumbSize) / 2,
+                          child: MouseRegion(
+                            onEnter: (_) {
+                              setState(() => _isHovering = true);
+                              _showTooltip();
+                            },
+                            onExit: (_) {
+                              setState(() => _isHovering = false);
+                              if (!_isDragging) {
+                                _hideTooltip();
+                              }
+                            },
+                            child: CompositedTransformTarget(
+                              link: _thumbLayerLink,
+                              child: FluxerFocusRing(
+                                focused: showFocusRing,
+                                borderRadius: BorderRadius.circular(
+                                  _thumbSize / 2,
+                                ),
+                                child: desktop
+                                    ? _buildDesktopThumb(colors)
+                                    : Container(
+                                        width: _thumbSize,
+                                        height: _thumbSize,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.95,
+                                          ),
+                                          border: Border.all(
+                                            color: colors.borderColor
+                                                .withValues(alpha: 0.6),
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withValues(
+                                                alpha: 0.1,
+                                              ),
+                                              blurRadius: 3,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

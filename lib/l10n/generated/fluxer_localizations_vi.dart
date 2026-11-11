@@ -5066,6 +5066,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Chế độ hiển thị tin nhắn';
 
   @override

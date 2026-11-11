@@ -5118,6 +5118,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel =>
       'Режим на показване на съобщенията';
 

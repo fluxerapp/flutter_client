@@ -8174,6 +8174,12 @@ abstract class FluxerLocalizations {
   /// **'{spacing}px'**
   String lookAndFeelMessageGroupSpacingValue(int spacing);
 
+  /// Value that screen readers announce for the chat font size and message group spacing sliders. Shown on screen as, for example, 16px.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} pixels'**
+  String lookAndFeelPixelsAccessibleValue(int value);
+
   /// Accessibility label for message display mode radio group.
   ///
   /// In en, this message translates to:

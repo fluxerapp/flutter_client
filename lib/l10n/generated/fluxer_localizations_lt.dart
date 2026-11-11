@@ -5127,6 +5127,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Žinučių rodymo režimas';
 
   @override

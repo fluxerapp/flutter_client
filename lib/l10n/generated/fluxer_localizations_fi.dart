@@ -5096,6 +5096,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Viestien näyttötila';
 
   @override

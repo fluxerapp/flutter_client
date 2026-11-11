@@ -5120,6 +5120,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel =>
       'Üzenetek megjelenítési módja';
 

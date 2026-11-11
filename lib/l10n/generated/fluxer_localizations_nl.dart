@@ -5107,6 +5107,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Weergavemodus berichten';
 
   @override

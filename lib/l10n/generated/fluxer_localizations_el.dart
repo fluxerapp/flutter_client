@@ -5148,6 +5148,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel =>
       'Λειτουργία εμφάνισης μηνυμάτων';
 

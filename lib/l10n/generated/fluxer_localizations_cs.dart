@@ -5110,6 +5110,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Režim zobrazení zpráv';
 
   @override

@@ -5104,6 +5104,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
+  }
+
+  @override
   String get lookAndFeelMessageDisplayModeLabel => 'Način prikaza poruka';
 
   @override
