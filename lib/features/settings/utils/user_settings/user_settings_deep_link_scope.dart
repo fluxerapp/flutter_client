@@ -72,6 +72,8 @@ String? userSettingsDeepLinkTabForPage(UserSettingsSection section) {
       return 'default_apps';
     case UserSettingsSection.appIcon:
       return 'app_icon';
+    case UserSettingsSection.desktop:
+      return 'desktop';
     case UserSettingsSection.limitsConfig:
     case UserSettingsSection.featureFlags:
     case UserSettingsSection.appLicenses:

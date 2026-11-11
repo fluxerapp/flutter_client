@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/build/app_build_environment.dart';
-import 'package:fluxer_app/core/desktop/oxygen_updater.dart';
+import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
 
 void main() {
   test('builds channel/platform/arch update urls', () {

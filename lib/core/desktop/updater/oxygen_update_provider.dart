@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:fluxer_app/core/desktop/oxygen_updater.dart';
+import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

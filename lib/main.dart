@@ -15,8 +15,9 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
-import 'package:fluxer_app/core/desktop/desktop_window.dart';
-import 'package:fluxer_app/core/desktop/oxygen_updater.dart';
+import 'package:fluxer_app/core/desktop/tray/desktop_tray.dart';
+import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
@@ -203,6 +204,9 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   if (isFluxerDesktopOs) {
     await _bootstrapStep('app.bootstrap.window', () async {
       await configureDesktopWindow();
+    });
+    await _bootstrapStep('app.bootstrap.tray', () async {
+      await DesktopTray.start(container);
     });
   }
 

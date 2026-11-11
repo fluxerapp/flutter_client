@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/desktop/oxygen_update_provider.dart';
+import 'package:fluxer_app/core/desktop/updater/oxygen_update_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

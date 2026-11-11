@@ -20492,5 +20492,131 @@
   "oxygenUpdating": "Updating…",
   "@oxygenUpdating": {
     "description": "Tooltip and accessible label on the channel header updater icon in the desktop app while an update the user started is downloading. The app restarts by itself when it is done."
+  },
+  "desktopTrayShow": "Show {productName}",
+  "@desktopTrayShow": {
+    "description": "Desktop tray/menu bar menu item that shows the hidden app window.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopTrayHide": "Hide {productName}",
+  "@desktopTrayHide": {
+    "description": "Desktop tray/menu bar menu item that hides the app window.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopTrayOpenSettings": "Open settings",
+  "@desktopTrayOpenSettings": {
+    "description": "Desktop tray/menu bar menu item that opens user settings."
+  },
+  "desktopTrayStatus": "Status",
+  "@desktopTrayStatus": {
+    "description": "Desktop tray/menu bar submenu label for changing the user's presence status."
+  },
+  "desktopTrayAccounts": "Accounts",
+  "@desktopTrayAccounts": {
+    "description": "Desktop tray/menu bar submenu label for switching between signed-in accounts."
+  },
+  "desktopTrayMuteMic": "Mute microphone",
+  "@desktopTrayMuteMic": {
+    "description": "Desktop tray/menu bar menu item shown while in voice to mute the microphone."
+  },
+  "desktopTrayUnmuteMic": "Unmute microphone",
+  "@desktopTrayUnmuteMic": {
+    "description": "Desktop tray/menu bar menu item shown while in voice to unmute the microphone."
+  },
+  "desktopTrayDeafen": "Deafen",
+  "@desktopTrayDeafen": {
+    "description": "Desktop tray/menu bar menu item shown while in voice to deafen."
+  },
+  "desktopTrayUndeafen": "Undeafen",
+  "@desktopTrayUndeafen": {
+    "description": "Desktop tray/menu bar menu item shown while in voice to undeafen."
+  },
+  "desktopTrayDisconnectFrom": "Disconnect from {channel}",
+  "@desktopTrayDisconnectFrom": {
+    "description": "Desktop tray/menu bar menu item that leaves the named voice channel.",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopTrayDisconnectVoice": "Disconnect from voice",
+  "@desktopTrayDisconnectVoice": {
+    "description": "Desktop tray/menu bar menu item that leaves voice when the channel name is unknown."
+  },
+  "desktopTrayCheckForUpdates": "Check for updates",
+  "@desktopTrayCheckForUpdates": {
+    "description": "Desktop tray/menu bar menu item that checks for an app update."
+  },
+  "desktopTrayUpdateNow": "Update {productName} now",
+  "@desktopTrayUpdateNow": {
+    "description": "Desktop tray/menu bar menu item shown when an update is ready; installs it and restarts.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopTrayCopyBuildInfo": "Copy build info",
+  "@desktopTrayCopyBuildInfo": {
+    "description": "Desktop tray/menu bar menu item that copies app version and build details to the clipboard."
+  },
+  "desktopTrayRestart": "Restart {productName}",
+  "@desktopTrayRestart": {
+    "description": "Desktop tray/menu bar menu item that restarts the app.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopTrayQuit": "Quit {productName}",
+  "@desktopTrayQuit": {
+    "description": "Desktop tray/menu bar menu item that fully quits the app.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "userSettingsNavDesktop": "Desktop",
+  "@userSettingsNavDesktop": {
+    "description": "User settings navigation item for desktop app window and tray behavior."
+  },
+  "desktopSettingsWindowSectionTitle": "Desktop window",
+  "@desktopSettingsWindowSectionTitle": {
+    "description": "Section title in desktop settings for window and tray behavior."
+  },
+  "desktopSettingsShowTrayIcon": "Show system tray icon",
+  "@desktopSettingsShowTrayIcon": {
+    "description": "Desktop setting toggle on Windows and Linux that shows the app icon in the system tray."
+  },
+  "desktopSettingsShowMenuBarIcon": "Show menu bar icon",
+  "@desktopSettingsShowMenuBarIcon": {
+    "description": "Desktop setting toggle on macOS that shows the app icon in the menu bar."
+  },
+  "desktopSettingsMinimizeToTray": "Minimize to tray",
+  "@desktopSettingsMinimizeToTray": {
+    "description": "Desktop setting toggle on Windows and Linux; minimizing hides the window to the system tray."
+  },
+  "desktopSettingsMinimizeToMenuBar": "Minimize to menu bar",
+  "@desktopSettingsMinimizeToMenuBar": {
+    "description": "Desktop setting toggle on macOS; minimizing hides the window to the menu bar."
+  },
+  "desktopSettingsCloseToTray": "Close to tray",
+  "@desktopSettingsCloseToTray": {
+    "description": "Desktop setting toggle on Windows and Linux; closing the window keeps the app running in the system tray."
+  },
+  "desktopSettingsCloseToMenuBar": "Close to menu bar",
+  "@desktopSettingsCloseToMenuBar": {
+    "description": "Desktop setting toggle on macOS; closing the window keeps the app running in the menu bar."
   }
 }

@@ -28431,6 +28431,150 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Updating…'**
   String get oxygenUpdating;
+
+  /// Desktop tray/menu bar menu item that shows the hidden app window.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {productName}'**
+  String desktopTrayShow(String productName);
+
+  /// Desktop tray/menu bar menu item that hides the app window.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide {productName}'**
+  String desktopTrayHide(String productName);
+
+  /// Desktop tray/menu bar menu item that opens user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get desktopTrayOpenSettings;
+
+  /// Desktop tray/menu bar submenu label for changing the user's presence status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get desktopTrayStatus;
+
+  /// Desktop tray/menu bar submenu label for switching between signed-in accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get desktopTrayAccounts;
+
+  /// Desktop tray/menu bar menu item shown while in voice to mute the microphone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute microphone'**
+  String get desktopTrayMuteMic;
+
+  /// Desktop tray/menu bar menu item shown while in voice to unmute the microphone.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute microphone'**
+  String get desktopTrayUnmuteMic;
+
+  /// Desktop tray/menu bar menu item shown while in voice to deafen.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafen'**
+  String get desktopTrayDeafen;
+
+  /// Desktop tray/menu bar menu item shown while in voice to undeafen.
+  ///
+  /// In en, this message translates to:
+  /// **'Undeafen'**
+  String get desktopTrayUndeafen;
+
+  /// Desktop tray/menu bar menu item that leaves the named voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect from {channel}'**
+  String desktopTrayDisconnectFrom(String channel);
+
+  /// Desktop tray/menu bar menu item that leaves voice when the channel name is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect from voice'**
+  String get desktopTrayDisconnectVoice;
+
+  /// Desktop tray/menu bar menu item that checks for an app update.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates'**
+  String get desktopTrayCheckForUpdates;
+
+  /// Desktop tray/menu bar menu item shown when an update is ready; installs it and restarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Update {productName} now'**
+  String desktopTrayUpdateNow(String productName);
+
+  /// Desktop tray/menu bar menu item that copies app version and build details to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy build info'**
+  String get desktopTrayCopyBuildInfo;
+
+  /// Desktop tray/menu bar menu item that restarts the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart {productName}'**
+  String desktopTrayRestart(String productName);
+
+  /// Desktop tray/menu bar menu item that fully quits the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit {productName}'**
+  String desktopTrayQuit(String productName);
+
+  /// User settings navigation item for desktop app window and tray behavior.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop'**
+  String get userSettingsNavDesktop;
+
+  /// Section title in desktop settings for window and tray behavior.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop window'**
+  String get desktopSettingsWindowSectionTitle;
+
+  /// Desktop setting toggle on Windows and Linux that shows the app icon in the system tray.
+  ///
+  /// In en, this message translates to:
+  /// **'Show system tray icon'**
+  String get desktopSettingsShowTrayIcon;
+
+  /// Desktop setting toggle on macOS that shows the app icon in the menu bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Show menu bar icon'**
+  String get desktopSettingsShowMenuBarIcon;
+
+  /// Desktop setting toggle on Windows and Linux; minimizing hides the window to the system tray.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimize to tray'**
+  String get desktopSettingsMinimizeToTray;
+
+  /// Desktop setting toggle on macOS; minimizing hides the window to the menu bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimize to menu bar'**
+  String get desktopSettingsMinimizeToMenuBar;
+
+  /// Desktop setting toggle on Windows and Linux; closing the window keeps the app running in the system tray.
+  ///
+  /// In en, this message translates to:
+  /// **'Close to tray'**
+  String get desktopSettingsCloseToTray;
+
+  /// Desktop setting toggle on macOS; closing the window keeps the app running in the menu bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Close to menu bar'**
+  String get desktopSettingsCloseToMenuBar;
 }
 
 class _FluxerLocalizationsDelegate

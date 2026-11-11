@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoTheme, CupertinoThemeData;
@@ -7,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/instance/account_identity_sync.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
@@ -126,7 +125,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
       instanceRuntimeConfigProvider.select((config) => config.productName),
     );
     if (isFluxerDesktopOs) {
-      unawaited(windowManager.setTitle(productName));
+      desktopMainWindow?.title = productName;
     }
 
     return FluxerAppZoomScope(

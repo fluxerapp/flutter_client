@@ -31,6 +31,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_authorize
 import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_users.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_connections.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_desktop_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_developer_tools.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_gift_inventory.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_language_and_time.dart';
@@ -1101,6 +1102,13 @@ Widget _buildUserSettingsSectionBody({
       return scrollController == null
           ? const UserAppIconSettings()
           : UserAppIconSettings(scrollController: scrollController);
+    case UserSettingsSection.desktop:
+      if (!isFluxerDesktopOs) {
+        return const SizedBox.shrink();
+      }
+      return scrollController == null
+          ? const UserDesktopSettings()
+          : UserDesktopSettings(scrollController: scrollController);
     case UserSettingsSection.languageAndTime:
       return scrollController == null
           ? const UserLanguageAndTime()

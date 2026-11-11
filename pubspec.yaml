@@ -97,6 +97,7 @@ dependencies:
       url: https://github.com/fluxerapp/media-kit
       path: media_kit_video
   native_toolchain_c: ^0.19.6
+  nativeapi: ^0.5.10
   package_info_plus: ^10.2.1
   passkeys: ^2.23.1
   path: ^1.9.1
@@ -225,6 +226,8 @@ flutter:
     - assets/images/connections/
     - assets/images/app_icon_previews/ios/
     - assets/images/app_icon_previews/android/
+    - assets/images/tray/canary/
+    - assets/images/tray/stable/
     - assets/emojis.json
     - assets/emoji-sprites/
     - assets/certificates/

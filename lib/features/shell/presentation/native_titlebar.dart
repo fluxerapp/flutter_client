@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/constants/assets.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -15,9 +16,20 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:nativeapi/nativeapi.dart' show DisplayManager;
 import 'package:window_manager/window_manager.dart';
 
 const kNativeTitlebarHeight = 32.0;
+
+void _popUpWindowMenu() {
+  final Window? window = desktopMainWindow;
+  if (window == null || !Window.isSystemMenuSupported()) {
+    return;
+  }
+  final Offset cursor = DisplayManager.instance.getCursorPosition().toOffset();
+  final Offset origin = window.contentBounds.toRect().topLeft;
+  window.showSystemMenu((cursor - origin).toNative());
+}
 
 class NativeTitlebar extends ConsumerWidget {
   const NativeTitlebar({super.key});
@@ -42,7 +54,7 @@ class NativeTitlebar extends ConsumerWidget {
     return Material(
       color: context.colors.backgroundSecondaryAlt,
       child: FluxerGestureDetector(
-        onSecondaryTap: windowManager.popUpWindowMenu,
+        onSecondaryTap: _popUpWindowMenu,
         child: SizedBox(
           height: kNativeTitlebarHeight,
           child: Stack(
@@ -90,14 +102,14 @@ class NativeTitlebar extends ConsumerWidget {
                       ),
                       _WindowButton(
                         icon: PhosphorIconsBold.minus,
-                        onPressed: windowManager.minimize,
+                        onPressed: () => desktopMainWindow?.minimize(),
                       ),
                       const _MaximizeButton(),
                       _WindowButton(
                         icon: PhosphorIconsBold.x,
                         hoverColor: context.colors.textDanger,
                         hoverIconColor: context.colors.textOnBrandPrimary,
-                        onPressed: windowManager.close,
+                        onPressed: () => desktopMainWindow?.close(),
                       ),
                     ],
                   ],
@@ -139,37 +151,37 @@ class _MaximizeButton extends StatefulWidget {
   State<_MaximizeButton> createState() => _MaximizeButtonState();
 }
 
-class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
+class _MaximizeButtonState extends State<_MaximizeButton> {
   bool _isMaximized = false;
+  ListenerId? _listenerId;
 
   @override
   void initState() {
     super.initState();
-    windowManager.addListener(this);
-    unawaited(_queryMaximized());
-  }
-
-  @override
-  void dispose() {
-    windowManager.removeListener(this);
-    super.dispose();
-  }
-
-  Future<void> _queryMaximized() async {
-    final isMaximized = await windowManager.isMaximized();
-    if (mounted) {
-      setState(() => _isMaximized = isMaximized);
+    final Window? window = desktopMainWindow;
+    if (window != null) {
+      _isMaximized = window.isMaximized;
+      _listenerId = window.addListener(_onWindowEvent);
     }
   }
 
   @override
-  void onWindowMaximize() {
-    setState(() => _isMaximized = true);
+  void dispose() {
+    final ListenerId? listenerId = _listenerId;
+    if (listenerId != null) {
+      desktopMainWindow?.removeListener(listenerId);
+    }
+    super.dispose();
   }
 
-  @override
-  void onWindowUnmaximize() {
-    setState(() => _isMaximized = false);
+  void _onWindowEvent(WindowEvent event) {
+    if (event is! WindowMaximizedEvent && event is! WindowRestoredEvent) {
+      return;
+    }
+    final bool isMaximized = desktopMainWindow?.isMaximized ?? false;
+    if (mounted && isMaximized != _isMaximized) {
+      setState(() => _isMaximized = isMaximized);
+    }
   }
 
   @override
@@ -178,11 +190,15 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
       icon: _isMaximized
           ? PhosphorIconsBold.cornersIn
           : PhosphorIconsBold.square,
-      onPressed: () async {
-        if (_isMaximized) {
-          await windowManager.unmaximize();
+      onPressed: () {
+        final Window? window = desktopMainWindow;
+        if (window == null) {
+          return;
+        }
+        if (window.isMaximized) {
+          window.unmaximize();
         } else {
-          await windowManager.maximize();
+          window.maximize();
         }
       },
     );

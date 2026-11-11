@@ -17509,4 +17509,88 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get oxygenUpdating => 'Updating…';
+
+  @override
+  String desktopTrayShow(String productName) {
+    return 'Show $productName';
+  }
+
+  @override
+  String desktopTrayHide(String productName) {
+    return 'Hide $productName';
+  }
+
+  @override
+  String get desktopTrayOpenSettings => 'Open settings';
+
+  @override
+  String get desktopTrayStatus => 'Status';
+
+  @override
+  String get desktopTrayAccounts => 'Accounts';
+
+  @override
+  String get desktopTrayMuteMic => 'Mute microphone';
+
+  @override
+  String get desktopTrayUnmuteMic => 'Unmute microphone';
+
+  @override
+  String get desktopTrayDeafen => 'Deafen';
+
+  @override
+  String get desktopTrayUndeafen => 'Undeafen';
+
+  @override
+  String desktopTrayDisconnectFrom(String channel) {
+    return 'Disconnect from $channel';
+  }
+
+  @override
+  String get desktopTrayDisconnectVoice => 'Disconnect from voice';
+
+  @override
+  String get desktopTrayCheckForUpdates => 'Check for updates';
+
+  @override
+  String desktopTrayUpdateNow(String productName) {
+    return 'Update $productName now';
+  }
+
+  @override
+  String get desktopTrayCopyBuildInfo => 'Copy build info';
+
+  @override
+  String desktopTrayRestart(String productName) {
+    return 'Restart $productName';
+  }
+
+  @override
+  String desktopTrayQuit(String productName) {
+    return 'Quit $productName';
+  }
+
+  @override
+  String get userSettingsNavDesktop => 'Desktop';
+
+  @override
+  String get desktopSettingsWindowSectionTitle => 'Desktop window';
+
+  @override
+  String get desktopSettingsShowTrayIcon => 'Show system tray icon';
+
+  @override
+  String get desktopSettingsShowMenuBarIcon => 'Show menu bar icon';
+
+  @override
+  String get desktopSettingsMinimizeToTray => 'Minimize to tray';
+
+  @override
+  String get desktopSettingsMinimizeToMenuBar => 'Minimize to menu bar';
+
+  @override
+  String get desktopSettingsCloseToTray => 'Close to tray';
+
+  @override
+  String get desktopSettingsCloseToMenuBar => 'Close to menu bar';
 }
