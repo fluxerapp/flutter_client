@@ -39,7 +39,7 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 | Platform | Channel | Status | Get it |
 | --- | --- | --- | --- |
-| iOS | App Store | Soon (Submitted on Nov 1st) | — |
+| iOS | App Store | In App Store review | — |
 | iOS | AltStore PAL | Soon | — |
 | iOS | TestFlight | Unavailable (Apple-side bug, support contacted) | [Join TestFlight](https://testflight.apple.com/join/PKZR6pK9) |
 | Android | Google Play | Stable / Beta | [Download](https://play.google.com/store/apps/details?id=com.fluxer) |
