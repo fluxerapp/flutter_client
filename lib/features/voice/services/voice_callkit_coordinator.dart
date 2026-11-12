@@ -274,7 +274,7 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _enterCallKitAudioOwnership() async {
-    if (_callKitOwnsAudioSession) {
+    if (_callKitOwnsAudioSession || Platform.isAndroid) {
       return;
     }
     _callKitOwnsAudioSession = true;

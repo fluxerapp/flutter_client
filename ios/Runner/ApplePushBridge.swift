@@ -485,6 +485,23 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         directMessage: directMessage
       )
       result(nil)
+    case "setGroupDmNames":
+      guard let args = call.arguments as? [String: Any],
+        let userId = args["userId"] as? String,
+        !userId.isEmpty,
+        let names = args["names"] as? [String: String]
+      else {
+        result(
+          FlutterError(
+            code: "invalid_args",
+            message: "userId and names are required",
+            details: nil
+          )
+        )
+        return
+      }
+      PushNotificationPayload.storeGroupDmNames(userId: userId, names: names)
+      result(nil)
     case "setActiveUserId":
       let userId = call.arguments as? String
       DispatchQueue.main.async {

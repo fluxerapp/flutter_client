@@ -137,8 +137,8 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      padding: EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacingOf(context) / 2,
       ),
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
@@ -156,7 +156,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
               onLongPress: () => widget.onContextMenu?.call(Offset.zero),
               child: SizedBox(
                 width: kGuildNavbarWidth,
-                height: GuildNavbarIconShape.size,
+                height: GuildNavbarIconShape.sizeOf(context),
                 child: Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
@@ -177,7 +177,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                       message: displayName,
                       position: FluxerTooltipPosition.right,
                       child: SizedBox.square(
-                        dimension: GuildNavbarIconShape.size,
+                        dimension: GuildNavbarIconShape.sizeOf(context),
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -185,11 +185,11 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                               GroupDmAvatar(
                                 iconUrl: conversation.groupIconUrl,
                                 members: conversation.groupMembers,
-                                size: GuildNavbarIconShape.size,
+                                size: GuildNavbarIconShape.sizeOf(context),
                               )
                             else if (isGroup)
-                              const FluxerAvatarCluster(
-                                size: GuildNavbarIconShape.size,
+                              FluxerAvatarCluster(
+                                size: GuildNavbarIconShape.sizeOf(context),
                               )
                             else
                               FluxerAvatar.user(
@@ -197,7 +197,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                                 userId: widget.recipientId,
                                 imageUrl: avatarImageUrl,
                                 showStatus: false,
-                                size: GuildNavbarIconShape.size,
+                                size: GuildNavbarIconShape.sizeOf(context),
                               ),
                             if (showBadge)
                               PositionedDirectional(

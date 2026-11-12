@@ -1,4 +1,6 @@
 const List<int> kMessageGroupSpacingOptions = <int>[0, 4, 8, 16, 24];
+const int kDefaultMessageGroupSpacing = 16;
+const int kDefaultCompactMessageGroupSpacing = 0;
 
 double messageGroupSpacingForDisplayMode({
   required double messageGroupSpacing,

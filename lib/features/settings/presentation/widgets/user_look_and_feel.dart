@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class UserLookAndFeel extends ConsumerWidget {
   const UserLookAndFeel({this.scrollController, super.key});
@@ -140,7 +141,9 @@ class UserLookAndFeel extends ConsumerWidget {
                     label: l10n.lookAndFeelThemeSystem,
                     backgroundColor: systemSwatchColor,
                     isSelected: isSystem,
-                    centerIcon: PhosphorIconsFill.arrowsCounterClockwise,
+                    centerIcon: usesDesktopPointerUi(context)
+                        ? PhosphorIconsBold.arrowsCounterClockwise
+                        : PhosphorIconsFill.arrowsCounterClockwise,
                     enabled: swatchesEnabled,
                     isLoading: inflightMode == FluxerThemeMode.system,
                     onTap: () => unawaited(changeTheme(FluxerThemeMode.system)),
@@ -156,6 +159,18 @@ class UserLookAndFeel extends ConsumerWidget {
                 enabled: !isSystem && swatchesEnabled,
                 onChanged: (value) => unawaited(changeSync(value: value)),
               ),
+              if (themePref.systemDynamicColorsAvailable)
+                FluxerSwitchGroupItem(
+                  label: l10n.lookAndFeelUseSystemDynamicColorsLabel,
+                  description:
+                      l10n.lookAndFeelUseSystemDynamicColorsDescription,
+                  value: themePref.useSystemDynamicColors,
+                  onChanged: (value) => unawaited(
+                    ref
+                        .read(themePreferenceProvider.notifier)
+                        .setUseSystemDynamicColors(value: value),
+                  ),
+                ),
               FluxerSettingsConfigureRow(
                 title: l10n.lookAndFeelThemeColorsTitle,
                 description: l10n.lookAndFeelThemeColorsConfigureDescription,

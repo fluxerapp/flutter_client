@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_state.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/expression_upload_source_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_status_slate.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_clone_allowed_toggle.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_emoji_list_item.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_expression_search_field.dart';
@@ -32,6 +33,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class GuildEmojiSettingsWidget extends ConsumerStatefulWidget {
@@ -96,7 +98,8 @@ class _GuildEmojiSettingsWidgetState
       guildExpressionLimitsProvider(widget.guildId),
     );
     final Guild? guild = ref.watch(guildByIdProvider(widget.guildId)).value;
-    if (state.loadStatus == GuildEmojiSettingsLoadStatus.error) {
+    final bool desktop = usesDesktopPointerUi(context);
+    if (state.loadStatus == GuildEmojiSettingsLoadStatus.error && !desktop) {
       return _buildErrorState(context, l10n);
     }
     final List<GuildEmojiSettingsEntry> visibleEmojis = state.filteredIndices
@@ -153,14 +156,36 @@ class _GuildEmojiSettingsWidgetState
             ),
           ),
         ],
-        if (state.uploadingCount != null)
-          const SliverToBoxAdapter(
+        if (desktop && state.loadStatus == GuildEmojiSettingsLoadStatus.error)
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Center(child: FluxerLoadingSpinner()),
+              padding: const EdgeInsets.only(bottom: 16),
+              child: DesktopSettingsNotice(
+                bordered: true,
+                icon: PhosphorIconsFill.warningCircle,
+                text: l10n.guildSettingsEmojiLoadFailed,
+              ),
             ),
           ),
-        if (state.debouncedSearchQuery.isNotEmpty && visibleEmojis.isEmpty)
+        if (state.uploadingCount != null)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: desktop
+                  ? const EdgeInsets.fromLTRB(0, 32, 0, 48)
+                  : const EdgeInsets.all(24),
+              child: const Center(child: FluxerLoadingSpinner()),
+            ),
+          ),
+        if (desktop &&
+            state.debouncedSearchQuery.isNotEmpty &&
+            visibleEmojis.isEmpty)
+          SliverToBoxAdapter(
+            child: DesktopSettingsNotice(
+              bordered: true,
+              text: l10n.guildSettingsEmojiSearchEmpty,
+            ),
+          )
+        else if (state.debouncedSearchQuery.isNotEmpty && visibleEmojis.isEmpty)
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(context.layout.s4),
@@ -176,6 +201,7 @@ class _GuildEmojiSettingsWidgetState
           SliverToBoxAdapter(
             child: _SectionTitle(
               label: l10n.guildSettingsNonAnimatedEmoji(staticEmojis.length),
+              isFirst: true,
             ),
           ),
           const SliverToBoxAdapter(child: GuildEmojiListHeader()),
@@ -202,6 +228,7 @@ class _GuildEmojiSettingsWidgetState
           SliverToBoxAdapter(
             child: _SectionTitle(
               label: l10n.guildSettingsAnimatedEmoji(animatedEmojis.length),
+              isFirst: staticEmojis.isEmpty,
             ),
           ),
           const SliverToBoxAdapter(child: GuildEmojiListHeader()),
@@ -238,8 +265,12 @@ class _GuildEmojiSettingsWidgetState
               ),
             ),
           ),
-        const SliverToBoxAdapter(
-          child: SizedBox(height: kSettingsScrollBottomPadding),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: desktop
+                ? kDesktopSettingsScrollBottomPadding
+                : kSettingsScrollBottomPadding,
+          ),
         ),
       ],
     );
@@ -432,12 +463,27 @@ class _GuildEmojiSettingsWidgetState
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({required this.label});
+  const _SectionTitle({required this.label, this.isFirst = false});
 
   final String label;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
+    if (usesDesktopPointerUi(context)) {
+      return Padding(
+        padding: EdgeInsets.only(top: isFirst ? 0 : 16, bottom: 8),
+        child: Text(
+          label,
+          style: context.textStyles.bodyMedium.copyWith(
+            fontSize: 14,
+            height: 20 / 14,
+            fontWeight: FontWeight.w600,
+            color: context.colors.textPrimary,
+          ),
+        ),
+      );
+    }
     return Padding(
       padding: EdgeInsets.fromLTRB(
         context.layout.s4,

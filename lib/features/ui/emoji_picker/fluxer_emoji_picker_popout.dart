@@ -10,6 +10,8 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+enum FluxerEmojiPickerPlacement { verticalEnd, leftStart }
+
 class FluxerEmojiPickerPopout extends StatefulWidget {
   const FluxerEmojiPickerPopout({
     required this.child,
@@ -27,6 +29,7 @@ class FluxerEmojiPickerPopout extends StatefulWidget {
     ],
     this.initialTab = ExpressionPickerTab.emojis,
     this.channelId,
+    this.placement = FluxerEmojiPickerPlacement.verticalEnd,
     super.key,
   });
 
@@ -40,6 +43,7 @@ class FluxerEmojiPickerPopout extends StatefulWidget {
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
   final String? channelId;
+  final FluxerEmojiPickerPlacement placement;
 
   @override
   State<FluxerEmojiPickerPopout> createState() =>
@@ -50,6 +54,8 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     with SingleTickerProviderStateMixin {
   static const _kWidth = 498.0;
   static const _kHeight = 498.0;
+  static const _kSideGap = 8.0;
+  static const _kEdgePadding = 8.0;
 
   final _layerLink = LayerLink();
   final _overlayController = OverlayPortalController();
@@ -84,6 +90,10 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   bool get isOpen => _overlayController.isShowing;
 
   bool _openUpward = true;
+  double _sideShift = 0;
+
+  bool get _isLeftStart =>
+      widget.placement == FluxerEmojiPickerPlacement.leftStart;
 
   void toggle() {
     if (_overlayController.isShowing) {
@@ -91,7 +101,11 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     } else {
       _computeDirection();
       _overlayController.show();
-      _animationController.forward();
+      if (!_isLeftStart) {
+        _animationController.forward();
+      } else {
+        _animationController.value = 1;
+      }
     }
   }
 
@@ -102,6 +116,16 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
       return;
     }
     final screenHeight = MediaQuery.sizeOf(context).height;
+    if (_isLeftStart) {
+      final double anchorTop = renderBox.localToGlobal(Offset.zero).dy;
+      final double overflow =
+          anchorTop + _kHeight - (screenHeight - _kEdgePadding);
+      final double maxShift = anchorTop - _kEdgePadding;
+      _sideShift = overflow > 0
+          ? -overflow.clamp(0.0, maxShift < 0 ? 0.0 : maxShift)
+          : 0;
+      return;
+    }
     final anchorBottom = renderBox
         .localToGlobal(Offset(0, renderBox.size.height))
         .dy;
@@ -110,6 +134,14 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   }
 
   void close() {
+    if (_isLeftStart) {
+      _animationController.value = 0;
+      if (_overlayController.isShowing) {
+        _overlayController.hide();
+      }
+      widget.onClose?.call();
+      return;
+    }
     unawaited(
       _animationController.reverse().then((_) {
         if (mounted && _overlayController.isShowing) {
@@ -129,9 +161,28 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     }
   }
 
+  Alignment _targetAnchor(TextDirection direction) {
+    if (_isLeftStart) {
+      return AlignmentDirectional.topStart.resolve(direction);
+    }
+    return _openUpward
+        ? AlignmentDirectional.topEnd.resolve(direction)
+        : AlignmentDirectional.bottomEnd.resolve(direction);
+  }
+
+  Alignment _followerAnchor(TextDirection direction) {
+    if (_isLeftStart) {
+      return AlignmentDirectional.topEnd.resolve(direction);
+    }
+    return _openUpward
+        ? AlignmentDirectional.bottomEnd.resolve(direction)
+        : AlignmentDirectional.topEnd.resolve(direction);
+  }
+
   Widget _buildOverlay(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
+    final TextDirection direction = Directionality.of(context);
 
     return Stack(
       children: [
@@ -146,29 +197,16 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
           opacity: _fadeAnimation,
           child: CompositedTransformFollower(
             link: _layerLink,
-            targetAnchor: _openUpward
-                ? AlignmentDirectional.topEnd.resolve(
-                    Directionality.of(context),
+            targetAnchor: _targetAnchor(direction),
+            followerAnchor: _followerAnchor(direction),
+            offset: _isLeftStart
+                ? Offset(
+                    direction == TextDirection.ltr ? -_kSideGap : _kSideGap,
+                    _sideShift,
                   )
-                : AlignmentDirectional.bottomEnd.resolve(
-                    Directionality.of(context),
-                  ),
-            followerAnchor: _openUpward
-                ? AlignmentDirectional.bottomEnd.resolve(
-                    Directionality.of(context),
-                  )
-                : AlignmentDirectional.topEnd.resolve(
-                    Directionality.of(context),
-                  ),
-            offset: Offset(0, _openUpward ? -4 : 4),
+                : Offset(0, _openUpward ? -4 : 4),
             child: Align(
-              alignment: _openUpward
-                  ? AlignmentDirectional.bottomEnd.resolve(
-                      Directionality.of(context),
-                    )
-                  : AlignmentDirectional.topEnd.resolve(
-                      Directionality.of(context),
-                    ),
+              alignment: _followerAnchor(direction),
               child: SizedBox(
                 width: _kWidth,
                 height: _kHeight,

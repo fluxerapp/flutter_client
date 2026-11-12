@@ -2,7 +2,7 @@ name: fluxer_app
 description: "Official Fluxer Mobile client built on the Flutter framework"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 2026.11.100+3020
+version: 2026.11.200+1
 
 environment:
   sdk: ^3.12.0
@@ -29,6 +29,7 @@ dependencies:
   dio: ^5.11.1
   drift: ^2.35.0
   dynamic_app_icon_flutter_plus: ^2.2.1
+  dynamic_color: ^2.1.0
   ffi: ^2.2.0
   file_picker: ^12.2.0
   fixnum: ^1.1.1
@@ -53,12 +54,18 @@ dependencies:
     path: packages/fluxer_android_host
   fluxer_android_notifications:
     path: packages/fluxer_android_notifications
+  # BEGIN optional modules
+  fluxer_billing:
+    path: packages/fluxer_billing
+  # END optional modules
   fluxer_dart:
     path: dart_sdk
   fluxer_markdown:
     path: packages/fluxer_markdown
   fluxer_markdown_native:
     path: packages/fluxer_markdown_native
+  fluxer_voice:
+    path: packages/fluxer_voice
   foldable: ^1.0.5
   gaimon: ^1.5.0
   gal: ^2.3.3
@@ -70,13 +77,12 @@ dependencies:
   image_picker: ^1.2.3
   image_picker_android: ^0.8.13+19
   image_picker_platform_interface: ^2.11.1
-  in_app_purchase: ^3.3.1
-  in_app_purchase_android: ^0.5.3
-  in_app_purchase_storekit: ^0.4.16
   intl: ^0.20.2
   livekit_client: ^2.13.2
+  local_auth: ^3.0.2
   local_translation: ^0.1.1
   markdown: ^7.3.1
+  material_color_utilities: ^0.13.0
   material_ui: ^1.5.0
   # Temp: fluxerapp/media-kit fork (revert to pub.dev versions in the future).
   measure_flutter: ^0.9.1
@@ -110,6 +116,7 @@ dependencies:
   record: ^7.1.1
   riverpod: ^3.4.3
   riverpod_annotation: ^4.0.7
+  screen_retriever: ^0.2.2
   sensors_plus: ^7.1.0
   shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
@@ -120,10 +127,12 @@ dependencies:
   talker_dio_logger: ^5.1.20
   talker_flutter: ^5.1.20
   timezone: ^0.11.1
+  tray_manager: ^0.5.3
   unifiedpush: ^6.2.0
   unifiedpush_ui: ^0.2.0
   url_launcher: ^6.3.2
   uuid: ^4.5.1
+  velopack_flutter: ^0.3.3
   visibility_detector: ^0.4.0+2
   wakelock_plus: ^1.8.0
   web_socket_channel: ^3.0.3
@@ -132,6 +141,7 @@ dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
   analyzer: ^14.4.0
   analyzer_plugin: ^0.14.0
+  code_assets: ^2.2.0
   dart_style: 3.1.13
   device_info_plus: ^13.2.0
   # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
@@ -151,6 +161,7 @@ dependency_overrides:
   flutter_webrtc:
     git:
       url: https://github.com/fluxerapp/flutter-webrtc
+  hooks: ^2.2.0
   # Temp: fluxerapp/media-kit fork (revert with the dependencies above).
   media_kit:
     git:
@@ -204,6 +215,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/flags/
     - assets/images/
     - assets/images/plutonium/
     - assets/sounds/
@@ -213,6 +225,8 @@ flutter:
     - assets/images/connections/
     - assets/images/app_icon_previews/ios/
     - assets/images/app_icon_previews/android/
+    - assets/images/tray/canary/
+    - assets/images/tray/stable/
     - assets/emojis.json
     - assets/emoji-sprites/
     - assets/certificates/

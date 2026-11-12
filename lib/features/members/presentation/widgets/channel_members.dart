@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/members/providers/member_list_viewport_provi
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/members/utils/member_list_access.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 const double _kPanelWidth = 264;
@@ -123,7 +124,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
     final List<MemberListRange> ranges = buildMemberListRangeWindow(
       scrollTop: _scrollController.position.pixels,
       clientHeight: _scrollController.position.viewportDimension,
-      rowHeight: kMemberListRowHeight,
+      rowHeight: memberListRowHeightOf(context),
       totalRows: totalRows > 0 ? totalRows : null,
       layouts: layouts.isNotEmpty ? layouts : null,
     );
@@ -174,7 +175,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         child: ListView.builder(
           controller: _scrollController,
           padding: EdgeInsets.only(
-            top: 10,
+            top: usesDesktopPointerUi(context) ? 4 : 10,
             left: context.layout.s2,
             right: context.layout.s2,
             bottom: context.layout.s4,
@@ -197,7 +198,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
       child: ListView.builder(
         controller: _scrollController,
         padding: EdgeInsets.only(
-          top: 10,
+          top: usesDesktopPointerUi(context) ? 4 : 10,
           left: context.layout.s2,
           right: context.layout.s2,
           bottom: context.layout.s4,

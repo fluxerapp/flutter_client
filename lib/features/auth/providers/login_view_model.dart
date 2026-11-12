@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/push/account/lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/auth/data/browser_sign_in_service.dart';
 import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/awaiting_tap_after_sign_in_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
@@ -31,6 +33,7 @@ import 'package:fluxer_app/features/auth/providers/pending_registration_url_code
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
 import 'package:fluxer_app/features/recovery_kit/domain/recovery_kit.dart';
 import 'package:fluxer_app/features/recovery_kit/providers/recovery_kit_providers.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -872,6 +875,51 @@ class LoginViewModel extends _$LoginViewModel {
         .authSessionDao
         .getActiveSession();
     return session != null && session.isValid;
+  }
+
+  Future<void> signInWithBrowser() async {
+    if (state.signInInFlight) {
+      return;
+    }
+    state = state.copyWith(
+      errorMessage: null,
+      errorType: null,
+      fieldErrors: const {},
+      isLoggingIn: true,
+    );
+    try {
+      final AuthSession session = await ref
+          .read(browserSignInServiceProvider)
+          .signIn(
+            instance: ref.read(authInstanceSnapshotProvider),
+            identifier: state.email,
+            usernameSignIn: ref
+                .read(authInstanceRuntimeConfigProvider)
+                .usernameSignIn,
+          );
+      final bool restored = await _completeLoginSuccess(session);
+      if (restored) {
+        state = state.copyWith(email: '', password: '', isLoggingIn: false);
+      }
+    } on BrowserSignInCancelledException {
+      state = state.copyWith(isLoggingIn: false);
+    } on Object catch (e) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
+      }
+      talker.error('[LoginViewModel] Browser sign-in error: $e');
+      state = e is AuthFailure
+          ? _stateAfterAuthFailure(state, e)
+          : state.copyWith(
+              errorMessage: ref
+                  .read(appLocalizationsProvider)
+                  .browserSignInFailed,
+              errorType: null,
+              isLoggingIn: false,
+            );
+    }
   }
 
   Future<void> loginWithPasskey() async {

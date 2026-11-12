@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "fluxer_app")
-set(APPLICATION_ID "com.parakeetsoft.fluxer_app")
+set(BINARY_NAME "fluxer_oxygen")
+set(APPLICATION_ID "com.fluxer.oxygen")
+set(APPLICATION_NAME "Fluxer Oxygen")
 
 cmake_policy(SET CMP0063 NEW)
 
@@ -67,6 +68,12 @@ install(TARGETS ${BINARY_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}"
 
 install(FILES "${FLUTTER_ICU_DATA_FILE}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   COMPONENT Runtime)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/runner/resources/app_icon.png"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}" COMPONENT Runtime)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/runner/resources/${APPLICATION_ID}.desktop"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}" COMPONENT Runtime)
 
 install(FILES "${FLUTTER_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
   COMPONENT Runtime)

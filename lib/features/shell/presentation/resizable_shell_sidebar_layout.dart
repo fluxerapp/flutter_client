@@ -4,8 +4,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_sidebar_resize_handle.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class ResizableShellSidebarLayout extends ConsumerWidget {
   const ResizableShellSidebarLayout({
@@ -24,6 +26,7 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
     final FluxerLayoutTheme layout = context.layout;
     final Size size = MediaQuery.sizeOf(context);
     final double? userPreference = ref.watch(shellSidebarWidthProvider);
+    final bool desktop = usesDesktopPointerUi(context);
     final double leftPanelWidth =
         leftPanelWidthOverride ??
         resolveShellLeftPanelWidth(
@@ -31,12 +34,15 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
           windowSize: size,
           layout: layout,
           userPreference: userPreference,
+          desktop: desktop,
         );
     final double channelSidebarWidth = leftPanelWidth - layout.guildListWidth;
     final bool showResizeHandle = shellSidebarResizeEnabled(context);
     final double resizeHandleBottomInset =
         isMobileLayout(context) && isPinnedSidebarLayout(context)
         ? 0
+        : desktop
+        ? kUserAreaDesktopBoxHeight + kUserAreaDesktopBoxInset + 1
         : layout.userAreaHeight;
 
     return Row(

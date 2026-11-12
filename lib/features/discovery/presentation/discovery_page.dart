@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class DiscoveryPage extends ConsumerStatefulWidget {
   const DiscoveryPage({this.showBackButton = false, super.key});
@@ -182,6 +183,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
       context: context,
       state: state,
       isMobile: isMobile,
+      desktopPointer: !isMobile && usesDesktopPointerUi(context),
     );
     Widget scrollView = NotificationListener<ScrollNotification>(
       onNotification: _handleHeaderScrollNotification,

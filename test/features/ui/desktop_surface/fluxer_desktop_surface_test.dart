@@ -187,7 +187,10 @@ void main() {
       expect(find.byType(FluxerDesktopMenuPanel), findsOneWidget);
       expect(find.byType(FluxerDesktopMenuRow), findsOneWidget);
       expect(find.text('SECTION'), findsOneWidget);
-      expect(tester.getTopLeft(find.byType(FluxerDesktopMenuPanel)), press);
+      expect(
+        tester.getTopLeft(find.byType(FluxerDesktopMenuPanel)),
+        press + const Offset(0, kFluxerDesktopMenuPointerOffset),
+      );
       expect(tester.getSize(find.byType(FluxerDesktopMenuRow)).height, 32);
     });
 
@@ -364,7 +367,7 @@ void main() {
       expect(find.byType(FluxerDesktopMenuPanel), findsOneWidget);
       expect(
         tester.getTopLeft(find.byType(FluxerDesktopMenuPanel)),
-        const Offset(240, 180),
+        const Offset(240, 180 + kFluxerDesktopMenuPointerOffset),
       );
       await tester.tap(find.text('Edit'));
       await tester.pumpAndSettle();

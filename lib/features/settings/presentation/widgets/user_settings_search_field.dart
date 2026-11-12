@@ -33,6 +33,7 @@ class UserSettingsSearchField extends StatelessWidget {
           hintText: l10n.userSettingsSearchPlaceholder,
           onChanged: onChanged,
           onCleared: onClear,
+          desktopSettingsStyle: true,
         ),
       ),
     );

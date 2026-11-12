@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:desktop_drop/desktop_drop.dart';
+import 'package:flutter/rendering.dart'
+    show SliverConstraints, SliverGridLayout, SliverGridRegularTileLayout;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -12,6 +15,7 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_stic
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_state.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/expression_upload_source_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/guild_sticker_form_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_status_slate.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_clone_allowed_toggle.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_expression_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_sticker_grid_item.dart';
@@ -33,6 +37,7 @@ import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class GuildStickerSettingsWidget extends ConsumerStatefulWidget {
@@ -96,6 +101,17 @@ class _GuildStickerSettingsWidgetState
     final AsyncValue<GuildExpressionLimits?> limitsAsync = ref.watch(
       guildExpressionLimitsProvider(widget.guildId),
     );
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktopPointer(
+        context,
+        l10n,
+        state: state,
+        permissions: permissions,
+        currentUserId: currentUserId,
+        canCreate: canCreate,
+        limits: limitsAsync.value,
+      );
+    }
     if (state.loadStatus == GuildStickerSettingsLoadStatus.error) {
       return _buildErrorState(context, l10n);
     }
@@ -250,6 +266,148 @@ class _GuildStickerSettingsWidgetState
               );
             }, childCount: visibleStickers.length),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDesktopPointer(
+    BuildContext context,
+    FluxerLocalizations l10n, {
+    required GuildStickerSettingsState state,
+    required int permissions,
+    required String? currentUserId,
+    required bool canCreate,
+    required GuildExpressionLimits? limits,
+  }) {
+    final List<GuildStickerSettingsEntry> visibleStickers = state
+        .filteredIndices
+        .map(state.stickerAtFilteredIndex)
+        .toList(growable: false);
+    final bool compact = state.density == GuildStickerDensity.compact;
+    final bool failed =
+        state.loadStatus == GuildStickerSettingsLoadStatus.error;
+    final Widget? status = failed
+        ? DesktopSettingsStatusSlate(
+            icon: PhosphorIconsRegular.warningCircle,
+            title: l10n.guildSettingsStickersLoadFailedTitle,
+            description: l10n.guildSettingsStickersLoadFailedBody,
+            fullHeight: true,
+            actions: <Widget>[
+              FluxerButton.primary(
+                label: l10n.guildSettingsInvitesTryAgain,
+                fitContent: true,
+                onPressed: () => unawaited(
+                  ref
+                      .read(
+                        guildStickerSettingsProvider(widget.guildId).notifier,
+                      )
+                      .reload(),
+                ),
+              ),
+            ],
+          )
+        : state.debouncedSearchQuery.isNotEmpty && visibleStickers.isEmpty
+        ? DesktopSettingsStatusSlate(
+            icon: PhosphorIconsRegular.magnifyingGlass,
+            title: l10n.guildSettingsStickersSearchEmpty,
+            fullHeight: true,
+          )
+        : null;
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: GuildCloneAllowedToggle(
+            guildId: widget.guildId,
+            kind: GuildCloneAllowedKind.sticker,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: GuildExpressionSearchField(
+                    controller: _searchController,
+                    hintText: l10n.guildSettingsStickersSearchHint,
+                    padding: EdgeInsets.zero,
+                    onChanged: ref
+                        .read(
+                          guildStickerSettingsProvider(widget.guildId).notifier,
+                        )
+                        .setSearchQuery,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                _GuildStickerDensityToggle(
+                  compact: compact,
+                  cozyLabel: l10n.guildSettingsStickerDensityCozy,
+                  compactLabel: l10n.guildSettingsStickerDensityCompact,
+                  onChanged: (GuildStickerDensity density) => ref
+                      .read(
+                        guildStickerSettingsProvider(widget.guildId).notifier,
+                      )
+                      .setDensity(density),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (canCreate && limits != null) ...<Widget>[
+          SliverToBoxAdapter(
+            child: GuildUploadSlotInfo(
+              title: l10n.guildSettingsStickerSlotsTitle,
+              slotLabel: formatExpressionSlotCount(
+                state.stickers.length,
+                limits.maxStickers,
+              ),
+              description: l10n.guildSettingsStickerUploadRequirements(
+                formatExpressionFileSize(limits.stickerMaxSizeBytes),
+              ),
+              uploadLabel: l10n.guildSettingsStickerUploadTitle,
+              onUpload: () => unawaited(_pickAndUpload(limits)),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: GuildUploadDropZone(
+              description: l10n.guildSettingsStickerDropZone,
+              onFilesDropped: (List<DropItem> files) =>
+                  unawaited(_uploadDroppedFiles(files, limits)),
+            ),
+          ),
+        ],
+        if (status != null)
+          SliverToBoxAdapter(child: status)
+        else
+          SliverGrid(
+            gridDelegate: _GuildStickerGridDelegate(
+              minCrossAxisExtent: compact ? 150 : 190,
+              mainAxisExtent: compact ? 220 : 260,
+              spacing: 16,
+            ),
+            delegate: SliverChildBuilderDelegate((
+              BuildContext context,
+              int index,
+            ) {
+              final GuildStickerSettingsEntry entry = visibleStickers[index];
+              return GuildStickerGridItem(
+                key: ValueKey<String>(entry.id),
+                entry: entry,
+                density: state.density,
+                canModify: canModifyGuildSticker(
+                  sticker: entry,
+                  permissions: permissions,
+                  currentUserId: currentUserId,
+                ),
+                onEdit: () => _editSticker(entry, l10n),
+                onDelete: () => _confirmDelete(entry, l10n),
+              );
+            }, childCount: visibleStickers.length),
+          ),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: kDesktopSettingsScrollBottomPadding),
         ),
       ],
     );
@@ -451,5 +609,129 @@ class _GuildStickerSettingsWidgetState
       }
       await showApiError(context, ApiErrorAction.deleteSticker, error);
     }
+  }
+}
+
+class _GuildStickerGridDelegate extends SliverGridDelegate {
+  const _GuildStickerGridDelegate({
+    required this.minCrossAxisExtent,
+    required this.mainAxisExtent,
+    required this.spacing,
+  });
+
+  final double minCrossAxisExtent;
+  final double mainAxisExtent;
+  final double spacing;
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) {
+    final double width = constraints.crossAxisExtent;
+    final int count = math.max(
+      1,
+      ((width + spacing) / (minCrossAxisExtent + spacing)).floor(),
+    );
+    final double childWidth = (width - spacing * (count - 1)) / count;
+    return SliverGridRegularTileLayout(
+      crossAxisCount: count,
+      mainAxisStride: mainAxisExtent + spacing,
+      crossAxisStride: childWidth + spacing,
+      childMainAxisExtent: mainAxisExtent,
+      childCrossAxisExtent: childWidth,
+      reverseCrossAxis: axisDirectionIsReversed(constraints.crossAxisDirection),
+    );
+  }
+
+  @override
+  bool shouldRelayout(_GuildStickerGridDelegate oldDelegate) =>
+      oldDelegate.minCrossAxisExtent != minCrossAxisExtent ||
+      oldDelegate.mainAxisExtent != mainAxisExtent ||
+      oldDelegate.spacing != spacing;
+}
+
+class _GuildStickerDensityToggle extends StatelessWidget {
+  const _GuildStickerDensityToggle({
+    required this.compact,
+    required this.cozyLabel,
+    required this.compactLabel,
+    required this.onChanged,
+  });
+
+  final bool compact;
+  final String cozyLabel;
+  final String compactLabel;
+  final ValueChanged<GuildStickerDensity> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    Widget button(
+      String label, {
+      required bool active,
+      required VoidCallback onTap,
+    }) {
+      return Semantics(
+        button: true,
+        selected: active,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: AnimatedContainer(
+              duration: MediaQuery.disableAnimationsOf(context)
+                  ? Duration.zero
+                  : const Duration(milliseconds: 120),
+              curve: Curves.easeInOut,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 7.2,
+              ),
+              color: active ? colors.backgroundTertiary : Colors.transparent,
+              child: Text(
+                label,
+                style: context.textStyles.bodyMedium.copyWith(
+                  fontSize: 16,
+                  height: 1.25,
+                  fontWeight: FontWeight.w600,
+                  color: active ? colors.textPrimary : colors.textPrimaryMuted,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.backgroundSecondary,
+        borderRadius: context.layout.radiusLg,
+        border: Border.all(color: colors.backgroundHeaderSecondary),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            button(
+              cozyLabel,
+              active: !compact,
+              onTap: () => onChanged(GuildStickerDensity.cozy),
+            ),
+            VerticalDivider(
+              width: 1,
+              thickness: 1,
+              color: colors.backgroundHeaderSecondary,
+            ),
+            button(
+              compactLabel,
+              active: compact,
+              onTap: () => onChanged(GuildStickerDensity.compact),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

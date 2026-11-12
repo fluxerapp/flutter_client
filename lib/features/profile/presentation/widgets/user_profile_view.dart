@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
@@ -744,14 +745,16 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         (config) => config.directMessagesDisabled,
       ),
     );
+    final int nameLength = math.max(displayName.characters.length, 1);
     final Widget name = Text(
       displayName,
       style: textStyles.heading.copyWith(
         color: colors.textPrimary,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
+        fontSize: (480 / nameLength).clamp(17.0, 20.0),
+        fontWeight: FontWeight.w500,
+        height: 24 / (480 / nameLength).clamp(17.0, 20.0),
       ),
-      maxLines: 2,
+      maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
     final Widget? footer = isWebhook
@@ -760,6 +763,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         ? FluxerButton.primary(
             label: l10n.userProfileEditProfile,
             icon: PhosphorIconsFill.pencil,
+            size: FluxerButtonSize.small,
             onPressed: () {
               _requestClose();
               unawaited(
@@ -772,6 +776,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         : FluxerButton.primary(
             label: isBlocked ? l10n.userProfileOpenDm : l10n.userProfileMessage,
             icon: PhosphorIconsFill.chatTeardrop,
+            size: FluxerButtonSize.small,
             onPressed: () => _handleMessage(userId, isBlocked, username),
           );
 
@@ -793,21 +798,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         onTap: openFull,
       ),
       children: <Widget>[
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 6,
-          runSpacing: 4,
+        Row(
           children: <Widget>[
-            if (openFull == null)
-              name
-            else
-              FluxerTappable(
-                onTap: openFull,
-                builder: (BuildContext context, Set<WidgetState> states) =>
-                    name,
-              ),
-            if (isBot || isSystem || isWebhook)
+            Flexible(
+              child: openFull == null
+                  ? name
+                  : FluxerTappable(
+                      onTap: openFull,
+                      builder:
+                          (BuildContext context, Set<WidgetState> states) =>
+                              name,
+                    ),
+            ),
+            if (isBot || isSystem || isWebhook) ...<Widget>[
+              const SizedBox(width: 6),
               FluxerUserTag(isSystem: isSystem),
+            ],
           ],
         ),
         if (!isWebhook)
@@ -819,22 +825,29 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   isCurrentUser || ref.watch(uniqueUsernamesProvider),
               bot: isBot,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: textStyles.bodySmall.copyWith(
               color: colors.textTertiary,
-              fontWeight: FontWeight.w500,
+              height: 18 / 14,
             ),
           ),
-        if (trimmedPronouns != null && trimmedPronouns.isNotEmpty)
+        if (trimmedPronouns != null && trimmedPronouns.isNotEmpty) ...<Widget>[
+          SizedBox(height: layout.s1),
           Text(
             trimmedPronouns,
-            style: textStyles.bodySmall.copyWith(color: colors.textTertiary),
+            style: textStyles.bodySmall.copyWith(
+              color: colors.textTertiary,
+              fontSize: 13,
+            ),
           ),
+        ],
         if (hasVisibleCustomStatus(customStatus)) ...<Widget>[
-          SizedBox(height: layout.s1),
-          UserProfileCustomStatus(text: customStatus),
+          SizedBox(height: layout.s2),
+          UserProfileCustomStatus(text: customStatus, popout: true),
         ],
         if (!isWebhook) ...<Widget>[
-          SizedBox(height: layout.s3),
+          SizedBox(height: layout.s2),
           UserProfileBioCard(
             compact: true,
             bio: bio,
@@ -849,7 +862,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           ),
         ],
         if (!isWebhook && profileGuildId != null) ...<Widget>[
-          SizedBox(height: layout.s3),
+          SizedBox(height: layout.s2),
           UserProfileRolesSection(
             guildId: profileGuildId,
             userId: userId,

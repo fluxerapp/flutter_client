@@ -1,6 +1,8 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerSwitchControl extends StatelessWidget {
   const FluxerSwitchControl({
@@ -26,6 +28,10 @@ class FluxerSwitchControl extends StatelessWidget {
         ? trackWidth - thumbSize - thumbInset
         : thumbInset;
     final trackColor = value ? colors.brandPrimary : colors.switchTrackInactive;
+
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, trackColor, thumbOffset);
+    }
 
     return ExcludeSemantics(
       child: AnimatedOpacity(
@@ -83,6 +89,76 @@ class FluxerSwitchControl extends StatelessWidget {
                             ? colors.switchThumbCheckedIcon
                             : colors.switchThumbUncheckedIcon,
                       ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktop(
+    BuildContext context,
+    Color trackColor,
+    double thumbOffset,
+  ) {
+    final colors = context.colors;
+    final Duration duration = context.motion.normal;
+    const Curve curve = Curves.fastOutSlowIn;
+    const Color uncheckedIcon = Color(0xFF6B7280);
+    return ExcludeSemantics(
+      child: Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: SizedBox(
+          width: 44,
+          height: 24,
+          child: AnimatedContainer(
+            duration: duration,
+            curve: curve,
+            decoration: BoxDecoration(
+              color: trackColor,
+              borderRadius: BorderRadius.circular(9999),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: value ? 0.15 : 0.1),
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                AnimatedPositionedDirectional(
+                  duration: duration,
+                  curve: curve,
+                  start: value ? 22 : 2,
+                  top: 2,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: value ? colors.brandPrimaryFill : Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.15),
+                          offset: const Offset(0, 1),
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                          spreadRadius: -1,
+                        ),
+                      ],
+                    ),
+                    child: PhosphorIcon(
+                      value ? PhosphorIconsBold.check : PhosphorIconsBold.x,
+                      size: value ? 12 : 10,
+                      color: value ? colors.brandPrimary : uncheckedIcon,
                     ),
                   ),
                 ),

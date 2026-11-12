@@ -1,5 +1,75 @@
 part of 'guild_navbar.dart';
 
+class _FolderPalette {
+  const _FolderPalette({
+    required this.surface,
+    required this.expandedSurface,
+    required this.miniSurface,
+    required this.iconColor,
+  });
+
+  factory _FolderPalette.touch(
+    BuildContext context, {
+    required Color accent,
+    required bool isDark,
+  }) {
+    final colors = context.colors;
+    final Color surface = Color.lerp(
+      colors.serverSidebarBackground,
+      accent,
+      isDark ? 0.2 : 0.15,
+    )!;
+    return _FolderPalette(
+      surface: surface,
+      expandedSurface: surface,
+      miniSurface: colors.serverIconBackground,
+      iconColor: colors.textPrimary,
+    );
+  }
+
+  factory _FolderPalette.desktop(
+    BuildContext context, {
+    required Color accent,
+    required bool isDark,
+    required bool hovered,
+    required bool selected,
+  }) {
+    final colors = context.colors;
+    final double fill = selected
+        ? (isDark ? 0.18 : 0.16)
+        : hovered
+        ? (isDark ? 0.14 : 0.12)
+        : (isDark ? 0.10 : 0.08);
+    return _FolderPalette(
+      surface: fluxerCssColorMix(
+        accent,
+        selected
+            ? colors.surfaceInteractiveSelectedBg
+            : colors.surfaceInteractiveHoverBg,
+        fill,
+      ),
+      expandedSurface: fluxerCssColorMix(
+        accent,
+        colors.backgroundSecondary,
+        isDark ? 0.08 : 0.07,
+      ),
+      miniSurface: isDark
+          ? fluxerCssColorMix(accent, colors.backgroundSecondary, 0.14)
+          : fluxerCssColorMix(accent, colors.backgroundPrimary, 0.12),
+      iconColor: fluxerCssColorMix(
+        accent,
+        colors.textPrimary,
+        selected ? 0.28 : 0.14,
+      ),
+    );
+  }
+
+  final Color surface;
+  final Color expandedSurface;
+  final Color miniSurface;
+  final Color iconColor;
+}
+
 class _GuildFolderWidget extends ConsumerStatefulWidget {
   final GuildNavbarFolder folder;
   final int unavailableCount;
@@ -18,8 +88,14 @@ class _GuildFolderWidget extends ConsumerStatefulWidget {
 }
 
 class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
-  var _isHovered = false;
+  final ValueNotifier<bool> _hovered = ValueNotifier<bool>(false);
   var _suppressNextFolderTap = false;
+
+  @override
+  void dispose() {
+    _hovered.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +164,25 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         ? context.colors.brandPrimaryLight
         : context.colors.brandPrimary;
 
-    final folderSurface = Color.lerp(
-      context.colors.serverSidebarBackground,
-      folderAccent,
-      isDark ? 0.2 : 0.15,
-    )!;
+    final bool desktop = usesDesktopPointerUi(context);
+    final double itemSpacing = GuildNavbarIconShape.itemSpacingOf(context);
+    final bool folderSelected = ref.watch(
+      activeGuildIdProvider.select(
+        (String? id) => folder.guilds.any((Guild guild) => guild.id == id),
+      ),
+    );
+    _FolderPalette paletteFor({required bool hovered}) => desktop
+        ? _FolderPalette.desktop(
+            context,
+            accent: folderAccent,
+            isDark: isDark,
+            hovered: hovered,
+            selected: folderSelected,
+          )
+        : _FolderPalette.touch(context, accent: folderAccent, isDark: isDark);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: GuildNavbarIconShape.itemSpacing / 2,
-      ),
+      padding: EdgeInsets.symmetric(vertical: itemSpacing / 2),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -108,13 +193,18 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             children: [
               if (visuallyExpanded)
                 Positioned.fill(
+                  bottom: desktop ? itemSpacing / 2 : 0,
                   child: Center(
                     child: Container(
-                      width: GuildNavbarIconShape.size,
+                      width: desktop
+                          ? GuildNavbarIconShape.desktopFolderSize + 4
+                          : GuildNavbarIconShape.sizeOf(context),
                       decoration: BoxDecoration(
-                        color: folderSurface,
+                        color: paletteFor(hovered: false).expandedSurface,
                         borderRadius: BorderRadius.circular(
-                          GuildNavbarIconShape.activeRadius,
+                          desktop
+                              ? GuildNavbarIconShape.desktopFolderExpandedRadius
+                              : GuildNavbarIconShape.activeRadiusOf(context),
                         ),
                       ),
                     ),
@@ -146,14 +236,20 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                     onPeekOpened: () {
                       setState(() => _suppressNextFolderTap = true);
                     },
-                    child: _buildFolderButton(
-                      context,
-                      folderAccent: folderAccent,
-                      folderSurface: folderSurface,
-                      anyUnread: anyUnread,
-                      totalMentions: totalMentions,
-                      folderVoiceActivity: folderVoiceActivity,
-                      isExpanded: visuallyExpanded,
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _hovered,
+                      builder: (BuildContext context, bool hovered, _) =>
+                          _buildFolderButton(
+                            context,
+                            palette: paletteFor(hovered: hovered),
+                            desktop: desktop,
+                            hovered: hovered,
+                            emphasized: hovered || folderSelected,
+                            anyUnread: anyUnread,
+                            totalMentions: totalMentions,
+                            folderVoiceActivity: folderVoiceActivity,
+                            isExpanded: visuallyExpanded,
+                          ),
                     ),
                   ),
                   AnimatedSize(
@@ -187,8 +283,10 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
 
   Widget _buildFolderButton(
     BuildContext context, {
-    required Color folderAccent,
-    required Color folderSurface,
+    required _FolderPalette palette,
+    required bool desktop,
+    required bool hovered,
+    required bool emphasized,
     required bool anyUnread,
     required int totalMentions,
     required VoiceActivityType folderVoiceActivity,
@@ -197,6 +295,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     final folder = widget.folder;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String folderName = folder.name ?? _derivedFolderName;
+    final double iconSize = GuildNavbarIconShape.sizeOf(context);
     return SizedBox(
       width: kGuildNavbarWidth,
       child: Stack(
@@ -210,7 +309,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               bottom: 0,
               child: Center(
                 child: GuildNavbarPill(
-                  height: _isHovered
+                  height: hovered
                       ? GuildNavbarPill.hoverHeight
                       : anyUnread
                       ? GuildNavbarPill.unreadHeight
@@ -228,8 +327,8 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                       : folderName,
                 ),
                 child: MouseRegion(
-                  onEnter: (_) => setState(() => _isHovered = true),
-                  onExit: (_) => setState(() => _isHovered = false),
+                  onEnter: (_) => _hovered.value = true,
+                  onExit: (_) => _hovered.value = false,
                   child: Semantics(
                     button: true,
                     expanded: isExpanded,
@@ -255,33 +354,42 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                           ),
                         );
                       },
-                      child: SizedBox.square(
-                        dimension: GuildNavbarIconShape.size,
-                        child: isExpanded
-                            ? Center(
-                                child: PhosphorIcon(
-                                  guildFolderIconForName(folder.icon),
-                                  color: context.colors.textPrimary,
-                                  size: 24,
-                                ),
-                              )
-                            : Center(
-                                child: Container(
-                                  width: GuildNavbarIconShape.size,
-                                  height: GuildNavbarIconShape.size,
-                                  decoration: BoxDecoration(
-                                    color: folderSurface,
-                                    borderRadius: BorderRadius.circular(
-                                      GuildNavbarIconShape.activeRadius,
+                      child: desktop
+                          ? _buildDesktopFolderTile(
+                              context,
+                              palette: palette,
+                              isExpanded: isExpanded,
+                              emphasized: emphasized,
+                            )
+                          : SizedBox.square(
+                              dimension: iconSize,
+                              child: isExpanded
+                                  ? Center(
+                                      child: PhosphorIcon(
+                                        guildFolderIconForName(folder.icon),
+                                        color: context.colors.textPrimary,
+                                        size: 24,
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Container(
+                                        width: iconSize,
+                                        height: iconSize,
+                                        decoration: BoxDecoration(
+                                          color: palette.surface,
+                                          borderRadius: BorderRadius.circular(
+                                            GuildNavbarIconShape.activeRadiusOf(
+                                              context,
+                                            ),
+                                          ),
+                                        ),
+                                        child: _buildFolderContent(
+                                          context,
+                                          palette: palette,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  child: _buildFolderContent(
-                                    context,
-                                    folderAccent,
-                                  ),
-                                ),
-                              ),
-                      ),
+                            ),
                     ),
                   ),
                 ),
@@ -299,8 +407,8 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 ),
               if (!isExpanded && folderVoiceActivity != VoiceActivityType.none)
                 PositionedDirectional(
-                  top: -4,
-                  end: -4,
+                  top: _ringBadgeOffset(context),
+                  end: _ringBadgeOffset(context),
                   child: _VoiceActivityBadge(type: folderVoiceActivity),
                 ),
             ],
@@ -310,13 +418,63 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     );
   }
 
-  Widget _buildFolderContent(BuildContext context, Color folderAccent) {
+  Widget _buildDesktopFolderTile(
+    BuildContext context, {
+    required _FolderPalette palette,
+    required bool isExpanded,
+    required bool emphasized,
+  }) {
+    final Duration duration = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 120);
+    final double radius = emphasized
+        ? GuildNavbarIconShape.desktopFolderEmphasizedRadius
+        : GuildNavbarIconShape.desktopFolderRadius;
+    final bool scaled = emphasized && !isExpanded;
+    return SizedBox.square(
+      dimension: GuildNavbarIconShape.desktopFolderSize,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          AnimatedScale(
+            scale: scaled ? 1.03 : 1,
+            duration: duration,
+            curve: Curves.ease,
+            child: AnimatedContainer(
+              duration: duration,
+              curve: Curves.ease,
+              decoration: BoxDecoration(
+                color: palette.surface,
+                borderRadius: BorderRadius.circular(radius),
+              ),
+            ),
+          ),
+          if (isExpanded)
+            Center(
+              child: PhosphorIcon(
+                guildFolderIconForName(widget.folder.icon),
+                color: palette.iconColor,
+                size: 24,
+              ),
+            )
+          else
+            _buildFolderContent(context, palette: palette, desktop: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFolderContent(
+    BuildContext context, {
+    required _FolderPalette palette,
+    bool desktop = false,
+  }) {
     final folder = widget.folder;
     if (folder.showIconWhenCollapsed) {
       return Center(
         child: PhosphorIcon(
           guildFolderIconForName(folder.icon ?? 'folder'),
-          color: context.colors.textPrimary,
+          color: palette.iconColor,
           size: 24,
         ),
       );
@@ -339,7 +497,11 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 SizedBox.square(
                   dimension: cellSize,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(cellSize * 0.3),
+                    borderRadius: BorderRadius.circular(
+                      desktop
+                          ? GuildNavbarIconShape.desktopFolderMiniIconRadius
+                          : cellSize * 0.3,
+                    ),
                     child: guild.iconUrl != null
                         ? CachedNetworkImage(
                             imageUrl: guild.iconUrl!,
@@ -354,7 +516,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                             ),
                           )
                         : ColoredBox(
-                            color: context.colors.serverIconBackground,
+                            color: palette.miniSurface,
                             child: FluxerGuildAcronym(name: guild.name),
                           ),
                   ),

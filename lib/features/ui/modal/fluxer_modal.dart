@@ -6,11 +6,13 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 typedef FluxerModalBuilder =
     Widget Function(BuildContext context, VoidCallback close);
@@ -20,6 +22,9 @@ typedef FluxerModalActionsBuilder<T> =
 
 class FluxerModal {
   FluxerModal._();
+
+  static bool _isActionSpacer(Widget action) =>
+      action is SizedBox && action.child == null;
 
   static Future<T?> show<T>(
     BuildContext context, {
@@ -52,6 +57,8 @@ class FluxerModal {
         final double keyboardInset = mediaQuery.viewInsets.bottom;
         final isMobile = isMobileLayout(dialogContext);
         final useMobileFullscreen = isMobile && !centered;
+        final bool desktop =
+            !useMobileFullscreen && usesDesktopPointerUi(dialogContext);
 
         final themeShape = dialogTheme.shape as RoundedRectangleBorder?;
         final headerSubtitle = description == null
@@ -64,14 +71,23 @@ class FluxerModal {
                 ),
               );
         final FluxerLocalizations l10n = FluxerLocalizations.of(dialogContext);
-        final closeButton = Opacity(
-          opacity: 0.7,
-          child: FluxerButton.ghost(
-            onPressed: close,
-            icon: PhosphorIconsBold.x,
-            isSquare: true,
-            semanticLabel: l10n.uiClose,
-          ),
+        final Widget closeButton = desktop
+            ? FluxerDesktopModalCloseButton(onTap: close)
+            : Opacity(
+                opacity: 0.7,
+                child: FluxerButton.ghost(
+                  onPressed: close,
+                  icon: PhosphorIconsBold.x,
+                  isSquare: true,
+                  semanticLabel: l10n.uiClose,
+                ),
+              );
+
+        final Widget header = FluxerBottomSheetHeader(
+          title: title,
+          subtitle: headerSubtitle,
+          onBack: onBack,
+          trailing: trailing ?? closeButton,
         );
 
         Widget buildModalContent({required bool mobileFullscreen}) {
@@ -87,7 +103,7 @@ class FluxerModal {
 
           return ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: 400,
+              maxWidth: desktop ? 440 : 400,
               maxHeight: dialogMaxHeight,
             ),
             child: Column(
@@ -96,12 +112,12 @@ class FluxerModal {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: layout.s4, bottom: layout.s4),
-                  child: FluxerBottomSheetHeader(
-                    title: title,
-                    subtitle: headerSubtitle,
-                    onBack: onBack,
-                    trailing: trailing ?? closeButton,
-                  ),
+                  child: desktop
+                      ? FluxerDesktopSurfaceScope(
+                          surface: FluxerDesktopSurface.modal,
+                          child: header,
+                        )
+                      : header,
                 ),
                 if (mobileFullscreen)
                   Flexible(child: body)
@@ -112,7 +128,20 @@ class FluxerModal {
                             .clamp(0.0, dialogMaxHeight),
                     child: body,
                   ),
-                if (footerActions.isNotEmpty)
+                if (footerActions.isNotEmpty && desktop)
+                  FluxerBottomSheetFooter(
+                    child: Wrap(
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        for (final Widget action in footerActions.reversed)
+                          if (!_isActionSpacer(action)) action,
+                      ],
+                    ),
+                  )
+                else if (footerActions.isNotEmpty)
                   FluxerBottomSheetFooter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,7 +160,7 @@ class FluxerModal {
             vertical: 24,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: layout.radiusXxl,
+            borderRadius: desktop ? layout.radiusLg : layout.radiusXxl,
             side: themeShape?.side ?? BorderSide.none,
           ),
           child: buildModalContent(mobileFullscreen: false),

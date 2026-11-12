@@ -20,8 +20,6 @@ import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.d
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
-import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
@@ -30,6 +28,7 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 import '../../../../helpers/wide_layout_test_sizes.dart';
 
 const Friend _alice = Friend(
@@ -134,6 +133,70 @@ void main() {
     expect(repository.lastEnsureUserId, '200');
     await releaseTestWidgetTree(tester);
   });
+
+  for (final ({double paneWidth, bool shown}) scenario
+      in <({double paneWidth, bool shown})>[
+        (paneWidth: 1033, shown: false),
+        (paneWidth: 1200, shown: true),
+      ]) {
+    testWidgets(
+      'FriendsList ${scenario.shown ? 'shows' : 'hides'} the active now panel '
+      'in a ${scenario.paneWidth.toInt()} wide pane on a wide screen',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1600, 900);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        final FluxerDatabase db = openTestDatabase();
+        final colorTheme = buildDarkColorTheme();
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: coreTestProviderOverrides(
+              database: db,
+              extra: <Override>[
+                dmViewModelProvider.overrideWith(
+                  () => _StaticDmViewModel(
+                    const DmViewState(
+                      conversations: <DmConversation>[],
+                      friendsList: <Friend>[],
+                      activeTab: FriendsTab.online,
+                      searchQuery: '',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates: fluxerLocalizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: Scaffold(
+                body: Align(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    width: scenario.paneWidth,
+                    child: const FriendsList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          find.text(testL10n.friendsActiveNowTitle),
+          scenario.shown ? findsOneWidget : findsNothing,
+        );
+        await releaseTestWidgetTree(tester);
+      },
+    );
+  }
 }
 
 class _StaticDmViewModel extends DmViewModel {

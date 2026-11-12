@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_invites_state.da
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/delete_community_flow.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_modal_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channels_settings_widget.dart';
@@ -51,6 +52,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 
@@ -170,6 +172,61 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     final Color contentBackground = wideSettingsContentBackground(context);
     final bool showRolesSidebar =
         activeTab == GuildSettingsTab.roles && !_rolesSidebarDismissed;
+
+    if (usesDesktopPointerUi(context)) {
+      return WideSettingsModalFrame(
+        includeOuterPadding: false,
+        backgroundColor: contentBackground,
+        child: Scaffold(
+          backgroundColor: contentBackground,
+          body: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              GuildSettingsDesktopSidebar(
+                guild: guild,
+                sidebarItems: sidebarItems,
+                selectedIndex: sidebarSelectedIndex,
+                showRolesSidebar: showRolesSidebar,
+                rolesBridge: _rolesBridge,
+                onItemSelected: (int index) => _handleSettingsSidebarSelected(
+                  l10n: l10n,
+                  sidebarItems: sidebarItems,
+                  visibleTabs: visibleTabs,
+                  index: index,
+                ),
+                onBackToSettings: () =>
+                    setState(() => _rolesSidebarDismissed = true),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    DesktopSettingsModalHeader(
+                      title: guildSettingsTabTitle(l10n, activeTab),
+                      backgroundColor: contentBackground,
+                      onClose: () => context.pop(),
+                    ),
+                    Expanded(
+                      child: WideSettingsContentLayout(
+                        child: GuildSettingsAccessGate(
+                          guildId: widget.guildId,
+                          tab: activeTab,
+                          child: GuildSettingsTabBody(
+                            guildId: widget.guildId,
+                            tab: activeTab,
+                            rolesBridge: _rolesBridge,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return WideSettingsModalFrame(
       includeOuterPadding: false,

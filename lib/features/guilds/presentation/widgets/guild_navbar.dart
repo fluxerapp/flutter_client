@@ -97,6 +97,7 @@ import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinat
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
+import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

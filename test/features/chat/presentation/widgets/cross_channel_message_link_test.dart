@@ -172,6 +172,7 @@ class _FakeWellKnown extends WellKnown {
         guildCreateAccess: true,
       ),
       services: InstanceServicesSchema(
+        connectionProviders: <InstanceConnectionProviderSchema>[],
         gifEnabled: false,
         youtubeEnabled: false,
         blueskyEnabled: false,

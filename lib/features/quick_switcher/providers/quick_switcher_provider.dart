@@ -134,6 +134,34 @@ class QuickSwitcher extends _$QuickSwitcher {
     state = state.copyWith(activeTab: tab);
   }
 
+  void setSelectedIndex(int index) {
+    if (index < 0 ||
+        index >= state.results.length ||
+        index == state.selectedIndex ||
+        !isQuickSwitcherExecutable(state.results[index])) {
+      return;
+    }
+    state = state.copyWith(selectedIndex: index);
+  }
+
+  void moveSelection(int delta) {
+    final List<QuickSwitcherResult> results = state.results;
+    if (results.isEmpty || delta == 0) {
+      return;
+    }
+    final int length = results.length;
+    int index = state.selectedIndex < 0
+        ? (delta > 0 ? -1 : length)
+        : state.selectedIndex;
+    for (int step = 0; step < length; step++) {
+      index = (index + delta.sign) % length;
+      if (isQuickSwitcherExecutable(results[index])) {
+        state = state.copyWith(selectedIndex: index);
+        return;
+      }
+    }
+  }
+
   void setFriendsSearchQuery(String value) {
     state = state.copyWith(friendsSearchQuery: value);
   }

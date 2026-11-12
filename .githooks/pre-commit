@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "${ROOT}"
+
+if ! command -v dart >/dev/null 2>&1; then
+  echo "pre-commit: dart not found; skipping build profile check" >&2
+  exit 0
+fi
+
+dart tool/configure_build.dart --check --staged

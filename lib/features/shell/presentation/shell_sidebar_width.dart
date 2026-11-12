@@ -6,9 +6,11 @@ import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 const double kShellSidebarWidthMin = 200;
 const double kShellSidebarWidthMax = 480;
+const double kShellSidebarWidthDesktopDefault = 320;
 
 const String kShellSidebarWidthStorageKeyPrefix = 'fluxer:ui:sidebar-width';
 
@@ -51,11 +53,13 @@ double resolveShellSidebarWidthForPreference({
   required FluxerLayoutTheme layout,
   required bool resizeEnabled,
   double? userPreference,
+  double? defaultWidth,
 }) {
+  final double fallback = defaultWidth ?? layout.sidebarWidth;
   if (!resizeEnabled) {
-    return layout.sidebarWidth;
+    return fallback;
   }
-  final double requested = userPreference ?? layout.sidebarWidth;
+  final double requested = userPreference ?? fallback;
   final double viewportMax = shellSidebarWidthViewportMax(
     windowSize: windowSize,
     layout: layout,
@@ -71,12 +75,16 @@ double resolveShellSidebarWidth({
   required Size windowSize,
   required FluxerLayoutTheme layout,
   double? userPreference,
+  bool? desktop,
 }) {
   return resolveShellSidebarWidthForPreference(
     windowSize: windowSize,
     layout: layout,
     userPreference: userPreference,
     resizeEnabled: shellSidebarResizeEnabled(context),
+    defaultWidth: desktop ?? usesDesktopPointerUi(context)
+        ? kShellSidebarWidthDesktopDefault
+        : null,
   );
 }
 
@@ -135,6 +143,7 @@ double resolveShellLeftPanelWidth({
   required Size windowSize,
   required FluxerLayoutTheme layout,
   double? userPreference,
+  bool? desktop,
 }) {
   if (isPinnedSidebarSplitAtHinge(context)) {
     return pinnedSidebarWidthForPosture(
@@ -156,6 +165,7 @@ double resolveShellLeftPanelWidth({
     windowSize: windowSize,
     layout: layout,
     userPreference: userPreference,
+    desktop: desktop,
   );
   return layout.guildListWidth + sidebar;
 }

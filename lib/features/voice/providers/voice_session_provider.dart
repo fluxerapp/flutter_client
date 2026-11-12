@@ -72,6 +72,7 @@ import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_voice/fluxer_voice.dart' show VoiceAudioSessionEvent;
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -146,7 +147,7 @@ class VoiceSession extends _$VoiceSession {
   bool _pendingSelfMute = false;
   bool _pendingSelfDeaf = false;
   bool _ensuringMicrophone = false;
-  StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
+  StreamSubscription<Object?>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _lastKnownOutputDeviceIds;
@@ -643,6 +644,9 @@ class VoiceSession extends _$VoiceSession {
       joinMicrophoneGranted = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.microphone,
       );
+      if (joinMicrophoneGranted) {
+        await requestVoiceBluetoothPermissionOnce();
+      }
       if (initialSelfVideo) {
         joinCameraGranted = await requestVoiceJoinMediaPermissionGranted(
           SystemPermissionKind.camera,
@@ -894,7 +898,7 @@ class VoiceSession extends _$VoiceSession {
       if (mesh.hasScreenShare) {
         unawaited(disableAndroidScreenShareBackground());
       }
-      unawaited(_closeMesh(mesh, handOffAudioSession: true));
+      unawaited(_closeMesh(mesh));
       unawaited(_reconcileSelfStreamState(reason: 'p2p_conversion'));
     }
     final Room? existingRoom = state.liveKitRoom;
@@ -1026,7 +1030,7 @@ class VoiceSession extends _$VoiceSession {
     }
     final String? moveFromChannelId = _voiceMovePreviousChannelId;
     _voiceMovePreviousChannelId = null;
-    await _disconnectRoomOnly();
+    await _disconnectRoomOnly(releaseAudioSession: false);
     if (attempt != _connectGeneration) {
       return;
     }
@@ -1082,7 +1086,7 @@ class VoiceSession extends _$VoiceSession {
       channelId: resolvedChannelId,
       guildId: resolvedGuildId,
     );
-    await mesh.start();
+    await _acquireVoiceAudioSession();
     if (attempt != _connectGeneration || !identical(state.mesh, mesh)) {
       return;
     }
@@ -1108,10 +1112,7 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
-  Future<void> _closeMesh(
-    VoiceMeshTransport mesh, {
-    bool handOffAudioSession = false,
-  }) async {
+  Future<void> _closeMesh(VoiceMeshTransport mesh) async {
     _meshConversionTimer?.cancel();
     _meshConversionTimer = null;
     if (identical(_managedMesh, mesh)) {
@@ -1122,7 +1123,7 @@ class VoiceSession extends _$VoiceSession {
       await waitForVoiceMediaWidgetsToRelease();
       await drainVoiceMediaHandoffs(ref);
     }
-    await mesh.close(handOffAudioSession: handOffAudioSession);
+    await mesh.close();
   }
 
   void _syncMeshRoster(Map<String, VoiceState> voiceStates) {
@@ -1509,6 +1510,7 @@ class VoiceSession extends _$VoiceSession {
         state: state,
         incomingConnectionId: event.connectionId,
       ),
+      releaseAudioSession: false,
     );
     if (attempt != _connectGeneration) {
       return;
@@ -1583,7 +1585,7 @@ class VoiceSession extends _$VoiceSession {
     );
     _armLiveKitConnectWatchdog(attempt);
     try {
-      await restoreAutomaticAudioSessionAfterMesh();
+      await _acquireVoiceAudioSession();
       await room.connect(
         event.endpoint,
         event.token,
@@ -1794,6 +1796,10 @@ class VoiceSession extends _$VoiceSession {
       }
       _managedLiveKitRoom = newRoom;
       state = state.copyWith(liveKitRoom: newRoom, e2eeKey: e2eeKey);
+      _runVoiceAsync(
+        () => _applyVoiceOutputRouting(ref.read(voiceSettingsProvider)),
+        label: 'reapply output route after region change',
+      );
       final bool shareDropped = await _restoreLocalMediaAfterRegionHotSwap(
         newRoom: newRoom,
         resolvedChannelId: resolvedChannelId,
@@ -2267,12 +2273,12 @@ class VoiceSession extends _$VoiceSession {
     final Room? roomToDisconnect = _managedLiveKitRoom;
     _managedLiveKitRoom = null;
     if (roomToDisconnect == null) {
+      unawaited(releaseNativeVoiceAudioSession(kVoiceCallAudioOwner));
       return;
     }
-    final int generation = _connectGeneration;
     unawaited(
       _disconnectAndDisposeRoom(roomToDisconnect).whenComplete(() {
-        unawaited(_releaseAndroidRouteIfCurrent(generation));
+        unawaited(releaseNativeVoiceAudioSession(kVoiceCallAudioOwner));
       }),
     );
   }
@@ -2365,13 +2371,22 @@ class VoiceSession extends _$VoiceSession {
     if (generation != _connectGeneration) {
       return;
     }
-    await clearNativeVoiceOutputRouteHold();
+    await releaseNativeVoiceAudioSession(kVoiceCallAudioOwner);
+  }
+
+  Future<void> _acquireVoiceAudioSession() async {
+    if (!Platform.isAndroid) {
+      return;
+    }
+    await ensureAndroidAppOwnsVoiceAudioSession();
+    await acquireNativeVoiceAudioSession(kVoiceCallAudioOwner);
   }
 
   Future<void> _disconnectRoomOnly({
     String? guildId,
     String? connectionId,
     bool skipGatewayDisconnect = false,
+    bool releaseAudioSession = true,
   }) async {
     final int generation = _connectGeneration;
     _detachMediaDeviceChangeListener();
@@ -2383,6 +2398,9 @@ class VoiceSession extends _$VoiceSession {
         _managedLiveKitRoom ?? sessionState.liveKitRoom;
     _managedLiveKitRoom = null;
     if (roomToDisconnect == null && meshToClose == null) {
+      if (releaseAudioSession) {
+        await _releaseAndroidRouteIfCurrent(generation);
+      }
       return;
     }
     if (roomToDisconnect != null && !_intentionalLiveKitTeardown) {
@@ -2409,7 +2427,9 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect != null) {
       await _disconnectAndDisposeRoom(roomToDisconnect);
     }
-    await _releaseAndroidRouteIfCurrent(generation);
+    if (releaseAudioSession) {
+      await _releaseAndroidRouteIfCurrent(generation);
+    }
   }
 
   void _sendVoiceDisconnectState({
@@ -3268,6 +3288,9 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     await _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt);
+    if (Platform.isAndroid && ref.mounted && _isLatestRoomAttempt(attempt)) {
+      await refreshNativeVoiceOutputRoute();
+    }
   }
 
   void _attachMediaDeviceChangeListener() {
@@ -3279,6 +3302,17 @@ class VoiceSession extends _$VoiceSession {
     }
     if (Platform.isAndroid) {
       unawaited(_seedKnownOutputRoutes());
+      _mediaDeviceChangeSubscription = nativeVoiceAudioSessionEvents().listen((
+        VoiceAudioSessionEvent event,
+      ) {
+        if (event.micSilenced) {
+          talker.warning('[Voice] Android silenced the microphone');
+        }
+        if (event.devicesChanged) {
+          _scheduleAudioRouteRecovery(const <MediaDevice>[]);
+        }
+      });
+      return;
     }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
         .listen(_scheduleAudioRouteRecovery);
@@ -3305,7 +3339,6 @@ class VoiceSession extends _$VoiceSession {
     _isRecoveringAudioRoute = false;
     unawaited(_mediaDeviceChangeSubscription?.cancel());
     _mediaDeviceChangeSubscription = null;
-    unawaited(clearNativeVoiceOutputRouteHold());
   }
 
   Set<String> _audioInputDeviceIds(List<MediaDevice> devices) {
@@ -3398,12 +3431,21 @@ class VoiceSession extends _$VoiceSession {
       final VoiceSettings settingsNotifier = ref.read(
         voiceSettingsProvider.notifier,
       );
+      final VoiceSettingsState currentSettings = ref.read(
+        voiceSettingsProvider,
+      );
       if (connected != null && routes.contains(connected.route)) {
         await settingsNotifier.selectOutputDevice(connected);
       } else if (didConnectExternalVoiceOutputRoute(
-        previous: previousRoutes,
-        current: routes,
-      )) {
+            previous: previousRoutes,
+            current: routes,
+          ) ||
+          isVoiceOutputOverrideGone(
+            overrideRoute: currentSettings.outputRouteOverride,
+            overrideDeviceId: currentSettings.outputDeviceOverride,
+            routes: routes,
+            devices: devices,
+          )) {
         settingsNotifier.clearOutputRouteOverride();
       }
       _lastKnownOutputRoutes = routes;
@@ -3553,7 +3595,9 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
-    if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
+    if (Platform.isAndroid ||
+        outputDeviceId == kDefaultVoiceDeviceId ||
+        outputDeviceId.isEmpty) {
       return;
     }
     try {
@@ -4019,6 +4063,10 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         state = state.copyWith(isReconnecting: false);
+        _runVoiceAsync(
+          () => _applyVoiceOutputRouting(ref.read(voiceSettingsProvider)),
+          label: 'reapply output route after reconnect',
+        );
         _runVoiceAsync(
           () => _reconcileRemoteAudioForSelfConnection(
             reason: 'room_reconnected',

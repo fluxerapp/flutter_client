@@ -83,6 +83,52 @@ void main() {
     );
   });
 
+  testWidgets('shows copy voice diagnostics as the last row', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: <Override>[
+        voiceSessionProvider.overrideWith(_TestVoiceSession.new),
+        voiceChannelTextChatSupportedProvider(
+          'voice-1',
+        ).overrideWith((Ref ref) => Future<bool>.value(false)),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SingleChildScrollView(
+              child: VoiceChannelControlPanelSettings(channelId: 'voice-1'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final Finder row = find.byKey(kVoiceControlPanelCopyDiagnosticsKey);
+    expect(row, findsOneWidget);
+    expect(find.text(testL10n.voiceDiagnosticsCopy), findsOneWidget);
+    expect(
+      tester.getTopLeft(row).dy,
+      greaterThan(
+        tester.getTopLeft(find.byKey(kVoiceControlPanelViewModeKey)).dy,
+      ),
+    );
+  });
+
   testWidgets('on iOS shows native change audio output instead of earpiece', (
     WidgetTester tester,
   ) async {

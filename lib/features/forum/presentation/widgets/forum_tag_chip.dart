@@ -57,9 +57,9 @@ class ForumTagChip extends StatelessWidget {
   final bool compact;
 
   static double rowHeight(BuildContext context, {bool compact = false}) {
-    final TextStyle style = compact
-        ? context.textStyles.smallText
-        : context.textStyles.label;
+    final TextStyle style = DefaultTextStyle.of(context).style.merge(
+      compact ? context.textStyles.smallText : context.textStyles.label,
+    );
     final TextScaler scaler = MediaQuery.textScalerOf(context);
     final TextPainter painter = TextPainter(
       text: TextSpan(text: 'Ag', style: style),
@@ -69,10 +69,9 @@ class ForumTagChip extends StatelessWidget {
     )..layout();
     final double lineHeight = painter.height;
     painter.dispose();
-    final double verticalPadding = compact ? 4 : 16;
-    const double border = 2;
+    final double verticalPadding = compact ? 4 : 12;
     final double emojiSize = compact ? 12 : 14;
-    return math.max(lineHeight, emojiSize) + verticalPadding + border;
+    return math.max(lineHeight, emojiSize) + verticalPadding;
   }
 
   static double pinnedHeaderExtent(BuildContext context) {
@@ -87,17 +86,10 @@ class ForumTagChip extends StatelessWidget {
     final Widget body = Container(
       padding: compact
           ? EdgeInsets.symmetric(horizontal: layout.s2, vertical: 2)
-          : const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          : const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: selected
-            ? colors.brandPrimary
-            : compact
-            ? colors.backgroundModifierHover
-            : colors.backgroundSecondaryAlt,
-        borderRadius: BorderRadius.circular(compact ? 999 : 20),
-        border: Border.all(
-          color: selected ? colors.brandPrimary : colors.borderColor,
-        ),
+        color: selected ? colors.brandPrimary : colors.backgroundTertiary,
+        borderRadius: layout.radiusLg,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

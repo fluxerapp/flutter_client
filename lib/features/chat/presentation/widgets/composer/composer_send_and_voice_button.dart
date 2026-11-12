@@ -183,19 +183,10 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                   context: context,
                   key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
-                  child: IconButton(
-                    icon: const PhosphorIcon(
-                      PhosphorIconsBold.arrowUp,
-                      size: 20,
-                    ),
-                    color: context.colors.interactiveNormal,
+                  child: WideComposerMouseButton(
+                    icon: PhosphorIconsRegular.paperPlaneRight,
                     tooltip: l10n.composerSendMessage,
                     onPressed: sendOnPressed,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: _kWideActionExtent,
-                      minHeight: _kWideActionExtent,
-                    ),
                   ),
                 )
               : showVoiceButton

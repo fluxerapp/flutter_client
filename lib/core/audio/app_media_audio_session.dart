@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_voice/fluxer_voice.dart';
 
 final AudioContext kAppMediaAudioContext = AudioContext(
   android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none),
@@ -50,7 +51,8 @@ kRingerRespectingSfxAudioSessionConfig =
 
 bool voiceCallOwnsAndroidAudioRoute() {
   return defaultTargetPlatform == TargetPlatform.android &&
-      ChatAttachmentAudioSession.instance.isVoiceCallActive;
+      (ChatAttachmentAudioSession.instance.isVoiceCallActive ||
+          FluxerVoiceAudioSession.instance.isActive);
 }
 
 Future<bool> applyAudioPlayerContext(
@@ -112,6 +114,7 @@ class AppMediaAudioSession {
     },
     isClaimedElsewhere: () =>
         ChatAttachmentAudioSession.instance.isVoiceCallActive ||
+        FluxerVoiceAudioSession.instance.isActive ||
         ChatAttachmentAudioSession.instance.hasActivePlayback,
   );
 

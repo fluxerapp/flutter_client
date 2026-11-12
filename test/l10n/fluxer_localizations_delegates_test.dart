@@ -2,6 +2,7 @@ import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoLocalizations;
 import 'package:flutter/material.dart' as flutter show MaterialLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 
 import '../helpers/pump_fluxer_app.dart';
 import '../helpers/test_l10n.dart';
@@ -33,6 +34,7 @@ void main() {
       in <(Locale, TextDirection, String)>[
         (const Locale('de'), TextDirection.ltr, 'Zurück'),
         (const Locale('ar'), TextDirection.rtl, 'رجوع'),
+        (const Locale('art'), TextDirection.ltr, 'Back'),
       ]) {
     testWidgets('material widgets are localized in ${locale.languageCode}', (
       WidgetTester tester,
@@ -62,4 +64,20 @@ void main() {
       expect(find.byTooltip(backTooltip), findsOneWidget);
     });
   }
+
+  test('English-backed locales format dates and numbers like English', () {
+    registerEnglishBackedIntlLocales();
+    final DateTime date = DateTime(2026, 11, 6, 14, 5);
+    expect(
+      DateFormat.yMd('art').format(date),
+      DateFormat.yMd('en').format(date),
+    );
+    expect(DateFormat.jm('art').format(date), DateFormat.jm('en').format(date));
+    expect(NumberFormat.decimalPattern('art').format(1234567), '1,234,567');
+    expect(
+      NumberFormat.compact(locale: 'art').format(1234567),
+      NumberFormat.compact(locale: 'en').format(1234567),
+    );
+    expect(DateFormat.yMd('de').format(date), '6.11.2026');
+  });
 }

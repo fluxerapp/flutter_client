@@ -3,12 +3,14 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_desktop_hover_card.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invite_countdown_text.dart';
 import 'package:fluxer_app/features/settings/utils/guild/guild_invites_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 
 class GuildInvitesListItem extends StatelessWidget {
@@ -41,6 +43,12 @@ class GuildInvitesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!isMobile && usesDesktopPointerUi(context)) {
+      return _GuildInviteDesktopPointerCard(
+        item: this,
+        cells: _buildDesktopPointerCells,
+      );
+    }
     final Widget cardContent = isMobile
         ? _buildMobileContent(context)
         : _buildDesktopContent(context);
@@ -160,6 +168,151 @@ class GuildInvitesListItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  List<Widget> _buildDesktopPointerCells(
+    BuildContext context, {
+    required bool hovered,
+  }) {
+    final TextStyle text = context.textStyles.bodySmall.copyWith(
+      fontSize: 14,
+      height: 1.5,
+      color: context.colors.textPrimary,
+    );
+    final TextStyle mono = text.copyWith(
+      fontFamily: 'monospace',
+      fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    );
+    final String? inviterId = entry.inviterId;
+    final Widget inviter;
+    if (inviterId == null) {
+      inviter = Text(
+        l10n.guildSettingsInvitesUnknown,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: text.copyWith(color: context.colors.textPrimaryMuted),
+      );
+    } else {
+      final String displayName = resolveDisplayName(
+        username: entry.inviterUsername ?? '',
+        globalName: entry.inviterGlobalName,
+      );
+      inviter = Row(
+        children: <Widget>[
+          FluxerAvatar.user(
+            fallbackText: displayName,
+            userId: inviterId,
+            imageUrl: FluxerMediaUrl.userAvatar(
+              userId: inviterId,
+              hash: entry.inviterAvatar,
+            ),
+            avatarColor: entry.inviterAvatarColor,
+            showStatus: false,
+            size: 32,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: text,
+            ),
+          ),
+        ],
+      );
+    }
+    final ChannelType channelType = ChannelType.fromWire(entry.channelType);
+    final Channel channel = Channel(
+      id: entry.channelId,
+      guildId: '',
+      name: entry.channelName,
+      type: channelType,
+    );
+    final Widget channelCell = Row(
+      children: <Widget>[
+        ChannelIcon(
+          type: channelType,
+          channel: channel,
+          color: context.colors.textTertiary,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                entry.channelName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: text.copyWith(fontWeight: FontWeight.w500),
+              ),
+              if (!channel.isCategory)
+                Text(
+                  categoryName ?? l10n.guildSettingsInvitesNoCategory,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: text.copyWith(
+                    fontSize: 12,
+                    color: context.colors.textTertiary,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+    final Widget codeCell = Row(
+      children: <Widget>[
+        Flexible(
+          child: Text(
+            entry.code,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: mono,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Visibility.maintain(
+          visible: hovered,
+          child: FluxerButton.desktop(
+            icon: PhosphorIconsRegular.clipboard,
+            semanticLabel: l10n.guildSettingsInvitesCopyLink,
+            showTooltip: true,
+            hoverBackground: context.colors.backgroundHeaderSecondary,
+            duration: context.motion.panel,
+            onPressed: onCopy,
+          ),
+        ),
+      ],
+    );
+    final Widget dateCell = showCreatedDate
+        ? Text(
+            GuildInvitesUtils.formatCreatedDate(entry, l10n),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: text,
+          )
+        : GuildInviteCountdownText(
+            expiresAt: entry.expiresAt,
+            expiredLabel: l10n.guildSettingsInvitesExpired,
+            neverLabel: l10n.guildSettingsInvitesNever,
+            textStyle: mono,
+            plainTextStyle: text,
+          );
+    return <Widget>[
+      inviter,
+      if (showChannel) channelCell,
+      codeCell,
+      Text(
+        GuildInvitesUtils.formatUses(entry),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: mono,
+      ),
+      dateCell,
+    ];
   }
 
   Widget _buildCodeCell(BuildContext context) {
@@ -356,6 +509,80 @@ class GuildInvitesListItem extends StatelessWidget {
       textStyle: _inviteMonospaceStyle(context),
       plainTextStyle: context.textStyles.bodySmall.copyWith(
         color: context.colors.textPrimary,
+      ),
+    );
+  }
+}
+
+Widget guildInvitesDesktopPointerGrid({
+  required bool showChannel,
+  required List<Widget> cells,
+}) {
+  final List<double?> widths = showChannel
+      ? const <double?>[170, 130, null, 90, 140]
+      : const <double?>[190, null, 90, 140];
+  const double minFlexWidth = 140;
+  final double gap = showChannel ? 8 : 12;
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double fixed = widths.whereType<double>().fold<double>(
+        0,
+        (double sum, double width) => sum + width,
+      );
+      final double gaps = gap * (widths.length - 1);
+      final double flexWidth = (constraints.maxWidth - fixed - gaps).clamp(
+        minFlexWidth,
+        double.infinity,
+      );
+      final List<Widget> children = <Widget>[];
+      for (int i = 0; i < cells.length && i < widths.length; i++) {
+        if (i > 0) {
+          children.add(SizedBox(width: gap));
+        }
+        children.add(SizedBox(width: widths[i] ?? flexWidth, child: cells[i]));
+      }
+      return ClipRect(
+        child: OverflowBox(
+          alignment: AlignmentDirectional.centerStart,
+          maxWidth: double.infinity,
+          child: Row(mainAxisSize: MainAxisSize.min, children: children),
+        ),
+      );
+    },
+  );
+}
+
+class _GuildInviteDesktopPointerCard extends StatelessWidget {
+  const _GuildInviteDesktopPointerCard({
+    required this.item,
+    required this.cells,
+  });
+
+  final GuildInvitesListItem item;
+  final List<Widget> Function(BuildContext context, {required bool hovered})
+  cells;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return GuildDesktopHoverCard(
+      overhang: 8,
+      cornerButton: GuildDesktopRoundActionButton(
+        label: item.l10n.guildSettingsInvitesRevoke,
+        onPressed: item.onRevoke,
+      ),
+      builder: (BuildContext context, {required bool hovered}) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: colors.backgroundSecondary,
+          borderRadius: context.layout.radiusMd,
+          border: Border.all(color: colors.backgroundHeaderSecondary),
+        ),
+        child: guildInvitesDesktopPointerGrid(
+          showChannel: item.showChannel,
+          cells: cells(context, hovered: hovered),
+        ),
       ),
     );
   }

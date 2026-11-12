@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -8,18 +7,19 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-
-const _kMenuWidth = 220.0;
 
 Future<MessageAction?> showMessageContextMenu(
   BuildContext context, {
@@ -27,195 +27,96 @@ Future<MessageAction?> showMessageContextMenu(
   required Message message,
   required MessageActionPermissions permissions,
   required MessageActionCallbacks callbacks,
+  Rect? anchorRect,
   ValueChanged<QuickReactionItem>? onQuickReaction,
   List<QuickReactionItem>? quickItems,
   String? quickReactionChannelId,
   String? quickReactionGuildId,
-}) async {
-  final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
-  if (overlay == null) {
-    return null;
-  }
-
-  final local = overlay.globalToLocal(position);
-
-  return Navigator.of(context).push<MessageAction>(
-    _ContextMenuRoute(
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      position: local,
-      overlaySize: overlay.size,
-      message: message,
-      permissions: permissions,
-      callbacks: callbacks,
-      onQuickReaction: onQuickReaction,
-      quickItems: quickItems,
-      quickReactionChannelId: quickReactionChannelId,
-      quickReactionGuildId: quickReactionGuildId,
-    ),
-  );
-}
-
-class _ContextMenuRoute extends PopupRoute<MessageAction> {
-  final Offset position;
-  final Size overlaySize;
-  final Message message;
-  final MessageActionPermissions permissions;
-  final MessageActionCallbacks callbacks;
-  final ValueChanged<QuickReactionItem>? onQuickReaction;
-  final List<QuickReactionItem>? quickItems;
-  final String? quickReactionChannelId;
-  final String? quickReactionGuildId;
-
-  _ContextMenuRoute({
-    required this.barrierLabel,
-    required this.position,
-    required this.overlaySize,
-    required this.message,
-    required this.permissions,
-    required this.callbacks,
-    this.onQuickReaction,
-    this.quickItems,
-    this.quickReactionChannelId,
-    this.quickReactionGuildId,
-  });
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 120);
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Color? get barrierColor => Colors.transparent;
-
-  @override
-  final String barrierLabel;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) => _ContextMenuPage(
+}) {
+  return pushFluxerDesktopMenu<MessageAction>(
+    context,
     position: position,
-    overlaySize: overlaySize,
-    animation: animation,
-    message: message,
-    permissions: permissions,
-    callbacks: callbacks,
-    onQuickReaction: onQuickReaction,
-    quickItems: quickItems,
-    quickReactionChannelId: quickReactionChannelId,
-    quickReactionGuildId: quickReactionGuildId,
-  );
-}
-
-class _ContextMenuPage extends ConsumerWidget {
-  final Offset position;
-  final Size overlaySize;
-  final Animation<double> animation;
-  final Message message;
-  final MessageActionPermissions permissions;
-  final MessageActionCallbacks callbacks;
-  final ValueChanged<QuickReactionItem>? onQuickReaction;
-  final List<QuickReactionItem>? quickItems;
-  final String? quickReactionChannelId;
-  final String? quickReactionGuildId;
-
-  const _ContextMenuPage({
-    required this.position,
-    required this.overlaySize,
-    required this.animation,
-    required this.message,
-    required this.permissions,
-    required this.callbacks,
-    this.onQuickReaction,
-    this.quickItems,
-    this.quickReactionChannelId,
-    this.quickReactionGuildId,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = _buildItems(context, ref);
-    final estimatedHeight = _estimateHeight(items);
-
-    final opensLeft = contextMenuOpensLeft(
-      context,
-      anchorX: position.dx,
-      menuWidth: _kMenuWidth,
-      overlayWidth: overlaySize.width,
-    );
-    final opensUp = position.dy + estimatedHeight > overlaySize.height - 8;
-
-    var left = opensLeft ? position.dx - _kMenuWidth : position.dx;
-    var top = opensUp ? position.dy - estimatedHeight : position.dy;
-    if (left < 8) {
-      left = 8;
-    }
-    if (top < 8) {
-      top = 8;
-    }
-
-    final alignment = Alignment(opensLeft ? 1.0 : -1.0, opensUp ? 1.0 : -1.0);
-
-    return Stack(
-      children: [
-        Positioned(
-          left: left,
-          top: top,
-          child: FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 0.92, end: 1).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-              ),
-              alignment: alignment,
-              child: _MenuPanel(items: items),
+    anchorRect: anchorRect,
+    builder: (BuildContext menuContext, VoidCallback close) =>
+        FluxerDesktopMenuPanel.fitContent(
+          child: SingleChildScrollView(
+            child: _MessageContextMenuItems(
+              message: message,
+              permissions: permissions,
+              callbacks: callbacks,
+              onQuickReaction: onQuickReaction,
+              quickItems: quickItems,
+              quickReactionChannelId: quickReactionChannelId,
+              quickReactionGuildId: quickReactionGuildId,
             ),
           ),
         ),
+  );
+}
+
+class _MessageContextMenuItems extends ConsumerWidget {
+  const _MessageContextMenuItems({
+    required this.message,
+    required this.permissions,
+    required this.callbacks,
+    this.onQuickReaction,
+    this.quickItems,
+    this.quickReactionChannelId,
+    this.quickReactionGuildId,
+  });
+
+  final Message message;
+  final MessageActionPermissions permissions;
+  final MessageActionCallbacks callbacks;
+  final ValueChanged<QuickReactionItem>? onQuickReaction;
+  final List<QuickReactionItem>? quickItems;
+  final String? quickReactionChannelId;
+  final String? quickReactionGuildId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<List<Widget>> groups = _buildGroups(
+      context,
+      ref,
+    ).where((List<Widget> group) => group.isNotEmpty).toList();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        for (int i = 0; i < groups.length; i++) ...<Widget>[
+          if (i > 0) const FluxerDesktopMenuSeparator(),
+          ...groups[i],
+        ],
       ],
     );
   }
 
-  double _estimateHeight(List<Widget> items) {
-    var height = 16.0;
-    for (final item in items) {
-      if (item is _MenuDivider) {
-        height += 13;
-      } else if (item is QuickReactionRow || item is MessageQuickReactionRow) {
-        height += 40;
-      } else {
-        height += 38;
-      }
-    }
-    return height;
-  }
-
-  List<Widget> _buildItems(BuildContext context, WidgetRef ref) {
+  List<List<Widget>> _buildGroups(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     void pop(MessageAction action) => Navigator.of(context).pop(action);
     if (message.hasFailed) {
-      return [
-        _MenuItem(
-          label: l10n.retry,
-          icon: PhosphorIconsBold.arrowClockwise,
-          onTap: () => pop(MessageAction.retry),
-        ),
-        if (message.content.isNotEmpty)
-          _MenuItem(
-            label: l10n.chatMessageCopyText,
-            icon: PhosphorIconsBold.copy,
-            onTap: () => pop(MessageAction.copyText),
+      return <List<Widget>>[
+        <Widget>[
+          ContextMenuItem(
+            label: l10n.retry,
+            icon: PhosphorIconsFill.arrowsClockwise,
+            onTap: () => pop(MessageAction.retry),
           ),
-        const _MenuDivider(),
-        _MenuItem(
-          label: l10n.chatMessageDeleteFailed,
-          icon: PhosphorIconsBold.trash,
-          isDanger: true,
-          onTap: () => pop(MessageAction.deleteFailed),
-        ),
+          if (message.content.isNotEmpty)
+            ContextMenuItem(
+              label: l10n.chatMessageCopyText,
+              icon: PhosphorIconsFill.copy,
+              onTap: () => pop(MessageAction.copyText),
+            ),
+        ],
+        <Widget>[
+          ContextMenuItem(
+            label: l10n.chatMessageDeleteFailed,
+            icon: PhosphorIconsFill.trash,
+            isDanger: true,
+            onTap: () => pop(MessageAction.deleteFailed),
+          ),
+        ],
       ];
     }
     final bool showShortcuts =
@@ -225,8 +126,10 @@ class _ContextMenuPage extends ConsumerWidget {
             (s) => s.showContextMenuShortcuts,
           ),
         );
-    String? shortcut(String key) => showShortcuts ? key : null;
-    final bool isEmbedsSuppressed = message.suppressEmbeds;
+    final bool isUserMessage = message.isUserMessage;
+    final bool interactive = message.supportsInteractiveActions;
+    final bool isSaved =
+        ref.watch(isMessageSavedProvider(message.id)).value ?? false;
     final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
       message: message,
       isOwnMessage: permissions.isOwnMessage,
@@ -242,139 +145,215 @@ class _ContextMenuPage extends ConsumerWidget {
     final bool developerMode = ref.watch(
       userSettingsViewModelProvider.select((s) => s.developerMode),
     );
+    final bool isSpeakingMessage = ref.watch(
+      fluxerTtsServiceProvider.select(
+        (FluxerTtsSpeakingState state) => state.isSpeakingMessage(message.id),
+      ),
+    );
+    final bool hasReactions = message.reactions.isNotEmpty;
+    final bool canReact =
+        !message.isSending && permissions.canAddReactions && interactive;
 
-    final bool canReact = !message.isSending && permissions.canAddReactions;
+    Widget item({
+      required String label,
+      required IconData icon,
+      required MessageAction action,
+      String? shortcut,
+      bool isDanger = false,
+    }) {
+      if (showShortcuts && shortcut != null) {
+        return _ShortcutMenuItem(
+          label: label,
+          shortcut: shortcut,
+          isDanger: isDanger,
+          onTap: () => pop(action),
+        );
+      }
+      return ContextMenuItem(
+        label: label,
+        icon: icon,
+        isDanger: isDanger,
+        onTap: () => pop(action),
+      );
+    }
 
-    return [
-      if (canReact)
-        if (quickReactionChannelId != null)
-          MessageQuickReactionRow(
-            channelId: quickReactionChannelId!,
-            guildId: quickReactionGuildId,
-            onReaction: (item) {
-              onQuickReaction?.call(item);
-              Navigator.of(context).pop();
-            },
-          )
-        else
-          QuickReactionRow(
-            items: quickItems ?? kQuickReactionDefaults,
-            onReaction: (item) {
-              onQuickReaction?.call(item);
-              Navigator.of(context).pop();
-            },
+    return <List<Widget>>[
+      <Widget>[
+        if (canReact)
+          if (quickReactionChannelId != null)
+            MessageQuickReactionRow(
+              channelId: quickReactionChannelId!,
+              guildId: quickReactionGuildId,
+              onReaction: (item) {
+                onQuickReaction?.call(item);
+                Navigator.of(context).pop();
+              },
+            )
+          else
+            QuickReactionRow(
+              items: quickItems ?? kQuickReactionDefaults,
+              onReaction: (item) {
+                onQuickReaction?.call(item);
+                Navigator.of(context).pop();
+              },
+            ),
+        if (canReact)
+          FluxerMenuSubmenuItem(
+            label: l10n.chatMessageAddReaction,
+            onPressed: () => pop(MessageAction.addReaction),
           ),
-      if (canReact)
-        _MenuItem(
-          label: l10n.chatMessageAddReaction,
-          icon: PhosphorIconsBold.smiley,
-          trailing: PhosphorIconsBold.caretRight,
-          shortcut: shortcut('+'),
-          onTap: () => pop(MessageAction.addReaction),
-        ),
-      if (watchCanOfferMessageTranslate(ref, message))
-        _MenuItem(
-          label: l10n.chatMessageTranslate,
-          icon: PhosphorIconsBold.translate,
-          onTap: () => pop(MessageAction.translate),
-        ),
-      const _MenuDivider(),
-      if (permissions.isOwnMessage)
-        _MenuItem(
-          label: l10n.chatMessageEdit,
-          icon: PhosphorIconsBold.pencilSimple,
-          shortcut: shortcut('E'),
-          onTap: () => pop(MessageAction.edit),
-        ),
-      _MenuItem(
-        label: l10n.chatMessageReply,
-        icon: PhosphorIconsBold.arrowBendUpLeft,
-        shortcut: shortcut('R'),
-        onTap: () => pop(MessageAction.reply),
-      ),
-      _MenuItem(
-        label: l10n.chatMessageForward,
-        icon: PhosphorIconsBold.shareFat,
-        onTap: () => pop(MessageAction.forward),
-      ),
-      if (watchCanCreateThreadFromMessage(ref, message))
-        _MenuItem(
-          label: l10n.threadCreate,
-          icon: PhosphorIconsBold.chatsCircle,
-          onTap: () => pop(MessageAction.createThread),
-        ),
-      const _MenuDivider(),
-      if (message.content.isNotEmpty)
-        _MenuItem(
-          label: l10n.chatMessageCopyText,
-          icon: PhosphorIconsBold.copy,
-          onTap: () => pop(MessageAction.copyText),
-        ),
-      if (message.embedsCopyableText.isNotEmpty)
-        _MenuItem(
-          label: l10n.chatMessageCopyEmbedText,
-          icon: PhosphorIconsBold.textAlignLeft,
-          onTap: () => pop(MessageAction.copyEmbedText),
-        ),
-      if (permissions.canPublish)
-        _MenuItem(
-          label: message.isCrossposted
-              ? l10n.chatMessagePublished
-              : l10n.chatMessagePublish,
-          icon: PhosphorIconsBold.megaphone,
-          onTap: () => pop(MessageAction.publish),
-        ),
-      _MenuItem(
-        label: message.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
-        icon: PhosphorIconsBold.pushPin,
-        shortcut: shortcut('P'),
-        onTap: () => pop(MessageAction.pin),
-      ),
-      _MenuItem(
-        label: l10n.chatMessageBookmark,
-        icon: PhosphorIconsBold.bookmarkSimple,
-        onTap: () => pop(MessageAction.bookmark),
-      ),
-      _MenuItem(
-        label: l10n.chatMessageMarkAsUnread,
-        icon: PhosphorIconsBold.envelopeSimple,
-        onTap: () => pop(MessageAction.markAsUnread),
-      ),
-      _MenuItem(
-        label: l10n.chatMessageCopyMessageLink,
-        icon: PhosphorIconsBold.link,
-        onTap: () => pop(MessageAction.copyMessageLink),
-      ),
-      if (canShowSuppressEmbeds && showSuppressEmbedsButton)
-        _MenuItem(
-          label: isEmbedsSuppressed
-              ? l10n.chatMessageUnsuppressEmbeds
-              : l10n.chatMessageSuppressEmbeds,
-          icon: PhosphorIconsBold.eyeSlash,
-          onTap: () => pop(MessageAction.suppressEmbeds),
-        ),
-      ..._buildAttachmentItems(context, showMediaDeleteButton),
-      if (permissions.canDelete) ...[
-        const _MenuDivider(),
-        _MenuItem(
-          label: l10n.chatMessageDelete,
-          icon: PhosphorIconsBold.trash,
-          isDanger: true,
-          onTap: () => pop(MessageAction.delete),
-        ),
+        if (hasReactions)
+          item(
+            label: l10n.chatMessageViewReactions,
+            icon: PhosphorIconsFill.users,
+            action: MessageAction.viewReactions,
+          ),
       ],
-      const _MenuDivider(),
-      if (developerMode)
-        _MenuItem(
-          label: l10n.chatMessageDebug,
-          icon: PhosphorIconsFill.bug,
-          onTap: () => pop(MessageAction.debugMessage),
+      <Widget>[
+        if (watchCanOfferMessageTranslate(ref, message))
+          item(
+            label: l10n.chatMessageTranslate,
+            icon: PhosphorIconsBold.translate,
+            action: MessageAction.translate,
+          ),
+      ],
+      <Widget>[
+        if (permissions.isOwnMessage &&
+            isUserMessage &&
+            message.messageSnapshots.isEmpty)
+          item(
+            label: l10n.chatMessageEdit,
+            icon: PhosphorIconsFill.pencilSimple,
+            action: MessageAction.edit,
+            shortcut: 'E',
+          ),
+        if (isUserMessage && interactive && permissions.canSendMessages)
+          item(
+            label: l10n.chatMessageReply,
+            icon: PhosphorIconsFill.arrowBendUpLeft,
+            action: MessageAction.reply,
+            shortcut: 'R',
+          ),
+        if (isUserMessage && interactive)
+          item(
+            label: l10n.chatMessageForward,
+            icon: PhosphorIconsFill.arrowBendUpRight,
+            action: MessageAction.forward,
+          ),
+        if (interactive && watchCanCreateThreadFromMessage(ref, message))
+          item(
+            label: l10n.threadCreate,
+            icon: PhosphorIconsFill.chats,
+            action: MessageAction.createThread,
+          ),
+        if (permissions.canPublish)
+          item(
+            label: message.isCrossposted
+                ? l10n.chatMessagePublished
+                : l10n.chatMessagePublish,
+            icon: PhosphorIconsFill.megaphone,
+            action: MessageAction.publish,
+          ),
+      ],
+      _buildAttachmentItems(context, showMediaDeleteButton),
+      <Widget>[
+        if (message.content.isNotEmpty)
+          item(
+            label: l10n.chatMessageCopyText,
+            icon: PhosphorIconsFill.copy,
+            action: MessageAction.copyText,
+          ),
+        if (message.embedsCopyableText.isNotEmpty)
+          item(
+            label: l10n.chatMessageCopyEmbedText,
+            icon: PhosphorIconsFill.textAlignLeft,
+            action: MessageAction.copyEmbedText,
+          ),
+        if (isUserMessage && permissions.canPinMessage)
+          item(
+            label: message.isPinned
+                ? l10n.chatMessageUnpin
+                : l10n.chatMessagePin,
+            icon: PhosphorIconsFill.pushPin,
+            action: MessageAction.pin,
+            shortcut: 'P',
+          ),
+        if (isUserMessage && interactive)
+          item(
+            label: isSaved
+                ? l10n.chatMessageRemoveBookmark
+                : l10n.chatMessageBookmark,
+            icon: isSaved
+                ? PhosphorIconsFill.bookmarkSimple
+                : PhosphorIconsRegular.bookmarkSimple,
+            action: MessageAction.bookmark,
+          ),
+        item(
+          label: l10n.chatMessageMarkAsUnread,
+          icon: PhosphorIconsFill.envelopeOpen,
+          action: MessageAction.markAsUnread,
         ),
-      _MenuItem(
-        label: l10n.chatMessageCopyMessageId,
-        icon: PhosphorIconsBold.hash,
-        onTap: () => pop(MessageAction.copyMessageId),
-      ),
+        if (interactive)
+          item(
+            label: l10n.chatMessageCopyMessageLink,
+            icon: PhosphorIconsBold.link,
+            action: MessageAction.copyMessageLink,
+          ),
+        if (message.speakableContent.trim().isNotEmpty)
+          item(
+            label: isSpeakingMessage
+                ? l10n.chatMessageStopSpeaking
+                : l10n.chatMessageSpeak,
+            icon: isSpeakingMessage
+                ? PhosphorIconsFill.stopCircle
+                : PhosphorIconsFill.speakerHigh,
+            action: MessageAction.speak,
+          ),
+        if (canShowSuppressEmbeds && showSuppressEmbedsButton)
+          item(
+            label: message.suppressEmbeds
+                ? l10n.chatMessageUnsuppressEmbeds
+                : l10n.chatMessageSuppressEmbeds,
+            icon: PhosphorIconsBold.linkBreak,
+            action: MessageAction.suppressEmbeds,
+          ),
+      ],
+      <Widget>[
+        if (permissions.canManageMessages && hasReactions)
+          item(
+            label: l10n.chatMessageRemoveAllReactions,
+            icon: PhosphorIconsBold.x,
+            action: MessageAction.removeAllReactions,
+            isDanger: true,
+          ),
+        if (permissions.canDelete)
+          item(
+            label: l10n.chatMessageDelete,
+            icon: PhosphorIconsFill.trash,
+            action: MessageAction.delete,
+            isDanger: true,
+          ),
+        if (permissions.canReport)
+          item(
+            label: l10n.chatMessageReport,
+            icon: PhosphorIconsFill.flag,
+            action: MessageAction.report,
+            isDanger: true,
+          ),
+      ],
+      <Widget>[
+        item(
+          label: l10n.chatMessageCopyMessageId,
+          icon: PhosphorIconsRegular.snowflake,
+          action: MessageAction.copyMessageId,
+        ),
+        if (developerMode)
+          item(
+            label: l10n.chatMessageDebug,
+            icon: PhosphorIconsFill.bug,
+            action: MessageAction.debugMessage,
+          ),
+      ],
     ];
   }
 
@@ -392,9 +371,9 @@ class _ContextMenuPage extends ConsumerWidget {
             isSendDisabled: permissions.isSendDisabled,
           )) {
         items.add(
-          _MenuItem(
+          ContextMenuItem(
             label: l10n.chatMessageDeleteAttachment,
-            icon: PhosphorIconsBold.trash,
+            icon: PhosphorIconsFill.trash,
             isDanger: true,
             onTap: () {
               callbacks.onDeleteAttachment?.call(attachment);
@@ -411,9 +390,9 @@ class _ContextMenuPage extends ConsumerWidget {
         isDmChannel: permissions.isDmChannel,
       )) {
         items.add(
-          _MenuItem(
+          ContextMenuItem(
             label: l10n.chatMessageEditAttachmentAltText,
-            icon: PhosphorIconsBold.pencilSimple,
+            icon: PhosphorIconsFill.pencilSimple,
             onTap: () {
               Navigator.of(context).pop();
               callbacks.onEditAttachmentAltText?.call(attachment);
@@ -426,160 +405,39 @@ class _ContextMenuPage extends ConsumerWidget {
   }
 }
 
-class _MenuPanel extends StatelessWidget {
-  final List<Widget> items;
-
-  const _MenuPanel({required this.items});
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    return Material(
-      color: context.colors.backgroundPrimary,
-      borderRadius: layout.radiusSm,
-      elevation: 8,
-      shadowColor: Colors.black45,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: layout.radiusSm,
-          border: Border.all(color: context.colors.backgroundModifierAccent),
-        ),
-        child: SizedBox(
-          width: _kMenuWidth,
-          child: Padding(
-            padding: EdgeInsets.all(layout.s2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: items,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MenuItem extends StatefulWidget {
-  final String label;
-  final IconData icon;
-  final IconData? trailing;
-  final String? shortcut;
-  final VoidCallback onTap;
-  final bool isDanger;
-
-  const _MenuItem({
+class _ShortcutMenuItem extends StatelessWidget {
+  const _ShortcutMenuItem({
     required this.label,
-    required this.icon,
+    required this.shortcut,
     required this.onTap,
-    this.trailing,
-    this.shortcut,
     this.isDanger = false,
   });
 
-  @override
-  State<_MenuItem> createState() => _MenuItemState();
-}
-
-class _MenuItemState extends State<_MenuItem> {
-  bool _isHovered = false;
-  bool _isPressed = false;
-
-  Color _iconColor(FluxerColorTheme colors) {
-    if (widget.isDanger) {
-      return colors.menuDangerText;
-    }
-    if (_isHovered || _isPressed) {
-      return colors.textPrimary;
-    }
-    return colors.textSecondary;
-  }
-
-  Color _textColor(FluxerColorTheme colors) {
-    if (widget.isDanger) {
-      return colors.menuDangerText;
-    }
-    return colors.textPrimary;
-  }
-
-  Color _backgroundColor(FluxerColorTheme colors) {
-    if (_isPressed) {
-      return colors.backgroundModifierHover;
-    }
-    if (_isHovered) {
-      return colors.backgroundModifierAccent;
-    }
-    return Colors.transparent;
-  }
+  final String label;
+  final String shortcut;
+  final VoidCallback onTap;
+  final bool isDanger;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final layout = context.layout;
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: FluxerGestureDetector(
-        onTapDown: (_) => setState(() => _isPressed = true),
-        onTapUp: (_) => setState(() => _isPressed = false),
-        onTapCancel: () => setState(() => _isPressed = false),
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 80),
-          curve: Curves.easeOut,
-          decoration: BoxDecoration(
-            color: _backgroundColor(colors),
-            borderRadius: layout.radiusSm,
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s2,
-              vertical: layout.s2 - 1,
-            ),
-            child: Row(
-              children: [
-                PhosphorIcon(widget.icon, size: 20, color: _iconColor(colors)),
-                SizedBox(width: layout.s2),
-                Expanded(
-                  child: Text(
-                    widget.label,
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: _textColor(colors),
-                    ),
-                  ),
-                ),
-                if (widget.shortcut != null) ...[
-                  SizedBox(width: layout.s2),
-                  Text(
-                    widget.shortcut!,
-                    style: context.textStyles.timestamp.copyWith(
-                      color: colors.textTertiary,
-                    ),
-                  ),
-                ],
-                if (widget.trailing != null)
-                  PhosphorIcon(
-                    widget.trailing!,
-                    size: 16,
-                    color: colors.textPrimaryMuted,
-                  ),
-              ],
-            ),
+    return FluxerDesktopMenuRow(
+      label: label,
+      onTap: onTap,
+      isDanger: isDanger,
+      trailing: Padding(
+        padding: const EdgeInsetsDirectional.only(start: 8),
+        child: Text(
+          shortcut,
+          softWrap: false,
+          style: context.textStyles.label.copyWith(
+            fontSize: 12,
+            color: isDanger
+                ? fluxerDesktopMenuDangerText(colors)
+                : colors.textPrimaryMuted,
           ),
         ),
       ),
-    );
-  }
-}
-
-class _MenuDivider extends StatelessWidget {
-  const _MenuDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.layout.s2 - 1),
-      child: Divider(height: 1, color: context.colors.backgroundModifierAccent),
     );
   }
 }

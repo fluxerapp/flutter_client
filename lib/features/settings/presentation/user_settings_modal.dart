@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_modal_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_page.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
@@ -31,6 +32,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_authorize
 import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_users.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_connections.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_desktop_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_developer_tools.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_gift_inventory.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_language_and_time.dart';
@@ -313,6 +315,15 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
             isTouchPrimary: isTouchPrimary,
           )
         : null;
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktopPointerLayout(
+        state: state,
+        desktopNav: desktopNav,
+        selectedEntry: selectedEntry,
+        storePane: storePane,
+        searchSidebar: searchSidebar,
+      );
+    }
     return Column(
       children: [
         Expanded(
@@ -434,6 +445,121 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDesktopPointerLayout({
+    required UserSettingsViewState state,
+    required List<UserSettingsDesktopNavEntry> desktopNav,
+    required UserSettingsDesktopNavEntry selectedEntry,
+    required bool storePane,
+    required UserSettingsSearchSidebar? searchSidebar,
+  }) {
+    final l10n = FluxerLocalizations.of(context);
+    final Color contentBackground = wideSettingsContentBackground(context);
+    final int profileIndex = desktopNav.indexWhere(
+      (UserSettingsDesktopNavEntry entry) =>
+          entry.section == UserSettingsSection.profile,
+    );
+    final List<SettingsSidebarItem> navItems = desktopNav.map((
+      UserSettingsDesktopNavEntry entry,
+    ) {
+      final SettingsSidebarItem item = entry.toSidebarItem(l10n);
+      if (entry.section != UserSettingsSection.profile) {
+        return item;
+      }
+      return SettingsSidebarItem(
+        item.label,
+        icon: item.icon,
+        leading: item.leading,
+        isHidden: true,
+      );
+    }).toList();
+    final String? pageLink =
+        !isSettingsSearchActive && selectedEntry.section != null
+        ? userSettingsPageDeepLinkHref(selectedEntry.section!)
+        : null;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          width: wideSettingsDesktopSidebarWidth(context),
+          child: DecoratedBox(
+            position: DecorationPosition.foreground,
+            decoration: BoxDecoration(
+              border: BorderDirectional(
+                end: BorderSide(color: context.colors.backgroundModifierAccent),
+              ),
+            ),
+            child: SettingsSidebar(
+              items: searchSidebar?.items ?? navItems,
+              selectedIndex: searchSidebar == null ? _selectedIndex : -1,
+              onSelected: (index) {
+                if (searchSidebar != null) {
+                  _onSearchHitSelected(searchSidebar.hitAtIndex[index]);
+                  return;
+                }
+                _onItemSelected(index, desktopNav);
+              },
+              searchController: searchController,
+              onSearchChanged: onSearchQueryChanged,
+              onSearchClear: clearSearchQuery,
+              emptySearchMessage: isSettingsSearchActive
+                  ? l10n.userSettingsSearchNoResults
+                  : null,
+              userId: state.userId,
+              username: state.displayName,
+              avatarUrl: state.avatarUrl,
+              avatarColor: state.avatarColor,
+              profileSelected:
+                  searchSidebar == null && _selectedIndex == profileIndex,
+              onProfileTap: profileIndex < 0
+                  ? null
+                  : () {
+                      resetSearchQuery();
+                      setState(() => _selectedIndex = profileIndex);
+                    },
+              footer: const _SettingsBuildInfoFooter(inSidebar: true),
+            ),
+          ),
+        ),
+        Expanded(
+          child: ColoredBox(
+            color: contentBackground,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                DesktopSettingsModalHeader(
+                  title: selectedEntry.displayLabel(l10n),
+                  backgroundColor: storePane
+                      ? PremiumStoreStyle.of(context).heroTop
+                      : contentBackground,
+                  foregroundColor: storePane
+                      ? PremiumStoreStyle.of(context).ink
+                      : null,
+                  titleTrailing: pageLink == null
+                      ? null
+                      : FluxerSettingsHeadingLinkButton(
+                          href: pageLink,
+                          target: FluxerSettingsHeadingLinkTarget.page,
+                        ),
+                  onClose: () => Navigator.of(context).pop(),
+                ),
+                Expanded(
+                  child: storePane
+                      ? ColoredBox(
+                          color: PremiumStoreStyle.of(context).page,
+                          child: _buildContent(state, desktopNav),
+                        )
+                      : WideSettingsContentLayout(
+                          child: _buildContent(state, desktopNav),
+                        ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -1101,6 +1227,13 @@ Widget _buildUserSettingsSectionBody({
       return scrollController == null
           ? const UserAppIconSettings()
           : UserAppIconSettings(scrollController: scrollController);
+    case UserSettingsSection.desktop:
+      if (!isFluxerDesktopOs) {
+        return const SizedBox.shrink();
+      }
+      return scrollController == null
+          ? const UserDesktopSettings()
+          : UserDesktopSettings(scrollController: scrollController);
     case UserSettingsSection.languageAndTime:
       return scrollController == null
           ? const UserLanguageAndTime()
@@ -1191,6 +1324,7 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final runtimeInfoAsync = ref.watch(appRuntimeInfoProvider);
     final l10n = FluxerLocalizations.of(context);
+    final bool desktop = inSidebar && usesDesktopPointerUi(context);
     return runtimeInfoAsync.when(
       data: (AppRuntimeInfo info) {
         final text = _userSettingsFooterText(info, l10n);
@@ -1205,12 +1339,18 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
             child: Text(
               text,
               textAlign: inSidebar ? TextAlign.start : TextAlign.center,
-              style: context.textStyles.timestamp.copyWith(
-                fontSize: 11,
-                color: inSidebar
-                    ? context.colors.textTertiarySecondary
-                    : context.colors.textPrimaryMuted,
-              ),
+              style: desktop
+                  ? context.textStyles.timestamp.copyWith(
+                      fontSize: 11,
+                      height: 14 / 11,
+                      color: context.colors.textPrimaryMuted,
+                    )
+                  : context.textStyles.timestamp.copyWith(
+                      fontSize: 11,
+                      color: inSidebar
+                          ? context.colors.textTertiarySecondary
+                          : context.colors.textPrimaryMuted,
+                    ),
             ),
           ),
         );

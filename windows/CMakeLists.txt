@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(fluxer_app LANGUAGES CXX)
+project(fluxer_oxygen LANGUAGES CXX)
 
-set(BINARY_NAME "fluxer_app")
+set(BINARY_NAME "fluxer_oxygen")
 
 cmake_policy(VERSION 3.14...3.25)
 

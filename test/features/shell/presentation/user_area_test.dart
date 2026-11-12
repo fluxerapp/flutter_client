@@ -287,6 +287,36 @@ void main() {
     expect(switchAccounts.hitTestable(), findsOneWidget);
   });
 
+  testWidgets('UserArea shows the display name without the tag', (
+    WidgetTester tester,
+  ) async {
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: _userAreaOverrides(
+          voiceSession: _IdleVoiceSession.new,
+          localVoice: _FakeLocalVoiceState.new,
+        ),
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(body: UserArea()),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Tester'), findsOneWidget);
+    expect(find.textContaining('#0001'), findsNothing);
+    expect(find.textContaining('tester'), findsNothing);
+  });
+
   testWidgets('UserArea skips bottom safe area on mobile layout', (
     WidgetTester tester,
   ) async {

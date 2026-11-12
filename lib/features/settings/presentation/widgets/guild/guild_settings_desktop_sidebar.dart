@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
   FluxerLocalizations l10n,
@@ -48,6 +49,8 @@ List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
   return items;
 }
 
+const double _kGuildNameFontSize = 17.072;
+
 class GuildSettingsDesktopSidebar extends StatelessWidget {
   const GuildSettingsDesktopSidebar({
     required this.guild,
@@ -71,6 +74,9 @@ class GuildSettingsDesktopSidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color sidebarBackground = wideSettingsSidebarBackground(context);
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, sidebarBackground);
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -120,6 +126,81 @@ class GuildSettingsDesktopSidebar extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context, Color sidebarBackground) {
+    return DecoratedBox(
+      position: DecorationPosition.foreground,
+      decoration: BoxDecoration(
+        border: BorderDirectional(
+          end: BorderSide(color: context.colors.backgroundModifierAccent),
+        ),
+      ),
+      child: ColoredBox(
+        color: sidebarBackground,
+        child: SizedBox(
+          width: wideSettingsDesktopSidebarWidth(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const SizedBox(height: 16),
+              if (guild != null)
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(22, 6, 28, 30),
+                  child: Text(
+                    guild!.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textStyles.bodyMedium.copyWith(
+                      fontSize: _kGuildNameFontSize,
+                      fontWeight: FontWeight.w500,
+                      color: context.colors.textPrimary,
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: AnimatedCrossFade(
+                  duration: MediaQuery.disableAnimationsOf(context)
+                      ? Duration.zero
+                      : kWideSettingsSidebarCrossFadeDuration,
+                  firstCurve: Curves.easeOut,
+                  secondCurve: Curves.easeOut,
+                  sizeCurve: Curves.easeOut,
+                  crossFadeState: showRolesSidebar
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  layoutBuilder: wideSettingsSidebarCrossFadeLayout,
+                  firstChild: SizedBox.expand(
+                    child: SettingsSidebar(
+                      items: sidebarItems,
+                      selectedIndex: selectedIndex,
+                      showSearch: false,
+                      backgroundColor: Colors.transparent,
+                      desktopTopInset: 0,
+                      onSelected: onItemSelected,
+                    ),
+                  ),
+                  secondChild: SizedBox.expand(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: ListenableBuilder(
+                        listenable: rolesBridge,
+                        builder: (BuildContext context, Widget? _) {
+                          return _GuildSettingsRolesSidebarOverride(
+                            rolesBridge: rolesBridge,
+                            onBackToSettings: onBackToSettings,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -26,7 +26,7 @@ Widget _app(Widget child) {
 }
 
 void main() {
-  testWidgets('renders the channel name in the heading and body', (
+  testWidgets('renders the channel name as the heading above the body', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -41,30 +41,13 @@ void main() {
       ),
     );
 
-    expect(find.text('Welcome to #general'), findsOneWidget);
-    expect(find.text('This is the start of #general.'), findsOneWidget);
-    expect(find.byType(ChannelIcon), findsOneWidget);
-  });
-
-  testWidgets('forwards the channel type to the icon', (tester) async {
-    await tester.pumpWidget(
-      _app(
-        const ChannelWelcomeSection(
-          channel: Channel(
-            id: 'voice-1',
-            guildId: 'guild-1',
-            name: 'lounge',
-            type: ChannelType.guildVoice,
-          ),
-        ),
-      ),
+    expect(find.text('#general'), findsOneWidget);
+    expect(
+      find.text('There are no older messages in #general.'),
+      findsOneWidget,
     );
-
-    final ChannelIcon icon = tester.widget<ChannelIcon>(
-      find.byType(ChannelIcon),
-    );
-    expect(icon.type, ChannelType.guildVoice);
-    expect(icon.channel?.name, 'lounge');
+    expect(find.textContaining('Welcome'), findsNothing);
+    expect(find.byType(ChannelIcon), findsNothing);
   });
 
   testWidgets('clips combining marks in the heading and body', (tester) async {
@@ -78,7 +61,7 @@ void main() {
     );
 
     for (final String text in <String>[
-      testL10n.channelWelcomeHeading('#$zalgo'),
+      '#$zalgo',
       testL10n.channelWelcomeDescription('#$zalgo'),
     ]) {
       expect(

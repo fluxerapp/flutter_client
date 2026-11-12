@@ -6,10 +6,21 @@ import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
 
+final Set<String> _sdkWireValues = <String>{
+  for (final sdk.Locale locale in sdk.Locale.$valuesDefined) locale.json!,
+};
+
+String _wireOr(String wireValue, String fallback) =>
+    _sdkWireValues.contains(wireValue) ? wireValue : fallback;
+
 final Map<Locale, String> _supportedLocaleCases = <Locale, String>{
   const Locale('en'): 'en-US',
   const Locale('ar'): 'ar',
+  const Locale('art'): _wireOr('tok', 'en-US'),
+  const Locale('be'): _wireOr('be', 'en-US'),
   const Locale('bg'): 'bg',
+  const Locale('bn'): _wireOr('bn', 'en-US'),
+  const Locale('ca'): _wireOr('ca', 'en-US'),
   const Locale('cs'): 'cs',
   const Locale('da'): 'da',
   const Locale('de'): 'de',
@@ -19,6 +30,7 @@ final Map<Locale, String> _supportedLocaleCases = <Locale, String>{
   const Locale('es'): 'es-ES',
   const Locale('es', '419'): 'es-419',
   const Locale('fi'): 'fi',
+  const Locale('fil'): _wireOr('fil', 'en-US'),
   const Locale('fr'): 'fr',
   const Locale('he'): 'he',
   const Locale('hi'): 'hi',
@@ -29,13 +41,17 @@ final Map<Locale, String> _supportedLocaleCases = <Locale, String>{
   const Locale('ja'): 'ja',
   const Locale('ko'): 'ko',
   const Locale('lt'): 'lt',
+  const Locale('lv'): _wireOr('lv', 'en-US'),
   const Locale('nb'): 'no',
   const Locale('nl'): 'nl',
   const Locale('pl'): 'pl',
-  const Locale('pt'): 'pt-BR',
+  const Locale('pt'): _wireOr('pt-PT', 'pt-BR'),
   const Locale('pt', 'BR'): 'pt-BR',
   const Locale('ro'): 'ro',
   const Locale('ru'): 'ru',
+  const Locale('sk'): _wireOr('sk', 'en-US'),
+  const Locale('sl'): _wireOr('sl', 'en-US'),
+  const Locale('sq'): _wireOr('sq', 'en-US'),
   const Locale('sv'): 'sv-SE',
   const Locale('th'): 'th',
   const Locale('tr'): 'tr',
@@ -129,7 +145,12 @@ void main() {
       (const Locale('es', 'ES'), 'es-ES'),
       (const Locale('es', 'MX'), 'es-ES'),
       (const Locale('en', 'AU'), 'en-US'),
-      (const Locale('pt', 'PT'), 'pt-BR'),
+      (const Locale('pt', 'PT'), _wireOr('pt-PT', 'pt-BR')),
+      (const Locale('pt', 'AO'), _wireOr('pt-PT', 'pt-BR')),
+      (const Locale('pt', 'MZ'), _wireOr('pt-PT', 'pt-BR')),
+      (const Locale('pt', 'BR'), 'pt-BR'),
+      (const Locale('tl'), _wireOr('fil', 'en-US')),
+      (const Locale('tl', 'PH'), _wireOr('fil', 'en-US')),
       (const Locale('sv', 'SE'), 'sv-SE'),
       (const Locale('sv', 'FI'), 'sv-SE'),
       (const Locale('de', 'AT'), 'de'),
@@ -179,6 +200,10 @@ void main() {
 
   test('a mapped API locale always has a bundled UI catalog', () {
     for (final Locale locale in FluxerLocalizations.supportedLocales) {
+      if (_supportedLocaleCases[locale] == 'en-US' &&
+          locale.languageCode != 'en') {
+        continue;
+      }
       final Locale? back = tryFlutterLocaleFromSdkLocale(
         apiLocaleFromFlutterLocale(locale),
       );

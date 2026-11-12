@@ -1,8 +1,10 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 enum FluxerAlertVariant { info, warning, danger }
 
@@ -43,6 +45,10 @@ class FluxerWarningAlert extends StatelessWidget {
     }
 
     final String alertLabel = title != null ? '$title. $message' : message;
+
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, alertLabel);
+    }
 
     return Semantics(
       liveRegion: true,
@@ -105,6 +111,106 @@ class FluxerWarningAlert extends StatelessWidget {
                   ),
                 ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context, String alertLabel) {
+    final colors = context.colors;
+    final Color accent;
+    final IconData icon;
+    switch (variant) {
+      case FluxerAlertVariant.info:
+        accent = colors.accentInfo;
+        icon = PhosphorIconsFill.info;
+      case FluxerAlertVariant.warning:
+        accent = colors.alertWarning;
+        icon = PhosphorIconsFill.warning;
+      case FluxerAlertVariant.danger:
+        accent = colors.accentDanger;
+        icon = PhosphorIconsFill.warningCircle;
+    }
+    final TextStyle textStyle = context.textStyles.bodySmall.copyWith(
+      fontSize: 13,
+      height: 1.4,
+      color: colors.textPrimary,
+    );
+    return Semantics(
+      liveRegion: true,
+      label: alertLabel,
+      child: ClipRRect(
+        borderRadius: context.layout.radiusMd,
+        child: Stack(
+          children: [
+            PositionedDirectional(
+              start: 0,
+              top: 0,
+              bottom: 0,
+              width: 4,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: accent,
+                  borderRadius: context.layout.radiusSm,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 6, 12, 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
+                children: [
+                  ExcludeSemantics(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: PhosphorIcon(icon, color: accent, size: 16),
+                    ),
+                  ),
+                  Expanded(
+                    child: ExcludeSemantics(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 2,
+                        children: [
+                          if (title != null)
+                            Text(
+                              title!,
+                              style: textStyle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          Text(message, style: textStyle),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (onDismiss != null)
+                    Semantics(
+                      container: true,
+                      button: true,
+                      label: dismissLabel,
+                      onTap: onDismiss,
+                      excludeSemantics: true,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: FluxerGestureDetector(
+                          onTap: onDismiss,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: PhosphorIcon(
+                              PhosphorIconsBold.x,
+                              size: 16,
+                              color: colors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

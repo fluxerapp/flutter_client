@@ -56,13 +56,13 @@ class _GuildListItemState extends State<_GuildListItem> {
     if (iconUrl != null) {
       final int cacheSize = _guildNavbarIconMemCache(
         context,
-        GuildNavbarIconShape.size,
+        GuildNavbarIconShape.sizeOf(context),
       );
       return CachedNetworkImage(
         imageUrl: iconUrl,
         fit: BoxFit.cover,
-        width: GuildNavbarIconShape.size,
-        height: GuildNavbarIconShape.size,
+        width: GuildNavbarIconShape.sizeOf(context),
+        height: GuildNavbarIconShape.sizeOf(context),
         memCacheWidth: cacheSize,
         memCacheHeight: cacheSize,
         fadeInDuration: activeAnimatedIconUrl != null
@@ -83,7 +83,15 @@ class _GuildListItemState extends State<_GuildListItem> {
     if (icon == null) {
       return FluxerGuildAcronym(name: widget.label, color: iconColor);
     }
-    return Center(child: PhosphorIcon(icon, color: iconColor, size: 32));
+    return Center(
+      child: PhosphorIcon(
+        icon,
+        color: iconColor,
+        size: usesDesktopPointerUi(context)
+            ? GuildNavbarIconShape.desktopFaceIconSize
+            : 32,
+      ),
+    );
   }
 
   @override
@@ -97,8 +105,8 @@ class _GuildListItemState extends State<_GuildListItem> {
     final hasImage = iconUrl != null && !widget.isUnavailable;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      padding: EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacingOf(context) / 2,
       ),
       child: Stack(
         clipBehavior: Clip.none,
@@ -164,11 +172,11 @@ class _GuildListItemState extends State<_GuildListItem> {
                   child: SizedBox(
                     width: widget.opaqueHitTarget
                         ? kGuildNavbarWidth
-                        : GuildNavbarIconShape.size,
-                    height: GuildNavbarIconShape.size,
+                        : GuildNavbarIconShape.sizeOf(context),
+                    height: GuildNavbarIconShape.sizeOf(context),
                     child: Center(
                       child: SizedBox.square(
-                        dimension: GuildNavbarIconShape.size,
+                        dimension: GuildNavbarIconShape.sizeOf(context),
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -200,8 +208,8 @@ class _GuildListItemState extends State<_GuildListItem> {
                             if (!widget.isUnavailable &&
                                 widget.voiceActivity != VoiceActivityType.none)
                               PositionedDirectional(
-                                top: -4,
-                                end: -4,
+                                top: _ringBadgeOffset(context),
+                                end: _ringBadgeOffset(context),
                                 child: _VoiceActivityBadge(
                                   type: widget.voiceActivity,
                                 ),
@@ -211,10 +219,10 @@ class _GuildListItemState extends State<_GuildListItem> {
                                 widget.invitesPaused &&
                                 _displayMentionCount == 0 &&
                                 widget.voiceActivity == VoiceActivityType.none)
-                              const PositionedDirectional(
-                                bottom: -4,
-                                end: -4,
-                                child: _PauseBadge(),
+                              PositionedDirectional(
+                                bottom: _ringBadgeOffset(context),
+                                end: _ringBadgeOffset(context),
+                                child: const _PauseBadge(),
                               ),
                           ],
                         ),

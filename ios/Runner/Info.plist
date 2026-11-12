@@ -11,7 +11,10 @@
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>ar</string>
+		<string>be</string>
 		<string>bg</string>
+		<string>bn</string>
+		<string>ca</string>
 		<string>cs</string>
 		<string>da</string>
 		<string>de</string>
@@ -21,6 +24,7 @@
 		<string>es</string>
 		<string>es-419</string>
 		<string>fi</string>
+		<string>fil</string>
 		<string>fr</string>
 		<string>he</string>
 		<string>hi</string>
@@ -31,12 +35,17 @@
 		<string>ja</string>
 		<string>ko</string>
 		<string>lt</string>
+		<string>lv</string>
 		<string>nb</string>
 		<string>nl</string>
 		<string>pl</string>
 		<string>pt-BR</string>
+		<string>pt-PT</string>
 		<string>ro</string>
 		<string>ru</string>
+		<string>sk</string>
+		<string>sl</string>
+		<string>sq</string>
 		<string>sv</string>
 		<string>th</string>
 		<string>tr</string>
@@ -273,7 +282,7 @@
 	<key>FLTEnableWideGamut</key>
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechrome</string>
@@ -286,6 +295,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Fluxer uses Face ID to unlock the app when app lock is turned on.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network.</string>
 	<key>NSMicrophoneUsageDescription</key>

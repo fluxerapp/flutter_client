@@ -16,6 +16,8 @@ import 'package:fluxer_app/features/profile/providers/user_presence_provider.dar
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area_popout.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_dart/export.dart';
@@ -43,6 +45,11 @@ class _FakeUserSettings extends UserSettingsViewModel {
   );
 }
 
+class _IdleVoiceSession extends VoiceSession {
+  @override
+  VoiceSessionState build() => const VoiceSessionState();
+}
+
 class _FakeAccountManager extends AccountManager {
   @override
   AccountManagerState build() => const AccountManagerState(
@@ -62,6 +69,7 @@ Widget _app() {
       instanceRuntimeConfigOverride(),
       userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
       accountManagerProvider.overrideWith(_FakeAccountManager.new),
+      voiceSessionProvider.overrideWith(_IdleVoiceSession.new),
       ownProfileBadgesProvider.overrideWithValue(
         const <ProfileBadgeResponse>[],
       ),
@@ -138,6 +146,8 @@ void main() {
     expect(find.text('Online'), findsOneWidget);
     expect(find.text('Switch accounts'), findsOneWidget);
     expect(find.text('Copy user ID'), findsOneWidget);
+    expect(find.text('Copy voice diagnostics'), findsOneWidget);
+    expect(find.text('In a call'), findsNothing);
     expect(find.text('Edit profile'), findsOneWidget);
     expect(find.text('Do not disturb'), findsNothing);
     final Rect open = tester.getRect(find.text('Open'));

@@ -71,8 +71,8 @@ Future<void> _registerWithUsername(WidgetTester tester) async {
   expect(await isOnLoginScreen(tester), isTrue);
   expect(_inputLabeled('Username'), findsOneWidget);
   expect(_inputLabeled('Email'), findsNothing);
-  await _tap(tester, find.text('Register'));
-  await _pumpUntil(tester, find.text('Create an account'));
+  await _tap(tester, find.text('Create an account'));
+  await _pumpUntil(tester, find.text('Already have an account? '));
   expect(_inputLabeled('Email'), findsNothing);
   expect(
     find.text('A 4-digit tag will be added automatically to ensure uniqueness'),
@@ -162,8 +162,8 @@ Future<void> _recoverWithKit(WidgetTester tester) async {
 Future<void> _registerWithEmail(WidgetTester tester) async {
   expect(await isOnLoginScreen(tester), isTrue);
   expect(_inputLabeled('Email'), findsOneWidget);
-  await _tap(tester, find.text('Register'));
-  await _pumpUntil(tester, find.text('Create an account'));
+  await _tap(tester, find.text('Create an account'));
+  await _pumpUntil(tester, find.text('Already have an account? '));
   expect(
     find.text('A 4-digit tag will be added automatically to ensure uniqueness'),
     findsOneWidget,

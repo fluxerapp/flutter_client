@@ -111,6 +111,10 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
 
     final String triggerLabel = label ?? hint ?? l10n.uiSelectPlaceholder;
 
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, selectedItem, triggerLabel);
+    }
+
     return Column(
       crossAxisAlignment: stretch
           ? CrossAxisAlignment.stretch
@@ -205,6 +209,130 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
               errorText!,
               style: textStyles.bodySmall.copyWith(color: colors.statusDanger),
             ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildDesktop(
+    BuildContext context,
+    FluxerSelectItem<T>? selectedItem,
+    String triggerLabel,
+  ) {
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    final TextStyle textStyle = textStyles.bodySmall.copyWith(
+      fontSize: 14,
+      height: 20 / 14,
+      color: colors.textPrimary,
+    );
+    final Color borderColor = errorText != null
+        ? colors.statusDanger
+        : _isOpen
+        ? colors.backgroundModifierAccentFocus
+        : colors.backgroundModifierAccent;
+
+    Widget trigger = FluxerTappable(
+      enabled: enabled,
+      onTap: () => _showOptions(context),
+      semanticLabel: triggerLabel,
+      expanded: _isOpen,
+      builder: (context, states) {
+        final bool hovered = enabled && states.contains(WidgetState.hovered);
+        return AnimatedContainer(
+          duration: context.motion.normal,
+          curve: Curves.ease,
+          width: stretch ? double.infinity : null,
+          constraints: const BoxConstraints(minHeight: 44),
+          padding: const EdgeInsetsDirectional.only(start: 17, end: 7),
+          decoration: BoxDecoration(
+            color: fluxerFormSurfaceBackground(context),
+            borderRadius: context.layout.radiusLg,
+            border: Border.all(color: borderColor),
+          ),
+          child: Row(
+            mainAxisSize: stretch ? MainAxisSize.max : MainAxisSize.min,
+            children: [
+              if (selectedItem?.leading case final leading?) ...[
+                SizedBox(width: 20, height: 20, child: Center(child: leading)),
+                const SizedBox(width: 8),
+              ],
+              Flexible(
+                fit: stretch ? FlexFit.tight : FlexFit.loose,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 11),
+                  child: Text(
+                    selectedItem?.label ?? hint ?? '',
+                    style: selectedItem != null
+                        ? textStyle
+                        : textStyle.copyWith(color: colors.textTertiary),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: hovered
+                      ? colors.backgroundModifierHover
+                      : Colors.transparent,
+                  borderRadius: context.layout.radiusMd,
+                ),
+                child: AnimatedRotation(
+                  turns: _isOpen ? 0.5 : 0,
+                  duration: context.motion.panel,
+                  curve: Curves.ease,
+                  child: Icon(
+                    PhosphorIconsBold.caretDown,
+                    size: 16,
+                    color: hovered ? colors.textPrimary : colors.textTertiary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    if (!enabled) {
+      trigger = Opacity(opacity: 0.5, child: trigger);
+    }
+
+    final TextStyle supportStyle = textStyles.bodySmall.copyWith(
+      fontSize: 14,
+      height: 20 / 14,
+    );
+    return Column(
+      crossAxisAlignment: stretch
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 4,
+      children: [
+        if (label != null)
+          Text(
+            label!,
+            style: textStyles.label.copyWith(
+              color: colors.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              height: 20 / 14,
+            ),
+          ),
+        trigger,
+        if (description != null)
+          Text(
+            description!,
+            style: supportStyle.copyWith(color: colors.textPrimaryMuted),
+          ),
+        if (errorText != null)
+          Text(
+            errorText!,
+            style: supportStyle.copyWith(color: colors.statusDanger),
           ),
       ],
     );
@@ -435,20 +563,18 @@ class _FluxerSelectList<T> extends StatelessWidget {
     final int lastIndex = items.length - 1;
 
     if (FluxerDesktopSurfaceScope.isMenu(context)) {
-      return ListView.builder(
+      return ListView.separated(
         controller: controller,
         shrinkWrap: shrinkWrap,
         padding: EdgeInsets.zero,
         itemCount: items.length,
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 1),
         itemBuilder: (BuildContext context, int index) {
           final FluxerSelectItem<T> item = items[index];
-          return FluxerBottomSheetMenuItem(
-            label: item.label,
-            hint: item.description,
-            leading: item.leading,
-            icon: item.icon,
-            enabled: item.enabled,
-            isSelected: item.value == value,
+          return _FluxerSelectDesktopRow(
+            item: item,
+            selected: item.value == value,
             onTap: () => _onSelected(item.value),
           );
         },
@@ -492,6 +618,114 @@ class _FluxerSelectList<T> extends StatelessWidget {
             enabled: item.enabled,
             isSelected: item.value == value,
             onTap: () => _onSelected(item.value),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _FluxerSelectDesktopRow extends StatelessWidget {
+  const _FluxerSelectDesktopRow({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final FluxerSelectItem<Object?> item;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final TextStyle baseStyle = context.textStyles.bodySmall.copyWith(
+      fontSize: 14,
+      height: 20 / 14,
+    );
+    return FluxerTappable(
+      enabled: item.enabled,
+      onTap: onTap,
+      selected: selected,
+      semanticLabel: item.description != null
+          ? '${item.label}. ${item.description}'
+          : item.label,
+      excludeChildSemantics: true,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool hovered =
+            item.enabled && states.contains(WidgetState.hovered);
+        final Color foreground = selected
+            ? colors.brandPrimaryFill
+            : colors.textPrimary;
+        final Widget? leading = switch ((item.leading, item.icon)) {
+          (final Widget leadingWidget, _) => IconTheme.merge(
+            data: IconThemeData(color: foreground, size: 16),
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: Center(child: leadingWidget),
+            ),
+          ),
+          (_, final IconData iconData) => PhosphorIcon(
+            iconData,
+            color: foreground,
+            size: 16,
+          ),
+          _ => null,
+        };
+        return Container(
+          constraints: const BoxConstraints(minHeight: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color: selected
+                ? colors.brandPrimary
+                : hovered
+                ? colors.backgroundModifierHover
+                : Colors.transparent,
+            borderRadius: context.layout.radiusMd,
+          ),
+          child: Row(
+            spacing: 8,
+            children: [
+              SizedBox.square(
+                dimension: 16,
+                child: selected
+                    ? PhosphorIcon(
+                        PhosphorIconsBold.check,
+                        color: foreground,
+                        size: 16,
+                      )
+                    : null,
+              ),
+              ?leading,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      item.label,
+                      style: baseStyle.copyWith(color: foreground),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (item.description case final description?)
+                      Text(
+                        description,
+                        style: baseStyle.copyWith(
+                          fontSize: 12,
+                          height: 16 / 12,
+                          color: selected
+                              ? foreground
+                              : colors.textPrimaryMuted,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },

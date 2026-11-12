@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
+import 'package:fluxer_app/features/voice/utils/voice_diagnostics_report.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -35,6 +36,9 @@ const Key kVoiceControlPanelPrioritizeSpeakersKey = Key(
 const Key kVoiceControlPanelViewModeKey = Key('voice-control-panel-view-mode');
 const Key kVoiceControlPanelSwitchToStandardKey = Key(
   'voice-control-panel-switch-to-standard',
+);
+const Key kVoiceControlPanelCopyDiagnosticsKey = Key(
+  'voice-control-panel-copy-diagnostics',
 );
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
@@ -262,6 +266,22 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                     ),
                   ],
                 ),
+              ),
+            ],
+          ),
+          SizedBox(height: layout.s4),
+          FluxerListSection(
+            children: <Widget>[
+              FluxerListRow(
+                key: kVoiceControlPanelCopyDiagnosticsKey,
+                leading: const VoicePanelListIcon(
+                  icon: PhosphorIconsFill.chartLine,
+                ),
+                title: l10n.voiceDiagnosticsCopy,
+                subtitle: l10n.voiceDiagnosticsCopyDescription,
+                onTap: () {
+                  unawaited(copyVoiceDiagnostics(context));
+                },
               ),
             ],
           ),

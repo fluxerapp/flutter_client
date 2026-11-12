@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerSettingsSubsection extends StatelessWidget {
   const FluxerSettingsSubsection({
@@ -35,6 +36,51 @@ class FluxerSettingsSubsection extends StatelessWidget {
           for (int i = 0; i < items.length; i++) ...[
             items[i],
             if (i < items.length - 1) SizedBox(height: layout.s3),
+          ],
+        ],
+      );
+    }
+
+    if (usesDesktopPointerUi(context)) {
+      final bool hasHeader = title != null || description != null;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (title != null)
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 22),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    title!,
+                    style: context.textStyles.bodySmall.copyWith(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      height: 1.3,
+                      color: colors.textPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (description != null) ...[
+            if (title != null) const SizedBox(height: 4),
+            Text(
+              description!,
+              style: context.textStyles.bodySmall.copyWith(
+                fontSize: 13,
+                height: 1.4,
+                color: colors.textTertiary,
+              ),
+            ),
+          ],
+          if (hasHeader) const SizedBox(height: 12),
+          for (int i = 0; i < children.length; i++) ...[
+            children[i],
+            if (i < children.length - 1) const SizedBox(height: 8),
           ],
         ],
       );

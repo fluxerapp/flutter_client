@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.11"
+  build_cli_annotations:
+    dependency: transitive
+    description:
+      name: build_cli_annotations
+      sha256: e563c2e01de8974566a1998410d3f6f03521788160a02503b0b1f1a46c7b3d95
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   build_config:
     dependency: transitive
     description:
@@ -665,6 +673,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  dynamic_color:
+    dependency: "direct main"
+    description:
+      name: dynamic_color
+      sha256: "869b3bce0100eb519768ecd71c0111f0b5ea679f5f62e1f59c49d80067e730c5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   extension_discovery:
     dependency: transitive
     description:
@@ -962,6 +978,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.3"
+  flutter_rust_bridge:
+    dependency: transitive
+    description:
+      name: flutter_rust_bridge
+      sha256: "37ef40bc6f863652e865f0b2563ea07f0d3c58d8efad803cc01933a4b2ee067e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.11.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -1091,6 +1115,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  fluxer_billing:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_billing"
+      relative: true
+    source: path
+    version: "1.0.0"
   fluxer_dart:
     dependency: "direct main"
     description:
@@ -1112,6 +1143,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  fluxer_voice:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_voice"
+      relative: true
+    source: path
+    version: "0.0.1"
   foldable:
     dependency: "direct main"
     description:
@@ -1310,7 +1348,7 @@ packages:
     source: hosted
     version: "0.2.2"
   in_app_purchase:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase
       sha256: d8317ec2ed6fe33199957d67ee67e08a4fd4871ef93b91d7611d8ee560892afc
@@ -1318,7 +1356,7 @@ packages:
     source: hosted
     version: "3.3.1"
   in_app_purchase_android:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase_android
       sha256: b76ab601573f8a848e72d015496257235066ba3479bef6300482239f417e0d72
@@ -1334,13 +1372,13 @@ packages:
     source: hosted
     version: "1.4.1"
   in_app_purchase_storekit:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase_storekit
-      sha256: fb2744b928bb0fcbfc95d1833469b3f638a44670aac3e278695930d3727011b6
+      sha256: e9278eb778170ce65a9e2d17672924f41b0f2f3ad958cd9f6ea7ffc0826efa29
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.16"
+    version: "0.4.17"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -1514,6 +1552,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.2"
+  local_auth:
+    dependency: "direct main"
+    description:
+      name: local_auth
+      sha256: ecf24edf2283c509ecd217e3595f6f71034b68888d28ad1dae6bfa0857b816ac
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
+  local_auth_android:
+    dependency: transitive
+    description:
+      name: local_auth_android
+      sha256: e2ceb84cdecefe1bc0ddd4ac308b0f6525bbfa0a60d0e552082b2970e1fb38c2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  local_auth_darwin:
+    dependency: transitive
+    description:
+      name: local_auth_darwin
+      sha256: "45a9db01b57082bc9d6115cb25eb8fc0b72f43e5f330819bdd8352ecdae87589"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
+  local_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: local_auth_platform_interface
+      sha256: f98b8e388588583d3f781f6806e4f4c9f9e189d898d27f0c249b93a1973dd122
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  local_auth_windows:
+    dependency: transitive
+    description:
+      name: local_auth_windows
+      sha256: d72b8a441e5e6a679902f87c51529fcce65f442d77598484cf35454c3d733eda
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   local_translation:
     dependency: "direct main"
     description:
@@ -1555,7 +1633,7 @@ packages:
     source: hosted
     version: "0.12.20"
   material_color_utilities:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_color_utilities
       sha256: "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"
@@ -1650,6 +1728,14 @@ packages:
       url: "https://github.com/fluxerapp/media-kit"
     source: git
     version: "2.0.1"
+  menu_base:
+    dependency: transitive
+    description:
+      name: menu_base
+      sha256: "820368014a171bd1241030278e6c2617354f492f5c703d7b7d4570a6b8b84405"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   meta:
     dependency: transitive
     description:
@@ -1698,6 +1784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.2"
+  native_toolchain_rust:
+    dependency: transitive
+    description:
+      name: native_toolchain_rust
+      sha256: dc8e5f20c0cb7052372bc302f075607086d86354b37199e89ec9d3d35589e519
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   nm:
     dependency: transitive
     description:
@@ -2252,7 +2346,7 @@ packages:
     source: hosted
     version: "2.0.7"
   screen_retriever:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: screen_retriever
       sha256: ace919117a7520c13a50a6259e60c4a0d4cbe98809468792a91b5c5adada2aa6
@@ -2419,6 +2513,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  shortid:
+    dependency: transitive
+    description:
+      name: shortid
+      sha256: d0b40e3dbb50497dad107e19c54ca7de0d1a274eb9b4404991e443dadb9ebedb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   skeletonizer:
     dependency: "direct main"
     description:
@@ -2688,6 +2790,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.2"
+  toml:
+    dependency: transitive
+    description:
+      name: toml
+      sha256: "35a35f782228656a2af31e8c73d1353cc4ef3d683fd68af1111b44631879c05e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.0"
+  tray_manager:
+    dependency: "direct main"
+    description:
+      name: tray_manager
+      sha256: "1a659b08baa6e9b91ef8ce16eda37740de398be1c4cf322b8a1ddfef25c68c5a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   typed_data:
     dependency: transitive
     description:
@@ -2872,6 +2990,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.4"
+  velopack_flutter:
+    dependency: "direct main"
+    description:
+      name: velopack_flutter
+      sha256: b23179aa33352f263b5d77b026caf2c3506b29a6c02a56f405ffd6c0c0e5c152
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
   visibility_detector:
     dependency: "direct main"
     description:

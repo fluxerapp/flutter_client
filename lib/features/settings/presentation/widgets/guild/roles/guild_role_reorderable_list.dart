@@ -50,7 +50,9 @@ class GuildRoleReorderableList extends ConsumerWidget {
       horizontalPadding,
       0,
       horizontalPadding,
-      kSettingsScrollBottomPadding,
+      !useMobileTileStyle && usesDesktopPointerUi(context)
+          ? 8
+          : kSettingsScrollBottomPadding,
     );
   }
 

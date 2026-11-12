@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerSegmentedTabs extends StatelessWidget {
   const FluxerSegmentedTabs({
@@ -20,6 +21,30 @@ class FluxerSegmentedTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
+    final bool desktop = usesDesktopPointerUi(context);
+
+    if (desktop) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.backgroundTertiary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < tabs.length; i++)
+                _FluxerSegmentedDesktopTabItem(
+                  tab: tabs[i],
+                  isSelected: i == selectedIndex,
+                  onTap: () => onChanged(i),
+                ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -40,6 +65,69 @@ class FluxerSegmentedTabs extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _FluxerSegmentedDesktopTabItem extends StatelessWidget {
+  const _FluxerSegmentedDesktopTabItem({
+    required this.tab,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final FluxerTab tab;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return FluxerTappable(
+      onTap: onTap,
+      selected: isSelected,
+      semanticLabel: tab.label,
+      excludeChildSemantics: true,
+      builder: (context, states) {
+        final bool pressed = states.contains(WidgetState.pressed);
+        final Color foreground = isSelected || pressed
+            ? colors.textPrimary
+            : colors.textSecondary;
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isSelected ? colors.backgroundSecondary : Colors.transparent,
+            borderRadius: context.layout.radiusLg,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      offset: const Offset(0, 1),
+                      blurRadius: 2,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 4,
+            children: [
+              if (tab.icon != null) Icon(tab.icon, size: 16, color: foreground),
+              AnimatedDefaultTextStyle(
+                duration: context.motion.normal,
+                curve: Curves.ease,
+                style: context.textStyles.label.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  height: 18 / 14,
+                  color: foreground,
+                ),
+                child: Text(tab.label, textAlign: TextAlign.center),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

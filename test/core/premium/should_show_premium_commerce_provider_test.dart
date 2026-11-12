@@ -68,6 +68,7 @@ WellKnownFluxerResponse _selfHostedWellKnown({bool premiumEnabled = false}) {
       guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
+      connectionProviders: <InstanceConnectionProviderSchema>[],
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,

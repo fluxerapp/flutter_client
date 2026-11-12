@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/desktop/notifications/desktop_notification_permission.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
@@ -11,11 +13,17 @@ bool requiresPushNotificationSystemSettingsForStatus(PermissionStatus status) {
 }
 
 Future<bool> isPushNotificationPermissionGranted() async {
+  if (isFluxerDesktopOs) {
+    return isDesktopNotificationPermissionGranted();
+  }
   final PermissionStatus status = await Permission.notification.status;
   return isSystemPermissionGranted(SystemPermissionKind.notifications, status);
 }
 
 Future<bool> requiresPushNotificationSystemSettings() async {
+  if (isFluxerDesktopOs) {
+    return !await isDesktopNotificationPermissionGranted();
+  }
   final PermissionStatus status = await Permission.notification.status;
   return requiresPushNotificationSystemSettingsForStatus(status);
 }

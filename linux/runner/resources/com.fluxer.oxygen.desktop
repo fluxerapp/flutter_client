@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Fluxer Oxygen
+GenericName=Chat
+Comment=Chat with friends and communities on Fluxer
+Exec=fluxer_oxygen %u
+Icon=com.fluxer.oxygen
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+MimeType=x-scheme-handler/fluxer;
+StartupWMClass=com.fluxer.oxygen
+StartupNotify=true

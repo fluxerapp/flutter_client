@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_text.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_reorderable_list.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -8,6 +9,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class GuildRoleSidebar extends StatelessWidget {
   const GuildRoleSidebar({
@@ -48,6 +50,38 @@ class GuildRoleSidebar extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (hoistOrderMode) {
       return _buildHoistOrderMode(context, l10n);
+    }
+    if (usesDesktopPointerUi(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          DesktopSettingsSidebarTitle(
+            l10n.guildSettingsRolesListTitle,
+            large: true,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+            child: GuildRolesSidebarActionButton(
+              label: l10n.guildSettingsCreateRole,
+              icon: PhosphorIconsBold.plus,
+              enabled: canManageRoles,
+              isLoading: isCreatingRole,
+              onPressed: onCreateRole,
+            ),
+          ),
+          Expanded(
+            child: GuildRoleReorderableList(
+              guildId: guildId,
+              items: roles,
+              canManageRoles: canManageRoles,
+              isRoleLocked: isRoleLocked,
+              onSelectRole: onSelectRole,
+              onReorder: onReorder,
+              selectedRoleId: selectedRoleId,
+            ),
+          ),
+        ],
+      );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

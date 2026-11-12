@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 109;
+  int get schemaVersion => 110;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1692,6 +1692,17 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.addColumn(
           userPreferencesTable,
           userPreferencesTable.announceCallJoinsAndLeaves,
+        );
+      }
+      if (from < 110 &&
+          !await _tableHasColumn(
+            m.database,
+            tableName: 'user_preferences',
+            columnName: userPreferencesTable.useSystemDynamicColors.name,
+          )) {
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.useSystemDynamicColors,
         );
       }
     },

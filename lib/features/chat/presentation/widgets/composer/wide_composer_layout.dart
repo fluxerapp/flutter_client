@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 abstract final class WideComposerLayout {
@@ -9,9 +10,13 @@ abstract final class WideComposerLayout {
   static const double ringWidth = 1;
   static const double boxMinHeight = 58;
   static const double densePaddingY = 10;
-  static const double densePaddingXMouse = 8;
+  static const double densePaddingXMouse = 13;
   static const double densePaddingXTouch = 12;
   static const double actionGap = 8;
+  static const double mouseActionGap = 4;
+  static const double mouseContentGap = 16;
+  static const double mouseButtonRadius = 6;
+  static const double mouseButtonIconSize = 22;
   static const double mouseVoiceDividerHeight = 24;
   static const double denseColumnGap = 12;
 
@@ -80,7 +85,7 @@ class WideComposerVoiceSeparator extends StatelessWidget {
     return SizedBox(
       height: WideComposerLayout.mouseVoiceDividerHeight,
       child: VerticalDivider(
-        color: context.colors.borderColor,
+        color: context.colors.backgroundModifierHover,
         width: 1,
         thickness: 1,
       ),
@@ -152,4 +157,30 @@ List<Shadow> wideComposerStatusTextShadows(Color surfaceColor) {
     Shadow(color: surfaceColor, blurRadius: 3),
     Shadow(color: surfaceColor, blurRadius: 8),
   ];
+}
+
+class WideComposerMouseButton extends StatelessWidget {
+  const WideComposerMouseButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    super.key,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerButton.desktop(
+      icon: icon,
+      semanticLabel: tooltip,
+      onPressed: onPressed,
+      showTooltip: true,
+      extent: WideComposerLayout.actionButtonExtent,
+      iconSize: WideComposerLayout.mouseButtonIconSize,
+      borderRadius: WideComposerLayout.mouseButtonRadius,
+    );
+  }
 }

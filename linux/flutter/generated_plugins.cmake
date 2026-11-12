@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_linux
   desktop_drop
   desktop_webview_window
+  dynamic_color
   file_selector_linux
   flutter_inappwebview_linux
   flutter_secure_storage_linux
@@ -18,6 +19,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   record_linux
   screen_retriever_linux
   super_native_extensions
+  tray_manager
   url_launcher_linux
   webcrypto
   window_manager

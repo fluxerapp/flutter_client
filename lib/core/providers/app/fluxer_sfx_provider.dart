@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/audio/message_notification_sfx_scheduler.dart';
 import 'package:fluxer_app/core/audio/sound_effect_policy.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
@@ -64,6 +65,9 @@ void _dropDisallowedPendingSfx(
   }
 }
 
+bool _messageSfxForeground(Ref ref) =>
+    isFluxerDesktopOs || ref.read(appUiForegroundProvider);
+
 FluxerSfxClip _clipForKind(MessageNotificationSfxClipKind kind) {
   return switch (kind) {
     MessageNotificationSfxClipKind.message => FluxerSfxClip.message,
@@ -85,7 +89,7 @@ void _scheduleMessageNotificationSfx({
   scheduler.schedule(
     clip: clip,
     play: (FluxerSfxClip scheduledClip) {
-      if (!ref.read(appUiForegroundProvider)) {
+      if (!_messageSfxForeground(ref)) {
         return;
       }
       _playConfiguredSfx(ref, scheduledClip);
@@ -100,7 +104,7 @@ Future<void> _playBestEffortMessageSfxAfterCancellation({
   required MessageNotificationSfxScheduler scheduler,
 }) async {
   final String? uid = ref.read(currentUserIdProvider);
-  if (uid == null || !ref.read(appUiForegroundProvider)) {
+  if (uid == null || !_messageSfxForeground(ref)) {
     return;
   }
   try {
@@ -161,7 +165,7 @@ void fluxerMessageSfxBinding(Ref ref) {
     ..listen(soundPreferencesProvider, (_, _) => refreshQueuedSfx())
     ..listen(notificationPreferencesProvider, (_, _) => refreshQueuedSfx())
     ..listen<bool>(appUiForegroundProvider, (_, bool foreground) {
-      if (!foreground) {
+      if (!foreground && !isFluxerDesktopOs) {
         scheduler.dropPending();
       }
     });
@@ -180,7 +184,7 @@ void fluxerMessageSfxBinding(Ref ref) {
           final bool selfDnd = isPresenceDoNotDisturb(
             ref.read(userSettingsStatusProvider)?.status,
           );
-          final bool foreground = ref.read(appUiForegroundProvider);
+          final bool foreground = _messageSfxForeground(ref);
           final String? activeCh = ref.read(activeChannelIdProvider);
           final MessageNotificationSfxPlayRequest? request =
               await FluxerMessageNotificationSfxEvaluator.evaluateFromSnapshot(
@@ -192,7 +196,9 @@ void fluxerMessageSfxBinding(Ref ref) {
                 deduper: deduper,
                 foreground: foreground,
                 viewingChannel:
-                    activeCh != null && activeCh == evt.event.message.channelId,
+                    activeCh != null &&
+                    activeCh == evt.event.message.channelId &&
+                    (!isFluxerDesktopOs || isDesktopMainWindowFocused()),
                 hasObscuringOverlay: ref.read(hasObscuringOverlayProvider),
               );
           if (request == null) {

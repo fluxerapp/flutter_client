@@ -45,8 +45,11 @@ jobs:
           channel: stable
           flutter-version: 3.47.9
 
-      - name: Configure APNs build tree
-        run: dart tool/configure_build.dart --profile=apns
+      - name: Verify committed build tree is canonical
+        run: dart tool/configure_build.dart --check
+
+      - name: Configure dev build tree
+        run: dart tool/configure_build.dart --profile=dev
 
       - name: Install dependencies
         run: flutter pub get

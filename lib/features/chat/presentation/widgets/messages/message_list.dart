@@ -919,7 +919,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             (final channel?, null) => ChannelWelcomeSection(
               key: const ValueKey<String>('channel-welcome-section'),
               channel: channel,
-              effectivePermissionBits: channelPermissionBits,
             ),
             (null, final dm?) => GroupDmWelcomeSection(
               key: const ValueKey<String>('group-dm-welcome-section'),
@@ -1000,12 +999,12 @@ class _MessageListState extends ConsumerState<MessageList> {
               } else if (channelRow != null) {
                 body = Align(
                   alignment: AlignmentDirectional.bottomStart,
-                  child: ChannelWelcomeSection(
-                    channel: channelRow,
-                    effectivePermissionBits: channelPermissionBits,
-                  ),
+                  child: ChannelWelcomeSection(channel: channelRow),
                 );
               } else {
+                final FluxerLocalizations l10n = FluxerLocalizations.of(
+                  context,
+                );
                 body = Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1017,14 +1016,14 @@ class _MessageListState extends ConsumerState<MessageList> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No messages yet',
+                        l10n.dmEmptyStateTitle,
                         style: context.textStyles.bodyMedium.copyWith(
                           color: context.colors.textPrimaryMuted,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Be the first to send a message!',
+                        l10n.dmEmptyStateBody,
                         style: context.textStyles.bodySmall.copyWith(
                           color: context.colors.textTertiaryMuted,
                         ),

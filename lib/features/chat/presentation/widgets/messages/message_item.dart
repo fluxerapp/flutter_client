@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_open_channel_details.dart';
@@ -35,6 +36,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/crosspost
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_action_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_long_press_highlight.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
@@ -73,6 +75,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/message_ui_pr
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -98,6 +101,10 @@ const _kMentionColor = Color.from(
 );
 
 const _kJumpHighlightBg = Color.fromRGBO(59, 130, 246, 0.1);
+
+const double _kMentionHoverOverlayAlpha = (0.14 - 0.1) / (1 - 0.1);
+
+const double _kMessageActionBarOffset = 48;
 
 const _kJumpHighlightBarWidth = 2.0;
 const _kJumpHighlightFadeCurve = Cubic(0.32, 0.72, 0, 1);
@@ -253,6 +260,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
+  final _actionBarHovered = ValueNotifier<bool>(false);
+  final _moreMenuOpen = ValueNotifier<bool>(false);
+  final _shiftHeld = ValueNotifier<bool>(false);
+  final _contextMenuOpen = ValueNotifier<bool>(false);
+  final LayerLink _actionBarLink = LayerLink();
+  final OverlayPortalController _actionBarPortal = OverlayPortalController();
+  bool _listeningForShift = false;
   final MessageDoubleTapExemption _doubleTapExemption =
       MessageDoubleTapExemption();
   bool _animateJumpHighlight = false;
@@ -267,10 +281,64 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   FluxerSpoilerSyncController get _spoilerSyncController =>
       ref.watch(channelSpoilerSyncProvider(widget.message.channelId));
 
-  late final Listenable _actionBarVisibility = Listenable.merge([
+  late final Listenable _hoverState = Listenable.merge([
     _hovered,
     _reactionPickerOpen,
+    _actionBarHovered,
+    _moreMenuOpen,
+    _contextMenuOpen,
   ]);
+
+  late final Listenable _actionBarContentState = Listenable.merge([
+    _shiftHeld,
+    _reactionPickerOpen,
+    _moreMenuOpen,
+  ]);
+
+  bool get _pointerEngaged =>
+      _hovered.value || _actionBarHovered.value || _moreMenuOpen.value;
+
+  bool get _actionBarActive => _pointerEngaged || _reactionPickerOpen.value;
+
+  bool get _rowHoverActive => _pointerEngaged || _contextMenuOpen.value;
+
+  @override
+  void initState() {
+    super.initState();
+    _hoverState.addListener(_syncActionBarPortal);
+  }
+
+  void _syncActionBarPortal() {
+    if (!mounted) {
+      return;
+    }
+    final bool active = _actionBarActive;
+    if (active && !_actionBarPortal.isShowing) {
+      _actionBarPortal.show();
+    } else if (!active && _actionBarPortal.isShowing) {
+      _actionBarPortal.hide();
+    }
+    _setShiftListening(active);
+  }
+
+  void _setShiftListening(bool listen) {
+    if (listen == _listeningForShift) {
+      return;
+    }
+    _listeningForShift = listen;
+    if (listen) {
+      _shiftHeld.value = HardwareKeyboard.instance.isShiftPressed;
+      HardwareKeyboard.instance.addHandler(_handleShiftKey);
+    } else {
+      HardwareKeyboard.instance.removeHandler(_handleShiftKey);
+      _shiftHeld.value = false;
+    }
+  }
+
+  bool _handleShiftKey(KeyEvent event) {
+    _shiftHeld.value = HardwareKeyboard.instance.isShiftPressed;
+    return false;
+  }
 
   @override
   void didUpdateWidget(MessageItem oldWidget) {
@@ -282,9 +350,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   @override
   void dispose() {
+    _hoverState.removeListener(_syncActionBarPortal);
+    if (_listeningForShift) {
+      HardwareKeyboard.instance.removeHandler(_handleShiftKey);
+    }
     _hovered.dispose();
     _pressHighlight.dispose();
     _reactionPickerOpen.dispose();
+    _actionBarHovered.dispose();
+    _moreMenuOpen.dispose();
+    _shiftHeld.dispose();
+    _contextMenuOpen.dispose();
     super.dispose();
   }
 
@@ -551,20 +627,50 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     }
   }
 
-  Future<void> _showContextMenu(BuildContext context, Offset position) async {
+  Future<void> _showContextMenu(
+    BuildContext context,
+    Offset position, {
+    Rect? anchorRect,
+  }) async {
     final String? guildId = _guildIdForMessageActions();
     final VoidCallback? onDelete = widget.onDelete;
-    final MessageAction? action = await showMessageContextMenu(
-      context,
-      position: position,
-      message: widget.message,
-      permissions: _videoActionScope.permissions,
-      callbacks: _videoActionScope.callbacks,
-      onQuickReaction: _dispatchQuickReaction,
-      quickReactionChannelId: widget.message.channelId,
-      quickReactionGuildId: guildId,
-    );
+    final ValueNotifier<bool> openFlag =
+        (anchorRect == null ? _contextMenuOpen : _moreMenuOpen)..value = true;
+    MessageAction? action;
+    try {
+      action = await showMessageContextMenu(
+        context,
+        position: position,
+        anchorRect: anchorRect,
+        message: widget.message,
+        permissions: _videoActionScope.permissions,
+        callbacks: _videoActionScope.callbacks,
+        onQuickReaction: _dispatchQuickReaction,
+        quickReactionChannelId: widget.message.channelId,
+        quickReactionGuildId: guildId,
+      );
+    } finally {
+      if (mounted) {
+        _hovered.value = false;
+        openFlag.value = false;
+      }
+    }
+    if (!mounted) {
+      return;
+    }
     _dispatchMenuAction(action, onDelete: onDelete, isMobile: false);
+  }
+
+  void _openMoreMenu(BuildContext buttonContext) {
+    if (_moreMenuOpen.value) {
+      return;
+    }
+    final RenderObject? box = buttonContext.findRenderObject();
+    if (box is! RenderBox || !box.hasSize) {
+      return;
+    }
+    final Rect anchor = box.localToGlobal(Offset.zero) & box.size;
+    unawaited(_showContextMenu(context, anchor.topLeft, anchorRect: anchor));
   }
 
   void _dispatchMenuAction(
@@ -597,7 +703,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool contentOnly = widget.previewContentOnly;
     final isGrouped = widget.isGrouped || contentOnly;
     final isMobile = isMobileLayout(context);
-    final bool useTouchMessageActions = _usesTouchMessageActions(context);
+    final bool desktop = usesDesktopPointerUi(context);
+    final bool showDesktopActionBar =
+        !isMobile && desktop && !widget.inboxPreviewMode;
     final isTouch =
         layoutModeOfSize(MediaQuery.sizeOf(context)) != LayoutMode.desktop;
     final MessageRenderSettings? settings = widget.renderSettings;
@@ -684,7 +792,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final Color? hoverTintColor = showJumpHighlight
         ? null
         : showMentionHighlight
-        ? _kMentionColor.withValues(alpha: 0.04)
+        ? _kMentionColor.withValues(alpha: _kMentionHoverOverlayAlpha)
         : context.colors.backgroundModifierHover;
     final bool isFailed = msg.hasFailed;
     final bool isSending = msg.isSending;
@@ -715,23 +823,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           onEdit: widget.onEdit,
         );
     final rowGestures = FluxerGestureDetector(
-      onTapUp: isFailed && useTouchMessageActions && !widget.inboxPreviewMode
+      onTapUp: isFailed && !desktop && !widget.inboxPreviewMode
           ? (details) =>
                 unawaited(_showActions(context, details.globalPosition))
           : null,
-      onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
+      onLongPressStart: !desktop && !widget.inboxPreviewMode
           ? (details) {
               _pressHighlight.value = true;
               unawaited(_showActions(context, details.globalPosition));
             }
           : null,
-      onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
+      onSecondaryTapUp: desktop && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
       child: MouseRegion(
         onEnter: (_) => _hovered.value = true,
         onExit: (_) {
-          if (!_reactionPickerOpen.value) {
+          if (!_reactionPickerOpen.value &&
+              !_moreMenuOpen.value &&
+              !_contextMenuOpen.value) {
             _hovered.value = false;
           }
         },
@@ -752,7 +862,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 )
               : EdgeInsetsDirectional.only(
                   start: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
-                  end: kMessageRowPaddingHorizontal,
+                  end: showDesktopActionBar
+                      ? kMessageRowPaddingHorizontal + _kMessageActionBarOffset
+                      : kMessageRowPaddingHorizontal,
                   top: 2,
                   bottom: 2,
                 ),
@@ -864,73 +976,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                 ],
               ),
-              if (!isMobile && isFailed && !widget.inboxPreviewMode)
-                ListenableBuilder(
-                  listenable: _actionBarVisibility,
-                  builder: (context, _) {
-                    if (!_hovered.value) {
-                      return const SizedBox.shrink();
-                    }
-                    return PositionedDirectional(
-                      top: 0,
-                      end: 0,
-                      child: _buildFailedActions(context),
-                    );
-                  },
-                ),
-              if (!isMobile && !isFailed && !widget.inboxPreviewMode)
-                Consumer(
-                  builder: (context, ref, _) {
-                    final (
-                      bool showMessageActionBar,
-                      bool showMessageActionBarShiftExpand,
-                      bool showMessageActionBarOnlyMoreButton,
-                      bool showMessageActionBarQuickReactions,
-                    ) = ref.watch(
-                      advancedPreferencesProvider.select(
-                        (AdvancedPreferencesState s) => (
-                          s.showMessageActionBar,
-                          s.showMessageActionBarShiftExpand,
-                          s.showMessageActionBarOnlyMoreButton,
-                          s.showMessageActionBarQuickReactions,
-                        ),
-                      ),
-                    );
-                    if (!showMessageActionBar) {
-                      return const SizedBox.shrink();
-                    }
-                    return ListenableBuilder(
-                      listenable: _actionBarVisibility,
-                      builder: (context, _) {
-                        final bool shiftExpand =
-                            showMessageActionBarShiftExpand &&
-                            HardwareKeyboard.instance.isShiftPressed;
-                        final bool showBar =
-                            _hovered.value ||
-                            _reactionPickerOpen.value ||
-                            shiftExpand;
-                        if (!showBar) {
-                          return const SizedBox.shrink();
-                        }
-                        return PositionedDirectional(
-                          top: 0,
-                          end: 0,
-                          child: _buildActions(
-                            context,
-                            onlyMoreButton: showMessageActionBarOnlyMoreButton,
-                            showQuickReactions:
-                                showMessageActionBarQuickReactions,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
             ],
           ),
         ),
       ),
     );
+    final Widget rowWithActionBar = showDesktopActionBar
+        ? OverlayPortal(
+            controller: _actionBarPortal,
+            overlayChildBuilder: (BuildContext overlayContext) =>
+                _buildActionBarOverlay(overlayContext, isFailed: isFailed),
+            child: CompositedTransformTarget(
+              link: _actionBarLink,
+              child: rowGestures,
+            ),
+          )
+        : rowGestures;
     final body = RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
         if (doubleTapEnabled)
@@ -955,7 +1016,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       },
       child: MessageDoubleTapExemptionScope(
         exemption: _doubleTapExemption,
-        child: rowGestures,
+        child: rowWithActionBar,
       ),
     );
     final onReply = widget.onReply;
@@ -1110,10 +1171,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
         ),
         Positioned.fill(
-          child: ValueListenableBuilder<bool>(
-            valueListenable: _hovered,
-            builder: (context, hovered, _) {
-              if (!hovered || hoverTintColor == null) {
+          child: ListenableBuilder(
+            listenable: _hoverState,
+            builder: (context, _) {
+              if (!_rowHoverActive || hoverTintColor == null) {
                 return const SizedBox.shrink();
               }
               return ColoredBox(color: hoverTintColor);
@@ -1397,9 +1458,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     ];
   }
 
-  bool _usesTouchMessageActions(BuildContext context) =>
-      isTouchPrimaryInput(ref) || !usesDesktopPointerUi(context);
-
   Widget _buildDeliveryStatus(BuildContext context, Message msg) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Padding(
@@ -1415,9 +1473,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           const SizedBox(width: 4),
           Flexible(
             child: Text(
-              _usesTouchMessageActions(context)
-                  ? l10n.chatMessageFailedToSendTapForOptions
-                  : l10n.chatMessageFailedToSend,
+              usesDesktopPointerUi(context)
+                  ? l10n.chatMessageFailedToSend
+                  : l10n.chatMessageFailedToSendTapForOptions,
               style: context.textStyles.smallText.copyWith(
                 color: context.colors.textDanger,
               ),
@@ -1580,13 +1638,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     if (!isGrouped) {
       return timestamp;
     }
-    return ValueListenableBuilder<bool>(
-      valueListenable: _hovered,
-      builder: (context, hovered, child) => AnimatedOpacity(
-        opacity: hovered ? 1.0 : 0.0,
-        duration: context.motion.fast,
-        child: child,
-      ),
+    return ListenableBuilder(
+      listenable: _hoverState,
+      builder: (context, child) =>
+          Opacity(opacity: _rowHoverActive ? 1.0 : 0.0, child: child),
       child: timestamp,
     );
   }
@@ -1814,25 +1869,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               width: kMessageAvatarColumnWidth,
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: _hovered,
-                  builder: (context, hovered, child) => AnimatedOpacity(
-                    opacity: hovered ? 1.0 : 0.0,
-                    duration: context.motion.fast,
+                child: ListenableBuilder(
+                  listenable: _hoverState,
+                  builder: (context, child) => Opacity(
+                    opacity: _rowHoverActive ? 1.0 : 0.0,
                     child: child,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        _formatShortTimestamp(msg.timestamp.toLocal()),
-                        style: context.textStyles.timestamp.copyWith(
-                          color: context.colors.textTertiaryMuted,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: _buildGroupedHoverTimestamp(context, msg),
                 ),
               ),
             ),
@@ -1857,10 +1900,34 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     ],
   );
 
-  String _formatShortTimestamp(DateTime dt) {
-    final h = dt.hour.toString().padLeft(2, '0');
-    final m = dt.minute.toString().padLeft(2, '0');
-    return '$h:$m';
+  Widget _buildGroupedHoverTimestamp(BuildContext context, Message msg) {
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
+    return SizedBox(
+      width: kMessageAvatarSize,
+      height: kCompactMessageLineHeight,
+      child: Transform.translate(
+        offset: Offset(rtl ? -8 : 8, 0),
+        child: OverflowBox(
+          alignment: AlignmentDirectional.centerEnd,
+          maxWidth: double.infinity,
+          child: Text(
+            formatUserTime(
+              msg.timestamp.toLocal(),
+              Localizations.localeOf(context).toString(),
+              use12Hour: ref.watch(use12HourTimeFormatProvider),
+            ),
+            softWrap: false,
+            maxLines: 1,
+            style: context.textStyles.timestamp.copyWith(
+              color: context.colors.textPrimaryMuted,
+              fontSize: kCompactTimestampFontSize,
+              fontWeight: FontWeight.w500,
+              height: kCompactMessageLineHeight / kCompactTimestampFontSize,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildSilentIndicator(BuildContext context) {
@@ -2226,154 +2293,310 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  Widget _buildActions(
-    BuildContext context, {
-    required bool onlyMoreButton,
-    required bool showQuickReactions,
-  }) {
-    if (onlyMoreButton) {
-      return Material(
-        color: context.colors.backgroundPrimary,
-        borderRadius: BorderRadius.circular(4),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: context.colors.borderColor),
-          ),
-          child: _actionButton(
-            context,
-            PhosphorIconsFill.dotsThree,
-            FluxerLocalizations.of(context).chatMessageMore,
-            () {},
-          ),
-        ),
-      );
+  Rect? _actionBarClipRect(BuildContext overlayContext) {
+    final RenderObject? viewport = context
+        .findAncestorStateOfType<ScrollableState>()
+        ?.context
+        .findRenderObject();
+    final RenderObject? overlay = Overlay.maybeOf(
+      overlayContext,
+    )?.context.findRenderObject();
+    if (viewport is! RenderBox ||
+        overlay is! RenderBox ||
+        !viewport.hasSize ||
+        !viewport.attached) {
+      return null;
     }
-    return Material(
-      color: context.colors.backgroundPrimary,
-      borderRadius: BorderRadius.circular(4),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: context.colors.borderColor),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (showQuickReactions)
-              FluxerEmojiPickerPopout(
-                key: _reactionPickerKey,
-                closeOnEmojiSelect: true,
-                visibleTabs: const [ExpressionPickerTab.emojis],
-                onClose: () {
-                  _reactionPickerOpen.value = false;
-                  _hovered.value = false;
-                },
-                onEmojiSelected: _addReactionFromPicker,
-                child: _actionButton(
-                  context,
-                  PhosphorIconsFill.smiley,
-                  FluxerLocalizations.of(context).chatMessageAddReaction,
-                  () {
-                    _reactionPickerKey.currentState?.toggle();
-                    _reactionPickerOpen.value =
-                        _reactionPickerKey.currentState?.isOpen ?? false;
-                  },
-                ),
-              ),
-            _actionButton(
-              context,
-              PhosphorIconsFill.arrowBendUpLeft,
-              FluxerLocalizations.of(context).chatMessageReply,
-              widget.onReply,
-            ),
-            _actionButton(
-              context,
-              PhosphorIconsFill.shareFat,
-              FluxerLocalizations.of(context).chatMessageForward,
-              widget.onForward,
-            ),
-            if (_canPublish(widget.message))
-              _actionButton(
-                context,
-                PhosphorIconsFill.megaphone,
-                widget.message.isCrossposted
-                    ? FluxerLocalizations.of(context).chatMessagePublished
-                    : FluxerLocalizations.of(context).chatMessagePublish,
-                widget.message.isCrossposted
-                    ? null
-                    : () => unawaited(
-                        publishMessage(
-                          ref: ref,
-                          context: context,
-                          message: widget.message,
-                        ),
-                      ),
-              ),
-            _actionButton(
-              context,
-              PhosphorIconsFill.dotsThree,
-              FluxerLocalizations.of(context).chatMessageMore,
-              () {},
-            ),
-          ],
+    return MatrixUtils.transformRect(
+      viewport.getTransformTo(overlay),
+      Offset.zero & viewport.size,
+    );
+  }
+
+  Widget _buildActionBarOverlay(
+    BuildContext overlayContext, {
+    required bool isFailed,
+  }) {
+    final TextDirection direction = Directionality.of(overlayContext);
+    final Alignment topEnd = AlignmentDirectional.topEnd.resolve(direction);
+    final Widget follower = CompositedTransformFollower(
+      link: _actionBarLink,
+      showWhenUnlinked: false,
+      targetAnchor: topEnd,
+      followerAnchor: topEnd,
+      offset: Offset(
+        direction == TextDirection.rtl
+            ? kMessageActionBarEndInset
+            : -kMessageActionBarEndInset,
+        kMessageActionBarTopOffset,
+      ),
+      child: Align(
+        alignment: topEnd,
+        child: MouseRegion(
+          onEnter: (_) => _actionBarHovered.value = true,
+          onExit: (_) {
+            if (mounted) {
+              _actionBarHovered.value = false;
+            }
+          },
+          child: isFailed
+              ? _buildFailedActions(overlayContext)
+              : _buildActions(overlayContext),
         ),
       ),
     );
+    final Rect? clip = _actionBarClipRect(overlayContext);
+    if (clip == null) {
+      return follower;
+    }
+    return ClipRect(clipper: _FixedRectClipper(clip), child: follower);
+  }
+
+  Widget _buildActions(BuildContext context) {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, _) {
+        final (
+          bool showMessageActionBar,
+          bool showMessageActionBarShiftExpand,
+          bool onlyMoreButton,
+          bool showQuickReactions,
+        ) = ref.watch(
+          advancedPreferencesProvider.select(
+            (AdvancedPreferencesState s) => (
+              s.showMessageActionBar,
+              s.showMessageActionBarShiftExpand,
+              s.showMessageActionBarOnlyMoreButton,
+              s.showMessageActionBarQuickReactions,
+            ),
+          ),
+        );
+        if (!showMessageActionBar || widget.message.isSending) {
+          return const SizedBox.shrink();
+        }
+        final bool developerMode = ref.watch(
+          userSettingsViewModelProvider.select((s) => s.developerMode),
+        );
+        final bool canCreateThread = watchCanCreateThreadFromMessage(
+          ref,
+          widget.message,
+        );
+        return ListenableBuilder(
+          listenable: _actionBarContentState,
+          builder: (BuildContext context, _) => MessageActionBar(
+            children: onlyMoreButton
+                ? <Widget>[_moreActionButton(context)]
+                : _actionBarButtons(
+                    context,
+                    showFullActions:
+                        showMessageActionBarShiftExpand && _shiftHeld.value,
+                    showQuickReactions: showQuickReactions,
+                    developerMode: developerMode,
+                    canCreateThread: canCreateThread,
+                  ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _moreActionButton(BuildContext context) {
+    return Builder(
+      builder: (BuildContext buttonContext) => MessageActionBarButton(
+        label: FluxerLocalizations.of(context).chatMessageMore,
+        active: _moreMenuOpen.value,
+        onTap: () => _openMoreMenu(buttonContext),
+        child: const PhosphorIcon(PhosphorIconsBold.dotsThree),
+      ),
+    );
+  }
+
+  List<Widget> _actionBarButtons(
+    BuildContext context, {
+    required bool showFullActions,
+    required bool showQuickReactions,
+    required bool developerMode,
+    required bool canCreateThread,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Message msg = widget.message;
+    final bool interactive = msg.supportsInteractiveActions;
+    final bool canAddReactions = widget.canAddReactions && interactive;
+    final bool isOwnMessage =
+        widget.currentUserId != null && msg.authorId == widget.currentUserId;
+    final bool showsEditInTail =
+        widget.onEdit != null &&
+        isOwnMessage &&
+        msg.isUserMessage &&
+        msg.messageSnapshots.isEmpty;
+    final bool canReply =
+        widget.onReply != null &&
+        msg.isUserMessage &&
+        interactive &&
+        widget.canSendMessages;
+    final bool canDelete = widget.canDelete && widget.onDelete != null;
+    final bool canPublish = interactive && _canPublish(msg);
+    final Widget? replyButton = canReply
+        ? MessageActionBarButton(
+            label: l10n.chatMessageReply,
+            onTap: widget.onReply,
+            child: const PhosphorIcon(PhosphorIconsFill.arrowBendUpLeft),
+          )
+        : null;
+    return <Widget>[
+      if (canAddReactions && showQuickReactions && !showFullActions)
+        MessageQuickReactionItems(
+          channelId: msg.channelId,
+          guildId: _guildIdForMessageActions(),
+          reuseCached: true,
+          builder: (BuildContext context, List<QuickReactionItem> items) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for (final QuickReactionItem item in items.take(3))
+                MessageActionBarButton(
+                  label: quickReactionShortcode(item),
+                  onTap: () => _dispatchQuickReaction(item),
+                  child: QuickReactionGlyph(
+                    item: item,
+                    size: kMessageActionBarIconSize,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      if (showFullActions) ...<Widget>[
+        if (developerMode)
+          MessageActionBarButton(
+            label: l10n.chatMessageDebug,
+            onTap: () =>
+                _handleAction(MessageAction.debugMessage, isMobile: false),
+            child: const PhosphorIcon(PhosphorIconsFill.bug),
+          ),
+        MessageActionBarButton(
+          label: l10n.chatMessageCopyMessageId,
+          onTap: () =>
+              _handleAction(MessageAction.copyMessageId, isMobile: false),
+          child: const PhosphorIcon(PhosphorIconsRegular.snowflake),
+        ),
+        if (interactive)
+          MessageActionBarButton(
+            label: l10n.chatMessageCopyMessageLink,
+            onTap: () =>
+                _handleAction(MessageAction.copyMessageLink, isMobile: false),
+            child: const PhosphorIcon(PhosphorIconsBold.link),
+          ),
+        MessageActionBarButton(
+          label: l10n.chatMessageMarkAsUnread,
+          onTap: () =>
+              _handleAction(MessageAction.markAsUnread, isMobile: false),
+          child: const PhosphorIcon(PhosphorIconsFill.envelopeOpen),
+        ),
+        if (msg.isUserMessage && widget.canPinMessage)
+          MessageActionBarButton(
+            label: msg.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
+            onTap: () => _handleAction(MessageAction.pin, isMobile: false),
+            child: const PhosphorIcon(PhosphorIconsFill.pushPin),
+          ),
+        if (showsEditInTail) ?replyButton,
+      ],
+      if (canAddReactions)
+        FluxerEmojiPickerPopout(
+          key: _reactionPickerKey,
+          closeOnEmojiSelect: true,
+          visibleTabs: const [ExpressionPickerTab.emojis],
+          channelId: msg.channelId,
+          placement: usesDesktopPointerUi(context)
+              ? FluxerEmojiPickerPlacement.leftStart
+              : FluxerEmojiPickerPlacement.verticalEnd,
+          onClose: () {
+            _reactionPickerOpen.value = false;
+            _hovered.value = false;
+          },
+          onEmojiSelected: _addReactionFromPicker,
+          child: MessageActionBarButton(
+            label: l10n.chatMessageAddReaction,
+            active: _reactionPickerOpen.value,
+            onTap: () {
+              _reactionPickerKey.currentState?.toggle();
+              _reactionPickerOpen.value =
+                  _reactionPickerKey.currentState?.isOpen ?? false;
+            },
+            child: const PhosphorIcon(PhosphorIconsFill.smiley),
+          ),
+        ),
+      if (showsEditInTail)
+        MessageActionBarButton(
+          label: l10n.chatMessageEdit,
+          onTap: widget.onEdit,
+          child: const PhosphorIcon(PhosphorIconsFill.pencilSimple),
+        )
+      else
+        ?replyButton,
+      if (msg.isUserMessage && interactive && widget.onForward != null)
+        MessageActionBarButton(
+          label: l10n.chatMessageForward,
+          onTap: widget.onForward,
+          child: const PhosphorIcon(PhosphorIconsFill.arrowBendUpRight),
+        ),
+      if (canPublish)
+        MessageActionBarButton(
+          label: msg.isCrossposted
+              ? l10n.chatMessagePublished
+              : l10n.chatMessagePublish,
+          disabled: msg.isCrossposted,
+          onTap: () => unawaited(
+            publishMessage(ref: ref, context: context, message: msg),
+          ),
+          child: const PhosphorIcon(PhosphorIconsFill.megaphone),
+        ),
+      if (canCreateThread)
+        MessageActionBarButton(
+          label: l10n.threadCreate,
+          onTap: () =>
+              _handleAction(MessageAction.createThread, isMobile: false),
+          child: const PhosphorIcon(PhosphorIconsFill.chats),
+        ),
+      if (showFullActions && canDelete)
+        MessageActionBarButton(
+          label: l10n.chatMessageDelete,
+          danger: true,
+          onTap: widget.onDelete,
+          child: const PhosphorIcon(PhosphorIconsFill.trash),
+        )
+      else
+        _moreActionButton(context),
+    ];
   }
 
   Widget _buildFailedActions(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Material(
-      color: context.colors.backgroundPrimary,
-      borderRadius: BorderRadius.circular(4),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: context.colors.borderColor),
+    return MessageActionBar(
+      children: <Widget>[
+        MessageActionBarButton(
+          label: l10n.retry,
+          onTap: widget.onRetry,
+          child: const PhosphorIcon(PhosphorIconsFill.arrowsClockwise),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _actionButton(
-              context,
-              PhosphorIconsBold.arrowClockwise,
-              l10n.retry,
-              widget.onRetry,
-            ),
-            _actionButton(
-              context,
-              PhosphorIconsFill.trash,
-              l10n.chatMessageDeleteFailed,
-              widget.onDeleteFailed,
-              color: context.colors.textDanger,
-            ),
-          ],
+        MessageActionBarButton(
+          label: l10n.chatMessageDeleteFailed,
+          danger: true,
+          onTap: widget.onDeleteFailed,
+          child: const PhosphorIcon(PhosphorIconsFill.trash),
         ),
-      ),
+      ],
     );
   }
+}
 
-  Widget _actionButton(
-    BuildContext context,
-    IconData icon,
-    String tooltip,
-    VoidCallback? onTap, {
-    Color? color,
-  }) => Tooltip(
-    message: tooltip,
-    child: InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: PhosphorIcon(
-          icon,
-          size: 18,
-          color: color ?? context.colors.interactiveNormal,
-        ),
-      ),
-    ),
-  );
+class _FixedRectClipper extends CustomClipper<Rect> {
+  const _FixedRectClipper(this.rect);
+
+  final Rect rect;
+
+  @override
+  Rect getClip(Size size) => rect;
+
+  @override
+  bool shouldReclip(_FixedRectClipper oldClipper) => rect != oldClipper.rect;
 }
 
 class _AuthorProfileTapTarget extends StatelessWidget {

@@ -668,6 +668,73 @@ class AuthRepository {
     }
   }
 
+  Future<({String code, String pollSecret})> startBrowserSignIn({
+    required String returnUri,
+  }) async {
+    try {
+      final HandoffInitiateResponse response = await _client.auth
+          .initiateHandoff(
+            body: HandoffInitiateRequest(
+              HandoffInitiateRequestVariant1(returnUri: returnUri).toJson(),
+            ),
+          );
+      final String? pollSecret = response.pollSecret;
+      if (response.code.isEmpty || pollSecret == null || pollSecret.isEmpty) {
+        throw const AuthFailure('Unexpected handoff response from Fluxer API.');
+      }
+      return (code: response.code, pollSecret: pollSecret);
+    } on DioException catch (error) {
+      throw _failureFromDio(error);
+    }
+  }
+
+  Future<AuthSession?> finishBrowserSignIn({
+    required String code,
+    required String pollSecret,
+    String? grant,
+  }) async {
+    try {
+      final HandoffStatusResponse response = await _client.auth
+          .getHandoffStatusWithSecret(
+            code: code,
+            body: HandoffStatusRequest(pollSecret: pollSecret, grant: grant),
+          );
+      final String? token = response.token;
+      final String? userId = response.userId;
+      if (response.status != 'completed' ||
+          token == null ||
+          token.isEmpty ||
+          userId == null ||
+          userId.isEmpty) {
+        return null;
+      }
+      final AuthSession session = AuthSession(token: token, userId: userId);
+      await _saveSession(
+        session,
+        username: response.user?.username,
+        discriminator: response.user?.discriminator,
+        avatar: response.user?.avatar,
+      );
+      return session;
+    } on DioException catch (error) {
+      throw _failureFromDio(error);
+    }
+  }
+
+  Future<void> cancelBrowserSignIn({
+    required String code,
+    required String pollSecret,
+  }) async {
+    try {
+      await _client.auth.cancelHandoff(
+        code: code,
+        body: HandoffCancelRequest(pollSecret: pollSecret),
+      );
+    } on DioException {
+      return;
+    }
+  }
+
   Future<LoginResult> loginWithPasskey({
     required dynamic response,
     required String challenge,

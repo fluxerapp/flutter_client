@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 enum FluxerPopoutPosition { above, below, left, right }
 
@@ -19,12 +20,18 @@ class FluxerPopout extends StatefulWidget {
     required this.anchorBuilder,
     required this.contentBuilder,
     this.position = FluxerPopoutPosition.below,
+    this.gap = 4,
+    this.fadeOnDesktop = true,
+    this.backgroundColor,
     super.key,
   });
 
   final FluxerPopoutAnchorBuilder anchorBuilder;
   final FluxerPopoutContentBuilder contentBuilder;
   final FluxerPopoutPosition position;
+  final double gap;
+  final bool fadeOnDesktop;
+  final Color? backgroundColor;
 
   @override
   State<FluxerPopout> createState() => _FluxerPopoutState();
@@ -39,7 +46,6 @@ class _FluxerPopoutState extends State<FluxerPopout>
   late final Animation<double> _fadeAnimation;
 
   static const Duration _fadeDuration = FluxerMotionTheme.normalDuration;
-  static const double _popoutGap = 4;
 
   @override
   void initState() {
@@ -71,11 +77,24 @@ class _FluxerPopoutState extends State<FluxerPopout>
       _close();
     } else {
       _overlayController.show();
-      _animationController.forward();
+      if (_skipsFade) {
+        _animationController.value = 1;
+      } else {
+        _animationController.forward();
+      }
     }
   }
 
+  bool get _skipsFade => !widget.fadeOnDesktop && usesDesktopPointerUi(context);
+
   void _close() {
+    if (_skipsFade) {
+      _animationController.value = 0;
+      if (_overlayController.isShowing) {
+        _overlayController.hide();
+      }
+      return;
+    }
     unawaited(
       _animationController.reverse().then((_) {
         if (mounted && _overlayController.isShowing) {
@@ -104,11 +123,12 @@ class _FluxerPopoutState extends State<FluxerPopout>
   }
 
   Offset _getOffset() {
+    final double gap = widget.gap;
     return switch (widget.position) {
-      FluxerPopoutPosition.above => const Offset(0, -_popoutGap),
-      FluxerPopoutPosition.below => const Offset(0, _popoutGap),
-      FluxerPopoutPosition.left => const Offset(-_popoutGap, 0),
-      FluxerPopoutPosition.right => const Offset(_popoutGap, 0),
+      FluxerPopoutPosition.above => Offset(0, -gap),
+      FluxerPopoutPosition.below => Offset(0, gap),
+      FluxerPopoutPosition.left => Offset(-gap, 0),
+      FluxerPopoutPosition.right => Offset(gap, 0),
     };
   }
 
@@ -137,7 +157,7 @@ class _FluxerPopoutState extends State<FluxerPopout>
               child: IntrinsicWidth(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.backgroundFloating,
+                    color: widget.backgroundColor ?? colors.backgroundFloating,
                     borderRadius: layout.radiusLg,
                     border: Border.all(color: colors.backgroundModifierAccent),
                     boxShadow: const [

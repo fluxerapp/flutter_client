@@ -1,7 +1,10 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerCheckbox extends StatelessWidget {
   const FluxerCheckbox({
@@ -30,6 +33,10 @@ class FluxerCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyles = context.textStyles;
+
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context);
+    }
 
     return FluxerTappable(
       enabled: enabled,
@@ -71,6 +78,67 @@ class FluxerCheckbox extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
+    final colors = context.colors;
+    final Color uncheckedBorder = fluxerRadioRingColor(context);
+    final Widget box = Container(
+      width: 24,
+      height: 24,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: value ? colors.brandPrimary : Colors.transparent,
+        borderRadius: BorderRadius.circular(3),
+        border: Border.all(
+          color: value ? colors.brandPrimary : uncheckedBorder,
+        ),
+      ),
+      child: value
+          ? PhosphorIcon(
+              PhosphorIconsBold.check,
+              size: 18,
+              color: colors.brandPrimaryFill,
+            )
+          : null,
+    );
+    final bool hasLabel = child != null || label != null;
+    final Widget content = Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ExcludeSemantics(child: box),
+        if (hasLabel)
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.only(start: 8, top: 1),
+              child: DefaultTextStyle.merge(
+                style: context.textStyles.bodySmall.copyWith(
+                  color: colors.textPrimary,
+                  height: 20 / 14,
+                ),
+                child:
+                    child ??
+                    Text(
+                      label!,
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: colors.textPrimary,
+                        height: 20 / 14,
+                      ),
+                    ),
+              ),
+            ),
+          ),
+      ],
+    );
+    return FluxerTappable(
+      enabled: enabled,
+      onTap: () => onChanged(!value),
+      semanticLabel: _semanticsLabel,
+      checked: value,
+      excludeChildSemantics: _semanticsLabel != null,
+      builder: (context, states) => content,
     );
   }
 }

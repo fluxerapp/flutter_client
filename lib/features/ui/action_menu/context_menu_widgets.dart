@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-const kContextMenuWidth = 220.0;
+const double kContextMenuWidth = kFluxerDesktopMenuMinWidth;
 const kContextMenuTitleHeight = 40.0;
 const kContextMenuEntranceDuration = Duration(milliseconds: 120);
 
@@ -159,8 +159,10 @@ class ContextMenuItem extends StatelessWidget {
           : PhosphorIcon(
               icon!,
               size: kFluxerDesktopMenuIconSize,
-              color: isDanger
-                  ? context.colors.menuDangerText
+              color: isDisabled
+                  ? context.colors.interactiveMuted
+                  : isDanger
+                  ? fluxerDesktopMenuDangerText(context.colors)
                   : context.colors.textPrimary,
             ),
     );
