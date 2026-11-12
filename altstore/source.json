@@ -91,6 +91,7 @@
         ],
         "privacy": {
           "NSCameraUsageDescription": "Fluxer uses the camera when you take a photo to send in a chat or turn on your camera in a call.",
+          "NSFaceIDUsageDescription": "Fluxer uses Face ID to unlock the app when app lock is turned on.",
           "NSLocalNetworkUsageDescription": "Fluxer uses your local network for calls between devices on the same network and to connect to a Fluxer instance running on your network.",
           "NSMicrophoneUsageDescription": "Fluxer uses the microphone when you record a voice message, talk in a voice or video call, or test your microphone in settings.",
           "NSMotionUsageDescription": "Fluxer uses motion data to move the animated star background when you tilt your device.",
