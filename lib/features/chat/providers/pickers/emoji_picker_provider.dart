@@ -161,8 +161,6 @@ Map<Guild, List<GuildEmojiEntry>> guildEmojiEntriesForPicker({
   final hasGlobalEmojiAccess = isPremium && canUseExternalEmojis;
   final targetGuilds = hasGlobalEmojiAccess
       ? guilds
-            .where((guild) => !guild.nsfw || guild.id == activeGuildId)
-            .toList()
       : guilds.where((guild) => guild.id == activeGuildId).toList();
   final grouped = _groupEmojiEntriesByGuild(
     guilds: targetGuilds,
@@ -204,7 +202,7 @@ List<GuildEmojiEntry> lockedGuildEmojiEntriesForUpsell({
   }
 
   final lockedGuildIds = guilds
-      .where((guild) => guild.id != activeGuildId && !guild.nsfw)
+      .where((guild) => guild.id != activeGuildId)
       .map((guild) => guild.id)
       .toSet();
   return emojis

@@ -114,8 +114,6 @@ Map<Guild, List<StickerEntry>> guildStickerEntriesForPicker({
   final hasGlobalStickerAccess = isPremium && canUseExternalStickers;
   final targetGuilds = hasGlobalStickerAccess
       ? guilds
-            .where((guild) => !guild.nsfw || guild.id == activeGuildId)
-            .toList()
       : guilds.where((guild) => guild.id == activeGuildId).toList();
   return _groupStickerEntriesByGuild(guilds: targetGuilds, stickers: stickers);
 }
@@ -132,7 +130,7 @@ List<StickerEntry> lockedGuildStickerEntriesForUpsell({
   }
 
   final lockedGuildIds = guilds
-      .where((guild) => guild.id != activeGuildId && !guild.nsfw)
+      .where((guild) => guild.id != activeGuildId)
       .map((guild) => guild.id)
       .toSet();
   return stickers
