@@ -852,9 +852,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tiliäsi ei ole vielä lunastettu. Ilman käyttäjätunnusta ja salasanaa et voi kirjautua sisään muilta laitteilta ja saatat menettää pääsyn tiliisi. Lunasta tilisi nyt varmistaaksesi sen.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Käyttäjänimi';
-
-  @override
   String get registerTitle => 'Luo tili';
 
   @override
@@ -1566,9 +1563,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Lisää kaveri';
-
-  @override
-  String get addFriendUsernameHint => 'Käyttäjänimi#0000';
 
   @override
   String get addFriendUsernameLabel => 'Kaverin käyttäjänimi';

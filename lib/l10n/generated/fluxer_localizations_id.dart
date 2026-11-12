@@ -852,9 +852,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Akun Anda belum diklaim. Tanpa nama pengguna dan kata sandi, Anda tidak akan dapat masuk dari perangkat lain dan Anda bisa kehilangan akses ke akun Anda. Klaim akun Anda sekarang untuk mengamankannya.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nama pengguna';
-
-  @override
   String get registerTitle => 'Buat akun';
 
   @override
@@ -1546,9 +1543,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Tambah teman';
-
-  @override
-  String get addFriendUsernameHint => 'Nama pengguna#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nama pengguna teman';

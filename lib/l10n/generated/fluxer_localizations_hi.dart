@@ -850,9 +850,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपका खाता अभी तक क्लेम नहीं किया गया है। यूज़रनेम और पासवर्ड के बिना, आप अन्य डिवाइस से साइन इन नहीं कर पाएंगे और आप अपने खाते तक पहुंच खो सकते हैं। अपने खाते को सुरक्षित करने के लिए अभी क्लेम करें।';
 
   @override
-  String get addFriendUsernameOnlyHint => 'यूज़रनेम';
-
-  @override
   String get registerTitle => 'अकाउंट बनाएँ';
 
   @override
@@ -1551,9 +1548,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'दोस्त जोड़ें';
-
-  @override
-  String get addFriendUsernameHint => 'उपयोगकर्ता नाम#0000';
 
   @override
   String get addFriendUsernameLabel => 'दोस्त का यूज़रनेम';

@@ -859,9 +859,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Jūsų paskyra dar nepaprašyta. Be vartotojo vardo ir slaptažodžio negalėsite prisijungti iš kitų įrenginių ir galite prarasti prieigą prie savo paskyros. Paprašykite savo paskyros dabar, kad ją apsaugotumėte.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Naudotojo vardas';
-
-  @override
   String get registerTitle => 'Sukurti paskyrą';
 
   @override
@@ -1582,9 +1579,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Pridėti draugą';
-
-  @override
-  String get addFriendUsernameHint => 'Vartotojo vardas#0000';
 
   @override
   String get addFriendUsernameLabel => 'Draugo naudotojo vardas';

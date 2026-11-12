@@ -851,9 +851,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Kontoen din er ikke gjort krav på ennå. Uten brukernavn og passord vil du ikke kunne logge inn fra andre enheter, og du kan miste tilgangen til kontoen din. Gjør krav på kontoen din nå for å sikre den.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Brukernavn';
-
-  @override
   String get registerTitle => 'Opprett en konto';
 
   @override
@@ -1563,9 +1560,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Legg til venn';
-
-  @override
-  String get addFriendUsernameHint => 'Brukernavn#0000';
 
   @override
   String get addFriendUsernameLabel => 'Vennens brukernavn';

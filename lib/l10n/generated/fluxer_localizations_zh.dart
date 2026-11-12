@@ -811,9 +811,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您的账户尚未认领。没有用户名和密码，您将无法从其他设备登录，并可能丢失账户访问权限。立即认领您的账户以确保其安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '用户名';
-
-  @override
   String get registerTitle => '创建账号';
 
   @override
@@ -1473,9 +1470,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '添加好友';
-
-  @override
-  String get addFriendUsernameHint => '用户名#0000';
 
   @override
   String get addFriendUsernameLabel => '好友用户名';
@@ -17127,9 +17121,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '您的帳戶尚未領取。沒有使用者名稱和密碼，您將無法從其他裝置登入，並且可能會遺失帳戶存取權。立即領取您的帳戶以確保安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '使用者名稱';
-
-  @override
   String get registerTitle => '建立帳號';
 
   @override
@@ -17786,9 +17777,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get addFriendSheetTitle => '新增好友';
-
-  @override
-  String get addFriendUsernameHint => '使用者名稱#0000';
 
   @override
   String get addFriendUsernameLabel => '好友的使用者名稱';

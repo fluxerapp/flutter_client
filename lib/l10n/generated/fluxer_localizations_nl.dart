@@ -852,9 +852,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Je account is nog niet geclaimd. Zonder gebruikersnaam en wachtwoord kun je niet inloggen vanaf andere apparaten en kun je de toegang tot je account verliezen. Claim je account nu om het te beveiligen.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Gebruikersnaam';
-
-  @override
   String get registerTitle => 'Account aanmaken';
 
   @override
@@ -1567,9 +1564,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Vriend toevoegen';
-
-  @override
-  String get addFriendUsernameHint => 'Gebruikersnaam#0000';
 
   @override
   String get addFriendUsernameLabel => 'Gebruikersnaam van vriend';

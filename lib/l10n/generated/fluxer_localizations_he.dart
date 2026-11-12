@@ -848,9 +848,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'החשבון שלך עדיין לא נתבע. ללא שם משתמש וסיסמה, לא תוכל להתחבר ממכשירים אחרים ועלול לאבד גישה לחשבון שלך. תבע את החשבון שלך עכשיו כדי לאבטח אותו.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'שם משתמש';
-
-  @override
   String get registerTitle => 'צור חשבון';
 
   @override
@@ -1547,9 +1544,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'הוסף חבר';
-
-  @override
-  String get addFriendUsernameHint => 'שם משתמש#0000';
 
   @override
   String get addFriendUsernameLabel => 'שם המשתמש של החבר';

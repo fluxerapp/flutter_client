@@ -863,9 +863,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Votre compte n\'est pas encore revendiqué. Sans nom d\'utilisateur et mot de passe, vous ne pourrez pas vous connecter depuis d\'autres appareils et vous pourriez perdre l\'accès à votre compte. Revendiquez votre compte maintenant pour le sécuriser.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nom d\'utilisateur';
-
-  @override
   String get registerTitle => 'Créer un compte';
 
   @override
@@ -1590,9 +1587,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Ajouter un ami';
-
-  @override
-  String get addFriendUsernameHint => 'Nom d\'utilisateur#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nom d\'utilisateur de l\'ami';

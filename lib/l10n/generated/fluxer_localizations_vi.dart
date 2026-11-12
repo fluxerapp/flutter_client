@@ -853,9 +853,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tài khoản của bạn chưa được xác nhận. Nếu không có tên người dùng và mật khẩu, bạn sẽ không thể đăng nhập từ các thiết bị khác và có thể mất quyền truy cập vào tài khoản của mình. Hãy xác nhận tài khoản ngay bây giờ để bảo mật.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Tên người dùng';
-
-  @override
   String get registerTitle => 'Tạo tài khoản';
 
   @override
@@ -1551,9 +1548,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Thêm bạn bè';
-
-  @override
-  String get addFriendUsernameHint => 'Tên người dùng#0000';
 
   @override
   String get addFriendUsernameLabel => 'Tên người dùng của bạn bè';

@@ -863,9 +863,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Ваша учётная запись ещё не подтверждена. Без имени пользователя и пароля вы не сможете войти с других устройств и можете потерять доступ к своей учётной записи. Подтвердите свою учётную запись сейчас, чтобы обезопасить её.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Имя пользователя';
-
-  @override
   String get registerTitle => 'Создать аккаунт';
 
   @override
@@ -1585,9 +1582,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Добавить в друзья';
-
-  @override
-  String get addFriendUsernameHint => 'Имя пользователя#0000';
 
   @override
   String get addFriendUsernameLabel => 'Имя пользователя друга';

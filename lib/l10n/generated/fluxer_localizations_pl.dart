@@ -863,9 +863,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Twoje konto nie zostało jeszcze odebrane. Bez nazwy użytkownika i hasła nie będziesz mógł/mogła logować się z innych urządzeń i możesz stracić dostęp do swojego konta. Odbierz swoje konto teraz, aby je zabezpieczyć.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nazwa użytkownika';
-
-  @override
   String get registerTitle => 'Utwórz konto';
 
   @override
@@ -1586,9 +1583,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Dodaj znajomego';
-
-  @override
-  String get addFriendUsernameHint => 'Nazwa użytkownika#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nazwa użytkownika znajomego';

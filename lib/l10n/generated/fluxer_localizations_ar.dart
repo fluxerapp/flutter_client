@@ -859,9 +859,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'حسابك لم تتم المطالبة به بعد. بدون اسم مستخدم وكلمة مرور، لن تتمكن من تسجيل الدخول من أجهزة أخرى وقد تفقد الوصول إلى حسابك. طالب بحسابك الآن لتأمينه.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'اسم المستخدم';
-
-  @override
   String get registerTitle => 'إنشاء حساب';
 
   @override
@@ -1575,9 +1572,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'إضافة صديق';
-
-  @override
-  String get addFriendUsernameHint => 'اسم المستخدم#0000';
 
   @override
   String get addFriendUsernameLabel => 'اسم مستخدم الصديق';

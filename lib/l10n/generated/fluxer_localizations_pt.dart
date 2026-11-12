@@ -856,9 +856,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Sua conta ainda não foi reivindicada. Sem um nome de usuário e senha, você não poderá fazer login em outros dispositivos e poderá perder o acesso à sua conta. Reivindique sua conta agora para protegê-la.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nome de usuário';
-
-  @override
   String get registerTitle => 'Criar uma conta';
 
   @override
@@ -1570,9 +1567,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Adicionar amigo';
-
-  @override
-  String get addFriendUsernameHint => 'NomeDeUsuário#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nome de usuário do amigo';
@@ -18408,9 +18402,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Sua conta ainda não foi reivindicada. Sem um nome de usuário e senha, você não poderá fazer login em outros dispositivos e poderá perder o acesso à sua conta. Reivindique sua conta agora para protegê-la.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nome de usuário';
-
-  @override
   String get registerTitle => 'Criar uma conta';
 
   @override
@@ -19119,9 +19110,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get addFriendSheetTitle => 'Adicionar amigo';
-
-  @override
-  String get addFriendUsernameHint => 'NomeDeUsuário#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nome de usuário do amigo';

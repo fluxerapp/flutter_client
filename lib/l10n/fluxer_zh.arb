@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "用户名",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "创建账号",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "添加好友",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "用户名#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "好友用户名",
     "@addFriendUsernameLabel": {

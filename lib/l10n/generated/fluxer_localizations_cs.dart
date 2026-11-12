@@ -855,9 +855,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Váš účet ještě není uplatněn. Bez uživatelského jména a hesla se nebudete moci přihlásit z jiných zařízení a můžete ztratit přístup ke svému účtu. Uplatněte svůj účet nyní a zabezpečte ho.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Uživatelské jméno';
-
-  @override
   String get registerTitle => 'Vytvořit účet';
 
   @override
@@ -1572,9 +1569,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Přidat přítele';
-
-  @override
-  String get addFriendUsernameHint => 'Uživatelské jméno#0000';
 
   @override
   String get addFriendUsernameLabel => 'Uživatelské jméno přítele';

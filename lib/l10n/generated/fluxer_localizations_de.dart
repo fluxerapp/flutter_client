@@ -859,9 +859,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Dein Konto ist noch nicht beansprucht. Ohne Benutzername und Passwort kannst du dich nicht von anderen Geräten aus anmelden und könntest den Zugriff auf dein Konto verlieren. Beanspruche dein Konto jetzt, um es zu sichern.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Benutzername';
-
-  @override
   String get registerTitle => 'Account erstellen';
 
   @override
@@ -1578,9 +1575,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Freund hinzufügen';
-
-  @override
-  String get addFriendUsernameHint => 'Benutzername#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nutzername des Freundes';

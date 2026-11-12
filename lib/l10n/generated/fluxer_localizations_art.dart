@@ -853,9 +853,6 @@ class FluxerLocalizationsArt extends FluxerLocalizations {
       'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Username';
-
-  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -1561,9 +1558,6 @@ class FluxerLocalizationsArt extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Add friend';
-
-  @override
-  String get addFriendUsernameHint => 'username#1234';
 
   @override
   String get addFriendUsernameLabel => 'Friend\'s username';

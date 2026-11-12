@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "사용자 이름",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "계정 만들기",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "친구 추가",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "사용자이름#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "친구의 사용자 이름",
     "@addFriendUsernameLabel": {

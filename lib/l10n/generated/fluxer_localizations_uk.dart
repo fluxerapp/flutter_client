@@ -861,9 +861,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ваш обліковий запис ще не підтверджено. Без імені користувача та пароля ви не зможете входити з інших пристроїв і можете втратити доступ до свого облікового запису. Підтвердьте свій обліковий запис зараз, щоб захистити його.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Ім\'я користувача';
-
-  @override
   String get registerTitle => 'Створити обліковий запис';
 
   @override
@@ -1582,9 +1579,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Додати в друзі';
-
-  @override
-  String get addFriendUsernameHint => 'Ім\'я користувача#0000';
 
   @override
   String get addFriendUsernameLabel => 'Ім\'я користувача друга';

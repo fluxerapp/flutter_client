@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nazwa użytkownika",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Utwórz konto",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Dodaj znajomego",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Nazwa użytkownika#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Nazwa użytkownika znajomego",
     "@addFriendUsernameLabel": {

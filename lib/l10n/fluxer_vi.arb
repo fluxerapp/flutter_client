@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Tên người dùng",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Tạo tài khoản",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "Thêm bạn bè",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Tên người dùng#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Tên người dùng của bạn bè",
     "@addFriendUsernameLabel": {

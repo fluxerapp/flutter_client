@@ -856,9 +856,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Акаунтът ви все още не е заявен. Без потребителско име и парола няма да можете да влезете от други устройства и може да загубите достъп до акаунта си. Заявете акаунта си сега, за да го защитите.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Потребителско име';
-
-  @override
   String get registerTitle => 'Създаване на акаунт';
 
   @override
@@ -1570,9 +1567,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Добавяне на приятел';
-
-  @override
-  String get addFriendUsernameHint => 'Потребителско име#0000';
 
   @override
   String get addFriendUsernameLabel => 'Потребителско име на приятел';

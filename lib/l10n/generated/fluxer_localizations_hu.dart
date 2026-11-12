@@ -859,9 +859,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A fiókod még nincs igényelve. Felhasználónév és jelszó nélkül nem tudsz bejelentkezni más eszközökről, és elveszítheted a hozzáférést a fiókodhoz. Igényeld a fiókodat most, hogy biztosítsd.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Felhasználónév';
-
-  @override
   String get registerTitle => 'Fiók létrehozása';
 
   @override
@@ -1564,9 +1561,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Ismerős hozzáadása';
-
-  @override
-  String get addFriendUsernameHint => 'Felhasználónév#0000';
 
   @override
   String get addFriendUsernameLabel => 'Ismerős felhasználóneve';

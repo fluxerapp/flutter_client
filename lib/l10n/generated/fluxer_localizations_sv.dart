@@ -854,9 +854,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Ditt konto är inte anslutet än. Utan ett användarnamn och lösenord kan du inte logga in från andra enheter och du kan förlora åtkomsten till ditt konto. Anslut ditt konto nu för att säkra det.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Användarnamn';
-
-  @override
   String get registerTitle => 'Skapa ett konto';
 
   @override
@@ -1568,9 +1565,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Lägg till vän';
-
-  @override
-  String get addFriendUsernameHint => 'Användarnamn#0000';
 
   @override
   String get addFriendUsernameLabel => 'Vännens användarnamn';

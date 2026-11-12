@@ -848,9 +848,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'บัญชีของคุณยังไม่ได้รับการยืนยัน หากไม่มีชื่อผู้ใช้และรหัสผ่าน คุณจะไม่สามารถลงชื่อเข้าใช้จากอุปกรณ์อื่นได้ และอาจสูญเสียการเข้าถึงบัญชีของคุณ ยืนยันบัญชีของคุณตอนนี้เพื่อรักษาความปลอดภัย';
 
   @override
-  String get addFriendUsernameOnlyHint => 'ชื่อผู้ใช้';
-
-  @override
   String get registerTitle => 'สร้างบัญชี';
 
   @override
@@ -1540,9 +1537,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'เพิ่มเพื่อน';
-
-  @override
-  String get addFriendUsernameHint => 'ชื่อผู้ใช้#0000';
 
   @override
   String get addFriendUsernameLabel => 'ชื่อผู้ใช้ของเพื่อน';

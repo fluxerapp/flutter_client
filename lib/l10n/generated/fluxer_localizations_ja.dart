@@ -824,9 +824,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'アカウントはまだ請求されていません。ユーザー名とパスワードがないと、他のデバイスからサインインできなくなり、アカウントへのアクセスを失う可能性があります。今すぐアカウントを請求して保護してください。';
 
   @override
-  String get addFriendUsernameOnlyHint => 'ユーザー名';
-
-  @override
   String get registerTitle => 'アカウントを作成';
 
   @override
@@ -1500,9 +1497,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '友達に追加';
-
-  @override
-  String get addFriendUsernameHint => 'ユーザー名#0000';
 
   @override
   String get addFriendUsernameLabel => '相手のユーザー名';

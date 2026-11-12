@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nume de utilizator",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Creează un cont",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "Adaugă prieten",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Nume de utilizator#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Numele de utilizator al prietenului",
     "@addFriendUsernameLabel": {

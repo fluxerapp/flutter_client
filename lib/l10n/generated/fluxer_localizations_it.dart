@@ -854,9 +854,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Il tuo account non è ancora stato rivendicato. Senza nome utente e password, non potrai accedere da altri dispositivi e potresti perdere l\'accesso al tuo account. Rivendica subito il tuo account per metterlo in sicurezza.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nome utente';
-
-  @override
   String get registerTitle => 'Crea un account';
 
   @override
@@ -1569,9 +1566,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Aggiungi amico';
-
-  @override
-  String get addFriendUsernameHint => 'Nomeutente#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nome utente dell\'amico';
