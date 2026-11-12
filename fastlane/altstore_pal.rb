@@ -22,6 +22,7 @@ module AltstorePal
 
   REVIEW_TYPE_MUTABLE_STATES = [
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::PREPARE_FOR_SUBMISSION,
+    Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::READY_FOR_REVIEW,
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::DEVELOPER_REJECTED,
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::REJECTED,
     Spaceship::ConnectAPI::AppStoreVersion::AppVersionState::METADATA_REJECTED,
@@ -128,7 +129,9 @@ module AltstorePal
       unless ensure_review_type!(version, app_store)
         fail!(
           "App Store Connect version #{app_version} is #{previous} " \
-          "(#{version.app_version_state}) and its review type cannot be changed to #{app_store}."
+          "(#{version.app_version_state}) and its review type cannot be changed to #{app_store}. " \
+          "In App Store Connect, remove it from its review submission under App Review or set its " \
+          "review type to App Store, then re-run this workflow."
         )
       end
       log("Switched App Store Connect version #{app_version} from #{previous} to #{app_store} review.") if previous != app_store
