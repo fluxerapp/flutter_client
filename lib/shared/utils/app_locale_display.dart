@@ -36,7 +36,7 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Arabic',
         nativeName: 'العربية',
         languageCode: 'ar',
-        flagAsset: 'assets/flags/language.svg',
+        flagAsset: 'assets/flags/arab_league.svg',
       ),
       'be': AppLocaleDisplayInfo(
         name: 'Belarusian',
@@ -344,13 +344,12 @@ Widget appLocaleFlag(sdk.Locale locale) {
   final AppLocaleDisplayInfo info = appLocaleDisplayInfo(locale);
   final String? flagAsset = info.flagAsset;
   if (flagAsset != null) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(2),
-      child: SvgPicture.asset(
-        flagAsset,
-        width: _appLocaleFlagTheme.width,
-        height: _appLocaleFlagTheme.height,
-        fit: BoxFit.fill,
+    return SizedBox(
+      width: _appLocaleFlagTheme.width,
+      height: _appLocaleFlagTheme.height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2),
+        child: SvgPicture.asset(flagAsset, fit: BoxFit.cover),
       ),
     );
   }
