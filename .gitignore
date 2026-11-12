@@ -25,6 +25,7 @@ migrate_working_dir/
 
 # Generated files (build_runner / drift / riverpod)
 *.g.dart
+!packages/fluxer_voice/lib/src/messages.g.dart
 *.freezed.dart
 *.mocks.dart
 
