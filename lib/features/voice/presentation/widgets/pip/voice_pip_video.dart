@@ -25,9 +25,10 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class VoicePipVideo extends ConsumerWidget {
-  const VoicePipVideo({required this.tileId, super.key});
+  const VoicePipVideo({required this.tileId, this.blocked, super.key});
 
   final String tileId;
+  final bool? blocked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,7 +58,7 @@ class VoicePipVideo extends ConsumerWidget {
       return const ColoredBox(color: Color(0xFF111111));
     }
     final String? me = ref.watch(currentUserIdProvider);
-    if (ref.watch(voicePipFeaturedBlockedProvider)) {
+    if (blocked ?? ref.watch(voicePipFeaturedBlockedProvider)) {
       return const VoiceBlockedParticipantPlaceholder(
         cornerRadius: 0,
         showLabel: false,

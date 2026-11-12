@@ -55,7 +55,7 @@ private func wrapError(_ error: Any) -> [Any?] {
   ]
 }
 
-enum FluxerVoiceMessagesPigeonInternal {
+enum MessagesPigeonInternal {
   static func isNullish(_ value: Any?) -> Bool {
     guard let innerValue = value else {
       return true
@@ -201,6 +201,10 @@ enum NativeVoiceDeviceKind: Int, CaseIterable {
   case hearingAid = 6
 }
 
+enum NativePipVideoSourceKind: Int, CaseIterable {
+  case webRtcTrack = 0
+}
+
 /// Generated class from Pigeon that represents data sent in messages.
 struct NativeVoiceDevice: Hashable, CustomStringConvertible {
   var id: Int64
@@ -235,15 +239,15 @@ struct NativeVoiceDevice: Hashable, CustomStringConvertible {
     if Swift.type(of: lhs) != Swift.type(of: rhs) {
       return false
     }
-    return FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.id, rhs.id) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.kind, rhs.kind) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.name, rhs.name) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.active, rhs.active)
+    return MessagesPigeonInternal.deepEquals(lhs.id, rhs.id) && MessagesPigeonInternal.deepEquals(lhs.kind, rhs.kind) && MessagesPigeonInternal.deepEquals(lhs.name, rhs.name) && MessagesPigeonInternal.deepEquals(lhs.active, rhs.active)
   }
 
   func hash(into hasher: inout Hasher) {
     hasher.combine("NativeVoiceDevice")
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: id, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: kind, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: name, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: active, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: id, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: kind, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: name, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: active, hasher: &hasher)
   }
 
   public var description: String {
@@ -301,19 +305,19 @@ struct NativeVoiceSessionState: Hashable, CustomStringConvertible {
     if Swift.type(of: lhs) != Swift.type(of: rhs) {
       return false
     }
-    return FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.type, rhs.type) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.active, rhs.active) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.route, rhs.route) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.routes, rhs.routes) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.devices, rhs.devices) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.activeDeviceId, rhs.activeDeviceId) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.telecom, rhs.telecom) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.micSilenced, rhs.micSilenced)
+    return MessagesPigeonInternal.deepEquals(lhs.type, rhs.type) && MessagesPigeonInternal.deepEquals(lhs.active, rhs.active) && MessagesPigeonInternal.deepEquals(lhs.route, rhs.route) && MessagesPigeonInternal.deepEquals(lhs.routes, rhs.routes) && MessagesPigeonInternal.deepEquals(lhs.devices, rhs.devices) && MessagesPigeonInternal.deepEquals(lhs.activeDeviceId, rhs.activeDeviceId) && MessagesPigeonInternal.deepEquals(lhs.telecom, rhs.telecom) && MessagesPigeonInternal.deepEquals(lhs.micSilenced, rhs.micSilenced)
   }
 
   func hash(into hasher: inout Hasher) {
     hasher.combine("NativeVoiceSessionState")
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: type, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: active, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: route, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: routes, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: devices, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: activeDeviceId, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: telecom, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: micSilenced, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: type, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: active, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: route, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: routes, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: devices, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: activeDeviceId, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: telecom, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: micSilenced, hasher: &hasher)
   }
 
   public var description: String {
@@ -347,13 +351,13 @@ struct NativeVoiceActiveRoute: Hashable, CustomStringConvertible {
     if Swift.type(of: lhs) != Swift.type(of: rhs) {
       return false
     }
-    return FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.route, rhs.route) && FluxerVoiceMessagesPigeonInternal.deepEquals(lhs.name, rhs.name)
+    return MessagesPigeonInternal.deepEquals(lhs.route, rhs.route) && MessagesPigeonInternal.deepEquals(lhs.name, rhs.name)
   }
 
   func hash(into hasher: inout Hasher) {
     hasher.combine("NativeVoiceActiveRoute")
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: route, hasher: &hasher)
-    FluxerVoiceMessagesPigeonInternal.deepHash(value: name, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: route, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: name, hasher: &hasher)
   }
 
   public var description: String {
@@ -361,7 +365,202 @@ struct NativeVoiceActiveRoute: Hashable, CustomStringConvertible {
   }
 }
 
-private class FluxerVoiceMessagesPigeonCodecReader: FlutterStandardReader {
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativePipVideoSource: Hashable, CustomStringConvertible {
+  var kind: NativePipVideoSourceKind
+  var trackId: String? = nil
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativePipVideoSource? {
+    let kind = pigeonVar_list[0] as! NativePipVideoSourceKind
+    let trackId: String? = nilOrValue(pigeonVar_list[1])
+
+    return NativePipVideoSource(
+      kind: kind,
+      trackId: trackId
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      kind,
+      trackId,
+    ]
+  }
+  static func == (lhs: NativePipVideoSource, rhs: NativePipVideoSource) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return MessagesPigeonInternal.deepEquals(lhs.kind, rhs.kind) && MessagesPigeonInternal.deepEquals(lhs.trackId, rhs.trackId)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativePipVideoSource")
+    MessagesPigeonInternal.deepHash(value: kind, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: trackId, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativePipVideoSource(kind: \(String(describing: kind)), trackId: \(String(describing: trackId)))"
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativePipRect: Hashable, CustomStringConvertible {
+  var left: Double
+  var top: Double
+  var width: Double
+  var height: Double
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativePipRect? {
+    let left = pigeonVar_list[0] as! Double
+    let top = pigeonVar_list[1] as! Double
+    let width = pigeonVar_list[2] as! Double
+    let height = pigeonVar_list[3] as! Double
+
+    return NativePipRect(
+      left: left,
+      top: top,
+      width: width,
+      height: height
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      left,
+      top,
+      width,
+      height,
+    ]
+  }
+  static func == (lhs: NativePipRect, rhs: NativePipRect) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return MessagesPigeonInternal.deepEquals(lhs.left, rhs.left) && MessagesPigeonInternal.deepEquals(lhs.top, rhs.top) && MessagesPigeonInternal.deepEquals(lhs.width, rhs.width) && MessagesPigeonInternal.deepEquals(lhs.height, rhs.height)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativePipRect")
+    MessagesPigeonInternal.deepHash(value: left, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: top, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: width, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: height, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativePipRect(left: \(String(describing: left)), top: \(String(describing: top)), width: \(String(describing: width)), height: \(String(describing: height)))"
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativePipConfig: Hashable, CustomStringConvertible {
+  var source: NativePipVideoSource
+  var aspectWidth: Int64
+  var aspectHeight: Int64
+  var sourceRect: NativePipRect? = nil
+  var mirror: Bool
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativePipConfig? {
+    let source = pigeonVar_list[0] as! NativePipVideoSource
+    let aspectWidth = pigeonVar_list[1] as! Int64
+    let aspectHeight = pigeonVar_list[2] as! Int64
+    let sourceRect: NativePipRect? = nilOrValue(pigeonVar_list[3])
+    let mirror = pigeonVar_list[4] as! Bool
+
+    return NativePipConfig(
+      source: source,
+      aspectWidth: aspectWidth,
+      aspectHeight: aspectHeight,
+      sourceRect: sourceRect,
+      mirror: mirror
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      source,
+      aspectWidth,
+      aspectHeight,
+      sourceRect,
+      mirror,
+    ]
+  }
+  static func == (lhs: NativePipConfig, rhs: NativePipConfig) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return MessagesPigeonInternal.deepEquals(lhs.source, rhs.source) && MessagesPigeonInternal.deepEquals(lhs.aspectWidth, rhs.aspectWidth) && MessagesPigeonInternal.deepEquals(lhs.aspectHeight, rhs.aspectHeight) && MessagesPigeonInternal.deepEquals(lhs.sourceRect, rhs.sourceRect) && MessagesPigeonInternal.deepEquals(lhs.mirror, rhs.mirror)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativePipConfig")
+    MessagesPigeonInternal.deepHash(value: source, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: aspectWidth, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: aspectHeight, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: sourceRect, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: mirror, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativePipConfig(source: \(String(describing: source)), aspectWidth: \(String(describing: aspectWidth)), aspectHeight: \(String(describing: aspectHeight)), sourceRect: \(String(describing: sourceRect)), mirror: \(String(describing: mirror)))"
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativePipEvent: Hashable, CustomStringConvertible {
+  var active: Bool
+  var restoreRequested: Bool
+  var width: Double? = nil
+  var height: Double? = nil
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativePipEvent? {
+    let active = pigeonVar_list[0] as! Bool
+    let restoreRequested = pigeonVar_list[1] as! Bool
+    let width: Double? = nilOrValue(pigeonVar_list[2])
+    let height: Double? = nilOrValue(pigeonVar_list[3])
+
+    return NativePipEvent(
+      active: active,
+      restoreRequested: restoreRequested,
+      width: width,
+      height: height
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      active,
+      restoreRequested,
+      width,
+      height,
+    ]
+  }
+  static func == (lhs: NativePipEvent, rhs: NativePipEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return MessagesPigeonInternal.deepEquals(lhs.active, rhs.active) && MessagesPigeonInternal.deepEquals(lhs.restoreRequested, rhs.restoreRequested) && MessagesPigeonInternal.deepEquals(lhs.width, rhs.width) && MessagesPigeonInternal.deepEquals(lhs.height, rhs.height)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativePipEvent")
+    MessagesPigeonInternal.deepHash(value: active, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: restoreRequested, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: width, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: height, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativePipEvent(active: \(String(describing: active)), restoreRequested: \(String(describing: restoreRequested)), width: \(String(describing: width)), height: \(String(describing: height)))"
+  }
+}
+
+private class MessagesPigeonCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
     case 129:
@@ -377,18 +576,32 @@ private class FluxerVoiceMessagesPigeonCodecReader: FlutterStandardReader {
       }
       return nil
     case 131:
-      return NativeVoiceDevice.fromList(self.readValue() as! [Any?])
+      let enumResultAsInt: Int? = nilOrValue(self.readValue() as! Int?)
+      if let enumResultAsInt = enumResultAsInt {
+        return NativePipVideoSourceKind(rawValue: enumResultAsInt)
+      }
+      return nil
     case 132:
-      return NativeVoiceSessionState.fromList(self.readValue() as! [Any?])
+      return NativeVoiceDevice.fromList(self.readValue() as! [Any?])
     case 133:
+      return NativeVoiceSessionState.fromList(self.readValue() as! [Any?])
+    case 134:
       return NativeVoiceActiveRoute.fromList(self.readValue() as! [Any?])
+    case 135:
+      return NativePipVideoSource.fromList(self.readValue() as! [Any?])
+    case 136:
+      return NativePipRect.fromList(self.readValue() as! [Any?])
+    case 137:
+      return NativePipConfig.fromList(self.readValue() as! [Any?])
+    case 138:
+      return NativePipEvent.fromList(self.readValue() as! [Any?])
     default:
       return super.readValue(ofType: type)
     }
   }
 }
 
-private class FluxerVoiceMessagesPigeonCodecWriter: FlutterStandardWriter {
+private class MessagesPigeonCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
     if let value = value as? NativeVoiceRoute {
       super.writeByte(129)
@@ -396,14 +609,29 @@ private class FluxerVoiceMessagesPigeonCodecWriter: FlutterStandardWriter {
     } else if let value = value as? NativeVoiceDeviceKind {
       super.writeByte(130)
       super.writeValue(value.rawValue)
-    } else if let value = value as? NativeVoiceDevice {
+    } else if let value = value as? NativePipVideoSourceKind {
       super.writeByte(131)
-      super.writeValue(value.toList())
-    } else if let value = value as? NativeVoiceSessionState {
+      super.writeValue(value.rawValue)
+    } else if let value = value as? NativeVoiceDevice {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? NativeVoiceActiveRoute {
+    } else if let value = value as? NativeVoiceSessionState {
       super.writeByte(133)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativeVoiceActiveRoute {
+      super.writeByte(134)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativePipVideoSource {
+      super.writeByte(135)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativePipRect {
+      super.writeByte(136)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativePipConfig {
+      super.writeByte(137)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativePipEvent {
+      super.writeByte(138)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -411,21 +639,21 @@ private class FluxerVoiceMessagesPigeonCodecWriter: FlutterStandardWriter {
   }
 }
 
-private class FluxerVoiceMessagesPigeonCodecReaderWriter: FlutterStandardReaderWriter {
+private class MessagesPigeonCodecReaderWriter: FlutterStandardReaderWriter {
   override func reader(with data: Data) -> FlutterStandardReader {
-    return FluxerVoiceMessagesPigeonCodecReader(data: data)
+    return MessagesPigeonCodecReader(data: data)
   }
 
   override func writer(with data: NSMutableData) -> FlutterStandardWriter {
-    return FluxerVoiceMessagesPigeonCodecWriter(data: data)
+    return MessagesPigeonCodecWriter(data: data)
   }
 }
 
-class FluxerVoiceMessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
-  static let shared = FluxerVoiceMessagesPigeonCodec(readerWriter: FluxerVoiceMessagesPigeonCodecReaderWriter())
+class MessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
+  static let shared = MessagesPigeonCodec(readerWriter: MessagesPigeonCodecReaderWriter())
 }
 
-var fluxerVoiceMessagesPigeonMethodCodec = FlutterStandardMethodCodec(readerWriter: FluxerVoiceMessagesPigeonCodecReaderWriter());
+var messagesPigeonMethodCodec = FlutterStandardMethodCodec(readerWriter: MessagesPigeonCodecReaderWriter());
 
 
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
@@ -442,7 +670,7 @@ protocol VoiceAudioSessionHostApi {
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
 class VoiceAudioSessionHostApiSetup {
-  static var codec: FlutterStandardMessageCodec { FluxerVoiceMessagesPigeonCodec.shared }
+  static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
   /// Sets up an instance of `VoiceAudioSessionHostApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: VoiceAudioSessionHostApi?, messageChannelSuffix: String = "") {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
@@ -583,7 +811,7 @@ protocol VoiceActiveRouteHostApi {
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
 class VoiceActiveRouteHostApiSetup {
-  static var codec: FlutterStandardMessageCodec { FluxerVoiceMessagesPigeonCodec.shared }
+  static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
   /// Sets up an instance of `VoiceActiveRouteHostApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: VoiceActiveRouteHostApi?, messageChannelSuffix: String = "") {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
@@ -611,7 +839,7 @@ protocol SystemVoiceCallGuardHostApi {
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
 class SystemVoiceCallGuardHostApiSetup {
-  static var codec: FlutterStandardMessageCodec { FluxerVoiceMessagesPigeonCodec.shared }
+  static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
   /// Sets up an instance of `SystemVoiceCallGuardHostApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: SystemVoiceCallGuardHostApi?, messageChannelSuffix: String = "") {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
@@ -631,6 +859,104 @@ class SystemVoiceCallGuardHostApiSetup {
       }
     } else {
       isExternalCallActiveChannel.setMessageHandler(nil)
+    }
+  }
+}
+/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
+protocol VoicePipHostApi {
+  func isSupported() throws -> Bool
+  func arm(config: NativePipConfig) throws
+  func disarm() throws
+  func stop() throws
+}
+
+/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
+class VoicePipHostApiSetup {
+  static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
+  /// Sets up an instance of `VoicePipHostApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: VoicePipHostApi?, messageChannelSuffix: String = "") {
+    let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
+    let isSupportedChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.isSupported\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      isSupportedChannel.setMessageHandler { _, reply in
+        do {
+          let result = try api.isSupported()
+          reply(wrapResult(result))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      isSupportedChannel.setMessageHandler(nil)
+    }
+    let armChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.arm\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      armChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let configArg = args[0] as! NativePipConfig
+        do {
+          try api.arm(config: configArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      armChannel.setMessageHandler(nil)
+    }
+    let disarmChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.disarm\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      disarmChannel.setMessageHandler { _, reply in
+        do {
+          try api.disarm()
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      disarmChannel.setMessageHandler(nil)
+    }
+    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.stop\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      stopChannel.setMessageHandler { _, reply in
+        do {
+          try api.stop()
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      stopChannel.setMessageHandler(nil)
+    }
+  }
+}
+/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
+protocol VoiceRoutePickerHostApi {
+  func setValue(value: String?) throws
+}
+
+/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
+class VoiceRoutePickerHostApiSetup {
+  static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
+  /// Sets up an instance of `VoiceRoutePickerHostApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: VoiceRoutePickerHostApi?, messageChannelSuffix: String = "") {
+    let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
+    let setValueChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.fluxer_voice.VoiceRoutePickerHostApi.setValue\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setValueChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let valueArg: String? = nilOrValue(args[0])
+        do {
+          try api.setValue(value: valueArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setValueChannel.setMessageHandler(nil)
     }
   }
 }
@@ -693,7 +1019,7 @@ class VoiceSessionStatesStreamHandler: PigeonEventChannelWrapper<NativeVoiceSess
       channelName += ".\(instanceName)"
     }
     let internalStreamHandler = PigeonStreamHandler<NativeVoiceSessionState>(wrapper: streamHandler)
-    let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: fluxerVoiceMessagesPigeonMethodCodec)
+    let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: messagesPigeonMethodCodec)
     channel.setStreamHandler(internalStreamHandler)
   }
 }
@@ -707,7 +1033,21 @@ class VoiceActiveRouteChangesStreamHandler: PigeonEventChannelWrapper<NativeVoic
       channelName += ".\(instanceName)"
     }
     let internalStreamHandler = PigeonStreamHandler<NativeVoiceActiveRoute>(wrapper: streamHandler)
-    let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: fluxerVoiceMessagesPigeonMethodCodec)
+    let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: messagesPigeonMethodCodec)
+    channel.setStreamHandler(internalStreamHandler)
+  }
+}
+      
+class VoicePipEventsStreamHandler: PigeonEventChannelWrapper<NativePipEvent> {
+  static func register(with messenger: FlutterBinaryMessenger,
+                      instanceName: String = "",
+                      streamHandler: VoicePipEventsStreamHandler) {
+    var channelName = "dev.flutter.pigeon.fluxer_voice.VoiceAudioSessionEventApi.voicePipEvents"
+    if !instanceName.isEmpty {
+      channelName += ".\(instanceName)"
+    }
+    let internalStreamHandler = PigeonStreamHandler<NativePipEvent>(wrapper: streamHandler)
+    let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: messagesPigeonMethodCodec)
     channel.setStreamHandler(internalStreamHandler)
   }
 }

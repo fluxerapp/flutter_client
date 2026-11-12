@@ -115,7 +115,6 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       }
     }
     methodChannel = channel
-    SystemVoiceCallGuardHostApiSetup.setUp(binaryMessenger: messenger, api: self)
   }
 
   func handle(payload: PKPushPayload, completion: @escaping () -> Void) {
@@ -469,13 +468,6 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
   }
 
-  private func externalCallActive(fluxerOwnsVoice: Bool) -> Bool {
-    if fluxerOwnsVoice {
-      return false
-    }
-    return CXCallObserver().calls.contains { !$0.hasEnded }
-  }
-
   private func end(id: String?) {
     guard let id, let uuid = UUID(uuidString: id) else {
       return
@@ -800,19 +792,5 @@ private final class PushCompletionGate {
     fallback = work
     lock.unlock()
     queue.asyncAfter(deadline: .now() + seconds, execute: work)
-  }
-}
-
-extension IncomingCallReporter: SystemVoiceCallGuardHostApi {
-  func isExternalCallActive(
-    fluxerOwnsVoice: Bool,
-    completion: @escaping (Result<Bool, Error>) -> Void
-  ) {
-    queue.async {
-      let active = self.externalCallActive(fluxerOwnsVoice: fluxerOwnsVoice)
-      DispatchQueue.main.async {
-        completion(.success(active))
-      }
-    }
   }
 }

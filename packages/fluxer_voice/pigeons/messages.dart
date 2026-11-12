@@ -9,7 +9,7 @@ import 'package:pigeon/pigeon.dart';
       package: 'com.fluxer.voice',
       errorClassName: 'FluxerVoiceError',
     ),
-    swiftOut: '../../ios/Runner/FluxerVoiceMessages.g.swift',
+    swiftOut: 'ios/fluxer_voice/Sources/fluxer_voice/Messages.g.swift',
     swiftOptions: SwiftOptions(errorClassName: 'FluxerVoiceError'),
   ),
 )
@@ -68,6 +68,59 @@ class NativeVoiceActiveRoute {
   String? name;
 }
 
+enum NativePipVideoSourceKind { webRtcTrack }
+
+class NativePipVideoSource {
+  NativePipVideoSource({required this.kind, this.trackId});
+
+  NativePipVideoSourceKind kind;
+  String? trackId;
+}
+
+class NativePipRect {
+  NativePipRect({
+    required this.left,
+    required this.top,
+    required this.width,
+    required this.height,
+  });
+
+  double left;
+  double top;
+  double width;
+  double height;
+}
+
+class NativePipConfig {
+  NativePipConfig({
+    required this.source,
+    required this.aspectWidth,
+    required this.aspectHeight,
+    required this.mirror,
+    this.sourceRect,
+  });
+
+  NativePipVideoSource source;
+  int aspectWidth;
+  int aspectHeight;
+  NativePipRect? sourceRect;
+  bool mirror;
+}
+
+class NativePipEvent {
+  NativePipEvent({
+    required this.active,
+    required this.restoreRequested,
+    this.width,
+    this.height,
+  });
+
+  bool active;
+  bool restoreRequested;
+  double? width;
+  double? height;
+}
+
 @HostApi()
 abstract class VoiceAudioSessionHostApi {
   @async
@@ -111,9 +164,27 @@ abstract class SystemVoiceCallGuardHostApi {
   bool isExternalCallActive({required bool fluxerOwnsVoice});
 }
 
+@HostApi()
+abstract class VoicePipHostApi {
+  bool isSupported();
+
+  void arm(NativePipConfig config);
+
+  void disarm();
+
+  void stop();
+}
+
+@HostApi()
+abstract class VoiceRoutePickerHostApi {
+  void setValue(String? value);
+}
+
 @EventChannelApi()
 abstract class VoiceAudioSessionEventApi {
   NativeVoiceSessionState voiceSessionStates();
 
   NativeVoiceActiveRoute voiceActiveRouteChanges();
+
+  NativePipEvent voicePipEvents();
 }

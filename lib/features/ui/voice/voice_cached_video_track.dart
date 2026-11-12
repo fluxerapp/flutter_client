@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/voice/providers/voice_track_handoff_provider.dart';
 import 'package:fluxer_app/features/voice/utils/media/track_renderer_cache.dart';
+import 'package:fluxer_app/features/voice/utils/pip/voice_video_surface_registry.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:livekit_client/livekit_client.dart';
 
@@ -43,11 +45,68 @@ class _RendererHold {
   var released = false;
 }
 
-class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
+class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack>
+    implements VoiceVideoSurface {
   late final VoiceTrackRendererCache<RTCVideoRenderer> _cache;
   _RendererHold? _hold;
   RTCVideoRenderer? _renderer;
   VideoTrackRenderer? _built;
+  String? _surfaceKey;
+
+  @override
+  Rect? get globalRect =>
+      mounted ? voiceVideoSurfaceGlobalRect(context.findRenderObject()) : null;
+
+  @override
+  Size? get videoSize {
+    final RTCVideoRenderer? renderer = _renderer;
+    if (renderer == null) {
+      return null;
+    }
+    final RTCVideoValue value = renderer.value;
+    return voiceVideoSizeFrom(
+      width: value.width,
+      height: value.height,
+      rotation: value.rotation,
+    );
+  }
+
+  void _onRendererChanged() {
+    final String? key = _surfaceKey;
+    if (key != null) {
+      VoiceVideoSurfaceRegistry.instance.markChanged(key);
+    }
+  }
+
+  void _setRenderer(RTCVideoRenderer? renderer) {
+    final RTCVideoRenderer? previous = _renderer;
+    if (identical(previous, renderer)) {
+      return;
+    }
+    _renderer = renderer;
+    if (!isFluxerNativeMobileOs) {
+      return;
+    }
+    previous?.removeListener(_onRendererChanged);
+    renderer?.addListener(_onRendererChanged);
+  }
+
+  void _registerSurface(String? key) {
+    if (!isFluxerNativeMobileOs) {
+      return;
+    }
+    final String? previous = _surfaceKey;
+    if (previous == key) {
+      return;
+    }
+    if (previous != null) {
+      VoiceVideoSurfaceRegistry.instance.remove(previous, this);
+    }
+    _surfaceKey = key;
+    if (key != null) {
+      VoiceVideoSurfaceRegistry.instance.add(key, this);
+    }
+  }
 
   @override
   void initState() {
@@ -68,6 +127,7 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
   @override
   void dispose() {
     _releaseHold();
+    _registerSurface(null);
     super.dispose();
   }
 
@@ -75,12 +135,13 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
     _releaseHold();
     final _RendererHold hold = _RendererHold(key);
     _hold = hold;
+    _registerSurface(key);
     final RTCVideoRenderer? ready = _cache.retainIfPresent(key);
     if (ready != null) {
-      _renderer = ready;
+      _setRenderer(ready);
       return;
     }
-    _renderer = null;
+    _setRenderer(null);
     unawaited(_load(hold));
   }
 
@@ -95,7 +156,7 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
         _cache.release(hold.key);
         return;
       }
-      setState(() => _renderer = renderer);
+      setState(() => _setRenderer(renderer));
     } on Object {
       if (hold.released) {
         return;
@@ -108,7 +169,7 @@ class _VoiceCachedVideoTrackState extends ConsumerState<VoiceCachedVideoTrack> {
   void _releaseHold() {
     final _RendererHold? hold = _hold;
     _hold = null;
-    _renderer = null;
+    _setRenderer(null);
     _built = null;
     if (hold == null || hold.released) {
       return;

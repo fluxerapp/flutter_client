@@ -172,15 +172,6 @@ import flutter_callkit_incoming
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
     NativePasteBridge.shared.register(engineBridge: engineBridge)
-    VoiceActiveRouteBridge.shared.register(
-      messenger: engineBridge.applicationRegistrar.messenger()
-    )
-    if let routePicker = engineBridge.pluginRegistry.registrar(forPlugin: "VoiceRoutePicker") {
-      routePicker.register(
-        VoiceRoutePickerViewFactory(messenger: routePicker.messenger()),
-        withId: "fluxer_app/voice_route_picker"
-      )
-    }
     UploadKeepAliveBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )

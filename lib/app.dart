@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_layer.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_system_pip_view.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_accessibility_layer.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
@@ -197,7 +198,9 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
               enabled: disableAnimations,
               child: FluxerAppTextScale(
                 child: DesktopPointerUiScope(
-                  child: AppLockGate(child: content),
+                  child: isFluxerNativeAndroid
+                      ? VoiceSystemPipHost(child: AppLockGate(child: content))
+                      : AppLockGate(child: content),
                 ),
               ),
             );
