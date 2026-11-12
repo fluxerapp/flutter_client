@@ -54,8 +54,10 @@ void _expectFieldAlignedWithAttach(
   expect(rowSlot, findsOneWidget);
   final Finder attachButton = find.descendant(
     of: rowSlot,
-    matching: find.byTooltip(
-      FluxerLocalizationsEn().chatAttachmentSourceBrowse,
+    matching: find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is WideComposerMouseButton &&
+          widget.tooltip == FluxerLocalizationsEn().chatAttachmentSourceBrowse,
     ),
   );
   expect(attachButton, findsOneWidget);

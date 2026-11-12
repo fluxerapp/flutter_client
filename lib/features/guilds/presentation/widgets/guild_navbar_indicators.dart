@@ -54,29 +54,21 @@ class _GuildBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isPartnered) {
-      return Container(
-        width: 16,
-        height: 16,
-        decoration: BoxDecoration(
-          color: context.colors.brandPrimary,
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: PhosphorIcon(
-            PhosphorIconsBold.infinity,
-            color: context.colors.textOnBrandPrimary,
-            size: 10,
-          ),
-        ),
+      return FluxerBrandLogo(
+        size: 16,
+        symbolColor: context.colors.textOnBrandPrimary,
       );
     }
     return PhosphorIcon(
-      PhosphorIconsFill.sealCheck,
+      PhosphorIconsFill.checkCircle,
       color: context.colors.textPrimary,
       size: 16,
     );
   }
 }
+
+double _ringBadgeOffset(BuildContext context) =>
+    usesDesktopPointerUi(context) ? -7 : -4;
 
 class _VoiceActivityBadge extends StatelessWidget {
   final VoiceActivityType type;
@@ -96,9 +88,10 @@ class _VoiceActivityBadge extends StatelessWidget {
       case VoiceActivityType.none:
         return const SizedBox.shrink();
     }
+    final double size = usesDesktopPointerUi(context) ? 26 : 24;
     return Container(
-      width: 24,
-      height: 24,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: context.colors.statusOnline,
         shape: BoxShape.circle,

@@ -212,8 +212,9 @@ private extension NotificationService {
             suggestionType: .none
         )
         let threadId = content.threadIdentifier
+        let recipients = identity.groupName.map { _ in [Self.localPerson, sender] }
         let intent = INSendMessageIntent(
-            recipients: nil,
+            recipients: recipients,
             outgoingMessageType: .outgoingMessageText,
             content: content.body,
             speakableGroupName: identity.groupName.map { INSpeakableString(spokenPhrase: $0) },
@@ -247,6 +248,17 @@ private extension NotificationService {
         }
         return updated
     }
+
+    static let localPerson = INPerson(
+        personHandle: INPersonHandle(value: "me", type: .unknown),
+        nameComponents: nil,
+        displayName: nil,
+        image: nil,
+        contactIdentifier: nil,
+        customIdentifier: nil,
+        isMe: true,
+        suggestionType: .none
+    )
 
     static func applyReplyCategory(
         to content: UNMutableNotificationContent,

@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerTab {
   const FluxerTab({required this.label, this.icon});
@@ -26,6 +27,9 @@ class FluxerTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isHorizontal = direction == Axis.horizontal;
+    if (isHorizontal && usesDesktopPointerUi(context)) {
+      return _buildDesktop(context);
+    }
     return Flex(
       direction: direction,
       crossAxisAlignment: direction == Axis.vertical
@@ -50,6 +54,107 @@ class FluxerTabs extends StatelessWidget {
               direction: direction,
             ),
       ],
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
+    final colors = context.colors;
+    final bool isLight = Theme.of(context).brightness == Brightness.light;
+    final Color selectedColor = isLight
+        ? colors.brandPrimary
+        : colors.brandPrimaryLight;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) => SizedBox(
+        width: constraints.hasBoundedWidth ? constraints.maxWidth : null,
+        child: _buildDesktopStrip(context, selectedColor),
+      ),
+    );
+  }
+
+  Widget _buildDesktopStrip(BuildContext context, Color selectedColor) {
+    final colors = context.colors;
+    return Stack(
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 1,
+          child: ColoredBox(color: colors.backgroundModifierAccent),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < tabs.length; i++)
+                _FluxerDesktopTabItem(
+                  tab: tabs[i],
+                  isSelected: i == selectedIndex,
+                  selectedColor: selectedColor,
+                  onTap: () => onChanged(i),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FluxerDesktopTabItem extends StatelessWidget {
+  const _FluxerDesktopTabItem({
+    required this.tab,
+    required this.isSelected,
+    required this.selectedColor,
+    required this.onTap,
+  });
+
+  final FluxerTab tab;
+  final bool isSelected;
+  final Color selectedColor;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final Color foreground = isSelected
+        ? selectedColor
+        : colors.textPrimaryMuted;
+    return FluxerTappable(
+      onTap: onTap,
+      selected: isSelected,
+      semanticLabel: tab.label,
+      excludeChildSemantics: true,
+      builder: (context, states) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+            border: Border(
+              bottom: BorderSide(
+                color: isSelected ? selectedColor : Colors.transparent,
+                width: 2,
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              if (tab.icon != null) Icon(tab.icon, size: 16, color: foreground),
+              Text(
+                tab.label,
+                style: context.textStyles.label.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: foreground,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

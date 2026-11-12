@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 class FluxerSwitchGroup extends StatelessWidget {
@@ -116,7 +117,10 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
-    final minHeight = grouped
+    final bool desktop = usesDesktopPointerUi(context);
+    final minHeight = desktop
+        ? 44.0
+        : grouped
         ? layout.settingsSwitchGroupedRowMinHeight
         : layout.settingsSwitchRowMinHeight;
 
@@ -136,7 +140,7 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
         return AnimatedContainer(
           duration: context.motion.fast,
           curve: context.motion.curve,
-          color: isPressed
+          color: isPressed && !desktop
               ? colors.backgroundModifierHover.withValues(alpha: 0.45)
               : Colors.transparent,
           constraints: BoxConstraints(minHeight: minHeight),
@@ -153,21 +157,26 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
                       label: Text(
                         label,
                         style: textStyles.bodySmall.copyWith(
-                          color: enabled
+                          color: enabled || desktop
                               ? colors.textPrimary
                               : colors.textTertiary,
                           fontWeight: FontWeight.w500,
-                          height: 1.4,
+                          height: desktop ? 20 / 14 : 1.4,
                         ),
                       ),
                     ),
                     if (description != null) ...[
                       SizedBox(height: layout.s1),
-                      Text(
-                        description!,
-                        style: textStyles.bodySmall.copyWith(
-                          color: colors.textPrimaryMuted,
-                          height: 1.4,
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(
+                          end: desktop ? 16 : 0,
+                        ),
+                        child: Text(
+                          description!,
+                          style: textStyles.bodySmall.copyWith(
+                            color: colors.textPrimaryMuted,
+                            height: desktop ? 20 / 14 : 1.4,
+                          ),
                         ),
                       ),
                     ],

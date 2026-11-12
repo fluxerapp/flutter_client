@@ -45,6 +45,8 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavDefaultApps;
     case UserSettingsSection.appIcon:
       return l10n.userSettingsNavAppIcon;
+    case UserSettingsSection.desktop:
+      return l10n.userSettingsNavDesktop;
     case UserSettingsSection.advanced:
       return l10n.userSettingsNavAdvanced;
     case UserSettingsSection.applications:

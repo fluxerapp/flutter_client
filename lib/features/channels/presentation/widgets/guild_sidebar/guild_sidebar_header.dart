@@ -131,6 +131,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool desktop = usesDesktopPointerUi(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String headerTitle = outageUnavailable
         ? (guild?.name ?? l10n.communityTemporarilyUnavailable)
@@ -145,10 +146,18 @@ class GuildSidebarHeaderBody extends StatelessWidget {
     )!;
     final Color caretColor = Color.lerp(
       Colors.white,
-      context.colors.textChat,
+      desktop ? context.colors.textPrimary : context.colors.textChat,
       collapseRatio,
     )!;
-    final List<Shadow> bannerShadows = bannerForeground > 0
+    final List<Shadow> bannerShadows = bannerForeground > 0 && desktop
+        ? <Shadow>[
+            Shadow(
+              color: Colors.black.withValues(alpha: 0.9 * bannerForeground),
+              offset: const Offset(0, 1),
+              blurRadius: 3,
+            ),
+          ]
+        : bannerForeground > 0
         ? <Shadow>[
             Shadow(
               color: const Color(
@@ -206,6 +215,84 @@ class GuildSidebarHeaderBody extends StatelessWidget {
 
     final bool overlayTitleOnBanner = showBannerImage;
 
+    final Widget content = ClipRect(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (showBannerImage)
+            Positioned.fill(
+              child: Opacity(
+                opacity: bannerForeground,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(guild!.bannerUrl!),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (showBannerImage && bannerForeground > 0)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 40,
+              child: IgnorePointer(
+                child: Opacity(
+                  opacity: bannerForeground,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          context.colors.guildBannerGradient,
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (overlayTitleOnBanner && !desktop)
+            Positioned(
+              top: kGuildSidebarHeaderTopInset,
+              left: 16,
+              right: 16,
+              child: headerRow,
+            )
+          else
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: kGuildSidebarHeaderMinHeight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(child: headerRow),
+              ),
+            ),
+        ],
+      ),
+    );
+    if (desktop) {
+      if (onTap == null) {
+        return DesktopSidebarHeaderSurface(height: height, child: content);
+      }
+      return FluxerTappable(
+        onTap: onTap,
+        builder: (BuildContext context, Set<WidgetState> states) =>
+            DesktopSidebarHeaderSurface(
+              height: height,
+              active: states.contains(WidgetState.hovered) && !showBannerImage,
+              child: content,
+            ),
+      );
+    }
     return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -219,72 +306,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
               bottom: BorderSide(color: context.colors.borderColor),
             ),
           ),
-          child: ClipRect(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                if (showBannerImage)
-                  Positioned.fill(
-                    child: Opacity(
-                      opacity: bannerForeground,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              guild!.bannerUrl!,
-                            ),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                if (showBannerImage && bannerForeground > 0)
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 40,
-                    child: IgnorePointer(
-                      child: Opacity(
-                        opacity: bannerForeground,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: <Color>[
-                                context.colors.guildBannerGradient,
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                if (overlayTitleOnBanner)
-                  Positioned(
-                    top: kGuildSidebarHeaderTopInset,
-                    left: 16,
-                    right: 16,
-                    child: headerRow,
-                  )
-                else
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: kGuildSidebarHeaderMinHeight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Center(child: headerRow),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          child: content,
         ),
       ),
     );

@@ -122,38 +122,72 @@ String preferredScreenShareVideoCodec(ScreenShareCodecPreference preference) {
   };
 }
 
-bool isHigherVideoQualityFrameRate(int frameRate) {
-  return frameRate > 30;
+class VideoQualityCaps {
+  const VideoQualityCaps({
+    required this.screenShareMaxHeight,
+    required this.screenShareMaxFrameRate,
+    required this.cameraMaxHeight,
+  });
+
+  static const VideoQualityCaps base = VideoQualityCaps(
+    screenShareMaxHeight: 720,
+    screenShareMaxFrameRate: 30,
+    cameraMaxHeight: 720,
+  );
+
+  static const VideoQualityCaps full = VideoQualityCaps(
+    screenShareMaxHeight: 2160,
+    screenShareMaxFrameRate: 120,
+    cameraMaxHeight: 1080,
+  );
+
+  final int screenShareMaxHeight;
+  final int screenShareMaxFrameRate;
+  final int cameraMaxHeight;
+
+  bool allowsCameraResolution(CameraResolution resolution) {
+    return _cameraHeight(resolution) <= cameraMaxHeight;
+  }
+
+  bool allowsScreenShareResolution(ScreenshareResolution resolution) {
+    return _screenShareTargetDimensions(resolution).height <=
+        screenShareMaxHeight;
+  }
+
+  bool allowsFrameRate(int frameRate) {
+    return frameRate <= screenShareMaxFrameRate;
+  }
 }
 
-bool isHigherVideoQualityCameraResolution(CameraResolution resolution) {
-  return resolution == CameraResolution.high;
+int _cameraHeight(CameraResolution resolution) {
+  return switch (resolution) {
+    CameraResolution.high => 1080,
+    CameraResolution.medium => 720,
+    CameraResolution.low => 480,
+  };
 }
 
 VoiceSettingsState clampVoiceVideoSettings(
   VoiceSettingsState settings, {
-  required bool higherVideoQuality,
+  required VideoQualityCaps caps,
   required bool meshPhoneCap,
   required bool phoneScreenShareCap,
 }) {
   final bool capCamera =
-      (!higherVideoQuality || meshPhoneCap) &&
-      isHigherVideoQualityCameraResolution(settings.cameraResolution);
+      settings.cameraResolution == CameraResolution.high &&
+      (meshPhoneCap || !caps.allowsCameraResolution(settings.cameraResolution));
   final bool capScreenShare =
-      (!higherVideoQuality || phoneScreenShareCap) &&
-      isHigherVideoQualityScreenShareResolution(settings.screenshareResolution);
+      settings.screenshareResolution == ScreenshareResolution.high &&
+      (phoneScreenShareCap ||
+          !caps.allowsScreenShareResolution(settings.screenshareResolution));
   final bool capFrameRate =
-      (!higherVideoQuality || meshPhoneCap || phoneScreenShareCap) &&
-      isHigherVideoQualityFrameRate(settings.videoFrameRate);
+      settings.videoFrameRate > kDefaultVideoFrameRate &&
+      (meshPhoneCap ||
+          phoneScreenShareCap ||
+          !caps.allowsFrameRate(settings.videoFrameRate));
   return settings.copyWith(
     cameraResolution: capCamera ? CameraResolution.medium : null,
     screenshareResolution: capScreenShare ? ScreenshareResolution.medium : null,
     videoFrameRate: capFrameRate ? kDefaultVideoFrameRate : null,
   );
-}
-
-bool isHigherVideoQualityScreenShareResolution(
-  ScreenshareResolution resolution,
-) {
-  return resolution == ScreenshareResolution.high;
 }

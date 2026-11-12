@@ -146,29 +146,47 @@ rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-and
 
 **Android** uses two Gradle flavor dimensions: environment plus push (`fcm` or `unifiedpush`). The variant name combines both in camelCase (for example `stableFcm`, `betaUnifiedpush`). `PUSH_PROVIDER` must match the push dimension: `fcm` for Firebase Cloud Messaging or `unifiedpush` for UnifiedPush.
 
-Firebase is merged in only for FCM builds. Play billing deps live in `pubspec.yaml` for normal dev; OSS UnifiedPush builds strip them with `dart tool/configure_build.dart --profile=oss` (then `flutter pub get`). Other profiles: `android-fcm` (Firebase + FCM sources), `ios-store` (drop Firebase, keep billing).
+**Build profiles** pick which optional packages get linked:
 
-**iOS** uses schemes with the same environment names (`canary`, `beta`, `stable`). There is no push flavor dimension; push is always Apple Push Notification service, so use `PUSH_PROVIDER=apns`.
+- `dev` (also `ios-store`, `apns`): billing. This is what's committed to git.
+- `oss`: nothing. UnifiedPush and F-Droid.
+- `android-fcm`: FCM and billing. Google Play.
 
-Example (Android, stable with FCM):
+Firebase lives in `packages/fluxer_fcm`, and `in_app_purchase` lives in `packages/fluxer_billing`. `tool/configure_build.dart` adds or removes them in the `# BEGIN optional modules` block of `pubspec.yaml`, and writes the gitignored files that switch between the stub and real implementations.
+
+After cloning:
 
 ```text
-dart tool/configure_build.dart --profile=android-fcm
+bash tool/install_hooks.sh
+dart tool/configure_build.dart
 flutter pub get
-flutter run --flavor stableFcm --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm
 ```
 
-For iOS, use the scheme name as the flavor and `PUSH_PROVIDER=apns`:
+The pre-commit hook blocks commits that contain a non-dev `pubspec.yaml`, `pubspec.lock` or plugin registrant. CI runs the same check.
+
+For everyday work on canary, use `tool/dev.sh` and pick a push provider:
 
 ```text
-dart tool/configure_build.dart --profile=ios-store
-flutter pub get
+tool/dev.sh unifiedpush        # flutter run
+tool/dev.sh fcm                # flutter run
+tool/dev.sh apns               # flutter run
+tool/dev.sh unifiedpush apk    # build an APK
+tool/dev.sh apns ios           # build for iOS
+```
+
+Extra arguments go straight to Flutter. `tool/dev.sh fcm apk --release`. `run` switches your checkout to the right profile and switches it back to dev when you quit. `apk` builds in a copy under `build/flavors/<profile>/src`, so your checkout isn't touched.
+
+For other environments, use `tool/build_flavor.sh <profile> <flutter args>` or `dart tool/configure_build.dart --profile=<profile>` directly. `--status` shows the current profile.
+
+**iOS** uses schemes named after the environments (`canary`, `beta`, `stable`) and always builds with `PUSH_PROVIDER=apns`. It uses the `dev` profile, so it builds straight from the checkout:
+
+```text
 flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
 ```
 
 ## Desktop builds
 
-We plan to provide desktop builds in the future but they will be labled as Fluxer Lite clients. These builds will not replace the Electron verison but be a seperate version you can download.
+We plan to provide desktop builds in the future but they will be labeled as Fluxer Oxygen clients. These builds will not replace the Electron version but be a separate version you can download.
 
 ## Community app icon designs
 

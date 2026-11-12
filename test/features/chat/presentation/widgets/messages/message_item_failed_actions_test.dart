@@ -16,6 +16,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_action_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
@@ -104,6 +105,10 @@ Widget _app(Widget child, {required bool touchPrimary}) {
   );
 }
 
+Finder _actionBarButton(String label) => find.byWidgetPredicate(
+  (Widget widget) => widget is MessageActionBarButton && widget.label == label,
+);
+
 Offset _contentCenter(WidgetTester tester) {
   final RenderParagraph paragraph = tester.allRenderObjects
       .whereType<RenderParagraph>()
@@ -165,12 +170,15 @@ void main() {
     int deletes = 0;
     await tester.pumpWidget(
       _app(
-        MessageItem(
-          message: _failedMessage(),
-          currentUserId: _currentUserId,
-          renderSettings: _settings,
-          onRetry: () => retries++,
-          onDeleteFailed: () => deletes++,
+        Padding(
+          padding: const EdgeInsets.only(top: 80),
+          child: MessageItem(
+            message: _failedMessage(),
+            currentUserId: _currentUserId,
+            renderSettings: _settings,
+            onRetry: () => retries++,
+            onDeleteFailed: () => deletes++,
+          ),
         ),
         touchPrimary: false,
       ),
@@ -191,14 +199,14 @@ void main() {
     await mouse.moveTo(_contentCenter(tester));
     await tester.pump();
 
-    expect(find.byTooltip(testL10n.chatMessageReply), findsNothing);
-    await tester.tap(find.byTooltip(testL10n.retry));
+    expect(_actionBarButton(testL10n.chatMessageReply), findsNothing);
+    await tester.tap(_actionBarButton(testL10n.retry));
     await tester.pump();
     expect(retries, 1);
 
     await mouse.moveTo(_contentCenter(tester));
     await tester.pump();
-    await tester.tap(find.byTooltip(testL10n.chatMessageDeleteFailed));
+    await tester.tap(_actionBarButton(testL10n.chatMessageDeleteFailed));
     await tester.pump();
     expect(deletes, 1);
     await releaseTestWidgetTree(tester);

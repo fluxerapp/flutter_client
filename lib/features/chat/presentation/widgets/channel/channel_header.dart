@@ -48,6 +48,7 @@ import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -242,6 +243,7 @@ class ChannelHeader extends ConsumerWidget {
                   highContrast: highContrast,
                 ),
               ),
+              if (usesDesktopPointerUi(context)) const SizedBox(width: 16),
               ChannelHeaderToolbar(
                 channelId: channelId,
                 channel: channel,

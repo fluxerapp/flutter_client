@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_desktop_chrome.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_video.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -23,6 +24,7 @@ import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 const Key kVoiceInAppPipKey = Key('voice-in-app-pip');
@@ -64,6 +66,8 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   var _expandWaitFrames = 0;
   var _holdCollapseAtFullscreen = false;
   Size? _pipCardSize;
+  var _desktop = false;
+  final ValueNotifier<bool> _pipHovered = ValueNotifier<bool>(false);
   final GlobalKey _featuredVideoKey = GlobalKey(
     debugLabel: 'voice-pip-featured-video',
   );
@@ -124,6 +128,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     _settleController.dispose();
     _morphController.dispose();
     _paintTick.dispose();
+    _pipHovered.dispose();
     super.dispose();
   }
 
@@ -158,6 +163,9 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
 
   EdgeInsets _safeInsets(BuildContext context) {
     final EdgeInsets padding = MediaQuery.paddingOf(context);
+    if (_desktop) {
+      return EdgeInsets.only(top: padding.top);
+    }
     final FluxerLayoutTheme layout = context.layout;
     double bottom = padding.bottom;
     double left = padding.left;
@@ -398,6 +406,37 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     final double decoration = voicePipDecorationOpacity(t);
     final double radius = voicePipMorphRadius(t);
     final double lift = dragging ? 1 : decoration;
+    if (_desktop) {
+      return IgnorePointer(
+        child: KeyedSubtree(
+          key: _featuredVideoKey,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: const Color(0xFF1C1C1E),
+              borderRadius: BorderRadius.circular(kVoicePipDesktopRadius),
+              boxShadow: decoration <= 0.01
+                  ? const <BoxShadow>[]
+                  : <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.4 * decoration),
+                        offset: Offset(0, 8 * decoration),
+                        blurRadius: 32 * decoration,
+                      ),
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.2 * decoration),
+                        offset: Offset(0, 2 * decoration),
+                        blurRadius: 8 * decoration,
+                      ),
+                    ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(kVoicePipDesktopRadius),
+              child: video,
+            ),
+          ),
+        ),
+      );
+    }
     final Widget scaled = AnimatedScale(
       key: _featuredVideoKey,
       scale: dragging ? 1.04 : 1,
@@ -445,17 +484,20 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     final bool isScreen =
         parsed?.source == VoiceParticipantTileSource.screenShare;
     final Size viewport = MediaQuery.sizeOf(context);
-    final Size measured = voicePipCardSize(
-      viewport: viewport,
-      isScreenShare: isScreen,
-      hasVideo: hasVideo,
-    );
+    final Size measured = _desktop
+        ? voicePipDesktopCardSize(viewport)
+        : voicePipCardSize(
+            viewport: viewport,
+            isScreenShare: isScreen,
+            hasVideo: hasVideo,
+          );
     final Size card = _phase == VoicePipOverlayPhase.pip && _pipCardSize != null
         ? _pipCardSize!
         : measured;
     final Rect safe = voicePipSafeRect(
       viewport: viewport,
       insets: _safeInsets(context),
+      margin: _desktop ? kVoicePipDesktopEdgeMargin : kVoicePipEdgeMargin,
     );
     final Offset stored =
         storedOrigin ?? voicePipDefaultOrigin(safeRect: safe, cardSize: card);
@@ -498,7 +540,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       _beginExpand(pipRect: pipRect);
     }
 
-    return Positioned.fromRect(
+    final Positioned pip = Positioned.fromRect(
       rect: pipRect,
       child: Semantics(
         container: true,
@@ -541,12 +583,18 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
               onPanEnd: (DragEndDetails details) {
                 _playedMoveHaptic = false;
                 final Offset from = _dragOrigin ?? origin;
-                final Offset release = voicePipOriginAfterRelease(
-                  origin: from,
-                  cardSize: card,
-                  safeRect: safe,
-                  velocity: details.velocity.pixelsPerSecond,
-                );
+                final Offset release = _desktop
+                    ? voicePipSnapToNearestCorner(
+                        origin: from,
+                        cardSize: card,
+                        safeRect: safe,
+                      )
+                    : voicePipOriginAfterRelease(
+                        origin: from,
+                        cardSize: card,
+                        safeRect: safe,
+                        velocity: details.velocity.pixelsPerSecond,
+                      );
                 ref.read(voicePipPlacementProvider.notifier).setOffset(release);
                 _dragging = false;
                 _dragOrigin = null;
@@ -560,11 +608,17 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
               onPanCancel: () {
                 _playedMoveHaptic = false;
                 final Offset from = _dragOrigin ?? _visualOrigin ?? origin;
-                final Offset release = voicePipSnapToNearestEdge(
-                  origin: from,
-                  cardSize: card,
-                  safeRect: safe,
-                );
+                final Offset release = _desktop
+                    ? voicePipSnapToNearestCorner(
+                        origin: from,
+                        cardSize: card,
+                        safeRect: safe,
+                      )
+                    : voicePipSnapToNearestEdge(
+                        origin: from,
+                        cardSize: card,
+                        safeRect: safe,
+                      );
                 ref.read(voicePipPlacementProvider.notifier).setOffset(release);
                 _dragging = false;
                 _dragOrigin = null;
@@ -572,10 +626,38 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
                 _markPaint();
                 _animateOriginTo(release);
               },
-              child: const SizedBox.expand(),
+              child: _desktop
+                  ? MouseRegion(
+                      cursor: _dragging
+                          ? SystemMouseCursors.grabbing
+                          : SystemMouseCursors.grab,
+                      child: const SizedBox.expand(),
+                    )
+                  : const SizedBox.expand(),
             ),
+            if (_desktop)
+              ValueListenableBuilder<bool>(
+                valueListenable: _pipHovered,
+                builder: (BuildContext context, bool hovered, Widget? _) =>
+                    VoicePipDesktopChrome(
+                      tileId: tileId,
+                      visible: hovered || _dragging,
+                      onReturnToCall: expandFromPip,
+                    ),
+              ),
           ],
         ),
+      ),
+    );
+    if (!_desktop) {
+      return pip;
+    }
+    return Positioned.fromRect(
+      rect: pipRect,
+      child: MouseRegion(
+        onEnter: (_) => _pipHovered.value = true,
+        onExit: (_) => _pipHovered.value = false,
+        child: pip.child,
       ),
     );
   }
@@ -586,17 +668,21 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
         featuredTileId == null
         ? null
         : parseVoiceParticipantTileId(featuredTileId);
-    final Size measured = voicePipCardSize(
-      viewport: viewport,
-      isScreenShare: parsed?.source == VoiceParticipantTileSource.screenShare,
-      hasVideo: ref.read(voicePipFeaturedHasVideoProvider),
-    );
+    final Size measured = _desktop
+        ? voicePipDesktopCardSize(viewport)
+        : voicePipCardSize(
+            viewport: viewport,
+            isScreenShare:
+                parsed?.source == VoiceParticipantTileSource.screenShare,
+            hasVideo: ref.read(voicePipFeaturedHasVideoProvider),
+          );
     final Size card = _phase == VoicePipOverlayPhase.pip && _pipCardSize != null
         ? _pipCardSize!
         : measured;
     final Rect safe = voicePipSafeRect(
       viewport: viewport,
       insets: _safeInsets(context),
+      margin: _desktop ? kVoicePipDesktopEdgeMargin : kVoicePipEdgeMargin,
     );
     final Offset stored =
         ref.read(voicePipPlacementProvider) ??
@@ -612,6 +698,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   @override
   Widget build(BuildContext context) {
     final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    _desktop = !isMobileLayout(context) && usesDesktopPointerUi(context);
     final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
     final VoicePipOverlayPhase overlayPhase = ref.watch(
       voicePipOverlayPhaseProvider,

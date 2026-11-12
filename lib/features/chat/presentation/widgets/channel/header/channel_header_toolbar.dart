@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/cha
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_search_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_notification_settings_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_overlay_button.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/oxygen_update_header_button.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -36,6 +37,7 @@ import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class ChannelHeaderToolbar extends ConsumerWidget {
   const ChannelHeaderToolbar({
@@ -62,7 +64,11 @@ class ChannelHeaderToolbar extends ConsumerWidget {
     if (!showMessageActions) {
       return Row(
         mainAxisSize: MainAxisSize.min,
-        children: _buildCallButtons(context, ref),
+        spacing: usesDesktopPointerUi(context) ? 8 : 0,
+        children: [
+          ..._buildCallButtons(context, ref),
+          OxygenUpdateHeaderButton(highContrast: highContrast),
+        ],
       );
     }
 
@@ -85,6 +91,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      spacing: usesDesktopPointerUi(context) ? 8 : 0,
       children: [
         if (channel != null && !isPersonalNotes && !channel!.isThread)
           buildChannelNotificationButton(channel: channel!),
@@ -158,6 +165,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
             dm: dm,
             highContrast: highContrast,
           ),
+        OxygenUpdateHeaderButton(highContrast: highContrast),
         if (isWideLayout(context))
           InboxPopoutButton(
             anchorBuilder:

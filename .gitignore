@@ -69,3 +69,10 @@ ios/build/
 
 # Perf drive credentials (tool/perf_drive.sh)
 .env.perf
+
+# tool/configure_build.dart
+/lib/core/push/services/firebase_messaging_push_service.dart
+/lib/core/push/fcm/fcm_entrypoint.dart
+/lib/features/settings/services/premium_store_purchase_client.dart
+packages/fluxer_billing/build/
+packages/fluxer_billing/pubspec.lock

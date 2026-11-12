@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 class FluxerToggleSwitch extends StatelessWidget {
@@ -61,6 +62,10 @@ class FluxerToggleSwitch extends StatelessWidget {
           trailing: FluxerSwitchControl(value: value, enabled: enabled),
         ),
       );
+    }
+
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktop(context, hasContent);
     }
 
     Widget buildLabelContent(BuildContext context, Set<WidgetState> _) {
@@ -127,6 +132,78 @@ class FluxerToggleSwitch extends StatelessWidget {
             ],
             FluxerSwitchControl(value: value, enabled: enabled),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context, bool hasContent) {
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    final TextStyle base = textStyles.bodySmall.copyWith(
+      fontSize: 14,
+      height: 20 / 14,
+    );
+    return FluxerTappable(
+      enabled: enabled,
+      onTap: () {
+        FluxerHaptics.selection();
+        onChanged(!value);
+      },
+      semanticLabel: _semanticsLabel(),
+      toggled: value,
+      excludeChildSemantics: _semanticsLabel() != null,
+      builder: (context, states) {
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 44),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16,
+              children: [
+                if (hasContent)
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 4,
+                      children: [
+                        if (label != null || icon != null)
+                          Row(
+                            spacing: 8,
+                            children: [
+                              if (icon != null)
+                                Icon(icon, size: 18, color: colors.textPrimary),
+                              if (label != null)
+                                Flexible(
+                                  child: Text(
+                                    label!,
+                                    style: base.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: colors.textPrimary,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        if (description != null)
+                          Padding(
+                            padding: const EdgeInsetsDirectional.only(end: 16),
+                            child: Text(
+                              description!,
+                              style: base.copyWith(
+                                color: colors.textPrimaryMuted,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                FluxerSwitchControl(value: value, enabled: enabled),
+              ],
+            ),
+          ),
         );
       },
     );

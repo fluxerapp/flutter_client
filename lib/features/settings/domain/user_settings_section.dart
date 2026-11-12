@@ -18,6 +18,7 @@ enum UserSettingsSection {
   languageAndTime,
   defaultApps,
   appIcon,
+  desktop,
   advanced,
   applications,
   developerTools,

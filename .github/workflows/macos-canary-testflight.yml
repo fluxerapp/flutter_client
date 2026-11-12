@@ -118,13 +118,13 @@ jobs:
             [ -e "$existing_profile" ] || continue
             PROFILE_APP_ID=$(security cms -D -i "$existing_profile" | plutil -extract Entitlements.application-identifier raw - 2>/dev/null || true)
             case "$PROFILE_APP_ID" in
-              *.com.fluxer.lite|*.com.fluxer.lite.canary)
+              *.com.fluxer.oxygen|*.com.fluxer.oxygen.canary)
                 rm -f "$existing_profile"
                 ;;
             esac
           done
           if [ -z "$PROVISIONING_PROFILE_BASE64" ]; then
-            echo "::error::CANARY_MACOS_PROVISIONING_PROFILE_BASE64 is not set. Add the base64-encoded Mac App Store profile for com.fluxer.lite.canary."
+            echo "::error::CANARY_MACOS_PROVISIONING_PROFILE_BASE64 is not set. Add the base64-encoded Mac App Store profile for com.fluxer.oxygen.canary."
             exit 1
           fi
           echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/profile.mobileprovision"

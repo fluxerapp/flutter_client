@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -16,6 +17,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/passkey_name_sh
 import 'package:fluxer_app/features/settings/presentation/sheets/password_change_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_disable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_enable_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/app_lock_settings_row.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
@@ -96,6 +98,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
                 : l10n.securitySectionDescriptionNoPasskeys,
             children: [
               _buildSecuritySection(state, passkeyState, colors, l10n),
+              if (isFluxerNativeMobileOs) const AppLockSettingsRow(),
             ],
           ),
           _buildDangerZone(state, colors, l10n),

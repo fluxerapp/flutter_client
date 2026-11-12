@@ -3,6 +3,7 @@ import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/push/notification/foreground_policy.dart';
+import 'package:fluxer_app/core/push/notification/group_dm_names.dart';
 import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/notification/permission.dart';
@@ -29,9 +31,12 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_ring.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notifications_coordinator.g.dart';
@@ -43,6 +48,9 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   StreamSubscription<void>? _hydrationSubscription;
   final PushNotificationSoundSettingsMirror _soundSettingsMirror =
       PushNotificationSoundSettingsMirror(_writeSoundSettings);
+  final PushGroupDmNamesMirror _groupDmNamesMirror = PushGroupDmNamesMirror(
+    ApplePushService.syncGroupDmNames,
+  );
   final LocalPushNotifications _localPush = LocalPushNotifications();
   bool _bootstrapScheduled = false;
 
@@ -68,6 +76,20 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
         .hydrations
         .listen((_) => _syncSoundSettings());
     _syncSoundSettings();
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      ref
+        ..listen<List<DmConversation>>(
+          dmViewModelProvider.select(
+            (DmViewState state) => state.conversations,
+          ),
+          (_, _) => _syncGroupDmNames(),
+        )
+        ..listen<FluxerLocalizations>(
+          appLocalizationsProvider,
+          (_, _) => _syncGroupDmNames(),
+        );
+      _syncGroupDmNames();
+    }
     if (PushProviderGuard.isUnifiedPush) {
       unawaited(_pickerSubscription?.cancel());
       _pickerSubscription = UnifiedPushService
@@ -106,6 +128,18 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     _soundSettingsMirror.sync(
       userId: ref.read(currentUserIdProvider),
       prefs: ref.read(soundPreferencesProvider),
+    );
+  }
+
+  void _syncGroupDmNames() {
+    final DmViewState dmState = ref.read(dmViewModelProvider);
+    if (!dmState.hasReceivedInitialConversations) {
+      return;
+    }
+    _groupDmNamesMirror.sync(
+      userId: ref.read(currentUserIdProvider),
+      conversations: dmState.conversations,
+      l10n: ref.read(appLocalizationsProvider),
     );
   }
 

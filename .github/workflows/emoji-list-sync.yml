@@ -84,6 +84,9 @@ jobs:
           rustup show active-toolchain || rustup toolchain install stable
           flutter config --enable-native-assets
 
+      - name: Configure dev build tree
+        run: dart tool/configure_build.dart --profile=dev
+
       - name: Verify emoji registry
         run: flutter test test/shared/utils/emoji/emoji_registry_test.dart
 

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_deep_link_scope.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_field_registry.dart';
@@ -230,6 +231,11 @@ UserSettingsSection? mapUserSettingsDeepLinkToSection(
       return UserSettingsSection.defaultApps;
     case 'app_icon':
       return UserSettingsSection.appIcon;
+    case 'desktop':
+      if (!isFluxerDesktopOs) {
+        return null;
+      }
+      return UserSettingsSection.desktop;
     default:
       return null;
   }

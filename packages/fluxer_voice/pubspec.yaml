@@ -1,0 +1,24 @@
+name: fluxer_voice
+description: Transport voice call audio session and output routing
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.24.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.fluxer.voice
+        pluginClass: FluxerVoicePlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_callkit_incoming: ^3.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

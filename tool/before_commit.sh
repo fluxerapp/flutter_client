@@ -146,6 +146,11 @@ fi
 
 printf '%sbefore_commit%s\n' "${bold}" "${reset}"
 
+if [[ "$(git config --get core.hooksPath || true)" != ".githooks" ]]; then
+  _info "Git hooks not installed. Run: bash tool/install_hooks.sh"
+fi
+_step "Checking build profile" dart tool/configure_build.dart --check
+
 if ((${#dart_files[@]} == 0)); then
   if [[ "${BEFORE_COMMIT_ALL:-}" == 1 ]]; then
     _info "Scope: whole project"

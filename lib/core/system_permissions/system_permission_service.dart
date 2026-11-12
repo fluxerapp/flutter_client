@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/desktop/notifications/desktop_notification_permission.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
@@ -45,6 +47,9 @@ bool requiresSystemSettingsForKind(
 Future<SystemPermissionOutcome> requestSystemPermission(
   SystemPermissionKind kind,
 ) async {
+  if (kind == SystemPermissionKind.notifications && isFluxerDesktopOs) {
+    return requestDesktopNotificationPermission();
+  }
   final Permission permission = permissionForKind(kind);
   PermissionStatus status = await permission.status;
   if (isSystemPermissionGranted(kind, status)) {

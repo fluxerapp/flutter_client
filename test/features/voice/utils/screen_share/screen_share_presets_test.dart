@@ -61,7 +61,7 @@ void main() {
   test('default screen share publishes one 720p30 layer that keeps fps', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
       noiseFilterSupported: false,
-      higherVideoQuality: false,
+      videoQualityCaps: VideoQualityCaps.base,
       meshPhoneCap: false,
     );
     const VoiceSettingsState settings = VoiceSettingsState();
@@ -85,7 +85,7 @@ void main() {
   test('high resolution is clamped without higher video quality', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
       noiseFilterSupported: false,
-      higherVideoQuality: false,
+      videoQualityCaps: VideoQualityCaps.base,
       meshPhoneCap: false,
     );
     const VoiceSettingsState settings = VoiceSettingsState(
@@ -112,7 +112,7 @@ void main() {
     );
     final VoiceSettingsState phone = clampVoiceVideoSettings(
       settings,
-      higherVideoQuality: true,
+      caps: VideoQualityCaps.full,
       meshPhoneCap: false,
       phoneScreenShareCap: true,
     );
@@ -121,12 +121,33 @@ void main() {
 
     final VoiceSettingsState desktop = clampVoiceVideoSettings(
       settings,
-      higherVideoQuality: true,
+      caps: VideoQualityCaps.full,
       meshPhoneCap: false,
       phoneScreenShareCap: false,
     );
     expect(desktop.screenshareResolution, ScreenshareResolution.high);
     expect(desktop.videoFrameRate, 60);
+  });
+
+  test('instance caps allow 1080p without 60 FPS or a 1080p camera', () {
+    const VoiceSettingsState settings = VoiceSettingsState(
+      cameraResolution: CameraResolution.high,
+      screenshareResolution: ScreenshareResolution.high,
+      videoFrameRate: 60,
+    );
+    final VoiceSettingsState clamped = clampVoiceVideoSettings(
+      settings,
+      caps: const VideoQualityCaps(
+        screenShareMaxHeight: 1080,
+        screenShareMaxFrameRate: 30,
+        cameraMaxHeight: 720,
+      ),
+      meshPhoneCap: false,
+      phoneScreenShareCap: false,
+    );
+    expect(clamped.screenshareResolution, ScreenshareResolution.high);
+    expect(clamped.videoFrameRate, 30);
+    expect(clamped.cameraResolution, CameraResolution.medium);
   });
 
   test('every resolution and frame rate has a bitrate', () {

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class VoiceChannelUserCount extends StatelessWidget {
   final int currentUserCount;
@@ -12,6 +13,7 @@ class VoiceChannelUserCount extends StatelessWidget {
   });
 
   static const double _height = 17;
+  static const double _desktopHeight = 16;
   static const double _leftWidth = 29;
   static const double _rightWidth = 21;
   static const double _totalWidth = _leftWidth + _rightWidth;
@@ -19,24 +21,25 @@ class VoiceChannelUserCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final bool desktop = usesDesktopPointerUi(context);
     final String current = currentUserCount.toString().padLeft(2, '0');
     final String limit = userLimit.toString().padLeft(2, '0');
     final style = context.textStyles.timestamp.copyWith(
       fontWeight: FontWeight.w500,
       color: colors.textTertiary,
       fontFeatures: const [FontFeature.tabularFigures()],
-      height: 1.1,
+      height: desktop ? 14 / 12 : 1.1,
     );
 
     return CustomPaint(
       painter: _BadgePainter(
         leftColor: colors.backgroundSecondary,
         rightColor: colors.backgroundModifierSelected,
-        borderColor: colors.borderColor,
+        borderColor: desktop ? colors.textTertiary : colors.borderColor,
       ),
       child: SizedBox(
         width: _totalWidth,
-        height: _height,
+        height: desktop ? _desktopHeight : _height,
         child: Row(
           children: [
             SizedBox(

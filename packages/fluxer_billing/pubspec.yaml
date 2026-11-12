@@ -1,0 +1,15 @@
+name: fluxer_billing
+description: Store billing dependencies for Fluxer builds that ship in-app purchases.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  in_app_purchase: ^3.3.1
+  in_app_purchase_android: ^0.5.3
+  in_app_purchase_storekit: ^0.4.16

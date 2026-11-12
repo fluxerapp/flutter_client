@@ -25,6 +25,9 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_diagnostics_report.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -51,6 +54,7 @@ class UserAreaPopout {
         placement: FluxerDesktopPlacement.aboveStart,
         anchorContext: context,
         showPanelBorder: false,
+        borderRadius: 6,
       ),
       builder: (BuildContext sheetContext, VoidCallback close) =>
           _DesktopUserAreaCard(onClose: close),

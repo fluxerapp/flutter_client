@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 typedef FluxerTappableBuilder =
     Widget Function(BuildContext context, Set<WidgetState> states);
@@ -10,6 +11,7 @@ class FluxerTappable extends StatefulWidget {
     required this.builder,
     this.onTap,
     this.onLongPress,
+    this.onSecondaryTapUp,
     this.enabled = true,
     this.selected = false,
     this.toggled,
@@ -30,6 +32,7 @@ class FluxerTappable extends StatefulWidget {
   final FluxerTappableBuilder builder;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final GestureTapUpCallback? onSecondaryTapUp;
   final bool enabled;
   final bool selected;
   final bool? toggled;
@@ -80,6 +83,7 @@ class _FluxerTappableState extends State<FluxerTappable> {
   @override
   Widget build(BuildContext context) {
     final motion = context.motion;
+    final bool dimOnPress = !usesDesktopPointerUi(context);
     final content = widget.builder(context, _states);
     final constrainedContent = widget.minSize == null
         ? content
@@ -131,12 +135,15 @@ class _FluxerTappableState extends State<FluxerTappable> {
             excludeFromSemantics: true,
             onTap: widget.enabled ? widget.onTap : null,
             onLongPress: widget.enabled ? widget.onLongPress : null,
+            onSecondaryTapUp: widget.enabled ? widget.onSecondaryTapUp : null,
             onTapDown: _handleTapDown,
             onTapUp: _handleTapUp,
             onTapCancel: _handleTapCancel,
             child: AnimatedOpacity(
-              opacity: _isPressed ? 0.7 : (widget.enabled ? 1.0 : 0.5),
-              duration: _isPressed
+              opacity: _isPressed && dimOnPress
+                  ? 0.7
+                  : (widget.enabled ? 1.0 : 0.5),
+              duration: _isPressed && dimOnPress
                   ? Duration(milliseconds: motion.fast.inMilliseconds ~/ 2)
                   : motion.fast,
               curve: motion.curve,

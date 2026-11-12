@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_invites_state.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_status_slate.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_text.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_disable_invites_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_error_state.dart';
@@ -16,11 +18,13 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/settings/utils/guild/guild_invites_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
@@ -66,6 +70,9 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final GuildInvitesState state = widget.state;
     final bool isMobile = isMobileLayout(context);
+    if (usesDesktopPointerUi(context)) {
+      return _buildDesktopPointer(context, l10n, state);
+    }
     if (state.loadStatus == GuildInvitesLoadStatus.error) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -152,6 +159,115 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDesktopPointer(
+    BuildContext context,
+    FluxerLocalizations l10n,
+    GuildInvitesState state,
+  ) {
+    final List<Widget> top = <Widget>[
+      DesktopSettingsPageTitle(
+        title: l10n.guildSettingsInvitesTitle,
+        description: l10n.guildSettingsInvitesDescription,
+      ),
+      const SizedBox(height: 16),
+      GuildDisableInvitesButton(guildId: widget.guildId, embedded: true),
+      const SizedBox(height: 16),
+    ];
+    final Widget? status = switch (state.loadStatus) {
+      GuildInvitesLoadStatus.error => DesktopSettingsStatusSlate(
+        icon: PhosphorIconsRegular.warningCircle,
+        title: l10n.guildSettingsInvitesLoadFailedTitle,
+        description: l10n.guildSettingsInvitesLoadFailedDescription,
+        fullHeight: true,
+        actions: <Widget>[
+          FluxerButton.primary(
+            label: l10n.guildSettingsInvitesTryAgain,
+            fitContent: true,
+            onPressed: () => unawaited(
+              ref.read(guildInvitesProvider(widget.guildId).notifier).reload(),
+            ),
+          ),
+        ],
+      ),
+      _ when state.invites.isEmpty => DesktopSettingsStatusSlate(
+        icon: PhosphorIconsRegular.userPlus,
+        title: l10n.guildSettingsInvitesEmpty,
+        description: l10n.guildSettingsInvitesEmptyDescription,
+        fullHeight: true,
+      ),
+      _ => null,
+    };
+    final Widget list;
+    if (status != null) {
+      list = SliverToBoxAdapter(child: status);
+    } else {
+      list = SliverList.list(
+        children: <Widget>[
+          FluxerCheckbox(
+            value: _showCreatedDate,
+            label: l10n.guildSettingsInvitesShowCreatedDate,
+            onChanged: (bool? value) {
+              setState(() => _showCreatedDate = value ?? false);
+            },
+          ),
+          const SizedBox(height: 12),
+          _buildDesktopPointerListHeader(context, l10n),
+          for (int i = 0; i < state.invites.length; i++) ...<Widget>[
+            if (i > 0) const SizedBox(height: 8),
+            _buildInviteItem(context, l10n, state.invites[i], false),
+          ],
+        ],
+      );
+    }
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: <Widget>[
+        SliverList.list(children: top),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            bottom: kDesktopSettingsScrollBottomPadding,
+          ),
+          sliver: list,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDesktopPointerListHeader(
+    BuildContext context,
+    FluxerLocalizations l10n,
+  ) {
+    final TextStyle style = context.textStyles.bodySmall.copyWith(
+      fontSize: 12,
+      height: 1.5,
+      fontWeight: FontWeight.w600,
+      color: context.colors.textPrimaryMuted,
+    );
+    Widget column(String label) => Text(
+      label.toUpperCase(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: style,
+    );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+      child: guildInvitesDesktopPointerGrid(
+        showChannel: true,
+        cells: <Widget>[
+          column(l10n.guildSettingsInvitesTableInviter),
+          column(l10n.guildSettingsInvitesTableChannel),
+          column(l10n.guildSettingsInvitesTableCode),
+          column(l10n.guildSettingsInvitesTableUses),
+          column(
+            _showCreatedDate
+                ? l10n.guildSettingsInvitesTableCreated
+                : l10n.guildSettingsInvitesTableExpires,
+          ),
+        ],
+      ),
     );
   }
 

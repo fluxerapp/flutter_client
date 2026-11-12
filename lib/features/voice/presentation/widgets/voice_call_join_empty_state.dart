@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
@@ -87,7 +86,7 @@ class VoiceCallJoinEmptyState extends ConsumerWidget {
       return PhosphorIcon(
         PhosphorIconsFill.phone,
         size: iconSize,
-        color: context.colors.textPrimary,
+        color: voiceJoinEmptyMarkForeground(context),
       );
     }
     if (dm.isGroup) {

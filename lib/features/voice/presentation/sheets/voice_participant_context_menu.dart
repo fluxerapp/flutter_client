@@ -12,9 +12,10 @@ import 'package:fluxer_app/features/moderation/presentation/report_flow/open_rep
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_guild_moderation_entries.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_participant_menu_widgets.dart';
@@ -90,22 +91,16 @@ class VoiceParticipantContextMenu {
     required Offset position,
     required FluxerLocalizations l10n,
   }) async {
-    final RenderBox? overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox?;
-    if (overlay == null) {
-      return;
-    }
-    final Offset local = overlay.globalToLocal(position);
-    await Navigator.of(context).push<void>(
-      _VoiceParticipantContextMenuRoute(
-        barrierLabel: MaterialLocalizations.of(
-          context,
-        ).modalBarrierDismissLabel,
-        position: local,
-        overlaySize: overlay.size,
-        target: target,
-        l10n: l10n,
-      ),
+    await pushFluxerDesktopMenu<void>(
+      context,
+      position: position,
+      builder: (BuildContext menuContext, VoidCallback close) {
+        return _VoiceParticipantContextMenuPanel(
+          target: target,
+          l10n: l10n,
+          onClose: close,
+        );
+      },
     );
   }
 
@@ -473,35 +468,14 @@ class VoiceParticipantContextMenu {
   }
 
   static Widget buildDesktopPanel(List<Widget> items) {
-    return Builder(
-      builder: (BuildContext context) {
-        final layout = context.layout;
-        return Material(
-          color: context.colors.backgroundPrimary,
-          borderRadius: layout.radiusSm,
-          elevation: 8,
-          shadowColor: Colors.black45,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: layout.radiusSm,
-              border: Border.all(
-                color: context.colors.backgroundModifierAccent,
-              ),
-            ),
-            child: SizedBox(
-              width: kVoiceParticipantContextMenuWidth,
-              child: Padding(
-                padding: EdgeInsets.all(layout.s2),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: items,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+    return FluxerDesktopMenuPanel.fitContent(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: items,
+        ),
+      ),
     );
   }
 
@@ -511,15 +485,14 @@ class VoiceParticipantContextMenu {
         label: entry.label,
         icon: entry.icon,
         isDanger: entry.isDanger,
+        isDisabled: !entry.enabled,
         onTap: entry.enabled ? entry.onPressed : () {},
       ),
-      VoiceParticipantMenuCheckboxEntry() =>
-        VoiceParticipantContextMenuCheckboxItem(
-          label: entry.label,
-          icon: entry.icon,
-          isChecked: entry.isChecked,
-          onTap: () => entry.onChanged(!entry.isChecked),
-        ),
+      VoiceParticipantMenuCheckboxEntry() => FluxerMenuCheckboxItem(
+        label: entry.label,
+        isChecked: entry.isChecked,
+        onPressed: () => entry.onChanged(!entry.isChecked),
+      ),
       VoiceParticipantMenuVolumeEntry() =>
         VoiceParticipantContextMenuVolumeItem(
           label: entry.label,
@@ -628,105 +601,4 @@ class _VoiceParticipantContextMenuPanelState
     );
     return VoiceParticipantContextMenu.buildDesktopPanel(items);
   }
-}
-
-class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
-  _VoiceParticipantContextMenuRoute({
-    required this.barrierLabel,
-    required this.position,
-    required this.overlaySize,
-    required this.target,
-    required this.l10n,
-  });
-
-  final Offset position;
-  final Size overlaySize;
-  final VoiceParticipantMenuTarget target;
-  final FluxerLocalizations l10n;
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 120);
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Color? get barrierColor => Colors.transparent;
-
-  @override
-  final String barrierLabel;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    void close() {
-      Navigator.of(context).pop();
-    }
-
-    final double menuHeight = _estimateContextMenuHeight(target);
-    final bool opensLeft = contextMenuOpensLeft(
-      context,
-      anchorX: position.dx,
-      menuWidth: kVoiceParticipantContextMenuWidth,
-      overlayWidth: overlaySize.width,
-    );
-    final bool opensUp = position.dy + menuHeight > overlaySize.height - 8;
-    final double left =
-        (opensLeft
-                ? position.dx - kVoiceParticipantContextMenuWidth
-                : position.dx)
-            .clamp(
-              8.0,
-              overlaySize.width - kVoiceParticipantContextMenuWidth - 8,
-            );
-    final double top = (opensUp ? position.dy - menuHeight : position.dy).clamp(
-      8.0,
-      overlaySize.height - menuHeight - 8,
-    );
-    final Alignment alignment = Alignment(
-      opensLeft ? 1.0 : -1.0,
-      opensUp ? 1.0 : -1.0,
-    );
-    return Stack(
-      children: [
-        Positioned(
-          left: left,
-          top: top,
-          width: kVoiceParticipantContextMenuWidth,
-          child: ScaleTransition(
-            scale: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-            alignment: alignment,
-            child: FadeTransition(
-              opacity: animation,
-              child: _VoiceParticipantContextMenuPanel(
-                target: target,
-                l10n: l10n,
-                onClose: close,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-double _estimateContextMenuHeight(VoiceParticipantMenuTarget target) {
-  const double rowHeight = 38;
-  const double volumeRowHeight = 56;
-  const double dividerHeight = 9;
-  var rows = 1;
-  var dividers = 0;
-  if (target.guildId != null) {
-    rows += 4;
-    dividers += 2;
-  } else {
-    rows += 2;
-    dividers += 1;
-  }
-  rows += 1;
-  return rows * rowHeight + dividers * dividerHeight + volumeRowHeight;
 }

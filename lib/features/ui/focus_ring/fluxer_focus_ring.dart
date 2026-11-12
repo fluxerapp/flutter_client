@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerFocusRing extends StatelessWidget {
   const FluxerFocusRing({
@@ -20,6 +21,19 @@ class FluxerFocusRing extends StatelessWidget {
     final layout = context.layout;
     final motion = context.motion;
     final resolvedRadius = borderRadius ?? layout.radiusMd;
+
+    if (usesDesktopPointerUi(context)) {
+      return AnimatedContainer(
+        duration: Duration.zero,
+        decoration: BoxDecoration(
+          borderRadius: borderRadius ?? layout.radiusSm,
+          boxShadow: focused
+              ? [BoxShadow(color: colors.focusPrimary, spreadRadius: 4)]
+              : const [],
+        ),
+        child: child,
+      );
+    }
 
     return AnimatedContainer(
       duration: motion.fast,

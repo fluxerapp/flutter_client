@@ -15,12 +15,33 @@ static void first_frame_cb(MyApplication* self, FlView* view) {
   gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(view)));
 }
 
+static void set_window_icon(GtkWindow* window) {
+  g_autofree gchar* exe_path = g_file_read_link("/proc/self/exe", nullptr);
+  if (exe_path != nullptr) {
+    g_autofree gchar* exe_dir = g_path_get_dirname(exe_path);
+    g_autofree gchar* icon_path =
+        g_build_filename(exe_dir, "data", "app_icon.png", nullptr);
+    if (gtk_window_set_icon_from_file(window, icon_path, nullptr)) {
+      return;
+    }
+  }
+  gtk_window_set_icon_name(window, APPLICATION_ID);
+}
+
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
+
+  GList* windows = gtk_application_get_windows(GTK_APPLICATION(application));
+  if (windows != nullptr) {
+    gtk_window_present(GTK_WINDOW(windows->data));
+    return;
+  }
+
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
-  gtk_window_set_title(window, "fluxer_app");
+  gtk_window_set_title(window, APPLICATION_NAME);
+  set_window_icon(window);
 
   GtkWidget* empty_header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_set_size_request(empty_header, -1, 0);
@@ -65,7 +86,7 @@ static gboolean my_application_local_command_line(GApplication* application,
   g_application_activate(application);
   *exit_status = 0;
 
-  return TRUE;
+  return FALSE;
 }
 
 static void my_application_startup(GApplication* application) {
@@ -97,8 +118,10 @@ static void my_application_init(MyApplication* self) {}
 
 MyApplication* my_application_new() {
   g_set_prgname(APPLICATION_ID);
+  g_set_application_name(APPLICATION_NAME);
 
-  return MY_APPLICATION(g_object_new(my_application_get_type(),
-                                     "application-id", APPLICATION_ID, "flags",
-                                     G_APPLICATION_NON_UNIQUE, nullptr));
+  return MY_APPLICATION(g_object_new(
+      my_application_get_type(), "application-id", APPLICATION_ID, "flags",
+      G_APPLICATION_HANDLES_COMMAND_LINE | G_APPLICATION_HANDLES_OPEN,
+      nullptr));
 }

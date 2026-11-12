@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/data/browser_sign_in_service.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
@@ -187,6 +188,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
     final bool supportsPasskeys = ref.watch(
       authInstanceSupportsPasskeysProvider,
     );
+    final bool offersBrowserSignIn = ref.watch(
+      authInstanceOffersBrowserSignInProvider,
+    );
     final InstanceSsoSchema? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
@@ -201,6 +205,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
       ),
     );
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
+    final String productName = ref.watch(
+      authInstanceRuntimeConfigProvider.select((config) => config.productName),
+    );
 
     ref
       ..listen(loginViewModelProvider.select((state) => state.email), (
@@ -226,7 +233,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
           children: [
             Center(
               child: Text(
-                widget.heading ?? strings.welcomeBack,
+                widget.heading ?? strings.loginHeading(productName),
                 style: context.textStyles.heading,
               ),
             ),
@@ -331,6 +338,24 @@ class _LoginFormState extends ConsumerState<LoginForm>
                 icon: PhosphorIconsFill.key,
                 label: strings.logInWithPasskey,
               ),
+            ] else if (offersBrowserSignIn) ...[
+              SizedBox(height: layout.s6),
+              _buildOrDivider(context, strings),
+              SizedBox(height: layout.s6),
+              FluxerButton.secondary(
+                onPressed: vm.signInInFlight || !canAuthenticate
+                    ? null
+                    : () => unawaited(notifier.signInWithBrowser()),
+                icon: PhosphorIconsFill.globe,
+                label: strings.signInWithBrowser,
+              ),
+              SizedBox(height: layout.s2),
+              Text(
+                strings.signInWithBrowserPasskeyHint,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textTertiary,
+                ),
+              ),
             ],
             if (isSsoEnabled) ...[
               SizedBox(height: context.layout.s6),
@@ -346,14 +371,14 @@ class _LoginFormState extends ConsumerState<LoginForm>
               children: [
                 Flexible(
                   child: Text(
-                    strings.needAccountPrompt,
+                    strings.loginNewAccountPrompt(productName),
                     style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textTertiary,
                     ),
                   ),
                 ),
                 FluxerTextLink(
-                  text: strings.register,
+                  text: strings.loginCreateAccountLink,
                   onTap: notifier.showRegisterScreen,
                   style: context.textStyles.bodySmall,
                 ),

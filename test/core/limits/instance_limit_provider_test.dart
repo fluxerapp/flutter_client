@@ -73,6 +73,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown({
       guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
+      connectionProviders: <InstanceConnectionProviderSchema>[],
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,

@@ -14,12 +14,16 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/notificat
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 enum InboxTab { unreads, bookmarks, mentions }
 
@@ -132,6 +136,7 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
     final FluxerLayoutTheme layout = context.layout;
     final double width = _popoutWidth(context);
     final double height = _popoutHeight(context);
+    final bool desktop = usesDesktopPointerUi(context);
 
     return Stack(
       children: <Widget>[
@@ -174,7 +179,9 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
                 height: height,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.backgroundSecondary,
+                    color: desktop
+                        ? fluxerFormSurfaceBackground(context)
+                        : colors.backgroundSecondary,
                     borderRadius: layout.radiusLg,
                     border: Border.all(color: colors.backgroundModifierAccent),
                     boxShadow: const <BoxShadow>[
@@ -272,13 +279,16 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
       data: (List<UnreadInboxEntry> list) => list.isNotEmpty,
       orElse: () => false,
     );
+    final bool desktop = usesDesktopPointerUi(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.backgroundSecondary,
+            color: desktop
+                ? fluxerFormSurfaceBackground(context)
+                : colors.backgroundSecondary,
             border: BorderDirectional(
               end: BorderSide(color: colors.backgroundModifierAccent),
             ),
@@ -297,14 +307,16 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                 const SizedBox(height: 8),
                 _InboxSidebarTab(
                   tooltip: l10n.notificationsBookmarksTooltip,
-                  icon: PhosphorIconsBold.bookmarkSimple,
+                  icon: desktop
+                      ? PhosphorIconsRegular.bookmarkSimple
+                      : PhosphorIconsBold.bookmarkSimple,
                   isActive: _activeTab == InboxTab.bookmarks,
                   onTap: () => setState(() => _activeTab = InboxTab.bookmarks),
                 ),
                 const SizedBox(height: 8),
                 _InboxSidebarTab(
                   tooltip: l10n.notificationsFilterMentions,
-                  icon: PhosphorIconsFill.at,
+                  icon: desktop ? PhosphorIconsBold.at : PhosphorIconsFill.at,
                   isActive: _activeTab == InboxTab.mentions,
                   onTap: () => setState(() => _activeTab = InboxTab.mentions),
                 ),
@@ -317,7 +329,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                       position: FluxerTooltipPosition.right,
                       child: _InboxSidebarActionButton(
                         icon: PhosphorIconsBold.funnel,
-                        tooltip: l10n.notificationsMentionFilterTooltip,
+                        label: l10n.notificationsMentionFilterTooltip,
                         onPressed: () => unawaited(
                           showMentionFiltersSheet(
                             context,
@@ -335,7 +347,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                       position: FluxerTooltipPosition.right,
                       child: _InboxSidebarActionButton(
                         icon: PhosphorIconsBold.check,
-                        tooltip: l10n.notificationsMarkAsRead,
+                        label: l10n.notificationsMarkAsRead,
                         onPressed: canMarkAllRead
                             ? () => unawaited(_confirmAndMarkAllAsRead())
                             : null,
@@ -374,15 +386,107 @@ class _InboxSidebarTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
+    if (!usesDesktopPointerUi(context)) {
+      return FluxerTooltip(
+        message: tooltip,
+        position: FluxerTooltipPosition.right,
+        child: _InboxTouchIconButton(
+          icon: icon,
+          onTap: onTap,
+          isActive: isActive,
+        ),
+      );
+    }
     return FluxerTooltip(
       message: tooltip,
       position: FluxerTooltipPosition.right,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(6),
-          hoverColor: colors.backgroundModifierHover,
-          onTap: onTap,
+      child: FluxerTappable(
+        selected: isActive,
+        onTap: onTap,
+        builder: (BuildContext context, Set<WidgetState> states) {
+          final bool hovered = states.contains(WidgetState.hovered);
+          return AnimatedContainer(
+            duration: context.motion.fast,
+            width: 30,
+            height: 30,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: isActive
+                  ? colors.backgroundModifierSelected
+                  : hovered
+                  ? colors.backgroundModifierHover
+                  : Colors.transparent,
+              borderRadius: context.layout.radiusMd,
+            ),
+            child: PhosphorIcon(
+              icon,
+              size: 16,
+              color: isActive || hovered
+                  ? colors.textPrimary
+                  : colors.textPrimaryMuted,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _InboxSidebarActionButton extends StatelessWidget {
+  const _InboxSidebarActionButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (usesDesktopPointerUi(context)) {
+      return FluxerButton.desktop(
+        icon: icon,
+        semanticLabel: label,
+        extent: 30,
+        borderRadius: 6,
+        duration: Duration.zero,
+        onPressed: onPressed,
+      );
+    }
+    return Semantics(
+      button: true,
+      label: label,
+      enabled: onPressed != null,
+      child: _InboxTouchIconButton(icon: icon, onTap: onPressed),
+    );
+  }
+}
+
+class _InboxTouchIconButton extends StatelessWidget {
+  const _InboxTouchIconButton({
+    required this.icon,
+    required this.onTap,
+    this.isActive = false,
+  });
+
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerColorTheme colors = context.colors;
+    final bool enabled = onTap != null;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(6),
+        hoverColor: enabled ? colors.backgroundModifierHover : null,
+        onTap: onTap,
+        child: Opacity(
+          opacity: enabled ? 1 : 0.5,
           child: Container(
             width: 30,
             height: 30,
@@ -397,50 +501,6 @@ class _InboxSidebarTab extends StatelessWidget {
               icon,
               size: 16,
               color: isActive ? colors.textPrimary : colors.textPrimaryMuted,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _InboxSidebarActionButton extends StatelessWidget {
-  const _InboxSidebarActionButton({
-    required this.icon,
-    required this.tooltip,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final FluxerColorTheme colors = context.colors;
-    final bool enabled = onPressed != null;
-    return Semantics(
-      button: true,
-      label: tooltip,
-      enabled: enabled,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(6),
-          hoverColor: enabled ? colors.backgroundModifierHover : null,
-          onTap: onPressed,
-          child: Opacity(
-            opacity: enabled ? 1 : 0.5,
-            child: Container(
-              width: 30,
-              height: 30,
-              alignment: Alignment.center,
-              child: PhosphorIcon(
-                icon,
-                size: 16,
-                color: colors.textPrimaryMuted,
-              ),
             ),
           ),
         ),

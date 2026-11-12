@@ -8,9 +8,14 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class UserProfileTimezoneSection extends ConsumerStatefulWidget {
-  const UserProfileTimezoneSection({required this.timezoneOffset, super.key});
+  const UserProfileTimezoneSection({
+    required this.timezoneOffset,
+    this.compact = false,
+    super.key,
+  });
 
   final int timezoneOffset;
+  final bool compact;
 
   @override
   ConsumerState<UserProfileTimezoneSection> createState() =>
@@ -67,7 +72,7 @@ class _UserProfileTimezoneSectionState
             color: colors.textPrimary,
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            height: 1.25,
+            height: widget.compact ? 20 / 14 : 1.25,
           ),
         ),
         Text(
@@ -75,7 +80,7 @@ class _UserProfileTimezoneSectionState
           style: textStyles.bodySmall.copyWith(
             color: colors.textChat,
             fontSize: 14,
-            height: 1.25,
+            height: widget.compact ? 20 / 14 : 1.25,
           ),
         ),
         Text(
@@ -83,7 +88,7 @@ class _UserProfileTimezoneSectionState
           style: textStyles.bodySmall.copyWith(
             color: colors.textTertiary,
             fontSize: 12,
-            height: 1,
+            height: widget.compact ? 16 / 12 : 1,
           ),
         ),
       ],

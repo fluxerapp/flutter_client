@@ -4,12 +4,17 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+
+part 'fluxer_button_desktop.dart';
 
 class FluxerButton extends StatefulWidget {
   const FluxerButton.primary({
@@ -26,7 +31,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.primary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.primary,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -50,7 +56,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.secondary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.secondary,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -74,7 +81,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.dangerPrimary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.dangerPrimary,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -98,7 +106,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.dangerSecondary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.dangerSecondary,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -122,7 +131,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.inverted,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.inverted,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -146,7 +156,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.invertedOutline,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.invertedOutline,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -170,7 +181,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.ghost,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.ghost,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
@@ -194,7 +206,8 @@ class FluxerButton extends StatefulWidget {
     this.child,
     this.semanticLabel,
     super.key,
-  }) : _variant = FluxerButtonVariant.secondary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.secondary,
        _isCircle = false,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = true,
@@ -215,7 +228,8 @@ class FluxerButton extends StatefulWidget {
     this.isLoading = false,
     this.recording = false,
     super.key,
-  }) : _isCircle = true,
+  }) : _desktopIcon = null,
+       _isCircle = true,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
        _iconSizeOverride = iconSize,
@@ -239,7 +253,8 @@ class FluxerButton extends StatefulWidget {
     this.isLoading = false,
     this.recording = false,
     super.key,
-  }) : _variant = FluxerButtonVariant.secondary,
+  }) : _desktopIcon = null,
+       _variant = FluxerButtonVariant.secondary,
        _isCircle = true,
        _isCircleAltStyle = true,
        _isMediaOverlayStyle = false,
@@ -254,6 +269,56 @@ class FluxerButton extends StatefulWidget {
          'Cannot provide both onPressed and onPressedAsync',
        );
 
+  FluxerButton.desktop({
+    required IconData this.icon,
+    required String this.semanticLabel,
+    required this.onPressed,
+    bool showTooltip = false,
+    double extent = 24,
+    double iconSize = 16,
+    double borderRadius = 4,
+    bool circle = false,
+    bool active = false,
+    Color? color,
+    Color? hoverColor,
+    Color? background,
+    Color? hoverBackground,
+    Color? border,
+    Color? hoverBorder,
+    List<BoxShadow>? shadows,
+    Duration? duration,
+    super.key,
+  }) : _desktopIcon = _FluxerDesktopIconStyle(
+         showTooltip: showTooltip,
+         extent: extent,
+         borderRadius: borderRadius,
+         circle: circle,
+         active: active,
+         color: color,
+         hoverColor: hoverColor,
+         background: background,
+         hoverBackground: hoverBackground,
+         border: border,
+         hoverBorder: hoverBorder,
+         shadows: shadows,
+         duration: duration,
+       ),
+       _variant = FluxerButtonVariant.ghost,
+       _isCircle = false,
+       _isCircleAltStyle = false,
+       _isMediaOverlayStyle = false,
+       _iconSizeOverride = iconSize,
+       onPressedAsync = null,
+       size = FluxerButtonSize.regular,
+       isSquare = true,
+       isLoading = false,
+       recording = false,
+       label = null,
+       trailingIcon = null,
+       fitContent = false,
+       child = null;
+
+  final _FluxerDesktopIconStyle? _desktopIcon;
   final FluxerButtonVariant _variant;
   final bool _isCircle;
   final bool _isCircleAltStyle;
@@ -323,8 +388,18 @@ class _FluxerButtonState extends State<FluxerButton> {
     return '$base, ${l10n.uiLoading}';
   }
 
+  bool get _usesDesktopStyle =>
+      !widget._isCircle && !widget._isMediaOverlayStyle;
+
   @override
   Widget build(BuildContext context) {
+    final _FluxerDesktopIconStyle? desktopIcon = widget._desktopIcon;
+    if (desktopIcon != null) {
+      return _buildFluxerDesktopIconButton(context, widget, desktopIcon);
+    }
+    if (_usesDesktopStyle && usesDesktopPointerUi(context)) {
+      return _buildDesktop(context);
+    }
     final colors = context.colors;
     final motion = context.motion;
     final foreground = widget.recording
@@ -377,6 +452,137 @@ class _FluxerButtonState extends State<FluxerButton> {
 
         return container;
       },
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
+    final colors = context.colors;
+    final _DesktopButtonMetrics metrics = _DesktopButtonMetrics.of(widget.size);
+    final BorderRadius radius = BorderRadius.circular(metrics.radius);
+    final _DesktopButtonColors palette = _DesktopButtonColors.resolve(
+      context,
+      widget._variant,
+    );
+    final Color foreground = widget.recording
+        ? colors.buttonPrimaryText
+        : palette.text;
+
+    return FluxerTappable(
+      onTap: _enabled ? _handleTap : null,
+      enabled: _enabled,
+      semanticLabel: _resolveSemanticsLabel(context),
+      excludeChildSemantics: true,
+      builder: (context, states) {
+        final bool active = _enabled && states.contains(WidgetState.pressed);
+        final bool hovered = _enabled && states.contains(WidgetState.hovered);
+        final Color fill;
+        final Color border;
+        if (widget.recording) {
+          fill = colors.accentSuccess;
+          border = fluxerCssColorMix(colors.accentSuccess, Colors.white, 0.8);
+        } else if (active) {
+          fill = palette.activeFill ?? palette.hoverFill ?? palette.fill;
+          border = palette.hoverBorder ?? palette.border;
+        } else if (hovered) {
+          fill = palette.hoverFill ?? palette.fill;
+          border = palette.hoverBorder ?? palette.border;
+        } else {
+          fill = palette.fill;
+          border = palette.border;
+        }
+
+        final double minWidth = widget.isSquare
+            ? metrics.height
+            : (widget.fitContent ? 0 : metrics.minWidth);
+        Widget container = AnimatedContainer(
+          duration: const Duration(milliseconds: 120),
+          curve: Curves.ease,
+          constraints: BoxConstraints(
+            minHeight: metrics.height,
+            maxHeight: metrics.height,
+            minWidth: minWidth,
+            maxWidth: widget.isSquare ? metrics.height : double.infinity,
+          ),
+          decoration: BoxDecoration(
+            color: fill,
+            borderRadius: radius,
+            border: Border.all(color: border),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.isSquare ? 0 : metrics.horizontalPadding,
+          ),
+          child: _buildDesktopContent(context, foreground, metrics),
+        );
+
+        if (widget.recording) {
+          container = _RecordingPulse(
+            color: colors.accentSuccess,
+            borderRadius: radius,
+            child: container,
+          );
+        }
+
+        return container;
+      },
+    );
+  }
+
+  Widget _buildDesktopContent(
+    BuildContext context,
+    Color foreground,
+    _DesktopButtonMetrics metrics,
+  ) {
+    final double iconSize = widget._iconSizeOverride ?? metrics.iconSize;
+    final TextStyle labelStyle = context.textStyles.categoryName.copyWith(
+      fontSize: metrics.fontSize,
+      fontWeight: FontWeight.w600,
+      height: metrics.lineHeight / metrics.fontSize,
+      color: foreground,
+    );
+    final contentWidgets = <Widget>[
+      if (widget.icon != null)
+        PhosphorIcon(widget.icon!, size: iconSize, color: foreground),
+      if (widget.child != null)
+        Flexible(
+          child: DefaultTextStyle.merge(
+            style: labelStyle,
+            child: widget.child!,
+          ),
+        )
+      else if (widget.label != null)
+        Flexible(
+          child: Text(
+            widget.label!,
+            style: labelStyle,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+      if (widget.trailingIcon != null)
+        PhosphorIcon(
+          widget.trailingIcon!,
+          size: metrics.iconSize,
+          color: foreground,
+        ),
+    ];
+
+    final Widget row = Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 6,
+      children: contentWidgets,
+    );
+    if (!_effectiveLoading) {
+      return row;
+    }
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Opacity(opacity: 0, child: row),
+        ExcludeSemantics(
+          child: FluxerPulsingEllipsis(color: foreground, dotSize: 5),
+        ),
+      ],
     );
   }
 
@@ -484,6 +690,184 @@ class _FluxerButtonState extends State<FluxerButton> {
     }
     return result;
   }
+}
+
+class _DesktopButtonMetrics {
+  const _DesktopButtonMetrics({
+    required this.height,
+    required this.minWidth,
+    required this.horizontalPadding,
+    required this.fontSize,
+    required this.lineHeight,
+    required this.iconSize,
+    required this.radius,
+  });
+
+  factory _DesktopButtonMetrics.of(FluxerButtonSize size) => switch (size) {
+    FluxerButtonSize.regular => const _DesktopButtonMetrics(
+      height: 36,
+      minWidth: 72,
+      horizontalPadding: 12,
+      fontSize: 13,
+      lineHeight: 18,
+      iconSize: 16,
+      radius: 8,
+    ),
+    FluxerButtonSize.small => const _DesktopButtonMetrics(
+      height: 34,
+      minWidth: 56,
+      horizontalPadding: 10,
+      fontSize: 13,
+      lineHeight: 18,
+      iconSize: 16,
+      radius: 8,
+    ),
+    FluxerButtonSize.compact => const _DesktopButtonMetrics(
+      height: 32,
+      minWidth: 52,
+      horizontalPadding: 10,
+      fontSize: 13,
+      lineHeight: 18,
+      iconSize: 16,
+      radius: 8,
+    ),
+    FluxerButtonSize.superCompact => const _DesktopButtonMetrics(
+      height: 26,
+      minWidth: 0,
+      horizontalPadding: 7,
+      fontSize: 12,
+      lineHeight: 16,
+      iconSize: 14,
+      radius: 6,
+    ),
+  };
+
+  final double height;
+  final double minWidth;
+  final double horizontalPadding;
+  final double fontSize;
+  final double lineHeight;
+  final double iconSize;
+  final double radius;
+}
+
+class _DesktopButtonColors {
+  const _DesktopButtonColors({
+    required this.fill,
+    required this.border,
+    required this.text,
+    this.hoverFill,
+    this.hoverBorder,
+    this.activeFill,
+  });
+
+  factory _DesktopButtonColors.resolve(
+    BuildContext context,
+    FluxerButtonVariant variant,
+  ) {
+    final colors = context.colors;
+    final bool isLight = Theme.of(context).brightness == Brightness.light;
+    switch (variant) {
+      case FluxerButtonVariant.primary:
+        return _DesktopButtonColors(
+          fill: colors.brandPrimary,
+          border: fluxerCssColorMix(colors.brandPrimary, Colors.white, 0.82),
+          text: colors.brandPrimaryFill,
+          hoverFill: colors.brandSecondary,
+          hoverBorder: fluxerCssColorMix(
+            colors.brandSecondary,
+            Colors.white,
+            0.84,
+          ),
+          activeFill: fluxerCssColorMix(colors.brandPrimary, Colors.black, 0.9),
+        );
+      case FluxerButtonVariant.secondary:
+        final Color surface = fluxerFormSurfaceBackground(context);
+        return _DesktopButtonColors(
+          fill: surface,
+          border: colors.backgroundModifierAccent,
+          text: isLight ? colors.buttonGhostText : colors.buttonSecondaryText,
+          hoverFill: fluxerCssColorMix(surface, colors.textPrimary, 0.94),
+          hoverBorder: fluxerCssColorMix(
+            colors.backgroundModifierAccent,
+            colors.textTertiary,
+            0.88,
+          ),
+        );
+      case FluxerButtonVariant.dangerPrimary:
+        return _DesktopButtonColors(
+          fill: fluxerCssColorMix(
+            colors.buttonDangerFill,
+            colors.backgroundPrimary,
+            0.92,
+          ),
+          border: fluxerCssColorMix(
+            colors.buttonDangerFill,
+            Colors.transparent,
+            0.7,
+          ),
+          text: colors.buttonDangerText,
+          hoverFill: fluxerCssColorMix(
+            colors.buttonDangerActiveFill,
+            colors.backgroundPrimary,
+            0.92,
+          ),
+          hoverBorder: fluxerCssColorMix(
+            colors.buttonDangerActiveFill,
+            Colors.transparent,
+            0.72,
+          ),
+          activeFill: fluxerCssColorMix(
+            colors.buttonDangerActiveFill,
+            Colors.black,
+            0.78,
+          ),
+        );
+      case FluxerButtonVariant.dangerSecondary:
+        final Color surface = fluxerFormSurfaceBackground(context);
+        return _DesktopButtonColors(
+          fill: surface,
+          border: colors.backgroundModifierAccent,
+          text: colors.buttonDangerOutlineText,
+          hoverFill: colors.buttonDangerOutlineActiveFill,
+          hoverBorder: fluxerCssColorMix(
+            colors.backgroundModifierAccent,
+            colors.textTertiary,
+            0.88,
+          ),
+        );
+      case FluxerButtonVariant.inverted:
+        return _DesktopButtonColors(
+          fill: colors.buttonInvertedFill,
+          border: Colors.transparent,
+          text: colors.buttonInvertedText,
+        );
+      case FluxerButtonVariant.invertedOutline:
+        return _DesktopButtonColors(
+          fill: Colors.transparent,
+          border: Colors.white.withValues(alpha: 0.78),
+          text: Colors.white,
+          hoverFill: Colors.white.withValues(alpha: 0.1),
+          activeFill: Colors.white.withValues(alpha: 0.05),
+        );
+      case FluxerButtonVariant.ghost:
+        final Color text = colors.buttonGhostText;
+        return _DesktopButtonColors(
+          fill: Colors.transparent,
+          border: Colors.transparent,
+          text: text,
+          hoverFill: text.withValues(alpha: text.a * 0.12),
+          activeFill: text.withValues(alpha: text.a * 0.06),
+        );
+    }
+  }
+
+  final Color fill;
+  final Color border;
+  final Color text;
+  final Color? hoverFill;
+  final Color? hoverBorder;
+  final Color? activeFill;
 }
 
 class _RecordingPulse extends StatefulWidget {

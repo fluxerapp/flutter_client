@@ -1810,7 +1810,10 @@ void main() {
         await tester.pump();
 
         expect(find.text('No messages yet'), findsOneWidget);
-        expect(find.text('Be the first to send a message!'), findsOneWidget);
+        expect(
+          find.text('Send a message to start the conversation.'),
+          findsOneWidget,
+        );
         expect(find.byType(Scrollable), findsNothing);
 
         await tester.pump();

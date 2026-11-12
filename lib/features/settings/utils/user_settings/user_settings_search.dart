@@ -103,6 +103,7 @@ Set<UserSettingsSection> visibleUserSettingsSearchSections({
               isFluxerNativeMobileOs) &&
           (section != UserSettingsSection.appIcon ||
               isAlternateAppIconSettingsAvailable) &&
+          (section != UserSettingsSection.desktop || isFluxerDesktopOs) &&
           (section != UserSettingsSection.shortcuts || !isTouchPrimary))
         section,
   };

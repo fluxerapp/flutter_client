@@ -15,6 +15,9 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/desktop/tray/desktop_tray.dart';
+import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
@@ -22,6 +25,7 @@ import 'package:fluxer_app/core/observability/observability_reporting_provider.d
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
 import 'package:fluxer_app/core/observability/startup_timeline.dart';
+import 'package:fluxer_app/core/platform/android_proc_info.dart';
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
@@ -41,15 +45,10 @@ import 'package:fluxer_app/features/settings/providers/preferences/local_setting
 import 'package:fluxer_app/features/settings/utils/bundled_licenses.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
-import 'package:window_manager/window_manager.dart';
-
-Future<void> _showDesktopWindow() async {
-  await windowManager.show();
-  await windowManager.focus();
-}
 
 void _configureImagePicker() {
   if (!Platform.isAndroid) {
@@ -62,6 +61,15 @@ void _configureImagePicker() {
 }
 
 const Duration _kCachedLaunchFirstFrameLimit = Duration(milliseconds: 1500);
+const Duration _kWarmProcessFirstFrameLimit = Duration(milliseconds: 300);
+const Duration _kWarmProcessMinAge = Duration(seconds: 10);
+
+Duration _cachedLaunchFirstFrameLimit(Duration? processAge) {
+  if (processAge != null && processAge > _kWarmProcessMinAge) {
+    return _kWarmProcessFirstFrameLimit;
+  }
+  return _kCachedLaunchFirstFrameLimit;
+}
 
 Future<void> _bootstrapStep(String name, Future<void> Function() step) async {
   try {
@@ -106,8 +114,16 @@ void _runFluxerApp(ProviderContainer container) {
 }
 
 Future<void> _bootstrapFluxer(List<String> args) async {
+  if (isFluxerDesktopOs) {
+    await _bootstrapStep(
+      'app.bootstrap.oxygen_updater',
+      OxygenUpdater.initialize,
+    );
+  }
+  final Duration? processAge = androidProcessAge();
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();
+  registerEnglishBackedIntlLocales();
   final Future<void> rootCertificates = _bootstrapStep(
     'app.bootstrap.root_certificates',
     trustBundledRootCertificates,
@@ -131,8 +147,9 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     installNativePasteHandler();
   }
   configureFluxerMobileDetection();
-  configureFluxerImageCache();
-  configureFluxerGpuResourceCache();
+  final int? totalMemoryBytes = androidTotalMemoryBytes();
+  configureFluxerImageCache(totalMemoryBytes: totalMemoryBytes);
+  configureFluxerGpuResourceCache(totalMemoryBytes: totalMemoryBytes);
   configureFluxerTouchResampling();
   configureFluxerErrorUi();
   FluxerObservability.instance.installGlobalErrorHandlers();
@@ -186,20 +203,10 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if (isFluxerDesktopOs) {
     await _bootstrapStep('app.bootstrap.window', () async {
-      await windowManager.ensureInitialized();
-
-      const windowOptions = WindowOptions(
-        size: Size(1280, 720),
-        minimumSize: Size(200, 200),
-        center: true,
-        titleBarStyle: TitleBarStyle.hidden,
-        title: 'Fluxer',
-      );
-
-      await windowManager.waitUntilReadyToShow(windowOptions);
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        unawaited(_showDesktopWindow());
-      });
+      await configureDesktopWindow();
+    });
+    await _bootstrapStep('app.bootstrap.tray', () async {
+      await DesktopTray.start(container);
     });
   }
 
@@ -213,7 +220,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if ((Platform.isAndroid || Platform.isIOS) &&
       await isShellCacheMarkedFresh()) {
-    StartupFirstFrameGate.hold(limit: _kCachedLaunchFirstFrameLimit);
+    StartupFirstFrameGate.hold(limit: _cachedLaunchFirstFrameLimit(processAge));
   }
 
   _bootstrapChatAttachmentAudioAfterSplashReveal(container);

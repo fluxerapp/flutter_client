@@ -302,9 +302,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get nagbarEnableNotifications => 'تفعيل الإشعارات';
 
   @override
-  String get welcomeBack => 'أهلاً بعودتك';
-
-  @override
   String get email => 'البريد الإلكتروني';
 
   @override
@@ -321,6 +318,17 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get logInWithPasskey => 'تسجيل الدخول باستخدام مفتاح المرور';
+
+  @override
+  String get signInWithBrowser => 'Sign in with your browser';
+
+  @override
+  String get signInWithBrowserPasskeyHint =>
+      'To use a passkey on this instance, sign in with your browser.';
+
+  @override
+  String get browserSignInFailed =>
+      'Couldn\'t sign in with your browser. Try again.';
 
   @override
   String loginLegalAgreement(String links) {
@@ -359,6 +367,19 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get register => 'تسجيل';
+
+  @override
+  String loginHeading(String productName) {
+    return 'Sign in to $productName';
+  }
+
+  @override
+  String loginNewAccountPrompt(String productName) {
+    return 'New to $productName? ';
+  }
+
+  @override
+  String get loginCreateAccountLink => 'Create an account';
 
   @override
   String get orDivider => 'أو';
@@ -1365,6 +1386,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get incomingVoiceCallTitle => 'مكالمة صوتية واردة';
+
+  @override
+  String get incomingVoiceCallSubtitle => 'Voice call';
 
   @override
   String get incomingVoiceCallAccept => 'قبول';
@@ -4885,6 +4909,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تعطّل سمة النظام تلقائيًا المزامنة لتتبع تفضيلات نظامك على هذا الجهاز.';
 
   @override
+  String get lookAndFeelUseSystemDynamicColorsLabel =>
+      'Use Material You colors';
+
+  @override
+  String get lookAndFeelUseSystemDynamicColorsDescription =>
+      'Tint the theme with your device\'s system colors.';
+
+  @override
   String get lookAndFeelThemeSyncFailed =>
       'لم نتمكن من مزامنة السمة إلى حسابك. يرجى المحاولة مرة أخرى.';
 
@@ -5045,6 +5077,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
     return '$spacing بكسل';
+  }
+
+  @override
+  String lookAndFeelPixelsAccessibleValue(int value) {
+    return '$value pixels';
   }
 
   @override
@@ -7406,6 +7443,16 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get notificationUnknownSender => 'غير معروف';
 
   @override
+  String notificationAttachmentPreview(String filename) {
+    return 'Attachment: $filename';
+  }
+
+  @override
+  String notificationStickerPreview(String name) {
+    return 'Sticker: $name';
+  }
+
+  @override
   String get chatMessageForward => 'إعادة توجيه';
 
   @override
@@ -7814,6 +7861,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get chatMessagesLoadError => 'تعذر تحميل الرسائل.';
+
+  @override
+  String get dmEmptyStateTitle => 'No messages yet';
+
+  @override
+  String get dmEmptyStateBody => 'Send a message to start the conversation.';
 
   @override
   String get chatMessagesFailedToLoad => 'فشل تحميل الرسائل';
@@ -9576,11 +9629,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
     return 'تم الإنشاء بواسطة $name. تنتهي صلاحيته خلال $time.';
-  }
-
-  @override
-  String channelWelcomeHeading(String channelName) {
-    return 'مرحباً بك في $channelName';
   }
 
   @override
@@ -11698,6 +11746,33 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get quickSwitcherEmptyHint =>
       'جرّب اسمًا مختلفًا أو استخدم البادئات @ / # / ! / * لتصفية النتائج.';
+
+  @override
+  String get quickSwitcherTitle => 'Quick switcher';
+
+  @override
+  String quickSwitcherFooterPrefixHint(
+    String peoplePrefix,
+    String textChannelPrefix,
+    String voiceChannelPrefix,
+    String communityPrefix,
+  ) {
+    return 'Start searches with $peoplePrefix $textChannelPrefix $voiceChannelPrefix $communityPrefix to narrow down results.';
+  }
+
+  @override
+  String get discoverySidebarApps => 'Apps';
+
+  @override
+  String get discoverySidebarThemes => 'Themes';
+
+  @override
+  String get discoverySidebarComingSoon => 'Coming soon';
+
+  @override
+  String discoverySidebarComingSoonItem(String itemLabel) {
+    return '$itemLabel, coming soon';
+  }
 
   @override
   String get quickSwitcherSectionPeople => 'الأشخاص';
@@ -16060,6 +16135,23 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
+  String forumPostNewMessagesShort(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count new',
+      one: '1 new',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostHasNewMessagesShort => 'New';
+
+  @override
+  String get forumPostHasNewMessages => 'New messages';
+
+  @override
   String get forumPostReact => 'إضافة رد الفعل الافتراضي';
 
   @override
@@ -17017,4 +17109,270 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String splashGatewayUnreachable(String domain) {
     return 'تعذّر الاتصال بـ $domain. تحقّق من اتصالك بالإنترنت ثم حاول مرة أخرى.';
   }
+
+  @override
+  String get appLockSettingTitle => 'App lock';
+
+  @override
+  String get appLockConfigure => 'Configure';
+
+  @override
+  String get appLockSettingDescription =>
+      'Fluxer asks for your PIN after it has been in the background for the time you choose. App lock applies to every account on this device.';
+
+  @override
+  String get appLockTimeoutLabel => 'Lock after';
+
+  @override
+  String get appLockTimeoutImmediately => 'Immediately';
+
+  @override
+  String get appLockTimeoutThirtySeconds => '30 seconds';
+
+  @override
+  String get appLockTimeoutOneMinute => '1 minute';
+
+  @override
+  String get appLockTimeoutFiveMinutes => '5 minutes';
+
+  @override
+  String get appLockTimeoutFifteenMinutes => '15 minutes';
+
+  @override
+  String get appLockTimeoutOneHour => '1 hour';
+
+  @override
+  String get appLockTurnOff => 'Turn off app lock';
+
+  @override
+  String get appLockTurnOffConfirmTitle => 'Turn off app lock?';
+
+  @override
+  String get appLockTurnOffConfirmBody =>
+      'Fluxer will open without asking for your PIN.';
+
+  @override
+  String get appLockEnterCurrentPinTitle => 'Enter your PIN';
+
+  @override
+  String appLockEnterCurrentPinSubtitle(int digits) {
+    return 'Enter your current $digits-digit PIN to continue.';
+  }
+
+  @override
+  String get appLockSetPinTitle => 'Set a PIN';
+
+  @override
+  String appLockCreatePinSubtitle(int digits) {
+    return 'Choose a $digits-digit PIN.';
+  }
+
+  @override
+  String get appLockConfirmPinSubtitle => 'Enter the PIN again to confirm';
+
+  @override
+  String get appLockPinMismatch => 'The PINs don\'t match. Try again.';
+
+  @override
+  String get appLockTooManyAttemptsShort =>
+      'Too many attempts. Wait before trying again.';
+
+  @override
+  String get appLockUnlockTitle => 'Unlock Fluxer';
+
+  @override
+  String appLockUnlockSubtitlePin(int digits) {
+    return 'Enter your $digits-digit PIN';
+  }
+
+  @override
+  String appLockCooldownMessage(String time) {
+    return 'Too many attempts. Try again in $time.';
+  }
+
+  @override
+  String get appLockWrongPin => 'Incorrect PIN';
+
+  @override
+  String get appLockForgotPin => 'Forgot PIN? Sign out';
+
+  @override
+  String get appLockSignOutConfirmTitle => 'Sign out and turn off app lock?';
+
+  @override
+  String get appLockSignOutConfirmBody =>
+      'Every account on this device will be signed out and app lock will be turned off.';
+
+  @override
+  String get appLockBiometricReason => 'Unlock Fluxer';
+
+  @override
+  String get appLockPinFieldLabel => 'PIN';
+
+  @override
+  String get appLockBiometricFailed => 'That didn\'t match. Try again.';
+
+  @override
+  String get appLockBiometricFaceId => 'Face ID';
+
+  @override
+  String get appLockBiometricFaceUnlock => 'face unlock';
+
+  @override
+  String get appLockBiometricFingerprint => 'fingerprint';
+
+  @override
+  String get appLockBiometricTouchId => 'Touch ID';
+
+  @override
+  String get appLockBiometricGeneric => 'biometrics';
+
+  @override
+  String appLockUseBiometric(String method) {
+    return 'Use $method';
+  }
+
+  @override
+  String appLockUnlockSubtitleWithBiometric(String method) {
+    return 'Use $method or enter your PIN';
+  }
+
+  @override
+  String appLockBiometricSwitchLabel(String method) {
+    return 'Unlock with $method';
+  }
+
+  @override
+  String get appLockSetPinButton => 'Set PIN';
+
+  @override
+  String get appLockChangePinButton => 'Change PIN';
+
+  @override
+  String get appLockRowDescription => 'Require a PIN to open Fluxer';
+
+  @override
+  String appLockRowDescriptionEnabled(String duration) {
+    return 'On. Locks after $duration in the background.';
+  }
+
+  @override
+  String get appLockRowDescriptionEnabledImmediately =>
+      'On. Locks as soon as you leave Fluxer.';
+
+  @override
+  String appLockRowDescriptionWithBiometric(String method) {
+    return 'Require a PIN or $method to open Fluxer';
+  }
+
+  @override
+  String get appLockBiometricSwitchHint => 'Your PIN still works too';
+
+  @override
+  String appLockBiometricEither(String first, String second) {
+    return '$first or $second';
+  }
+
+  @override
+  String get voiceDiagnosticsCopy => 'Copy voice diagnostics';
+
+  @override
+  String get voiceDiagnosticsCopyDescription =>
+      'Share with the developers to help fix call issues';
+
+  @override
+  String get voiceDiagnosticsCopied => 'Copied voice diagnostics to clipboard';
+
+  @override
+  String get voiceDiagnosticsInCallHint => 'In a call';
+
+  @override
+  String get oxygenUpdateAvailable => 'Update available';
+
+  @override
+  String get oxygenUpdating => 'Updating…';
+
+  @override
+  String desktopTrayShow(String productName) {
+    return 'Show $productName';
+  }
+
+  @override
+  String desktopTrayHide(String productName) {
+    return 'Hide $productName';
+  }
+
+  @override
+  String get desktopTrayOpenSettings => 'Open settings';
+
+  @override
+  String get desktopTrayStatus => 'Status';
+
+  @override
+  String get desktopTrayAccounts => 'Accounts';
+
+  @override
+  String get desktopTrayMuteMic => 'Mute microphone';
+
+  @override
+  String get desktopTrayUnmuteMic => 'Unmute microphone';
+
+  @override
+  String get desktopTrayDeafen => 'Deafen';
+
+  @override
+  String get desktopTrayUndeafen => 'Undeafen';
+
+  @override
+  String desktopTrayDisconnectFrom(String channel) {
+    return 'Disconnect from $channel';
+  }
+
+  @override
+  String get desktopTrayDisconnectVoice => 'Disconnect from voice';
+
+  @override
+  String get desktopTrayCheckForUpdates => 'Check for updates';
+
+  @override
+  String desktopTrayUpdateNow(String productName) {
+    return 'Update $productName now';
+  }
+
+  @override
+  String get desktopTrayCopyBuildInfo => 'Copy build info';
+
+  @override
+  String desktopTrayRestart(String productName) {
+    return 'Restart $productName';
+  }
+
+  @override
+  String desktopTrayQuit(String productName) {
+    return 'Quit $productName';
+  }
+
+  @override
+  String get userSettingsNavDesktop => 'Desktop';
+
+  @override
+  String get desktopSettingsWindowSectionTitle => 'Desktop window';
+
+  @override
+  String get desktopSettingsShowTrayIcon => 'Show system tray icon';
+
+  @override
+  String get desktopSettingsShowMenuBarIcon => 'Show menu bar icon';
+
+  @override
+  String get desktopSettingsMinimizeToTray => 'Minimize to tray';
+
+  @override
+  String get desktopSettingsMinimizeToMenuBar => 'Minimize to menu bar';
+
+  @override
+  String get desktopSettingsCloseToTray => 'Close to tray';
+
+  @override
+  String get desktopSettingsCloseToMenuBar => 'Close to menu bar';
 }

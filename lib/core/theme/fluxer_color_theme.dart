@@ -161,6 +161,13 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
   final Color backgroundModifierAccent;
   final Color backgroundModifierAccentFocus;
 
+  Color get floatingSurfaceRingColor => backgroundModifierAccent.withValues(
+    alpha: backgroundModifierAccent.a * 0.2,
+  );
+
+  Color get floatingSurfaceRingColorStrong => backgroundModifierAccent
+      .withValues(alpha: backgroundModifierAccent.a * 0.45);
+
   final Color brandPrimary;
   final Color brandSecondary;
   final Color brandPrimaryLight;

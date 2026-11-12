@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
+import 'package:fluxer_app/core/app_lock/app_lock_store.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
@@ -86,6 +88,23 @@ class _FakeAuthRepository implements AuthRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+class _MemoryAppLockSecretStore implements AppLockSecretStore {
+  final Map<String, String> values = <String, String>{};
+
+  @override
+  Future<String?> read(String key) async => values[key];
+
+  @override
+  Future<void> write(String key, String value) async {
+    values[key] = value;
+  }
+
+  @override
+  Future<void> delete(String key) async {
+    values.remove(key);
+  }
+}
+
 ({ProviderContainer container, FluxerDatabase db}) _harness({
   required String baseUrl,
   String? targetBaseUrl,
@@ -99,6 +118,7 @@ class _FakeAuthRepository implements AuthRepository {
         _FakeAuthRepository(targetBaseUrl: targetBaseUrl ?? baseUrl),
       ),
       syncedPreferencesStoreProvider.overrideWith(SyncedPreferencesStore.new),
+      appLockSecretStoreProvider.overrideWithValue(_MemoryAppLockSecretStore()),
     ],
   );
   addTearDown(container.dispose);

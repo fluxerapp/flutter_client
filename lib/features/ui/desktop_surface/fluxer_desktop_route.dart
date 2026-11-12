@@ -6,10 +6,12 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
     this.position,
     this.anchor,
     this.placement = FluxerDesktopPlacement.belowStart,
+    this.positionGap = 0,
   });
 
   final DeviceFoldPosture posture;
   final Offset? position;
+  final double positionGap;
   final Rect? anchor;
   final FluxerDesktopPlacement placement;
 
@@ -36,6 +38,12 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
             x = anchorRect.left - _kPopoutSideGap - childSize.width;
           }
           y = anchorRect.top;
+        case FluxerDesktopPlacement.leftStart:
+          x = anchorRect.left - _kPopoutSideGap - childSize.width;
+          if (x < edge) {
+            x = anchorRect.right + _kPopoutSideGap;
+          }
+          y = anchorRect.top - _kAnchorGap;
         case FluxerDesktopPlacement.aboveStart:
           x = anchorRect.left;
           y = above >= edge ? above : below;
@@ -49,15 +57,16 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
               : below;
       }
     } else {
+      final double gap = position == null ? 0 : positionGap;
       x = point.dx;
-      y = point.dy;
+      y = point.dy + gap;
       if (x + childSize.width > size.width - edge &&
           x - childSize.width >= edge) {
         x -= childSize.width;
       }
       if (y + childSize.height > size.height - edge &&
-          y - childSize.height >= edge) {
-        y -= childSize.height;
+          point.dy - gap - childSize.height >= edge) {
+        y = point.dy - gap - childSize.height;
       }
     }
     Offset resolved = Offset(
@@ -84,6 +93,7 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
   @override
   bool shouldRelayout(FluxerDesktopAnchoredLayoutDelegate oldDelegate) {
     return position != oldDelegate.position ||
+        positionGap != oldDelegate.positionGap ||
         anchor != oldDelegate.anchor ||
         placement != oldDelegate.placement ||
         posture != oldDelegate.posture;
@@ -118,7 +128,7 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
   @override
   Color? get barrierColor =>
       barrierTint ??
-      (_isModal ? Colors.black.withValues(alpha: 0.35) : Colors.transparent);
+      (_isModal ? Colors.black.withValues(alpha: 0.85) : Colors.transparent);
 
   @override
   bool get barrierDismissible => dismissible;
@@ -192,11 +202,6 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
   }
 }
 
-Duration fluxerDesktopAnchoredTransition(BuildContext context) =>
-    context.motion.normal > Duration.zero
-    ? _kAnchoredTransition
-    : Duration.zero;
-
 Rect? fluxerDesktopPressAnchorOf(
   BuildContext context, {
   required NavigatorState navigator,
@@ -246,6 +251,61 @@ Offset? fluxerDesktopPressPosition(
   return overlay.globalToLocal(global);
 }
 
+void closeFluxerDesktopRoute(
+  BuildContext routeContext,
+  NavigatorState navigator,
+) {
+  final ModalRoute<dynamic>? route = ModalRoute.of(routeContext);
+  if (route == null || !route.isActive) {
+    return;
+  }
+  if (route.isCurrent) {
+    navigator.pop();
+  } else {
+    navigator.removeRoute(route);
+  }
+}
+
+Future<T?> pushFluxerDesktopMenu<T>(
+  BuildContext context, {
+  required Offset position,
+  required Widget Function(BuildContext menuContext, VoidCallback close)
+  builder,
+  Rect? anchorRect,
+  FluxerDesktopPlacement placement = FluxerDesktopPlacement.leftStart,
+}) {
+  final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
+  final RenderObject? overlay = navigator.overlay?.context.findRenderObject();
+  final RenderBox? box = overlay is RenderBox ? overlay : null;
+  Offset toLocal(Offset global) => box?.globalToLocal(global) ?? global;
+  final Rect? localAnchor = anchorRect == null
+      ? null
+      : Rect.fromPoints(
+          toLocal(anchorRect.topLeft),
+          toLocal(anchorRect.bottomRight),
+        );
+  final Offset localPosition = toLocal(position);
+  return pushFluxerDesktopRoute<T>(
+    context,
+    navigator: navigator,
+    surface: FluxerDesktopSurface.menu,
+    builder: (BuildContext menuContext) {
+      void close() => closeFluxerDesktopRoute(menuContext, navigator);
+
+      return CustomSingleChildLayout(
+        delegate: FluxerDesktopAnchoredLayoutDelegate(
+          posture: deviceFoldPostureOf(menuContext),
+          position: localAnchor == null ? localPosition : null,
+          anchor: localAnchor,
+          placement: placement,
+          positionGap: kFluxerDesktopMenuPointerOffset,
+        ),
+        child: builder(menuContext, close),
+      );
+    },
+  );
+}
+
 Future<T?> pushFluxerDesktopRoute<T>(
   BuildContext context, {
   required NavigatorState navigator,
@@ -264,7 +324,7 @@ Future<T?> pushFluxerDesktopRoute<T>(
     dismissLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     duration: surface == FluxerDesktopSurface.modal
         ? context.motion.normal
-        : fluxerDesktopAnchoredTransition(context),
+        : Duration.zero,
     capturedThemes: InheritedTheme.capture(
       from: context,
       to: navigator.context,

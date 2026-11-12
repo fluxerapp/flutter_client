@@ -2,6 +2,9 @@ part of '../user_area_popout.dart';
 
 const double _kStatusFlyoutWidth = 280;
 const double _kAccountFlyoutWidth = 280;
+const Key kUserAreaPopoutCopyVoiceDiagnosticsKey = Key(
+  'user-area-popout-copy-voice-diagnostics',
+);
 
 class _DesktopUserAreaCard extends ConsumerStatefulWidget {
   const _DesktopUserAreaCard({required this.onClose});
@@ -81,6 +84,9 @@ class _DesktopUserAreaCardState extends ConsumerState<_DesktopUserAreaCard> {
     );
     final String? pronouns = profile.pronouns?.trim();
     final String? bio = profile.bio?.trim();
+    final bool isInCall = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.isConnected),
+    );
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -150,6 +156,16 @@ class _DesktopUserAreaCardState extends ConsumerState<_DesktopUserAreaCard> {
                   onTap: () => unawaited(
                     copyToClipboard(context: context, value: profile.id),
                   ),
+                ),
+                _ActionRow(
+                  key: kUserAreaPopoutCopyVoiceDiagnosticsKey,
+                  icon: const PhosphorIcon(
+                    PhosphorIconsBold.chartLine,
+                    size: 16,
+                  ),
+                  label: l10n.voiceDiagnosticsCopy,
+                  hint: isInCall ? l10n.voiceDiagnosticsInCallHint : null,
+                  onTap: () => unawaited(copyVoiceDiagnostics(context)),
                 ),
               ],
             ),
@@ -266,12 +282,15 @@ class _ActionRow extends StatelessWidget {
   const _ActionRow({
     required this.icon,
     required this.label,
+    this.hint,
     this.showChevron = false,
     this.onTap,
+    super.key,
   });
 
   final Widget icon;
   final String label;
+  final String? hint;
   final bool showChevron;
   final VoidCallback? onTap;
 
@@ -310,6 +329,16 @@ class _ActionRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (hint case final String hintText) ...<Widget>[
+                const SizedBox(width: 8),
+                Text(
+                  hintText,
+                  style: fluxerDesktopMenuLabelStyle(
+                    context,
+                  ).copyWith(color: colors.textTertiary, fontSize: 12),
+                  maxLines: 1,
+                ),
+              ],
               if (showChevron)
                 PhosphorIcon(
                   PhosphorIconsBold.caretRight,

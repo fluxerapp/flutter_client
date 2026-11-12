@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math' as math;
-
-// LiveKit audio session APIs are marked @experimental.
-// ignore_for_file: experimental_member_use
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -62,16 +58,6 @@ List<RTCRtpCodecCapability> _codecsByMime(
             codec.mimeType.toLowerCase() == mimeType,
       ),
   ];
-}
-
-Future<void> restoreAutomaticAudioSessionAfterMesh() async {
-  if (Platform.isAndroid &&
-      AudioManager.instance.managementMode ==
-          AudioSessionManagementMode.manual) {
-    await AudioManager.instance.setAudioSessionManagementMode(
-      AudioSessionManagementMode.automatic,
-    );
-  }
 }
 
 const Map<String, int> _kH264ProfileRanks = <String, int>{
@@ -219,14 +205,6 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
       return local;
     }
     return _peers[id];
-  }
-
-  Future<void> start() async {
-    if (Platform.isAndroid) {
-      await AudioManager.instance.setAudioSessionOptions(
-        const AudioSessionOptions.communication(),
-      );
-    }
   }
 
   ({int added, int removed}) syncRoster(Iterable<VoiceState> states) {
@@ -775,19 +753,12 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     return worst;
   }
 
-  Future<void> close({bool handOffAudioSession = false}) async {
+  Future<void> close() async {
     if (_closed) {
       return;
     }
     _flushConnectionReports();
     _closed = true;
-    if (Platform.isAndroid && handOffAudioSession) {
-      unawaited(
-        AudioManager.instance.setAudioSessionManagementMode(
-          AudioSessionManagementMode.automatic,
-        ),
-      );
-    }
     for (final Timer timer in _speakingRelease.values) {
       timer.cancel();
     }
@@ -802,9 +773,6 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     }
     for (final VoiceMeshSource source in VoiceMeshSource.values) {
       await _replaceLocalTrack(source, null);
-    }
-    if (Platform.isAndroid && !handOffAudioSession) {
-      await AudioManager.instance.deactivateAudioSession();
     }
   }
 }

@@ -25,6 +25,29 @@ void main() {
     expect(tryFlutterLocaleFromSdkLocale(sdk.Locale.de), const Locale('de'));
   });
 
+  test('tryFlutterLocaleFromLocaleTag maps the newer API tags', () {
+    const Map<String, Locale> cases = <String, Locale>{
+      'be': Locale('be'),
+      'bn': Locale('bn'),
+      'ca': Locale('ca'),
+      'fil': Locale('fil'),
+      'lv': Locale('lv'),
+      'pt-BR': Locale('pt', 'BR'),
+      'pt-PT': Locale('pt'),
+      'sk': Locale('sk'),
+      'sl': Locale('sl'),
+      'sq': Locale('sq'),
+      'tok': Locale('art'),
+    };
+    for (final MapEntry<String, Locale> entry in cases.entries) {
+      expect(
+        tryFlutterLocaleFromLocaleTag(entry.key),
+        entry.value,
+        reason: entry.key,
+      );
+    }
+  });
+
   test('every backend locale has a bundled catalog', () {
     for (final sdk.Locale locale in sdk.Locale.$valuesDefined) {
       expect(
@@ -52,6 +75,27 @@ void main() {
       }
     },
   );
+
+  test('Portuguese outside Brazil resolves to the European catalog', () {
+    for (final String country in <String>['PT', 'AO', 'MZ', 'CV', 'GW']) {
+      expect(
+        resolveSupportedFluxerLocales(<Locale>[Locale('pt', country)]),
+        const Locale('pt'),
+        reason: country,
+      );
+    }
+    expect(
+      resolveSupportedFluxerLocales(const <Locale>[Locale('pt', 'BR')]),
+      const Locale('pt', 'BR'),
+    );
+  });
+
+  test('Tagalog device locales resolve to Filipino', () {
+    expect(
+      resolveSupportedFluxerLocales(const <Locale>[Locale('tl', 'PH')]),
+      const Locale('fil'),
+    );
+  });
 
   test('resolveSupportedFluxerLocales checks every preferred locale', () {
     expect(

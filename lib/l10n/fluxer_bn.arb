@@ -1,0 +1,195 @@
+{
+    "@@locale": "bn",
+    "registerMonth": "মাস",
+    "@registerMonth": {
+        "description": "Placeholder for the month select."
+    },
+    "registerDay": "দিন",
+    "@registerDay": {
+        "description": "Placeholder for the day select."
+    },
+    "registerYear": "বছর",
+    "@registerYear": {
+        "description": "Placeholder for the year select."
+    },
+    "statusFor10Seconds": "10 সেকেন্ডের জন্য",
+    "@statusFor10Seconds": {
+        "description": "Presence status expiry option for 10 seconds."
+    },
+    "statusClearAfter10Seconds": "10 সেকেন্ড",
+    "@statusClearAfter10Seconds": {
+        "description": "Custom status clear-after option for 10 seconds."
+    },
+    "statusClearAfter15Minutes": "15 মিনিট",
+    "@statusClearAfter15Minutes": {
+        "description": "Custom status clear-after option for 15 minutes."
+    },
+    "statusClearAfter30Minutes": "30 মিনিট (আধঘন্টা)",
+    "@statusClearAfter30Minutes": {
+        "description": "Custom status clear-after option for 30 minutes."
+    },
+    "statusClearAfter1Hour": "1 ঘণ্টা",
+    "@statusClearAfter1Hour": {
+        "description": "Custom status clear-after option for 1 hour."
+    },
+    "statusClearAfter3Hours": "3 ঘণ্টা",
+    "@statusClearAfter3Hours": {
+        "description": "Custom status clear-after option for 3 hours."
+    },
+    "statusClearAfter4Hours": "4 ঘণ্টা",
+    "@statusClearAfter4Hours": {
+        "description": "Custom status clear-after option for 4 hours."
+    },
+    "statusClearAfter8Hours": "8 ঘণ্টা",
+    "@statusClearAfter8Hours": {
+        "description": "Custom status clear-after option for 8 hours."
+    },
+    "statusClearAfter24Hours": "24 ঘণ্টা (1 দিন)",
+    "@statusClearAfter24Hours": {
+        "description": "Custom status clear-after option for 24 hours."
+    },
+    "statusClearAfter3Days": "3 দিন",
+    "@statusClearAfter3Days": {
+        "description": "Custom status clear-after option for 3 days."
+    },
+    "suspendedWhatHappened": "কী ঘটেছে",
+    "@suspendedWhatHappened": {
+        "description": "Heading on the account restriction screen above what the team did and what it means."
+    },
+    "suspendedWhy": "কেন করা হয়েছে",
+    "@suspendedWhy": {
+        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
+    },
+    "suspendedHowWeDecided": "কিভাবে আমরা সিদ্ধান্ত নিলাম",
+    "@suspendedHowWeDecided": {
+        "description": "Heading on the account restriction screen above how the case came to the team and who decided it."
+    },
+    "registerDateOfBirth": "জন্মতারিখ",
+    "@registerDateOfBirth": {
+        "description": "Label for the date of birth field."
+    },
+    "registerDateOfBirthDone": "হয়ে গেছে",
+    "@registerDateOfBirthDone": {
+        "description": "Button that closes the date of birth wheel on iPhone and iPad."
+    },
+    "dmMuteFor15Min": "15 মিনিটের জন্য",
+    "@dmMuteFor15Min": {
+        "description": "Mute duration option: 15 minutes."
+    },
+    "dmMuteFor30Min": "30 মিনিটের (আধঘন্টার) জন্য",
+    "@dmMuteFor30Min": {
+        "description": "Mute duration option: 30 minutes."
+    },
+    "dmMuteFor1Hour": "1 ঘণ্টার জন্য",
+    "@dmMuteFor1Hour": {
+        "description": "Mute duration option: 1 hour."
+    },
+    "dmMuteFor3Hours": "3 ঘণ্টার জন্য",
+    "@dmMuteFor3Hours": {
+        "description": "Mute duration option: 3 hours."
+    },
+    "dmMuteFor4Hours": "4 ঘণ্টার জন্য",
+    "@dmMuteFor4Hours": {
+        "description": "Mute duration option: 4 hours."
+    },
+    "dmMuteFor8Hours": "8 ঘণ্টার জন্য",
+    "@dmMuteFor8Hours": {
+        "description": "Mute duration option: 8 hours."
+    },
+    "dmMuteFor24Hours": "24 ঘণ্টার (একদিনের) জন্য",
+    "@dmMuteFor24Hours": {
+        "description": "Mute duration option: 24 hours."
+    },
+    "dmMuteFor3Days": "3 দিনের জন্য",
+    "@dmMuteFor3Days": {
+        "description": "Mute duration option: 3 days."
+    },
+    "duration60Seconds": "60 সেকেন্ড (1 মিনিট)",
+    "@duration60Seconds": {
+        "description": "Duration option label for 60 seconds."
+    },
+    "duration5Minutes": "5 মিনিট",
+    "@duration5Minutes": {
+        "description": "Duration option label for 5 minutes."
+    },
+    "duration10Minutes": "10 মিনিট",
+    "@duration10Minutes": {
+        "description": "Duration option label for 10 minutes."
+    },
+    "duration1Hour": "1 ঘণ্টা",
+    "@duration1Hour": {
+        "description": "Duration option label for 1 hour."
+    },
+    "duration12Hours": "12 ঘণ্টা",
+    "@duration12Hours": {
+        "description": "Duration option label for 12 hours."
+    },
+    "duration1Day": "1 দিন",
+    "@duration1Day": {
+        "description": "Duration option label for 1 day."
+    },
+    "duration3Days": "3 দিন",
+    "@duration3Days": {
+        "description": "Duration option label for 3 days."
+    },
+    "duration5Days": "5 দিন",
+    "@duration5Days": {
+        "description": "Duration option label for 5 days."
+    },
+    "duration1Week": "1 সপ্তাহ",
+    "@duration1Week": {
+        "description": "Duration option label for 1 week."
+    },
+    "duration2Weeks": "2 সপ্তাহ",
+    "@duration2Weeks": {
+        "description": "Duration option label for 2 weeks."
+    },
+    "duration1Month": "1 মাস",
+    "@duration1Month": {
+        "description": "Duration option label for 1 month."
+    },
+    "typingIndicatorOne": "{name} লিখছেন…",
+    "@typingIndicatorOne": {
+        "description": "Typing indicator shown above the chat input when exactly one other user is typing.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorTwo": "{name1} আর {name2} লিখছেন…",
+    "@typingIndicatorTwo": {
+        "description": "Typing indicator shown above the chat input when two other users are typing.",
+        "placeholders": {
+            "name1": {
+                "type": "String"
+            },
+            "name2": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorThree": "{name1}, {name2} আর {name3} লিখছেন…",
+    "@typingIndicatorThree": {
+        "description": "Typing indicator shown above the chat input when three other users are typing.",
+        "placeholders": {
+            "name1": {
+                "type": "String"
+            },
+            "name2": {
+                "type": "String"
+            },
+            "name3": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorMultiple": "অনেকে লিখছেন…",
+    "@typingIndicatorMultiple": {
+        "description": "Typing indicator shown when exactly four other users are typing."
+    },
+    "userSettingsNavLanguageAndTime": "ভাষা ও সময়",
+    "@userSettingsNavLanguageAndTime": {
+        "description": "User settings navigation item for language and time settings."
+    }
+}

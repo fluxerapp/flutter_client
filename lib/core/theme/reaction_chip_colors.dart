@@ -4,6 +4,7 @@ import 'package:fluxer_app/material_ui.dart';
 
 typedef SelectedReactionChipColors = ({
   Color background,
+  Color hover,
   Color border,
   Color foreground,
 });
@@ -20,6 +21,11 @@ SelectedReactionChipColors selectedReactionChipColorsFor(
         colors.brandPrimary,
         0.12,
       )!,
+      hover: Color.lerp(
+        surface ?? colors.backgroundPrimary,
+        colors.brandPrimary,
+        0.18,
+      )!,
       border: colors.brandPrimary.withValues(alpha: 0.45),
       foreground: colors.brandPrimary,
     );
@@ -29,6 +35,11 @@ SelectedReactionChipColors selectedReactionChipColorsFor(
       surface ?? colors.backgroundSecondary,
       colors.brandPrimary,
       0.36,
+    )!,
+    hover: Color.lerp(
+      surface ?? colors.backgroundSecondary,
+      colors.brandPrimary,
+      0.48,
     )!,
     border: colors.brandPrimary,
     foreground: colors.textOnBrandPrimary,

@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../helpers/test_l10n.dart';
@@ -32,7 +33,7 @@ Widget _wrap(Widget child) {
       voiceSettingsApplicatorProvider.overrideWithValue(
         const VoiceSettingsApplicator(
           noiseFilterSupported: false,
-          higherVideoQuality: false,
+          videoQualityCaps: VideoQualityCaps.base,
           meshPhoneCap: false,
         ),
       ),

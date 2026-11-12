@@ -27,7 +27,7 @@ class FluxerNagbarContent extends StatelessWidget {
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: layout.s2,
-            runSpacing: layout.s1,
+            runSpacing: isMobile ? layout.s1 : layout.s2,
             children: <Widget>[
               if (showMobileDismiss)
                 TextButton(
@@ -64,7 +64,7 @@ class FluxerNagbarContent extends StatelessWidget {
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: layout.s3,
-      runSpacing: layout.s1,
+      runSpacing: layout.s2,
       children: <Widget>[
         Text(message, textAlign: TextAlign.center),
         ?actionRow,

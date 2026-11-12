@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/app/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -142,6 +143,8 @@ void main() {
 
   setUp(() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
+    debugSetFluxerRuntimeMobileFormFactor(value: true);
+    addTearDown(() => debugSetFluxerRuntimeMobileFormFactor(value: null));
   });
 
   test(

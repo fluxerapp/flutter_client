@@ -1,0 +1,43 @@
+{
+    "@@locale": "art",
+    "typingIndicatorOne": "{name} li sitelen...",
+    "@typingIndicatorOne": {
+        "description": "Typing indicator shown above the chat input when exactly one other user is typing.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorTwo": "{name1} en {name2} li sitelen...",
+    "@typingIndicatorTwo": {
+        "description": "Typing indicator shown above the chat input when two other users are typing.",
+        "placeholders": {
+            "name1": {
+                "type": "String"
+            },
+            "name2": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorThree": "{name1} en {name2} en {name3} li sietelen...",
+    "@typingIndicatorThree": {
+        "description": "Typing indicator shown above the chat input when three other users are typing.",
+        "placeholders": {
+            "name1": {
+                "type": "String"
+            },
+            "name2": {
+                "type": "String"
+            },
+            "name3": {
+                "type": "String"
+            }
+        }
+    },
+    "typingIndicatorMultiple": "jan mute li sitelen...",
+    "@typingIndicatorMultiple": {
+        "description": "Typing indicator shown when exactly four other users are typing."
+    }
+}

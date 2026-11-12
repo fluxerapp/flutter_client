@@ -121,6 +121,13 @@ final class LocalPushNotifications {
         linux: defaultTargetPlatform == TargetPlatform.linux
             ? const LinuxInitializationSettings(defaultActionName: 'Open')
             : null,
+        windows: defaultTargetPlatform == TargetPlatform.windows
+            ? const WindowsInitializationSettings(
+                appName: 'Fluxer Oxygen',
+                appUserModelId: 'com.fluxer.oxygen',
+                guid: '02357f68-878d-4d1b-b915-7d7a1ac79a85',
+              )
+            : null,
       );
       final bool? ok = await _plugin.initialize(
         settings: settings,
@@ -680,6 +687,131 @@ final class LocalPushNotifications {
         }
       }
     }
+  }
+
+  Future<bool> showDesktopMessage({
+    required int id,
+    required String title,
+    required String body,
+    required Map<String, String> payload,
+    String? subtitle,
+    String? iconPath,
+  }) async {
+    if (!_initialized) {
+      final bool ready = await ensureInitialized();
+      if (!ready) {
+        return false;
+      }
+    }
+    final NotificationDetails details = NotificationDetails(
+      macOS: defaultTargetPlatform == TargetPlatform.macOS
+          ? DarwinNotificationDetails(
+              presentSound: false,
+              subtitle: subtitle,
+              threadIdentifier: payload['channel_id'],
+              attachments: await _darwinAttachment(iconPath),
+            )
+          : null,
+      linux: defaultTargetPlatform == TargetPlatform.linux
+          ? LinuxNotificationDetails(
+              suppressSound: true,
+              category: LinuxNotificationCategory.imReceived,
+              urgency: LinuxNotificationUrgency.normal,
+              icon: iconPath == null ? null : FilePathLinuxIcon(iconPath),
+            )
+          : null,
+      windows: defaultTargetPlatform == TargetPlatform.windows
+          ? WindowsNotificationDetails(
+              audio: WindowsNotificationAudio.silent(),
+              images: <WindowsImage>[
+                if (iconPath != null)
+                  WindowsImage(
+                    Uri.file(iconPath),
+                    altText: title,
+                    placement: WindowsImagePlacement.appLogoOverride,
+                    crop: WindowsImageCrop.circle,
+                  ),
+              ],
+            )
+          : null,
+    );
+    try {
+      await _plugin.show(
+        id: id,
+        title: title,
+        body: body,
+        notificationDetails: details,
+        payload: jsonEncode(payload),
+      );
+      return true;
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[LocalPushNotifications] desktop show failed: $e\n$st');
+      }
+      return false;
+    }
+  }
+
+  Future<List<DarwinNotificationAttachment>?> _darwinAttachment(
+    String? iconPath,
+  ) async {
+    if (iconPath == null) {
+      return null;
+    }
+    try {
+      final Directory dir = Directory(
+        '${Directory.systemTemp.path}/fluxer_notification_attachments',
+      );
+      await dir.create(recursive: true);
+      final File copy = await File(
+        iconPath,
+      ).copy('${dir.path}/${DateTime.now().microsecondsSinceEpoch}.png');
+      return <DarwinNotificationAttachment>[
+        DarwinNotificationAttachment(copy.path),
+      ];
+    } on Object {
+      return null;
+    }
+  }
+
+  Future<void> cancelIds(Iterable<int> ids) async {
+    if (!_initialized) {
+      return;
+    }
+    for (final int id in ids) {
+      try {
+        await _plugin.cancel(id: id);
+      } on Object catch (e, st) {
+        if (kDebugMode) {
+          debugPrint('[LocalPushNotifications] cancel failed id=$id: $e\n$st');
+        }
+      }
+    }
+  }
+
+  Future<bool?> requestMacOSPermission() async {
+    final bool ready = await _initializePlugin();
+    if (!ready) {
+      return null;
+    }
+    return _plugin
+        .resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+  }
+
+  Future<bool?> checkMacOSPermission() async {
+    final bool ready = await _initializePlugin();
+    if (!ready) {
+      return null;
+    }
+    final NotificationsEnabledOptions? options = await _plugin
+        .resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin
+        >()
+        ?.checkPermissions();
+    return options?.isEnabled;
   }
 
   Future<NotificationDetails> _notificationDetailsForPlatform({

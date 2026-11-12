@@ -33,6 +33,7 @@ class FluxerUserProfileSheet {
           width: kUserProfilePopoutWidth,
           placement: FluxerDesktopPlacement.rightStart,
           showPanelBorder: false,
+          borderRadius: 6,
         ),
         builder: (BuildContext sheetContext, VoidCallback close) =>
             UserProfilePopoutCard(

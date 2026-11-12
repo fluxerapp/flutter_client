@@ -16106,6 +16106,9 @@
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
     },
     "voiceOutputRouteBluetooth": "Bluetooth",
+    "@voiceOutputRouteBluetooth": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth device when its name is unknown."
+    },
     "doubleTapReactionEdit": "編集",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
@@ -19937,5 +19940,21 @@
     "notificationUnknownSender": "不明",
     "@notificationUnknownSender": {
         "description": "Notification sender name used when a push has no sender."
+    },
+    "voiceDiagnosticsCopy": "Copy voice diagnostics",
+    "@voiceDiagnosticsCopy": {
+        "description": "Action label that copies voice call diagnostics as JSON to the clipboard so they can be shared with the developers."
+    },
+    "voiceDiagnosticsCopyDescription": "Share with the developers to help fix call issues",
+    "@voiceDiagnosticsCopyDescription": {
+        "description": "Subtitle under the copy voice diagnostics row in the voice call controls sheet."
+    },
+    "voiceDiagnosticsCopied": "Copied voice diagnostics to clipboard",
+    "@voiceDiagnosticsCopied": {
+        "description": "Toast shown after voice diagnostics JSON was copied to the clipboard."
+    },
+    "voiceDiagnosticsInCallHint": "In a call",
+    "@voiceDiagnosticsInCallHint": {
+        "description": "Muted hint next to the copy voice diagnostics action when the user is currently connected to a voice call."
     }
 }

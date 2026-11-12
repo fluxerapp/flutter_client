@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/app/startup_gateway_fallback_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
@@ -50,6 +52,9 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
     Map<String, String> payload, {
     PushNotificationTapSource source = PushNotificationTapSource.fcm,
   }) {
+    if (isFluxerDesktopOs) {
+      revealDesktopMainWindow();
+    }
     final Map<String, String> normalized = normalizePushTapPayload(payload);
     unawaited(PushNotificationClear.cancelForPayload(normalized));
     final String? path = resolvePushNotificationPath(normalized);

@@ -1,5 +1,4 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
@@ -11,14 +10,32 @@ import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart'
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
-import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
-import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
+import 'package:intl/intl.dart';
+
+Color _forumCardFill(
+  BuildContext context,
+  Set<WidgetState> states, {
+  required bool desktop,
+  required Color cardBackground,
+}) {
+  if (desktop) {
+    return states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.pressed)
+        ? fluxerDesktopHoverOver(context, cardBackground)
+        : cardBackground;
+  }
+  return states.contains(WidgetState.pressed)
+      ? context.colors.backgroundModifierSelected
+      : cardBackground;
+}
 
 Color forumPostCardBackgroundColor(FluxerColorTheme colors) {
   if (colors.backgroundSecondary == colors.backgroundPrimary) {
@@ -103,6 +120,11 @@ String? _previewUrl(Attachment attachment) {
 String _snippet(Message message) =>
     message.content.replaceAll(RegExp(r'\s+'), ' ').trim();
 
+const int forumCardMaxTags = 3;
+
+double forumCardThumbnailSize(BuildContext context) =>
+    MediaQuery.sizeOf(context).width >= 600 ? 96 : 80;
+
 String forumPostTitleText(ForumPostCardData data, FluxerLocalizations l10n) =>
     data.authorBlocked ? l10n.forumPostBlockedAuthor : data.post.name;
 
@@ -138,6 +160,7 @@ class ForumPostCard extends StatelessWidget {
         : _previewAttachment(message);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
     final Color cardBackground = forumPostCardBackgroundColor(colors);
+    final bool desktop = usesDesktopPointerUi(context);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -147,54 +170,77 @@ class ForumPostCard extends StatelessWidget {
           horizontal: layout.s4,
           vertical: layout.s1,
         ),
-        padding: EdgeInsets.all(layout.s3),
+        padding: EdgeInsets.all(desktop ? layout.s3 + 1 : layout.s3),
         decoration: BoxDecoration(
-          color: states.contains(WidgetState.pressed)
-              ? colors.backgroundModifierSelected
-              : cardBackground,
-          borderRadius: layout.radiusXl,
+          color: _forumCardFill(
+            context,
+            states,
+            desktop: desktop,
+            cardBackground: cardBackground,
+          ),
+          borderRadius: desktop ? layout.radiusLg : layout.radiusXl,
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  if (tags.isNotEmpty) ...<Widget>[
-                    Wrap(
-                      spacing: layout.s1,
-                      runSpacing: layout.s1,
-                      children: <Widget>[
-                        for (final ForumTagResponse tag in tags)
-                          ForumTagChip(tag: tag, compact: true),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (tags.isNotEmpty) ...<Widget>[
+                        Wrap(
+                          spacing: layout.s1,
+                          runSpacing: layout.s1,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: <Widget>[
+                            for (final ForumTagResponse tag in tags.take(
+                              forumCardMaxTags,
+                            ))
+                              ForumTagChip(tag: tag, compact: true),
+                            if (tags.length > forumCardMaxTags)
+                              Text(
+                                '+${tags.length - forumCardMaxTags}',
+                                style: context.textStyles.smallText.copyWith(
+                                  color: colors.textTertiary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: layout.s2),
                       ],
-                    ),
-                    SizedBox(height: layout.s2),
-                  ],
-                  _ForumPostTitle(data: data),
-                  if (!data.authorBlocked) ...<Widget>[
-                    SizedBox(height: layout.s1),
-                    _ForumPostSnippet(data: data),
-                  ],
-                  SizedBox(height: layout.s2),
-                  _ForumPostMeta(data: data, l10n: l10n),
-                ],
-              ),
-            ),
-            if (previewUrl != null) ...<Widget>[
-              SizedBox(width: layout.s3),
-              ClipRRect(
-                borderRadius: layout.radiusLg,
-                child: _ForumPreviewImage(
-                  url: previewUrl,
-                  width: 72,
-                  height: 72,
+                      _ForumPostTitle(data: data),
+                      if (!data.authorBlocked) ...<Widget>[
+                        SizedBox(height: layout.s1),
+                        _ForumPostSnippet(data: data),
+                      ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-            if (showReaction)
-              _DefaultReactionButton(data: data, onTap: onToggleReaction),
+                if (previewUrl != null) ...<Widget>[
+                  SizedBox(width: layout.s3),
+                  ClipRRect(
+                    borderRadius: layout.radiusMd,
+                    child: _ForumPreviewImage(
+                      url: previewUrl,
+                      width: forumCardThumbnailSize(context),
+                      height: forumCardThumbnailSize(context),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            SizedBox(height: layout.s2),
+            _ForumPostMeta(
+              data: data,
+              l10n: l10n,
+              reaction: showReaction
+                  ? _DefaultReactionButton(data: data, onTap: onToggleReaction)
+                  : null,
+            ),
           ],
         ),
       ),
@@ -224,16 +270,20 @@ class ForumPostTile extends StatelessWidget {
         : _previewAttachment(data.firstMessage);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
     final Color cardBackground = forumPostCardBackgroundColor(colors);
+    final bool desktop = usesDesktopPointerUi(context);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
       semanticLabel: forumPostTitleText(data, l10n),
       builder: (BuildContext context, Set<WidgetState> states) => ClipRRect(
-        borderRadius: layout.radiusXl,
+        borderRadius: desktop ? layout.radiusLg : layout.radiusXl,
         child: ColoredBox(
-          color: states.contains(WidgetState.pressed)
-              ? colors.backgroundModifierSelected
-              : cardBackground,
+          color: _forumCardFill(
+            context,
+            states,
+            desktop: desktop,
+            cardBackground: cardBackground,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -258,7 +308,7 @@ class ForumPostTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    _ForumPostTitle(data: data, maxLines: 1),
+                    _ForumPostTitle(data: data),
                     SizedBox(height: layout.s1),
                     _ForumPostMeta(data: data, l10n: l10n, compact: true),
                   ],
@@ -293,10 +343,9 @@ class _ForumPreviewImage extends StatelessWidget {
 }
 
 class _ForumPostTitle extends StatelessWidget {
-  const _ForumPostTitle({required this.data, this.maxLines = 2});
+  const _ForumPostTitle({required this.data});
 
   final ForumPostCardData data;
-  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -333,7 +382,7 @@ class _ForumPostTitle extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              localeUpperCase(context, l10n.forumPostNewBadge),
+              l10n.forumPostNewBadge,
               style: context.textStyles.smallText.copyWith(
                 color: colors.textOnBrandPrimary,
                 fontSize: 11,
@@ -347,7 +396,7 @@ class _ForumPostTitle extends StatelessWidget {
         Expanded(
           child: Text(
             forumPostTitleText(data, l10n),
-            maxLines: maxLines,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: context.textStyles.bodyMedium.copyWith(
               color: emphasized ? colors.textPrimary : colors.textSecondary,
@@ -383,34 +432,46 @@ class _ForumPostSnippet extends StatelessWidget {
       );
     }
     final String snippet = _snippet(message);
-    return Row(
-      children: <Widget>[
-        FluxerAvatar(
-          imageUrl:
-              FluxerMediaUrl.userAvatar(
-                userId: message.authorId,
-                hash: message.authorAvatar,
-              ) ??
-              FluxerMediaUrl.defaultAvatar(userId: message.authorId),
-          fallbackText: message.authorName,
-          size: 16,
-        ),
-        SizedBox(width: context.layout.s1),
-        Flexible(
-          child: Text(
-            snippet.isEmpty
-                ? message.authorName
-                : l10n.forumPostSnippet(message.authorName, snippet),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: context.textStyles.bodySmall.copyWith(
-              color: colors.textSecondary,
+    final TextStyle style = context.textStyles.bodySmall.copyWith(
+      color: colors.textSecondary,
+    );
+    final TextStyle authorStyle = style.copyWith(
+      color: colors.textPrimary,
+      fontWeight: FontWeight.w600,
+    );
+    final String text = snippet.isEmpty
+        ? message.authorName
+        : l10n.forumPostSnippet(message.authorName, snippet);
+    final int authorAt = message.authorName.isEmpty
+        ? -1
+        : text.indexOf(message.authorName);
+    return Text.rich(
+      authorAt < 0
+          ? TextSpan(text: text)
+          : TextSpan(
+              children: <InlineSpan>[
+                TextSpan(text: text.substring(0, authorAt)),
+                TextSpan(text: message.authorName, style: authorStyle),
+                TextSpan(
+                  text: text.substring(authorAt + message.authorName.length),
+                ),
+              ],
             ),
-          ),
-        ),
-      ],
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: style,
     );
   }
+}
+
+String forumPostCompactCount(int count, String localeName) {
+  if (count < 1000) {
+    return '$count';
+  }
+  final NumberFormat format = NumberFormat.compact(locale: localeName)
+    ..significantDigitsInUse = false
+    ..maximumFractionDigits = 1;
+  return format.format(count);
 }
 
 class _ForumPostMeta extends StatelessWidget {
@@ -418,11 +479,13 @@ class _ForumPostMeta extends StatelessWidget {
     required this.data,
     required this.l10n,
     this.compact = false,
+    this.reaction,
   });
 
   final ForumPostCardData data;
   final FluxerLocalizations l10n;
   final bool compact;
+  final Widget? reaction;
 
   @override
   Widget build(BuildContext context) {
@@ -431,53 +494,163 @@ class _ForumPostMeta extends StatelessWidget {
     final Channel post = data.post;
     final TextStyle style = context.textStyles.smallText.copyWith(
       color: colors.textTertiary,
+      fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
     );
     final int messageCount = post.messageCount ?? 0;
     final DateTime activity = DateTime.fromMillisecondsSinceEpoch(
       snowflakeTimestampMs(postLastActivityId(post, data.lastMessageId)),
     );
+    final bool showNew = data.unreadCount > 0 || data.hasUnread;
     return Row(
+      key: const ValueKey<String>('forumPostFooter'),
       children: <Widget>[
-        PhosphorIcon(
-          PhosphorIconsBold.chatCircle,
-          size: 13,
-          color: colors.textTertiary,
-        ),
-        SizedBox(width: layout.s1),
-        Text(
-          data.unreadCount > 0
-              ? l10n.forumPostNewMessages(data.unreadCount)
-              : '$messageCount',
-          style: data.unreadCount > 0
-              ? style.copyWith(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? colors.brandPrimary
-                      : colors.brandPrimaryLight,
-                  fontWeight: FontWeight.w600,
-                )
-              : style,
+        if (reaction != null) ...<Widget>[
+          reaction!,
+          SizedBox(width: layout.s2),
+        ],
+        Semantics(
+          label: l10n.threadMessageCount(messageCount),
+          excludeSemantics: true,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              PhosphorIcon(
+                PhosphorIconsBold.chatCircle,
+                size: 13,
+                color: colors.textTertiary,
+              ),
+              SizedBox(width: layout.s1),
+              Text(
+                forumPostCompactCount(
+                  messageCount,
+                  Localizations.localeOf(context).toString(),
+                ),
+                maxLines: 1,
+                style: style,
+              ),
+            ],
+          ),
         ),
         SizedBox(width: layout.s2),
-        Flexible(
-          child: Text(
-            compact
-                ? relativeTimeShort(activity, l10n)
-                : relativeTime(activity, l10n),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: style,
+        Expanded(
+          child: _ForumPostMetaTail(
+            newLabel: showNew
+                ? (data.unreadCount > 0
+                      ? l10n.forumPostNewMessagesShort(data.unreadCount)
+                      : l10n.forumPostHasNewMessagesShort)
+                : null,
+            newSemanticLabel: data.unreadCount > 0
+                ? l10n.forumPostNewMessages(data.unreadCount)
+                : l10n.forumPostHasNewMessages,
+            newStyle: style.copyWith(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? colors.brandPrimary
+                  : colors.brandPrimaryLight,
+              fontWeight: FontWeight.w600,
+            ),
+            time: relativeTimeShort(activity, l10n),
+            timeSemanticLabel: relativeTime(activity, l10n),
+            timeStyle: style,
+            archived: isPostArchived(post) && !compact,
+            archivedLabel: l10n.forumPostArchived,
           ),
         ),
-        if (isPostArchived(post) && !compact) ...<Widget>[
-          SizedBox(width: layout.s2),
-          PhosphorIcon(
-            PhosphorIconsBold.archive,
-            size: 13,
-            color: colors.textTertiary,
-            semanticLabel: l10n.forumPostArchived,
-          ),
-        ],
       ],
+    );
+  }
+}
+
+/// Lays out the new count and the time after the message count. A part that
+/// does not fit is dropped whole, never cut mid-word: the new count goes
+/// first, then the time.
+class _ForumPostMetaTail extends StatelessWidget {
+  const _ForumPostMetaTail({
+    required this.newLabel,
+    required this.newSemanticLabel,
+    required this.newStyle,
+    required this.time,
+    required this.timeSemanticLabel,
+    required this.timeStyle,
+    required this.archived,
+    required this.archivedLabel,
+  });
+
+  static const double _archiveIconSize = 13;
+
+  final String? newLabel;
+  final String newSemanticLabel;
+  final TextStyle newStyle;
+  final String time;
+  final String timeSemanticLabel;
+  final TextStyle timeStyle;
+  final bool archived;
+  final String archivedLabel;
+
+  double _textWidth(BuildContext context, String text, TextStyle style) {
+    final TextPainter painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout();
+    final double width = painter.width;
+    painter.dispose();
+    return width;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double timeWidth =
+            _textWidth(context, time, timeStyle) +
+            (archived ? layout.s1 + _archiveIconSize : 0);
+        final bool showTime = timeWidth <= constraints.maxWidth;
+        final String? label = newLabel;
+        final bool showNew =
+            label != null &&
+            _textWidth(context, label, newStyle) +
+                    (showTime ? layout.s2 + timeWidth : 0) <=
+                constraints.maxWidth;
+        return Row(
+          children: <Widget>[
+            if (showNew)
+              Semantics(
+                label: newSemanticLabel,
+                excludeSemantics: true,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: newStyle,
+                ),
+              ),
+            const Spacer(),
+            if (showTime) ...<Widget>[
+              Semantics(
+                label: timeSemanticLabel,
+                excludeSemantics: true,
+                child: Text(
+                  time,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: timeStyle,
+                ),
+              ),
+              if (archived) ...<Widget>[
+                SizedBox(width: layout.s1),
+                PhosphorIcon(
+                  PhosphorIconsBold.archive,
+                  size: _archiveIconSize,
+                  color: timeStyle.color,
+                  semanticLabel: archivedLabel,
+                ),
+              ],
+            ],
+          ],
+        );
+      },
     );
   }
 }
@@ -507,49 +680,47 @@ class _DefaultReactionButton extends StatelessWidget {
       context,
       surface: cardBackground,
     );
-    return Padding(
-      padding: EdgeInsetsDirectional.only(start: context.layout.s2),
-      child: FluxerTappable(
-        onTap: onTap,
-        toggled: me,
-        semanticLabel: FluxerLocalizations.of(context).forumPostReact,
-        builder: (BuildContext context, Set<WidgetState> states) => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          decoration: BoxDecoration(
+    return FluxerTappable(
+      onTap: onTap,
+      toggled: me,
+      minSize: const Size(40, 32),
+      semanticLabel: FluxerLocalizations.of(context).forumPostReact,
+      builder: (BuildContext context, Set<WidgetState> states) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        decoration: BoxDecoration(
+          color: me
+              ? selected.background
+              : light
+              ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.06)
+              : colors.backgroundPrimary,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
             color: me
-                ? selected.background
+                ? selected.border
                 : light
-                ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.06)
-                : colors.backgroundPrimary,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: me
-                  ? selected.border
-                  : light
-                  ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.10)!
-                  : Colors.transparent,
+                ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.10)!
+                : Colors.transparent,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ForumEmoji(
+              emojiId: reaction.emojiId,
+              emojiName: reaction.emojiName,
+              size: 19,
             ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ForumEmoji(
-                emojiId: reaction.emojiId,
-                emojiName: reaction.emojiName,
-                size: 19,
-              ),
-              if (count > 0) ...<Widget>[
-                const SizedBox(width: 6),
-                Text(
-                  '$count',
-                  style: context.textStyles.smallText.copyWith(
-                    color: me ? selected.foreground : colors.textTertiary,
-                    fontWeight: FontWeight.w700,
-                  ),
+            if (count > 0) ...<Widget>[
+              const SizedBox(width: 6),
+              Text(
+                '$count',
+                style: context.textStyles.smallText.copyWith(
+                  color: me ? selected.foreground : colors.textTertiary,
+                  fontWeight: FontWeight.w700,
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );

@@ -133,24 +133,17 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           for (final StoredAccount account in accounts)
-            FluxerDesktopMenuRow(
-              label: account.identifier,
-              hint: account.isValid ? null : l10n.accountExpired,
-              selected: account.userId == currentUserId,
-              leading: FluxerAvatar.user(
-                imageUrl: account.avatarUrl(),
-                fallbackText: account.displayName,
-                userId: account.userId,
-                size: 24,
-              ),
-              trailing: account.userId == currentUserId
-                  ? const FluxerSelectedCheck()
-                  : null,
+            _DesktopAccountMenuItem(
+              account: account,
+              isCurrent: account.userId == currentUserId,
               onTap: () => unawaited(_handleSelectAccount(ref, account, l10n)),
             ),
-          const FluxerDesktopMenuSeparator(),
+          const SizedBox(height: 8),
+          Container(height: 1, color: context.colors.backgroundModifierAccent),
+          const SizedBox(height: 8),
           FluxerDesktopMenuRow(
             label: l10n.accountManageTitle,
+            leading: const PhosphorIcon(PhosphorIconsBold.gear, size: 16),
             onTap: () {
               final BuildContext? rootContext = rootNavigatorKey.currentContext;
               onClose();
@@ -336,6 +329,99 @@ class _AddAccountRow extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DesktopAccountMenuItem extends StatelessWidget {
+  const _DesktopAccountMenuItem({
+    required this.account,
+    required this.isCurrent,
+    required this.onTap,
+  });
+
+  final StoredAccount account;
+  final bool isCurrent;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? meta = !account.isValid
+        ? l10n.accountExpired
+        : isCurrent
+        ? l10n.accountActive
+        : null;
+    return FluxerTappable(
+      onTap: onTap,
+      selected: isCurrent,
+      semanticLabel: meta == null
+          ? account.identifier
+          : '${account.identifier}. $meta',
+      excludeChildSemantics: true,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool highlighted =
+            states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.focused);
+        return Container(
+          constraints: const BoxConstraints(
+            minHeight: kFluxerDesktopMenuRowMinHeight,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+          decoration: BoxDecoration(
+            color: highlighted
+                ? colors.surfaceInteractiveHoverBg
+                : Colors.transparent,
+            borderRadius: context.layout.radiusMd,
+          ),
+          child: Row(
+            children: <Widget>[
+              FluxerAvatar.user(
+                imageUrl: account.avatarUrl(),
+                fallbackText: account.displayName,
+                userId: account.userId,
+                size: 24,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 2,
+                  children: <Widget>[
+                    Text(
+                      account.identifier,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: fluxerDesktopMenuLabelStyle(
+                        context,
+                      ).copyWith(color: colors.textPrimary, height: 16 / 13),
+                    ),
+                    if (meta != null)
+                      Text(
+                        meta,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textStyles.timestamp.copyWith(
+                          color: account.isValid
+                              ? colors.statusOnline
+                              : colors.statusDanger,
+                          fontSize: 11,
+                          height: 14 / 11,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              if (isCurrent) ...<Widget>[
+                const SizedBox(width: 10),
+                const FluxerSelectedCheck(size: 20),
+              ],
+            ],
           ),
         );
       },

@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
+import 'package:fluxer_app/core/theme/system_dynamic_colors.dart';
 import 'package:fluxer_app/core/theme/theme_variable_mapping.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
@@ -371,9 +372,43 @@ Set<String> _scopeKeysAffectingMode(FluxerThemeMode mode) {
   };
 }
 
+({
+  FluxerThemeMode mode,
+  double saturationFactor,
+  SystemDynamicPalette? dynamicPalette,
+  FluxerColorTheme theme,
+})?
+_lastBaseColorTheme;
+
 FluxerColorTheme baseColorThemeForMode(
   FluxerThemeMode mode, {
   double saturationFactor = 1,
+  SystemDynamicPalette? dynamicPalette,
+}) {
+  final last = _lastBaseColorTheme;
+  if (last != null &&
+      last.mode == mode &&
+      last.saturationFactor == saturationFactor &&
+      last.dynamicPalette == dynamicPalette) {
+    return last.theme;
+  }
+  final FluxerColorTheme theme = applySystemDynamicColors(
+    _builtColorThemeForMode(mode, saturationFactor: saturationFactor),
+    palette: dynamicPalette,
+    saturationFactor: saturationFactor,
+  );
+  _lastBaseColorTheme = (
+    mode: mode,
+    saturationFactor: saturationFactor,
+    dynamicPalette: dynamicPalette,
+    theme: theme,
+  );
+  return theme;
+}
+
+FluxerColorTheme _builtColorThemeForMode(
+  FluxerThemeMode mode, {
+  required double saturationFactor,
 }) {
   return switch (mode) {
     FluxerThemeMode.light => buildLightColorTheme(
@@ -395,10 +430,12 @@ Color defaultThemeColorForProperty(
   String propertyName, {
   required FluxerThemeMode mode,
   double saturationFactor = 1,
+  SystemDynamicPalette? dynamicPalette,
 }) {
   final FluxerColorTheme base = baseColorThemeForMode(
     mode,
     saturationFactor: saturationFactor,
+    dynamicPalette: dynamicPalette,
   );
   return readThemeColorProperty(base, propertyName);
 }
@@ -408,9 +445,14 @@ Color effectiveThemeColorForProperty({
   required String propertyName,
   required FluxerThemeMode editingMode,
   double saturationFactor = 1,
+  SystemDynamicPalette? dynamicPalette,
 }) {
   final FluxerColorTheme themed = applyCustomThemeCss(
-    baseColorThemeForMode(editingMode, saturationFactor: saturationFactor),
+    baseColorThemeForMode(
+      editingMode,
+      saturationFactor: saturationFactor,
+      dynamicPalette: dynamicPalette,
+    ),
     css: customThemeCss,
     saturationFactor: saturationFactor,
     mode: editingMode,

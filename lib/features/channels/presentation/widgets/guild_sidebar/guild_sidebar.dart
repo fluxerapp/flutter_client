@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_s
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/desktop_sidebar_header_surface.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_participants.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_user_count.dart';

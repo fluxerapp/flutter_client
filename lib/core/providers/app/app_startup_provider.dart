@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/desktop/notifications/desktop_message_notification_binding.dart';
 import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
@@ -94,6 +95,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(pushTrayBackgroundListenerProvider)
     ..read(fluxerSfxIncomingRingBindingProvider)
     ..read(fluxerMessageSfxBindingProvider)
+    ..read(desktopMessageNotificationBindingProvider)
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
     ..read(voiceWakelockCoordinatorProvider)

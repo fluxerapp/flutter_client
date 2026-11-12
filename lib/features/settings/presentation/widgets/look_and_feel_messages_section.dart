@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/accessibility/domain/message_group_spacing.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_step_slider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_section_scroll.dart';
@@ -14,16 +15,6 @@ import 'package:fluxer_app/material_ui.dart';
 
 class LookAndFeelMessagesSection extends ConsumerWidget {
   const LookAndFeelMessagesSection({super.key});
-
-  static const List<int> _chatFontSizeOptions = <int>[
-    12,
-    14,
-    15,
-    16,
-    18,
-    20,
-    24,
-  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,6 +30,9 @@ class LookAndFeelMessagesSection extends ConsumerWidget {
       messageDisplayCompact: messageDisplayCompact,
     );
     final int selectedSpacing = nearestMessageGroupSpacing(currentSpacing);
+    final int defaultSpacing = messageDisplayCompact
+        ? kDefaultCompactMessageGroupSpacing
+        : kDefaultMessageGroupSpacing;
     final int selectedFontSize = snapChatFontSize(
       themePref.chatFontSize.toDouble(),
     );
@@ -46,35 +40,35 @@ class LookAndFeelMessagesSection extends ConsumerWidget {
     final List<Widget> children = <Widget>[
       KeyedSubtree(
         key: UserSettingsSectionScrollKeys.keyFor('chat-font-scaling'),
-        child: FluxerSelect<int>(
+        child: LookAndFeelStepSlider(
           label: l10n.lookAndFeelChatFontSizeLabel,
-          stretch: true,
-          enableSearch: false,
+          stops: kChatFontSizeMarkers,
           value: selectedFontSize,
-          items: _chatFontSizeOptions
-              .map(
-                (int size) =>
-                    FluxerSelectItem<int>(value: size, label: '${size}px'),
-              )
-              .toList(growable: false),
+          defaultValue: kDefaultChatFontSize,
+          labelledStops: <int>[
+            kChatFontSizeMarkers.first,
+            kDefaultChatFontSize,
+            kChatFontSizeMarkers.last,
+          ],
+          formatValue: (int size) => '${size}px',
+          semanticValue: l10n.lookAndFeelPixelsAccessibleValue,
           onChanged: (int value) => unawaited(
             ref.read(themePreferenceProvider.notifier).setChatFontSize(value),
           ),
         ),
       ),
-      FluxerSelect<int>(
+      LookAndFeelStepSlider(
         label: l10n.lookAndFeelMessageGroupSpacingLabel,
-        stretch: true,
-        enableSearch: false,
+        stops: kMessageGroupSpacingOptions,
         value: selectedSpacing,
-        items: kMessageGroupSpacingOptions
-            .map(
-              (int spacing) => FluxerSelectItem<int>(
-                value: spacing,
-                label: l10n.lookAndFeelMessageGroupSpacingValue(spacing),
-              ),
-            )
-            .toList(growable: false),
+        defaultValue: defaultSpacing,
+        labelledStops: <int>[
+          kMessageGroupSpacingOptions.first,
+          defaultSpacing,
+          kMessageGroupSpacingOptions.last,
+        ],
+        formatValue: l10n.lookAndFeelMessageGroupSpacingValue,
+        semanticValue: l10n.lookAndFeelPixelsAccessibleValue,
         onChanged: (int value) => unawaited(
           ref
               .read(appearancePreferencesProvider.notifier)

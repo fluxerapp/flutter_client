@@ -852,7 +852,7 @@ platform :android do
 end
 
 platform :mac do
-  desc "Build canary macOS archive and upload to TestFlight (com.fluxer.lite.canary)"
+  desc "Build canary macOS archive and upload to TestFlight (com.fluxer.oxygen.canary)"
   lane :testflight_canary do
     profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")
     runner_profile_uuid = fetchRequiredEnvironmentValue("PROFILE_UUID")
@@ -863,7 +863,7 @@ platform :mac do
       key_content: ENV.fetch("APPSTORE_PRIVATE_KEY")
     )
 
-    app_identifier = "com.fluxer.lite.canary"
+    app_identifier = "com.fluxer.oxygen.canary"
     flutter_build_name = flutter_marketing_version
     flutter_build_number = next_testflight_build_number(
       api_key: api_key,
@@ -922,7 +922,7 @@ platform :mac do
         signingCertificate: "Apple Distribution",
         installerSigningCertificate: "Mac Installer Distribution",
         provisioningProfiles: {
-          "com.fluxer.lite.canary" => runner_profile_uuid
+          "com.fluxer.oxygen.canary" => runner_profile_uuid
         }
       },
       xcargs: [

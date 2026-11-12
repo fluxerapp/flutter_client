@@ -1,4 +1,5 @@
 import 'package:country_flags/country_flags.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
@@ -9,12 +10,14 @@ class AppLocaleDisplayInfo {
     required this.nativeName,
     required this.languageCode,
     this.countryCode,
+    this.flagAsset,
   });
 
   final String name;
   final String nativeName;
   final String languageCode;
   final String? countryCode;
+  final String? flagAsset;
 
   String get label => name;
 
@@ -33,12 +36,31 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Arabic',
         nativeName: 'العربية',
         languageCode: 'ar',
+        flagAsset: 'assets/flags/language.svg',
+      ),
+      'be': AppLocaleDisplayInfo(
+        name: 'Belarusian',
+        nativeName: 'Беларуская',
+        languageCode: 'be',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'bg': AppLocaleDisplayInfo(
         name: 'Bulgarian',
         nativeName: 'Български',
         languageCode: 'bg',
         countryCode: 'BG',
+      ),
+      'bn': AppLocaleDisplayInfo(
+        name: 'Bangla',
+        nativeName: 'বাংলা',
+        languageCode: 'bn',
+        countryCode: 'BD',
+      ),
+      'ca': AppLocaleDisplayInfo(
+        name: 'Catalan',
+        nativeName: 'Català',
+        languageCode: 'ca',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'cs': AppLocaleDisplayInfo(
         name: 'Czech',
@@ -86,13 +108,19 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Spanish (Latin America)',
         nativeName: 'Español (Latinoamérica)',
         languageCode: 'es',
-        countryCode: 'MX',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'fi': AppLocaleDisplayInfo(
         name: 'Finnish',
         nativeName: 'Suomi',
         languageCode: 'fi',
         countryCode: 'FI',
+      ),
+      'fil': AppLocaleDisplayInfo(
+        name: 'Filipino',
+        nativeName: 'Filipino',
+        languageCode: 'fil',
+        countryCode: 'PH',
       ),
       'fr': AppLocaleDisplayInfo(
         name: 'French',
@@ -154,6 +182,12 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         languageCode: 'lt',
         countryCode: 'LT',
       ),
+      'lv': AppLocaleDisplayInfo(
+        name: 'Latvian',
+        nativeName: 'Latviešu',
+        languageCode: 'lv',
+        countryCode: 'LV',
+      ),
       'nl': AppLocaleDisplayInfo(
         name: 'Dutch',
         nativeName: 'Nederlands',
@@ -178,6 +212,12 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         languageCode: 'pt',
         countryCode: 'BR',
       ),
+      'pt-PT': AppLocaleDisplayInfo(
+        name: 'Portuguese (Portugal)',
+        nativeName: 'Português (Portugal)',
+        languageCode: 'pt',
+        countryCode: 'PT',
+      ),
       'ro': AppLocaleDisplayInfo(
         name: 'Romanian',
         nativeName: 'Română',
@@ -190,6 +230,24 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         languageCode: 'ru',
         countryCode: 'RU',
       ),
+      'sk': AppLocaleDisplayInfo(
+        name: 'Slovak',
+        nativeName: 'Slovenčina',
+        languageCode: 'sk',
+        countryCode: 'SK',
+      ),
+      'sl': AppLocaleDisplayInfo(
+        name: 'Slovenian',
+        nativeName: 'Slovenščina',
+        languageCode: 'sl',
+        countryCode: 'SI',
+      ),
+      'sq': AppLocaleDisplayInfo(
+        name: 'Albanian',
+        nativeName: 'Shqip',
+        languageCode: 'sq',
+        countryCode: 'AL',
+      ),
       'sv-SE': AppLocaleDisplayInfo(
         name: 'Swedish',
         nativeName: 'Svenska',
@@ -201,6 +259,12 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         nativeName: 'ไทย',
         languageCode: 'th',
         countryCode: 'TH',
+      ),
+      'tok': AppLocaleDisplayInfo(
+        name: 'Toki Pona',
+        nativeName: 'toki pona',
+        languageCode: 'tok',
+        flagAsset: 'assets/flags/language.svg',
       ),
       'tr': AppLocaleDisplayInfo(
         name: 'Turkish',
@@ -243,6 +307,10 @@ AppLocaleDisplayInfo appLocaleDisplayInfo(sdk.Locale locale) {
       languageCode: locale.toString(),
     );
   }
+  return appLocaleDisplayInfoForTag(tag);
+}
+
+AppLocaleDisplayInfo appLocaleDisplayInfoForTag(String tag) {
   final AppLocaleDisplayInfo? info = _appLocaleDisplayInfoByTag[tag];
   if (info != null) {
     return info;
@@ -274,6 +342,18 @@ List<sdk.Locale> sortedAppSdkLocales() {
 
 Widget appLocaleFlag(sdk.Locale locale) {
   final AppLocaleDisplayInfo info = appLocaleDisplayInfo(locale);
+  final String? flagAsset = info.flagAsset;
+  if (flagAsset != null) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(2),
+      child: SvgPicture.asset(
+        flagAsset,
+        width: _appLocaleFlagTheme.width,
+        height: _appLocaleFlagTheme.height,
+        fit: BoxFit.fill,
+      ),
+    );
+  }
   if (info.countryCode != null) {
     return CountryFlag.fromCountryCode(
       info.countryCode!,
@@ -299,6 +379,7 @@ const Map<String, String> _languageCodeAliases = <String, String>{
   'nn': 'no',
   'iw': 'he',
   'in': 'id',
+  'tl': 'fil',
 };
 
 final Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByLanguageCode =

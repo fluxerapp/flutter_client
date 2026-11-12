@@ -18,7 +18,7 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:go_router/go_router.dart';
 
-const _kSubmenuGap = 4.0;
+const _kSubmenuGap = 3.0;
 
 Future<GuildAction?> showGuildContextMenu(
   BuildContext context, {
@@ -66,6 +66,7 @@ Future<GuildAction?> showGuildContextMenu(
 
   final result = await Navigator.of(context).push<GuildAction>(
     _GuildContextMenuRoute(
+      animate: !usesDesktopPointerUi(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,
       overlaySize: overlay.size,
@@ -88,6 +89,7 @@ class _GuildContextMenuRoute extends PopupRoute<GuildAction> {
   final String guildId;
 
   _GuildContextMenuRoute({
+    required this.animate,
     required this.barrierLabel,
     required this.position,
     required this.overlaySize,
@@ -95,8 +97,11 @@ class _GuildContextMenuRoute extends PopupRoute<GuildAction> {
     required this.guildId,
   });
 
+  final bool animate;
+
   @override
-  Duration get transitionDuration => kContextMenuEntranceDuration;
+  Duration get transitionDuration =>
+      animate ? kContextMenuEntranceDuration : Duration.zero;
 
   @override
   bool get barrierDismissible => true;
