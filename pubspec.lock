@@ -1143,6 +1143,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  fluxer_voice:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_voice"
+      relative: true
+    source: path
+    version: "0.0.1"
   foldable:
     dependency: "direct main"
     description:

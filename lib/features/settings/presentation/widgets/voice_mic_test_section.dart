@@ -48,7 +48,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
   @override
   void dispose() {
     unawaited(_disposeTestResources());
-    unawaited(clearNativeVoiceOutputRouteHold());
+    unawaited(releaseNativeVoiceAudioSession(kVoiceMicTestAudioOwner));
     _levelNotifier.dispose();
     super.dispose();
   }
@@ -72,6 +72,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       voiceSettingsApplicatorProvider,
     );
     try {
+      await acquireNativeVoiceAudioSession(kVoiceMicTestAudioOwner);
       await applicator.applySpeakerOutput(settings: settings, holdRoute: false);
       await _configureOutputDevice(settings.outputDeviceId);
       final LocalAudioTrack track = await _createMicTestTrack(
@@ -201,7 +202,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
 
   Future<void> _stopTest() async {
     await _disposeTestResources();
-    await clearNativeVoiceOutputRouteHold();
+    await releaseNativeVoiceAudioSession(kVoiceMicTestAudioOwner);
     if (!mounted) {
       return;
     }

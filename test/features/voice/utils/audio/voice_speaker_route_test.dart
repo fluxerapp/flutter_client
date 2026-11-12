@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
+import 'package:fluxer_voice/fluxer_voice.dart' show FluxerVoiceAudioSession;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -130,8 +131,30 @@ void main() {
   });
 
   group('applyNativeVoiceOutputRoute', () {
-    test('passes hold when setting route on Android', () async {
+    test('sets the preferred route on Android', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      final List<MethodCall> calls = <MethodCall>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (MethodCall call) async {
+            calls.add(call);
+            return null;
+          });
+      await applyNativeVoiceOutputRoute(
+        VoiceOutputRoute.bluetooth,
+        deviceId: 3,
+        hold: true,
+        explicit: true,
+      );
+      expect(calls.single.method, 'setPreferredRoute');
+      expect(calls.single.arguments, <String, Object>{
+        'route': 'bluetooth',
+        'deviceId': 3,
+        'explicit': true,
+      });
+    });
+
+    test('passes hold when setting route on iOS', () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
       Object? arguments;
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(channel, (MethodCall call) async {
@@ -141,24 +164,43 @@ void main() {
             return null;
           });
       await applyNativeVoiceOutputRoute(VoiceOutputRoute.earpiece, hold: true);
-      expect(arguments, isA<Map<Object?, Object?>>());
       final Map<Object?, Object?> args = arguments! as Map<Object?, Object?>;
       expect(args['route'], 'earpiece');
       expect(args['hold'], isTrue);
     });
   });
 
-  group('clearNativeVoiceOutputRouteHold', () {
-    test('invokes clearRouteHold on Android', () async {
+  group('native voice audio session', () {
+    test('acquires and releases owners on Android', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      String? method;
+      final List<MethodCall> calls = <MethodCall>[];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(channel, (MethodCall call) async {
-            method = call.method;
+            calls.add(call);
             return null;
           });
-      await clearNativeVoiceOutputRouteHold();
-      expect(method, 'clearRouteHold');
+      await acquireNativeVoiceAudioSession(kVoiceCallAudioOwner);
+      expect(FluxerVoiceAudioSession.instance.isActive, isTrue);
+      await releaseNativeVoiceAudioSession(kVoiceCallAudioOwner);
+      expect(FluxerVoiceAudioSession.instance.isActive, isFalse);
+      expect(calls.map((MethodCall call) => call.method), <String>[
+        'acquire',
+        'release',
+      ]);
+      expect(calls.first.arguments, <String, Object>{'owner': 'voice'});
+    });
+
+    test('does nothing on iOS', () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      final List<MethodCall> calls = <MethodCall>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (MethodCall call) async {
+            calls.add(call);
+            return null;
+          });
+      await acquireNativeVoiceAudioSession(kVoiceCallAudioOwner);
+      await releaseNativeVoiceAudioSession(kVoiceCallAudioOwner);
+      expect(calls, isEmpty);
     });
   });
 }

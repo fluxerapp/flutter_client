@@ -28,6 +28,7 @@ Future<Map<String, Object?>> _collect({
   VoiceSettingsState settings = const VoiceSettingsState(),
   Future<AppRuntimeInfo> Function()? appInfo,
   Future<List<MediaDevice>> Function()? devices,
+  Future<Object?> Function()? audioRoute,
   Map<String, VoiceDiagnosticsStatsSource> statsSources =
       const <String, VoiceDiagnosticsStatsSource>{},
 }) async {
@@ -37,6 +38,7 @@ Future<Map<String, Object?>> _collect({
     settings: settings,
     appInfo: appInfo ?? () async => _kInfo,
     enumerateDevices: devices ?? () async => <MediaDevice>[],
+    audioRoute: audioRoute ?? () async => null,
     statsSources: statsSources,
     now: DateTime.utc(2026, 11, 10, 12),
     timeout: const Duration(milliseconds: 50),
@@ -133,5 +135,16 @@ void main() {
     expect(jsonEncode(json), isNot(contains('192.168.1.5')));
     final Map<String, Object?> outbound = reports[2]! as Map<String, Object?>;
     expect((outbound['values']! as Map<String, Object?>)['bytesSent'], 'NaN');
+  });
+
+  test('includes the native audio route diagnostics', () async {
+    final Map<String, Object?> payload = await _collect(
+      audioRoute: () async => <String, Object?>{
+        'native': 'mode=3 owners=[voice]',
+      },
+    );
+    final Map<String, Object?> route =
+        payload['audioRoute']! as Map<String, Object?>;
+    expect(route['native'], 'mode=3 owners=[voice]');
   });
 }

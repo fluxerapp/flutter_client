@@ -64,6 +64,8 @@ dependencies:
     path: packages/fluxer_markdown
   fluxer_markdown_native:
     path: packages/fluxer_markdown_native
+  fluxer_voice:
+    path: packages/fluxer_voice
   foldable: ^1.0.5
   gaimon: ^1.5.0
   gal: ^2.3.3

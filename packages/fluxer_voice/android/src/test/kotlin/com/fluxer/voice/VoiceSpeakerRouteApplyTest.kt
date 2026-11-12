@@ -1,4 +1,4 @@
-package com.fluxer
+package com.fluxer.voice
 
 import android.content.Context
 import android.media.AudioDeviceInfo
@@ -60,37 +60,68 @@ class VoiceSpeakerRouteApplyTest {
     }
 
     @Test
-    fun samsungSpeakerRoutePinsSpeakerFromEarpiece() {
+    fun speakerRoutePinsSpeakerFromEarpiece() {
+        audioManager.setCommunicationDevice(earpiece)
+
+        val applied = applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
+
+        assertEquals(1, applied)
+        assertEquals(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, audioManager.communicationDevice?.type)
+    }
+
+    @Test
+    fun speakerRouteUsesTheCommunicationDeviceOnEveryManufacturer() {
+        ShadowBuild.setManufacturer("OnePlus")
         audioManager.setCommunicationDevice(earpiece)
 
         applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
 
         assertEquals(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, audioManager.communicationDevice?.type)
-        @Suppress("DEPRECATION")
-        assertTrue(audioManager.isSpeakerphoneOn)
-        assertEquals(AudioManager.MODE_IN_COMMUNICATION, audioManager.mode)
     }
 
     @Test
-    fun samsungEarpieceRoutePinsEarpieceFromSpeaker() {
+    fun earpieceRoutePinsEarpieceFromSpeaker() {
         audioManager.setCommunicationDevice(speaker)
 
-        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Earpiece)
+        val applied = applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Earpiece)
 
+        assertEquals(2, applied)
         assertEquals(AudioDeviceInfo.TYPE_BUILTIN_EARPIECE, audioManager.communicationDevice?.type)
+    }
+
+    @Test
+    fun speakerRouteReportsFailureWithoutLegacySpeakerphone() {
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(earpiece))
+
+        val applied = applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
+
+        assertNull(applied)
+        assertNull(audioManager.communicationDevice)
         @Suppress("DEPRECATION")
         assertFalse(audioManager.isSpeakerphoneOn)
     }
 
     @Test
-    fun samsungSpeakerRouteKeepsSpeakerphoneWhenDeviceIsUnavailable() {
-        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(earpiece))
+    fun automaticBluetoothSkipsWatchesButHonoursAnExplicitPick() {
+        val watch = namedDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 5, name = "Galaxy Watch6")
+        val buds = namedDevice(AudioDeviceInfo.TYPE_BLE_HEADSET, id = 6, name = "Buds")
+        val devices = listOf(speaker, watch, buds)
 
-        applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Speaker)
+        assertEquals(listOf(6), communicationDeviceCandidates(VoiceOutputRoute.Bluetooth, devices).map { it.id })
+        assertEquals(
+            listOf(5, 6),
+            communicationDeviceCandidates(VoiceOutputRoute.Bluetooth, devices, deviceId = 5).map { it.id },
+        )
+    }
 
-        assertNull(audioManager.communicationDevice)
-        @Suppress("DEPRECATION")
-        assertTrue(audioManager.isSpeakerphoneOn)
+    @Test
+    fun forcedApplyStillPinsTheSameDevice() {
+        audioManager.setCommunicationDevice(earpiece)
+
+        val applied = applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Earpiece, force = true)
+
+        assertEquals(2, applied)
+        assertEquals(2, audioManager.communicationDevice?.id)
     }
 
     @Test
@@ -101,8 +132,6 @@ class VoiceSpeakerRouteApplyTest {
         applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth)
 
         assertEquals(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, audioManager.communicationDevice?.type)
-        @Suppress("DEPRECATION")
-        assertFalse(audioManager.isSpeakerphoneOn)
     }
 
     private fun namedDevice(type: Int, id: Int, name: String): AudioDeviceInfo {
@@ -171,7 +200,7 @@ class VoiceSpeakerRouteApplyTest {
         audioManager.isSpeakerphoneOn = true
 
         applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth)
-        releaseCallSpeaker(audioManager)
+        releaseVoiceOutputRoute(audioManager)
 
         @Suppress("DEPRECATION")
         assertFalse(audioManager.isSpeakerphoneOn)
@@ -202,5 +231,6 @@ class VoiceSpeakerRouteApplyTest {
         assertTrue(diagnostics, diagnostics.contains("telecomCalls=[NEW/unknown]"))
         assertTrue(diagnostics, Regex("callVolume=\\d+/\\d+ ").containsMatchIn(diagnostics))
         assertTrue(diagnostics, diagnostics.contains("sdk=${Build.VERSION.SDK_INT} "))
+        assertTrue(diagnostics, diagnostics.contains("device="))
     }
 }

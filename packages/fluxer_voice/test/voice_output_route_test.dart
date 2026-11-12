@@ -1,5 +1,5 @@
-import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_voice/fluxer_voice.dart';
 
 void main() {
   group('resolveVoiceOutputRoute', () {
@@ -319,6 +319,46 @@ void main() {
           devices: const <VoiceOutputDevice>[speaker, car],
         ),
         isNull,
+      );
+    });
+  });
+
+  group('isExplicitVoiceOutputRoute', () {
+    test('an override is explicit only for its own route', () {
+      expect(
+        isExplicitVoiceOutputRoute(
+          route: VoiceOutputRoute.bluetooth,
+          preference: VoiceOutputRoute.earpiece,
+          override: VoiceOutputRoute.bluetooth,
+        ),
+        isTrue,
+      );
+      expect(
+        isExplicitVoiceOutputRoute(
+          route: VoiceOutputRoute.speaker,
+          preference: VoiceOutputRoute.speaker,
+          override: VoiceOutputRoute.bluetooth,
+        ),
+        isFalse,
+      );
+    });
+
+    test('the built-in preference is explicit, automatic bluetooth is not', () {
+      expect(
+        isExplicitVoiceOutputRoute(
+          route: VoiceOutputRoute.earpiece,
+          preference: VoiceOutputRoute.earpiece,
+          override: null,
+        ),
+        isTrue,
+      );
+      expect(
+        isExplicitVoiceOutputRoute(
+          route: VoiceOutputRoute.bluetooth,
+          preference: VoiceOutputRoute.earpiece,
+          override: null,
+        ),
+        isFalse,
       );
     });
   });

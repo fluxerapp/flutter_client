@@ -1,9 +1,9 @@
-package com.fluxer
+package com.fluxer.voice
 
 import android.content.Context
 import android.media.AudioManager
 import android.telephony.TelephonyManager
-import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
 
 internal fun isExternalVoiceCallActive(
@@ -32,11 +32,11 @@ internal fun isExternalVoiceCallActive(
 class SystemVoiceCallGuardBridge(
     private val context: Context,
 ) {
-    fun register(flutterEngine: FlutterEngine) {
-        MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            CHANNEL_NAME,
-        ).setMethodCallHandler { call, result ->
+    private var channel: MethodChannel? = null
+
+    fun register(messenger: BinaryMessenger) {
+        channel = MethodChannel(messenger, CHANNEL_NAME)
+        channel?.setMethodCallHandler { call, result ->
             when (call.method) {
                 "isExternalCallActive" -> {
                     val fluxerOwnsVoice =
@@ -48,6 +48,11 @@ class SystemVoiceCallGuardBridge(
                 else -> result.notImplemented()
             }
         }
+    }
+
+    fun unregister() {
+        channel?.setMethodCallHandler(null)
+        channel = null
     }
 
     private companion object {

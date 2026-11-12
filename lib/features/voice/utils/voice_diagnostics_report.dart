@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_peer.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_voice/fluxer_voice.dart';
 import 'package:livekit_client/livekit_client.dart' hide TimeoutException;
 
 const Duration _kCollectTimeout = Duration(seconds: 3);
@@ -50,6 +51,7 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
   required VoiceSettingsState settings,
   required Future<AppRuntimeInfo> Function() appInfo,
   Future<List<MediaDevice>> Function()? enumerateDevices,
+  Future<Object?> Function()? audioRoute,
   Map<String, VoiceDiagnosticsStatsSource>? statsSources,
   DateTime? now,
   Duration timeout = _kCollectTimeout,
@@ -59,7 +61,14 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
       enumerateDevices ?? Hardware.instance.enumerateDevices;
   final Map<String, VoiceDiagnosticsStatsSource> sources =
       statsSources ?? voiceDiagnosticsStatsSources(session);
-  final (Object? app, Object? mediaDevices, Object? webrtc) = await (
+  final Future<Object?> Function() route =
+      audioRoute ?? readVoiceAudioRouteDiagnostics;
+  final (
+    Object? app,
+    Object? mediaDevices,
+    Object? webrtc,
+    Object? audioRouteJson,
+  ) = await (
     _withTimeout('app info', () async {
       final AppRuntimeInfo info = await appInfo();
       return _appInfoJson(info);
@@ -68,6 +77,7 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
       return _mediaDevicesJson(await devices(), settings);
     }, timeout),
     _collectWebRtc(sources, timeout),
+    _withTimeout('audio route', route, timeout),
   ).wait;
   return <String, Object?>{
     'schemaVersion': 1,
@@ -84,7 +94,19 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
     'connectionStats': _safe(() => _connectionStatsJson(connectionStats)),
     'voiceSettings': _safe(() => _settingsJson(settings)),
     'mediaDevices': mediaDevices,
+    'audioRoute': audioRouteJson,
     'webrtc': webrtc,
+  };
+}
+
+Future<Object?> readVoiceAudioRouteDiagnostics() async {
+  if (!Platform.isAndroid) {
+    return null;
+  }
+  final FluxerVoiceAudioSession session = FluxerVoiceAudioSession.instance;
+  return <String, Object?>{
+    'dartOwners': session.owners.toList(),
+    'native': await session.diagnostics(),
   };
 }
 

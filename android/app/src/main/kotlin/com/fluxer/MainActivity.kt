@@ -102,8 +102,6 @@ class MainActivity : AudioServiceFragmentActivity() {
         MainEngineKeepAlive.attach(this, flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
-        VoiceSpeakerRouteBridge(this).register(flutterEngine)
-        SystemVoiceCallGuardBridge(applicationContext).register(flutterEngine)
         VoiceTaskRemovedBridge(applicationContext).also { bridge ->
             bridge.register(flutterEngine)
             VoiceTaskRemovedRegistry.bridge = bridge

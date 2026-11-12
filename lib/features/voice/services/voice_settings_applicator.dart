@@ -697,6 +697,11 @@ class VoiceSettingsApplicator {
           ? settings.outputDeviceOverride
           : null,
       hold: nativeHold,
+      explicit: isExplicitVoiceOutputRoute(
+        route: route,
+        preference: settings.outputRoute,
+        override: settings.outputRouteOverride,
+      ),
     );
   }
 

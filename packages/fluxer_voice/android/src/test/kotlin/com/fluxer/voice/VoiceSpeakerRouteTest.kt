@@ -1,4 +1,4 @@
-package com.fluxer
+package com.fluxer.voice
 
 import android.media.AudioDeviceInfo
 import android.telecom.CallAudioState
@@ -27,22 +27,82 @@ class VoiceSpeakerRouteTest {
     }
 
     @Test
-    fun onlySamsungPinsSpeakerWithCommunicationDevice() {
-        assertTrue(routesSpeakerWithCommunicationDevice("samsung"))
-        assertTrue(routesSpeakerWithCommunicationDevice("Samsung", "samsung"))
-        assertTrue(routesSpeakerWithCommunicationDevice("Google", "samsung"))
-        assertFalse(routesSpeakerWithCommunicationDevice("Google"))
-        assertFalse(routesSpeakerWithCommunicationDevice("Xiaomi"))
-        assertFalse(routesSpeakerWithCommunicationDevice("OnePlus"))
-        assertFalse(routesSpeakerWithCommunicationDevice(null))
+    fun fallbackKeepsTheDesiredRouteWhenAvailable() {
+        assertEquals(
+            VoiceOutputRoute.Earpiece,
+            voiceRouteSearchOrder(VoiceOutputRoute.Earpiece, VoiceOutputRoute.Speaker, listOf("speaker", "earpiece", "bluetooth")).first(),
+        )
     }
 
     @Test
-    fun onlySamsungKeepsRecheckingTheRoute() {
-        assertEquals(listOf(400L, 1000L, 2500L, 5000L), routeFollowUpDelaysMs("samsung"))
-        assertEquals(listOf(400L, 1000L, 2500L, 5000L), routeFollowUpDelaysMs("Google", "samsung"))
-        assertEquals(listOf(400L), routeFollowUpDelaysMs("Google"))
-        assertEquals(listOf(400L), routeFollowUpDelaysMs(null))
+    fun fallbackPrefersBluetoothThenHeadsetThenSpeaker() {
+        assertEquals(
+            VoiceOutputRoute.Bluetooth,
+            voiceRouteSearchOrder(VoiceOutputRoute.Headset, VoiceOutputRoute.Speaker, listOf("speaker", "earpiece", "bluetooth")).first(),
+        )
+        assertEquals(
+            VoiceOutputRoute.Headset,
+            voiceRouteSearchOrder(VoiceOutputRoute.Earpiece, VoiceOutputRoute.Speaker, listOf("speaker", "headset")).first(),
+        )
+        assertEquals(
+            VoiceOutputRoute.Speaker,
+            voiceRouteSearchOrder(VoiceOutputRoute.Bluetooth, VoiceOutputRoute.Speaker, listOf("speaker", "earpiece")).first(),
+        )
+    }
+
+    @Test
+    fun searchOrderFallsBackToTheBuiltInDefaultAndSkipsFailedRoutes() {
+        assertEquals(
+            listOf(VoiceOutputRoute.Earpiece, VoiceOutputRoute.Speaker),
+            voiceRouteSearchOrder(VoiceOutputRoute.Bluetooth, VoiceOutputRoute.Earpiece, listOf("speaker", "earpiece")),
+        )
+        assertEquals(
+            listOf(VoiceOutputRoute.Speaker, VoiceOutputRoute.Earpiece),
+            voiceRouteSearchOrder(
+                VoiceOutputRoute.Bluetooth,
+                VoiceOutputRoute.Speaker,
+                listOf("speaker", "earpiece", "bluetooth"),
+                unavailable = setOf(VoiceOutputRoute.Bluetooth),
+            ),
+        )
+    }
+
+    @Test
+    fun mapsTelecomRoutesBack() {
+        assertEquals(VoiceOutputRoute.Bluetooth, voiceOutputRouteForTelecom(CallAudioState.ROUTE_BLUETOOTH))
+        assertEquals(VoiceOutputRoute.Earpiece, voiceOutputRouteForTelecom(CallAudioState.ROUTE_EARPIECE))
+        assertNull(voiceOutputRouteForTelecom(CallAudioState.ROUTE_STREAMING))
+    }
+
+    @Test
+    fun reassertLimiterReportsWhenTheNextSlotOpens() {
+        val limiter = ReassertLimiter(maxCount = 2, windowMs = 1000)
+        assertEquals(0, limiter.millisUntilNextSlot(0))
+        limiter.tryAcquire(100)
+        limiter.tryAcquire(200)
+        assertEquals(400, limiter.millisUntilNextSlot(700))
+    }
+
+    @Test
+    fun reassertLimiterCapsAttemptsWithinTheWindow() {
+        val limiter = ReassertLimiter(maxCount = 2, windowMs = 1000)
+        assertTrue(limiter.tryAcquire(0))
+        assertTrue(limiter.tryAcquire(100))
+        assertFalse(limiter.tryAcquire(200))
+        assertTrue(limiter.tryAcquire(1000))
+        limiter.reset()
+        assertTrue(limiter.tryAcquire(1001))
+    }
+
+    @Test
+    fun eventLogKeepsTheMostRecentEntries() {
+        var now = 0L
+        val log = VoiceRouteEventLog(capacity = 2) { now }
+        log.add("a")
+        now = 5
+        log.add("b")
+        log.add("c")
+        assertEquals(listOf("+5ms b", "+5ms c"), log.snapshot())
     }
 
     @Test
@@ -168,15 +228,15 @@ class VoiceSpeakerRouteTest {
                 hasEarpiece = true,
             ),
         )
-        assertNull(communicationDeviceForRoute(VoiceOutputRoute.Headset, emptyList()))
-        assertNull(communicationDeviceForRoute(VoiceOutputRoute.Bluetooth, emptyList()))
+        assertTrue(communicationDeviceCandidates(VoiceOutputRoute.Headset, emptyList()).isEmpty())
+        assertTrue(communicationDeviceCandidates(VoiceOutputRoute.Bluetooth, emptyList()).isEmpty())
     }
 
     @Test
     fun bluetoothRoutePrefersScoOverA2dp() {
         assertEquals(
             AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
-            communicationDeviceTypeForRoute(
+            typeForRoute(
                 VoiceOutputRoute.Bluetooth,
                 listOf(
                     AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
@@ -189,7 +249,7 @@ class VoiceSpeakerRouteTest {
     @Test
     fun bluetoothRouteDoesNotSelectA2dpOnly() {
         assertNull(
-            communicationDeviceTypeForRoute(
+            typeForRoute(
                 VoiceOutputRoute.Bluetooth,
                 listOf(AudioDeviceInfo.TYPE_BLUETOOTH_A2DP),
             ),
@@ -204,11 +264,11 @@ class VoiceSpeakerRouteTest {
         )
         assertEquals(
             AudioDeviceInfo.TYPE_WIRED_HEADSET,
-            communicationDeviceTypeForRoute(VoiceOutputRoute.Headset, types),
+            typeForRoute(VoiceOutputRoute.Headset, types),
         )
         assertEquals(
             AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
-            communicationDeviceTypeForRoute(VoiceOutputRoute.Bluetooth, types),
+            typeForRoute(VoiceOutputRoute.Bluetooth, types),
         )
     }
 
@@ -216,7 +276,7 @@ class VoiceSpeakerRouteTest {
     fun speakerRouteStaysSpeakerWhenHeadsetTypesExist() {
         assertEquals(
             AudioDeviceInfo.TYPE_BUILTIN_SPEAKER,
-            communicationDeviceTypeForRoute(
+            typeForRoute(
                 VoiceOutputRoute.Speaker,
                 listOf(
                     AudioDeviceInfo.TYPE_BUILTIN_SPEAKER,
@@ -259,5 +319,10 @@ class VoiceSpeakerRouteTest {
         assertEquals(VoiceOutputRoute.Headset, VoiceOutputDeviceKind.Usb.route)
         assertEquals(VoiceOutputRoute.Bluetooth, VoiceOutputDeviceKind.HearingAid.route)
         assertNull(voiceOutputDeviceKind(AudioDeviceInfo.TYPE_BLUETOOTH_A2DP))
+    }
+
+    private fun typeForRoute(route: VoiceOutputRoute, types: Iterable<Int>): Int? {
+        val available = types.toSet()
+        return communicationDeviceTypesForRoute(route).firstOrNull { it in available }
     }
 }
