@@ -261,19 +261,28 @@ void main() {
       );
     });
 
-    test('reads native device maps', () {
+    test('reads native device messages', () {
       expect(
-        VoiceOutputDevice.fromNative(<String, Object?>{
-          'id': 4,
-          'kind': 'bluetoothLe',
-          'name': 'Test Earbuds',
-          'active': true,
-        }),
+        VoiceOutputDevice.fromMessage(
+          NativeVoiceDevice(
+            id: 4,
+            kind: NativeVoiceDeviceKind.bluetoothLe,
+            name: 'Test Earbuds',
+            active: true,
+          ),
+        ),
         buds,
       );
       expect(
-        VoiceOutputDevice.fromNative(<String, Object?>{'kind': 'unknown'}),
-        isNull,
+        VoiceOutputDevice.fromMessage(
+          NativeVoiceDevice(
+            id: 5,
+            kind: NativeVoiceDeviceKind.wired,
+            name: '',
+            active: false,
+          ),
+        ),
+        const VoiceOutputDevice(kind: VoiceOutputDeviceKind.wired, id: 5),
       );
     });
   });

@@ -42,7 +42,7 @@ private val externalCallModes = setOf(
 internal class VoiceAudioSession(
     private val context: Context,
     val handler: Handler,
-    private val emit: (Map<String, Any?>) -> Unit,
+    private val emit: (NativeVoiceSessionState) -> Unit,
     private val clock: () -> Long = SystemClock::elapsedRealtime,
     private val connections: () -> List<CallkitConnection> = { telecomCallConnections(context) },
     private val registerPlatformListeners: Boolean = true,
@@ -197,12 +197,16 @@ internal class VoiceAudioSession(
         return availableVoiceOutputRouteNames(outputTypes(audioManager), hasEarpiece())
     }
 
-    fun outputDeviceMaps(): List<Map<String, Any?>> {
+    fun availableRoutes(): List<NativeVoiceRoute> {
+        return availableRouteNames().map { voiceOutputRouteFromName(it).toMessage() }
+    }
+
+    fun outputDeviceMessages(): List<NativeVoiceDevice> {
         return voiceOutputDevices(
             outputDevices(audioManager),
             hasEarpiece(),
             appliedDeviceId ?: activeCommunicationDeviceId(audioManager),
-        ).map { it.toMap() }
+        ).map { it.toMessage() }
     }
 
     fun diagnostics(): String {
@@ -226,15 +230,15 @@ internal class VoiceAudioSession(
             " events=${eventLog.snapshot()}"
     }
 
-    fun state(type: String): Map<String, Any?> = mapOf(
-        "type" to type,
-        "active" to isActive,
-        "route" to (currentRoute() ?: desiredRoute).name.lowercase(),
-        "routes" to availableRouteNames(),
-        "devices" to outputDeviceMaps(),
-        "activeDeviceId" to (appliedDeviceId ?: activeCommunicationDeviceId(audioManager)),
-        "telecom" to telecomOwnsRoute,
-        "micSilenced" to micSilenced,
+    fun state(type: String): NativeVoiceSessionState = NativeVoiceSessionState(
+        type = type,
+        active = isActive,
+        route = (currentRoute() ?: desiredRoute).toMessage(),
+        routes = availableRoutes(),
+        devices = outputDeviceMessages(),
+        activeDeviceId = (appliedDeviceId ?: activeCommunicationDeviceId(audioManager))?.toLong(),
+        telecom = telecomOwnsRoute,
+        micSilenced = micSilenced,
     )
 
     fun onActivityVisibilityChanged() {
@@ -772,7 +776,7 @@ internal class VoiceAudioSession(
     companion object {
         @Volatile
         private var instance: VoiceAudioSession? = null
-        private val sinks = mutableListOf<(Map<String, Any?>) -> Unit>()
+        private val sinks = mutableListOf<(NativeVoiceSessionState) -> Unit>()
         private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
         fun shared(context: Context): VoiceAudioSession {
@@ -790,7 +794,7 @@ internal class VoiceAudioSession(
             }
         }
 
-        fun addSink(session: VoiceAudioSession, sink: (Map<String, Any?>) -> Unit) {
+        fun addSink(session: VoiceAudioSession, sink: (NativeVoiceSessionState) -> Unit) {
             val count = synchronized(sinks) {
                 sinks.add(sink)
                 sinks.size
@@ -798,7 +802,7 @@ internal class VoiceAudioSession(
             session.handler.post { session.hasListeners = count > 0 }
         }
 
-        fun removeSink(session: VoiceAudioSession, sink: (Map<String, Any?>) -> Unit) {
+        fun removeSink(session: VoiceAudioSession, sink: (NativeVoiceSessionState) -> Unit) {
             val count = synchronized(sinks) {
                 sinks.remove(sink)
                 sinks.size

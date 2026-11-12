@@ -96,15 +96,6 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
             result(ringing)
           }
         }
-      case "isExternalCallActive":
-        let fluxerOwnsVoice =
-          (call.arguments as? [String: Any])?["fluxerOwnsVoice"] as? Bool ?? false
-        self.queue.async {
-          let active = self.isExternalCallActive(fluxerOwnsVoice: fluxerOwnsVoice)
-          DispatchQueue.main.async {
-            result(active)
-          }
-        }
       case "currentCalls":
         self.queue.async {
           let payload = self.currentCallsPayload()
@@ -124,6 +115,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       }
     }
     methodChannel = channel
+    SystemVoiceCallGuardHostApiSetup.setUp(binaryMessenger: messenger, api: self)
   }
 
   func handle(payload: PKPushPayload, completion: @escaping () -> Void) {
@@ -477,7 +469,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
   }
 
-  private func isExternalCallActive(fluxerOwnsVoice: Bool) -> Bool {
+  private func externalCallActive(fluxerOwnsVoice: Bool) -> Bool {
     if fluxerOwnsVoice {
       return false
     }
@@ -808,5 +800,19 @@ private final class PushCompletionGate {
     fallback = work
     lock.unlock()
     queue.asyncAfter(deadline: .now() + seconds, execute: work)
+  }
+}
+
+extension IncomingCallReporter: SystemVoiceCallGuardHostApi {
+  func isExternalCallActive(
+    fluxerOwnsVoice: Bool,
+    completion: @escaping (Result<Bool, Error>) -> Void
+  ) {
+    queue.async {
+      let active = self.externalCallActive(fluxerOwnsVoice: fluxerOwnsVoice)
+      DispatchQueue.main.async {
+        completion(.success(active))
+      }
+    }
   }
 }

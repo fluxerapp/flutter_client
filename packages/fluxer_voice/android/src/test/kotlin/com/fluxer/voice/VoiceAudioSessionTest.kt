@@ -48,7 +48,7 @@ class VoiceAudioSessionTest {
     private val keepalive = FakeKeepalive()
     private var now = 0L
     private var calls: List<CallkitConnection> = emptyList()
-    private val events = mutableListOf<Map<String, Any?>>()
+    private val events = mutableListOf<NativeVoiceSessionState>()
 
     @Before
     fun setUp() {
@@ -228,7 +228,7 @@ class VoiceAudioSessionTest {
         drift(speaker)
 
         assertEquals(1, audioManager.communicationDevice?.id)
-        assertEquals("speaker", events.last()["route"])
+        assertEquals(NativeVoiceRoute.SPEAKER, events.last().route)
     }
 
     @Test
@@ -339,8 +339,8 @@ class VoiceAudioSessionTest {
 
         session.onMicrophoneSilenced(true)
 
-        assertEquals("micSilenced", events.last()["type"])
-        assertEquals(true, events.last()["micSilenced"])
+        assertEquals("micSilenced", events.last().type)
+        assertEquals(true, events.last().micSilenced)
     }
 
     @Test
@@ -351,9 +351,9 @@ class VoiceAudioSessionTest {
         session.hasListeners = true
         session.setPreferredRoute(VoiceOutputRoute.Earpiece, null, true)
 
-        assertEquals("routeChanged", events.last()["type"])
-        assertEquals("earpiece", events.last()["route"])
-        assertEquals(listOf("speaker", "earpiece"), events.last()["routes"])
+        assertEquals("routeChanged", events.last().type)
+        assertEquals(NativeVoiceRoute.EARPIECE, events.last().route)
+        assertEquals(listOf(NativeVoiceRoute.SPEAKER, NativeVoiceRoute.EARPIECE), events.last().routes)
     }
 
     @Test

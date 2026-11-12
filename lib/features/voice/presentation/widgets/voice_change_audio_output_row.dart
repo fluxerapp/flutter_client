@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_voice/fluxer_voice.dart' show VoiceActiveOutputRoute;
 
 const Key kVoiceChangeAudioOutputKey = Key('voice-change-audio-output');
 

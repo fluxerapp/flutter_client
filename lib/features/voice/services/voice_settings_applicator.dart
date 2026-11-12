@@ -665,7 +665,6 @@ class VoiceSettingsApplicator {
 
   Future<void> applySpeakerOutput({
     required VoiceSettingsState settings,
-    bool holdRoute = true,
   }) async {
     if (await isExternalSystemVoiceCallActive()) {
       return;
@@ -673,30 +672,22 @@ class VoiceSettingsApplicator {
     if (!AudioManager.instance.canSwitchSpeakerphone) {
       return;
     }
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      await _applyLiveKitOutputRoutePreference(settings.outputRoute);
+      return;
+    }
     final Set<VoiceOutputRoute> available =
         await readAvailableVoiceOutputRoutes();
-    final VoiceOutputRoute route =
-        defaultTargetPlatform == TargetPlatform.android
-        ? resolveVoiceCallOutputRoute(
-            preference: settings.outputRoute,
-            override: settings.outputRouteOverride,
-            available: available,
-          )
-        : resolveVoiceOutputRoute(
-            preference: settings.outputRoute,
-            available: available,
-          );
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      await _applyLiveKitOutputRoutePreference(route);
-    }
-    final bool nativeHold =
-        defaultTargetPlatform == TargetPlatform.android && holdRoute;
+    final VoiceOutputRoute route = resolveVoiceCallOutputRoute(
+      preference: settings.outputRoute,
+      override: settings.outputRouteOverride,
+      available: available,
+    );
     await applyNativeVoiceOutputRoute(
       route,
       deviceId: settings.outputRouteOverride == route
           ? settings.outputDeviceOverride
           : null,
-      hold: nativeHold,
       explicit: isExplicitVoiceOutputRoute(
         route: route,
         preference: settings.outputRoute,
