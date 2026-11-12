@@ -108,6 +108,7 @@ class _ShellSidebarResizeHandleState
                   duration: const Duration(milliseconds: 160),
                   opacity: showIndicator ? (_dragging ? 1 : 0.92) : 0,
                   child: AnimatedContainer(
+                    key: ValueKey<bool>(desktop),
                     duration: const Duration(milliseconds: 160),
                     width: indicatorWidth,
                     height: desktop ? double.infinity : _kIndicatorHeight,
