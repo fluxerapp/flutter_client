@@ -39,6 +39,15 @@ class DesktopTray with TrayListener, WindowListener {
     await tray._start();
   }
 
+  static void quit() {
+    final DesktopTray? tray = _instance;
+    if (tray == null) {
+      unawaited(quitDesktopApp());
+      return;
+    }
+    tray._quit();
+  }
+
   DesktopBehaviorPreferencesState get _preferences =>
       _container.read(desktopBehaviorPreferencesProvider);
 

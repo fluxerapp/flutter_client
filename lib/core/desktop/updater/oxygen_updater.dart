@@ -67,5 +67,11 @@ class OxygenUpdater {
 
   static Future<bool> isUpdateAvailable() => velopack.isUpdateAvailable();
 
-  static Future<void> updateAndRestart() => velopack.updateAndRestart();
+  static Future<bool> prepareUpdateOnExit() async {
+    if (!await velopack.isUpdateAvailable()) {
+      return false;
+    }
+    await velopack.waitExitThenUpdate(silent: false, restart: true);
+    return true;
+  }
 }

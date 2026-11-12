@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/core/desktop/tray/desktop_tray.dart';
 import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -74,7 +75,10 @@ class OxygenUpdate extends _$OxygenUpdate {
     }
     state = OxygenUpdateStatus.updating;
     try {
-      await OxygenUpdater.updateAndRestart();
+      if (await OxygenUpdater.prepareUpdateOnExit()) {
+        DesktopTray.quit();
+        return;
+      }
       if (ref.mounted) {
         state = OxygenUpdateStatus.none;
       }
