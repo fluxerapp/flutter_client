@@ -95,14 +95,17 @@ module AltstorePal
   end
 
   def ensure_notarization_review_type!(version)
-    notarization = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
-    return true if version.review_type.to_s == notarization
+    ensure_review_type!(version, Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION)
+  end
+
+  def ensure_review_type!(version, review_type)
+    return true if version.review_type.to_s == review_type
 
     state = version.app_version_state.to_s
     return false unless state.empty? || REVIEW_TYPE_MUTABLE_STATES.include?(state)
 
     begin
-      version.update(attributes: { reviewType: notarization })
+      version.update(attributes: { reviewType: review_type })
     rescue Spaceship::UnexpectedResponse => error
       return false if error.message.include?("reviewType")
 
@@ -110,7 +113,35 @@ module AltstorePal
     end
 
     refreshed = Spaceship::ConnectAPI::AppStoreVersion.get(app_store_version_id: version.id)
-    refreshed&.review_type.to_s == notarization
+    refreshed&.review_type.to_s == review_type
+  end
+
+  def prepare_app_store_release_version!(api_key:, app_identifier:, app_version:, platform: Spaceship::ConnectAPI::Platform::IOS)
+    connect_api(api_key)
+    app = Spaceship::ConnectAPI::App.find(app_identifier)
+    app_store = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::APP_STORE
+    notarization = Spaceship::ConnectAPI::AppStoreVersion::ReviewType::NOTARIZATION
+
+    version = find_app_store_version(app, app_version: app_version, platform: platform)
+    if version
+      previous = version.review_type.to_s
+      unless ensure_review_type!(version, app_store)
+        fail!(
+          "App Store Connect version #{app_version} is #{previous} " \
+          "(#{version.app_version_state}) and its review type cannot be changed to #{app_store}."
+        )
+      end
+      log("Switched App Store Connect version #{app_version} from #{previous} to #{app_store} review.") if previous != app_store
+      return
+    end
+
+    editable = app.get_edit_app_store_version(platform: platform)
+    return unless editable && editable.review_type.to_s == notarization
+
+    log(
+      "Unreleased version #{editable.version_string} (#{editable.app_version_state}) is an AltStore PAL " \
+      "notarization version. Do not attach build #{app_version} to it; App Store review needs a #{app_store} version."
+    )
   end
 
   def prepare_altstore_pal_build_version(

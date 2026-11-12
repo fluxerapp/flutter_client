@@ -723,6 +723,11 @@ platform :ios do
       app_identifier: app_identifier
     )
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
+    AltstorePal.prepare_app_store_release_version!(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      app_version: flutter_build_name
+    )
 
     build_stable_ipa!(
       dart_define_file: "tool/dart_defines/stable.json",
