@@ -25,10 +25,13 @@ class MainActivity : AudioServiceFragmentActivity() {
         ) {}
     }
 
+    private var restoredFromSavedState = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (deferOAuthDeepLinkToBrowser(intent)) {
             return
         }
+        restoredFromSavedState = savedInstanceState != null
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { view ->
@@ -99,6 +102,7 @@ class MainActivity : AudioServiceFragmentActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        val engineReused = MainEngineKeepAlive.isTracking(flutterEngine)
         MainEngineKeepAlive.attach(this, flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
@@ -112,6 +116,15 @@ class MainActivity : AudioServiceFragmentActivity() {
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)
         MeasureReporting.register(flutterEngine, application)
+        val launchIntent = intent
+        if (
+            engineReused &&
+            !restoredFromSavedState &&
+            launchIntent != null &&
+            NotificationLaunchIntent.isFreshTap(launchIntent.action, launchIntent.flags)
+        ) {
+            flutterEngine.activityControlSurface.onNewIntent(launchIntent)
+        }
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {
