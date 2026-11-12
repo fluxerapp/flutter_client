@@ -56,10 +56,6 @@
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
-    "welcomeBack": "С возвращением",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "Эл. почта",
     "@email": {
         "description": "Generic label for an email field."
@@ -5892,15 +5888,6 @@
     "personalNotesSubtitle": "Ваше личное пространство для мыслей и напоминаний",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
-    },
-    "channelWelcomeHeading": "Добро пожаловать в {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "channelWelcomeDescription": "Это начало {channelName}.",
     "@channelWelcomeDescription": {

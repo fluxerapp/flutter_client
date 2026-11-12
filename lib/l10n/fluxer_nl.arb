@@ -252,10 +252,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "welcomeBack": "Welkom terug",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "E-mail",
     "@email": {
         "description": "Generic label for an email field."
@@ -10282,15 +10278,6 @@
                 "type": "String"
             },
             "time": {
-                "type": "String"
-            }
-        }
-    },
-    "channelWelcomeHeading": "Welkom bij {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
                 "type": "String"
             }
         }
