@@ -3,6 +3,7 @@ require "json"
 require "fileutils"
 require "net/http"
 require "open-uri"
+require "open3"
 require "tmpdir"
 require "uri"
 
@@ -301,6 +302,13 @@ module AltstorePal
         gh_token: gh_token
       )
 
+      if release_draft?(gh_token: gh_token, stable_tag: stable_tag, repo_slug: repo_slug)
+        log(
+          "GitHub release #{stable_tag} is still a draft. source.json will point at #{stable_tag}, " \
+          "and its download links work once the release is published under that tag."
+        )
+      end
+
       if source_json_current?(version: version, build_version: build_version)
         log("source.json already lists #{version} (#{build_version}); skipping edit.")
         return
@@ -500,6 +508,20 @@ module AltstorePal
 
     gh!(gh_token, "release", "view", stable_tag, "--repo", repo_slug)
     gh!(gh_token, "release", "upload", stable_tag, *upload_paths, "--repo", repo_slug, "--clobber")
+  end
+
+  def release_draft?(gh_token:, stable_tag:, repo_slug:)
+    output, status = Open3.capture2(
+      { "GH_TOKEN" => gh_token },
+      "gh", "release", "view", stable_tag, "--repo", repo_slug, "--json", "isDraft", "--jq", ".isDraft"
+    )
+    fail!("gh release view #{stable_tag} failed.") unless status.success?
+
+    case output.strip
+    when "true" then true
+    when "false" then false
+    else fail!("Could not read draft state of GitHub release #{stable_tag}: #{output.strip}")
+    end
   end
 
   def source_json_current?(version:, build_version:)
