@@ -172,7 +172,7 @@ import flutter_callkit_incoming
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
     NativePasteBridge.shared.register(engineBridge: engineBridge)
-    VoiceSpeakerRouteBridge.shared.register(
+    VoiceActiveRouteBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
     if let routePicker = engineBridge.pluginRegistry.registrar(forPlugin: "VoiceRoutePicker") {

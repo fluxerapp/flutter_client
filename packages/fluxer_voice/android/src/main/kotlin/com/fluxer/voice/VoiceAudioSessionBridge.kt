@@ -3,43 +3,28 @@ package com.fluxer.voice
 import android.os.Handler
 import android.os.Looper
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-
-private const val METHOD_CHANNEL = "fluxer_app/voice_speaker_route"
-private const val EVENT_CHANNEL = "fluxer_app/voice_speaker_route_events"
-private const val LEGACY_CALL_OWNER = "call"
 
 internal class VoiceAudioSessionBridge(
     private val session: VoiceAudioSession,
-) {
+) : VoiceAudioSessionHostApi {
     private val mainHandler = Handler(Looper.getMainLooper())
-    private var methodChannel: MethodChannel? = null
-    private var eventChannel: EventChannel? = null
-    private var sink: ((Map<String, Any?>) -> Unit)? = null
+    private var messenger: BinaryMessenger? = null
+    private var sink: ((NativeVoiceSessionState) -> Unit)? = null
     private val acquiredOwners = mutableSetOf<String>()
+    private val stateStream = object : VoiceSessionStatesStreamHandler() {
+        override fun onListen(p0: Any?, sink: PigeonEventSink<NativeVoiceSessionState>) {
+            attachSink(sink)
+        }
+
+        override fun onCancel(p0: Any?) {
+            detachSink()
+        }
+    }
 
     fun register(messenger: BinaryMessenger) {
-        methodChannel = MethodChannel(messenger, METHOD_CHANNEL).also {
-            it.setMethodCallHandler(::onMethodCall)
-        }
-        eventChannel = EventChannel(messenger, EVENT_CHANNEL).also {
-            it.setStreamHandler(
-                object : EventChannel.StreamHandler {
-                    override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
-                        detachSink()
-                        val next: (Map<String, Any?>) -> Unit = { event -> events.success(event) }
-                        sink = next
-                        VoiceAudioSession.addSink(session, next)
-                    }
-
-                    override fun onCancel(arguments: Any?) {
-                        detachSink()
-                    }
-                },
-            )
-        }
+        this.messenger = messenger
+        VoiceAudioSessionHostApi.setUp(messenger, this)
+        VoiceSessionStatesStreamHandler.register(messenger, stateStream)
     }
 
     fun unregister() {
@@ -47,10 +32,56 @@ internal class VoiceAudioSessionBridge(
         val owners = acquiredOwners.toList()
         acquiredOwners.clear()
         session.handler.post { owners.forEach(session::release) }
-        methodChannel?.setMethodCallHandler(null)
-        methodChannel = null
-        eventChannel?.setStreamHandler(null)
-        eventChannel = null
+        messenger?.let { VoiceAudioSessionHostApi.setUp(it, null) }
+        messenger = null
+    }
+
+    override fun acquire(owner: String, callback: (Result<Unit>) -> Unit) {
+        acquiredOwners.add(owner)
+        onSession(callback) { session.acquire(owner) }
+    }
+
+    override fun release(owner: String, callback: (Result<Unit>) -> Unit) {
+        acquiredOwners.remove(owner)
+        onSession(callback) { session.release(owner) }
+    }
+
+    override fun setPreferredRoute(
+        route: NativeVoiceRoute,
+        explicit: Boolean,
+        deviceId: Long?,
+        callback: (Result<Unit>) -> Unit,
+    ) {
+        onSession(callback) {
+            session.setPreferredRoute(route.toVoiceOutputRoute(), deviceId?.toInt(), explicit)
+        }
+    }
+
+    override fun refreshRoute(callback: (Result<Unit>) -> Unit) {
+        onSession(callback) { session.refreshRoute("dart") }
+    }
+
+    override fun state(callback: (Result<NativeVoiceSessionState>) -> Unit) {
+        onSession(callback) { session.state("state") }
+    }
+
+    override fun diagnostics(callback: (Result<String>) -> Unit) {
+        onSession(callback) { session.diagnostics() }
+    }
+
+    override fun availableRoutes(callback: (Result<List<NativeVoiceRoute>>) -> Unit) {
+        onSession(callback) { session.availableRoutes() }
+    }
+
+    override fun outputDevices(callback: (Result<List<NativeVoiceDevice>>) -> Unit) {
+        onSession(callback) { session.outputDeviceMessages() }
+    }
+
+    private fun attachSink(events: PigeonEventSink<NativeVoiceSessionState>) {
+        detachSink()
+        val next: (NativeVoiceSessionState) -> Unit = { state -> events.success(state) }
+        sink = next
+        VoiceAudioSession.addSink(session, next)
     }
 
     private fun detachSink() {
@@ -58,68 +89,14 @@ internal class VoiceAudioSessionBridge(
         sink = null
     }
 
-    private fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-        val method = call.method
-        val owner = call.argument<String>("owner") ?: LEGACY_CALL_OWNER
-        val route = voiceOutputRouteFromName(call.argument<String>("route"))
-        val deviceId = call.argument<Int>("deviceId")
-        val hold = call.argument<Boolean>("hold") ?: false
-        val explicit = call.argument<Boolean>("explicit") ?: false
-        when (method) {
-            "acquire" -> acquiredOwners.add(owner)
-            "release" -> acquiredOwners.remove(owner)
-            "setRoute" -> if (hold) acquiredOwners.add(LEGACY_CALL_OWNER)
-            "clearRouteHold" -> acquiredOwners.remove(LEGACY_CALL_OWNER)
-        }
+    private fun <T> onSession(callback: (Result<T>) -> Unit, block: () -> T) {
         session.handler.post {
-            val value: Any? = try {
-                when (method) {
-                    "acquire" -> {
-                        session.acquire(owner)
-                        null
-                    }
-                    "release" -> {
-                        session.release(owner)
-                        null
-                    }
-                    "setPreferredRoute" -> {
-                        session.setPreferredRoute(route, deviceId, explicit)
-                        null
-                    }
-                    "refreshRoute" -> {
-                        session.refreshRoute("dart")
-                        null
-                    }
-                    "setRoute" -> {
-                        session.setPreferredRoute(route, deviceId, explicit = true)
-                        if (hold) {
-                            session.acquire(LEGACY_CALL_OWNER)
-                        }
-                        null
-                    }
-                    "clearRouteHold" -> {
-                        session.release(LEGACY_CALL_OWNER)
-                        null
-                    }
-                    "routeDiagnostics" -> session.diagnostics()
-                    "availableRoutes" -> session.availableRouteNames()
-                    "outputDevices" -> session.outputDeviceMaps()
-                    "state" -> session.state("state")
-                    else -> NotImplemented
-                }
+            val result = try {
+                Result.success(block())
             } catch (error: Exception) {
-                mainHandler.post { result.error("voice_audio", error.message, null) }
-                return@post
+                Result.failure(FluxerVoiceError("voice_audio", error.message))
             }
-            mainHandler.post {
-                if (value === NotImplemented) {
-                    result.notImplemented()
-                } else {
-                    result.success(value)
-                }
-            }
+            mainHandler.post { callback(result) }
         }
     }
-
-    private object NotImplemented
 }

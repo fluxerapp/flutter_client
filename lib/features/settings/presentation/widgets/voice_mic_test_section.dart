@@ -73,7 +73,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     );
     try {
       await acquireNativeVoiceAudioSession(kVoiceMicTestAudioOwner);
-      await applicator.applySpeakerOutput(settings: settings, holdRoute: false);
+      await applicator.applySpeakerOutput(settings: settings);
       await _configureOutputDevice(settings.outputDeviceId);
       final LocalAudioTrack track = await _createMicTestTrack(
         applicator: applicator,

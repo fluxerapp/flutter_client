@@ -4,7 +4,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.telephony.TelephonyManager
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.MethodChannel
 
 internal fun isExternalVoiceCallActive(
     context: Context,
@@ -29,33 +28,22 @@ internal fun isExternalVoiceCallActive(
     }
 }
 
-class SystemVoiceCallGuardBridge(
+internal class SystemVoiceCallGuardBridge(
     private val context: Context,
-) {
-    private var channel: MethodChannel? = null
+) : SystemVoiceCallGuardHostApi {
+    private var messenger: BinaryMessenger? = null
 
     fun register(messenger: BinaryMessenger) {
-        channel = MethodChannel(messenger, CHANNEL_NAME)
-        channel?.setMethodCallHandler { call, result ->
-            when (call.method) {
-                "isExternalCallActive" -> {
-                    val fluxerOwnsVoice =
-                        call.argument<Boolean>("fluxerOwnsVoice") ?: false
-                    result.success(
-                        isExternalVoiceCallActive(context, fluxerOwnsVoice),
-                    )
-                }
-                else -> result.notImplemented()
-            }
-        }
+        this.messenger = messenger
+        SystemVoiceCallGuardHostApi.setUp(messenger, this)
     }
 
     fun unregister() {
-        channel?.setMethodCallHandler(null)
-        channel = null
+        messenger?.let { SystemVoiceCallGuardHostApi.setUp(it, null) }
+        messenger = null
     }
 
-    private companion object {
-        const val CHANNEL_NAME = "fluxer_app/system_voice_call"
+    override fun isExternalCallActive(fluxerOwnsVoice: Boolean, callback: (Result<Boolean>) -> Unit) {
+        callback(Result.success(isExternalVoiceCallActive(context, fluxerOwnsVoice)))
     }
 }

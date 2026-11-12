@@ -59,17 +59,35 @@ internal fun voiceOutputRouteFromName(name: String?): VoiceOutputRoute {
     }
 }
 
+internal fun VoiceOutputRoute.toMessage(): NativeVoiceRoute {
+    return when (this) {
+        VoiceOutputRoute.Speaker -> NativeVoiceRoute.SPEAKER
+        VoiceOutputRoute.Earpiece -> NativeVoiceRoute.EARPIECE
+        VoiceOutputRoute.Headset -> NativeVoiceRoute.HEADSET
+        VoiceOutputRoute.Bluetooth -> NativeVoiceRoute.BLUETOOTH
+    }
+}
+
+internal fun NativeVoiceRoute.toVoiceOutputRoute(): VoiceOutputRoute {
+    return when (this) {
+        NativeVoiceRoute.SPEAKER -> VoiceOutputRoute.Speaker
+        NativeVoiceRoute.EARPIECE -> VoiceOutputRoute.Earpiece
+        NativeVoiceRoute.HEADSET -> VoiceOutputRoute.Headset
+        NativeVoiceRoute.BLUETOOTH -> VoiceOutputRoute.Bluetooth
+    }
+}
+
 internal enum class VoiceOutputDeviceKind(
-    val wireName: String,
+    val message: NativeVoiceDeviceKind,
     val route: VoiceOutputRoute,
 ) {
-    Earpiece("earpiece", VoiceOutputRoute.Earpiece),
-    Speaker("speaker", VoiceOutputRoute.Speaker),
-    Wired("wired", VoiceOutputRoute.Headset),
-    Usb("usb", VoiceOutputRoute.Headset),
-    Bluetooth("bluetooth", VoiceOutputRoute.Bluetooth),
-    BluetoothLe("bluetoothLe", VoiceOutputRoute.Bluetooth),
-    HearingAid("hearingAid", VoiceOutputRoute.Bluetooth),
+    Earpiece(NativeVoiceDeviceKind.EARPIECE, VoiceOutputRoute.Earpiece),
+    Speaker(NativeVoiceDeviceKind.SPEAKER, VoiceOutputRoute.Speaker),
+    Wired(NativeVoiceDeviceKind.WIRED, VoiceOutputRoute.Headset),
+    Usb(NativeVoiceDeviceKind.USB, VoiceOutputRoute.Headset),
+    Bluetooth(NativeVoiceDeviceKind.BLUETOOTH, VoiceOutputRoute.Bluetooth),
+    BluetoothLe(NativeVoiceDeviceKind.BLUETOOTH_LE, VoiceOutputRoute.Bluetooth),
+    HearingAid(NativeVoiceDeviceKind.HEARING_AID, VoiceOutputRoute.Bluetooth),
 }
 
 internal fun voiceOutputDeviceKind(type: Int): VoiceOutputDeviceKind? {
@@ -100,11 +118,11 @@ internal data class VoiceOutputDevice(
     val name: String?,
     val active: Boolean,
 ) {
-    fun toMap(): Map<String, Any?> = mapOf(
-        "id" to id,
-        "kind" to kind.wireName,
-        "name" to name,
-        "active" to active,
+    fun toMessage(): NativeVoiceDevice = NativeVoiceDevice(
+        id = id.toLong(),
+        kind = kind.message,
+        name = name,
+        active = active,
     )
 }
 
