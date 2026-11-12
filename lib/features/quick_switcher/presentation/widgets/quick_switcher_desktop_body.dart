@@ -343,19 +343,21 @@ class _QuickSwitcherFooterCode extends StatelessWidget {
       height: 20,
       constraints: const BoxConstraints(minWidth: 20),
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.backgroundPrimary,
         borderRadius: context.layout.radiusSm,
         border: Border.all(color: colors.backgroundModifierAccent),
       ),
-      child: Text(
-        symbol,
-        style: context.textStyles.timestamp.copyWith(
-          fontSize: 11,
-          height: 18 / 11,
-          fontWeight: FontWeight.w400,
-          color: colors.textTertiary,
+      child: Center(
+        widthFactor: 1,
+        child: Text(
+          symbol,
+          style: context.textStyles.timestamp.copyWith(
+            fontSize: 11,
+            height: 18 / 11,
+            fontWeight: FontWeight.w400,
+            color: colors.textTertiary,
+          ),
         ),
       ),
     );

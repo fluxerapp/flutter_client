@@ -44,6 +44,7 @@ class DmListQuickSwitcherHeader extends ConsumerWidget {
               ),
             ),
             child: SizedBox(
+              width: double.infinity,
               height: 28,
               child: Stack(
                 alignment: AlignmentDirectional.centerStart,
