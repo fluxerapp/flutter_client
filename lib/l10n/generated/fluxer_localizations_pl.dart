@@ -4574,8 +4574,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Ta społeczność dla dorosłych jest niedostępna dla Twojego konta.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Włącz społeczności i kanały z ograniczeniem wiekowym na fluxer.com w przeglądarce lub w aplikacji na komputer. Do tego czasu pozostaną ukryte w aplikacji na iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

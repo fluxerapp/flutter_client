@@ -20,6 +20,7 @@ MatureContentGateCopy resolveMatureContentGateCopy({
   required FluxerLocalizations l10n,
   required MatureContentGateReason reason,
   required ResolvedMatureGateContext context,
+  required String Function() webAppAddress,
   ChannelType? channelType,
 }) {
   final bool hasCustomWarningText =
@@ -57,7 +58,7 @@ MatureContentGateCopy resolveMatureContentGateCopy({
       title: context.effectiveMatureContent
           ? _matureTitle(l10n, context.scope)
           : _contentWarningTitle(l10n, context.scope),
-      body: l10n.matureContentIosWebOptInBody,
+      body: l10n.matureContentIosWebOptInInstanceBody(webAppAddress()),
       primaryButtonLabel: null,
       canProceed: false,
     );

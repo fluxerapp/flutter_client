@@ -4515,8 +4515,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu yetişkinlere özel topluluk hesabınız için kullanılamıyor.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Yaş kısıtlamalı toplulukları ve kanalları tarayıcınızda fluxer.com adresinden veya masaüstü uygulamasından açın. Siz açana kadar iOS uygulamasında gizli kalırlar.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -4509,8 +4509,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Komunitas dewasa ini tidak tersedia untuk akunmu.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Aktifkan komunitas dan saluran dengan batasan usia di fluxer.com melalui browser Anda atau di aplikasi desktop. Semuanya tetap tersembunyi di aplikasi iOS sampai Anda melakukannya.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -75,6 +76,7 @@ class _MatureContentChannelGateBody extends ConsumerWidget {
       l10n: l10n,
       reason: reason,
       context: gateContext,
+      webAppAddress: () => ref.watch(instanceWebAppAddressProvider),
       channelType: channelType,
     );
     return Center(

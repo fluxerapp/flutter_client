@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -51,24 +52,44 @@ void main() {
     scopeId: 'channel-2',
   );
 
+  List<Override> webOptInOverrides(String webAppBaseUrl) => [
+    matureContentGateReasonProvider(
+      'channel-1',
+    ).overrideWith((ref) => MatureContentGateReason.webOptInRequired),
+    matureGateContextProvider('channel-1').overrideWith((ref) => matureContext),
+    instanceWebAppBaseUrlProvider.overrideWithValue(webAppBaseUrl),
+  ];
+
   testWidgets('shows web opt-in copy without proceed on iOS', (tester) async {
     await tester.pumpWidget(
       _buildTestApp(
-        overrides: [
-          matureContentGateReasonProvider(
-            'channel-1',
-          ).overrideWith((ref) => MatureContentGateReason.webOptInRequired),
-          matureGateContextProvider(
-            'channel-1',
-          ).overrideWith((ref) => matureContext),
-        ],
+        overrides: webOptInOverrides('https://web.fluxer.app'),
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('Mature channel'), findsOneWidget);
+    expect(
+      find.textContaining('channels at fluxer.com in your browser'),
+      findsOneWidget,
+    );
     expect(find.text('Proceed'), findsNothing);
     expect(find.text('Cancel'), findsOneWidget);
+  });
+
+  testWidgets('web opt-in copy names the self-hosted instance', (tester) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        overrides: webOptInOverrides('https://chat.example.com'),
+        child: const MatureContentChannelGate(channelId: 'channel-1'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      find.textContaining('channels at chat.example.com in your browser'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('fluxer.com'), findsNothing);
   });
 
   testWidgets('shows mature channel copy when consent is required', (

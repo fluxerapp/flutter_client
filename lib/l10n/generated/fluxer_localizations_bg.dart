@@ -4555,8 +4555,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Тази общност за възрастни не е достъпна за акаунта ти.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Включи общностите и каналите с възрастово ограничение на fluxer.com в браузъра си или в настолното приложение. Дотогава те остават скрити в приложението за iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -19888,10 +19888,6 @@
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
     },
-    "matureContentIosWebOptInBody": "Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou no app para desktop. Eles continuam ocultos no app para iOS até você fazer isso.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
-    },
     "notificationChannelMessages": "Mensagens",
     "@notificationChannelMessages": {
         "description": "Android notification channel name for community messages."
