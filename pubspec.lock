@@ -871,26 +871,27 @@ packages:
     dependency: "direct overridden"
     description:
       path: flutter_inappwebview_ios
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
-      resolved-ref: fc33a449b9290b127a471808e22eb7b0edebad92
-      url: "https://github.com/wangqiang1588/flutter_inappwebview"
+      ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      resolved-ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      url: "https://github.com/fluxerapp/flutter_inappwebview"
     source: git
     version: "1.2.0-beta.3"
   flutter_inappwebview_linux:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: flutter_inappwebview_linux
-      sha256: "2e1a3b09bb911fb5a8bb155cb7f1eb1428a19b6e20363b9db48beef428b8cef5"
-      url: "https://pub.dev"
-    source: hosted
+      path: flutter_inappwebview_linux
+      ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      resolved-ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      url: "https://github.com/fluxerapp/flutter_inappwebview"
+    source: git
     version: "0.1.0-beta.1"
   flutter_inappwebview_macos:
     dependency: "direct overridden"
     description:
       path: flutter_inappwebview_macos
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
-      resolved-ref: fc33a449b9290b127a471808e22eb7b0edebad92
-      url: "https://github.com/wangqiang1588/flutter_inappwebview"
+      ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      resolved-ref: "0ad34d05448a4723d8472975af2ec8fe7e7a5c80"
+      url: "https://github.com/fluxerapp/flutter_inappwebview"
     source: git
     version: "1.2.0-beta.3"
   flutter_inappwebview_platform_interface:
