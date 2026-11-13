@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -77,6 +78,7 @@ ForumPostCardData _data({int unreadCount = 4, bool thumbnail = false}) {
                 id: '300',
                 filename: 'photo.png',
                 url: 'https://media.invalid/photo.png',
+                proxyUrl: 'https://media.invalid/attachments/100/300/photo.png',
                 contentType: 'image/png',
                 width: 800,
                 height: 600,
@@ -143,6 +145,31 @@ void main() {
     expect(_footerText('2d'), findsOneWidget);
     _expectOneLine(tester, <String>['17', '1.2K', '4 new', '2d']);
     _expectNoClippedText(tester);
+  });
+
+  testWidgets('the thumbnail asks the media proxy for a webp preview', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      _app(
+        ForumPostCard(data: _data(thumbnail: true), onTap: () {}),
+        width: 390,
+      ),
+    );
+    await tester.pump();
+
+    final Uri thumbnail = Uri.parse(
+      tester
+          .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .imageUrl,
+    );
+    expect(thumbnail.path, '/attachments/100/300/photo.png');
+    expect(thumbnail.queryParameters['format'], 'webp');
+    expect(thumbnail.queryParameters['width'], isNotNull);
+    expect(thumbnail.queryParameters['height'], isNotNull);
   });
 
   testWidgets('the footer spans the card under the thumbnail', (

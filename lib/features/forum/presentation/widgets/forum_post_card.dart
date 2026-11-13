@@ -113,6 +113,7 @@ String? _previewUrl(Attachment attachment) {
   );
   return buildMediaProxyUrl(
     proxy,
+    format: 'webp',
     width: size?.width.round(),
     height: size?.height.round(),
   );
