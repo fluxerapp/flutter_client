@@ -53,6 +53,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   }
 
   static const Duration _kSeekTimeout = Duration(seconds: 8);
+  static const Duration _kOrphanReleaseDelay = Duration(minutes: 5);
   static const List<double> _kPlaybackRates = <double>[1, 1.25, 1.5, 2];
 
   static final Map<String, ChatAttachmentAudioController> _controllers =
@@ -94,6 +95,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   bool _hasStarted = false;
   bool _playbackFinished = false;
   bool _disposed = false;
+  Timer? _orphanReleaseTimer;
   Duration _duration = Duration.zero;
   double _volume = 1;
   bool _isMuted = false;
@@ -140,6 +142,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       await pause();
       return true;
     }
+    _orphanReleaseTimer?.cancel();
     _hasStarted = true;
     _isLoading = true;
     _notify();
@@ -160,6 +163,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       _sessionReporter.sync(playing: true);
       return true;
     } on Object {
+      scheduleMicrotask(_releaseIfOrphaned);
       return _hasPreparedSource;
     } finally {
       _isLoading = false;
@@ -175,12 +179,17 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     _sessionReporter.sync(playing: false);
     _notify();
     await _player?.pause();
+    if (!hasListeners && !_disposed) {
+      _orphanReleaseTimer?.cancel();
+      _orphanReleaseTimer = Timer(_kOrphanReleaseDelay, _releaseIfOrphaned);
+    }
   }
 
   Future<void> resume() async {
     if (_disposed || _isLoading || sourceUrl.isEmpty) {
       return;
     }
+    _orphanReleaseTimer?.cancel();
     final AudioPlayer player = _ensurePlayer();
     if (_playbackFinished || _isAtEndOfTrack) {
       await _replayFromStart(player);
@@ -412,6 +421,14 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     }
   }
 
+  void _releaseIfOrphaned() {
+    if (_disposed || hasListeners || _isPlaying || _isLoading) {
+      return;
+    }
+    _removeFromRegistry();
+    _discard();
+  }
+
   void _removeFromRegistry() {
     if (_controllers[sourceUrl] == this) {
       _controllers.remove(sourceUrl);
@@ -423,6 +440,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       return;
     }
     _disposed = true;
+    _orphanReleaseTimer?.cancel();
     _binding.release();
     position.dispose();
     unawaited(_playerStateSubscription?.cancel());

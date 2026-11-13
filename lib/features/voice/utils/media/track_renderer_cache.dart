@@ -171,7 +171,9 @@ class VoiceTrackRendererCache<T> {
       }
     }
     if (slot.refs > 0 || !identical(_slots[key], slot)) {
-      slot.destroying = false;
+      slot
+        ..destroying = false
+        ..destroyFuture = null;
       return;
     }
     _slots.remove(key);

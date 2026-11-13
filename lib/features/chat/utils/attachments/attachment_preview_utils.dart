@@ -307,3 +307,14 @@ int remainingPreviewLinesFromCount(int lineCount) {
 }
 
 final Map<String, bool> previewExpansionState = <String, bool>{};
+
+const int kPreviewExpansionStateMaxEntries = 256;
+
+void rememberPreviewExpansion(String attachmentId, {required bool expanded}) {
+  previewExpansionState
+    ..remove(attachmentId)
+    ..[attachmentId] = expanded;
+  while (previewExpansionState.length > kPreviewExpansionStateMaxEntries) {
+    previewExpansionState.remove(previewExpansionState.keys.first);
+  }
+}

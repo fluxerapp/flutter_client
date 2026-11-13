@@ -17,13 +17,13 @@ void main() {
       expect(_cacheSize(database), -8000);
     });
 
-    test('desktop sqlite connections keep the 64000 KiB page cache', () {
+    test('desktop sqlite connections cap the page cache at 16000 KiB', () {
       final Database database = sqlite3.openInMemory();
       addTearDown(database.close);
 
       driftSqliteSetup(isMobile: false)(database);
 
-      expect(_cacheSize(database), -64000);
+      expect(_cacheSize(database), -16000);
     });
   });
 }

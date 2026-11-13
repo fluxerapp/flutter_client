@@ -1,11 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 
-final Provider<Map<String, User>> userPresenceCacheProvider =
-    Provider<Map<String, User>>((Ref ref) {
+const int kUserPresenceCacheCapacity = 2000;
+
+final Provider<BoundedLruCache<String, User>> userPresenceCacheProvider =
+    Provider<BoundedLruCache<String, User>>((Ref ref) {
       ref.watch(fluxerDatabaseProvider);
-      return <String, User>{};
+      return BoundedLruCache<String, User>(
+        capacity: kUserPresenceCacheCapacity,
+      );
     });
 
 // `StreamProviderFamily` is not exposed by the public API; the explicit type
@@ -17,12 +22,14 @@ final userPresenceProvider = StreamProvider.autoDispose.family<User?, String>((
   userId,
 ) {
   final database = ref.watch(fluxerDatabaseProvider);
-  final Map<String, User> cache = ref.watch(userPresenceCacheProvider);
+  final BoundedLruCache<String, User> cache = ref.watch(
+    userPresenceCacheProvider,
+  );
   return database.userDao.watchUserById(userId).map((User? user) {
     if (user == null) {
       cache.remove(userId);
     } else {
-      cache[userId] = user;
+      cache.set(userId, user);
     }
     return user;
   });
@@ -33,5 +40,5 @@ User? watchLastKnownUserPresence(WidgetRef ref, String userId) {
   if (presence.hasValue) {
     return presence.value;
   }
-  return ref.watch(userPresenceCacheProvider)[userId];
+  return ref.watch(userPresenceCacheProvider).peek(userId);
 }

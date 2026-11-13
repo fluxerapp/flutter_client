@@ -14,6 +14,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'forum_first_messages_provider.g.dart';
 
+const int kForumFirstMessagesMaxEntries = 500;
+
 @Riverpod(keepAlive: true)
 class ForumFirstMessages extends _$ForumFirstMessages {
   final Set<String> _requested = <String>{};
@@ -127,7 +129,7 @@ class ForumFirstMessages extends _$ForumFirstMessages {
           .read(forumRepositoryProvider)
           .fetchPostData(guildId: guildId, forumId: forumId, postIds: postIds);
       if (ref.mounted) {
-        state = <String, Message?>{...state, ...messages};
+        _commit(<String, Message?>{...state, ...messages});
       }
     } on Object catch (error) {
       _requested.removeAll(postIds);
@@ -139,11 +141,23 @@ class ForumFirstMessages extends _$ForumFirstMessages {
     if (messages.isEmpty) {
       return;
     }
-    state = <String, Message?>{...state, ...messages};
+    _commit(<String, Message?>{...state, ...messages});
   }
 
   void put(Message message) {
-    state = <String, Message?>{...state, message.channelId: message};
+    _commit(<String, Message?>{...state, message.channelId: message});
+  }
+
+  void _commit(Map<String, Message?> next) {
+    final int overflow = next.length - kForumFirstMessagesMaxEntries;
+    if (overflow > 0) {
+      final List<String> evicted = next.keys.take(overflow).toList();
+      for (final String id in evicted) {
+        next.remove(id);
+        _requested.remove(id);
+      }
+    }
+    state = next;
   }
 
   void applyUpdate(Message message) {

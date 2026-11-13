@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
@@ -338,18 +339,21 @@ void main() {
             userPresenceProvider(
               '13',
             ).overrideWith((Ref ref) => const Stream<db.User?>.empty()),
-            userPresenceCacheProvider.overrideWithValue(<String, db.User>{
-              '13': const db.User(
-                id: '13',
-                username: 'bob',
-                discriminator: '0001',
-                bot: false,
-                system: false,
-                status: 'idle',
-                mobile: false,
-                hiddenProfileBadgesJson: '[]',
+            userPresenceCacheProvider.overrideWithValue(
+              BoundedLruCache<String, db.User>(capacity: 8)..set(
+                '13',
+                const db.User(
+                  id: '13',
+                  username: 'bob',
+                  discriminator: '0001',
+                  bot: false,
+                  system: false,
+                  status: 'idle',
+                  mobile: false,
+                  hiddenProfileBadgesJson: '[]',
+                ),
               ),
-            }),
+            ),
           ],
           child: buildTestApp(
             FluxerAvatar.userPresence(userId: '13', fallbackText: 'Bob'),

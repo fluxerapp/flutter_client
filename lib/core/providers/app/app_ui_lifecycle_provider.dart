@@ -8,13 +8,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/app_lock/app_lock_controller.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
-import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/app_memory_trim.dart';
 import 'package:fluxer_app/core/providers/app/local_day_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
-import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
-import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_ui_lifecycle_provider.g.dart';
@@ -73,11 +73,16 @@ class AppUiLifecycleObserver extends ConsumerStatefulWidget {
 class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     with WidgetsBindingObserver {
   Timer? _localDayTimer;
+  bool _desktopWindowHidden = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    if (isFluxerDesktopOs) {
+      _desktopWindowHidden = isDesktopMainWindowHidden();
+      desktopMainWindow.addListener(_onDesktopWindowChanged);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -89,6 +94,9 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
   @override
   void dispose() {
     _localDayTimer?.cancel();
+    if (isFluxerDesktopOs) {
+      desktopMainWindow.removeListener(_onDesktopWindowChanged);
+    }
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -98,6 +106,26 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     super.didChangeAppLifecycleState(state);
     ref.read(appLockControllerProvider.notifier).onLifecycleChanged(state);
     _syncLifecycle(state);
+  }
+
+  @override
+  void didHaveMemoryPressure() {
+    super.didHaveMemoryPressure();
+    if (!mounted) {
+      return;
+    }
+    trimFluxerAppMemory(ref, aggressive: true);
+  }
+
+  void _onDesktopWindowChanged() {
+    final bool hidden = isDesktopMainWindowHidden();
+    if (hidden == _desktopWindowHidden) {
+      return;
+    }
+    _desktopWindowHidden = hidden;
+    if (hidden && mounted) {
+      trimFluxerAppMemory(ref, aggressive: true);
+    }
   }
 
   @override
@@ -112,9 +140,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     }
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
-      clearFluxerImageCache();
-      EmojiSpriteSheet.release();
-      unawaited(MediaKitPlayerLifecycleCoordinator.instance.pauseAll());
+      trimFluxerAppMemory(ref, aggressive: false);
       if (Platform.isAndroid) {
         unawaited(DynamicAppIconFlutterPlus.applyPendingIcon());
       }

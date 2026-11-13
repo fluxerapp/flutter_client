@@ -811,7 +811,11 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     if (track is AudioTrack) {
       track.mediaStreamTrack.enabled = false;
     }
+    final Track? superseded = _remoteTracks[source];
     _remoteTracks[source] = track;
+    if (superseded != null && !identical(superseded, track)) {
+      unawaited(superseded.dispose());
+    }
     _attached.remove(source);
     _syncReceivers(force: true);
     if (track case final RemoteAudioTrack audio
@@ -822,6 +826,9 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
   }
 
   Future<void> _startVisualizer(AudioTrack track) async {
+    if (_visualizer != null || _visualizerListener != null) {
+      await _stopVisualizer();
+    }
     final AudioVisualizer visualizer = createVisualizer(
       track,
       options: const AudioVisualizerOptions(barCount: 8),

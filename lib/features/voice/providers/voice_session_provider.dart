@@ -2106,6 +2106,7 @@ class VoiceSession extends _$VoiceSession {
     }
     final Completer<void> leaveCompleter = Completer<void>();
     _leaveVoiceInFlight = leaveCompleter.future;
+    VoiceSettingsApplicator.clearPendingIosBroadcast();
     try {
       await _leaveVoiceImpl();
     } on Object catch (error, stackTrace) {

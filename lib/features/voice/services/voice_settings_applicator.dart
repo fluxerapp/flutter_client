@@ -442,7 +442,9 @@ class VoiceSettingsApplicator {
     }
   }
 
-  void _clearPendingIosBroadcast() {
+  static void clearPendingIosBroadcast() => _clearPendingIosBroadcast();
+
+  static void _clearPendingIosBroadcast() {
     final VoidCallback? listener = _pendingIosBroadcastListener;
     if (listener == null) {
       return;

@@ -207,7 +207,7 @@ class _TextualAttachmentPreviewState
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
-      previewExpansionState[_attachment.id] = _isExpanded;
+      rememberPreviewExpansion(_attachment.id, expanded: _isExpanded);
     });
   }
 

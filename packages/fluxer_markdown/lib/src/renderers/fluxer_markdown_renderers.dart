@@ -1930,6 +1930,16 @@ class _FluxerSpoilerRevealHostState extends State<_FluxerSpoilerRevealHost>
     return recognizer;
   }
 
+  FluxerMarkdownLinkRecognizer _obtainLinkRecognizer(
+    String href,
+    VoidCallback onTap,
+  ) {
+    final FluxerMarkdownLinkRecognizer recognizer =
+        FluxerMarkdownLinkRecognizer(href: href)..onTap = onTap;
+    _recognizers.add(recognizer);
+    return recognizer;
+  }
+
   void _handleSyncChanged() {
     setState(() {});
   }
@@ -1986,7 +1996,10 @@ class _FluxerSpoilerRevealHostState extends State<_FluxerSpoilerRevealHost>
       reveal: _reveal,
       revealOpacity: _revealOpacity,
       obtainRecognizer: _obtainRecognizer,
-      child: Builder(builder: widget.builder),
+      child: FluxerMarkdownLinkRegistry(
+        obtainRecognizer: _obtainLinkRecognizer,
+        child: Builder(builder: widget.builder),
+      ),
     );
   }
 }

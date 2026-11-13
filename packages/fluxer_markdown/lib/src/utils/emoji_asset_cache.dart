@@ -22,7 +22,7 @@ const String _kEmojiAssetCacheVersion = '2';
 class EmojiAssetCache {
   EmojiAssetCache._();
 
-  static final BaseCacheManager _cacheManager =
+  static BaseCacheManager get _cacheManager =>
       CachedNetworkImageProvider.defaultCacheManager;
 
   @visibleForTesting
@@ -112,6 +112,11 @@ class EmojiAssetCache {
     } finally {
       client.close();
     }
+  }
+
+  static void clearMemory() {
+    _memory.clear();
+    _memoryBytes = 0;
   }
 
   @visibleForTesting

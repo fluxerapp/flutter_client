@@ -1,4 +1,6 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
+import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placeholder.dart';
@@ -73,6 +75,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
 
 class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   bool _tileVisible = false;
+  bool _windowHidden = false;
   bool _trackSyncScheduled = false;
   bool _hadScreenShareFrame = false;
   VoiceVideoClaim? _claim;
@@ -82,7 +85,20 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   @override
   void initState() {
     super.initState();
+    if (isFluxerDesktopOs) {
+      _windowHidden = isDesktopMainWindowHidden();
+      desktopMainWindow.addListener(_onDesktopWindowChanged);
+    }
     _scheduleRemoteTrackSync();
+  }
+
+  void _onDesktopWindowChanged() {
+    final bool hidden = isDesktopMainWindowHidden();
+    if (!mounted || hidden == _windowHidden) {
+      return;
+    }
+    _windowHidden = hidden;
+    _applyRemoteTrackSync();
   }
 
   @override
@@ -96,6 +112,9 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
 
   @override
   void dispose() {
+    if (isFluxerDesktopOs) {
+      desktopMainWindow.removeListener(_onDesktopWindowChanged);
+    }
     _releaseClaim();
     super.dispose();
   }
@@ -147,6 +166,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
             : shouldSubscribeRemoteCamera(
                 tileVisible: _tileVisible,
                 omitVideoTrack: widget.omitVideoTrack,
+                windowShown: !_windowHidden,
               ));
     if (participant == null || !wanted) {
       _releaseClaim();
