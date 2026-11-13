@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
@@ -74,19 +75,43 @@ const FluxerMediaDimensions _previewDimensions = FluxerMediaDimensions(
   maxHeight: 400,
 );
 
+bool _isPreviewable(Attachment attachment) =>
+    (attachment.isImage || attachment.isVideo) &&
+    !attachment.isSpoiler &&
+    !attachment.isMatureMedia &&
+    !(attachment.expired ?? false);
+
 Attachment? _previewAttachment(Message? message) {
   if (message == null) {
     return null;
   }
   for (final Attachment attachment in message.attachments) {
-    if ((attachment.isImage || attachment.isVideo) &&
-        !attachment.isSpoiler &&
-        !attachment.isMatureMedia &&
-        !(attachment.expired ?? false)) {
+    if (_isPreviewable(attachment)) {
       return attachment;
     }
   }
   return null;
+}
+
+List<Attachment> forumViewerImages(Message message) => message.attachments
+    .where(
+      (Attachment attachment) =>
+          _isPreviewable(attachment) && !attachment.isVideo,
+    )
+    .toList();
+
+String _previewSemanticLabel(Attachment attachment, FluxerLocalizations l10n) {
+  final String? description = resolvedMediaAltText(attachment.description);
+  if (description != null) {
+    return description;
+  }
+  final String filename = attachment.filename.trim();
+  if (filename.isNotEmpty) {
+    return filename;
+  }
+  return attachment.isVideo
+      ? l10n.messageAccessibilityVideoSummary
+      : l10n.messageAccessibilityImageSummary;
 }
 
 String? _previewUrl(Attachment attachment) {
@@ -255,12 +280,14 @@ class ForumPostTile extends StatelessWidget {
     required this.data,
     required this.onTap,
     this.onLongPress,
+    this.onOpenMedia,
     super.key,
   });
 
   final ForumPostCardData data;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
+  final ValueChanged<Attachment>? onOpenMedia;
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +330,7 @@ class ForumPostTile extends StatelessWidget {
                           ),
                         ),
                       )
-                    : _ForumPreviewImage(url: previewUrl),
+                    : _buildPreview(preview!, previewUrl, l10n),
               ),
               Padding(
                 padding: EdgeInsets.all(layout.s2),
@@ -320,6 +347,23 @@ class ForumPostTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPreview(
+    Attachment preview,
+    String previewUrl,
+    FluxerLocalizations l10n,
+  ) {
+    final ValueChanged<Attachment>? onOpenMedia = this.onOpenMedia;
+    if (onOpenMedia == null) {
+      return _ForumPreviewImage(url: previewUrl);
+    }
+    return FluxerTappable(
+      onTap: () => onOpenMedia(preview),
+      onLongPress: onLongPress,
+      semanticLabel: _previewSemanticLabel(preview, l10n),
+      builder: (_, _) => _ForumPreviewImage(url: previewUrl),
     );
   }
 }

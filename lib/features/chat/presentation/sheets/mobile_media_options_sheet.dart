@@ -89,6 +89,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
           ),
         );
     final bool downloadsHidden =
+        launchContext.downloadsHidden ||
         matureMediaHidden ||
         (actionScope != null &&
             ref.watch(
@@ -178,7 +179,18 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
             ),
           ),
     ];
+    final VoidCallback? onViewPost = launchContext.onViewPost;
     final List<Widget> groups = <Widget>[
+      if (onViewPost != null)
+        FluxerMenuGroup(
+          children: <Widget>[
+            FluxerBottomSheetMenuItem(
+              icon: PhosphorIconsBold.chatCircle,
+              label: l10n.forumOpenPost,
+              onTap: () => _viewPost(onViewPost),
+            ),
+          ],
+        ),
       if (mediaItems.isNotEmpty) FluxerMenuGroup(children: mediaItems),
     ];
     if (actionScope != null) {
@@ -261,6 +273,14 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       ...engines.take(defaultIndex),
       ...engines.skip(defaultIndex + 1),
     ];
+  }
+
+  void _viewPost(VoidCallback onViewPost) {
+    onCloseSheet();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      onCloseViewer?.call();
+      onViewPost();
+    });
   }
 
   Future<void> _copyLink(String linkUrl) async {

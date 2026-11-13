@@ -91,6 +91,48 @@ ForumPostCardData _data({int unreadCount = 4, bool thumbnail = false}) {
   );
 }
 
+const Attachment _photo = Attachment(
+  id: '300',
+  filename: 'photo.png',
+  url: 'https://media.invalid/photo.png',
+  contentType: 'image/png',
+  width: 800,
+  height: 600,
+);
+
+const Attachment _spoiler = Attachment(
+  id: '301',
+  filename: 'spoiler.png',
+  url: 'https://media.invalid/spoiler.png',
+  contentType: 'image/png',
+  width: 800,
+  height: 600,
+  flags: attachmentFlagIsSpoiler,
+);
+
+ForumPostCardData _withAttachments(List<Attachment> attachments) {
+  final ForumPostCardData base = _data();
+  final Message first = base.firstMessage!;
+  return ForumPostCardData(
+    forum: base.forum,
+    post: base.post,
+    lastMessageId: base.lastMessageId,
+    firstMessageLoaded: true,
+    firstMessage: Message(
+      id: first.id,
+      channelId: first.channelId,
+      authorId: first.authorId,
+      authorName: first.authorName,
+      content: first.content,
+      timestamp: first.timestamp,
+      attachments: attachments,
+    ),
+  );
+}
+
+Offset _previewPoint(WidgetTester tester) =>
+    tester.getRect(find.byType(ForumPostTile)).topCenter + const Offset(0, 40);
+
 Finder _footerText(String text) => find.descendant(
   of: find.byKey(const ValueKey<String>('forumPostFooter')),
   matching: find.text(text),
@@ -249,6 +291,90 @@ void main() {
     expect(_footerText('2d'), findsOneWidget);
     _expectOneLine(tester, <String>['1.2K', '2d']);
     _expectNoClippedText(tester);
+  });
+
+  testWidgets(
+    'a tap on the preview opens the media and the title opens the post',
+    (WidgetTester tester) async {
+      final List<Attachment> opened = <Attachment>[];
+      int postOpens = 0;
+      await tester.pumpWidget(
+        _app(
+          ForumPostTile(
+            data: _withAttachments(const <Attachment>[_photo]),
+            onTap: () => postOpens++,
+            onOpenMedia: opened.add,
+          ),
+          width: 175,
+          height: 220,
+        ),
+      );
+      await tester.pump();
+
+      await tester.tapAt(_previewPoint(tester));
+      expect(opened, <Attachment>[_photo]);
+      expect(postOpens, 0);
+
+      await tester.tap(
+        find.text('What should the next community event be about'),
+      );
+      expect(opened, hasLength(1));
+      expect(postOpens, 1);
+    },
+  );
+
+  testWidgets('a tile without a shown preview opens the post', (
+    WidgetTester tester,
+  ) async {
+    final List<Attachment> opened = <Attachment>[];
+    int postOpens = 0;
+    await tester.pumpWidget(
+      _app(
+        ForumPostTile(
+          data: _withAttachments(const <Attachment>[_spoiler]),
+          onTap: () => postOpens++,
+          onOpenMedia: opened.add,
+        ),
+        width: 175,
+        height: 220,
+      ),
+    );
+    await tester.pump();
+
+    await tester.tapAt(_previewPoint(tester));
+    expect(opened, isEmpty);
+    expect(postOpens, 1);
+  });
+
+  test('the viewer pages through shown images only', () {
+    const Attachment video = Attachment(
+      id: '302',
+      filename: 'clip.mp4',
+      url: 'https://media.invalid/clip.mp4',
+      contentType: 'video/mp4',
+    );
+    const Attachment mature = Attachment(
+      id: '303',
+      filename: 'mature.png',
+      url: 'https://media.invalid/mature.png',
+      contentType: 'image/png',
+      nsfw: true,
+    );
+    const Attachment second = Attachment(
+      id: '304',
+      filename: 'second.png',
+      url: 'https://media.invalid/second.png',
+      contentType: 'image/png',
+    );
+    final Message message = _withAttachments(const <Attachment>[
+      _photo,
+      _spoiler,
+      video,
+      mature,
+      second,
+    ]).firstMessage!;
+
+    expect(forumViewerImages(message), <Attachment>[_photo, second]);
   });
 
   testWidgets('the new count drops before the time and nothing is cut', (

@@ -109,6 +109,8 @@ Future<void> showAttachmentMediaViewer(
   String? channelId,
   void Function(int index)? onForward,
   MessageMediaActionScope? actionScope,
+  bool downloadsHidden = false,
+  VoidCallback? onViewPost,
 }) async {
   if (items.isEmpty) {
     return;
@@ -125,6 +127,8 @@ Future<void> showAttachmentMediaViewer(
         channelId: channelId,
         onForward: onForward,
         actionScope: actionScope,
+        downloadsHidden: downloadsHidden,
+        onViewPost: onViewPost,
       );
     },
     transitionBuilder: (_, animation, _, child) {
@@ -140,6 +144,8 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
     this.channelId,
     this.onForward,
     this.actionScope,
+    this.downloadsHidden = false,
+    this.onViewPost,
     super.key,
   });
 
@@ -150,6 +156,10 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
   final void Function(int index)? onForward;
 
   final MessageMediaActionScope? actionScope;
+
+  final bool downloadsHidden;
+
+  final VoidCallback? onViewPost;
 
   @override
   ConsumerState<AttachmentMediaViewerShell> createState() =>
@@ -215,6 +225,15 @@ class _AttachmentMediaViewerShellState
     final int index = _currentIndex;
     Navigator.of(context).pop();
     onForward(index);
+  }
+
+  void _executeViewPost() {
+    final VoidCallback? onViewPost = widget.onViewPost;
+    if (onViewPost == null) {
+      return;
+    }
+    Navigator.of(context).pop();
+    onViewPost();
   }
 
   void _executeSelectIndex(int index) {
@@ -349,6 +368,8 @@ class _AttachmentMediaViewerShellState
       launchContext: MediaOptionsLaunchContext.fromImageViewerItem(
         currentItem,
         actionScope: widget.actionScope,
+        downloadsHidden: widget.downloadsHidden,
+        onViewPost: widget.onViewPost,
       ),
       onCloseViewer: _executeClose,
     );
@@ -435,6 +456,7 @@ class _AttachmentMediaViewerShellState
   }) {
     final MessageMediaActionScope? actionScope = widget.actionScope;
     final bool downloadsHidden =
+        widget.downloadsHidden ||
         matureMediaHidden ||
         (actionScope != null &&
             ref.watch(
@@ -467,6 +489,17 @@ class _AttachmentMediaViewerShellState
                 ),
               ),
             const Spacer(),
+            if (widget.onViewPost != null) ...[
+              Tooltip(
+                message: l10n.forumOpenPost,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _executeViewPost,
+                  icon: PhosphorIconsBold.chatCircle,
+                  isSquare: true,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
             if (!isMobile && widget.onForward != null) ...[
               Tooltip(
                 message: l10n.mediaViewerForward,
