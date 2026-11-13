@@ -255,6 +255,28 @@ void main() {
       expect(adapter.requests, 0);
     });
 
+    test('allows http for localhost subdomains when the flag is on', () async {
+      final Map<String, dynamic> discovery = buildDiscovery();
+      final Map<String, dynamic> endpoints =
+          discovery['endpoints'] as Map<String, dynamic>;
+      for (final String key in endpoints.keys.toList()) {
+        endpoints[key] = (endpoints[key] as String)
+            .replaceFirst('https://', 'http://')
+            .replaceFirst('wss://', 'ws://')
+            .replaceFirst('chat.example.com', 'chat.localhost:8088');
+      }
+      final InstanceDiscoveryService service = InstanceDiscoveryService(
+        dio: buildDio(responseJson: discovery),
+        rejectPublicCleartext: true,
+      );
+
+      final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
+        'http://chat.localhost:8088',
+      );
+
+      expect(snapshot.apiBaseUrl, 'http://chat.localhost:8088/v1');
+    });
+
     test('allows http for public hosts when the flag is off', () async {
       final InstanceDiscoveryService service = InstanceDiscoveryService(
         dio: buildDio(responseJson: buildDiscovery()),
