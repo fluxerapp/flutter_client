@@ -81,6 +81,43 @@ void main() {
     },
   );
 
+  test('sidebar shows a participant whose user row arrives later', () async {
+    clearVoiceParticipantUsersCache();
+    final database.FluxerDatabase db = openTestDatabase();
+    addTearDown(db.close);
+    addTearDown(clearVoiceParticipantUsersCache);
+    final ProviderContainer container = ProviderContainer(
+      overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+    );
+    addTearDown(container.dispose);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .updateBulk(<VoiceState>[
+          const VoiceState(
+            userId: 'late',
+            guildId: 'g1',
+            channelId: 'c1',
+            connectionId: 'conn-late',
+          ),
+        ]);
+    final List<List<VoiceSidebarParticipant>> emitted =
+        <List<VoiceSidebarParticipant>>[];
+    container.listen(
+      voiceChannelSidebarParticipantsProvider('g1|c1'),
+      (_, List<VoiceSidebarParticipant> next) => emitted.add(next),
+      fireImmediately: true,
+    );
+    await container.read(voiceParticipantUsersLoaderProvider('late').future);
+    expect(emitted.last, isEmpty);
+
+    await db.userDao.upsertUser(
+      database.UsersCompanion.insert(id: 'late', username: 'latecomer'),
+    );
+    await pumpEventQueue();
+
+    expect(emitted.last.single.displayName, 'latecomer');
+  });
+
   test('uniqueVoiceChannelParticipants keeps one entry per user', () {
     const VoiceState first = VoiceState(userId: '1');
     const VoiceState second = VoiceState(userId: '1');

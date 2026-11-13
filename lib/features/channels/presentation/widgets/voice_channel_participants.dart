@@ -28,8 +28,7 @@ class VoiceChannelParticipantsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String key = voiceChannelParticipantsFamilyKey(guildId, channelId);
-    ref.watch(voiceChannelSidebarStructureProvider(key));
-    final List<VoiceSidebarParticipant> list = ref.read(
+    final List<VoiceSidebarParticipant> list = ref.watch(
       voiceChannelSidebarParticipantsProvider(key),
     );
     if (list.isEmpty) {

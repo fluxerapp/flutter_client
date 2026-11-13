@@ -1030,7 +1030,10 @@ class GatewayEventHandler {
               guildData.roles.map((r) => roleFromSdk(r, guildId)),
             );
           }
-          for (final member in guildData.members) {
+          for (final member in guildMembersWithVoiceStates(
+            guildData.members,
+            guildData.voiceStates,
+          )) {
             memberUserCompanions.add(userFromPartialSdk(member.user));
             memberCompanions.add(
               memberCompanionFromSdk(member, guildId: guildId),
@@ -2675,6 +2678,10 @@ class GatewayEventHandler {
       return;
     }
     final int availabilityGeneration = _bumpGuildAvailability(guildId);
+    final List<GuildMemberResponse> members = guildMembersWithVoiceStates(
+      event.guild.members,
+      event.guild.voiceStates,
+    );
 
     unawaited(() async {
       final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
@@ -2745,13 +2752,12 @@ class GatewayEventHandler {
                   },
                 );
 
-            if (event.guild.members.isNotEmpty) {
+            if (members.isNotEmpty) {
               await database.userDao.upsertUsers([
-                for (final member in event.guild.members)
-                  userFromPartialSdk(member.user),
+                for (final member in members) userFromPartialSdk(member.user),
               ]);
               await database.memberDao.upsertMembers([
-                for (final member in event.guild.members)
+                for (final member in members)
                   memberCompanionFromSdk(member, guildId: guildId),
               ]);
             }
@@ -3249,6 +3255,12 @@ class GatewayEventHandler {
     }
 
     if (voiceStates.isNotEmpty) {
+      for (final VoiceState voiceState in voiceStates) {
+        _hydrateEmbeddedMember(
+          voiceState.guildId ?? event.guildId,
+          voiceState.member,
+        );
+      }
       _emit(() => onPassiveVoiceStates?.call(voiceStates));
     }
   }
@@ -3383,4 +3395,25 @@ String? _gatewaySnowflakeId(Object? value) {
     return value.toString();
   }
   return null;
+}
+
+List<GuildMemberResponse> guildMembersWithVoiceStates(
+  List<GuildMemberResponse> members,
+  List<VoiceState> voiceStates,
+) {
+  if (voiceStates.isEmpty) {
+    return members;
+  }
+  final Map<String, GuildMemberResponse> byUserId =
+      <String, GuildMemberResponse>{
+        for (final GuildMemberResponse member in members)
+          member.user.id: member,
+      };
+  for (final VoiceState voiceState in voiceStates) {
+    final GuildMemberResponse? member = voiceState.member;
+    if (member != null) {
+      byUserId[member.user.id] = member;
+    }
+  }
+  return byUserId.values.toList();
 }
