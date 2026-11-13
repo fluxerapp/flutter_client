@@ -143,6 +143,13 @@ dependency_overrides:
   analyzer_plugin: ^0.14.0
   code_assets: ^2.2.0
   dart_style: 3.1.13
+  # Copy of desktop_webview_window 0.3.2 (a flutter_web_auth_2 dependency)
+  # without its Linux plugin. That plugin links WebKitGTK, which cannot share a
+  # process with the WPE WebKit used by flutter_inappwebview_linux. To update,
+  # re-copy from pub.dev and remove linux/, the linux: plugin entry and
+  # "resolution: workspace".
+  desktop_webview_window:
+    path: packages/desktop_webview_window
   device_info_plus: ^13.2.0
   # fluxerapp fork, branch fluxer. iOS/macOS: Xcode 26.4+ rejects the
   # ASWebAuthenticationPresentationContextProviding witness in 1.2.0-beta.3

@@ -15,6 +15,7 @@ analyzer:
     - "lib/**/*.billing.dart"
     - "packages/fluxer_fcm/**"
     - "packages/fluxer_billing/**"
+    - "packages/desktop_webview_window/**"
     - "**/*.pbjson.dart"
     - "**/*.pb.dart"
     - "**/*.pbenum.dart"

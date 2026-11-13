@@ -562,12 +562,11 @@ packages:
     source: hosted
     version: "0.8.4"
   desktop_webview_window:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: desktop_webview_window
-      sha256: "20c3ac0f0404f72a0ce76f6f729f4dc656c04747f42e0a38d9553855b1d6012e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/desktop_webview_window"
+      relative: true
+    source: path
     version: "0.3.2"
   device_info_plus:
     dependency: "direct main"

@@ -2,7 +2,7 @@
 
 dart_source_files_filter() {
   grep -vE '\.(g|freezed|pb|pbenum|pbjson|fcm)\.dart$' \
-    | grep -vE '^(dart_sdk|build|packages/fluxer_fcm)/' \
+    | grep -vE '^(dart_sdk|build|packages/fluxer_fcm|packages/desktop_webview_window)/' \
     | grep -vE '^lib/core/synced_preferences/generated/' \
     || true
 }
