@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
@@ -84,6 +85,23 @@ Future<void> handleExternalLinkTap(
 
       await _openExternalUrl(context, uri);
     },
+  );
+}
+
+Future<void> openAttachmentInBrowser(
+  BuildContext context,
+  String url, {
+  bool? useRootNavigator,
+}) async {
+  final String browserUrl = await AttachmentRequestAuth.fileTokenUrl(url);
+  if (!context.mounted) {
+    return;
+  }
+  await handleExternalLinkTap(
+    context,
+    browserUrl,
+    useRootNavigator: useRootNavigator,
+    skipWarning: AttachmentRequestAuth.isApiAttachmentUrl(url),
   );
 }
 

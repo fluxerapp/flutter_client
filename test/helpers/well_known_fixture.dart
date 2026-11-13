@@ -11,6 +11,7 @@ WellKnownFluxerResponse wellKnownFixture({
   String? accountIdentity,
   String? tagStyle,
   bool? discoveryEnabled,
+  bool? proxyAttachmentsThroughApi,
 }) {
   return parseWellKnownFluxer(<String, dynamic>{
     'api_code_version': 1,
@@ -39,6 +40,7 @@ WellKnownFluxerResponse wellKnownFixture({
       'account_identity': ?accountIdentity,
       'tag_style': ?tagStyle,
       'discovery_enabled': ?discoveryEnabled,
+      'proxy_attachments_through_api': ?proxyAttachmentsThroughApi,
     },
     'registration': <String, dynamic>{
       'mode': 'open',

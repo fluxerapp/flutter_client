@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -343,7 +344,12 @@ class _ChatMobileFullscreenVideoPageState
     _hasAttemptedPlayback = true;
     try {
       final String playbackUrl = await resolvePlaybackUrl(_source);
-      await player.open(Media(playbackUrl));
+      await player.open(
+        Media(
+          playbackUrl,
+          httpHeaders: AttachmentRequestAuth.headersFor(playbackUrl),
+        ),
+      );
       if (!mounted || _playbackFailed) {
         return;
       }

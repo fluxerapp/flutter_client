@@ -204,7 +204,7 @@ class _AttachmentMediaViewerShellState
     if (item.url.isEmpty) {
       return;
     }
-    unawaited(handleExternalLinkTap(context, item.url));
+    unawaited(openAttachmentInBrowser(context, item.url));
   }
 
   void _executeForward() {

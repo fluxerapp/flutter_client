@@ -1,4 +1,5 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
@@ -333,6 +334,7 @@ class _ForumPreviewImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: url,
+      httpHeaders: AttachmentRequestAuth.headersFor(url),
       width: width ?? double.infinity,
       height: height ?? double.infinity,
       fit: BoxFit.cover,

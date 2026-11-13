@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -84,6 +85,8 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   StreamSubscription<void>? _playerCompleteSubscription;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _durationSubscription;
+  StreamSubscription<AudioEvent>? _playerErrorSubscription;
+  AttachmentFileTokenUrl? _preparedSource;
 
   bool _isPlaying = false;
   bool _isLoading = false;
@@ -149,8 +152,9 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       }
       if (!_hasPreparedSource) {
         _sessionReporter.sync(playing: false, loading: true);
-        await player.setSourceUrl(sourceUrl);
-        _hasPreparedSource = true;
+        await _setSource(player);
+      } else {
+        await _renewExpiredSource(player);
       }
       await player.resume();
       _sessionReporter.sync(playing: true);
@@ -183,8 +187,9 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       return;
     }
     if (!_hasPreparedSource) {
-      await player.setSourceUrl(sourceUrl);
-      _hasPreparedSource = true;
+      await _setSource(player);
+    } else {
+      await _renewExpiredSource(player);
     }
     await player.resume();
   }
@@ -197,6 +202,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     _isPlaying = false;
     _playbackFinished = false;
     _hasPreparedSource = false;
+    _preparedSource = null;
     _hasStarted = false;
     position.value = Duration.zero;
     _notify();
@@ -221,10 +227,12 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     if (!_hasPreparedSource) {
       return;
     }
+    if (_hasExpiredSource) {
+      await _setSource(player);
+    }
     final bool seeked = await _safeSeek(player, target);
     if (!seeked) {
-      await player.setSourceUrl(sourceUrl);
-      _hasPreparedSource = true;
+      await _setSource(player);
       await _safeSeek(player, target);
     }
     if (_disposed) {
@@ -270,18 +278,48 @@ class ChatAttachmentAudioController extends ChangeNotifier {
 
   Future<void> _prepareFromStart(AudioPlayer player) async {
     _playbackFinished = false;
-    if (!_hasPreparedSource) {
-      await player.setSourceUrl(sourceUrl);
-      _hasPreparedSource = true;
+    if (!_hasPreparedSource || _hasExpiredSource) {
+      await _setSource(player);
     } else {
       final bool seeked = await _safeSeek(player, Duration.zero);
       if (!seeked) {
-        await player.setSourceUrl(sourceUrl);
-        _hasPreparedSource = true;
+        await _setSource(player);
       }
     }
     if (!_disposed) {
       position.value = Duration.zero;
+    }
+  }
+
+  bool get _hasExpiredSource => !(_preparedSource?.isFresh ?? true);
+
+  Future<void> _setSource(AudioPlayer player) async {
+    final AttachmentFileTokenUrl source =
+        await AttachmentRequestAuth.fileTokenSource(sourceUrl);
+    await player.setSourceUrl(source.url);
+    _preparedSource = source;
+    _hasPreparedSource = true;
+  }
+
+  Future<void> _renewExpiredSource(AudioPlayer player) async {
+    if (!_hasPreparedSource || !_hasExpiredSource) {
+      return;
+    }
+    final Duration resumeAt = position.value;
+    await _setSource(player);
+    if (resumeAt > Duration.zero) {
+      await _safeSeek(player, resumeAt);
+    }
+  }
+
+  Future<void> _recoverFromPlayerError(AudioPlayer player) async {
+    if (_disposed || !_hasExpiredSource) {
+      return;
+    }
+    final bool wasPlaying = _isPlaying;
+    await _renewExpiredSource(player);
+    if (wasPlaying && !_disposed) {
+      await player.resume();
     }
   }
 
@@ -361,6 +399,10 @@ class ChatAttachmentAudioController extends ChangeNotifier {
         _sessionReporter.sync(playing: _isPlaying);
       }
     });
+    _playerErrorSubscription = player.eventStream.listen(
+      null,
+      onError: (Object _) => unawaited(_recoverFromPlayerError(player)),
+    );
     return player;
   }
 
@@ -387,6 +429,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
     unawaited(_durationSubscription?.cancel());
+    unawaited(_playerErrorSubscription?.cancel());
     unawaited(_player?.dispose());
     super.dispose();
   }

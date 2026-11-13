@@ -57,3 +57,8 @@ void configureFluxerGpuResourceCache({int? totalMemoryBytes}) {
 void clearFluxerImageCache() {
   PaintingBinding.instance.imageCache.clear();
 }
+
+Future<void> clearFluxerNetworkImageCaches() async {
+  clearFluxerImageCache();
+  await CachedNetworkImageProvider.defaultCacheManager.emptyCache();
+}

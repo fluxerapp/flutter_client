@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -476,6 +477,9 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                       height: _kAutocompleteMediaPreviewSize,
                       child: CachedNetworkImage(
                         imageUrl: mediaPreviewUrl!,
+                        httpHeaders: AttachmentRequestAuth.headersFor(
+                          mediaPreviewUrl!,
+                        ),
                         cacheKey: mediaPreviewCacheKey,
                         width: _kAutocompleteMediaPreviewSize,
                         height: _kAutocompleteMediaPreviewSize,
@@ -660,6 +664,9 @@ class ComposerAutocompleteGifGrid extends StatelessWidget {
                               height: _kAutocompleteGifTileHeight,
                               child: CachedNetworkImage(
                                 imageUrl: gif.imageUrl,
+                                httpHeaders: AttachmentRequestAuth.headersFor(
+                                  gif.imageUrl,
+                                ),
                                 fit: BoxFit.cover,
                                 width: _kAutocompleteGifTileWidth,
                                 height: _kAutocompleteGifTileHeight,

@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -122,6 +124,58 @@ void main() {
 
     expect(find.text('External link warning'), findsOneWidget);
     expect(find.text('https://www.youtube.com/watch?v=abc'), findsOneWidget);
+  });
+
+  testWidgets('own api attachment opens without the external link warning '
+      'and never shows its file token', (tester) async {
+    const MethodChannel channel = MethodChannel(
+      'plugins.flutter.io/url_launcher',
+    );
+    final List<String> launched = <String>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+      MethodCall call,
+    ) async {
+      if (call.method == 'launch') {
+        launched.add(
+          (call.arguments as Map<Object?, Object?>)['url']! as String,
+        );
+      }
+      return true;
+    });
+    addTearDown(() {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        null,
+      );
+      AttachmentRequestAuth.update(token: null, baseUrl: null, mintToken: null);
+    });
+    AttachmentRequestAuth.update(
+      token: 'test-session-token',
+      baseUrl: 'https://api.example.test/api',
+      mintToken: ({required String url}) async => AttachmentMediaToken(
+        token: 'one-file-token',
+        expiresAt: DateTime.now().add(const Duration(minutes: 5)),
+      ),
+    );
+    const String attachment =
+        'https://api.example.test/api/channels/11/attachments/22/clip.mp4?mid=33';
+
+    await tester.pumpWidget(
+      _wrap(
+        const ChatVideoPlaybackFailureOverlay(
+          fallbackUrl: attachment,
+          useRootNavigator: true,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Open in browser'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('External link warning'), findsNothing);
+    expect(find.textContaining('one-file-token'), findsNothing);
+    expect(launched, hasLength(1));
+    expect(Uri.parse(launched.single).queryParameters['mt'], 'one-file-token');
   });
 
   testWidgets(
