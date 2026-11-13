@@ -449,6 +449,15 @@ class _ChatMobileFullscreenVideoPageState
     Navigator.of(context).pop();
   }
 
+  void _executeViewPost() {
+    final VoidCallback? onViewPost = widget.launchContext.onViewPost;
+    if (onViewPost == null) {
+      return;
+    }
+    Navigator.of(context).pop();
+    onViewPost();
+  }
+
   void _handleDismissProgress(double progress) {
     if (_dismissProgress == progress) {
       return;
@@ -584,6 +593,9 @@ class _ChatMobileFullscreenVideoPageState
                         l10n: l10n,
                         onClose: _executeClose,
                         onOpenOptions: showOptionsButton ? _openOptions : null,
+                        onViewPost: widget.launchContext.onViewPost == null
+                            ? null
+                            : _executeViewPost,
                         favoriteButton: _buildFavoriteButton(),
                         isMuted: _isMuted,
                         onMute: _toggleMute,
@@ -815,12 +827,14 @@ class _MobileVideoHud extends StatelessWidget {
     required this.duration,
     required this.onSeekFromGlobalDx,
     this.onOpenOptions,
+    this.onViewPost,
     this.favoriteButton,
   });
 
   final FluxerLocalizations l10n;
   final VoidCallback onClose;
   final VoidCallback? onOpenOptions;
+  final VoidCallback? onViewPost;
   final Widget? favoriteButton;
   final bool isMuted;
   final Future<void> Function() onMute;
@@ -860,6 +874,20 @@ class _MobileVideoHud extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
+                  if (onViewPost != null)
+                    IconButton(
+                      onPressed: onViewPost,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black.withValues(alpha: 0.5),
+                        foregroundColor: Colors.white,
+                      ),
+                      tooltip: l10n.forumOpenPost,
+                      icon: const PhosphorIcon(
+                        PhosphorIconsBold.chatCircle,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
                   ?favoriteButton,
                   if (onOpenOptions != null)
                     IconButton(
