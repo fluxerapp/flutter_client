@@ -246,6 +246,10 @@ _EmojiCatalog _parseEmojiCatalog(ByteData asset) {
         }
         unicodeSurrogates.add(skinSurrogatesValue);
         surrogateMap.putIfAbsent(skinSurrogatesValue, () => emoji);
+        final skin = skins![i] as Map<String, dynamic>;
+        for (final skinName in (skin['names'] as List<dynamic>? ?? const [])) {
+          nameMap[skinName as String] = skinSurrogatesValue;
+        }
         if (i >= kSkinToneSurrogates.length) {
           continue;
         }

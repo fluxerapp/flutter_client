@@ -62,6 +62,16 @@ void main() {
     expect(shared, isEmpty);
   });
 
+  test('resolves skin tone variant names to their surrogates', () {
+    expect(EmojiRegistry.resolveSync('adult_tone1'), '\u{1F9D1}\u{1F3FB}');
+    expect(
+      EmojiRegistry.resolveSync('couple_mm_tone1_tone3'),
+      '\u{1F468}\u{1F3FB}\u200D\u2764\uFE0F\u200D\u{1F468}\u{1F3FD}',
+    );
+    expect(EmojiRegistry.resolveSync('adult'), '\u{1F9D1}');
+    expect(EmojiRegistry.resolveSync('blob123'), isNull);
+  });
+
   test('resolves the envelope and e-mail emoji to their own names', () {
     expect(
       EmojiRegistry.entryBySurrogates('\u2709\uFE0F')?.primaryName,
