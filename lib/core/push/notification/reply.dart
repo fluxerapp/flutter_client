@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
+import 'package:fluxer_app/features/chat/utils/composer/mention_reply_preference_utils.dart';
+import 'package:fluxer_dart/export.dart' show MentionReplyPreferences;
 
 const String kPushReplyActionId = 'fluxer_reply';
 
@@ -83,11 +86,57 @@ String pushReplyFailedBody() {
   return pushNotificationLocalizations().notificationReplyFailed;
 }
 
+Future<bool> resolvePushReplyMention(
+  Map<String, String> payload, {
+  Future<MentionReplyPreferences> Function(String authorId, String guildId)?
+  lookupPreference,
+}) async {
+  final String? guildId = isDmPushPayload(payload)
+      ? null
+      : _nonEmpty(payload['guild_id']);
+  final String? authorId = _nonEmpty(payload['author_id']);
+  final bool isOwnMessage =
+      authorId != null && authorId == _nonEmpty(payload['target_user_id']);
+  MentionReplyPreferences preference = MentionReplyPreferences.noPreference;
+  if (guildId != null && authorId != null && !isOwnMessage) {
+    try {
+      preference = await (lookupPreference ?? _readPushReplyPreference)(
+        authorId,
+        guildId,
+      );
+    } on Object {
+      preference = MentionReplyPreferences.noPreference;
+    }
+  }
+  return getDefaultReplyMention(
+    isOwnMessage: isOwnMessage,
+    guildId: guildId,
+    preference: preference,
+  );
+}
+
+Future<MentionReplyPreferences> _readPushReplyPreference(
+  String authorId,
+  String guildId,
+) async {
+  final FluxerDatabase database = FluxerDatabase();
+  try {
+    return await resolveMentionReplyPreferenceFromDb(
+      database: database,
+      authorId: authorId,
+      guildId: guildId,
+    );
+  } finally {
+    await database.close();
+  }
+}
+
 Future<PushReplyResult> sendPushNotificationReply({
   required Map<String, String> payload,
   required String? text,
   Future<PushReplyAccount?> Function(String userId)? lookupAccount,
   Future<void> Function(PushReplySend send)? post,
+  Future<bool> Function(Map<String, String> payload)? resolveReplyMention,
 }) async {
   final String? content = _nonEmpty(text?.trim());
   final String? channelId = _nonEmpty(payload['channel_id']);
@@ -106,11 +155,17 @@ Future<PushReplyResult> sendPushNotificationReply({
   if (account == null || account.token.isEmpty || account.apiBaseUrl.isEmpty) {
     return PushReplyResult.failed;
   }
+  final bool replyMention =
+      await (resolveReplyMention ?? resolvePushReplyMention)(payload);
   final PushReplySend send = PushReplySend(
     apiBaseUrl: account.apiBaseUrl,
     token: account.token,
     channelId: channelId,
-    body: buildMessageCreateBody(content: content, replyToId: messageId),
+    body: buildMessageCreateBody(
+      content: content,
+      replyToId: messageId,
+      replyMention: replyMention,
+    ),
   );
   try {
     await (post ?? postPushReply)(send);

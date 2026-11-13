@@ -239,6 +239,7 @@ final class LocalPushNotifications {
       hint: pushReplyHint(),
       failureTitle: pushNotificationLocalizations().notificationChannelMessages,
       failureBody: pushReplyFailedBody(),
+      replyMention: await resolvePushReplyMention(payload),
     );
   }
 
@@ -400,6 +401,7 @@ final class LocalPushNotifications {
       senderKey: resolvePushSenderKey(payload, senderName: senderName),
       body: body,
       timestampMs: whenMillis ?? DateTime.now().millisecondsSinceEpoch,
+      authorId: payload['author_id'],
       avatarPath: media[0],
       imagePath: media[1],
     );
@@ -501,6 +503,12 @@ final class LocalPushNotifications {
     final int notificationId = pushGroupSummaryNotificationId(conversationTag);
     final Map<String, String> replyPayload = Map<String, String>.from(payload);
     replyPayload['message_id'] = latest.messageId;
+    final String? latestAuthorId = latest.authorId;
+    if (latestAuthorId == null) {
+      replyPayload.remove('author_id');
+    } else {
+      replyPayload['author_id'] = latestAuthorId;
+    }
     replyPayload[kLocalNotificationMessageIdKey] = latest.messageId;
     final String payloadJson = jsonEncode(replyPayload);
     final bool soundEnabled = await isPushNotificationSoundEnabled(payload);

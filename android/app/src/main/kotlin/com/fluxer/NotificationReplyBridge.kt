@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 class NotificationReplyBridge(
@@ -18,38 +19,8 @@ class NotificationReplyBridge(
         MethodChannel(messenger, CHANNEL_NAME).setMethodCallHandler { call, result ->
             when (call.method) {
                 METHOD_ATTACH -> {
-                    val id = call.argument<Int>(ARG_ID)
-                    val channelId = call.argument<String>(ARG_CHANNEL_ID)
-                    val messageId = call.argument<String>(ARG_MESSAGE_ID)
-                    val userId = call.argument<String>(ARG_USER_ID)
-                    val title = call.argument<String>(ARG_TITLE)
-                    val hint = call.argument<String>(ARG_HINT)
-                    if (
-                        id == null ||
-                        channelId.isNullOrEmpty() ||
-                        messageId.isNullOrEmpty() ||
-                        userId.isNullOrEmpty() ||
-                        title.isNullOrEmpty() ||
-                        hint.isNullOrEmpty()
-                    ) {
-                        result.success(false)
-                        return@setMethodCallHandler
-                    }
-                    result.success(
-                        attachReplyAction(
-                            context = context,
-                            id = id,
-                            tag = call.argument<String>(ARG_TAG),
-                            channelId = channelId,
-                            messageId = messageId,
-                            userId = userId,
-                            title = title,
-                            hint = hint,
-                            features = call.argument<String>(ARG_FEATURES),
-                            failureTitle = call.argument<String>(ARG_FAILURE_TITLE),
-                            failureBody = call.argument<String>(ARG_FAILURE_BODY),
-                        ),
-                    )
+                    val action = replyAction(call)
+                    result.success(action != null && attachReplyAction(context, action))
                 }
                 else -> result.notImplemented()
             }
@@ -59,53 +30,48 @@ class NotificationReplyBridge(
     companion object {
         const val CHANNEL_NAME = "fluxer_app/notification_reply"
         const val METHOD_ATTACH = "attachReplyAction"
-        const val ARG_ID = "id"
-        const val ARG_TAG = "tag"
-        const val ARG_CHANNEL_ID = "channelId"
-        const val ARG_MESSAGE_ID = "messageId"
-        const val ARG_USER_ID = "userId"
-        const val ARG_TITLE = "title"
-        const val ARG_HINT = "hint"
-        const val ARG_FEATURES = "features"
-        const val ARG_FAILURE_TITLE = "failureTitle"
-        const val ARG_FAILURE_BODY = "failureBody"
 
-        fun attachReplyAction(
-            context: Context,
-            id: Int,
-            tag: String?,
-            channelId: String,
-            messageId: String,
-            userId: String,
-            title: String,
-            hint: String,
-            features: String? = null,
-            failureTitle: String? = null,
-            failureBody: String? = null,
-        ): Boolean {
+        private fun replyAction(call: MethodCall): NotificationReplyAction? {
+            val id = call.argument<Int>("id") ?: return null
+            val channelId = call.argument<String>("channelId")
+            val messageId = call.argument<String>("messageId")
+            val userId = call.argument<String>("userId")
+            val title = call.argument<String>("title")
+            val hint = call.argument<String>("hint")
+            if (
+                channelId.isNullOrEmpty() ||
+                messageId.isNullOrEmpty() ||
+                userId.isNullOrEmpty() ||
+                title.isNullOrEmpty() ||
+                hint.isNullOrEmpty()
+            ) {
+                return null
+            }
+            return NotificationReplyAction(
+                id = id,
+                tag = call.argument<String>("tag"),
+                channelId = channelId,
+                messageId = messageId,
+                userId = userId,
+                title = title,
+                hint = hint,
+                replyMention = call.argument<Boolean>("replyMention") ?: true,
+                features = call.argument<String>("features"),
+                failureTitle = call.argument<String>("failureTitle"),
+                failureBody = call.argument<String>("failureBody"),
+            )
+        }
+
+        private fun attachReplyAction(context: Context, action: NotificationReplyAction): Boolean {
             val manager = context.getSystemService(NotificationManager::class.java) ?: return false
-            val status = postedNotification(manager, id, tag) ?: return false
+            val status = postedNotification(manager, action.id, action.tag) ?: return false
             if (hasReplyAction(status.notification)) {
                 return true
             }
             val builder = Notification.Builder.recoverBuilder(context, status.notification)
             builder.setOnlyAlertOnce(true)
-            builder.addAction(
-                replyAction(
-                    context = context,
-                    id = id,
-                    tag = tag,
-                    channelId = channelId,
-                    messageId = messageId,
-                    userId = userId,
-                    title = title,
-                    hint = hint,
-                    features = features,
-                    failureTitle = failureTitle,
-                    failureBody = failureBody,
-                ),
-            )
-            publish(manager, id, tag, builder.build())
+            builder.addAction(notificationAction(context, action))
+            publish(manager, action.id, action.tag, builder.build())
             return true
         }
 
@@ -145,45 +111,51 @@ class NotificationReplyBridge(
             }
         }
 
-        private fun replyAction(
+        private fun notificationAction(
             context: Context,
-            id: Int,
-            tag: String?,
-            channelId: String,
-            messageId: String,
-            userId: String,
-            title: String,
-            hint: String,
-            features: String?,
-            failureTitle: String?,
-            failureBody: String?,
+            action: NotificationReplyAction,
         ): Notification.Action {
             val intent = Intent(context, FluxerNotificationReplyReceiver::class.java).apply {
-                action = ACTION_REPLY
-                data = Uri.parse("fluxer://notification-reply/$id")
-                putExtra(EXTRA_NOTIFICATION_ID, id)
-                putExtra(EXTRA_NOTIFICATION_TAG, tag)
-                putExtra(EXTRA_CHANNEL_ID, channelId)
-                putExtra(EXTRA_MESSAGE_ID, messageId)
-                putExtra(EXTRA_USER_ID, userId)
-                putExtra(EXTRA_FEATURES, features)
-                putExtra(EXTRA_FAILURE_TITLE, failureTitle)
-                putExtra(EXTRA_FAILURE_BODY, failureBody)
+                this.action = ACTION_REPLY
+                data = Uri.parse("fluxer://notification-reply/${action.id}")
+                putExtra(EXTRA_NOTIFICATION_ID, action.id)
+                putExtra(EXTRA_NOTIFICATION_TAG, action.tag)
+                putExtra(EXTRA_CHANNEL_ID, action.channelId)
+                putExtra(EXTRA_MESSAGE_ID, action.messageId)
+                putExtra(EXTRA_USER_ID, action.userId)
+                putExtra(EXTRA_REPLY_MENTION, action.replyMention)
+                putExtra(EXTRA_FEATURES, action.features)
+                putExtra(EXTRA_FAILURE_TITLE, action.failureTitle)
+                putExtra(EXTRA_FAILURE_BODY, action.failureBody)
             }
             var flags = PendingIntent.FLAG_UPDATE_CURRENT
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 flags = flags or PendingIntent.FLAG_MUTABLE
             }
-            val pending = PendingIntent.getBroadcast(context, id, intent, flags)
+            val pending = PendingIntent.getBroadcast(context, action.id, intent, flags)
             val remoteInput = RemoteInput.Builder(EXTRA_REPLY_TEXT)
-                .setLabel(hint)
+                .setLabel(action.hint)
                 .build()
-            val action = Notification.Action.Builder(null, title, pending)
+            val builder = Notification.Action.Builder(null, action.title, pending)
                 .addRemoteInput(remoteInput)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                action.setSemanticAction(Notification.Action.SEMANTIC_ACTION_REPLY)
+                builder.setSemanticAction(Notification.Action.SEMANTIC_ACTION_REPLY)
             }
-            return action.build()
+            return builder.build()
         }
     }
 }
+
+private data class NotificationReplyAction(
+    val id: Int,
+    val tag: String?,
+    val channelId: String,
+    val messageId: String,
+    val userId: String,
+    val title: String,
+    val hint: String,
+    val replyMention: Boolean,
+    val features: String?,
+    val failureTitle: String?,
+    val failureBody: String?,
+)

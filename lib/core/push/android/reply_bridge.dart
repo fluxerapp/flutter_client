@@ -15,6 +15,7 @@ Future<bool> attachAndroidNotificationReply({
   required String hint,
   required String failureTitle,
   required String failureBody,
+  required bool replyMention,
   String? tag,
 }) async {
   if (defaultTargetPlatform != TargetPlatform.android) {
@@ -32,6 +33,7 @@ Future<bool> attachAndroidNotificationReply({
           'hint': hint,
           'failureTitle': failureTitle,
           'failureBody': failureBody,
+          'replyMention': replyMention,
           'features': buildFluxerApiFeaturesHeaderValue(),
         });
     return attached ?? false;
