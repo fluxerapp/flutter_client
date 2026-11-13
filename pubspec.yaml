@@ -154,22 +154,23 @@ dependency_overrides:
   # fluxerapp fork, branch fluxer. iOS/macOS: Xcode 26.4+ rejects the
   # ASWebAuthenticationPresentationContextProviding witness in 1.2.0-beta.3
   # (https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809).
-  # Linux: builds against WPE WebKit 2.52+, which no longer ships libwpe.
+  # Linux: builds against WPE WebKit 2.52+, which no longer ships libwpe, and
+  # imports frames on Flutter's EGL display (webviews were black).
   flutter_inappwebview_ios:
     git:
       url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_ios
-      ref: 0ad34d05448a4723d8472975af2ec8fe7e7a5c80
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   flutter_inappwebview_linux:
     git:
       url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_linux
-      ref: 0ad34d05448a4723d8472975af2ec8fe7e7a5c80
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   flutter_inappwebview_macos:
     git:
       url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_macos
-      ref: 0ad34d05448a4723d8472975af2ec8fe7e7a5c80
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   # fluxerapp fork with commit https://github.com/fluxerapp/flutter-webrtc/commit/01d3de483e285f7ec8b67fbf85aeab4600ef0a44
   flutter_webrtc:
     git:
