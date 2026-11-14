@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/badge/push_badge_count_parser.dart';
+import 'package:fluxer_app/core/desktop/windows/windows_app_identity.dart';
 import 'package:fluxer_app/core/push/android/channels.dart';
 import 'package:fluxer_app/core/push/android/conversation/history.dart';
 import 'package:fluxer_app/core/push/android/conversation/identity.dart';
@@ -122,10 +123,11 @@ final class LocalPushNotifications {
             ? const LinuxInitializationSettings(defaultActionName: 'Open')
             : null,
         windows: defaultTargetPlatform == TargetPlatform.windows
-            ? const WindowsInitializationSettings(
-                appName: 'Fluxer Oxygen',
-                appUserModelId: 'com.fluxer.oxygen',
-                guid: '02357f68-878d-4d1b-b915-7d7a1ac79a85',
+            ? WindowsInitializationSettings(
+                appName: windowsAppDisplayName(),
+                appUserModelId: windowsAppUserModelId(),
+                guid: windowsNotificationActivatorGuid(),
+                iconPath: windowsNotificationIconPath(),
               )
             : null,
       );

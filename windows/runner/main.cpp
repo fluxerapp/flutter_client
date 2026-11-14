@@ -5,7 +5,10 @@
 
 #include <algorithm>
 #include <cwctype>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
 
 #include "app_links/app_links_plugin_c_api.h"
 #include "flutter_window.h"
@@ -13,7 +16,7 @@
 
 namespace {
 
-constexpr wchar_t kAppUserModelId[] = L"com.fluxer.oxygen";
+constexpr wchar_t kFallbackAppUserModelId[] = L"com.fluxer.oxygen";
 constexpr wchar_t kWindowTitle[] = L"Fluxer Oxygen";
 constexpr wchar_t kUrlScheme[] = L"fluxer";
 constexpr wchar_t kExecutableName[] = L"fluxer_oxygen.exe";
@@ -48,15 +51,91 @@ bool WriteRegistryString(const std::wstring& subkey, const wchar_t* name,
          ERROR_SUCCESS;
 }
 
-void RegisterUrlSchemeIfUnclaimed() {
+std::wstring ExecutablePath() {
   wchar_t exe_path[MAX_PATH];
   const DWORD length = ::GetModuleFileNameW(nullptr, exe_path, MAX_PATH);
   if (length == 0 || length == MAX_PATH) {
+    return std::wstring();
+  }
+  return std::wstring(exe_path, length);
+}
+
+std::wstring Utf8ToWide(const std::string& value) {
+  if (value.empty()) {
+    return std::wstring();
+  }
+  const int size = ::MultiByteToWideChar(CP_UTF8, 0, value.data(),
+                                         static_cast<int>(value.size()),
+                                         nullptr, 0);
+  if (size <= 0) {
+    return std::wstring();
+  }
+  std::wstring wide(size, L'\0');
+  ::MultiByteToWideChar(CP_UTF8, 0, value.data(),
+                        static_cast<int>(value.size()), wide.data(), size);
+  return wide;
+}
+
+std::string ReadXmlElement(const std::string& xml, const std::string& name) {
+  const std::string open = "<" + name + ">";
+  const std::string close = "</" + name + ">";
+  const size_t start = xml.find(open);
+  if (start == std::string::npos) {
+    return std::string();
+  }
+  const size_t value_start = start + open.size();
+  const size_t end = xml.find(close, value_start);
+  if (end == std::string::npos) {
+    return std::string();
+  }
+  std::string value = xml.substr(value_start, end - value_start);
+  const size_t first = value.find_first_not_of(" \t\r\n");
+  const size_t last = value.find_last_not_of(" \t\r\n");
+  if (first == std::string::npos) {
+    return std::string();
+  }
+  return value.substr(first, last - first + 1);
+}
+
+std::wstring ResolveAppUserModelId() {
+  const std::wstring exe_path = ExecutablePath();
+  const size_t separator = exe_path.find_last_of(L"\\/");
+  if (separator == std::wstring::npos) {
+    return kFallbackAppUserModelId;
+  }
+  std::ifstream manifest(exe_path.substr(0, separator) + L"\\sq.version",
+                         std::ios::binary);
+  if (!manifest) {
+    return kFallbackAppUserModelId;
+  }
+  std::stringstream buffer;
+  buffer << manifest.rdbuf();
+  const std::string xml = buffer.str();
+
+  for (const char* element : {"shortcutAumid", "shortcutAmuid"}) {
+    const std::wstring aumid = Utf8ToWide(ReadXmlElement(xml, element));
+    if (!aumid.empty()) {
+      return aumid;
+    }
+  }
+  const std::wstring id = Utf8ToWide(ReadXmlElement(xml, "id"));
+  if (id.empty()) {
+    return kFallbackAppUserModelId;
+  }
+  return L"velopack." + id;
+}
+
+std::wstring UrlSchemeCommand(const std::wstring& exe_path) {
+  return L"\"" + exe_path + L"\" \"%1\"";
+}
+
+void RegisterUrlSchemeIfUnclaimed() {
+  const std::wstring exe_path = ExecutablePath();
+  if (exe_path.empty()) {
     return;
   }
 
-  const std::wstring command =
-      L"\"" + std::wstring(exe_path) + L"\" \"%1\"";
+  const std::wstring command = UrlSchemeCommand(exe_path);
   const std::wstring existing = ReadRegistryString(
       HKEY_CLASSES_ROOT, std::wstring(kUrlScheme) + L"\\shell\\open\\command");
   if (existing == command) {
@@ -77,10 +156,51 @@ void RegisterUrlSchemeIfUnclaimed() {
                       command);
 }
 
+void UnregisterOwnedUrlScheme() {
+  const std::wstring exe_path = ExecutablePath();
+  if (exe_path.empty()) {
+    return;
+  }
+  const std::wstring scheme_key =
+      std::wstring(L"Software\\Classes\\") + kUrlScheme;
+  const std::wstring existing = ReadRegistryString(
+      HKEY_CURRENT_USER, scheme_key + L"\\shell\\open\\command");
+  if (ToLower(existing) != ToLower(UrlSchemeCommand(exe_path))) {
+    return;
+  }
+  ::RegDeleteTreeW(HKEY_CURRENT_USER, scheme_key.c_str());
+}
+
+void UnregisterNotificationIdentity(const std::wstring& aumid) {
+  ::RegDeleteTreeW(HKEY_CURRENT_USER,
+                   (L"Software\\Classes\\AppUserModelId\\" + aumid).c_str());
+  ::RegDeleteTreeW(
+      HKEY_CURRENT_USER,
+      (L"Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\Backup\\" +
+       aumid)
+          .c_str());
+}
+
+bool HandleVelopackHook() {
+  const std::vector<std::string> arguments = GetCommandLineArguments();
+  if (arguments.empty() || arguments.front().rfind("--veloapp-", 0) != 0) {
+    return false;
+  }
+  if (arguments.front() == "--veloapp-uninstall") {
+    UnregisterOwnedUrlScheme();
+    UnregisterNotificationIdentity(ResolveAppUserModelId());
+  }
+  return true;
+}
+
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
                       _In_ wchar_t *command_line, _In_ int show_command) {
+  if (HandleVelopackHook()) {
+    return EXIT_SUCCESS;
+  }
+
   if (SendAppLinkToInstance()) {
     return EXIT_SUCCESS;
   }
@@ -89,7 +209,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
     CreateAndAttachConsole();
   }
 
-  ::SetCurrentProcessExplicitAppUserModelID(kAppUserModelId);
+  ::SetCurrentProcessExplicitAppUserModelID(ResolveAppUserModelId().c_str());
   RegisterUrlSchemeIfUnclaimed();
 
   ::CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
