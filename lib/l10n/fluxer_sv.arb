@@ -56,10 +56,6 @@
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
-    "welcomeBack": "Välkommen tillbaka",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "E-post",
     "@email": {
         "description": "Generic label for an email field."
@@ -5892,15 +5888,6 @@
     "personalNotesSubtitle": "Ditt privata utrymme för tankar och påminnelser",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
-    },
-    "channelWelcomeHeading": "Välkommen till {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "channelWelcomeDescription": "Det här är början på {channelName}.",
     "@channelWelcomeDescription": {
