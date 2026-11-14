@@ -44,15 +44,91 @@ void main() {
       _cam('off', hasVideo: false),
     ];
 
-    test('returns null when nothing is watched', () {
+    test('returns null without remote video', () {
       expect(
         resolveVoiceSystemPipTileId(
           expandedTileId: null,
           pinnedTileId: null,
           watchedTileIds: const <String>{},
-          candidates: candidates,
+          candidates: <VoicePipCandidate>[
+            _cam('me', isLocal: true),
+            _cam('off', hasVideo: false),
+          ],
         ),
         isNull,
+      );
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          candidates: const <VoicePipCandidate>[],
+        ),
+        isNull,
+      );
+    });
+
+    test('falls back to the featured camera, then any remote camera', () {
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          featuredTileId: 'b|camera',
+          candidates: candidates,
+        ),
+        'b|camera',
+      );
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          featuredTileId: 'me|camera',
+          candidates: candidates,
+        ),
+        'a|camera',
+      );
+    });
+
+    test('unwatched screen shares are never a fallback', () {
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          featuredTileId: 'b|screen',
+          candidates: <VoicePipCandidate>[
+            _screen('b'),
+            _cam('off', hasVideo: false),
+          ],
+        ),
+        isNull,
+      );
+    });
+
+    test('a locked pip tile stays put while the speaker changes', () {
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          lockedTileId: 'a|camera',
+          featuredTileId: 'b|camera',
+          candidates: candidates,
+        ),
+        'a|camera',
+      );
+      expect(
+        resolveVoiceSystemPipTileId(
+          expandedTileId: null,
+          pinnedTileId: null,
+          watchedTileIds: const <String>{},
+          lockedTileId: 'off|camera',
+          featuredTileId: 'b|camera',
+          candidates: candidates,
+        ),
+        'b|camera',
       );
     });
 
@@ -111,7 +187,7 @@ void main() {
           expandedTileId: 'gone|camera',
           pinnedTileId: null,
           watchedTileIds: const <String>{'gone|screen'},
-          candidates: candidates,
+          candidates: <VoicePipCandidate>[_cam('off', hasVideo: false)],
         ),
         isNull,
       );
@@ -140,16 +216,6 @@ void main() {
           candidates: candidates,
         ),
         'b|screen',
-      );
-      expect(
-        resolveVoiceSystemPipTileId(
-          expandedTileId: null,
-          pinnedTileId: null,
-          watchedTileIds: const <String>{},
-          preferredTileId: 'a|camera',
-          candidates: candidates,
-        ),
-        isNull,
       );
     });
   });

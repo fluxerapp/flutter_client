@@ -113,6 +113,9 @@ class VoiceSystemPipCoordinator with WidgetsBindingObserver {
   void _onEvent(VoicePipEvent event) {
     _pipActive = event.active;
     _pipSize = event.active ? event.size ?? _pipSize : null;
+    _ref
+        .read(voiceSystemPipLockedTileProvider.notifier)
+        .lock(event.active ? _target?.tileId : null);
     _ref.read(voiceSystemPipActiveProvider.notifier).set(active: event.active);
     _sync();
   }
@@ -159,10 +162,11 @@ class VoiceSystemPipCoordinator with WidgetsBindingObserver {
   }
 
   void _applyBackgroundFocus() {
+    final VoiceSystemPipTarget? focus = _pipActive ? _target : null;
     VoiceVideoClaims.setBackgroundFocus(
       backgrounded: !_foreground || _pipActive,
-      participant: _target?.participant,
-      source: _target?.trackSource,
+      participant: focus?.participant,
+      source: focus?.trackSource,
       quality: _pipQuality,
     );
   }

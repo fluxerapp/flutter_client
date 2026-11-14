@@ -6,18 +6,22 @@ String? resolveVoiceSystemPipTileId({
   required Set<String> watchedTileIds,
   required List<VoicePipCandidate> candidates,
   String? preferredTileId,
+  String? lockedTileId,
+  String? featuredTileId,
   Set<String> blockedTileIds = const <String>{},
 }) {
-  if (expandedTileId == null &&
-      pinnedTileId == null &&
-      watchedTileIds.isEmpty) {
+  if (candidates.isEmpty) {
     return null;
   }
   final Map<String, VoicePipCandidate> byId = <String, VoicePipCandidate>{
     for (final VoicePipCandidate candidate in candidates)
       candidate.tileId: candidate,
   };
-  bool eligible(String? tileId, {bool screenShareOnly = false}) {
+  bool eligible(
+    String? tileId, {
+    bool screenShareOnly = false,
+    bool cameraOnly = false,
+  }) {
     if (tileId == null || blockedTileIds.contains(tileId)) {
       return false;
     }
@@ -25,7 +29,8 @@ String? resolveVoiceSystemPipTileId({
     return candidate != null &&
         candidate.hasVideo &&
         !candidate.isLocal &&
-        (!screenShareOnly || candidate.isScreenShare);
+        (!screenShareOnly || candidate.isScreenShare) &&
+        (!cameraOnly || !candidate.isScreenShare);
   }
 
   final List<String> focused = <String>[
@@ -34,8 +39,19 @@ String? resolveVoiceSystemPipTileId({
     for (final String tileId in watchedTileIds)
       if (eligible(tileId, screenShareOnly: true)) tileId,
   ];
-  if (focused.isEmpty) {
-    return null;
+  if (focused.isNotEmpty) {
+    return focused.contains(preferredTileId) ? preferredTileId : focused.first;
   }
-  return focused.contains(preferredTileId) ? preferredTileId : focused.first;
+  if (eligible(lockedTileId)) {
+    return lockedTileId;
+  }
+  if (eligible(featuredTileId, cameraOnly: true)) {
+    return featuredTileId;
+  }
+  for (final VoicePipCandidate candidate in candidates) {
+    if (eligible(candidate.tileId, cameraOnly: true)) {
+      return candidate.tileId;
+    }
+  }
+  return null;
 }

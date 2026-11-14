@@ -72,24 +72,6 @@ typedef _VoiceSystemPipSession = ({
 });
 
 final voiceSystemPipTargetProvider = Provider<VoiceSystemPipTarget?>((Ref ref) {
-  final String? expandedTileId = ref.watch(
-    voiceScreenShareFullscreenProvider.select(
-      (prefs) => prefs.userExpanded ? prefs.expandedTileId : null,
-    ),
-  );
-  final String? pinnedTileId = ref.watch(
-    voiceCallLayoutProvider.select(
-      (VoiceCallLayoutState state) => state.pinnedTileId,
-    ),
-  );
-  final Set<String> watchedTileIds = ref.watch(
-    voiceScreenShareWatchTileProvider,
-  );
-  if (expandedTileId == null &&
-      pinnedTileId == null &&
-      watchedTileIds.isEmpty) {
-    return null;
-  }
   final _VoiceSystemPipSession session = ref.watch(
     voiceSessionProvider.select(
       (VoiceSessionState voice) => (
@@ -120,15 +102,24 @@ final voiceSystemPipTargetProvider = Provider<VoiceSystemPipTarget?>((Ref ref) {
             source: source,
           ),
   };
+  final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
   final bool inAppPipVisible =
       ref.watch(voicePipOverlayPhaseProvider) == VoicePipOverlayPhase.pip;
   final String? tileId = resolveVoiceSystemPipTileId(
-    expandedTileId: expandedTileId,
-    pinnedTileId: pinnedTileId,
-    watchedTileIds: watchedTileIds,
-    preferredTileId: inAppPipVisible
-        ? ref.watch(voicePipFeaturedTileIdProvider)
-        : null,
+    expandedTileId: ref.watch(
+      voiceScreenShareFullscreenProvider.select(
+        (prefs) => prefs.userExpanded ? prefs.expandedTileId : null,
+      ),
+    ),
+    pinnedTileId: ref.watch(
+      voiceCallLayoutProvider.select(
+        (VoiceCallLayoutState state) => state.pinnedTileId,
+      ),
+    ),
+    watchedTileIds: ref.watch(voiceScreenShareWatchTileProvider),
+    preferredTileId: inAppPipVisible ? featuredTileId : null,
+    lockedTileId: ref.watch(voiceSystemPipLockedTileProvider),
+    featuredTileId: featuredTileId,
     blockedTileIds: blockedTileIds,
     candidates: buildVoicePipCandidates(
       participants: participants,
@@ -186,3 +177,19 @@ class VoiceSystemPipActive extends Notifier<bool> {
 
 final voiceSystemPipActiveProvider =
     NotifierProvider<VoiceSystemPipActive, bool>(VoiceSystemPipActive.new);
+
+class VoiceSystemPipLockedTile extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void lock(String? tileId) {
+    if (state != tileId) {
+      state = tileId;
+    }
+  }
+}
+
+final voiceSystemPipLockedTileProvider =
+    NotifierProvider<VoiceSystemPipLockedTile, String?>(
+      VoiceSystemPipLockedTile.new,
+    );
