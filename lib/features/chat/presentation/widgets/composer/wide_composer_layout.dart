@@ -10,15 +10,20 @@ abstract final class WideComposerLayout {
   static const double ringWidth = 1;
   static const double boxMinHeight = 58;
   static const double densePaddingY = 10;
+  static const double densePaddingYMouse = 12;
   static const double densePaddingXMouse = 13;
   static const double densePaddingXTouch = 12;
   static const double actionGap = 8;
   static const double mouseActionGap = 4;
-  static const double mouseContentGap = 16;
+  static const double mouseContentGap = 20;
+  static const double mouseTextContentOffset = 5;
   static const double mouseButtonRadius = 6;
   static const double mouseButtonIconSize = 22;
   static const double mouseVoiceDividerHeight = 24;
   static const double denseColumnGap = 12;
+
+  static double densePaddingYFor({required bool touchPrimary}) =>
+      touchPrimary ? densePaddingY : densePaddingYMouse;
 
   static double densePaddingX({required bool touchPrimary}) =>
       touchPrimary ? densePaddingXTouch : densePaddingXMouse;
