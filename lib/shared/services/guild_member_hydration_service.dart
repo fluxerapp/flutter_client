@@ -241,9 +241,15 @@ class GuildMemberHydrationService {
   }
 
   void _markNonMember(String guildId, String userId) {
-    _nonMembers.putIfAbsent(guildId, () => <String>{}).add(userId);
+    final Set<String> ids = _nonMembers.putIfAbsent(guildId, () => <String>{});
+    if (ids.length >= kGuildNonMemberCacheMaxPerGuild) {
+      ids.clear();
+    }
+    ids.add(userId);
   }
 }
+
+const int kGuildNonMemberCacheMaxPerGuild = 2000;
 
 final Provider<GuildMemberHydrationService>
 guildMemberHydrationServiceProvider = Provider<GuildMemberHydrationService>((

@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "اسم المستخدم",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "إنشاء حساب",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "إضافة صديق",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "اسم المستخدم#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "اسم مستخدم الصديق",
     "@addFriendUsernameLabel": {
@@ -19895,10 +19887,6 @@
     "passkeyNoCredentialsForAccount": "لا يحتوي هذا الجهاز على مفتاح مرور لهذا الحساب. استخدم الجهاز أو مدير كلمات المرور الذي حفظته فيه.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "فعّل المجتمعات والقنوات المقيدة بالعمر على fluxer.com في متصفحك أو في تطبيق سطح المكتب. ستبقى مخفية في تطبيق iOS حتى تفعل ذلك.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "الرسائل",
     "@notificationChannelMessages": {

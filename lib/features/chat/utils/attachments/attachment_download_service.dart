@@ -6,6 +6,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -25,7 +26,7 @@ final Dio _attachmentDownloadDio = Dio(
     receiveTimeout: const Duration(minutes: 2),
     followRedirects: true,
   ),
-);
+)..interceptors.add(AttachmentAuthInterceptor());
 
 Future<void> downloadChatAttachmentMedia({
   required BuildContext context,

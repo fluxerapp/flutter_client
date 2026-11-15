@@ -856,9 +856,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Tvoj račun još nije preuzet. Bez korisničkog imena i lozinke nećeš se moći prijaviti s drugih uređaja i mogao bi izgubiti pristup svom računu. Preuzmi svoj račun sada kako bi ga osigurao.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Korisničko ime';
-
-  @override
   String get registerTitle => 'Izradi račun';
 
   @override
@@ -1570,9 +1567,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Dodaj prijatelja';
-
-  @override
-  String get addFriendUsernameHint => 'Korisničko ime#0000';
 
   @override
   String get addFriendUsernameLabel => 'Korisničko ime prijatelja';
@@ -4549,8 +4543,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ova zajednica za odrasle nije dostupna vašem računu.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Uključite zajednice i kanale s dobnim ograničenjem na fluxer.com u pregledniku ili u desktop aplikaciji. Do tada ostaju skriveni u iOS aplikaciji.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

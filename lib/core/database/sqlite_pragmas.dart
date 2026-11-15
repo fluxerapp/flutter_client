@@ -1,7 +1,7 @@
 import 'package:sqlite3/common.dart';
 
 const int kMobileSqliteCacheSizeKib = 8000;
-const int kDesktopSqliteCacheSizeKib = 64000;
+const int kDesktopSqliteCacheSizeKib = 16000;
 
 void Function(CommonDatabase) driftSqliteSetup({required bool isMobile}) {
   return (CommonDatabase database) =>

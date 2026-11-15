@@ -14,6 +14,7 @@ class DesktopMainWindow extends ChangeNotifier with WindowListener {
   bool _focused = false;
   bool _maximized = false;
 
+  bool get isAttached => _attached;
   bool get isVisible => _visible;
   bool get isMinimized => _minimized;
   bool get isFocused => _focused;
@@ -117,6 +118,10 @@ class DesktopMainWindow extends ChangeNotifier with WindowListener {
 
 bool isDesktopMainWindowShown() {
   return desktopMainWindow.isVisible && !desktopMainWindow.isMinimized;
+}
+
+bool isDesktopMainWindowHidden() {
+  return desktopMainWindow.isAttached && !isDesktopMainWindowShown();
 }
 
 bool isDesktopMainWindowFocused() {

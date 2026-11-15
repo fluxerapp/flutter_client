@@ -21,6 +21,8 @@ object MainEngineKeepAlive {
             override fun onServiceDisconnected(name: ComponentName?) {}
         }
 
+    fun isTracking(engine: FlutterEngine): Boolean = trackedEngine === engine
+
     fun attach(context: Context, engine: FlutterEngine) {
         val appContext = context.applicationContext
         bindAudioService(appContext)

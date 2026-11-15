@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Gebruikersnaam",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Account aanmaken",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "Vriend toevoegen",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Gebruikersnaam#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Gebruikersnaam van vriend",
     "@addFriendUsernameLabel": {
@@ -19912,10 +19904,6 @@
     "passkeyNoCredentialsForAccount": "Dit apparaat heeft geen passkey voor dit account. Gebruik het apparaat of de wachtwoordmanager waarin je hem hebt opgeslagen.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Zet communities en kanalen met leeftijdsbeperking aan op fluxer.com in je browser of in de desktop-app. Tot die tijd blijven ze verborgen in de iOS-app.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Berichten",
     "@notificationChannelMessages": {

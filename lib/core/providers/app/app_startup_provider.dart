@@ -65,6 +65,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_p2p_consent_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
+import 'package:fluxer_app/features/voice/services/voice_system_pip_coordinator.dart';
 import 'package:fluxer_app/features/voice/services/voice_wakelock_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -99,6 +100,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
     ..read(voiceWakelockCoordinatorProvider)
+    ..read(voiceSystemPipCoordinatorProvider)
     ..read(gatewayPresenceCoordinatorProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)

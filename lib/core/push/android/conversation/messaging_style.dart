@@ -37,13 +37,8 @@ List<PushConversationLine> pushConversationLinesWithoutMedia(
 ) {
   return lines
       .map(
-        (PushConversationLine line) => PushConversationLine(
-          messageId: line.messageId,
-          senderName: line.senderName,
-          senderKey: line.senderKey,
-          body: line.body,
-          timestampMs: line.timestampMs,
-        ),
+        (PushConversationLine line) =>
+            line.withMedia(avatarPath: null, imagePath: null),
       )
       .toList(growable: false);
 }
@@ -57,12 +52,7 @@ List<PushConversationLine> pushConversationLinesWithExistingMedia(
   String? existing(String? path) => path != null && exists(path) ? path : null;
   return lines
       .map(
-        (PushConversationLine line) => PushConversationLine(
-          messageId: line.messageId,
-          senderName: line.senderName,
-          senderKey: line.senderKey,
-          body: line.body,
-          timestampMs: line.timestampMs,
+        (PushConversationLine line) => line.withMedia(
           avatarPath: existing(line.avatarPath),
           imagePath: existing(line.imagePath),
         ),

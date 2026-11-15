@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "ชื่อผู้ใช้",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "สร้างบัญชี",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "เพิ่มเพื่อน",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "ชื่อผู้ใช้#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "ชื่อผู้ใช้ของเพื่อน",
     "@addFriendUsernameLabel": {
@@ -19895,10 +19887,6 @@
     "passkeyNoCredentialsForAccount": "อุปกรณ์นี้ไม่มีพาสคีย์สำหรับบัญชีนี้ ใช้อุปกรณ์หรือตัวจัดการรหัสผ่านที่คุณบันทึกพาสคีย์ไว้",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "เปิดคอมมูนิตี้และช่องที่จำกัดอายุได้ที่ fluxer.com ในเบราว์เซอร์หรือในแอปเดสก์ท็อป เนื้อหาเหล่านี้จะยังคงซ่อนอยู่ในแอป iOS จนกว่าคุณจะเปิด",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "ข้อความ",
     "@notificationChannelMessages": {

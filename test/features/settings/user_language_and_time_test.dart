@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
 
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -145,6 +147,45 @@ void main() {
       select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
       contains(sdk.Locale.fr),
     );
+  });
+
+  testWidgets('arabic uses the arab league flag at the country flag size', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_wrap(const UserLanguageAndTime()));
+    await tester.pumpAndSettle();
+
+    final FluxerSelect<sdk.Locale> select = tester.widget(
+      find.byWidgetPredicate(
+        (Widget widget) => widget is FluxerSelect<sdk.Locale>,
+      ),
+    );
+    Widget leadingFor(sdk.Locale locale) => select.items
+        .firstWhere((FluxerSelectItem<sdk.Locale> item) => item.value == locale)
+        .leading!;
+
+    await tester.pumpWidget(
+      Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          textDirection: TextDirection.ltr,
+          children: <Widget>[
+            leadingFor(sdk.Locale.ar),
+            leadingFor(sdk.Locale.bg),
+          ],
+        ),
+      ),
+    );
+
+    final Finder arabic = find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is SvgPicture &&
+          widget.bytesLoader is SvgAssetLoader &&
+          (widget.bytesLoader as SvgAssetLoader).assetName ==
+              'assets/flags/arab_league.svg',
+    );
+    expect(arabic, findsOneWidget);
+    expect(tester.getSize(arabic), tester.getSize(find.byType(CountryFlag)));
   });
 
   testWidgets('renders language section on mobile', (

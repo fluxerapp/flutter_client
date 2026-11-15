@@ -109,7 +109,9 @@ class _RightTooltipState extends State<_RightTooltip>
     }
     unawaited(
       _animController.reverse().then((_) {
-        _entry?.remove();
+        _entry
+          ?..remove()
+          ..dispose();
         _entry = null;
       }),
     );
@@ -118,7 +120,9 @@ class _RightTooltipState extends State<_RightTooltip>
   @override
   void dispose() {
     _animController.dispose();
-    _entry?.remove();
+    _entry
+      ?..remove()
+      ..dispose();
     _entry = null;
     super.dispose();
   }

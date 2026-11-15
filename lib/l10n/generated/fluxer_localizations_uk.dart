@@ -861,9 +861,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ваш обліковий запис ще не підтверджено. Без імені користувача та пароля ви не зможете входити з інших пристроїв і можете втратити доступ до свого облікового запису. Підтвердьте свій обліковий запис зараз, щоб захистити його.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Ім\'я користувача';
-
-  @override
   String get registerTitle => 'Створити обліковий запис';
 
   @override
@@ -1582,9 +1579,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Додати в друзі';
-
-  @override
-  String get addFriendUsernameHint => 'Ім\'я користувача#0000';
 
   @override
   String get addFriendUsernameLabel => 'Ім\'я користувача друга';
@@ -4569,8 +4563,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ця спільнота для дорослих недоступна для вашого облікового запису.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Увімкніть спільноти й канали з віковими обмеженнями на fluxer.com у браузері або в застосунку для комп\'ютера. До того часу вони залишаються прихованими в застосунку для iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

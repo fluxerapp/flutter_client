@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nom d'utilisateur",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Créer un compte",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Ajouter un ami",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Nom d'utilisateur#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Nom d'utilisateur de l'ami",
     "@addFriendUsernameLabel": {
@@ -19895,10 +19887,6 @@
     "passkeyNoCredentialsForAccount": "Cet appareil n'a pas de clé d'accès pour ce compte. Utilisez l'appareil ou le gestionnaire de mots de passe où vous l'avez enregistrée.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Activez les communautés et les salons soumis à une limite d'âge sur fluxer.com dans votre navigateur ou dans l'application de bureau. Ils restent masqués dans l'application iOS tant que vous ne l'avez pas fait.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Messages",
     "@notificationChannelMessages": {

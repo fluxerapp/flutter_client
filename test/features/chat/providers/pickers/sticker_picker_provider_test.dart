@@ -91,6 +91,21 @@ void main() {
       expect(result[guilds.last]!.map((sticker) => sticker.id), ['b']);
     });
 
+    test('offers 18+ community stickers to premium users outside them', () {
+      const matureGuilds = <Guild>[
+        Guild(id: '1', name: 'One', nsfw: true),
+        Guild(id: '2', name: 'Two'),
+      ];
+      final result = guildStickerEntriesForPicker(
+        guilds: matureGuilds,
+        stickers: stickers,
+        activeGuildId: '2',
+        isPremium: true,
+      );
+
+      expect(result.keys.map((guild) => guild.id), ['1', '2']);
+    });
+
     test('preserves reordered guild input for premium picker sections', () {
       const reorderedGuilds = <Guild>[
         Guild(id: '2', name: 'Two'),

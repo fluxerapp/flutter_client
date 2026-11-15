@@ -184,7 +184,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                   key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: WideComposerMouseButton(
-                    icon: PhosphorIconsRegular.paperPlaneRight,
+                    icon: PhosphorIconsFill.paperPlaneRight,
                     tooltip: l10n.composerSendMessage,
                     onPressed: sendOnPressed,
                   ),

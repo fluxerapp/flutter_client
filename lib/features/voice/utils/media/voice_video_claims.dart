@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -32,6 +34,7 @@ class VoiceVideoClaim {
 class _SourceClaims {
   final List<VoiceVideoClaim> claims = <VoiceVideoClaim>[];
   Timer? grace;
+  Timer? suspend;
   String? signature;
 
   bool get isIdle => claims.isEmpty && grace == null;
@@ -47,6 +50,38 @@ class VoiceVideoClaims {
   static final Expando<VoiceVideoClaims> _byParticipant =
       Expando<VoiceVideoClaims>();
 
+  static final Set<VoiceVideoClaims> _live = <VoiceVideoClaims>{};
+  static bool _backgrounded = false;
+  static VoiceMediaParticipant? _focusParticipant;
+  static TrackSource? _focusSource;
+  static VideoQuality? _focusQuality;
+
+  static void setBackgroundFocus({
+    required bool backgrounded,
+    VoiceMediaParticipant? participant,
+    TrackSource? source,
+    VideoQuality? quality,
+  }) {
+    if (_backgrounded == backgrounded &&
+        identical(_focusParticipant, participant) &&
+        _focusSource == source &&
+        _focusQuality == quality) {
+      return;
+    }
+    _backgrounded = backgrounded;
+    _focusParticipant = participant;
+    _focusSource = source;
+    _focusQuality = quality;
+    for (final VoiceVideoClaims claims in _live.toList()) {
+      claims._sync();
+    }
+  }
+
+  @visibleForTesting
+  static void debugResetBackgroundFocus() {
+    setBackgroundFocus(backgrounded: false);
+  }
+
   final VoiceMediaParticipant _participant;
   final Map<TrackSource, _SourceClaims> _sources =
       <TrackSource, _SourceClaims>{};
@@ -60,6 +95,7 @@ class VoiceVideoClaims {
     state.claims.add(claim);
     if (!_listening) {
       _listening = true;
+      _live.add(this);
       _participant.addListener(_sync);
     }
     _sync();
@@ -73,6 +109,8 @@ class VoiceVideoClaims {
       _sync();
       return;
     }
+    state.suspend?.cancel();
+    state.suspend = null;
     state.grace = Timer(kVoiceVideoUnsubscribeGrace, () {
       state
         ..grace = null
@@ -82,12 +120,42 @@ class VoiceVideoClaims {
     });
   }
 
+  bool _isFocus(TrackSource source) {
+    return identical(_participant, _focusParticipant) && source == _focusSource;
+  }
+
+  bool _isSuspended(TrackSource source) {
+    return _backgrounded && source == TrackSource.camera && !_isFocus(source);
+  }
+
+  void _suspend(TrackSource source, _SourceClaims state) {
+    if (state.signature == null || state.suspend != null) {
+      return;
+    }
+    state.suspend = Timer(kVoiceVideoUnsubscribeGrace, () {
+      state.suspend = null;
+      if (state.claims.isEmpty || !_isSuspended(source)) {
+        return;
+      }
+      state.signature = null;
+      _unsubscribe(source);
+    });
+  }
+
   void _sync() {
     _sources.forEach((TrackSource source, _SourceClaims state) {
       if (state.claims.isEmpty) {
         return;
       }
-      final VideoQuality quality = _highestQuality(state.claims);
+      if (_isSuspended(source)) {
+        _suspend(source, state);
+        return;
+      }
+      state.suspend?.cancel();
+      state.suspend = null;
+      final VideoQuality quality = _backgrounded && _isFocus(source)
+          ? _focusQuality ?? _highestQuality(state.claims)
+          : _highestQuality(state.claims);
       final String signature = _signature(source, quality);
       if (signature == state.signature) {
         return;
@@ -180,6 +248,7 @@ class VoiceVideoClaims {
       return;
     }
     _listening = false;
+    _live.remove(this);
     _participant.removeListener(_sync);
   }
 }

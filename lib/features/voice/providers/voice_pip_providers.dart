@@ -69,8 +69,13 @@ List<VoicePipCandidate> buildVoicePipCandidates({
         participant.voice.connectionId ??
         participant.voice.sessionId ??
         participant.userId;
+    final String? connectionId = participant.voice.connectionId;
     final bool isLocal =
-        currentUserId != null && participant.userId == currentUserId;
+        currentUserId != null &&
+        participant.userId == currentUserId &&
+        (localConnectionId == null ||
+            connectionId == null ||
+            connectionId == localConnectionId);
     final bool muted =
         participant.voice.selfMute ||
         participant.voice.mute ||

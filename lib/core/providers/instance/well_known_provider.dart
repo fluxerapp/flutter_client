@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
@@ -194,5 +195,12 @@ String instanceWebAppBaseUrl(Ref ref) {
     data: (WellKnownFluxerResponse response) => response.endpoints.webapp,
     loading: () => InstanceEndpoints.webApp,
     error: (_, _) => InstanceEndpoints.webApp,
+  );
+}
+
+@Riverpod(keepAlive: true)
+String instanceWebAppAddress(Ref ref) {
+  return const InstanceEndpointNormalizer().describeApiEndpoint(
+    ref.watch(instanceWebAppBaseUrlProvider),
   );
 }

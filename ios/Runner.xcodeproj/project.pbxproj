@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA11A7E00000000000000102 /* VoiceRoutePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11A7E00000000000000101 /* VoiceRoutePickerView.swift */; };
 		CA11A7E0000000000000000D /* NativeStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11A7E00000000000000009 /* NativeStrings.swift */; };
 		CA11A7E0000000000000000C /* NativeStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11A7E00000000000000009 /* NativeStrings.swift */; };
 		CA11A7E0000000000000000B /* NativeStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11A7E00000000000000009 /* NativeStrings.swift */; };
@@ -86,8 +85,6 @@
 		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
 		FNXM00022FABCD00EA2F01 /* FluxerNativeMeasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */; };
 		FNXM00042FABCD00EA2F03 /* MeasureLogRedaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */; };
-		FBC1A0042F9E220100EA2F03 /* VoiceActiveRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceActiveRoute.swift */; };
-		FB7E0C0B2FB0000100C0FFEE /* FluxerVoiceMessages.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7E0C0A2FB0000100C0FFEE /* FluxerVoiceMessages.g.swift */; };
 		FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */; };
 		FBC1A00A2F9E220100EA2F09 /* AppStoreDistributionBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */; };
 		A77A7E022FA0B00100C0FFEE /* AppAttestBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A7E012FA0B00100C0FFEE /* AppAttestBridge.swift */; };
@@ -163,7 +160,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CA11A7E00000000000000101 /* VoiceRoutePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoutePickerView.swift; sourceTree = "<group>"; };
 		CA11A7E00000000000000009 /* NativeStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeStrings.swift; sourceTree = "<group>"; };
 		CA11A7E00000000000000007 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		CA11A7E00000000000000005 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -353,8 +349,6 @@
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
 		FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxerNativeMeasure.swift; sourceTree = "<group>"; };
 		FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureLogRedaction.swift; sourceTree = "<group>"; };
-		FBC1A0032F9E220100EA2F02 /* VoiceActiveRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceActiveRoute.swift; sourceTree = "<group>"; };
-		FB7E0C0A2FB0000100C0FFEE /* FluxerVoiceMessages.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxerVoiceMessages.g.swift; sourceTree = "<group>"; };
 		FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentMediaBridge.swift; sourceTree = "<group>"; };
 		FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreDistributionBridge.swift; sourceTree = "<group>"; };
 		A77A7E012FA0B00100C0FFEE /* AppAttestBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAttestBridge.swift; sourceTree = "<group>"; };
@@ -555,9 +549,6 @@
 				FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */,
 				FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */,
 				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
-				FBC1A0032F9E220100EA2F02 /* VoiceActiveRoute.swift */,
-				FB7E0C0A2FB0000100C0FFEE /* FluxerVoiceMessages.g.swift */,
-				CA11A7E00000000000000101 /* VoiceRoutePickerView.swift */,
 				FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */,
 				FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */,
 				A77A7E012FA0B00100C0FFEE /* AppAttestBridge.swift */,
@@ -1105,9 +1096,6 @@
 				FNXM00022FABCD00EA2F01 /* FluxerNativeMeasure.swift in Sources */,
 				FNXM00042FABCD00EA2F03 /* MeasureLogRedaction.swift in Sources */,
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
-				FBC1A0042F9E220100EA2F03 /* VoiceActiveRoute.swift in Sources */,
-				FB7E0C0B2FB0000100C0FFEE /* FluxerVoiceMessages.g.swift in Sources */,
-				CA11A7E00000000000000102 /* VoiceRoutePickerView.swift in Sources */,
 				FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */,
 				FBC1A00A2F9E220100EA2F09 /* AppStoreDistributionBridge.swift in Sources */,
 				A77A7E022FA0B00100C0FFEE /* AppAttestBridge.swift in Sources */,

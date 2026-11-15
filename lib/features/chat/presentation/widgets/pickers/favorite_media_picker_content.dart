@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
@@ -968,6 +969,7 @@ class _FavoriteMediaPreview extends StatelessWidget {
       );
       return CachedNetworkImage(
         imageUrl: meme.url,
+        httpHeaders: AttachmentRequestAuth.headersFor(meme.url),
         fit: BoxFit.cover,
         memCacheWidth: cache.width,
         memCacheHeight: cache.height,
@@ -1066,7 +1068,13 @@ class _FavoriteMediaVideoPreviewState
   Future<void> _openPlayer(Player player, String url) async {
     try {
       await player.open(
-        Media(url, httpHeaders: _kFavoriteMediaVideoHttpHeaders),
+        Media(
+          url,
+          httpHeaders: <String, String>{
+            ..._kFavoriteMediaVideoHttpHeaders,
+            ...?AttachmentRequestAuth.headersFor(url),
+          },
+        ),
         play: widget.isVisible && widget.allowPlayback,
       );
       if (!mounted || _player != player) {

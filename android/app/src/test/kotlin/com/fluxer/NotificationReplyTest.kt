@@ -17,6 +17,7 @@ class NotificationReplyTest {
             channelId = "channel/1",
             messageId = "message-1",
             content = "hello \"there\"",
+            replyMention = true,
         )
 
         assertEquals(
@@ -31,12 +32,46 @@ class NotificationReplyTest {
     }
 
     @Test
+    fun respectsAReplyWithoutMention() {
+        val request = buildNotificationReplyRequest(
+            account = NotificationReplyAccount("token", "https://api.example/v1"),
+            channelId = "c",
+            messageId = "m",
+            content = "hi",
+            replyMention = false,
+        )
+
+        assertEquals(
+            """{"content":"hi","message_reference":{"message_id":"m"},"allowed_mentions":{"replied_user":false}}""",
+            request?.body,
+        )
+    }
+
+    @Test
+    fun dispatchPostsTheInputMentionChoice() {
+        var posted: NotificationReplyRequest? = null
+        NotificationReplyDispatcher(
+            accounts = NotificationReplyAccountLookup {
+                NotificationReplyAccount("token", "https://api.example/v1")
+            },
+            poster = NotificationReplyPoster {
+                posted = it
+                true
+            },
+            ui = RecordingReplyUi(),
+        ).dispatch(sampleInput().copy(replyMention = false))
+
+        assertTrue(posted?.body?.contains(""""replied_user":false""") == true)
+    }
+
+    @Test
     fun carriesTheFeaturesHeaderValue() {
         val request = buildNotificationReplyRequest(
             account = NotificationReplyAccount("token", "https://api.example/v1"),
             channelId = "c",
             messageId = "m",
             content = "hi",
+            replyMention = true,
             features = "view_channel_members_permission, channel_threads",
         )
 
@@ -50,6 +85,7 @@ class NotificationReplyTest {
             channelId = "c",
             messageId = "m",
             content = "hi",
+            replyMention = true,
             features = " ",
         )
 
@@ -138,6 +174,7 @@ class NotificationReplyTest {
             userId = "user-b",
             notificationId = 42,
             tag = "channel:c:m",
+            replyMention = true,
         )
     }
 }

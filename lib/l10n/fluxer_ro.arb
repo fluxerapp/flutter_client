@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nume de utilizator",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Creează un cont",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "Adaugă prieten",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Nume de utilizator#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Numele de utilizator al prietenului",
     "@addFriendUsernameLabel": {
@@ -19912,10 +19904,6 @@
     "passkeyNoCredentialsForAccount": "Acest dispozitiv nu are o cheie de acces pentru acest cont. Folosește dispozitivul sau managerul de parole în care ai salvat-o.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Activează comunitățile și canalele cu restricție de vârstă pe fluxer.com în browser sau în aplicația desktop. Până atunci, rămân ascunse în aplicația iOS.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Mesaje",
     "@notificationChannelMessages": {

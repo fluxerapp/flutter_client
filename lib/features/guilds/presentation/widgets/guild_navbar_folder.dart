@@ -939,7 +939,9 @@ Future<void> _runGuildMenuAction(
   if (context.mounted) {
     menuKey.currentState?.handleMenuAction(context, action);
   }
-  entry.remove();
+  entry
+    ..remove()
+    ..dispose();
 }
 
 Widget _buildGuildMenuActionItem({

@@ -825,9 +825,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '계정을 아직 등록하지 않으셨습니다. 사용자 이름과 비밀번호가 없으면 다른 기기에서 로그인할 수 없으며 계정에 액세스하지 못할 수 있습니다. 지금 계정을 등록하여 안전하게 보호하세요.';
 
   @override
-  String get addFriendUsernameOnlyHint => '사용자 이름';
-
-  @override
   String get registerTitle => '계정 만들기';
 
   @override
@@ -1501,9 +1498,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '친구 추가';
-
-  @override
-  String get addFriendUsernameHint => '사용자이름#0000';
 
   @override
   String get addFriendUsernameLabel => '친구의 사용자 이름';
@@ -4368,8 +4362,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이 성인 커뮤니티는 회원님의 계정에서 이용할 수 없습니다.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      '브라우저에서 fluxer.com에 접속하거나 데스크톱 앱에서 연령 제한 커뮤니티와 채널을 켜세요. 켜기 전까지는 iOS 앱에서 숨겨진 상태로 유지됩니다.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

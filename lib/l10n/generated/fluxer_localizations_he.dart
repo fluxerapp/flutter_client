@@ -848,9 +848,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'החשבון שלך עדיין לא נתבע. ללא שם משתמש וסיסמה, לא תוכל להתחבר ממכשירים אחרים ועלול לאבד גישה לחשבון שלך. תבע את החשבון שלך עכשיו כדי לאבטח אותו.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'שם משתמש';
-
-  @override
   String get registerTitle => 'צור חשבון';
 
   @override
@@ -1547,9 +1544,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'הוסף חבר';
-
-  @override
-  String get addFriendUsernameHint => 'שם משתמש#0000';
 
   @override
   String get addFriendUsernameLabel => 'שם המשתמש של החבר';
@@ -4482,8 +4476,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'קהילה זו למבוגרים אינה זמינה לחשבונך.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'הפעל קהילות וערוצים עם הגבלת גיל ב-fluxer.com בדפדפן או באפליקציה למחשב. עד אז הם יישארו מוסתרים באפליקציית iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

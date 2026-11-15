@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nome de usuário",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Criar uma conta",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Adicionar amigo",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "NomeDeUsuário#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Nome de usuário do amigo",
     "@addFriendUsernameLabel": {
@@ -19895,10 +19887,6 @@
     "passkeyNoCredentialsForAccount": "Este dispositivo não tem uma chave de acesso para esta conta. Use o dispositivo ou o gestor de palavras-passe onde a guardou.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou na aplicação para computador. Continuam ocultos na aplicação para iOS até o fazer.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Mensagens",
     "@notificationChannelMessages": {

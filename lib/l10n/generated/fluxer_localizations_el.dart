@@ -859,9 +859,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ο λογαριασμός σας δεν έχει διεκδικηθεί ακόμη. Χωρίς όνομα χρήστη και κωδικό πρόσβασης, δεν θα μπορείτε να συνδεθείτε από άλλες συσκευές και μπορεί να χάσετε την πρόσβαση στον λογαριασμό σας. Διεκδικήστε τώρα τον λογαριασμό σας για να τον ασφαλίσετε.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Όνομα χρήστη';
-
-  @override
   String get registerTitle => 'Δημιουργία λογαριασμού';
 
   @override
@@ -1576,9 +1573,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Προσθήκη φίλου';
-
-  @override
-  String get addFriendUsernameHint => 'Όνομα χρήστη#0000';
 
   @override
   String get addFriendUsernameLabel => 'Όνομα χρήστη φίλου';
@@ -4584,8 +4578,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτή η κοινότητα ενηλίκων δεν είναι διαθέσιμη στον λογαριασμό σας.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Ενεργοποιήστε τις κοινότητες και τα κανάλια με περιορισμό ηλικίας στο fluxer.com από το πρόγραμμα περιήγησης ή από την εφαρμογή για υπολογιστές. Μέχρι τότε παραμένουν κρυφά στην εφαρμογή iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/keep_alive_for.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -109,6 +110,8 @@ class ForumViewState {
       : copyWith(archived: value);
 }
 
+const Duration kForumPostsIdleRetention = Duration(minutes: 5);
+
 class ForumPostsController extends Notifier<ForumViewState> {
   ForumPostsController(this.forumId);
 
@@ -126,6 +129,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
       ..onAddListener(() => _listeners++)
       ..onRemoveListener(() => _listeners--)
       ..listen<int>(gatewayFullRecoveryProvider, (_, _) => _resetAfterReady());
+    keepAliveFor(ref, kForumPostsIdleRetention);
     ref.onDispose(() {
       _searchTimer?.cancel();
       for (final Timer timer in _retryTimers.values) {
@@ -395,8 +399,8 @@ class ForumPostsController extends Notifier<ForumViewState> {
 }
 
 final NotifierProviderFamily<ForumPostsController, ForumViewState, String>
-forumPostsProvider =
-    NotifierProvider.family<ForumPostsController, ForumViewState, String>(
+forumPostsProvider = NotifierProvider.autoDispose
+    .family<ForumPostsController, ForumViewState, String>(
       ForumPostsController.new,
     );
 

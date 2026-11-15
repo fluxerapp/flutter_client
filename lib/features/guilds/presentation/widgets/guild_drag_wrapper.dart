@@ -542,7 +542,9 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
   @override
   void dispose() {
     _animationControllersDisposed = true;
-    _feedbackOverlay?.remove();
+    _feedbackOverlay
+      ?..remove()
+      ..dispose();
     _feedbackOverlay = null;
     _liftController.dispose();
     _releaseController.dispose();
@@ -550,7 +552,9 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
   }
 
   void _removeFeedbackOverlay() {
-    _feedbackOverlay?.remove();
+    _feedbackOverlay
+      ?..remove()
+      ..dispose();
     _feedbackOverlay = null;
     _isFeedbackOverlayInserted = false;
     _overlayCenterX = null;

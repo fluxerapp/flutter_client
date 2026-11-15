@@ -32,6 +32,7 @@ private const val SCO_MAX_ATTEMPTS = 2
 private const val REASSERT_MAX_COUNT = 6
 private const val REASSERT_WINDOW_MS = 10_000L
 private const val EVENT_LOG_CAPACITY = 40
+private const val TELECOM_WATCH_MS = 1_000L
 
 private val externalCallModes = setOf(
     AudioManager.MODE_IN_CALL,
@@ -87,6 +88,7 @@ internal class VoiceAudioSession(
     private var deferredReassert: Runnable? = null
     private var pendingDeviceRefresh: Runnable? = null
     private var settledReapply: Runnable? = null
+    private var telecomWatch: Runnable? = null
     private var scoTimeout: Runnable? = null
     private var scoRequested = false
     private var scoConnected = false
@@ -277,6 +279,9 @@ internal class VoiceAudioSession(
         log("modeChanged=$mode")
         when {
             mode == AudioManager.MODE_IN_COMMUNICATION -> {
+                if (reclaimIfTelecomEnded()) {
+                    return
+                }
                 if (!telecomOwnsRoute && !waitingForExternalCall && desiredExplicit && communicationDeviceDrifted()) {
                     scheduleReassert("modeConfirmed", force = true)
                 }
@@ -285,11 +290,7 @@ internal class VoiceAudioSession(
                 waitingForExternalCall = true
                 cancelReasserts()
             }
-            telecomOwnsRoute -> {
-                if (connections().isEmpty()) {
-                    applyRoute("telecomEnded", force = true)
-                }
-            }
+            telecomOwnsRoute -> reclaimIfTelecomEnded()
             waitingForExternalCall -> {
                 waitingForExternalCall = false
                 limiter.reset()
@@ -301,6 +302,9 @@ internal class VoiceAudioSession(
 
     internal fun onCommunicationDeviceChanged(device: AudioDeviceInfo?) {
         if (!isActive) {
+            return
+        }
+        if (reclaimIfTelecomEnded()) {
             return
         }
         if (telecomOwnsRoute) {
@@ -363,6 +367,8 @@ internal class VoiceAudioSession(
         pendingDeviceRefresh = null
         cancel(settledReapply)
         settledReapply = null
+        cancel(telecomWatch)
+        telecomWatch = null
         releaseLegacySco()
         unregisterSessionListeners()
         keepalive.stop()
@@ -396,6 +402,8 @@ internal class VoiceAudioSession(
         var forceApply = force
         if (telecomOwnsRoute) {
             telecomOwnsRoute = false
+            cancel(telecomWatch)
+            telecomWatch = null
             forceApply = true
             log("telecom ended, reclaiming route")
             requestFocus(retry = false)
@@ -457,6 +465,7 @@ internal class VoiceAudioSession(
             safeClearCommunicationDevice(audioManager)
             abandonFocus()
             log("handoff to telecom calls=${calls.size}")
+            scheduleTelecomWatch()
         }
         if (desiredExplicit) {
             val bluetoothAddress = requestedBluetoothAddress(audioManager, desiredRoute, desiredDeviceId)
@@ -469,6 +478,33 @@ internal class VoiceAudioSession(
         log("telecom apply reason=$reason explicit=$desiredExplicit route=${appliedRoute?.name}")
         updateProximity()
         emitState("routeChanged")
+    }
+
+    private fun reclaimIfTelecomEnded(): Boolean {
+        if (!telecomOwnsRoute || connections().isNotEmpty()) {
+            return false
+        }
+        limiter.reset()
+        applyRoute("telecomEnded", force = true)
+        return true
+    }
+
+    private fun scheduleTelecomWatch() {
+        cancel(telecomWatch)
+        val work = object : Runnable {
+            override fun run() {
+                if (!isActive || !telecomOwnsRoute) {
+                    telecomWatch = null
+                    return
+                }
+                if (reclaimIfTelecomEnded()) {
+                    return
+                }
+                handler.postDelayed(this, TELECOM_WATCH_MS)
+            }
+        }
+        telecomWatch = work
+        handler.postDelayed(work, TELECOM_WATCH_MS)
     }
 
     private fun telecomActualRoute(calls: List<CallkitConnection>): VoiceOutputRoute? {

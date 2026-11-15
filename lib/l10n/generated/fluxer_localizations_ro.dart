@@ -860,9 +860,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Contul tău nu a fost încă revendicat. Fără un nume de utilizator și o parolă, nu vei putea să te conectezi de pe alte dispozitive și ai putea pierde accesul la contul tău. Revendică-ți acum contul pentru a-l securiza.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nume de utilizator';
-
-  @override
   String get registerTitle => 'Creează un cont';
 
   @override
@@ -1576,9 +1573,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Adaugă prieten';
-
-  @override
-  String get addFriendUsernameHint => 'Nume de utilizator#0000';
 
   @override
   String get addFriendUsernameLabel => 'Numele de utilizator al prietenului';
@@ -4567,8 +4561,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Această comunitate pentru adulți nu este disponibilă pentru contul tău.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Activează comunitățile și canalele cu restricție de vârstă pe fluxer.com în browser sau în aplicația desktop. Până atunci, rămân ascunse în aplicația iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -7,7 +7,10 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_post_card.dart';
@@ -15,11 +18,13 @@ import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.da
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -28,6 +33,45 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 Future<void> openForumPost(BuildContext context, WidgetRef ref, Channel post) =>
     openThread(context, ref, post, fromParent: true);
+
+void openForumPostMedia(
+  BuildContext context,
+  WidgetRef ref, {
+  required Channel forum,
+  required Channel post,
+  required Message message,
+  required Attachment attachment,
+  required VoidCallback onViewPost,
+}) {
+  if (attachment.isVideo) {
+    unawaited(
+      showChatMobileFullscreenVideo(
+        context,
+        launchContext: ChatFullscreenVideoLaunchContext.fromAttachment(
+          attachment: attachment,
+          layoutDimensions: mediaDimensionsForSize(
+            ref.read(chatPreferencesProvider).attachmentMediaDimensionSize,
+          ),
+          downloadsHidden: forumHidesMediaDownloads(forum),
+          onViewPost: onViewPost,
+        ),
+      ),
+    );
+    return;
+  }
+  final List<Attachment> images = forumViewerImages(message);
+  final int index = images.indexOf(attachment);
+  unawaited(
+    showAttachmentMediaViewer(
+      context,
+      items: images.map(AttachmentMediaViewerItem.fromAttachment).toList(),
+      initialIndex: index < 0 ? 0 : index,
+      channelId: post.id,
+      downloadsHidden: forumHidesMediaDownloads(forum),
+      onViewPost: onViewPost,
+    ),
+  );
+}
 
 Future<void> toggleForumDefaultReaction(
   BuildContext context,

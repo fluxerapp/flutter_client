@@ -1,4 +1,4 @@
-name: Canary Release (iOS + Android + macOS)
+name: Canary Release (iOS + Android + macOS + Windows)
 
 on:
   workflow_dispatch:
@@ -46,6 +46,14 @@ jobs:
     name: macOS Oxygen build (Velopack)
     needs: allocate-android-build-number
     uses: ./.github/workflows/macos-canary.yml
+    with:
+      build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
+    secrets: inherit
+
+  windows-oxygen:
+    name: Windows Oxygen build (Velopack)
+    needs: allocate-android-build-number
+    uses: ./.github/workflows/windows-canary.yml
     with:
       build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit

@@ -15,6 +15,7 @@ class PushConversationLine {
     required this.senderKey,
     required this.body,
     required this.timestampMs,
+    this.authorId,
     this.avatarPath,
     this.imagePath,
   });
@@ -24,8 +25,25 @@ class PushConversationLine {
   final String senderKey;
   final String body;
   final int timestampMs;
+  final String? authorId;
   final String? avatarPath;
   final String? imagePath;
+
+  PushConversationLine withMedia({
+    required String? avatarPath,
+    required String? imagePath,
+  }) {
+    return PushConversationLine(
+      messageId: messageId,
+      senderName: senderName,
+      senderKey: senderKey,
+      body: body,
+      timestampMs: timestampMs,
+      authorId: authorId,
+      avatarPath: avatarPath,
+      imagePath: imagePath,
+    );
+  }
 
   Map<String, Object?> toJson() => <String, Object?>{
     'messageId': messageId,
@@ -33,6 +51,7 @@ class PushConversationLine {
     'senderKey': senderKey,
     'body': body,
     'timestampMs': timestampMs,
+    if (authorId != null) 'authorId': authorId,
     if (avatarPath != null) 'avatarPath': avatarPath,
     if (imagePath != null) 'imagePath': imagePath,
   };
@@ -59,6 +78,7 @@ class PushConversationLine {
       senderKey: senderKey,
       body: body,
       timestampMs: timestamp.toInt(),
+      authorId: _nonEmpty(raw['authorId']?.toString()),
       avatarPath: _nonEmpty(raw['avatarPath']?.toString()),
       imagePath: _nonEmpty(raw['imagePath']?.toString()),
     );
@@ -313,15 +333,7 @@ PushConversationLine _inheritSenderAvatar(
   if (avatarPath == line.avatarPath) {
     return line;
   }
-  return PushConversationLine(
-    messageId: line.messageId,
-    senderName: line.senderName,
-    senderKey: line.senderKey,
-    body: line.body,
-    timestampMs: line.timestampMs,
-    avatarPath: avatarPath,
-    imagePath: line.imagePath,
-  );
+  return line.withMedia(avatarPath: avatarPath, imagePath: line.imagePath);
 }
 
 PushConversationLine _mergeConversationLineMedia(
@@ -337,15 +349,7 @@ PushConversationLine _mergeConversationLineMedia(
   if (avatarPath == line.avatarPath && imagePath == line.imagePath) {
     return line;
   }
-  return PushConversationLine(
-    messageId: line.messageId,
-    senderName: line.senderName,
-    senderKey: line.senderKey,
-    body: line.body,
-    timestampMs: line.timestampMs,
-    avatarPath: avatarPath,
-    imagePath: imagePath,
-  );
+  return line.withMedia(avatarPath: avatarPath, imagePath: imagePath);
 }
 
 String? _avatarPathForSender(

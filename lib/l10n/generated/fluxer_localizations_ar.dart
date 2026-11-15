@@ -859,9 +859,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'حسابك لم تتم المطالبة به بعد. بدون اسم مستخدم وكلمة مرور، لن تتمكن من تسجيل الدخول من أجهزة أخرى وقد تفقد الوصول إلى حسابك. طالب بحسابك الآن لتأمينه.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'اسم المستخدم';
-
-  @override
   String get registerTitle => 'إنشاء حساب';
 
   @override
@@ -1575,9 +1572,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'إضافة صديق';
-
-  @override
-  String get addFriendUsernameHint => 'اسم المستخدم#0000';
 
   @override
   String get addFriendUsernameLabel => 'اسم مستخدم الصديق';
@@ -4529,8 +4523,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'هذا المجتمع المخصص للبالغين غير متاح لحسابك.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'فعّل المجتمعات والقنوات المقيدة بالعمر على fluxer.com في متصفحك أو في تطبيق سطح المكتب. ستبقى مخفية في تطبيق iOS حتى تفعل ذلك.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

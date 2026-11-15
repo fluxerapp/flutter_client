@@ -41,6 +41,12 @@ void main() {
     expect(appLanguageDisplayName('bn'), 'Bangla');
   });
 
+  test('arabic shows the arab league flag', () {
+    final String? flagAsset = appLocaleDisplayInfoForTag('ar').flagAsset;
+    expect(flagAsset, 'assets/flags/arab_league.svg');
+    expect(File(flagAsset!).existsSync(), isTrue);
+  });
+
   test('newer languages have a catalog and an explicit flag', () {
     const List<String> tags = <String>[
       'be',

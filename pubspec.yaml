@@ -143,20 +143,34 @@ dependency_overrides:
   analyzer_plugin: ^0.14.0
   code_assets: ^2.2.0
   dart_style: 3.1.13
+  # Copy of desktop_webview_window 0.3.2 (a flutter_web_auth_2 dependency)
+  # without its Linux plugin. That plugin links WebKitGTK, which cannot share a
+  # process with the WPE WebKit used by flutter_inappwebview_linux. To update,
+  # re-copy from pub.dev and remove linux/, the linux: plugin entry and
+  # "resolution: workspace".
+  desktop_webview_window:
+    path: packages/desktop_webview_window
   device_info_plus: ^13.2.0
-  # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
-  # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
-  # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
+  # fluxerapp fork, branch fluxer. iOS/macOS: Xcode 26.4+ rejects the
+  # ASWebAuthenticationPresentationContextProviding witness in 1.2.0-beta.3
+  # (https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809).
+  # Linux: builds against WPE WebKit 2.52+, which no longer ships libwpe, and
+  # imports frames on Flutter's EGL display (webviews were black).
   flutter_inappwebview_ios:
     git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
+      url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_ios
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
+  flutter_inappwebview_linux:
+    git:
+      url: https://github.com/fluxerapp/flutter_inappwebview
+      path: flutter_inappwebview_linux
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   flutter_inappwebview_macos:
     git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
+      url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_macos
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   # fluxerapp fork with commit https://github.com/fluxerapp/flutter-webrtc/commit/01d3de483e285f7ec8b67fbf85aeab4600ef0a44
   flutter_webrtc:
     git:

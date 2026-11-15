@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -343,7 +344,12 @@ class _ChatMobileFullscreenVideoPageState
     _hasAttemptedPlayback = true;
     try {
       final String playbackUrl = await resolvePlaybackUrl(_source);
-      await player.open(Media(playbackUrl));
+      await player.open(
+        Media(
+          playbackUrl,
+          httpHeaders: AttachmentRequestAuth.headersFor(playbackUrl),
+        ),
+      );
       if (!mounted || _playbackFailed) {
         return;
       }
@@ -441,6 +447,15 @@ class _ChatMobileFullscreenVideoPageState
 
   void _executeClose() {
     Navigator.of(context).pop();
+  }
+
+  void _executeViewPost() {
+    final VoidCallback? onViewPost = widget.launchContext.onViewPost;
+    if (onViewPost == null) {
+      return;
+    }
+    Navigator.of(context).pop();
+    onViewPost();
   }
 
   void _handleDismissProgress(double progress) {
@@ -578,6 +593,9 @@ class _ChatMobileFullscreenVideoPageState
                         l10n: l10n,
                         onClose: _executeClose,
                         onOpenOptions: showOptionsButton ? _openOptions : null,
+                        onViewPost: widget.launchContext.onViewPost == null
+                            ? null
+                            : _executeViewPost,
                         favoriteButton: _buildFavoriteButton(),
                         isMuted: _isMuted,
                         onMute: _toggleMute,
@@ -809,12 +827,14 @@ class _MobileVideoHud extends StatelessWidget {
     required this.duration,
     required this.onSeekFromGlobalDx,
     this.onOpenOptions,
+    this.onViewPost,
     this.favoriteButton,
   });
 
   final FluxerLocalizations l10n;
   final VoidCallback onClose;
   final VoidCallback? onOpenOptions;
+  final VoidCallback? onViewPost;
   final Widget? favoriteButton;
   final bool isMuted;
   final Future<void> Function() onMute;
@@ -854,6 +874,20 @@ class _MobileVideoHud extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
+                  if (onViewPost != null)
+                    IconButton(
+                      onPressed: onViewPost,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black.withValues(alpha: 0.5),
+                        foregroundColor: Colors.white,
+                      ),
+                      tooltip: l10n.forumOpenPost,
+                      icon: const PhosphorIcon(
+                        PhosphorIconsBold.chatCircle,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
                   ?favoriteButton,
                   if (onOpenOptions != null)
                     IconButton(

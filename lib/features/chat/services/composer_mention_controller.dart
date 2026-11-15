@@ -86,6 +86,9 @@ class ComposerMentionController extends InlineTokenTextEditingController {
 
   final WidgetRef _ref;
 
+  @override
+  bool get highlightsMarkdown => true;
+
   static final RegExp _wireMentions = RegExp(
     '<@&([^>]+)>|<@!?([^>]+)>|<#([^>]+)>',
   );

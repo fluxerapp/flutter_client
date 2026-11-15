@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const List<Duration> kMediaLoadRetryDelays = <Duration>[
@@ -122,6 +123,7 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
     return CachedNetworkImage(
       key: ValueKey<int>(_attempt),
       imageUrl: widget.imageUrl,
+      httpHeaders: AttachmentRequestAuth.headersFor(widget.imageUrl),
       width: widget.width,
       height: widget.height,
       fit: widget.fit,

@@ -9,6 +9,10 @@ final MarkdownParseCache<(String, String, bool), List<TextSpan>>
 _highlightSpanCache =
     MarkdownParseCache<(String, String, bool), List<TextSpan>>();
 
+const int kHighlightSpanCacheMaxCodeLength = 8192;
+
+void clearHighlightSpanCache() => _highlightSpanCache.clear();
+
 String normalizeHighlightedCode(String code) {
   return code.replaceAll('\t', '        ');
 }
@@ -20,18 +24,31 @@ List<TextSpan> highlightedCodeSpans({
 }) {
   ensureFluxerMarkdownLanguagesRegistered();
   final String normalized = normalizeHighlightedCode(code);
-  return _highlightSpanCache.resolve((normalized, language, isDark), () {
-    final Map<String, TextStyle> theme = isDark
-        ? kVs2015CodeBlockHighlightTheme
-        : kGithubCodeBlockHighlightTheme;
-    final List<Node>? nodes = highlight
-        .parse(normalized, language: language)
-        .nodes;
-    if (nodes == null || nodes.isEmpty) {
-      return <TextSpan>[TextSpan(text: normalized)];
-    }
-    return _nodesToColorSpans(nodes, theme);
-  });
+  if (normalized.length > kHighlightSpanCacheMaxCodeLength) {
+    return _computeHighlightedSpans(normalized, language, isDark);
+  }
+  return _highlightSpanCache.resolve((
+    normalized,
+    language,
+    isDark,
+  ), () => _computeHighlightedSpans(normalized, language, isDark));
+}
+
+List<TextSpan> _computeHighlightedSpans(
+  String normalized,
+  String language,
+  bool isDark,
+) {
+  final Map<String, TextStyle> theme = isDark
+      ? kVs2015CodeBlockHighlightTheme
+      : kGithubCodeBlockHighlightTheme;
+  final List<Node>? nodes = highlight
+      .parse(normalized, language: language)
+      .nodes;
+  if (nodes == null || nodes.isEmpty) {
+    return <TextSpan>[TextSpan(text: normalized)];
+  }
+  return _nodesToColorSpans(nodes, theme);
 }
 
 List<TextSpan> _nodesToColorSpans(

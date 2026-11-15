@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "שם משתמש",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "צור חשבון",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "הוסף חבר",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "שם משתמש#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "שם המשתמש של החבר",
     "@addFriendUsernameLabel": {
@@ -19912,10 +19904,6 @@
     "passkeyNoCredentialsForAccount": "למכשיר הזה אין מפתח גישה לחשבון הזה. השתמש במכשיר או במנהל הסיסמאות שבו שמרת אותו.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "הפעל קהילות וערוצים עם הגבלת גיל ב-fluxer.com בדפדפן או באפליקציה למחשב. עד אז הם יישארו מוסתרים באפליקציית iOS.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "הודעות",
     "@notificationChannelMessages": {

@@ -852,9 +852,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Akun Anda belum diklaim. Tanpa nama pengguna dan kata sandi, Anda tidak akan dapat masuk dari perangkat lain dan Anda bisa kehilangan akses ke akun Anda. Klaim akun Anda sekarang untuk mengamankannya.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nama pengguna';
-
-  @override
   String get registerTitle => 'Buat akun';
 
   @override
@@ -1546,9 +1543,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Tambah teman';
-
-  @override
-  String get addFriendUsernameHint => 'Nama pengguna#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nama pengguna teman';
@@ -4515,8 +4509,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Komunitas dewasa ini tidak tersedia untuk akunmu.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Aktifkan komunitas dan saluran dengan batasan usia di fluxer.com melalui browser Anda atau di aplikasi desktop. Semuanya tetap tersembunyi di aplikasi iOS sampai Anda melakukannya.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

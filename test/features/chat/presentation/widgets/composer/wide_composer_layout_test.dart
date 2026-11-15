@@ -125,6 +125,45 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
+    testWidgets('keeps mouse buttons on the first line when multi-line', (
+      WidgetTester tester,
+    ) async {
+      await _pumpWideComposer(
+        tester,
+        extraOverrides: <Override>[
+          inputModalityProvider.overrideWith(_MousePrimaryModality.new),
+        ],
+      );
+      await _clearComposerDraft(tester);
+      final Finder rowSlot = _wideComposerRowSlot(
+        rowMinHeight: FluxerButtonSize.compact.height,
+      );
+      final Finder attachButton = find.descendant(
+        of: rowSlot,
+        matching: find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is WideComposerMouseButton &&
+              widget.tooltip ==
+                  FluxerLocalizationsEn().chatAttachmentSourceBrowse,
+        ),
+      );
+      final double singleLineTop = tester.getRect(attachButton).top;
+      final double singleLineRowTop = tester.getRect(rowSlot).top;
+
+      await tester.enterText(channelComposerField(), 'one\ntwo\nthree');
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.getRect(rowSlot).height,
+        greaterThan(FluxerButtonSize.compact.height),
+      );
+      expect(
+        tester.getRect(attachButton).top - tester.getRect(rowSlot).top,
+        closeTo(singleLineTop - singleLineRowTop, 0.5),
+      );
+      await releaseTestWidgetTree(tester);
+    });
+
     testWidgets('aligns touch wide row controls on one baseline', (
       WidgetTester tester,
     ) async {
@@ -172,7 +211,10 @@ void main() {
       expect(
         tester.getRect(recordingBar).height,
         closeTo(
-          VoiceMessageRecordingBar.heightFor(FluxerButtonSize.compact),
+          VoiceMessageRecordingBar.heightFor(
+            FluxerButtonSize.compact,
+            touchPrimary: false,
+          ),
           1,
         ),
       );

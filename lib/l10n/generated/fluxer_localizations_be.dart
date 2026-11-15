@@ -853,9 +853,6 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Username';
-
-  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -1561,9 +1558,6 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Add friend';
-
-  @override
-  String get addFriendUsernameHint => 'username#1234';
 
   @override
   String get addFriendUsernameLabel => 'Friend\'s username';
@@ -4513,8 +4507,9 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       'This mature community is not available to your account.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

@@ -96,6 +96,44 @@ void main() {
     expect(state.lines.last.avatarPath, '/cache/alice.png');
   });
 
+  test('keeps each line author through storage and avatar reuse', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: const PushConversationLine(
+        messageId: '10',
+        senderName: 'Alice',
+        senderKey: 'alice',
+        body: 'one',
+        timestampMs: 10,
+        authorId: 'author-a',
+        avatarPath: '/cache/alice.png',
+      ),
+      payload: payload,
+    );
+    final PushConversationState state =
+        await AndroidPushConversationHistoryStore.appendLine(
+          conversationTag: tag,
+          line: const PushConversationLine(
+            messageId: '11',
+            senderName: 'Alice',
+            senderKey: 'alice',
+            body: 'two',
+            timestampMs: 11,
+            authorId: 'author-b',
+          ),
+          payload: payload,
+        );
+    expect(state.lines.last.avatarPath, '/cache/alice.png');
+    expect(
+      state.lines.map((PushConversationLine entry) => entry.authorId),
+      <String>['author-a', 'author-b'],
+    );
+    expect(
+      PushConversationLine.fromJson(state.lines.first.toJson())?.authorId,
+      'author-a',
+    );
+  });
+
   test('trimAck drops covered lines and keeps newer ones', () async {
     await AndroidPushConversationHistoryStore.appendLine(
       conversationTag: tag,

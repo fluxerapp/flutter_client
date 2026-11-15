@@ -2144,6 +2144,12 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  void releaseParkedWindows() {
+    for (final String channelId in _parkedWindows.keys.toList()) {
+      _dropParkedWindow(channelId);
+    }
+  }
+
   void _dropParkedWindow(String channelId) {
     _parkedWindows.remove(channelId);
     if (channelId == state.channelId) {

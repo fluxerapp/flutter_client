@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_utils.dart';
@@ -31,7 +32,7 @@ final Dio _textualPreviewDio = Dio(
     followRedirects: true,
     responseType: ResponseType.plain,
   ),
-);
+)..interceptors.add(AttachmentAuthInterceptor());
 
 Future<TextualAttachmentContentResult> fetchTextualAttachmentContent({
   required Attachment attachment,

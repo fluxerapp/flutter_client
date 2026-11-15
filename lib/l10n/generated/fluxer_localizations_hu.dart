@@ -859,9 +859,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A fiókod még nincs igényelve. Felhasználónév és jelszó nélkül nem tudsz bejelentkezni más eszközökről, és elveszítheted a hozzáférést a fiókodhoz. Igényeld a fiókodat most, hogy biztosítsd.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Felhasználónév';
-
-  @override
   String get registerTitle => 'Fiók létrehozása';
 
   @override
@@ -1564,9 +1561,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Ismerős hozzáadása';
-
-  @override
-  String get addFriendUsernameHint => 'Felhasználónév#0000';
 
   @override
   String get addFriendUsernameLabel => 'Ismerős felhasználóneve';
@@ -4563,8 +4557,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a felnőtt tartalmú közösség nem érhető el a fiókod számára.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Kapcsold be a korhatáros közösségeket és csatornákat a fluxer.com oldalon a böngésződben vagy az asztali alkalmazásban. Addig rejtve maradnak az iOS-alkalmazásban.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

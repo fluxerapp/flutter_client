@@ -56,10 +56,10 @@ VoiceActivityType guildVoiceActivity(Ref ref, String guildId) {
 }
 
 @riverpod
-Future<List<VoiceParticipantRow>> guildVoiceParticipants(
+Stream<List<VoiceParticipantRow>> guildVoiceParticipants(
   Ref ref,
   String guildId,
-) async {
+) {
   final List<VoiceState> voiceStates = ref.watch(
     voiceStatesInGuildProvider(guildId),
   );
@@ -81,45 +81,46 @@ Future<List<VoiceParticipantRow>> guildVoiceParticipants(
   }
 
   if (voiceUserIds.isEmpty && screenshareUserIds.isEmpty) {
-    return const [];
+    return Stream<List<VoiceParticipantRow>>.value(const []);
   }
 
   final allUserIds = {...voiceUserIds, ...screenshareUserIds};
-  final users = await db.userDao.getUsersByIds(allUserIds.toList());
-  final userMap = {for (final u in users) u.id: u};
+  return db.userDao.watchUsersByIds(allUserIds.toList()).map((users) {
+    final userMap = {for (final u in users) u.id: u};
 
-  String? avatarUrl(String userId) {
-    final user = userMap[userId];
-    if (user?.avatar == null) {
-      return null;
+    String? avatarUrl(String userId) {
+      final user = userMap[userId];
+      if (user?.avatar == null) {
+        return null;
+      }
+      return FluxerMediaUrl.userAvatar(userId: user!.id, hash: user.avatar);
     }
-    return FluxerMediaUrl.userAvatar(userId: user!.id, hash: user.avatar);
-  }
 
-  final rows = <VoiceParticipantRow>[];
-  if (screenshareUserIds.isNotEmpty) {
-    rows.add(
-      VoiceParticipantRow(
-        isScreenshare: true,
-        avatarUrls: screenshareUserIds
-            .map(avatarUrl)
-            .whereType<String>()
-            .take(3)
-            .toList(),
-      ),
-    );
-  }
-  if (voiceUserIds.isNotEmpty) {
-    rows.add(
-      VoiceParticipantRow(
-        isScreenshare: false,
-        avatarUrls: voiceUserIds
-            .map(avatarUrl)
-            .whereType<String>()
-            .take(3)
-            .toList(),
-      ),
-    );
-  }
-  return rows;
+    final rows = <VoiceParticipantRow>[];
+    if (screenshareUserIds.isNotEmpty) {
+      rows.add(
+        VoiceParticipantRow(
+          isScreenshare: true,
+          avatarUrls: screenshareUserIds
+              .map(avatarUrl)
+              .whereType<String>()
+              .take(3)
+              .toList(),
+        ),
+      );
+    }
+    if (voiceUserIds.isNotEmpty) {
+      rows.add(
+        VoiceParticipantRow(
+          isScreenshare: false,
+          avatarUrls: voiceUserIds
+              .map(avatarUrl)
+              .whereType<String>()
+              .take(3)
+              .toList(),
+        ),
+      );
+    }
+    return rows;
+  });
 }

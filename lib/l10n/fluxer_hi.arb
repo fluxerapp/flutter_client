@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "यूज़रनेम",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "अकाउंट बनाएँ",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "दोस्त जोड़ें",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "उपयोगकर्ता नाम#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "दोस्त का यूज़रनेम",
     "@addFriendUsernameLabel": {
@@ -19912,10 +19904,6 @@
     "passkeyNoCredentialsForAccount": "इस डिवाइस पर इस अकाउंट के लिए कोई पासकी नहीं है। वह डिवाइस या पासवर्ड मैनेजर इस्तेमाल करें जिसमें आपने इसे सेव किया था।",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "उम्र-प्रतिबंधित कम्युनिटी और चैनल अपने ब्राउज़र में fluxer.com पर या डेस्कटॉप ऐप में चालू करें। तब तक वे iOS ऐप में छिपे रहेंगे।",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "मैसेज",
     "@notificationChannelMessages": {

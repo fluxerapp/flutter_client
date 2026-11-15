@@ -1508,12 +1508,6 @@ abstract class FluxerLocalizations {
   /// **'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.'**
   String get unclaimedAccountDescriptionUsername;
 
-  /// Placeholder for the add friend field on instances where usernames have no tag.
-  ///
-  /// In en, this message translates to:
-  /// **'Username'**
-  String get addFriendUsernameOnlyHint;
-
   /// Title for the registration screen.
   ///
   /// In en, this message translates to:
@@ -2689,12 +2683,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Add friend'**
   String get addFriendSheetTitle;
-
-  /// Placeholder for the add friend username input.
-  ///
-  /// In en, this message translates to:
-  /// **'username#1234'**
-  String get addFriendUsernameHint;
 
   /// Accessibility label for the add friend username input.
   ///
@@ -7238,11 +7226,11 @@ abstract class FluxerLocalizations {
   /// **'This mature community is not available to your account.'**
   String get matureCommunityUnavailableBody;
 
-  /// Body when mature access must be enabled on web or desktop instead of in the iOS app.
+  /// Body when mature access must be enabled on web or desktop instead of in the iOS app. webAddress is the web app address of the instance the user is signed in to, such as fluxer.com or chat.example.com.
   ///
   /// In en, this message translates to:
-  /// **'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.'**
-  String get matureContentIosWebOptInBody;
+  /// **'Turn on age-restricted communities and channels at {webAddress} in your browser or in the desktop app. They stay hidden in the iOS app until you do.'**
+  String matureContentIosWebOptInInstanceBody(String webAddress);
 
   /// Body when a minor cannot access a mature category.
   ///

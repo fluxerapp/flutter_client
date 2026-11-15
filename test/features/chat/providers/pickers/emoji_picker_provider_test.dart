@@ -67,6 +67,21 @@ void main() {
       expect(result.keys.map((guild) => guild.id), ['2', '1']);
     });
 
+    test('offers 18+ community emojis to premium users outside them', () {
+      const matureGuilds = <Guild>[
+        Guild(id: '1', name: 'One', nsfw: true),
+        Guild(id: '2', name: 'Two'),
+      ];
+      final result = guildEmojiEntriesForPicker(
+        guilds: matureGuilds,
+        emojis: emojis,
+        activeGuildId: null,
+        isPremium: true,
+      );
+
+      expect(result.keys.map((guild) => guild.id), ['1', '2']);
+    });
+
     test('hides all guild sections in DMs without premium', () {
       final result = guildEmojiEntriesForPicker(
         guilds: guilds,

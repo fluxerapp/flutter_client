@@ -121,16 +121,9 @@ private final class VoiceActiveRouteStream: VoiceActiveRouteChangesStreamHandler
 }
 
 final class VoiceActiveRouteBridge: VoiceActiveRouteHostApi {
-  static let shared = VoiceActiveRouteBridge()
-
-  private var isRegistered = false
   private let routeStream = VoiceActiveRouteStream()
 
   func register(messenger: FlutterBinaryMessenger) {
-    if isRegistered {
-      return
-    }
-    isRegistered = true
     VoiceActiveRouteHostApiSetup.setUp(binaryMessenger: messenger, api: self)
     VoiceActiveRouteChangesStreamHandler.register(with: messenger, streamHandler: routeStream)
   }

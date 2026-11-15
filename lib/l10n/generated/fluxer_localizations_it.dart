@@ -854,9 +854,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Il tuo account non è ancora stato rivendicato. Senza nome utente e password, non potrai accedere da altri dispositivi e potresti perdere l\'accesso al tuo account. Rivendica subito il tuo account per metterlo in sicurezza.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Nome utente';
-
-  @override
   String get registerTitle => 'Crea un account';
 
   @override
@@ -1569,9 +1566,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Aggiungi amico';
-
-  @override
-  String get addFriendUsernameHint => 'Nomeutente#0000';
 
   @override
   String get addFriendUsernameLabel => 'Nome utente dell\'amico';
@@ -4558,8 +4552,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Questa community per adulti non è disponibile per il tuo account.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Attiva le community e i canali con limiti di età su fluxer.com dal browser o nell\'app desktop. Fino ad allora restano nascosti nell\'app iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

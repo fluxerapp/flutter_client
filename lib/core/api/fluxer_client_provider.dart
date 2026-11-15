@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/api/accept_language_interceptor.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
@@ -12,8 +15,10 @@ import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/sudo_dialog.dart';
 import 'package:fluxer_app/core/api/sudo_interceptor.dart';
+import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_dio.dart';
 import 'package:fluxer_app/core/observability/measure_http_policy.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
@@ -194,11 +199,49 @@ Future<bool?> _reauthenticateWithSso(ProviderContainer container) async {
 Dio fluxerDio(Ref ref) {
   final String baseUrl = ref.watch(fluxerBaseUrlProvider);
   final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
-  return _buildFluxerDio(
+  final Dio dio = _buildFluxerDio(
     ref: ref,
     baseUrl: baseUrl,
     instanceSnapshot: instance,
   );
+  void syncAttachmentAuth() => AttachmentRequestAuth.update(
+    token: ref.read(fluxerAuthTokenProvider),
+    baseUrl: ref.read(fluxerAuthTokenProvider.notifier).issuerBaseUrl,
+    mintToken: ({required String url}) => _mintAttachmentToken(dio, url: url),
+  );
+  syncAttachmentAuth();
+  ref.listen<String?>(fluxerAuthTokenProvider, (
+    String? previous,
+    String? next,
+  ) {
+    syncAttachmentAuth();
+    if (previous != null &&
+        previous != next &&
+        InstanceEndpoints.proxyAttachmentsThroughApi) {
+      unawaited(clearFluxerNetworkImageCaches());
+    }
+  });
+  return dio;
+}
+
+Future<AttachmentMediaToken?> _mintAttachmentToken(
+  Dio dio, {
+  required String url,
+}) async {
+  final Response<Map<String, dynamic>> response = await dio
+      .post<Map<String, dynamic>>(
+        '/users/@me/attachment-token',
+        data: <String, dynamic>{'url': url},
+      );
+  final Object? token = response.data?['token'];
+  final Object? expiresAt = response.data?['expires_at'];
+  final DateTime? expiry = expiresAt is String
+      ? DateTime.tryParse(expiresAt)
+      : null;
+  if (token is! String || token.isEmpty || expiry == null) {
+    return null;
+  }
+  return AttachmentMediaToken(token: token, expiresAt: expiry);
 }
 
 @Riverpod(keepAlive: true)

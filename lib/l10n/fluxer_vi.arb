@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Tên người dùng",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Tạo tài khoản",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1709,10 +1705,6 @@
     "addFriendSheetTitle": "Thêm bạn bè",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Tên người dùng#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Tên người dùng của bạn bè",
     "@addFriendUsernameLabel": {
@@ -19912,10 +19904,6 @@
     "passkeyNoCredentialsForAccount": "Thiết bị này không có khóa truy cập cho tài khoản này. Hãy dùng thiết bị hoặc trình quản lý mật khẩu mà bạn đã lưu khóa.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Bật các cộng đồng và kênh giới hạn độ tuổi tại fluxer.com trong trình duyệt hoặc trong ứng dụng máy tính. Cho đến khi bạn bật, chúng vẫn bị ẩn trong ứng dụng iOS.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Tin nhắn",
     "@notificationChannelMessages": {

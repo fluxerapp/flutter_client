@@ -811,9 +811,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您的账户尚未认领。没有用户名和密码，您将无法从其他设备登录，并可能丢失账户访问权限。立即认领您的账户以确保其安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '用户名';
-
-  @override
   String get registerTitle => '创建账号';
 
   @override
@@ -1473,9 +1470,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '添加好友';
-
-  @override
-  String get addFriendUsernameHint => '用户名#0000';
 
   @override
   String get addFriendUsernameLabel => '好友用户名';
@@ -4290,8 +4284,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureCommunityUnavailableBody => '你的账号无法访问此成人社区。';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      '请在浏览器中访问 fluxer.com 或在桌面应用中开启年龄限制的社区和频道。开启之前，它们在 iOS 应用中会保持隐藏。';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody => '你的账号无法访问此成人内容类别。';
@@ -17127,9 +17122,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '您的帳戶尚未領取。沒有使用者名稱和密碼，您將無法從其他裝置登入，並且可能會遺失帳戶存取權。立即領取您的帳戶以確保安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '使用者名稱';
-
-  @override
   String get registerTitle => '建立帳號';
 
   @override
@@ -17786,9 +17778,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get addFriendSheetTitle => '新增好友';
-
-  @override
-  String get addFriendUsernameHint => '使用者名稱#0000';
 
   @override
   String get addFriendUsernameLabel => '好友的使用者名稱';
@@ -20606,10 +20595,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get matureCommunityUnavailableBody => '您的帳號無法使用此成人社群。';
-
-  @override
-  String get matureContentIosWebOptInBody =>
-      '請在瀏覽器中前往 fluxer.com 或在桌面應用程式中開啟有年齡限制的社群和頻道。開啟之前，它們在 iOS 應用程式中會保持隱藏。';
 
   @override
   String get matureCategoryUnavailableBody => '您的帳號無法使用此成人內容類別。';

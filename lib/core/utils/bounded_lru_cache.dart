@@ -21,6 +21,10 @@ class BoundedLruCache<K extends Object, V extends Object> {
     return value;
   }
 
+  V? peek(K key) => _entries[key];
+
+  V? remove(K key) => _entries.remove(key);
+
   void set(K key, V value) {
     if (capacity <= 0) {
       return;

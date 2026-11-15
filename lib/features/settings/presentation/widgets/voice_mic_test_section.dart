@@ -79,6 +79,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
         applicator: applicator,
         settings: settings,
       );
+      _track = track;
       await track.start();
       await Helper.setVolume(
         inputVoiceVolumePercentToGain(settings.inputVolume),
@@ -88,6 +89,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
         track,
         options: const AudioVisualizerOptions(barCount: 8),
       );
+      _visualizer = visualizer;
       _visualizerListener = visualizer.createListener()
         ..on<AudioVisualizerEvent>((AudioVisualizerEvent event) {
           if (!mounted) {
@@ -98,18 +100,10 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       await visualizer.start();
       await _startPlayback(track, settings);
       if (!mounted) {
-        await _disposePlayback();
-        await _visualizerListener?.dispose();
-        await visualizer.stop();
-        await visualizer.dispose();
-        await track.stop();
+        await _disposeTestResources();
         return;
       }
-      setState(() {
-        _track = track;
-        _visualizer = visualizer;
-        _isRunning = true;
-      });
+      setState(() => _isRunning = true);
     } on Object catch (error, stackTrace) {
       talker.error('Failed to start mic test', error, stackTrace);
       await _stopTest();
@@ -142,6 +136,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     VoiceSettingsState settings,
   ) async {
     final RTCVideoRenderer renderer = RTCVideoRenderer();
+    _playbackRenderer = renderer;
     await renderer.initialize();
     final double outputVolume = boostedVoiceVolumePercentToTrackVolume(
       settings.outputVolume,
@@ -152,9 +147,11 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     final RTCPeerConnection localPeerConnection = await createPeerConnection(
       _loopbackConfiguration,
     );
+    _loopbackLocalPeerConnection = localPeerConnection;
     final RTCPeerConnection remotePeerConnection = await createPeerConnection(
       _loopbackConfiguration,
     );
+    _loopbackRemotePeerConnection = remotePeerConnection;
     remotePeerConnection.onTrack = (RTCTrackEvent event) {
       if (event.track.kind == 'audio' && event.streams.isNotEmpty) {
         renderer.srcObject = event.streams.first;
@@ -175,9 +172,6 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       await renderer.audioOutput(outputDeviceId);
     }
     await renderer.setVolume(outputVolume);
-    _playbackRenderer = renderer;
-    _loopbackLocalPeerConnection = localPeerConnection;
-    _loopbackRemotePeerConnection = remotePeerConnection;
   }
 
   String? _resolveOutputDeviceId(String outputDeviceId) {

@@ -65,10 +65,19 @@ abstract final class FluxerHaptics {
   }
 
   static void send() {
+    if (Platform.isAndroid) {
+      light();
+      return;
+    }
     _playAhap(_sendAhapAsset, onUnavailable: Gaimon.soft);
   }
 
-  static Future<void> warmSend() => _warmAhap(_sendAhapAsset);
+  static Future<void> warmSend() {
+    if (Platform.isAndroid) {
+      return Future<void>.value();
+    }
+    return _warmAhap(_sendAhapAsset);
+  }
 
   static void purr() {
     if (!_purrGate.tryAcquire()) {

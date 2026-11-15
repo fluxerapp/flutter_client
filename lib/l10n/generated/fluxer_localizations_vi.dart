@@ -853,9 +853,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tài khoản của bạn chưa được xác nhận. Nếu không có tên người dùng và mật khẩu, bạn sẽ không thể đăng nhập từ các thiết bị khác và có thể mất quyền truy cập vào tài khoản của mình. Hãy xác nhận tài khoản ngay bây giờ để bảo mật.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Tên người dùng';
-
-  @override
   String get registerTitle => 'Tạo tài khoản';
 
   @override
@@ -1551,9 +1548,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Thêm bạn bè';
-
-  @override
-  String get addFriendUsernameHint => 'Tên người dùng#0000';
 
   @override
   String get addFriendUsernameLabel => 'Tên người dùng của bạn bè';
@@ -4512,8 +4506,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Cộng đồng có nội dung người lớn này không khả dụng với tài khoản của bạn.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Bật các cộng đồng và kênh giới hạn độ tuổi tại fluxer.com trong trình duyệt hoặc trong ứng dụng máy tính. Cho đến khi bạn bật, chúng vẫn bị ẩn trong ứng dụng iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

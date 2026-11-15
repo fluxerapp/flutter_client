@@ -1,0 +1,252 @@
+name: Windows Canary Build (Velopack)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: Build number appended to the version (defaults to the run number)
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      build_number:
+        description: Build number appended to the version (defaults to the run number)
+        required: false
+        type: string
+    outputs:
+      version:
+        description: Velopack package version
+        value: ${{ jobs.build-and-pack.outputs.version }}
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  OXYGEN_CHANNEL: canary
+  OXYGEN_PACK_ID: com.fluxer.oxygen.canary
+  OXYGEN_APP_NAME: Fluxer Oxygen
+  OXYGEN_MAIN_EXE: fluxer_oxygen.exe
+  OXYGEN_FEED_BASE_URL: https://pkgs.fluxer.com/oxygen/canary/win32
+  VPK_VERSION: 1.2.161
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-and-pack:
+    name: Build, sign and pack canary Windows app
+    runs-on: windows-latest
+    environment: release-builds
+    outputs:
+      version: ${{ steps.version.outputs.pack_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Sync submodules
+        run: git submodule update --init --recursive
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          python .github/scripts/app_version.py read
+          BUILD_NUMBER="${INPUT_BUILD_NUMBER:-$GITHUB_RUN_NUMBER}"
+          if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "::error::Invalid build number: $BUILD_NUMBER"
+            exit 1
+          fi
+          VERSION_NAME="$(grep '^release_drafter_version=' "$GITHUB_OUTPUT" | tail -1 | cut -d= -f2 | tr -d '\r')"
+          {
+            echo "build_number=$BUILD_NUMBER"
+            echo "pack_version=$VERSION_NAME-canary.$BUILD_NUMBER"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Flutter
+        # Temp use while waiting for a pr: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+          flutter-version: 3.47.9
+
+      - name: Set up Rust and native asset build hooks
+        run: |
+          rustup show active-toolchain || rustup toolchain install stable
+          rustup target add x86_64-pc-windows-msvc
+          flutter config --enable-native-assets
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install vpk
+        run: |
+          dotnet tool install -g vpk --version "$VPK_VERSION"
+          printf '%s\\.dotnet\\tools\n' "$USERPROFILE" >> "$GITHUB_PATH"
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~\AppData\Local\Pub\Cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Configure OSS build tree
+        run: dart tool/configure_build.dart --profile=oss
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: dart run build_runner build
+
+      - name: Build Windows app
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.release_drafter_version }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
+        run: |
+          flutter build windows --release \
+            --build-name "$VERSION_NAME" \
+            --build-number "$BUILD_NUMBER" \
+            --dart-define-from-file=tool/dart_defines/canary.json \
+            --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --dart-define=CANARY_NUMBER="$BUILD_NUMBER"
+          APP_DIR="build/windows/x64/runner/Release"
+          if [ ! -f "$APP_DIR/$OXYGEN_MAIN_EXE" ]; then
+            echo "::error::Expected executable at $APP_DIR/$OXYGEN_MAIN_EXE"
+            exit 1
+          fi
+          echo "APP_DIR=$GITHUB_WORKSPACE/$APP_DIR" >> "$GITHUB_ENV"
+
+      - name: Validate Windows signing inputs
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_ARTIFACT_SIGNING_ENDPOINT: ${{ secrets.AZURE_ARTIFACT_SIGNING_ENDPOINT }}
+          AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME: ${{ secrets.AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME }}
+          AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME: ${{ secrets.AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME }}
+        run: |
+          for name in AZURE_CLIENT_ID AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID AZURE_ARTIFACT_SIGNING_ENDPOINT AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not set."
+              exit 1
+            fi
+          done
+
+      - name: Azure login for Artifact Signing
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Write Velopack Trusted Signing metadata
+        env:
+          AZURE_ARTIFACT_SIGNING_ENDPOINT: ${{ secrets.AZURE_ARTIFACT_SIGNING_ENDPOINT }}
+          AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME: ${{ secrets.AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME }}
+          AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME: ${{ secrets.AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME }}
+        run: |
+          METADATA_PATH="$RUNNER_TEMP/trusted-signing.json"
+          python - "$METADATA_PATH" <<'EOF'
+          import json
+          import os
+          import sys
+
+          metadata = {
+              "Endpoint": os.environ["AZURE_ARTIFACT_SIGNING_ENDPOINT"],
+              "CodeSigningAccountName": os.environ["AZURE_ARTIFACT_SIGNING_ACCOUNT_NAME"],
+              "CertificateProfileName": os.environ["AZURE_ARTIFACT_SIGNING_CERTIFICATE_PROFILE_NAME"],
+              "ExcludeCredentials": [
+                  "ManagedIdentityCredential",
+                  "WorkloadIdentityCredential",
+                  "SharedTokenCacheCredential",
+                  "VisualStudioCredential",
+                  "VisualStudioCodeCredential",
+                  "AzurePowerShellCredential",
+                  "AzureDeveloperCliCredential",
+                  "InteractiveBrowserCredential",
+              ],
+          }
+          with open(sys.argv[1], "w", encoding="utf-8") as handle:
+              json.dump(metadata, handle, indent=2)
+          EOF
+          echo "TRUSTED_SIGN_FILE=$METADATA_PATH" >> "$GITHUB_ENV"
+
+      - name: Download previous release for delta packages
+        run: |
+          mkdir -p Releases
+          if ! vpk download http --url "$OXYGEN_FEED_BASE_URL/x64" --channel "$OXYGEN_CHANNEL" --outputDir Releases --allowEmptyChannel; then
+            echo "::notice::No previous release found at $OXYGEN_FEED_BASE_URL/x64; packing without deltas."
+          fi
+
+      - name: Pack and sign with Velopack
+        env:
+          PACK_VERSION: ${{ steps.version.outputs.pack_version }}
+        run: |
+          touch "$RUNNER_TEMP/vpk-pack.marker"
+          sleep 1
+          vpk pack \
+            --packId "$OXYGEN_PACK_ID" \
+            --packVersion "$PACK_VERSION" \
+            --packDir "$APP_DIR" \
+            --packTitle "$OXYGEN_APP_NAME Canary" \
+            --packAuthors "Fluxer Platform AB" \
+            --mainExe "$OXYGEN_MAIN_EXE" \
+            --icon windows/runner/resources/app_icon.ico \
+            --shortcuts Desktop,StartMenu \
+            --framework vcredist143-x64 \
+            --channel "$OXYGEN_CHANNEL" \
+            --outputDir Releases \
+            --azureTrustedSignFile "$TRUSTED_SIGN_FILE"
+
+      - name: Remove Trusted Signing metadata
+        if: always()
+        run: rm -f "$RUNNER_TEMP/trusted-signing.json"
+
+      - name: Verify packaged signatures
+        shell: pwsh
+        run: |
+          $marker = Get-Item "$env:RUNNER_TEMP/vpk-pack.marker"
+          $portable = Get-ChildItem Releases -Filter '*-Portable.zip' | Where-Object { $_.LastWriteTime -gt $marker.LastWriteTime } | Select-Object -First 1
+          $setup = Get-ChildItem Releases -Filter '*-Setup.exe' | Where-Object { $_.LastWriteTime -gt $marker.LastWriteTime } | Select-Object -First 1
+          if (-not $portable -or -not $setup) {
+            Write-Error 'Velopack did not produce a portable zip and setup executable.'
+            exit 1
+          }
+          $verifyDir = Join-Path $env:RUNNER_TEMP 'vpk-verify'
+          if (Test-Path $verifyDir) { Remove-Item $verifyDir -Recurse -Force }
+          Expand-Archive -Path $portable.FullName -DestinationPath $verifyDir
+          $targets = @($setup) + @(Get-ChildItem $verifyDir -Recurse -Include *.exe, *.dll)
+          $unsigned = $targets | Where-Object { (Get-AuthenticodeSignature $_.FullName).Status -ne 'Valid' }
+          if ($unsigned) {
+            $unsigned | ForEach-Object { Write-Host "::error::Not validly signed: $($_.FullName)" }
+            exit 1
+          }
+          Write-Host "Verified $($targets.Count) signed binaries."
+
+      - name: Lay out release feed
+        run: |
+          FEED_DIR="feed/oxygen/$OXYGEN_CHANNEL/win32"
+          mkdir -p "$FEED_DIR/x64" "$FEED_DIR/arm64"
+          find Releases -maxdepth 1 -type f -newer "$RUNNER_TEMP/vpk-pack.marker" -print0 \
+            | while IFS= read -r -d '' file; do
+                cp "$file" "$FEED_DIR/x64/"
+                cp "$file" "$FEED_DIR/arm64/"
+              done
+          ls -la "$FEED_DIR/x64"
+
+      - name: Upload release feed artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: oxygen-canary-win32
+          path: feed
+          if-no-files-found: error
+          retention-days: 7

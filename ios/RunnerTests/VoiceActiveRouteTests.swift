@@ -1,6 +1,6 @@
 import AVFAudio
 import XCTest
-@testable import Runner
+@testable import fluxer_voice
 
 final class VoiceActiveRouteTests: XCTestCase {
   func testActiveRoutePrefersHeadsetOutputs() {

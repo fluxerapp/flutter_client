@@ -135,6 +135,7 @@ bool _isSettling(AsyncValue<Object?> value) =>
 class GuildUserDisplayWarmer {
   final Map<String, List<ProviderSubscription<Future<Object?>>>> _held =
       <String, List<ProviderSubscription<Future<Object?>>>>{};
+  final Map<String, Object> _warmTokens = <String, Object>{};
 
   Future<void> warm(
     Ref ref, {
@@ -143,6 +144,8 @@ class GuildUserDisplayWarmer {
     required Iterable<String> userIds,
   }) async {
     final bool inGuild = guildId != null && guildId.isNotEmpty;
+    final Object token = Object();
+    _warmTokens[channelId] = token;
     final List<ProviderSubscription<Future<Object?>>> next =
         <ProviderSubscription<Future<Object?>>>[
           for (final String userId in userIds.toSet()) ...[
@@ -163,15 +166,26 @@ class GuildUserDisplayWarmer {
         ),
       );
     } finally {
-      _close(_held[channelId]);
-      _held[channelId] = next;
+      if (identical(_warmTokens[channelId], token)) {
+        _warmTokens.remove(channelId);
+        _close(_held[channelId]);
+        _held[channelId] = next;
+      } else {
+        _close(next);
+      }
     }
   }
 
-  void release(String channelId) => _close(_held.remove(channelId));
+  void release(String channelId) {
+    _warmTokens.remove(channelId);
+    _close(_held.remove(channelId));
+  }
 
   void releaseAll() {
-    for (final String channelId in _held.keys.toList()) {
+    for (final String channelId in <String>{
+      ..._held.keys,
+      ..._warmTokens.keys,
+    }) {
       release(channelId);
     }
   }

@@ -824,9 +824,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'アカウントはまだ請求されていません。ユーザー名とパスワードがないと、他のデバイスからサインインできなくなり、アカウントへのアクセスを失う可能性があります。今すぐアカウントを請求して保護してください。';
 
   @override
-  String get addFriendUsernameOnlyHint => 'ユーザー名';
-
-  @override
   String get registerTitle => 'アカウントを作成';
 
   @override
@@ -1500,9 +1497,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '友達に追加';
-
-  @override
-  String get addFriendUsernameHint => 'ユーザー名#0000';
 
   @override
   String get addFriendUsernameLabel => '相手のユーザー名';
@@ -4366,8 +4360,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'この成人向けコミュニティはあなたのアカウントでは利用できません。';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      '年齢制限のあるコミュニティとチャンネルは、ブラウザでfluxer.comにアクセスするか、デスクトップアプリで有効にしてください。有効にするまで、iOSアプリでは非表示のままです。';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody => 'この成人向けカテゴリは、あなたのアカウントでは利用できません。';

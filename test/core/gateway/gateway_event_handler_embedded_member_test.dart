@@ -176,6 +176,30 @@ void main() {
     },
   );
 
+  test('PASSIVE_UPDATES stores members embedded in voice states', () async {
+    await handler.handle(
+      parser.parse('PASSIVE_UPDATES', <String, Object?>{
+        'guild_id': _guildId,
+        'channels': <String, Object?>{},
+        'voice_states': <Map<String, Object?>>[
+          <String, Object?>{
+            'guild_id': _guildId,
+            'channel_id': 'voice-1',
+            'user_id': _authorId,
+            'connection_id': 'conn-1',
+            'member': <String, Object?>{
+              ..._memberJson(nick: 'Monty'),
+              'user': _userJson(_authorId),
+            },
+          },
+        ],
+      }),
+    );
+
+    final Member? member = await _waitForMember(database);
+    expect(member?.nick, 'Monty');
+  });
+
   test('an embedded member never overwrites a cached member', () async {
     await handler.handle(
       parser.parse('MESSAGE_CREATE', _guildMessageJson(nick: 'first')),

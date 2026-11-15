@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/push/notification/reply.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
+import 'package:fluxer_dart/export.dart' show MentionReplyPreferences;
 
 void main() {
   group('pushNotificationCanReply', () {
@@ -88,6 +89,7 @@ void main() {
         post: (PushReplySend send) async {
           sent = send;
         },
+        resolveReplyMention: (Map<String, String> payload) async => true,
       );
       expect(result, PushReplyResult.sent);
       expect(lookedUpUser, 'user-b');
@@ -100,6 +102,33 @@ void main() {
       });
       expect(sent?.body['allowed_mentions'], <String, dynamic>{
         'replied_user': true,
+      });
+    });
+
+    test('sends the resolved mention choice', () async {
+      PushReplySend? sent;
+      Map<String, String>? resolvedFor;
+      await sendPushNotificationReply(
+        payload: <String, String>{
+          'channel_id': 'c',
+          'message_id': 'm',
+          'target_user_id': 'user-b',
+          'guild_id': 'g',
+          'author_id': 'author',
+        },
+        text: 'hi',
+        lookupAccount: (String userId) async => accountB,
+        post: (PushReplySend send) async {
+          sent = send;
+        },
+        resolveReplyMention: (Map<String, String> payload) async {
+          resolvedFor = payload;
+          return false;
+        },
+      );
+      expect(resolvedFor?['author_id'], 'author');
+      expect(sent?.body['allowed_mentions'], <String, dynamic>{
+        'replied_user': false,
       });
     });
 
@@ -162,6 +191,94 @@ void main() {
       );
       expect(result, PushReplyResult.failed);
       expect(posted, isFalse);
+    });
+  });
+
+  group('resolvePushReplyMention', () {
+    const Map<String, String> guildPayload = <String, String>{
+      'channel_id': 'c',
+      'message_id': 'm',
+      'target_user_id': 'user-b',
+      'guild_id': 'g',
+      'author_id': 'author',
+    };
+
+    Future<MentionReplyPreferences> Function(String, String) preferring(
+      MentionReplyPreferences preference, {
+      List<String>? calls,
+    }) {
+      return (String authorId, String guildId) async {
+        calls?.add('$authorId@$guildId');
+        return preference;
+      };
+    }
+
+    test('does not mention authors who prefer no mention', () async {
+      final List<String> calls = <String>[];
+      expect(
+        await resolvePushReplyMention(
+          guildPayload,
+          lookupPreference: preferring(
+            MentionReplyPreferences.preferNoMention,
+            calls: calls,
+          ),
+        ),
+        isFalse,
+      );
+      expect(calls, <String>['author@g']);
+    });
+
+    test('mentions authors who prefer or do not mind a mention', () async {
+      expect(
+        await resolvePushReplyMention(
+          guildPayload,
+          lookupPreference: preferring(MentionReplyPreferences.preferMention),
+        ),
+        isTrue,
+      );
+      expect(
+        await resolvePushReplyMention(
+          guildPayload,
+          lookupPreference: preferring(MentionReplyPreferences.noPreference),
+        ),
+        isTrue,
+      );
+    });
+
+    test('falls back to mentioning when the lookup fails', () async {
+      expect(
+        await resolvePushReplyMention(
+          guildPayload,
+          lookupPreference: (String authorId, String guildId) =>
+              Future<MentionReplyPreferences>.error(StateError('no db')),
+        ),
+        isTrue,
+      );
+    });
+
+    test('does not mention in DMs or on own messages', () async {
+      final List<String> calls = <String>[];
+      expect(
+        await resolvePushReplyMention(
+          <String, String>{...guildPayload}..remove('guild_id'),
+          lookupPreference: preferring(
+            MentionReplyPreferences.preferMention,
+            calls: calls,
+          ),
+        ),
+        isFalse,
+      );
+      expect(
+        await resolvePushReplyMention(
+          <String, String>{...guildPayload, 'author_id': 'user-b'},
+          lookupPreference: preferring(
+            MentionReplyPreferences.preferMention,
+            calls: calls,
+          ),
+        ),
+        isFalse,
+      );
+      expect(calls, isEmpty);
     });
   });
 

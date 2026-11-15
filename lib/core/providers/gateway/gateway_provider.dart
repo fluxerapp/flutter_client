@@ -385,16 +385,6 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           )
           .clearChannel(channelId);
     }),
-    onInviteCreate: (data) => ifMounted(() {
-      ref
-          .read(inviteCacheProvider(readAccountUserId(ref)).notifier)
-          .addInvite(data);
-    }),
-    onInviteDelete: (code) => ifMounted(() {
-      ref
-          .read(inviteCacheProvider(readAccountUserId(ref)).notifier)
-          .removeInvite(code);
-    }),
     onGuildPermissionsChanged: (guildId) => ifMounted(() {
       unawaited(
         ref

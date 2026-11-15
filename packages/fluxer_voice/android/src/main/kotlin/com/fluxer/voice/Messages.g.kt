@@ -221,6 +221,16 @@ enum class NativeVoiceDeviceKind(val raw: Int) {
   }
 }
 
+enum class NativePipVideoSourceKind(val raw: Int) {
+  WEB_RTC_TRACK(0);
+
+  companion object {
+    fun ofRaw(raw: Int): NativePipVideoSourceKind? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /** Generated class from Pigeon that represents data sent in messages. */
 data class NativeVoiceDevice (
   val id: Long,
@@ -375,6 +385,198 @@ data class NativeVoiceActiveRoute (
     return "NativeVoiceActiveRoute(route=$route, name=$name)"
   }
 }
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class NativePipVideoSource (
+  val kind: NativePipVideoSourceKind,
+  val trackId: String? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativePipVideoSource {
+      val kind = pigeonVar_list[0] as NativePipVideoSourceKind
+      val trackId = pigeonVar_list[1] as String?
+      return NativePipVideoSource(kind, trackId)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      kind,
+      trackId,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativePipVideoSource
+    return MessagesPigeonUtils.deepEquals(this.kind, other.kind) && MessagesPigeonUtils.deepEquals(this.trackId, other.trackId)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.kind)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.trackId)
+    return result
+  }
+  override fun toString(): String {
+    return "NativePipVideoSource(kind=$kind, trackId=$trackId)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class NativePipRect (
+  val left: Double,
+  val top: Double,
+  val width: Double,
+  val height: Double
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativePipRect {
+      val left = pigeonVar_list[0] as Double
+      val top = pigeonVar_list[1] as Double
+      val width = pigeonVar_list[2] as Double
+      val height = pigeonVar_list[3] as Double
+      return NativePipRect(left, top, width, height)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      left,
+      top,
+      width,
+      height,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativePipRect
+    return MessagesPigeonUtils.deepEquals(this.left, other.left) && MessagesPigeonUtils.deepEquals(this.top, other.top) && MessagesPigeonUtils.deepEquals(this.width, other.width) && MessagesPigeonUtils.deepEquals(this.height, other.height)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.left)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.top)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.width)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.height)
+    return result
+  }
+  override fun toString(): String {
+    return "NativePipRect(left=$left, top=$top, width=$width, height=$height)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class NativePipConfig (
+  val source: NativePipVideoSource,
+  val aspectWidth: Long,
+  val aspectHeight: Long,
+  val sourceRect: NativePipRect? = null,
+  val mirror: Boolean
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativePipConfig {
+      val source = pigeonVar_list[0] as NativePipVideoSource
+      val aspectWidth = pigeonVar_list[1] as Long
+      val aspectHeight = pigeonVar_list[2] as Long
+      val sourceRect = pigeonVar_list[3] as NativePipRect?
+      val mirror = pigeonVar_list[4] as Boolean
+      return NativePipConfig(source, aspectWidth, aspectHeight, sourceRect, mirror)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      source,
+      aspectWidth,
+      aspectHeight,
+      sourceRect,
+      mirror,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativePipConfig
+    return MessagesPigeonUtils.deepEquals(this.source, other.source) && MessagesPigeonUtils.deepEquals(this.aspectWidth, other.aspectWidth) && MessagesPigeonUtils.deepEquals(this.aspectHeight, other.aspectHeight) && MessagesPigeonUtils.deepEquals(this.sourceRect, other.sourceRect) && MessagesPigeonUtils.deepEquals(this.mirror, other.mirror)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.source)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.aspectWidth)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.aspectHeight)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.sourceRect)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.mirror)
+    return result
+  }
+  override fun toString(): String {
+    return "NativePipConfig(source=$source, aspectWidth=$aspectWidth, aspectHeight=$aspectHeight, sourceRect=$sourceRect, mirror=$mirror)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class NativePipEvent (
+  val active: Boolean,
+  val restoreRequested: Boolean,
+  val width: Double? = null,
+  val height: Double? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativePipEvent {
+      val active = pigeonVar_list[0] as Boolean
+      val restoreRequested = pigeonVar_list[1] as Boolean
+      val width = pigeonVar_list[2] as Double?
+      val height = pigeonVar_list[3] as Double?
+      return NativePipEvent(active, restoreRequested, width, height)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      active,
+      restoreRequested,
+      width,
+      height,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativePipEvent
+    return MessagesPigeonUtils.deepEquals(this.active, other.active) && MessagesPigeonUtils.deepEquals(this.restoreRequested, other.restoreRequested) && MessagesPigeonUtils.deepEquals(this.width, other.width) && MessagesPigeonUtils.deepEquals(this.height, other.height)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.active)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.restoreRequested)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.width)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.height)
+    return result
+  }
+  override fun toString(): String {
+    return "NativePipEvent(active=$active, restoreRequested=$restoreRequested, width=$width, height=$height)"
+  }
+}
 private open class MessagesPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
@@ -389,18 +591,43 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
         }
       }
       131.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeVoiceDevice.fromList(it)
+        return (readValue(buffer) as Long?)?.let {
+          NativePipVideoSourceKind.ofRaw(it.toInt())
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          NativeVoiceSessionState.fromList(it)
+          NativeVoiceDevice.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
+          NativeVoiceSessionState.fromList(it)
+        }
+      }
+      134.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
           NativeVoiceActiveRoute.fromList(it)
+        }
+      }
+      135.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          NativePipVideoSource.fromList(it)
+        }
+      }
+      136.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          NativePipRect.fromList(it)
+        }
+      }
+      137.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          NativePipConfig.fromList(it)
+        }
+      }
+      138.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          NativePipEvent.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -416,16 +643,36 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.raw.toLong())
       }
-      is NativeVoiceDevice -> {
+      is NativePipVideoSourceKind -> {
         stream.write(131)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is NativeVoiceSessionState -> {
+      is NativeVoiceDevice -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is NativeVoiceActiveRoute -> {
+      is NativeVoiceSessionState -> {
         stream.write(133)
+        writeValue(stream, value.toList())
+      }
+      is NativeVoiceActiveRoute -> {
+        stream.write(134)
+        writeValue(stream, value.toList())
+      }
+      is NativePipVideoSource -> {
+        stream.write(135)
+        writeValue(stream, value.toList())
+      }
+      is NativePipRect -> {
+        stream.write(136)
+        writeValue(stream, value.toList())
+      }
+      is NativePipConfig -> {
+        stream.write(137)
+        writeValue(stream, value.toList())
+      }
+      is NativePipEvent -> {
+        stream.write(138)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -677,6 +924,124 @@ interface SystemVoiceCallGuardHostApi {
     }
   }
 }
+/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+interface VoicePipHostApi {
+  fun isSupported(): Boolean
+  fun arm(config: NativePipConfig)
+  fun disarm()
+  fun stop()
+
+  companion object {
+    /** The codec used by VoicePipHostApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      MessagesPigeonCodec()
+    }
+    /** Sets up an instance of `VoicePipHostApi` to handle messages through the `binaryMessenger`. */
+    @JvmOverloads
+    fun setUp(binaryMessenger: BinaryMessenger, api: VoicePipHostApi?, messageChannelSuffix: String = "") {
+      val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.isSupported$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.isSupported())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.arm$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val configArg = args[0] as NativePipConfig
+            val wrapped: List<Any?> = try {
+              api.arm(configArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.disarm$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              api.disarm()
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.fluxer_voice.VoicePipHostApi.stop$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              api.stop()
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+    }
+  }
+}
+/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+interface VoiceRoutePickerHostApi {
+  fun setValue(value: String?)
+
+  companion object {
+    /** The codec used by VoiceRoutePickerHostApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      MessagesPigeonCodec()
+    }
+    /** Sets up an instance of `VoiceRoutePickerHostApi` to handle messages through the `binaryMessenger`. */
+    @JvmOverloads
+    fun setUp(binaryMessenger: BinaryMessenger, api: VoiceRoutePickerHostApi?, messageChannelSuffix: String = "") {
+      val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.fluxer_voice.VoiceRoutePickerHostApi.setValue$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val valueArg = args[0] as String?
+            val wrapped: List<Any?> = try {
+              api.setValue(valueArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+    }
+  }
+}
 
 private class MessagesPigeonStreamHandler<T>(
     val wrapper: MessagesPigeonEventChannelWrapper<T>
@@ -744,6 +1109,23 @@ abstract class VoiceActiveRouteChangesStreamHandler : MessagesPigeonEventChannel
   }
 // Implement methods from MessagesPigeonEventChannelWrapper
 override fun onListen(p0: Any?, sink: PigeonEventSink<NativeVoiceActiveRoute>) {}
+
+override fun onCancel(p0: Any?) {}
+}
+      
+abstract class VoicePipEventsStreamHandler : MessagesPigeonEventChannelWrapper<NativePipEvent> {
+  companion object {
+    fun register(messenger: BinaryMessenger, streamHandler: VoicePipEventsStreamHandler, instanceName: String = "") {
+      var channelName: String = "dev.flutter.pigeon.fluxer_voice.VoiceAudioSessionEventApi.voicePipEvents"
+      if (instanceName.isNotEmpty()) {
+        channelName += ".$instanceName"
+      }
+      val internalStreamHandler = MessagesPigeonStreamHandler<NativePipEvent>(streamHandler)
+      EventChannel(messenger, channelName, MessagesPigeonMethodCodec).setStreamHandler(internalStreamHandler)
+    }
+  }
+// Implement methods from MessagesPigeonEventChannelWrapper
+override fun onListen(p0: Any?, sink: PigeonEventSink<NativePipEvent>) {}
 
 override fun onCancel(p0: Any?) {}
 }

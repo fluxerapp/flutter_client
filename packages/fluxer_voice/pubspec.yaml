@@ -13,6 +13,8 @@ flutter:
       android:
         package: com.fluxer.voice
         pluginClass: FluxerVoicePlugin
+      ios:
+        pluginClass: FluxerVoicePlugin
 
 dependencies:
   flutter:

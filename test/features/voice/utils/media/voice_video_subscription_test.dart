@@ -64,6 +64,14 @@ void main() {
         shouldSubscribeRemoteCamera(tileVisible: true, omitVideoTrack: true),
         isFalse,
       );
+      expect(
+        shouldSubscribeRemoteCamera(
+          tileVisible: true,
+          omitVideoTrack: false,
+          windowShown: false,
+        ),
+        isFalse,
+      );
     });
   });
 

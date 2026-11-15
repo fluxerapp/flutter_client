@@ -19,10 +19,8 @@ final class VoiceRoutePickerViewFactory: NSObject, FlutterPlatformViewFactory {
     let params = args as? [String: Any]
     return VoiceRoutePickerPlatformView(
       frame: frame,
-      channel: FlutterMethodChannel(
-        name: "fluxer_app/voice_route_picker/\(viewId)",
-        binaryMessenger: messenger
-      ),
+      messenger: messenger,
+      channelSuffix: "\(viewId)",
       inCall: params?["inCall"] as? Bool ?? false,
       label: params?["label"] as? String,
       value: params?["value"] as? String
@@ -62,20 +60,37 @@ enum VoiceRouteSheetSession {
   }
 }
 
+private final class VoiceRoutePickerValueApi: VoiceRoutePickerHostApi {
+  weak var picker: AVRoutePickerView?
+
+  init(picker: AVRoutePickerView) {
+    self.picker = picker
+  }
+
+  func setValue(value: String?) throws {
+    picker?.accessibilityValue = value
+  }
+}
+
 final class VoiceRoutePickerPlatformView: NSObject, FlutterPlatformView, AVRoutePickerViewDelegate {
   private let picker: AVRoutePickerView
   private let inCall: Bool
-  private let channel: FlutterMethodChannel
+  private let messenger: FlutterBinaryMessenger
+  private let channelSuffix: String
+  private let valueApi: VoiceRoutePickerValueApi
 
   init(
     frame: CGRect,
-    channel: FlutterMethodChannel,
+    messenger: FlutterBinaryMessenger,
+    channelSuffix: String,
     inCall: Bool,
     label: String?,
     value: String?
   ) {
     picker = AVRoutePickerView(frame: frame)
-    self.channel = channel
+    self.messenger = messenger
+    self.channelSuffix = channelSuffix
+    valueApi = VoiceRoutePickerValueApi(picker: picker)
     self.inCall = inCall
     super.init()
     if inCall {
@@ -92,14 +107,11 @@ final class VoiceRoutePickerPlatformView: NSObject, FlutterPlatformView, AVRoute
       picker.accessibilityValue = value
       picker.accessibilityTraits = .button
     }
-    channel.setMethodCallHandler { [weak picker] call, result in
-      guard call.method == "setValue" else {
-        result(FlutterMethodNotImplemented)
-        return
-      }
-      picker?.accessibilityValue = call.arguments as? String
-      result(nil)
-    }
+    VoiceRoutePickerHostApiSetup.setUp(
+      binaryMessenger: messenger,
+      api: valueApi,
+      messageChannelSuffix: channelSuffix
+    )
   }
 
   func view() -> UIView {
@@ -118,7 +130,11 @@ final class VoiceRoutePickerPlatformView: NSObject, FlutterPlatformView, AVRoute
   }
 
   deinit {
-    channel.setMethodCallHandler(nil)
+    VoiceRoutePickerHostApiSetup.setUp(
+      binaryMessenger: messenger,
+      api: nil,
+      messageChannelSuffix: channelSuffix
+    )
     VoiceRouteSheetSession.release(from: ObjectIdentifier(self))
   }
 }

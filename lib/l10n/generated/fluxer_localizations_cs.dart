@@ -855,9 +855,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Váš účet ještě není uplatněn. Bez uživatelského jména a hesla se nebudete moci přihlásit z jiných zařízení a můžete ztratit přístup ke svému účtu. Uplatněte svůj účet nyní a zabezpečte ho.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Uživatelské jméno';
-
-  @override
   String get registerTitle => 'Vytvořit účet';
 
   @override
@@ -1572,9 +1569,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Přidat přítele';
-
-  @override
-  String get addFriendUsernameHint => 'Uživatelské jméno#0000';
 
   @override
   String get addFriendUsernameLabel => 'Uživatelské jméno přítele';
@@ -4556,8 +4550,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Tato komunita pro dospělé není pro váš účet dostupná.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Komunity a kanály s věkovým omezením zapněte na fluxer.com v prohlížeči nebo v aplikaci pro počítač. Do té doby zůstanou v aplikaci pro iOS skryté.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

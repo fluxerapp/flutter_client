@@ -852,9 +852,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tiliäsi ei ole vielä lunastettu. Ilman käyttäjätunnusta ja salasanaa et voi kirjautua sisään muilta laitteilta ja saatat menettää pääsyn tiliisi. Lunasta tilisi nyt varmistaaksesi sen.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Käyttäjänimi';
-
-  @override
   String get registerTitle => 'Luo tili';
 
   @override
@@ -1566,9 +1563,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Lisää kaveri';
-
-  @override
-  String get addFriendUsernameHint => 'Käyttäjänimi#0000';
 
   @override
   String get addFriendUsernameLabel => 'Kaverin käyttäjänimi';
@@ -4543,8 +4537,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä aikuisille tarkoitettu yhteisö ei ole käytettävissä tililläsi.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Ota ikärajoitetut yhteisöt ja kanavat käyttöön osoitteessa fluxer.com selaimessa tai työpöytäsovelluksessa. Siihen asti ne pysyvät piilossa iOS-sovelluksessa.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>

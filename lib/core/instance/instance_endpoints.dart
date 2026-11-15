@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_dart/export.dart';
 
 /// Instance URLs from `/.well-known/fluxer`, with compile-time fallbacks until loaded.
@@ -18,6 +19,7 @@ abstract final class InstanceEndpoints {
   static String api = '';
   static String gateway = '';
   static bool selfHosted = false;
+  static bool proxyAttachmentsThroughApi = false;
 
   static void apply(WellKnownFluxerResponse response) {
     final InstanceEndpointsSchema endpoints = response.endpoints;
@@ -35,6 +37,7 @@ abstract final class InstanceEndpoints {
     api = resolvedApi.isNotEmpty ? _normalizeBaseUrl(resolvedApi) : api;
     gateway = endpoints.gateway.isNotEmpty ? endpoints.gateway : gateway;
     selfHosted = response.features.selfHosted;
+    proxyAttachmentsThroughApi = proxiesAttachmentsThroughApi(response);
   }
 
   static String mediaOf(WellKnownFluxerResponse? response) {
@@ -61,5 +64,6 @@ abstract final class InstanceEndpoints {
     api = '';
     gateway = '';
     selfHosted = false;
+    proxyAttachmentsThroughApi = false;
   }
 }
