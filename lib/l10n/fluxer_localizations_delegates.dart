@@ -1,3 +1,5 @@
+// ignore_for_file: document_ignores, implementation_imports
+
 import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoLocalizations, GlobalCupertinoLocalizations;
 import 'package:flutter/material.dart' as flutter show MaterialLocalizations;

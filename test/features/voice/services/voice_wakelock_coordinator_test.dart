@@ -63,6 +63,26 @@ void main() {
         .setMockMessageHandler(_toggleChannel, null);
   });
 
+  test('a one-off read keeps following the enabled state', () async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        voiceWakelockEnabledProvider.overrideWith(
+          (Ref ref) => ref.watch(shouldEnableProvider),
+        ),
+      ],
+    )..read(voiceWakelockCoordinatorProvider);
+    addTearDown(container.dispose);
+    await pumpEventQueue();
+
+    container.read(shouldEnableProvider.notifier).state = true;
+    await pumpEventQueue();
+    expect(toggles, <bool>[true]);
+
+    container.read(shouldEnableProvider.notifier).state = false;
+    await pumpEventQueue();
+    expect(toggles, <bool>[true, false]);
+  });
+
   test(
     'dispose makes no platform call when the wakelock was never enabled',
     () async {

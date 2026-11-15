@@ -1,3 +1,5 @@
+// ignore_for_file: document_ignores, one_member_abstracts
+
 import 'package:pigeon/pigeon.dart';
 
 @ConfigurePigeon(
