@@ -27,8 +27,8 @@ final voiceSystemPipCoordinatorProvider = Provider<VoiceSystemPipCoordinator>((
 });
 
 class VoiceSystemPipCoordinator with WidgetsBindingObserver {
-  VoiceSystemPipCoordinator(this._ref) {
-    if (isFluxerNativeMobileOs) {
+  VoiceSystemPipCoordinator(this._ref, {bool? enabled}) {
+    if (enabled ?? isFluxerNativeMobileOs) {
       _start();
     }
   }
@@ -50,24 +50,31 @@ class VoiceSystemPipCoordinator with WidgetsBindingObserver {
   Timer? _lossTimer;
   StreamSubscription<VoicePipEvent>? _events;
   AppLifecycleListener? _lifecycle;
+  List<ProviderSubscription<Object?>> _subscriptions =
+      const <ProviderSubscription<Object?>>[];
 
   void _start() {
     _started = true;
-    _ref
-      ..listen<VoiceSystemPipTarget?>(
+    final ProviderContainer container = _ref.container;
+    _subscriptions = <ProviderSubscription<Object?>>[
+      container.listen<VoiceSystemPipTarget?>(
         voiceSystemPipTargetProvider,
         (_, VoiceSystemPipTarget? next) => _setTarget(next),
         fireImmediately: true,
-      )
-      ..listen<bool>(appUiForegroundProvider, (_, bool next) {
+      ),
+      container.listen<bool>(appUiForegroundProvider, (_, bool next) {
         _foreground = next;
         _sync();
-      }, fireImmediately: true)
-      ..listen<Offset?>(voicePipPlacementProvider, (_, _) => _scheduleSync())
-      ..listen<VoicePipOverlayPhase>(
+      }, fireImmediately: true),
+      container.listen<Offset?>(
+        voicePipPlacementProvider,
+        (_, _) => _scheduleSync(),
+      ),
+      container.listen<VoicePipOverlayPhase>(
         voicePipOverlayPhaseProvider,
         (_, _) => _scheduleSync(),
-      );
+      ),
+    ];
     WidgetsBinding.instance.addObserver(this);
     _lifecycle = AppLifecycleListener(onInactive: _sync);
     VoiceVideoSurfaceRegistry.instance.addListener(_onSurfaceChanged);
@@ -255,6 +262,9 @@ class VoiceSystemPipCoordinator with WidgetsBindingObserver {
     _lossTimer?.cancel();
     if (!_started) {
       return;
+    }
+    for (final ProviderSubscription<Object?> subscription in _subscriptions) {
+      subscription.close();
     }
     WidgetsBinding.instance.removeObserver(this);
     _lifecycle?.dispose();
