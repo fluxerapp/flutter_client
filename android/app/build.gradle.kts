@@ -21,6 +21,7 @@ if (requestedTasks.contains("fcm")) {
     apply(plugin = "com.google.gms.google-services")
 }
 
+val fdroidBuild = providers.gradleProperty("fluxer.fdroid").orNull == "true"
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 val hasKeystoreProperties = keystorePropertiesFile.exists()
@@ -204,16 +205,16 @@ android {
             ndk {
                 debugSymbolLevel = "FULL"
             }
-            signingConfig = if (hasKeystoreProperties) {
-                signingConfigs.create("release") {
+            signingConfig = when {
+                fdroidBuild -> null
+                hasKeystoreProperties -> signingConfigs.create("release") {
                     val storeFilePath = keystoreProperties["storeFile"] as String
                     storeFile = file(storeFilePath)
                     storePassword = keystoreProperties["storePassword"] as String
                     keyAlias = keystoreProperties["keyAlias"] as String
                     keyPassword = keystoreProperties["keyPassword"] as String
                 }
-            } else {
-                signingConfigs.getByName("debug")
+                else -> signingConfigs.getByName("debug")
             }
         }
     }
@@ -226,6 +227,10 @@ android {
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
+    }
+
+    dependenciesInfo {
+        includeInApk = false
     }
 }
 

@@ -1,0 +1,25 @@
+name: passkeys_android
+description: Android implementation of the Corbado passkeys plugin. Manages the creation of passkeys on Android devices.
+homepage: https://docs.corbado.com/overview/welcome
+repository: https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys_android
+version: 2.14.1+fdroid
+publish_to: none
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
+
+flutter:
+  plugin:
+    implements: passkeys
+    platforms:
+      android:
+        package: com.corbado.passkeys_android
+        pluginClass: FlutterPasskeysPlugin
+        dartPluginClass: PasskeysAndroid
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.16.0
+  passkeys_platform_interface: ^2.10.0

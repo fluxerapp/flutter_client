@@ -6,10 +6,10 @@ cd "$ROOT"
 
 VERSION_NAME="${VERSION_NAME:-}"
 BUILD_NUMBER="${BUILD_NUMBER:-}"
-BASE_BRANCH="${BASE_BRANCH:-beta}"
+BASE_BRANCH="${BASE_BRANCH:-}"
 
-if [[ -z "$VERSION_NAME" || -z "$BUILD_NUMBER" ]]; then
-  echo "VERSION_NAME and BUILD_NUMBER are required" >&2
+if [[ -z "$VERSION_NAME" || -z "$BUILD_NUMBER" || -z "$BASE_BRANCH" ]]; then
+  echo "VERSION_NAME, BUILD_NUMBER and BASE_BRANCH are required" >&2
   exit 1
 fi
 if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
@@ -17,7 +17,7 @@ if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
   exit 1
 fi
 
-python3 .github/scripts/app_version.py sync-beta-android-release \
+python3 .github/scripts/app_version.py sync-android-release \
   "$VERSION_NAME" "$BUILD_NUMBER"
 
 git config user.name "fluxer-ci[bot]"
