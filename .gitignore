@@ -79,3 +79,5 @@ ios/build/
 /lib/features/settings/services/premium_store_purchase_client.dart
 packages/fluxer_billing/build/
 packages/fluxer_billing/pubspec.lock
+# Widget Preview related
+.widget_preview/
