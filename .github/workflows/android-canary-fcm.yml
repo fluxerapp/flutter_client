@@ -91,6 +91,7 @@ jobs:
           fi
           rustup show active-toolchain || rustup toolchain install stable
           rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+          (cd fluxer && rustup toolchain install && rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android)
           flutter config --enable-native-assets
 
       - name: Resolve unifiedpush_linux to the stub

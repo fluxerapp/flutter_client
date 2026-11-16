@@ -78,6 +78,7 @@ jobs:
         run: |
           rustup show active-toolchain || rustup toolchain install stable
           rustup target add x86_64-pc-windows-msvc
+          (cd fluxer && rustup toolchain install && rustup target add x86_64-pc-windows-msvc)
           flutter config --enable-native-assets
 
       - name: Set up .NET

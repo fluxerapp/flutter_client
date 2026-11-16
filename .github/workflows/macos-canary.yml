@@ -82,6 +82,7 @@ jobs:
           fi
           rustup show active-toolchain || rustup toolchain install stable
           rustup target add aarch64-apple-darwin x86_64-apple-darwin
+          (cd fluxer && rustup toolchain install && rustup target add aarch64-apple-darwin x86_64-apple-darwin)
           flutter config --enable-native-assets
 
       - name: Set up .NET

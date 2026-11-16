@@ -50,6 +50,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup target add aarch64-apple-ios
+          (cd fluxer && rustup toolchain install && rustup target add aarch64-apple-ios)
           flutter config --enable-native-assets
 
       - name: Get dependencies

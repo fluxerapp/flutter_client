@@ -34,6 +34,7 @@ if ! command -v cargo >/dev/null 2>&1; then
   exit 1
 fi
 rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+(cd fluxer && rustup toolchain install && rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android)
 flutter config --enable-native-assets
 
 bash tool/apply_macos_pub_overrides.sh

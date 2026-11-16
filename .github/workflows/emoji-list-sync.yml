@@ -82,6 +82,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
           flutter config --enable-native-assets
 
       - name: Configure dev build tree

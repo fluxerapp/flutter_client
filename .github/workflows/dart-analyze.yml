@@ -128,6 +128,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
 
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets
@@ -183,6 +184,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
 
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets

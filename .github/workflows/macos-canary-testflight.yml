@@ -39,6 +39,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
           flutter config --enable-native-assets
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
