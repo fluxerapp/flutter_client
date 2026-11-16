@@ -146,11 +146,11 @@ jobs:
           MEASURE_API_URL: ${{ secrets.MEASURE_API_URL }}
         run: tool/measure/write_native_measure_config.sh
 
-      - name: Build stable split APKs
-        run: flutter build apk --release --split-per-abi --flavor stableFcm --build-name ${{ steps.stable_version_name.outputs.version }} --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
       - name: Build stable combined APK
         run: flutter build apk --release --flavor stableFcm --build-name ${{ steps.stable_version_name.outputs.version }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Derive stable per-ABI APKs
+        run: bash .github/scripts/split_apk_per_abi.sh build/app/outputs/flutter-apk/app-stablefcm-release.apk
 
       - name: Build stable app bundle
         run: flutter build appbundle --release --flavor stableFcm --build-name ${{ steps.stable_version_name.outputs.version }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
