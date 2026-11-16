@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class KeyboardSpamHarness extends ConsumerStatefulWidget {
   const KeyboardSpamHarness({required this.focusNode, super.key});

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart' show StateProvider;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/open_test_database.dart';

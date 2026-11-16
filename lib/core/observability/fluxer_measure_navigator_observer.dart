@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/measure_screen_name.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:measure_flutter/measure_flutter.dart';
 
 class FluxerMeasureNavigatorObserver extends NavigatorObserver {

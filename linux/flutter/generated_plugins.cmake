@@ -11,12 +11,11 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_inappwebview_linux
   flutter_secure_storage_linux
   flutter_webrtc
-  irondash_engine_context
+  fluxer_clipboard
   livekit_client
   media_kit_libs_linux
   record_linux
   screen_retriever_linux
-  super_native_extensions
   tray_manager
   url_launcher_linux
   media_kit_video

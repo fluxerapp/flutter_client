@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/utils/instance_discovery_error_l10n.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:test/test.dart';
 
 void main() {

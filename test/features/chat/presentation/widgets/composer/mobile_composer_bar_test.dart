@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:cross_file/cross_file.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,6 +15,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/open_test_database.dart';

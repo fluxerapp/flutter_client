@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/open_test_database.dart';

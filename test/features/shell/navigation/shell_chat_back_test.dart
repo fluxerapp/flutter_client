@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<bool> _phoneThreadBackIsThread(
   WidgetTester tester, {

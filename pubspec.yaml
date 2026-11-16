@@ -57,6 +57,8 @@ dependencies:
   fluxer_billing:
     path: packages/fluxer_billing
   # END optional modules
+  fluxer_clipboard:
+    path: packages/fluxer_clipboard
   fluxer_dart:
     path: dart_sdk
   fluxer_markdown:
@@ -122,7 +124,6 @@ dependencies:
   smart_keyboard_insets: ^0.3.0
   speak: ^0.2.3
   sqlite3: ^3.9.0
-  super_clipboard: ^0.9.1
   talker: ^5.1.20
   talker_dio_logger: ^5.1.20
   talker_flutter: ^5.1.20
