@@ -262,7 +262,7 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.14.1")
     add("fcmImplementation", platform("com.google.firebase:firebase-bom:33.9.0"))
     add("fcmImplementation", "com.google.firebase:firebase-messaging")
-    add("fcmImplementation", "com.google.android.gms:play-services-cloud-messaging")
+    add("fcmImplementation", "com.google.android.gms:play-services-cloud-messaging:17.4.0")
     add("fcmImplementation", "com.google.android.play:age-signals:0.0.4")
     add("fcmImplementation", "com.google.android.play:integrity:1.5.0")
 }
