@@ -169,9 +169,17 @@ InputDecoration _composerDesktopInputDecoration({
     focusedBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
     contentPadding: EdgeInsets.symmetric(
-      vertical: touchPrimary ? 2 : WideComposerLayout.mouseTextContentOffset,
+      vertical: touchPrimary
+          ? 2
+          : math.max(
+              0,
+              (WideComposerLayout.actionButtonExtent -
+                      composerLineHeight(context)) /
+                  2,
+            ),
     ),
     isDense: true,
+    visualDensity: VisualDensity.standard,
   );
 }
 

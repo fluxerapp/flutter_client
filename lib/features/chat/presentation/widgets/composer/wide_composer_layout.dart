@@ -16,7 +16,6 @@ abstract final class WideComposerLayout {
   static const double actionGap = 8;
   static const double mouseActionGap = 4;
   static const double mouseContentGap = 20;
-  static const double mouseTextContentOffset = 5;
   static const double mouseButtonRadius = 6;
   static const double mouseButtonIconSize = 22;
   static const double mouseVoiceDividerHeight = 24;
