@@ -26,11 +26,4 @@ void main() {
       expect(nearestTtsRate(1.3), 1.5);
     });
   });
-
-  group('engineSpeechRate', () {
-    test('engine rate is half the user rate', () {
-      expect(engineSpeechRate(1), 0.5);
-      expect(engineSpeechRate(2), 1);
-    });
-  });
 }

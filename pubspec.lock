@@ -1063,14 +1063,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0+1"
-  flutter_tts:
-    dependency: "direct main"
-    description:
-      name: flutter_tts
-      sha256: ce5eb209b40e95f2f4a1397116c87ab2fcdff32257d04ed7a764e75894c03775
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.5"
   flutter_web_auth_2:
     dependency: "direct main"
     description:
@@ -2574,6 +2566,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.2"
+  speak:
+    dependency: "direct main"
+    description:
+      name: speak
+      sha256: bec8dfd8e4f511cb619f3f281dc642b3d00bf93712b9f54a31eac76b2eb08dd7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
   sqflite:
     dependency: transitive
     description:

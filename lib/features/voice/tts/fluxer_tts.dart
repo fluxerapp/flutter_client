@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluxer_app/core/audio/app_audio_session_restore.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_app/features/voice/tts/tts_text_formatter.dart';
+import 'package:fluxer_voice/fluxer_voice.dart';
+import 'package:speak/speak.dart';
 
 class FluxerTtsSpeakingTarget {
   const FluxerTtsSpeakingTarget({
@@ -19,35 +21,28 @@ class FluxerTtsSpeakingTarget {
 typedef FluxerTtsSpeakingChanged =
     void Function({required bool isSpeaking, FluxerTtsSpeakingTarget? target});
 
-class FluxerTts {
-  FluxerTts({FlutterTts? engine}) : _engine = engine ?? FlutterTts();
+const SpeakAudio _kFluxerTtsAudio = SpeakAudio(
+  otherAudio: OtherAudio.mix,
+  linger: Duration.zero,
+  duringCalls: SpeakDuringCalls.speak,
+);
 
-  final FlutterTts _engine;
-  bool _initialized = false;
+class FluxerTts {
+  FluxerTts({Speak? engine})
+    : _engine = engine ?? Speak(audio: _kFluxerTtsAudio);
+
+  final Speak _engine;
+  bool _disposed = false;
+  int _generation = 0;
   bool _isSpeaking = false;
-  double? _lastAppliedRate;
-  String? _lastAppliedLocale;
   FluxerTtsSpeakingTarget? _currentTarget;
   FluxerTtsSpeakingChanged? onSpeakingChanged;
-  void Function()? _onEnd;
-  void Function()? _onError;
 
   bool isSpeakingMessage(String messageId) {
     return _isSpeaking && _currentTarget?.messageId == messageId;
   }
 
-  Future<bool> isSupported() async {
-    await _ensureInitialized();
-    try {
-      final dynamic languages = await _engine.getLanguages;
-      if (languages is List) {
-        return languages.isNotEmpty;
-      }
-      return true;
-    } on Object {
-      return false;
-    }
-  }
+  Future<bool> isSupported() async => !_disposed && Speak.isSupported;
 
   Future<void> speak({
     required String text,
@@ -59,24 +54,33 @@ class FluxerTts {
     bool interrupt = true,
   }) async {
     final String trimmed = text.trim();
-    if (trimmed.isEmpty) {
+    if (trimmed.isEmpty || _disposed || !Speak.isSupported) {
       return;
     }
-    await _ensureInitialized();
-    if (interrupt) {
-      await stop();
+    if (Platform.isIOS && _isInAppVoiceCallActive()) {
+      onError?.call();
+      return;
     }
-    _onEnd = onEnd;
-    _onError = onError;
+    final int generation = ++_generation;
+    if (_isSpeaking) {
+      _currentTarget = null;
+      _setSpeaking(false);
+    }
     _currentTarget = target;
     _setSpeaking(true);
+    bool failed = false;
     try {
-      await _applyLocaleIfNeeded(locale);
-      await _applyRateIfNeeded(rate ?? kDefaultTtsRate);
-      await _engine.speak(truncateTtsText(trimmed));
+      final SpeakOutcome outcome = await _say(
+        truncateTtsText(trimmed),
+        rate: clampTtsRate(rate ?? kDefaultTtsRate),
+        language: _normalizeLocale(locale),
+        queue: interrupt ? SpeakQueue.interrupt : SpeakQueue.append,
+      );
+      failed = outcome == SpeakOutcome.blocked;
     } on Object {
-      _completeSpeech(error: true);
+      failed = true;
     }
+    _completeSpeech(generation, error: failed, onEnd: onEnd, onError: onError);
   }
 
   Future<void> speakMessage({
@@ -105,79 +109,56 @@ class FluxerTts {
   }
 
   Future<void> stop() async {
-    if (!_initialized) {
+    if (_disposed || !Speak.isSupported) {
       return;
     }
     try {
       await _engine.stop();
     } on Object {
-      // Ignore stop errors.
+      return;
     }
-    _completeSpeech();
   }
 
   Future<void> dispose() async {
-    await stop();
-    _initialized = false;
+    if (_disposed) {
+      return;
+    }
     onSpeakingChanged = null;
-  }
-
-  Future<void> _ensureInitialized() async {
-    if (_initialized) {
-      return;
-    }
-    _engine
-      ..setStartHandler(() => _setSpeaking(true))
-      ..setCompletionHandler(_completeSpeech)
-      ..setCancelHandler(_completeSpeech)
-      ..setErrorHandler((_) => _completeSpeech(error: true));
-    await _configurePlatformAudio();
-    _initialized = true;
-  }
-
-  Future<void> _configurePlatformAudio() async {
-    if (!(Platform.isIOS || Platform.isMacOS)) {
-      return;
-    }
+    _disposed = true;
     try {
-      await _engine.setSharedInstance(true);
-      await _engine.setIosAudioCategory(
-        IosTextToSpeechAudioCategory.ambient,
-        <IosTextToSpeechAudioCategoryOptions>[
-          IosTextToSpeechAudioCategoryOptions.allowBluetooth,
-          IosTextToSpeechAudioCategoryOptions.allowBluetoothA2DP,
-          IosTextToSpeechAudioCategoryOptions.mixWithOthers,
-        ],
-        IosTextToSpeechAudioMode.voicePrompt,
-      );
+      await _engine.dispose();
     } on Object {
-      // Fall back to the engine defaults.
-    }
-  }
-
-  Future<void> _applyRateIfNeeded(double userRate) async {
-    final double clamped = clampTtsRate(userRate);
-    if (_lastAppliedRate == clamped) {
       return;
     }
-    await _engine.setSpeechRate(engineSpeechRate(clamped));
-    _lastAppliedRate = clamped;
   }
 
-  Future<void> _applyLocaleIfNeeded(String? locale) async {
+  Future<SpeakOutcome> _say(
+    String text, {
+    required double rate,
+    required String? language,
+    required SpeakQueue queue,
+  }) async {
+    try {
+      return await _engine(text, rate: rate, language: language, queue: queue);
+    } on SpeakException catch (error) {
+      if (language == null || error.error != SpeakError.languageUnavailable) {
+        rethrow;
+      }
+      return _engine(text, rate: rate, queue: queue);
+    }
+  }
+
+  String? _normalizeLocale(String? locale) {
     final String? normalized = locale?.replaceAll('_', '-');
     if (normalized == null || normalized.isEmpty) {
-      return;
+      return null;
     }
-    if (_lastAppliedLocale == normalized) {
-      return;
-    }
-    try {
-      await _engine.setLanguage(normalized);
-      _lastAppliedLocale = normalized;
-    } on Object {
-      // Keep the previous locale.
-    }
+    return normalized;
+  }
+
+  bool _isInAppVoiceCallActive() {
+    return ChatAttachmentAudioSession.instance.isVoiceCallActive ||
+        FluxerVoiceAudioSession.instance.isActive;
   }
 
   void _setSpeaking(bool value) {
@@ -188,15 +169,18 @@ class FluxerTts {
     onSpeakingChanged?.call(isSpeaking: value, target: _currentTarget);
   }
 
-  void _completeSpeech({bool error = false}) {
-    final void Function()? onEnd = _onEnd;
-    final void Function()? onError = _onError;
-    _onEnd = null;
-    _onError = null;
-    _currentTarget = null;
-    _setSpeaking(false);
-    if (Platform.isIOS || Platform.isMacOS) {
-      unawaited(restorePreferredAppAudioSession());
+  void _completeSpeech(
+    int generation, {
+    required bool error,
+    void Function()? onEnd,
+    void Function()? onError,
+  }) {
+    if (generation == _generation) {
+      _currentTarget = null;
+      _setSpeaking(false);
+      if (Platform.isIOS || Platform.isMacOS) {
+        unawaited(Future<void>(restorePreferredAppAudioSession));
+      }
     }
     if (error) {
       onError?.call();
