@@ -45,7 +45,7 @@ Future<PermissionState> resolveAttachmentGalleryPermissionState({
   PermissionState state = await read(
     requestOption: _kAttachmentGalleryPermissionOption,
   );
-  if (state == PermissionState.notDetermined) {
+  if (!state.hasAccess) {
     state = await request(requestOption: _kAttachmentGalleryPermissionOption);
   }
   return state;
@@ -95,6 +95,8 @@ class AttachmentGalleryItem {
 
 abstract class AttachmentGallerySource {
   Future<AttachmentGalleryAccess> requestAccess();
+
+  Future<AttachmentGalleryAccess> readAccess();
 
   Future<List<AttachmentGalleryItem>> loadPage({
     required int page,
@@ -147,6 +149,14 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
   Future<AttachmentGalleryAccess> requestAccess() async {
     final PermissionState state =
         await resolveAttachmentGalleryPermissionState();
+    return attachmentGalleryAccessForState(state);
+  }
+
+  @override
+  Future<AttachmentGalleryAccess> readAccess() async {
+    final PermissionState state = await PhotoManager.getPermissionState(
+      requestOption: _kAttachmentGalleryPermissionOption,
+    );
     return attachmentGalleryAccessForState(state);
   }
 

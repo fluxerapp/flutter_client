@@ -219,6 +219,44 @@ void main() {
     await releaseTestWidgetTree(tester);
   });
 
+  testWidgets('returning with full access drops the limited banner', (
+    tester,
+  ) async {
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..access = AttachmentGalleryAccess.limited;
+    await _pumpGallery(tester, source);
+    expect(find.text('Manage'), findsOneWidget);
+
+    source.access = AttachmentGalleryAccess.granted;
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('Manage'), findsNothing);
+    expect(source.readCalls, greaterThan(0));
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('returning with access granted replaces the access prompt', (
+    tester,
+  ) async {
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..access = AttachmentGalleryAccess.denied;
+    await _pumpGallery(tester, source);
+    expect(find.text('Photo library access needed'), findsOneWidget);
+
+    source.access = AttachmentGalleryAccess.granted;
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('Photo library access needed'), findsNothing);
+    expect(find.byType(AttachmentGalleryGrid), findsOneWidget);
+    await releaseTestWidgetTree(tester);
+  });
+
   testWidgets('without photo access the camera is still offered', (
     tester,
   ) async {
@@ -295,6 +333,7 @@ class _FakeAttachmentGallerySource extends AttachmentGallerySource {
   String? resolvedName;
   AttachmentGalleryAccess access = AttachmentGalleryAccess.granted;
   int loadCalls = 0;
+  int readCalls = 0;
 
   void emitChange() {
     for (final VoidCallback listener in List<VoidCallback>.of(_listeners)) {
@@ -304,6 +343,12 @@ class _FakeAttachmentGallerySource extends AttachmentGallerySource {
 
   @override
   Future<AttachmentGalleryAccess> requestAccess() async {
+    return access;
+  }
+
+  @override
+  Future<AttachmentGalleryAccess> readAccess() async {
+    readCalls += 1;
     return access;
   }
 

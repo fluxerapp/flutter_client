@@ -248,6 +248,10 @@ class _ThumbnailGallerySource extends AttachmentGallerySource {
       AttachmentGalleryAccess.granted;
 
   @override
+  Future<AttachmentGalleryAccess> readAccess() async =>
+      AttachmentGalleryAccess.granted;
+
+  @override
   Future<List<AttachmentGalleryItem>> loadPage({
     required int page,
     required int pageSize,

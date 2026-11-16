@@ -64,6 +64,7 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
   int _page = 0;
   int _loadGeneration = 0;
   bool _galleryNeedsRefresh = false;
+  Future<AttachmentGalleryAccess?>? _accessRequest;
   Timer? _galleryRefreshDebounce;
   Future<void> _assetAdds = Future<void>.value();
   VoidCallback? _galleryChangeListener;
@@ -137,15 +138,10 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
   }
 
   void onAppResumed() {
-    if (state.access == AttachmentGalleryAccess.denied) {
-      unawaited(_bootstrap());
+    if (_accessRequest != null) {
       return;
     }
-    if (!isGalleryNearTop()) {
-      _galleryNeedsRefresh = true;
-      return;
-    }
-    unawaited(_loadMore(reset: true));
+    unawaited(_refreshAccess());
   }
 
   Future<Uint8List?> loadThumbnail(String id) {
@@ -155,25 +151,57 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     );
   }
 
-  Future<void> _bootstrap() async {
-    try {
-      final AttachmentGalleryAccess access = await _gallerySource
-          .requestAccess();
-      if (!ref.mounted) {
-        return;
-      }
-      if (!access.canBrowseGallery) {
-        state = state.copyWith(access: access, loading: false);
-        return;
-      }
-      state = state.copyWith(access: access);
-      await _loadMore(reset: true);
-    } on Object {
-      if (!ref.mounted) {
-        return;
-      }
-      state = state.copyWith(loading: false);
+  Future<AttachmentGalleryAccess?> _bootstrap() async {
+    final AttachmentGalleryAccess? access = await _requestAccess();
+    if (!ref.mounted) {
+      return null;
     }
+    if (access == null) {
+      state = state.copyWith(loading: false);
+      return null;
+    }
+    await _applyAccess(access);
+    return access;
+  }
+
+  Future<AttachmentGalleryAccess?> _requestAccess() {
+    return _accessRequest ??= _gallerySource
+        .requestAccess()
+        .then<AttachmentGalleryAccess?>(
+          (AttachmentGalleryAccess access) => access,
+          onError: (Object _) => null,
+        )
+        .whenComplete(() => _accessRequest = null);
+  }
+
+  Future<void> _refreshAccess() async {
+    final AttachmentGalleryAccess access;
+    try {
+      access = await _gallerySource.readAccess();
+    } on Object {
+      return;
+    }
+    if (!ref.mounted || _accessRequest != null) {
+      return;
+    }
+    await _applyAccess(access, deferReloadWhileScrolled: true);
+  }
+
+  Future<void> _applyAccess(
+    AttachmentGalleryAccess access, {
+    bool deferReloadWhileScrolled = false,
+  }) async {
+    final AttachmentGalleryAccess previous = state.access;
+    if (!access.canBrowseGallery) {
+      state = state.copyWith(access: access, loading: false);
+      return;
+    }
+    state = state.copyWith(access: access);
+    if (deferReloadWhileScrolled && previous == access && !isGalleryNearTop()) {
+      _galleryNeedsRefresh = true;
+      return;
+    }
+    await _loadMore(reset: true);
   }
 
   Future<void> _loadMore({bool reset = false}) async {
@@ -384,19 +412,14 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     if (!ref.mounted) {
       return;
     }
-    final AttachmentGalleryAccess access = await _gallerySource.requestAccess();
+    final AttachmentGalleryAccess access = await _gallerySource.readAccess();
     if (!ref.mounted) {
       return;
     }
-    if (!access.canBrowseGallery) {
-      state = state.copyWith(access: access, loading: false);
-      return;
-    }
-    state = state.copyWith(access: access);
-    await _loadMore(reset: true);
+    await _applyAccess(access);
   }
 
-  Future<void> reloadAfterPhotoAccessGranted() async {
-    await _bootstrap();
+  Future<AttachmentGalleryAccess?> requestAccessFromUser() {
+    return _bootstrap();
   }
 }

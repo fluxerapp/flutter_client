@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/gallery_attachment_se
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -143,18 +144,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   }
 
   Future<void> _onOpenPhotoSettings() async {
-    final bool allowed = await ensureSystemPermission(
-      context,
-      SystemPermissionKind.photos,
-    );
-    if (!context.mounted) {
+    final AttachmentGalleryAccess? access = await ref
+        .read(attachmentGalleryControllerProvider.notifier)
+        .requestAccessFromUser();
+    if (!mounted || access == null || access.canBrowseGallery) {
       return;
     }
-    if (allowed) {
-      await ref
-          .read(attachmentGalleryControllerProvider.notifier)
-          .reloadAfterPhotoAccessGranted();
-    }
+    await SystemPermissionSettingsPrompt.show(
+      context,
+      kind: SystemPermissionKind.photos,
+    );
   }
 
   @override
