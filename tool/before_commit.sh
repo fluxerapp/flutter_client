@@ -154,7 +154,7 @@ _step "Checking build profile" dart tool/configure_build.dart --check
 if ((${#dart_files[@]} == 0)); then
   if [[ "${BEFORE_COMMIT_ALL:-}" == 1 ]]; then
     _info "Scope: whole project"
-    _step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
+    # _step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
     _step "Applying dart fix (full project)" dart fix --apply
     _step "Formatting tracked Dart files" bash "${ROOT}/tool/format_dart.sh"
     _step "Analyzing project" run_analyze
@@ -178,7 +178,7 @@ if ((${#dart_files[@]} > 200)); then
   fix_label="Applying dart fix (full project; ${#dart_files[@]} files changed)"
 fi
 
-_step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
+# _step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
 _step "${fix_label}" apply_dart_fix
 _step "Formatting ${#dart_files[@]} Dart files" dart format "${dart_files[@]}"
 _step "Analyzing project" run_analyze
