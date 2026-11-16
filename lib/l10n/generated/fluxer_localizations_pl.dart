@@ -17612,6 +17612,15 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
+  }
+
+  @override
   String get desktopTrayOpenSettings => 'Open settings';
 
   @override

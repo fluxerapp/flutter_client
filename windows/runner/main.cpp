@@ -60,22 +60,6 @@ std::wstring ExecutablePath() {
   return std::wstring(exe_path, length);
 }
 
-std::wstring Utf8ToWide(const std::string& value) {
-  if (value.empty()) {
-    return std::wstring();
-  }
-  const int size = ::MultiByteToWideChar(CP_UTF8, 0, value.data(),
-                                         static_cast<int>(value.size()),
-                                         nullptr, 0);
-  if (size <= 0) {
-    return std::wstring();
-  }
-  std::wstring wide(size, L'\0');
-  ::MultiByteToWideChar(CP_UTF8, 0, value.data(),
-                        static_cast<int>(value.size()), wide.data(), size);
-  return wide;
-}
-
 std::string ReadXmlElement(const std::string& xml, const std::string& name) {
   const std::string open = "<" + name + ">";
   const std::string close = "</" + name + ">";

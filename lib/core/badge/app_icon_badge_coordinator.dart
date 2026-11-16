@@ -11,6 +11,8 @@ import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/push/notification/foreground_policy.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_icon_badge_coordinator.g.dart';
@@ -29,7 +31,7 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
         if (next == null || previous?.count == next.count) {
           return;
         }
-        unawaited(AppIconBadgeService.update(next.count));
+        _apply(next.count);
       })
       ..listen<String?>(currentUserIdProvider, (
         String? previous,
@@ -42,11 +44,18 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
           unawaited(AppIconBadgeService.clear());
         }
       });
+    if (Platform.isWindows) {
+      ref.listen<FluxerLocalizations>(appLocalizationsProvider, (_, _) {
+        if (ref.read(appIconBadgeProvider) case final AppIconBadgeValue badge) {
+          _apply(badge.count);
+        }
+      });
+    }
     if (ref.read(currentUserIdProvider) == null) {
       unawaited(AppIconBadgeService.clear());
     } else if (ref.read(appIconBadgeProvider)
         case final AppIconBadgeValue badge) {
-      unawaited(AppIconBadgeService.update(badge.count));
+      _apply(badge.count);
     }
     if (Platform.isAndroid) {
       unawaited(_pushSub?.cancel());
@@ -77,6 +86,19 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
     if (badgeCount == null) {
       return;
     }
-    unawaited(AppIconBadgeService.update(badgeCount));
+    _apply(badgeCount);
+  }
+
+  void _apply(int count) {
+    unawaited(
+      AppIconBadgeService.update(
+        count,
+        description: Platform.isWindows && count > 0
+            ? ref
+                  .read(appLocalizationsProvider)
+                  .desktopBadgeUnreadMessages(count)
+            : null,
+      ),
+    );
   }
 }

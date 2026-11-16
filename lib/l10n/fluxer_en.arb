@@ -20664,6 +20664,16 @@
       }
     }
   },
+  "desktopBadgeUnreadMessages": "Unread messages: {count}",
+  "@desktopBadgeUnreadMessages": {
+    "description": "Accessible description of the taskbar badge showing the number of unread mentions and pending friend requests.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
   "desktopTrayOpenSettings": "Open settings",
   "@desktopTrayOpenSettings": {
     "description": "Desktop tray/menu bar menu item that opens user settings."

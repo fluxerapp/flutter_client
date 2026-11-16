@@ -28581,6 +28581,12 @@ abstract class FluxerLocalizations {
   /// **'Hide {productName}'**
   String desktopTrayHide(String productName);
 
+  /// Accessible description of the taskbar badge showing the number of unread mentions and pending friend requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread messages: {count}'**
+  String desktopBadgeUnreadMessages(int count);
+
   /// Desktop tray/menu bar menu item that opens user settings.
   ///
   /// In en, this message translates to:
