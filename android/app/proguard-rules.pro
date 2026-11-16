@@ -4,12 +4,15 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 
+-repackageclasses
+
 -keep class com.hiennv.flutter_callkit_incoming.Data { *; }
 -keepclassmembers class * {
     @com.fasterxml.jackson.annotation.* *;
 }
 -keep,allowobfuscation,allowshrinking class * extends com.fasterxml.jackson.core.type.TypeReference
 -keepnames class com.fasterxml.jackson.** { *; }
+-keep class com.fasterxml.jackson.databind.ext.** { <init>(); }
 -dontwarn com.fasterxml.jackson.**
 
 -keepattributes *JavascriptInterface*
