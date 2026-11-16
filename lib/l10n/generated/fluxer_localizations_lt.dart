@@ -12837,6 +12837,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Kvietimai šioje bendruomenėje šiuo metu pristabdyti';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Kvietimai pristabdyti po įtariamo reido';
+
+  @override
   String get guildNavbarDurationNever => 'niekada';
 
   @override

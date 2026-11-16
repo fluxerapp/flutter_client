@@ -12188,6 +12188,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => 'このコミュニティでは現在、招待が一時停止されています';
 
   @override
+  String get guildNavbarInvitesPausedRaid => 'レイドの疑いがあるため、招待が一時停止されています';
+
+  @override
   String get guildNavbarDurationNever => '無期限';
 
   @override

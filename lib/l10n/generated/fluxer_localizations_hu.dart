@@ -12829,6 +12829,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A meghívók jelenleg szünetelnek ebben a közösségben';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Meghívók szüneteltetve feltételezett összehangolt támadás után';
+
+  @override
   String get guildNavbarDurationNever => 'soha';
 
   @override

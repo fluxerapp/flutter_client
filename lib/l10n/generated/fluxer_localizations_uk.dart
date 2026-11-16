@@ -12837,6 +12837,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Запрошення в цій спільноті наразі призупинено';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Запрошення призупинено через підозру на рейд';
+
+  @override
   String get guildNavbarDurationNever => 'ніколи';
 
   @override

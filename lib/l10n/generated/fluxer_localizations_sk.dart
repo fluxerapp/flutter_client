@@ -12637,6 +12637,10 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
       'Invites are currently paused in this community';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Invites are paused after a suspected raid';
+
+  @override
   String get guildNavbarDurationNever => 'never';
 
   @override

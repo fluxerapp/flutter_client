@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "레이드가 의심되어 초대가 일시 중지되었습니다",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "안 함",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

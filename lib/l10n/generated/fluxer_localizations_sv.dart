@@ -12741,6 +12741,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Inbjudningar är för närvarande pausade i den här communityn';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Inbjudningar är pausade efter en misstänkt räd';
+
+  @override
   String get guildNavbarDurationNever => 'aldrig';
 
   @override

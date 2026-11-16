@@ -12630,6 +12630,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تم إيقاف الدعوات مؤقتًا في هذا المجتمع';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'تم إيقاف الدعوات مؤقتًا بعد اشتباه في هجوم';
+
+  @override
   String get guildNavbarDurationNever => 'أبدًا';
 
   @override

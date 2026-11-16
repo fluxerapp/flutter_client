@@ -12731,6 +12731,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Kutsut on tällä hetkellä keskeytetty tässä yhteisössä';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Kutsut on keskeytetty epäillyn hyökkäyksen jälkeen';
+
+  @override
   String get guildNavbarDurationNever => 'ei koskaan';
 
   @override

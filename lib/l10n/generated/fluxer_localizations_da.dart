@@ -12721,6 +12721,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Invitationer er midlertidigt sat på pause i dette fællesskab';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Invitationer er sat på pause efter et formodet raid';
+
+  @override
   String get guildNavbarDurationNever => 'aldrig';
 
   @override

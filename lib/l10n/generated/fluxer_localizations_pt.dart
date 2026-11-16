@@ -12799,6 +12799,10 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Convites estão atualmente pausados nesta comunidade';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Convites pausados após um possível ataque';
+
+  @override
   String get guildNavbarDurationNever => 'nunca';
 
   @override
@@ -30138,6 +30142,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get guildNavbarInvitesPaused =>
       'Os convites estão pausados nesta comunidade';
+
+  @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Convites pausados após um possível ataque';
 
   @override
   String get guildNavbarDurationNever => 'nunca';

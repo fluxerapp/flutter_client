@@ -12887,6 +12887,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Οι προσκλήσεις έχουν τεθεί σε παύση σε αυτήν την κοινότητα';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Οι προσκλήσεις έχουν τεθεί σε παύση μετά από μια ύποπτη επιδρομή';
+
+  @override
   String get guildNavbarDurationNever => 'ποτέ';
 
   @override

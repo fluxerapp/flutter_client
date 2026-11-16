@@ -12758,6 +12758,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Pozivnice su trenutačno pauzirane u ovoj zajednici';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Pozivnice su pauzirane nakon sumnje na napad';
+
+  @override
   String get guildNavbarDurationNever => 'nikad';
 
   @override

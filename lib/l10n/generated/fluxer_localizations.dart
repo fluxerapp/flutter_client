@@ -20902,6 +20902,12 @@ abstract class FluxerLocalizations {
   /// **'Invites are currently paused in this community'**
   String get guildNavbarInvitesPaused;
 
+  /// Guild tooltip when invites are paused after a suspected raid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are paused after a suspected raid'**
+  String get guildNavbarInvitesPausedRaid;
+
   /// Invite expiry duration label for no expiry.
   ///
   /// In en, this message translates to:

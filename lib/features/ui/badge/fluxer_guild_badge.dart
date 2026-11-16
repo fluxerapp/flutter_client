@@ -6,11 +6,10 @@ import 'package:fluxer_app/core/instance/instance_guild_badges_provider.dart';
 import 'package:fluxer_app/core/premium/external_purchase_links_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_guild_seal_icon.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
-import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
 
 enum FluxerGuildBadgeKind { partnered, verified, discoverable }
@@ -19,10 +18,6 @@ const String _verifiedFeature = 'VERIFIED';
 const String _partneredFeature = 'PARTNERED';
 const String _discoverableFeature = 'DISCOVERABLE';
 const double _defaultBadgeSize = 20;
-const String _discoverableDarkAsset =
-    'assets/images/icons/discoverable-dark.png';
-const String _discoverableLightAsset =
-    'assets/images/icons/discoverable-light.png';
 
 class FluxerGuildBadge extends ConsumerWidget {
   final List<String> features;
@@ -30,8 +25,8 @@ class FluxerGuildBadge extends ConsumerWidget {
   final int? customBadgeLimit;
   final double size;
   final List<Shadow>? shadows;
-  final Color? color;
   final Brightness? forceBrightness;
+  final bool onLightSurface;
 
   const FluxerGuildBadge({
     required this.features,
@@ -39,8 +34,8 @@ class FluxerGuildBadge extends ConsumerWidget {
     this.customBadgeLimit,
     this.size = _defaultBadgeSize,
     this.shadows,
-    this.color,
     this.forceBrightness,
+    this.onLightSurface = false,
     super.key,
   });
 
@@ -60,8 +55,8 @@ class FluxerGuildBadge extends ConsumerWidget {
             kind: kind,
             size: size,
             shadows: shadows,
-            color: color,
             forceBrightness: forceBrightness,
+            onLightSurface: onLightSurface,
           );
 
     if (builtIn == null && customBadges.isEmpty) {
@@ -99,71 +94,39 @@ class _BuiltInGuildBadge extends StatelessWidget {
     required this.kind,
     required this.size,
     this.shadows,
-    this.color,
     this.forceBrightness,
+    this.onLightSurface = false,
   });
 
   final FluxerGuildBadgeKind kind;
   final double size;
   final List<Shadow>? shadows;
-  final Color? color;
   final Brightness? forceBrightness;
+  final bool onLightSurface;
 
   @override
   Widget build(BuildContext context) {
     final bool isDark =
         (forceBrightness ?? Theme.of(context).brightness) == Brightness.dark;
-    return switch (kind) {
-      FluxerGuildBadgeKind.partnered => _withShadows(
-        SizedBox.square(
-          dimension: size,
-          child: Center(
-            child: FluxerBrandLogo(
-              size: size * 0.8,
-              backgroundColor: isDark
-                  ? Colors.white
-                  : context.colors.brandPrimary,
-              symbolColor: isDark ? context.colors.brandPrimary : Colors.white,
-            ),
-          ),
-        ),
-      ),
-      FluxerGuildBadgeKind.verified => Icon(
-        PhosphorIconsFill.checkCircle,
-        color: color ?? context.colors.textChat,
-        size: size,
-        shadows: shadows,
-      ),
-      FluxerGuildBadgeKind.discoverable => _buildImageBadge(
-        isDark ? _discoverableDarkAsset : _discoverableLightAsset,
-      ),
-    };
-  }
-
-  Widget _buildImageBadge(String asset) => _withShadows(
-    Image.asset(asset, width: size, height: size, fit: BoxFit.contain),
-  );
-
-  Widget _withShadows(Widget badge) {
-    final List<Shadow> current = shadows ?? const <Shadow>[];
-    if (current.isEmpty) {
-      return badge;
-    }
-    return DecoratedBox(
-      decoration: BoxDecoration(boxShadow: _toBoxShadows(current)),
-      child: badge,
+    final bool invert = onLightSurface && !isDark;
+    final Color sealColor = invert
+        ? context.colors.brandPrimary
+        : context.colors.brandPrimaryFill;
+    final Color iconColor = invert
+        ? context.colors.brandPrimaryFill
+        : context.colors.brandPrimary;
+    return FluxerGuildSealIcon(
+      kind: switch (kind) {
+        FluxerGuildBadgeKind.partnered => FluxerGuildSealKind.partnered,
+        FluxerGuildBadgeKind.verified => FluxerGuildSealKind.verified,
+        FluxerGuildBadgeKind.discoverable => FluxerGuildSealKind.discoverable,
+      },
+      sealColor: sealColor,
+      iconColor: iconColor,
+      size: size,
+      shadows: shadows,
     );
   }
-
-  List<BoxShadow> _toBoxShadows(List<Shadow> source) => source
-      .map(
-        (s) => BoxShadow(
-          color: s.color,
-          offset: s.offset,
-          blurRadius: s.blurRadius,
-        ),
-      )
-      .toList(growable: false);
 }
 
 class _CustomGuildBadge extends ConsumerWidget {

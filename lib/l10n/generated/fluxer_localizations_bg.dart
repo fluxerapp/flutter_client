@@ -12849,6 +12849,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Поканите са временно на пауза в тази общност';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Поканите са на пауза след предполагаема атака';
+
+  @override
   String get guildNavbarDurationNever => 'никога';
 
   @override

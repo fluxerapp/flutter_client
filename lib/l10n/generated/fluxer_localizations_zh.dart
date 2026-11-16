@@ -11929,6 +11929,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => '此社区的邀请目前已暂停';
 
   @override
+  String get guildNavbarInvitesPausedRaid => '检测到疑似突袭，邀请已暂停';
+
+  @override
   String get guildNavbarDurationNever => '永不';
 
   @override
@@ -28032,6 +28035,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildNavbarInvitesPaused => '此社群目前暫停邀請';
+
+  @override
+  String get guildNavbarInvitesPausedRaid => '因疑似突襲，邀請已暫停';
 
   @override
   String get guildNavbarDurationNever => '永不';

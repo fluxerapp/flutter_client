@@ -12526,6 +12526,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => 'ההזמנות מושהות כרגע בקהילה זו';
 
   @override
+  String get guildNavbarInvitesPausedRaid => 'ההזמנות מושהות לאחר חשד לפשיטה';
+
+  @override
   String get guildNavbarDurationNever => 'לעולם לא';
 
   @override

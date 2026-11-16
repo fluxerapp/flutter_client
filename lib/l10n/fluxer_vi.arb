@@ -12642,6 +12642,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Đã tạm dừng lời mời sau khi nghi ngờ có cuộc tấn công",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "không bao giờ",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

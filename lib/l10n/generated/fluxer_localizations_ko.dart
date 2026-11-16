@@ -12172,6 +12172,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => '이 커뮤니티에서는 현재 초대가 일시 중지되었습니다';
 
   @override
+  String get guildNavbarInvitesPausedRaid => '레이드가 의심되어 초대가 일시 중지되었습니다';
+
+  @override
   String get guildNavbarDurationNever => '안 함';
 
   @override

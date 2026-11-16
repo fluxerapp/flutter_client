@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Meghívók szüneteltetve feltételezett összehangolt támadás után",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "soha",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

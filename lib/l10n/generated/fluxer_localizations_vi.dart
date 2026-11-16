@@ -12714,6 +12714,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Lời mời hiện đang bị tạm dừng trong cộng đồng này';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Đã tạm dừng lời mời sau khi nghi ngờ có cuộc tấn công';
+
+  @override
   String get guildNavbarDurationNever => 'không bao giờ';
 
   @override

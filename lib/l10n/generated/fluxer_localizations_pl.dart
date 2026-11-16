@@ -12841,6 +12841,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Zaproszenia są obecnie wstrzymane w tej społeczności';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Zaproszenia wstrzymane z powodu podejrzenia nalotu';
+
+  @override
   String get guildNavbarDurationNever => 'nigdy';
 
   @override

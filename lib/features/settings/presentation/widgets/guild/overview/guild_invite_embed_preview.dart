@@ -89,7 +89,10 @@ class GuildInviteEmbedPreview extends StatelessWidget {
                               padding: const EdgeInsetsDirectional.only(
                                 start: 4,
                               ),
-                              child: FluxerGuildBadge(features: features),
+                              child: FluxerGuildBadge(
+                                features: features,
+                                onLightSurface: true,
+                              ),
                             ),
                           ],
                         ),

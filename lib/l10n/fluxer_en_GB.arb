@@ -6760,6 +6760,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Invites are paused after a suspected raid",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "never",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

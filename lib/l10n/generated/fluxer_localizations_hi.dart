@@ -12685,6 +12685,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इस कम्युनिटी में इनवाइट अभी रोके गए हैं';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'संदिग्ध रेड के बाद इनवाइट रोक दिए गए हैं';
+
+  @override
   String get guildNavbarDurationNever => 'कभी नहीं';
 
   @override

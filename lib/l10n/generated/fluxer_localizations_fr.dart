@@ -12918,6 +12918,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Les invitations sont actuellement suspendues dans cette communauté';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Les invitations sont suspendues suite à un possible raid';
+
+  @override
   String get guildNavbarDurationNever => 'jamais';
 
   @override

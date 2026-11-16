@@ -246,7 +246,48 @@ class _TooltipLabel extends StatelessWidget {
   }
 }
 
-class _GuildTooltipContent extends ConsumerWidget {
+const Duration _kGuildCountsFreshTtl = Duration(minutes: 1);
+final Map<String, DateTime> _guildCountsRequestedAt = <String, DateTime>{};
+
+void _requestGuildCountsIfStale(WidgetRef ref, String guildId) {
+  final DateTime now = DateTime.now();
+  final DateTime? last = _guildCountsRequestedAt[guildId];
+  if (last != null && now.difference(last) < _kGuildCountsFreshTtl) {
+    return;
+  }
+  _guildCountsRequestedAt[guildId] = now;
+  try {
+    ref.read(gatewayConnectionProvider).requestGuildCounts(<String>[guildId]);
+  } on Object {
+    _guildCountsRequestedAt.remove(guildId);
+  }
+}
+
+KeybindAction? _guildNavigationKeybindAction(
+  int guildIndex,
+  int selectedIndex,
+) {
+  if (guildIndex < 0 || selectedIndex < 0) {
+    return null;
+  }
+  if (guildIndex < selectedIndex) {
+    return KeybindAction.navGuildPrev;
+  }
+  if (guildIndex > selectedIndex) {
+    return KeybindAction.navGuildNext;
+  }
+  return null;
+}
+
+final Map<KeybindAction, List<String>> _guildNavigationKeybindChips =
+    <KeybindAction, List<String>>{
+      for (final DefaultKeybind keybind in buildDefaultKeybinds())
+        if (keybind.action == KeybindAction.navGuildPrev ||
+            keybind.action == KeybindAction.navGuildNext)
+          keybind.action: formatKeybindComboChips(keybind.combo),
+    };
+
+class _GuildTooltipContent extends ConsumerStatefulWidget {
   final Guild guild;
   final int unavailableCount;
   final int permissions;
@@ -261,12 +302,32 @@ class _GuildTooltipContent extends ConsumerWidget {
     this.muteEndTime,
   });
 
+  @override
+  ConsumerState<_GuildTooltipContent> createState() =>
+      _GuildTooltipContentState();
+}
+
+class _GuildTooltipContentState extends ConsumerState<_GuildTooltipContent> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.guild.unavailable) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _requestGuildCountsIfStale(ref, widget.guild.id);
+      }
+    });
+  }
+
   String _mutedText(FluxerLocalizations l10n, {required bool use12Hour}) {
+    final DateTime? muteEndTime = widget.muteEndTime;
     if (muteEndTime == null) {
       return l10n.voiceParticipantTooltipMuted;
     }
     final String formattedDate = formatUserDateTime(
-      muteEndTime!.toLocal(),
+      muteEndTime.toLocal(),
       l10n.localeName,
       use12Hour: use12Hour,
     );
@@ -274,8 +335,10 @@ class _GuildTooltipContent extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final Guild guild = widget.guild;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Color mutedColor = context.colors.textPrimaryMuted;
     final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
     final voiceRows =
         ref.watch(guildVoiceParticipantsProvider(guild.id)).value ??
@@ -284,99 +347,226 @@ class _GuildTooltipContent extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: guild.unavailable
           ? Text(
-              l10n.guildUnavailableOutageTooltip(unavailableCount),
+              l10n.guildUnavailableOutageTooltip(widget.unavailableCount),
               textAlign: TextAlign.center,
               style: context.textStyles.label,
             )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (guild.isPartnered || guild.isVerified) ...[
-                      _GuildBadge(isPartnered: guild.isPartnered),
-                      const SizedBox(width: 6),
+          : ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: 220),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (guild.isPartnered ||
+                          guild.isVerified ||
+                          guild.features.contains('DISCOVERABLE') ||
+                          guild.badgeIds.isNotEmpty) ...[
+                        FluxerGuildBadge(
+                          features: guild.features,
+                          badgeIds: guild.badgeIds,
+                          customBadgeLimit: 2,
+                          onLightSurface: true,
+                        ),
+                        const SizedBox(width: 6),
+                      ],
+                      Flexible(
+                        child: Text(
+                          guild.name,
+                          style: context.textStyles.channelName,
+                        ),
+                      ),
                     ],
-                    Flexible(
-                      child: Text(
-                        guild.name,
-                        style: context.textStyles.channelName,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                  ),
+                  if (guild.features.contains(
+                    'UNAVAILABLE_FOR_EVERYONE_BUT_STAFF',
+                  )) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      l10n.guildNavbarStaffOnlyAccessible(
+                        ref.watch(
+                          instanceRuntimeConfigProvider.select(
+                            (config) => config.productName,
+                          ),
+                        ),
+                      ),
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: context.colors.statusDanger,
                       ),
                     ),
                   ],
-                ),
-                if (guild.features.contains(
-                  'UNAVAILABLE_FOR_EVERYONE_BUT_STAFF',
-                )) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    l10n.guildNavbarStaffOnlyAccessible(
-                      ref.watch(
-                        instanceRuntimeConfigProvider.select(
-                          (config) => config.productName,
+                  if (hasPermission(
+                        widget.permissions,
+                        Permission.manageGuild,
+                      ) &&
+                      guild.features.contains('INVITES_DISABLED')) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      guild.features.contains('RAID_DETECTED')
+                          ? l10n.guildNavbarInvitesPausedRaid
+                          : l10n.guildNavbarInvitesPaused,
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: mutedColor,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                  if (widget.isMuted) ...[
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsFill.bellSlash,
+                          color: mutedColor,
+                          size: 14,
                         ),
-                      ),
-                    ),
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.statusDanger,
-                    ),
-                  ),
-                ],
-                if (hasPermission(permissions, Permission.manageGuild) &&
-                    guild.features.contains('INVITES_DISABLED')) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    l10n.guildNavbarInvitesPaused,
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textSecondary,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-                if (isMuted) ...[
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PhosphorIcon(
-                        PhosphorIconsFill.bellSlash,
-                        color: context.colors.textSecondary,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        _mutedText(l10n, use12Hour: use12Hour),
-                        style: context.textStyles.bodySmall.copyWith(
-                          color: context.colors.textSecondary,
-                          fontSize: 13,
+                        const SizedBox(width: 6),
+                        Text(
+                          _mutedText(l10n, use12Hour: use12Hour),
+                          style: context.textStyles.bodySmall.copyWith(
+                            color: mutedColor,
+                            fontSize: 13,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: 8),
+                  _GuildTooltipStats(guild: guild),
+                  for (final row in voiceRows) ...[
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PhosphorIcon(
+                          row.isScreenshare
+                              ? PhosphorIconsFill.monitorPlay
+                              : PhosphorIconsRegular.speakerHigh,
+                          color: mutedColor,
+                          size: 28,
+                        ),
+                        const SizedBox(width: 6),
+                        _AvatarStack(avatarUrls: row.avatarUrls),
+                      ],
+                    ),
+                  ],
+                  _GuildTooltipKeybindHint(guildId: guild.id),
                 ],
-                for (final row in voiceRows) ...[
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PhosphorIcon(
-                        row.isScreenshare
-                            ? PhosphorIconsFill.monitor
-                            : PhosphorIconsFill.speakerHigh,
-                        color: context.colors.textSecondary,
-                        size: 28,
-                      ),
-                      const SizedBox(width: 6),
-                      _AvatarStack(avatarUrls: row.avatarUrls),
-                    ],
-                  ),
-                ],
-              ],
+              ),
             ),
+    );
+  }
+}
+
+class _GuildTooltipStats extends ConsumerWidget {
+  final Guild guild;
+
+  const _GuildTooltipStats({required this.guild});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ({int online, int members}) counts = ref.watch(
+      guildListViewModelProvider.select((GuildListViewState state) {
+        final Guild current =
+            state.guilds.where((Guild g) => g.id == guild.id).firstOrNull ??
+            guild;
+        return (online: current.onlineCount, members: current.memberCount);
+      }),
+    );
+    final String onlineCount = NumberFormat.decimalPattern(
+      l10n.localeName,
+    ).format(counts.online);
+    final TextStyle textStyle = context.textStyles.bodySmall.copyWith(
+      color: context.colors.textPrimaryMuted,
+      fontSize: 13,
+      height: 1.2,
+      fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    );
+    return Wrap(
+      spacing: 10,
+      runSpacing: 4,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        _GuildTooltipStat(
+          dotColor: context.colors.statusOnline,
+          label: l10n.discoveryOnlineCount(onlineCount),
+          style: textStyle,
+        ),
+        _GuildTooltipStat(
+          dotColor: context.colors.textTertiarySecondary,
+          label: l10n.discoveryMemberCount(counts.members),
+          style: textStyle,
+        ),
+      ],
+    );
+  }
+}
+
+class _GuildTooltipStat extends StatelessWidget {
+  final Color dotColor;
+  final String label;
+  final TextStyle style;
+
+  const _GuildTooltipStat({
+    required this.dotColor,
+    required this.label,
+    required this.style,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 5),
+        Text(label, style: style, maxLines: 1, softWrap: false),
+      ],
+    );
+  }
+}
+
+class _GuildTooltipKeybindHint extends ConsumerWidget {
+  final String guildId;
+
+  const _GuildTooltipKeybindHint({required this.guildId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? activeGuildId = ref.watch(activeGuildIdProvider);
+    final ({int guildIndex, int selectedIndex}) indexes = ref.watch(
+      guildListViewModelProvider.select((GuildListViewState state) {
+        final List<Guild> guilds = state.guilds;
+        return (
+          guildIndex: guilds.indexWhere((Guild g) => g.id == guildId),
+          selectedIndex: activeGuildId == null
+              ? -1
+              : guilds.indexWhere((Guild g) => g.id == activeGuildId),
+        );
+      }),
+    );
+    final KeybindAction? action = _guildNavigationKeybindAction(
+      indexes.guildIndex,
+      indexes.selectedIndex,
+    );
+    if (action == null) {
+      return const SizedBox.shrink();
+    }
+    final List<String> keys = _guildNavigationKeybindChips[action] ?? const [];
+    if (keys.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: FluxerKeybindHint(keys: keys),
     );
   }
 }

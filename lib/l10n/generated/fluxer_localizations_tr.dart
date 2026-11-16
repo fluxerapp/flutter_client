@@ -12711,6 +12711,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu toplulukta davetler şu anda duraklatıldı';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Davetler şüpheli bir baskından sonra duraklatıldı';
+
+  @override
   String get guildNavbarDurationNever => 'asla';
 
   @override

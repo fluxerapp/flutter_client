@@ -12602,6 +12602,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => 'ขณะนี้ปิดรับคำเชิญในคอมมูนิตี้นี้';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'ระงับคำเชิญชั่วคราวหลังจากการโจมตีที่น่าสงสัย';
+
+  @override
   String get guildNavbarDurationNever => 'ไม่หมดอายุ';
 
   @override

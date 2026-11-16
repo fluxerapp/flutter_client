@@ -12706,6 +12706,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Undangan saat ini dijeda di komunitas ini';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Undangan dijeda setelah dugaan serangan';
+
+  @override
   String get guildNavbarDurationNever => 'tidak pernah';
 
   @override

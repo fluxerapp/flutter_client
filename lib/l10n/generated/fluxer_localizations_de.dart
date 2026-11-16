@@ -12863,6 +12863,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Einladungen sind in dieser Community derzeit pausiert';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Einladungen sind nach einem vermuteten Raid pausiert';
+
+  @override
   String get guildNavbarDurationNever => 'nie';
 
   @override

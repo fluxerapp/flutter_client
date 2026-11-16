@@ -12766,6 +12766,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Pozvánky jsou v této komunitě momentálně pozastaveny';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Pozvánky jsou pozastaveny po podezření na nájezd';
+
+  @override
   String get guildNavbarDurationNever => 'nikdy';
 
   @override

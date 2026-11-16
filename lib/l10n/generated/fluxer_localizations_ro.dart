@@ -12821,6 +12821,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Invitațiile sunt momentan întrerupte în această comunitate';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Invitațiile sunt întrerupte după un posibil raid';
+
+  @override
   String get guildNavbarDurationNever => 'niciodată';
 
   @override

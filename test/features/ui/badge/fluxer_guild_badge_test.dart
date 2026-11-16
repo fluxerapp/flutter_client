@@ -5,9 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_guild_seal_icon.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 Widget _app(List<String> features) {
   final colorTheme = buildDarkColorTheme();
@@ -26,18 +25,34 @@ Widget _app(List<String> features) {
 }
 
 void main() {
-  testWidgets('partnered communities show the Fluxer mark', (tester) async {
+  testWidgets('partnered communities show the partnered seal', (tester) async {
     await tester.pumpWidget(_app(const <String>['PARTNERED', 'VERIFIED']));
 
-    expect(find.byType(FluxerBrandLogo), findsOneWidget);
+    final FluxerGuildSealIcon seal = tester.widget<FluxerGuildSealIcon>(
+      find.byType(FluxerGuildSealIcon),
+    );
+    expect(seal.kind, FluxerGuildSealKind.partnered);
     expect(find.byType(Image), findsNothing);
   });
 
-  testWidgets('verified communities show a check in a circle', (tester) async {
+  testWidgets('verified communities show the verified seal', (tester) async {
     await tester.pumpWidget(_app(const <String>['VERIFIED']));
 
-    final Icon icon = tester.widget<Icon>(find.byType(Icon));
-    expect(icon.icon, PhosphorIconsFill.checkCircle);
-    expect(find.byType(FluxerBrandLogo), findsNothing);
+    final FluxerGuildSealIcon seal = tester.widget<FluxerGuildSealIcon>(
+      find.byType(FluxerGuildSealIcon),
+    );
+    expect(seal.kind, FluxerGuildSealKind.verified);
+  });
+
+  testWidgets('discoverable communities show the discoverable seal', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_app(const <String>['DISCOVERABLE']));
+
+    final FluxerGuildSealIcon seal = tester.widget<FluxerGuildSealIcon>(
+      find.byType(FluxerGuildSealIcon),
+    );
+    expect(seal.kind, FluxerGuildSealKind.discoverable);
+    expect(find.byType(Image), findsNothing);
   });
 }

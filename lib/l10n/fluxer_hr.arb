@@ -12642,6 +12642,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Pozivnice su pauzirane nakon sumnje na napad",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "nikad",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

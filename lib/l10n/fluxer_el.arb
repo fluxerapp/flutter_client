@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Οι προσκλήσεις έχουν τεθεί σε παύση μετά από μια ύποπτη επιδρομή",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "ποτέ",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."

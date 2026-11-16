@@ -12842,6 +12842,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Приглашения в это сообщество сейчас приостановлены';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Приглашения приостановлены из-за подозрения на рейд';
+
+  @override
   String get guildNavbarDurationNever => 'никогда';
 
   @override
