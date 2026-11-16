@@ -28557,6 +28557,12 @@ abstract class FluxerLocalizations {
   /// **'Updating…'**
   String get oxygenUpdating;
 
+  /// Tooltip and accessible label on the channel header updater icon in the desktop app while an update is downloading and its progress is known. percent is a whole number from 0 to 100. The app restarts by itself when it is done.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating… {percent}%'**
+  String oxygenUpdatingProgress(int percent);
+
   /// Desktop tray/menu bar menu item that shows the hidden app window.
   ///
   /// In en, this message translates to:
