@@ -12,6 +12,7 @@ WellKnownFluxerResponse wellKnownFixture({
   String? tagStyle,
   bool? discoveryEnabled,
   bool? proxyAttachmentsThroughApi,
+  List<Map<String, dynamic>>? connectionProviders,
 }) {
   return parseWellKnownFluxer(<String, dynamic>{
     'api_code_version': 1,
@@ -56,6 +57,7 @@ WellKnownFluxerResponse wellKnownFixture({
       'gif_enabled': true,
       'youtube_enabled': true,
       'bluesky_enabled': true,
+      'connection_providers': ?connectionProviders,
     },
     'gif': <String, dynamic>{
       'provider': 'klipy',

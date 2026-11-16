@@ -7784,6 +7784,42 @@ abstract class FluxerLocalizations {
   /// **'Enter a domain.'**
   String get connectionEnterDomain;
 
+  /// Empty-state description when the instance offers account connections besides domains.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your accounts or verify domain ownership to display them on your profile.'**
+  String get connectionsEmptyDescriptionAccounts;
+
+  /// Semantic label for an instance connection provider's add-connection tile. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {providerName} connection'**
+  String connectionsAddProviderAriaLabel(String providerName);
+
+  /// Button label for starting an external account connection. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with {providerName}'**
+  String connectionConnectWithProvider(String providerName);
+
+  /// Explains the browser sign-in step for an instance connection provider. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'{providerName} opens in your browser. Sign in there to connect your account.'**
+  String connectionProviderInstructions(String providerName);
+
+  /// Error shown when starting the sign-in flow for a connection provider fails. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t start {providerName} authorization.'**
+  String connectionProviderAuthorizeFailed(String providerName);
+
+  /// Label for a linked account whose provider this instance removed or turned off. The account is hidden from the profile.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer available'**
+  String get connectionUnavailable;
+
   /// Section title for theme selection.
   ///
   /// In en, this message translates to:

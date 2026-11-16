@@ -2,6 +2,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/well_known_fixture.dart';
 
@@ -198,6 +199,80 @@ void main() {
       );
       expect(config.usernameSignIn, isFalse);
       expect(config.uniqueUsernames, isFalse);
+    });
+  });
+
+  group('connection providers', () {
+    InstanceRuntimeConfig configWith(List<Map<String, dynamic>>? providers) =>
+        InstanceRuntimeConfig.fromWellKnown(
+          wellKnownFixture(
+            media: 'https://chat.example/media',
+            staticCdn: 'https://chat.example/static',
+            connectionProviders: providers,
+          ),
+        );
+
+    test('reads an older server without providers as none', () {
+      expect(configWith(null).connectionProviders, isEmpty);
+    });
+
+    test('finds oauth connections by provider id', () {
+      final InstanceRuntimeConfig config = configWith(<Map<String, dynamic>>[
+        <String, dynamic>{
+          'id': 'github',
+          'name': 'GitHub',
+          'icon_url': 'https://chat.example/media/github.png',
+        },
+        <String, dynamic>{
+          'id': 'keycloak',
+          'name': 'Keycloak',
+          'icon_url': null,
+        },
+      ]);
+      expect(config.connectionProviders.map((p) => p.id), <String>[
+        'github',
+        'keycloak',
+      ]);
+      expect(
+        config.connectionProviderFor(ConnectionType.oauth, 'keycloak')?.name,
+        'Keycloak',
+      );
+      expect(
+        config.connectionProviderFor(ConnectionType.domain, 'github'),
+        isNull,
+      );
+      expect(
+        config.isConnectionUnavailable(ConnectionType.oauth, 'github'),
+        isFalse,
+      );
+      expect(
+        config.isConnectionUnavailable(ConnectionType.oauth, 'gitlab'),
+        isTrue,
+      );
+      expect(
+        config.isConnectionUnavailable(ConnectionType.oauth, null),
+        isTrue,
+      );
+      expect(
+        config.isConnectionUnavailable(ConnectionType.bluesky, null),
+        isFalse,
+      );
+    });
+
+    test('compares providers by value', () {
+      List<Map<String, dynamic>> providers(String name) =>
+          <Map<String, dynamic>>[
+            <String, dynamic>{'id': 'sso', 'name': name, 'icon_url': null},
+          ];
+      expect(configWith(providers('SSO')), configWith(providers('SSO')));
+      expect(
+        configWith(providers('SSO')).hashCode,
+        configWith(providers('SSO')).hashCode,
+      );
+      expect(
+        configWith(providers('SSO')),
+        isNot(configWith(providers('Other'))),
+      );
     });
   });
 }

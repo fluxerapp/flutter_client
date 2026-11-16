@@ -30,15 +30,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum _AddStep { initiate, verify }
 
-enum _ConnectionType { bluesky, domain }
+typedef _ConnectionChoice = ({ConnectionType type, String? providerId});
 
-extension _ConnectionTypeApi on _ConnectionType {
-  String get apiValue => sdkType.toJson();
+const _ConnectionChoice _blueskyChoice = (
+  type: ConnectionType.bluesky,
+  providerId: null,
+);
+const _ConnectionChoice _domainChoice = (
+  type: ConnectionType.domain,
+  providerId: null,
+);
 
-  ConnectionType get sdkType => this == _ConnectionType.bluesky
-      ? ConnectionType.bluesky
-      : ConnectionType.domain;
-}
+_ConnectionChoice _providerChoice(String providerId) =>
+    (type: ConnectionType.oauth, providerId: providerId);
 
 class ConnectionAddSheet {
   const ConnectionAddSheet._();
@@ -46,43 +50,63 @@ class ConnectionAddSheet {
   static Future<void> _show(
     BuildContext context,
     WidgetRef ref, {
-    _ConnectionType? defaultType,
+    _ConnectionChoice? defaultChoice,
   }) {
     final l10n = FluxerLocalizations.of(context);
+    final config = ref.read(instanceRuntimeConfigProvider);
     final blueskyEnabled =
-        AppBuildConfig.isBlueskyEnabled &&
-        ref.read(instanceRuntimeConfigProvider).blueskyEnabled;
-    final initialType =
-        defaultType ??
-        (blueskyEnabled ? _ConnectionType.bluesky : _ConnectionType.domain);
+        AppBuildConfig.isBlueskyEnabled && config.blueskyEnabled;
+    final providers = config.connectionProviders;
+    final _ConnectionChoice fallback = blueskyEnabled
+        ? _blueskyChoice
+        : providers.isNotEmpty
+        ? _providerChoice(providers.first.id)
+        : _domainChoice;
+    final bool defaultAvailable = switch (defaultChoice?.type) {
+      null => false,
+      ConnectionType.bluesky => blueskyEnabled,
+      ConnectionType.oauth => providers.any(
+        (provider) => provider.id == defaultChoice!.providerId,
+      ),
+      _ => true,
+    };
     return FluxerBottomSheet.show<void>(
       context,
       title: l10n.connectionAddTitle,
       useRootNavigator: true,
       builder: (sheetContext, close) => _ConnectionAddBody(
-        initialType: initialType,
+        initialChoice: defaultAvailable ? defaultChoice! : fallback,
         blueskyEnabled: blueskyEnabled,
+        providers: providers,
         close: close,
       ),
     );
   }
 
   static Future<void> showForBluesky(BuildContext context, WidgetRef ref) =>
-      _show(context, ref, defaultType: _ConnectionType.bluesky);
+      _show(context, ref, defaultChoice: _blueskyChoice);
 
   static Future<void> showForDomain(BuildContext context, WidgetRef ref) =>
-      _show(context, ref, defaultType: _ConnectionType.domain);
+      _show(context, ref, defaultChoice: _domainChoice);
+
+  static Future<void> showForProvider(
+    BuildContext context,
+    WidgetRef ref,
+    String providerId,
+  ) => _show(context, ref, defaultChoice: _providerChoice(providerId));
 }
 
 class _ConnectionAddBody extends ConsumerStatefulWidget {
   const _ConnectionAddBody({
-    required this.initialType,
+    required this.initialChoice,
     required this.blueskyEnabled,
+    required this.providers,
     required this.close,
   });
 
-  final _ConnectionType initialType;
+  final _ConnectionChoice initialChoice;
   final bool blueskyEnabled;
+  final List<InstanceConnectionProviderSchema> providers;
   final VoidCallback close;
 
   @override
@@ -90,7 +114,7 @@ class _ConnectionAddBody extends ConsumerStatefulWidget {
 }
 
 class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
-  late _ConnectionType _type = widget.initialType;
+  late _ConnectionChoice _choice = widget.initialChoice;
   _AddStep _step = _AddStep.initiate;
   final TextEditingController _identifierCtrl = TextEditingController();
   TextEditingController? _hostCtrl;
@@ -153,62 +177,123 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     );
   }
 
+  bool get _isBluesky => _choice.type == ConnectionType.bluesky;
+
+  InstanceConnectionProviderSchema? get _provider => widget.providers
+      .where((provider) => provider.id == _choice.providerId)
+      .firstOrNull;
+
   Widget _buildInitiate() {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
+    final provider = _provider;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FluxerSelect<_ConnectionType>(
+        FluxerSelect<_ConnectionChoice>(
           label: l10n.connectionTypeLabel,
           items: [
             if (widget.blueskyEnabled)
               FluxerSelectItem(
-                value: _ConnectionType.bluesky,
+                value: _blueskyChoice,
                 label: l10n.connectionsAddBluesky,
               ),
+            for (final candidate in widget.providers)
+              FluxerSelectItem(
+                value: _providerChoice(candidate.id),
+                label: candidate.name,
+              ),
             FluxerSelectItem(
-              value: _ConnectionType.domain,
+              value: _domainChoice,
               label: l10n.connectionsAddDomain,
             ),
           ],
-          value: _type,
-          onChanged: (type) {
+          value: _choice,
+          onChanged: (choice) {
             setState(() {
-              _type = type;
+              _choice = choice;
               _error = null;
             });
           },
         ),
         SizedBox(height: layout.s3),
-        FluxerInput(
-          controller: _identifierCtrl,
-          label: _type == _ConnectionType.bluesky
-              ? l10n.connectionHandleLabel
-              : l10n.connectionDomainLabel,
-          hint: _type == _ConnectionType.bluesky
-              ? l10n.connectionHandlePlaceholder
-              : l10n.connectionDomainPlaceholder,
-          autofocus: true,
-          errorText: _error,
-        ),
+        if (provider != null) ...[
+          Text(
+            l10n.connectionProviderInstructions(provider.name),
+            style: context.textStyles.bodySmall.copyWith(
+              color: context.colors.textSecondary,
+            ),
+          ),
+          if (_error != null) ...[
+            SizedBox(height: layout.s3),
+            FluxerWarningAlert(
+              message: _error!,
+              variant: FluxerAlertVariant.danger,
+            ),
+          ],
+        ] else
+          FluxerInput(
+            controller: _identifierCtrl,
+            label: _isBluesky
+                ? l10n.connectionHandleLabel
+                : l10n.connectionDomainLabel,
+            hint: _isBluesky
+                ? l10n.connectionHandlePlaceholder
+                : l10n.connectionDomainPlaceholder,
+            autofocus: true,
+            errorText: _error,
+          ),
         SizedBox(height: layout.s4),
         FluxerButton.primary(
-          label: _type == _ConnectionType.bluesky
+          label: provider != null
+              ? l10n.connectionConnectWithProvider(provider.name)
+              : _isBluesky
               ? l10n.connectionConnectBluesky
               : l10n.connectionContinue,
-          onPressedAsync: _onContinue,
+          onPressedAsync: provider != null
+              ? () => _onConnectProvider(provider)
+              : _onContinue,
         ),
       ],
     );
   }
 
+  Future<void> _onConnectProvider(
+    InstanceConnectionProviderSchema provider,
+  ) async {
+    final l10n = FluxerLocalizations.of(context);
+    setState(() => _error = null);
+    final vm = ref.read(
+      connectionsViewModelProvider(readAccountUserId(ref)).notifier,
+    );
+    final failure = l10n.connectionProviderAuthorizeFailed(provider.name);
+    try {
+      final url = await vm.authorizeOAuth(provider.id);
+      final launched = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!mounted) {
+        return;
+      }
+      if (!launched) {
+        setState(() => _error = failure);
+        return;
+      }
+      widget.close();
+    } on Object catch (e) {
+      if (mounted) {
+        setState(() => _error = userFacingErrorMessage(e, failure));
+      }
+    }
+  }
+
   Future<void> _onContinue() async {
     final l10n = FluxerLocalizations.of(context);
     var identifier = _identifierCtrl.text.trim();
-    if (_type == _ConnectionType.bluesky) {
+    if (_isBluesky) {
       identifier = identifier
           .replaceFirst(
             RegExp(r'^https?://bsky\.app/profile/', caseSensitive: false),
@@ -224,7 +309,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     }
     if (identifier.isEmpty) {
       setState(
-        () => _error = _type == _ConnectionType.bluesky
+        () => _error = _isBluesky
             ? l10n.connectionEnterHandle
             : l10n.connectionEnterDomain,
       );
@@ -233,7 +318,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     final existing = ref
         .read(connectionsViewModelProvider(readAccountUserId(ref)))
         .connections;
-    final sdkType = _type.sdkType;
+    final sdkType = _choice.type;
     final isDuplicate = existing.any(
       (c) => c.type == sdkType && c.name.toLowerCase() == identifier,
     );
@@ -247,7 +332,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     );
     setState(() => _error = null);
 
-    if (_type == _ConnectionType.bluesky) {
+    if (_isBluesky) {
       try {
         final url = await vm.authorizeBluesky(identifier);
         final launched = await launchUrl(
@@ -274,7 +359,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
 
     try {
       final data = await vm.initiate(
-        type: _ConnectionType.domain.apiValue,
+        type: ConnectionType.domain.toJson(),
         identifier: identifier,
       );
       _setVerification(data);

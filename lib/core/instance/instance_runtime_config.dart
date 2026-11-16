@@ -33,6 +33,7 @@ class InstanceRuntimeConfig {
     this.gifDisplayName,
     this.singleCommunityGuildId,
     this.premiumProductName = InstanceConstants.defaultPremiumProductName,
+    this.connectionProviders = const <InstanceConnectionProviderSchema>[],
   });
 
   final String productName;
@@ -62,6 +63,7 @@ class InstanceRuntimeConfig {
   final bool collectDateOfBirth;
   final bool usernameSignIn;
   final bool uniqueUsernames;
+  final List<InstanceConnectionProviderSchema> connectionProviders;
 
   static const InstanceRuntimeConfig defaults = InstanceRuntimeConfig(
     productName: InstanceConstants.defaultProductName,
@@ -119,6 +121,7 @@ class InstanceRuntimeConfig {
       presignedAttachmentUploads: response.features.presignedAttachmentUploads,
       gifEnabled: response.services.gifEnabled,
       blueskyEnabled: response.services.blueskyEnabled,
+      connectionProviders: response.services.connectionProviders,
       gifAttributionRequired: response.gif.attributionRequired,
       gifDisplayName: gifName.isEmpty ? null : gifName,
       singleCommunity: response.community.singleCommunity,
@@ -145,6 +148,22 @@ class InstanceRuntimeConfig {
   bool get showsPremiumFeatures => !selfHosted || premiumEnabled;
 
   bool get giftsEnabled => !selfHosted || stripeEnabled;
+
+  InstanceConnectionProviderSchema? connectionProviderFor(
+    ConnectionType type,
+    String? providerId,
+  ) {
+    if (type != ConnectionType.oauth || providerId == null) {
+      return null;
+    }
+    return connectionProviders
+        .where((provider) => provider.id == providerId)
+        .firstOrNull;
+  }
+
+  bool isConnectionUnavailable(ConnectionType type, String? providerId) =>
+      type == ConnectionType.oauth &&
+      connectionProviderFor(type, providerId) == null;
 
   bool isStockCommunityGuild(String guildId) {
     return singleCommunity &&
@@ -192,7 +211,8 @@ class InstanceRuntimeConfig {
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
         other.collectDateOfBirth == collectDateOfBirth &&
         other.usernameSignIn == usernameSignIn &&
-        other.uniqueUsernames == uniqueUsernames;
+        other.uniqueUsernames == uniqueUsernames &&
+        _sameProviders(other.connectionProviders, connectionProviders);
   }
 
   @override
@@ -224,7 +244,30 @@ class InstanceRuntimeConfig {
     collectDateOfBirth,
     usernameSignIn,
     uniqueUsernames,
+    for (final InstanceConnectionProviderSchema provider
+        in connectionProviders) ...<Object?>[
+      provider.id,
+      provider.name,
+      provider.iconUrl,
+    ],
   ]);
+
+  static bool _sameProviders(
+    List<InstanceConnectionProviderSchema> a,
+    List<InstanceConnectionProviderSchema> b,
+  ) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; i++) {
+      if (a[i].id != b[i].id ||
+          a[i].name != b[i].name ||
+          a[i].iconUrl != b[i].iconUrl) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   static String? _nonEmpty(String? value) {
     final String? trimmed = value?.trim();

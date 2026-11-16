@@ -219,4 +219,21 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
       rethrow;
     }
   }
+
+  Future<String> authorizeOAuth(String providerId) async {
+    final client = ref.read(fluxerClientProvider);
+    try {
+      final response = await client.connections.authorizeOauthConnection(
+        providerId: providerId,
+      );
+      return response.authorizeUrl;
+    } on Object catch (e, st) {
+      talker.error(
+        'Failed to authorize connection provider $providerId',
+        e,
+        st,
+      );
+      rethrow;
+    }
+  }
 }

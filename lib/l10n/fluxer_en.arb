@@ -6221,6 +6221,50 @@
   "@connectionEnterDomain": {
     "description": "Inline error shown when the domain input is empty."
   },
+  "connectionsEmptyDescriptionAccounts": "Link your accounts or verify domain ownership to display them on your profile.",
+  "@connectionsEmptyDescriptionAccounts": {
+    "description": "Empty-state description when the instance offers account connections besides domains."
+  },
+  "connectionsAddProviderAriaLabel": "Add {providerName} connection",
+  "@connectionsAddProviderAriaLabel": {
+    "description": "Semantic label for an instance connection provider's add-connection tile. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionConnectWithProvider": "Connect with {providerName}",
+  "@connectionConnectWithProvider": {
+    "description": "Button label for starting an external account connection. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionProviderInstructions": "{providerName} opens in your browser. Sign in there to connect your account.",
+  "@connectionProviderInstructions": {
+    "description": "Explains the browser sign-in step for an instance connection provider. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionProviderAuthorizeFailed": "Couldn't start {providerName} authorization.",
+  "@connectionProviderAuthorizeFailed": {
+    "description": "Error shown when starting the sign-in flow for a connection provider fails. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionUnavailable": "No longer available",
+  "@connectionUnavailable": {
+    "description": "Label for a linked account whose provider this instance removed or turned off. The account is hidden from the profile."
+  },
   "lookAndFeelThemeSectionTitle": "Theme",
   "@lookAndFeelThemeSectionTitle": {
     "description": "Section title for theme selection."
