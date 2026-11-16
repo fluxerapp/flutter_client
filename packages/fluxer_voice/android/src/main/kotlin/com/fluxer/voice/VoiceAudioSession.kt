@@ -394,6 +394,14 @@ internal class VoiceAudioSession(
         if (!isActive) {
             return
         }
+        try {
+            applyRouteUnguarded(reason, force, telecomForce)
+        } catch (error: SecurityException) {
+            log("apply reason=$reason denied: ${error.message}")
+        }
+    }
+
+    private fun applyRouteUnguarded(reason: String, force: Boolean, telecomForce: Boolean) {
         val calls = connections()
         if (calls.isNotEmpty()) {
             applyTelecomRoute(calls, reason, telecomForce)
@@ -468,7 +476,11 @@ internal class VoiceAudioSession(
             scheduleTelecomWatch()
         }
         if (desiredExplicit) {
-            val bluetoothAddress = requestedBluetoothAddress(audioManager, desiredRoute, desiredDeviceId)
+            val bluetoothAddress = if (hasBluetoothConnectPermission(context)) {
+                requestedBluetoothAddress(audioManager, desiredRoute, desiredDeviceId)
+            } else {
+                null
+            }
             for (connection in calls) {
                 applyTelecomCallRoute(connection, desiredRoute, bluetoothAddress, force = force || handingOff)
             }
