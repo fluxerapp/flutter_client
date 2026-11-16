@@ -189,7 +189,7 @@ Future<AssistantEntityDonation> buildAssistantEntityDonation(Ref ref) async {
   };
 
   final List<AssistantChannelEntity> channels = <AssistantChannelEntity>[];
-  if (ref.exists(fluxerDatabaseProvider)) {
+  if (ref.read(fluxerDatabaseProvider.exists)) {
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     final List<db.Channel> rows = await database.channelDao.getAllChannels();
     for (final db.Channel row in rows) {

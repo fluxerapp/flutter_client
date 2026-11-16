@@ -279,7 +279,7 @@ void main() {
     first.close();
     await pumpEventQueue();
     expect(
-      container.exists(guildUserDisplayProvider(('user-1', 'guild-1'))),
+      container.read(guildUserDisplayProvider(('user-1', 'guild-1')).exists),
       isFalse,
     );
 

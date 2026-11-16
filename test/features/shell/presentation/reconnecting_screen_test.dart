@@ -71,7 +71,7 @@ void main() {
       tester.element(find.byType(ReconnectingScreen)),
     );
     expect(container.read(fluxerAuthTokenProvider), isNull);
-    expect(container.exists(gatewayConnectionProvider), isFalse);
+    expect(container.read(gatewayConnectionProvider.exists), isFalse);
     expect(find.text(testL10n.reconnectingTitle), findsOneWidget);
 
     container.read(appUiForegroundProvider.notifier).setResumed(false);
@@ -80,7 +80,7 @@ void main() {
     await tester.pump();
     await tester.pump(kReconnectingScreenRetryInterval);
 
-    expect(container.exists(gatewayConnectionProvider), isFalse);
+    expect(container.read(gatewayConnectionProvider.exists), isFalse);
     expect(tester.takeException(), isNull);
 
     await tester.pumpWidget(const SizedBox.shrink());

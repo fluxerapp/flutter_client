@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -15,6 +14,7 @@ import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../support/app_launcher.dart';
 

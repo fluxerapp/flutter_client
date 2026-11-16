@@ -24,7 +24,7 @@ android {
         namespace 'com.corbado.passkeys_android'
     }
 
-    compileSdkVersion 35
+    compileSdkVersion 37
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

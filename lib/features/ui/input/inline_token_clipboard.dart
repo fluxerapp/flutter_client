@@ -153,7 +153,7 @@ Future<String?> readClipboardPlainText() async {
     if (platformText != null && platformText.isNotEmpty) {
       return platformText;
     }
-    final String? nativeText = await FluxerClipboard.readText();
+    final String? nativeText = await readNativeClipboardText();
     return nativeText == null || nativeText.isEmpty ? null : nativeText;
   } on Object catch (error, stack) {
     talker.warning('[Clipboard] read failed', error, stack);

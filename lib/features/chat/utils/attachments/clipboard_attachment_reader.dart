@@ -124,7 +124,7 @@ const Map<String, String> _extraClipboardMimeToExtension = <String, String>{
 Future<List<XFile>> readClipboardAttachmentFiles() async {
   final List<NativeClipboardItem> items;
   try {
-    items = await FluxerClipboard.readItems(
+    items = await readNativeClipboardItems(
       mimeTypes: clipboardAttachmentMimeTypes,
       maxItems: kMaxAttachmentsPerMessage,
     );

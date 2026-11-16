@@ -23,7 +23,7 @@ val pluginsWithReplacedConsumerRules = setOf("flutter_callkit_incoming", "flutte
 subprojects {
     if (name in pluginsWithReplacedConsumerRules) {
         plugins.withId("com.android.library") {
-            extensions.configure<com.android.build.gradle.LibraryExtension> {
+            extensions.configure<com.android.build.api.dsl.LibraryExtension> {
                 defaultConfig.consumerProguardFiles.clear()
                 buildTypes.configureEach { consumerProguardFiles.clear() }
             }

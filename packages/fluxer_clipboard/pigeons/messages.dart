@@ -1,4 +1,4 @@
-// ignore_for_file: document_ignores, one_member_abstracts
+// ignore_for_file: document_ignores
 
 import 'package:pigeon/pigeon.dart';
 

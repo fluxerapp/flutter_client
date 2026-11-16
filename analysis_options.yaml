@@ -21,6 +21,7 @@ analyzer:
     - "**/*.pb.dart"
     - "**/*.pbenum.dart"
     - "lib/core/synced_preferences/generated/**"
+    - "lib/l10n/generated/**"
     - android/**
     - ios/**
     - web/**
