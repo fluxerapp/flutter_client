@@ -1,13 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/guild_last_channel_memory_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
@@ -15,6 +23,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/local_setting
 import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
 class DrawerNavigationCoordinator {
   const DrawerNavigationCoordinator._();
@@ -73,21 +82,31 @@ class DrawerNavigationCoordinator {
     final bool openLastChannel = container
         .read(localSettingsProvider)
         .openCommunitiesToLastChannel;
-    container
+    final bool guildAvailable = container
         .read(channelListViewModelProvider.notifier)
         .loadActiveGuild(guildId);
+    if (switchingGuild && guildAvailable) {
+      final Channel? remembered = _rememberedGuildChannel(container, guildId);
+      if (remembered != null) {
+        _openRememberedGuildChannel(
+          container,
+          guildId: guildId,
+          channel: remembered,
+          openLastChannel: openLastChannel,
+        );
+        unawaited(_primeGuildUnreads(container, guildId));
+        return;
+      }
+    }
     final Future<String?> lastChannelPath = switchingGuild && openLastChannel
         ? _lastChannelPathToOpen(container, guildId)
         : Future<String?>.value();
-    if (switchingGuild && !openLastChannel) {
+    final bool navigatedToGuildRoot = switchingGuild && !openLastChannel;
+    if (navigatedToGuildRoot) {
       revealDrawer(container);
       container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
     }
-    try {
-      await primeGuildChannelUnreads(container, guildId);
-    } on Object catch (error, stackTrace) {
-      talker.error('[DrawerNavigation] unread prime failed', error, stackTrace);
-    }
+    await _primeGuildUnreads(container, guildId);
     if (generation != _selectGuildGeneration) {
       return;
     }
@@ -99,13 +118,73 @@ class DrawerNavigationCoordinator {
       navigateToContent(container, chatPath);
       return;
     }
-    if (switchingGuild) {
-      revealDrawer(container);
-      container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
+    if (navigatedToGuildRoot &&
+        container.read(activeGuildIdProvider) == guildId) {
       return;
     }
     revealDrawer(container);
     container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
+  }
+
+  static Future<void> _primeGuildUnreads(
+    ProviderContainer container,
+    String guildId,
+  ) async {
+    try {
+      await primeGuildChannelUnreads(container, guildId);
+    } on Object catch (error, stackTrace) {
+      talker.error('[DrawerNavigation] unread prime failed', error, stackTrace);
+    }
+  }
+
+  static Channel? _rememberedGuildChannel(
+    ProviderContainer container,
+    String guildId,
+  ) {
+    final String? channelId = peekGuildLastChannelId(container, guildId);
+    if (channelId == null) {
+      return null;
+    }
+    final Channel? channel = findChannelById(
+      container.read(channelListViewModelProvider),
+      channelId,
+    );
+    if (channel == null || channel.guildId != guildId) {
+      return null;
+    }
+    if (channel.type == ChannelType.guildCategory ||
+        channel.type == ChannelType.guildLink ||
+        channel.type == ChannelType.guildVoice ||
+        channel.type == ChannelType.unknown) {
+      return null;
+    }
+    final String? accountUserId = accountUserIdOrNull(container);
+    if (accountUserId != null) {
+      final int? bits = container.read(
+        channelPermissionCacheProvider(accountUserId),
+      )[channelId];
+      if (bits != null && !hasPermission(bits, Permission.viewChannel)) {
+        return null;
+      }
+    }
+    return channel;
+  }
+
+  static void _openRememberedGuildChannel(
+    ProviderContainer container, {
+    required String guildId,
+    required Channel channel,
+    required bool openLastChannel,
+  }) {
+    final String path = RoutePaths.guildChannel(guildId, channel.id);
+    talker.debug('[DrawerNavigation] selectGuild remembered path=$path');
+    switchChatAheadOfNavigation(container, channel);
+    if (openLastChannel) {
+      navigateToContent(container, path);
+      return;
+    }
+    revealDrawer(container);
+    container.read(fluxerRouterProvider).go(path);
   }
 
   static Future<String?> _lastChannelPathToOpen(

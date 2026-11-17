@@ -533,31 +533,40 @@ class _GuildSidebarChannelListState
                         guildId: widget.guildId,
                       );
                     case GuildSidebarEntryKind.channel:
-                      final String channelId = entry.channel!.id;
+                      final Channel channel = entry.channel!;
                       return RepaintBoundary(
-                        child: _ChannelTile(
-                          key: ValueKey<String>(channelId),
-                          tileKey: _channelKeys.putIfAbsent(
-                            channelId,
-                            GlobalKey.new,
+                        child: ChannelHoverPreload(
+                          channelId: channel.id,
+                          enabled: isAnnouncementConvertibleChannel(
+                            channel.type,
                           ),
-                          channel: entry.channel!,
-                          guildId: widget.guildId,
-                          guild: widget.guild,
+                          child: _ChannelTile(
+                            key: ValueKey<String>(channel.id),
+                            tileKey: _channelKeys.putIfAbsent(
+                              channel.id,
+                              GlobalKey.new,
+                            ),
+                            channel: channel,
+                            guildId: widget.guildId,
+                            guild: widget.guild,
+                          ),
                         ),
                       );
                     case GuildSidebarEntryKind.thread:
                       final String threadId = entry.channel!.id;
                       return RepaintBoundary(
-                        child: ThreadSidebarTile(
-                          key: ValueKey<String>('thread:$threadId'),
-                          tileKey: _channelKeys.putIfAbsent(
-                            threadId,
-                            GlobalKey.new,
+                        child: ChannelHoverPreload(
+                          channelId: threadId,
+                          child: ThreadSidebarTile(
+                            key: ValueKey<String>('thread:$threadId'),
+                            tileKey: _channelKeys.putIfAbsent(
+                              threadId,
+                              GlobalKey.new,
+                            ),
+                            thread: entry.channel!,
+                            guildId: widget.guildId,
+                            isLast: entry.isLastThread,
                           ),
-                          thread: entry.channel!,
-                          guildId: widget.guildId,
-                          isLast: entry.isLastThread,
                         ),
                       );
                     case GuildSidebarEntryKind.voiceParticipants:

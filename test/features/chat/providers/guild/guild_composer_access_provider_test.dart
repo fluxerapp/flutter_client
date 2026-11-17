@@ -56,6 +56,13 @@ class _HighVerificationGuildList extends GuildListViewModel {
   );
 }
 
+class _OpenGuildList extends GuildListViewModel {
+  @override
+  GuildListViewState build() => const GuildListViewState(
+    guilds: <Guild>[Guild(id: _guildId, name: 'Fluxer HQ', ownerId: _ownerId)],
+  );
+}
+
 class _EmptyDmViewModel extends DmViewModel {
   @override
   DmViewState build() => const DmViewState(
@@ -136,5 +143,95 @@ void main() {
       firstFrame.value?.reason,
       GuildComposerBlockReason.notMemberLongEnough,
     );
+  });
+
+  group('guild member composer access stays live', () {
+    late FluxerDatabase db;
+    late ProviderContainer container;
+
+    setUp(() {
+      db = openTestDatabase();
+      container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          currentUserIdProvider.overrideWithValue(_userId),
+          userSettingsViewModelProvider.overrideWith(_VerifiedUserSettings.new),
+          guildListViewModelProvider.overrideWith(_OpenGuildList.new),
+        ],
+      );
+      addTearDown(container.dispose);
+    });
+
+    Future<GuildComposerAccess?> settle(
+      ProviderSubscription<AsyncValue<GuildComposerAccess>> sub,
+      bool Function(GuildComposerAccess access) until,
+    ) async {
+      for (var i = 0; i < 250; i++) {
+        final GuildComposerAccess? access = sub.read().value;
+        if (access != null && until(access)) {
+          return access;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+      }
+      return sub.read().value;
+    }
+
+    test('a timeout set while cached blocks without resubscribing', () async {
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(userId: _userId, guildId: _guildId),
+      );
+      final ProviderSubscription<AsyncValue<GuildComposerAccess>> sub =
+          container.listen(
+            guildMemberComposerAccessProvider(_guildId),
+            (_, _) {},
+          );
+      expect(
+        (await settle(sub, (GuildComposerAccess a) => a.canAccess))?.canAccess,
+        isTrue,
+      );
+
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: _userId,
+          guildId: _guildId,
+          communicationDisabledUntil: Value(
+            DateTime.now().add(const Duration(minutes: 5)),
+          ),
+        ),
+      );
+
+      final GuildComposerAccess? blocked = await settle(
+        sub,
+        (GuildComposerAccess a) => !a.canAccess,
+      );
+      expect(blocked?.reason, GuildComposerBlockReason.timedOut);
+    });
+
+    test('an expiring timeout unblocks on its own', () async {
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: _userId,
+          guildId: _guildId,
+          communicationDisabledUntil: Value(
+            DateTime.now().add(const Duration(seconds: 2)),
+          ),
+        ),
+      );
+      final ProviderSubscription<AsyncValue<GuildComposerAccess>> sub =
+          container.listen(
+            guildMemberComposerAccessProvider(_guildId),
+            (_, _) {},
+          );
+      expect(
+        (await settle(sub, (GuildComposerAccess a) => !a.canAccess))?.reason,
+        GuildComposerBlockReason.timedOut,
+      );
+
+      final GuildComposerAccess? unblocked = await settle(
+        sub,
+        (GuildComposerAccess a) => a.canAccess,
+      );
+      expect(unblocked?.canAccess, isTrue);
+    });
   });
 }

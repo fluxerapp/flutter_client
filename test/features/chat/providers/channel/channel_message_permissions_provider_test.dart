@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart' show StateProvider;
 import 'package:flutter_test/flutter_test.dart';
@@ -941,6 +942,85 @@ void main() {
       expect(sync.isResolved, isTrue);
       expect(sync.canSendMessages, isTrue);
       expect(sync.isComposerEnabled, isTrue);
+    });
+
+    testWidgets('composer reads cached bits on the first frame', (
+      WidgetTester tester,
+    ) async {
+      final FluxerDatabase db = openTestDatabase();
+      const String guildId = 'guild_1';
+      const String channelId = 'channel_1';
+      const String userId = 'user_1';
+      final int sendBits =
+          Permission.viewChannel.value | Permission.sendMessages.value;
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
+          guildListViewModelProvider.overrideWith(
+            () => _FixedGuildListViewModel(<Guild>[
+              const Guild(id: guildId, name: 'Guild', ownerId: 'owner_1'),
+            ]),
+          ),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+        ],
+      );
+      await tester.runAsync(() async {
+        await db.guildDao.upsertServer(
+          ServersCompanion.insert(id: guildId, name: 'Guild'),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: channelId,
+            guildId: guildId,
+            name: 'general',
+          ),
+        );
+        await db.roleDao.upsertRoles([
+          RolesCompanion.insert(
+            id: guildId,
+            guildId: guildId,
+            name: '@everyone',
+            permissions: Value(sendBits.toString()),
+          ),
+        ]);
+        await db.memberDao.upsertMember(
+          MembersCompanion.insert(userId: userId, guildId: guildId),
+        );
+        await container
+            .read(
+              channelPermissionCacheProvider(
+                readAccountUserId(container),
+              ).notifier,
+            )
+            .rebuildChannel(channelId);
+      });
+
+      ChannelMessagePermissions? firstFrame;
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: Consumer(
+            builder: (BuildContext context, WidgetRef ref, _) {
+              final ChannelMessagePermissions perms =
+                  watchChannelMessagePermissionsForComposer(ref, channelId);
+              firstFrame ??= perms;
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(firstFrame?.isResolved, isTrue);
+      expect(firstFrame?.isComposerEnabled, isTrue);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.runAsync(() async {
+        container.dispose();
+        await db.close();
+      });
     });
   });
 

@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -157,6 +158,8 @@ class GuildUserDisplayWarmer {
                 _ignoreChange,
               ),
           ],
+          if (inGuild)
+            ref.listen(guildRolesByIdProvider(guildId).future, _ignoreChange),
         ];
     try {
       await Future.wait(

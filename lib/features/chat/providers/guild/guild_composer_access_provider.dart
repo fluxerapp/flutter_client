@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -14,6 +16,8 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_composer_access_provider.g.dart';
+
+const Duration _kComposerAccessExpirySlack = Duration(milliseconds: 250);
 
 @riverpod
 AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
@@ -67,7 +71,7 @@ AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
   return ref.watch(guildMemberComposerAccessProvider(resolvedGuildId));
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<GuildComposerAccess> guildMemberComposerAccess(
   Ref ref,
   String guildId,
@@ -90,10 +94,8 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
   if (guild == null) {
     return GuildComposerAccess.allowed;
   }
-  final db = ref.read(fluxerDatabaseProvider);
-  final memberRow = await db.memberDao.getMemberByUserId(
-    currentUserId,
-    guildId,
+  final db.Member? memberRow = await ref.watch(
+    memberRowByGuildProvider((currentUserId, guildId)).future,
   );
   final UserSettingsViewState userSettings = ref.read(
     userSettingsViewModelProvider,
@@ -104,7 +106,7 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
   final CurrentUserMemberIdentity? memberIdentity = await ref.watch(
     currentUserMemberIdentityProvider(guildId).future,
   );
-  return evaluateGuildComposerAccess(
+  final GuildComposerAccess access = evaluateGuildComposerAccess(
     GuildVerificationInput(
       currentUserId: currentUserId,
       guildOwnerId: guild.ownerId,
@@ -120,4 +122,13 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
       now: DateTime.now(),
     ),
   );
+  final Duration? remaining = access.timeRemaining;
+  if (remaining != null && remaining > Duration.zero) {
+    final Timer expiry = Timer(
+      remaining + _kComposerAccessExpirySlack,
+      ref.invalidateSelf,
+    );
+    ref.onDispose(expiry.cancel);
+  }
+  return access;
 }

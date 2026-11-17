@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/api/attachment_request_auth.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/seen_media_urls.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const List<Duration> kMediaLoadRetryDelays = <Duration>[
@@ -67,6 +68,17 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
   int? _failedAttempt;
   bool _permanent = false;
   Timer? _retryTimer;
+  late bool _seen;
+  ImageStream? _seenStream;
+  ImageStreamListener? _seenListener;
+
+  Object? _watchedConfig;
+
+  @override
+  void initState() {
+    super.initState();
+    _seen = SeenMediaUrls.contains(widget.imageUrl);
+  }
 
   @override
   void didUpdateWidget(RetryingNetworkImage oldWidget) {
@@ -77,13 +89,84 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
       _failures = 0;
       _failedAttempt = null;
       _permanent = false;
+      _seen = SeenMediaUrls.contains(widget.imageUrl);
     }
   }
 
   @override
   void dispose() {
     _retryTimer?.cancel();
+    _stopWatchingCompletion();
     super.dispose();
+  }
+
+  void _scheduleCompletionWatch() {
+    final Object config = (
+      widget.imageUrl,
+      widget.memCacheWidth,
+      widget.memCacheHeight,
+      widget.maxWidthDiskCache,
+      widget.maxHeightDiskCache,
+      _attempt,
+    );
+    if (config == _watchedConfig) {
+      return;
+    }
+    _watchedConfig = config;
+    WidgetsBinding.instance.addPostFrameCallback((Duration _) {
+      if (mounted && _watchedConfig == config) {
+        _watchCompletion();
+      }
+    });
+  }
+
+  void _watchCompletion() {
+    _stopWatchingCompletion();
+    final String url = widget.imageUrl;
+    if (url.isEmpty) {
+      return;
+    }
+    final ImageProvider provider = ResizeImage.resizeIfNeeded(
+      widget.memCacheWidth,
+      widget.memCacheHeight,
+      CachedNetworkImageProvider(
+        url,
+        headers: AttachmentRequestAuth.headersFor(url),
+        maxWidth: widget.maxWidthDiskCache,
+        maxHeight: widget.maxHeightDiskCache,
+      ),
+    );
+    final Object config = _watchedConfig!;
+    unawaited(
+      provider.obtainKey(ImageConfiguration.empty).then((Object key) {
+        if (!mounted ||
+            _watchedConfig != config ||
+            PaintingBinding.instance.imageCache.statusForKey(key).untracked) {
+          return;
+        }
+        final ImageStream stream = provider.resolve(ImageConfiguration.empty);
+        final ImageStreamListener listener = ImageStreamListener((
+          ImageInfo image,
+          bool _,
+        ) {
+          image.dispose();
+          SeenMediaUrls.mark(url);
+          _stopWatchingCompletion();
+        }, onError: (Object _, StackTrace? _) {});
+        _seenStream = stream;
+        _seenListener = listener;
+        stream.addListener(listener);
+      }),
+    );
+  }
+
+  void _stopWatchingCompletion() {
+    final ImageStreamListener? listener = _seenListener;
+    if (listener != null) {
+      _seenStream?.removeListener(listener);
+    }
+    _seenStream = null;
+    _seenListener = null;
   }
 
   void _onFailure(Object error) {
@@ -120,6 +203,8 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
   @override
   Widget build(BuildContext context) {
     final Widget? placeholder = widget.placeholder;
+    final bool seen = _seen;
+    _scheduleCompletionWatch();
     return CachedNetworkImage(
       key: ValueKey<int>(_attempt),
       imageUrl: widget.imageUrl,
@@ -131,9 +216,9 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
       memCacheHeight: widget.memCacheHeight,
       maxWidthDiskCache: widget.maxWidthDiskCache,
       maxHeightDiskCache: widget.maxHeightDiskCache,
-      fadeInDuration: widget.fadeInDuration,
-      fadeOutDuration: widget.fadeOutDuration,
-      disablePlaceholderOnCacheHit: widget.disablePlaceholderOnCacheHit,
+      fadeInDuration: seen ? Duration.zero : widget.fadeInDuration,
+      fadeOutDuration: seen ? Duration.zero : widget.fadeOutDuration,
+      disablePlaceholderOnCacheHit: seen || widget.disablePlaceholderOnCacheHit,
       placeholder: placeholder == null
           ? null
           : (BuildContext _, String _) => placeholder,

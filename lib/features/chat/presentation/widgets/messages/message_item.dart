@@ -1020,17 +1020,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     );
     final onReply = widget.onReply;
-    final Widget semanticBody = Semantics(
-      container: true,
-      label: _messageSemanticLabel(
+    final Widget semanticBody = _MessageSemantics(
+      message: msg,
+      guildId: guildId,
+      currentUserId: widget.currentUserId,
+      label: (String author) => _messageSemanticLabel(
         context,
         msg,
-        author: watchMessageAuthorDisplay(
-          ref: ref,
-          message: msg,
-          guildId: guildId,
-          currentUserId: widget.currentUserId,
-        ).displayName,
+        author: author,
         isSending: isSending,
         isFailed: isFailed,
       ),
@@ -1676,9 +1673,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 end: kCompactTimestampGap,
               ),
               child: FluxerAvatar.user(
-                key: ValueKey<String>(
-                  'compact-msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
-                ),
+                key: ValueKey<String>('compact-msg-avatar-${msg.authorId}'),
                 fallbackText: authorDisplay.displayName,
                 userId: msg.authorId,
                 imageUrl: authorDisplay.avatarUrl,
@@ -1988,9 +1983,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
               child: ExcludeSemantics(
                 child: FluxerAvatar.user(
-                  key: ValueKey<String>(
-                    'msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
-                  ),
+                  key: ValueKey<String>('msg-avatar-${msg.authorId}'),
                   fallbackText: authorDisplay.displayName,
                   userId: msg.authorId,
                   imageUrl: authorDisplay.avatarUrl,
@@ -2648,6 +2641,33 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
           entry.target is TextSpan &&
           (entry.target as TextSpan).recognizer != null,
     );
+  }
+}
+
+class _MessageSemantics extends ConsumerWidget {
+  const _MessageSemantics({
+    required this.message,
+    required this.guildId,
+    required this.currentUserId,
+    required this.label,
+    required this.child,
+  });
+
+  final Message message;
+  final String? guildId;
+  final String? currentUserId;
+  final String Function(String author) label;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String author = watchMessageAuthorDisplay(
+      ref: ref,
+      message: message,
+      guildId: guildId,
+      currentUserId: currentUserId,
+    ).displayName;
+    return Semantics(container: true, label: label(author), child: child);
   }
 }
 

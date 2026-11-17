@@ -20,6 +20,7 @@ class ComposerTextSession {
   bool _isApplyingWireText = false;
   bool _suppressControllerToStateSync = false;
   bool _disposed = false;
+  bool _awaitingInitialChannelSync = false;
   int _channelApplyGeneration = 0;
   int _wireApplyGeneration = 0;
   String? _lastWireTextPushedToState;
@@ -52,6 +53,7 @@ class ComposerTextSession {
     if (wire == _lastWireTextPushedToState) {
       return;
     }
+    _awaitingInitialChannelSync = false;
     _lastWireTextPushedToState = wire;
     _ref.read(chatViewModelProvider.notifier).updateMessageText(wire);
   }
@@ -68,6 +70,14 @@ class ComposerTextSession {
     );
     if (_controller.toWireText() == wire) {
       _lastWireTextPushedToState = wire;
+      return;
+    }
+    if (_awaitingInitialChannelSync &&
+        stripPrivateUseCharacters(_controller.toWireText()).isEmpty) {
+      _awaitingInitialChannelSync = false;
+      _wireSyncDebounceTimer?.cancel();
+      _wireSyncPendingWire = null;
+      unawaited(applyWireTextFromState(wire, force: true));
       return;
     }
     if (_shouldDeferComposerStateWriteBack(wire)) {
@@ -125,6 +135,7 @@ class ComposerTextSession {
     _wireSyncDebounceTimer?.cancel();
     _wireSyncPendingWire = null;
     _suppressControllerToStateSync = true;
+    _awaitingInitialChannelSync = true;
     final int generation = ++_channelApplyGeneration;
     final String wire = stripPrivateUseCharacters(
       _ref.read(chatViewModelProvider).messageText,
@@ -138,6 +149,7 @@ class ComposerTextSession {
           _controller.toWireText(),
         );
         _suppressControllerToStateSync = false;
+        syncFromViewModelIfNeeded();
       }),
     );
   }

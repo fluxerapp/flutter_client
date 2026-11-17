@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show KeepAliveLink;
 
-void keepAliveFor(Ref ref, Duration duration) {
+KeepAliveLink keepAliveFor(Ref ref, Duration duration) {
   final link = ref.keepAlive();
   Timer? timer;
   ref
@@ -15,4 +16,5 @@ void keepAliveFor(Ref ref, Duration duration) {
       timer = null;
     })
     ..onDispose(() => timer?.cancel());
+  return link;
 }

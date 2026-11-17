@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/guild_last_channel_memory_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -26,6 +27,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/create_category
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_hover_preload.dart';
 import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
@@ -200,6 +202,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       _prefetchGuildPermissions(
         _guildIdsOf(ref.read(organizedGuildListProvider)),
       );
+      unawaited(ref.read(guildLastChannelMemoryProvider).seedMemory());
       _clampScrollOffset();
       _scrollIndicator.scheduleUpdate();
     });

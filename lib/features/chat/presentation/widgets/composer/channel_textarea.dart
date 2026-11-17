@@ -931,12 +931,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
     });
 
-    final GuildComposerAccess? composerAccess = composerAccessAsync.hasError
+    final GuildComposerAccess composerAccess = composerAccessAsync.hasError
         ? GuildComposerAccess.allowed
-        : composerAccessAsync.value;
-    if (composerAccess == null) {
-      return const SizedBox.shrink();
-    }
+        : composerAccessAsync.value ?? GuildComposerAccess.allowed;
     if (!composerAccess.canAccess) {
       return ChannelComposerBarrier(access: composerAccess);
     }

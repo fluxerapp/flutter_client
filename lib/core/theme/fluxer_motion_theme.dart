@@ -75,6 +75,22 @@ class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
       pushCurve = Curves.linear,
       sheetCurve = Curves.linear;
 
+  const FluxerMotionTheme.suppressed()
+    : hover = suppressedDuration,
+      fast = suppressedDuration,
+      normal = suppressedDuration,
+      panel = suppressedDuration,
+      slow = suppressedDuration,
+      push = suppressedDuration,
+      pop = suppressedDuration,
+      sheet = suppressedDuration,
+      curve = Curves.linear,
+      emphasizedCurve = Curves.linear,
+      pushCurve = Curves.linear,
+      sheetCurve = Curves.linear;
+
+  static const Duration suppressedDuration = Duration(microseconds: 1);
+
   static const Duration hoverDuration = Duration(milliseconds: 70);
   static const Duration fastDuration = Duration(milliseconds: 100);
   static const Duration normalDuration = Duration(milliseconds: 150);
@@ -159,4 +175,27 @@ class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
     milliseconds: (a.inMilliseconds + (b.inMilliseconds - a.inMilliseconds) * t)
         .round(),
   );
+}
+
+class FluxerMotionSuppression extends InheritedWidget {
+  const FluxerMotionSuppression({
+    required this.suppressed,
+    required super.child,
+    super.key,
+  });
+
+  final bool suppressed;
+
+  static bool isSuppressed(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<FluxerMotionSuppression>()
+          ?.suppressed ??
+      false;
+
+  static Duration durationOf(BuildContext context, Duration duration) =>
+      isSuppressed(context) ? FluxerMotionTheme.suppressedDuration : duration;
+
+  @override
+  bool updateShouldNotify(FluxerMotionSuppression oldWidget) =>
+      suppressed != oldWidget.suppressed;
 }

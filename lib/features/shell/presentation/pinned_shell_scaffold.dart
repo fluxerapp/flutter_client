@@ -97,7 +97,7 @@ class PinnedMobileShellScaffold extends ConsumerWidget {
         leftPanelWidthOverride: leftPanelWidth,
         leftPanel: leftPanel,
         rightChild: KeyedSubtree(
-          key: ValueKey<String>(shellLocation),
+          key: ValueKey<String>(shellContentSectionKey(shellLocation)),
           child: rightChild,
         ),
       );

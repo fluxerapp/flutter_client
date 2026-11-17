@@ -19,6 +19,9 @@ extension FluxerThemeX on BuildContext {
     if (MediaQuery.disableAnimationsOf(this)) {
       return const FluxerMotionTheme.reduced();
     }
+    if (FluxerMotionSuppression.isSuppressed(this)) {
+      return const FluxerMotionTheme.suppressed();
+    }
     return Theme.of(this).extension<FluxerMotionTheme>()!;
   }
 }

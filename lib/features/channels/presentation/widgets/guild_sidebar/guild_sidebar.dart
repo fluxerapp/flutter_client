@@ -58,6 +58,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/channels/utils/channel_scroll_indicator_severity.dart';
 import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_hover_preload.dart';
 import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
