@@ -89,6 +89,7 @@ import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:fluxer_app/shared/utils/input_modality.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -811,7 +812,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final doubleTapAction = ref
         .watch(doubleTapActionPreferencesProvider)
         .effectiveAction;
+    final bool touchInput = ref.watch(inputModalityProvider);
     final bool doubleTapEnabled =
+        touchInput &&
         !widget.inboxPreviewMode &&
         !isFailed &&
         !isSending &&
@@ -1049,7 +1052,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         handheldChannelDetailsGesturesApply(context) &&
         ref.watch(swipeRightToLeftActionPreferencesProvider).effectiveAction ==
             SwipeRightToLeftActionPreference.channelDetails;
-    if (!isTouch || widget.inboxPreviewMode) {
+    if (!isTouch || !touchInput || widget.inboxPreviewMode) {
       return _wrapMessageSendingDim(
         dim: dimEntireMessage,
         child: _wrapKeyboardFocus(
@@ -2623,7 +2626,7 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
   _MessageDoubleTapGestureRecognizer({
     required this.ignoresPointer,
     super.debugOwner,
-  });
+  }) : super(supportedDevices: kTouchPointerDeviceKinds);
 
   final bool Function(int pointer) ignoresPointer;
 

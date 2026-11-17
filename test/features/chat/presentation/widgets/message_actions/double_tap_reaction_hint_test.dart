@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/appearance_pr
 import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
@@ -23,6 +24,15 @@ class _FixedAction extends DoubleTapActionPreferences {
   @override
   DoubleTapActionPreferencesState build() =>
       DoubleTapActionPreferencesState(action: action);
+}
+
+class _FixedModality extends InputModalityNotifier {
+  _FixedModality(this.touch);
+
+  final bool touch;
+
+  @override
+  bool build() => touch;
 }
 
 class _FixedAppearance extends AppearancePreferences {
@@ -39,12 +49,14 @@ Future<void> _pumpHint(
   WidgetTester tester, {
   required DoubleTapActionPreference action,
   bool alwaysUnderlineLinks = false,
+  bool touchInput = true,
 }) async {
   final colorTheme = buildDarkColorTheme();
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         currentUserIdProvider.overrideWithValue('1'),
+        inputModalityProvider.overrideWith(() => _FixedModality(touchInput)),
         doubleTapActionPreferencesProvider.overrideWith(
           () => _FixedAction(action),
         ),
@@ -129,6 +141,17 @@ void main() {
 
     expect(find.text(testL10n.doubleTapReactionHint), findsNothing);
     expect(find.text(testL10n.doubleTapEditHint), findsNothing);
+    expect(find.byType(DoubleTapReactionGlyph), findsNothing);
+  });
+
+  testWidgets('mouse input shows no hint', (WidgetTester tester) async {
+    await _pumpHint(
+      tester,
+      action: DoubleTapActionPreference.react,
+      touchInput: false,
+    );
+
+    expect(find.text(testL10n.doubleTapReactionHint), findsNothing);
     expect(find.byType(DoubleTapReactionGlyph), findsNothing);
   });
 }
