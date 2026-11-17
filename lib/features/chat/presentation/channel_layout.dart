@@ -285,7 +285,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                           if (guild != null &&
                               guild.mfaLevel == guildMfaLevelElevated)
                             GuildMfaRequirementNagbar(guild: guild),
-                          if (!hideableVoiceHeader) header,
+                          if (!forceVoiceCallStyle) header,
                           Expanded(
                             child: Stack(
                               children: [

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 abstract final class Breakpoints {
   static const double mobile = 600;
@@ -72,7 +73,7 @@ bool isPhoneVoiceOverlay(BuildContext context) {
 }
 
 bool isHandheldVoiceOverlay(BuildContext context) {
-  return !isDesktopLayout(context);
+  return !isDesktopLayout(context) && !usesDesktopPointerUi(context);
 }
 
 bool shellUsesPhoneChatSlideTransition(BuildContext context) {

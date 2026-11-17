@@ -39,12 +39,15 @@ class VoiceMediaDevicesState {
   }
 }
 
-List<VoiceMediaDeviceOption> _withDefaultOption(
+List<VoiceMediaDeviceOption> withDefaultVoiceMediaDevice(
   List<VoiceMediaDeviceOption> devices,
 ) {
   return <VoiceMediaDeviceOption>[
     const VoiceMediaDeviceOption(deviceId: kDefaultVoiceDeviceId, label: ''),
-    ...devices,
+    ...devices.where(
+      (VoiceMediaDeviceOption device) =>
+          device.deviceId != kDefaultVoiceDeviceId,
+    ),
   ];
 }
 
@@ -77,9 +80,9 @@ class VoiceMediaDevices extends _$VoiceMediaDevices {
           .map(_mapDevice)
           .toList();
       state = VoiceMediaDevicesState(
-        audioInputs: _withDefaultOption(audioInputs),
-        audioOutputs: _withDefaultOption(audioOutputs),
-        videoInputs: _withDefaultOption(videoInputs),
+        audioInputs: withDefaultVoiceMediaDevice(audioInputs),
+        audioOutputs: withDefaultVoiceMediaDevice(audioOutputs),
+        videoInputs: withDefaultVoiceMediaDevice(videoInputs),
       );
     } on Object {
       state = state.copyWith(isLoading: false);

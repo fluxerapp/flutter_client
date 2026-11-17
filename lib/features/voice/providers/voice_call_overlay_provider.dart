@@ -11,6 +11,7 @@ part 'voice_call_overlay_provider.g.dart';
 
 const Duration kVoiceCallOverlayAutoHideDelay = Duration(seconds: 3);
 const Duration kVoiceCallOverlayPinReleaseDelay = Duration(milliseconds: 320);
+const Duration kVoiceCallOverlayPointerIdleDelay = Duration(milliseconds: 2500);
 
 class VoiceCallOverlayState {
   const VoiceCallOverlayState({
@@ -166,7 +167,9 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
     );
   }
 
-  void reveal() {
+  void reveal() => _reveal(kVoiceCallOverlayAutoHideDelay);
+
+  void _reveal(Duration autoHideDelay) {
     if (state.isExiting) {
       return;
     }
@@ -175,7 +178,7 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
       state = state.copyWith(isVisible: true);
     }
     if (!state.isPinned) {
-      scheduleAutoHide();
+      scheduleAutoHide(delay: autoHideDelay);
     }
   }
 
@@ -201,7 +204,14 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
     if (kind == PointerDeviceKind.touch) {
       return;
     }
-    reveal();
+    _reveal(kVoiceCallOverlayPointerIdleDelay);
+  }
+
+  void notePointerExit({required PointerDeviceKind kind}) {
+    if (kind == PointerDeviceKind.touch) {
+      return;
+    }
+    hide();
   }
 
   void setMenuPinned({required bool value}) {
@@ -244,12 +254,12 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
     });
   }
 
-  void scheduleAutoHide() {
+  void scheduleAutoHide({Duration delay = kVoiceCallOverlayAutoHideDelay}) {
     _cancelAutoHide();
     if (!state.isVisible || state.isPinned) {
       return;
     }
-    _autoHideTimer = Timer(kVoiceCallOverlayAutoHideDelay, () {
+    _autoHideTimer = Timer(delay, () {
       if (!ref.mounted || state.isPinned || !state.isVisible) {
         return;
       }

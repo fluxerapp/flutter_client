@@ -41,6 +41,66 @@ const Key kVoiceControlPanelCopyDiagnosticsKey = Key(
   'voice-control-panel-copy-diagnostics',
 );
 
+Future<void> confirmSwitchToStandardVoiceCall(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final bool? confirmed = await showFluxerSettingsConfirmSheet(
+    context,
+    title: l10n.voiceP2pSwitchToStandard,
+    description: l10n.voiceP2pSwitchToStandardDescription,
+    confirmLabel: l10n.voiceP2pSwitchToStandard,
+  );
+  if (confirmed != true) {
+    return;
+  }
+  ref.read(voiceSessionProvider.notifier).switchToStandardCall();
+}
+
+Future<void> setVoicePanelNoiseSuppressionTier(
+  WidgetRef ref,
+  NoiseSuppressionTier tier,
+) async {
+  final VoiceSettings settingsNotifier = ref.read(
+    voiceSettingsProvider.notifier,
+  );
+  final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+  if (settings.voiceProcessingMode != VoiceProcessingMode.custom) {
+    await settingsNotifier.setVoiceProcessingMode(VoiceProcessingMode.custom);
+  }
+  await settingsNotifier.setNoiseSuppressionTier(tier);
+}
+
+bool watchCanSwitchToStandardVoiceCall(
+  WidgetRef ref, {
+  required String? channelId,
+}) {
+  if (ref.watch(activeVoiceChannelModeProvider) != VoiceChannelMode.p2p) {
+    return false;
+  }
+  if (channelId == null) {
+    return true;
+  }
+  return !(ref.watch(channelByIdProvider(channelId)).value?.rtcP2p ?? false);
+}
+
+(NoiseSuppressionTier, bool) watchVoicePanelNoiseSuppression(WidgetRef ref) {
+  final bool supported = ref
+      .watch(voiceNoiseFilterProvider)
+      .maybeWhen(
+        data: (VoiceNoiseFilterState value) => value.isSupported,
+        orElse: () => false,
+      );
+  return (
+    effectiveVoicePanelNoiseSuppressionTier(
+      settings: ref.watch(voiceSettingsProvider),
+      noiseFilterSupported: supported,
+    ),
+    supported,
+  );
+}
+
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
   const VoiceChannelControlPanelSettings({
     this.channelId,
@@ -50,37 +110,6 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
 
   final String? channelId;
   final String? channelName;
-
-  Future<void> _setNoiseSuppressionTier(
-    WidgetRef ref,
-    NoiseSuppressionTier tier,
-  ) async {
-    final VoiceSettings settingsNotifier = ref.read(
-      voiceSettingsProvider.notifier,
-    );
-    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
-    if (settings.voiceProcessingMode != VoiceProcessingMode.custom) {
-      await settingsNotifier.setVoiceProcessingMode(VoiceProcessingMode.custom);
-    }
-    await settingsNotifier.setNoiseSuppressionTier(tier);
-  }
-
-  Future<void> _confirmSwitchToStandardCall(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool? confirmed = await showFluxerSettingsConfirmSheet(
-      context,
-      title: l10n.voiceP2pSwitchToStandard,
-      description: l10n.voiceP2pSwitchToStandardDescription,
-      confirmLabel: l10n.voiceP2pSwitchToStandard,
-    );
-    if (confirmed != true) {
-      return;
-    }
-    ref.read(voiceSessionProvider.notifier).switchToStandardCall();
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,29 +129,21 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
     final VoiceCallLayout callLayoutNotifier = ref.read(
       voiceCallLayoutProvider.notifier,
     );
-    final bool noiseFilterSupported = ref
-        .watch(voiceNoiseFilterProvider)
-        .maybeWhen(
-          data: (VoiceNoiseFilterState value) => value.isSupported,
-          orElse: () => false,
-        );
-    final NoiseSuppressionTier noiseSuppressionTier =
-        effectiveVoicePanelNoiseSuppressionTier(
-          settings: settings,
-          noiseFilterSupported: noiseFilterSupported,
-        );
+    final (
+      NoiseSuppressionTier noiseSuppressionTier,
+      bool noiseFilterSupported,
+    ) = watchVoicePanelNoiseSuppression(
+      ref,
+    );
     final String? channelId = this.channelId;
     final bool showChatRow =
         channelId != null &&
         (ref.watch(voiceChannelTextChatSupportedProvider(channelId)).value ??
             false);
-    final bool isP2pCall =
-        ref.watch(activeVoiceChannelModeProvider) == VoiceChannelMode.p2p;
-    final bool isPinnedP2pChannel =
-        isP2pCall &&
-        channelId != null &&
-        (ref.watch(channelByIdProvider(channelId)).value?.rtcP2p ?? false);
-    final bool showSwitchToStandard = isP2pCall && !isPinnedP2pChannel;
+    final bool showSwitchToStandard = watchCanSwitchToStandardVoiceCall(
+      ref,
+      channelId: channelId,
+    );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     return Padding(
       key: kVoiceControlPanelSettingsKey,
@@ -141,7 +162,7 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                   title: l10n.voiceP2pSwitchToStandard,
                   subtitle: l10n.voiceP2pSwitchToStandardDescription,
                   onTap: () {
-                    unawaited(_confirmSwitchToStandardCall(context, ref));
+                    unawaited(confirmSwitchToStandardVoiceCall(context, ref));
                   },
                 ),
               ],
@@ -248,7 +269,7 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                 child: FluxerRadioGroup<NoiseSuppressionTier>(
                   value: noiseSuppressionTier,
                   onChanged: (NoiseSuppressionTier value) {
-                    unawaited(_setNoiseSuppressionTier(ref, value));
+                    unawaited(setVoicePanelNoiseSuppressionTier(ref, value));
                   },
                   items: <FluxerRadioItem<NoiseSuppressionTier>>[
                     FluxerRadioItem(

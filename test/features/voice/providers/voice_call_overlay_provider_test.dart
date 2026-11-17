@@ -75,6 +75,38 @@ void main() {
       overlay.notePointerActivity(kind: PointerDeviceKind.mouse);
       expect(container.read(voiceCallOverlayProvider).showsOverlay, isTrue);
     });
+
+    test('hides after the pointer idle delay following mouse activity', () {
+      fakeAsync((FakeAsync async) {
+        final ProviderContainer container = _overlayContainer();
+        container
+            .read(voiceCallOverlayProvider.notifier)
+            .notePointerActivity(kind: PointerDeviceKind.mouse);
+        async.elapse(
+          kVoiceCallOverlayPointerIdleDelay - const Duration(milliseconds: 1),
+        );
+        expect(container.read(voiceCallOverlayProvider).showsOverlay, isTrue);
+        async.elapse(const Duration(milliseconds: 2));
+        expect(container.read(voiceCallOverlayProvider).showsOverlay, isFalse);
+      });
+    });
+
+    test('hides on mouse exit unless pinned, ignoring touch', () {
+      final ProviderContainer container = _overlayContainer();
+      final VoiceCallOverlay overlay =
+          container.read(voiceCallOverlayProvider.notifier)
+            ..notePointerActivity(kind: PointerDeviceKind.mouse)
+            ..notePointerExit(kind: PointerDeviceKind.touch);
+      expect(container.read(voiceCallOverlayProvider).showsOverlay, isTrue);
+      overlay
+        ..setMenuPinned(value: true)
+        ..notePointerExit(kind: PointerDeviceKind.mouse);
+      expect(container.read(voiceCallOverlayProvider).showsOverlay, isTrue);
+      overlay
+        ..setMenuPinned(value: false)
+        ..notePointerExit(kind: PointerDeviceKind.mouse);
+      expect(container.read(voiceCallOverlayProvider).showsOverlay, isFalse);
+    });
   });
 
   group('VoiceCallOverlay with a screen reader', () {

@@ -10077,6 +10077,48 @@ abstract class FluxerLocalizations {
   /// **'Video'**
   String get voiceControlVideo;
 
+  /// Tooltip: opens the overflow menu of call options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get voiceControlMoreOptions;
+
+  /// Tooltip: small caret on the mute button that opens microphone device options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Input settings'**
+  String get voiceControlInputSettings;
+
+  /// Tooltip: small caret on the deafen button that opens speaker device options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Output settings'**
+  String get voiceControlOutputSettings;
+
+  /// Tooltip: small caret on the camera button that opens camera options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera settings'**
+  String get voiceControlCameraSettings;
+
+  /// Tooltip: small caret on the screen share button that opens screen share options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share settings'**
+  String get voiceControlScreenShareSettings;
+
+  /// Menu item in the desktop screen share options menu that starts sharing the screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen'**
+  String get voiceControlStartScreenShare;
+
+  /// Menu item in the desktop screen share options menu that stops the active screen share.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop sharing'**
+  String get voiceControlStopScreenShare;
+
   /// Tooltip: switch between front and back camera while video is on.
   ///
   /// In en, this message translates to:

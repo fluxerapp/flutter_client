@@ -6,15 +6,17 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_corner_button.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_chat_surface.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
@@ -97,6 +99,16 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     );
   }
 
+  void _toggleDesktopChat() {
+    setState(() {
+      if (_isChatPanelOpen) {
+        _closeDesktopChat();
+      } else {
+        _isChatPanelOpen = true;
+      }
+    });
+  }
+
   void _closeDesktopChat() {
     _isChatPanelOpen = false;
     _chatJumpTarget = null;
@@ -159,7 +171,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       ),
     );
     final bool usePhoneVoiceOverlay = isHandheldVoiceOverlay(context);
-    final bool useDesktopChat = isDesktopLayout(context);
     final bool textChatSupported =
         ref
             .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
@@ -171,7 +182,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     _openChatForJumpIfNeeded(
       jumpTarget: jumpTarget,
       textChatSupported: textChatSupported,
-      useDesktopChat: useDesktopChat,
+      useDesktopChat: !usePhoneVoiceOverlay,
       channelName: name,
     );
     return ChatSurfaceTheme(
@@ -180,9 +191,10 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
             ? _buildConnected(
                 context,
                 usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+                showChatToggle: !usePhoneVoiceOverlay && textChatSupported,
               )
             : _buildEmpty(channel: channel);
-        if (!useDesktopChat) {
+        if (usePhoneVoiceOverlay) {
           return content;
         }
         return _wrapWithDesktopChat(
@@ -191,6 +203,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
           channelName: name,
           textChatSupported: textChatSupported,
           jumpTarget: jumpTarget,
+          showFloatingToggle: !inThisChannel,
         );
       },
     );
@@ -202,6 +215,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     required String channelName,
     required bool textChatSupported,
     required String? jumpTarget,
+    required bool showFloatingToggle,
   }) {
     if (!textChatSupported) {
       return content;
@@ -213,24 +227,17 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
           child: Stack(
             children: <Widget>[
               content,
-              PositionedDirectional(
-                top: 12,
-                end: 12,
-                child: _DesktopVoiceChatToggle(
-                  key: kDesktopVoiceChatToggleKey,
-                  channelId: widget.channelId,
-                  isOpen: _isChatPanelOpen,
-                  onTap: () {
-                    setState(() {
-                      if (_isChatPanelOpen) {
-                        _closeDesktopChat();
-                      } else {
-                        _isChatPanelOpen = true;
-                      }
-                    });
-                  },
+              if (showFloatingToggle)
+                PositionedDirectional(
+                  top: 12,
+                  end: 12,
+                  child: _DesktopVoiceChatToggle(
+                    key: kDesktopVoiceChatToggleKey,
+                    channelId: widget.channelId,
+                    isOpen: _isChatPanelOpen,
+                    onTap: _toggleDesktopChat,
+                  ),
                 ),
-              ),
             ],
           ),
         ),
@@ -256,6 +263,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   Widget _buildConnected(
     BuildContext context, {
     required bool usePhoneVoiceOverlay,
+    required bool showChatToggle,
   }) {
     return LocalCameraOrientationSync(
       child: ColoredBox(
@@ -271,20 +279,29 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                   ),
                 ),
               )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    child: RepaintBoundary(
-                      child: VoiceChannelParticipantGrid(
-                        key: const ValueKey<String>('voice-participant-grid'),
-                        guildId: widget.guildId,
-                        channelId: widget.channelId,
-                      ),
+            : VoiceCallDesktopStage(
+                header: ChannelHeader(
+                  channelId: widget.channelId,
+                  forceVoiceCallStyle: true,
+                ),
+                cornerControls: <Widget>[
+                  if (showChatToggle)
+                    VoiceCallDesktopCornerButton(
+                      key: kDesktopVoiceChatToggleKey,
+                      icon: PhosphorIconsFill.chatTeardrop,
+                      tooltip: FluxerLocalizations.of(context).voiceControlChat,
+                      toggled: _isChatPanelOpen,
+                      onPressed: _toggleDesktopChat,
+                      badge: VoiceChatUnreadBadge(channelId: widget.channelId),
                     ),
-                  ),
-                  const RepaintBoundary(child: VoiceChannelControlBar()),
                 ],
+                child: RepaintBoundary(
+                  child: VoiceChannelParticipantGrid(
+                    key: const ValueKey<String>('voice-participant-grid'),
+                    guildId: widget.guildId,
+                    channelId: widget.channelId,
+                  ),
+                ),
               ),
       ),
     );

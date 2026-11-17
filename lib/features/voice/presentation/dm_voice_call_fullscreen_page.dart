@@ -12,9 +12,9 @@ import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -151,23 +151,15 @@ class _DmVoiceCallFullscreenPageState
                             ),
                           ),
                         )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Expanded(
-                              child: RepaintBoundary(
-                                child: VoiceChannelParticipantGrid(
-                                  key: const ValueKey<String>(
-                                    'voice-participant-grid',
-                                  ),
-                                  channelId: widget.channelId,
-                                ),
+                      : VoiceCallDesktopStage(
+                          child: RepaintBoundary(
+                            child: VoiceChannelParticipantGrid(
+                              key: const ValueKey<String>(
+                                'voice-participant-grid',
                               ),
+                              channelId: widget.channelId,
                             ),
-                            const RepaintBoundary(
-                              child: VoiceChannelControlBar(),
-                            ),
-                          ],
+                          ),
                         ),
                 )
               : VoiceCallJoinEmptyState(

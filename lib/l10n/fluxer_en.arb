@@ -7993,6 +7993,34 @@
   "@voiceControlVideo": {
     "description": "Tooltip: camera in the voice call control bar (when supported)."
   },
+  "voiceControlMoreOptions": "More options",
+  "@voiceControlMoreOptions": {
+    "description": "Tooltip: opens the overflow menu of call options in the desktop voice call control bar."
+  },
+  "voiceControlInputSettings": "Input settings",
+  "@voiceControlInputSettings": {
+    "description": "Tooltip: small caret on the mute button that opens microphone device options in the desktop voice call control bar."
+  },
+  "voiceControlOutputSettings": "Output settings",
+  "@voiceControlOutputSettings": {
+    "description": "Tooltip: small caret on the deafen button that opens speaker device options in the desktop voice call control bar."
+  },
+  "voiceControlCameraSettings": "Camera settings",
+  "@voiceControlCameraSettings": {
+    "description": "Tooltip: small caret on the camera button that opens camera options in the desktop voice call control bar."
+  },
+  "voiceControlScreenShareSettings": "Screen share settings",
+  "@voiceControlScreenShareSettings": {
+    "description": "Tooltip: small caret on the screen share button that opens screen share options in the desktop voice call control bar."
+  },
+  "voiceControlStartScreenShare": "Share your screen",
+  "@voiceControlStartScreenShare": {
+    "description": "Menu item in the desktop screen share options menu that starts sharing the screen."
+  },
+  "voiceControlStopScreenShare": "Stop sharing",
+  "@voiceControlStopScreenShare": {
+    "description": "Menu item in the desktop screen share options menu that stops the active screen share."
+  },
   "voiceControlFlipCamera": "Flip camera",
   "@voiceControlFlipCamera": {
     "description": "Tooltip: switch between front and back camera while video is on."

@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_availability_provider
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
+import 'package:fluxer_app/features/shell/navigation/handheld_voice_overlay.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
@@ -47,7 +48,8 @@ class DrawerNavigationCoordinator {
   }
 
   static void revealDrawer(ProviderContainer container) {
-    if (container.read(handheldVoiceImmersiveProvider)) {
+    if (isHandheldVoiceOverlayForContainer(container) &&
+        container.read(handheldVoiceImmersiveProvider)) {
       return;
     }
     container.read(currentRevealSideProvider.notifier).set(RevealSide.left);

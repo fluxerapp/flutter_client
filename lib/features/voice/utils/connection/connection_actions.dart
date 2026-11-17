@@ -249,6 +249,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
   bool startP2p = false,
+  bool skipConfirmation = false,
 }) async {
   final ProviderContainer? container = _providerContainer(context);
   if (container == null) {
@@ -261,7 +262,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   final AdvancedPreferencesState advancedPrefs = container.read(
     advancedPreferencesProvider,
   );
-  if (advancedPrefs.confirmBeforeJoiningVoiceChannels) {
+  if (advancedPrefs.confirmBeforeJoiningVoiceChannels && !skipConfirmation) {
     final BuildContext? modalContext = _modalContext(context);
     if (modalContext == null) {
       return VoiceJoinResult.failed;

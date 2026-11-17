@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -138,5 +139,28 @@ void main() {
       (border.border! as Border).top.color,
       _colorTheme.listItemSelectedBorder,
     );
+  });
+
+  testWidgets('forwards double taps', (tester) async {
+    int doubleTaps = 0;
+    await tester.pumpWidget(
+      _app(
+        FluxerSelectableRow(
+          isSelected: false,
+          selectedColor: Colors.blue,
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {},
+          onDoubleTap: () => doubleTaps++,
+          child: const Text('Lounge'),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Lounge'));
+    await tester.pump(kDoubleTapMinTime);
+    await tester.tap(find.text('Lounge'));
+    await tester.pumpAndSettle();
+
+    expect(doubleTaps, 1);
   });
 }

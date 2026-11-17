@@ -18,10 +18,15 @@ import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wal
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_geo_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
+import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_control_bar.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
@@ -32,6 +37,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
@@ -209,6 +215,7 @@ void main() {
         tester,
         size: kTabletLandscapeTestViewportSize,
         textChatSupported: true,
+        touchPrimary: true,
       );
 
       expect(find.byKey(kDesktopVoiceChatToggleKey), findsNothing);
@@ -221,6 +228,7 @@ void main() {
         tester,
         size: kWideTestViewportSize,
         textChatSupported: true,
+        touchPrimary: true,
       );
 
       expect(find.byKey(kDesktopVoiceChatToggleKey), findsNothing);
@@ -237,6 +245,61 @@ void main() {
 
       expect(find.byKey(kDesktopVoiceChatToggleKey), findsOneWidget);
     });
+
+    testWidgets('uses the pointer HUD stage for a mouse on a tablet size', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(
+        tester,
+        voiceSession: session,
+        size: kTabletLandscapeTestViewportSize,
+        textChatSupported: true,
+      );
+      session.setSession(
+        const VoiceSessionState(
+          isConnected: true,
+          guildId: _guildId,
+          channelId: _channelId,
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(VoiceCallDesktopStage), findsOneWidget);
+      expect(find.byType(VoiceCallMobilePageLayout), findsNothing);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('uses the pointer HUD stage with a corner chat toggle', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(
+        tester,
+        voiceSession: session,
+        size: kDesktopTestViewportSize,
+        textChatSupported: true,
+      );
+      session.setSession(
+        const VoiceSessionState(
+          isConnected: true,
+          guildId: _guildId,
+          channelId: _channelId,
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(VoiceCallDesktopStage), findsOneWidget);
+      expect(find.byType(VoiceCallDesktopControlBar), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(VoiceCallDesktopStage),
+          matching: find.byKey(kDesktopVoiceChatToggleKey),
+        ),
+        findsOneWidget,
+      );
+      await releaseTestWidgetTree(tester);
+    });
   });
 }
 
@@ -245,6 +308,7 @@ Future<void> _pumpPage(
   _MutableVoiceSession? voiceSession,
   Size size = const Size(390, 844),
   bool textChatSupported = false,
+  bool touchPrimary = false,
 }) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
@@ -256,11 +320,15 @@ Future<void> _pumpPage(
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   await tester.pumpWidget(
     ProviderScope(
-      overrides: _voicePageOverrides(
-        db: db,
-        session: session,
-        textChatSupported: textChatSupported,
-      ),
+      overrides: <Override>[
+        ..._voicePageOverrides(
+          db: db,
+          session: session,
+          textChatSupported: textChatSupported,
+        ),
+        if (touchPrimary)
+          inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
+      ],
       child: MaterialApp(
         locale: kTestLocale,
         localizationsDelegates: fluxerLocalizationsDelegates,
@@ -293,6 +361,9 @@ List<Override> _voicePageOverrides({
   );
   return <Override>[
     fluxerDatabaseProvider.overrideWithValue(db),
+    matureGeoStatusProvider.overrideWith(
+      (Ref ref) => Future<MatureGeoStatus>.value(MatureGeoStatus.none),
+    ),
     voiceSessionProvider.overrideWith(() => session),
     guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
     chatViewModelProvider.overrideWith(_FakeChatViewModel.new),
@@ -329,6 +400,11 @@ List<Override> _voicePageOverrides({
       voiceChannelParticipantsFamilyKey(_guildId, _channelId),
     ).overrideWith((ref) => const <VoiceChannelParticipantData>[]),
   ];
+}
+
+class _TouchPrimaryModality extends InputModalityNotifier {
+  @override
+  bool build() => true;
 }
 
 class _FakeChannelListViewModel extends ChannelListViewModel {

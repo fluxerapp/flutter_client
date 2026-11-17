@@ -1,6 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 import '../../../helpers/wide_layout_test_sizes.dart';
 
@@ -204,4 +206,59 @@ void main() {
     );
     expect(find.text('yes'), findsOneWidget);
   });
+
+  group('isHandheldVoiceOverlay', () {
+    Future<String> resolve(
+      WidgetTester tester, {
+      required bool touchPrimary,
+    }) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            inputModalityProvider.overrideWith(
+              touchPrimary ? _TouchPrimary.new : _MousePrimary.new,
+            ),
+          ],
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: MediaQuery(
+              data: const MediaQueryData(
+                size: kTabletLandscapeTestViewportSize,
+              ),
+              child: DesktopPointerUiScope(
+                child: Builder(
+                  builder: (BuildContext context) => Text(
+                    isHandheldVoiceOverlay(context) ? 'handheld' : 'desktop',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      return tester.widget<Text>(find.byType(Text)).data!;
+    }
+
+    testWidgets('is false for a mouse on a tablet-sized window', (
+      WidgetTester tester,
+    ) async {
+      expect(await resolve(tester, touchPrimary: false), 'desktop');
+    });
+
+    testWidgets('is true for touch on a tablet-sized window', (
+      WidgetTester tester,
+    ) async {
+      expect(await resolve(tester, touchPrimary: true), 'handheld');
+    });
+  });
+}
+
+class _TouchPrimary extends InputModalityNotifier {
+  @override
+  bool build() => true;
+}
+
+class _MousePrimary extends InputModalityNotifier {
+  @override
+  bool build() => false;
 }

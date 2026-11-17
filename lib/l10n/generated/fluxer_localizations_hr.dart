@@ -6300,6 +6300,27 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceControlVideo => 'Videozapis';
 
   @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
+
+  @override
   String get voiceControlFlipCamera => 'Promijeni kameru';
 
   @override
