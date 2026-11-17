@@ -2,7 +2,9 @@ import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
-import 'package:material_ui/material_ui.dart' as flutter show MaterialLocalizations;
+import 'package:material_ui/material_ui.dart'
+    as flutter
+    show MaterialLocalizations;
 
 import '../helpers/pump_fluxer_app.dart';
 import '../helpers/test_l10n.dart';

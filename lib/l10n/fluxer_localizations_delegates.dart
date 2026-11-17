@@ -12,7 +12,9 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_custom.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
-import 'package:material_ui/material_ui.dart' as flutter show MaterialLocalizations;
+import 'package:material_ui/material_ui.dart'
+    as flutter
+    show MaterialLocalizations;
 import 'package:material_ui/material_ui.dart';
 
 const Set<String> englishBackedLanguageCodes = <String>{'art'};
