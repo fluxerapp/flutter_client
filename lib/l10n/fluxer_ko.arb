@@ -11861,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "선물 받음",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "선물 받으려면 계정을 등록하세요",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11876,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "선물 코드가 유효하지 않거나 이미 사용되었습니다.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "선물 불가",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "{productName} 구독을 활성화하려면 선물을 받으세요!",
     "@giftAcceptClaimSubscription": {

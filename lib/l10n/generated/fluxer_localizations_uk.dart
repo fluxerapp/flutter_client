@@ -1173,9 +1173,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get embedGiftClaim => 'Отримати подарунок';
 
   @override
-  String get embedGiftClaimed => 'Подарунок отримано';
-
-  @override
   String get embedGiftClaimAccount =>
       'Зареєструвати обліковий запис для активації';
 
@@ -1185,9 +1182,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Цей код подарунка недійсний або вже використаний.';
-
-  @override
-  String get embedGiftUnavailable => 'Подарунок недоступний';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

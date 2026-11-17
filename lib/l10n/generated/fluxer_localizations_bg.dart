@@ -1164,9 +1164,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get embedGiftClaim => 'Вземи подарък';
 
   @override
-  String get embedGiftClaimed => 'Подаръкът е взет';
-
-  @override
   String get embedGiftClaimAccount => 'Заяви акаунта си, за да осребриш';
 
   @override
@@ -1175,9 +1172,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Този код за подарък е невалиден или вече е използван.';
-
-  @override
-  String get embedGiftUnavailable => 'Подаръкът не е наличен';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

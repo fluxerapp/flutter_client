@@ -1146,9 +1146,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get embedGiftClaim => 'รับของขวัญ';
 
   @override
-  String get embedGiftClaimed => 'รับของขวัญแล้ว';
-
-  @override
   String get embedGiftClaimAccount => 'ยืนยันบัญชีเพื่อรับของขวัญ';
 
   @override
@@ -1157,9 +1154,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'รหัสของขวัญนี้ไม่ถูกต้องหรือถูกรับไปแล้ว';
-
-  @override
-  String get embedGiftUnavailable => 'ของขวัญไม่พร้อมใช้งาน';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

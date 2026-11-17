@@ -1092,9 +1092,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedGiftClaim => '领取礼物';
 
   @override
-  String get embedGiftClaimed => '礼物已领取';
-
-  @override
   String get embedGiftClaimAccount => '认领账号后领取';
 
   @override
@@ -1102,9 +1099,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => '此礼品码无效或已被领取。';
-
-  @override
-  String get embedGiftUnavailable => '礼物不可用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -17468,9 +17462,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get embedGiftClaim => '領取禮物';
 
   @override
-  String get embedGiftClaimed => '禮物已領取';
-
-  @override
   String get embedGiftClaimAccount => '認領帳號即可兌換';
 
   @override
@@ -17478,9 +17469,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get embedGiftUnknownSubtitle => '此禮物代碼無效或已被領取。';
-
-  @override
-  String get embedGiftUnavailable => '禮物無法使用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

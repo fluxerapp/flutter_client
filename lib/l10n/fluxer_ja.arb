@@ -11861,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "ギフトを受け取りました",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "アカウントを登録して受け取る",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11876,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "このギフトコードは無効であるか、すでに受け取り済みです。",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "ギフトは利用できません",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "{productName}サブスクリプションを有効にするために、ギフトを受け取ってください！",
     "@giftAcceptClaimSubscription": {

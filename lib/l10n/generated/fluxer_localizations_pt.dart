@@ -1165,9 +1165,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get embedGiftClaim => 'Resgatar presente';
 
   @override
-  String get embedGiftClaimed => 'Presente resgatado';
-
-  @override
   String get embedGiftClaimAccount => 'Reivindique a conta para resgatar';
 
   @override
@@ -1176,9 +1173,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de presente é inválido ou já foi resgatado.';
-
-  @override
-  String get embedGiftUnavailable => 'Presente indisponível';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -18778,9 +18772,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get embedGiftClaim => 'Resgatar presente';
 
   @override
-  String get embedGiftClaimed => 'Presente resgatado';
-
-  @override
   String get embedGiftClaimAccount => 'Reivindicar conta para resgatar';
 
   @override
@@ -18789,9 +18780,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de presente é inválido ou já foi resgatado.';
-
-  @override
-  String get embedGiftUnavailable => 'Presente indisponível';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Đã nhận quà",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Xác nhận tài khoản để đổi quà",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Mã quà tặng này không hợp lệ hoặc đã được nhận.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Quà tặng không khả dụng",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Nhận quà của bạn để kích hoạt gói đăng ký {productName} của bạn!",
     "@giftAcceptClaimSubscription": {

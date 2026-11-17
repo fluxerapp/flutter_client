@@ -10621,10 +10621,6 @@
     "@profileSendFriendRequest": {
         "description": "Screen reader label for sending a friend request from a profile."
     },
-    "embedGiftUnavailable": "Regalo no disponible",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
-    },
     "profileUnblockUser": "Desbloquear usuario",
     "@profileUnblockUser": {
         "description": "Screen reader label for unblocking a user from a profile."
@@ -10732,10 +10728,6 @@
     "guildMembersClearAll": "Borrar todo",
     "@guildMembersClearAll": {
         "description": "Button to clear all role filters on the community members page."
-    },
-    "embedGiftClaimed": "Regalo reclamado",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
     },
     "userAreaUserSettings": "Configuración de usuario",
     "@userAreaUserSettings": {

@@ -1148,9 +1148,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get embedGiftClaim => 'קבל את המתנה';
 
   @override
-  String get embedGiftClaimed => 'המתנה התקבלה';
-
-  @override
   String get embedGiftClaimAccount => 'תבע את החשבון כדי לממש';
 
   @override
@@ -1158,9 +1155,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => 'קוד המתנה הזה שגוי או שכבר מומש.';
-
-  @override
-  String get embedGiftUnavailable => 'המתנה אינה זמינה';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

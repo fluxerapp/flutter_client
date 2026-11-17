@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Cadou revendicat",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Revendică contul pentru a-l valorifica",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Acest cod cadou este nevalid sau a fost deja revendicat.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Cadou indisponibil",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Revendică-ți cadoul pentru a-ți activa abonamentul la {productName}!",
     "@giftAcceptClaimSubscription": {

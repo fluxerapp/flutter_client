@@ -11557,10 +11557,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Regalo reclamado",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Completa el registro para canjear",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11572,10 +11568,6 @@
     "embedGiftUnknownSubtitle": "Este código de regalo no es válido o ya ha sido canjeado.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Regalo no disponible",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "¡Reclama tu regalo para activar tu suscripción a {productName}!",
     "@giftAcceptClaimSubscription": {

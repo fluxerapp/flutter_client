@@ -1166,9 +1166,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get embedGiftClaim => 'Převzít dárek';
 
   @override
-  String get embedGiftClaimed => 'Dárek převzat';
-
-  @override
   String get embedGiftClaimAccount => 'Pro uplatnění dokončete registraci účtu';
 
   @override
@@ -1177,9 +1174,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Tento dárkový kód je neplatný nebo ho již někdo převzal.';
-
-  @override
-  String get embedGiftUnavailable => 'Dárek není k dispozici';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Подаръкът е взет",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Заяви акаунта си, за да осребриш",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Този код за подарък е невалиден или вече е използван.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Подаръкът не е наличен",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Поискай подаръка си, за да активираш своя {productName} абонамент!",
     "@giftAcceptClaimSubscription": {

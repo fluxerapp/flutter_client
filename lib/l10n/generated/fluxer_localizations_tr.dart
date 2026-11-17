@@ -1155,9 +1155,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get embedGiftClaim => 'Hediyeyi al';
 
   @override
-  String get embedGiftClaimed => 'Hediye alındı';
-
-  @override
   String get embedGiftClaimAccount => 'Kullanmak için hesabı sahiplen';
 
   @override
@@ -1166,9 +1163,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Bu hediye kodu geçersiz veya zaten alınmış.';
-
-  @override
-  String get embedGiftUnavailable => 'Hediye mevcut değil';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

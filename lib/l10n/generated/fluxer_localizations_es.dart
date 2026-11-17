@@ -1171,9 +1171,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get embedGiftClaim => 'Reclamar regalo';
 
   @override
-  String get embedGiftClaimed => 'Regalo reclamado';
-
-  @override
   String get embedGiftClaimAccount => 'Completa el registro para canjear';
 
   @override
@@ -1182,9 +1179,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de regalo no es válido o ya ha sido canjeado.';
-
-  @override
-  String get embedGiftUnavailable => 'Regalo no disponible';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -18882,9 +18876,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get embedGiftClaim => 'Reclamar regalo';
 
   @override
-  String get embedGiftClaimed => 'Regalo reclamado';
-
-  @override
   String get embedGiftClaimAccount => 'Completa el registro para canjear';
 
   @override
@@ -18893,9 +18884,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de regalo no es válido o ya fue reclamado.';
-
-  @override
-  String get embedGiftUnavailable => 'Regalo no disponible';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

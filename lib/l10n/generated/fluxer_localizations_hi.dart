@@ -1152,9 +1152,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get embedGiftClaim => 'उपहार क्लेम करें';
 
   @override
-  String get embedGiftClaimed => 'उपहार क्लेम किया गया';
-
-  @override
   String get embedGiftClaimAccount => 'रिडीम करने के लिए अकाउंट क्लेम करें';
 
   @override
@@ -1163,9 +1160,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'यह उपहार कोड अमान्य है या पहले ही क्लेम किया जा चुका है।';
-
-  @override
-  String get embedGiftUnavailable => 'उपहार उपलब्ध नहीं है';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

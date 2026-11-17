@@ -1163,9 +1163,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get embedGiftClaim => 'Lös in present';
 
   @override
-  String get embedGiftClaimed => 'Presenten är inlöst';
-
-  @override
   String get embedGiftClaimAccount => 'Säkra kontot för att lösa in';
 
   @override
@@ -1174,9 +1171,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Den här presentkoden är ogiltig eller har redan lösts in.';
-
-  @override
-  String get embedGiftUnavailable => 'Presenten är inte tillgänglig';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

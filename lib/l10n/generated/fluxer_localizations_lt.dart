@@ -1170,9 +1170,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedGiftClaim => 'Atsiimti dovaną';
 
   @override
-  String get embedGiftClaimed => 'Dovana atsiimta';
-
-  @override
   String get embedGiftClaimAccount =>
       'Norėdami išpirkti, užregistruokite paskyrą';
 
@@ -1182,9 +1179,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Šis dovanos kodas neteisingas arba jau panaudotas.';
-
-  @override
-  String get embedGiftUnavailable => 'Dovana nepasiekiama';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

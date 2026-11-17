@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "המתנה התקבלה",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "תבע את החשבון כדי לממש",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "קוד המתנה הזה שגוי או שכבר מומש.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "המתנה אינה זמינה",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "קבל את המתנה שלך כדי להפעיל את המנוי שלך ל-{productName}!",
     "@giftAcceptClaimSubscription": {

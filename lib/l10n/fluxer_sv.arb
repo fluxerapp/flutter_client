@@ -11861,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Presenten är inlöst",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Säkra kontot för att lösa in",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11876,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "Den här presentkoden är ogiltig eller har redan lösts in.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Presenten är inte tillgänglig",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Hämta din gåva för att aktivera din {productName}-prenumeration!",
     "@giftAcceptClaimSubscription": {

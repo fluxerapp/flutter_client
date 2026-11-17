@@ -1110,9 +1110,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get embedGiftClaim => 'ギフトを受け取る';
 
   @override
-  String get embedGiftClaimed => 'ギフトを受け取りました';
-
-  @override
   String get embedGiftClaimAccount => 'アカウントを登録して受け取る';
 
   @override
@@ -1120,9 +1117,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => 'このギフトコードは無効であるか、すでに受け取り済みです。';
-
-  @override
-  String get embedGiftUnavailable => 'ギフトは利用できません';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

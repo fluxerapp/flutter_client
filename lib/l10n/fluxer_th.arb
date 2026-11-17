@@ -11861,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "รับของขวัญแล้ว",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "ยืนยันบัญชีเพื่อรับของขวัญ",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11876,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "รหัสของขวัญนี้ไม่ถูกต้องหรือถูกรับไปแล้ว",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "ของขวัญไม่พร้อมใช้งาน",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "รับของขวัญของคุณเพื่อเปิดใช้งานการสมัครสมาชิก {productName} ของคุณ!",
     "@giftAcceptClaimSubscription": {

@@ -9047,10 +9047,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Presente resgatado",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Reivindique a conta para resgatar",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -9062,10 +9058,6 @@
     "embedGiftUnknownSubtitle": "Este código de presente é inválido ou já foi resgatado.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Presente indisponível",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Resgate seu presente para ativar sua assinatura {productName}!",
     "@giftAcceptClaimSubscription": {

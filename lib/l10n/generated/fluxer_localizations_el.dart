@@ -1170,9 +1170,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get embedGiftClaim => 'Παραλαβή δώρου';
 
   @override
-  String get embedGiftClaimed => 'Το δώρο παραλήφθηκε';
-
-  @override
   String get embedGiftClaimAccount => 'Διεκδίκηση λογαριασμού για εξαργύρωση';
 
   @override
@@ -1181,9 +1178,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη παραληφθεί.';
-
-  @override
-  String get embedGiftUnavailable => 'Το δώρο δεν είναι διαθέσιμο';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

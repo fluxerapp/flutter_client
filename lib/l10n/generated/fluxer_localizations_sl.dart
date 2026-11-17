@@ -1159,9 +1159,6 @@ class FluxerLocalizationsSl extends FluxerLocalizations {
   String get embedGiftClaim => 'Claim gift';
 
   @override
-  String get embedGiftClaimed => 'Gift claimed';
-
-  @override
   String get embedGiftClaimAccount => 'Claim account to redeem';
 
   @override
@@ -1170,9 +1167,6 @@ class FluxerLocalizationsSl extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'This gift code is invalid or already claimed.';
-
-  @override
-  String get embedGiftUnavailable => 'Gift unavailable';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

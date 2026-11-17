@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Poklon preuzet",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Preuzmite račun za iskorištavanje",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Ovaj kôd poklona nije važeći ili je već iskorišten.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Poklon nije dostupan",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Aktiviraj svoju {productName} pretplatu preuzimanjem svog poklona!",
     "@giftAcceptClaimSubscription": {

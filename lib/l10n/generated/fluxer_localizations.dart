@@ -1958,12 +1958,6 @@ abstract class FluxerLocalizations {
   /// **'Claim gift'**
   String get embedGiftClaim;
 
-  /// Disabled button label after a gift is claimed.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift claimed'**
-  String get embedGiftClaimed;
-
   /// Button on a gift embed for unclaimed accounts.
   ///
   /// In en, this message translates to:
@@ -1981,12 +1975,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This gift code is invalid or already claimed.'**
   String get embedGiftUnknownSubtitle;
-
-  /// Disabled button when a gift cannot be claimed.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift unavailable'**
-  String get embedGiftUnavailable;
 
   /// Help text on the gift accept modal for a claimable gift.
   ///

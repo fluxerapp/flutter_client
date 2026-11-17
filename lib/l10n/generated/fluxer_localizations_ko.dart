@@ -1111,9 +1111,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get embedGiftClaim => '선물 받기';
 
   @override
-  String get embedGiftClaimed => '선물 받음';
-
-  @override
   String get embedGiftClaimAccount => '선물 받으려면 계정을 등록하세요';
 
   @override
@@ -1121,9 +1118,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => '선물 코드가 유효하지 않거나 이미 사용되었습니다.';
-
-  @override
-  String get embedGiftUnavailable => '선물 불가';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

@@ -1159,9 +1159,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get embedGiftClaim => 'Hent gave';
 
   @override
-  String get embedGiftClaimed => 'Gave hentet';
-
-  @override
   String get embedGiftClaimAccount =>
       'Fullfør registreringen av kontoen for å løse inn';
 
@@ -1171,9 +1168,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Denne gavekoden er ugyldig eller allerede innløst.';
-
-  @override
-  String get embedGiftUnavailable => 'Gaven er ikke tilgjengelig';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

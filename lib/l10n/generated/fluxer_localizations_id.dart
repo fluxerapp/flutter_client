@@ -1151,9 +1151,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get embedGiftClaim => 'Klaim hadiah';
 
   @override
-  String get embedGiftClaimed => 'Hadiah diklaim';
-
-  @override
   String get embedGiftClaimAccount => 'Klaim akun untuk menukarkan';
 
   @override
@@ -1162,9 +1159,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Kode hadiah ini tidak valid atau sudah diklaim.';
-
-  @override
-  String get embedGiftUnavailable => 'Hadiah tidak tersedia';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

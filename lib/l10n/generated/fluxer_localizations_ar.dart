@@ -1170,9 +1170,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get embedGiftClaim => 'استلام الهدية';
 
   @override
-  String get embedGiftClaimed => 'تم استلام الهدية';
-
-  @override
   String get embedGiftClaimAccount => 'المطالبة بالحساب للاسترداد';
 
   @override
@@ -1181,9 +1178,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'رمز الهدية هذا غير صالح أو تم استلامه بالفعل.';
-
-  @override
-  String get embedGiftUnavailable => 'الهدية غير متاحة';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

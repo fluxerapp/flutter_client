@@ -1171,9 +1171,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get embedGiftClaim => 'Revendică cadoul';
 
   @override
-  String get embedGiftClaimed => 'Cadou revendicat';
-
-  @override
   String get embedGiftClaimAccount => 'Revendică contul pentru a-l valorifica';
 
   @override
@@ -1182,9 +1179,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Acest cod cadou este nevalid sau a fost deja revendicat.';
-
-  @override
-  String get embedGiftUnavailable => 'Cadou indisponibil';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

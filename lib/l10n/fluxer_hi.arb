@@ -1188,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "उपहार क्लेम किया गया",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "रिडीम करने के लिए अकाउंट क्लेम करें",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1203,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "यह उपहार कोड अमान्य है या पहले ही क्लेम किया जा चुका है।",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "उपहार उपलब्ध नहीं है",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "अपने {productName} सब्सक्रिप्शन को सक्रिय करने के लिए अपना उपहार प्राप्त करें!",
     "@giftAcceptClaimSubscription": {

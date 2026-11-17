@@ -1154,9 +1154,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get embedGiftClaim => 'Nhận quà';
 
   @override
-  String get embedGiftClaimed => 'Đã nhận quà';
-
-  @override
   String get embedGiftClaimAccount => 'Xác nhận tài khoản để đổi quà';
 
   @override
@@ -1165,9 +1162,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Mã quà tặng này không hợp lệ hoặc đã được nhận.';
-
-  @override
-  String get embedGiftUnavailable => 'Quà tặng không khả dụng';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

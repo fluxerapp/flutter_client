@@ -1162,9 +1162,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get embedGiftClaim => 'Ajándék beváltása';
 
   @override
-  String get embedGiftClaimed => 'Ajándék beváltva';
-
-  @override
   String get embedGiftClaimAccount =>
       'A beváltáshoz fejezd be a fiókregisztrációt';
 
@@ -1174,9 +1171,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Ez az ajándékkód érvénytelen vagy már felhasználták.';
-
-  @override
-  String get embedGiftUnavailable => 'Ajándék nem elérhető';
 
   @override
   String giftAcceptClaimSubscription(String productName) {

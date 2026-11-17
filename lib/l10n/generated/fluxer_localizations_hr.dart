@@ -1166,9 +1166,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get embedGiftClaim => 'Preuzmi poklon';
 
   @override
-  String get embedGiftClaimed => 'Poklon preuzet';
-
-  @override
   String get embedGiftClaimAccount => 'Preuzmite račun za iskorištavanje';
 
   @override
@@ -1177,9 +1174,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Ovaj kôd poklona nije važeći ili je već iskorišten.';
-
-  @override
-  String get embedGiftUnavailable => 'Poklon nije dostupan';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
