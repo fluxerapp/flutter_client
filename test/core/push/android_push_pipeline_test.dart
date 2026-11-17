@@ -234,8 +234,40 @@ void main() {
         'has_media': 'true',
         'image_url': 'https://fluxerusercontent.com/attachments/1/preview.webp',
       }, endpoints: endpoints),
-      'https://media.selfhosted.test/attachments/1/preview.webp',
+      'https://media.selfhosted.test/attachments/1/preview.webp?width=720&format=webp&animated=false',
     );
+  });
+
+  test('attachment pictures on the media host are fetched pre-scaled', () {
+    final PushMediaInstanceUrls endpoints = PushMediaInstanceUrls.official();
+    expect(
+      pushAttachmentImageUrl(<String, String>{
+        'image_url':
+            'https://fluxerusercontent.com/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&height=4000&animated=true',
+      }, endpoints: endpoints),
+      'https://fluxerusercontent.com/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&width=720&format=webp&animated=false',
+    );
+    expect(
+      pushAttachmentImageUrl(<String, String>{
+        'image_url': 'https://images.example.org/photo.jpg?w=4000',
+      }, endpoints: endpoints),
+      'https://images.example.org/photo.jpg?w=4000',
+    );
+  });
+
+  test('animated notification images decode only the first frame', () {
+    final img.Image first = img.Image(width: 40, height: 20)
+      ..clear(img.ColorRgb8(10, 200, 10));
+    final img.Image second = img.Image(width: 40, height: 20)
+      ..clear(img.ColorRgb8(200, 10, 10));
+    first.addFrame(second);
+    final Uint8List gif = Uint8List.fromList(img.encodeGif(first));
+    expect(img.decodeGif(gif)!.numFrames, 2);
+    final Uint8List? encoded = encodePushNotificationImage(gif, maxEdge: 16);
+    expect(encoded, isNotNull);
+    final img.Image decoded = img.decodeJpg(encoded!)!;
+    expect(decoded.numFrames, 1);
+    expect(decoded.getPixel(4, 4).g, greaterThan(decoded.getPixel(4, 4).r));
   });
 
   test('notification images are scaled down before they are posted', () {
