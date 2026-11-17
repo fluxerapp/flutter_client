@@ -58,6 +58,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Prefetch Rust toolchains for native asset hooks
+        run: bash tool/prefetch_native_rust_toolchains.sh
+
       - name: Run build_runner
         run: dart run build_runner build
 
