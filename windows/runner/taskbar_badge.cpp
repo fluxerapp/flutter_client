@@ -45,11 +45,11 @@ TaskbarBadge::TaskbarBadge(flutter::BinaryMessenger* messenger, HWND window)
         }
         int count = 0;
         if (const auto* value = FindArgument(*args, "count")) {
-          if (const auto* small = std::get_if<int32_t>(value)) {
-            count = *small;
-          } else if (const auto* large = std::get_if<int64_t>(value)) {
+          if (const auto* count32 = std::get_if<int32_t>(value)) {
+            count = *count32;
+          } else if (const auto* count64 = std::get_if<int64_t>(value)) {
             count = static_cast<int>(std::clamp<int64_t>(
-                *large, 0, std::numeric_limits<int>::max()));
+                *count64, 0, std::numeric_limits<int>::max()));
           }
         }
         std::wstring description;
