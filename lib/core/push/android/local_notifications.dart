@@ -59,7 +59,7 @@ final class LocalPushNotifications {
     if (!ready) {
       return null;
     }
-    return _readLaunchPayloadJson();
+    return await _readLaunchPayloadJson();
   }
 
   Future<bool> ensureInitialized({
@@ -804,7 +804,7 @@ final class LocalPushNotifications {
     if (!ready) {
       return null;
     }
-    return _plugin
+    return await _plugin
         .resolvePlatformSpecificImplementation<
           MacOSFlutterLocalNotificationsPlugin
         >()
@@ -865,6 +865,6 @@ final class LocalPushNotifications {
     if (url == null) {
       return null;
     }
-    return download(url).timeout(_kPushMediaWait, onTimeout: () => null);
+    return await download(url).timeout(_kPushMediaWait, onTimeout: () => null);
   }
 }

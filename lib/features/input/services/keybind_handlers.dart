@@ -80,7 +80,7 @@ void registerKeybindHandlers({
     if (message == null) {
       return false;
     }
-    return action(message);
+    return await action(message);
   }
 
   registry

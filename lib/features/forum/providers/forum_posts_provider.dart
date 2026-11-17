@@ -358,7 +358,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
                   .getChannelById(base.ids.last))
               ?.threadArchiveTimestamp;
     }
-    return repository.listArchivedPosts(
+    return await repository.listArchivedPosts(
       guildId: forum.guildId,
       forumId: forumId,
       before: before,

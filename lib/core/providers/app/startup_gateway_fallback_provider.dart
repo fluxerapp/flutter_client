@@ -119,7 +119,7 @@ class StartupGatewayFallbackNotifier extends Notifier<StartupGatewayFallback> {
       return true;
     }
     await Future<void>.delayed(kStartupOfflineConfirmDelay);
-    return check();
+    return await check();
   }
 
   Future<void> _schedule(int generation) async {

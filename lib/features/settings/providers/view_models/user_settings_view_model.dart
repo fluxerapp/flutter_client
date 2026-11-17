@@ -1709,7 +1709,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   Future<void> save() async {
     if (state.isPerGuildProfile) {
-      return saveGuildProfile();
+      return await saveGuildProfile();
     }
 
     if (!state.isDirty) {

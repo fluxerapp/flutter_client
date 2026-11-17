@@ -118,7 +118,7 @@ Future<bool> _disconnectSelfConnections({
   if (connectionIdsToClear.isEmpty) {
     return true;
   }
-  return _waitForOtherConnectionsCleared(
+  return await _waitForOtherConnectionsCleared(
     container: container,
     guildId: guildId,
     channelId: channelId,
@@ -299,7 +299,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
-    return _connectAndResolveJoinResult(
+    return await _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
@@ -343,7 +343,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final List<VoiceState> others = partitioned.otherDevices;
   if (others.isEmpty) {
-    return _connectAndResolveJoinResult(
+    return await _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
@@ -415,7 +415,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       guildId: guildId,
     );
   }
-  return _connectAndResolveJoinResult(
+  return await _connectAndResolveJoinResult(
     container: container,
     guildId: guildId,
     channelId: channelId,

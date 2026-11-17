@@ -32,7 +32,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
   required bool isGroupDm,
 }) async {
   if (!usesDesktopPointerUi(context)) {
-    return _showBottomSheet(
+    return await _showBottomSheet(
       context,
       hasUnread: hasUnread,
       isMuted: isMuted,
@@ -50,7 +50,7 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
 
   final local = overlay.globalToLocal(position);
 
-  return Navigator.of(context).push<DmNavbarAction>(
+  return await Navigator.of(context).push<DmNavbarAction>(
     _DmNavbarContextMenuRoute(
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: local,

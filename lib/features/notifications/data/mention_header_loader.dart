@@ -67,7 +67,7 @@ Future<MentionHeaderResult> _loadHeaderForChannelId(
 ) async {
   final drift_db.Channel? chRow = await db.channelDao.getChannelById(channelId);
   if (chRow != null) {
-    return _buildGuildHeader(db, chRow);
+    return await _buildGuildHeader(db, chRow);
   }
   final drift_db.DmChannel? dm = await db.dmChannelDao.getDmChannelById(
     channelId,
@@ -78,7 +78,7 @@ Future<MentionHeaderResult> _loadHeaderForChannelId(
       guildIdForPreview: '',
     );
   }
-  return _buildDmHeader(db, dm);
+  return await _buildDmHeader(db, dm);
 }
 
 Future<MentionHeaderResult> _buildGuildHeader(

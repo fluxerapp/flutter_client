@@ -18,8 +18,10 @@ import androidx.credentials.CredentialManager;
 import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
+import androidx.credentials.GetPasswordOption;
 import androidx.credentials.GetPublicKeyCredentialOption;
 import androidx.credentials.GetRestoreCredentialOption;
+import androidx.credentials.PasswordCredential;
 import androidx.credentials.PublicKeyCredential;
 import androidx.credentials.RestoreCredential;
 import androidx.credentials.SignalAllAcceptedCredentialIdsRequest;
@@ -60,6 +62,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -75,6 +78,9 @@ public class MessageHandler implements Messages.PasskeysApi {
     private static final String PASSKEY_UNSUPPORTED_ERROR = "Passkeys are only supported on Android API 28 and above.";
     private static final String RESTORE_CREDENTIAL_UNSUPPORTED_ERROR = "Restore credentials are only supported on Android API 28 and above.";
     private static final String RESTORE_CREDENTIAL_PROVIDER_ERROR = "Restore credentials need Google Play services 24.22 or newer.";
+    private static final String CONDITIONAL_CREATE_NOT_ELIGIBLE_ERROR = "The credential provider did not create a passkey without asking.";
+    private static final String CONDITIONAL_CREATE_UNSUPPORTED_ERROR = "The credential provider does not support conditional passkey creation.";
+    private static final String DOMAIN_NOT_ASSOCIATED_ERROR = "The relying party id is not associated with this app. Make sure https://<rp-id>/.well-known/assetlinks.json grants delegate_permission/common.get_login_creds to this package name and to the SHA-256 fingerprint of the certificate this build is signed with (debug, upload and Play App Signing certificates differ).";
 
     private final FlutterPasskeysPlugin plugin;
 
@@ -109,6 +115,7 @@ public class MessageHandler implements Messages.PasskeysApi {
             @Nullable String attestation,
             @NonNull List<Messages.ExcludeCredential> excludeCredentials,
             @Nullable String salt,
+            @NonNull Boolean isConditional,
             @NonNull Messages.Result<Messages.RegisterResponse> result
             ) {
         if (android.os.Build.VERSION.SDK_INT < 28) {
@@ -125,7 +132,7 @@ public class MessageHandler implements Messages.PasskeysApi {
             Activity activity = plugin.requireActivity();
             CredentialManager credentialManager = CredentialManager.create(activity);
             CreatePublicKeyCredentialRequest createPublicKeyCredentialRequest = new CreatePublicKeyCredentialRequest(
-                    options);
+                    options, null, false, null, false, isConditional);
             currentCancellationSignal = new CancellationSignal();
             credentialManager.createCredentialAsync(activity, createPublicKeyCredentialRequest,
                     currentCancellationSignal, Runnable::run,
@@ -145,6 +152,15 @@ public class MessageHandler implements Messages.PasskeysApi {
 
                         @Override
                         public void onError(CreateCredentialException e) {
+                            if (isConditional) {
+                                Messages.FlutterError conditionalError = conditionalCreateError(e);
+                                if (conditionalError != null) {
+                                    Log.d(TAG, "Conditional create did not create a passkey", e);
+                                    result.error(conditionalError);
+                                    return;
+                                }
+                            }
+
                             Exception platformException = e;
                             if (Objects.equals(e.getMessage(), "Unable to create key during registration")) {
                                 // currently, Android throws this error when users skip the fingerPrint
@@ -158,13 +174,15 @@ public class MessageHandler implements Messages.PasskeysApi {
                     //  can change across Google Play Services versions.
                     //  See: https://www.corbado.com/blog/google-play-services-passkey-error-codes
                     } else if (e instanceof CreatePublicKeyCredentialDomException) {
-                                if (Objects.equals(e.getMessage(), "User is unable to create passkeys.")) {
+                                if (isSecurityError(e.getType())) {
+                                    platformException = domainNotAssociatedError(e.getMessage());
+                                } else if (Objects.equals(e.getMessage(), "User is unable to create passkeys.")) {
                                     platformException = new Messages.FlutterError("android-missing-google-sign-in",
                                             e.getMessage(), MISSING_GOOGLE_SIGN_IN_ERROR);
                                 } else if (Objects.equals(e.getMessage(), "Unable to get sync account.")) {
                                     platformException = new Messages.FlutterError("android-sync-account-not-available",
                                             e.getMessage(), SYNC_ACCOUNT_NOT_AVAILABLE_ERROR);
-                                } else if (e.getMessage() != null && e.getMessage().toLowerCase().contains("excluded credentials")) {
+                                } else if (e.getMessage() != null && e.getMessage().toLowerCase(Locale.ROOT).contains("excluded credentials")) {
                                     // Match excluded credentials error by substring instead of exact match,
                                     // as the error message may vary across Android / Google Play Services versions.
                                     // Also handles TYPE_INVALID_STATE_ERROR with excluded credentials message.
@@ -248,45 +266,142 @@ public class MessageHandler implements Messages.PasskeysApi {
 
                         @Override
                         public void onError(GetCredentialException e) {
-                            Exception platformException = e;
-
-                            // currently, Android throws this error when users skip the fingerPrint
-                            // animation => we interpret this as a cancellation for now
-                            if (Objects.equals(e.getMessage(),
-                                    "None of the allowed credentials can be authenticated")) {
-                                platformException = new Messages.FlutterError("cancelled", e.getMessage(), "");
-                                Log.d(TAG, "onError called", e);
-                            } else if (e instanceof GetCredentialCancellationException) {
-                                platformException = new Messages.FlutterError("cancelled", e.getMessage(), "");
-                                Log.d(TAG, "onError called", e);
-                            } else if (e instanceof NoCredentialException) {
-                                platformException = new Messages.FlutterError("android-no-credential", e.getMessage(),
-                                        "");
-                                Log.d(TAG, "onError called", e);
-                            } else if (e instanceof GetPublicKeyCredentialDomException) {
-                                if (Objects.equals(e.getMessage(), "Failed to decrypt credential.")) {
-                                    platformException = new Messages.FlutterError("android-sync-account-not-available",
-                                            e.getMessage(), SYNC_ACCOUNT_NOT_AVAILABLE_ERROR);
-                                } else if (Objects.equals(e.getMessage(), "[15] Flow has timed out.")) {
-                                    platformException = new Messages.FlutterError("android-timeout", e.getMessage(),
-                                            TIMEOUT_ERROR);
-                                } else {
-                                    platformException = new Messages.FlutterError("android-unhandled: " + e.getType(),
-                                            e.getMessage(), e.getErrorMessage());
-                                }
-                                Log.e(TAG, "onError called", e);
-                            } else {
-                                platformException = new Messages.FlutterError("android-unhandled: " + e.getType(),
-                                        e.getMessage(), e.getErrorMessage());
-                                Log.e(TAG, "onError called", e);
-                            }
-
-                            result.error(platformException);
+                            result.error(getCredentialError(e));
                         }
                     });
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void getPasswordOrPasskey(@Nullable String relyingPartyId, @Nullable String challenge,
+            @Nullable Long timeout, @Nullable String userVerification,
+            @Nullable List<Messages.AllowCredential> allowCredentials, @Nullable String salt,
+            @NonNull Boolean preferImmediatelyAvailableCredentials,
+            @NonNull Messages.Result<Messages.PasswordOrPasskeyResponse> result) {
+        GetCredentialRequest.Builder builder = new GetCredentialRequest.Builder()
+                .addCredentialOption(new GetPasswordOption())
+                .setPreferImmediatelyAvailableCredentials(preferImmediatelyAvailableCredentials);
+        if (relyingPartyId != null && challenge != null && android.os.Build.VERSION.SDK_INT >= 28) {
+            try {
+                JSONObject optionsJson = buildGetCredentialOptions(relyingPartyId, challenge, timeout,
+                        userVerification, allowCredentials);
+                addPrfExtension(optionsJson, salt);
+                builder.addCredentialOption(new GetPublicKeyCredentialOption(optionsJson.toString()));
+            } catch (JSONException e) {
+                Log.e(TAG, "Error creating JSON", e);
+                result.error(e);
+                return;
+            }
+        }
+
+        Activity activity = plugin.requireActivity();
+        CredentialManager credentialManager = CredentialManager.create(activity);
+        currentCancellationSignal = new CancellationSignal();
+
+        credentialManager.getCredentialAsync(activity, builder.build(), currentCancellationSignal, Runnable::run,
+                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                    @Override
+                    public void onResult(GetCredentialResponse res) {
+                        Credential credential = res.getCredential();
+                        if (credential instanceof PasswordCredential) {
+                            PasswordCredential password = (PasswordCredential) credential;
+                            result.success(new Messages.PasswordOrPasskeyResponse.Builder()
+                                    .setUsername(password.getId())
+                                    .setPassword(password.getPassword())
+                                    .build());
+                        } else if (credential instanceof PublicKeyCredential) {
+                            String responseJson = ((PublicKeyCredential) credential).getAuthenticationResponseJson();
+                            try {
+                                result.success(new Messages.PasswordOrPasskeyResponse.Builder()
+                                        .setPasskey(parseAuthenticateResponse(responseJson))
+                                        .build());
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error parsing response: " + responseJson, e);
+                                result.error(e);
+                            }
+                        } else {
+                            result.error(new Messages.FlutterError("android-unhandled: " + credential.getType(),
+                                    "Credential is neither a password nor a passkey.", null));
+                        }
+                    }
+
+                    @Override
+                    public void onError(GetCredentialException e) {
+                        result.error(getCredentialError(e));
+                    }
+                });
+    }
+
+    /**
+     * Maps a conditional create failure to a Flutter error, or returns null when it is not specific to
+     * conditional create. Matches on getType() as well, because release builds obfuscate class names.
+     */
+    @Nullable
+    private static Messages.FlutterError conditionalCreateError(@NonNull CreateCredentialException e) {
+        // Play services reports an excludeCredentials match as TYPE_NO_CREATE_OPTIONS ([50157]) in conditional mode.
+        String message = e.getMessage();
+        if (message != null && message.toLowerCase(Locale.ROOT).contains("excluded credentials")) {
+            return new Messages.FlutterError("exclude-credentials-match", message, EXCLUDE_CREDENTIALS_MATCH_ERROR);
+        }
+        String type = e.getType();
+        if (e instanceof CreateCredentialNoCreateOptionException || type.endsWith("TYPE_NO_CREATE_OPTIONS")) {
+            return new Messages.FlutterError("not-eligible", e.getMessage(), CONDITIONAL_CREATE_NOT_ELIGIBLE_ERROR);
+        }
+        if (e instanceof CreateCredentialUnsupportedException
+                || type.endsWith("TYPE_CREATE_CREDENTIAL_UNSUPPORTED_EXCEPTION")) {
+            return new Messages.FlutterError("conditional-create-unsupported", e.getMessage(),
+                    CONDITIONAL_CREATE_UNSUPPORTED_ERROR);
+        }
+        return null;
+    }
+
+    /**
+     * A WebAuthn SecurityError means the relying party id is not verified for this app, which on Android
+     * almost always is a Digital Asset Links mismatch. Matches on getType() because release builds
+     * obfuscate class names.
+     */
+    private static boolean isSecurityError(@NonNull String type) {
+        return type.endsWith("TYPE_SECURITY_ERROR");
+    }
+
+    @NonNull
+    private static Messages.FlutterError domainNotAssociatedError(@Nullable String platformMessage) {
+        String message = platformMessage == null
+                ? DOMAIN_NOT_ASSOCIATED_ERROR
+                : DOMAIN_NOT_ASSOCIATED_ERROR + " Platform error: " + platformMessage;
+        return new Messages.FlutterError("domain-not-associated", message, platformMessage);
+    }
+
+    private static Exception getCredentialError(@NonNull GetCredentialException e) {
+        // Android throws this both when users skip the fingerprint animation and
+        // when the credential provider fails to use the selected passkey.
+        if (Objects.equals(e.getMessage(), "None of the allowed credentials can be authenticated")) {
+            Log.d(TAG, "onError called", e);
+            return new Messages.FlutterError("android-credential-not-authenticated", e.getMessage(),
+                    e.getType());
+        } else if (e instanceof GetCredentialCancellationException) {
+            Log.d(TAG, "onError called", e);
+            return new Messages.FlutterError("cancelled", e.getMessage(), "");
+        } else if (e instanceof NoCredentialException) {
+            Log.d(TAG, "onError called", e);
+            return new Messages.FlutterError("android-no-credential", e.getMessage(), "");
+        } else if (e instanceof GetPublicKeyCredentialDomException) {
+            Log.e(TAG, "onError called", e);
+            if (isSecurityError(e.getType())) {
+                return domainNotAssociatedError(e.getMessage());
+            } else if (Objects.equals(e.getMessage(), "Failed to decrypt credential.")) {
+                return new Messages.FlutterError("android-sync-account-not-available", e.getMessage(),
+                        SYNC_ACCOUNT_NOT_AVAILABLE_ERROR);
+            } else if (Objects.equals(e.getMessage(), "[15] Flow has timed out.")) {
+                return new Messages.FlutterError("android-timeout", e.getMessage(), TIMEOUT_ERROR);
+            }
+            return new Messages.FlutterError("android-unhandled: " + e.getType(), e.getMessage(),
+                    e.getErrorMessage());
+        }
+        Log.e(TAG, "onError called", e);
+        return new Messages.FlutterError("android-unhandled: " + e.getType(), e.getMessage(), e.getErrorMessage());
     }
 
     @Override

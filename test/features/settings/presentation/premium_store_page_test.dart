@@ -122,7 +122,7 @@ class _SlowBillingContext extends _FixedBillingContext {
   @override
   Future<StoreBillingContextResponse> build() async {
     await gate.future;
-    return super.build();
+    return await super.build();
   }
 }
 

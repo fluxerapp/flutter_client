@@ -37,11 +37,11 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
-import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../helpers/input_modality_override.dart';
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 import '../../../helpers/wide_layout_test_sizes.dart';
@@ -326,8 +326,7 @@ Future<void> _pumpPage(
           session: session,
           textChatSupported: textChatSupported,
         ),
-        if (touchPrimary)
-          inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
+        inputModalityOverride(touch: touchPrimary),
       ],
       child: MaterialApp(
         locale: kTestLocale,
@@ -400,11 +399,6 @@ List<Override> _voicePageOverrides({
       voiceChannelParticipantsFamilyKey(_guildId, _channelId),
     ).overrideWith((ref) => const <VoiceChannelParticipantData>[]),
   ];
-}
-
-class _TouchPrimaryModality extends InputModalityNotifier {
-  @override
-  bool build() => true;
 }
 
 class _FakeChannelListViewModel extends ChannelListViewModel {

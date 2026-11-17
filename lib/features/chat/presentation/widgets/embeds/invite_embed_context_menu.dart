@@ -28,7 +28,7 @@ Future<InviteEmbedContextMenuAction?> showInviteEmbedContextMenu(
   }
   final Offset localPosition = overlay.globalToLocal(position);
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  return Navigator.of(context).push<InviteEmbedContextMenuAction>(
+  return await Navigator.of(context).push<InviteEmbedContextMenuAction>(
     _InviteEmbedContextMenuRoute(
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: localPosition,

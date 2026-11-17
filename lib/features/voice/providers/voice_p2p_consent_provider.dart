@@ -68,7 +68,7 @@ Future<bool> _agreeAndRetry(Ref ref, VoiceConnectFailedTarget target) async {
   if (!agreed) {
     return false;
   }
-  return notifier.connectToVoiceChannel(
+  return await notifier.connectToVoiceChannel(
     guildId: target.guildId,
     channelId: target.channelId,
     p2p: true,
@@ -89,5 +89,5 @@ Future<bool> _agreeToJoin(Ref ref, VoiceConnectFailedTarget target) async {
   if (ctx == null || !ctx.mounted) {
     return false;
   }
-  return showVoiceP2pConsentSheet(ctx, pinned: channel?.rtcP2p ?? false);
+  return await showVoiceP2pConsentSheet(ctx, pinned: channel?.rtcP2p ?? false);
 }

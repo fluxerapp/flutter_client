@@ -134,7 +134,7 @@ final declaredAgeRequiredPayloadProvider =
       if (!ref.mounted || !ref.read(declaredAgeReportingSupportedProvider)) {
         return null;
       }
-      return _requestDeclaredAgeRange();
+      return await _requestDeclaredAgeRange();
     });
 
 enum DeclaredAgeUnlockOutcome {

@@ -75,7 +75,7 @@ class ThreadsRepository {
     } on Object {
       return null;
     }
-    return _db.channelDao.getChannelById(threadId);
+    return await _db.channelDao.getChannelById(threadId);
   }
 
   Future<Channel?> loadCachedThread({

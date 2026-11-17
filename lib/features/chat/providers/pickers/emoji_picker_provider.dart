@@ -244,7 +244,7 @@ class EmojiSkinTone extends _$EmojiSkinTone {
     if (userId == null) {
       return '';
     }
-    return ref
+    return await ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getEmojiSkinTone(userId);

@@ -17,7 +17,7 @@ Future<FileUploadValidationResult> addPastedTextAsAttachment({
       FileUploadValidationError.noFiles,
     );
   }
-  return ref
+  return await ref
       .read(
         cloudUploadControllerProvider(
           readAccountUserId(ref),

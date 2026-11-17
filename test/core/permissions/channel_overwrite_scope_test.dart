@@ -71,7 +71,7 @@ Future<ChannelPermissionCache> _cacheFor(FluxerDatabase db) async {
     ],
   );
   addTearDown(container.dispose);
-  return container.read(
+  return await container.read(
     channelPermissionCacheProvider(readAccountUserId(container)).notifier,
   );
 }

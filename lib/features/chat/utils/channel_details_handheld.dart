@@ -49,7 +49,7 @@ Future<ChannelDetailsJumpRequest?> openHandheldChannelDetails(
     return null;
   }
   if (handheldChannelDetailsUsesDrawer(ref, context)) {
-    return ref
+    return await ref
         .read(channelDetailsDrawerProvider.notifier)
         .open(
           channel: channel,
@@ -58,7 +58,7 @@ Future<ChannelDetailsJumpRequest?> openHandheldChannelDetails(
           openSearchImmediately: openSearchImmediately,
         );
   }
-  return showChannelDetailsSheet(
+  return await showChannelDetailsSheet(
     context,
     channel: channel,
     dm: dm,

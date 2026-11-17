@@ -46,7 +46,7 @@ Future<SensitiveContentState> _resolve({
   addTearDown(container.dispose);
   container.listen(sensitiveContentProvider, (_, _) {});
   await container.read(matureGeoStatusProvider.future);
-  return container.read(sensitiveContentProvider);
+  return await container.read(sensitiveContentProvider);
 }
 
 void main() {

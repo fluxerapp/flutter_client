@@ -259,7 +259,7 @@ Future<String?> _resolveValidChatLocation(
     if (await db.favoriteChannelsDao.getChannel(channelId) != null) {
       return path;
     }
-    return resolveFavoritesRootRedirect(
+    return await resolveFavoritesRootRedirect(
       fullPath: RoutePaths.favoritesBase,
       db: db,
     );
@@ -279,7 +279,7 @@ Future<String?> _resolveValidChatLocation(
       )) {
     return path;
   }
-  return resolveGuildRootRedirect(
+  return await resolveGuildRootRedirect(
     guildId: guildId,
     fullPath: RoutePaths.guild(guildId),
     db: db,

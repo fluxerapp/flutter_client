@@ -409,7 +409,7 @@ Future<VoiceJoinResult?> _runJoinFromHarness(
   if (afterModalOpens != null) {
     await afterModalOpens(tester);
   }
-  return resultCompleter.future;
+  return await resultCompleter.future;
 }
 
 Future<void> _pumpJoinHarness(

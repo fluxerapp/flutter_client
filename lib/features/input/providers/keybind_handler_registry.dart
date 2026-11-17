@@ -16,7 +16,7 @@ class KeybindHandlerRegistry {
     if (handler == null) {
       return false;
     }
-    return handler();
+    return await handler();
   }
 }
 

@@ -68,7 +68,7 @@ class MessageWriteBatcher {
 
   Future<void> flush() async {
     if (_flushing != null) {
-      return _flushing!;
+      return await _flushing!;
     }
     _timer?.cancel();
     _timer = null;
@@ -77,7 +77,7 @@ class MessageWriteBatcher {
     }
     final Future<void> future = _applyFlush();
     _flushing = future;
-    return future.whenComplete(() => _flushing = null);
+    return await future.whenComplete(() => _flushing = null);
   }
 
   Future<void> flushAll() => flush();

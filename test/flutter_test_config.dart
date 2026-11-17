@@ -27,6 +27,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   };
   setUp(() {
     _failSpriteSheetLoads();
+    _stubNativeClipboard();
     addTearDown(() async {
       await flushTestWidgetBinding();
     });
@@ -44,4 +45,26 @@ void _failSpriteSheetLoads() {
       key.startsWith('assets/emoji-sprites/')
       ? Future<ByteData?>.value()
       : null;
+}
+
+void _stubNativeClipboard() {
+  if (BindingBase.debugBindingType() == null) {
+    return;
+  }
+  final BinaryMessenger messenger =
+      ServicesBinding.instance.defaultBinaryMessenger;
+  if (messenger is! TestDefaultBinaryMessenger) {
+    return;
+  }
+  const String prefix = 'dev.flutter.pigeon.fluxer_clipboard.ClipboardHostApi';
+  const StandardMessageCodec codec = StandardMessageCodec();
+  messenger
+    ..setMockMessageHandler(
+      '$prefix.readText',
+      (ByteData? _) async => codec.encodeMessage(<Object?>[null]),
+    )
+    ..setMockMessageHandler(
+      '$prefix.readItems',
+      (ByteData? _) async => codec.encodeMessage(<Object?>[<Object?>[]]),
+    );
 }

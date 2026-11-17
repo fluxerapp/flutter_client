@@ -33,7 +33,7 @@ class _HeldAdapter extends PaginatingAdapter {
     Future<void>? cancelFuture,
   ) async {
     await release.future;
-    return super.fetch(options, requestStream, cancelFuture);
+    return await super.fetch(options, requestStream, cancelFuture);
   }
 }
 

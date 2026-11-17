@@ -19,7 +19,7 @@ class _FakeUsersApi implements UsersApi {
   Future<List<WebAuthnCredentialResponse>> listWebauthnCredentials() async {
     final onList = this.onList;
     if (onList != null) {
-      return onList();
+      return await onList();
     }
     if (listError != null) {
       // Test fake: re-throw whatever the test supplied (e.g. DioException).

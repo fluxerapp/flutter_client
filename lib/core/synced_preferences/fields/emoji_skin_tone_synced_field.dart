@@ -32,7 +32,7 @@ class EmojiSkinToneSyncedField
     if (userId == null) {
       return '';
     }
-    return _ref
+    return await _ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getEmojiSkinTone(userId);

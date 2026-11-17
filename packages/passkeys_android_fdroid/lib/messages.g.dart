@@ -567,6 +567,61 @@ class AuthenticateResponse {
   int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
 }
 
+/// The credential picked in the Credential Manager sheet: a saved password
+/// ([username] and [password]) or a passkey assertion ([passkey]).
+class PasswordOrPasskeyResponse {
+  PasswordOrPasskeyResponse({
+    this.username,
+    this.password,
+    this.passkey,
+  });
+
+  /// The username of the saved password
+  String? username;
+
+  /// The saved password
+  String? password;
+
+  /// The passkey assertion
+  AuthenticateResponse? passkey;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      username,
+      password,
+      passkey,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static PasswordOrPasskeyResponse decode(Object result) {
+    result as List<Object?>;
+    return PasswordOrPasskeyResponse(
+      username: result[0] as String?,
+      password: result[1] as String?,
+      passkey: result[2] as AuthenticateResponse?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! PasswordOrPasskeyResponse || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(username, other.username) && _deepEquals(password, other.password) && _deepEquals(passkey, other.passkey);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+}
+
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -599,6 +654,9 @@ class _PigeonCodec extends StandardMessageCodec {
     }    else if (value is AuthenticateResponse) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
+    }    else if (value is PasswordOrPasskeyResponse) {
+      buffer.putUint8(137);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -623,6 +681,8 @@ class _PigeonCodec extends StandardMessageCodec {
         return RegisterResponse.decode(readValue(buffer)!);
       case 136:
         return AuthenticateResponse.decode(readValue(buffer)!);
+      case 137:
+        return PasswordOrPasskeyResponse.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -680,14 +740,14 @@ class PasskeysApi {
     return pigeonVar_replyValue! as bool;
   }
 
-  Future<RegisterResponse> register(String challenge, RelyingParty relyingParty, User user, AuthenticatorSelection? authenticatorSelection, List<PubKeyCredParam>? pubKeyCredParams, int? timeout, String? attestation, List<ExcludeCredential> excludeCredentials, String? salt) async {
+  Future<RegisterResponse> register(String challenge, RelyingParty relyingParty, User user, AuthenticatorSelection? authenticatorSelection, List<PubKeyCredParam>? pubKeyCredParams, int? timeout, String? attestation, List<ExcludeCredential> excludeCredentials, String? salt, bool isConditional) async {
     final pigeonVar_channelName = 'dev.flutter.pigeon.passkeys_android.PasskeysApi.register$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[challenge, relyingParty, user, authenticatorSelection, pubKeyCredParams, timeout, attestation, excludeCredentials, salt]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[challenge, relyingParty, user, authenticatorSelection, pubKeyCredParams, timeout, attestation, excludeCredentials, salt, isConditional]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
@@ -716,6 +776,26 @@ class PasskeysApi {
     )
     ;
     return pigeonVar_replyValue! as AuthenticateResponse;
+  }
+
+  /// Without [challenge], or below API 28, only saved passwords are offered.
+  Future<PasswordOrPasskeyResponse> getPasswordOrPasskey(String? relyingPartyId, String? challenge, int? timeout, String? userVerification, List<AllowCredential>? allowCredentials, String? salt, bool preferImmediatelyAvailableCredentials) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.passkeys_android.PasskeysApi.getPasswordOrPasskey$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[relyingPartyId, challenge, timeout, userVerification, allowCredentials, salt, preferImmediatelyAvailableCredentials]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as PasswordOrPasskeyResponse;
   }
 
   Future<void> cancelCurrentAuthenticatorOperation() async {

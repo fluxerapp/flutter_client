@@ -290,7 +290,7 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
   } else {
     ref.watch(voiceStatesInChannelProvider(guildId, channelId));
   }
-  return readVoiceJoinEligibility(ref, channelId);
+  return await readVoiceJoinEligibility(ref, channelId);
 }
 
 Future<VoiceJoinEligibility> readVoiceJoinEligibility(

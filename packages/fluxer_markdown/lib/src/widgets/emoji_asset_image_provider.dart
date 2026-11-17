@@ -72,7 +72,7 @@ class EmojiAssetImageProvider extends ImageProvider<EmojiAssetImageKey> {
     final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(
       data,
     );
-    return decode(
+    return await decode(
       buffer,
       // Capping both decode axes stretches non-square emoji: https://feedback.fluxer.com/p/1836
       getTargetSize: (int width, int height) => width >= height

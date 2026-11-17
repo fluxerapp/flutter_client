@@ -67,7 +67,7 @@ Future<PushConversationIdentity> readPushConversationIdentity(
   Map<String, String> payload,
 ) async {
   if (isDmPushPayload(payload)) {
-    return _readGroupDmIdentity(database, payload);
+    return await _readGroupDmIdentity(database, payload);
   }
   final String? guildId = payload['guild_id'];
   if (guildId == null) {

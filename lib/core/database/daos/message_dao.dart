@@ -350,7 +350,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
                 m.id.cast<int>().isBiggerThanValue(afterSnowflake)),
       );
     }
-    return query.get();
+    return await query.get();
   }
 
   Future<List<Message>> getMessagesInSnowflakeRange(
@@ -373,7 +373,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     if (reference == null) {
       return null;
     }
-    return (select(messages)
+    return await (select(messages)
           ..where(
             (m) =>
                 m.channelId.equals(channelId) &

@@ -38,7 +38,7 @@ Future<File> _resolveDatabaseFile() async {
   if (Platform.isIOS) {
     final Directory support = await getApplicationSupportDirectory();
     final Directory documents = await getApplicationDocumentsDirectory();
-    return moveLegacyIosDatabase(
+    return await moveLegacyIosDatabase(
       legacyDirectory: documents,
       databaseDirectory: Directory(p.join(support.path, 'database')),
     );

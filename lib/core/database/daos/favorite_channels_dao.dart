@@ -219,7 +219,9 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<FavoriteSetting> getSettings() async {
     await _ensureSettings();
-    return (select(favoriteSettings)..where((t) => t.id.equals(1))).getSingle();
+    return await (select(
+      favoriteSettings,
+    )..where((t) => t.id.equals(1))).getSingle();
   }
 
   Future<void> setCollapsedCategoryIds(List<String> categoryIds) async {

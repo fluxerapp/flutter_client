@@ -32,7 +32,7 @@ Future<void> showThreadBrowserSheet(
   if (gateUp || !context.mounted) {
     return;
   }
-  return FluxerBottomSheet.showScrollable<void>(
+  return await FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadBrowserTitle,
     desktop: const FluxerDesktopPresentation(

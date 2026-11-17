@@ -159,7 +159,7 @@ Future<void> _settle(WidgetTester tester, [int rounds = 8]) async {
   }
 }
 
-Future<Future<ChannelDetailsJumpRequest?>> _open(
+Future<({Future<ChannelDetailsJumpRequest?> result})> _open(
   WidgetTester tester,
   ProviderContainer container,
 ) async {
@@ -194,7 +194,7 @@ Future<Future<ChannelDetailsJumpRequest?>> _open(
   );
   await tester.tap(find.text('Open'));
   await _settle(tester);
-  return result;
+  return (result: result);
 }
 
 FluxerLocalizations _l10n(WidgetTester tester) =>
@@ -513,10 +513,10 @@ void main() {
     final ProviderContainer container = await _container(tester);
     addTearDown(container.dispose);
 
-    final Future<ChannelDetailsJumpRequest?> result = await _open(
+    final Future<ChannelDetailsJumpRequest?> result = (await _open(
       tester,
       container,
-    );
+    )).result;
     await tester.enterText(find.byType(EditableText), 'fixing');
     await tester.pump(const Duration(milliseconds: 350));
     await _settle(tester);

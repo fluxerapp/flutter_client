@@ -171,7 +171,7 @@ createGuildInviteLink({
       useVanityUrl: true,
     );
   }
-  return createChannelInviteLink(
+  return await createChannelInviteLink(
     ref: ref,
     channelId: match.channel.id,
     channelName: channelName ?? match.channel.name,

@@ -37,7 +37,7 @@ class GuildNsfwAgreementsSyncedField
     if (userId == null) {
       return const MatureContentAgreements();
     }
-    return _ref
+    return await _ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getMatureContentAgreements(userId);

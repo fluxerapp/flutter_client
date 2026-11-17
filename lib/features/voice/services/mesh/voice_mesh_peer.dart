@@ -1076,6 +1076,6 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     if (pc == null) {
       return const <StatsReport>[];
     }
-    return pc.getStats();
+    return await pc.getStats();
   }
 }

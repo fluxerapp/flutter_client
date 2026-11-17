@@ -1325,6 +1325,116 @@ public class Messages {
     }
   }
 
+  /**
+   * The credential picked in the Credential Manager sheet: a saved password
+   * ([username] and [password]) or a passkey assertion ([passkey]).
+   *
+   * Generated class from Pigeon that represents data sent in messages.
+   */
+  public static final class PasswordOrPasskeyResponse {
+    /** The username of the saved password */
+    private @Nullable String username;
+
+    public @Nullable String getUsername() {
+      return username;
+    }
+
+    public void setUsername(@Nullable String setterArg) {
+      this.username = setterArg;
+    }
+
+    /** The saved password */
+    private @Nullable String password;
+
+    public @Nullable String getPassword() {
+      return password;
+    }
+
+    public void setPassword(@Nullable String setterArg) {
+      this.password = setterArg;
+    }
+
+    /** The passkey assertion */
+    private @Nullable AuthenticateResponse passkey;
+
+    public @Nullable AuthenticateResponse getPasskey() {
+      return passkey;
+    }
+
+    public void setPasskey(@Nullable AuthenticateResponse setterArg) {
+      this.passkey = setterArg;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) { return true; }
+      if (o == null || getClass() != o.getClass()) { return false; }
+      PasswordOrPasskeyResponse that = (PasswordOrPasskeyResponse) o;
+      return pigeonDeepEquals(username, that.username) && pigeonDeepEquals(password, that.password) && pigeonDeepEquals(passkey, that.passkey);
+    }
+
+    @Override
+    public int hashCode() {
+      Object[] fields = new Object[] {getClass(), username, password, passkey};
+      return pigeonDeepHashCode(fields);
+    }
+
+    public static final class Builder {
+
+      private @Nullable String username;
+
+      @CanIgnoreReturnValue
+      public @NonNull Builder setUsername(@Nullable String setterArg) {
+        this.username = setterArg;
+        return this;
+      }
+
+      private @Nullable String password;
+
+      @CanIgnoreReturnValue
+      public @NonNull Builder setPassword(@Nullable String setterArg) {
+        this.password = setterArg;
+        return this;
+      }
+
+      private @Nullable AuthenticateResponse passkey;
+
+      @CanIgnoreReturnValue
+      public @NonNull Builder setPasskey(@Nullable AuthenticateResponse setterArg) {
+        this.passkey = setterArg;
+        return this;
+      }
+
+      public @NonNull PasswordOrPasskeyResponse build() {
+        PasswordOrPasskeyResponse pigeonReturn = new PasswordOrPasskeyResponse();
+        pigeonReturn.setUsername(username);
+        pigeonReturn.setPassword(password);
+        pigeonReturn.setPasskey(passkey);
+        return pigeonReturn;
+      }
+    }
+
+    @NonNull
+    ArrayList<Object> toList() {
+      ArrayList<Object> toListResult = new ArrayList<>(3);
+      toListResult.add(username);
+      toListResult.add(password);
+      toListResult.add(passkey);
+      return toListResult;
+    }
+
+    static @NonNull PasswordOrPasskeyResponse fromList(@NonNull ArrayList<Object> pigeonVar_list) {
+      PasswordOrPasskeyResponse pigeonResult = new PasswordOrPasskeyResponse();
+      Object username = pigeonVar_list.get(0);
+      pigeonResult.setUsername((String) username);
+      Object password = pigeonVar_list.get(1);
+      pigeonResult.setPassword((String) password);
+      Object passkey = pigeonVar_list.get(2);
+      pigeonResult.setPasskey((AuthenticateResponse) passkey);
+      return pigeonResult;
+    }
+  }
+
   private static class PigeonCodec extends StandardMessageCodec {
     public static final PigeonCodec INSTANCE = new PigeonCodec();
 
@@ -1349,6 +1459,8 @@ public class Messages {
           return RegisterResponse.fromList((ArrayList<Object>) readValue(buffer));
         case (byte) 136:
           return AuthenticateResponse.fromList((ArrayList<Object>) readValue(buffer));
+        case (byte) 137:
+          return PasswordOrPasskeyResponse.fromList((ArrayList<Object>) readValue(buffer));
         default:
           return super.readValueOfType(type, buffer);
       }
@@ -1380,6 +1492,9 @@ public class Messages {
       } else if (value instanceof AuthenticateResponse) {
         stream.write(136);
         writeValue(stream, ((AuthenticateResponse) value).toList());
+      } else if (value instanceof PasswordOrPasskeyResponse) {
+        stream.write(137);
+        writeValue(stream, ((PasswordOrPasskeyResponse) value).toList());
       } else {
         super.writeValue(stream, value);
       }
@@ -1418,9 +1533,11 @@ public class Messages {
 
     void hasPasskeySupport(@NonNull Result<Boolean> result);
 
-    void register(@NonNull String challenge, @NonNull RelyingParty relyingParty, @NonNull User user, @Nullable AuthenticatorSelection authenticatorSelection, @Nullable List<PubKeyCredParam> pubKeyCredParams, @Nullable Long timeout, @Nullable String attestation, @NonNull List<ExcludeCredential> excludeCredentials, @Nullable String salt, @NonNull Result<RegisterResponse> result);
+    void register(@NonNull String challenge, @NonNull RelyingParty relyingParty, @NonNull User user, @Nullable AuthenticatorSelection authenticatorSelection, @Nullable List<PubKeyCredParam> pubKeyCredParams, @Nullable Long timeout, @Nullable String attestation, @NonNull List<ExcludeCredential> excludeCredentials, @Nullable String salt, @NonNull Boolean isConditional, @NonNull Result<RegisterResponse> result);
 
     void authenticate(@NonNull String relyingPartyId, @NonNull String challenge, @Nullable Long timeout, @Nullable String userVerification, @Nullable List<AllowCredential> allowCredentials, @Nullable Boolean preferImmediatelyAvailableCredentials, @Nullable String salt, @NonNull Result<AuthenticateResponse> result);
+    /** Without [challenge], or below API 28, only saved passwords are offered. */
+    void getPasswordOrPasskey(@Nullable String relyingPartyId, @Nullable String challenge, @Nullable Long timeout, @Nullable String userVerification, @Nullable List<AllowCredential> allowCredentials, @Nullable String salt, @NonNull Boolean preferImmediatelyAvailableCredentials, @NonNull Result<PasswordOrPasskeyResponse> result);
 
     void cancelCurrentAuthenticatorOperation(@NonNull VoidResult result);
 
@@ -1516,6 +1633,7 @@ public class Messages {
                 String attestationArg = (String) args.get(6);
                 List<ExcludeCredential> excludeCredentialsArg = (List<ExcludeCredential>) args.get(7);
                 String saltArg = (String) args.get(8);
+                Boolean isConditionalArg = (Boolean) args.get(9);
                 Result<RegisterResponse> resultCallback =
                     new Result<RegisterResponse>() {
                       public void success(RegisterResponse result) {
@@ -1529,7 +1647,7 @@ public class Messages {
                       }
                     };
 
-                api.register(challengeArg, relyingPartyArg, userArg, authenticatorSelectionArg, pubKeyCredParamsArg, timeoutArg, attestationArg, excludeCredentialsArg, saltArg, resultCallback);
+                api.register(challengeArg, relyingPartyArg, userArg, authenticatorSelectionArg, pubKeyCredParamsArg, timeoutArg, attestationArg, excludeCredentialsArg, saltArg, isConditionalArg, resultCallback);
               });
         } else {
           channel.setMessageHandler(null);
@@ -1565,6 +1683,41 @@ public class Messages {
                     };
 
                 api.authenticate(relyingPartyIdArg, challengeArg, timeoutArg, userVerificationArg, allowCredentialsArg, preferImmediatelyAvailableCredentialsArg, saltArg, resultCallback);
+              });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(
+                binaryMessenger, "dev.flutter.pigeon.passkeys_android.PasskeysApi.getPasswordOrPasskey" + messageChannelSuffix, getCodec());
+        if (api != null) {
+          channel.setMessageHandler(
+              (message, reply) -> {
+                ArrayList<Object> wrapped = new ArrayList<>();
+                ArrayList<Object> args = (ArrayList<Object>) message;
+                String relyingPartyIdArg = (String) args.get(0);
+                String challengeArg = (String) args.get(1);
+                Long timeoutArg = (Long) args.get(2);
+                String userVerificationArg = (String) args.get(3);
+                List<AllowCredential> allowCredentialsArg = (List<AllowCredential>) args.get(4);
+                String saltArg = (String) args.get(5);
+                Boolean preferImmediatelyAvailableCredentialsArg = (Boolean) args.get(6);
+                Result<PasswordOrPasskeyResponse> resultCallback =
+                    new Result<PasswordOrPasskeyResponse>() {
+                      public void success(PasswordOrPasskeyResponse result) {
+                        wrapped.add(0, result);
+                        reply.reply(wrapped);
+                      }
+
+                      public void error(Throwable error) {
+                        ArrayList<Object> wrappedError = wrapError(error);
+                        reply.reply(wrappedError);
+                      }
+                    };
+
+                api.getPasswordOrPasskey(relyingPartyIdArg, challengeArg, timeoutArg, userVerificationArg, allowCredentialsArg, saltArg, preferImmediatelyAvailableCredentialsArg, resultCallback);
               });
         } else {
           channel.setMessageHandler(null);

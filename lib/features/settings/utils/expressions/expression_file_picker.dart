@@ -48,7 +48,7 @@ abstract final class ExpressionFilePicker {
     if (media.isEmpty) {
       return const <ExpressionPickResult>[];
     }
-    return _resultsFromXFiles(media);
+    return await _resultsFromXFiles(media);
   }
 
   static Future<List<ExpressionPickResult>> pickStickerFromGallery() async {
@@ -57,7 +57,7 @@ abstract final class ExpressionFilePicker {
     if (media == null) {
       return const <ExpressionPickResult>[];
     }
-    return _resultsFromXFiles(<XFile>[media]);
+    return await _resultsFromXFiles(<XFile>[media]);
   }
 
   static Future<List<ExpressionPickResult>> pickEmojisFromFiles() {

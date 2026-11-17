@@ -234,7 +234,7 @@ Future<Solution?> _solve(Challenge challenge) async {
       }
     }
   }
-  return solveChallengeIsolates(
+  return await solveChallengeIsolates(
     challenge: challenge,
     deriveKey: deriveKey,
     concurrency: _solverWorkers,

@@ -143,14 +143,14 @@ class CloudUploadController extends _$CloudUploadController {
       if (onDiskBasename == safeName) {
         return XFile(path, mimeType: file.mimeType, name: safeName);
       }
-      return _stageUploadFile(
+      return await _stageUploadFile(
         safeName: safeName,
         mimeType: file.mimeType,
         write: (File dest) => File(path).copy(dest.path),
       );
     }
     final Uint8List bytes = await file.readAsBytes();
-    return _stageUploadFile(
+    return await _stageUploadFile(
       safeName: safeName,
       mimeType: file.mimeType,
       write: (File dest) => dest.writeAsBytes(bytes, flush: true),
@@ -380,7 +380,7 @@ class CloudUploadController extends _$CloudUploadController {
     }
     for (final PendingAttachment attachment in session.attachments) {
       if (attachment.id == attachmentId) {
-        return _startUpload(attachment);
+        return await _startUpload(attachment);
       }
     }
   }
@@ -627,7 +627,7 @@ class CloudUploadController extends _$CloudUploadController {
     for (final PendingAttachment attachment in removed) {
       await removeAttachment(attachment.id);
     }
-    return addFiles(change.added);
+    return await addFiles(change.added);
   }
 
   Future<void> removeAttachment(int attachmentId) async {

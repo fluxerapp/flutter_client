@@ -29,7 +29,7 @@ Future<Uint8List?> showImageCropSheet(
   if (!context.mounted) {
     return null;
   }
-  return Navigator.of(context, rootNavigator: true).push<Uint8List?>(
+  return await Navigator.of(context, rootNavigator: true).push<Uint8List?>(
     MaterialPageRoute(
       fullscreenDialog: true,
       builder: (_) => _ImageCropDialog(

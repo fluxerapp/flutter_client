@@ -1902,7 +1902,7 @@ class ChatViewModel extends _$ChatViewModel {
             !_isMessageInLoadedWindow(messageId)) {
           return null;
         }
-        return dao.getMessage(event.message.channelId, messageId);
+        return await dao.getMessage(event.message.channelId, messageId);
       case MessageReactionsChanged(
         :final channelId,
         :final messageId,
@@ -1914,7 +1914,7 @@ class ChatViewModel extends _$ChatViewModel {
         if (reactionsJson != null) {
           return null;
         }
-        return dao.getMessage(channelId, messageId);
+        return await dao.getMessage(channelId, messageId);
       case MessageCreated():
       case MessageDeleted():
       case MessagesDeletedBulk():
@@ -2320,7 +2320,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (storedMentioning != null) {
       return storedMentioning;
     }
-    return _defaultReplyMentionFor(message: reply, channelId: channelId);
+    return await _defaultReplyMentionFor(message: reply, channelId: channelId);
   }
 
   Future<bool> _endEditRestoringDraft(Message editing) async {
@@ -6333,7 +6333,7 @@ class ChatViewModel extends _$ChatViewModel {
       return false;
     }
     _maybeCreatedSends[optimisticMessageId] = attachmentFilenames;
-    return _resolveMaybeCreatedSend(optimisticMessageId);
+    return await _resolveMaybeCreatedSend(optimisticMessageId);
   }
 
   Future<bool> _resolveMaybeCreatedSend(String optimisticMessageId) async {
@@ -6591,7 +6591,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final pending = _pendingDeleteFutures[messageId];
     if (pending != null) {
-      return pending;
+      return await pending;
     }
     final String channelId = state.channelId;
     final int messageIndex = state.messages.indexWhere(
@@ -6654,7 +6654,7 @@ class ChatViewModel extends _$ChatViewModel {
       }
     }();
     _pendingDeleteFutures[messageId] = deleteFuture;
-    return deleteFuture;
+    return await deleteFuture;
   }
 
   Future<void> deleteMessageAttachment({

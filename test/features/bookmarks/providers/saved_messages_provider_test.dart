@@ -39,7 +39,7 @@ class _ScriptedSavedMessagesRepository extends SavedMessagesRepository {
       throw failure;
     }
     if (_gates.isNotEmpty) {
-      return _gates.removeAt(0).future;
+      return await _gates.removeAt(0).future;
     }
     return _pages[calls - 1];
   }

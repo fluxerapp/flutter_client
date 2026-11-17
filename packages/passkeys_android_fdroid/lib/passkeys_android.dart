@@ -54,9 +54,39 @@ class PasskeysAndroid extends PasskeysPlatform {
       request.attestation,
       _excludeCredentials(request),
       request.prf,
+      request.isConditional,
     );
 
     return _registerResponse(r);
+  }
+
+  @override
+  Future<PasswordOrPasskeyResponseType> getPasswordOrPasskey(
+    AuthenticateRequestType? passkeyRequest, {
+    bool preferImmediatelyAvailableCredentials = false,
+  }) async {
+    final r = await _api.getPasswordOrPasskey(
+      passkeyRequest?.relyingPartyId,
+      passkeyRequest?.challenge,
+      passkeyRequest?.timeout,
+      passkeyRequest?.userVerification,
+      passkeyRequest == null ? null : _allowCredentials(passkeyRequest),
+      passkeyRequest?.prf,
+      preferImmediatelyAvailableCredentials,
+    );
+
+    final passkey = r.passkey;
+    if (passkey != null) {
+      return PasswordOrPasskeyResponseType.passkey(
+        _authenticateResponse(passkey),
+      );
+    }
+    return PasswordOrPasskeyResponseType.password(
+      PasswordCredentialType(
+        username: r.username ?? '',
+        password: r.password ?? '',
+      ),
+    );
   }
 
   //

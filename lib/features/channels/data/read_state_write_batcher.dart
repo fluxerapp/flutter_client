@@ -426,7 +426,7 @@ class ReadStateWriteBatcher {
   Future<void> flush(String channelId) async {
     final Future<void>? inFlight = _flushing[channelId];
     if (inFlight != null) {
-      return inFlight;
+      return await inFlight;
     }
     final _PendingUnread? pending = _pending.remove(channelId);
     if (pending == null) {

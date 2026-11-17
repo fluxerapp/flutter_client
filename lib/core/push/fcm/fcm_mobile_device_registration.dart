@@ -113,7 +113,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     final Future<void>? inFlight = _syncFuture;
     if (inFlight != null) {
       _syncAgain = true;
-      return inFlight;
+      return await inFlight;
     }
     final Future<void> run = _runSyncPasses();
     _syncFuture = run;

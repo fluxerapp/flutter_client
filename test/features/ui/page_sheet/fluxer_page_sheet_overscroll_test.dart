@@ -131,7 +131,7 @@ void main() {
     for (int i = 0; i < 20; i++) {
       await tester.pump(const Duration(milliseconds: 16));
       final double overscroll = p.pixels - p.maxScrollExtent;
-      expect(previous - overscroll, lessThan(12));
+      expect(previous - overscroll, lessThan(previous * 0.25));
       previous = overscroll;
     }
     expect(previous, greaterThan(0));

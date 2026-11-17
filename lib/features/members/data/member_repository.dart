@@ -27,7 +27,7 @@ class MemberRepository {
       guildId,
       userIds,
     );
-    return _membersFromRows(guildId, rows);
+    return await _membersFromRows(guildId, rows);
   }
 
   Future<List<Member>> getMembers(String guildId, {int limit = 100}) async {
@@ -39,7 +39,7 @@ class MemberRepository {
     final List<String> userIds = sdkMembers
         .map((GuildMemberResponse m) => m.user.id)
         .toList();
-    return getMembersByUserIds(guildId, userIds);
+    return await getMembersByUserIds(guildId, userIds);
   }
 
   Future<void> backfillMembersIfSparse(String guildId) async {
@@ -163,7 +163,7 @@ class MemberRepository {
 
   Future<List<Member>> getCachedMembersForGuild(String guildId) async {
     final List<db.Member> rows = await _db.memberDao.getMembers(guildId);
-    return _membersFromRows(guildId, rows);
+    return await _membersFromRows(guildId, rows);
   }
 
   Future<List<Member>> getCachedMembersByUserIds(
@@ -174,7 +174,7 @@ class MemberRepository {
       guildId,
       userIds,
     );
-    return _membersFromRows(guildId, rows);
+    return await _membersFromRows(guildId, rows);
   }
 
   Future<bool> isGuildMemberCacheComplete(String guildId) async {

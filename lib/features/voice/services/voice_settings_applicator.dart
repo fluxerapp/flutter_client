@@ -246,7 +246,7 @@ class VoiceSettingsApplicator {
     required Future<T> Function() action,
   }) async {
     if (publishOptions == null) {
-      return action();
+      return await action();
     }
     final RoomOptions roomOptions = room.roomOptions;
     // setMicrophoneEnabled has no publishOptions param.

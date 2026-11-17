@@ -37,7 +37,7 @@ Future<String> _wireToDisplayFragment(
   bool includePlainShortcodes = true,
 }) async {
   if (controller is ComposerMentionController) {
-    return controller.mentionWireToDisplayFragment(
+    return await controller.mentionWireToDisplayFragment(
       wire,
       includePlainShortcodes: includePlainShortcodes,
     );
@@ -166,7 +166,7 @@ Future<bool> pasteIntoTextController(TextEditingController controller) async {
   if (text == null || text.isEmpty) {
     return false;
   }
-  return insertPastedText(controller, text);
+  return await insertPastedText(controller, text);
 }
 
 Future<bool> insertPastedText(
@@ -174,7 +174,7 @@ Future<bool> insertPastedText(
   String text,
 ) async {
   if (controller is InlineTokenTextEditingController) {
-    return pasteWireTextIntoInlineTokenController(controller, text);
+    return await pasteWireTextIntoInlineTokenController(controller, text);
   }
   final TextEditingValue oldValue = controller.value;
   final TextSelection selection = oldValue.selection;

@@ -107,7 +107,7 @@ Future<bool> confirmVoiceP2pJoin(
   if (alwaysAgree) {
     return true;
   }
-  return showVoiceP2pConsentSheet(context, pinned: pinned);
+  return await showVoiceP2pConsentSheet(context, pinned: pinned);
 }
 
 class _VoiceP2pConsentSheetBody extends ConsumerStatefulWidget {

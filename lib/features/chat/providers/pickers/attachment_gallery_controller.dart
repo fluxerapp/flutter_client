@@ -344,7 +344,7 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     if (files.isEmpty) {
       return null;
     }
-    return ref
+    return await ref
         .read(
           cloudUploadControllerProvider(
             readAccountUserId(ref),
@@ -397,7 +397,7 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
           )
           .items,
     );
-    return ref
+    return await ref
         .read(
           cloudUploadControllerProvider(
             readAccountUserId(ref),

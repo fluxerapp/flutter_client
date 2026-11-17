@@ -80,7 +80,7 @@ class EmojiAssetCache {
     final cacheKey = '$_kEmojiAssetCacheVersion:$url';
     final cached = await _cacheManager.getFileFromCache(cacheKey);
     if (cached != null) {
-      return cached.file.readAsBytes();
+      return await cached.file.readAsBytes();
     }
 
     final bytes = await _fetchBytes(url);

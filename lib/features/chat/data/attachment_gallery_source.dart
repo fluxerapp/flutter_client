@@ -231,7 +231,7 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
     if (asset == null) {
       return null;
     }
-    return asset.thumbnailDataWithSize(ThumbnailSize(size, size));
+    return await asset.thumbnailDataWithSize(ThumbnailSize(size, size));
   }
 
   @override

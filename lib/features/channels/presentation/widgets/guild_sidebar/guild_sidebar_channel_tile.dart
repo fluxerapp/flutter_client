@@ -331,7 +331,7 @@ class _ChannelTile extends ConsumerWidget {
       state: menuState,
     );
     if (!usesDesktopPointerUi(context)) {
-      return FluxerBottomSheet.showScrollable<void>(
+      return await FluxerBottomSheet.showScrollable<void>(
         context,
         title: channel.name,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
@@ -354,7 +354,7 @@ class _ChannelTile extends ConsumerWidget {
         },
       );
     }
-    return FluxerActionMenu.show(
+    return await FluxerActionMenu.show(
       context,
       position: position,
       builder: (menuContext, close) => channelMenuGroupsToWidgets(

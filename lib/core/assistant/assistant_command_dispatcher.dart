@@ -264,7 +264,7 @@ class AssistantCommandDispatcher {
     if (friendId == null || friendId.isEmpty) {
       return null;
     }
-    return _ref.read(dmRepositoryProvider).ensureDmChannel(friendId);
+    return await _ref.read(dmRepositoryProvider).ensureDmChannel(friendId);
   }
 
   void _go(String path) {

@@ -144,7 +144,7 @@ class FluxerTts {
       if (language == null || error.error != SpeakError.languageUnavailable) {
         rethrow;
       }
-      return _engine(text, rate: rate, queue: queue);
+      return await _engine(text, rate: rate, queue: queue);
     }
   }
 

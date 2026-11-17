@@ -34,7 +34,7 @@ Future<void> sendAppAttestAdultAge(
     AppAttestChallengeRequestPurposePurpose.attest,
   );
   final Uint8List attestation = await _platform<Uint8List>(() async {
-    return appAttestChannel
+    return await appAttestChannel
         .invokeMethod<Uint8List>('attestKey', <String, Object>{
           'keyId': keyId,
           'clientDataHash': await _sha256(utf8.encode(attestChallenge)),
@@ -59,7 +59,7 @@ Future<void> sendAppAttestAdultAge(
     ),
   );
   final Uint8List assertion = await _platform<Uint8List>(() async {
-    return appAttestChannel.invokeMethod<Uint8List>(
+    return await appAttestChannel.invokeMethod<Uint8List>(
       'generateAssertion',
       <String, Object>{
         'keyId': keyId,

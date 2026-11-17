@@ -143,7 +143,7 @@ class MessageRepository {
     int limit = 30,
   }) async {
     final rows = await _db.messageDao.getMessages(channelId, limit: limit);
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesBefore(
@@ -156,7 +156,7 @@ class MessageRepository {
       limit: limit,
       beforeId: beforeId,
     );
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesAfter(
@@ -169,7 +169,7 @@ class MessageRepository {
       afterId,
       limit: limit,
     );
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getMessages({
@@ -935,7 +935,7 @@ class MessageRepository {
       throw Exception('Empty response from sendMessage');
     }
     final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
-    return _persistSdkMessage(channelId: channelId, schema: schema);
+    return await _persistSdkMessage(channelId: channelId, schema: schema);
   }
 
   Future<Message> _persistSdkMessage({
@@ -957,7 +957,7 @@ class MessageRepository {
         mentionRoleIds: schema.mentionRoles,
       ),
     );
-    return _upsertKeepingTranslation(message);
+    return await _upsertKeepingTranslation(message);
   }
 
   Future<Message> sendForward({
@@ -1007,7 +1007,7 @@ class MessageRepository {
   }) async {
     final MessageResponseSchema schema = await _client.channels
         .crosspostMessage(channelId: channelId, messageId: messageId);
-    return _persistSdkMessage(channelId: channelId, schema: schema);
+    return await _persistSdkMessage(channelId: channelId, schema: schema);
   }
 
   Future<CrosspostSourceResponse> getCrosspostSource({

@@ -232,7 +232,7 @@ class AuthRepository {
     if (row == null) {
       return null;
     }
-    return _resolveSessionForUserId(userId);
+    return await _resolveSessionForUserId(userId);
   }
 
   Future<void> migrateLegacyTokens() async {
@@ -476,7 +476,7 @@ class AuthRepository {
     if (row == null) {
       return null;
     }
-    return resolveInstanceSnapshotForUser(row.userId);
+    return await resolveInstanceSnapshotForUser(row.userId);
   }
 
   String _resolveDisplayDomain(String? instanceSnapshotJson) {
