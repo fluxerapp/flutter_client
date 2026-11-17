@@ -628,10 +628,10 @@ packages:
     dependency: transitive
     description:
       name: document_throws
-      sha256: f98363e2d787eb4b0edbd8fc25a0527661d4943645f4aa96cee5b451ed8de4ab
+      sha256: e22b51149a334d9ffaa041776e4959bf37ffb3dd92ec875cfaf39c766c8341c1
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "1.1.0"
   document_throws_annotation:
     dependency: transitive
     description:
@@ -1515,10 +1515,10 @@ packages:
     dependency: "direct dev"
     description:
       name: lint_hard
-      sha256: "4bcf8ef81d50b960bb4b902c0be347f3f2417894546a6cdc8e608f10eb3378fe"
+      sha256: "8a4bcdf87e6601ffcc5d0da5120771f3d0bdb07afebd77953f4d352136e48bd9"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.2"
+    version: "8.0.1"
   listen:
     dependency: transitive
     description:

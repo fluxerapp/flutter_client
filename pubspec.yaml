@@ -219,7 +219,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  lint_hard: ^7.1.2
+  lint_hard: ^8.0.1
   mockito: ^5.8.1
   riverpod_generator: ^4.0.9
   riverpod_lint: ^3.1.9

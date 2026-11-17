@@ -17,5 +17,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint_hard: ^7.1.2
+  lint_hard: ^8.0.1
   test: ^1.31.0
