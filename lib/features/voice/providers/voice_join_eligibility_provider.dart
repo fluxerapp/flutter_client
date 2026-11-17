@@ -266,7 +266,7 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
         ref.read(fluxerDatabaseProvider),
         channelId,
       );
-  if (channelContext == null) {
+  if (channelContext == null || !ref.mounted) {
     return const VoiceJoinEligibility(canJoin: false);
   }
   final String guildId = channelContext.guildId;
@@ -303,7 +303,7 @@ Future<VoiceJoinEligibility> readVoiceJoinEligibility(
   final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
   final _VoiceJoinChannelContext? channelContext =
       await _readVoiceJoinChannelContext(database, channelId);
-  if (channelContext == null) {
+  if (channelContext == null || !ref.mounted) {
     return const VoiceJoinEligibility(canJoin: false);
   }
   final ChannelType channelType = channelContext.channelType;
@@ -319,6 +319,9 @@ Future<VoiceJoinEligibility> readVoiceJoinEligibility(
       guildId,
     );
     timeoutUntil = member?.communicationDisabledUntil;
+    if (!ref.mounted) {
+      return const VoiceJoinEligibility(canJoin: false);
+    }
   }
   String? ownerId;
   if (guildId.isNotEmpty) {

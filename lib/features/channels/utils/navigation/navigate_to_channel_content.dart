@@ -279,9 +279,17 @@ Future<void> openGuildChannelContent({
         (state) => state.voiceChannelJoinRequiresDoubleClick,
       ),
     );
-    final VoiceJoinEligibility eligibility = await ref.read(
-      voiceJoinEligibilityProvider(channel.id).future,
-    );
+    final ProviderSubscription<Future<VoiceJoinEligibility>> eligibilitySub =
+        ref.listenManual(
+          voiceJoinEligibilityProvider(channel.id).future,
+          (_, _) {},
+        );
+    final VoiceJoinEligibility eligibility;
+    try {
+      eligibility = await eligibilitySub.read();
+    } finally {
+      eligibilitySub.close();
+    }
     if (!context.mounted) {
       return;
     }
