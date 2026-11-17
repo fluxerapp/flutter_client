@@ -28,6 +28,7 @@ const int messageFlagHasThread = 1 << 5;
 const int messageFlagFailedToMentionSomeRolesInThread = 1 << 8;
 const int attachmentFlagIsSpoiler = 1 << 3;
 const int attachmentFlagContainsExplicitMedia = 1 << 4;
+const int attachmentFlagIsAnimated = 1 << 5;
 
 const int messageTypeDefault = 0;
 const int messageTypeRecipientAdd = 1;
@@ -513,7 +514,8 @@ class Attachment {
 
   bool get isAnimated =>
       contentType?.toLowerCase() == 'image/gif' ||
-      filename.toLowerCase().endsWith('.gif');
+      filename.toLowerCase().endsWith('.gif') ||
+      ((flags & attachmentFlagIsAnimated) != 0 && !isVideo);
 
   bool get isVideo {
     if (contentType?.startsWith('video/') ?? false) {

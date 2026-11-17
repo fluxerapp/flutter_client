@@ -50,6 +50,7 @@ class AttachmentMediaViewerItem {
     this.downloadUrl,
     this.contentHash,
     this.description,
+    this.animated = false,
   });
 
   factory AttachmentMediaViewerItem.fromAttachment(Attachment attachment) {
@@ -69,6 +70,7 @@ class AttachmentMediaViewerItem {
       ),
       contentHash: attachment.contentHash,
       description: attachment.description,
+      animated: attachment.isAnimated,
     );
   }
 
@@ -91,11 +93,13 @@ class AttachmentMediaViewerItem {
   final String? downloadUrl;
   final String? contentHash;
   final String? description;
+  final bool animated;
 }
 
 bool _mayBeAnimated(AttachmentMediaViewerItem item) {
   final String? contentType = item.contentType?.toLowerCase();
-  return mediaProxyUrlIsAnimated(item.url) ||
+  return item.animated ||
+      mediaProxyUrlIsAnimated(item.url) ||
       isAnimatedImagePreviewUrl(item.filename) ||
       contentType == 'image/gif' ||
       contentType == 'image/webp' ||
@@ -862,6 +866,7 @@ class _AttachmentMediaViewerShellState
       proxyUrl: item.proxyUrl,
       mode: hdrDisplayMode,
       contentType: item.contentType,
+      animated: item.animated,
     );
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
     final int? decodeCap = _mayBeAnimated(item)

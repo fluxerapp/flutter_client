@@ -51,6 +51,7 @@ String buildHdrAwareImageUrl({
   required String url,
   required HdrDisplayMode mode,
   String? contentType,
+  bool animated = false,
 }) {
   if (url.isEmpty) {
     return url;
@@ -63,6 +64,7 @@ String buildHdrAwareImageUrl({
     HdrImageProxyFormatAction.setWebp => buildMediaProxyUrl(
       url,
       format: 'webp',
+      animated: animated ? true : null,
     ),
     HdrImageProxyFormatAction.stripFormat => stripMediaProxyFormat(url),
     HdrImageProxyFormatAction.unchanged => url,
@@ -78,11 +80,13 @@ String buildHdrAwareDisplayImageUrl({
   required HdrDisplayMode mode,
   String? proxyUrl,
   String? contentType,
+  bool animated = false,
 }) {
   final String source = mediaProxyUrlIsAnimated(url) ? url : (proxyUrl ?? url);
   return buildHdrAwareImageUrl(
     url: source,
     mode: mode,
     contentType: contentType,
+    animated: animated,
   );
 }
