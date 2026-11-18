@@ -33,7 +33,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,

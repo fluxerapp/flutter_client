@@ -60,6 +60,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     SudoPromptState? sudoPrompt,
     KeybindSettings? keybinds,
     ChatInputSettings? chatInput,
+    $core.bool? saveCameraUploadsToDevice,
     ReactionEmoji? doubleTapReaction,
     ChannelFrecencyState? channelFrecency,
     AnnouncementPromptsState? announcementPrompts,
@@ -107,6 +108,8 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     if (sudoPrompt != null) result.sudoPrompt = sudoPrompt;
     if (keybinds != null) result.keybinds = keybinds;
     if (chatInput != null) result.chatInput = chatInput;
+    if (saveCameraUploadsToDevice != null)
+      result.saveCameraUploadsToDevice = saveCameraUploadsToDevice;
     if (doubleTapReaction != null) result.doubleTapReaction = doubleTapReaction;
     if (channelFrecency != null) result.channelFrecency = channelFrecency;
     if (announcementPrompts != null)
@@ -208,6 +211,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
         subBuilder: KeybindSettings.$_createMessage)
     ..aOM<ChatInputSettings>(112, _omitFieldNames ? '' : 'chatInput',
         subBuilder: ChatInputSettings.$_createMessage)
+    ..aOB(113, _omitFieldNames ? '' : 'saveCameraUploadsToDevice')
     ..aOM<ReactionEmoji>(114, _omitFieldNames ? '' : 'doubleTapReaction',
         subBuilder: ReactionEmoji.$_createMessage)
     ..aOM<ChannelFrecencyState>(115, _omitFieldNames ? '' : 'channelFrecency',
@@ -632,55 +636,64 @@ class SyncedPreferences extends $pb.GeneratedMessage {
   @$pb.TagNumber(112)
   ChatInputSettings ensureChatInput() => $_ensure(34);
 
+  @$pb.TagNumber(113)
+  $core.bool get saveCameraUploadsToDevice => $_getBF(35);
+  @$pb.TagNumber(113)
+  set saveCameraUploadsToDevice($core.bool value) => $_setBool(35, value);
+  @$pb.TagNumber(113)
+  $core.bool hasSaveCameraUploadsToDevice() => $_has(35);
+  @$pb.TagNumber(113)
+  void clearSaveCameraUploadsToDevice() => $_clearField(113);
+
   @$pb.TagNumber(114)
-  ReactionEmoji get doubleTapReaction => $_getN(35);
+  ReactionEmoji get doubleTapReaction => $_getN(36);
   @$pb.TagNumber(114)
   set doubleTapReaction(ReactionEmoji value) => $_setField(114, value);
   @$pb.TagNumber(114)
-  $core.bool hasDoubleTapReaction() => $_has(35);
+  $core.bool hasDoubleTapReaction() => $_has(36);
   @$pb.TagNumber(114)
   void clearDoubleTapReaction() => $_clearField(114);
   @$pb.TagNumber(114)
-  ReactionEmoji ensureDoubleTapReaction() => $_ensure(35);
+  ReactionEmoji ensureDoubleTapReaction() => $_ensure(36);
 
   @$pb.TagNumber(115)
-  ChannelFrecencyState get channelFrecency => $_getN(36);
+  ChannelFrecencyState get channelFrecency => $_getN(37);
   @$pb.TagNumber(115)
   set channelFrecency(ChannelFrecencyState value) => $_setField(115, value);
   @$pb.TagNumber(115)
-  $core.bool hasChannelFrecency() => $_has(36);
+  $core.bool hasChannelFrecency() => $_has(37);
   @$pb.TagNumber(115)
   void clearChannelFrecency() => $_clearField(115);
   @$pb.TagNumber(115)
-  ChannelFrecencyState ensureChannelFrecency() => $_ensure(36);
+  ChannelFrecencyState ensureChannelFrecency() => $_ensure(37);
 
   @$pb.TagNumber(116)
-  AnnouncementPromptsState get announcementPrompts => $_getN(37);
+  AnnouncementPromptsState get announcementPrompts => $_getN(38);
   @$pb.TagNumber(116)
   set announcementPrompts(AnnouncementPromptsState value) =>
       $_setField(116, value);
   @$pb.TagNumber(116)
-  $core.bool hasAnnouncementPrompts() => $_has(37);
+  $core.bool hasAnnouncementPrompts() => $_has(38);
   @$pb.TagNumber(116)
   void clearAnnouncementPrompts() => $_clearField(116);
   @$pb.TagNumber(116)
-  AnnouncementPromptsState ensureAnnouncementPrompts() => $_ensure(37);
+  AnnouncementPromptsState ensureAnnouncementPrompts() => $_ensure(38);
 
   @$pb.TagNumber(117)
-  DoubleTapAction get doubleTapAction => $_getN(38);
+  DoubleTapAction get doubleTapAction => $_getN(39);
   @$pb.TagNumber(117)
   set doubleTapAction(DoubleTapAction value) => $_setField(117, value);
   @$pb.TagNumber(117)
-  $core.bool hasDoubleTapAction() => $_has(38);
+  $core.bool hasDoubleTapAction() => $_has(39);
   @$pb.TagNumber(117)
   void clearDoubleTapAction() => $_clearField(117);
 
   @$pb.TagNumber(118)
-  SwipeAction get swipeRightToLeftAction => $_getN(39);
+  SwipeAction get swipeRightToLeftAction => $_getN(40);
   @$pb.TagNumber(118)
   set swipeRightToLeftAction(SwipeAction value) => $_setField(118, value);
   @$pb.TagNumber(118)
-  $core.bool hasSwipeRightToLeftAction() => $_has(39);
+  $core.bool hasSwipeRightToLeftAction() => $_has(40);
   @$pb.TagNumber(118)
   void clearSwipeRightToLeftAction() => $_clearField(118);
 }
@@ -1856,12 +1869,14 @@ class NagbarDismissals extends $pb.GeneratedMessage {
     $core.bool? desktopDownload,
     $core.bool? guildMembershipCta,
     $core.bool? visionaryMfa,
-    $core.bool? legacyPhoneUnlink,
     $core.Iterable<$core.MapEntry<$core.String, $core.bool>>?
         pendingBulkDeletion,
     $core.Iterable<$core.MapEntry<$core.String, $core.bool>>? invitesDisabled,
     $core.Iterable<$core.MapEntry<$core.String, $core.bool>>?
         guildMfaRequirement,
+    $core.Iterable<$core.MapEntry<$core.String, $core.bool>>? priceAnnouncement,
+    $core.Iterable<$core.MapEntry<$core.String, $core.bool>>? legacyPriceOptIn,
+    $core.bool? androidApp,
   }) {
     final result = NagbarDismissals._();
     if (iosInstall != null) result.iosInstall = iosInstall;
@@ -1880,13 +1895,17 @@ class NagbarDismissals extends $pb.GeneratedMessage {
     if (guildMembershipCta != null)
       result.guildMembershipCta = guildMembershipCta;
     if (visionaryMfa != null) result.visionaryMfa = visionaryMfa;
-    if (legacyPhoneUnlink != null) result.legacyPhoneUnlink = legacyPhoneUnlink;
     if (pendingBulkDeletion != null)
       result.pendingBulkDeletion.addEntries(pendingBulkDeletion);
     if (invitesDisabled != null)
       result.invitesDisabled.addEntries(invitesDisabled);
     if (guildMfaRequirement != null)
       result.guildMfaRequirement.addEntries(guildMfaRequirement);
+    if (priceAnnouncement != null)
+      result.priceAnnouncement.addEntries(priceAnnouncement);
+    if (legacyPriceOptIn != null)
+      result.legacyPriceOptIn.addEntries(legacyPriceOptIn);
+    if (androidApp != null) result.androidApp = androidApp;
     return result;
   }
 
@@ -1916,7 +1935,6 @@ class NagbarDismissals extends $pb.GeneratedMessage {
     ..aOB(10, _omitFieldNames ? '' : 'desktopDownload')
     ..aOB(11, _omitFieldNames ? '' : 'guildMembershipCta')
     ..aOB(12, _omitFieldNames ? '' : 'visionaryMfa')
-    ..aOB(14, _omitFieldNames ? '' : 'legacyPhoneUnlink')
     ..m<$core.String, $core.bool>(
         15, _omitFieldNames ? '' : 'pendingBulkDeletion',
         entryClassName: 'NagbarDismissals.PendingBulkDeletionEntry',
@@ -1934,6 +1952,18 @@ class NagbarDismissals extends $pb.GeneratedMessage {
         keyFieldType: $pb.PbFieldType.OS,
         valueFieldType: $pb.PbFieldType.OB,
         packageName: const $pb.PackageName('fluxer.user.preferences.v1'))
+    ..m<$core.String, $core.bool>(
+        18, _omitFieldNames ? '' : 'priceAnnouncement',
+        entryClassName: 'NagbarDismissals.PriceAnnouncementEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OB,
+        packageName: const $pb.PackageName('fluxer.user.preferences.v1'))
+    ..m<$core.String, $core.bool>(19, _omitFieldNames ? '' : 'legacyPriceOptIn',
+        entryClassName: 'NagbarDismissals.LegacyPriceOptInEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OB,
+        packageName: const $pb.PackageName('fluxer.user.preferences.v1'))
+    ..aOB(20, _omitFieldNames ? '' : 'androidApp')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -2066,23 +2096,29 @@ class NagbarDismissals extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   void clearVisionaryMfa() => $_clearField(12);
 
-  @$pb.TagNumber(14)
-  $core.bool get legacyPhoneUnlink => $_getBF(12);
-  @$pb.TagNumber(14)
-  set legacyPhoneUnlink($core.bool value) => $_setBool(12, value);
-  @$pb.TagNumber(14)
-  $core.bool hasLegacyPhoneUnlink() => $_has(12);
-  @$pb.TagNumber(14)
-  void clearLegacyPhoneUnlink() => $_clearField(14);
-
   @$pb.TagNumber(15)
-  $pb.PbMap<$core.String, $core.bool> get pendingBulkDeletion => $_getMap(13);
+  $pb.PbMap<$core.String, $core.bool> get pendingBulkDeletion => $_getMap(12);
 
   @$pb.TagNumber(16)
-  $pb.PbMap<$core.String, $core.bool> get invitesDisabled => $_getMap(14);
+  $pb.PbMap<$core.String, $core.bool> get invitesDisabled => $_getMap(13);
 
   @$pb.TagNumber(17)
-  $pb.PbMap<$core.String, $core.bool> get guildMfaRequirement => $_getMap(15);
+  $pb.PbMap<$core.String, $core.bool> get guildMfaRequirement => $_getMap(14);
+
+  @$pb.TagNumber(18)
+  $pb.PbMap<$core.String, $core.bool> get priceAnnouncement => $_getMap(15);
+
+  @$pb.TagNumber(19)
+  $pb.PbMap<$core.String, $core.bool> get legacyPriceOptIn => $_getMap(16);
+
+  @$pb.TagNumber(20)
+  $core.bool get androidApp => $_getBF(17);
+  @$pb.TagNumber(20)
+  set androidApp($core.bool value) => $_setBool(17, value);
+  @$pb.TagNumber(20)
+  $core.bool hasAndroidApp() => $_has(17);
+  @$pb.TagNumber(20)
+  void clearAndroidApp() => $_clearField(20);
 }
 
 class DismissedUpsells extends $pb.GeneratedMessage {
@@ -3373,12 +3409,9 @@ class ChannelFrecencyState extends $pb.GeneratedMessage {
 class ChatInputSettings extends $pb.GeneratedMessage {
   factory ChatInputSettings({
     $core.bool? convertEmoticons,
-    $core.bool? saveCameraCapturesToDevice,
   }) {
     final result = ChatInputSettings._();
     if (convertEmoticons != null) result.convertEmoticons = convertEmoticons;
-    if (saveCameraCapturesToDevice != null)
-      result.saveCameraCapturesToDevice = saveCameraCapturesToDevice;
     return result;
   }
 
@@ -3397,7 +3430,6 @@ class ChatInputSettings extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
       createEmptyInstance: ChatInputSettings.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'convertEmoticons')
-    ..aOB(2, _omitFieldNames ? '' : 'saveCameraCapturesToDevice')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -3430,15 +3462,6 @@ class ChatInputSettings extends $pb.GeneratedMessage {
   $core.bool hasConvertEmoticons() => $_has(0);
   @$pb.TagNumber(1)
   void clearConvertEmoticons() => $_clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.bool get saveCameraCapturesToDevice => $_getBF(1);
-  @$pb.TagNumber(2)
-  set saveCameraCapturesToDevice($core.bool value) => $_setBool(1, value);
-  @$pb.TagNumber(2)
-  $core.bool hasSaveCameraCapturesToDevice() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearSaveCameraCapturesToDevice() => $_clearField(2);
 }
 
 class ReactionEmoji extends $pb.GeneratedMessage {
