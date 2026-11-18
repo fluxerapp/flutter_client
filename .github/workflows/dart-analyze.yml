@@ -8,6 +8,9 @@ on:
     paths:
       - "**/*.dart"
       - ".github/workflows/dart-analyze.yml"
+      - "fluxer"
+      - "tool/generate_protos.sh"
+      - "tool/protoc_gen_dart.dart"
       - "pubspec.yaml"
       - "pubspec.lock"
       - "analysis_options.yaml"
@@ -57,6 +60,9 @@ jobs:
 
       - name: Resolve package dependencies
         run: bash tool/pub_get_packages.sh
+
+      - name: Verify generated protobuf code
+        run: bash tool/generate_protos.sh --check
 
       - name: Verify generated localizations
         run: |

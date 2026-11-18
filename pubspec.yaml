@@ -221,6 +221,7 @@ dev_dependencies:
     sdk: flutter
   lint_hard: ^8.0.1
   mockito: ^5.8.1
+  protoc_plugin: 25.1.0
   riverpod_generator: ^4.0.9
   riverpod_lint: ^3.1.9
   test: ^1.31.0

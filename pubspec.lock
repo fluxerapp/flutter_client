@@ -2112,6 +2112,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  protoc_plugin:
+    dependency: "direct dev"
+    description:
+      name: protoc_plugin
+      sha256: e6df1acfca57523537da0ce629bf02d5f8378364f18f8a45bd914abd53e48403
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.0"
   pub_semver:
     dependency: transitive
     description:
