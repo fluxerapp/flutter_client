@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -52,9 +51,9 @@ void main() {
                 trustedDomains: <String>[],
               ),
             ),
-            userPresenceProvider(
-              'u1',
-            ).overrideWith((Ref ref) => Stream<User?>.value(null)),
+            userPresenceProvider('u1').overrideWithBuild(
+              (Ref ref, UserPresenceNotifier notifier) => null,
+            ),
           ],
         ),
       );

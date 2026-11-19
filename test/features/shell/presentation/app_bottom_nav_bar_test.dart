@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -38,7 +37,7 @@ List<Override> _navOverrides({AppIconBadgeValue? badge}) {
     ),
     userPresenceProvider(
       'u1',
-    ).overrideWith((Ref ref) => Stream<User?>.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
   ];
 }
 

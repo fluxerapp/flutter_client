@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -75,7 +74,7 @@ Widget _app() {
       ),
       userPresenceProvider(
         _kUserId,
-      ).overrideWith((Ref ref) => Stream<User?>.value(null)),
+      ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
       currentUserCachedProfileProvider.overrideWithValue(
         const CurrentUserCachedProfile(
           id: _kUserId,

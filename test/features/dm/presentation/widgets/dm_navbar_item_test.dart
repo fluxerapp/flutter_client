@@ -425,16 +425,16 @@ Widget _buildTestApp({
     friendNicknameProvider.overrideWith((ref, userId) => Stream.value(null)),
     userPresenceProvider(
       '1000000000000000002',
-    ).overrideWith((ref) => Stream.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
     userPresenceProvider(
       '1000000000000000004',
-    ).overrideWith((ref) => Stream.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
     userPresenceProvider(
       '1000000000000000006',
-    ).overrideWith((ref) => Stream.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
     userPresenceProvider(
       '1000000000000000008',
-    ).overrideWith((ref) => Stream.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
     dmViewModelProvider.overrideWithValue(
       dmViewState ??
           const DmViewState(

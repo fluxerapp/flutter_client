@@ -44,17 +44,20 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     List<NotificationMentionFeedCompanion> rows,
   ) => transaction(() async {
     await delete(notificationMentionFeed).go();
-    for (final r in rows) {
-      await into(notificationMentionFeed).insert(r);
+    if (rows.isNotEmpty) {
+      await batch((Batch b) => b.insertAll(notificationMentionFeed, rows));
     }
   });
 
   Future<void> appendMentionRows(
     List<NotificationMentionFeedCompanion> rows,
   ) async {
-    for (final r in rows) {
-      await into(notificationMentionFeed).insertOnConflictUpdate(r);
+    if (rows.isEmpty) {
+      return;
     }
+    await batch(
+      (Batch b) => b.insertAllOnConflictUpdate(notificationMentionFeed, rows),
+    );
   }
 
   Future<void> prependMentionRow({
@@ -76,24 +79,25 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
       messageIds.length == channelIds.length,
       'messageIds and channelIds must have the same length',
     );
-    final int shiftBy = messageIds.length;
-    final rows = await getMentionFeedOrdered();
-    for (final row in rows.reversed) {
-      await (update(
+    await customUpdate(
+      'UPDATE notification_mention_feed SET ordinal = ordinal + ?',
+      variables: <Variable<Object>>[Variable<int>(messageIds.length)],
+      updates: <TableInfo<Table, dynamic>>{notificationMentionFeed},
+      updateKind: UpdateKind.update,
+    );
+    await batch(
+      (Batch b) => b.insertAllOnConflictUpdate(
         notificationMentionFeed,
-      )..where((t) => t.messageId.equals(row.messageId))).write(
-        NotificationMentionFeedCompanion(ordinal: Value(row.ordinal + shiftBy)),
-      );
-    }
-    for (var i = 0; i < messageIds.length; i++) {
-      await into(notificationMentionFeed).insertOnConflictUpdate(
-        NotificationMentionFeedCompanion.insert(
-          messageId: messageIds[i],
-          channelId: channelIds[i],
-          ordinal: i,
-        ),
-      );
-    }
+        <NotificationMentionFeedCompanion>[
+          for (var i = 0; i < messageIds.length; i++)
+            NotificationMentionFeedCompanion.insert(
+              messageId: messageIds[i],
+              channelId: channelIds[i],
+              ordinal: i,
+            ),
+        ],
+      ),
+    );
   });
 
   Future<void> deleteMentionRow(String messageId) => (delete(

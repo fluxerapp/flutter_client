@@ -93,7 +93,7 @@ class _TypingAvatarStack extends ConsumerWidget {
     required WidgetRef ref,
     required String userId,
   }) {
-    final user = ref.watch(userPresenceProvider(userId)).value;
+    final user = ref.watch(userRowProvider(userId)).value;
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;
@@ -169,7 +169,7 @@ class _TypingTooltipText extends ConsumerWidget {
     required WidgetRef ref,
     required String userId,
   }) {
-    final user = ref.watch(userPresenceProvider(userId)).value;
+    final user = ref.watch(userRowProvider(userId)).value;
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;

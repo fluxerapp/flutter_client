@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -143,7 +144,7 @@ class UserStatusService {
             data: Value(jsonEncode(previousSettings.toJson())),
           ),
         );
-        await database.userDao.updateUserPresence(
+        presenceStoreFor(database).set(
           userId,
           status: previousSettings.status,
           customStatus: serializeCustomStatus(previousSettings.customStatus),
@@ -182,7 +183,7 @@ class UserStatusService {
         data: Value(jsonEncode(merged)),
       ),
     );
-    await database.userDao.updateUserPresence(
+    presenceStoreFor(database).set(
       userId,
       status: optimisticStatus,
       customStatus: optimisticCustomStatusText,

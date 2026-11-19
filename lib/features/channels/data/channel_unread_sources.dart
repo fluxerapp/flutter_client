@@ -5,6 +5,8 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/talker.dart';
 
+const Duration kChannelUnreadMessageCoalesce = Duration(milliseconds: 250);
+
 enum _Source { channel, readState, lastMessage, threadMember }
 
 class _Entry {
@@ -20,11 +22,12 @@ class ChannelUnreadSources {
       for (final _Source source in _Source.values)
         _db
             .tableUpdates(TableUpdateQuery.onTable(_tableOf(source)))
-            .listen((_) => _invalidate(source)),
+            .listen((_) => _onTableUpdate(source)),
     ];
   }
 
   final FluxerDatabase _db;
+  Timer? _messageTimer;
   late final List<StreamSubscription<Object?>> _tableSubs;
   final Map<String, _Entry> _entries = <String, _Entry>{};
   final Set<_Source> _running = <_Source>{};
@@ -43,6 +46,8 @@ class ChannelUnreadSources {
 
   void dispose() {
     _disposed = true;
+    _messageTimer?.cancel();
+    _messageTimer = null;
     for (final StreamSubscription<Object?> sub in _tableSubs) {
       unawaited(sub.cancel());
     }
@@ -96,6 +101,17 @@ class ChannelUnreadSources {
     if (entry.listeners.isEmpty) {
       _entries.remove(channelId);
     }
+  }
+
+  void _onTableUpdate(_Source source) {
+    if (source != _Source.lastMessage) {
+      _invalidate(source);
+      return;
+    }
+    _messageTimer ??= Timer(kChannelUnreadMessageCoalesce, () {
+      _messageTimer = null;
+      _invalidate(_Source.lastMessage);
+    });
   }
 
   void _invalidate(_Source source) {

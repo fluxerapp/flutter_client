@@ -249,7 +249,7 @@ class _FluxerUserPresenceAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenceUser = watchLastKnownUserPresence(ref, userId);
+    final UserPresence? presenceUser = ref.watch(userPresenceProvider(userId));
     final String? selfStatus = ref.watch(currentUserIdProvider) == userId
         ? ref.watch(userSettingsStatusProvider)?.status
         : null;

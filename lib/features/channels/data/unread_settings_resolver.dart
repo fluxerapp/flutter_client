@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_dart/export.dart';
@@ -17,11 +18,25 @@ class ResolvedUnreadSettings {
   final bool allowsMentionUnread;
 }
 
-UserGuildSettingsResponse? decodeUserGuildSettings(String data) {
-  try {
-    return UserGuildSettingsResponse.fromJson(
-      jsonDecode(data) as Map<String, dynamic>,
+const int _kDecodedGuildSettingsCacheSize = 64;
+
+final BoundedLruCache<String, UserGuildSettingsResponse> _decodedGuildSettings =
+    BoundedLruCache<String, UserGuildSettingsResponse>(
+      capacity: _kDecodedGuildSettingsCacheSize,
     );
+
+UserGuildSettingsResponse? decodeUserGuildSettings(String data) {
+  final UserGuildSettingsResponse? cached = _decodedGuildSettings.get(data);
+  if (cached != null) {
+    return cached;
+  }
+  try {
+    final UserGuildSettingsResponse decoded =
+        UserGuildSettingsResponse.fromJson(
+          jsonDecode(data) as Map<String, dynamic>,
+        );
+    _decodedGuildSettings.set(data, decoded);
+    return decoded;
   } on Object {
     return null;
   }

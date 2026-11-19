@@ -321,10 +321,11 @@ class _DesktopUserIdentityButtonState
     );
     final String status =
         ref.watch(userSettingsStatusProvider)?.status ?? 'online';
-    final String? customStatus = ref
-        .watch(userPresenceProvider(userId))
-        .value
-        ?.customStatus;
+    final String? customStatus = ref.watch(
+      userPresenceProvider(
+        userId,
+      ).select((UserPresence? presence) => presence?.customStatus),
+    );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final layout = context.layout;

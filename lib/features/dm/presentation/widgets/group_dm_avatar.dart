@@ -61,7 +61,7 @@ class GroupDmAvatar extends ConsumerWidget {
     final String? currentUserAvatar = currentUserId == null
         ? null
         : ref.watch(
-            userPresenceProvider(
+            userRowProvider(
               currentUserId,
             ).select((AsyncValue<db.User?> user) => user.value?.avatar),
           );

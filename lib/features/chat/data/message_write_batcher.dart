@@ -35,6 +35,7 @@ class MessageWriteBatcher {
   final Map<String, String> _pendingLastMessageIds = <String, String>{};
   final Map<String, DmLastMessageUpdate> _pendingDmUpdates =
       <String, DmLastMessageUpdate>{};
+  final Map<String, int> _pendingThreadDeltas = <String, int>{};
   Timer? _timer;
   Future<void>? _flushing;
   int _totalPending = 0;
@@ -45,9 +46,14 @@ class MessageWriteBatcher {
     required String channelId,
     required String messageId,
     DmLastMessageUpdate? dmUpdate,
+    bool countsTowardThread = false,
   }) {
     _pendingMessages.add(companion);
     _pendingLastMessageIds[channelId] = messageId;
+    if (countsTowardThread) {
+      _pendingThreadDeltas[channelId] =
+          (_pendingThreadDeltas[channelId] ?? 0) + 1;
+    }
     if (dmUpdate != null) {
       _pendingDmUpdates[channelId] = dmUpdate;
     }
@@ -112,9 +118,13 @@ class MessageWriteBatcher {
     );
     final Map<String, DmLastMessageUpdate> dmUpdates =
         Map<String, DmLastMessageUpdate>.from(_pendingDmUpdates);
+    final Map<String, int> threadDeltas = Map<String, int>.from(
+      _pendingThreadDeltas,
+    );
     _pendingMessages.clear();
     _pendingLastMessageIds.clear();
     _pendingDmUpdates.clear();
+    _pendingThreadDeltas.clear();
     _totalPending = 0;
     if (messages.isEmpty) {
       return;
@@ -122,6 +132,12 @@ class MessageWriteBatcher {
     try {
       await _database.transaction(() async {
         await _database.messageDao.upsertMessages(messages);
+        for (final MapEntry<String, int> entry in threadDeltas.entries) {
+          await _database.threadDao.bumpMessageCounters(
+            entry.key,
+            delta: entry.value,
+          );
+        }
         for (final MapEntry<String, String> entry in lastMessageIds.entries) {
           await _database.channelDao.advanceLastMessageIdSilently(
             entry.key,

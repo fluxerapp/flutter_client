@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
@@ -623,7 +624,7 @@ void main() {
       expect(u1?.username, 'new');
       expect(u1?.globalName, 'New');
       expect(u1?.avatar, 'avatar-hash');
-      expect(u1?.status, 'online');
+      expect(presenceStoreFor(database)['u1']?.status, 'online');
     });
   });
 
@@ -658,12 +659,11 @@ void main() {
       );
       await pumpEventQueue();
 
-      final u1 = await database.userDao.getUserById('u1');
-      final u2 = await database.userDao.getUserById('u2');
-      expect(u1?.status, 'idle');
-      expect(u1?.customStatus, 'busy');
-      expect(u2?.status, 'dnd');
-      expect(u2?.customStatus, isNull);
+      final PresenceStore presence = presenceStoreFor(database);
+      expect(presence['u1']?.status, 'idle');
+      expect(presence['u1']?.customStatus, 'busy');
+      expect(presence['u2']?.status, 'dnd');
+      expect(presence['u2']?.customStatus, isNull);
     });
 
     test('stores the users sent with the presences', () async {
@@ -717,11 +717,12 @@ void main() {
 
       final u4 = await database.userDao.getUserById('u4');
       final u5 = await database.userDao.getUserById('u5');
+      final PresenceStore presence = presenceStoreFor(database);
       expect(u4?.username, 'renamed');
-      expect(u4?.status, 'idle');
+      expect(presence['u4']?.status, 'idle');
       expect(u5?.globalName, 'Five');
-      expect(u5?.status, 'dnd');
-      expect(u5?.mobile, isTrue);
+      expect(presence['u5']?.status, 'dnd');
+      expect(presence['u5']?.mobile, isTrue);
     });
 
     test('stores custom emoji custom status as json', () async {
@@ -750,7 +751,7 @@ void main() {
       );
       await pumpEventQueue();
 
-      final u3 = await database.userDao.getUserById('u3');
+      final UserPresence? u3 = presenceStoreFor(database)['u3'];
       expect(u3?.status, 'online');
       final CustomStatusResponse? parsed = parseStoredCustomStatus(
         u3?.customStatus,

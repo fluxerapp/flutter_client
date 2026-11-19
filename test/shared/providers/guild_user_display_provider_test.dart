@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -363,7 +364,7 @@ void main() {
     expect(initial.value?.displayName, 'alice');
     final int baseline = notifyCount;
 
-    await db.userDao.updateUserPresence('user-1', status: 'idle');
+    presenceStoreFor(db).set('user-1', status: 'idle');
     await pumpEventQueue();
     expect(
       notifyCount,

@@ -46,7 +46,7 @@ Map<int, MemberListViewportRow> _pruneRowsToRanges(
   return pruned;
 }
 
-String _channelAliasKey(String guildId, String channelId) {
+String memberListChannelKey(String guildId, String channelId) {
   return '$guildId:channel:$channelId';
 }
 
@@ -64,7 +64,7 @@ class MemberListViewport extends _$MemberListViewport {
     if (!ref.mounted) {
       return;
     }
-    final String channelKey = _channelAliasKey(guildId, channelId);
+    final String channelKey = memberListChannelKey(guildId, channelId);
     final Map<String, MemberListViewportListState> lists =
         Map<String, MemberListViewportListState>.from(state.lists);
     final Map<String, String> listIdByChannel = Map<String, String>.from(
@@ -82,12 +82,7 @@ class MemberListViewport extends _$MemberListViewport {
     required String guildId,
     required String channelId,
   }) {
-    final String channelKey = _channelAliasKey(guildId, channelId);
-    final String? listId = state.listIdByChannel[channelKey];
-    if (listId != null && state.lists.containsKey(listId)) {
-      return state.lists[listId];
-    }
-    return state.lists[channelKey];
+    return state.listFor(memberListChannelKey(guildId, channelId));
   }
 
   void setSubscribedRanges({
@@ -95,7 +90,7 @@ class MemberListViewport extends _$MemberListViewport {
     required String channelId,
     required List<MemberListRange> ranges,
   }) {
-    final String channelKey = _channelAliasKey(guildId, channelId);
+    final String channelKey = memberListChannelKey(guildId, channelId);
     final String storageKey = state.listIdByChannel[channelKey] ?? channelKey;
     final MemberListViewportListState? existing = state.lists[storageKey];
     if (existing == null) {
@@ -134,7 +129,7 @@ class MemberListViewport extends _$MemberListViewport {
     }
     final String guildId = event.guildId;
     final String listId = event.id;
-    final String channelKey = _channelAliasKey(guildId, channelId);
+    final String channelKey = memberListChannelKey(guildId, channelId);
     final Map<String, MemberListViewportListState> lists =
         Map<String, MemberListViewportListState>.from(state.lists);
     final Map<String, String> listIdByChannel = Map<String, String>.from(

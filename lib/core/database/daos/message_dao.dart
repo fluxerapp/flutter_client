@@ -287,6 +287,51 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return row?.id;
   }
 
+  Future<int> countRecentMessagesAfter(
+    String channelId, {
+    required String afterId,
+    bool mentionedOnly = false,
+    String? excludeAuthorId,
+    Set<String> excludedAuthorIds = const <String>{},
+    int window = 1000,
+  }) async {
+    final int? after = int.tryParse(afterId);
+    if (after == null) {
+      return 0;
+    }
+    final List<Variable<Object>> variables = <Variable<Object>>[
+      Variable<String>(channelId),
+      Variable<int>(window),
+      Variable<int>(after),
+    ];
+    final List<String> conditions = <String>['CAST(id AS INTEGER) > ?3'];
+    if (mentionedOnly) {
+      conditions.add('is_mentioned = 1');
+    }
+    if (excludeAuthorId != null) {
+      variables.add(Variable<String>(excludeAuthorId));
+      conditions.add('author_id != ?${variables.length}');
+    }
+    if (excludedAuthorIds.isNotEmpty) {
+      final List<String> placeholders = <String>[];
+      for (final String authorId in excludedAuthorIds) {
+        variables.add(Variable<String>(authorId));
+        placeholders.add('?${variables.length}');
+      }
+      conditions.add('author_id NOT IN (${placeholders.join(', ')})');
+    }
+    final QueryRow row = await customSelect(
+      'SELECT COUNT(*) AS c FROM ( '
+      'SELECT id, author_id, is_mentioned FROM messages '
+      'WHERE channel_id = ?1 '
+      'ORDER BY timestamp DESC, CAST(id AS INTEGER) DESC LIMIT ?2 '
+      ') WHERE ${conditions.join(' AND ')}',
+      variables: variables,
+      readsFrom: <TableInfo<Table, Object?>>{messages},
+    ).getSingle();
+    return row.read<int>('c');
+  }
+
   Future<Map<String, String>> getLastMessageIds(List<String> channelIds) async {
     if (channelIds.isEmpty) {
       return <String, String>{};
@@ -325,6 +370,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return query
         .map((TypedResult row) => row.read(count) ?? 0)
         .watchSingle()
+        .distinct()
         .suppressDriftCancellation;
   }
 

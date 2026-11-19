@@ -203,7 +203,7 @@ class MessageSearchRepository {
     };
 
     await _upsertChannels(results.channels);
-    await _database.userDao.upsertUsers(
+    await _database.userDao.upsertUsersIfChanged(
       results.messages
           .where((message) => message.webhookId == null)
           .map((message) => userFromPartialSdk(message.author))

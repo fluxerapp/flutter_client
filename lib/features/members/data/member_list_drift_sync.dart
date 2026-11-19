@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -28,21 +29,17 @@ class MemberListDriftSync {
     if (latestByUserId.isEmpty) {
       return;
     }
-    final List<
-      ({String userId, String status, String? customStatus, bool mobile})
-    >
-    presenceUpdates =
-        <({String userId, String status, String? customStatus, bool mobile})>[
-          for (final MemberListMember listMember in latestByUserId.values)
-            if (listMember.status case final String status
-                when status.isNotEmpty)
-              (
-                userId: listMember.member.user.id,
-                status: status,
-                customStatus: listMember.customStatus,
-                mobile: listMember.mobile,
-              ),
-        ];
+    final List<PresenceUpdateRecord> presenceUpdates = <PresenceUpdateRecord>[
+      for (final MemberListMember listMember in latestByUserId.values)
+        if (listMember.status case final String status when status.isNotEmpty)
+          (
+            userId: listMember.member.user.id,
+            status: status,
+            customStatus: listMember.customStatus,
+            mobile: listMember.mobile,
+          ),
+    ];
+    presenceStoreFor(_database).applyAll(presenceUpdates);
     await _database.transaction(() async {
       await _database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
         for (final MemberListMember listMember in latestByUserId.values)
@@ -53,7 +50,6 @@ class MemberListDriftSync {
             for (final MemberListMember listMember in latestByUserId.values)
               memberCompanionFromSdk(listMember.member, guildId: guildId),
           ]);
-      await _database.userDao.updateUserPresencesBatch(presenceUpdates);
     });
   }
 }

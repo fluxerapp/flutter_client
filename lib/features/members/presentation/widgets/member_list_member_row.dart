@@ -73,9 +73,8 @@ class _MemberListSidebarMemberRowState
       guildId: widget.guildId,
       member: member,
     );
-    final db.User? presenceUser = watchLastKnownUserPresence(
-      ref,
-      widget.userId,
+    final UserPresence? presenceUser = ref.watch(
+      userPresenceProvider(widget.userId),
     );
     final String status =
         presenceUser?.status ?? listMember.status ?? 'offline';
@@ -396,7 +395,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
       guildId: guildId,
       member: member,
     );
-    final db.User? presenceUser = watchLastKnownUserPresence(ref, userId);
+    final UserPresence? presenceUser = ref.watch(userPresenceProvider(userId));
     final String? customStatus =
         presenceUser?.customStatus ?? listMember.customStatus;
     final int? roleColor = resolveMemberHighestRoleColor(

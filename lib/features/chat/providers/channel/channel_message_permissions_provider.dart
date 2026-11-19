@@ -206,15 +206,21 @@ ChannelMessagePermissions? syncDmChannelMessagePermissions(
   if (channelId.isEmpty) {
     return ChannelMessagePermissions.none;
   }
-  final DmViewState dmState = watch
-      ? ref.watch(dmViewModelProvider)
-      : ref.read(dmViewModelProvider);
-  final DmConversation? dm = findDmById(dmState.conversations, channelId);
-  if (dm != null) {
-    if (isSystemDmConversation(dm)) {
-      return ChannelMessagePermissions.none;
+  ChannelMessagePermissions? dmPermissions(DmViewState dmState) {
+    final DmConversation? dm = findDmById(dmState.conversations, channelId);
+    if (dm == null) {
+      return null;
     }
-    return ChannelMessagePermissions.all;
+    return isSystemDmConversation(dm)
+        ? ChannelMessagePermissions.none
+        : ChannelMessagePermissions.all;
+  }
+
+  final ChannelMessagePermissions? dm = watch
+      ? ref.watch(dmViewModelProvider.select(dmPermissions))
+      : dmPermissions(ref.read(dmViewModelProvider));
+  if (dm != null) {
+    return dm;
   }
   final String? currentUserId = watch
       ? ref.watch(currentUserIdProvider)

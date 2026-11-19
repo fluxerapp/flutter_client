@@ -118,7 +118,7 @@ Future<void> _cacheUserProfile(
   FluxerDatabase database,
   UserProfileFullResponse profile,
 ) async {
-  await database.userDao.upsertUser(
+  await database.userDao.upsertUserIfChanged(
     UsersCompanion(
       id: Value(profile.user.id),
       username: Value(profile.user.username),

@@ -234,9 +234,13 @@ List<Override> _overrides({
     ),
     accountManagerProvider.overrideWith(() => _FakeAccountManager(accounts)),
     friendRepositoryProvider.overrideWithValue(_FakeFriendRepository()),
-    userPresenceProvider(
+    userRowProvider(
       _kUserId,
     ).overrideWith((Ref ref) => Stream<User?>.value(_onlineUser())),
+    userPresenceProvider(_kUserId).overrideWithBuild(
+      (Ref ref, UserPresenceNotifier notifier) =>
+          const UserPresence(status: 'online'),
+    ),
     userNoteViewModelProvider(
       userId: _kUserId,
     ).overrideWith(_FakeUserNoteViewModel.new),
@@ -328,9 +332,13 @@ List<Override> _otherUserOverrides(
 ) {
   return <Override>[
     ..._overrides(),
-    userPresenceProvider(
+    userRowProvider(
       _kOtherUserId,
     ).overrideWith((Ref ref) => Stream<User?>.value(_cachedOtherUser())),
+    userPresenceProvider(_kOtherUserId).overrideWithBuild(
+      (Ref ref, UserPresenceNotifier notifier) =>
+          const UserPresence(status: 'online'),
+    ),
     userNoteViewModelProvider(
       userId: _kOtherUserId,
     ).overrideWith(_FakeUserNoteViewModel.new),

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -263,7 +264,7 @@ void main() {
     expect(container.read(userSettingsViewModelProvider).displayName, 'alice');
     final baseline = notifyCount;
 
-    await db.userDao.updateUserPresence('u1', status: 'idle');
+    presenceStoreFor(db).set('u1', status: 'idle');
     await pumpEventQueue();
     expect(
       notifyCount,
@@ -271,7 +272,7 @@ void main() {
       reason: 'self presence-only change must not notify',
     );
 
-    await db.userDao.updateUserPresence('u2', status: 'dnd');
+    presenceStoreFor(db).set('u2', status: 'dnd');
     await pumpEventQueue();
     expect(
       notifyCount,

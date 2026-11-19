@@ -661,13 +661,13 @@ class _VoiceChannelParticipantGridState
     database.User? selfUser;
     if (me != null && onThisChannel) {
       ref.watch(
-        userPresenceProvider(me).select(
+        userRowProvider(me).select(
           (AsyncValue<database.User?> async) => async.value == null
               ? null
               : guildUserProfileSignature(async.value!),
         ),
       );
-      selfUser = ref.read(userPresenceProvider(me)).value;
+      selfUser = ref.read(userRowProvider(me)).value;
     }
     final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(

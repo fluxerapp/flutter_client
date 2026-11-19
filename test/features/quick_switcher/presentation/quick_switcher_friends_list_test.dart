@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -53,19 +52,9 @@ List<Override> _overrides() {
     instanceRuntimeConfigOverride(),
     fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
     dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
-    userPresenceProvider(_kFriendId).overrideWith(
-      (Ref ref) => Stream<User?>.value(
-        const User(
-          id: _kFriendId,
-          username: 'simthird',
-          discriminator: '0',
-          bot: false,
-          system: false,
-          status: 'online',
-          mobile: false,
-          hiddenProfileBadgesJson: '[]',
-        ),
-      ),
+    userPresenceProvider(_kFriendId).overrideWithBuild(
+      (Ref ref, UserPresenceNotifier notifier) =>
+          const UserPresence(status: 'online'),
     ),
     userNoteViewModelProvider(
       userId: _kFriendId,

@@ -84,18 +84,20 @@ class NotificationsRepository {
         channelId: channelId,
       );
     }
-    for (final sdk in list) {
-      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
-        isMentioned: messageMentionsUser(
-          mentionContexts[sdk.channelId]!,
-          authorId: sdk.author.id,
-          mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
-          mentionEveryone: sdk.mentionEveryone,
-          mentionRoleIds: sdk.mentionRoles,
-        ),
-      );
-      await _database.messageDao.upsertMessage(msg.toCompanion());
-    }
+    await _database.messageDao.upsertMessages(<MessagesCompanion>[
+      for (final sdk in list)
+        Message.fromSdk(sdk, currentUserId: _currentUserId)
+            .copyWith(
+              isMentioned: messageMentionsUser(
+                mentionContexts[sdk.channelId]!,
+                authorId: sdk.author.id,
+                mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+                mentionEveryone: sdk.mentionEveryone,
+                mentionRoleIds: sdk.mentionRoles,
+              ),
+            )
+            .toCompanion(),
+    ]);
 
     final companions = <NotificationMentionFeedCompanion>[];
     for (var i = 0; i < list.length; i++) {
@@ -135,18 +137,20 @@ class NotificationsRepository {
         channelId: channelId,
       );
     }
-    for (final sdk in list) {
-      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
-        isMentioned: messageMentionsUser(
-          mentionContexts[sdk.channelId]!,
-          authorId: sdk.author.id,
-          mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
-          mentionEveryone: sdk.mentionEveryone,
-          mentionRoleIds: sdk.mentionRoles,
-        ),
-      );
-      await _database.messageDao.upsertMessage(msg.toCompanion());
-    }
+    await _database.messageDao.upsertMessages(<MessagesCompanion>[
+      for (final sdk in list)
+        Message.fromSdk(sdk, currentUserId: _currentUserId)
+            .copyWith(
+              isMentioned: messageMentionsUser(
+                mentionContexts[sdk.channelId]!,
+                authorId: sdk.author.id,
+                mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+                mentionEveryone: sdk.mentionEveryone,
+                mentionRoleIds: sdk.mentionRoles,
+              ),
+            )
+            .toCompanion(),
+    ]);
 
     final baseOrdinal = await _database.notificationDao.maxMentionOrdinal();
     var next = (baseOrdinal ?? -1) + 1;

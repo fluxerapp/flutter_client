@@ -89,6 +89,14 @@ class MemberListViewportState {
   final Map<String, MemberListViewportListState> lists;
   final Map<String, String> listIdByChannel;
 
+  MemberListViewportListState? listFor(String channelKey) {
+    final String? listId = listIdByChannel[channelKey];
+    if (listId != null && lists.containsKey(listId)) {
+      return lists[listId];
+    }
+    return lists[channelKey];
+  }
+
   MemberListViewportState copyWith({
     Map<String, MemberListViewportListState>? lists,
     Map<String, String>? listIdByChannel,

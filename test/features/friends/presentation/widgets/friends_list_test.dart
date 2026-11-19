@@ -88,9 +88,9 @@ void main() {
           extra: <Override>[
             fluxerRouterProvider.overrideWithValue(router),
             dmRepositoryProvider.overrideWithValue(repository),
-            userPresenceProvider(
-              '200',
-            ).overrideWith((Ref ref) => Stream.value(null)),
+            userPresenceProvider('200').overrideWithBuild(
+              (Ref ref, UserPresenceNotifier notifier) => null,
+            ),
             matureContentGateReasonProvider('dm-channel-1').overrideWith(
               (Ref ref) => Future.value(MatureContentGateReason.none),
             ),

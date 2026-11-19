@@ -1669,7 +1669,7 @@ class ChatViewModel extends _$ChatViewModel {
         } else {
           announceIncomingMessageIfEnabled(
             ref,
-            Message.fromSdk(
+            () => Message.fromSdk(
               ev.event.message,
               currentUserId: ref.read(currentUserIdProvider),
             ),
@@ -2197,6 +2197,14 @@ class ChatViewModel extends _$ChatViewModel {
     );
     while (_parkedWindows.length > _kMaxParkedWindows) {
       _dropParkedWindow(_parkedWindows.keys.first);
+    }
+  }
+
+  void releaseParkedDisplayWarmers() {
+    for (final String channelId in _parkedWindows.keys) {
+      if (channelId != state.channelId) {
+        _displayWarmer.release(channelId);
+      }
     }
   }
 

@@ -10,7 +10,10 @@ import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart' show Bidi;
 
-void announceIncomingMessageIfEnabled(Ref ref, Message message) {
+void announceIncomingMessageIfEnabled(
+  Ref ref,
+  Message Function() resolveMessage,
+) {
   if (!ref.read(
     appearancePreferencesProvider.select(
       (state) => state.screenReaderAnnounceNewMessages,
@@ -18,6 +21,7 @@ void announceIncomingMessageIfEnabled(Ref ref, Message message) {
   )) {
     return;
   }
+  final Message message = resolveMessage();
   final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
   final String summary = messageAccessibilitySummary(message, l10n);
   final String announcement = message.isSystemMessage

@@ -9,10 +9,25 @@ import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.
 import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+const Duration kBackgroundMemoryTrimDelay = Duration(seconds: 30);
+
+void pauseFluxerAppMedia() {
+  unawaited(MediaKitPlayerLifecycleCoordinator.instance.pauseAll());
+}
+
 void trimFluxerAppMemory(WidgetRef ref, {required bool aggressive}) {
   clearFluxerImageCache();
   EmojiSpriteSheet.release();
-  unawaited(MediaKitPlayerLifecycleCoordinator.instance.pauseAll());
+  pauseFluxerAppMedia();
+  try {
+    ref.read(chatViewModelProvider.notifier).releaseParkedDisplayWarmers();
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[Memory] Failed to release parked display warmers',
+      error,
+      stackTrace,
+    );
+  }
   if (!aggressive) {
     return;
   }

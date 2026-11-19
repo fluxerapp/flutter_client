@@ -62,7 +62,7 @@ class GuildAuditLogMemberRepository {
   }
 
   Future<void> _upsertAuditLogUsers(Iterable<GuildAuditLogUser> users) {
-    return _database.userDao.upsertUsers(<db.UsersCompanion>[
+    return _database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
       for (final GuildAuditLogUser user in users)
         db.UsersCompanion.insert(
           id: user.id,

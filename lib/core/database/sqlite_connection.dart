@@ -3,15 +3,17 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/database/query_stats_interceptor.dart';
 import 'package:fluxer_app/core/database/sqlite_pragmas.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 const int kSqliteReadPoolSize = 2;
 
 QueryExecutor openFluxerSqliteConnection() {
-  return LazyDatabase(() async {
+  final QueryExecutor executor = LazyDatabase(() async {
     final File file = await _resolveDatabaseFile();
     await file.parent.create(recursive: true);
     return NativeDatabase.createInBackground(
@@ -20,6 +22,10 @@ QueryExecutor openFluxerSqliteConnection() {
       readPool: kSqliteReadPoolSize,
     );
   });
+  if (!kFluxerQueryStatsEnabled) {
+    return executor;
+  }
+  return executor.interceptWith(QueryStatsInterceptor(log: talker.info));
 }
 
 const String _iosDatabaseFileName = 'fluxer.sqlite';

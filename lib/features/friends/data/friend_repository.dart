@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -13,6 +14,7 @@ class FriendRepository {
   const FriendRepository(this._client, this._db);
 
   Stream<List<Friend>> watchRelationships() {
+    final PresenceStore presence = presenceStoreFor(_db);
     return _db.relationshipDao.watchRelationships().asyncMap((rows) async {
       final List<db.User> users = await _db.userDao.getUsersByIds(
         rows.map((row) => row.userId).toList(),
@@ -21,7 +23,13 @@ class FriendRepository {
         for (final db.User user in users) user.id: user,
       };
       return rows
-          .map((row) => Friend.fromRow(row, usersById[row.userId]))
+          .map(
+            (row) => Friend.fromRow(
+              row,
+              usersById[row.userId],
+              presence[row.userId],
+            ),
+          )
           .toList();
     });
   }
@@ -36,7 +44,7 @@ class FriendRepository {
         companions.add(_relationshipToCompanion(rel));
       }
       await _db.transaction(() async {
-        await _db.userDao.upsertUsers(userCompanions);
+        await _db.userDao.upsertUsersIfChanged(userCompanions);
         await _db.relationshipDao.replaceAll(companions);
       });
       return relationships.map(Friend.fromSdk).toList();
@@ -130,7 +138,9 @@ class FriendRepository {
   }
 
   Future<void> _upsertRelationship(RelationshipResponse relationship) async {
-    await _db.userDao.upsertUser(userFromPartialSdk(relationship.user));
+    await _db.userDao.upsertUserIfChanged(
+      userFromPartialSdk(relationship.user),
+    );
     await _db.relationshipDao.upsertRelationships([
       _relationshipToCompanion(relationship),
     ]);

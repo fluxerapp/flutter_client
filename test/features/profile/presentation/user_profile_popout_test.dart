@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -92,7 +92,10 @@ Widget _app({required bool touch}) {
       friendRepositoryProvider.overrideWithValue(_FakeFriendRepository()),
       userPresenceProvider(
         _kUserId,
-      ).overrideWith((Ref ref) => Stream<User?>.value(null)),
+      ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
+      userRowProvider(
+        _kUserId,
+      ).overrideWith((Ref ref) => const Stream<db.User?>.empty()),
       userNoteViewModelProvider(userId: _kUserId).overrideWith(_FakeNote.new),
       userProfileProvider(userId: _kUserId).overrideWith(
         (Ref ref) => Future<UserProfileFullResponse?>.value(_profile),

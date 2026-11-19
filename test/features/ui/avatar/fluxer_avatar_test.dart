@@ -1,12 +1,10 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
@@ -330,29 +328,15 @@ void main() {
       expect(image.placeholder, isNotNull);
     });
 
-    testWidgets('presence avatar shows the last known status while loading', (
+    testWidgets('presence avatar shows the status from the presence store', (
       tester,
     ) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            userPresenceProvider(
-              '13',
-            ).overrideWith((Ref ref) => const Stream<db.User?>.empty()),
-            userPresenceCacheProvider.overrideWithValue(
-              BoundedLruCache<String, db.User>(capacity: 8)..set(
-                '13',
-                const db.User(
-                  id: '13',
-                  username: 'bob',
-                  discriminator: '0001',
-                  bot: false,
-                  system: false,
-                  status: 'idle',
-                  mobile: false,
-                  hiddenProfileBadgesJson: '[]',
-                ),
-              ),
+            userPresenceProvider('13').overrideWithBuild(
+              (Ref ref, UserPresenceNotifier notifier) =>
+                  const UserPresence(status: 'idle'),
             ),
           ],
           child: buildTestApp(
