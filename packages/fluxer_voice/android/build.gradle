@@ -8,8 +8,8 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.11.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20")
+        classpath("com.android.tools.build:gradle:9.3.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20")
     }
 }
 
@@ -21,19 +21,18 @@ rootProject.allprojects {
 }
 
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+
+if (project.extensions.findByName("kotlin") == null) {
+    project.pluginManager.apply("org.jetbrains.kotlin.android")
+}
 
 android {
     namespace = "com.fluxer.voice"
-    compileSdk = 36
+    compileSdk = 37
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     sourceSets {
@@ -47,6 +46,12 @@ android {
 
     defaultConfig {
         minSdk = 24
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

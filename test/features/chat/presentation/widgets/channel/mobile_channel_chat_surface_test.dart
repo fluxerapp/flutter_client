@@ -133,7 +133,7 @@ void main() {
     });
 
     testWidgets(
-      'renders messages when read state is still loading but messages arrived',
+      'mounts arrived messages once the read state resolves the anchor',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(390, 844);
         tester.view.devicePixelRatio = 1;
@@ -164,6 +164,13 @@ void main() {
             ),
           ),
         );
+        await tester.pump();
+        await tester.pump();
+
+        expect(find.byType(MessageListSkeleton), findsOneWidget);
+        expect(find.byType(MessageItem), findsNothing);
+
+        readStateController.add(null);
         await tester.pump();
         await tester.pump();
 

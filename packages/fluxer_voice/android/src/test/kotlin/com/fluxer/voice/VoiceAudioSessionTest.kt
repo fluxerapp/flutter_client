@@ -1,5 +1,7 @@
 package com.fluxer.voice
 
+import android.Manifest
+import android.app.Application
 import android.content.Context
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
@@ -448,5 +450,32 @@ class VoiceAudioSessionTest {
 
         assertTrue(audioManager.isBluetoothScoOn)
         assertTrue(session.diagnostics(), session.diagnostics().contains("requested:true/connected:false"))
+    }
+
+    @Test
+    fun bluetoothConnectPermissionFollowsTheRuntimeGrant() {
+        val app = context as Application
+        shadowOf(app).denyPermissions(Manifest.permission.BLUETOOTH_CONNECT)
+        assertFalse(hasBluetoothConnectPermission(context))
+
+        shadowOf(app).grantPermissions(Manifest.permission.BLUETOOTH_CONNECT)
+        assertTrue(hasBluetoothConnectPermission(context))
+    }
+
+    @Test
+    fun explicitBluetoothUnderTelecomSurvivesMissingBluetoothPermission() {
+        val car = device(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 7, name = "Car")
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece, car))
+        shadowOf(context as Application).denyPermissions(Manifest.permission.BLUETOOTH_CONNECT)
+        session.setPreferredRoute(VoiceOutputRoute.Earpiece, null, false)
+        session.acquire("call")
+        idle(2_500)
+        calls = listOf(CallkitConnection(context, "live", Bundle()))
+
+        session.setPreferredRoute(VoiceOutputRoute.Bluetooth, 7, true)
+        idle(400)
+
+        assertTrue(session.isActive)
+        assertTrue(session.diagnostics(), session.diagnostics().contains("telecomOwnsRoute=true"))
     }
 }

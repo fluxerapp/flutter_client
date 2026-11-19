@@ -87,7 +87,7 @@ Future<bool> _launchNativeApp(Uri uri) async {
   if (await _tryLaunch(uri, LaunchMode.externalNonBrowserApplication)) {
     return true;
   }
-  return _tryLaunch(uri, LaunchMode.externalApplication);
+  return await _tryLaunch(uri, LaunchMode.externalApplication);
 }
 
 Future<void> closeInAppBrowserIfOpen() async {
@@ -158,7 +158,7 @@ Future<bool> _openInAppBrowser(
     await _chromeSafariBrowser.open(url: webUri, settings: settings);
     return true;
   } on Object {
-    return launchUrl(uri, mode: LaunchMode.externalApplication);
+    return await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
 
@@ -169,16 +169,16 @@ Future<bool> openExternalUrl(
 }) async {
   final Uri target = Platform.isIOS ? withFirstPartySiteAppView(uri) : uri;
   if (!isFluxerNativeMobileOs) {
-    return launchUrl(target, mode: LaunchMode.externalApplication);
+    return await launchUrl(target, mode: LaunchMode.externalApplication);
   }
 
   final String scheme = target.scheme.toLowerCase();
   if (scheme == 'mailto' || scheme == 'tel' || scheme == 'sms') {
-    return _launchNativeApp(target);
+    return await _launchNativeApp(target);
   }
 
   if (!_canOpenInSafariView(target)) {
-    return launchUrl(target, mode: LaunchMode.externalApplication);
+    return await launchUrl(target, mode: LaunchMode.externalApplication);
   }
 
   if (await _tryLaunch(target, LaunchMode.externalNonBrowserApplication)) {
@@ -186,9 +186,9 @@ Future<bool> openExternalUrl(
   }
 
   if (browser == DefaultWebBrowser.inApp) {
-    return _openInAppBrowser(target, style: style);
+    return await _openInAppBrowser(target, style: style);
   }
-  return launchInDefaultWebBrowser(target, browser);
+  return await launchInDefaultWebBrowser(target, browser);
 }
 
 Future<bool> openInBrowserOnly(
@@ -196,10 +196,10 @@ Future<bool> openInBrowserOnly(
   DefaultWebBrowser browser = DefaultWebBrowser.inApp,
 }) async {
   if (!isFluxerNativeMobileOs || !_canOpenInSafariView(uri)) {
-    return openExternalUrl(uri, browser: browser);
+    return await openExternalUrl(uri, browser: browser);
   }
   if (await launchInSpecificBrowser(uri, browser)) {
     return true;
   }
-  return _openInAppBrowser(uri);
+  return await _openInAppBrowser(uri);
 }

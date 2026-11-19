@@ -123,7 +123,7 @@ void main() {
         actionSize: FluxerButtonSize.compact,
       );
       await releaseTestWidgetTree(tester);
-    });
+    }, variant: TargetPlatformVariant.desktop());
 
     testWidgets('keeps mouse buttons on the first line when multi-line', (
       WidgetTester tester,

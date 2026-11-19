@@ -22,6 +22,8 @@ bool FlutterWindow::OnCreate() {
     return false;
   }
   RegisterPlugins(flutter_controller_->engine());
+  taskbar_badge_ = std::make_unique<TaskbarBadge>(
+      flutter_controller_->engine()->messenger(), GetHandle());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
   flutter_controller_->engine()->SetNextFrameCallback([&]() {
@@ -34,6 +36,7 @@ bool FlutterWindow::OnCreate() {
 }
 
 void FlutterWindow::OnDestroy() {
+  taskbar_badge_ = nullptr;
   if (flutter_controller_) {
     flutter_controller_ = nullptr;
   }
@@ -45,6 +48,9 @@ LRESULT
 FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
                               WPARAM const wparam,
                               LPARAM const lparam) noexcept {
+  if (taskbar_badge_) {
+    taskbar_badge_->HandleMessage(message);
+  }
   if (flutter_controller_) {
     std::optional<LRESULT> result =
         flutter_controller_->HandleTopLevelWindowProc(hwnd, message, wparam,

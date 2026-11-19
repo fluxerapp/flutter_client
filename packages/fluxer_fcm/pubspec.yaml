@@ -8,8 +8,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
-  firebase_core: ^4.15.0
-  firebase_messaging: ^16.7.0
+  firebase_core: ^5.2.0
+  firebase_messaging: ^17.1.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^22.3.0
@@ -17,5 +17,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint_hard: ^7.1.2
+  lint_hard: ^8.0.1
   test: ^1.31.0

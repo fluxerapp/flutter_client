@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Inviti in pausa dopo un presunto raid",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "mai",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11857,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Regalo riscattato",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Completa la registrazione dell’account per riscattare",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11872,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "Questo codice regalo non è valido o è già stato utilizzato.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Regalo non disponibile",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Riscatta il tuo regalo per attivare il tuo abbonamento {productName}!",
     "@giftAcceptClaimSubscription": {

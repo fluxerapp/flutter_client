@@ -154,6 +154,34 @@ void main() {
     expect(replyCount, 1);
   });
 
+  testWidgets('mouse drag past threshold does not reply', (tester) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    final BuildContext ctx = tester.element(
+      find.byKey(const ValueKey<String>('swipeViewport')),
+    );
+    final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
+    final RenderBox viewport =
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
+            as RenderBox;
+    final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
+    final TestGesture gesture = await tester.startGesture(
+      viewport.localToGlobal(startLocal),
+      kind: PointerDeviceKind.mouse,
+    );
+    await gesture.moveBy(const Offset(-150, 0));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(replyCount, 0);
+  });
+
   testWidgets('rightward drag yields to parent horizontal recognizer', (
     tester,
   ) async {

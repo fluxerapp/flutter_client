@@ -188,7 +188,7 @@ Future<bool> isRestorableGuildChannel(
   if (type == ChannelType.guildCategory || type == ChannelType.guildLink) {
     return false;
   }
-  return canReadChannelForUnread(
+  return await canReadChannelForUnread(
     database: db,
     channel: channel,
     currentUserId: currentUserId,

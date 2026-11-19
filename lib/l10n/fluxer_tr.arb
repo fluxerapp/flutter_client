@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Davetler şüpheli bir baskından sonra duraklatıldı",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "asla",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11857,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Hediye alındı",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Kullanmak için hesabı sahiplen",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11872,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "Bu hediye kodu geçersiz veya zaten alınmış.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Hediye mevcut değil",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "{productName} aboneliğini etkinleştirmek için hediyeni talep et!",
     "@giftAcceptClaimSubscription": {

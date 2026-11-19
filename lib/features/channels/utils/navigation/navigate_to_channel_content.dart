@@ -168,53 +168,31 @@ Future<void> openGuildChannelContent({
   }
 
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
-
-  final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
   final bool isInCurrentVoiceChannel =
       isVoiceChannel &&
-      voiceSession.isInVoice &&
-      voiceSession.guildId == guildId &&
-      voiceSession.channelId == channel.id;
+      _isInVoiceChannel(ref, guildId: guildId, channelId: channel.id);
 
-  void recordAndNavigate() {
-    if (!isVoiceChannel) {
-      ref
-          .read(recentChannelVisitsProvider.notifier)
-          .recordVisit(
-            channelId: channel.id,
-            guildId: guildId,
-            isThread: channel.isThread,
-          );
-    }
-    switchChatAheadOfNavigation(
-      ref.container,
-      channel,
-      targetMessageId: targetMessageId,
-    );
-    if (context.mounted) {
-      navigateToContent(context, chatPath);
-      return;
-    }
-    navigateToContentViaContainer(ref.container, chatPath);
-  }
+  void recordAndNavigate() => _openGuildChannelRoute(
+    context: context,
+    ref: ref,
+    guildId: guildId,
+    channel: channel,
+    chatPath: chatPath,
+    targetMessageId: targetMessageId,
+  );
 
   Future<void> joinAndOpen({
     bool initialSelfMute = false,
     bool initialSelfDeaf = false,
-  }) async {
-    final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
-      ref: ref,
-      context: context,
-      guildId: guildId,
-      channelId: channel.id,
-      channel: channel,
-      initialSelfMute: initialSelfMute,
-      initialSelfDeaf: initialSelfDeaf,
-    );
-    if (joinResult.shouldOpenChannel) {
-      recordAndNavigate();
-    }
-  }
+  }) => _joinGuildVoiceChannelAndOpen(
+    context: context,
+    ref: ref,
+    guildId: guildId,
+    channel: channel,
+    chatPath: chatPath,
+    initialSelfMute: initialSelfMute,
+    initialSelfDeaf: initialSelfDeaf,
+  );
 
   if (shouldPresentVoiceChannelJoinSheet(
     isVoiceChannel: isVoiceChannel,
@@ -279,8 +257,9 @@ Future<void> openGuildChannelContent({
         (state) => state.voiceChannelJoinRequiresDoubleClick,
       ),
     );
-    final VoiceJoinEligibility eligibility = await ref.read(
-      voiceJoinEligibilityProvider(channel.id).future,
+    final VoiceJoinEligibility eligibility = await _readVoiceJoinEligibility(
+      ref,
+      channel.id,
     );
     if (!context.mounted) {
       return;
@@ -292,6 +271,116 @@ Future<void> openGuildChannelContent({
   }
 
   recordAndNavigate();
+}
+
+Future<void> joinGuildVoiceChannelFromList({
+  required BuildContext context,
+  required WidgetRef ref,
+  required String guildId,
+  required Channel channel,
+}) async {
+  if (_isInVoiceChannel(ref, guildId: guildId, channelId: channel.id)) {
+    return;
+  }
+  final VoiceJoinEligibility eligibility = await _readVoiceJoinEligibility(
+    ref,
+    channel.id,
+  );
+  if (!context.mounted || !eligibility.canJoin) {
+    return;
+  }
+  await _joinGuildVoiceChannelAndOpen(
+    context: context,
+    ref: ref,
+    guildId: guildId,
+    channel: channel,
+    chatPath: _guildChannelRoutePath(guildId: guildId, channelId: channel.id),
+    skipConfirmation: true,
+  );
+}
+
+bool _isInVoiceChannel(
+  WidgetRef ref, {
+  required String guildId,
+  required String channelId,
+}) {
+  final VoiceSessionState session = ref.read(voiceSessionProvider);
+  return session.isInVoice &&
+      session.guildId == guildId &&
+      session.channelId == channelId;
+}
+
+Future<VoiceJoinEligibility> _readVoiceJoinEligibility(
+  WidgetRef ref,
+  String channelId,
+) async {
+  final ProviderSubscription<Future<VoiceJoinEligibility>> subscription = ref
+      .listenManual(voiceJoinEligibilityProvider(channelId).future, (_, _) {});
+  try {
+    return await subscription.read();
+  } finally {
+    subscription.close();
+  }
+}
+
+Future<void> _joinGuildVoiceChannelAndOpen({
+  required BuildContext context,
+  required WidgetRef ref,
+  required String guildId,
+  required Channel channel,
+  required String chatPath,
+  bool initialSelfMute = false,
+  bool initialSelfDeaf = false,
+  bool skipConfirmation = false,
+}) async {
+  final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
+    ref: ref,
+    context: context,
+    guildId: guildId,
+    channelId: channel.id,
+    channel: channel,
+    initialSelfMute: initialSelfMute,
+    initialSelfDeaf: initialSelfDeaf,
+    skipConfirmation: skipConfirmation,
+  );
+  if (joinResult.shouldOpenChannel) {
+    _openGuildChannelRoute(
+      context: context.mounted ? context : null,
+      ref: ref,
+      guildId: guildId,
+      channel: channel,
+      chatPath: chatPath,
+    );
+  }
+}
+
+void _openGuildChannelRoute({
+  required BuildContext? context,
+  required WidgetRef ref,
+  required String guildId,
+  required Channel channel,
+  required String chatPath,
+  String? targetMessageId,
+}) {
+  if (channel.type != ChannelType.guildVoice) {
+    ref
+        .read(recentChannelVisitsProvider.notifier)
+        .recordVisit(
+          channelId: channel.id,
+          guildId: guildId,
+          isThread: channel.isThread,
+        );
+  }
+  switchChatAheadOfNavigation(
+    ref.container,
+    channel,
+    targetMessageId: targetMessageId,
+  );
+  if (context != null && context.mounted) {
+    navigateToContent(context, chatPath);
+    return;
+  }
+  navigateToContentViaContainer(ref.container, chatPath);
 }
 
 /// Switches the chat window before navigation, for channels with a chat view.

@@ -17,7 +17,7 @@ Future<bool> isExternalSystemVoiceCallActive({
     return false;
   }
   if (invokeNative != null) {
-    return invokeNative(fluxerOwnsVoice: fluxerOwnsVoice);
+    return await invokeNative(fluxerOwnsVoice: fluxerOwnsVoice);
   }
   if (!(Platform.isIOS || Platform.isAndroid)) {
     return false;

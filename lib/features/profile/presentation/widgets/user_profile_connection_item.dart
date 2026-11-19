@@ -8,11 +8,16 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
 
-String _connectionUrl(ConnectionResponse connection) {
-  if (connection.type == ConnectionType.bluesky) {
-    return 'https://bsky.app/profile/${connection.name}';
+String? _connectionUrl(ConnectionResponse connection) {
+  final String? url = connection.url?.trim();
+  if (url != null && url.isNotEmpty) {
+    return url;
   }
-  return 'https://${connection.name}';
+  return switch (connection.type) {
+    ConnectionType.bluesky => 'https://bsky.app/profile/${connection.name}',
+    ConnectionType.domain => 'https://${connection.name}',
+    _ => null,
+  };
 }
 
 Widget _connectionStatusIcon(ConnectionResponse connection) {
@@ -31,6 +36,7 @@ class UserProfileConnectionCompactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? url = _connectionUrl(connection);
     return FluxerTooltip(
       richMessage: Row(
         mainAxisSize: MainAxisSize.min,
@@ -41,7 +47,7 @@ class UserProfileConnectionCompactTile extends StatelessWidget {
         ],
       ),
       child: FluxerTappable(
-        onTap: () => handleExternalLinkTap(context, _connectionUrl(connection)),
+        onTap: url == null ? null : () => handleExternalLinkTap(context, url),
         semanticLabel: connection.name,
         excludeChildSemantics: true,
         builder: (BuildContext context, Set<WidgetState> states) => Container(
@@ -52,7 +58,11 @@ class UserProfileConnectionCompactTile extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(6),
           ),
-          child: FluxerConnectionIcon(type: connection.type, size: 16),
+          child: FluxerConnectionIcon(
+            type: connection.type,
+            providerId: connection.providerId,
+            size: 16,
+          ),
         ),
       ),
     );
@@ -75,9 +85,9 @@ class UserProfileConnectionItem extends StatelessWidget {
     final layout = context.layout;
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
-    final String url = _connectionUrl(connection);
+    final String? url = _connectionUrl(connection);
     return FluxerTappable(
-      onTap: () => handleExternalLinkTap(context, url),
+      onTap: url == null ? null : () => handleExternalLinkTap(context, url),
       builder: (context, _) => Container(
         decoration: outlined
             ? BoxDecoration(
@@ -96,6 +106,7 @@ class UserProfileConnectionItem extends StatelessWidget {
           children: <Widget>[
             FluxerConnectionIconTile(
               type: connection.type,
+              providerId: connection.providerId,
               borderRadius: layout.radiusSm,
             ),
             SizedBox(width: layout.s2),
@@ -123,11 +134,12 @@ class UserProfileConnectionItem extends StatelessWidget {
                 ],
               ),
             ),
-            PhosphorIcon(
-              PhosphorIconsBold.arrowSquareOut,
-              size: 16,
-              color: colors.textPrimaryMuted,
-            ),
+            if (url != null)
+              PhosphorIcon(
+                PhosphorIconsBold.arrowSquareOut,
+                size: 16,
+                color: colors.textPrimaryMuted,
+              ),
           ],
         ),
       ),

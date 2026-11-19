@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
+import 'package:fluxer_app/core/providers/keep_alive_for.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -131,6 +132,9 @@ const double _kMessageListStatusOverlayInsetWide =
 
 const int _kPinnedRecenterTrailingThreshold = 60;
 
+@visibleForTesting
+const Duration kMessageListReadStateRetention = Duration(seconds: 60);
+
 typedef MessageListUnreadAckFields = ({
   bool manual,
   String? lastMessageId,
@@ -142,6 +146,7 @@ typedef MessageListUnreadAckFields = ({
 // ignore: specify_nonobvious_property_types
 final messageListReadStateProvider = StreamProvider.autoDispose
     .family<MessageListUnreadAckFields, String>((ref, channelId) {
+      keepAliveFor(ref, kMessageListReadStateRetention);
       final db = ref.watch(fluxerDatabaseProvider);
       return db.readStateDao.watchReadState(channelId).map((
         drift_db.ReadState? row,
@@ -764,6 +769,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (!_anchorResolved && (!isLoading || messages.isNotEmpty)) {
       if (hasJumpTarget && messages.isEmpty) {
       } else if (readStateAsync.hasValue ||
+          readStateAsync.hasError ||
           (hasJumpTarget && messages.isNotEmpty)) {
         final String? unreadAnchorId = hasJumpTarget ? null : visualUnreadId;
         final bool canAnchorUnread =
@@ -823,7 +829,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             _scrollController.armedInitialOffset = _statusOverlayInset;
           }
         }
-        _expandScrollCacheNow();
+        _expandScrollCacheAfterFrame();
         _scheduleBottomViewportSync();
       }
     }
@@ -952,6 +958,8 @@ class _MessageListState extends ConsumerState<MessageList> {
             if (messages.isEmpty &&
                 !messageLoadFailed &&
                 (isLoading || (!_anchorResolved && hasJumpTarget))) {
+              body = MessageListSkeleton(channelId: channelId);
+            } else if (!_anchorResolved && messages.isNotEmpty) {
               body = MessageListSkeleton(channelId: channelId);
             } else if (messageLoadFailed && messages.isEmpty) {
               final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -2375,8 +2383,16 @@ class _MessageListState extends ConsumerState<MessageList> {
     _scrollCacheExpansionPending = false;
   }
 
+  void _expandScrollCacheAfterFrame() {
+    if (!_useCompactScrollCache || _scrollCacheExpansionPending) {
+      return;
+    }
+    _scrollCacheExpansionPending = true;
+    _scheduleScrollCacheExpansionWhenIdle();
+  }
+
   void _scheduleScrollCacheExpansion(int messageCount) {
-    if (messageCount >= kTrimmedMessageWindowSize) {
+    if (_anchorResolved && messageCount >= kTrimmedMessageWindowSize) {
       _expandScrollCacheNow();
     }
     if (messageCount == 0 || !_useCompactScrollCache) {

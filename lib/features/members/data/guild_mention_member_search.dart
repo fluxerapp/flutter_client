@@ -63,7 +63,7 @@ class GuildMentionMemberSearch {
     }
     final Future<GuildMentionSnapshot>? inFlight = _snapshotLoads[guildId];
     if (inFlight != null) {
-      return inFlight;
+      return await inFlight;
     }
     final Future<GuildMentionSnapshot> load = _loadSnapshot(guildId);
     _snapshotLoads[guildId] = load;
@@ -91,7 +91,7 @@ class GuildMentionMemberSearch {
   ) async {
     final GuildMentionSnapshot? snapshot = _snapshots.peek(guildId);
     if (snapshot == null) {
-      return ensureSnapshot(guildId);
+      return await ensureSnapshot(guildId);
     }
     final List<Member> fresh = await _memberRepository
         .getCachedMembersByUserIds(guildId, userIds);
@@ -101,7 +101,7 @@ class GuildMentionMemberSearch {
     final int rowCount = await _database.memberDao.countMembers(guildId);
     final GuildMentionSnapshot? current = _snapshots.peek(guildId);
     if (!identical(current, snapshot)) {
-      return current ?? ensureSnapshot(guildId);
+      return await (current ?? ensureSnapshot(guildId));
     }
     final Map<String, Member> freshById = <String, Member>{
       for (final Member member in fresh) member.id: member,
@@ -113,7 +113,7 @@ class GuildMentionMemberSearch {
     ];
     if (merged.length != rowCount) {
       invalidateSnapshot(guildId);
-      return ensureSnapshot(guildId);
+      return await ensureSnapshot(guildId);
     }
     final GuildMentionSnapshot next = GuildMentionSnapshot(
       members: merged,
@@ -324,7 +324,7 @@ class GuildMentionMemberSearch {
       );
       return (members: cached, remoteMemberIds: const <String>{});
     }
-    return fetchGatewayAndMerge(
+    return await fetchGatewayAndMerge(
       guildId: guildId,
       query: query,
       parsed: parsed,
@@ -354,7 +354,7 @@ class GuildMentionMemberSearch {
       }
       await _ensureGatewaySearch(guildId, trimmed);
     }
-    return _memberRepository.getCachedMembersForGuild(guildId);
+    return await _memberRepository.getCachedMembersForGuild(guildId);
   }
 
   Future<void> _ensureGatewaySearch(String guildId, String query) async {

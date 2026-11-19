@@ -8,6 +8,9 @@ on:
     paths:
       - "**/*.dart"
       - ".github/workflows/dart-analyze.yml"
+      - "fluxer"
+      - "tool/generate_protos.sh"
+      - "tool/protoc_gen_dart.dart"
       - "pubspec.yaml"
       - "pubspec.lock"
       - "analysis_options.yaml"
@@ -28,7 +31,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
@@ -57,6 +60,9 @@ jobs:
 
       - name: Resolve package dependencies
         run: bash tool/pub_get_packages.sh
+
+      - name: Verify generated protobuf code
+        run: bash tool/generate_protos.sh --check
 
       - name: Verify generated localizations
         run: |
@@ -101,7 +107,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
@@ -128,6 +134,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
 
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets
@@ -163,7 +170,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
@@ -183,6 +190,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
 
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets

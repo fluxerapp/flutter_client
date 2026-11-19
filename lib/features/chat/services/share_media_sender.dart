@@ -30,7 +30,10 @@ class ShareMediaSender {
 
     final String outgoingText = (message ?? '').trim();
     if (files.isEmpty) {
-      return _sendTextOnly(channelIds: channelIds, outgoingText: outgoingText);
+      return await _sendTextOnly(
+        channelIds: channelIds,
+        outgoingText: outgoingText,
+      );
     }
 
     final List<ComposerUploadFile> uploadFiles = composerUploadFiles(files);

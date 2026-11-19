@@ -378,7 +378,7 @@ void main() {
     )..retain('guild-x', <String>['channel-x']);
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(
-      watched.container.exists(channelUnreadProvider('channel-x')),
+      watched.container.read(channelUnreadProvider('channel-x').exists),
       isTrue,
     );
 
@@ -387,14 +387,14 @@ void main() {
     }
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(
-      watched.container.exists(channelUnreadProvider('channel-x')),
+      watched.container.read(channelUnreadProvider('channel-x').exists),
       isTrue,
     );
 
     retention.retain('one-more', const <String>[]);
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(
-      watched.container.exists(channelUnreadProvider('channel-x')),
+      watched.container.read(channelUnreadProvider('channel-x').exists),
       isFalse,
     );
   });

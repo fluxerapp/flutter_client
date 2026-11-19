@@ -26,7 +26,7 @@ class PlutoniumUpsellDismissed extends _$PlutoniumUpsellDismissed {
       return false;
     }
     final db = ref.read(fluxerDatabaseProvider);
-    return db.userPreferencesDao.getPlutoniumUpsellDismissed(userId);
+    return await db.userPreferencesDao.getPlutoniumUpsellDismissed(userId);
   }
 
   Future<void> dismiss() async {

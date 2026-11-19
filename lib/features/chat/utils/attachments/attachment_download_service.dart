@@ -87,7 +87,7 @@ Future<bool> _ensureGalleryAccess() async {
     return true;
   }
   await Gal.requestAccess();
-  return Gal.hasAccess();
+  return await Gal.hasAccess();
 }
 
 Future<void> _putLocalFileInGallery({

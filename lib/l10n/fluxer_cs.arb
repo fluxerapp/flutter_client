@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Pozvánky jsou pozastaveny po podezření na nájezd",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "nikdy",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11857,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Dárek převzat",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Pro uplatnění dokončete registraci účtu",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11872,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "Tento dárkový kód je neplatný nebo ho již někdo převzal.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Dárek není k dispozici",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Uplatněte svůj dárek a aktivujte si předplatné {productName}!",
     "@giftAcceptClaimSubscription": {

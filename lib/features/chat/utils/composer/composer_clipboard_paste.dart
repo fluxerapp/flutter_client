@@ -43,7 +43,7 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   if (files.isEmpty) {
     return null;
   }
-  return ref
+  return await ref
       .read(
         cloudUploadControllerProvider(
           readAccountUserId(ref),
@@ -81,7 +81,10 @@ Future<bool> finishComposerWireTextPaste({
       return true;
     }
   }
-  return pasteWireTextIntoInlineTokenController(controller, clipboardText);
+  return await pasteWireTextIntoInlineTokenController(
+    controller,
+    clipboardText,
+  );
 }
 
 Future<bool> handleComposerPaste({
@@ -212,7 +215,7 @@ Future<FileUploadValidationResult?> handleComposerContentInserted({
     name: filename,
     mimeType: mimeType,
   );
-  return ref
+  return await ref
       .read(
         cloudUploadControllerProvider(
           readAccountUserId(ref),

@@ -28,5 +28,5 @@ Future<bool> shouldSuppressRingerRespectingSfx(
   if (ignoreRingerPolicy || !clip.respectsRinger) {
     return false;
   }
-  return isSystemNotificationSoundSuppressed();
+  return await isSystemNotificationSoundSuppressed();
 }

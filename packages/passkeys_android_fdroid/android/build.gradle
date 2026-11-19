@@ -1,0 +1,54 @@
+group 'com.corbado.passkeys_android'
+version '1.0-SNAPSHOT'
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+// Kotlin support normally comes from the app: AGP 9 provides it built in, and
+// Flutter 3.44+ applies the Kotlin Gradle Plugin to plugins on older setups.
+// Only apply it here when neither has, so older Flutter versions still build
+// and the plugin never applies KGP on top of built-in Kotlin.
+if (project.extensions.findByName('kotlin') == null) {
+    project.pluginManager.apply('org.jetbrains.kotlin.android')
+}
+
+android {
+    // Conditional for compatibility with AGP <4.2.
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.corbado.passkeys_android'
+    }
+
+    compileSdkVersion 37
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 23
+        multiDexEnabled true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation("androidx.credentials:credentials:1.6.0")
+    implementation 'androidx.multidex:multidex:2.0.1'
+}

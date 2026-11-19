@@ -164,7 +164,7 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     required List<NativePasteFile> files,
   }) async {
     if (widget.onNativePaste != null) {
-      return widget.onNativePaste!(text: text, files: files);
+      return await widget.onNativePaste!(text: text, files: files);
     }
     if (_isInlineTokenController && text != null && text.isNotEmpty) {
       await pasteWireTextIntoInlineTokenController(widget.controller, text);
@@ -440,7 +440,7 @@ Future<bool> handleNativePasteCall(MethodCall call) async {
       call.arguments as Map<Object?, Object?>? ?? const <Object?, Object?>{};
   final List<Object?> rawFiles =
       arguments['files'] as List<Object?>? ?? const <Object?>[];
-  return scope.handleNativePaste(
+  return await scope.handleNativePaste(
     text: arguments['text'] as String?,
     files: <NativePasteFile>[
       for (final Map<Object?, Object?> file

@@ -1,42 +1,31 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/clipboard_attachment_reader.dart';
-import 'package:super_clipboard/super_clipboard.dart';
+import 'package:fluxer_clipboard/fluxer_clipboard.dart';
+import 'package:image/image.dart' as img;
 
 void main() {
-  group('extensionForClipboardFormat', () {
+  group('extensionForClipboardMime', () {
     test('maps common image formats', () {
-      expect(extensionForClipboardFormat(Formats.png), 'png');
-      expect(extensionForClipboardFormat(Formats.jpeg), 'jpg');
-      expect(extensionForClipboardFormat(Formats.gif), 'gif');
-      expect(extensionForClipboardFormat(Formats.webp), 'webp');
+      expect(extensionForClipboardMime('image/png'), 'png');
+      expect(extensionForClipboardMime('image/jpeg'), 'jpg');
+      expect(extensionForClipboardMime('image/gif'), 'gif');
+      expect(extensionForClipboardMime('image/webp'), 'webp');
+      expect(extensionForClipboardMime('IMAGE/PNG'), 'png');
     });
 
-    test('maps document formats', () {
-      expect(extensionForClipboardFormat(Formats.pdf), 'pdf');
-      expect(extensionForClipboardFormat(Formats.docx), 'docx');
-      expect(extensionForClipboardFormat(Formats.zip), 'zip');
+    test('maps document and extra formats', () {
+      expect(extensionForClipboardMime('application/pdf'), 'pdf');
+      expect(extensionForClipboardMime('application/zip'), 'zip');
+      expect(extensionForClipboardMime('image/svg+xml'), 'svg');
+      expect(extensionForClipboardMime('image/tiff'), 'tif');
     });
 
     test('falls back to bin for unknown formats', () {
-      expect(extensionForClipboardFormat(Formats.webUnknown), 'bin');
-    });
-  });
-
-  group('mimeForClipboardFormat', () {
-    test('maps common image formats', () {
-      expect(mimeForClipboardFormat(Formats.png), 'image/png');
-      expect(mimeForClipboardFormat(Formats.jpeg), 'image/jpeg');
-      expect(mimeForClipboardFormat(Formats.heic), 'image/heic');
-    });
-
-    test('maps document formats', () {
-      expect(mimeForClipboardFormat(Formats.pdf), 'application/pdf');
-      expect(mimeForClipboardFormat(Formats.json), 'application/json');
-    });
-
-    test('falls back to null for unknown formats', () {
-      expect(mimeForClipboardFormat(Formats.webUnknown), isNull);
+      expect(extensionForClipboardMime(null), 'bin');
+      expect(extensionForClipboardMime(''), 'bin');
+      expect(extensionForClipboardMime('application/x-unknown'), 'bin');
     });
   });
 
@@ -59,11 +48,11 @@ void main() {
       0xE0,
     ]);
 
-    test('sniffs PNG bytes from webUnknown into clipboard.png', () {
+    test('sniffs PNG bytes without a mime into clipboard.png', () {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: pngBytes,
-            format: Formats.webUnknown,
+            mimeType: null,
             name: 'clipboard.bin',
           );
       expect(metadata.name, 'clipboard.png');
@@ -74,40 +63,40 @@ void main() {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: pngBytes,
-            format: Formats.webUnknown,
+            mimeType: null,
             name: 'Screenshot',
           );
       expect(metadata.name, 'Screenshot.png');
       expect(metadata.mime, 'image/png');
     });
 
-    test('sniffs JPEG bytes from webUnknown', () {
+    test('sniffs JPEG bytes without a mime', () {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: jpegBytes,
-            format: Formats.webUnknown,
+            mimeType: null,
             name: 'clipboard.bin',
           );
       expect(metadata.name, 'clipboard.jpg');
       expect(metadata.mime, 'image/jpeg');
     });
 
-    test('keeps known format metadata unchanged', () {
+    test('keeps known mime metadata unchanged', () {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: pngBytes,
-            format: Formats.png,
+            mimeType: 'image/png',
             name: 'screenshot.png',
           );
       expect(metadata.name, 'screenshot.png');
       expect(metadata.mime, 'image/png');
     });
 
-    test('fixes bin extension when known format mime is image', () {
+    test('fixes bin extension when known mime is image', () {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: pngBytes,
-            format: Formats.png,
+            mimeType: 'image/png',
             name: 'clipboard.bin',
           );
       expect(metadata.name, 'clipboard.png');
@@ -119,14 +108,14 @@ void main() {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: randomBytes,
-            format: Formats.webUnknown,
+            mimeType: null,
             name: 'clipboard.bin',
           );
       expect(metadata.name, 'clipboard.bin');
       expect(metadata.mime, isNull);
     });
 
-    test('sniffs PDF bytes from webUnknown', () {
+    test('sniffs PDF bytes without a mime', () {
       final Uint8List pdfBytes = Uint8List.fromList(<int>[
         0x25,
         0x50,
@@ -137,7 +126,7 @@ void main() {
       final ({String name, String? mime}) metadata =
           resolveClipboardAttachmentMetadata(
             bytes: pdfBytes,
-            format: Formats.webUnknown,
+            mimeType: null,
             name: 'clipboard.bin',
           );
       expect(metadata.name, 'clipboard.pdf');
@@ -146,41 +135,31 @@ void main() {
   });
 
   group('resolveClipboardFilename', () {
-    test('prefers file name from clipboard reader', () {
-      expect(
-        resolveClipboardFilename(
-          format: Formats.png,
-          fileName: 'screenshot.png',
-          suggestedName: 'other.png',
-        ),
-        'screenshot.png',
-      );
-    });
-
-    test('uses suggested name when file name is missing', () {
-      expect(
-        resolveClipboardFilename(
-          format: Formats.pdf,
-          suggestedName: 'report.pdf',
-        ),
-        'report.pdf',
-      );
-    });
-
     test('falls back to clipboard extension', () {
-      expect(resolveClipboardFilename(format: Formats.gif), 'clipboard.gif');
+      expect(resolveClipboardFilename(mimeType: 'image/gif'), 'clipboard.gif');
+      expect(
+        resolveClipboardFilename(
+          mimeType:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ),
+        'clipboard.docx',
+      );
+      expect(resolveClipboardFilename(mimeType: 'text/csv'), 'clipboard.csv');
     });
 
-    test('appends extension when suggested name has none', () {
+    test('ignores blank file names', () {
       expect(
-        resolveClipboardFilename(format: Formats.png, suggestedName: 'image'),
-        'image.png',
+        resolveClipboardFilename(mimeType: 'image/png', fileName: '  '),
+        'clipboard.png',
       );
     });
 
     test('appends extension when file name has none', () {
       expect(
-        resolveClipboardFilename(format: Formats.jpeg, fileName: 'Screenshot'),
+        resolveClipboardFilename(
+          mimeType: 'image/jpeg',
+          fileName: 'Screenshot',
+        ),
         'Screenshot.jpg',
       );
     });
@@ -188,7 +167,7 @@ void main() {
     test('keeps filename when extension is already present', () {
       expect(
         resolveClipboardFilename(
-          format: Formats.png,
+          mimeType: 'image/png',
           fileName: 'screenshot.png',
         ),
         'screenshot.png',
@@ -196,62 +175,110 @@ void main() {
     });
   });
 
-  group('orderClipboardFileFormats', () {
-    test('prefers image formats over webUnknown', () {
-      final List<DataFormat<Object>> available = <DataFormat<Object>>[
-        Formats.webUnknown,
-        Formats.png,
-        Formats.plainTextFile,
-      ];
-      final List<DataFormat<Object>> ordered = orderClipboardFileFormats(
-        available,
+  group('clipboardAttachmentMimeTypes', () {
+    test('keeps every previously supported file format', () {
+      expect(
+        clipboardAttachmentMimeTypes,
+        containsAll(<String>[
+          'text/plain',
+          'text/html',
+          'text/markdown',
+          'text/csv',
+          'application/json',
+          'application/rtf',
+          'application/msword',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-powerpoint',
+          'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+          'application/zip',
+          'application/x-7z-compressed',
+          'application/x-msi',
+          'video/x-ms-wmv',
+          'video/mp2t',
+          'audio/flac',
+          'image/x-icon',
+        ]),
       );
-      expect(ordered.first, Formats.png);
-      expect(ordered, contains(Formats.webUnknown));
+      expect(
+        clipboardAttachmentMimeTypes.toSet().length,
+        clipboardAttachmentMimeTypes.length,
+      );
+    });
+
+    test('prefers concrete image types before wildcards', () {
+      expect(clipboardAttachmentMimeTypes.first, 'image/png');
+      expect(
+        clipboardAttachmentMimeTypes.indexOf('image/png'),
+        lessThan(clipboardAttachmentMimeTypes.indexOf('image/tiff')),
+      );
+      expect(
+        clipboardAttachmentMimeTypes.indexOf('application/pdf'),
+        lessThan(clipboardAttachmentMimeTypes.indexOf('image/*')),
+      );
     });
   });
 
-  group('shouldSkipClipboardFileFormat', () {
-    test('skips text file formats when plain text value is available', () {
-      final ClipboardDataReader item = _FakeClipboardDataReader(
-        providedFormats: <DataFormat<Object>>[
-          Formats.plainText,
-          Formats.plainTextFile,
-        ],
+  group('clipboardItemToXFile', () {
+    test('returns path-backed files with the native name', () async {
+      final XFile? file = await clipboardItemToXFile(
+        NativeClipboardItem(
+          path: '/tmp/report.pdf',
+          name: 'report.pdf',
+          mimeType: 'application/pdf',
+        ),
       );
-      expect(
-        shouldSkipClipboardFileFormat(item, Formats.plainTextFile),
-        isTrue,
-      );
-      expect(shouldSkipClipboardFileFormat(item, Formats.png), isFalse);
+      expect(file, isNotNull);
+      expect(file!.path, '/tmp/report.pdf');
+      expect(file.name, 'report.pdf');
+      expect(file.mimeType, 'application/pdf');
     });
 
-    test('keeps text file formats when only a file was copied', () {
-      final ClipboardDataReader item = _FakeClipboardDataReader(
-        providedFormats: <DataFormat<Object>>[Formats.plainTextFile],
+    test('uses the path basename when no name is given', () async {
+      final XFile? file = await clipboardItemToXFile(
+        NativeClipboardItem(path: '/tmp/photo.jpg'),
       );
+      expect(file!.name, 'photo.jpg');
+    });
+
+    test('returns null for empty data', () async {
       expect(
-        shouldSkipClipboardFileFormat(item, Formats.plainTextFile),
-        isFalse,
+        await clipboardItemToXFile(
+          NativeClipboardItem(data: Uint8List(0), mimeType: 'image/png'),
+        ),
+        isNull,
       );
+      expect(await clipboardItemToXFile(NativeClipboardItem()), isNull);
+    });
+
+    test('keeps the native mime type for in-memory data', () async {
+      final XFile? file = await clipboardItemToXFile(
+        NativeClipboardItem(
+          data: Uint8List.fromList(<int>[0x47, 0x49, 0x46, 0x38]),
+          mimeType: 'image/gif',
+        ),
+      );
+      expect(file!.mimeType, 'image/gif');
+    });
+
+    test('sniffs a mime type when the native side gave none', () async {
+      final XFile? file = await clipboardItemToXFile(
+        NativeClipboardItem(
+          data: Uint8List.fromList(<int>[0x25, 0x50, 0x44, 0x46, 0x2D]),
+        ),
+      );
+      expect(file!.mimeType, 'application/pdf');
+    });
+
+    test('converts BMP data to PNG', () async {
+      final Uint8List bmp = img.encodeBmp(img.Image(width: 2, height: 2));
+      final XFile? file = await clipboardItemToXFile(
+        NativeClipboardItem(data: bmp, mimeType: 'image/bmp'),
+      );
+      expect(file!.mimeType, 'image/png');
+      final Uint8List bytes = await file.readAsBytes();
+      expect(bytes.sublist(0, 4), <int>[0x89, 0x50, 0x4E, 0x47]);
     });
   });
-}
-
-class _FakeClipboardDataReader implements ClipboardDataReader {
-  _FakeClipboardDataReader({required this.providedFormats});
-
-  final List<DataFormat<Object>> providedFormats;
-
-  @override
-  bool canProvide(DataFormat<Object> format) =>
-      providedFormats.contains(format);
-
-  @override
-  List<DataFormat<Object>> getFormats(List<DataFormat<Object>> allFormats) {
-    return allFormats.where(canProvide).toList();
-  }
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

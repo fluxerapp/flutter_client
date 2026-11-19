@@ -16,10 +16,12 @@ analyzer:
     - "packages/fluxer_fcm/**"
     - "packages/fluxer_billing/**"
     - "packages/desktop_webview_window/**"
+    - "packages/passkeys_android_fdroid/**"
     - "**/*.pbjson.dart"
     - "**/*.pb.dart"
     - "**/*.pbenum.dart"
     - "lib/core/synced_preferences/generated/**"
+    - "lib/l10n/generated/**"
     - android/**
     - ios/**
     - web/**

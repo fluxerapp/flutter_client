@@ -124,6 +124,12 @@ Riverpod generated files are not committed, so you need to generate them before 
 dart run build_runner build
 ```
 
+The synced preferences protobuf code in `lib/core/synced_preferences/generated/` is committed. After bumping the `fluxer` submodule regenerate it:
+
+```text
+bash tool/generate_protos.sh
+```
+
 ## Native markdown parser (experimental)
 
 The `fluxer/` submodule vendors the canonical Rust markdown parser. A Dart

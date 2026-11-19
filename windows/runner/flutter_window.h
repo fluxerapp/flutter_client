@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include "taskbar_badge.h"
 #include "win32_window.h"
 
 class FlutterWindow : public Win32Window {
@@ -23,6 +24,7 @@ class FlutterWindow : public Win32Window {
   flutter::DartProject project_;
 
   std::unique_ptr<flutter::FlutterViewController> flutter_controller_;
+  std::unique_ptr<TaskbarBadge> taskbar_badge_;
 };
 
 #endif

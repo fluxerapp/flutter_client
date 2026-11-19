@@ -287,7 +287,11 @@ Future<bool> _openWebTranslationFallback({
   if (!context.mounted) {
     return false;
   }
-  return openMessageWebTranslation(context: context, ref: ref, query: query);
+  return await openMessageWebTranslation(
+    context: context,
+    ref: ref,
+    query: query,
+  );
 }
 
 Future<void> _translateMessage({

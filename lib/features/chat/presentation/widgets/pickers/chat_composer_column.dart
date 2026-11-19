@@ -1,17 +1,24 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_composer_gate.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const int _kResumeInsetSyncFrames = 4;
+
+const Duration _kComposerSettleCap = Duration(milliseconds: 600);
 
 class ChatComposerColumn extends ConsumerStatefulWidget {
   const ChatComposerColumn({
@@ -30,6 +37,10 @@ class ChatComposerColumn extends ConsumerStatefulWidget {
 class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     with WidgetsBindingObserver {
   String _composerChannelKey = '';
+  String _settleChannelId = '';
+  bool _motionSuppressed = true;
+  bool _settleScheduled = false;
+  Timer? _settleCapTimer;
   bool _syncScheduled = false;
   int _resumeInsetSyncFramesRemaining = 0;
   int _metricsSyncGeneration = 0;
@@ -45,6 +56,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _settleCapTimer?.cancel();
     _metricsSyncGeneration++;
     _resumeInsetSyncFramesRemaining = 0;
     _syncScheduled = false;
@@ -153,17 +165,21 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     if (channelId.isNotEmpty) {
       _composerChannelKey = channelId;
     }
+    _trackComposerSettle(_composerChannelKey);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Flexible(
           child: RepaintBoundary(
-            child: ThreadComposerGate(
-              child: ChannelTextarea(
-                key: ValueKey<String>(_composerChannelKey),
-                autocompletePanelHost: widget.autocompletePanelHost,
-                autocompletePanelScrollController:
-                    widget.autocompletePanelScrollController,
+            child: FluxerMotionSuppression(
+              suppressed: _motionSuppressed,
+              child: ThreadComposerGate(
+                child: ChannelTextarea(
+                  key: ValueKey<String>(_composerChannelKey),
+                  autocompletePanelHost: widget.autocompletePanelHost,
+                  autocompletePanelScrollController:
+                      widget.autocompletePanelScrollController,
+                ),
               ),
             ),
           ),
@@ -171,5 +187,43 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
         const BottomInputSpacer(),
       ],
     );
+  }
+
+  void _trackComposerSettle(String channelId) {
+    if (channelId != _settleChannelId) {
+      _settleChannelId = channelId;
+      _motionSuppressed = true;
+      _settleScheduled = false;
+      _settleCapTimer?.cancel();
+      _settleCapTimer = Timer(_kComposerSettleCap, () {
+        if (mounted && _settleChannelId == channelId && _motionSuppressed) {
+          setState(() => _motionSuppressed = false);
+        }
+      });
+    }
+    if (!_motionSuppressed || channelId.isEmpty) {
+      return;
+    }
+    final bool permissionsResolved = watchChannelMessagePermissionsForComposer(
+      ref,
+      channelId,
+    ).isResolved;
+    final bool accessResolved = ref.watch(
+      guildComposerAccessProvider(channelId).select(
+        (AsyncValue<GuildComposerAccess> value) =>
+            value.hasValue || value.hasError,
+      ),
+    );
+    if (!permissionsResolved || !accessResolved || _settleScheduled) {
+      return;
+    }
+    _settleScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _settleChannelId != channelId || !_motionSuppressed) {
+        return;
+      }
+      _settleCapTimer?.cancel();
+      setState(() => _motionSuppressed = false);
+    });
   }
 }

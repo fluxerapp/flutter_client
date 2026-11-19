@@ -18,6 +18,18 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+String shellContentSectionKey(String location) {
+  final String path = Uri.tryParse(location)?.path ?? location;
+  final List<String> segments = path
+      .split('/')
+      .where((String segment) => segment.isNotEmpty)
+      .toList();
+  if (segments.length >= 2 && segments.first == 'channels') {
+    return '/channels/${segments[1]}';
+  }
+  return path;
+}
+
 Widget desktopSidebarForLocation(BuildContext context, String location) {
   if (isDiscoverRoute(location)) {
     return const DiscoverySidebarColumn();
@@ -85,7 +97,7 @@ Widget desktopShellScaffold({
       ],
     ),
     rightChild: KeyedSubtree(
-      key: ValueKey<String>(shellLocation),
+      key: ValueKey<String>(shellContentSectionKey(shellLocation)),
       child: navigationShell,
     ),
   );

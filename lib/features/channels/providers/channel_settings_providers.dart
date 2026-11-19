@@ -51,7 +51,7 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
         loading: () => const AsyncLoading<void>(),
       );
     }
-    return result.when(
+    return await result.when(
       data: (Channel updated) => updated,
       error: Error.throwWithStackTrace,
       loading: () => throw StateError('Unexpected loading state'),
@@ -83,7 +83,7 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
         loading: () => const AsyncLoading<void>(),
       );
     }
-    return result.when(
+    return await result.when(
       data: (Channel updated) => updated,
       error: Error.throwWithStackTrace,
       loading: () => throw StateError('Unexpected loading state'),

@@ -6756,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Запрошення призупинено через підозру на рейд",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "ніколи",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11857,10 +11861,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Подарунок отримано",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Зареєструвати обліковий запис для активації",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11872,10 +11872,6 @@
     "embedGiftUnknownSubtitle": "Цей код подарунка недійсний або вже використаний.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Подарунок недоступний",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Активуйте свою підписку на {productName}, отримавши цей подарунок!",
     "@giftAcceptClaimSubscription": {

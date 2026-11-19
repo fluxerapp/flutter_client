@@ -169,9 +169,17 @@ InputDecoration _composerDesktopInputDecoration({
     focusedBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
     contentPadding: EdgeInsets.symmetric(
-      vertical: touchPrimary ? 2 : WideComposerLayout.mouseTextContentOffset,
+      vertical: touchPrimary
+          ? 2
+          : math.max(
+              0,
+              (WideComposerLayout.actionButtonExtent -
+                      composerLineHeight(context)) /
+                  2,
+            ),
     ),
     isDense: true,
+    visualDensity: VisualDensity.standard,
   );
 }
 
@@ -923,12 +931,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
     });
 
-    final GuildComposerAccess? composerAccess = composerAccessAsync.hasError
+    final GuildComposerAccess composerAccess = composerAccessAsync.hasError
         ? GuildComposerAccess.allowed
-        : composerAccessAsync.value;
-    if (composerAccess == null) {
-      return const SizedBox.shrink();
-    }
+        : composerAccessAsync.value ?? GuildComposerAccess.allowed;
     if (!composerAccess.canAccess) {
       return ChannelComposerBarrier(access: composerAccess);
     }

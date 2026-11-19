@@ -25,6 +25,7 @@ class FluxerSelectableRow extends StatefulWidget {
     this.pressedColor,
     this.semanticLabel,
     this.onTap,
+    this.onDoubleTap,
     this.onLongPress,
     this.onSecondaryTapUp,
     this.onContextMenuRequested,
@@ -51,6 +52,7 @@ class FluxerSelectableRow extends StatefulWidget {
   final Color? pressedColor;
   final String? semanticLabel;
   final VoidCallback? onTap;
+  final VoidCallback? onDoubleTap;
   final VoidCallback? onLongPress;
   final GestureTapUpCallback? onSecondaryTapUp;
   final Future<void> Function(TapUpDetails details)? onContextMenuRequested;
@@ -145,6 +147,7 @@ class _FluxerSelectableRowState extends State<FluxerSelectableRow> {
               : MouseCursor.defer,
           onHighlightChanged: isInteractive ? _setPressed : null,
           onTap: widget.onTap,
+          onDoubleTap: widget.onDoubleTap,
           onLongPress: widget.onLongPress,
           onSecondaryTapUp: widget.onContextMenuRequested != null
               ? _handleContextMenuRequested

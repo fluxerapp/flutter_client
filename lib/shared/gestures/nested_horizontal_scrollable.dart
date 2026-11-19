@@ -81,7 +81,7 @@ bool _isPointerOverRegion(
 }
 
 RenderObject? _overflowingHorizontalScrollableRender(Element element) {
-  if (element case StatefulElement(state: final ScrollableState state)
+  if (element case StatefulElement(:final ScrollableState state)
       when state.widget.axis == Axis.horizontal &&
           state.position.maxScrollExtent > 0) {
     return element.findRenderObject();

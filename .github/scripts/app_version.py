@@ -193,7 +193,7 @@ def ensure_fastlane_changelog(version_code: int) -> Path | None:
     return path
 
 
-def sync_beta_android_release_version(
+def sync_android_release_version(
     *,
     version_name: str,
     version_code: int,
@@ -216,7 +216,7 @@ def sync_beta_android_release_version(
 def _cli() -> int:
     if len(sys.argv) < 2:
         print(
-            "usage: app_version.py roll|read|sync-beta-android-release",
+            "usage: app_version.py roll|read|sync-android-release",
             file=sys.stderr,
         )
         return 2
@@ -234,16 +234,16 @@ def _cli() -> int:
         return 0
     if sys.argv[1] == "read":
         return read_pubspec_app_version()
-    if sys.argv[1] == "sync-beta-android-release":
+    if sys.argv[1] == "sync-android-release":
         if len(sys.argv) != 4:
             print(
-                "usage: app_version.py sync-beta-android-release "
+                "usage: app_version.py sync-android-release "
                 "<versionName> <versionCode>",
                 file=sys.stderr,
             )
             return 2
         try:
-            sync_beta_android_release_version(
+            sync_android_release_version(
                 version_name=sys.argv[2],
                 version_code=int(sys.argv[3]),
             )
@@ -256,7 +256,7 @@ def _cli() -> int:
         )
         return 0
     print(
-        "usage: app_version.py roll|read|sync-beta-android-release",
+        "usage: app_version.py roll|read|sync-android-release",
         file=sys.stderr,
     )
     return 2

@@ -11,13 +11,13 @@ Future<List<ExpressionPickResult>> pickGuildExpressionEmojis(
   BuildContext context,
 ) async {
   if (!isMobileLayout(context)) {
-    return ExpressionFilePicker.pickEmojis();
+    return await ExpressionFilePicker.pickEmojis();
   }
   final ExpressionUploadSource? source = await _showUploadSourceSheet(context);
   if (source == null) {
     return const <ExpressionPickResult>[];
   }
-  return switch (source) {
+  return await switch (source) {
     ExpressionUploadSource.gallery =>
       ExpressionFilePicker.pickEmojisFromGallery(),
     ExpressionUploadSource.files => ExpressionFilePicker.pickEmojisFromFiles(),
@@ -28,13 +28,13 @@ Future<List<ExpressionPickResult>> pickGuildExpressionSticker(
   BuildContext context,
 ) async {
   if (!isMobileLayout(context)) {
-    return ExpressionFilePicker.pickSticker();
+    return await ExpressionFilePicker.pickSticker();
   }
   final ExpressionUploadSource? source = await _showUploadSourceSheet(context);
   if (source == null) {
     return const <ExpressionPickResult>[];
   }
-  return switch (source) {
+  return await switch (source) {
     ExpressionUploadSource.gallery =>
       ExpressionFilePicker.pickStickerFromGallery(),
     ExpressionUploadSource.files => ExpressionFilePicker.pickStickerFromFiles(),

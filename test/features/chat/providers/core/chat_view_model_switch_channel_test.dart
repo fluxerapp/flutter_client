@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
@@ -146,4 +148,76 @@ void main() {
       );
     },
   );
+
+  test('switching back restores the draft on the first state', () async {
+    final (ProviderContainer container, ChatViewModel vm, _) =
+        await setUpTwoChannels();
+    await vm.switchChannel('channel-1');
+    vm.updateMessageText('hello there');
+    await vm.switchChannel('channel-2');
+    expect(container.read(chatViewModelProvider).messageText, isEmpty);
+
+    final Future<void> back = vm.switchChannel('channel-1');
+    expect(container.read(chatViewModelProvider).channelId, 'channel-1');
+    expect(container.read(chatViewModelProvider).messageText, 'hello there');
+    await back;
+    expect(container.read(chatViewModelProvider).messageText, 'hello there');
+  });
+
+  test('a preloaded channel opens with messages on the first state', () async {
+    final (ProviderContainer container, ChatViewModel vm, _) =
+        await setUpTwoChannels();
+    await container
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-2',
+            guildId: 'guild-1',
+            name: 'two',
+            lastMessageId: Value(paginationSnowflakeForIndex(119)),
+          ),
+        );
+    await container
+        .read(fluxerDatabaseProvider)
+        .readStateDao
+        .upsertReadState(
+          ReadStatesCompanion.insert(
+            channelId: 'channel-2',
+            lastMessageId: Value(paginationSnowflakeForIndex(119)),
+          ),
+        );
+    await vm.switchChannel('channel-1');
+    await vm.preloadChannel('channel-2');
+
+    final Future<void> open = vm.switchChannel('channel-2');
+    final ChatViewState first = container.read(chatViewModelProvider);
+    expect(first.channelId, 'channel-2');
+    expect(first.isLoading, isFalse);
+    expect(first.messages, isNotEmpty);
+    expect(
+      first.messages.every((Message m) => m.channelId == 'channel-2'),
+      isTrue,
+    );
+    await open;
+    await paginationFlushAsync();
+  });
+
+  test('a message created while parked shows on return', () async {
+    final (ProviderContainer container, ChatViewModel vm, _) =
+        await setUpTwoChannels();
+    await vm.switchChannel('channel-1');
+    await vm.switchChannel('channel-2');
+    final String createdId = paginationSnowflakeForIndex(50);
+    paginationEmitCreatedMessage(container, id: createdId);
+    await paginationFlushAsync();
+
+    final Future<void> back = vm.switchChannel('channel-1');
+    final ChatViewState first = container.read(chatViewModelProvider);
+    expect(first.channelId, 'channel-1');
+    expect(first.messages, isNotEmpty);
+    expect(first.messages.last.id, createdId);
+    await back;
+    await paginationFlushAsync();
+  });
 }

@@ -16,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 class UserMessagesMedia extends ConsumerWidget {
@@ -38,6 +39,8 @@ class UserMessagesMedia extends ConsumerWidget {
       doubleTapActionPreferencesProvider.notifier,
     );
     final l10n = FluxerLocalizations.of(context);
+    final bool showGestures =
+        isFluxerNativeMobileOs && ref.watch(inputModalityProvider);
     final doubleTapAction =
         doubleTapActionPrefs.action == DoubleTapActionPreference.unspecified
         ? DoubleTapActionPreference.react
@@ -215,7 +218,7 @@ class UserMessagesMedia extends ConsumerWidget {
                 ),
             ],
           ),
-          if (isFluxerNativeMobileOs)
+          if (showGestures)
             FluxerSettingsSection(
               sectionId: 'gestures',
               title: l10n.messagesMediaGesturesSectionTitle,

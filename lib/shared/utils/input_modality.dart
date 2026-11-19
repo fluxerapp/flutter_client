@@ -1,21 +1,21 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
 
 const Duration kIosDesktopPointerSuppressionDuration = Duration(
   milliseconds: 500,
 );
 
-bool initialIsTouchPrimary() {
-  if (Platform.isIOS || Platform.isAndroid) {
-    return true;
-  }
-  return !WidgetsBinding.instance.mouseTracker.mouseIsConnected;
-}
+bool initialIsTouchPrimary() =>
+    defaultTargetPlatform == TargetPlatform.iOS ||
+    defaultTargetPlatform == TargetPlatform.android;
+
+const Set<PointerDeviceKind> kTouchPointerDeviceKinds = {
+  PointerDeviceKind.touch,
+  PointerDeviceKind.stylus,
+};
 
 bool isTouchPointerKind(PointerDeviceKind kind) {
-  return kind == PointerDeviceKind.touch || kind == PointerDeviceKind.stylus;
+  return kTouchPointerDeviceKinds.contains(kind);
 }
 
 bool isDesktopPointerKind(PointerDeviceKind kind) {

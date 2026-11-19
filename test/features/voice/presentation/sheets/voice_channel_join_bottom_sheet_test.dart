@@ -107,7 +107,7 @@ Future<VoiceChannelJoinSheetResult?> _openAndConnect(
   }
   await tester.tap(find.text(testL10n.voiceChannelJoinConnect));
   await tester.pumpAndSettle();
-  return result.future;
+  return await result.future;
 }
 
 void main() {

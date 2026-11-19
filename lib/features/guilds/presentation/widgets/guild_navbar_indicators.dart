@@ -46,27 +46,6 @@ class _AvatarStack extends StatelessWidget {
   }
 }
 
-class _GuildBadge extends StatelessWidget {
-  final bool isPartnered;
-
-  const _GuildBadge({required this.isPartnered});
-
-  @override
-  Widget build(BuildContext context) {
-    if (isPartnered) {
-      return FluxerBrandLogo(
-        size: 16,
-        symbolColor: context.colors.textOnBrandPrimary,
-      );
-    }
-    return PhosphorIcon(
-      PhosphorIconsFill.checkCircle,
-      color: context.colors.textPrimary,
-      size: 16,
-    );
-  }
-}
-
 double _ringBadgeOffset(BuildContext context) =>
     usesDesktopPointerUi(context) ? -7 : -4;
 

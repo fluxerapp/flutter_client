@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -270,6 +271,19 @@ ChannelType _guildChannelTypeForPermissionSync(
   String channelId, {
   required bool watch,
 }) {
+  final ChannelType? listedType = watch
+      ? ref.watch(
+          channelListViewModelProvider.select(
+            (ChannelListState state) => findChannelById(state, channelId)?.type,
+          ),
+        )
+      : findChannelById(
+          ref.read(channelListViewModelProvider),
+          channelId,
+        )?.type;
+  if (listedType != null) {
+    return listedType;
+  }
   final AsyncValue<Channel?> channel = watch
       ? ref.watch(channelByIdProvider(channelId))
       : ref.read(channelByIdProvider(channelId));
@@ -288,8 +302,9 @@ ChannelMessagePermissions watchChannelMessagePermissionsForComposer(
   if (dmSync != null) {
     return dmSync;
   }
-  return channelMessagePermissionsForComposer(
+  return _preferResolvedPermissions(
     ref.watch(channelMessagePermissionsProvider(channelId)),
+    () => syncChannelMessagePermissions(ref, channelId, watch: true),
   );
 }
 
@@ -305,7 +320,20 @@ ChannelMessagePermissions readChannelMessagePermissionsForComposer(
   if (dmSync != null) {
     return dmSync;
   }
-  return channelMessagePermissionsForComposer(
+  return _preferResolvedPermissions(
     ref.read(channelMessagePermissionsProvider(channelId)),
+    () => syncChannelMessagePermissions(ref, channelId, watch: false),
   );
+}
+
+ChannelMessagePermissions _preferResolvedPermissions(
+  AsyncValue<ChannelMessagePermissions> async,
+  ChannelMessagePermissions? Function() readSync,
+) {
+  final ChannelMessagePermissions fromAsync =
+      channelMessagePermissionsForComposer(async);
+  if (fromAsync.isResolved) {
+    return fromAsync;
+  }
+  return readSync() ?? fromAsync;
 }

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_send_and_voice_button.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/open_test_database.dart';

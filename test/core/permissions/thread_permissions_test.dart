@@ -138,7 +138,7 @@ void main() {
   final List<dynamic> cases =
       jsonDecode(
             File(
-              'test/core/permissions/thread_permission_cases.json',
+              'fluxer/packages/constants/src/ThreadPermissionCases.json',
             ).readAsStringSync(),
           )
           as List<dynamic>;

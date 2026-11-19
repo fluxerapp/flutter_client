@@ -63,7 +63,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
@@ -91,6 +91,7 @@ jobs:
           fi
           rustup show active-toolchain || rustup toolchain install stable
           rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+          (cd fluxer && rustup toolchain install && rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android)
           flutter config --enable-native-assets
 
       - name: Resolve unifiedpush_linux to the stub
@@ -152,11 +153,11 @@ jobs:
           MEASURE_API_URL: ${{ secrets.MEASURE_API_URL }}
         run: tool/measure/write_native_measure_config.sh
 
-      - name: Build canary split APKs
-        run: flutter build apk --release --split-per-abi --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=CANARY_NUMBER=${{ steps.android_build_number.outputs.build_number }}
-
       - name: Build canary combined APK
         run: flutter build apk --release --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER=${{ vars.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }} --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=CANARY_NUMBER=${{ steps.android_build_number.outputs.build_number }}
+
+      - name: Derive canary per-ABI APKs
+        run: bash .github/scripts/split_apk_per_abi.sh build/app/outputs/flutter-apk/app-canaryfcm-release.apk
 
       - name: Attest canary FCM release binaries
         uses: ./.github/actions/attest-android-binaries

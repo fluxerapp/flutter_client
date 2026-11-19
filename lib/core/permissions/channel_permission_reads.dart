@@ -39,7 +39,7 @@ Future<int> readLocalGuildChannelPermissionBits({
   if (local != null) {
     return local;
   }
-  return readEffectiveGuildChannelPermissionBits(
+  return await readEffectiveGuildChannelPermissionBits(
     container: container,
     channelId: channelId,
   );

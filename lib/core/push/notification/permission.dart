@@ -14,7 +14,7 @@ bool requiresPushNotificationSystemSettingsForStatus(PermissionStatus status) {
 
 Future<bool> isPushNotificationPermissionGranted() async {
   if (isFluxerDesktopOs) {
-    return isDesktopNotificationPermissionGranted();
+    return await isDesktopNotificationPermissionGranted();
   }
   final PermissionStatus status = await Permission.notification.status;
   return isSystemPermissionGranted(SystemPermissionKind.notifications, status);
@@ -37,7 +37,7 @@ Future<bool> requestPushNotificationPermissionAfterFirstSend() async {
   }
   final Future<bool>? inFlight = _afterFirstSendRequestInFlight;
   if (inFlight != null) {
-    return inFlight;
+    return await inFlight;
   }
   final Future<bool> run = _requestAfterFirstSendOnce();
   _afterFirstSendRequestInFlight = run;
@@ -65,11 +65,14 @@ Future<bool> requestPushNotificationPermission({
   bool openSystemSettingsIfBlocked = false,
 }) async {
   if (openSystemSettingsIfBlocked) {
-    return ensureSystemPermission(null, SystemPermissionKind.notifications);
+    return await ensureSystemPermission(
+      null,
+      SystemPermissionKind.notifications,
+    );
   }
   final Future<bool>? inFlight = _pushNotificationPermissionRequestInFlight;
   if (inFlight != null) {
-    return inFlight;
+    return await inFlight;
   }
   final Future<bool> run = _requestPushNotificationPermissionOnce();
   _pushNotificationPermissionRequestInFlight = run;

@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/participant_tile_id.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -199,6 +200,7 @@ Future<ProviderContainer> _pumpTabletGridCall(WidgetTester tester) async {
   final ProviderContainer container = ProviderContainer(
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
+      inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
       voiceSessionProvider.overrideWith(_ConnectedVoiceSession.new),
       currentUserIdProvider.overrideWithValue(_me),
       localVoiceStateProvider.overrideWithValue(const LocalVoiceStateData()),
@@ -314,6 +316,11 @@ Future<ProviderContainer> _pumpCall(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 400));
   return container;
+}
+
+class _TouchPrimaryModality extends InputModalityNotifier {
+  @override
+  bool build() => true;
 }
 
 class _ConnectedVoiceSession extends VoiceSession {

@@ -22,7 +22,7 @@ Future<DiscoveryGuildCardAction?> showDiscoveryGuildContextMenu(
   }
   final Offset localPosition = overlay.globalToLocal(position);
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  return Navigator.of(context).push<DiscoveryGuildCardAction>(
+  return await Navigator.of(context).push<DiscoveryGuildCardAction>(
     _DiscoveryGuildContextMenuRoute(
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       position: localPosition,

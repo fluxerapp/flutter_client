@@ -1165,9 +1165,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get embedGiftClaim => 'Resgatar presente';
 
   @override
-  String get embedGiftClaimed => 'Presente resgatado';
-
-  @override
   String get embedGiftClaimAccount => 'Reivindique a conta para resgatar';
 
   @override
@@ -1176,9 +1173,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de presente é inválido ou já foi resgatado.';
-
-  @override
-  String get embedGiftUnavailable => 'Presente indisponível';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -4871,6 +4865,33 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get connectionEnterDomain => 'Digite um domínio.';
 
   @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
+
+  @override
   String get lookAndFeelThemeSectionTitle => 'Tema';
 
   @override
@@ -6278,6 +6299,27 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Vídeo';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Virar câmera';
@@ -12772,6 +12814,10 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Convites estão atualmente pausados nesta comunidade';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Convites pausados após um possível ataque';
+
+  @override
   String get guildNavbarDurationNever => 'nunca';
 
   @override
@@ -17494,6 +17540,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17501,6 +17552,15 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
@@ -18712,9 +18772,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get embedGiftClaim => 'Resgatar presente';
 
   @override
-  String get embedGiftClaimed => 'Presente resgatado';
-
-  @override
   String get embedGiftClaimAccount => 'Reivindicar conta para resgatar';
 
   @override
@@ -18723,9 +18780,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de presente é inválido ou já foi resgatado.';
-
-  @override
-  String get embedGiftUnavailable => 'Presente indisponível';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -30106,6 +30160,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get guildNavbarInvitesPaused =>
       'Os convites estão pausados nesta comunidade';
+
+  @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Convites pausados após um possível ataque';
 
   @override
   String get guildNavbarDurationNever => 'nunca';

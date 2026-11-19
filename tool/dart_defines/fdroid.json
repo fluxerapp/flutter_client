@@ -1,4 +1,4 @@
 {
-  "APP_ENVIRONMENT": "beta",
+  "APP_ENVIRONMENT": "stable",
   "OBSERVABILITY_REPORTING": "false"
 }

@@ -1162,9 +1162,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get embedGiftClaim => 'Ajándék beváltása';
 
   @override
-  String get embedGiftClaimed => 'Ajándék beváltva';
-
-  @override
   String get embedGiftClaimAccount =>
       'A beváltáshoz fejezd be a fiókregisztrációt';
 
@@ -1174,9 +1171,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Ez az ajándékkód érvénytelen vagy már felhasználták.';
-
-  @override
-  String get embedGiftUnavailable => 'Ajándék nem elérhető';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -4884,6 +4878,33 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionEnterDomain => 'Adjon meg egy tartományt.';
 
   @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
+
+  @override
   String get lookAndFeelThemeSectionTitle => 'Téma';
 
   @override
@@ -6287,6 +6308,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Videó';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Kamera váltása';
@@ -12802,6 +12844,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A meghívók jelenleg szünetelnek ebben a közösségben';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Meghívók szüneteltetve feltételezett összehangolt támadás után';
+
+  @override
   String get guildNavbarDurationNever => 'soha';
 
   @override
@@ -17537,6 +17583,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17544,6 +17595,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override

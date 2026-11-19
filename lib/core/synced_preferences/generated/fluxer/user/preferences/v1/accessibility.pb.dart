@@ -52,7 +52,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? showSuppressEmbedsButton,
     $core.bool? showGifIndicator,
     $core.bool? showAttachmentExpiryIndicator,
-    $core.bool? useBrowserLocaleForTimeFormat,
     ChannelTypingIndicatorMode? channelTypingIndicatorMode,
     $core.bool? showSelectedChannelTypingIndicator,
     $core.bool? showMessageActionBar,
@@ -63,8 +62,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? showCustomEmojisInAutocomplete,
     $core.bool? showStickersInAutocomplete,
     $core.bool? showMemesInAutocomplete,
-    MediaDimensionSize? attachmentMediaDimensionSize,
-    MediaDimensionSize? embedMediaDimensionSize,
     $core.bool? voiceChannelJoinRequiresDoubleClick,
     $core.String? customThemeCss,
     $core.bool? showFavorites,
@@ -86,7 +83,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? dimStrikethroughText,
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
-    $core.bool? showAltTextOnImages,
+    $core.bool? messageDoubleClickActions,
     $core.bool? announceCallJoinsAndLeaves,
   }) {
     final result = AccessibilitySettings._();
@@ -142,8 +139,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     if (showGifIndicator != null) result.showGifIndicator = showGifIndicator;
     if (showAttachmentExpiryIndicator != null)
       result.showAttachmentExpiryIndicator = showAttachmentExpiryIndicator;
-    if (useBrowserLocaleForTimeFormat != null)
-      result.useBrowserLocaleForTimeFormat = useBrowserLocaleForTimeFormat;
     if (channelTypingIndicatorMode != null)
       result.channelTypingIndicatorMode = channelTypingIndicatorMode;
     if (showSelectedChannelTypingIndicator != null)
@@ -167,10 +162,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.showStickersInAutocomplete = showStickersInAutocomplete;
     if (showMemesInAutocomplete != null)
       result.showMemesInAutocomplete = showMemesInAutocomplete;
-    if (attachmentMediaDimensionSize != null)
-      result.attachmentMediaDimensionSize = attachmentMediaDimensionSize;
-    if (embedMediaDimensionSize != null)
-      result.embedMediaDimensionSize = embedMediaDimensionSize;
     if (voiceChannelJoinRequiresDoubleClick != null)
       result.voiceChannelJoinRequiresDoubleClick =
           voiceChannelJoinRequiresDoubleClick;
@@ -209,8 +200,8 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.sequentialFileSend = sequentialFileSend;
     if (mobileSplashZoomAnimation != null)
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
-    if (showAltTextOnImages != null)
-      result.showAltTextOnImages = showAltTextOnImages;
+    if (messageDoubleClickActions != null)
+      result.messageDoubleClickActions = messageDoubleClickActions;
     if (announceCallJoinsAndLeaves != null)
       result.announceCallJoinsAndLeaves = announceCallJoinsAndLeaves;
     return result;
@@ -260,7 +251,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(28, _omitFieldNames ? '' : 'showSuppressEmbedsButton')
     ..aOB(29, _omitFieldNames ? '' : 'showGifIndicator')
     ..aOB(30, _omitFieldNames ? '' : 'showAttachmentExpiryIndicator')
-    ..aOB(31, _omitFieldNames ? '' : 'useBrowserLocaleForTimeFormat')
     ..aE<ChannelTypingIndicatorMode>(
         32, _omitFieldNames ? '' : 'channelTypingIndicatorMode',
         enumValues: ChannelTypingIndicatorMode.values)
@@ -273,12 +263,6 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(39, _omitFieldNames ? '' : 'showCustomEmojisInAutocomplete')
     ..aOB(40, _omitFieldNames ? '' : 'showStickersInAutocomplete')
     ..aOB(41, _omitFieldNames ? '' : 'showMemesInAutocomplete')
-    ..aE<MediaDimensionSize>(
-        42, _omitFieldNames ? '' : 'attachmentMediaDimensionSize',
-        enumValues: MediaDimensionSize.values)
-    ..aE<MediaDimensionSize>(
-        43, _omitFieldNames ? '' : 'embedMediaDimensionSize',
-        enumValues: MediaDimensionSize.values)
     ..aOB(44, _omitFieldNames ? '' : 'voiceChannelJoinRequiresDoubleClick')
     ..aOS(45, _omitFieldNames ? '' : 'customThemeCss')
     ..aOB(46, _omitFieldNames ? '' : 'showFavorites')
@@ -303,7 +287,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(62, _omitFieldNames ? '' : 'dimStrikethroughText')
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
-    ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aOB(66, _omitFieldNames ? '' : 'messageDoubleClickActions')
     ..aOB(67, _omitFieldNames ? '' : 'announceCallJoinsAndLeaves')
     ..hasRequiredFields = false;
 
@@ -603,336 +587,307 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   @$pb.TagNumber(30)
   void clearShowAttachmentExpiryIndicator() => $_clearField(30);
 
-  @$pb.TagNumber(31)
-  $core.bool get useBrowserLocaleForTimeFormat => $_getBF(30);
-  @$pb.TagNumber(31)
-  set useBrowserLocaleForTimeFormat($core.bool value) => $_setBool(30, value);
-  @$pb.TagNumber(31)
-  $core.bool hasUseBrowserLocaleForTimeFormat() => $_has(30);
-  @$pb.TagNumber(31)
-  void clearUseBrowserLocaleForTimeFormat() => $_clearField(31);
-
   @$pb.TagNumber(32)
-  ChannelTypingIndicatorMode get channelTypingIndicatorMode => $_getN(31);
+  ChannelTypingIndicatorMode get channelTypingIndicatorMode => $_getN(30);
   @$pb.TagNumber(32)
   set channelTypingIndicatorMode(ChannelTypingIndicatorMode value) =>
       $_setField(32, value);
   @$pb.TagNumber(32)
-  $core.bool hasChannelTypingIndicatorMode() => $_has(31);
+  $core.bool hasChannelTypingIndicatorMode() => $_has(30);
   @$pb.TagNumber(32)
   void clearChannelTypingIndicatorMode() => $_clearField(32);
 
   @$pb.TagNumber(33)
-  $core.bool get showSelectedChannelTypingIndicator => $_getBF(32);
+  $core.bool get showSelectedChannelTypingIndicator => $_getBF(31);
   @$pb.TagNumber(33)
   set showSelectedChannelTypingIndicator($core.bool value) =>
-      $_setBool(32, value);
+      $_setBool(31, value);
   @$pb.TagNumber(33)
-  $core.bool hasShowSelectedChannelTypingIndicator() => $_has(32);
+  $core.bool hasShowSelectedChannelTypingIndicator() => $_has(31);
   @$pb.TagNumber(33)
   void clearShowSelectedChannelTypingIndicator() => $_clearField(33);
 
   @$pb.TagNumber(34)
-  $core.bool get showMessageActionBar => $_getBF(33);
+  $core.bool get showMessageActionBar => $_getBF(32);
   @$pb.TagNumber(34)
-  set showMessageActionBar($core.bool value) => $_setBool(33, value);
+  set showMessageActionBar($core.bool value) => $_setBool(32, value);
   @$pb.TagNumber(34)
-  $core.bool hasShowMessageActionBar() => $_has(33);
+  $core.bool hasShowMessageActionBar() => $_has(32);
   @$pb.TagNumber(34)
   void clearShowMessageActionBar() => $_clearField(34);
 
   @$pb.TagNumber(35)
-  $core.bool get showMessageActionBarQuickReactions => $_getBF(34);
+  $core.bool get showMessageActionBarQuickReactions => $_getBF(33);
   @$pb.TagNumber(35)
   set showMessageActionBarQuickReactions($core.bool value) =>
-      $_setBool(34, value);
+      $_setBool(33, value);
   @$pb.TagNumber(35)
-  $core.bool hasShowMessageActionBarQuickReactions() => $_has(34);
+  $core.bool hasShowMessageActionBarQuickReactions() => $_has(33);
   @$pb.TagNumber(35)
   void clearShowMessageActionBarQuickReactions() => $_clearField(35);
 
   @$pb.TagNumber(36)
-  $core.bool get showMessageActionBarShiftExpand => $_getBF(35);
+  $core.bool get showMessageActionBarShiftExpand => $_getBF(34);
   @$pb.TagNumber(36)
-  set showMessageActionBarShiftExpand($core.bool value) => $_setBool(35, value);
+  set showMessageActionBarShiftExpand($core.bool value) => $_setBool(34, value);
   @$pb.TagNumber(36)
-  $core.bool hasShowMessageActionBarShiftExpand() => $_has(35);
+  $core.bool hasShowMessageActionBarShiftExpand() => $_has(34);
   @$pb.TagNumber(36)
   void clearShowMessageActionBarShiftExpand() => $_clearField(36);
 
   @$pb.TagNumber(37)
-  $core.bool get showMessageActionBarOnlyMoreButton => $_getBF(36);
+  $core.bool get showMessageActionBarOnlyMoreButton => $_getBF(35);
   @$pb.TagNumber(37)
   set showMessageActionBarOnlyMoreButton($core.bool value) =>
-      $_setBool(36, value);
+      $_setBool(35, value);
   @$pb.TagNumber(37)
-  $core.bool hasShowMessageActionBarOnlyMoreButton() => $_has(36);
+  $core.bool hasShowMessageActionBarOnlyMoreButton() => $_has(35);
   @$pb.TagNumber(37)
   void clearShowMessageActionBarOnlyMoreButton() => $_clearField(37);
 
   @$pb.TagNumber(38)
-  $core.bool get showDefaultEmojisInAutocomplete => $_getBF(37);
+  $core.bool get showDefaultEmojisInAutocomplete => $_getBF(36);
   @$pb.TagNumber(38)
-  set showDefaultEmojisInAutocomplete($core.bool value) => $_setBool(37, value);
+  set showDefaultEmojisInAutocomplete($core.bool value) => $_setBool(36, value);
   @$pb.TagNumber(38)
-  $core.bool hasShowDefaultEmojisInAutocomplete() => $_has(37);
+  $core.bool hasShowDefaultEmojisInAutocomplete() => $_has(36);
   @$pb.TagNumber(38)
   void clearShowDefaultEmojisInAutocomplete() => $_clearField(38);
 
   @$pb.TagNumber(39)
-  $core.bool get showCustomEmojisInAutocomplete => $_getBF(38);
+  $core.bool get showCustomEmojisInAutocomplete => $_getBF(37);
   @$pb.TagNumber(39)
-  set showCustomEmojisInAutocomplete($core.bool value) => $_setBool(38, value);
+  set showCustomEmojisInAutocomplete($core.bool value) => $_setBool(37, value);
   @$pb.TagNumber(39)
-  $core.bool hasShowCustomEmojisInAutocomplete() => $_has(38);
+  $core.bool hasShowCustomEmojisInAutocomplete() => $_has(37);
   @$pb.TagNumber(39)
   void clearShowCustomEmojisInAutocomplete() => $_clearField(39);
 
   @$pb.TagNumber(40)
-  $core.bool get showStickersInAutocomplete => $_getBF(39);
+  $core.bool get showStickersInAutocomplete => $_getBF(38);
   @$pb.TagNumber(40)
-  set showStickersInAutocomplete($core.bool value) => $_setBool(39, value);
+  set showStickersInAutocomplete($core.bool value) => $_setBool(38, value);
   @$pb.TagNumber(40)
-  $core.bool hasShowStickersInAutocomplete() => $_has(39);
+  $core.bool hasShowStickersInAutocomplete() => $_has(38);
   @$pb.TagNumber(40)
   void clearShowStickersInAutocomplete() => $_clearField(40);
 
   @$pb.TagNumber(41)
-  $core.bool get showMemesInAutocomplete => $_getBF(40);
+  $core.bool get showMemesInAutocomplete => $_getBF(39);
   @$pb.TagNumber(41)
-  set showMemesInAutocomplete($core.bool value) => $_setBool(40, value);
+  set showMemesInAutocomplete($core.bool value) => $_setBool(39, value);
   @$pb.TagNumber(41)
-  $core.bool hasShowMemesInAutocomplete() => $_has(40);
+  $core.bool hasShowMemesInAutocomplete() => $_has(39);
   @$pb.TagNumber(41)
   void clearShowMemesInAutocomplete() => $_clearField(41);
 
-  @$pb.TagNumber(42)
-  MediaDimensionSize get attachmentMediaDimensionSize => $_getN(41);
-  @$pb.TagNumber(42)
-  set attachmentMediaDimensionSize(MediaDimensionSize value) =>
-      $_setField(42, value);
-  @$pb.TagNumber(42)
-  $core.bool hasAttachmentMediaDimensionSize() => $_has(41);
-  @$pb.TagNumber(42)
-  void clearAttachmentMediaDimensionSize() => $_clearField(42);
-
-  @$pb.TagNumber(43)
-  MediaDimensionSize get embedMediaDimensionSize => $_getN(42);
-  @$pb.TagNumber(43)
-  set embedMediaDimensionSize(MediaDimensionSize value) =>
-      $_setField(43, value);
-  @$pb.TagNumber(43)
-  $core.bool hasEmbedMediaDimensionSize() => $_has(42);
-  @$pb.TagNumber(43)
-  void clearEmbedMediaDimensionSize() => $_clearField(43);
-
   @$pb.TagNumber(44)
-  $core.bool get voiceChannelJoinRequiresDoubleClick => $_getBF(43);
+  $core.bool get voiceChannelJoinRequiresDoubleClick => $_getBF(40);
   @$pb.TagNumber(44)
   set voiceChannelJoinRequiresDoubleClick($core.bool value) =>
-      $_setBool(43, value);
+      $_setBool(40, value);
   @$pb.TagNumber(44)
-  $core.bool hasVoiceChannelJoinRequiresDoubleClick() => $_has(43);
+  $core.bool hasVoiceChannelJoinRequiresDoubleClick() => $_has(40);
   @$pb.TagNumber(44)
   void clearVoiceChannelJoinRequiresDoubleClick() => $_clearField(44);
 
   @$pb.TagNumber(45)
-  $core.String get customThemeCss => $_getSZ(44);
+  $core.String get customThemeCss => $_getSZ(41);
   @$pb.TagNumber(45)
-  set customThemeCss($core.String value) => $_setString(44, value);
+  set customThemeCss($core.String value) => $_setString(41, value);
   @$pb.TagNumber(45)
-  $core.bool hasCustomThemeCss() => $_has(44);
+  $core.bool hasCustomThemeCss() => $_has(41);
   @$pb.TagNumber(45)
   void clearCustomThemeCss() => $_clearField(45);
 
   @$pb.TagNumber(46)
-  $core.bool get showFavorites => $_getBF(45);
+  $core.bool get showFavorites => $_getBF(42);
   @$pb.TagNumber(46)
-  set showFavorites($core.bool value) => $_setBool(45, value);
+  set showFavorites($core.bool value) => $_setBool(42, value);
   @$pb.TagNumber(46)
-  $core.bool hasShowFavorites() => $_has(45);
+  $core.bool hasShowFavorites() => $_has(42);
   @$pb.TagNumber(46)
   void clearShowFavorites() => $_clearField(46);
 
   @$pb.TagNumber(47)
-  $core.double get zoomLevel => $_getN(46);
+  $core.double get zoomLevel => $_getN(43);
   @$pb.TagNumber(47)
-  set zoomLevel($core.double value) => $_setDouble(46, value);
+  set zoomLevel($core.double value) => $_setDouble(43, value);
   @$pb.TagNumber(47)
-  $core.bool hasZoomLevel() => $_has(46);
+  $core.bool hasZoomLevel() => $_has(43);
   @$pb.TagNumber(47)
   void clearZoomLevel() => $_clearField(47);
 
   @$pb.TagNumber(48)
-  DmMessagePreviewMode get dmMessagePreviewMode => $_getN(47);
+  DmMessagePreviewMode get dmMessagePreviewMode => $_getN(44);
   @$pb.TagNumber(48)
   set dmMessagePreviewMode(DmMessagePreviewMode value) => $_setField(48, value);
   @$pb.TagNumber(48)
-  $core.bool hasDmMessagePreviewMode() => $_has(47);
+  $core.bool hasDmMessagePreviewMode() => $_has(44);
   @$pb.TagNumber(48)
   void clearDmMessagePreviewMode() => $_clearField(48);
 
   @$pb.TagNumber(49)
-  $core.bool get enableTtsCommand => $_getBF(48);
+  $core.bool get enableTtsCommand => $_getBF(45);
   @$pb.TagNumber(49)
-  set enableTtsCommand($core.bool value) => $_setBool(48, value);
+  set enableTtsCommand($core.bool value) => $_setBool(45, value);
   @$pb.TagNumber(49)
-  $core.bool hasEnableTtsCommand() => $_has(48);
+  $core.bool hasEnableTtsCommand() => $_has(45);
   @$pb.TagNumber(49)
   void clearEnableTtsCommand() => $_clearField(49);
 
   @$pb.TagNumber(50)
-  $core.double get ttsRate => $_getN(49);
+  $core.double get ttsRate => $_getN(46);
   @$pb.TagNumber(50)
-  set ttsRate($core.double value) => $_setDouble(49, value);
+  set ttsRate($core.double value) => $_setDouble(46, value);
   @$pb.TagNumber(50)
-  $core.bool hasTtsRate() => $_has(49);
+  $core.bool hasTtsRate() => $_has(46);
   @$pb.TagNumber(50)
   void clearTtsRate() => $_clearField(50);
 
   @$pb.TagNumber(51)
-  $core.bool get showFadedUnreadOnMutedChannels => $_getBF(50);
+  $core.bool get showFadedUnreadOnMutedChannels => $_getBF(47);
   @$pb.TagNumber(51)
-  set showFadedUnreadOnMutedChannels($core.bool value) => $_setBool(50, value);
+  set showFadedUnreadOnMutedChannels($core.bool value) => $_setBool(47, value);
   @$pb.TagNumber(51)
-  $core.bool hasShowFadedUnreadOnMutedChannels() => $_has(50);
+  $core.bool hasShowFadedUnreadOnMutedChannels() => $_has(47);
   @$pb.TagNumber(51)
   void clearShowFadedUnreadOnMutedChannels() => $_clearField(51);
 
   @$pb.TagNumber(52)
-  $core.bool get showContextMenuShortcuts => $_getBF(51);
+  $core.bool get showContextMenuShortcuts => $_getBF(48);
   @$pb.TagNumber(52)
-  set showContextMenuShortcuts($core.bool value) => $_setBool(51, value);
+  set showContextMenuShortcuts($core.bool value) => $_setBool(48, value);
   @$pb.TagNumber(52)
-  $core.bool hasShowContextMenuShortcuts() => $_has(51);
+  $core.bool hasShowContextMenuShortcuts() => $_has(48);
   @$pb.TagNumber(52)
   void clearShowContextMenuShortcuts() => $_clearField(52);
 
   @$pb.TagNumber(53)
-  $core.bool get confirmBeforeStartingCalls => $_getBF(52);
+  $core.bool get confirmBeforeStartingCalls => $_getBF(49);
   @$pb.TagNumber(53)
-  set confirmBeforeStartingCalls($core.bool value) => $_setBool(52, value);
+  set confirmBeforeStartingCalls($core.bool value) => $_setBool(49, value);
   @$pb.TagNumber(53)
-  $core.bool hasConfirmBeforeStartingCalls() => $_has(52);
+  $core.bool hasConfirmBeforeStartingCalls() => $_has(49);
   @$pb.TagNumber(53)
   void clearConfirmBeforeStartingCalls() => $_clearField(53);
 
   @$pb.TagNumber(54)
-  HdrDisplayMode get hdrDisplayMode => $_getN(53);
+  HdrDisplayMode get hdrDisplayMode => $_getN(50);
   @$pb.TagNumber(54)
   set hdrDisplayMode(HdrDisplayMode value) => $_setField(54, value);
   @$pb.TagNumber(54)
-  $core.bool hasHdrDisplayMode() => $_has(53);
+  $core.bool hasHdrDisplayMode() => $_has(50);
   @$pb.TagNumber(54)
   void clearHdrDisplayMode() => $_clearField(54);
 
   @$pb.TagNumber(55)
-  $core.bool get preserveEditDraft => $_getBF(54);
+  $core.bool get preserveEditDraft => $_getBF(51);
   @$pb.TagNumber(55)
-  set preserveEditDraft($core.bool value) => $_setBool(54, value);
+  set preserveEditDraft($core.bool value) => $_setBool(51, value);
   @$pb.TagNumber(55)
-  $core.bool hasPreserveEditDraft() => $_has(54);
+  $core.bool hasPreserveEditDraft() => $_has(51);
   @$pb.TagNumber(55)
   void clearPreserveEditDraft() => $_clearField(55);
 
   @$pb.TagNumber(56)
-  $core.bool get stayInteractiveWhenUnfocused => $_getBF(55);
+  $core.bool get stayInteractiveWhenUnfocused => $_getBF(52);
   @$pb.TagNumber(56)
-  set stayInteractiveWhenUnfocused($core.bool value) => $_setBool(55, value);
+  set stayInteractiveWhenUnfocused($core.bool value) => $_setBool(52, value);
   @$pb.TagNumber(56)
-  $core.bool hasStayInteractiveWhenUnfocused() => $_has(55);
+  $core.bool hasStayInteractiveWhenUnfocused() => $_has(52);
   @$pb.TagNumber(56)
   void clearStayInteractiveWhenUnfocused() => $_clearField(56);
 
   @$pb.TagNumber(57)
-  $core.bool get confirmBeforeJoiningVoiceChannels => $_getBF(56);
+  $core.bool get confirmBeforeJoiningVoiceChannels => $_getBF(53);
   @$pb.TagNumber(57)
   set confirmBeforeJoiningVoiceChannels($core.bool value) =>
-      $_setBool(56, value);
+      $_setBool(53, value);
   @$pb.TagNumber(57)
-  $core.bool hasConfirmBeforeJoiningVoiceChannels() => $_has(56);
+  $core.bool hasConfirmBeforeJoiningVoiceChannels() => $_has(53);
   @$pb.TagNumber(57)
   void clearConfirmBeforeJoiningVoiceChannels() => $_clearField(57);
 
   @$pb.TagNumber(58)
-  $core.bool get screenReaderAnnounceNewMessages => $_getBF(57);
+  $core.bool get screenReaderAnnounceNewMessages => $_getBF(54);
   @$pb.TagNumber(58)
-  set screenReaderAnnounceNewMessages($core.bool value) => $_setBool(57, value);
+  set screenReaderAnnounceNewMessages($core.bool value) => $_setBool(54, value);
   @$pb.TagNumber(58)
-  $core.bool hasScreenReaderAnnounceNewMessages() => $_has(57);
+  $core.bool hasScreenReaderAnnounceNewMessages() => $_has(54);
   @$pb.TagNumber(58)
   void clearScreenReaderAnnounceNewMessages() => $_clearField(58);
 
   @$pb.TagNumber(59)
-  $core.bool get firstClickPassThroughWhenUnfocused => $_getBF(58);
+  $core.bool get firstClickPassThroughWhenUnfocused => $_getBF(55);
   @$pb.TagNumber(59)
   set firstClickPassThroughWhenUnfocused($core.bool value) =>
-      $_setBool(58, value);
+      $_setBool(55, value);
   @$pb.TagNumber(59)
-  $core.bool hasFirstClickPassThroughWhenUnfocused() => $_has(58);
+  $core.bool hasFirstClickPassThroughWhenUnfocused() => $_has(55);
   @$pb.TagNumber(59)
   void clearFirstClickPassThroughWhenUnfocused() => $_clearField(59);
 
   @$pb.TagNumber(60)
-  $core.double get compactMessageGroupSpacing => $_getN(59);
+  $core.double get compactMessageGroupSpacing => $_getN(56);
   @$pb.TagNumber(60)
-  set compactMessageGroupSpacing($core.double value) => $_setDouble(59, value);
+  set compactMessageGroupSpacing($core.double value) => $_setDouble(56, value);
   @$pb.TagNumber(60)
-  $core.bool hasCompactMessageGroupSpacing() => $_has(59);
+  $core.bool hasCompactMessageGroupSpacing() => $_has(56);
   @$pb.TagNumber(60)
   void clearCompactMessageGroupSpacing() => $_clearField(60);
 
   @$pb.TagNumber(61)
-  $core.bool get scrollToBottomOnMessageSend => $_getBF(60);
+  $core.bool get scrollToBottomOnMessageSend => $_getBF(57);
   @$pb.TagNumber(61)
-  set scrollToBottomOnMessageSend($core.bool value) => $_setBool(60, value);
+  set scrollToBottomOnMessageSend($core.bool value) => $_setBool(57, value);
   @$pb.TagNumber(61)
-  $core.bool hasScrollToBottomOnMessageSend() => $_has(60);
+  $core.bool hasScrollToBottomOnMessageSend() => $_has(57);
   @$pb.TagNumber(61)
   void clearScrollToBottomOnMessageSend() => $_clearField(61);
 
   @$pb.TagNumber(62)
-  $core.bool get dimStrikethroughText => $_getBF(61);
+  $core.bool get dimStrikethroughText => $_getBF(58);
   @$pb.TagNumber(62)
-  set dimStrikethroughText($core.bool value) => $_setBool(61, value);
+  set dimStrikethroughText($core.bool value) => $_setBool(58, value);
   @$pb.TagNumber(62)
-  $core.bool hasDimStrikethroughText() => $_has(61);
+  $core.bool hasDimStrikethroughText() => $_has(58);
   @$pb.TagNumber(62)
   void clearDimStrikethroughText() => $_clearField(62);
 
   @$pb.TagNumber(63)
-  $core.bool get sequentialFileSend => $_getBF(62);
+  $core.bool get sequentialFileSend => $_getBF(59);
   @$pb.TagNumber(63)
-  set sequentialFileSend($core.bool value) => $_setBool(62, value);
+  set sequentialFileSend($core.bool value) => $_setBool(59, value);
   @$pb.TagNumber(63)
-  $core.bool hasSequentialFileSend() => $_has(62);
+  $core.bool hasSequentialFileSend() => $_has(59);
   @$pb.TagNumber(63)
   void clearSequentialFileSend() => $_clearField(63);
 
   @$pb.TagNumber(64)
-  $core.bool get mobileSplashZoomAnimation => $_getBF(63);
+  $core.bool get mobileSplashZoomAnimation => $_getBF(60);
   @$pb.TagNumber(64)
-  set mobileSplashZoomAnimation($core.bool value) => $_setBool(63, value);
+  set mobileSplashZoomAnimation($core.bool value) => $_setBool(60, value);
   @$pb.TagNumber(64)
-  $core.bool hasMobileSplashZoomAnimation() => $_has(63);
+  $core.bool hasMobileSplashZoomAnimation() => $_has(60);
   @$pb.TagNumber(64)
   void clearMobileSplashZoomAnimation() => $_clearField(64);
 
-  @$pb.TagNumber(65)
-  $core.bool get showAltTextOnImages => $_getBF(64);
-  @$pb.TagNumber(65)
-  set showAltTextOnImages($core.bool value) => $_setBool(64, value);
-  @$pb.TagNumber(65)
-  $core.bool hasShowAltTextOnImages() => $_has(64);
-  @$pb.TagNumber(65)
-  void clearShowAltTextOnImages() => $_clearField(65);
+  @$pb.TagNumber(66)
+  $core.bool get messageDoubleClickActions => $_getBF(61);
+  @$pb.TagNumber(66)
+  set messageDoubleClickActions($core.bool value) => $_setBool(61, value);
+  @$pb.TagNumber(66)
+  $core.bool hasMessageDoubleClickActions() => $_has(61);
+  @$pb.TagNumber(66)
+  void clearMessageDoubleClickActions() => $_clearField(66);
 
   @$pb.TagNumber(67)
-  $core.bool get announceCallJoinsAndLeaves => $_getBF(65);
+  $core.bool get announceCallJoinsAndLeaves => $_getBF(62);
   @$pb.TagNumber(67)
-  set announceCallJoinsAndLeaves($core.bool value) => $_setBool(65, value);
+  set announceCallJoinsAndLeaves($core.bool value) => $_setBool(62, value);
   @$pb.TagNumber(67)
-  $core.bool hasAnnounceCallJoinsAndLeaves() => $_has(65);
+  $core.bool hasAnnounceCallJoinsAndLeaves() => $_has(62);
   @$pb.TagNumber(67)
   void clearAnnounceCallJoinsAndLeaves() => $_clearField(67);
 }

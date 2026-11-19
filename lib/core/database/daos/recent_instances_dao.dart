@@ -27,7 +27,7 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
   }) async {
     final String normalizedDomain = domain.trim().toLowerCase();
     if (normalizedDomain.isEmpty) {
-      return getRecentInstances();
+      return await getRecentInstances();
     }
     await into(recentInstances).insertOnConflictUpdate(
       RecentInstancesCompanion.insert(
@@ -38,7 +38,7 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
       ),
     );
     await _trimToMax();
-    return getRecentInstances();
+    return await getRecentInstances();
   }
 
   Future<void> removeRecentInstance(String domain) async {

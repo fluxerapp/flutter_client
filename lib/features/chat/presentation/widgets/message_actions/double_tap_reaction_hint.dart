@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
@@ -51,6 +52,9 @@ class DoubleTapReactionHint extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(inputModalityProvider)) {
+      return const SizedBox.shrink();
+    }
     final l10n = FluxerLocalizations.of(context);
     final DoubleTapActionPreference action = ref.watch(
       doubleTapActionPreferencesProvider.select((s) => s.effectiveAction),

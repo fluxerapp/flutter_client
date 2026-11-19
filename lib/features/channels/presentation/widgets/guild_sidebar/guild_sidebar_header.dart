@@ -183,7 +183,6 @@ class GuildSidebarHeaderBody extends StatelessWidget {
               features: guild!.features,
               badgeIds: guild!.badgeIds,
               shadows: bannerShadows,
-              color: bannerForeground > 0.5 ? Colors.white : null,
               forceBrightness: bannerForeground > 0.5 ? Brightness.dark : null,
             ),
           ),

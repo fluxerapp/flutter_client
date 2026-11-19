@@ -72,12 +72,13 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Set up Rust and native asset build hooks
         run: |
           rustup show active-toolchain || rustup toolchain install stable
           rustup target add x86_64-pc-windows-msvc
+          (cd fluxer && rustup toolchain install && rustup target add x86_64-pc-windows-msvc)
           flutter config --enable-native-assets
 
       - name: Set up .NET
@@ -103,6 +104,9 @@ jobs:
 
       - name: Get dependencies
         run: flutter pub get
+
+      - name: Prefetch Rust toolchains for native asset hooks
+        run: bash tool/prefetch_native_rust_toolchains.sh
 
       - name: Run build_runner
         run: dart run build_runner build

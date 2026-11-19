@@ -2,19 +2,26 @@ name: Android F-Droid build check
 
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Branch whose committed Android release version is built
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 jobs:
-  fdroid-beta-oss:
-    name: F-Droid-style beta OSS build
+  fdroid-stable-oss:
+    name: F-Droid stable OSS build
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
+          ref: ${{ inputs.ref || github.ref }}
           submodules: recursive
 
       - name: Set up Java
@@ -27,7 +34,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Install Rust
         run: |
@@ -35,13 +42,30 @@ jobs:
             | sh -s -- -y --profile minimal --default-toolchain stable
           echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
 
+      - name: Install fdroidserver
+        run: |
+          python3 -m venv "$RUNNER_TEMP/fdroidserver"
+          "$RUNNER_TEMP/fdroidserver/bin/pip" install fdroidserver==2.4.5
+
       - name: Write Android release version stub
+        if: ${{ !inputs.ref }}
         run: |
           mkdir -p tool/release
           printf '%s\n' \
-            'versionName=2099.01.100-beta.1' \
+            'versionName=2099.01.100' \
             'versionCode=999999001' \
             > tool/release/android_release_version.properties
 
-      - name: Build F-Droid-style beta OSS APK
-        run: bash tool/fdroid/build_beta_oss.sh
+      - name: Remove sources F-Droid deletes
+        run: rm -rf fluxer/fluxer_app
+
+      - name: Scan source with F-Droid scanner
+        run: '"$RUNNER_TEMP/fdroidserver/bin/python" .github/scripts/fdroid_scan.py source .'
+
+      - name: Build F-Droid stable OSS APK
+        run: bash tool/fdroid/build.sh
+
+      - name: Scan APK with F-Droid scanner
+        run: |
+          "$RUNNER_TEMP/fdroidserver/bin/python" .github/scripts/fdroid_scan.py apk \
+            build/app/outputs/flutter-apk/app-stableunifiedpush-release.apk

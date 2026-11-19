@@ -27,7 +27,7 @@ class _FakeAuthRepository implements AuthRepository {
   Future<IpAuthPollResult> pollIpAuthorization(String ticket) async {
     pollCount++;
     if (pollPending != null) {
-      return pollPending!.future;
+      return await pollPending!.future;
     }
     if (pollError != null) {
       throw pollError!;

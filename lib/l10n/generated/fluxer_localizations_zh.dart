@@ -1092,9 +1092,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedGiftClaim => '领取礼物';
 
   @override
-  String get embedGiftClaimed => '礼物已领取';
-
-  @override
   String get embedGiftClaimAccount => '认领账号后领取';
 
   @override
@@ -1102,9 +1099,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => '此礼品码无效或已被领取。';
-
-  @override
-  String get embedGiftUnavailable => '礼物不可用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -4595,6 +4589,33 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get connectionEnterDomain => '请输入域名。';
 
   @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
+
+  @override
   String get lookAndFeelThemeSectionTitle => '主题';
 
   @override
@@ -5883,6 +5904,27 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => '视频';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => '切换摄像头';
@@ -11902,6 +11944,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => '此社区的邀请目前已暂停';
 
   @override
+  String get guildNavbarInvitesPausedRaid => '检测到疑似突袭，邀请已暂停';
+
+  @override
   String get guildNavbarDurationNever => '永不';
 
   @override
@@ -16260,6 +16305,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -16267,6 +16317,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
@@ -17403,9 +17462,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get embedGiftClaim => '領取禮物';
 
   @override
-  String get embedGiftClaimed => '禮物已領取';
-
-  @override
   String get embedGiftClaimAccount => '認領帳號即可兌換';
 
   @override
@@ -17413,9 +17469,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get embedGiftUnknownSubtitle => '此禮物代碼無效或已被領取。';
-
-  @override
-  String get embedGiftUnavailable => '禮物無法使用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -28000,6 +28053,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildNavbarInvitesPaused => '此社群目前暫停邀請';
+
+  @override
+  String get guildNavbarInvitesPausedRaid => '因疑似突襲，邀請已暫停';
 
   @override
   String get guildNavbarDurationNever => '永不';

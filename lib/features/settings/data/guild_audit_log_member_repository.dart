@@ -58,7 +58,7 @@ class GuildAuditLogMemberRepository {
       userIds: uniqueUserIds,
       onMemberFetched: onMemberFetched,
     );
-    return _buildDisplays(guildId: guildId, userIds: uniqueUserIds);
+    return await _buildDisplays(guildId: guildId, userIds: uniqueUserIds);
   }
 
   Future<void> _upsertAuditLogUsers(Iterable<GuildAuditLogUser> users) {

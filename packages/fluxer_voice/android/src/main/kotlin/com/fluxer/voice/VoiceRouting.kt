@@ -1,5 +1,6 @@
 package com.fluxer.voice
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioDeviceInfo
@@ -249,6 +250,14 @@ internal fun activeCommunicationDeviceId(audioManager: AudioManager): Int? {
     return safeCommunicationDeviceId(audioManager)
 }
 
+internal fun hasBluetoothConnectPermission(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        return true
+    }
+    return context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) ==
+        PackageManager.PERMISSION_GRANTED
+}
+
 internal fun requestedBluetoothAddress(
     audioManager: AudioManager,
     route: VoiceOutputRoute,
@@ -260,7 +269,11 @@ internal fun requestedBluetoothAddress(
     ) {
         return null
     }
-    return outputDevices(audioManager).firstOrNull { it.id == deviceId }?.address
+    return try {
+        outputDevices(audioManager).firstOrNull { it.id == deviceId }?.address
+    } catch (_: SecurityException) {
+        null
+    }
 }
 
 internal fun applyVoiceOutputRoute(
@@ -414,20 +427,26 @@ internal fun applyTelecomCallRoute(
     val state = connection.callAudioState
     val target = telecomRouteForVoiceOutput(route)
     if (bluetoothAddress != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && state != null) {
-        val bluetoothDevice = state.supportedBluetoothDevices.firstOrNull {
-            bluetoothAddressesMatch(it.address, bluetoothAddress)
-        }
-        if (bluetoothDevice != null) {
-            val alreadyActive = state.route == CallAudioState.ROUTE_BLUETOOTH &&
-                bluetoothAddressesMatch(state.activeBluetoothDevice?.address, bluetoothAddress)
-            if (force || !alreadyActive) {
-                connection.requestBluetoothAudio(bluetoothDevice)
+        try {
+            val bluetoothDevice = state.supportedBluetoothDevices.firstOrNull {
+                bluetoothAddressesMatch(it.address, bluetoothAddress)
             }
-            return
+            if (bluetoothDevice != null) {
+                val alreadyActive = state.route == CallAudioState.ROUTE_BLUETOOTH &&
+                    bluetoothAddressesMatch(state.activeBluetoothDevice?.address, bluetoothAddress)
+                if (force || !alreadyActive) {
+                    connection.requestBluetoothAudio(bluetoothDevice)
+                }
+                return
+            }
+        } catch (_: SecurityException) {
         }
     }
     if (telecomRouteRequestNeeded(target, state?.route, state?.supportedRouteMask, force)) {
-        connection.setAudioRoute(target)
+        try {
+            connection.setAudioRoute(target)
+        } catch (_: SecurityException) {
+        }
     }
 }
 

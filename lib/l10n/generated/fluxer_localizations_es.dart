@@ -1171,9 +1171,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get embedGiftClaim => 'Reclamar regalo';
 
   @override
-  String get embedGiftClaimed => 'Regalo reclamado';
-
-  @override
   String get embedGiftClaimAccount => 'Completa el registro para canjear';
 
   @override
@@ -1182,9 +1179,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de regalo no es válido o ya ha sido canjeado.';
-
-  @override
-  String get embedGiftUnavailable => 'Regalo no disponible';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -4908,6 +4902,33 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get connectionEnterDomain => 'Introduce un dominio.';
 
   @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
+
+  @override
   String get lookAndFeelThemeSectionTitle => 'Tema';
 
   @override
@@ -6322,6 +6343,27 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Vídeo';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Girar cámara';
@@ -12839,6 +12881,10 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Las invitaciones están pausadas en esta comunidad';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Invitaciones en pausa tras un posible ataque';
+
+  @override
   String get guildNavbarDurationNever => 'nunca';
 
   @override
@@ -17595,6 +17641,11 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17602,6 +17653,15 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
@@ -18816,9 +18876,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get embedGiftClaim => 'Reclamar regalo';
 
   @override
-  String get embedGiftClaimed => 'Regalo reclamado';
-
-  @override
   String get embedGiftClaimAccount => 'Completa el registro para canjear';
 
   @override
@@ -18827,9 +18884,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get embedGiftUnknownSubtitle =>
       'Este código de regalo no es válido o ya fue reclamado.';
-
-  @override
-  String get embedGiftUnavailable => 'Regalo no disponible';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -30254,6 +30308,10 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get guildNavbarInvitesPaused =>
       'Las invitaciones están pausadas en esta comunidad';
+
+  @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Invitaciones en pausa tras un posible ataque';
 
   @override
   String get guildNavbarDurationNever => 'nunca';

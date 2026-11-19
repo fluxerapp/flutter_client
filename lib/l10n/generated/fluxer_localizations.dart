@@ -1958,12 +1958,6 @@ abstract class FluxerLocalizations {
   /// **'Claim gift'**
   String get embedGiftClaim;
 
-  /// Disabled button label after a gift is claimed.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift claimed'**
-  String get embedGiftClaimed;
-
   /// Button on a gift embed for unclaimed accounts.
   ///
   /// In en, this message translates to:
@@ -1981,12 +1975,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This gift code is invalid or already claimed.'**
   String get embedGiftUnknownSubtitle;
-
-  /// Disabled button when a gift cannot be claimed.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift unavailable'**
-  String get embedGiftUnavailable;
 
   /// Help text on the gift accept modal for a claimable gift.
   ///
@@ -7784,6 +7772,42 @@ abstract class FluxerLocalizations {
   /// **'Enter a domain.'**
   String get connectionEnterDomain;
 
+  /// Empty-state description when the instance offers account connections besides domains.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your accounts or verify domain ownership to display them on your profile.'**
+  String get connectionsEmptyDescriptionAccounts;
+
+  /// Semantic label for an instance connection provider's add-connection tile. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {providerName} connection'**
+  String connectionsAddProviderAriaLabel(String providerName);
+
+  /// Button label for starting an external account connection. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with {providerName}'**
+  String connectionConnectWithProvider(String providerName);
+
+  /// Explains the browser sign-in step for an instance connection provider. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'{providerName} opens in your browser. Sign in there to connect your account.'**
+  String connectionProviderInstructions(String providerName);
+
+  /// Error shown when starting the sign-in flow for a connection provider fails. providerName is the provider display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t start {providerName} authorization.'**
+  String connectionProviderAuthorizeFailed(String providerName);
+
+  /// Label for a linked account whose provider this instance removed or turned off. The account is hidden from the profile.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer available'**
+  String get connectionUnavailable;
+
   /// Section title for theme selection.
   ///
   /// In en, this message translates to:
@@ -10040,6 +10064,48 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Video'**
   String get voiceControlVideo;
+
+  /// Tooltip: opens the overflow menu of call options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get voiceControlMoreOptions;
+
+  /// Tooltip: small caret on the mute button that opens microphone device options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Input settings'**
+  String get voiceControlInputSettings;
+
+  /// Tooltip: small caret on the deafen button that opens speaker device options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Output settings'**
+  String get voiceControlOutputSettings;
+
+  /// Tooltip: small caret on the camera button that opens camera options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera settings'**
+  String get voiceControlCameraSettings;
+
+  /// Tooltip: small caret on the screen share button that opens screen share options in the desktop voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share settings'**
+  String get voiceControlScreenShareSettings;
+
+  /// Menu item in the desktop screen share options menu that starts sharing the screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen'**
+  String get voiceControlStartScreenShare;
+
+  /// Menu item in the desktop screen share options menu that stops the active screen share.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop sharing'**
+  String get voiceControlStopScreenShare;
 
   /// Tooltip: switch between front and back camera while video is on.
   ///
@@ -20866,6 +20932,12 @@ abstract class FluxerLocalizations {
   /// **'Invites are currently paused in this community'**
   String get guildNavbarInvitesPaused;
 
+  /// Guild tooltip when invites are paused after a suspected raid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are paused after a suspected raid'**
+  String get guildNavbarInvitesPausedRaid;
+
   /// Invite expiry duration label for no expiry.
   ///
   /// In en, this message translates to:
@@ -28521,6 +28593,12 @@ abstract class FluxerLocalizations {
   /// **'Updating…'**
   String get oxygenUpdating;
 
+  /// Tooltip and accessible label on the channel header updater icon in the desktop app while an update is downloading and its progress is known. percent is a whole number from 0 to 100. The app restarts by itself when it is done.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating… {percent}%'**
+  String oxygenUpdatingProgress(int percent);
+
   /// Desktop tray/menu bar menu item that shows the hidden app window.
   ///
   /// In en, this message translates to:
@@ -28532,6 +28610,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Hide {productName}'**
   String desktopTrayHide(String productName);
+
+  /// Accessible description of the taskbar badge showing the number of unread mentions and pending friend requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread messages: {count}'**
+  String desktopBadgeUnreadMessages(int count);
 
   /// Desktop tray/menu bar menu item that opens user settings.
   ///

@@ -43,13 +43,13 @@ class ActiveInstance extends _$ActiveInstance {
     final InstanceConfigSnapshot snapshot = await _discoveryService
         .connectToEndpoint(input);
     if (connectId != _connectSeq) {
-      return ref
+      return await ref
           .read(fluxerDatabaseProvider)
           .recentInstancesDao
           .getRecentInstances();
     }
     _applySnapshot(snapshot);
-    return ref
+    return await ref
         .read(fluxerDatabaseProvider)
         .recentInstancesDao
         .touchRecentInstance(

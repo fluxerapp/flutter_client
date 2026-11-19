@@ -13,9 +13,12 @@ import 'package:fluxer_app/features/settings/providers/preferences/message_ui_pr
 import '../../helpers/open_test_database.dart';
 import '../../helpers/synced_preferences_test_helpers.dart';
 
-pb.SyncedPreferences _withField113(bool value) => pb.SyncedPreferences()
+pb.SyncedPreferences _withField113(bool value) =>
+    pb.SyncedPreferences(saveCameraUploadsToDevice: value);
+
+pb.ChatInputSettings _legacyChatInput(bool value) => pb.ChatInputSettings()
   ..unknownFields.mergeVarintField(
-    kSaveCameraUploadsToDeviceFieldNumber,
+    kLegacyChatInputSaveCameraUploadsFieldNumber,
     Int64(value ? 1 : 0),
   );
 
@@ -50,9 +53,7 @@ void main() {
   test('falls back to the legacy chat input field', () async {
     await store.hydrateFromUserSettings(
       syncedPreferencesUserSettings(
-        pb.SyncedPreferences(
-          chatInput: pb.ChatInputSettings(saveCameraCapturesToDevice: false),
-        ),
+        pb.SyncedPreferences(chatInput: _legacyChatInput(false)),
       ),
     );
     expect(
@@ -76,13 +77,14 @@ void main() {
     await flushSyncedPreferencesDebounce(store);
 
     final pushed = api.lastPush;
+    expect(pushed.hasSaveCameraUploadsToDevice(), isTrue);
+    expect(pushed.saveCameraUploadsToDevice, isFalse);
     expect(
-      pushed.unknownFields
-          .getField(kSaveCameraUploadsToDeviceFieldNumber)
-          ?.varints,
-      [Int64.ZERO],
+      pushed.chatInput.unknownFields.hasField(
+        kLegacyChatInputSaveCameraUploadsFieldNumber,
+      ),
+      isFalse,
     );
-    expect(pushed.chatInput.hasSaveCameraCapturesToDevice(), isFalse);
     expect(pushed.sidebar.inlineDmsCollapsed, isTrue);
   });
 }

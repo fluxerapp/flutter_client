@@ -239,7 +239,7 @@ class _CategoryHeader extends ConsumerWidget {
       state: menuState,
     );
     if (!usesDesktopPointerUi(context)) {
-      return FluxerBottomSheet.showScrollable<void>(
+      return await FluxerBottomSheet.showScrollable<void>(
         context,
         title: category.name,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
@@ -264,7 +264,7 @@ class _CategoryHeader extends ConsumerWidget {
         },
       );
     }
-    return FluxerActionMenu.show(
+    return await FluxerActionMenu.show(
       context,
       position: position,
       builder: (menuContext, close) => categoryMenuGroupsToWidgets(

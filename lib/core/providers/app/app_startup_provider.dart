@@ -165,7 +165,7 @@ class AppStartup extends _$AppStartup {
   }
 
   Future<void> _leaveBoundAccount(FluxerDatabase database) async {
-    if (ref.exists(voiceSessionProvider) &&
+    if (ref.read(voiceSessionProvider.exists) &&
         ref.read(voiceSessionProvider).isInVoice) {
       await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
     }
@@ -448,7 +448,7 @@ class AppStartup extends _$AppStartup {
         return;
       }
       ref.read(pendingPushNotificationPathProvider);
-      if (ref.exists(authenticatedSessionBindingsProvider)) {
+      if (ref.read(authenticatedSessionBindingsProvider.exists)) {
         _invalidateGatewayBindings();
       }
       _attachAuthenticatedBindings();

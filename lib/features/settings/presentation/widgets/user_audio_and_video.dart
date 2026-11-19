@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider
 import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/media/voice_media_device_label.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -39,16 +40,6 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     });
   }
 
-  String _deviceLabel(FluxerLocalizations l10n, VoiceMediaDeviceOption device) {
-    if (device.deviceId == kDefaultVoiceDeviceId) {
-      return l10n.audioAndVideoDefaultDeviceLabel;
-    }
-    if (device.label.isNotEmpty) {
-      return device.label;
-    }
-    return device.deviceId;
-  }
-
   List<FluxerSelectItem<String>> _deviceItems(
     FluxerLocalizations l10n,
     List<VoiceMediaDeviceOption> devices,
@@ -57,7 +48,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
         .map(
           (VoiceMediaDeviceOption device) => FluxerSelectItem<String>(
             value: device.deviceId,
-            label: _deviceLabel(l10n, device),
+            label: voiceMediaDeviceLabel(l10n, device),
           ),
         )
         .toList();

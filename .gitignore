@@ -26,6 +26,8 @@ migrate_working_dir/
 # Generated files (build_runner / drift / riverpod)
 *.g.dart
 !packages/fluxer_voice/lib/src/messages.g.dart
+!packages/fluxer_clipboard/lib/src/messages.g.dart
+!packages/passkeys_android_fdroid/lib/messages.g.dart
 *.freezed.dart
 *.mocks.dart
 
@@ -77,3 +79,5 @@ ios/build/
 /lib/features/settings/services/premium_store_purchase_client.dart
 packages/fluxer_billing/build/
 packages/fluxer_billing/pubspec.lock
+# Widget Preview related
+.widget_preview/

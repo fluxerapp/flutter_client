@@ -1170,9 +1170,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get embedGiftClaim => 'Geschenk einlösen';
 
   @override
-  String get embedGiftClaimed => 'Geschenk eingelöst';
-
-  @override
   String get embedGiftClaimAccount => 'Zum Einlösen Account beanspruchen';
 
   @override
@@ -1181,9 +1178,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Dieser Geschenkcode ist ungültig oder wurde bereits eingelöst.';
-
-  @override
-  String get embedGiftUnavailable => 'Geschenk nicht verfügbar';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -4900,6 +4894,33 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get connectionEnterDomain => 'Gib eine Domain ein.';
 
   @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
+
+  @override
   String get lookAndFeelThemeSectionTitle => 'Design';
 
   @override
@@ -6312,6 +6333,27 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Video';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Kamera wechseln';
@@ -12836,6 +12878,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Einladungen sind in dieser Community derzeit pausiert';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Einladungen sind nach einem vermuteten Raid pausiert';
+
+  @override
   String get guildNavbarDurationNever => 'nie';
 
   @override
@@ -17579,6 +17625,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17586,6 +17637,15 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
