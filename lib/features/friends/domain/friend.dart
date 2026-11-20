@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -50,7 +51,11 @@ class Friend {
     );
   }
 
-  factory Friend.fromRow(db.Relationship row, db.User? user) {
+  factory Friend.fromRow(
+    db.Relationship row,
+    db.User? user, [
+    UserPresence? presence,
+  ]) {
     return Friend(
       id: row.userId,
       username: user?.username ?? 'Unknown',
@@ -58,8 +63,8 @@ class Friend {
       globalName: user?.globalName,
       avatar: user?.avatar,
       avatarColor: user?.avatarColor,
-      status: user?.status ?? 'offline',
-      customStatus: user?.customStatus,
+      status: presence?.status ?? 'offline',
+      customStatus: presence?.customStatus,
       friendStatus: _typeFromInt(row.type),
       nickname: row.nickname,
       since: row.since,

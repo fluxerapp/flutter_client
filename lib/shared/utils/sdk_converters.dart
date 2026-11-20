@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     as app_channel;
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -275,11 +276,7 @@ Future<void> upsertGuildMembersFromSdk(
   db.FluxerDatabase database,
   String guildId,
   Iterable<GuildMemberResponse> members, {
-  List<({String userId, String status, String? customStatus, bool mobile})>
-      presenceUpdates =
-      const <
-        ({String userId, String status, String? customStatus, bool mobile})
-      >[],
+  List<PresenceUpdateRecord> presenceUpdates = const <PresenceUpdateRecord>[],
 }) async {
   final List<GuildMemberResponse> memberList = members.toList(growable: false);
   if (guildId.isEmpty || (memberList.isEmpty && presenceUpdates.isEmpty)) {
@@ -293,13 +290,14 @@ Future<void> upsertGuildMembersFromSdk(
     for (final GuildMemberResponse sdk in memberList)
       memberCompanionFromSdk(sdk, guildId: guildId),
   ];
+  presenceStoreFor(database).applyAll(presenceUpdates);
   await database.transaction(() async {
     await upsertUsersCompanions(database, userCompanions);
     if (memberCompanions.isNotEmpty) {
-      await database.memberDao.upsertMembers(memberCompanions);
-    }
-    if (presenceUpdates.isNotEmpty) {
-      await database.userDao.updateUserPresencesBatch(presenceUpdates);
+      await database.memberDao.upsertGuildMembersIfChanged(
+        guildId,
+        memberCompanions,
+      );
     }
   });
 }

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -55,10 +56,7 @@ void main() {
           _presence('friend-here', status: 'idle'),
         ],
       );
-      expect(
-        (await database.userDao.getUserById('friend-gone'))?.status,
-        'online',
-      );
+      expect(presenceStoreFor(database)['friend-gone']?.status, 'online');
 
       await sendReady(
         handler,
@@ -69,14 +67,11 @@ void main() {
         ],
       );
 
-      final User? gone = await database.userDao.getUserById('friend-gone');
-      expect(gone?.status, 'offline');
-      expect(gone?.customStatus, isNull);
-      expect(gone?.mobile, isFalse);
-      final User? here = await database.userDao.getUserById('friend-here');
-      expect(here?.status, 'dnd');
-      expect(here?.customStatus, isNotNull);
-      expect((await database.userDao.getUserById('100'))?.status, 'online');
+      final PresenceStore presence = presenceStoreFor(database);
+      expect(presence['friend-gone'], isNull);
+      expect(presence['friend-here']?.status, 'dnd');
+      expect(presence['friend-here']?.customStatus, isNotNull);
+      expect(presence['100']?.status, 'online');
     });
 
     test('an empty READY presence list takes everyone offline', () async {
@@ -98,10 +93,7 @@ void main() {
 
       await sendReady(handler, sessionId: 'session-2', users: users);
 
-      expect(
-        (await database.userDao.getUserById('friend-gone'))?.status,
-        'offline',
-      );
+      expect(presenceStoreFor(database)['friend-gone'], isNull);
     });
   });
 

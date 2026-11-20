@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -37,7 +36,7 @@ List<Override> _userAreaOverrides({
     userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
     userPresenceProvider(
       '1',
-    ).overrideWith((Ref ref) => Stream<User?>.value(null)),
+    ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
     voiceSessionProvider.overrideWith(voiceSession),
     localVoiceStateProvider.overrideWith(localVoice),
     dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),

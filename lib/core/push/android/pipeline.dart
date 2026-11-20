@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/push/android/local_notifications.dart';
 import 'package:fluxer_app/core/push/notification/clear.dart';
+import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_decrypt.dart';
@@ -166,6 +167,7 @@ class AndroidPushPipeline {
         buildIncomingCallRingParams(
           callKitId: callKitId,
           display: display,
+          l10n: pushNotificationLocalizations(),
           channelId: message.payload['channel_id'],
           messageId: messageId,
           targetUserId: message.payload['target_user_id'],

@@ -1399,6 +1399,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Вхідний дзвінок';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Ігнорувати';
 
   @override

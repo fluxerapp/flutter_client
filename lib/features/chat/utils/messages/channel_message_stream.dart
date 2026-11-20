@@ -367,6 +367,9 @@ bool isMessageInRevealedCollapsedGroup({
   required String? revealedCollapsedGroupKey,
   required ChannelCollapseContext context,
 }) {
+  if (revealedCollapsedGroupKey == null) {
+    return false;
+  }
   final String? groupKey = getCollapsedMessageGroupKey(
     messages: messages,
     messageId: messageId,

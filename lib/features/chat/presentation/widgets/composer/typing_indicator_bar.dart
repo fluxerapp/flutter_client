@@ -58,7 +58,7 @@ class _TypingPill extends ConsumerWidget {
     required String userId,
     required String? guildId,
   }) {
-    final user = ref.watch(userPresenceProvider(userId)).value;
+    final user = ref.watch(userRowProvider(userId)).value;
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;

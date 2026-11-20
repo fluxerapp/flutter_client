@@ -28,6 +28,7 @@ void main() {
         durationMs: 45000,
         avatar: 'https://example.com/a.png',
       ),
+      l10n: lookupFluxerLocalizations(const Locale('en')),
     );
     expect(params.headers, isEmpty);
   });

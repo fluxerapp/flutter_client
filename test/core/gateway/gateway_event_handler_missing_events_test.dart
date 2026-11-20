@@ -27,6 +27,7 @@ void main() {
           ],
         ),
       );
+      await pumpEventQueue();
 
       final Server? row = await database.guildDao.getServerById('g1');
       expect(row?.memberCount, 42);
@@ -153,6 +154,7 @@ void main() {
       );
 
       await handler.handle(UserUpdateEvent(user: _privateUser('u1')));
+      await pumpEventQueue();
 
       expect(received?.id, 'u1');
       expect(received?.premiumType, UserPremiumTypes.subscription);

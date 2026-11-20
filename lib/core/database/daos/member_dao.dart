@@ -133,16 +133,23 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         stored[row.userId] = row;
       }
     }
-    await upsertMembers(<MembersCompanion>[
-      for (final MapEntry<String, MembersCompanion> entry
-          in latestByUserId.entries)
-        if (rowDiffersFromStored(
-          attachedDatabase,
-          entry.value,
-          stored[entry.key],
-        ))
-          entry.value,
-    ]);
+    final List<MembersCompanion> changed = <MembersCompanion>[];
+    final List<({String guildId, String userId})> unchanged =
+        <({String guildId, String userId})>[];
+    for (final MapEntry<String, MembersCompanion> entry
+        in latestByUserId.entries) {
+      if (rowDiffersFromStored(
+        attachedDatabase,
+        entry.value,
+        stored[entry.key],
+      )) {
+        changed.add(entry.value);
+      } else {
+        unchanged.add((guildId: guildId, userId: entry.key));
+      }
+    }
+    await upsertMembers(changed);
+    await touchMemberAccessPairs(unchanged);
   }
 
   Future<void> touchMemberAccessPairs(

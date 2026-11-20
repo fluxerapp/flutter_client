@@ -133,7 +133,7 @@ void main() {
         overrides: <Override>[
           userPresenceProvider(
             '',
-          ).overrideWith((Ref ref) => Stream.value(null)),
+          ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
         ],
       ),
     );

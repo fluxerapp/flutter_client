@@ -25,6 +25,7 @@ const double _kSpeakingLevel = 0.2;
 const Duration _kSpeakingRelease = Duration(milliseconds: 300);
 const int _kConnectionReportBatchLimit = 8;
 const Duration _kConnectionReportDelay = Duration(seconds: 10);
+const int _kOutboxLimitPerPeer = 64;
 
 typedef VoiceMeshSignalSink =
     bool Function({
@@ -36,6 +37,29 @@ typedef VoiceMeshSignalSink =
 
 typedef VoiceMeshConnectionReportSink =
     void Function(List<VoiceP2pConnectionReportsRequestReports> reports);
+
+Map<String, VoiceState>? voiceMeshRosterTargets({
+  required Iterable<VoiceState> states,
+  required String channelId,
+  required String connectionId,
+}) {
+  final Map<String, VoiceState> inChannel = <String, VoiceState>{
+    for (final VoiceState state in states)
+      if (state.channelId == channelId && state.connectionId != null)
+        state.connectionId!: state,
+  };
+  final VoiceState? own = inChannel[connectionId];
+  if (own == null) {
+    return null;
+  }
+  if (!own.p2p) {
+    return const <String, VoiceState>{};
+  }
+  return <String, VoiceState>{
+    for (final MapEntry<String, VoiceState> entry in inChannel.entries)
+      if (entry.key != connectionId && entry.value.p2p) entry.key: entry.value,
+  };
+}
 
 double voiceMeshVisualizerLevel(AudioVisualizerEvent event) {
   double level = 0;
@@ -152,6 +176,8 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
   final Map<String, VoiceMeshPeer> _peers = <String, VoiceMeshPeer>{};
   final Map<String, List<VoiceMeshSignal>> _inbox =
       <String, List<VoiceMeshSignal>>{};
+  final Map<String, List<VoiceMeshSignal>> _outbox =
+      <String, List<VoiceMeshSignal>>{};
   final Map<VoiceMeshSource, LocalTrack> _localTracks =
       <VoiceMeshSource, LocalTrack>{};
   CameraCaptureOptions? _cameraOptions;
@@ -211,25 +237,21 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     if (_closed) {
       return (added: 0, removed: 0);
     }
-    final Map<String, VoiceState> inChannel = <String, VoiceState>{
-      for (final VoiceState state in states)
-        if (state.channelId == channelId && state.connectionId != null)
-          state.connectionId!: state,
-    };
-    final VoiceState? own = inChannel[connectionId];
-    final Map<String, VoiceState> next = own == null || !own.p2p
-        ? const <String, VoiceState>{}
-        : <String, VoiceState>{
-            for (final MapEntry<String, VoiceState> entry in inChannel.entries)
-              if (entry.key != connectionId && entry.value.p2p)
-                entry.key: entry.value,
-          };
+    final Map<String, VoiceState>? next = voiceMeshRosterTargets(
+      states: states,
+      channelId: channelId,
+      connectionId: connectionId,
+    );
+    if (next == null) {
+      return (added: 0, removed: 0);
+    }
     int removed = 0;
     for (final String id in _peers.keys.toList()) {
       if (next.containsKey(id)) {
         continue;
       }
       final VoiceMeshPeer peer = _peers.remove(id)!;
+      _outbox.remove(id);
       clearSpeaking(id);
       unawaited(peer.close());
       removed++;
@@ -285,9 +307,42 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
   }
 
   void handleGatewayResumed() {
-    for (final VoiceMeshPeer peer in _peers.values) {
+    if (_closed) {
+      return;
+    }
+    _flushOutbox();
+    for (final VoiceMeshPeer peer in _peers.values.toList()) {
       peer.handleGatewayResumed();
     }
+  }
+
+  void _flushOutbox() {
+    if (_outbox.isEmpty) {
+      return;
+    }
+    final Map<String, List<VoiceMeshSignal>> pending =
+        Map<String, List<VoiceMeshSignal>>.of(_outbox);
+    _outbox.clear();
+    for (final MapEntry<String, List<VoiceMeshSignal>> entry
+        in pending.entries) {
+      if (!_peers.containsKey(entry.key)) {
+        continue;
+      }
+      for (final VoiceMeshSignal signal in entry.value) {
+        send(entry.key, signal);
+      }
+    }
+  }
+
+  void _queueUnsent(String to, VoiceMeshSignal signal) {
+    final List<VoiceMeshSignal> queue = _outbox.putIfAbsent(
+      to,
+      () => <VoiceMeshSignal>[],
+    );
+    if (queue.length >= _kOutboxLimitPerPeer) {
+      queue.removeAt(0);
+    }
+    queue.add(signal);
   }
 
   VoiceMeshSendResult send(String to, VoiceMeshSignal signal) {
@@ -310,7 +365,11 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
       to: to,
       data: data,
     );
-    return sent ? VoiceMeshSendResult.sent : VoiceMeshSendResult.unsent;
+    if (!sent) {
+      _queueUnsent(to, signal);
+      return VoiceMeshSendResult.unsent;
+    }
+    return VoiceMeshSendResult.sent;
   }
 
   VoiceMeshTracks tracksSnapshot() {
@@ -765,6 +824,7 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     _speakingRelease.clear();
     _speaking.clear();
     _inbox.clear();
+    _outbox.clear();
     final List<VoiceMeshPeer> peers = _peers.values.toList();
     _peers.clear();
     await _stopMicVisualizer();

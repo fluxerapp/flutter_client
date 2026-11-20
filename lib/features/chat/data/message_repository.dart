@@ -385,7 +385,7 @@ class MessageRepository {
         messageId: messageId,
       );
       if (sdk.webhookId == null) {
-        await _db.userDao.upsertUser(userFromPartialSdk(sdk.author));
+        await _db.userDao.upsertUserIfChanged(userFromPartialSdk(sdk.author));
       }
       await upsertMentionUsersFromSdk(_db, sdk.mentions);
       await upsertSupplementalUsersFromSdk(_db, sdk.users);
@@ -618,7 +618,7 @@ class MessageRepository {
         final String? webhookId = map['webhook_id'] as String?;
         if (webhookId == null) {
           final authorId = author['id'] as String;
-          await _db.userDao.upsertUser(
+          await _db.userDao.upsertUserIfChanged(
             db.UsersCompanion.insert(
               id: authorId,
               username: (author['username'] as String?) ?? '',

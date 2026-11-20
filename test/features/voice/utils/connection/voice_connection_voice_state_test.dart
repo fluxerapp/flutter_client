@@ -166,4 +166,38 @@ void main() {
       expect(desktopAudio.effectiveDeaf, isFalse);
     });
   });
+
+  group('voiceStatesContainConnection', () {
+    test('finds a connection by key or by connection id', () {
+      const VoiceState byKey = VoiceState(
+        userId: 'u1',
+        channelId: 'c1',
+        connectionId: 'conn-1',
+      );
+      expect(
+        voiceStatesContainConnection(
+          voiceStates: const <String, VoiceState>{'conn-1': byKey},
+          connectionId: 'conn-1',
+        ),
+        isTrue,
+      );
+      expect(
+        voiceStatesContainConnection(
+          voiceStates: const <String, VoiceState>{'_u_u1_c1': byKey},
+          connectionId: 'conn-1',
+        ),
+        isTrue,
+      );
+    });
+
+    test('reports a missing connection', () {
+      expect(
+        voiceStatesContainConnection(
+          voiceStates: const <String, VoiceState>{},
+          connectionId: 'conn-1',
+        ),
+        isFalse,
+      );
+    });
+  });
 }

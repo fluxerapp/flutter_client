@@ -1,18 +1,12 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
 const Duration kPresenceUpdateBatchDelay = Duration(milliseconds: 500);
 
 bool get isFluxerMobileClient => isFluxerMobileOs;
-
-typedef PresenceUpdateRecord = ({
-  String userId,
-  String status,
-  String? customStatus,
-  bool mobile,
-});
 
 class PresenceUpdateBatcher {
   PresenceUpdateBatcher({
@@ -32,6 +26,8 @@ class PresenceUpdateBatcher {
   Timer? _flushTimer;
   bool _disposed = false;
 
+  PresenceStore get _store => presenceStoreFor(_database);
+
   void enqueue({
     required String userId,
     required String status,
@@ -43,19 +39,17 @@ class PresenceUpdateBatcher {
       return;
     }
     if (userId == _currentUserId) {
-      unawaited(() async {
-        if (user != null) {
-          await _database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
-            user,
-          ]);
-        }
-        await _database.userDao.updateUserPresence(
-          userId,
-          status: status,
-          customStatus: customStatus,
-          mobile: isFluxerMobileClient,
+      _store.set(
+        userId,
+        status: status,
+        customStatus: customStatus,
+        mobile: isFluxerMobileClient,
+      );
+      if (user != null) {
+        unawaited(
+          _database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[user]),
         );
-      }());
+      }
       return;
     }
     if (user != null) {
@@ -80,8 +74,10 @@ class PresenceUpdateBatcher {
     _pendingUsers.clear();
     _flushTimer?.cancel();
     _flushTimer = null;
-    await _database.userDao.upsertUsersIfChanged(users);
-    await _database.userDao.updateUserPresencesBatch(updates);
+    _store.applyAll(updates);
+    if (users.isNotEmpty) {
+      await _database.userDao.upsertUsersIfChanged(users);
+    }
   }
 
   void dispose() {

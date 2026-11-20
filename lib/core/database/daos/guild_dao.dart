@@ -7,6 +7,8 @@ import 'package:fluxer_app/core/database/tables/servers.dart';
 
 part 'guild_dao.g.dart';
 
+typedef ServerCounts = ({String id, int memberCount, int onlineCount});
+
 @DriftAccessor(tables: [Servers])
 class GuildDao extends DatabaseAccessor<FluxerDatabase> with _$GuildDaoMixin {
   GuildDao(super.attachedDatabase);
@@ -43,15 +45,38 @@ class GuildDao extends DatabaseAccessor<FluxerDatabase> with _$GuildDaoMixin {
   Future<void> upsertServers(List<ServersCompanion> serverList) =>
       batch((Batch b) => batchUpsert(b, attachedDatabase, servers, serverList));
 
-  Future<void> updateServerCountsBulk(
-    List<({String id, int memberCount, int onlineCount})> counts,
-  ) async {
+  Future<void> updateServerCountsBulk(List<ServerCounts> counts) async {
     if (counts.isEmpty) {
       return;
     }
+    final Map<String, (int?, int?)> stored = <String, (int?, int?)>{
+      for (final TypedResult row
+          in await (selectOnly(servers)
+                ..addColumns(<Expression<Object>>[
+                  servers.id,
+                  servers.memberCount,
+                  servers.onlineCount,
+                ])
+                ..where(servers.id.isIn(counts.map((ServerCounts c) => c.id))))
+              .get())
+        row.read(servers.id)!: (
+          row.read(servers.memberCount),
+          row.read(servers.onlineCount),
+        ),
+    };
+    final List<ServerCounts> changed = <ServerCounts>[
+      for (final ServerCounts count in counts)
+        if (stored[count.id] case (
+          final int? members,
+          final int? online,
+        ) when members != count.memberCount || online != count.onlineCount)
+          count,
+    ];
+    if (changed.isEmpty) {
+      return;
+    }
     await batch((Batch b) {
-      for (final ({String id, int memberCount, int onlineCount}) count
-          in counts) {
+      for (final ServerCounts count in changed) {
         b.update(
           servers,
           ServersCompanion(

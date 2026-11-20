@@ -210,7 +210,7 @@ import flutter_callkit_incoming
   }
 
   func didDeactivateAudioSession(_ audioSession: AVAudioSession) {
-    CallAudioSession.deactivate(audioSession)
+    CallAudioSession.deactivate(audioSession, hasLiveCalls: VoipRegistry.shared.hasLiveCalls())
   }
 
   func providerDidReset() {}

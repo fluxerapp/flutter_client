@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
@@ -12,7 +13,7 @@ class VoiceConnectionStats {
   const VoiceConnectionStats({
     this.currentLatencyMs,
     this.latencyHistory = const <int>[],
-    this.sessionDuration,
+    this.connectedAt,
     this.participantCount,
     this.jitterMs,
     this.sendBandwidthBps,
@@ -21,18 +22,43 @@ class VoiceConnectionStats {
 
   final int? currentLatencyMs;
   final List<int> latencyHistory;
-  final Duration? sessionDuration;
+  final DateTime? connectedAt;
   final int? participantCount;
   final double? jitterMs;
   final double? sendBandwidthBps;
   final double? receiveBandwidthBps;
+
+  Duration? get sessionDuration {
+    final DateTime? start = connectedAt;
+    return start == null ? null : DateTime.now().difference(start);
+  }
+
+  VoiceConnectionStats copyWith({
+    int? currentLatencyMs,
+    List<int>? latencyHistory,
+    DateTime? connectedAt,
+    bool clearConnectedAt = false,
+    int? participantCount,
+    double? jitterMs,
+    double? sendBandwidthBps,
+    double? receiveBandwidthBps,
+  }) {
+    return VoiceConnectionStats(
+      currentLatencyMs: currentLatencyMs ?? this.currentLatencyMs,
+      latencyHistory: latencyHistory ?? this.latencyHistory,
+      connectedAt: clearConnectedAt ? null : (connectedAt ?? this.connectedAt),
+      participantCount: participantCount ?? this.participantCount,
+      jitterMs: jitterMs ?? this.jitterMs,
+      sendBandwidthBps: sendBandwidthBps ?? this.sendBandwidthBps,
+      receiveBandwidthBps: receiveBandwidthBps ?? this.receiveBandwidthBps,
+    );
+  }
 }
 
 @Riverpod(keepAlive: true)
 class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   Timer? _latencyTimer;
-  Timer? _durationTimer;
-  DateTime? _connectedAt;
+  bool _foreground = true;
   EventsListener<RoomEvent>? _listener;
   Room? _listenedRoom;
 
@@ -40,14 +66,21 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   VoiceConnectionStats build() {
     ref.onDispose(() {
       _latencyTimer?.cancel();
-      _durationTimer?.cancel();
       unawaited(_listener?.dispose());
+    });
+    _foreground = ref.read(appUiForegroundProvider);
+    ref.listen<bool>(appUiForegroundProvider, (_, bool foreground) {
+      _foreground = foreground;
+      if (!foreground) {
+        _stopLatencyPolling();
+        return;
+      }
+      if (ref.read(voiceSessionProvider).isInVoice) {
+        _startPolling();
+      }
     });
     ref.listen<VoiceSessionState>(voiceSessionProvider, _syncSession);
     final VoiceSessionState voice = ref.read(voiceSessionProvider);
-    if (voice.isConnected) {
-      _connectedAt ??= DateTime.now();
-    }
     scheduleMicrotask(() {
       if (!ref.mounted) {
         return;
@@ -59,7 +92,9 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
         resetWhenIdle: false,
       );
     });
-    return const VoiceConnectionStats();
+    return VoiceConnectionStats(
+      connectedAt: voice.isConnected ? DateTime.now() : null,
+    );
   }
 
   void _syncSession(
@@ -68,19 +103,15 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
     bool trackConnectEdge = true,
     bool resetWhenIdle = true,
   }) {
-    if (trackConnectEdge) {
+    if (trackConnectEdge && ref.mounted) {
       if (next.isConnected && !(previous?.isConnected ?? false)) {
-        _connectedAt = DateTime.now();
-      }
-      if (!next.isConnected) {
-        _connectedAt = null;
+        state = state.copyWith(connectedAt: DateTime.now());
+      } else if (!next.isConnected && state.connectedAt != null) {
+        state = state.copyWith(clearConnectedAt: true);
       }
     }
     if (!next.isInVoice) {
-      _latencyTimer?.cancel();
-      _latencyTimer = null;
-      _durationTimer?.cancel();
-      _durationTimer = null;
+      _stopLatencyPolling();
       _detachListener();
       if (resetWhenIdle && ref.mounted) {
         state = const VoiceConnectionStats();
@@ -116,11 +147,13 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
     _listenedRoom = null;
   }
 
+  void _stopLatencyPolling() {
+    _latencyTimer?.cancel();
+    _latencyTimer = null;
+  }
+
   void _startPolling() {
-    _durationTimer ??= Timer.periodic(const Duration(seconds: 1), (_) {
-      _tickSessionDuration();
-    });
-    if (_latencyTimer != null) {
+    if (_latencyTimer != null || !_foreground) {
       return;
     }
     _latencyTimer = Timer.periodic(
@@ -133,25 +166,6 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
       }
       _refresh();
     });
-  }
-
-  void _tickSessionDuration() {
-    if (!ref.mounted || _connectedAt == null) {
-      return;
-    }
-    final Duration duration = DateTime.now().difference(_connectedAt!);
-    if (duration.inSeconds == state.sessionDuration?.inSeconds) {
-      return;
-    }
-    state = VoiceConnectionStats(
-      currentLatencyMs: state.currentLatencyMs,
-      latencyHistory: state.latencyHistory,
-      sessionDuration: duration,
-      participantCount: state.participantCount,
-      jitterMs: state.jitterMs,
-      sendBandwidthBps: state.sendBandwidthBps,
-      receiveBandwidthBps: state.receiveBandwidthBps,
-    );
   }
 
   void _refresh() {
@@ -211,10 +225,9 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
         history.removeAt(0);
       }
     }
-    state = VoiceConnectionStats(
+    state = state.copyWith(
       currentLatencyMs: latency,
       latencyHistory: history,
-      sessionDuration: state.sessionDuration,
       participantCount: participantCount,
     );
   }

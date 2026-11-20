@@ -49,8 +49,11 @@ kRingerRespectingSfxAudioSessionConfig =
           audio_session.AndroidAudioFocusGainType.gainTransientMayDuck,
     );
 
-bool voiceCallOwnsAndroidAudioRoute() {
-  return defaultTargetPlatform == TargetPlatform.android &&
+bool voiceCallOwnsAudioSession() {
+  final bool mobile =
+      defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS;
+  return mobile &&
       (ChatAttachmentAudioSession.instance.isVoiceCallActive ||
           FluxerVoiceAudioSession.instance.isActive);
 }
@@ -59,7 +62,7 @@ Future<bool> applyAudioPlayerContext(
   AudioPlayer player,
   AudioContext context,
 ) async {
-  if (voiceCallOwnsAndroidAudioRoute()) {
+  if (voiceCallOwnsAudioSession()) {
     return false;
   }
   if (await isExternalSystemVoiceCallActive()) {

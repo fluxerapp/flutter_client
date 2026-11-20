@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
 import 'package:livekit_client/livekit_client.dart';
 
+@immutable
 class VoiceSessionState {
   const VoiceSessionState({
     this.isConnecting = false,
@@ -46,6 +48,47 @@ class VoiceSessionState {
     final Room? room = liveKitRoom;
     return mesh ?? (room == null ? null : VoiceLiveKitMediaRoom.of(room));
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is VoiceSessionState &&
+        other.isConnecting == isConnecting &&
+        other.isConnected == isConnected &&
+        other.isReconnecting == isReconnecting &&
+        other.errorMessage == errorMessage &&
+        other.guildId == guildId &&
+        other.channelId == channelId &&
+        other.voiceServerEndpoint == voiceServerEndpoint &&
+        other.activeConnectionId == activeConnectionId &&
+        identical(other.liveKitRoom, liveKitRoom) &&
+        identical(other.mesh, mesh) &&
+        other.e2eeKey == e2eeKey &&
+        other.connectFailed == connectFailed &&
+        other.connectFailedTarget?.channelId ==
+            connectFailedTarget?.channelId &&
+        other.connectFailedTarget?.guildId == connectFailedTarget?.guildId;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    isConnecting,
+    isConnected,
+    isReconnecting,
+    errorMessage,
+    guildId,
+    channelId,
+    voiceServerEndpoint,
+    activeConnectionId,
+    identityHashCode(liveKitRoom),
+    identityHashCode(mesh),
+    e2eeKey,
+    connectFailed,
+    connectFailedTarget?.channelId,
+    connectFailedTarget?.guildId,
+  );
 
   VoiceSessionState copyWith({
     bool? isConnecting,

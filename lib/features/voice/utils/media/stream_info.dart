@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
@@ -88,37 +89,90 @@ double? screenShareContentAspectRatio(VoiceMediaParticipant? participant) {
   return null;
 }
 
-Future<double?> screenShareContentAspectRatioResolved(
+typedef VoiceStreamStatsSample = ({int width, int height, int fps});
+
+const VoiceStreamStatsSample kEmptyVoiceStreamStatsSample = (
+  width: 0,
+  height: 0,
+  fps: 0,
+);
+
+VoiceStreamStatsSample voiceStreamMonitoredStats(VideoTrack? track) {
+  if (track is RemoteVideoTrack) {
+    final stats = track.prevStats;
+    return (
+      width: parsePositiveInt(stats?.frameWidth),
+      height: parsePositiveInt(stats?.frameHeight),
+      fps: parsePositiveFrameRate(stats?.framesPerSecond),
+    );
+  }
+  if (track is LocalVideoTrack) {
+    final stats = track.prevStats?.values.toList() ?? [];
+    final ({int width, int height}) frame = voiceStreamLargestFrame(
+      widths: stats.map((item) => item.frameWidth),
+      heights: stats.map((item) => item.frameHeight),
+    );
+    return (
+      width: frame.width,
+      height: frame.height,
+      fps: maxPositiveFrameRate(stats.map((item) => item.framesPerSecond)),
+    );
+  }
+  return kEmptyVoiceStreamStatsSample;
+}
+
+EventsListener<TrackEvent>? listenVoiceStreamStats(
+  VideoTrack? track,
+  void Function() onStats,
+) {
+  if (track is! RemoteVideoTrack && track is! LocalVideoTrack) {
+    return null;
+  }
+  return track!.createListener()
+    ..on<VideoReceiverStatsEvent>((_) => onStats())
+    ..on<VideoSenderStatsEvent>((_) => onStats());
+}
+
+class VoiceStreamStatsSubscription {
+  VoiceStreamStatsSubscription(this._onStats);
+
+  final void Function() _onStats;
+  EventsListener<TrackEvent>? _listener;
+  VideoTrack? _track;
+
+  void sync(VideoTrack? track) {
+    if (identical(track, _track) && _listener != null) {
+      return;
+    }
+    dispose();
+    if (track == null) {
+      return;
+    }
+    _track = track;
+    _listener = listenVoiceStreamStats(track, _onStats);
+  }
+
+  void dispose() {
+    final EventsListener<TrackEvent>? listener = _listener;
+    _listener = null;
+    _track = null;
+    if (listener != null) {
+      unawaited(listener.dispose());
+    }
+  }
+}
+
+double? screenShareContentAspectRatioMonitored(
   VoiceMediaParticipant? participant,
-) async {
+) {
   if (participant == null || !participant.hasScreenShare) {
     return null;
   }
-  final VideoTrack? track = participant.screenShareTrack;
-  if (track is RemoteVideoTrack) {
-    try {
-      final stats = await track.getReceiverStats();
-      final int width = parsePositiveInt(stats?.frameWidth);
-      final int height = parsePositiveInt(stats?.frameHeight);
-      if (width > 0 && height > 0) {
-        return width / height;
-      }
-    } on Object {
-      return screenShareContentAspectRatio(participant);
-    }
-  } else if (track is LocalVideoTrack) {
-    try {
-      final stats = await track.getSenderStats();
-      final ({int width, int height}) frame = voiceStreamLargestFrame(
-        widths: stats.map((item) => item.frameWidth),
-        heights: stats.map((item) => item.frameHeight),
-      );
-      if (frame.width > 0 && frame.height > 0) {
-        return frame.width / frame.height;
-      }
-    } on Object {
-      return screenShareContentAspectRatio(participant);
-    }
+  final VoiceStreamStatsSample stats = voiceStreamMonitoredStats(
+    participant.screenShareTrack,
+  );
+  if (stats.width > 0 && stats.height > 0) {
+    return stats.width / stats.height;
   }
   return screenShareContentAspectRatio(participant);
 }

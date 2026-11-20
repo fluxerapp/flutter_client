@@ -399,21 +399,27 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    final Channel? channel = ref
-        .watch(channelByIdProvider(msg.channelId))
-        .value;
-    if (channel != null && channel.isThread) {
-      final String? parentId = channel.parentId;
-      if (parentId != null) {
-        final Channel? parent = ref.watch(channelByIdProvider(parentId)).value;
-        if (isForumPostOriginalPoster(
-          thread: channel,
-          parentChannel: parent,
+    final ({String? parentId, String? ownerId})? thread = ref.watch(
+      channelByIdProvider(msg.channelId).select((AsyncValue<Channel?> value) {
+        final Channel? channel = value.value;
+        return channel != null && channel.isThread
+            ? (parentId: channel.parentId, ownerId: channel.ownerId)
+            : null;
+      }),
+    );
+    final String? parentId = thread?.parentId;
+    if (parentId != null &&
+        isForumPostOwner(
+          threadOwnerId: thread?.ownerId,
+          parentIsThreadOnly: ref.watch(
+            channelByIdProvider(parentId).select(
+              (AsyncValue<Channel?> value) =>
+                  value.value?.isThreadOnly ?? false,
+            ),
+          ),
           authorId: msg.authorId,
         )) {
-          tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
-        }
-      }
+      tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
     }
     return tags;
   }
@@ -809,9 +815,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         msg.authorId == widget.currentUserId &&
         msg.isUserMessage &&
         msg.messageSnapshots.isEmpty;
-    final doubleTapAction = ref
-        .watch(doubleTapActionPreferencesProvider)
-        .effectiveAction;
+    final doubleTapAction = ref.watch(
+      doubleTapActionPreferencesProvider.select(
+        (state) => state.effectiveAction,
+      ),
+    );
     final bool touchInput = ref.watch(inputModalityProvider);
     final bool doubleTapEnabled =
         touchInput &&
@@ -1036,8 +1044,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
       child: body,
     );
-    final bool hasChannelDetailsSession =
-        ref.watch(channelDetailsDrawerProvider) != null;
+    final bool hasChannelDetailsSession = ref.watch(
+      channelDetailsDrawerProvider.select((session) => session != null),
+    );
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final bool channelDetailsDrawerBlocksSwipe = ref.watch(
       channelDetailsDrawerRevealProvider.select(
@@ -1050,8 +1059,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     final bool swipeToOpenChannelDetails =
         handheldChannelDetailsGesturesApply(context) &&
-        ref.watch(swipeRightToLeftActionPreferencesProvider).effectiveAction ==
-            SwipeRightToLeftActionPreference.channelDetails;
+        ref.watch(
+          swipeRightToLeftActionPreferencesProvider.select(
+            (state) =>
+                state.effectiveAction ==
+                SwipeRightToLeftActionPreference.channelDetails,
+          ),
+        );
     if (!isTouch || !touchInput || widget.inboxPreviewMode) {
       return _wrapMessageSendingDim(
         dim: dimEntireMessage,

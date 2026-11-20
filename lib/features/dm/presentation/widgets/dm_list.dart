@@ -31,7 +31,6 @@ import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_quick_switch
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_row_timestamp.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
-import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
@@ -845,10 +844,12 @@ class _DMListState extends ConsumerState<DMList> {
   Widget _buildDmHeader(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    final UserSettingsViewState settings = ref.watch(
-      userSettingsViewModelProvider,
+    final bool isRestricted = ref.watch(
+      userSettingsViewModelProvider.select(
+        (UserSettingsViewState settings) =>
+            getCreateDmRestriction(settings) != null,
+      ),
     );
-    final bool isRestricted = getCreateDmRestriction(settings) != null;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: layout.s2, vertical: layout.s2),
       child: Row(
@@ -2277,8 +2278,6 @@ class _DmContextMenuLeading extends ConsumerWidget {
     if (convo.isGroup) {
       return GroupDmAvatar.conversation(convo, size: 48, isTyping: isTyping);
     }
-    ref.watch(dmListRecipientRowDataProvider);
-
     return FluxerAvatar.userPresence(
       fallbackText: displayName,
       userId: convo.recipientId,

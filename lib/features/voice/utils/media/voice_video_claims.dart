@@ -31,11 +31,19 @@ class VoiceVideoClaim {
   }
 }
 
+typedef _ClaimSignature = ({
+  bool published,
+  bool hasTrack,
+  VideoQuality quality,
+  bool audioPublished,
+  bool hasAudioTrack,
+});
+
 class _SourceClaims {
   final List<VoiceVideoClaim> claims = <VoiceVideoClaim>[];
   Timer? grace;
   Timer? suspend;
-  String? signature;
+  _ClaimSignature? signature;
 
   bool get isIdle => claims.isEmpty && grace == null;
 }
@@ -156,7 +164,7 @@ class VoiceVideoClaims {
       final VideoQuality quality = _backgrounded && _isFocus(source)
           ? _focusQuality ?? _highestQuality(state.claims)
           : _highestQuality(state.claims);
-      final String signature = _signature(source, quality);
+      final _ClaimSignature signature = _signature(source, quality);
       if (signature == state.signature) {
         return;
       }
@@ -175,28 +183,30 @@ class VoiceVideoClaims {
     return highest;
   }
 
-  String _signature(TrackSource source, VideoQuality quality) {
+  _ClaimSignature _signature(TrackSource source, VideoQuality quality) {
     if (source == TrackSource.screenShareVideo) {
-      return <Object>[
-        _participant.hasScreenShare,
-        _participant.screenShareTrack != null,
-        quality.index,
-        _participant.hasScreenShareAudio,
-        _participant.screenShareAudioTrack != null,
-      ].join('|');
+      return (
+        published: _participant.hasScreenShare,
+        hasTrack: _participant.screenShareTrack != null,
+        quality: quality,
+        audioPublished: _participant.hasScreenShareAudio,
+        hasAudioTrack: _participant.screenShareAudioTrack != null,
+      );
     }
-    return <Object>[
-      _participant.hasCamera,
-      _participant.cameraTrack != null,
-      quality.index,
-    ].join('|');
+    return (
+      published: _participant.hasCamera,
+      hasTrack: _participant.cameraTrack != null,
+      quality: quality,
+      audioPublished: false,
+      hasAudioTrack: false,
+    );
   }
 
   void _subscribe(
     TrackSource source,
     VideoQuality quality,
     _SourceClaims state,
-    String signature,
+    _ClaimSignature signature,
   ) {
     unawaited(
       _run(

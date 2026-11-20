@@ -12,7 +12,7 @@ class _DmMemberGroups extends ConsumerWidget {
     if (userId == null) {
       return const SizedBox.shrink();
     }
-    final db.User? currentUser = ref.watch(userPresenceProvider(userId)).value;
+    final db.User? currentUser = ref.watch(userRowProvider(userId)).value;
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.watch(friendsListProvider).value ?? const <Friend>[],
     );
@@ -24,11 +24,9 @@ class _DmMemberGroups extends ConsumerWidget {
       friendNicknameById: friendNicknameById,
       youLabel: l10n.channelDetailsMemberYou,
     );
-    final Map<String, db.User?> presenceById = <String, db.User?>{
+    final Map<String, UserPresence?> presenceById = <String, UserPresence?>{
       for (final _DmParticipant participant in participants)
-        participant.id: participant.id == userId
-            ? currentUser
-            : ref.watch(userPresenceProvider(participant.id)).value,
+        participant.id: ref.watch(userPresenceProvider(participant.id)),
     };
     String resolveStatus(String id) => presenceById[id]?.status ?? 'offline';
     final List<GroupDmMemberGroup<_DmParticipant>> groups =

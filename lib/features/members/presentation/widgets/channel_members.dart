@@ -147,19 +147,20 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         child: MemberListUnavailableFallback(reason: access.unavailableReason!),
       );
     }
-    ref
-      ..listen(
-        memberListDetailsSubscriptionProvider(
-          guildId,
-          channelId,
-          access.canSubscribe,
-        ),
-        (_, _) {},
-      )
-      ..watch(memberListViewportProvider(readAccountUserId(ref)));
-    final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
-        .getList(guildId: guildId, channelId: channelId);
+    ref.listen(
+      memberListDetailsSubscriptionProvider(
+        guildId,
+        channelId,
+        access.canSubscribe,
+      ),
+      (_, _) {},
+    );
+    final String channelKey = memberListChannelKey(guildId, channelId);
+    final MemberListViewportListState? listState = ref.watch(
+      memberListViewportProvider(
+        readAccountUserId(ref),
+      ).select((MemberListViewportState state) => state.listFor(channelKey)),
+    );
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(guildId)).value ?? <String, db.Role>{};
     final guild = ref.watch(guildByIdProvider(guildId)).asData?.value;

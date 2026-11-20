@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
@@ -519,7 +520,11 @@ class GatewayEventHandler {
             '[Gateway] CHANNEL_RECIPIENT_ADD: ${event.channelId}',
           ),
         );
-        unawaited(database.userDao.upsertUser(userFromPartialSdk(event.user)));
+        unawaited(
+          database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
+            userFromPartialSdk(event.user),
+          ]),
+        );
         unawaited(
           database.dmChannelDao.addRecipientId(event.channelId, event.user.id),
         );
@@ -899,13 +904,18 @@ class GatewayEventHandler {
           await database.notificationDao.clearMentionFeed();
         }
         await database.threadDao.clearAll();
-      } else {
-        await database.userDao.resetPresences();
       }
       clearsMs = phase.elapsedMilliseconds;
 
-      final selfStatus = event.userSettings?.status ?? 'online';
-      await database.userDao.upsertUser(
+      final List<PresenceUpdateRecord> readyPresences = <PresenceUpdateRecord>[
+        (
+          userId: event.user.id,
+          status: event.userSettings?.status ?? 'online',
+          customStatus: serializeCustomStatus(event.userSettings?.customStatus),
+          mobile: isFluxerMobileClient,
+        ),
+      ];
+      await database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
         db.UsersCompanion.insert(
           id: event.user.id,
           username: event.user.username,
@@ -916,8 +926,6 @@ class GatewayEventHandler {
           mentionFlags: Value(event.user.mentionFlags?.json),
           bot: Value(event.user.bot ?? false),
           system: Value(event.user.system ?? false),
-          status: Value(selfStatus),
-          mobile: Value(isFluxerMobileClient),
           memberSince: Value(dateTimeFromUserSnowflakeOrNull(event.user.id)),
           bio: Value(event.user.bio),
           pronouns: Value(event.user.pronouns),
@@ -941,11 +949,8 @@ class GatewayEventHandler {
           hiddenProfileBadgesJson: Value(
             jsonEncode(event.user.hiddenProfileBadges),
           ),
-          customStatus: Value(
-            serializeCustomStatus(event.userSettings?.customStatus),
-          ),
         ),
-      );
+      ]);
 
       final cachedUsers = event.users;
       if (cachedUsers != null && cachedUsers.isNotEmpty) {
@@ -1193,35 +1198,19 @@ class GatewayEventHandler {
       }
       await database.relationshipDao.replaceAll(relCompanions);
 
-      if (event.presences.isNotEmpty) {
-        final List<
-          ({String userId, String status, String? customStatus, bool mobile})
-        >
-        presenceUpdates =
-            <
-              ({
-                String userId,
-                String status,
-                String? customStatus,
-                bool mobile,
-              })
-            >[];
-        for (final p in event.presences) {
-          final userId = (p['user'] as Map<String, dynamic>?)?['id'] as String?;
-          final status = p['status'] as String?;
-          if (userId != null && status != null) {
-            presenceUpdates.add((
-              userId: userId,
-              status: status,
-              customStatus: _presenceCustomStatusFromMap(p),
-              mobile: p['mobile'] as bool? ?? false,
-            ));
-          }
-        }
-        if (presenceUpdates.isNotEmpty) {
-          await database.userDao.updateUserPresencesBatch(presenceUpdates);
+      for (final p in event.presences) {
+        final userId = (p['user'] as Map<String, dynamic>?)?['id'] as String?;
+        final status = p['status'] as String?;
+        if (userId != null && status != null) {
+          readyPresences.add((
+            userId: userId,
+            status: status,
+            customStatus: _presenceCustomStatusFromMap(p),
+            mobile: p['mobile'] as bool? ?? false,
+          ));
         }
       }
+      presenceStoreFor(database).replaceAll(readyPresences);
 
       accountDataMs = phase.elapsedMilliseconds;
 
@@ -1356,21 +1345,22 @@ class GatewayEventHandler {
       final rtcRegions = event.rtcRegions;
       if (rtcRegions != null) {
         await database.rtcRegionsDao.clearAll();
-        for (final region in rtcRegions) {
-          final id = region['id'] as String?;
-          if (id == null) {
-            continue;
+        await database.batch((Batch b) {
+          for (final region in rtcRegions) {
+            final id = region['id'] as String?;
+            if (id == null) {
+              continue;
+            }
+            b.insert(
+              database.rtcRegionsTable,
+              db.RtcRegionsTableCompanion(
+                id: Value(id),
+                data: Value(jsonEncode(region)),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
           }
-          await database
-              .into(database.rtcRegionsTable)
-              .insert(
-                db.RtcRegionsTableCompanion(
-                  id: Value(id),
-                  data: Value(jsonEncode(region)),
-                ),
-                mode: InsertMode.insertOrReplace,
-              );
-        }
+        });
       }
 
       await database.threadDao.pruneArchived(now: DateTime.now());
@@ -1436,7 +1426,7 @@ class GatewayEventHandler {
         data: Value(jsonEncode(merged)),
       ),
     );
-    await database.userDao.updateUserPresence(
+    presenceStoreFor(database).set(
       userId,
       status: event.settings.status,
       customStatus: serializeCustomStatus(event.settings.customStatus),
@@ -1814,18 +1804,18 @@ class GatewayEventHandler {
     );
 
     final db.Channel? threadChannel = channelResolution.guildChannel;
-    if (threadChannel != null &&
+    final bool countsTowardThread =
+        threadChannel != null &&
         isThreadChannelType(threadChannel.type) &&
         msg.id != channelId &&
-        msg.type != _messageTypeThreadStarter) {
-      await database.threadDao.bumpMessageCounters(channelId, delta: 1);
-    }
+        msg.type != _messageTypeThreadStarter;
 
     if (messageWriteBatcher != null) {
       messageWriteBatcher!.enqueueMessage(
         companion: msg.toCompanion(),
         channelId: msg.channelId,
         messageId: msg.id,
+        countsTowardThread: countsTowardThread,
         dmUpdate: isDm
             ? DmLastMessageUpdate(
                 messageId: msg.id,
@@ -1836,6 +1826,9 @@ class GatewayEventHandler {
             : null,
       );
     } else {
+      if (countsTowardThread) {
+        await database.threadDao.bumpMessageCounters(channelId, delta: 1);
+      }
       await database.messageDao.upsertMessage(msg.toCompanion());
       await database.channelDao.updateLastMessageId(msg.channelId, msg.id);
       if (isDm) {
@@ -2264,12 +2257,15 @@ class GatewayEventHandler {
     GuildMemberResponse member,
   ) async {
     _emit(() => onGuildMembersSeen?.call(guildId, <String>[member.user.id]));
-    await Future.wait(<Future<void>>[
-      database.userDao.upsertUser(userFromPartialSdk(member.user)),
-      database.memberDao.upsertMember(
-        memberCompanionFromSdk(member, guildId: guildId),
-      ),
-    ]);
+    await database.transaction(() async {
+      await database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
+        userFromPartialSdk(member.user),
+      ]);
+      await database.memberDao.upsertGuildMembersIfChanged(
+        guildId,
+        <db.MembersCompanion>[memberCompanionFromSdk(member, guildId: guildId)],
+      );
+    });
   }
 
   void _handleMemberRemove(GuildMemberRemoveEvent event) {
@@ -2301,7 +2297,11 @@ class GatewayEventHandler {
     }
     _invalidateMentionCacheForChannel(channel.id);
     for (final r in dmRecipientUsersFromChannelResponse(channel)) {
-      unawaited(database.userDao.upsertUser(userFromPartialSdk(r)));
+      unawaited(
+        database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
+          userFromPartialSdk(r),
+        ]),
+      );
     }
     unawaited(database.dmChannelDao.upsertDmChannels([companion]));
   }
@@ -2505,7 +2505,7 @@ class GatewayEventHandler {
 
   void _handleUserUpdate(UserUpdateEvent event) {
     unawaited(
-      database.userDao.upsertUser(
+      database.userDao.upsertUserIfChanged(
         db.UsersCompanion.insert(
           id: event.user.id,
           username: event.user.username,
@@ -2582,10 +2582,8 @@ class GatewayEventHandler {
     final List<String> userIds = <String>[
       for (final GuildMemberResponse member in event.members) member.user.id,
     ];
-    final List<
-      ({String userId, String status, String? customStatus, bool mobile})
-    >
-    presenceUpdates = _presenceUpdatesFromChunk(event.presences);
+    final List<PresenceUpdateRecord> presenceUpdates =
+        _presenceUpdatesFromChunk(event.presences);
     if (event.members.isNotEmpty || presenceUpdates.isNotEmpty) {
       await upsertGuildMembersFromSdk(
         database,
@@ -2608,18 +2606,13 @@ class GatewayEventHandler {
     });
   }
 
-  List<({String userId, String status, String? customStatus, bool mobile})>
-  _presenceUpdatesFromChunk(List<Map<String, dynamic>>? presences) {
+  List<PresenceUpdateRecord> _presenceUpdatesFromChunk(
+    List<Map<String, dynamic>>? presences,
+  ) {
     if (presences == null || presences.isEmpty) {
-      return const <
-        ({String userId, String status, String? customStatus, bool mobile})
-      >[];
+      return const <PresenceUpdateRecord>[];
     }
-    final List<
-      ({String userId, String status, String? customStatus, bool mobile})
-    >
-    updates =
-        <({String userId, String status, String? customStatus, bool mobile})>[];
+    final List<PresenceUpdateRecord> updates = <PresenceUpdateRecord>[];
     for (final Map<String, dynamic> presence in presences) {
       final String? userId =
           (presence['user'] as Map<String, dynamic>?)?['id'] as String?;
@@ -2643,8 +2636,7 @@ class GatewayEventHandler {
 
   void _handlePresenceUpdateBulk(PresenceUpdateBulkEvent event) {
     final users = <db.UsersCompanion>[];
-    final updates =
-        <({String userId, String status, String? customStatus, bool mobile})>[];
+    final updates = <PresenceUpdateRecord>[];
     for (final p in event.presences) {
       final userId = (p['user'] as Map<String, dynamic>?)?['id'] as String?;
       final status = p['status'] as String?;
@@ -2661,10 +2653,10 @@ class GatewayEventHandler {
         ));
       }
     }
-    unawaited(() async {
-      await database.userDao.upsertUsers(users);
-      await database.userDao.updateUserPresencesBatch(updates);
-    }());
+    presenceStoreFor(database).applyAll(updates);
+    if (users.isNotEmpty) {
+      unawaited(database.userDao.upsertUsersIfChanged(users));
+    }
   }
 
   void _handleGuildCreate(GuildCreateEvent event) {
@@ -2753,10 +2745,10 @@ class GatewayEventHandler {
                 );
 
             if (members.isNotEmpty) {
-              await database.userDao.upsertUsers([
+              await database.userDao.upsertUsersIfChanged([
                 for (final member in members) userFromPartialSdk(member.user),
               ]);
-              await database.memberDao.upsertMembers([
+              await database.memberDao.upsertGuildMembersIfChanged(guildId, [
                 for (final member in members)
                   memberCompanionFromSdk(member, guildId: guildId),
               ]);
@@ -2918,7 +2910,9 @@ class GatewayEventHandler {
 
   void _handleRelationshipUpsert(RelationshipResponse relationship) {
     unawaited(
-      database.userDao.upsertUser(userFromPartialSdk(relationship.user)),
+      database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
+        userFromPartialSdk(relationship.user),
+      ]),
     );
     unawaited(() async {
       await database.relationshipDao.upsertRelationships([

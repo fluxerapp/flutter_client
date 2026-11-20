@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name                = 'fluxer_voice'
   s.version             = '0.0.1'
-  s.summary             = 'Fluxer voice call audio routing and picture-in-picture.'
-  s.description         = 'Fluxer voice call audio routing and picture-in-picture.'
+  s.summary             = 'Fluxer native voice handling package'
+  s.description         = 'Fluxer native voice handling package'
   s.homepage            = 'https://github.com/fluxerapp'
   s.license             = { :type => 'AGPL-3.0' }
   s.author              = 'Fluxer'

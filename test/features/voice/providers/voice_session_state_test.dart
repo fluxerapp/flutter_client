@@ -72,4 +72,28 @@ void main() {
       expect(after.e2eeKey, isNull);
     });
   });
+
+  group('VoiceSessionState equality', () {
+    test('equal fields compare equal so identical emits are skipped', () {
+      const VoiceSessionState a = VoiceSessionState(
+        isConnected: true,
+        isReconnecting: true,
+        channelId: 'voice-1',
+        activeConnectionId: 'conn-1',
+      );
+      final VoiceSessionState b = a.copyWith(isReconnecting: true);
+      expect(b, a);
+      expect(b.hashCode, a.hashCode);
+    });
+
+    test('any changed field breaks equality', () {
+      const VoiceSessionState a = VoiceSessionState(
+        isConnected: true,
+        channelId: 'voice-1',
+      );
+      expect(a.copyWith(isReconnecting: true), isNot(a));
+      expect(a.copyWith(errorMessage: 'x'), isNot(a));
+      expect(a.copyWith(channelId: 'voice-2'), isNot(a));
+    });
+  });
 }

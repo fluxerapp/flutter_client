@@ -1239,33 +1239,40 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void _watchSettings(String userId) {
     final db = ref.read(fluxerDatabaseProvider);
-    final subscription = db.userSettingsDao.watchSettings(userId).listen((row) {
-      if (row == null) {
-        return;
-      }
-      final data = jsonDecode(row.data) as Map<String, dynamic>;
-      final developerMode = data['developer_mode'] as bool? ?? false;
-      final trustedDomains =
-          (data['trusted_domains'] as List<dynamic>? ?? const [])
-              .whereType<String>()
-              .toList(growable: false);
-      state = state.copyWith(
-        developerMode: developerMode,
-        trustedDomains: trustedDomains,
-        inlineEmbedMedia: data['inline_embed_media'] as bool? ?? true,
-        inlineAttachmentMedia: data['inline_attachment_media'] as bool? ?? true,
-        renderEmbeds: data['render_embeds'] as bool? ?? true,
-        renderReactions: data['render_reactions'] as bool? ?? true,
-        renderSpoilers: _parseRenderSpoilers(data['render_spoilers']),
-        gifAutoPlay: data['gif_auto_play'] as bool? ?? true,
-        animateEmoji: data['animate_emoji'] as bool? ?? true,
-        animateStickers: _parseStickerAnimation(data['animate_stickers']),
-        defaultHideMutedChannels:
-            data['default_hide_muted_channels'] as bool? ?? false,
-        messageDisplayCompact:
-            data['message_display_compact'] as bool? ?? false,
-      );
-    });
+    final subscription = db.userSettingsDao
+        .watchSettings(userId)
+        .distinct(
+          (UserSettingsTableData? a, UserSettingsTableData? b) =>
+              a?.data == b?.data,
+        )
+        .listen((row) {
+          if (row == null) {
+            return;
+          }
+          final data = jsonDecode(row.data) as Map<String, dynamic>;
+          final developerMode = data['developer_mode'] as bool? ?? false;
+          final trustedDomains =
+              (data['trusted_domains'] as List<dynamic>? ?? const [])
+                  .whereType<String>()
+                  .toList(growable: false);
+          state = state.copyWith(
+            developerMode: developerMode,
+            trustedDomains: trustedDomains,
+            inlineEmbedMedia: data['inline_embed_media'] as bool? ?? true,
+            inlineAttachmentMedia:
+                data['inline_attachment_media'] as bool? ?? true,
+            renderEmbeds: data['render_embeds'] as bool? ?? true,
+            renderReactions: data['render_reactions'] as bool? ?? true,
+            renderSpoilers: _parseRenderSpoilers(data['render_spoilers']),
+            gifAutoPlay: data['gif_auto_play'] as bool? ?? true,
+            animateEmoji: data['animate_emoji'] as bool? ?? true,
+            animateStickers: _parseStickerAnimation(data['animate_stickers']),
+            defaultHideMutedChannels:
+                data['default_hide_muted_channels'] as bool? ?? false,
+            messageDisplayCompact:
+                data['message_display_compact'] as bool? ?? false,
+          );
+        });
     ref.onDispose(subscription.cancel);
   }
 
@@ -1291,7 +1298,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     final bool lacksMfaBefore = state.lacksMfa;
     final db = ref.read(fluxerDatabaseProvider);
     unawaited(
-      db.userDao.upsertUser(
+      db.userDao.upsertUserIfChanged(
         UsersCompanion(
           id: Value(profile.id),
           username: Value(profile.username),

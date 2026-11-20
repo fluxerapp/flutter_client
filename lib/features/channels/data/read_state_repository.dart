@@ -459,24 +459,13 @@ class ReadStateRepository {
       return 0;
     }
     final blockedUserIds = await _db.relationshipDao.getBlockedUserIds();
-    final messages = await _db.messageDao.getMessages(channelId, limit: 1000);
-    var mentionCount = 0;
-    for (final message in messages) {
-      if (compareSnowflakeIds(message.id, ackMessageId) <= 0) {
-        continue;
-      }
-      if (blockedUserIds.contains(message.authorId)) {
-        continue;
-      }
-      if (isDm) {
-        if (currentUserId == null || message.authorId != currentUserId) {
-          mentionCount++;
-        }
-      } else if (message.isMentioned) {
-        mentionCount++;
-      }
-    }
-    return mentionCount;
+    return await _db.messageDao.countRecentMessagesAfter(
+      channelId,
+      afterId: ackMessageId,
+      mentionedOnly: !isDm,
+      excludeAuthorId: isDm ? currentUserId : null,
+      excludedAuthorIds: blockedUserIds,
+    );
   }
 
   void _syncPushTray(String channelId, String? upToMessageId, {bool? manual}) {

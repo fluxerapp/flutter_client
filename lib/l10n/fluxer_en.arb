@@ -1809,6 +1809,14 @@
   "@incomingVoiceCallLabel": {
     "description": "Short label above the avatar in the incoming call bottom sheet (web mobile parity)."
   },
+  "incomingVoiceCallNotificationChannel": "Incoming calls",
+  "@incomingVoiceCallNotificationChannel": {
+    "description": "Android notification channel name for ringing incoming calls, shown in system notification settings."
+  },
+  "missedVoiceCallNotificationChannel": "Missed calls",
+  "@missedVoiceCallNotificationChannel": {
+    "description": "Android notification channel name for missed call notifications, shown in system notification settings."
+  },
   "incomingVoiceCallIgnore": "Ignore",
   "@incomingVoiceCallIgnore": {
     "description": "Button to ignore ringing for the current account without rejecting for others."

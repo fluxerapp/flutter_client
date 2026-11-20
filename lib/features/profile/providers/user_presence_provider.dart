@@ -1,44 +1,38 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 
-const int kUserPresenceCacheCapacity = 2000;
+export 'package:fluxer_app/core/gateway/presence_store.dart'
+    show PresenceStore, UserPresence;
 
-final Provider<BoundedLruCache<String, User>> userPresenceCacheProvider =
-    Provider<BoundedLruCache<String, User>>((Ref ref) {
-      ref.watch(fluxerDatabaseProvider);
-      return BoundedLruCache<String, User>(
-        capacity: kUserPresenceCacheCapacity,
-      );
-    });
+final Provider<PresenceStore> presenceStoreProvider = Provider<PresenceStore>(
+  (Ref ref) => presenceStoreFor(ref.watch(fluxerDatabaseProvider)),
+);
 
-// `StreamProviderFamily` is not exposed by the public API; the explicit type
-// would require a `package:riverpod/src/...` import. Type is obvious from the
-// right-hand side.
-// ignore: specify_nonobvious_property_types
-final userPresenceProvider = StreamProvider.autoDispose.family<User?, String>((
-  ref,
-  userId,
-) {
-  final database = ref.watch(fluxerDatabaseProvider);
-  final BoundedLruCache<String, User> cache = ref.watch(
-    userPresenceCacheProvider,
-  );
-  return database.userDao.watchUserById(userId).map((User? user) {
-    if (user == null) {
-      cache.remove(userId);
-    } else {
-      cache.set(userId, user);
-    }
-    return user;
-  });
-});
+final NotifierProviderFamily<UserPresenceNotifier, UserPresence?, String>
+userPresenceProvider = NotifierProvider.autoDispose
+    .family<UserPresenceNotifier, UserPresence?, String>(
+      UserPresenceNotifier.new,
+    );
 
-User? watchLastKnownUserPresence(WidgetRef ref, String userId) {
-  final AsyncValue<User?> presence = ref.watch(userPresenceProvider(userId));
-  if (presence.hasValue) {
-    return presence.value;
+class UserPresenceNotifier extends Notifier<UserPresence?> {
+  UserPresenceNotifier(this.userId);
+
+  final String userId;
+
+  @override
+  UserPresence? build() {
+    final PresenceStore store = ref.watch(presenceStoreProvider);
+    ref.onDispose(store.listen(userId, () => state = store[userId]));
+    return store[userId];
   }
-  return ref.watch(userPresenceCacheProvider).peek(userId);
 }
+
+final StreamProviderFamily<User?, String> userRowProvider = StreamProvider
+    .autoDispose
+    .family<User?, String>(
+      (Ref ref, String userId) =>
+          ref.watch(fluxerDatabaseProvider).userDao.watchUserById(userId),
+    );

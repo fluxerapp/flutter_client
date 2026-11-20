@@ -72,10 +72,11 @@ class _DesktopUserAreaCardState extends ConsumerState<_DesktopUserAreaCard> {
     final CustomStatusResponse? customStatus = normalizeCustomStatus(
       settings?.customStatus,
     );
-    final String? customStatusText = ref
-        .watch(userPresenceProvider(profile.id))
-        .value
-        ?.customStatus;
+    final String? customStatusText = ref.watch(
+      userPresenceProvider(
+        profile.id,
+      ).select((UserPresence? presence) => presence?.customStatus),
+    );
     final String displayName = profile.globalName ?? profile.username;
     final String userTag = formatUserTag(
       profile.username,

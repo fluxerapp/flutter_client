@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 110;
+const int _expectedSchemaVersion = 111;
 
 const int _guardedBaselineVersion = 67;
 
@@ -212,6 +212,29 @@ void main() {
         }
       },
     );
+
+    test('upgrade adds the thread parent lookup index', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 110);
+      raw.execute('DROP INDEX IF EXISTS idx_channels_parent_type');
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.threadDao.getThreadsForParent('parent-1');
+
+      expect(_userVersion(raw), db.schemaVersion);
+      final List<String> plan = <String>[
+        for (final Row row in raw.select(
+          'EXPLAIN QUERY PLAN SELECT * FROM channels '
+          "WHERE parent_id = 'p' AND type IN (10, 11, 12)",
+        ))
+          row['detail'] as String,
+      ];
+      expect(plan.join(' '), contains('idx_channels_parent_type'));
+    });
 
     test('upgrade drops the local mention filter table', () async {
       final Database raw = sqlite3.openInMemory();

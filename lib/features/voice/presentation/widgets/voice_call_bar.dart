@@ -34,19 +34,6 @@ class VoiceCallBar extends ConsumerWidget {
     return guild?.name ?? '';
   }
 
-  String _guildChannelSubtitle(
-    ChannelListState state,
-    String? channelId, {
-    Channel? persistedChannel,
-  }) {
-    if (channelId == null || channelId.isEmpty) {
-      return '';
-    }
-    final Channel? channel =
-        findChannelById(state, channelId) ?? persistedChannel;
-    return channel?.name ?? channelId;
-  }
-
   DmConversation? _dmForVoice(
     List<DmConversation> conversations,
     String? channelId,
@@ -55,17 +42,6 @@ class VoiceCallBar extends ConsumerWidget {
       return null;
     }
     return findDmById(conversations, channelId);
-  }
-
-  String _privateSubtitle(
-    FluxerLocalizations l10n,
-    DmConversation? dm,
-    String? channelId,
-  ) {
-    if (dm != null) {
-      return dmConversationDisplayName(l10n, dm);
-    }
-    return channelId ?? '';
   }
 
   String _guildPrimaryLine({
@@ -149,15 +125,6 @@ class VoiceCallBar extends ConsumerWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isGuildVoice =
         voice.guildId != null && voice.guildId!.isNotEmpty;
-    final List<DmConversation> conversations = ref.watch(
-      dmViewModelProvider.select((s) => s.conversations),
-    );
-    final ChannelListState channelState = ref.watch(
-      channelListViewModelProvider,
-    );
-    final DmConversation? dm = isGuildVoice
-        ? null
-        : _dmForVoice(conversations, voice.channelId);
     late final String primaryLine;
     late final String subtitle;
     if (isGuildVoice) {
@@ -170,23 +137,44 @@ class VoiceCallBar extends ConsumerWidget {
       primaryLine = _guildPrimaryLine(
         l10n: l10n,
         voice: voice,
-        guildName: _guildName(
-          ref.watch(guildListViewModelProvider.select((s) => s.guilds)),
-          voice.guildId,
+        guildName: ref.watch(
+          guildListViewModelProvider.select(
+            (s) => _guildName(s.guilds, voice.guildId),
+          ),
         ),
       );
-      subtitle = _guildChannelSubtitle(
-        channelState,
-        voice.channelId,
-        persistedChannel: persistedChannel,
-      );
+      final String? liveChannelName = voice.channelId == null
+          ? null
+          : ref.watch(
+              channelListViewModelProvider.select(
+                (ChannelListState state) =>
+                    findChannelById(state, voice.channelId!)?.name,
+              ),
+            );
+      subtitle =
+          liveChannelName ??
+          (voice.channelId == null || voice.channelId!.isEmpty
+              ? ''
+              : persistedChannel?.name ?? voice.channelId!);
     } else {
+      final (bool isGroup, String? dmName) = ref.watch(
+        dmViewModelProvider.select((s) {
+          final DmConversation? dm = _dmForVoice(
+            s.conversations,
+            voice.channelId,
+          );
+          return (
+            dm?.isGroup ?? false,
+            dm == null ? null : dmConversationDisplayName(l10n, dm),
+          );
+        }),
+      );
       primaryLine = _privatePrimaryLine(
         l10n: l10n,
         voice: voice,
-        isGroup: dm?.isGroup ?? false,
+        isGroup: isGroup,
       );
-      subtitle = _privateSubtitle(l10n, dm, voice.channelId);
+      subtitle = dmName ?? voice.channelId ?? '';
     }
     final String? connectionId = voice.activeConnectionId;
     final VoiceState? selfVoiceState = connectionId == null

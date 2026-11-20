@@ -19,3 +19,4 @@ export 'src/system_voice_call_guard.dart';
 export 'src/voice_audio_session.dart';
 export 'src/voice_output_route.dart';
 export 'src/voice_pip.dart';
+export 'src/voice_process_activity.dart';

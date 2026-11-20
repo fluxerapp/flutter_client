@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
   name: 'idx_channels_guild_parent_type',
   columns: {#guildId, #parentId, #type},
 )
+@TableIndex(name: 'idx_channels_parent_type', columns: {#parentId, #type})
 class Channels extends Table {
   TextColumn get id => text()();
   TextColumn get guildId => text()();

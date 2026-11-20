@@ -5,6 +5,7 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -61,7 +62,7 @@ void main() {
   );
 
   test(
-    'PRESENCE_UPDATE_BULK with a new status writes and notifies once',
+    'PRESENCE_UPDATE_BULK with a new status updates presence without touching users',
     () async {
       final FluxerDatabase database = await databaseWithOnlineUser();
 
@@ -80,13 +81,8 @@ void main() {
           ..elapse(const Duration(seconds: 1))
           ..flushMicrotasks();
 
-        late User? user;
-        unawaited(
-          database.userDao.getUserById('u1').then((User? u) => user = u),
-        );
-        async.flushMicrotasks();
-        expect(emissions, hasLength(1));
-        expect(user?.status, 'dnd');
+        expect(emissions, isEmpty);
+        expect(presenceStoreFor(database)['u1']?.status, 'dnd');
         unawaited(sub.cancel());
         handler.dispose();
       });

@@ -38,11 +38,13 @@ import 'package:fluxer_app/features/voice/utils/callkit/callkit_session_store.da
 import 'package:fluxer_app/features/voice/utils/callkit/foreign_account_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/voice_task_removed_watcher.dart';
+import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:riverpod/riverpod.dart' show ProviderSubscription;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_callkit_coordinator.g.dart';
@@ -85,9 +87,16 @@ class VoiceCallKitCoordinatorLogic {
   bool _permissionsRequested = false;
   bool _isEndingProgrammatically = false;
   bool _isApplyingCallKitMuteToVoice = false;
-  bool _isSyncingMuteToCallKit = false;
   bool _callKitOwnsAudioSession = false;
   DateTime? _suppressUserEndHandlingUntil;
+  final Map<String, DateTime> _programmaticEndAt = <String, DateTime>{};
+  DateTime? _programmaticEndAllUntil;
+  DateTime? _gatewayReadyAt;
+  Timer? _ringSweepTimer;
+  Timer? _activeCallsSettleTimer;
+  Timer? _foregroundServiceReassertTimer;
+  final Set<String> _heldCallKitIds = <String>{};
+  bool _mutedForHold = false;
   final Set<String> _acceptInFlight = <String>{};
   final Set<String> _foreignJoinChannels = <String>{};
   final Set<String> _foreignSheets = <String>{};
@@ -141,11 +150,11 @@ class VoiceCallKitCoordinatorLogic {
       })
       ..listen<Map<String, CallState>>(
         activeCallsProvider(readAccountUserId(_ref)),
-        (Map<String, CallState>? _, Map<String, CallState> next) {
+        (Map<String, CallState>? _, Map<String, CallState> _) {
           if (_sessions.isEmpty) {
             return;
           }
-          _scheduleSync(() => _syncStaleCallKitSessions(next));
+          _scheduleSync(_syncStaleCallKitSessions);
         },
       )
       ..listen<VoiceSessionState>(voiceSessionProvider, (
@@ -166,12 +175,21 @@ class VoiceCallKitCoordinatorLogic {
         _scheduleSync(() => _syncVoiceSession(previousSnapshot, nextSnapshot));
       })
       ..listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
-        if ((previous ?? false) || !next) {
+        if (!next) {
+          _gatewayReadyAt = null;
+          _cancelRingSweep();
+          _activeCallsSettleTimer?.cancel();
+          _activeCallsSettleTimer = null;
           return;
         }
+        if (previous ?? false) {
+          return;
+        }
+        _gatewayReadyAt = DateTime.now();
+        _armActiveCallsSettleSync();
+        _scheduleRingSweepAfterReady();
         _scheduleSync(() async {
           await _flushForeignCallJoin();
-          await _endRingsMissingFromGateway();
           await _leaveInterruptedVoiceSessionIfNeeded();
         });
       })
@@ -204,8 +222,37 @@ class VoiceCallKitCoordinatorLogic {
     }
     _cancelAudioSessionRecovery();
     _cancelSpeakerOutputReapply();
+    _cancelRingSweep();
+    _activeCallsSettleTimer?.cancel();
+    _activeCallsSettleTimer = null;
+    _foregroundServiceReassertTimer?.cancel();
+    _foregroundServiceReassertTimer = null;
     unawaited(_eventSubscription?.cancel());
     unawaited(_endAllCallKitSessions());
+  }
+
+  void _cancelRingSweep() {
+    _ringSweepTimer?.cancel();
+    _ringSweepTimer = null;
+  }
+
+  void _scheduleRingSweepAfterReady() {
+    _cancelRingSweep();
+    _ringSweepTimer = Timer(kVoiceCallKitGatewayRingSyncDelay, () {
+      _ringSweepTimer = null;
+      _scheduleSync(_endRingsMissingFromGateway);
+    });
+  }
+
+  void _armActiveCallsSettleSync() {
+    _activeCallsSettleTimer?.cancel();
+    _activeCallsSettleTimer = Timer(kVoiceCallKitActiveCallsSettleDelay, () {
+      _activeCallsSettleTimer = null;
+      if (_sessions.isEmpty) {
+        return;
+      }
+      _scheduleSync(_syncStaleCallKitSessions);
+    });
   }
 
   void _cancelAudioSessionRecovery() {
@@ -246,7 +293,7 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _recoverCallKitAudioSessionIfNeeded() async {
-    if (!_sessions.hasActiveVoiceSession) {
+    if (!_sessions.hasActiveVoiceSession || _heldCallKitIds.isNotEmpty) {
       return;
     }
     final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
@@ -419,6 +466,9 @@ class VoiceCallKitCoordinatorLogic {
     if (!Platform.isAndroid || _permissionsRequested) {
       return;
     }
+    final bool inVoice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    ).isInVoice;
     _permissionsRequested = true;
     try {
       await FlutterCallkitIncoming.requestNotificationPermission(
@@ -433,7 +483,11 @@ class VoiceCallKitCoordinatorLogic {
       final bool canUseFullScreen =
           await FlutterCallkitIncoming.canUseFullScreenIntent();
       if (!canUseFullScreen) {
-        await FlutterCallkitIncoming.requestFullIntentPermission();
+        if (inVoice) {
+          _permissionsRequested = false;
+        } else {
+          await FlutterCallkitIncoming.requestFullIntentPermission();
+        }
       }
     } on Object catch (error) {
       talker.warning(
@@ -465,6 +519,7 @@ class VoiceCallKitCoordinatorLogic {
       if (shouldEndIncomingRingCallKitSession(
         session: session,
         pendingIncomingChannelIds: pendingSet,
+        acceptInFlight: _acceptInFlight,
       )) {
         staleIncomingRingChannelIds.add(entry.key);
       }
@@ -503,9 +558,24 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _syncStaleCallKitSessions(
-    Map<String, CallState> activeCalls,
-  ) async {
+  Future<void> _syncStaleCallKitSessions() async {
+    if (_sessions.isEmpty) {
+      return;
+    }
+    if (isWithinCallKitActiveCallsSettleWindow(
+      gatewayReady: _ref.read(gatewayReadyProvider),
+      readyAt: _gatewayReadyAt,
+      now: DateTime.now(),
+    )) {
+      return;
+    }
+    final Map<String, CallState> activeCalls = _ref.read(
+      activeCallsProvider(readAccountUserId(_ref)),
+    );
+    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    );
+    final String? liveVoiceChannelId = voice.isInVoice ? voice.channelId : null;
     final List<String> staleChannelIds = <String>[];
     for (final MapEntry<String, String> entry in _sessions.channelEntries) {
       final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
@@ -520,6 +590,8 @@ class VoiceCallKitCoordinatorLogic {
       if (shouldEndCallKitSessionForActiveCallsChange(
         session: session,
         activeCallChannelIds: activeCalls.keys.toSet(),
+        liveVoiceChannelId: liveVoiceChannelId,
+        acceptInFlight: _acceptInFlight,
       )) {
         staleChannelIds.add(entry.key);
       }
@@ -552,6 +624,8 @@ class VoiceCallKitCoordinatorLogic {
       await syncAndroidVoiceTaskRemovedWatcher(active: next.isInVoice);
     }
     if (!next.isInVoice) {
+      _mutedForHold = false;
+      _heldCallKitIds.clear();
       _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
       if (previous?.isInVoice ?? false) {
@@ -589,6 +663,20 @@ class VoiceCallKitCoordinatorLogic {
 
   Future<void> _syncForegroundChange({required bool isForeground}) async {
     if (isForeground) {
+      final VoiceCallKitVoiceSnapshot current = _voiceCallKitVoiceSnapshot(
+        _ref.read(voiceSessionProvider),
+      );
+      final String? currentChannelId = current.channelId;
+      if (shouldStartMissingCallKitOnForeground(
+        isMobileCallKitPlatform: _isMobileCallKitPlatform,
+        voice: current,
+        hasSessionForChannel:
+            currentChannelId != null &&
+            _sessions.containsChannel(currentChannelId),
+      )) {
+        await _ensureCallKitSessionForVoice(current);
+        await _syncCallKitConnectedState(current);
+      }
       if (_sessions.hasIncomingRing) {
         return;
       }
@@ -680,9 +768,13 @@ class VoiceCallKitCoordinatorLogic {
         await _discardStaleNativeCall(params);
         continue;
       }
+      if (Platform.isIOS && isNativeActiveVoiceCallKitCall(params.extra)) {
+        await _discardStaleNativeCall(params);
+        continue;
+      }
       final bool accepted = await _adoptCall(params);
       if (accepted) {
-        await _handleAccept(params);
+        _startAccept(params);
       }
     }
   }
@@ -694,9 +786,14 @@ class VoiceCallKitCoordinatorLogic {
     );
     _handledAcceptIds.add(params.id);
     _handledEndIds.add(params.id);
+    _markProgrammaticEnd(params.id);
     await _runProgrammaticCallKitEnd(() async {
       try {
-        await FlutterCallkitIncoming.endCall(params.id);
+        if (Platform.isIOS) {
+          await _endIosVoipCall(params.id);
+        } else {
+          await FlutterCallkitIncoming.endCall(params.id);
+        }
       } on Object catch (error) {
         talker.warning('[VoiceCallKit] ending stale call failed: $error');
       }
@@ -713,11 +810,13 @@ class VoiceCallKitCoordinatorLogic {
         callKitId: params.id,
         params: params,
       );
-      if (channelId == null || !channelIds.contains(channelId)) {
+      if (channelId == null ||
+          !channelIds.contains(channelId) ||
+          isNativeActiveVoiceCallKitCall(params.extra)) {
         continue;
       }
       if (params.isAccepted) {
-        await _handleAccept(params);
+        _startAccept(params);
         continue;
       }
       if (_sessions.containsChannel(channelId)) {
@@ -783,10 +882,6 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _endRingsMissingFromGateway() async {
-    if (!_ref.read(gatewayReadyProvider)) {
-      return;
-    }
-    await Future<void>.delayed(kVoiceCallKitGatewayRingSyncDelay);
     if (!_ref.read(gatewayReadyProvider)) {
       return;
     }
@@ -885,7 +980,13 @@ class VoiceCallKitCoordinatorLogic {
       return;
     }
     if (Platform.isIOS) {
-      if (voice.isConnected) {
+      if (!voice.isConnected) {
+        return;
+      }
+      final bool started =
+          kVoiceCallKitReportIosVoiceJoins &&
+          await _startIosOutgoingCall(voice, channelId);
+      if (!started) {
         await _holdIosVoipCall();
       }
       return;
@@ -935,6 +1036,57 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  Future<bool> _startIosOutgoingCall(
+    VoiceCallKitVoiceSnapshot voice,
+    String channelId,
+  ) async {
+    final CallState? callState = _ref.read(
+      activeCallsProvider(readAccountUserId(_ref)),
+    )[channelId];
+    final String? guildId = _ref.read(voiceSessionProvider).guildId;
+    final String callKitId = _sessions.registerSession(
+      channelId: channelId,
+      messageId: callState?.messageId,
+      connectionId: voice.activeConnectionId,
+      kind: VoiceCallKitSessionKind.activeVoice,
+      guildId: guildId,
+    );
+    final CallKitParams params = buildVoiceCallKitParams(
+      ref: _ref,
+      callKitId: callKitId,
+      channelId: channelId,
+      l10n: _resolveLocalizations(),
+      messageId: callState?.messageId,
+      guildId: guildId,
+      forActiveVoice: true,
+    );
+    bool started = false;
+    try {
+      started =
+          await _iosVoipCallKit
+              .invokeMethod<bool>('startOutgoing', <String, Object>{
+                'id': callKitId,
+                'name': params.nameCaller ?? '',
+                'handle': params.handle ?? channelId,
+                'channelId': channelId,
+                'messageId': ?callState?.messageId,
+                'guildId': ?guildId,
+              }) ??
+          false;
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] start ios outgoing call failed: $error');
+    }
+    if (!started) {
+      _sessions.unregisterSession(callKitId, channelId: channelId);
+      return false;
+    }
+    _armSuppressUserCallKitEndEvents();
+    if (voice.isConnected) {
+      await _markCallConnected(callKitId);
+    }
+    return true;
+  }
+
   Future<void> _syncCallKitConnectedState(
     VoiceCallKitVoiceSnapshot voice,
   ) async {
@@ -964,14 +1116,39 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _holdIosVoipCall() async {
+  Future<void> _holdIosVoipCall([String? callKitId]) async {
     if (!Platform.isIOS) {
       return;
     }
     try {
-      await _iosVoipCallKit.invokeMethod<void>('hold');
+      await _iosVoipCallKit.invokeMethod<void>(
+        'hold',
+        callKitId == null ? null : <String, Object>{'id': callKitId},
+      );
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] hold ios call failed: $error');
+    }
+  }
+
+  Future<void> _acknowledgeIosAccept() async {
+    if (!Platform.isIOS) {
+      return;
+    }
+    try {
+      await _iosVoipCallKit.invokeMethod<void>('acceptAck');
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] accept ack failed: $error');
+    }
+  }
+
+  Future<void> _setIosCallMuted(String callKitId, {required bool muted}) async {
+    try {
+      await _iosVoipCallKit.invokeMethod<void>('mute', <String, Object>{
+        'id': callKitId,
+        'muted': muted,
+      });
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] sync mute to CallKit failed: $error');
     }
   }
 
@@ -994,7 +1171,7 @@ class VoiceCallKitCoordinatorLogic {
 
   Future<void> _markCallConnected(String callKitId) async {
     if (Platform.isIOS) {
-      await _holdIosVoipCall();
+      await _holdIosVoipCall(callKitId);
       return;
     }
     if (_sessions.isCallKitConnected(callKitId)) {
@@ -1012,6 +1189,7 @@ class VoiceCallKitCoordinatorLogic {
     required String callKitId,
     required String? channelId,
     required VoiceCallKitVoiceSnapshot voice,
+    required bool isDecline,
   }) {
     final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
       callKitId,
@@ -1019,11 +1197,24 @@ class VoiceCallKitCoordinatorLogic {
     final bool isLiveVoiceCall =
         session?.kind == VoiceCallKitSessionKind.activeVoice ||
         (channelId != null &&
-            shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId));
+            shouldLeaveVoiceFromCallKitEnd(
+              voice: voice,
+              channelId: channelId,
+              isDecline: isDecline,
+              sessionKind: session?.kind,
+            ));
+    final DateTime now = DateTime.now();
+    _pruneProgrammaticEnds(now);
     return shouldIgnoreCallKitUserEndEvent(
       isEndingProgrammatically: _isEndingProgrammatically,
+      isProgrammaticEnd: isProgrammaticCallKitEndEvent(
+        endedAt: _programmaticEndAt[callKitId],
+        endAllUntil: _programmaticEndAllUntil,
+        isTrackedSession: session != null,
+        now: now,
+      ),
       suppressUntil: _suppressUserEndHandlingUntil,
-      now: DateTime.now(),
+      now: now,
       isLiveVoiceCall: isLiveVoiceCall,
     );
   }
@@ -1031,6 +1222,28 @@ class VoiceCallKitCoordinatorLogic {
   void _armSuppressUserCallKitEndEvents() {
     _suppressUserEndHandlingUntil = DateTime.now().add(
       const Duration(seconds: 2),
+    );
+  }
+
+  void _pruneProgrammaticEnds(DateTime now) {
+    _programmaticEndAt.removeWhere(
+      (String _, DateTime endedAt) =>
+          !isRecentProgrammaticCallKitEnd(endedAt: endedAt, now: now),
+    );
+  }
+
+  void _markProgrammaticEnd(String callKitId) {
+    final DateTime now = DateTime.now();
+    _pruneProgrammaticEnds(now);
+    _programmaticEndAt[callKitId] = now;
+  }
+
+  void _markProgrammaticEndAll() {
+    for (final String callKitId in _sessions.callKitIds) {
+      _markProgrammaticEnd(callKitId);
+    }
+    _programmaticEndAllUntil = DateTime.now().add(
+      kVoiceCallKitProgrammaticEndAllWindow,
     );
   }
 
@@ -1053,6 +1266,7 @@ class VoiceCallKitCoordinatorLogic {
     if (_sessions.isEmpty) {
       return;
     }
+    _markProgrammaticEndAll();
     await _runProgrammaticCallKitEnd(() async {
       try {
         if (!Platform.isIOS) {
@@ -1080,6 +1294,11 @@ class VoiceCallKitCoordinatorLogic {
     String callKitId, {
     required String channelId,
   }) async {
+    final VoiceCallKitSession? ended = _sessions.sessionForCallKitId(callKitId);
+    final bool endedWasAccepted =
+        ended?.kind == VoiceCallKitSessionKind.activeVoice ||
+        _sessions.isCallKitConnected(callKitId);
+    _markProgrammaticEnd(callKitId);
     await _runProgrammaticCallKitEnd(() async {
       try {
         if (Platform.isIOS) {
@@ -1093,8 +1312,83 @@ class VoiceCallKitCoordinatorLogic {
       _sessions.unregisterSession(callKitId, channelId: channelId);
       _pendingRingsSeen.remove(channelId);
     });
+    _heldCallKitIds.remove(callKitId);
     _publishIncomingHold();
     await _exitCallKitAudioOwnership();
+    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    );
+    final String? liveVoiceChannelId = voice.isInVoice ? voice.channelId : null;
+    final String? liveCallKitId = liveVoiceChannelId == null
+        ? null
+        : _sessions.callKitIdForChannel(liveVoiceChannelId);
+    if (shouldReassertAndroidForegroundCall(
+      isAndroid: Platform.isAndroid,
+      endedChannelId: channelId,
+      endedWasAccepted: endedWasAccepted,
+      liveVoiceChannelId: liveVoiceChannelId,
+      hasLiveVoiceSession:
+          liveCallKitId != null &&
+          _sessions.sessionForCallKitId(liveCallKitId)?.kind ==
+              VoiceCallKitSessionKind.activeVoice,
+    )) {
+      _scheduleAndroidForegroundCallReassert();
+    }
+  }
+
+  void _scheduleAndroidForegroundCallReassert() {
+    _foregroundServiceReassertTimer?.cancel();
+    _foregroundServiceReassertTimer = Timer(
+      kVoiceCallKitForegroundServiceReassertDelay,
+      () {
+        _foregroundServiceReassertTimer = null;
+        _scheduleSync(_reassertAndroidForegroundCall);
+      },
+    );
+  }
+
+  Future<void> _reassertAndroidForegroundCall() async {
+    if (!Platform.isAndroid) {
+      return;
+    }
+    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    );
+    final String? channelId = voice.channelId;
+    if (!voice.isInVoice || channelId == null) {
+      return;
+    }
+    final String? callKitId = _sessions.callKitIdForChannel(channelId);
+    if (callKitId == null) {
+      return;
+    }
+    final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
+      callKitId,
+    );
+    if (session == null ||
+        session.kind != VoiceCallKitSessionKind.activeVoice) {
+      return;
+    }
+    final CallKitParams params = buildVoiceCallKitParams(
+      ref: _ref,
+      callKitId: callKitId,
+      channelId: channelId,
+      l10n: _resolveLocalizations(),
+      messageId: session.messageId,
+      guildId: session.guildId ?? _ref.read(voiceSessionProvider).guildId,
+      forActiveVoice: true,
+    );
+    _sessions.clearCallKitConnected(callKitId);
+    try {
+      await FlutterCallkitIncoming.startCall(params);
+      _armSuppressUserCallKitEndEvents();
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] reassert foreground call failed: $error');
+      return;
+    }
+    if (voice.isConnected) {
+      await _markCallConnected(callKitId);
+    }
   }
 
   Future<void> _handleAppTaskRemoved() async {
@@ -1108,6 +1402,7 @@ class VoiceCallKitCoordinatorLogic {
       return;
     }
     talker.info('[VoiceCallKit] app task removed, tearing down voice');
+    _markProgrammaticEndAll();
     await _runProgrammaticCallKitEnd(() async {
       if (shouldLeaveVoiceOnAndroidTaskRemoved(isInVoice: voice.isInVoice)) {
         try {
@@ -1188,6 +1483,7 @@ class VoiceCallKitCoordinatorLogic {
       await _exitCallKitAudioOwnership();
       return;
     }
+    _markProgrammaticEndAll();
     await _runProgrammaticCallKitEnd(() async {
       try {
         if (!Platform.isIOS) {
@@ -1199,6 +1495,8 @@ class VoiceCallKitCoordinatorLogic {
       _sessions.clearAll();
       _pendingRingsSeen.clear();
     });
+    _heldCallKitIds.clear();
+    _mutedForHold = false;
     await _exitCallKitAudioOwnership();
   }
 
@@ -1223,9 +1521,11 @@ class VoiceCallKitCoordinatorLogic {
     }
     switch (event) {
       case CallEventActionCallAccept(:final callKitParams):
-        await _enqueueSync(() => _handleAccept(callKitParams));
+        _startAccept(callKitParams);
       case CallEventActionCallDecline(:final callKitParams):
-        await _enqueueSync(() => _handleUserEndedCallKitCall(callKitParams));
+        await _enqueueSync(
+          () => _handleUserEndedCallKitCall(callKitParams, isDecline: true),
+        );
       case CallEventActionCallEnded(:final callKitParams):
         await _enqueueSync(() => _handleUserEndedCallKitCall(callKitParams));
       case CallEventActionCallTimeout(:final id):
@@ -1242,11 +1542,16 @@ class VoiceCallKitCoordinatorLogic {
         }
       case CallEventActionCallIncoming(:final callKitParams):
         await _adoptCall(callKitParams);
+      case CallEventActionCallToggleHold(:final id, :final isOnHold):
+        _scheduleSync(() => _handleToggleHold(id, isOnHold: isOnHold));
+      case CallEventActionCallCustom(:final body):
+        if (body[kVoiceCallKitCustomEventKind] ==
+            kVoiceCallKitProviderResetEvent) {
+          _scheduleSync(_handleProviderReset);
+        }
       case CallEventActionCallCallback():
-      case CallEventActionCallToggleHold():
       case CallEventActionCallToggleDmtf():
       case CallEventActionCallToggleGroup():
-      case CallEventActionCallCustom():
         break;
       case CallEventActionCallStart(:final callKitParams):
         await _handleCallStart(callKitParams);
@@ -1475,6 +1780,14 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  void _startAccept(CallKitParams params) {
+    unawaited(
+      _handleAccept(params).catchError((Object error, StackTrace stackTrace) {
+        talker.warning('[VoiceCallKit] accept failed: $error\n$stackTrace');
+      }),
+    );
+  }
+
   Future<void> _handleAccept(CallKitParams params) async {
     if (_handledAcceptIds.contains(params.id) ||
         !_acceptInFlight.add(params.id)) {
@@ -1483,6 +1796,7 @@ class VoiceCallKitCoordinatorLogic {
     String? channelId;
     _ref.read(callKitIncomingHoldProvider.notifier).setActive(value: true);
     try {
+      await _acknowledgeIosAccept();
       final CallKitParams resolved = await _paramsWithChannel(params);
       channelId = _resolveChannelId(callKitId: resolved.id, params: resolved);
       if (channelId == null) {
@@ -1498,7 +1812,7 @@ class VoiceCallKitCoordinatorLogic {
         resolved,
         kVoiceCallKitExtraGuildId,
       );
-      _sessions.registerSession(
+      final String sessionId = _sessions.registerSession(
         channelId: channelId,
         callKitId: resolved.id,
         messageId: _callKitExtra(resolved, kVoiceCallKitExtraMessageId),
@@ -1518,8 +1832,17 @@ class VoiceCallKitCoordinatorLogic {
         );
         return;
       }
+      _sessions.promoteSessionToActiveVoice(
+        callKitId: sessionId,
+        channelId: channelId,
+        voice: _voiceCallKitVoiceSnapshot(_ref.read(voiceSessionProvider)),
+      );
+      _publishIncomingHold();
       await _enterCallKitAudioOwnership();
       final bool ready = await waitUntilGatewayReadyForCall(_ref);
+      if (!_sessions.containsChannel(channelId)) {
+        return;
+      }
       if (!ready) {
         await _endCallKitSession(resolved.id, channelId: channelId);
         return;
@@ -1542,7 +1865,10 @@ class VoiceCallKitCoordinatorLogic {
         _ref.read(voiceSessionProvider),
       );
       final String callKitId = resolved.id;
-      if (_sessions.sessionForCallKitId(callKitId) == null) {
+      final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
+        callKitId,
+      );
+      if (session == null) {
         _sessions.registerExistingSession(
           VoiceCallKitSession(
             callKitId: callKitId,
@@ -1551,6 +1877,12 @@ class VoiceCallKitCoordinatorLogic {
             messageId: resolved.extra?[kVoiceCallKitExtraMessageId] as String?,
             connectionId: voice.activeConnectionId,
           ),
+        );
+      } else if (session.kind != VoiceCallKitSessionKind.activeVoice) {
+        _sessions.promoteSessionToActiveVoice(
+          callKitId: callKitId,
+          channelId: channelId,
+          voice: voice,
         );
       }
       await _markCallConnected(callKitId);
@@ -1600,23 +1932,40 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<bool> _waitUntilVoiceConnected(String channelId) async {
-    final DateTime deadline = DateTime.now().add(const Duration(seconds: 20));
-    while (DateTime.now().isBefore(deadline)) {
-      final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
-        _ref.read(voiceSessionProvider),
-      );
+    bool? outcome(VoiceSessionState state) {
+      final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(state);
       if (voice.isConnected && voice.channelId == channelId) {
         return true;
       }
       if (!voice.isConnecting && voice.channelId != channelId) {
         return false;
       }
-      await Future<void>.delayed(const Duration(milliseconds: 200));
+      return null;
     }
-    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
-      _ref.read(voiceSessionProvider),
-    );
-    return voice.isConnected && voice.channelId == channelId;
+
+    final bool? immediate = outcome(_ref.read(voiceSessionProvider));
+    if (immediate != null) {
+      return immediate;
+    }
+    final Completer<bool> completer = Completer<bool>();
+    final ProviderSubscription<VoiceSessionState> subscription = _ref
+        .listen<VoiceSessionState>(voiceSessionProvider, (
+          VoiceSessionState? _,
+          VoiceSessionState next,
+        ) {
+          final bool? result = outcome(next);
+          if (result != null && !completer.isCompleted) {
+            completer.complete(result);
+          }
+        });
+    try {
+      return await completer.future.timeout(
+        const Duration(seconds: 20),
+        onTimeout: () => outcome(_ref.read(voiceSessionProvider)) ?? false,
+      );
+    } finally {
+      subscription.close();
+    }
   }
 
   void _unregisterCallKitSessionForChannel(String channelId) {
@@ -1628,18 +1977,26 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _handleUserEndedCallKitCall(CallKitParams params) async {
+  Future<void> _handleUserEndedCallKitCall(
+    CallKitParams params, {
+    bool isDecline = false,
+  }) async {
     final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
       _ref.read(voiceSessionProvider),
     );
     String? channelId = _resolveChannelId(callKitId: params.id, params: params);
-    if (channelId == null && !_sessions.hasIncomingRing) {
+    if (channelId == null &&
+        shouldFallBackToSoleActiveVoiceForCallKitEnd(
+          isDecline: isDecline,
+          hasIncomingRing: _sessions.hasIncomingRing,
+        )) {
       channelId = _sessions.soleActiveVoiceChannelId;
     }
     if (_shouldIgnoreUserCallKitEndEvent(
       callKitId: params.id,
       channelId: channelId,
       voice: voice,
+      isDecline: isDecline,
     )) {
       return;
     }
@@ -1649,12 +2006,24 @@ class VoiceCallKitCoordinatorLogic {
     if (!_handledEndIds.add(params.id)) {
       return;
     }
+    final VoiceCallKitSessionKind? sessionKind = _sessions
+        .sessionForCallKitId(params.id)
+        ?.kind;
     _cancelAudioSessionRecovery();
     final String? targetUserId = _ringTargetUserId(params);
+    _heldCallKitIds.remove(params.id);
     _unregisterCallKitSessionForChannel(channelId);
     await _exitCallKitAudioOwnership();
-    if (shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId)) {
+    if (shouldLeaveVoiceFromCallKitEnd(
+      voice: voice,
+      channelId: channelId,
+      isDecline: isDecline,
+      sessionKind: sessionKind,
+    )) {
       await _ref.read(voiceSessionProvider.notifier).leaveVoice();
+      return;
+    }
+    if (!shouldDeclineRingFromCallKitEnd(voice: voice, channelId: channelId)) {
       return;
     }
     if (incomingRingBelongsToOtherAccount(
@@ -1699,9 +2068,6 @@ class VoiceCallKitCoordinatorLogic {
     String callKitId, {
     required bool isMuted,
   }) async {
-    if (_isSyncingMuteToCallKit) {
-      return;
-    }
     final String? channelId = _resolveChannelId(callKitId: callKitId);
     if (channelId == null) {
       talker.warning('[VoiceCallKit] mute toggle ignored: unknown call id');
@@ -1711,6 +2077,9 @@ class VoiceCallKitCoordinatorLogic {
       _ref.read(voiceSessionProvider),
     );
     if (voice.channelId != channelId || !voice.isInVoice) {
+      return;
+    }
+    if (_isSelfMuted() == isMuted) {
       return;
     }
     _isApplyingCallKitMuteToVoice = true;
@@ -1725,11 +2094,107 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  Future<void> _handleToggleHold(
+    String callKitId, {
+    required bool isOnHold,
+  }) async {
+    final String? channelId = _resolveChannelId(callKitId: callKitId);
+    final VoiceSessionState state = _ref.read(voiceSessionProvider);
+    if (channelId == null ||
+        state.channelId != channelId ||
+        !_voiceCallKitVoiceSnapshot(state).isInVoice) {
+      _heldCallKitIds.remove(callKitId);
+      if (_heldCallKitIds.isEmpty) {
+        _mutedForHold = false;
+      }
+      return;
+    }
+    if (isOnHold) {
+      _heldCallKitIds.add(callKitId);
+      _cancelAudioSessionRecovery();
+    } else {
+      _heldCallKitIds.remove(callKitId);
+    }
+    final bool isSelfMuted = _isSelfMuted();
+    if (shouldMuteForCallKitHold(
+      isOnHold: isOnHold,
+      isSelfMuted: isSelfMuted,
+    )) {
+      _mutedForHold = true;
+      await _applyHoldMute(muted: true);
+      return;
+    }
+    if (shouldUnmuteAfterCallKitHold(
+      isOnHold: isOnHold,
+      mutedForHold: _mutedForHold,
+      isSelfMuted: isSelfMuted,
+      hasOtherHeldCalls: _heldCallKitIds.isNotEmpty,
+    )) {
+      _mutedForHold = false;
+      await _applyHoldMute(muted: false);
+      return;
+    }
+    if (!isOnHold && _heldCallKitIds.isEmpty) {
+      _mutedForHold = false;
+    }
+  }
+
+  bool _isSelfMuted() {
+    final VoiceSessionState state = _ref.read(voiceSessionProvider);
+    return resolveSelfConnectionVoiceState(
+          voiceStates: _ref.read(
+            voiceStatesMapProvider(readAccountUserId(_ref)),
+          ),
+          activeConnectionId: state.activeConnectionId,
+          userId: _ref.read(currentUserIdProvider),
+          channelId: state.channelId,
+        )?.selfMute ??
+        false;
+  }
+
+  Future<void> _applyHoldMute({required bool muted}) async {
+    _isApplyingCallKitMuteToVoice = true;
+    try {
+      await _ref
+          .read(voiceSessionProvider.notifier)
+          .setSelfMute(isMuted: muted);
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] hold mute failed: $error');
+    } finally {
+      _isApplyingCallKitMuteToVoice = false;
+    }
+  }
+
+  Future<void> _handleProviderReset() async {
+    talker.warning('[VoiceCallKit] CallKit provider reset');
+    _cancelAudioSessionRecovery();
+    _cancelSpeakerOutputReapply();
+    _sessions.clearAll();
+    _pendingRingsSeen.clear();
+    _heldCallKitIds.clear();
+    _publishIncomingHold();
+    await _exitCallKitAudioOwnership();
+    if (_mutedForHold) {
+      _mutedForHold = false;
+      if (_isSelfMuted()) {
+        await _applyHoldMute(muted: false);
+      }
+    }
+    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    );
+    if (!voice.isInVoice || !voice.isConnected) {
+      return;
+    }
+    await _ensureCallKitSessionForVoice(voice, allowBackgroundStart: true);
+    await _syncCallKitConnectedState(voice);
+  }
+
   Future<void> _syncCallKitMuteFromVoiceStates({
     required Map<String, VoiceState>? previous,
     required Map<String, VoiceState> next,
   }) async {
-    if (_isApplyingCallKitMuteToVoice) {
+    if (_isApplyingCallKitMuteToVoice || !Platform.isIOS) {
       return;
     }
     final VoiceSessionState voice = _ref.read(voiceSessionProvider);
@@ -1753,13 +2218,6 @@ class VoiceCallKitCoordinatorLogic {
     if (previous?[connectionId]?.selfMute == nextMute) {
       return;
     }
-    _isSyncingMuteToCallKit = true;
-    try {
-      await FlutterCallkitIncoming.muteCall(callKitId, isMuted: nextMute);
-    } on Object catch (error) {
-      talker.warning('[VoiceCallKit] sync mute to CallKit failed: $error');
-    } finally {
-      _isSyncingMuteToCallKit = false;
-    }
+    await _setIosCallMuted(callKitId, muted: nextMute);
   }
 }

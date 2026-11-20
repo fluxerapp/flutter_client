@@ -661,13 +661,13 @@ class _VoiceChannelParticipantGridState
     database.User? selfUser;
     if (me != null && onThisChannel) {
       ref.watch(
-        userPresenceProvider(me).select(
+        userRowProvider(me).select(
           (AsyncValue<database.User?> async) => async.value == null
               ? null
               : guildUserProfileSignature(async.value!),
         ),
       );
-      selfUser = ref.read(userPresenceProvider(me)).value;
+      selfUser = ref.read(userRowProvider(me)).value;
     }
     final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
@@ -2179,7 +2179,7 @@ class _VoiceChannelParticipantGridState
   }
 }
 
-class _SpeakingOrderedGrid extends ConsumerWidget {
+class _SpeakingOrderedGrid extends ConsumerStatefulWidget {
   const _SpeakingOrderedGrid({
     required this.prioritizeSpeakingParticipants,
     required this.tiles,
@@ -2207,37 +2207,71 @@ class _SpeakingOrderedGrid extends ConsumerWidget {
   builder;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_SpeakingOrderedGrid> createState() =>
+      _SpeakingOrderedGridState();
+}
+
+class _SpeakingOrderedGridState extends ConsumerState<_SpeakingOrderedGrid> {
+  List<_VoiceGridTileItem>? _cachedInput;
+  VoiceMediaRoom? _cachedMedia;
+  String? _cachedMe;
+  String? _cachedLocalConnectionId;
+  Set<String>? _cachedSpeakingKeys;
+  Set<String>? _cachedRecentlySpokeKeys;
+  List<_VoiceGridTileItem> _cachedOrder = const <_VoiceGridTileItem>[];
+  String _cachedSignature = '';
+
+  List<_VoiceGridTileItem> _ordered(
+    List<_VoiceGridTileItem> tiles,
+    VoiceActiveSpeakersState speakers,
+  ) {
+    if (identical(_cachedInput, tiles) &&
+        identical(_cachedMedia, widget.media) &&
+        _cachedMe == widget.me &&
+        _cachedLocalConnectionId == widget.localConnectionId &&
+        identical(_cachedSpeakingKeys, speakers.speakingKeys) &&
+        identical(_cachedRecentlySpokeKeys, speakers.recentlySpokeKeys)) {
+      return _cachedOrder;
+    }
+    final List<_VoiceGridTileItem> ordered = widget.orderTiles(
+      tiles,
+      widget.media,
+      widget.me,
+      widget.localConnectionId,
+      speakers,
+    );
+    _cachedInput = tiles;
+    _cachedMedia = widget.media;
+    _cachedMe = widget.me;
+    _cachedLocalConnectionId = widget.localConnectionId;
+    _cachedSpeakingKeys = speakers.speakingKeys;
+    _cachedRecentlySpokeKeys = speakers.recentlySpokeKeys;
+    _cachedOrder = ordered;
+    _cachedSignature = voiceGridOrderSignature(
+      ordered.map((_VoiceGridTileItem tile) => tile.tileId),
+    );
+    return ordered;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.watch(
       voiceActiveSpeakersProvider.select((VoiceActiveSpeakersState speakers) {
-        if (!prioritizeSpeakingParticipants) {
+        if (!widget.prioritizeSpeakingParticipants) {
           return '';
         }
-        return voiceGridOrderSignature(
-          orderTiles(
-            tiles,
-            media,
-            me,
-            localConnectionId,
-            speakers,
-          ).map((_VoiceGridTileItem tile) => tile.tileId),
-        );
+        _ordered(widget.tiles, speakers);
+        return _cachedSignature;
       }),
     );
     final List<_VoiceGridTileItem> tileItems = voiceGridTilesForDisplay(
-      prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
-      tiles: tiles,
+      prioritizeSpeakingParticipants: widget.prioritizeSpeakingParticipants,
+      tiles: widget.tiles,
       orderBySpeaking: (List<_VoiceGridTileItem> input) {
-        return orderTiles(
-          input,
-          media,
-          me,
-          localConnectionId,
-          ref.read(voiceActiveSpeakersProvider),
-        );
+        return _ordered(input, ref.read(voiceActiveSpeakersProvider));
       },
     );
-    return builder(context, tileItems);
+    return widget.builder(context, tileItems);
   }
 }
 
@@ -2802,16 +2836,11 @@ class _ScreenShareHudAspectHost extends StatefulWidget {
 }
 
 class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
-  static const Duration _kPollInterval = Duration(seconds: 1);
-  static const int _kStableReadsBeforeBackoff = 3;
-  static const int _kStablePollEveryTicks = 5;
-
   double? _aspectRatio;
-  Timer? _poll;
-  bool _refreshing = false;
+  late final VoiceStreamStatsSubscription _stats = VoiceStreamStatsSubscription(
+    _refreshAspect,
+  );
   VideoTrack? _observedTrack;
-  int _stableReads = 0;
-  int _ticksSinceRead = 0;
 
   @override
   void initState() {
@@ -2819,7 +2848,7 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
     _observedTrack = widget.participant?.screenShareTrack;
     widget.participant?.addListener(_onParticipantChanged);
     _syncAspect();
-    _syncPolling();
+    _syncStatsListener();
   }
 
   @override
@@ -2829,19 +2858,19 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
       oldWidget.participant?.removeListener(_onParticipantChanged);
       widget.participant?.addListener(_onParticipantChanged);
       _observedTrack = widget.participant?.screenShareTrack;
-      _stableReads = 0;
+      _syncStatsListener();
     }
     if (oldWidget.enabled != widget.enabled ||
         oldWidget.refreshStats != widget.refreshStats ||
         oldWidget.useStreamAspectRatio != widget.useStreamAspectRatio) {
       _syncAspect();
-      _syncPolling();
+      _syncStatsListener();
     }
   }
 
   @override
   void dispose() {
-    _poll?.cancel();
+    _stats.dispose();
     widget.participant?.removeListener(_onParticipantChanged);
     super.dispose();
   }
@@ -2852,8 +2881,16 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
       return;
     }
     _observedTrack = track;
-    _stableReads = 0;
-    unawaited(_refreshAspect());
+    _syncStatsListener();
+    _refreshAspect();
+  }
+
+  void _syncStatsListener() {
+    _stats.sync(
+      widget.enabled && widget.refreshStats && widget.useStreamAspectRatio
+          ? widget.participant?.screenShareTrack
+          : null,
+    );
   }
 
   void _syncAspect() {
@@ -2866,56 +2903,18 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
     if (!widget.useStreamAspectRatio) {
       return;
     }
-    final double? sync = screenShareContentAspectRatio(widget.participant);
-    if (sync != _aspectRatio) {
-      setState(() => _aspectRatio = sync);
-    }
-    unawaited(_refreshAspect());
+    _refreshAspect();
   }
 
-  void _syncPolling() {
-    _poll?.cancel();
-    _poll = null;
-    _stableReads = 0;
-    _ticksSinceRead = 0;
-    if (!widget.enabled ||
-        !widget.refreshStats ||
-        !widget.useStreamAspectRatio) {
+  void _refreshAspect() {
+    if (!mounted || !widget.enabled || !widget.useStreamAspectRatio) {
       return;
     }
-    _poll = Timer.periodic(_kPollInterval, (_) {
-      _ticksSinceRead++;
-      if (_stableReads >= _kStableReadsBeforeBackoff &&
-          _ticksSinceRead < _kStablePollEveryTicks) {
-        return;
-      }
-      _ticksSinceRead = 0;
-      unawaited(_refreshAspect());
-    });
-  }
-
-  Future<void> _refreshAspect() async {
-    if (!widget.enabled || !widget.useStreamAspectRatio || _refreshing) {
-      return;
-    }
-    _refreshing = true;
-    try {
-      final double? next = await screenShareContentAspectRatioResolved(
-        widget.participant,
-      );
-      if (!mounted || !widget.enabled) {
-        return;
-      }
-      if (next == null || next != _aspectRatio) {
-        _stableReads = 0;
-      } else {
-        _stableReads++;
-      }
-      if (next != _aspectRatio) {
-        setState(() => _aspectRatio = next);
-      }
-    } finally {
-      _refreshing = false;
+    final double? next = screenShareContentAspectRatioMonitored(
+      widget.participant,
+    );
+    if (next != _aspectRatio) {
+      setState(() => _aspectRatio = next);
     }
   }
 
@@ -2974,12 +2973,11 @@ class _StreamStatusBadge extends StatefulWidget {
 }
 
 class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
-  static const Duration _kPollInterval = Duration(seconds: 1);
-
-  Timer? _poll;
   int _height = 0;
   int _fps = 0;
-  bool _refreshing = false;
+  late final VoiceStreamStatsSubscription _stats = VoiceStreamStatsSubscription(
+    _refresh,
+  );
   VideoTrack? _observedTrack;
   bool _observedHasScreenShare = false;
 
@@ -2988,8 +2986,8 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
     super.initState();
     _observeParticipant();
     widget.participant?.addListener(_onParticipantChanged);
-    _syncPolling();
-    unawaited(_refresh());
+    _syncStatsListener();
+    _refresh();
   }
 
   @override
@@ -3004,16 +3002,13 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
     final bool collectChanged =
         oldWidget.collectQuality != widget.collectQuality;
     final bool pollChanged = oldWidget.pollStats != widget.pollStats;
-    if (collectChanged && !widget.collectQuality) {
-      _apply(height: 0, fps: 0);
-    }
-    if (collectChanged || pollChanged) {
-      _syncPolling();
+    if (participantChanged || collectChanged || pollChanged) {
+      _syncStatsListener();
     }
     if (participantChanged ||
         collectChanged ||
         (pollChanged && widget.pollStats)) {
-      unawaited(_refresh());
+      _refresh();
     }
   }
 
@@ -3024,20 +3019,17 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
 
   @override
   void dispose() {
-    _poll?.cancel();
+    _stats.dispose();
     widget.participant?.removeListener(_onParticipantChanged);
     super.dispose();
   }
 
-  void _syncPolling() {
-    _poll?.cancel();
-    _poll = null;
-    if (!widget.collectQuality || !widget.pollStats) {
-      return;
-    }
-    _poll = Timer.periodic(_kPollInterval, (_) {
-      unawaited(_refresh());
-    });
+  void _syncStatsListener() {
+    _stats.sync(
+      widget.collectQuality && widget.pollStats
+          ? widget.participant?.screenShareTrack
+          : null,
+    );
   }
 
   void _onParticipantChanged() {
@@ -3048,13 +3040,11 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
       return;
     }
     _observeParticipant();
-    unawaited(_refresh());
+    _syncStatsListener();
+    _refresh();
   }
 
-  Future<void> _refresh() async {
-    if (_refreshing) {
-      return;
-    }
+  void _refresh() {
     if (!widget.collectQuality) {
       _apply(height: 0, fps: 0);
       return;
@@ -3064,74 +3054,42 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
       _apply(height: 0, fps: 0);
       return;
     }
-    _refreshing = true;
-    try {
-      final VideoDimensions? dimensions = participant.screenShareDimensions;
-      final VideoTrack? track = participant.screenShareTrack;
-      var settingsWidth = 0;
-      var settingsHeight = 0;
-      var settingsFps = 0;
-      if (track is VideoTrack) {
-        try {
-          final Map<String, dynamic> settings = track.mediaStreamTrack
-              .getSettings();
-          settingsFps = voiceStreamFpsFromSettings(settings);
-          settingsWidth = voiceStreamDimensionFromSettings(settings, 'width');
-          settingsHeight = voiceStreamDimensionFromSettings(settings, 'height');
-        } on Object {
-          settingsFps = 0;
-        }
+    final VideoDimensions? dimensions = participant.screenShareDimensions;
+    final VideoTrack? track = participant.screenShareTrack;
+    var settingsWidth = 0;
+    var settingsHeight = 0;
+    var settingsFps = 0;
+    if (track != null) {
+      try {
+        final Map<String, dynamic> settings = track.mediaStreamTrack
+            .getSettings();
+        settingsFps = voiceStreamFpsFromSettings(settings);
+        settingsWidth = voiceStreamDimensionFromSettings(settings, 'width');
+        settingsHeight = voiceStreamDimensionFromSettings(settings, 'height');
+      } on Object {
+        settingsFps = 0;
       }
-      var statsFps = 0;
-      var statsWidth = 0;
-      var statsHeight = 0;
-      if (track is RemoteVideoTrack) {
-        try {
-          final stats = await track.getReceiverStats();
-          statsFps = parsePositiveFrameRate(stats?.framesPerSecond);
-          statsWidth = parsePositiveInt(stats?.frameWidth);
-          statsHeight = parsePositiveInt(stats?.frameHeight);
-        } on Object {
-          statsFps = 0;
-        }
-      } else if (track is LocalVideoTrack) {
-        try {
-          final stats = await track.getSenderStats();
-          statsFps = maxPositiveFrameRate(
-            stats.map((item) => item.framesPerSecond),
-          );
-          final ({int width, int height}) frame = voiceStreamLargestFrame(
-            widths: stats.map((item) => item.frameWidth),
-            heights: stats.map((item) => item.frameHeight),
-          );
-          statsWidth = frame.width;
-          statsHeight = frame.height;
-        } on Object {
-          statsFps = 0;
-        }
-      }
-      var captureFps = 0;
-      if (track is LocalVideoTrack) {
-        final VideoCaptureOptions options = track.currentOptions;
-        captureFps = firstPositiveFrameRate(<int>[
-          parsePositiveFrameRate(options.maxFrameRate),
-          parsePositiveFrameRate(options.params.encoding?.maxFramerate),
-        ]);
-      }
-      _apply(
-        height: resolveVoiceStreamLabelHeight(
-          statsWidth: statsWidth,
-          statsHeight: statsHeight,
-          settingsWidth: settingsWidth,
-          settingsHeight: settingsHeight,
-          publicationWidth: dimensions?.width ?? 0,
-          publicationHeight: dimensions?.height ?? 0,
-        ),
-        fps: firstPositiveFrameRate(<int>[settingsFps, statsFps, captureFps]),
-      );
-    } finally {
-      _refreshing = false;
     }
+    final VoiceStreamStatsSample stats = voiceStreamMonitoredStats(track);
+    var captureFps = 0;
+    if (track is LocalVideoTrack) {
+      final VideoCaptureOptions options = track.currentOptions;
+      captureFps = firstPositiveFrameRate(<int>[
+        parsePositiveFrameRate(options.maxFrameRate),
+        parsePositiveFrameRate(options.params.encoding?.maxFramerate),
+      ]);
+    }
+    _apply(
+      height: resolveVoiceStreamLabelHeight(
+        statsWidth: stats.width,
+        statsHeight: stats.height,
+        settingsWidth: settingsWidth,
+        settingsHeight: settingsHeight,
+        publicationWidth: dimensions?.width ?? 0,
+        publicationHeight: dimensions?.height ?? 0,
+      ),
+      fps: firstPositiveFrameRate(<int>[settingsFps, stats.fps, captureFps]),
+    );
   }
 
   void _apply({required int height, required int fps}) {

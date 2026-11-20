@@ -64,15 +64,22 @@ bool isForumPostOriginalPoster({
   if (thread == null || !thread.isThread) {
     return false;
   }
-  if (parentChannel == null || !parentChannel.isThreadOnly) {
-    return false;
-  }
-  final String? ownerId = thread.ownerId;
-  if (ownerId == null || ownerId.isEmpty) {
-    return false;
-  }
-  return ownerId == authorId;
+  return isForumPostOwner(
+    threadOwnerId: thread.ownerId,
+    parentIsThreadOnly: parentChannel?.isThreadOnly ?? false,
+    authorId: authorId,
+  );
 }
+
+bool isForumPostOwner({
+  required String? threadOwnerId,
+  required bool parentIsThreadOnly,
+  required String authorId,
+}) =>
+    parentIsThreadOnly &&
+    threadOwnerId != null &&
+    threadOwnerId.isNotEmpty &&
+    threadOwnerId == authorId;
 
 ForumSortOrder forumDefaultSortOrder(Channel forum) =>
     forum.defaultSortOrder == ForumSortOrder.creationTime.wireValue

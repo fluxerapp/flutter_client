@@ -1328,6 +1328,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get incomingVoiceCallLabel => '수신 전화';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => '무시';
 
   @override

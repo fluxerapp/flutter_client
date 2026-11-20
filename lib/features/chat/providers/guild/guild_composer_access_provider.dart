@@ -71,7 +71,7 @@ AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
   return ref.watch(guildMemberComposerAccessProvider(resolvedGuildId));
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<GuildComposerAccess> guildMemberComposerAccess(
   Ref ref,
   String guildId,
@@ -80,25 +80,37 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
   if (currentUserId == null || currentUserId.isEmpty) {
     return GuildComposerAccess.allowed;
   }
-  ref
-    ..watch(guildListViewModelProvider)
-    ..watch(userSettingsViewModelProvider)
-    ..watch(currentUserMemberIdentityProvider(guildId));
-  Guild? guild;
-  for (final Guild g in ref.watch(guildListViewModelProvider).guilds) {
-    if (g.id == guildId) {
-      guild = g;
-      break;
-    }
-  }
+  final Guild? guild = ref.watch(
+    guildListViewModelProvider.select((GuildListViewState state) {
+      for (final Guild g in state.guilds) {
+        if (g.id == guildId) {
+          return g;
+        }
+      }
+      return null;
+    }),
+  );
+  final ({
+    bool isProfileLoaded,
+    bool isClaimed,
+    bool isVerified,
+    DateTime memberSince,
+  })
+  userSettings = ref.watch(
+    userSettingsViewModelProvider.select(
+      (UserSettingsViewState state) => (
+        isProfileLoaded: state.isProfileLoaded,
+        isClaimed: state.isClaimed,
+        isVerified: state.isVerified,
+        memberSince: state.resolvedMemberSince,
+      ),
+    ),
+  );
   if (guild == null) {
     return GuildComposerAccess.allowed;
   }
   final db.Member? memberRow = await ref.watch(
     memberRowByGuildProvider((currentUserId, guildId)).future,
-  );
-  final UserSettingsViewState userSettings = ref.read(
-    userSettingsViewModelProvider,
   );
   if (!userSettings.isProfileLoaded) {
     return GuildComposerAccess.allowed;
@@ -118,7 +130,7 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
       memberJoinedAt: memberRow?.joinedAt,
       hasVerifiedEmail: userSettings.isClaimed,
       isEmailVerified: userSettings.isVerified,
-      accountCreatedAt: userSettings.resolvedMemberSince,
+      accountCreatedAt: userSettings.memberSince,
       now: DateTime.now(),
     ),
   );

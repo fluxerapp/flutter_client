@@ -98,11 +98,9 @@ bool? channelUnreadCanView(Ref ref, String channelId) {
     ).select((ChannelPermissionCaches caches) => caches[channelId]),
   );
   if (bits == null) {
-    unawaited(
-      ref
-          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
-          .rebuildChannel(channelId),
-    );
+    ref
+        .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
+        .requestChannelBits(channelId);
     return null;
   }
   return hasPermission(bits, Permission.viewChannel);
@@ -114,7 +112,6 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   final Map<String, UnreadState> lastKnown = ref.watch(
     channelUnreadLastKnownProvider,
   );
-  ref.watch(gatewayReadyProvider);
   final bool? canView = ref.watch(channelUnreadCanViewProvider(channelId));
   final ProviderContainer container = ref.container;
   final readStateWriteBatcher = ref.read(readStateWriteBatcherProvider);
@@ -281,6 +278,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     unawaited(runRecompute());
   };
 
+  ref.listen<bool>(gatewayReadyProvider, (_, _) => scheduleRecompute());
   final sourcesSub = sources
       .changes(channelId)
       .listen((_) => scheduleRecompute());

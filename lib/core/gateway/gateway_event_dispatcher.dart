@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:fluxer_dart/gateway.dart';
 
@@ -12,7 +13,7 @@ class GatewayEventDispatcher {
   final GatewayEventHandlerFn _onEvent;
   final GatewayWriteBatcherFlushFn? onFlushWriteBatchers;
 
-  final List<GatewayEvent> _queue = <GatewayEvent>[];
+  final Queue<GatewayEvent> _queue = Queue<GatewayEvent>();
   bool _draining = false;
   bool _disposed = false;
 
@@ -41,7 +42,7 @@ class GatewayEventDispatcher {
     _draining = true;
     try {
       while (_queue.isNotEmpty && !_disposed) {
-        final GatewayEvent event = _queue.removeAt(0);
+        final GatewayEvent event = _queue.removeFirst();
         await _onEvent(event);
       }
     } finally {

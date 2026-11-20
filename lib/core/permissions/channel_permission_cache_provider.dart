@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -30,9 +32,48 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     return const ChannelPermissionCaches();
   }
 
+  final Set<String> _queuedChannelIds = <String>{};
+  final Set<String> _inFlightChannelIds = <String>{};
+
   int? getChannelBits(String channelId) => state.effective[channelId];
 
   int? getLocalChannelBits(String channelId) => state.local[channelId];
+
+  void requestChannelBits(String channelId) {
+    if (channelId.isEmpty ||
+        state.effective.containsKey(channelId) ||
+        _inFlightChannelIds.contains(channelId) ||
+        !_queuedChannelIds.add(channelId)) {
+      return;
+    }
+    if (_queuedChannelIds.length == 1) {
+      scheduleMicrotask(() => unawaited(_flushQueuedChannelBits()));
+    }
+  }
+
+  Future<void> _flushQueuedChannelBits() async {
+    final List<String> channelIds = _queuedChannelIds.toList(growable: false);
+    _queuedChannelIds.clear();
+    _inFlightChannelIds.addAll(channelIds);
+    try {
+      final List<ChannelPermissionBitsOutcome> outcomes =
+          await Future.wait(<Future<ChannelPermissionBitsOutcome>>[
+            for (final String channelId in channelIds)
+              computeEffectiveGuildChannelPermissionBitsOutcome(
+                ref: ref,
+                channelId: channelId,
+              ),
+          ]);
+      if (!ref.mounted) {
+        return;
+      }
+      _mergeEffective(<String, ChannelPermissionBitsOutcome>{
+        for (var i = 0; i < channelIds.length; i++) channelIds[i]: outcomes[i],
+      });
+    } finally {
+      _inFlightChannelIds.removeAll(channelIds);
+    }
+  }
 
   Future<void> rebuildChannel(
     String channelId, {

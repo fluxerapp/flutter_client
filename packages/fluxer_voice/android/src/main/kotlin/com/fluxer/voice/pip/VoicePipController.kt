@@ -18,6 +18,9 @@ import com.fluxer.voice.VoicePipEventsStreamHandler
 import com.fluxer.voice.VoicePipHostApi
 import io.flutter.plugin.common.BinaryMessenger
 
+internal const val VOICE_PIP_EVENTS_CHANNEL =
+    "dev.flutter.pigeon.fluxer_voice.VoiceAudioSessionEventApi.voicePipEvents"
+
 internal class VoicePipController(
     private val context: Context,
 ) : VoicePipHostApi {
@@ -49,7 +52,10 @@ internal class VoicePipController(
     }
 
     fun unregister() {
-        messenger?.let { VoicePipHostApi.setUp(it, null) }
+        messenger?.let {
+            VoicePipHostApi.setUp(it, null)
+            it.setMessageHandler(VOICE_PIP_EVENTS_CHANNEL, null)
+        }
         messenger = null
         sink = null
     }

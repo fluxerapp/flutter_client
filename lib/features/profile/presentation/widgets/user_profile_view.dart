@@ -935,7 +935,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       userRelationshipProvider(userId: widget.userId),
     );
     final AsyncValue<db.User?> presenceAsync = ref.watch(
-      userPresenceProvider(widget.userId),
+      userRowProvider(widget.userId),
+    );
+    final String? presenceCustomStatus = ref.watch(
+      userPresenceProvider(
+        widget.userId,
+      ).select((UserPresence? presence) => presence?.customStatus),
     );
     final AsyncValue<String?> noteAsync = ref.watch(
       userNoteViewModelProvider(userId: widget.userId),
@@ -997,7 +1002,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             ownFullProfile?.connectedAccounts ?? const <ConnectionResponse>[],
         relationship: relationshipAsync.value,
         pronouns: profile.pronouns,
-        customStatus: presenceAsync.value?.customStatus,
+        customStatus: presenceCustomStatus,
         presenceAsync: presenceAsync,
         note: noteAsync.value,
         isCurrentUser: ownUserId == profile.id,
@@ -1208,7 +1213,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               response.connectedAccounts ?? const <ConnectionResponse>[],
           relationship: relationshipAsync.value,
           pronouns: profileDisplay.pronouns,
-          customStatus: presenceAsync.value?.customStatus,
+          customStatus: presenceCustomStatus,
           presenceAsync: presenceAsync,
           note: noteAsync.value,
           isCurrentUser: isCurrentProfile,

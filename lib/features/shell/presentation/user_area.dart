@@ -33,13 +33,23 @@ class UserArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    final (
+      String? connectionId,
+      bool inVoice,
+      bool showDesktopVoiceConnectionSection,
+    ) = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState state) => (
+          state.activeConnectionId,
+          state.isInVoice,
+          state.showDesktopVoiceConnectionSection,
+        ),
+      ),
+    );
     final localVoice = ref.watch(localVoiceStateProvider);
-    final String? connectionId = voice.activeConnectionId;
     final VoiceState? selfVoiceState = connectionId == null
         ? null
         : ref.watch(voiceStateForConnectionProvider(connectionId));
-    final bool inVoice = voice.isInVoice;
     final bool isMuted = inVoice
         ? (selfVoiceState?.selfMute ?? false)
         : localVoice.selfMute;
@@ -49,7 +59,7 @@ class UserArea extends ConsumerWidget {
     final layout = context.layout;
     final colors = context.colors;
     final bool showVoiceSection =
-        isWideLayout(context) && voice.showDesktopVoiceConnectionSection;
+        isWideLayout(context) && showDesktopVoiceConnectionSection;
     if (usesDesktopPointerUi(context)) {
       return _DesktopUserArea(
         showVoiceSection: showVoiceSection,
@@ -321,10 +331,11 @@ class _DesktopUserIdentityButtonState
     );
     final String status =
         ref.watch(userSettingsStatusProvider)?.status ?? 'online';
-    final String? customStatus = ref
-        .watch(userPresenceProvider(userId))
-        .value
-        ?.customStatus;
+    final String? customStatus = ref.watch(
+      userPresenceProvider(
+        userId,
+      ).select((UserPresence? presence) => presence?.customStatus),
+    );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final layout = context.layout;

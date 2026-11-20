@@ -1377,6 +1377,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Cuộc gọi đến';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Bỏ qua';
 
   @override

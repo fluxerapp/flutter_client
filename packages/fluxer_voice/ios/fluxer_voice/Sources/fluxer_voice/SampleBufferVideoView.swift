@@ -2,15 +2,8 @@ import AVFoundation
 import UIKit
 import os
 
-final class SampleBufferVideoView: UIView, PipFrameSink {
-  private static let warmFrameInterval: CFTimeInterval = 0.5
-
-  private let displayLayer = AVSampleBufferDisplayLayer()
-  private let queue = DispatchQueue(label: "app.fluxer.voice.pip.frames", qos: .userInteractive)
-  private let gate = OSAllocatedUnfairLock(initialState: FrameGate())
-  private var formatDescription: CMVideoFormatDescription?
-  private var renderedSize: CGSize = .zero
-  private var renderedRotation: PipFrameRotation = .none
+final class SampleBufferVideoView: UIView {
+  let frameSink = PipSampleBufferRenderer()
   private var displayedRotation: PipFrameRotation = .none
 
   var mirrored = false {
@@ -23,22 +16,21 @@ final class SampleBufferVideoView: UIView, PipFrameSink {
 
   var onVideoSizeChanged: ((CGSize) -> Void)?
 
-  private struct FrameGate {
-    var inFlight = false
-    var fullRate = false
-    var lastFrameTime: CFTimeInterval = 0
-
-    func accepts(at now: CFTimeInterval) -> Bool {
-      !inFlight && (fullRate || now - lastFrameTime >= SampleBufferVideoView.warmFrameInterval)
-    }
-  }
-
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = .black
     isUserInteractionEnabled = false
-    displayLayer.videoGravity = .resizeAspect
-    layer.addSublayer(displayLayer)
+    layer.addSublayer(frameSink.displayLayer)
+    frameSink.onGeometryChanged = { [weak self] size, rotation in
+      guard let self else {
+        return
+      }
+      if self.displayedRotation != rotation {
+        self.displayedRotation = rotation
+        self.applyGeometry()
+      }
+      self.onVideoSizeChanged?(size)
+    }
   }
 
   required init?(coder: NSCoder) {
@@ -48,6 +40,70 @@ final class SampleBufferVideoView: UIView, PipFrameSink {
   override func layoutSubviews() {
     super.layoutSubviews()
     applyGeometry()
+  }
+
+  func setFullRate(_ fullRate: Bool) {
+    frameSink.setFullRate(fullRate)
+  }
+
+  func reset() {
+    frameSink.reset()
+  }
+
+  private func applyGeometry() {
+    CATransaction.begin()
+    CATransaction.setDisableActions(true)
+    let bounds = self.bounds
+    let displayLayer = frameSink.displayLayer
+    displayLayer.bounds = displayedRotation.swapsAxes
+      ? CGRect(x: 0, y: 0, width: bounds.height, height: bounds.width)
+      : CGRect(origin: .zero, size: bounds.size)
+    displayLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+    var transform = CGAffineTransform(
+      rotationAngle: CGFloat(displayedRotation.rawValue) * .pi / 180
+    )
+    if mirrored {
+      transform = transform.concatenating(CGAffineTransform(scaleX: -1, y: 1))
+    }
+    displayLayer.setAffineTransform(transform)
+    CATransaction.commit()
+  }
+}
+
+final class PipSampleBufferRenderer: PipFrameSink {
+  private static let warmFrameInterval: CFTimeInterval = 0.5
+
+  let displayLayer = AVSampleBufferDisplayLayer()
+  private let queue = DispatchQueue(label: "app.fluxer.voice.pip.frames", qos: .userInteractive)
+  private let gate = OSAllocatedUnfairLock(initialState: FrameGate())
+  private var formatDescription: CMVideoFormatDescription?
+  private var renderedSize: CGSize = .zero
+  private var renderedRotation: PipFrameRotation = .none
+
+  var onGeometryChanged: ((CGSize, PipFrameRotation) -> Void)?
+
+  private struct FrameGate {
+    var inFlight = false
+    var fullRate = false
+    var lastFrameTime: CFTimeInterval = 0
+
+    func accepts(at now: CFTimeInterval) -> Bool {
+      !inFlight && (fullRate || now - lastFrameTime >= PipSampleBufferRenderer.warmFrameInterval)
+    }
+  }
+
+  init() {
+    displayLayer.videoGravity = .resizeAspect
+  }
+
+  deinit {
+    guard !Thread.isMainThread else {
+      return
+    }
+    let layer = displayLayer
+    DispatchQueue.main.async {
+      withExtendedLifetime(layer) {}
+    }
   }
 
   var acceptsFrames: Bool {
@@ -92,24 +148,6 @@ final class SampleBufferVideoView: UIView, PipFrameSink {
     }
   }
 
-  private func applyGeometry() {
-    CATransaction.begin()
-    CATransaction.setDisableActions(true)
-    let bounds = self.bounds
-    displayLayer.bounds = displayedRotation.swapsAxes
-      ? CGRect(x: 0, y: 0, width: bounds.height, height: bounds.width)
-      : CGRect(origin: .zero, size: bounds.size)
-    displayLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
-    var transform = CGAffineTransform(
-      rotationAngle: CGFloat(displayedRotation.rawValue) * .pi / 180
-    )
-    if mirrored {
-      transform = transform.concatenating(CGAffineTransform(scaleX: -1, y: 1))
-    }
-    displayLayer.setAffineTransform(transform)
-    CATransaction.commit()
-  }
-
   private func render(_ pixelBuffer: CVPixelBuffer, rotation: PipFrameRotation) {
     if renderStatusFailed || requiresFlushToResumeDecoding {
       flush(removingImage: false)
@@ -129,14 +167,7 @@ final class SampleBufferVideoView: UIView, PipFrameSink {
     renderedSize = size
     renderedRotation = rotation
     DispatchQueue.main.async { [weak self] in
-      guard let self else {
-        return
-      }
-      if self.displayedRotation != rotation {
-        self.displayedRotation = rotation
-        self.applyGeometry()
-      }
-      self.onVideoSizeChanged?(size)
+      self?.onGeometryChanged?(size, rotation)
     }
   }
 

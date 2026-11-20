@@ -1303,6 +1303,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get incomingVoiceCallLabel => '来电';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => '忽略';
 
   @override
