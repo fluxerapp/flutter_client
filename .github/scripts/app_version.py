@@ -160,7 +160,6 @@ def write_pubspec_android_build_number(
 
 
 ANDROID_RELEASE_VERSION_PATH = Path("tool/release/android_release_version.properties")
-FASTLANE_CHANGELOG_DIR = Path("fastlane/metadata/android/en-US/changelogs")
 
 
 def write_android_release_version_file(
@@ -181,18 +180,6 @@ def write_android_release_version_file(
     )
 
 
-def ensure_fastlane_changelog(version_code: int) -> Path | None:
-    FASTLANE_CHANGELOG_DIR.mkdir(parents=True, exist_ok=True)
-    path = FASTLANE_CHANGELOG_DIR / f"{version_code}.txt"
-    if path.exists():
-        return None
-    path.write_text(
-        "See what's new on https://feedback.fluxer.com/changelog?platform=mobile\n",
-        encoding="utf-8",
-    )
-    return path
-
-
 def sync_android_release_version(
     *,
     version_name: str,
@@ -206,11 +193,7 @@ def sync_android_release_version(
         path=properties_path,
     )
     write_pubspec_android_build_number(version_code, path=pubspec_path)
-    changed: list[Path] = [properties_path, pubspec_path]
-    changelog = ensure_fastlane_changelog(version_code)
-    if changelog is not None:
-        changed.append(changelog)
-    return changed
+    return [properties_path, pubspec_path]
 
 
 def _cli() -> int:
