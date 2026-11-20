@@ -144,8 +144,17 @@ internal fun voiceOutputDevices(
             )
         }
         .filter { it.kind.route.name.lowercase() in routeNames }
-        .distinctBy { it.kind to it.name }
+        .distinctBy(::outputDeviceKey)
         .sortedWith(compareBy({ it.kind.ordinal }, { it.name?.contains(" Watch", ignoreCase = true) == true }))
+}
+
+private fun outputDeviceKey(device: VoiceOutputDevice): Pair<VoiceOutputDeviceKind, String> {
+    return when {
+        device.kind == VoiceOutputDeviceKind.Earpiece || device.kind == VoiceOutputDeviceKind.Speaker ->
+            device.kind to ""
+        device.name == null || device.name == Build.MODEL -> device.kind to "#${device.id}"
+        else -> device.kind to device.name
+    }
 }
 
 internal fun bluetoothAddressesMatch(first: String?, second: String?): Boolean {
@@ -293,10 +302,11 @@ internal fun applyVoiceOutputRoute(
         deviceId,
     )
     for (device in candidates) {
-        if (!force && safeCommunicationDeviceId(audioManager) == device.id) {
+        val current = safeCommunicationDeviceId(audioManager)
+        if (!force && current == device.id) {
             return device.id
         }
-        if (force) {
+        if (force && current != null && current != device.id) {
             safeClearCommunicationDevice(audioManager)
         }
         if (safeSetCommunicationDevice(audioManager, device)) {

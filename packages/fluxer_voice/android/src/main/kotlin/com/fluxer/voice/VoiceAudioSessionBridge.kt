@@ -4,6 +4,9 @@ import android.os.Handler
 import android.os.Looper
 import io.flutter.plugin.common.BinaryMessenger
 
+internal const val VOICE_SESSION_STATES_CHANNEL =
+    "dev.flutter.pigeon.fluxer_voice.VoiceAudioSessionEventApi.voiceSessionStates"
+
 internal class VoiceAudioSessionBridge(
     private val session: VoiceAudioSession,
 ) : VoiceAudioSessionHostApi {
@@ -32,7 +35,10 @@ internal class VoiceAudioSessionBridge(
         val owners = acquiredOwners.toList()
         acquiredOwners.clear()
         session.handler.post { owners.forEach(session::release) }
-        messenger?.let { VoiceAudioSessionHostApi.setUp(it, null) }
+        messenger?.let {
+            VoiceAudioSessionHostApi.setUp(it, null)
+            it.setMessageHandler(VOICE_SESSION_STATES_CHANNEL, null)
+        }
         messenger = null
     }
 

@@ -67,7 +67,7 @@ Future<void> prepareRingerRespectingAudioSession() async {
   if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
-  if (voiceCallOwnsAndroidAudioRoute()) {
+  if (voiceCallOwnsAudioSession()) {
     return;
   }
   try {

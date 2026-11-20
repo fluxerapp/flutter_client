@@ -210,7 +210,7 @@ final class VoicePipController: NSObject, VoicePipHostApi, AVPictureInPictureCon
     }
     boundDescriptor = descriptor
     guard let next = PipVideoSourceRegistry.shared.make(descriptor),
-          next.attach(content.videoView)
+          next.attach(content.videoView.frameSink)
     else {
       return
     }

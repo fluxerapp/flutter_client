@@ -11,6 +11,15 @@ const String kVoiceCallKitExtraTargetUserId = 'targetUserId';
 const String kVoiceCallKitExtraGuildId = 'guildId';
 const String kVoiceCallKitExtraActiveVoice = 'activeVoice';
 const Duration kVoiceCallKitGatewayRingSyncDelay = Duration(seconds: 10);
+const Duration kVoiceCallKitActiveCallsSettleDelay = Duration(seconds: 5);
+const Duration kVoiceCallKitProgrammaticEndWindow = Duration(seconds: 10);
+const Duration kVoiceCallKitProgrammaticEndAllWindow = Duration(seconds: 3);
+const Duration kVoiceCallKitForegroundServiceReassertDelay = Duration(
+  milliseconds: 500,
+);
+const bool kVoiceCallKitReportIosVoiceJoins = true;
+const String kVoiceCallKitCustomEventKind = 'kind';
+const String kVoiceCallKitProviderResetEvent = 'providerReset';
 
 enum VoiceCallKitSessionKind { incomingRing, activeVoice }
 
@@ -47,7 +56,7 @@ bool isStaleNativeVoiceCallOnLaunch({
   required String? channelId,
   required String? interruptedChannelId,
 }) {
-  if (extra?[kVoiceCallKitExtraActiveVoice] == true) {
+  if (isNativeActiveVoiceCallKitCall(extra)) {
     return true;
   }
   return channelId != null && channelId == interruptedChannelId;
@@ -130,8 +139,56 @@ bool shouldStartCallKitOnVoiceJoin({required VoiceCallKitVoiceSnapshot voice}) {
 bool shouldLeaveVoiceFromCallKitEnd({
   required VoiceCallKitVoiceSnapshot voice,
   required String channelId,
+  bool isDecline = false,
+  VoiceCallKitSessionKind? sessionKind,
 }) {
-  return voice.channelId == channelId && voice.isInVoice;
+  if (voice.channelId != channelId || !voice.isInVoice) {
+    return false;
+  }
+  if (isDecline && sessionKind != VoiceCallKitSessionKind.activeVoice) {
+    return false;
+  }
+  return true;
+}
+
+bool shouldDeclineRingFromCallKitEnd({
+  required VoiceCallKitVoiceSnapshot voice,
+  required String channelId,
+}) {
+  return voice.channelId != channelId || !voice.isInVoice;
+}
+
+bool shouldFallBackToSoleActiveVoiceForCallKitEnd({
+  required bool isDecline,
+  required bool hasIncomingRing,
+}) {
+  return !isDecline && !hasIncomingRing;
+}
+
+bool isRecentProgrammaticCallKitEnd({
+  required DateTime? endedAt,
+  required DateTime now,
+  Duration window = kVoiceCallKitProgrammaticEndWindow,
+}) {
+  if (endedAt == null) {
+    return false;
+  }
+  return now.difference(endedAt) < window;
+}
+
+bool isProgrammaticCallKitEndEvent({
+  required DateTime? endedAt,
+  required DateTime? endAllUntil,
+  required bool isTrackedSession,
+  required DateTime now,
+}) {
+  if (isRecentProgrammaticCallKitEnd(endedAt: endedAt, now: now)) {
+    return true;
+  }
+  if (isTrackedSession || endAllUntil == null) {
+    return false;
+  }
+  return now.isBefore(endAllUntil);
 }
 
 bool shouldIgnoreCallKitUserEndEvent({
@@ -139,8 +196,9 @@ bool shouldIgnoreCallKitUserEndEvent({
   required DateTime? suppressUntil,
   required DateTime now,
   required bool isLiveVoiceCall,
+  bool isProgrammaticEnd = false,
 }) {
-  if (isEndingProgrammatically) {
+  if (isEndingProgrammatically || isProgrammaticEnd) {
     return true;
   }
   if (isLiveVoiceCall) {
@@ -165,11 +223,26 @@ bool didJoinVoiceCall({
   return previous.channelId != next.channelId;
 }
 
+bool isCallKitAcceptInFlight({
+  required VoiceCallKitSession session,
+  required Set<String> acceptInFlight,
+}) {
+  return acceptInFlight.contains(session.channelId) ||
+      acceptInFlight.contains(session.callKitId);
+}
+
 bool shouldEndIncomingRingCallKitSession({
   required VoiceCallKitSession session,
   required Set<String> pendingIncomingChannelIds,
+  Set<String> acceptInFlight = const <String>{},
 }) {
   if (session.kind != VoiceCallKitSessionKind.incomingRing) {
+    return false;
+  }
+  if (isCallKitAcceptInFlight(
+    session: session,
+    acceptInFlight: acceptInFlight,
+  )) {
     return false;
   }
   return !pendingIncomingChannelIds.contains(session.channelId);
@@ -178,12 +251,82 @@ bool shouldEndIncomingRingCallKitSession({
 bool shouldEndCallKitSessionForActiveCallsChange({
   required VoiceCallKitSession session,
   required Set<String> activeCallChannelIds,
+  String? liveVoiceChannelId,
+  Set<String> acceptInFlight = const <String>{},
 }) {
   if (session.kind == VoiceCallKitSessionKind.activeVoice &&
       session.messageId == null) {
     return false;
   }
+  if (liveVoiceChannelId != null && session.channelId == liveVoiceChannelId) {
+    return false;
+  }
+  if (isCallKitAcceptInFlight(
+    session: session,
+    acceptInFlight: acceptInFlight,
+  )) {
+    return false;
+  }
   return !activeCallChannelIds.contains(session.channelId);
+}
+
+bool isWithinCallKitActiveCallsSettleWindow({
+  required bool gatewayReady,
+  required DateTime? readyAt,
+  required DateTime now,
+  Duration settle = kVoiceCallKitActiveCallsSettleDelay,
+}) {
+  if (!gatewayReady) {
+    return true;
+  }
+  if (readyAt == null) {
+    return false;
+  }
+  return now.difference(readyAt) < settle;
+}
+
+bool shouldStartMissingCallKitOnForeground({
+  required bool isMobileCallKitPlatform,
+  required VoiceCallKitVoiceSnapshot voice,
+  required bool hasSessionForChannel,
+}) {
+  if (!isMobileCallKitPlatform || hasSessionForChannel) {
+    return false;
+  }
+  return voice.isInVoice && voice.isConnected && voice.channelId != null;
+}
+
+bool shouldReassertAndroidForegroundCall({
+  required bool isAndroid,
+  required String endedChannelId,
+  required bool endedWasAccepted,
+  required String? liveVoiceChannelId,
+  required bool hasLiveVoiceSession,
+}) {
+  if (!isAndroid || !endedWasAccepted || !hasLiveVoiceSession) {
+    return false;
+  }
+  return liveVoiceChannelId != null && liveVoiceChannelId != endedChannelId;
+}
+
+bool shouldMuteForCallKitHold({
+  required bool isOnHold,
+  required bool isSelfMuted,
+}) {
+  return isOnHold && !isSelfMuted;
+}
+
+bool shouldUnmuteAfterCallKitHold({
+  required bool isOnHold,
+  required bool mutedForHold,
+  required bool isSelfMuted,
+  required bool hasOtherHeldCalls,
+}) {
+  return !isOnHold && mutedForHold && isSelfMuted && !hasOtherHeldCalls;
+}
+
+bool isNativeActiveVoiceCallKitCall(Map<String, dynamic>? extra) {
+  return extra?[kVoiceCallKitExtraActiveVoice] == true;
 }
 
 bool shouldDeferMobileCallKitStartCall({

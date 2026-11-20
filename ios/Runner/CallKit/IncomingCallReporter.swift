@@ -6,7 +6,7 @@ import UIKit
 import UserNotifications
 import flutter_callkit_incoming
 
-final class IncomingCallReporter: NSObject, CXProviderDelegate {
+final class IncomingCallReporter: NSObject, CXProviderDelegate, CXCallObserverDelegate {
   private static let queueSpecific = DispatchSpecificKey<UInt8>()
 
   let queue: DispatchQueue = {
@@ -33,6 +33,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private var backgroundTask = UIBackgroundTaskIdentifier.invalid
   private var backgroundGeneration = 0
   private var earlyActions: [UUID: EarlyCallAction] = [:]
+  private var placeholderUUIDs: Set<UUID> = []
+  private var heldCalls: Set<UUID> = []
+  private var muteEchoes: [UUID: Bool] = [:]
+  private var callController: CXCallController?
+  private var callObserver: CXCallObserver?
 
   private enum EarlyCallAction {
     case answered
@@ -48,6 +53,8 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     let guildId: String
     var answered = false
     var published = false
+    var outgoing = false
+    var connected = false
   }
 
   func start() {
@@ -56,9 +63,17 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
     let provider = CallProvider(delegate: self, queue: queue)
     callProvider = provider
-    for call in CXCallObserver().calls where !call.hasEnded {
+    callController = CXCallController(queue: queue)
+    let observer = CXCallObserver()
+    observer.setDelegate(self, queue: queue)
+    callObserver = observer
+    for call in observer.calls where !call.hasEnded {
       provider.end(uuid: call.uuid, reason: .failed)
     }
+  }
+
+  func hasLiveCalls() -> Bool {
+    performSync { !calls.isEmpty }
   }
 
   func register(messenger: FlutterBinaryMessenger) {
@@ -76,10 +91,34 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       }
       switch call.method {
       case "hold":
+        let id = (call.arguments as? [String: Any])?["id"] as? String
         self.queue.async {
           self.cancelAnswerHangup()
           self.endKeepAlive()
+          self.markOutgoingConnected(id: id)
           self.reemitAudioSessionIfActive()
+        }
+        result(nil)
+      case "acceptAck":
+        self.queue.async {
+          self.extendAnswerHangup()
+        }
+        result(nil)
+      case "startOutgoing":
+        let args = call.arguments as? [String: Any]
+        self.queue.async {
+          self.startOutgoing(args: args) { started in
+            DispatchQueue.main.async {
+              result(started)
+            }
+          }
+        }
+      case "mute":
+        let args = call.arguments as? [String: Any]
+        let id = args?["id"] as? String
+        let muted = args?["muted"] as? Bool ?? false
+        self.queue.async {
+          self.requestMute(id: id, muted: muted)
         }
         result(nil)
       case "endAll":
@@ -120,6 +159,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   func handle(payload: PKPushPayload, completion: @escaping () -> Void) {
     let encoded = payload.dictionaryPayload["p"] as? String
     let uuid = Self.provisionalCallUUID(encoded: encoded)
+    onQueue {
+      self.placeholderUUIDs.insert(uuid)
+    }
     let pushDone = PushCompletionGate(completion: completion)
     reportPlaceholderIncoming(uuid: uuid) { [weak self] error in
       pushDone.finish()
@@ -149,11 +191,51 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       self.terminalRetry?.cancel()
       self.terminalRetry = nil
       self.callAudioActive = false
+      self.placeholderUUIDs.removeAll()
+      self.heldCalls.removeAll()
+      self.muteEchoes.removeAll()
+      CallAudioSession.reset()
+      self.emit(Self.customEvent, body: ["kind": "providerReset"])
     }
   }
 
   func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
-    action.fail()
+    let uuid = action.callUUID
+    onQueue {
+      guard self.calls[uuid]?.outgoing == true else {
+        action.fail()
+        return
+      }
+      CallAudioSession.prepareForOutgoing()
+      self.callProvider?.reportOutgoingConnecting(uuid: uuid)
+      action.fulfill()
+    }
+  }
+
+  func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
+    let uuid = action.callUUID
+    let onHold = action.isOnHold
+    action.fulfill()
+    onQueue {
+      guard self.calls[uuid] != nil else {
+        return
+      }
+      if onHold {
+        self.heldCalls.insert(uuid)
+      } else {
+        self.heldCalls.remove(uuid)
+      }
+      self.emit(Self.holdEvent, body: [
+        "id": uuid.uuidString.lowercased(),
+        "isOnHold": onHold,
+      ])
+    }
+  }
+
+  func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+    onQueue {
+      self.resumeHeldCallsIfIdle(changed: call)
+    }
   }
 
   func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
@@ -180,6 +262,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     let uuid = action.callUUID
     let muted = action.isMuted
     onQueue {
+      if let echo = self.muteEchoes.removeValue(forKey: uuid), echo == muted {
+        return
+      }
       self.emit(Self.muteEvent, body: [
         "id": uuid.uuidString.lowercased(),
         "isMuted": muted,
@@ -196,7 +281,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   }
 
   func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
-    CallAudioSession.deactivate(audioSession)
+    CallAudioSession.deactivate(audioSession, hasLiveCalls: !calls.isEmpty)
     onQueue {
       self.callAudioActive = false
       self.emit(Self.audioSessionEvent, body: ["isActive": false])
@@ -222,6 +307,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   private func didEnd(_ uuid: UUID) {
     let call = calls.removeValue(forKey: uuid)
+    placeholderUUIDs.remove(uuid)
+    heldCalls.remove(uuid)
+    muteEchoes.removeValue(forKey: uuid)
     if call == nil {
       earlyActions[uuid] = .ended
     } else {
@@ -445,13 +533,146 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     emitTerminal(Self.timeoutEvent, body: eventBody(call, uuid: uuid, accepted: false))
   }
 
-  private func scheduleAnswerHangup() {
+  private func scheduleAnswerHangup(after seconds: Double = 45) {
     cancelAnswerHangup()
     let work = DispatchWorkItem { [weak self] in
       self?.endAll()
     }
     answerHangup = work
-    queue.asyncAfter(deadline: .now() + 45, execute: work)
+    queue.asyncAfter(deadline: .now() + seconds, execute: work)
+  }
+
+  private func extendAnswerHangup() {
+    guard answerHangup != nil else {
+      return
+    }
+    scheduleAnswerHangup(after: 120)
+  }
+
+  private func startOutgoing(args: [String: Any]?, completion: @escaping (Bool) -> Void) {
+    guard let args,
+      let id = args["id"] as? String,
+      let uuid = UUID(uuidString: id),
+      let channelId = args["channelId"] as? String,
+      !channelId.isEmpty
+    else {
+      completion(false)
+      return
+    }
+    start()
+    guard let callController else {
+      completion(false)
+      return
+    }
+    if calls[uuid]?.outgoing == true {
+      completion(true)
+      return
+    }
+    if calls[uuid] != nil || calls.values.contains(where: { $0.channelId == channelId }) {
+      completion(false)
+      return
+    }
+    let rawName = args["name"] as? String ?? ""
+    let name = rawName.isEmpty ? CallRingResolver.fallbackHandle : rawName
+    let rawHandle = args["handle"] as? String ?? ""
+    let handle = rawHandle.isEmpty ? name : rawHandle
+    calls[uuid] = LiveCall(
+      channelId: channelId,
+      messageId: args["messageId"] as? String ?? "",
+      name: name,
+      handle: handle,
+      targetUserId: "",
+      guildId: args["guildId"] as? String ?? "",
+      answered: true,
+      published: true,
+      outgoing: true,
+      connected: false
+    )
+    let action = CXStartCallAction(call: uuid, handle: CXHandle(type: .generic, value: handle))
+    action.isVideo = false
+    action.contactIdentifier = name
+    callController.request(CXTransaction(action: action)) { [weak self] error in
+      guard let self else {
+        completion(false)
+        return
+      }
+      self.onQueue {
+        if let error {
+          NSLog("[CallKit] outgoing call request failed: \(error.localizedDescription)")
+          self.calls.removeValue(forKey: uuid)
+          completion(false)
+          return
+        }
+        guard self.calls[uuid] != nil else {
+          completion(false)
+          return
+        }
+        self.callProvider?.updateIncoming(
+          uuid: uuid,
+          update: CallProvider.update(name: name, handle: handle)
+        )
+        completion(true)
+      }
+    }
+  }
+
+  private func markOutgoingConnected(id: String?) {
+    guard let id, let uuid = UUID(uuidString: id), var call = calls[uuid],
+      call.outgoing, !call.connected
+    else {
+      return
+    }
+    call.connected = true
+    calls[uuid] = call
+    callProvider?.reportOutgoingConnected(uuid: uuid)
+  }
+
+  private func requestMute(id: String?, muted: Bool) {
+    guard let id, let uuid = UUID(uuidString: id), calls[uuid] != nil,
+      let callController
+    else {
+      return
+    }
+    muteEchoes[uuid] = muted
+    let action = CXSetMutedCallAction(call: uuid, muted: muted)
+    callController.request(CXTransaction(action: action)) { [weak self] error in
+      guard let self else {
+        return
+      }
+      if error != nil {
+        self.onQueue { self.clearMuteEcho(uuid: uuid, muted: muted) }
+        return
+      }
+      self.queue.asyncAfter(deadline: .now() + 1) { [weak self] in
+        self?.clearMuteEcho(uuid: uuid, muted: muted)
+      }
+    }
+  }
+
+  private func clearMuteEcho(uuid: UUID, muted: Bool) {
+    if muteEchoes[uuid] == muted {
+      muteEchoes.removeValue(forKey: uuid)
+    }
+  }
+
+  private func resumeHeldCallsIfIdle(changed: CXCall) {
+    guard changed.hasEnded, !heldCalls.isEmpty, let callObserver, let callController else {
+      return
+    }
+    let otherLive = callObserver.calls.contains { call in
+      !call.hasEnded && calls[call.uuid] == nil
+    }
+    guard !otherLive else {
+      return
+    }
+    for uuid in heldCalls where calls[uuid] != nil {
+      let action = CXSetHeldCallAction(call: uuid, onHold: false)
+      callController.request(CXTransaction(action: action)) { error in
+        if let error {
+          NSLog("[CallKit] resume held call failed: \(error.localizedDescription)")
+        }
+      }
+    }
   }
 
   private func cancelAnswerHangup() {
@@ -463,8 +684,10 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     if calls.values.contains(where: { !$0.answered }) {
       return true
     }
-    return CXCallObserver().calls.contains { call in
-      !call.hasEnded && !call.isOutgoing && !call.hasConnected
+    let observed = callObserver?.calls ?? CXCallObserver().calls
+    return observed.contains { call in
+      placeholderUUIDs.contains(call.uuid) && !call.hasEnded && !call.isOutgoing
+        && !call.hasConnected
     }
   }
 
@@ -473,6 +696,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       return
     }
     let call = calls.removeValue(forKey: uuid)
+    placeholderUUIDs.remove(uuid)
+    heldCalls.remove(uuid)
+    muteEchoes.removeValue(forKey: uuid)
     ringTimers[uuid]?.cancel()
     ringTimers[uuid] = nil
     if call?.answered == true {
@@ -497,6 +723,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     cancelNotifyRetry()
     let ending = Array(calls.keys)
     calls.removeAll()
+    placeholderUUIDs.removeAll()
+    heldCalls.removeAll()
+    muteEchoes.removeAll()
     for uuid in ending {
       callProvider?.end(uuid: uuid, reason: .remoteEnded)
     }
@@ -505,11 +734,14 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
   }
 
-  private func extraFields(_ call: LiveCall) -> [String: String] {
-    var extra = [
+  private func extraFields(_ call: LiveCall) -> [String: Any] {
+    var extra: [String: Any] = [
       "channelId": call.channelId,
       "messageId": call.messageId,
     ]
+    if call.outgoing {
+      extra["activeVoice"] = true
+    }
     if !call.targetUserId.isEmpty {
       extra["targetUserId"] = call.targetUserId
     }
@@ -754,6 +986,8 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private static let endedEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_ENDED"
   private static let timeoutEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TIMEOUT"
   private static let muteEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TOGGLE_MUTE"
+  private static let holdEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TOGGLE_HOLD"
+  private static let customEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_CUSTOM"
   private static let audioSessionEvent =
     "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TOGGLE_AUDIO_SESSION"
 }

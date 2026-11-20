@@ -42,11 +42,18 @@ class SampleUploader {
         
         isReady = false
 
-        dataToSend = prepare(sample: buffer)
-        byteIndex = 0
+        guard let prepared = prepare(sample: buffer) else {
+            isReady = true
+            return false
+        }
 
         serialQueue.async { [weak self] in
-            self?.sendDataChunk()
+            guard let self = self else {
+                return
+            }
+            self.dataToSend = prepared
+            self.byteIndex = 0
+            self.sendDataChunk()
         }
         
         return true

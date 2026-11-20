@@ -32,8 +32,13 @@ class VoicePipVideo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    final String? key = voiceSessionParticipantsKey(voice);
+    final (VoicePipSessionInputs voice, String? guildId) = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState state) =>
+            (voicePipSessionInputs(state), state.guildId),
+      ),
+    );
+    final String? key = voice.participantsKey;
     final ({String identity, VoiceParticipantTileSource source})? parsed =
         parseVoiceParticipantTileId(tileId);
     if (key == null || parsed == null) {
@@ -69,13 +74,13 @@ class VoicePipVideo extends ConsumerWidget {
       voice: match.voice,
       userId: match.userId,
       currentUserId: me,
-      localConnectionId: voice.activeConnectionId,
+      localConnectionId: voice.localConnectionId,
     );
     final database.User? user = match.user;
     final GuildUserDisplay? userDisplay = watchGuildScopedUserDisplay(
       ref: ref,
       userId: match.userId,
-      guildId: voice.guildId,
+      guildId: guildId,
       currentUserId: me,
     );
     final int? avatarArgb = userDisplay?.avatarColor ?? user?.avatarColor;

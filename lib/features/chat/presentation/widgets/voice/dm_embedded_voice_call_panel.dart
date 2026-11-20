@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart'
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -39,7 +38,9 @@ class _DmEmbeddedVoiceCallPanelState
 
   @override
   Widget build(BuildContext context) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    final VoicePipVisibilityInputs voice = ref.watch(
+      voiceSessionProvider.select(voicePipVisibilityInputs),
+    );
     if (!showsEmbeddedDmVoicePanel(channelId: widget.channelId, voice: voice)) {
       return const SizedBox.shrink();
     }

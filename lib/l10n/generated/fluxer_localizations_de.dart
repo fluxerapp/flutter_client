@@ -1397,6 +1397,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Eingehender Anruf';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Ignorieren';
 
   @override

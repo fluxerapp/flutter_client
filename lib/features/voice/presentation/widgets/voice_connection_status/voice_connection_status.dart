@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -41,7 +40,9 @@ class VoiceConnectionStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    final VoiceConnectionStatusInputs voice = ref.watch(
+      voiceSessionProvider.select(voiceConnectionStatusInputs),
+    );
     if (voice.connectFailed) {
       return const _FailedVoiceConnectionStatus();
     }
@@ -50,6 +51,37 @@ class VoiceConnectionStatus extends ConsumerWidget {
     }
     return _ResolvedVoiceConnectionStatus(voice: voice);
   }
+}
+
+typedef VoiceConnectionStatusInputs = ({
+  bool connectFailed,
+  bool isConnecting,
+  bool isConnected,
+  bool isReconnecting,
+  String? guildId,
+  String? channelId,
+  String? activeConnectionId,
+});
+
+VoiceConnectionStatusInputs voiceConnectionStatusInputs(
+  VoiceSessionState state,
+) {
+  return (
+    connectFailed: state.connectFailed,
+    isConnecting: state.isConnecting,
+    isConnected: state.isConnected,
+    isReconnecting: state.isReconnecting,
+    guildId: state.guildId,
+    channelId: state.channelId,
+    activeConnectionId: state.activeConnectionId,
+  );
+}
+
+extension on VoiceConnectionStatusInputs {
+  bool get isInVoice =>
+      (isConnecting || isConnected) &&
+      channelId != null &&
+      channelId!.isNotEmpty;
 }
 
 class _FailedVoiceConnectionStatus extends ConsumerWidget {
@@ -120,7 +152,7 @@ class _FailedVoiceConnectionStatus extends ConsumerWidget {
 class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
   const _ResolvedVoiceConnectionStatus({required this.voice});
 
-  final VoiceSessionState voice;
+  final VoiceConnectionStatusInputs voice;
 
   bool get _isGuildVoice => voice.guildId != null && voice.guildId!.isNotEmpty;
 
@@ -134,8 +166,11 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
     return voiceDmChannelParticipantsFamilyKey(voice.channelId!);
   }
 
-  void _navigateToChannel(BuildContext context) {
-    navigateToActiveVoiceSession(context, voice: voice);
+  void _navigateToChannel(BuildContext context, WidgetRef ref) {
+    navigateToActiveVoiceSession(
+      context,
+      voice: ref.read(voiceSessionProvider),
+    );
   }
 
   @override
@@ -151,30 +186,41 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
 
     final String channelLabel;
     final String guildLabel;
+    final String? channelId = voice.channelId;
     if (_isGuildVoice) {
-      final ChannelListState channelState = ref.watch(
-        channelListViewModelProvider,
-      );
-      final Channel? channel = voice.channelId == null
+      final String? channelName = channelId == null
           ? null
-          : findChannelById(channelState, voice.channelId!);
-      channelLabel = channel?.name ?? voice.channelId ?? '';
-      final List<Guild> guilds = ref.watch(
-        guildListViewModelProvider.select((s) => s.guilds),
-      );
+          : ref.watch(
+              channelListViewModelProvider.select(
+                (ChannelListState state) =>
+                    findChannelById(state, channelId)?.name,
+              ),
+            );
+      channelLabel = channelName ?? channelId ?? '';
+      final String? guildId = voice.guildId;
       guildLabel =
-          guilds.where((Guild g) => g.id == voice.guildId).firstOrNull?.name ??
+          ref.watch(
+            guildListViewModelProvider.select(
+              (s) => s.guilds
+                  .where((Guild g) => g.id == guildId)
+                  .firstOrNull
+                  ?.name,
+            ),
+          ) ??
           '';
     } else {
-      final List<DmConversation> conversations = ref.watch(
-        dmViewModelProvider.select((s) => s.conversations),
-      );
-      final DmConversation? dm = voice.channelId == null
+      final String? dmName = channelId == null
           ? null
-          : findDmById(conversations, voice.channelId!);
-      channelLabel = dm == null
-          ? voice.channelId ?? ''
-          : dmConversationDisplayName(FluxerLocalizations.of(context), dm);
+          : ref.watch(
+              dmViewModelProvider.select((s) {
+                final DmConversation? dm = findDmById(
+                  s.conversations,
+                  channelId,
+                );
+                return dm == null ? null : dmConversationDisplayName(l10n, dm);
+              }),
+            );
+      channelLabel = dmName ?? channelId ?? '';
       guildLabel = '';
     }
 
@@ -313,7 +359,7 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
               semanticLabel: l10n.voiceJumpToChannel(channelSourceLabel),
               channelLabel: channelLabel,
               guildLabel: _isGuildVoice ? guildLabel : null,
-              onTap: () => _navigateToChannel(context),
+              onTap: () => _navigateToChannel(context, ref),
               onSecondaryTapUp: (TapUpDetails details) {
                 unawaited(
                   _showDisplayOptions(
@@ -329,7 +375,7 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
             Tooltip(
               message: l10n.voiceJumpToChannel(channelSourceLabel),
               child: InkWell(
-                onTap: () => _navigateToChannel(context),
+                onTap: () => _navigateToChannel(context, ref),
                 child: Text.rich(
                   TextSpan(
                     style: context.textStyles.timestamp.copyWith(

@@ -35,6 +35,12 @@ class _RecordingHostApi extends VoiceAudioSessionHostApi {
   }
 }
 
+class _FailingHostApi extends _RecordingHostApi {
+  @override
+  Future<void> acquire(String owner) =>
+      Future<void>.error(StateError('channel-error'));
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -46,6 +52,15 @@ void main() {
   });
 
   tearDown(FluxerVoiceAudioSession.instance.debugReset);
+
+  test('a failed acquire does not leave the owner behind', () async {
+    final FluxerVoiceAudioSession session = FluxerVoiceAudioSession.instance
+      ..debugOverridePlatform(api: _FailingHostApi());
+
+    await expectLater(session.acquire('voice'), throwsStateError);
+
+    expect(session.isActive, isFalse);
+  });
 
   test('acquire, release and preferred route send their arguments', () async {
     final FluxerVoiceAudioSession session = FluxerVoiceAudioSession.instance;

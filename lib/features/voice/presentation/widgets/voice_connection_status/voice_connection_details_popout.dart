@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
@@ -23,6 +25,23 @@ class VoiceConnectionDetailsPopout extends ConsumerStatefulWidget {
 class _VoiceConnectionDetailsPopoutState
     extends ConsumerState<VoiceConnectionDetailsPopout> {
   bool _advancedExpanded = false;
+  Timer? _durationTicker;
+
+  @override
+  void initState() {
+    super.initState();
+    _durationTicker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _durationTicker?.cancel();
+    super.dispose();
+  }
 
   String _formatDuration(FluxerLocalizations l10n, Duration? duration) {
     if (duration == null) {

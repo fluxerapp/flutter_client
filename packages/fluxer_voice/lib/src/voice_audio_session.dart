@@ -45,9 +45,16 @@ class FluxerVoiceAudioSession {
     debugOverridePlatform();
   }
 
-  Future<void> acquire(String owner) {
-    _owners.add(owner);
-    return _api.acquire(owner);
+  Future<void> acquire(String owner) async {
+    final bool added = _owners.add(owner);
+    try {
+      await _api.acquire(owner);
+    } on Object {
+      if (added) {
+        _owners.remove(owner);
+      }
+      rethrow;
+    }
   }
 
   Future<void> release(String owner) {

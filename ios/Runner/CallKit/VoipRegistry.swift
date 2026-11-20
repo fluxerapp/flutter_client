@@ -30,10 +30,15 @@ final class VoipRegistry: NSObject {
   }
 
   func applyPendingVoipToken() {
-    guard let hex = pendingTokenHex, !hex.isEmpty else {
+    let pending = reporter.performSync { pendingTokenHex }
+    guard let hex = pending, !hex.isEmpty else {
       return
     }
     SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP(hex)
+  }
+
+  func hasLiveCalls() -> Bool {
+    reporter.hasLiveCalls()
   }
 
   func currentTokenHex() -> String? {

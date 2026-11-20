@@ -33,21 +33,44 @@ final class VoiceRoutePickerViewFactory: NSObject, FlutterPlatformViewFactory {
 }
 
 enum VoiceRouteSheetSession {
+  private struct SavedSession {
+    let category: AVAudioSession.Category
+    let mode: AVAudioSession.Mode
+    let options: AVAudioSession.CategoryOptions
+  }
+
   private static var owner: ObjectIdentifier?
+  private static var saved: SavedSession?
 
   static func callStarted() {
     owner = nil
+    saved = nil
   }
 
   static func activate(for view: AnyObject) {
     let session = AVAudioSession.sharedInstance()
-    try? session.setCategory(
-      .playAndRecord,
-      mode: .voiceChat,
-      options: [.allowBluetoothHFP, .allowBluetoothA2DP, .defaultToSpeaker]
+    guard owner == nil, session.category != .playAndRecord else {
+      return
+    }
+    let previous = SavedSession(
+      category: session.category,
+      mode: session.mode,
+      options: session.categoryOptions
     )
+    do {
+      try session.setCategory(
+        .playAndRecord,
+        mode: .voiceChat,
+        options: [.allowBluetoothHFP, .allowBluetoothA2DP, .defaultToSpeaker]
+      )
+    } catch {
+      return
+    }
     if (try? session.setActive(true)) != nil {
       owner = ObjectIdentifier(view)
+      saved = previous
+    } else {
+      try? session.setCategory(previous.category, mode: previous.mode, options: previous.options)
     }
   }
 
@@ -56,7 +79,18 @@ enum VoiceRouteSheetSession {
       return
     }
     owner = nil
-    try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+    let session = AVAudioSession.sharedInstance()
+    guard let previous = saved else {
+      return
+    }
+    saved = nil
+    guard session.category == .playAndRecord, session.mode == .voiceChat else {
+      return
+    }
+    if previous.category == .soloAmbient || previous.category == .ambient {
+      try? session.setActive(false, options: .notifyOthersOnDeactivation)
+    }
+    try? session.setCategory(previous.category, mode: previous.mode, options: previous.options)
   }
 }
 

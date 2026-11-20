@@ -67,8 +67,10 @@ CallKitParams buildVoiceCallKitParams({
       isShowFullLockedScreen: true,
       isCustomSmallExNotification: true,
       ringtonePath: kVoiceCallKitAndroidRingtone,
-      incomingCallNotificationChannelName: display.nameCaller,
-      missedCallNotificationChannelName: display.nameCaller,
+      incomingCallNotificationChannelName:
+          l10n.incomingVoiceCallNotificationChannel,
+      missedCallNotificationChannelName:
+          l10n.missedVoiceCallNotificationChannel,
       textAccept: l10n.incomingVoiceCallAccept,
       textDecline: l10n.incomingVoiceCallDecline,
     ),
@@ -87,12 +89,11 @@ CallKitParams buildVoiceCallKitParams({
 CallKitParams buildIncomingCallRingParams({
   required String callKitId,
   required CallRingDisplay display,
+  required FluxerLocalizations l10n,
   String? channelId,
   String? messageId,
   String? targetUserId,
   String? guildId,
-  String acceptLabel = 'Accept',
-  String declineLabel = 'Decline',
   bool showMissedCall = true,
 }) {
   return CallKitParams(
@@ -123,10 +124,12 @@ CallKitParams buildIncomingCallRingParams({
       isShowFullLockedScreen: true,
       isCustomSmallExNotification: true,
       ringtonePath: kVoiceCallKitAndroidRingtone,
-      incomingCallNotificationChannelName: display.nameCaller,
-      missedCallNotificationChannelName: display.nameCaller,
-      textAccept: acceptLabel,
-      textDecline: declineLabel,
+      incomingCallNotificationChannelName:
+          l10n.incomingVoiceCallNotificationChannel,
+      missedCallNotificationChannelName:
+          l10n.missedVoiceCallNotificationChannel,
+      textAccept: l10n.incomingVoiceCallAccept,
+      textDecline: l10n.incomingVoiceCallDecline,
     ),
     ios: const IOSParams(
       handleType: 'generic',

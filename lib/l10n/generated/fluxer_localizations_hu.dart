@@ -1387,6 +1387,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Bejövő hívás';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Elutasítás';
 
   @override

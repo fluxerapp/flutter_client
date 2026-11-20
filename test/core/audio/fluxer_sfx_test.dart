@@ -342,6 +342,63 @@ void main() {
     });
   });
 
+  group('iOS voice call audio session', () {
+    setUp(() {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      ChatAttachmentAudioSession.instance.resetForTest();
+      for (final MockAudioPlayer player in <MockAudioPlayer>[
+        mockOneShotPlayer,
+        mockLoopPlayer,
+      ]) {
+        when(player.setAudioContext(any)).thenAnswer((_) async {
+          return;
+        });
+        when(player.setReleaseMode(any)).thenAnswer((_) async {
+          return;
+        });
+        when(player.stop()).thenAnswer((_) async {
+          return;
+        });
+        when(player.setVolume(any)).thenAnswer((_) async {
+          return;
+        });
+        when(player.play(any)).thenAnswer((_) async {
+          return;
+        });
+      }
+    });
+
+    tearDown(() {
+      debugDefaultTargetPlatformOverride = null;
+      ChatAttachmentAudioSession.instance.resetForTest();
+    });
+
+    test('sounds during a call keep the call audio session category', () async {
+      await ChatAttachmentAudioSession.instance.clearForVoiceCall();
+
+      expect(voiceCallOwnsAudioSession(), isTrue);
+      await sfx.playOneShot(FluxerSfxClip.userJoin);
+      await sfx.playOneShot(FluxerSfxClip.message);
+      await sfx.playOneShot(FluxerSfxClip.mute, ignoreRingerPolicy: true);
+
+      verifyNever(mockOneShotPlayer.setAudioContext(any));
+      verify(mockOneShotPlayer.play(any)).called(3);
+    });
+
+    test('sound contexts apply again once the call ends', () async {
+      await ChatAttachmentAudioSession.instance.clearForVoiceCall();
+      await sfx.playOneShot(FluxerSfxClip.message);
+      ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
+
+      expect(voiceCallOwnsAudioSession(), isFalse);
+      await sfx.playOneShot(FluxerSfxClip.message);
+
+      verify(
+        mockOneShotPlayer.setAudioContext(kNotificationSfxContext),
+      ).called(1);
+    });
+  });
+
   group('dispose', () {
     test('disposes both players', () async {
       when(mockLoopPlayer.dispose()).thenAnswer((_) async {

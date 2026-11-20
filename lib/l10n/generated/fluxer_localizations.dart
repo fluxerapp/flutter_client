@@ -2366,6 +2366,18 @@ abstract class FluxerLocalizations {
   /// **'Incoming call'**
   String get incomingVoiceCallLabel;
 
+  /// Android notification channel name for ringing incoming calls, shown in system notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming calls'**
+  String get incomingVoiceCallNotificationChannel;
+
+  /// Android notification channel name for missed call notifications, shown in system notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed calls'**
+  String get missedVoiceCallNotificationChannel;
+
   /// Button to ignore ringing for the current account without rejecting for others.
   ///
   /// In en, this message translates to:

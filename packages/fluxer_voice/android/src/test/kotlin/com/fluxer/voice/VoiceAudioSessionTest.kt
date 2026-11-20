@@ -27,6 +27,18 @@ import org.robolectric.shadows.ShadowLooper
 import org.robolectric.util.ReflectionHelpers
 import java.util.concurrent.TimeUnit
 
+private class FakeWifiLock : VoiceWifiLock {
+    override var isHeld: Boolean = false
+
+    override fun acquire() {
+        isHeld = true
+    }
+
+    override fun release() {
+        isHeld = false
+    }
+}
+
 private class FakeKeepalive : VoiceKeepalive {
     override var isPlaying: Boolean = false
 
@@ -48,6 +60,7 @@ class VoiceAudioSessionTest {
     private lateinit var earpiece: AudioDeviceInfo
     private lateinit var session: VoiceAudioSession
     private val keepalive = FakeKeepalive()
+    private val wifiLock = FakeWifiLock()
     private var now = 0L
     private var calls: List<CallkitConnection> = emptyList()
     private val events = mutableListOf<NativeVoiceSessionState>()
@@ -69,6 +82,7 @@ class VoiceAudioSessionTest {
             connections = { calls },
             registerPlatformListeners = false,
             keepalive = keepalive,
+            wifiLock = wifiLock,
         )
     }
 
@@ -255,6 +269,47 @@ class VoiceAudioSessionTest {
 
         session.onModeChanged(AudioManager.MODE_NORMAL)
         assertEquals(1, audioManager.communicationDevice?.id)
+    }
+
+    @Test
+    fun routingResumesWhenTheCellularCallHandsTheModeBackToUs() {
+        activate(VoiceOutputRoute.Earpiece)
+
+        session.onModeChanged(AudioManager.MODE_RINGTONE)
+        session.onModeChanged(AudioManager.MODE_IN_CALL)
+        session.setPreferredRoute(VoiceOutputRoute.Speaker, null, true)
+        idle(400)
+        assertEquals(2, audioManager.communicationDevice?.id)
+
+        session.onModeChanged(AudioManager.MODE_IN_COMMUNICATION)
+        assertEquals(1, audioManager.communicationDevice?.id)
+        assertFalse(session.diagnostics().contains("waitingForExternalCall=true"))
+
+        session.setPreferredRoute(VoiceOutputRoute.Earpiece, null, true)
+        assertEquals(2, audioManager.communicationDevice?.id)
+    }
+
+    @Test
+    fun releaseRestoresNormalModeEvenIfActivatedWhileRinging() {
+        audioManager.mode = AudioManager.MODE_RINGTONE
+        session.acquire("call")
+        session.onModeChanged(AudioManager.MODE_NORMAL)
+        idle(400)
+
+        session.release("call")
+
+        assertEquals(AudioManager.MODE_NORMAL, audioManager.mode)
+    }
+
+    @Test
+    fun wifiLockIsHeldOnlyWhileTheSessionIsActive() {
+        assertFalse(wifiLock.isHeld)
+        activate(VoiceOutputRoute.Speaker)
+        assertTrue(wifiLock.isHeld)
+
+        session.release("call")
+
+        assertFalse(wifiLock.isHeld)
     }
 
     @Test

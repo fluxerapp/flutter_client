@@ -1,9 +1,34 @@
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 
+typedef VoicePipVisibilityInputs = ({
+  bool isConnecting,
+  bool isConnected,
+  String? guildId,
+  String? channelId,
+  String? errorMessage,
+});
+
+extension VoicePipVisibilityInputsX on VoicePipVisibilityInputs {
+  bool get isInVoice =>
+      (isConnecting || isConnected) &&
+      channelId != null &&
+      channelId!.isNotEmpty;
+}
+
+VoicePipVisibilityInputs voicePipVisibilityInputs(VoiceSessionState voice) {
+  return (
+    isConnecting: voice.isConnecting,
+    isConnected: voice.isConnected,
+    guildId: voice.guildId,
+    channelId: voice.channelId,
+    errorMessage: voice.errorMessage,
+  );
+}
+
 bool showsEmbeddedDmVoicePanel({
   required String channelId,
-  required VoiceSessionState voice,
+  required VoicePipVisibilityInputs voice,
 }) {
   final bool isPrivate = voice.guildId == null || voice.guildId!.isEmpty;
   return isPrivate &&
@@ -33,7 +58,7 @@ bool voicePipIsOnSessionCallRoute({
 }
 
 bool voicePipShouldShowCollapsed({
-  required VoiceSessionState voice,
+  required VoicePipVisibilityInputs voice,
   required bool onSessionCallRoute,
   required bool showsEmbeddedDmPanel,
   required bool hasFeaturedVisual,
