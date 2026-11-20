@@ -139,31 +139,38 @@ Future<void> _downloadToFilePicker({
   String? filename,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  File? destination;
   try {
     final String resolvedFilename = resolveAttachmentDownloadFilename(
       url: url,
       filename: filename,
     );
-    final Response<List<int>> response = await _attachmentDownloadDio
-        .get<List<int>>(
-          url,
-          options: Options(responseType: ResponseType.bytes),
-        );
-    final List<int>? bytes = response.data;
-    if (bytes == null || bytes.isEmpty) {
-      _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
-      return;
-    }
-    final Uri? path = await FilePicker.saveFile(
+    final Uri? uri = await FilePicker.saveFile(
       dialogTitle: l10n.chatAttachmentDownload,
       fileName: resolvedFilename,
-      bytes: Uint8List.fromList(bytes),
+      bytes: Uint8List(0),
     );
-    if (path != null) {
-      _showSuccessToast(ref, l10n.chatAttachmentDownloadedToast);
+    if (uri == null) {
+      return;
+    }
+    destination = File(uri.toFilePath());
+    await _attachmentDownloadDio.download(url, destination.path);
+    _showSuccessToast(ref, l10n.chatAttachmentDownloadedToast);
+  } on Object {
+    if (destination != null) {
+      await _deletePartialDownload(destination);
+    }
+    _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
+  }
+}
+
+Future<void> _deletePartialDownload(File file) async {
+  try {
+    if (file.existsSync()) {
+      await file.delete();
     }
   } on Object {
-    _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
+    return;
   }
 }
 
