@@ -24,10 +24,6 @@ git config user.name "fluxer-ci[bot]"
 git config user.email "${FLUXER_CI_APP_USER_ID}+fluxer-ci[bot]@users.noreply.github.com"
 
 git add pubspec.yaml tool/release/android_release_version.properties
-changelog_path="fastlane/metadata/android/en-US/changelogs/${BUILD_NUMBER}.txt"
-if [[ -f "$changelog_path" ]]; then
-  git add "$changelog_path"
-fi
 if git diff --cached --quiet; then
   echo "Android release version already synced; nothing to commit."
   exit 0
