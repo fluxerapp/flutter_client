@@ -473,7 +473,23 @@ class _ForumPostItem extends ConsumerWidget {
       ),
     );
     if (gallery) {
-      return ForumPostTile(data: data, onTap: open, onLongPress: actions);
+      final Message? firstMessage = data.firstMessage;
+      return ForumPostTile(
+        data: data,
+        onTap: open,
+        onLongPress: actions,
+        onOpenMedia: isMediaChannel(forum) && firstMessage != null
+            ? (Attachment attachment) => openForumPostMedia(
+                context,
+                ref,
+                forum: forum,
+                post: post,
+                message: firstMessage,
+                attachment: attachment,
+                onViewPost: open,
+              )
+            : null,
+      );
     }
     final DefaultReactionEmojiResponse? reaction = forumDefaultReaction(forum);
     final Reaction? current = reaction == null || data.firstMessage == null

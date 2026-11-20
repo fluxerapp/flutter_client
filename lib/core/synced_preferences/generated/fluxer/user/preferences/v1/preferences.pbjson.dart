@@ -388,6 +388,15 @@ const SyncedPreferences$json = {
       '10': 'chatInput'
     },
     {
+      '1': 'save_camera_uploads_to_device',
+      '3': 113,
+      '4': 1,
+      '5': 8,
+      '9': 0,
+      '10': 'saveCameraUploadsToDevice',
+      '17': true
+    },
+    {
       '1': 'double_tap_reaction',
       '3': 114,
       '4': 1,
@@ -427,6 +436,9 @@ const SyncedPreferences$json = {
       '6': '.fluxer.user.preferences.v1.SwipeAction',
       '10': 'swipeRightToLeftAction'
     },
+  ],
+  '8': [
+    {'1': '_save_camera_uploads_to_device'},
   ],
 };
 
@@ -486,15 +498,17 @@ final $typed_data.Uint8List syncedPreferencesDescriptor = $convert.base64Decode(
     'RvUHJvbXB0U3RhdGVSCnN1ZG9Qcm9tcHQSRwoIa2V5YmluZHMYbyABKAsyKy5mbHV4ZXIudXNl'
     'ci5wcmVmZXJlbmNlcy52MS5LZXliaW5kU2V0dGluZ3NSCGtleWJpbmRzEkwKCmNoYXRfaW5wdX'
     'QYcCABKAsyLS5mbHV4ZXIudXNlci5wcmVmZXJlbmNlcy52MS5DaGF0SW5wdXRTZXR0aW5nc1IJ'
-    'Y2hhdElucHV0ElkKE2RvdWJsZV90YXBfcmVhY3Rpb24YciABKAsyKS5mbHV4ZXIudXNlci5wcm'
-    'VmZXJlbmNlcy52MS5SZWFjdGlvbkVtb2ppUhFkb3VibGVUYXBSZWFjdGlvbhJbChBjaGFubmVs'
-    'X2ZyZWNlbmN5GHMgASgLMjAuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuQ2hhbm5lbEZyZW'
-    'NlbmN5U3RhdGVSD2NoYW5uZWxGcmVjZW5jeRJnChRhbm5vdW5jZW1lbnRfcHJvbXB0cxh0IAEo'
-    'CzI0LmZsdXhlci51c2VyLnByZWZlcmVuY2VzLnYxLkFubm91bmNlbWVudFByb21wdHNTdGF0ZV'
-    'ITYW5ub3VuY2VtZW50UHJvbXB0cxJXChFkb3VibGVfdGFwX2FjdGlvbhh1IAEoDjIrLmZsdXhl'
-    'ci51c2VyLnByZWZlcmVuY2VzLnYxLkRvdWJsZVRhcEFjdGlvblIPZG91YmxlVGFwQWN0aW9uEm'
-    'MKGnN3aXBlX3JpZ2h0X3RvX2xlZnRfYWN0aW9uGHYgASgOMicuZmx1eGVyLnVzZXIucHJlZmVy'
-    'ZW5jZXMudjEuU3dpcGVBY3Rpb25SFnN3aXBlUmlnaHRUb0xlZnRBY3Rpb24=');
+    'Y2hhdElucHV0EkUKHXNhdmVfY2FtZXJhX3VwbG9hZHNfdG9fZGV2aWNlGHEgASgISABSGXNhdm'
+    'VDYW1lcmFVcGxvYWRzVG9EZXZpY2WIAQESWQoTZG91YmxlX3RhcF9yZWFjdGlvbhhyIAEoCzIp'
+    'LmZsdXhlci51c2VyLnByZWZlcmVuY2VzLnYxLlJlYWN0aW9uRW1vamlSEWRvdWJsZVRhcFJlYW'
+    'N0aW9uElsKEGNoYW5uZWxfZnJlY2VuY3kYcyABKAsyMC5mbHV4ZXIudXNlci5wcmVmZXJlbmNl'
+    'cy52MS5DaGFubmVsRnJlY2VuY3lTdGF0ZVIPY2hhbm5lbEZyZWNlbmN5EmcKFGFubm91bmNlbW'
+    'VudF9wcm9tcHRzGHQgASgLMjQuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuQW5ub3VuY2Vt'
+    'ZW50UHJvbXB0c1N0YXRlUhNhbm5vdW5jZW1lbnRQcm9tcHRzElcKEWRvdWJsZV90YXBfYWN0aW'
+    '9uGHUgASgOMisuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuRG91YmxlVGFwQWN0aW9uUg9k'
+    'b3VibGVUYXBBY3Rpb24SYwoac3dpcGVfcmlnaHRfdG9fbGVmdF9hY3Rpb24YdiABKA4yJy5mbH'
+    'V4ZXIudXNlci5wcmVmZXJlbmNlcy52MS5Td2lwZUFjdGlvblIWc3dpcGVSaWdodFRvTGVmdEFj'
+    'dGlvbkIgCh5fc2F2ZV9jYW1lcmFfdXBsb2Fkc190b19kZXZpY2U=');
 
 @$core.Deprecated('Use spellcheckSettingsDescriptor instead')
 const SpellcheckSettings$json = {
@@ -1008,13 +1022,6 @@ const NagbarDismissals$json = {
     },
     {'1': 'visionary_mfa', '3': 12, '4': 1, '5': 8, '10': 'visionaryMfa'},
     {
-      '1': 'legacy_phone_unlink',
-      '3': 14,
-      '4': 1,
-      '5': 8,
-      '10': 'legacyPhoneUnlink'
-    },
-    {
       '1': 'pending_bulk_deletion',
       '3': 15,
       '4': 3,
@@ -1040,11 +1047,34 @@ const NagbarDismissals$json = {
           '.fluxer.user.preferences.v1.NagbarDismissals.GuildMfaRequirementEntry',
       '10': 'guildMfaRequirement'
     },
+    {
+      '1': 'price_announcement',
+      '3': 18,
+      '4': 3,
+      '5': 11,
+      '6':
+          '.fluxer.user.preferences.v1.NagbarDismissals.PriceAnnouncementEntry',
+      '10': 'priceAnnouncement'
+    },
+    {
+      '1': 'legacy_price_opt_in',
+      '3': 19,
+      '4': 3,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.NagbarDismissals.LegacyPriceOptInEntry',
+      '10': 'legacyPriceOptIn'
+    },
+    {'1': 'android_app', '3': 20, '4': 1, '5': 8, '10': 'androidApp'},
   ],
   '3': [
     NagbarDismissals_PendingBulkDeletionEntry$json,
     NagbarDismissals_InvitesDisabledEntry$json,
-    NagbarDismissals_GuildMfaRequirementEntry$json
+    NagbarDismissals_GuildMfaRequirementEntry$json,
+    NagbarDismissals_PriceAnnouncementEntry$json,
+    NagbarDismissals_LegacyPriceOptInEntry$json
+  ],
+  '9': [
+    {'1': 14, '2': 15},
   ],
 };
 
@@ -1078,6 +1108,26 @@ const NagbarDismissals_GuildMfaRequirementEntry$json = {
   '7': {'7': true},
 };
 
+@$core.Deprecated('Use nagbarDismissalsDescriptor instead')
+const NagbarDismissals_PriceAnnouncementEntry$json = {
+  '1': 'PriceAnnouncementEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    {'1': 'value', '3': 2, '4': 1, '5': 8, '10': 'value'},
+  ],
+  '7': {'7': true},
+};
+
+@$core.Deprecated('Use nagbarDismissalsDescriptor instead')
+const NagbarDismissals_LegacyPriceOptInEntry$json = {
+  '1': 'LegacyPriceOptInEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    {'1': 'value', '3': 2, '4': 1, '5': 8, '10': 'value'},
+  ],
+  '7': {'7': true},
+};
+
 /// Descriptor for `NagbarDismissals`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List nagbarDismissalsDescriptor = $convert.base64Decode(
     'ChBOYWdiYXJEaXNtaXNzYWxzEh8KC2lvc19pbnN0YWxsGAEgASgIUgppb3NJbnN0YWxsEh8KC3'
@@ -1089,18 +1139,25 @@ final $typed_data.Uint8List nagbarDismissalsDescriptor = $convert.base64Decode(
     'YWxfZXhwaXJpbmcYCCABKAhSFHByZW1pdW1UcmlhbEV4cGlyaW5nEiUKDmdpZnRfaW52ZW50b3'
     'J5GAkgASgIUg1naWZ0SW52ZW50b3J5EikKEGRlc2t0b3BfZG93bmxvYWQYCiABKAhSD2Rlc2t0'
     'b3BEb3dubG9hZBIwChRndWlsZF9tZW1iZXJzaGlwX2N0YRgLIAEoCFISZ3VpbGRNZW1iZXJzaG'
-    'lwQ3RhEiMKDXZpc2lvbmFyeV9tZmEYDCABKAhSDHZpc2lvbmFyeU1mYRIuChNsZWdhY3lfcGhv'
-    'bmVfdW5saW5rGA4gASgIUhFsZWdhY3lQaG9uZVVubGluaxJ5ChVwZW5kaW5nX2J1bGtfZGVsZX'
-    'Rpb24YDyADKAsyRS5mbHV4ZXIudXNlci5wcmVmZXJlbmNlcy52MS5OYWdiYXJEaXNtaXNzYWxz'
-    'LlBlbmRpbmdCdWxrRGVsZXRpb25FbnRyeVITcGVuZGluZ0J1bGtEZWxldGlvbhJsChBpbnZpdG'
-    'VzX2Rpc2FibGVkGBAgAygLMkEuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuTmFnYmFyRGlz'
-    'bWlzc2Fscy5JbnZpdGVzRGlzYWJsZWRFbnRyeVIPaW52aXRlc0Rpc2FibGVkEnkKFWd1aWxkX2'
-    '1mYV9yZXF1aXJlbWVudBgRIAMoCzJFLmZsdXhlci51c2VyLnByZWZlcmVuY2VzLnYxLk5hZ2Jh'
-    'ckRpc21pc3NhbHMuR3VpbGRNZmFSZXF1aXJlbWVudEVudHJ5UhNndWlsZE1mYVJlcXVpcmVtZW'
-    '50GkYKGFBlbmRpbmdCdWxrRGVsZXRpb25FbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1'
-    'ZRgCIAEoCFIFdmFsdWU6AjgBGkIKFEludml0ZXNEaXNhYmxlZEVudHJ5EhAKA2tleRgBIAEoCV'
-    'IDa2V5EhQKBXZhbHVlGAIgASgIUgV2YWx1ZToCOAEaRgoYR3VpbGRNZmFSZXF1aXJlbWVudEVu'
-    'dHJ5EhAKA2tleRgBIAEoCVIDa2V5EhQKBXZhbHVlGAIgASgIUgV2YWx1ZToCOAE=');
+    'lwQ3RhEiMKDXZpc2lvbmFyeV9tZmEYDCABKAhSDHZpc2lvbmFyeU1mYRJ5ChVwZW5kaW5nX2J1'
+    'bGtfZGVsZXRpb24YDyADKAsyRS5mbHV4ZXIudXNlci5wcmVmZXJlbmNlcy52MS5OYWdiYXJEaX'
+    'NtaXNzYWxzLlBlbmRpbmdCdWxrRGVsZXRpb25FbnRyeVITcGVuZGluZ0J1bGtEZWxldGlvbhJs'
+    'ChBpbnZpdGVzX2Rpc2FibGVkGBAgAygLMkEuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuTm'
+    'FnYmFyRGlzbWlzc2Fscy5JbnZpdGVzRGlzYWJsZWRFbnRyeVIPaW52aXRlc0Rpc2FibGVkEnkK'
+    'FWd1aWxkX21mYV9yZXF1aXJlbWVudBgRIAMoCzJFLmZsdXhlci51c2VyLnByZWZlcmVuY2VzLn'
+    'YxLk5hZ2JhckRpc21pc3NhbHMuR3VpbGRNZmFSZXF1aXJlbWVudEVudHJ5UhNndWlsZE1mYVJl'
+    'cXVpcmVtZW50EnIKEnByaWNlX2Fubm91bmNlbWVudBgSIAMoCzJDLmZsdXhlci51c2VyLnByZW'
+    'ZlcmVuY2VzLnYxLk5hZ2JhckRpc21pc3NhbHMuUHJpY2VBbm5vdW5jZW1lbnRFbnRyeVIRcHJp'
+    'Y2VBbm5vdW5jZW1lbnQScQoTbGVnYWN5X3ByaWNlX29wdF9pbhgTIAMoCzJCLmZsdXhlci51c2'
+    'VyLnByZWZlcmVuY2VzLnYxLk5hZ2JhckRpc21pc3NhbHMuTGVnYWN5UHJpY2VPcHRJbkVudHJ5'
+    'UhBsZWdhY3lQcmljZU9wdEluEh8KC2FuZHJvaWRfYXBwGBQgASgIUgphbmRyb2lkQXBwGkYKGF'
+    'BlbmRpbmdCdWxrRGVsZXRpb25FbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEo'
+    'CFIFdmFsdWU6AjgBGkIKFEludml0ZXNEaXNhYmxlZEVudHJ5EhAKA2tleRgBIAEoCVIDa2V5Eh'
+    'QKBXZhbHVlGAIgASgIUgV2YWx1ZToCOAEaRgoYR3VpbGRNZmFSZXF1aXJlbWVudEVudHJ5EhAK'
+    'A2tleRgBIAEoCVIDa2V5EhQKBXZhbHVlGAIgASgIUgV2YWx1ZToCOAEaRAoWUHJpY2VBbm5vdW'
+    '5jZW1lbnRFbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEoCFIFdmFsdWU6AjgB'
+    'GkMKFUxlZ2FjeVByaWNlT3B0SW5FbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIA'
+    'EoCFIFdmFsdWU6AjgBSgQIDhAP');
 
 @$core.Deprecated('Use dismissedUpsellsDescriptor instead')
 const DismissedUpsells$json = {
@@ -1554,28 +1611,16 @@ const ChatInputSettings$json = {
       '10': 'convertEmoticons',
       '17': true
     },
-    {
-      '1': 'save_camera_captures_to_device',
-      '3': 2,
-      '4': 1,
-      '5': 8,
-      '9': 1,
-      '10': 'saveCameraCapturesToDevice',
-      '17': true
-    },
   ],
   '8': [
     {'1': '_convert_emoticons'},
-    {'1': '_save_camera_captures_to_device'},
   ],
 };
 
 /// Descriptor for `ChatInputSettings`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List chatInputSettingsDescriptor = $convert.base64Decode(
     'ChFDaGF0SW5wdXRTZXR0aW5ncxIwChFjb252ZXJ0X2Vtb3RpY29ucxgBIAEoCEgAUhBjb252ZX'
-    'J0RW1vdGljb25ziAEBEkcKHnNhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZRgCIAEoCEgB'
-    'UhpzYXZlQ2FtZXJhQ2FwdHVyZXNUb0RldmljZYgBAUIUChJfY29udmVydF9lbW90aWNvbnNCIQ'
-    'ofX3NhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZQ==');
+    'J0RW1vdGljb25ziAEBQhQKEl9jb252ZXJ0X2Vtb3RpY29ucw==');
 
 @$core.Deprecated('Use reactionEmojiDescriptor instead')
 const ReactionEmoji$json = {

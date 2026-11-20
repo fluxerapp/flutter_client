@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Tên người dùng",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Tạo tài khoản",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1192,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Đã nhận quà",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Xác nhận tài khoản để đổi quà",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1207,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Mã quà tặng này không hợp lệ hoặc đã được nhận.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Quà tặng không khả dụng",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Nhận quà của bạn để kích hoạt gói đăng ký {productName} của bạn!",
     "@giftAcceptClaimSubscription": {
@@ -1709,10 +1697,6 @@
     "addFriendSheetTitle": "Thêm bạn bè",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Tên người dùng#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Tên người dùng của bạn bè",
     "@addFriendUsernameLabel": {
@@ -12651,6 +12635,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Đã tạm dừng lời mời sau khi nghi ngờ có cuộc tấn công",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "không bao giờ",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -19913,10 +19901,6 @@
     "passkeyNoCredentialsForAccount": "Thiết bị này không có khóa truy cập cho tài khoản này. Hãy dùng thiết bị hoặc trình quản lý mật khẩu mà bạn đã lưu khóa.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Bật các cộng đồng và kênh giới hạn độ tuổi tại fluxer.com trong trình duyệt hoặc trong ứng dụng máy tính. Cho đến khi bạn bật, chúng vẫn bị ẩn trong ứng dụng iOS.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Tin nhắn",
     "@notificationChannelMessages": {

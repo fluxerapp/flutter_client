@@ -158,6 +158,22 @@ void main() {
     expect(isLocalNetworkHost('fluxer.local'), isTrue);
     expect(isLocalNetworkHost('fd00::1'), isTrue);
     expect(isLocalNetworkHost('localhost'), isTrue);
+    expect(isLocalNetworkHost('chat.localhost'), isTrue);
+    expect(isLocalNetworkHost('API.Chat.Localhost'), isTrue);
+    expect(isLocalNetworkHost('localhost.example.com'), isFalse);
+    expect(isLocalNetworkHost('notlocalhost.com'), isFalse);
+  });
+
+  test('isPublicCleartextEndpoint allows localhost subdomains', () {
+    expect(
+      isPublicCleartextEndpoint('http://chat.localhost:8088/api'),
+      isFalse,
+    );
+    expect(isPublicCleartextEndpoint('ws://chat.localhost:8088'), isFalse);
+    expect(
+      isPublicCleartextEndpoint('http://localhost.example.com/api'),
+      isTrue,
+    );
   });
 
   group('isGatewayTrustedForApi', () {
@@ -171,6 +187,7 @@ void main() {
         <String>['wss://gateway.example.com', 'https://api.example.com/v1'],
         <String>['ws://192.168.1.20:8080/gateway', 'http://192.168.1.20:8080'],
         <String>['ws://localhost:8088', 'http://localhost:8088/api'],
+        <String>['ws://chat.localhost:8088', 'http://chat.localhost:8088/api'],
       ]) {
         expect(
           isGatewayTrustedForApi(pair[0], pair[1]),

@@ -28,7 +28,7 @@ class MentionFeedWriteBatcher {
 
   Future<void> flush() async {
     if (_flushing != null) {
-      return _flushing!;
+      return await _flushing!;
     }
     _timer?.cancel();
     _timer = null;
@@ -39,7 +39,7 @@ class MentionFeedWriteBatcher {
     _pending.clear();
     final Future<void> future = _applyFlush(batch);
     _flushing = future;
-    return future.whenComplete(() => _flushing = null);
+    return await future.whenComplete(() => _flushing = null);
   }
 
   Future<void> flushAll() => flush();

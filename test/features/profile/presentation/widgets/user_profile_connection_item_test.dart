@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -7,13 +9,35 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connection_item.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_connection_icon.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
+const InstanceRuntimeConfig _config = InstanceRuntimeConfig(
+  productName: 'Fluxer',
+  selfHosted: true,
+  stripeEnabled: false,
+  emailsEnabled: false,
+  voiceEnabled: false,
+  presignedAttachmentUploads: false,
+  gifEnabled: false,
+  blueskyEnabled: true,
+  gifAttributionRequired: false,
+  singleCommunity: false,
+  directMessagesDisabled: false,
+  registrationClosed: false,
+  adminRegistrationUrlsEnabled: false,
+  collectDateOfBirth: false,
+  connectionProviders: <InstanceConnectionProviderSchema>[
+    InstanceConnectionProviderSchema(id: 'sso', name: 'SSO', iconUrl: null),
+  ],
+);
+
 Widget _app(List<ConnectionResponse> connections, double textScale) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [instanceRuntimeConfigProvider.overrideWithValue(_config)],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
@@ -41,17 +65,20 @@ Widget _app(List<ConnectionResponse> connections, double textScale) {
   );
 }
 
-ConnectionResponse _connection(ConnectionType type, String id) =>
-    ConnectionResponse(
-      providerId: null,
-      url: null,
-      id: id,
-      type: type,
-      name: 'mystie.dev',
-      verified: true,
-      visibilityFlags: 0,
-      sortOrder: 0,
-    );
+ConnectionResponse _connection(
+  ConnectionType type,
+  String id, {
+  String? providerId,
+}) => ConnectionResponse(
+  providerId: providerId,
+  url: null,
+  id: id,
+  type: type,
+  name: 'mystie.dev',
+  verified: true,
+  visibilityFlags: 0,
+  sortOrder: 0,
+);
 
 void main() {
   for (final double scale in <double>[1, 1.3]) {
@@ -88,4 +115,34 @@ void main() {
       }
     });
   }
+
+  testWidgets('oauth connections without a url are not links', (tester) async {
+    await tester.pumpWidget(
+      _app(<ConnectionResponse>[_connection(ConnectionType.oauth, 'oauth')], 1),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byIcon(PhosphorIconsBold.arrowSquareOut), findsNothing);
+    expect(find.byIcon(PhosphorIconsBold.linkBreak), findsOneWidget);
+  });
+
+  testWidgets('oauth connections show their instance provider', (tester) async {
+    await tester.pumpWidget(
+      _app(<ConnectionResponse>[
+        _connection(ConnectionType.oauth, 'oauth', providerId: 'sso'),
+      ], 1),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byIcon(PhosphorIconsBold.plugsConnected), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsBold.linkBreak), findsNothing);
+  });
+
+  testWidgets('domain connections stay links without a url', (tester) async {
+    await tester.pumpWidget(
+      _app(<ConnectionResponse>[
+        _connection(ConnectionType.domain, 'domain'),
+      ], 1),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byIcon(PhosphorIconsBold.arrowSquareOut), findsOneWidget);
+  });
 }

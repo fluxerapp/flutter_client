@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Käyttäjänimi",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Luo tili",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Lisää kaveri",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Käyttäjänimi#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Kaverin käyttäjänimi",
     "@addFriendUsernameLabel": {
@@ -6764,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Kutsut on keskeytetty epäillyn hyökkäyksen jälkeen",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "ei koskaan",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11866,10 +11862,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Lahja lunastettu",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Viimeistele rekisteröinti lunastaaksesi",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11881,10 +11873,6 @@
     "embedGiftUnknownSubtitle": "Tämä lahjakoodi on virheellinen tai jo käytetty.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Lahja ei ole saatavilla",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Lunasta lahjasi aktivoidaksesi {productName} -tilauksesi!",
     "@giftAcceptClaimSubscription": {
@@ -19896,10 +19884,6 @@
     "passkeyNoCredentialsForAccount": "Tällä laitteella ei ole pääsyavainta tälle tilille. Käytä laitetta tai salasanojen hallintaa, johon tallensit sen.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Ota ikärajoitetut yhteisöt ja kanavat käyttöön osoitteessa fluxer.com selaimessa tai työpöytäsovelluksessa. Siihen asti ne pysyvät piilossa iOS-sovelluksessa.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Viestit",
     "@notificationChannelMessages": {

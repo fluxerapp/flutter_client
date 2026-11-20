@@ -27,7 +27,7 @@ void main() {
       );
       expect(
         voicePipShouldShowCollapsed(
-          voice: guildVoice,
+          voice: voicePipVisibilityInputs(guildVoice),
           onSessionCallRoute: true,
           showsEmbeddedDmPanel: false,
           hasFeaturedVisual: true,
@@ -49,7 +49,7 @@ void main() {
       );
       expect(
         voicePipShouldShowCollapsed(
-          voice: guildVoice,
+          voice: voicePipVisibilityInputs(guildVoice),
           onSessionCallRoute: false,
           showsEmbeddedDmPanel: false,
           hasFeaturedVisual: true,
@@ -74,12 +74,15 @@ void main() {
 
     test('embedded dm panel hides collapsed pip', () {
       expect(
-        showsEmbeddedDmVoicePanel(channelId: 'dm1', voice: dmVoice),
+        showsEmbeddedDmVoicePanel(
+          channelId: 'dm1',
+          voice: voicePipVisibilityInputs(dmVoice),
+        ),
         isTrue,
       );
       expect(
         voicePipShouldShowCollapsed(
-          voice: dmVoice,
+          voice: voicePipVisibilityInputs(dmVoice),
           onSessionCallRoute: false,
           showsEmbeddedDmPanel: true,
           hasFeaturedVisual: true,
@@ -92,7 +95,7 @@ void main() {
     test('voice-only still shows collapsed pip when a tile is featured', () {
       expect(
         voicePipShouldShowCollapsed(
-          voice: guildVoice,
+          voice: voicePipVisibilityInputs(guildVoice),
           onSessionCallRoute: false,
           showsEmbeddedDmPanel: false,
           hasFeaturedVisual: true,
@@ -118,7 +121,7 @@ void main() {
     test('incoming ring hides collapsed pip', () {
       expect(
         voicePipShouldShowCollapsed(
-          voice: guildVoice,
+          voice: voicePipVisibilityInputs(guildVoice),
           onSessionCallRoute: false,
           showsEmbeddedDmPanel: false,
           hasFeaturedVisual: true,

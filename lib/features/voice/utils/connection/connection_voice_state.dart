@@ -27,3 +27,18 @@ VoiceState? resolveSelfConnectionVoiceState({
   }
   return null;
 }
+
+bool voiceStatesContainConnection({
+  required Map<String, VoiceState> voiceStates,
+  required String connectionId,
+}) {
+  if (voiceStates.containsKey(connectionId)) {
+    return true;
+  }
+  for (final VoiceState voiceState in voiceStates.values) {
+    if (voiceState.connectionId == connectionId) {
+      return true;
+    }
+  }
+  return false;
+}

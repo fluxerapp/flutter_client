@@ -19,7 +19,6 @@ AccessibilityLocalState _splashZoomLocal({
     showFadedUnreadOnMutedChannels: false,
     dmMessagePreviewMode: DmMessagePreviewMode.all,
     showFavorites: true,
-    useSystemLocaleForTimeFormat: false,
     messageGroupSpacing: 16,
     compactMessageGroupSpacing: 0,
     saturationFactor: 1,
@@ -67,7 +66,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.unreadOnly,
         showFavorites: false,
-        useSystemLocaleForTimeFormat: true,
         messageGroupSpacing: 24,
         compactMessageGroupSpacing: 4,
         saturationFactor: 0.8,
@@ -85,7 +83,6 @@ void main() {
       expect(restored.showFadedUnreadOnMutedChannels, isFalse);
       expect(restored.dmMessagePreviewMode, DmMessagePreviewMode.unreadOnly);
       expect(restored.showFavorites, isFalse);
-      expect(restored.useSystemLocaleForTimeFormat, isTrue);
       expect(restored.messageGroupSpacing, 24);
       expect(restored.compactMessageGroupSpacing, 4);
       expect(restored.saturationFactor, 0.8);
@@ -139,7 +136,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
@@ -171,7 +167,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
@@ -204,7 +199,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
@@ -225,7 +219,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
@@ -259,13 +252,11 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
         customThemeCss: null,
         alwaysUnderlineLinks: true,
-        showAltTextOnImages: true,
         dimStrikethroughText: false,
         showTextareaFocusRing: false,
         escapeExitsKeyboardMode: true,
@@ -282,7 +273,6 @@ void main() {
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
       expect(restored.alwaysUnderlineLinks, isTrue);
-      expect(restored.showAltTextOnImages, isTrue);
       expect(restored.dimStrikethroughText, isFalse);
       expect(restored.showTextareaFocusRing, isFalse);
       expect(restored.escapeExitsKeyboardMode, isTrue);
@@ -367,7 +357,6 @@ void main() {
           showFadedUnreadOnMutedChannels: false,
           dmMessagePreviewMode: DmMessagePreviewMode.all,
           showFavorites: true,
-          useSystemLocaleForTimeFormat: false,
           messageGroupSpacing: 16,
           compactMessageGroupSpacing: 0,
           saturationFactor: 1,
@@ -389,7 +378,6 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.all,
         showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
         messageGroupSpacing: 16,
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
@@ -416,7 +404,6 @@ void main() {
           showFadedUnreadOnMutedChannels: false,
           dmMessagePreviewMode: DmMessagePreviewMode.all,
           showFavorites: true,
-          useSystemLocaleForTimeFormat: false,
           messageGroupSpacing: 16,
           compactMessageGroupSpacing: 0,
           saturationFactor: 1,

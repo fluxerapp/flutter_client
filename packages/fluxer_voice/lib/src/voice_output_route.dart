@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import 'package:fluxer_voice/src/messages.g.dart';
+
 enum VoiceOutputRoute { speaker, earpiece, headset, bluetooth }
 
 const Set<VoiceOutputRoute> kPhoneVoiceOutputRoutes = <VoiceOutputRoute>{
@@ -14,6 +16,26 @@ VoiceOutputRoute voiceOutputRouteFromName(String? name) {
     }
   }
   return VoiceOutputRoute.speaker;
+}
+
+VoiceOutputRoute voiceOutputRouteFromMessage(NativeVoiceRoute route) {
+  return switch (route) {
+    NativeVoiceRoute.speaker => VoiceOutputRoute.speaker,
+    NativeVoiceRoute.earpiece => VoiceOutputRoute.earpiece,
+    NativeVoiceRoute.headset => VoiceOutputRoute.headset,
+    NativeVoiceRoute.bluetooth => VoiceOutputRoute.bluetooth,
+  };
+}
+
+extension VoiceOutputRouteMessage on VoiceOutputRoute {
+  NativeVoiceRoute toMessage() {
+    return switch (this) {
+      VoiceOutputRoute.speaker => NativeVoiceRoute.speaker,
+      VoiceOutputRoute.earpiece => NativeVoiceRoute.earpiece,
+      VoiceOutputRoute.headset => NativeVoiceRoute.headset,
+      VoiceOutputRoute.bluetooth => NativeVoiceRoute.bluetooth,
+    };
+  }
 }
 
 VoiceOutputRoute voiceOutputRouteFromSpeakerPreference({
@@ -111,6 +133,18 @@ enum VoiceOutputDeviceKind {
         return VoiceOutputDeviceKind.bluetooth;
     }
   }
+
+  static VoiceOutputDeviceKind fromMessage(NativeVoiceDeviceKind kind) {
+    return switch (kind) {
+      NativeVoiceDeviceKind.earpiece => VoiceOutputDeviceKind.earpiece,
+      NativeVoiceDeviceKind.speaker => VoiceOutputDeviceKind.speaker,
+      NativeVoiceDeviceKind.wired => VoiceOutputDeviceKind.wired,
+      NativeVoiceDeviceKind.usb => VoiceOutputDeviceKind.usb,
+      NativeVoiceDeviceKind.bluetooth => VoiceOutputDeviceKind.bluetooth,
+      NativeVoiceDeviceKind.bluetoothLe => VoiceOutputDeviceKind.bluetoothLe,
+      NativeVoiceDeviceKind.hearingAid => VoiceOutputDeviceKind.hearingAid,
+    };
+  }
 }
 
 @immutable
@@ -122,33 +156,22 @@ class VoiceOutputDevice {
     this.active = false,
   });
 
+  factory VoiceOutputDevice.fromMessage(NativeVoiceDevice device) {
+    final String? name = device.name;
+    return VoiceOutputDevice(
+      kind: VoiceOutputDeviceKind.fromMessage(device.kind),
+      id: device.id,
+      name: name != null && name.isNotEmpty ? name : null,
+      active: device.active,
+    );
+  }
+
   final VoiceOutputDeviceKind kind;
   final int? id;
   final String? name;
   final bool active;
 
   VoiceOutputRoute get route => kind.route;
-
-  static VoiceOutputDevice? fromNative(Object? value) {
-    if (value is! Map) {
-      return null;
-    }
-    final Object? kindName = value['kind'];
-    final VoiceOutputDeviceKind? kind = VoiceOutputDeviceKind.values
-        .where((VoiceOutputDeviceKind kind) => kind.name == kindName)
-        .firstOrNull;
-    if (kind == null) {
-      return null;
-    }
-    final Object? id = value['id'];
-    final Object? name = value['name'];
-    return VoiceOutputDevice(
-      kind: kind,
-      id: id is int ? id : null,
-      name: name is String && name.isNotEmpty ? name : null,
-      active: value['active'] == true,
-    );
-  }
 
   @override
   bool operator ==(Object other) =>

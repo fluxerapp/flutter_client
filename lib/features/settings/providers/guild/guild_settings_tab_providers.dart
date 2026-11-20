@@ -109,7 +109,7 @@ Future<GuildSettingsDetails> guildSettingsModeration(
   Ref ref,
   String guildId,
 ) async {
-  return ref.watch(guildSettingsOverviewProvider(guildId).future);
+  return await ref.watch(guildSettingsOverviewProvider(guildId).future);
 }
 
 @riverpod

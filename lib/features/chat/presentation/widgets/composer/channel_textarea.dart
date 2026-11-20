@@ -156,6 +156,7 @@ InputDecoration _composerDesktopInputDecoration({
   required BuildContext context,
   required String hintText,
   required bool enabled,
+  required bool touchPrimary,
 }) {
   return InputDecoration(
     hintText: hintText,
@@ -167,8 +168,18 @@ InputDecoration _composerDesktopInputDecoration({
     enabledBorder: InputBorder.none,
     focusedBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
-    contentPadding: const EdgeInsets.symmetric(vertical: 2),
+    contentPadding: EdgeInsets.symmetric(
+      vertical: touchPrimary
+          ? 2
+          : math.max(
+              0,
+              (WideComposerLayout.actionButtonExtent -
+                      composerLineHeight(context)) /
+                  2,
+            ),
+    ),
     isDense: true,
+    visualDensity: VisualDensity.standard,
   );
 }
 
@@ -920,12 +931,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
     });
 
-    final GuildComposerAccess? composerAccess = composerAccessAsync.hasError
+    final GuildComposerAccess composerAccess = composerAccessAsync.hasError
         ? GuildComposerAccess.allowed
-        : composerAccessAsync.value;
-    if (composerAccess == null) {
-      return const SizedBox.shrink();
-    }
+        : composerAccessAsync.value ?? GuildComposerAccess.allowed;
     if (!composerAccess.canAccess) {
       return ChannelComposerBarrier(access: composerAccess);
     }
@@ -1095,7 +1103,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         padding: EdgeInsets.symmetric(
                           vertical: _voiceRecording.isActive
                               ? 0
-                              : WideComposerLayout.densePaddingY,
+                              : WideComposerLayout.densePaddingYFor(
+                                  touchPrimary: isTouchPrimaryInput(ref),
+                                ),
                         ),
                         child: composerInput,
                       ),
@@ -1308,6 +1318,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       context: context,
       hintText: hintText,
       enabled: composerEnabled,
+      touchPrimary: touchActions,
     );
     return ListenableBuilder(
       listenable: _voiceRecording,
@@ -1325,8 +1336,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             controller: _voiceRecording,
             actionSize: actionSize,
             contentPadding: wideRowPadding.copyWith(
-              top: WideComposerLayout.densePaddingY,
-              bottom: WideComposerLayout.densePaddingY,
+              top: WideComposerLayout.densePaddingYFor(
+                touchPrimary: touchActions,
+              ),
+              bottom: WideComposerLayout.densePaddingYFor(
+                touchPrimary: touchActions,
+              ),
             ),
             backgroundShape: VoiceMessageRecordingBar.wideBackgroundShape(
               hasActionStack: hasWideActionStack,
@@ -1346,6 +1361,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: actionSize.height),
               child: Row(
+                crossAxisAlignment: touchActions
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: <Widget>[
                   _composerSlot(
                     context: context,
@@ -1482,9 +1500,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: touchActions
-                  ? PhosphorIconsFill.gif
-                  : PhosphorIconsRegular.gif,
+              icon: PhosphorIconsFill.gif,
               tooltip: FluxerLocalizations.of(context).emojiTabGifs,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
@@ -1516,9 +1532,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: touchActions
-                  ? PhosphorIconsFill.image
-                  : PhosphorIconsRegular.imageSquare,
+              icon: PhosphorIconsFill.imageSquare,
               tooltip: FluxerLocalizations.of(context).emojiTabMedia,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
@@ -1550,9 +1564,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             },
             child: _buildComposerActionButton(
               context: context,
-              icon: touchActions
-                  ? PhosphorIconsFill.sticker
-                  : PhosphorIconsRegular.sticker,
+              icon: PhosphorIconsFill.sticker,
               tooltip: FluxerLocalizations.of(context).emojiTabStickers,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,

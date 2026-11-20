@@ -18,9 +18,6 @@ void main() {
     container
         .read(typingIndicatorsProvider(userA).notifier)
         .addTyping('channel', 'user');
-    container.read(inviteCacheProvider(userA).notifier).addInvite(
-      <String, dynamic>{'code': 'abc'},
-    );
     container.read(currentUserPremiumTypeProvider(userA).notifier).set(2);
     container
         .read(messageUploadSessionsProvider(userA).notifier)

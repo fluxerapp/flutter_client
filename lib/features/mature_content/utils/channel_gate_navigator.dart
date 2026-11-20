@@ -29,7 +29,7 @@ Future<bool> promptForChannelGateIfNeeded({
   if (context == null || !context.mounted) {
     return false;
   }
-  return showChannelAccessGateSheet(
+  return await showChannelAccessGateSheet(
     context: context,
     container: container,
     channelId: channelId,

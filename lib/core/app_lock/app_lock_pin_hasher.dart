@@ -52,7 +52,7 @@ class AppLockPinHasher {
         secretKey: SecretKey(utf8.encode(pin)),
         nonce: salt,
       );
-      return key.extractBytes();
+      return await key.extractBytes();
     });
   }
 

@@ -1141,10 +1141,6 @@
   "@unclaimedAccountDescriptionUsername": {
     "description": "Description for the unclaimed account warning on instances where people sign in with a username."
   },
-  "addFriendUsernameOnlyHint": "Username",
-  "@addFriendUsernameOnlyHint": {
-    "description": "Placeholder for the add friend field on instances where usernames have no tag."
-  },
   "registerTitle": "Create an account",
   "@registerTitle": {
     "description": "Title for the registration screen."
@@ -1525,10 +1521,6 @@
   "@embedGiftClaim": {
     "description": "Primary button on a redeemable gift embed."
   },
-  "embedGiftClaimed": "Gift claimed",
-  "@embedGiftClaimed": {
-    "description": "Disabled button label after a gift is claimed."
-  },
   "embedGiftClaimAccount": "Claim account to redeem",
   "@embedGiftClaimAccount": {
     "description": "Button on a gift embed for unclaimed accounts."
@@ -1540,10 +1532,6 @@
   "embedGiftUnknownSubtitle": "This gift code is invalid or already claimed.",
   "@embedGiftUnknownSubtitle": {
     "description": "Subtitle when a gift code cannot be resolved."
-  },
-  "embedGiftUnavailable": "Gift unavailable",
-  "@embedGiftUnavailable": {
-    "description": "Disabled button when a gift cannot be claimed."
   },
   "giftAcceptClaimSubscription": "Claim your gift to activate your {productName} subscription!",
   "@giftAcceptClaimSubscription": {
@@ -1821,6 +1809,14 @@
   "@incomingVoiceCallLabel": {
     "description": "Short label above the avatar in the incoming call bottom sheet (web mobile parity)."
   },
+  "incomingVoiceCallNotificationChannel": "Incoming calls",
+  "@incomingVoiceCallNotificationChannel": {
+    "description": "Android notification channel name for ringing incoming calls, shown in system notification settings."
+  },
+  "missedVoiceCallNotificationChannel": "Missed calls",
+  "@missedVoiceCallNotificationChannel": {
+    "description": "Android notification channel name for missed call notifications, shown in system notification settings."
+  },
   "incomingVoiceCallIgnore": "Ignore",
   "@incomingVoiceCallIgnore": {
     "description": "Button to ignore ringing for the current account without rejecting for others."
@@ -2050,10 +2046,6 @@
   "addFriendSheetTitle": "Add friend",
   "@addFriendSheetTitle": {
     "description": "Title for the mobile add friends bottom sheet."
-  },
-  "addFriendUsernameHint": "username#1234",
-  "@addFriendUsernameHint": {
-    "description": "Placeholder for the add friend username input."
   },
   "addFriendUsernameLabel": "Friend's username",
   "@addFriendUsernameLabel": {
@@ -5822,9 +5814,15 @@
   "@matureCommunityUnavailableBody": {
     "description": "Body when a minor cannot access a mature community."
   },
-  "matureContentIosWebOptInBody": "Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.",
-  "@matureContentIosWebOptInBody": {
-    "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
+  "matureContentIosWebOptInInstanceBody": "Turn on age-restricted communities and channels at {webAddress} in your browser or in the desktop app. They stay hidden in the iOS app until you do.",
+  "@matureContentIosWebOptInInstanceBody": {
+    "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app. webAddress is the web app address of the instance the user is signed in to, such as fluxer.com or chat.example.com.",
+    "placeholders": {
+      "webAddress": {
+        "type": "String",
+        "example": "chat.example.com"
+      }
+    }
   },
   "matureCategoryUnavailableBody": "This mature category is not available to your account.",
   "@matureCategoryUnavailableBody": {
@@ -6222,6 +6220,50 @@
   "connectionEnterDomain": "Enter a domain.",
   "@connectionEnterDomain": {
     "description": "Inline error shown when the domain input is empty."
+  },
+  "connectionsEmptyDescriptionAccounts": "Link your accounts or verify domain ownership to display them on your profile.",
+  "@connectionsEmptyDescriptionAccounts": {
+    "description": "Empty-state description when the instance offers account connections besides domains."
+  },
+  "connectionsAddProviderAriaLabel": "Add {providerName} connection",
+  "@connectionsAddProviderAriaLabel": {
+    "description": "Semantic label for an instance connection provider's add-connection tile. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionConnectWithProvider": "Connect with {providerName}",
+  "@connectionConnectWithProvider": {
+    "description": "Button label for starting an external account connection. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionProviderInstructions": "{providerName} opens in your browser. Sign in there to connect your account.",
+  "@connectionProviderInstructions": {
+    "description": "Explains the browser sign-in step for an instance connection provider. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionProviderAuthorizeFailed": "Couldn't start {providerName} authorization.",
+  "@connectionProviderAuthorizeFailed": {
+    "description": "Error shown when starting the sign-in flow for a connection provider fails. providerName is the provider display name.",
+    "placeholders": {
+      "providerName": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionUnavailable": "No longer available",
+  "@connectionUnavailable": {
+    "description": "Label for a linked account whose provider this instance removed or turned off. The account is hidden from the profile."
   },
   "lookAndFeelThemeSectionTitle": "Theme",
   "@lookAndFeelThemeSectionTitle": {
@@ -7950,6 +7992,34 @@
   "voiceControlVideo": "Video",
   "@voiceControlVideo": {
     "description": "Tooltip: camera in the voice call control bar (when supported)."
+  },
+  "voiceControlMoreOptions": "More options",
+  "@voiceControlMoreOptions": {
+    "description": "Tooltip: opens the overflow menu of call options in the desktop voice call control bar."
+  },
+  "voiceControlInputSettings": "Input settings",
+  "@voiceControlInputSettings": {
+    "description": "Tooltip: small caret on the mute button that opens microphone device options in the desktop voice call control bar."
+  },
+  "voiceControlOutputSettings": "Output settings",
+  "@voiceControlOutputSettings": {
+    "description": "Tooltip: small caret on the deafen button that opens speaker device options in the desktop voice call control bar."
+  },
+  "voiceControlCameraSettings": "Camera settings",
+  "@voiceControlCameraSettings": {
+    "description": "Tooltip: small caret on the camera button that opens camera options in the desktop voice call control bar."
+  },
+  "voiceControlScreenShareSettings": "Screen share settings",
+  "@voiceControlScreenShareSettings": {
+    "description": "Tooltip: small caret on the screen share button that opens screen share options in the desktop voice call control bar."
+  },
+  "voiceControlStartScreenShare": "Share your screen",
+  "@voiceControlStartScreenShare": {
+    "description": "Menu item in the desktop screen share options menu that starts sharing the screen."
+  },
+  "voiceControlStopScreenShare": "Stop sharing",
+  "@voiceControlStopScreenShare": {
+    "description": "Menu item in the desktop screen share options menu that stops the active screen share."
   },
   "voiceControlFlipCamera": "Flip camera",
   "@voiceControlFlipCamera": {
@@ -15167,6 +15237,10 @@
   "@guildNavbarInvitesPaused": {
     "description": "Guild tooltip when invites are disabled."
   },
+  "guildNavbarInvitesPausedRaid": "Invites are paused after a suspected raid",
+  "@guildNavbarInvitesPausedRaid": {
+    "description": "Guild tooltip when invites are paused after a suspected raid."
+  },
   "guildNavbarDurationNever": "never",
   "@guildNavbarDurationNever": {
     "description": "Invite expiry duration label for no expiry."
@@ -20591,6 +20665,15 @@
   "@oxygenUpdating": {
     "description": "Tooltip and accessible label on the channel header updater icon in the desktop app while an update the user started is downloading. The app restarts by itself when it is done."
   },
+  "oxygenUpdatingProgress": "Updating… {percent}%",
+  "@oxygenUpdatingProgress": {
+    "description": "Tooltip and accessible label on the channel header updater icon in the desktop app while an update is downloading and its progress is known. percent is a whole number from 0 to 100. The app restarts by itself when it is done.",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "desktopTrayShow": "Show {productName}",
   "@desktopTrayShow": {
     "description": "Desktop tray/menu bar menu item that shows the hidden app window.",
@@ -20606,6 +20689,16 @@
     "placeholders": {
       "productName": {
         "type": "String"
+      }
+    }
+  },
+  "desktopBadgeUnreadMessages": "Unread messages: {count}",
+  "@desktopBadgeUnreadMessages": {
+    "description": "Accessible description of the taskbar badge showing the number of unread mentions and pending friend requests.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },

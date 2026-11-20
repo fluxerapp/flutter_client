@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -80,19 +79,9 @@ List<Override> _overrides(Map<String, List<UserPartialResponse>> byEmoji) {
         messageId: _kMessageId,
         emoji: entry.key,
       ).overrideWith(() => _FakeReactors(entry.value)),
-    userPresenceProvider(_kBizoId).overrideWith(
-      (Ref ref) => Stream<User?>.value(
-        const User(
-          id: _kBizoId,
-          username: 'bizo',
-          discriminator: '0',
-          bot: false,
-          system: false,
-          status: 'online',
-          mobile: false,
-          hiddenProfileBadgesJson: '[]',
-        ),
-      ),
+    userPresenceProvider(_kBizoId).overrideWithBuild(
+      (Ref ref, UserPresenceNotifier notifier) =>
+          const UserPresence(status: 'online'),
     ),
     userNoteViewModelProvider(
       userId: _kBizoId,

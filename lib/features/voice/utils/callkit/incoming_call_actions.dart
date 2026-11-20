@@ -176,7 +176,12 @@ Future<void> executeAcceptIncomingVoiceCallFromCallKit(
   String? guildId,
 }) async {
   try {
-    await executeAcceptIncomingVoiceCallCore(ref, channelId, guildId: guildId);
+    await executeAcceptIncomingVoiceCallCore(
+      ref,
+      channelId,
+      guildId: guildId,
+      answeredFromSystemCallUi: true,
+    );
   } on Object {
     final BuildContext? ctx = rootNavigatorKey.currentContext;
     if (ctx == null || !ctx.mounted) {
@@ -240,11 +245,19 @@ Future<BuildContext?> _waitForForegroundNavigatorContext(
   }
 }
 
+bool shouldTreatSystemCallAnswerAsP2pConsent({
+  required bool answeredFromSystemCallUi,
+  required bool isForeground,
+}) {
+  return answeredFromSystemCallUi && !isForeground;
+}
+
 Future<bool?> _resolveHeadlessJoinP2p(
   Ref ref, {
   required String? guildId,
   required String channelId,
   required Channel? channel,
+  bool answeredFromSystemCallUi = false,
 }) async {
   final VoiceChannelMode mode = ref.read(
     voiceChannelModeForProvider(guildId: guildId, channelId: channelId),
@@ -257,6 +270,12 @@ Future<bool?> _resolveHeadlessJoinP2p(
     return false;
   }
   if (ref.read(voicePromptsPreferencesProvider).skipP2pJoinConfirm) {
+    return true;
+  }
+  if (shouldTreatSystemCallAnswerAsP2pConsent(
+    answeredFromSystemCallUi: answeredFromSystemCallUi,
+    isForeground: ref.read(appUiForegroundProvider),
+  )) {
     return true;
   }
   final DateTime deadline = DateTime.now().add(_kHeadlessP2pConsentTimeout);
@@ -279,6 +298,7 @@ Future<void> executeAcceptIncomingVoiceCallCore(
   Ref ref,
   String channelId, {
   String? guildId,
+  bool answeredFromSystemCallUi = false,
 }) async {
   final String? uid = ref.read(currentUserIdProvider);
   if (uid != null) {
@@ -302,6 +322,7 @@ Future<void> executeAcceptIncomingVoiceCallCore(
     guildId: guildIdForJoin,
     channelId: channelId,
     channel: channel,
+    answeredFromSystemCallUi: answeredFromSystemCallUi,
   );
   if (p2p == null) {
     return;

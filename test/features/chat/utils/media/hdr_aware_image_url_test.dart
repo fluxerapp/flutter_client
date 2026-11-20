@@ -154,5 +154,19 @@ void main() {
       expect(actual, contains('width=400'));
       expect(Uri.parse(actual).queryParameters['format'], 'webp');
     });
+
+    test('asks for an animated webp when a jpeg xl is animated', () {
+      final String actual = buildHdrAwareDisplayImageUrl(
+        url: 'https://cdn.example.com/attachments/1/spin.jxl',
+        proxyUrl: 'https://media.example.com/attachments/1/spin.jxl',
+        mode: HdrDisplayMode.full,
+        contentType: 'image/jxl',
+        animated: true,
+      );
+      final Uri uri = Uri.parse(actual);
+      expect(uri.host, 'media.example.com');
+      expect(uri.queryParameters['format'], 'webp');
+      expect(uri.queryParameters['animated'], 'true');
+    });
   });
 }

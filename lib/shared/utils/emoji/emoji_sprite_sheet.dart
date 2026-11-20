@@ -96,8 +96,12 @@ class EmojiSpriteSheet {
     final name = _kSpriteSheetNames[key] ?? _kSpriteSheetNames['default']!;
     final data = await rootBundle.load(_spriteSheetAssetPath(name));
     final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-    final frame = await codec.getNextFrame();
-    return frame.image;
+    try {
+      final frame = await codec.getNextFrame();
+      return frame.image;
+    } finally {
+      codec.dispose();
+    }
   }
 
   static void _addUser() {

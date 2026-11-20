@@ -10,6 +10,7 @@ import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognize
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_app/shared/utils/input_modality.dart';
 
 const double _kMaxDragFraction = 0.30;
 const double _kTriggerFraction = 0.20;
@@ -263,6 +264,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
                           HorizontalClaimDirection.left,
                       },
                       shouldDefer: _shouldDeferToHorizontalScroll,
+                      supportedDevices: kTouchPointerDeviceKinds,
                     ),
                     (recognizer) {
                       recognizer

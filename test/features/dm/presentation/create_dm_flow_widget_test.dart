@@ -24,7 +24,6 @@ import 'package:fluxer_app/features/dm/data/dm_repository.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/sheets/create_dm_bottom_sheet.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
-import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -401,7 +400,7 @@ List<Override> _userPresenceOverrides(Iterable<Friend> friends) {
     for (final Friend friend in friends)
       userPresenceProvider(
         friend.id,
-      ).overrideWith((Ref ref) => Stream.value(null)),
+      ).overrideWithBuild((Ref ref, UserPresenceNotifier notifier) => null),
   ];
 }
 
@@ -445,9 +444,6 @@ List<Override> _buildOverrides({
 
 List<Override> _buildDmListOverrides({required List<Friend> friends}) {
   return <Override>[
-    dmListRecipientRowDataProvider.overrideWith(
-      (Ref ref) => Stream.value(const <String, DmListRecipientRowData>{}),
-    ),
     appearancePreferencesProvider.overrideWith(
       _DefaultAppearancePreferences.new,
     ),

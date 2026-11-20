@@ -7,8 +7,9 @@ const Duration kVoiceVideoUnsubscribeGrace = Duration(milliseconds: 750);
 bool shouldSubscribeRemoteCamera({
   required bool tileVisible,
   required bool omitVideoTrack,
+  bool windowShown = true,
 }) {
-  return tileVisible && !omitVideoTrack;
+  return windowShown && tileVisible && !omitVideoTrack;
 }
 
 bool shouldSubscribeRemoteScreenShare({required bool isActiveScreenShare}) {

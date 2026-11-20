@@ -124,6 +124,9 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
             : null,
       );
     }
+    final productName = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    );
     final isDisabled = _isLoading || _controller.text.trim().isEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,8 +135,8 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
           controller: _controller,
           label: l10n.addFriendUsernameLabel,
           hint: ref.watch(uniqueUsernamesProvider)
-              ? l10n.addFriendUsernameOnlyHint
-              : l10n.addFriendUsernameHint,
+              ? productName
+              : '$productName#0000',
           enabled: !_isLoading,
           autofocus: true,
           onChanged: (_) {

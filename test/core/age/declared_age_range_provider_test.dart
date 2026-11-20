@@ -200,12 +200,12 @@ class _Harness {
       ..listen(declaredAgeUnlockProvider, (_, _) {});
     await container.read(matureGeoStatusProvider.future);
     await container.read(declaredAgeRequiredPayloadProvider.future);
-    return container.read(declaredAgeFloorProvider);
+    return await container.read(declaredAgeFloorProvider);
   }
 
   Future<bool> unlock() async {
     await settle();
-    return container.read(declaredAgeUnlockProvider.notifier).unlock();
+    return await container.read(declaredAgeUnlockProvider.notifier).unlock();
   }
 
   DeclaredAgeUnlockOutcome? get outcome =>

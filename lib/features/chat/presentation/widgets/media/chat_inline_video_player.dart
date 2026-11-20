@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -142,7 +143,12 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
         await player.play();
       } else {
         final String playbackUrl = await resolvePlaybackUrl(widget.source);
-        await player.open(Media(playbackUrl));
+        await player.open(
+          Media(
+            playbackUrl,
+            httpHeaders: AttachmentRequestAuth.headersFor(playbackUrl),
+          ),
+        );
         _hasLoadedMedia = true;
       }
       if (!mounted || _playbackFailed) {

@@ -6,7 +6,10 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/seen_media_urls.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 final Uint8List _png = base64Decode(
@@ -21,6 +24,8 @@ class _FlakyCacheManager implements BaseCacheManager {
   final Uint8List body;
   final MemoryFileSystem _fs = MemoryFileSystem();
   final List<String> requests = <String>[];
+  final List<Map<String, String>?> requestHeaders = <Map<String, String>?>[];
+  bool requireSession = false;
 
   @override
   Stream<FileResponse> getFileStream(
@@ -30,6 +35,10 @@ class _FlakyCacheManager implements BaseCacheManager {
     bool withProgress = false,
   }) async* {
     requests.add(url);
+    requestHeaders.add(headers);
+    if (requireSession && headers?['Authorization'] == null) {
+      throw HttpExceptionWithStatus(401, 'Unauthorized', uri: Uri.parse(url));
+    }
     if (requests.length <= failures) {
       throw HttpExceptionWithStatus(502, 'Bad Gateway', uri: Uri.parse(url));
     }
@@ -72,13 +81,15 @@ class _FlakyCacheManager implements BaseCacheManager {
 const Key _placeholderKey = Key('placeholder');
 const Key _errorKey = Key('error');
 
-Widget _app(String url) => MaterialApp(
+Widget _app(String url, {int? memCacheWidth}) => MaterialApp(
   home: Center(
     child: SizedBox(
       width: 100,
       height: 100,
       child: RetryingNetworkImage(
         imageUrl: url,
+        memCacheWidth: memCacheWidth,
+        fadeOutDuration: const Duration(milliseconds: 200),
         placeholder: const SizedBox.expand(key: _placeholderKey),
         errorPlaceholder: const SizedBox.expand(key: _errorKey),
       ),
@@ -105,11 +116,56 @@ void main() {
   setUp(() {
     previousManager = CachedNetworkImageProvider.defaultCacheManager;
     PaintingBinding.instance.imageCache.clear();
+    SeenMediaUrls.clear();
   });
 
   tearDown(() {
     CachedNetworkImageProvider.defaultCacheManager = previousManager;
     PaintingBinding.instance.imageCache.clear();
+    SeenMediaUrls.clear();
+  });
+
+  for (final int? memCacheWidth in <int?>[null, 64]) {
+    testWidgets('marks a loaded url as seen and paints it without a '
+        'placeholder on revisit (memCacheWidth: $memCacheWidth)', (
+      tester,
+    ) async {
+      final _FlakyCacheManager manager = _FlakyCacheManager();
+      CachedNetworkImageProvider.defaultCacheManager = manager;
+      const String url = 'https://media.test/seen.webp?mt=first';
+
+      await tester.pumpWidget(_app(url, memCacheWidth: memCacheWidth));
+      expect(SeenMediaUrls.contains(url), isFalse);
+      expect(find.byKey(_placeholderKey), findsOneWidget);
+      await _settleLoad(tester);
+      await tester.pumpAndSettle();
+
+      expect(_imageShown(tester), isTrue);
+      expect(manager.requests, hasLength(1));
+      expect(
+        SeenMediaUrls.contains('https://media.test/seen.webp?mt=second'),
+        isTrue,
+      );
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pumpWidget(_app(url, memCacheWidth: memCacheWidth));
+
+      expect(find.byKey(_placeholderKey), findsNothing);
+      expect(_imageShown(tester), isTrue);
+      expect(manager.requests, hasLength(1));
+    });
+  }
+
+  testWidgets('does not mark a url that failed to load', (tester) async {
+    final _FlakyCacheManager manager = _FlakyCacheManager(failures: 1 << 30);
+    CachedNetworkImageProvider.defaultCacheManager = manager;
+    const String url = 'https://media.test/broken.webp';
+
+    await tester.pumpWidget(_app(url));
+    await _settleLoad(tester);
+
+    expect(SeenMediaUrls.contains(url), isFalse);
+    expect(find.byKey(_placeholderKey), findsOneWidget);
   });
 
   testWidgets('keeps the placeholder after a failure and loads on retry', (
@@ -131,6 +187,7 @@ void main() {
     expect(manager.requests, hasLength(2));
     expect(find.byKey(_errorKey), findsNothing);
     expect(_imageShown(tester), isTrue);
+    expect(SeenMediaUrls.contains('https://media.test/a.webp'), isTrue);
   });
 
   testWidgets('shows the error after the retry window and keeps recovering', (
@@ -198,6 +255,46 @@ void main() {
 
     await tester.pump(kMediaLoadRetryDelays.first);
     await _settleLoad(tester);
+    expect(_imageShown(tester), isTrue);
+  });
+
+  testWidgets('an api attachment that failed with 401 under an off flag '
+      'loads with the session on retry', (tester) async {
+    addTearDown(() {
+      InstanceEndpoints.resetToDefaults();
+      AttachmentRequestAuth.update(token: null, baseUrl: null, mintToken: null);
+    });
+    InstanceEndpoints.proxyAttachmentsThroughApi = false;
+    AttachmentRequestAuth.update(
+      token: null,
+      baseUrl: 'https://api.example.test/api',
+      mintToken: null,
+    );
+    final _FlakyCacheManager manager = _FlakyCacheManager()
+      ..requireSession = true;
+    CachedNetworkImageProvider.defaultCacheManager = manager;
+    const String url =
+        'https://api.example.test/api/channels/11/attachments/22/cat.webp?mid=33';
+
+    await tester.pumpWidget(_app(url));
+    await _settleLoad(tester);
+
+    expect(manager.requests, hasLength(1));
+    expect(manager.requestHeaders.single, isNull);
+    expect(_imageShown(tester), isFalse);
+
+    AttachmentRequestAuth.update(
+      token: 'test-session-token',
+      baseUrl: 'https://api.example.test/api',
+      mintToken: null,
+    );
+    await tester.pump(kMediaLoadRetryDelays.first);
+    await _settleLoad(tester);
+
+    expect(InstanceEndpoints.proxyAttachmentsThroughApi, isFalse);
+    expect(manager.requests, hasLength(2));
+    expect(manager.requestHeaders.last?['Authorization'], 'test-session-token');
+    expect(find.byKey(_errorKey), findsNothing);
     expect(_imageShown(tester), isTrue);
   });
 

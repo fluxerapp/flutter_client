@@ -11,6 +11,8 @@ WellKnownFluxerResponse wellKnownFixture({
   String? accountIdentity,
   String? tagStyle,
   bool? discoveryEnabled,
+  bool? proxyAttachmentsThroughApi,
+  List<Map<String, dynamic>>? connectionProviders,
 }) {
   return parseWellKnownFluxer(<String, dynamic>{
     'api_code_version': 1,
@@ -39,6 +41,7 @@ WellKnownFluxerResponse wellKnownFixture({
       'account_identity': ?accountIdentity,
       'tag_style': ?tagStyle,
       'discovery_enabled': ?discoveryEnabled,
+      'proxy_attachments_through_api': ?proxyAttachmentsThroughApi,
     },
     'registration': <String, dynamic>{
       'mode': 'open',
@@ -54,6 +57,7 @@ WellKnownFluxerResponse wellKnownFixture({
       'gif_enabled': true,
       'youtube_enabled': true,
       'bluesky_enabled': true,
+      'connection_providers': ?connectionProviders,
     },
     'gif': <String, dynamic>{
       'provider': 'klipy',

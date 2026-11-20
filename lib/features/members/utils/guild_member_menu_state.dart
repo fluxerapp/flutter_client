@@ -194,7 +194,7 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuStateForUser({
     mute: false,
     deaf: false,
   );
-  return resolveGuildMemberMenuState(
+  return await resolveGuildMemberMenuState(
     ref: ref,
     guildId: guildId,
     member: member,

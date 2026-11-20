@@ -246,7 +246,7 @@ class VoiceSettingsApplicator {
     required Future<T> Function() action,
   }) async {
     if (publishOptions == null) {
-      return action();
+      return await action();
     }
     final RoomOptions roomOptions = room.roomOptions;
     // setMicrophoneEnabled has no publishOptions param.
@@ -442,7 +442,9 @@ class VoiceSettingsApplicator {
     }
   }
 
-  void _clearPendingIosBroadcast() {
+  static void clearPendingIosBroadcast() => _clearPendingIosBroadcast();
+
+  static void _clearPendingIosBroadcast() {
     final VoidCallback? listener = _pendingIosBroadcastListener;
     if (listener == null) {
       return;
@@ -665,7 +667,6 @@ class VoiceSettingsApplicator {
 
   Future<void> applySpeakerOutput({
     required VoiceSettingsState settings,
-    bool holdRoute = true,
   }) async {
     if (await isExternalSystemVoiceCallActive()) {
       return;
@@ -673,30 +674,22 @@ class VoiceSettingsApplicator {
     if (!AudioManager.instance.canSwitchSpeakerphone) {
       return;
     }
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      await _applyLiveKitOutputRoutePreference(settings.outputRoute);
+      return;
+    }
     final Set<VoiceOutputRoute> available =
         await readAvailableVoiceOutputRoutes();
-    final VoiceOutputRoute route =
-        defaultTargetPlatform == TargetPlatform.android
-        ? resolveVoiceCallOutputRoute(
-            preference: settings.outputRoute,
-            override: settings.outputRouteOverride,
-            available: available,
-          )
-        : resolveVoiceOutputRoute(
-            preference: settings.outputRoute,
-            available: available,
-          );
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      await _applyLiveKitOutputRoutePreference(route);
-    }
-    final bool nativeHold =
-        defaultTargetPlatform == TargetPlatform.android && holdRoute;
+    final VoiceOutputRoute route = resolveVoiceCallOutputRoute(
+      preference: settings.outputRoute,
+      override: settings.outputRouteOverride,
+      available: available,
+    );
     await applyNativeVoiceOutputRoute(
       route,
       deviceId: settings.outputRouteOverride == route
           ? settings.outputDeviceOverride
           : null,
-      hold: nativeHold,
       explicit: isExplicitVoiceOutputRoute(
         route: route,
         preference: settings.outputRoute,

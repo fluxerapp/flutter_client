@@ -10,6 +10,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
+import 'package:fluxer_app/shared/utils/input_modality.dart';
 
 class SwipeToOpenChannelDetails extends ConsumerStatefulWidget {
   const SwipeToOpenChannelDetails({
@@ -102,6 +103,7 @@ class _SwipeToOpenChannelDetailsState
                           HorizontalClaimDirection.left,
                       },
                       shouldDefer: _shouldDeferToHorizontalScroll,
+                      supportedDevices: kTouchPointerDeviceKinds,
                     ),
                     (recognizer) {
                       recognizer

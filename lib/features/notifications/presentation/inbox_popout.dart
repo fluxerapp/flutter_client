@@ -45,18 +45,16 @@ class InboxPopoutButton extends StatefulWidget {
 
 class _InboxPopoutButtonState extends State<InboxPopoutButton>
     with SingleTickerProviderStateMixin {
-  static const double _kMaxHeight = 900;
-  static const double _kMaxWidth = 600;
-  static const double _kBlockGap = 48;
-  static const double _kInlineGap = 24;
+  static const double _kDefaultHeight = 900;
+  static const double _kDefaultWidth = 600;
+  static const double _kMinHeight = 400;
+  static const double _kViewportPadding = 16;
+  static const double _kAnchorGap = 8;
 
-  final LayerLink _layerLink = LayerLink();
   final OverlayPortalController _overlayController = OverlayPortalController();
 
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
-
-  bool _openUpward = false;
 
   @override
   void initState() {
@@ -88,8 +86,7 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
       _close();
       return;
     }
-    _computeDirection();
-    _overlayController.show();
+    setState(_overlayController.show);
     _animationController.forward();
   }
 
@@ -97,46 +94,55 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
     unawaited(
       _animationController.reverse().then((_) {
         if (mounted && _overlayController.isShowing) {
-          _overlayController.hide();
+          setState(_overlayController.hide);
         }
       }),
     );
   }
 
-  void _computeDirection() {
-    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
-    if (renderBox == null || !renderBox.hasSize) {
-      _openUpward = false;
-      return;
-    }
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double anchorBottom = renderBox
-        .localToGlobal(Offset(0, renderBox.size.height))
-        .dy;
-    final double popoutHeight = _popoutHeight(context);
-    _openUpward = screenHeight - anchorBottom < popoutHeight + 8;
-  }
-
-  double _popoutHeight(BuildContext context) {
-    final double viewportHeight = MediaQuery.sizeOf(context).height;
-    return math.min(_kMaxHeight, viewportHeight - _kBlockGap);
-  }
-
-  double _popoutWidth(BuildContext context) {
-    final Size viewport = MediaQuery.sizeOf(context);
-    final double proportional = math.max(0, viewport.height * 0.666667 - 32);
-    return math.min(
-      _kMaxWidth,
-      math.min(proportional, viewport.width - _kInlineGap),
-    );
-  }
-
-  Widget _buildOverlay(BuildContext context) {
+  Widget _buildOverlay(BuildContext context, OverlayChildLayoutInfo info) {
     final FluxerColorTheme colors = context.colors;
     final FluxerLayoutTheme layout = context.layout;
-    final double width = _popoutWidth(context);
-    final double height = _popoutHeight(context);
     final bool desktop = usesDesktopPointerUi(context);
+    final EdgeInsets insets = MediaQuery.paddingOf(context);
+    final Size overlay = info.overlaySize;
+    final Rect anchor = MatrixUtils.transformRect(
+      info.childPaintTransform,
+      Offset.zero & info.childSize,
+    );
+
+    final double minLeft = insets.left + _kViewportPadding;
+    final double maxRight = overlay.width - insets.right - _kViewportPadding;
+    final double minTop = insets.top + _kViewportPadding;
+    final double maxBottom = overlay.height - insets.bottom - _kViewportPadding;
+
+    final double width = math.max(
+      0,
+      math.min(_kDefaultWidth, maxRight - minLeft),
+    );
+    final double desiredHeight = math.max(
+      0,
+      math.min(_kDefaultHeight, maxBottom - minTop),
+    );
+    final double spaceBelow = maxBottom - anchor.bottom - _kAnchorGap;
+    final double spaceAbove = anchor.top - _kAnchorGap - minTop;
+    final bool openUpward =
+        spaceBelow < math.min(desiredHeight, _kMinHeight) &&
+        spaceAbove > spaceBelow;
+    final double height = math.max(
+      0,
+      math.min(desiredHeight, openUpward ? spaceAbove : spaceBelow),
+    );
+    final double preferredLeft = Directionality.of(context) == TextDirection.rtl
+        ? anchor.left
+        : anchor.right - width;
+    final double left = math.max(
+      minLeft,
+      math.min(preferredLeft, maxRight - width),
+    );
+    final double top = openUpward
+        ? anchor.top - _kAnchorGap - height
+        : anchor.bottom + _kAnchorGap;
 
     return Stack(
       children: <Widget>[
@@ -147,56 +153,31 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
             child: const ColoredBox(color: Colors.transparent),
           ),
         ),
-        FadeTransition(
-          opacity: _fadeAnimation,
-          child: CompositedTransformFollower(
-            link: _layerLink,
-            targetAnchor: _openUpward
-                ? AlignmentDirectional.topEnd.resolve(
-                    Directionality.of(context),
-                  )
-                : AlignmentDirectional.bottomEnd.resolve(
-                    Directionality.of(context),
+        Positioned(
+          left: left,
+          top: top,
+          width: width,
+          height: height,
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: desktop
+                    ? fluxerFormSurfaceBackground(context)
+                    : colors.backgroundSecondary,
+                borderRadius: layout.radiusLg,
+                border: Border.all(color: colors.backgroundModifierAccent),
+                boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
                   ),
-            followerAnchor: _openUpward
-                ? AlignmentDirectional.bottomEnd.resolve(
-                    Directionality.of(context),
-                  )
-                : AlignmentDirectional.topEnd.resolve(
-                    Directionality.of(context),
-                  ),
-            offset: Offset(0, _openUpward ? -4 : 4),
-            child: Align(
-              alignment: _openUpward
-                  ? AlignmentDirectional.bottomEnd.resolve(
-                      Directionality.of(context),
-                    )
-                  : AlignmentDirectional.topEnd.resolve(
-                      Directionality.of(context),
-                    ),
-              child: SizedBox(
-                width: width,
-                height: height,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: desktop
-                        ? fluxerFormSurfaceBackground(context)
-                        : colors.backgroundSecondary,
-                    borderRadius: layout.radiusLg,
-                    border: Border.all(color: colors.backgroundModifierAccent),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: layout.radiusLg,
-                    child: InboxPopout(onClose: _close),
-                  ),
-                ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: layout.radiusLg,
+                child: InboxPopout(onClose: _close),
               ),
             ),
           ),
@@ -208,13 +189,10 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
   @override
   Widget build(BuildContext context) {
     final bool isOpen = _overlayController.isShowing;
-    return OverlayPortal(
+    return OverlayPortal.overlayChildLayoutBuilder(
       controller: _overlayController,
       overlayChildBuilder: _buildOverlay,
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),
-      ),
+      child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),
     );
   }
 }

@@ -252,14 +252,13 @@ class InlineReplyPreview extends ConsumerWidget {
   }
 }
 
-Message? _findMessage(List<Message> messages, String messageId) {
-  for (final Message message in messages) {
-    if (message.id == messageId) {
-      return message;
-    }
-  }
-  return null;
-}
+final Expando<Map<String, Message>> _messagesById =
+    Expando<Map<String, Message>>();
+
+Message? _findMessage(List<Message> messages, String messageId) =>
+    (_messagesById[messages] ??= <String, Message>{
+      for (final Message message in messages) message.id: message,
+    })[messageId];
 
 class _ReplyPreviewContent extends ConsumerWidget {
   const _ReplyPreviewContent({required this.message, required this.emptyLabel});

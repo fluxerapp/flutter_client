@@ -3,40 +3,41 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_mes
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 
-double wideComposerIdleSlotHeight(FluxerButtonSize actionSize) {
-  return WideComposerLayout.densePaddingY * 2 + actionSize.height;
+double wideComposerIdleSlotHeight(
+  FluxerButtonSize actionSize, {
+  required bool touchPrimary,
+}) {
+  return WideComposerLayout.densePaddingYFor(touchPrimary: touchPrimary) * 2 +
+      actionSize.height;
 }
 
 void main() {
   group('wide composer idle vs recording slot height', () {
-    for (final FluxerButtonSize actionSize in <FluxerButtonSize>[
-      FluxerButtonSize.compact,
-      FluxerButtonSize.small,
-    ]) {
+    for (final (FluxerButtonSize actionSize, bool touchPrimary)
+        in <(FluxerButtonSize, bool)>[
+          (FluxerButtonSize.compact, false),
+          (FluxerButtonSize.small, true),
+        ]) {
       test('${actionSize.name} idle padded slot matches recording bar', () {
         expect(
-          wideComposerIdleSlotHeight(actionSize),
-          VoiceMessageRecordingBar.heightFor(actionSize),
+          wideComposerIdleSlotHeight(actionSize, touchPrimary: touchPrimary),
+          VoiceMessageRecordingBar.heightFor(
+            actionSize,
+            touchPrimary: touchPrimary,
+          ),
         );
       });
-
-      test(
-        '${actionSize.name} row min height must not include outer padding',
-        () {
-          final double innerMinHeight = actionSize.height;
-          final double paddedSlot =
-              WideComposerLayout.densePaddingY * 2 + innerMinHeight;
-          final double inflatedInnerMin = VoiceMessageRecordingBar.heightFor(
-            actionSize,
-          );
-
-          expect(paddedSlot, VoiceMessageRecordingBar.heightFor(actionSize));
-          expect(
-            WideComposerLayout.densePaddingY * 2 + inflatedInnerMin,
-            greaterThan(VoiceMessageRecordingBar.heightFor(actionSize)),
-          );
-        },
-      );
     }
+
+    test('mouse box fills the floating box min height exactly', () {
+      expect(
+        wideComposerIdleSlotHeight(
+              FluxerButtonSize.compact,
+              touchPrimary: false,
+            ) +
+            WideComposerLayout.ringWidth * 2,
+        WideComposerLayout.boxMinHeight,
+      );
+    });
   });
 }

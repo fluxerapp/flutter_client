@@ -25,6 +25,7 @@ class DirectionalHorizontalDragRecognizer
   DirectionalHorizontalDragRecognizer({
     required this.directions,
     required this.shouldDefer,
+    super.supportedDevices,
   });
 
   final Set<HorizontalClaimDirection> Function() directions;

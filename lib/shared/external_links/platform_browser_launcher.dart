@@ -67,7 +67,7 @@ Future<bool> launchInSpecificBrowser(Uri uri, DefaultWebBrowser browser) async {
     if (launchUri == null) {
       return false;
     }
-    return launchUrl(launchUri, mode: LaunchMode.externalApplication);
+    return await launchUrl(launchUri, mode: LaunchMode.externalApplication);
   }
   if (Platform.isAndroid) {
     final String? packageName = androidBrowserPackageName(browser);
@@ -94,7 +94,7 @@ Future<bool> launchInDefaultWebBrowser(
   switch (browser) {
     case DefaultWebBrowser.external:
     case DefaultWebBrowser.safari:
-      return launchUrl(uri, mode: LaunchMode.externalApplication);
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
     case DefaultWebBrowser.chrome:
     case DefaultWebBrowser.firefox:
     case DefaultWebBrowser.duckDuckGo:
@@ -102,7 +102,7 @@ Future<bool> launchInDefaultWebBrowser(
       if (await launchInSpecificBrowser(uri, browser)) {
         return true;
       }
-      return launchUrl(uri, mode: LaunchMode.externalApplication);
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
     case DefaultWebBrowser.inApp:
       return false;
   }

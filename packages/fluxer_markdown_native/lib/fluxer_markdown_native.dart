@@ -7,3 +7,6 @@ export 'src/parser.dart'
         parseFluxerMarkdown,
         parseFluxerMarkdownBinary,
         parseFluxerMarkdownToJson;
+export 'src/source_spans/markdown_source_spans.dart'
+    show MdSourceParser, computeMarkdownSourceSpans;
+export 'src/source_spans/source_span.dart';

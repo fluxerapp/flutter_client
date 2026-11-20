@@ -291,12 +291,21 @@ Future<void> friendNicknamesLoader(Ref ref) async {
 }
 
 @riverpod
-Future<void> voiceParticipantUsersLoader(Ref ref, String userIdsKey) async {
+Stream<int> voiceParticipantUsersLoader(Ref ref, String userIdsKey) {
   if (userIdsKey.isEmpty) {
-    return;
+    return Stream<int>.value(0);
   }
-  final Set<String> userIds = userIdsKey.split(',').toSet();
-  await _resolveVoiceParticipantUsers(ref, userIds);
+  int revision = 0;
+  return ref
+      .read(fluxerDatabaseProvider)
+      .userDao
+      .watchUsersByIds(userIdsKey.split(','))
+      .map((List<database.User> rows) {
+        for (final database.User user in rows) {
+          _voiceParticipantUsersCache[user.id] = user;
+        }
+        return ++revision;
+      });
 }
 
 @riverpod
@@ -333,17 +342,6 @@ String voiceChannelGridStructure(Ref ref, String guildChannelKey) {
   }
   parts.sort();
   return parts.join(';');
-}
-
-@riverpod
-String voiceChannelSidebarStructure(Ref ref, String guildChannelKey) {
-  final List<VoiceState> inChannel = _voiceStatesForGuildChannelKey(
-    ref,
-    guildChannelKey,
-  );
-  final List<String> userIds =
-      inChannel.map((VoiceState vs) => vs.userId).toSet().toList()..sort();
-  return userIds.join(',');
 }
 
 @riverpod

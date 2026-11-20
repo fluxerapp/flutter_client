@@ -28,6 +28,7 @@ const int messageFlagHasThread = 1 << 5;
 const int messageFlagFailedToMentionSomeRolesInThread = 1 << 8;
 const int attachmentFlagIsSpoiler = 1 << 3;
 const int attachmentFlagContainsExplicitMedia = 1 << 4;
+const int attachmentFlagIsAnimated = 1 << 5;
 
 const int messageTypeDefault = 0;
 const int messageTypeRecipientAdd = 1;
@@ -513,7 +514,8 @@ class Attachment {
 
   bool get isAnimated =>
       contentType?.toLowerCase() == 'image/gif' ||
-      filename.toLowerCase().endsWith('.gif');
+      filename.toLowerCase().endsWith('.gif') ||
+      ((flags & attachmentFlagIsAnimated) != 0 && !isVideo);
 
   bool get isVideo {
     if (contentType?.startsWith('video/') ?? false) {
@@ -1458,9 +1460,22 @@ class Message {
     if (a.isEmpty) {
       return true;
     }
-    return jsonEncode(a.map(toJson).toList()) ==
-        jsonEncode(b.map(toJson).toList());
+    return _encodedList(a, toJson) == _encodedList(b, toJson);
   }
+
+  static final Expando<String> _renderJsonCache = Expando<String>(
+    'messageRenderJson',
+  );
+
+  static String _encodedList<T>(
+    List<T> list,
+    Map<String, dynamic> Function(T) toJson,
+  ) => _renderJsonCache[list] ??= jsonEncode(list.map(toJson).toList());
+
+  static String _encodedObject(
+    Object value,
+    Map<String, dynamic> Function() toJson,
+  ) => _renderJsonCache[value] ??= jsonEncode(toJson());
 
   static bool _referenceEquals(MessageReference? a, MessageReference? b) {
     if (identical(a, b)) {
@@ -1469,7 +1484,7 @@ class Message {
     if (a == null || b == null) {
       return false;
     }
-    return jsonEncode(a.toJson()) == jsonEncode(b.toJson());
+    return _encodedObject(a, a.toJson) == _encodedObject(b, b.toJson);
   }
 
   static bool _callEquals(MessageCall? a, MessageCall? b) {
@@ -1479,7 +1494,7 @@ class Message {
     if (a == null || b == null) {
       return false;
     }
-    return jsonEncode(a.toJson()) == jsonEncode(b.toJson());
+    return _encodedObject(a, a.toJson) == _encodedObject(b, b.toJson);
   }
 
   static bool _stringListEquals(List<String> a, List<String> b) {

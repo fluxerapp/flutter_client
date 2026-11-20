@@ -326,7 +326,7 @@ class UnifiedPushMobileDeviceRegistration
       }
       return fetched;
     }
-    return _storedVapid(accounts);
+    return await _storedVapid(accounts);
   }
 
   Future<String?> _fetchVapid(String apiBaseUrl) async {

@@ -103,10 +103,17 @@ class _AddConnectionRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
+    final providers = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.connectionProviders,
+      ),
+    );
 
-    return Row(
+    return Wrap(
+      spacing: layout.s3,
+      runSpacing: layout.s3,
       children: [
-        if (blueskyEnabled) ...[
+        if (blueskyEnabled)
           _AddTile(
             tooltip: l10n.connectionsAddBluesky,
             semanticLabel: l10n.connectionsAddBlueskyAriaLabel,
@@ -116,8 +123,18 @@ class _AddConnectionRow extends ConsumerWidget {
             ),
             onTap: () => ConnectionAddSheet.showForBluesky(context, ref),
           ),
-          SizedBox(width: layout.s3),
-        ],
+        for (final provider in providers)
+          _AddTile(
+            tooltip: provider.name,
+            semanticLabel: l10n.connectionsAddProviderAriaLabel(provider.name),
+            icon: FluxerConnectionIcon(
+              type: ConnectionType.oauth,
+              providerId: provider.id,
+              size: 28,
+            ),
+            onTap: () =>
+                ConnectionAddSheet.showForProvider(context, ref, provider.id),
+          ),
         _AddTile(
           tooltip: l10n.connectionsAddDomain,
           semanticLabel: l10n.connectionsAddDomainAriaLabel,
@@ -221,6 +238,11 @@ class _Body extends ConsumerWidget {
     }
 
     if (state.connections.isEmpty) {
+      final hasProviders = ref.watch(
+        instanceRuntimeConfigProvider.select(
+          (config) => config.connectionProviders.isNotEmpty,
+        ),
+      );
       return Padding(
         padding: EdgeInsets.symmetric(vertical: layout.s6),
         child: Column(
@@ -241,7 +263,9 @@ class _Body extends ConsumerWidget {
             ),
             SizedBox(height: layout.s1),
             Text(
-              state.blueskyEnabled
+              hasProviders
+                  ? l10n.connectionsEmptyDescriptionAccounts
+                  : state.blueskyEnabled
                   ? l10n.connectionsEmptyDescriptionBluesky
                   : l10n.connectionsEmptyDescriptionDomainOnly,
               style: context.textStyles.bodySmall.copyWith(
@@ -324,6 +348,14 @@ class _ConnectionCard extends ConsumerWidget {
         .watch(connectionsViewModelProvider(readAccountUserId(ref)))
         .pendingIds
         .contains(connection.id);
+    final unavailable = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.isConnectionUnavailable(
+          connection.type,
+          connection.providerId,
+        ),
+      ),
+    );
 
     return Container(
       constraints: const BoxConstraints(minHeight: 80),
@@ -349,46 +381,62 @@ class _ConnectionCard extends ConsumerWidget {
           SizedBox(width: layout.s1_5),
           FluxerConnectionIconTile(
             type: connection.type,
+            providerId: connection.providerId,
             borderRadius: layout.radiusMd,
           ),
           SizedBox(width: layout.s1_5),
           Expanded(
-            child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Text(
-                    connection.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        connection.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: textStyles.bodySmall.copyWith(
+                          color: colors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Semantics(
+                      label: connection.verified
+                          ? l10n.connectionVerifiedLabel
+                          : l10n.connectionUnverifiedLabel,
+                      child: connection.verified
+                          ? const FluxerVerifiedBadgeIcon()
+                          : const FluxerUnverifiedConnectionIcon(),
+                    ),
+                  ],
+                ),
+                if (unavailable)
+                  Text(
+                    l10n.connectionUnavailable,
+                    style: textStyles.smallText.copyWith(
+                      color: colors.textTertiary,
                     ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                Semantics(
-                  label: connection.verified
-                      ? l10n.connectionVerifiedLabel
-                      : l10n.connectionUnverifiedLabel,
-                  child: connection.verified
-                      ? const FluxerVerifiedBadgeIcon()
-                      : const FluxerUnverifiedConnectionIcon(),
-                ),
               ],
             ),
           ),
-          _CardActionButton(
-            icon: PhosphorIconsBold.pencilSimple,
-            tooltip: l10n.connectionEdit,
-            onTap: isPending
-                ? null
-                : () => ConnectionEditSheet.show(
-                    context,
-                    ref,
-                    connection: connection,
-                  ),
-          ),
-          SizedBox(width: layout.s1),
+          if (!unavailable) ...[
+            _CardActionButton(
+              icon: PhosphorIconsBold.pencilSimple,
+              tooltip: l10n.connectionEdit,
+              onTap: isPending
+                  ? null
+                  : () => ConnectionEditSheet.show(
+                      context,
+                      ref,
+                      connection: connection,
+                    ),
+            ),
+            SizedBox(width: layout.s1),
+          ],
           _CardActionButton(
             icon: PhosphorIconsBold.trash,
             tooltip: l10n.connectionRemove,

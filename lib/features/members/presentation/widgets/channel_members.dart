@@ -42,15 +42,11 @@ class ChannelMembers extends ConsumerStatefulWidget {
 
 class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   final ScrollController _scrollController = ScrollController();
-  MemberListViewport? _memberListViewport;
   MemberListDesiredRanges? _memberListDesiredRanges;
 
   @override
   void initState() {
     super.initState();
-    _memberListViewport = ref.read(
-      memberListViewportProvider(readAccountUserId(ref)).notifier,
-    );
     _memberListDesiredRanges = ref.read(
       memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
     );
@@ -74,13 +70,11 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
     _scrollController
       ..removeListener(_handleScroll)
       ..dispose();
-    final MemberListViewport? viewport = _memberListViewport;
     final MemberListDesiredRanges? desiredRanges = _memberListDesiredRanges;
     final String guildId = widget.guildId;
     final String channelId = widget.channelId;
-    if (viewport != null && desiredRanges != null) {
+    if (desiredRanges != null) {
       scheduleMicrotask(() {
-        viewport.clearChannel(guildId: guildId, channelId: channelId);
         desiredRanges.clearChannel(guildId: guildId, channelId: channelId);
       });
     }
@@ -153,19 +147,20 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         child: MemberListUnavailableFallback(reason: access.unavailableReason!),
       );
     }
-    ref
-      ..listen(
-        memberListDetailsSubscriptionProvider(
-          guildId,
-          channelId,
-          access.canSubscribe,
-        ),
-        (_, _) {},
-      )
-      ..watch(memberListViewportProvider(readAccountUserId(ref)));
-    final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
-        .getList(guildId: guildId, channelId: channelId);
+    ref.listen(
+      memberListDetailsSubscriptionProvider(
+        guildId,
+        channelId,
+        access.canSubscribe,
+      ),
+      (_, _) {},
+    );
+    final String channelKey = memberListChannelKey(guildId, channelId);
+    final MemberListViewportListState? listState = ref.watch(
+      memberListViewportProvider(
+        readAccountUserId(ref),
+      ).select((MemberListViewportState state) => state.listFor(channelKey)),
+    );
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(guildId)).value ?? <String, db.Role>{};
     final guild = ref.watch(guildByIdProvider(guildId)).asData?.value;

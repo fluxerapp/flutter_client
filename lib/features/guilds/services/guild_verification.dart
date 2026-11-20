@@ -19,7 +19,7 @@ int supportedGuildVerificationLevel(int verificationLevel) {
 
 int effectiveGuildVerificationLevel(
   int verificationLevel,
-  // ignore: avoid_positional_boolean_parameters, small public helper keeps existing positional call sites compact.
+  // ignore: small public helper keeps existing positional call sites compact.
   bool isDiscoverable,
 ) {
   final int level = supportedGuildVerificationLevel(verificationLevel);

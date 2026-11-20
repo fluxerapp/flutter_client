@@ -174,12 +174,16 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
     if (!isUnrecognizedChannel) {
       ref.watch(channelSearchProvider(widget.channelId, widget.guildId));
     }
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
     final bool forceVoiceCallStyle =
         isVoiceChannel &&
-        voice.isInVoice &&
-        voice.channelId == widget.channelId &&
-        voice.guildId == widget.guildId;
+        ref.watch(
+          voiceSessionProvider.select(
+            (VoiceSessionState voice) =>
+                voice.isInVoice &&
+                voice.channelId == widget.channelId &&
+                voice.guildId == widget.guildId,
+          ),
+        );
 
     void scheduleSearchContextSync(String? previous, String? next) {
       if (previous == next) {
@@ -285,7 +289,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                           if (guild != null &&
                               guild.mfaLevel == guildMfaLevelElevated)
                             GuildMfaRequirementNagbar(guild: guild),
-                          if (!hideableVoiceHeader) header,
+                          if (!forceVoiceCallStyle) header,
                           Expanded(
                             child: Stack(
                               children: [

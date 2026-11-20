@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Όνομα χρήστη",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Δημιουργία λογαριασμού",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Προσθήκη φίλου",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Όνομα χρήστη#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Όνομα χρήστη φίλου",
     "@addFriendUsernameLabel": {
@@ -6764,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Οι προσκλήσεις έχουν τεθεί σε παύση μετά από μια ύποπτη επιδρομή",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "ποτέ",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11866,10 +11862,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Το δώρο παραλήφθηκε",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Διεκδίκηση λογαριασμού για εξαργύρωση",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11881,10 +11873,6 @@
     "embedGiftUnknownSubtitle": "Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη παραληφθεί.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Το δώρο δεν είναι διαθέσιμο",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Διεκδίκησε το δώρο σου για να ενεργοποιήσεις τη συνδρομή σου στο {productName}!",
     "@giftAcceptClaimSubscription": {
@@ -19896,10 +19884,6 @@
     "passkeyNoCredentialsForAccount": "Αυτή η συσκευή δεν έχει κλειδί πρόσβασης για αυτόν τον λογαριασμό. Χρησιμοποιήστε τη συσκευή ή τη διαχείριση κωδικών πρόσβασης όπου το αποθηκεύσατε.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Ενεργοποιήστε τις κοινότητες και τα κανάλια με περιορισμό ηλικίας στο fluxer.com από το πρόγραμμα περιήγησης ή από την εφαρμογή για υπολογιστές. Μέχρι τότε παραμένουν κρυφά στην εφαρμογή iOS.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Μηνύματα",
     "@notificationChannelMessages": {

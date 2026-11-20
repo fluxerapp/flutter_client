@@ -89,7 +89,7 @@ Future<FolderMenuAction?> showFolderContextMenu(
     hasGuilds: guilds.isNotEmpty,
   );
 
-  return Navigator.of(context).push<FolderMenuAction>(
+  return await Navigator.of(context).push<FolderMenuAction>(
     _FolderContextMenuRoute(
       animate: !usesDesktopPointerUi(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,

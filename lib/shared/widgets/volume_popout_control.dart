@@ -55,7 +55,9 @@ class _VolumePopoutControlState extends State<VolumePopoutControl> {
   }
 
   void _close({bool silently = false}) {
-    _overlayEntry?.remove();
+    _overlayEntry
+      ?..remove()
+      ..dispose();
     _overlayEntry = null;
     if (silently || !mounted || !_isOpen) {
       return;

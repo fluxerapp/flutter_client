@@ -22,7 +22,7 @@ const String _kEmojiAssetCacheVersion = '2';
 class EmojiAssetCache {
   EmojiAssetCache._();
 
-  static final BaseCacheManager _cacheManager =
+  static BaseCacheManager get _cacheManager =>
       CachedNetworkImageProvider.defaultCacheManager;
 
   @visibleForTesting
@@ -80,7 +80,7 @@ class EmojiAssetCache {
     final cacheKey = '$_kEmojiAssetCacheVersion:$url';
     final cached = await _cacheManager.getFileFromCache(cacheKey);
     if (cached != null) {
-      return cached.file.readAsBytes();
+      return await cached.file.readAsBytes();
     }
 
     final bytes = await _fetchBytes(url);
@@ -112,6 +112,11 @@ class EmojiAssetCache {
     } finally {
       client.close();
     }
+  }
+
+  static void clearMemory() {
+    _memory.clear();
+    _memoryBytes = 0;
   }
 
   @visibleForTesting

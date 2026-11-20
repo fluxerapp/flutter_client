@@ -38,4 +38,58 @@ void main() {
       isNull,
     );
   });
+
+  test('maps full packages to their partial download name', () {
+    expect(
+      oxygenUpdatePartialFileName(
+        'com.fluxer.oxygen.canary-2026.11.200-canary.3035-canary-full.nupkg',
+      ),
+      'com.fluxer.oxygen.canary-2026.11.200-canary.3035-canary-full.partial',
+    );
+  });
+
+  test('locates the macos partial download', () {
+    expect(
+      oxygenUpdatePartialPaths(
+        operatingSystem: 'macos',
+        packageId: 'com.fluxer.oxygen.canary',
+        fileName: 'oxygen-1-full.nupkg',
+        executablePath: '/Applications/Fluxer.app/Contents/MacOS/Fluxer',
+        home: '/Users/me',
+      ),
+      <String>[
+        '/Users/me/Library/Caches/velopack/com.fluxer.oxygen.canary/packages/oxygen-1-full.partial',
+      ],
+    );
+  });
+
+  test('locates the linux partial download', () {
+    expect(
+      oxygenUpdatePartialPaths(
+        operatingSystem: 'linux',
+        packageId: 'com.fluxer.oxygen.canary',
+        fileName: 'oxygen-1-full.nupkg',
+        executablePath: '/tmp/.mount/usr/bin/fluxer',
+        home: '/home/me',
+      ),
+      <String>[
+        '/var/tmp/velopack/com.fluxer.oxygen.canary/packages/oxygen-1-full.partial',
+      ],
+    );
+  });
+
+  test('locates the windows partial download beside current', () {
+    expect(
+      oxygenUpdatePartialPaths(
+        operatingSystem: 'windows',
+        packageId: 'com.fluxer.oxygen.canary',
+        fileName: 'oxygen-1-full.nupkg',
+        executablePath: r'C:\Users\me\AppData\Local\Fluxer\current\Fluxer.exe',
+        home: null,
+      ),
+      <String>[
+        r'C:\Users\me\AppData\Local\Fluxer\packages\oxygen-1-full.partial',
+      ],
+    );
+  });
 }

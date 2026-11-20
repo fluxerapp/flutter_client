@@ -72,7 +72,7 @@ void main() {
     expect(requestCalls, 0);
   });
 
-  test('requests permission only while still undetermined', () async {
+  test('requests permission while still undetermined', () async {
     var requestCalls = 0;
     final PermissionState state = await resolveAttachmentGalleryPermissionState(
       readPermissionState: ({required PermissionRequestOption requestOption}) {
@@ -86,5 +86,42 @@ void main() {
 
     expect(state, PermissionState.limited);
     expect(requestCalls, 1);
+  });
+
+  test(
+    'requests permission when Android reports denied before asking',
+    () async {
+      var requestCalls = 0;
+      final PermissionState
+      state = await resolveAttachmentGalleryPermissionState(
+        readPermissionState:
+            ({required PermissionRequestOption requestOption}) {
+              return Future<PermissionState>.value(PermissionState.denied);
+            },
+        requestPermission: ({required PermissionRequestOption requestOption}) {
+          requestCalls += 1;
+          return Future<PermissionState>.value(PermissionState.authorized);
+        },
+      );
+
+      expect(state, PermissionState.authorized);
+      expect(requestCalls, 1);
+    },
+  );
+
+  test('does not re-request when access is already full', () async {
+    var requestCalls = 0;
+    final PermissionState state = await resolveAttachmentGalleryPermissionState(
+      readPermissionState: ({required PermissionRequestOption requestOption}) {
+        return Future<PermissionState>.value(PermissionState.authorized);
+      },
+      requestPermission: ({required PermissionRequestOption requestOption}) {
+        requestCalls += 1;
+        return Future<PermissionState>.value(PermissionState.authorized);
+      },
+    );
+
+    expect(state, PermissionState.authorized);
+    expect(requestCalls, 0);
   });
 }

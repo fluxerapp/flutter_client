@@ -5,6 +5,8 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.PowerManager
 import java.nio.ByteBuffer
 
@@ -104,6 +106,63 @@ internal class ProximityScreenLock(context: Context) {
             lock.acquire()
         } else if (!wanted && lock.isHeld) {
             lock.release(PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY)
+        }
+    }
+}
+
+internal interface VoiceWifiLock {
+    val isHeld: Boolean
+
+    fun acquire()
+
+    fun release()
+}
+
+internal class SystemVoiceWifiLock(context: Context) : VoiceWifiLock {
+    private val locks: List<WifiManager.WifiLock> = run {
+        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
+            ?: return@run emptyList()
+        buildList {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                createLock(wifi, WifiManager.WIFI_MODE_FULL_LOW_LATENCY, "fluxer:voice-low-latency")?.let(::add)
+            }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                @Suppress("DEPRECATION")
+                createLock(wifi, WifiManager.WIFI_MODE_FULL_HIGH_PERF, "fluxer:voice-high-perf")?.let(::add)
+            }
+        }
+    }
+
+    override val isHeld: Boolean
+        get() = locks.any { it.isHeld }
+
+    override fun acquire() {
+        locks.forEach { lock ->
+            if (!lock.isHeld) {
+                try {
+                    lock.acquire()
+                } catch (_: RuntimeException) {
+                }
+            }
+        }
+    }
+
+    override fun release() {
+        locks.forEach { lock ->
+            if (lock.isHeld) {
+                try {
+                    lock.release()
+                } catch (_: RuntimeException) {
+                }
+            }
+        }
+    }
+
+    private fun createLock(wifi: WifiManager, mode: Int, tag: String): WifiManager.WifiLock? {
+        return try {
+            wifi.createWifiLock(mode, tag).apply { setReferenceCounted(false) }
+        } catch (_: RuntimeException) {
+            null
         }
     }
 }

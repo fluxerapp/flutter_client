@@ -30,9 +30,14 @@ class OxygenUpdateHeaderButton extends ConsumerWidget {
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool updating = status == OxygenUpdateStatus.updating;
-    final String label = updating
+    final double? progress = updating
+        ? ref.watch(oxygenUpdateProgressProvider)
+        : null;
+    final String label = !updating
+        ? l10n.oxygenUpdateAvailable
+        : progress == null
         ? l10n.oxygenUpdating
-        : l10n.oxygenUpdateAvailable;
+        : l10n.oxygenUpdatingProgress((progress * 100).round());
     final Color color = highContrast ? Colors.white : _updateIconColor;
     final double hitSize = isTouchPrimaryInput(ref)
         ? context.layout.touchTargetMin
@@ -58,6 +63,7 @@ class OxygenUpdateHeaderButton extends ConsumerWidget {
               child: Center(
                 child: _OxygenUpdateIcon(
                   spinning: updating,
+                  progress: progress,
                   color: color,
                   size: _iconSize,
                 ),
@@ -73,11 +79,13 @@ class OxygenUpdateHeaderButton extends ConsumerWidget {
 class _OxygenUpdateIcon extends StatefulWidget {
   const _OxygenUpdateIcon({
     required this.spinning,
+    required this.progress,
     required this.color,
     required this.size,
   });
 
   final bool spinning;
+  final double? progress;
   final Color color;
   final double size;
 
@@ -124,17 +132,40 @@ class _OxygenUpdateIconState extends State<_OxygenUpdateIcon>
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.spinning) {
+      return PhosphorIcon(
+        PhosphorIconsBold.downloadSimple,
+        size: widget.size,
+        color: widget.color,
+      );
+    }
     final Widget icon = PhosphorIcon(
-      PhosphorIconsBold.downloadSimple,
-      size: widget.size,
+      PhosphorIconsBold.arrowsClockwise,
+      size: widget.size * _spinningIconScale,
       color: widget.color,
     );
-    if (!widget.spinning) {
-      return icon;
-    }
-    if (MediaQuery.disableAnimationsOf(context)) {
-      return Opacity(opacity: 0.6, child: icon);
-    }
-    return RotationTransition(turns: _controller, child: icon);
+    final Widget spinner = MediaQuery.disableAnimationsOf(context)
+        ? icon
+        : RotationTransition(turns: _controller, child: icon);
+    return SizedBox.square(
+      dimension: widget.size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          SizedBox.expand(
+            child: CircularProgressIndicator(
+              value: widget.progress ?? 0,
+              strokeWidth: _ringStrokeWidth,
+              color: widget.color,
+              backgroundColor: widget.color.withValues(alpha: 0.25),
+            ),
+          ),
+          spinner,
+        ],
+      ),
+    );
   }
 }
+
+const double _spinningIconScale = 0.55;
+const double _ringStrokeWidth = 2;

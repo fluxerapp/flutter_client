@@ -23,7 +23,6 @@ class AccessibilityLocalState {
     required this.showFadedUnreadOnMutedChannels,
     required this.dmMessagePreviewMode,
     required this.showFavorites,
-    required this.useSystemLocaleForTimeFormat,
     required this.messageGroupSpacing,
     required this.compactMessageGroupSpacing,
     required this.saturationFactor,
@@ -44,7 +43,6 @@ class AccessibilityLocalState {
     this.enableTtsCommand = true,
     this.ttsRate = kDefaultTtsRate,
     this.alwaysUnderlineLinks = false,
-    this.showAltTextOnImages = false,
     this.dimStrikethroughText = true,
     this.showTextareaFocusRing = true,
     this.escapeExitsKeyboardMode = false,
@@ -73,7 +71,6 @@ class AccessibilityLocalState {
   final bool showFadedUnreadOnMutedChannels;
   final DmMessagePreviewMode dmMessagePreviewMode;
   final bool showFavorites;
-  final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
   final bool showUserAvatarsInCompactMode;
@@ -94,7 +91,6 @@ class AccessibilityLocalState {
   final bool enableTtsCommand;
   final double ttsRate;
   final bool alwaysUnderlineLinks;
-  final bool showAltTextOnImages;
   final bool dimStrikethroughText;
   final bool showTextareaFocusRing;
   final bool escapeExitsKeyboardMode;
@@ -158,7 +154,6 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: appearance.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: appearance.dmMessagePreviewMode,
       showFavorites: appearance.showFavorites,
-      useSystemLocaleForTimeFormat: appearance.useSystemLocaleForTimeFormat,
       messageGroupSpacing: appearance.messageGroupSpacing,
       compactMessageGroupSpacing: appearance.compactMessageGroupSpacing,
       showUserAvatarsInCompactMode: appearance.showUserAvatarsInCompactMode,
@@ -177,7 +172,6 @@ class AccessibilitySyncedField
       enableTtsCommand: appearance.enableTtsCommand,
       ttsRate: appearance.ttsRate,
       alwaysUnderlineLinks: appearance.alwaysUnderlineLinks,
-      showAltTextOnImages: appearance.showAltTextOnImages,
       dimStrikethroughText: appearance.dimStrikethroughText,
       showTextareaFocusRing: appearance.showTextareaFocusRing,
       escapeExitsKeyboardMode: appearance.escapeExitsKeyboardMode,
@@ -289,7 +283,6 @@ class AccessibilitySyncedField
         a.showFadedUnreadOnMutedChannels == b.showFadedUnreadOnMutedChannels &&
         a.dmMessagePreviewMode == b.dmMessagePreviewMode &&
         a.showFavorites == b.showFavorites &&
-        a.useSystemLocaleForTimeFormat == b.useSystemLocaleForTimeFormat &&
         a.messageGroupSpacing == b.messageGroupSpacing &&
         a.compactMessageGroupSpacing == b.compactMessageGroupSpacing &&
         a.showUserAvatarsInCompactMode == b.showUserAvatarsInCompactMode &&
@@ -304,7 +297,6 @@ class AccessibilitySyncedField
         a.enableTtsCommand == b.enableTtsCommand &&
         a.ttsRate == b.ttsRate &&
         a.alwaysUnderlineLinks == b.alwaysUnderlineLinks &&
-        a.showAltTextOnImages == b.showAltTextOnImages &&
         a.dimStrikethroughText == b.dimStrikethroughText &&
         a.showTextareaFocusRing == b.showTextareaFocusRing &&
         a.escapeExitsKeyboardMode == b.escapeExitsKeyboardMode &&
@@ -404,7 +396,6 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: remote.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: remote.dmMessagePreviewMode,
       showFavorites: remote.showFavorites,
-      useSystemLocaleForTimeFormat: remote.useSystemLocaleForTimeFormat,
       messageGroupSpacing: remote.messageGroupSpacing,
       compactMessageGroupSpacing: remote.compactMessageGroupSpacing,
       showUserAvatarsInCompactMode: remote.showUserAvatarsInCompactMode,
@@ -421,7 +412,6 @@ class AccessibilitySyncedField
       enableTtsCommand: remote.enableTtsCommand,
       ttsRate: remote.ttsRate,
       alwaysUnderlineLinks: remote.alwaysUnderlineLinks,
-      showAltTextOnImages: remote.showAltTextOnImages,
       dimStrikethroughText: remote.dimStrikethroughText,
       showTextareaFocusRing: remote.showTextareaFocusRing,
       escapeExitsKeyboardMode: remote.escapeExitsKeyboardMode,
@@ -493,9 +483,6 @@ class AccessibilitySyncedField
           proto.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: _fromProtoDmPreviewMode(proto.dmMessagePreviewMode),
       showFavorites: !proto.hasShowFavorites() || proto.showFavorites,
-      useSystemLocaleForTimeFormat:
-          proto.hasUseBrowserLocaleForTimeFormat() &&
-          proto.useBrowserLocaleForTimeFormat,
       messageGroupSpacing: proto.hasMessageGroupSpacing()
           ? proto.messageGroupSpacing
           : 16,
@@ -569,8 +556,6 @@ class AccessibilitySyncedField
           ? clampTtsRate(proto.ttsRate)
           : kDefaultTtsRate,
       alwaysUnderlineLinks: proto.alwaysUnderlineLinks,
-      showAltTextOnImages:
-          proto.hasShowAltTextOnImages() && proto.showAltTextOnImages,
       dimStrikethroughText:
           !proto.hasDimStrikethroughText() || proto.dimStrikethroughText,
       showTextareaFocusRing:
@@ -637,7 +622,6 @@ class AccessibilitySyncedField
             local.dmMessagePreviewMode,
           )
           ..showFavorites = local.showFavorites
-          ..useBrowserLocaleForTimeFormat = local.useSystemLocaleForTimeFormat
           ..messageGroupSpacing = local.messageGroupSpacing
           ..compactMessageGroupSpacing = local.compactMessageGroupSpacing
           ..showUserAvatarsInCompactMode = local.showUserAvatarsInCompactMode
@@ -652,7 +636,6 @@ class AccessibilitySyncedField
           ..enableTtsCommand = local.enableTtsCommand
           ..ttsRate = local.ttsRate
           ..alwaysUnderlineLinks = local.alwaysUnderlineLinks
-          ..showAltTextOnImages = local.showAltTextOnImages
           ..dimStrikethroughText = local.dimStrikethroughText
           ..showTextareaFocusRing = local.showTextareaFocusRing
           ..escapeExitsKeyboardMode = local.escapeExitsKeyboardMode
@@ -698,7 +681,6 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: _toProtoDmPreviewMode(local.dmMessagePreviewMode),
       showFavorites: local.showFavorites,
-      useBrowserLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
       messageGroupSpacing: local.messageGroupSpacing,
       compactMessageGroupSpacing: local.compactMessageGroupSpacing,
       showUserAvatarsInCompactMode: local.showUserAvatarsInCompactMode,
@@ -712,7 +694,6 @@ class AccessibilitySyncedField
       enableTtsCommand: local.enableTtsCommand,
       ttsRate: local.ttsRate,
       alwaysUnderlineLinks: local.alwaysUnderlineLinks,
-      showAltTextOnImages: local.showAltTextOnImages,
       dimStrikethroughText: local.dimStrikethroughText,
       showTextareaFocusRing: local.showTextareaFocusRing,
       escapeExitsKeyboardMode: local.escapeExitsKeyboardMode,

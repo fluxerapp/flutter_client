@@ -384,7 +384,7 @@ Uint8List? encodePushNotificationImage(
   Uint8List bytes, {
   required int maxEdge,
 }) {
-  final img.Image? decoded = img.decodeImage(bytes);
+  final img.Image? decoded = img.decodeImage(bytes, frame: 0);
   if (decoded == null) {
     return null;
   }
@@ -400,7 +400,7 @@ Uint8List? encodePushNotificationImage(
 }
 
 Uint8List? encodePushNotificationAvatar(Uint8List bytes, {required int size}) {
-  final img.Image? decoded = img.decodeImage(bytes);
+  final img.Image? decoded = img.decodeImage(bytes, frame: 0);
   if (decoded == null) {
     return null;
   }
@@ -424,8 +424,39 @@ String? pushAttachmentImageUrl(
   if (raw == null) {
     return null;
   }
-  return alignPushMediaUrlWithInstance(raw, endpoints);
+  return _pushNotificationPictureUrl(
+    alignPushMediaUrlWithInstance(raw, endpoints),
+    endpoints: endpoints,
+  );
 }
+
+String _pushNotificationPictureUrl(
+  String raw, {
+  required PushMediaInstanceUrls endpoints,
+}) {
+  final Uri? uri = Uri.tryParse(raw);
+  if (uri == null ||
+      !_pushMediaHostsMatch(uri, Uri.parse(endpoints.mediaBaseUrl))) {
+    return raw;
+  }
+  final Map<String, String> query = <String, String>{
+    for (final MapEntry<String, String> entry in uri.queryParameters.entries)
+      if (!_kPushPictureTransformParams.contains(entry.key.toLowerCase()))
+        entry.key: entry.value,
+    'width': '$kPushPictureMaxEdge',
+    'format': 'webp',
+    'animated': 'false',
+  };
+  return uri.replace(queryParameters: query).toString();
+}
+
+const Set<String> _kPushPictureTransformParams = <String>{
+  'width',
+  'height',
+  'format',
+  'fmt',
+  'animated',
+};
 
 bool _mediaDisabled(Map<String, String> payload) {
   final String? value = payload['has_media']?.toLowerCase();

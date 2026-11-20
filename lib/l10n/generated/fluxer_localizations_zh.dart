@@ -811,9 +811,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您的账户尚未认领。没有用户名和密码，您将无法从其他设备登录，并可能丢失账户访问权限。立即认领您的账户以确保其安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '用户名';
-
-  @override
   String get registerTitle => '创建账号';
 
   @override
@@ -1095,9 +1092,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedGiftClaim => '领取礼物';
 
   @override
-  String get embedGiftClaimed => '礼物已领取';
-
-  @override
   String get embedGiftClaimAccount => '认领账号后领取';
 
   @override
@@ -1105,9 +1099,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => '此礼品码无效或已被领取。';
-
-  @override
-  String get embedGiftUnavailable => '礼物不可用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -1312,6 +1303,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get incomingVoiceCallLabel => '来电';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => '忽略';
 
   @override
@@ -1473,9 +1470,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '添加好友';
-
-  @override
-  String get addFriendUsernameHint => '用户名#0000';
 
   @override
   String get addFriendUsernameLabel => '好友用户名';
@@ -4290,8 +4284,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get matureCommunityUnavailableBody => '你的账号无法访问此成人社区。';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      '请在浏览器中访问 fluxer.com 或在桌面应用中开启年龄限制的社区和频道。开启之前，它们在 iOS 应用中会保持隐藏。';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody => '你的账号无法访问此成人内容类别。';
@@ -4598,6 +4593,33 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get connectionEnterDomain => '请输入域名。';
+
+  @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
 
   @override
   String get lookAndFeelThemeSectionTitle => '主题';
@@ -5888,6 +5910,27 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => '视频';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => '切换摄像头';
@@ -11907,6 +11950,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => '此社区的邀请目前已暂停';
 
   @override
+  String get guildNavbarInvitesPausedRaid => '检测到疑似突袭，邀请已暂停';
+
+  @override
   String get guildNavbarDurationNever => '永不';
 
   @override
@@ -16265,6 +16311,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -16272,6 +16323,15 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
@@ -17127,9 +17187,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '您的帳戶尚未領取。沒有使用者名稱和密碼，您將無法從其他裝置登入，並且可能會遺失帳戶存取權。立即領取您的帳戶以確保安全。';
 
   @override
-  String get addFriendUsernameOnlyHint => '使用者名稱';
-
-  @override
   String get registerTitle => '建立帳號';
 
   @override
@@ -17411,9 +17468,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get embedGiftClaim => '領取禮物';
 
   @override
-  String get embedGiftClaimed => '禮物已領取';
-
-  @override
   String get embedGiftClaimAccount => '認領帳號即可兌換';
 
   @override
@@ -17421,9 +17475,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get embedGiftUnknownSubtitle => '此禮物代碼無效或已被領取。';
-
-  @override
-  String get embedGiftUnavailable => '禮物無法使用';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -17786,9 +17837,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get addFriendSheetTitle => '新增好友';
-
-  @override
-  String get addFriendUsernameHint => '使用者名稱#0000';
 
   @override
   String get addFriendUsernameLabel => '好友的使用者名稱';
@@ -20606,10 +20654,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get matureCommunityUnavailableBody => '您的帳號無法使用此成人社群。';
-
-  @override
-  String get matureContentIosWebOptInBody =>
-      '請在瀏覽器中前往 fluxer.com 或在桌面應用程式中開啟有年齡限制的社群和頻道。開啟之前，它們在 iOS 應用程式中會保持隱藏。';
 
   @override
   String get matureCategoryUnavailableBody => '您的帳號無法使用此成人內容類別。';
@@ -28018,6 +28062,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildNavbarInvitesPaused => '此社群目前暫停邀請';
+
+  @override
+  String get guildNavbarInvitesPausedRaid => '因疑似突襲，邀請已暫停';
 
   @override
   String get guildNavbarDurationNever => '永不';

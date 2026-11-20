@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Nome de usuário",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Criar uma conta",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Adicionar amigo",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "NomeDeUsuário#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Nome de usuário do amigo",
     "@addFriendUsernameLabel": {
@@ -6795,6 +6787,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Convites pausados após um possível ataque",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "nunca",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -9052,10 +9048,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Presente resgatado",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Reivindique a conta para resgatar",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -9067,10 +9059,6 @@
     "embedGiftUnknownSubtitle": "Este código de presente é inválido ou já foi resgatado.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Presente indisponível",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Resgate seu presente para ativar sua assinatura {productName}!",
     "@giftAcceptClaimSubscription": {
@@ -19896,10 +19884,6 @@
     "passkeyNoCredentialsForAccount": "Este dispositivo não tem uma chave de acesso para esta conta. Use o dispositivo ou o gestor de palavras-passe onde a guardou.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Ative as comunidades e os canais com restrição de idade em fluxer.com no seu navegador ou na aplicação para computador. Continuam ocultos na aplicação para iOS até o fazer.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Mensagens",
     "@notificationChannelMessages": {

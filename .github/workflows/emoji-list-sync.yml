@@ -71,7 +71,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
 
       - name: Set up Rust and native asset build hooks
         run: |
@@ -82,6 +82,7 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup show active-toolchain || rustup toolchain install stable
+          (cd fluxer && rustup toolchain install)
           flutter config --enable-native-assets
 
       - name: Configure dev build tree

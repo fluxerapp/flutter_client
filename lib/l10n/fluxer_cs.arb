@@ -632,10 +632,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Uživatelské jméno",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Vytvořit účet",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1240,10 +1236,6 @@
     "addFriendSheetTitle": "Přidat přítele",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Uživatelské jméno#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Uživatelské jméno přítele",
     "@addFriendUsernameLabel": {
@@ -6764,6 +6756,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Pozvánky jsou pozastaveny po podezření na nájezd",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "nikdy",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -11866,10 +11862,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Dárek převzat",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Pro uplatnění dokončete registraci účtu",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -11881,10 +11873,6 @@
     "embedGiftUnknownSubtitle": "Tento dárkový kód je neplatný nebo ho již někdo převzal.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Dárek není k dispozici",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Uplatněte svůj dárek a aktivujte si předplatné {productName}!",
     "@giftAcceptClaimSubscription": {
@@ -19896,10 +19884,6 @@
     "passkeyNoCredentialsForAccount": "Toto zařízení nemá pro tento účet přístupový klíč. Použijte zařízení nebo správce hesel, kde jste ho uložili.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Komunity a kanály s věkovým omezením zapněte na fluxer.com v prohlížeči nebo v aplikaci pro počítač. Do té doby zůstanou v aplikaci pro iOS skryté.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Zprávy",
     "@notificationChannelMessages": {

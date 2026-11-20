@@ -9,6 +9,20 @@ Future<LocalAudioTrack> createMicTestAudioTrack({
   final LocalAudioTrack track = await LocalAudioTrack.create(
     applicator.buildAudioCaptureOptions(settings),
   );
-  await applicator.attachNoiseFilterToTrack(track: track, settings: settings);
+  try {
+    await applicator.attachNoiseFilterToTrack(track: track, settings: settings);
+  } on Object {
+    await _disposeQuietly(track);
+    rethrow;
+  }
   return track;
+}
+
+Future<void> _disposeQuietly(LocalAudioTrack track) async {
+  try {
+    await track.stop();
+    await track.dispose();
+  } on Object {
+    return;
+  }
 }

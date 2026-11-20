@@ -3619,8 +3619,8 @@ void main() {
         await tester.pump();
         expect(
           find.byType(Scrollable),
-          findsWidgets,
-          reason: 'messages should render before read state arrives',
+          findsNothing,
+          reason: 'rows wait for an anchor before they mount',
         );
 
         loadingChatViewModel.scrollToMessage(targetId);

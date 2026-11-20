@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/accessibility/presentation/reduced_motion_scope.dart';
+import 'package:material_ui/material_ui.dart';
 
 const Key _listKey = Key('list');
 

@@ -15,7 +15,6 @@ import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/participant_tile_id.dart';
 import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
@@ -475,7 +474,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     required BuildContext context,
     required String tileId,
     required Widget video,
-    required VoiceSessionState voice,
     required bool hasVideo,
     required Offset? storedOrigin,
   }) {
@@ -536,7 +534,10 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       );
     }
     void expandFromPip() {
-      navigateToActiveVoiceSession(context, voice: voice);
+      navigateToActiveVoiceSession(
+        context,
+        voice: ref.read(voiceSessionProvider),
+      );
       _beginExpand(pipRect: pipRect);
     }
 
@@ -697,7 +698,9 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
 
   @override
   Widget build(BuildContext context) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    final VoicePipVisibilityInputs voice = ref.watch(
+      voiceSessionProvider.select(voicePipVisibilityInputs),
+    );
     _desktop = !isMobileLayout(context) && usesDesktopPointerUi(context);
     final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
     final VoicePipOverlayPhase overlayPhase = ref.watch(
@@ -812,7 +815,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
                 context: context,
                 tileId: featuredTileId,
                 video: video!,
-                voice: voice,
                 hasVideo: hasFeaturedVideo,
                 storedOrigin: pipPlacement,
               );

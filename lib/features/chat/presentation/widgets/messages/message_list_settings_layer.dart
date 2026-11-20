@@ -31,13 +31,12 @@ class _MessageListSettingsLayer extends ConsumerWidget {
     final ChannelMessagePermissions channelMessagePerms = channelId.isEmpty
         ? ChannelMessagePermissions.unresolved
         : watchChannelMessagePermissionsForComposer(ref, channelId);
-    final DmConversation? dmConversation = ref.watch(
+    final bool interactionsBlocked = ref.watch(
       dmViewModelProvider.select((DmViewState dmState) {
-        return findDmById(dmState.conversations, channelId);
+        final DmConversation? dm = findDmById(dmState.conversations, channelId);
+        return dm != null && isSystemDmConversation(dm);
       }),
     );
-    final bool interactionsBlocked =
-        dmConversation != null && isSystemDmConversation(dmConversation);
     final RenderSpoilers renderSpoilers = ref.watch(
       userSettingsViewModelProvider.select((s) => s.renderSpoilers),
     );

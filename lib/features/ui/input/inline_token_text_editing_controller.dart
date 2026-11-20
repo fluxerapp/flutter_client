@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/features/ui/input/composer_markdown_style.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_markdown_native/fluxer_markdown_native.dart'
+    show MdSourceSpan, MdSpanFormat, computeMarkdownSourceSpans;
 
 abstract class InlineToken {
   String get wireText;
@@ -16,6 +19,40 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   final Map<String, InlineToken> _tokens = <String, InlineToken>{};
   int _nextSentinelIndex = 0;
+  (String, String)? _markdownSpansKey;
+  List<MdSourceSpan> _markdownSpans = const <MdSourceSpan>[];
+
+  @protected
+  bool get highlightsMarkdown => false;
+
+  List<MdSourceSpan> _markdownDisplaySpans(String displayText) {
+    final StringBuffer wire = StringBuffer();
+    final List<int> wireToDisplay = <int>[];
+    for (int index = 0; index < displayText.length; index += 1) {
+      final String piece =
+          _tokens[displayText[index]]?.wireText ?? displayText[index];
+      wire.write(piece);
+      wireToDisplay.addAll(List<int>.filled(piece.length, index));
+    }
+    wireToDisplay.add(displayText.length);
+    final (String, String) key = (displayText, wire.toString());
+    if (key == _markdownSpansKey) {
+      return _markdownSpans;
+    }
+    final List<MdSourceSpan> spans = <MdSourceSpan>[];
+    for (final MdSourceSpan span in computeMarkdownSourceSpans(key.$2)) {
+      if (!span.isMarker && span.format == MdSpanFormat.none) {
+        continue;
+      }
+      final int start = wireToDisplay[span.start];
+      final int end = wireToDisplay[span.end];
+      if (end > start) {
+        spans.add(span.copyWith(start: start, end: end));
+      }
+    }
+    _markdownSpansKey = key;
+    return _markdownSpans = spans;
+  }
 
   String allocateToken(InlineToken token) {
     final int codePoint = 0xE000 + _nextSentinelIndex++;
@@ -400,6 +437,48 @@ class InlineTokenTextEditingController extends TextEditingController {
   static bool _isWhitespace(String char) =>
       char == ' ' || char == '\n' || char == '\t';
 
+  void _appendStyledTextSpans(
+    BuildContext context,
+    List<InlineSpan> children,
+    int start,
+    int end,
+    TextStyle? style,
+    TextRange? composing,
+    List<MdSourceSpan> spans,
+  ) {
+    void appendRun(int runStart, int runEnd, TextStyle? runStyle) {
+      _appendPlainTextSpans(
+        children,
+        text,
+        runStart,
+        runEnd,
+        runStyle,
+        composing,
+        composing == null ? null : _composingStyle(context, runStyle, value),
+      );
+    }
+
+    int cursor = start;
+    for (final MdSourceSpan span in spans) {
+      if (span.end <= cursor) {
+        continue;
+      }
+      if (span.start >= end) {
+        break;
+      }
+      final int spanStart = span.start.clamp(cursor, end);
+      final int spanEnd = span.end.clamp(cursor, end);
+      appendRun(cursor, spanStart, style);
+      appendRun(
+        spanStart,
+        spanEnd,
+        composerMarkdownStyle(context, style, span),
+      );
+      cursor = spanEnd;
+    }
+    appendRun(cursor, end, style);
+  }
+
   static void _appendPlainTextSpans(
     List<InlineSpan> children,
     String text,
@@ -467,23 +546,23 @@ class InlineTokenTextEditingController extends TextEditingController {
         !value.composing.isCollapsed &&
         value.isComposingRangeValid;
     final TextRange? composing = useComposing ? value.composing : null;
-    final TextStyle? composingStyle = useComposing
-        ? _composingStyle(context, style, value)
-        : null;
+    final List<MdSourceSpan> spans = highlightsMarkdown
+        ? _markdownDisplaySpans(t)
+        : const <MdSourceSpan>[];
     final List<InlineSpan> children = <InlineSpan>[];
     int plainStart = 0;
     int index = 0;
     while (index < t.length) {
       final InlineToken? token = _tokens[t[index]];
       if (token != null) {
-        _appendPlainTextSpans(
+        _appendStyledTextSpans(
+          context,
           children,
-          t,
           plainStart,
           index,
           style,
           composing,
-          composingStyle,
+          spans,
         );
         children.add(
           WidgetSpan(
@@ -499,14 +578,14 @@ class InlineTokenTextEditingController extends TextEditingController {
       }
       index = _nextPlainTextOffset(t, index);
     }
-    _appendPlainTextSpans(
+    _appendStyledTextSpans(
+      context,
       children,
-      t,
       plainStart,
       t.length,
       style,
       composing,
-      composingStyle,
+      spans,
     );
     return TextSpan(style: style, children: children);
   }

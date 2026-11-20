@@ -108,6 +108,7 @@ bool passkeysSupportedFor(String apiBaseUrl) {
 }
 
 const List<String> _localNetworkHostSuffixes = <String>[
+  '.localhost',
   '.local',
   '.lan',
   '.home.arpa',

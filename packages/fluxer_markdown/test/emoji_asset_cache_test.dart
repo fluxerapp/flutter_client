@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
+import 'package:material_ui/material_ui.dart';
 
 final List<int> _svg = utf8.encode(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"> '

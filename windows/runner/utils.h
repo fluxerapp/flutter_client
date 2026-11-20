@@ -8,6 +8,8 @@ void CreateAndAttachConsole();
 
 std::string Utf8FromUtf16(const wchar_t* utf16_string);
 
+std::wstring Utf8ToWide(const std::string& value);
+
 std::vector<std::string> GetCommandLineArguments();
 
 #endif

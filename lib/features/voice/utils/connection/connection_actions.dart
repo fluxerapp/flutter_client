@@ -118,7 +118,7 @@ Future<bool> _disconnectSelfConnections({
   if (connectionIdsToClear.isEmpty) {
     return true;
   }
-  return _waitForOtherConnectionsCleared(
+  return await _waitForOtherConnectionsCleared(
     container: container,
     guildId: guildId,
     channelId: channelId,
@@ -249,6 +249,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
   bool startP2p = false,
+  bool skipConfirmation = false,
 }) async {
   final ProviderContainer? container = _providerContainer(context);
   if (container == null) {
@@ -261,7 +262,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   final AdvancedPreferencesState advancedPrefs = container.read(
     advancedPreferencesProvider,
   );
-  if (advancedPrefs.confirmBeforeJoiningVoiceChannels) {
+  if (advancedPrefs.confirmBeforeJoiningVoiceChannels && !skipConfirmation) {
     final BuildContext? modalContext = _modalContext(context);
     if (modalContext == null) {
       return VoiceJoinResult.failed;
@@ -298,7 +299,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
-    return _connectAndResolveJoinResult(
+    return await _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
@@ -342,7 +343,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final List<VoiceState> others = partitioned.otherDevices;
   if (others.isEmpty) {
-    return _connectAndResolveJoinResult(
+    return await _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
@@ -414,7 +415,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       guildId: guildId,
     );
   }
-  return _connectAndResolveJoinResult(
+  return await _connectAndResolveJoinResult(
     container: container,
     guildId: guildId,
     channelId: channelId,

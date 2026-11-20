@@ -83,6 +83,8 @@ class ChatFullscreenVideoLaunchContext {
     this.embedIndex,
     this.actionScope,
     this.youtubeEmbed,
+    this.downloadsHidden = false,
+    this.onViewPost,
   });
 
   final ChatVideoSource source;
@@ -90,6 +92,8 @@ class ChatFullscreenVideoLaunchContext {
   final int? embedIndex;
   final MessageMediaActionScope? actionScope;
   final Embed? youtubeEmbed;
+  final bool downloadsHidden;
+  final VoidCallback? onViewPost;
 
   bool get isYouTubeEmbed =>
       youtubeEmbed != null && canRenderYouTubeEmbed(youtubeEmbed!);
@@ -107,17 +111,23 @@ class ChatFullscreenVideoLaunchContext {
   }
 
   bool get hasOptionsMenu =>
-      source.fallbackUrl.trim().isNotEmpty || actionScope != null;
+      source.fallbackUrl.trim().isNotEmpty ||
+      actionScope != null ||
+      onViewPost != null;
 
   factory ChatFullscreenVideoLaunchContext.fromAttachment({
     required Attachment attachment,
     required FluxerMediaDimensions layoutDimensions,
     MessageMediaActionScope? actionScope,
+    bool downloadsHidden = false,
+    VoidCallback? onViewPost,
   }) {
     return ChatFullscreenVideoLaunchContext(
       source: ChatVideoSource.fromAttachment(attachment, layoutDimensions),
       attachment: attachment,
       actionScope: actionScope,
+      downloadsHidden: downloadsHidden,
+      onViewPost: onViewPost,
     );
   }
 

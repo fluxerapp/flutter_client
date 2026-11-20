@@ -2,7 +2,7 @@ name: fluxer_app
 description: "Official Fluxer Mobile client built on the Flutter framework"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 2026.11.300+1
+version: 2026.11.300+3066
 
 environment:
   sdk: ^3.12.0
@@ -47,7 +47,6 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
   flutter_svg: ^2.2.4
   flutter_thumbhash: ^0.1.0+1
-  flutter_tts: ^4.2.5
   flutter_web_auth_2: ^5.1.0
   flutter_webrtc: ^1.6.3
   fluxer_android_host:
@@ -58,6 +57,8 @@ dependencies:
   fluxer_billing:
     path: packages/fluxer_billing
   # END optional modules
+  fluxer_clipboard:
+    path: packages/fluxer_clipboard
   fluxer_dart:
     path: dart_sdk
   fluxer_markdown:
@@ -121,8 +122,8 @@ dependencies:
   shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
   smart_keyboard_insets: ^0.3.0
+  speak: ^0.2.3
   sqlite3: ^3.9.0
-  super_clipboard: ^0.9.1
   talker: ^5.1.20
   talker_dio_logger: ^5.1.20
   talker_flutter: ^5.1.20
@@ -143,20 +144,34 @@ dependency_overrides:
   analyzer_plugin: ^0.14.0
   code_assets: ^2.2.0
   dart_style: 3.1.13
+  # Copy of desktop_webview_window 0.3.2 (a flutter_web_auth_2 dependency)
+  # without its Linux plugin. That plugin links WebKitGTK, which cannot share a
+  # process with the WPE WebKit used by flutter_inappwebview_linux. To update,
+  # re-copy from pub.dev and remove linux/, the linux: plugin entry and
+  # "resolution: workspace".
+  desktop_webview_window:
+    path: packages/desktop_webview_window
   device_info_plus: ^13.2.0
-  # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
-  # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
-  # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
+  # fluxerapp fork, branch fluxer. iOS/macOS: Xcode 26.4+ rejects the
+  # ASWebAuthenticationPresentationContextProviding witness in 1.2.0-beta.3
+  # (https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809).
+  # Linux: builds against WPE WebKit 2.52+, which no longer ships libwpe, and
+  # imports frames on Flutter's EGL display (webviews were black).
   flutter_inappwebview_ios:
     git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
+      url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_ios
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
+  flutter_inappwebview_linux:
+    git:
+      url: https://github.com/fluxerapp/flutter_inappwebview
+      path: flutter_inappwebview_linux
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   flutter_inappwebview_macos:
     git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
+      url: https://github.com/fluxerapp/flutter_inappwebview
       path: flutter_inappwebview_macos
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+      ref: e6d683f726ada4d281c3498e48243bfcb32618ed
   # fluxerapp fork with commit https://github.com/fluxerapp/flutter-webrtc/commit/01d3de483e285f7ec8b67fbf85aeab4600ef0a44
   flutter_webrtc:
     git:
@@ -204,8 +219,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  lint_hard: ^7.1.2
+  lint_hard: ^8.0.1
   mockito: ^5.8.1
+  protoc_plugin: 25.1.0
   riverpod_generator: ^4.0.9
   riverpod_lint: ^3.1.9
   test: ^1.31.0

@@ -48,7 +48,7 @@ Future<SystemPermissionOutcome> requestSystemPermission(
   SystemPermissionKind kind,
 ) async {
   if (kind == SystemPermissionKind.notifications && isFluxerDesktopOs) {
-    return requestDesktopNotificationPermission();
+    return await requestDesktopNotificationPermission();
   }
   final Permission permission = permissionForKind(kind);
   PermissionStatus status = await permission.status;

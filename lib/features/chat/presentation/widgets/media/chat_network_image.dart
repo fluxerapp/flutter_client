@@ -1,4 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_network_image.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -43,6 +44,7 @@ class ChatNetworkImage extends StatelessWidget {
     )) {
       return SvgPicture.network(
         imageUrl,
+        headers: AttachmentRequestAuth.headersFor(imageUrl),
         width: width,
         height: height,
         fit: fit,

@@ -7,24 +7,13 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/shell/navigation/handheld_voice_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:go_router/go_router.dart';
-
-bool isHandheldVoiceOverlayForContainer(ProviderContainer container) {
-  final BuildContext? context = container
-      .read(fluxerRouterProvider)
-      .routerDelegate
-      .navigatorKey
-      .currentContext;
-  if (context == null) {
-    return false;
-  }
-  return isHandheldVoiceOverlay(context);
-}
 
 void navigateToActiveVoiceSession(
   BuildContext context, {

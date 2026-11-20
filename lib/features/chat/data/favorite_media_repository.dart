@@ -34,7 +34,7 @@ class FavoriteMediaRepository {
         embedIndex: sdk.JsonNullable.of(embedIndex),
       ),
     );
-    return _upsertResponse(response);
+    return await _upsertResponse(response);
   }
 
   Future<FavoriteMeme> createFromGif(GifPickerGif gif) async {
@@ -56,7 +56,7 @@ class FavoriteMediaRepository {
         media: sdk.JsonNullable.of(_gifMediaInput(gif.media)),
       ),
     );
-    return _upsertResponse(response);
+    return await _upsertResponse(response);
   }
 
   Future<FavoriteMeme> updateFavoriteMeme({
@@ -74,7 +74,7 @@ class FavoriteMediaRepository {
         altText: sdk.JsonNullable.of(_blankToNull(altText)),
       ),
     );
-    return _upsertResponse(response);
+    return await _upsertResponse(response);
   }
 
   Future<void> deleteFavoriteMeme(FavoriteMeme meme) async {

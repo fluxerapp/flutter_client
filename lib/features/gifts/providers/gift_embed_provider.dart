@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/keep_alive_for.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:riverpod/misc.dart' show KeepAliveLink;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gift_embed_provider.g.dart';
+
+const Duration kGiftEmbedIdleRetention = Duration(minutes: 10);
 
 sealed class GiftEmbedState {}
 
@@ -29,8 +33,14 @@ GiftCodeResponse _giftMarkedRedeemed(GiftCodeResponse gift) {
 @riverpod
 class GiftEmbed extends _$GiftEmbed {
   @override
-  Future<GiftEmbedState> build(String code) {
-    return _fetch(extractGiftCode(code));
+  Future<GiftEmbedState> build(String code) async {
+    final KeepAliveLink keepAlive = keepAliveFor(ref, kGiftEmbedIdleRetention);
+    try {
+      return await _fetch(extractGiftCode(code));
+    } on Object {
+      keepAlive.close();
+      rethrow;
+    }
   }
 
   Future<GiftEmbedState> _fetch(String normalizedCode) async {

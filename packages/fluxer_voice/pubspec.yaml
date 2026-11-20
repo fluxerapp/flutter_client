@@ -1,5 +1,5 @@
 name: fluxer_voice
-description: Transport voice call audio session and output routing
+description: Fluxer native voice handling package
 version: 0.0.1
 publish_to: none
 
@@ -13,6 +13,10 @@ flutter:
       android:
         package: com.fluxer.voice
         pluginClass: FluxerVoicePlugin
+      ios:
+        pluginClass: FluxerVoicePlugin
+      macos:
+        pluginClass: FluxerVoicePlugin
 
 dependencies:
   flutter:
@@ -22,3 +26,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pigeon: ^27.3.0

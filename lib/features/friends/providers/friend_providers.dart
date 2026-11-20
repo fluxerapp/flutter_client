@@ -30,7 +30,8 @@ final StreamProviderFamily<String?, String> friendNicknameProvider =
 
 final pendingFriendRequestCountProvider = StreamProvider<int>((ref) {
   final db = ref.watch(fluxerDatabaseProvider);
-  return db.relationshipDao.watchRelationships().map(
-    (rows) => rows.where((r) => r.type == 3).length,
-  );
+  return db.relationshipDao
+      .watchRelationships()
+      .map((rows) => rows.where((r) => r.type == 3).length)
+      .distinct();
 });

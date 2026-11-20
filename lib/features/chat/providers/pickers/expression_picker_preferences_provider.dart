@@ -15,7 +15,7 @@ class FavoriteEmojiKeys extends _$FavoriteEmojiKeys {
     if (userId == null) {
       return const <String>[];
     }
-    return ref
+    return await ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getFavoriteEmojiKeys(userId);

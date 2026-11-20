@@ -53,7 +53,7 @@ class AccountDeleteSheet extends ConsumerStatefulWidget {
         if (!context.mounted) {
           return;
         }
-        return GuildOwnershipWarningSheet.show(
+        return await GuildOwnershipWarningSheet.show(
           context,
           ownedGuilds: ownedGuilds,
         );
@@ -62,7 +62,7 @@ class AccountDeleteSheet extends ConsumerStatefulWidget {
     if (!context.mounted) {
       return;
     }
-    return FluxerBottomSheet.show<void>(
+    return await FluxerBottomSheet.show<void>(
       context,
       title: FluxerLocalizations.of(context).dangerZoneDeleteTitle,
       useRootNavigator: true,

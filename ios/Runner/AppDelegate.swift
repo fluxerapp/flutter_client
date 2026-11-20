@@ -172,15 +172,6 @@ import flutter_callkit_incoming
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
     NativePasteBridge.shared.register(engineBridge: engineBridge)
-    VoiceSpeakerRouteBridge.shared.register(
-      messenger: engineBridge.applicationRegistrar.messenger()
-    )
-    if let routePicker = engineBridge.pluginRegistry.registrar(forPlugin: "VoiceRoutePicker") {
-      routePicker.register(
-        VoiceRoutePickerViewFactory(messenger: routePicker.messenger()),
-        withId: "fluxer_app/voice_route_picker"
-      )
-    }
     UploadKeepAliveBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
@@ -219,7 +210,7 @@ import flutter_callkit_incoming
   }
 
   func didDeactivateAudioSession(_ audioSession: AVAudioSession) {
-    CallAudioSession.deactivate(audioSession)
+    CallAudioSession.deactivate(audioSession, hasLiveCalls: VoipRegistry.shared.hasLiveCalls())
   }
 
   func providerDidReset() {}

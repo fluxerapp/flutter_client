@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -14,6 +16,8 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_composer_access_provider.g.dart';
+
+const Duration _kComposerAccessExpirySlack = Duration(milliseconds: 250);
 
 @riverpod
 AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
@@ -76,27 +80,37 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
   if (currentUserId == null || currentUserId.isEmpty) {
     return GuildComposerAccess.allowed;
   }
-  ref
-    ..watch(guildListViewModelProvider)
-    ..watch(userSettingsViewModelProvider)
-    ..watch(currentUserMemberIdentityProvider(guildId));
-  Guild? guild;
-  for (final Guild g in ref.watch(guildListViewModelProvider).guilds) {
-    if (g.id == guildId) {
-      guild = g;
-      break;
-    }
-  }
+  final Guild? guild = ref.watch(
+    guildListViewModelProvider.select((GuildListViewState state) {
+      for (final Guild g in state.guilds) {
+        if (g.id == guildId) {
+          return g;
+        }
+      }
+      return null;
+    }),
+  );
+  final ({
+    bool isProfileLoaded,
+    bool isClaimed,
+    bool isVerified,
+    DateTime memberSince,
+  })
+  userSettings = ref.watch(
+    userSettingsViewModelProvider.select(
+      (UserSettingsViewState state) => (
+        isProfileLoaded: state.isProfileLoaded,
+        isClaimed: state.isClaimed,
+        isVerified: state.isVerified,
+        memberSince: state.resolvedMemberSince,
+      ),
+    ),
+  );
   if (guild == null) {
     return GuildComposerAccess.allowed;
   }
-  final db = ref.read(fluxerDatabaseProvider);
-  final memberRow = await db.memberDao.getMemberByUserId(
-    currentUserId,
-    guildId,
-  );
-  final UserSettingsViewState userSettings = ref.read(
-    userSettingsViewModelProvider,
+  final db.Member? memberRow = await ref.watch(
+    memberRowByGuildProvider((currentUserId, guildId)).future,
   );
   if (!userSettings.isProfileLoaded) {
     return GuildComposerAccess.allowed;
@@ -104,7 +118,7 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
   final CurrentUserMemberIdentity? memberIdentity = await ref.watch(
     currentUserMemberIdentityProvider(guildId).future,
   );
-  return evaluateGuildComposerAccess(
+  final GuildComposerAccess access = evaluateGuildComposerAccess(
     GuildVerificationInput(
       currentUserId: currentUserId,
       guildOwnerId: guild.ownerId,
@@ -116,8 +130,17 @@ Future<GuildComposerAccess> guildMemberComposerAccess(
       memberJoinedAt: memberRow?.joinedAt,
       hasVerifiedEmail: userSettings.isClaimed,
       isEmailVerified: userSettings.isVerified,
-      accountCreatedAt: userSettings.resolvedMemberSince,
+      accountCreatedAt: userSettings.memberSince,
       now: DateTime.now(),
     ),
   );
+  final Duration? remaining = access.timeRemaining;
+  if (remaining != null && remaining > Duration.zero) {
+    final Timer expiry = Timer(
+      remaining + _kComposerAccessExpirySlack,
+      ref.invalidateSelf,
+    );
+    ref.onDispose(expiry.cancel);
+  }
+  return access;
 }

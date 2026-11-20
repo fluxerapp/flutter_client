@@ -5,7 +5,9 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/wakelock_policy.dart';
+import 'package:fluxer_voice/fluxer_voice.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -44,11 +46,26 @@ void voiceWakelockCoordinator(Ref ref) {
     }
   }
 
-  ref
-    ..listen<bool>(
-      voiceWakelockEnabledProvider,
-      (_, bool shouldEnable) => unawaited(apply(shouldEnable: shouldEnable)),
-      fireImmediately: true,
-    )
-    ..onDispose(() => unawaited(apply(shouldEnable: false)));
+  final ProviderSubscription<bool> subscription = ref.container.listen<bool>(
+    voiceWakelockEnabledProvider,
+    (_, bool shouldEnable) => unawaited(apply(shouldEnable: shouldEnable)),
+    fireImmediately: true,
+  );
+  final FluxerVoiceProcessActivity activity =
+      FluxerVoiceProcessActivity.instance;
+  final ProviderSubscription<bool>? activitySubscription = activity.isSupported
+      ? ref.container.listen<bool>(
+          voiceSessionProvider.select(
+            (VoiceSessionState state) => state.isInVoice,
+          ),
+          (_, bool inVoice) => unawaited(activity.setActive(active: inVoice)),
+          fireImmediately: true,
+        )
+      : null;
+  ref.onDispose(() {
+    subscription.close();
+    activitySubscription?.close();
+    unawaited(apply(shouldEnable: false));
+    unawaited(activity.setActive(active: false));
+  });
 }

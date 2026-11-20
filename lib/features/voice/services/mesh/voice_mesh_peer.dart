@@ -14,6 +14,19 @@ const Duration _kSetupDeadline = Duration(seconds: 15);
 const Duration _kDisconnectedGrace = Duration(seconds: 5);
 const Duration _kRestartDeadline = Duration(seconds: 10);
 const int _kMaxPendingRemoteCandidates = 64;
+const List<Duration> kVoiceMeshPeerRetryDelays = <Duration>[
+  Duration(seconds: 2),
+  Duration(seconds: 5),
+  Duration(seconds: 10),
+  Duration(seconds: 20),
+  Duration(seconds: 30),
+];
+
+Duration voiceMeshPeerRetryDelay(int retryCount) =>
+    kVoiceMeshPeerRetryDelays[retryCount.clamp(
+      0,
+      kVoiceMeshPeerRetryDelays.length - 1,
+    )];
 
 enum VoiceMeshPeerStatus { connecting, connected, failed }
 
@@ -168,6 +181,9 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
   Timer? _setupTimer;
   Timer? _disconnectedTimer;
   Timer? _restartTimer;
+  Timer? _retryTimer;
+  int _retryCount = 0;
+  bool _failedFatally = false;
 
   int _remoteTracksVersion = -1;
   Map<VoiceMeshSource, VoiceMeshTrackInfo> _published =
@@ -316,7 +332,13 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
   }
 
   void handleGatewayResumed() {
-    if (_closed || _isFailed) {
+    if (_closed) {
+      return;
+    }
+    if (_isFailed) {
+      if (!_failedFatally) {
+        _retryNow();
+      }
       return;
     }
     sendTracks(_transport.tracksSnapshot());
@@ -367,12 +389,14 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
       case VoiceMeshWant():
         _handleWant(signal);
       case VoiceMeshOffer():
+        _reviveForRemoteRetry();
         _enqueue(() => _handleOffer(signal));
       case VoiceMeshAnswer():
         _enqueue(() => _handleAnswer(signal));
       case VoiceMeshIce():
         _enqueue(() => _handleIce(signal));
       case VoiceMeshNeedOffer():
+        _reviveForRemoteRetry();
         _enqueue(() => _handleNeedOffer(signal));
     }
   }
@@ -553,7 +577,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
           '[Voice][Mesh] Offer has ${all.length} media sections '
           '(peer=$connectionId).',
         );
-        _fail();
+        _fail(retry: false);
         return;
       }
       _transceivers = all.take(VoiceMeshSource.values.length).toList();
@@ -685,7 +709,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
         '[Voice][Mesh] Signal over $kVoiceSignalMaxJsonBytes bytes '
         '(peer=$connectionId).',
       );
-      _fail();
+      _fail(retry: false);
     }
   }
 
@@ -811,7 +835,11 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     if (track is AudioTrack) {
       track.mediaStreamTrack.enabled = false;
     }
+    final Track? superseded = _remoteTracks[source];
     _remoteTracks[source] = track;
+    if (superseded != null && !identical(superseded, track)) {
+      unawaited(superseded.dispose());
+    }
     _attached.remove(source);
     _syncReceivers(force: true);
     if (track case final RemoteAudioTrack audio
@@ -822,6 +850,9 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
   }
 
   Future<void> _startVisualizer(AudioTrack track) async {
+    if (_visualizer != null || _visualizerListener != null) {
+      await _stopVisualizer();
+    }
     final AudioVisualizer visualizer = createVisualizer(
       track,
       options: const AudioVisualizerOptions(barCount: 8),
@@ -920,6 +951,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
         _restartTimer?.cancel();
         _disconnectedTimer?.cancel();
         _restartUsed = false;
+        _retryCount = 0;
         _setStatus(VoiceMeshPeerStatus.connected);
         _reportConnected();
       case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
@@ -960,11 +992,15 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     }
   }
 
-  void _fail() {
+  void _fail({bool retry = true}) {
     if (_closed || _isFailed) {
       return;
     }
     talker.warning('[Voice][Mesh] Peer failed (peer=$connectionId).');
+    _failedFatally = !retry;
+    if (retry) {
+      _scheduleRetry();
+    }
     if (!_settled) {
       _settled = true;
       _queueReport(
@@ -1025,6 +1061,46 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     );
   }
 
+  void _scheduleRetry() {
+    _retryTimer?.cancel();
+    final Duration delay = voiceMeshPeerRetryDelay(_retryCount);
+    _retryCount++;
+    _retryTimer = Timer(delay, _retryNow);
+  }
+
+  void _reviveForRemoteRetry() {
+    if (_closed || !_isFailed || _retryTimer == null) {
+      return;
+    }
+    _retryTimer?.cancel();
+    _retryTimer = null;
+    talker.info('[Voice][Mesh] Peer is retrying (peer=$connectionId).');
+    _restartUsed = false;
+    _setStatus(VoiceMeshPeerStatus.connecting);
+    _armSetupDeadline();
+  }
+
+  void _retryNow() {
+    _retryTimer?.cancel();
+    _retryTimer = null;
+    if (_closed || !_isFailed) {
+      return;
+    }
+    talker.info('[Voice][Mesh] Retrying peer connection (peer=$connectionId).');
+    _restartUsed = false;
+    _setStatus(VoiceMeshPeerStatus.connecting);
+    _armSetupDeadline();
+    sendTracks(_transport.tracksSnapshot());
+    _syncWant(force: true);
+    _enqueue(() async {
+      if (isOfferer) {
+        await _startGeneration();
+      } else {
+        _send(const VoiceMeshNeedOffer(g: 0));
+      }
+    });
+  }
+
   void _cancelTimers() {
     _setupTimer?.cancel();
     _setupTimer = null;
@@ -1060,6 +1136,8 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
       return;
     }
     _closed = true;
+    _retryTimer?.cancel();
+    _retryTimer = null;
     _cancelTimers();
     await _closePeerConnection();
   }
@@ -1069,6 +1147,6 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     if (pc == null) {
       return const <StatsReport>[];
     }
-    return pc.getStats();
+    return await pc.getStats();
   }
 }

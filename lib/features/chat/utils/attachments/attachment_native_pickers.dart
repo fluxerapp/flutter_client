@@ -48,7 +48,7 @@ Future<GallerySelectionChange> pickNativeGallerySelection({
     );
   }
   final List<String> selected = selectedGalleryAssetIds(attachments).toList();
-  return _pickIosPhotos(
+  return await _pickIosPhotos(
     limit: remainingAttachmentPickLimit(attachments.length) + selected.length,
     selected: selected,
   );

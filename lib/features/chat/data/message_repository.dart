@@ -143,7 +143,7 @@ class MessageRepository {
     int limit = 30,
   }) async {
     final rows = await _db.messageDao.getMessages(channelId, limit: limit);
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesBefore(
@@ -156,7 +156,7 @@ class MessageRepository {
       limit: limit,
       beforeId: beforeId,
     );
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesAfter(
@@ -169,7 +169,7 @@ class MessageRepository {
       afterId,
       limit: limit,
     );
-    return Message.fromRowsAsync(rows);
+    return await Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getMessages({
@@ -385,7 +385,7 @@ class MessageRepository {
         messageId: messageId,
       );
       if (sdk.webhookId == null) {
-        await _db.userDao.upsertUser(userFromPartialSdk(sdk.author));
+        await _db.userDao.upsertUserIfChanged(userFromPartialSdk(sdk.author));
       }
       await upsertMentionUsersFromSdk(_db, sdk.mentions);
       await upsertSupplementalUsersFromSdk(_db, sdk.users);
@@ -618,7 +618,7 @@ class MessageRepository {
         final String? webhookId = map['webhook_id'] as String?;
         if (webhookId == null) {
           final authorId = author['id'] as String;
-          await _db.userDao.upsertUser(
+          await _db.userDao.upsertUserIfChanged(
             db.UsersCompanion.insert(
               id: authorId,
               username: (author['username'] as String?) ?? '',
@@ -935,7 +935,7 @@ class MessageRepository {
       throw Exception('Empty response from sendMessage');
     }
     final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
-    return _persistSdkMessage(channelId: channelId, schema: schema);
+    return await _persistSdkMessage(channelId: channelId, schema: schema);
   }
 
   Future<Message> _persistSdkMessage({
@@ -957,7 +957,7 @@ class MessageRepository {
         mentionRoleIds: schema.mentionRoles,
       ),
     );
-    return _upsertKeepingTranslation(message);
+    return await _upsertKeepingTranslation(message);
   }
 
   Future<Message> sendForward({
@@ -1007,7 +1007,7 @@ class MessageRepository {
   }) async {
     final MessageResponseSchema schema = await _client.channels
         .crosspostMessage(channelId: channelId, messageId: messageId);
-    return _persistSdkMessage(channelId: channelId, schema: schema);
+    return await _persistSdkMessage(channelId: channelId, schema: schema);
   }
 
   Future<CrosspostSourceResponse> getCrosspostSource({

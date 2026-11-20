@@ -96,29 +96,21 @@ bool showNativeVoiceAudioRoutePicker() {
 Future<void> applyNativeVoiceOutputRoute(
   VoiceOutputRoute route, {
   int? deviceId,
-  bool hold = false,
   bool explicit = false,
 }) async {
-  if (defaultTargetPlatform != TargetPlatform.android &&
-      defaultTargetPlatform != TargetPlatform.iOS) {
+  if (!_isAndroid) {
     return;
   }
   try {
-    if (_isAndroid) {
-      await _voiceAudioSession.setPreferredRoute(
-        route,
-        deviceId: deviceId,
-        explicit: explicit,
-      );
-    } else {
-      await _voiceAudioSession.setRoute(route, deviceId: deviceId, hold: hold);
-    }
+    await _voiceAudioSession.setPreferredRoute(
+      route,
+      deviceId: deviceId,
+      explicit: explicit,
+    );
   } on Object {
     return;
   }
-  if (_isAndroid) {
-    _scheduleVoiceRouteLogs(route);
-  }
+  _scheduleVoiceRouteLogs(route);
 }
 
 void _cancelVoiceRouteLogs() {
@@ -139,7 +131,7 @@ void _scheduleVoiceRouteLogs(VoiceOutputRoute route) {
 
 Future<void> _logVoiceRoute(VoiceOutputRoute route, Duration delay) async {
   try {
-    final String? diagnostics = await _voiceAudioSession.diagnostics();
+    final String diagnostics = await _voiceAudioSession.diagnostics();
     talker.info(
       '[VoiceRoute] requested=${route.name} '
       'after=${delay.inMilliseconds}ms $diagnostics',
@@ -149,46 +141,12 @@ Future<void> _logVoiceRoute(VoiceOutputRoute route, Duration delay) async {
   }
 }
 
-@immutable
-class VoiceActiveOutputRoute {
-  const VoiceActiveOutputRoute(this.route, {this.deviceName});
-
-  final VoiceOutputRoute route;
-  final String? deviceName;
-
-  @override
-  bool operator ==(Object other) =>
-      other is VoiceActiveOutputRoute &&
-      other.route == route &&
-      other.deviceName == deviceName;
-
-  @override
-  int get hashCode => Object.hash(route, deviceName);
-}
-
-VoiceActiveOutputRoute? voiceActiveOutputRouteFromNative(Object? value) {
-  if (value is! Map) {
-    return null;
-  }
-  final Object? route = value['route'];
-  if (route is! String || route.isEmpty) {
-    return null;
-  }
-  final Object? name = value['name'];
-  return VoiceActiveOutputRoute(
-    voiceOutputRouteFromName(route),
-    deviceName: name is String && name.isNotEmpty ? name : null,
-  );
-}
-
 Future<VoiceActiveOutputRoute?> readNativeActiveVoiceOutputRoute() async {
   if (defaultTargetPlatform != TargetPlatform.iOS) {
     return null;
   }
   try {
-    return voiceActiveOutputRouteFromNative(
-      await _voiceAudioSession.activeRoute(),
-    );
+    return await _voiceAudioSession.activeRoute();
   } on Object {
     return null;
   }
@@ -208,8 +166,7 @@ Future<void> syncVoiceSettingsFromNativeRoute({
 }
 
 Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
-  if (defaultTargetPlatform != TargetPlatform.android &&
-      defaultTargetPlatform != TargetPlatform.iOS) {
+  if (!_isAndroid) {
     return kPhoneVoiceOutputRoutes;
   }
   try {
@@ -237,14 +194,11 @@ class VoiceIosNativeRouteSync extends Notifier<VoiceActiveOutputRoute?> {
     if (defaultTargetPlatform != TargetPlatform.iOS) {
       return null;
     }
-    final StreamSubscription<dynamic> subscription = _voiceAudioSession
-        .rawEvents
-        .listen((dynamic event) {
-          final VoiceActiveOutputRoute? route =
-              voiceActiveOutputRouteFromNative(event);
-          if (route != null) {
-            unawaited(_syncFromRouteChange(route));
-          }
+    final StreamSubscription<VoiceActiveOutputRoute> subscription =
+        _voiceAudioSession.activeRouteChanges.listen((
+          VoiceActiveOutputRoute route,
+        ) {
+          unawaited(_syncFromRouteChange(route));
         });
     ref.onDispose(subscription.cancel);
     unawaited(refresh());

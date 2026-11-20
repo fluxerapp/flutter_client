@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show mapEquals;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -158,9 +160,12 @@ guildRolesByIdProvider = StreamProvider.autoDispose
         return Stream<Map<String, db.Role>>.value(<String, db.Role>{});
       }
       final database = ref.watch(fluxerDatabaseProvider);
-      return database.roleDao.watchRoles(guildId).map((List<db.Role> roles) {
-        return <String, db.Role>{
-          for (final db.Role role in roles) role.id: role,
-        };
-      });
+      return database.roleDao
+          .watchRoles(guildId)
+          .map(
+            (List<db.Role> roles) => <String, db.Role>{
+              for (final db.Role role in roles) role.id: role,
+            },
+          )
+          .distinct(mapEquals);
     });

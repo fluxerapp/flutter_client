@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -17,6 +16,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_hover_preload.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
@@ -31,7 +31,6 @@ import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_quick_switch
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_row_timestamp.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
-import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
@@ -735,32 +734,29 @@ class _DMListState extends ConsumerState<DMList> {
             final convo = convos[index - leadingRows];
             final isSelected = convo.id == selectedId;
 
-            if (desktop) {
-              return Consumer(
-                key: ValueKey<String>(convo.id),
-                builder: (BuildContext context, WidgetRef rowRef, _) =>
-                    _buildDesktopConvoTile(
-                      context,
-                      rowRef: rowRef,
-                      convo: convo,
-                      isSelected: isSelected,
-                      isPinned: pinnedIds.contains(convo.id),
-                      isMuted: mutedIds.contains(convo.id),
-                    ),
-              );
-            }
-            return Consumer(
+            return ChannelHoverPreload(
               key: ValueKey<String>(convo.id),
-              builder: (BuildContext context, WidgetRef rowRef, _) =>
-                  _buildConvoTile(
-                    context,
-                    rowRef: rowRef,
-                    convo: convo,
-                    isSelected: isSelected,
-                    isMobile: isMobile,
-                    isPinned: pinnedIds.contains(convo.id),
-                    isMuted: mutedIds.contains(convo.id),
-                  ),
+              channelId: convo.id,
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef rowRef, _) => desktop
+                    ? _buildDesktopConvoTile(
+                        context,
+                        rowRef: rowRef,
+                        convo: convo,
+                        isSelected: isSelected,
+                        isPinned: pinnedIds.contains(convo.id),
+                        isMuted: mutedIds.contains(convo.id),
+                      )
+                    : _buildConvoTile(
+                        context,
+                        rowRef: rowRef,
+                        convo: convo,
+                        isSelected: isSelected,
+                        isMobile: isMobile,
+                        isPinned: pinnedIds.contains(convo.id),
+                        isMuted: mutedIds.contains(convo.id),
+                      ),
+              ),
             );
           },
         ),
@@ -848,10 +844,12 @@ class _DMListState extends ConsumerState<DMList> {
   Widget _buildDmHeader(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    final UserSettingsViewState settings = ref.watch(
-      userSettingsViewModelProvider,
+    final bool isRestricted = ref.watch(
+      userSettingsViewModelProvider.select(
+        (UserSettingsViewState settings) =>
+            getCreateDmRestriction(settings) != null,
+      ),
     );
-    final bool isRestricted = getCreateDmRestriction(settings) != null;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: layout.s2, vertical: layout.s2),
       child: Row(
@@ -2280,8 +2278,6 @@ class _DmContextMenuLeading extends ConsumerWidget {
     if (convo.isGroup) {
       return GroupDmAvatar.conversation(convo, size: 48, isTyping: isTyping);
     }
-    ref.watch(dmListRecipientRowDataProvider);
-
     return FluxerAvatar.userPresence(
       fallbackText: displayName,
       userId: convo.recipientId,

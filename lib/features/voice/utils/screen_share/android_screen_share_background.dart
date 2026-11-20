@@ -55,7 +55,7 @@ Future<bool> enableAndroidScreenShareBackground({
   } on Object {
     if (!isRetry) {
       await Future<void>.delayed(const Duration(seconds: 1));
-      return enableAndroidScreenShareBackground(
+      return await enableAndroidScreenShareBackground(
         notificationText: notificationText,
         isRetry: true,
       );

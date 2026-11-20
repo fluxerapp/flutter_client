@@ -1,14 +1,9 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  const MethodChannel androidChannel = MethodChannel(
-    'fluxer_app/system_voice_call',
-  );
 
   setUp(() {
     resetExternalSystemVoiceCallGuardForTest();
@@ -19,28 +14,12 @@ void main() {
 
   test('returns native result when Fluxer does not own voice', () async {
     bool? invokedFluxerOwnsVoice;
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(androidChannel, (MethodCall call) async {
-          expect(call.method, 'isExternalCallActive');
-          invokedFluxerOwnsVoice =
-              (call.arguments as Map<Object?, Object?>)['fluxerOwnsVoice']
-                  as bool?;
-          return true;
-        });
-    addTearDown(() {
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(androidChannel, null);
-    });
 
     final bool active = await isExternalSystemVoiceCallActive(
-      invokeNative:
-          (MethodChannel channel, {required bool fluxerOwnsVoice}) async {
-            final bool? result = await channel.invokeMethod<bool>(
-              'isExternalCallActive',
-              <String, Object>{'fluxerOwnsVoice': fluxerOwnsVoice},
-            );
-            return result ?? false;
-          },
+      invokeNative: ({required bool fluxerOwnsVoice}) async {
+        invokedFluxerOwnsVoice = fluxerOwnsVoice;
+        return true;
+      },
     );
 
     expect(invokedFluxerOwnsVoice, isFalse);
@@ -49,20 +28,16 @@ void main() {
 
   test('does not call native when Fluxer owns the voice session', () async {
     await ChatAttachmentAudioSession.instance.clearForVoiceCall();
-    var channelInvoked = false;
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(androidChannel, (MethodCall call) async {
-          channelInvoked = true;
-          return true;
-        });
-    addTearDown(() {
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(androidChannel, null);
-    });
+    var nativeInvoked = false;
 
-    final bool active = await isExternalSystemVoiceCallActive();
+    final bool active = await isExternalSystemVoiceCallActive(
+      invokeNative: ({required bool fluxerOwnsVoice}) async {
+        nativeInvoked = true;
+        return true;
+      },
+    );
 
     expect(active, isFalse);
-    expect(channelInvoked, isFalse);
+    expect(nativeInvoked, isFalse);
   });
 }

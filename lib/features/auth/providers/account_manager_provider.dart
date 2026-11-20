@@ -78,7 +78,7 @@ class AccountManager extends _$AccountManager {
       pending = _pendingSwitch
     ) {
       if (_pendingUserId == userId) {
-        return pending;
+        return await pending;
       }
       try {
         await pending;

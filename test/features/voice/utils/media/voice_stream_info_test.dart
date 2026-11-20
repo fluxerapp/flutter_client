@@ -1,5 +1,29 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/utils/media/stream_info.dart';
+import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_client/src/stats/stats.dart';
+
+class _FakeRemoteVideoTrack extends Fake implements RemoteVideoTrack {
+  @override
+  VideoReceiverStats? prevStats;
+}
+
+class _FakeLocalVideoTrack extends Fake implements LocalVideoTrack {
+  @override
+  Map<String, VideoSenderStats>? prevStats;
+}
+
+VideoSenderStats _senderStats({
+  required String id,
+  required num width,
+  required num height,
+  required num fps,
+}) {
+  return VideoSenderStats(id, 0)
+    ..frameWidth = width
+    ..frameHeight = height
+    ..framesPerSecond = fps;
+}
 
 void main() {
   group('voiceStreamResolutionLabel', () {
@@ -114,6 +138,58 @@ void main() {
         ),
         1440,
       );
+    });
+  });
+
+  group('voiceStreamMonitoredStats', () {
+    test('returns an empty sample without a track', () {
+      expect(voiceStreamMonitoredStats(null), kEmptyVoiceStreamStatsSample);
+    });
+
+    test('does not listen without a livekit track', () {
+      expect(listenVoiceStreamStats(null, () {}), isNull);
+    });
+
+    test('reads the last receiver sample of a remote track', () {
+      final _FakeRemoteVideoTrack track = _FakeRemoteVideoTrack()
+        ..prevStats = (VideoReceiverStats('r', 0)
+          ..frameWidth = 1920
+          ..frameHeight = 1080
+          ..framesPerSecond = 29.6);
+
+      expect(voiceStreamMonitoredStats(track), (
+        width: 1920,
+        height: 1080,
+        fps: 30,
+      ));
+    });
+
+    test('remote track without a sample is empty', () {
+      expect(
+        voiceStreamMonitoredStats(_FakeRemoteVideoTrack()),
+        kEmptyVoiceStreamStatsSample,
+      );
+    });
+
+    test('local track uses the largest layer and highest fps', () {
+      final _FakeLocalVideoTrack track = _FakeLocalVideoTrack()
+        ..prevStats = <String, VideoSenderStats>{
+          'q': _senderStats(id: 'q', width: 640, height: 360, fps: 15),
+          'f': _senderStats(id: 'f', width: 1280, height: 720, fps: 30),
+          'h': _senderStats(id: 'h', width: 960, height: 540, fps: 24),
+        };
+
+      expect(voiceStreamMonitoredStats(track), (
+        width: 1280,
+        height: 720,
+        fps: 30,
+      ));
+    });
+  });
+
+  group('screenShareContentAspectRatioMonitored', () {
+    test('is null without a participant', () {
+      expect(screenShareContentAspectRatioMonitored(null), isNull);
     });
   });
 }

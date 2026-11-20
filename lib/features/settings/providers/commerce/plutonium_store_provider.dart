@@ -252,7 +252,7 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
         state.storeUnavailable) {
       return PremiumRestoreOutcome.failed;
     }
-    return _restorePass(
+    return await _restorePass(
       ref.read(premiumStorePurchaseClientProvider),
       userInitiated: true,
     );
@@ -397,7 +397,7 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
         ? null
         : _claims[purchaseId];
     if (previous != null && !claimAgain) {
-      return _replay(purchase, await previous);
+      return await _replay(purchase, await previous);
     }
     final Future<_AppStoreClaim> settled = _settle(purchase);
     if (purchaseId != null) {

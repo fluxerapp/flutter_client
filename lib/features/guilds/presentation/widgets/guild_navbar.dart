@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show setEquals;
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
@@ -13,7 +12,9 @@ import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/guild_last_channel_memory_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -26,6 +27,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/create_category
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_hover_preload.dart';
 import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
@@ -86,6 +88,10 @@ import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_recipients.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
+import 'package:fluxer_app/features/input/domain/default_keybind.dart';
+import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo_format.dart';
 import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
@@ -97,7 +103,7 @@ import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinat
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:fluxer_app/features/ui/keybind_hint/fluxer_keybind_hint.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -112,6 +118,7 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' show NumberFormat;
 
 part 'guild_navbar_dashed_icon.dart';
 part 'guild_navbar_folder.dart';
@@ -195,6 +202,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       _prefetchGuildPermissions(
         _guildIdsOf(ref.read(organizedGuildListProvider)),
       );
+      unawaited(ref.read(guildLastChannelMemoryProvider).seedMemory());
       _clampScrollOffset();
       _scrollIndicator.scheduleUpdate();
     });

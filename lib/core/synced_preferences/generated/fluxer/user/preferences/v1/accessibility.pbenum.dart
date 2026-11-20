@@ -45,31 +45,6 @@ class ChannelTypingIndicatorMode extends $pb.ProtobufEnum {
   const ChannelTypingIndicatorMode._(super.value, super.name);
 }
 
-class MediaDimensionSize extends $pb.ProtobufEnum {
-  static const MediaDimensionSize MEDIA_DIMENSION_SIZE_UNSPECIFIED =
-      MediaDimensionSize._(
-          0, _omitEnumNames ? '' : 'MEDIA_DIMENSION_SIZE_UNSPECIFIED');
-  static const MediaDimensionSize MEDIA_DIMENSION_SIZE_SMALL =
-      MediaDimensionSize._(
-          1, _omitEnumNames ? '' : 'MEDIA_DIMENSION_SIZE_SMALL');
-  static const MediaDimensionSize MEDIA_DIMENSION_SIZE_LARGE =
-      MediaDimensionSize._(
-          2, _omitEnumNames ? '' : 'MEDIA_DIMENSION_SIZE_LARGE');
-
-  static const $core.List<MediaDimensionSize> values = <MediaDimensionSize>[
-    MEDIA_DIMENSION_SIZE_UNSPECIFIED,
-    MEDIA_DIMENSION_SIZE_SMALL,
-    MEDIA_DIMENSION_SIZE_LARGE,
-  ];
-
-  static final $core.List<MediaDimensionSize?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 2);
-  static MediaDimensionSize? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
-
-  const MediaDimensionSize._(super.value, super.name);
-}
-
 class DmMessagePreviewMode extends $pb.ProtobufEnum {
   static const DmMessagePreviewMode DM_MESSAGE_PREVIEW_MODE_UNSPECIFIED =
       DmMessagePreviewMode._(

@@ -1,5 +1,6 @@
 package com.fluxer.voice
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioDeviceInfo
@@ -59,17 +60,35 @@ internal fun voiceOutputRouteFromName(name: String?): VoiceOutputRoute {
     }
 }
 
+internal fun VoiceOutputRoute.toMessage(): NativeVoiceRoute {
+    return when (this) {
+        VoiceOutputRoute.Speaker -> NativeVoiceRoute.SPEAKER
+        VoiceOutputRoute.Earpiece -> NativeVoiceRoute.EARPIECE
+        VoiceOutputRoute.Headset -> NativeVoiceRoute.HEADSET
+        VoiceOutputRoute.Bluetooth -> NativeVoiceRoute.BLUETOOTH
+    }
+}
+
+internal fun NativeVoiceRoute.toVoiceOutputRoute(): VoiceOutputRoute {
+    return when (this) {
+        NativeVoiceRoute.SPEAKER -> VoiceOutputRoute.Speaker
+        NativeVoiceRoute.EARPIECE -> VoiceOutputRoute.Earpiece
+        NativeVoiceRoute.HEADSET -> VoiceOutputRoute.Headset
+        NativeVoiceRoute.BLUETOOTH -> VoiceOutputRoute.Bluetooth
+    }
+}
+
 internal enum class VoiceOutputDeviceKind(
-    val wireName: String,
+    val message: NativeVoiceDeviceKind,
     val route: VoiceOutputRoute,
 ) {
-    Earpiece("earpiece", VoiceOutputRoute.Earpiece),
-    Speaker("speaker", VoiceOutputRoute.Speaker),
-    Wired("wired", VoiceOutputRoute.Headset),
-    Usb("usb", VoiceOutputRoute.Headset),
-    Bluetooth("bluetooth", VoiceOutputRoute.Bluetooth),
-    BluetoothLe("bluetoothLe", VoiceOutputRoute.Bluetooth),
-    HearingAid("hearingAid", VoiceOutputRoute.Bluetooth),
+    Earpiece(NativeVoiceDeviceKind.EARPIECE, VoiceOutputRoute.Earpiece),
+    Speaker(NativeVoiceDeviceKind.SPEAKER, VoiceOutputRoute.Speaker),
+    Wired(NativeVoiceDeviceKind.WIRED, VoiceOutputRoute.Headset),
+    Usb(NativeVoiceDeviceKind.USB, VoiceOutputRoute.Headset),
+    Bluetooth(NativeVoiceDeviceKind.BLUETOOTH, VoiceOutputRoute.Bluetooth),
+    BluetoothLe(NativeVoiceDeviceKind.BLUETOOTH_LE, VoiceOutputRoute.Bluetooth),
+    HearingAid(NativeVoiceDeviceKind.HEARING_AID, VoiceOutputRoute.Bluetooth),
 }
 
 internal fun voiceOutputDeviceKind(type: Int): VoiceOutputDeviceKind? {
@@ -100,11 +119,11 @@ internal data class VoiceOutputDevice(
     val name: String?,
     val active: Boolean,
 ) {
-    fun toMap(): Map<String, Any?> = mapOf(
-        "id" to id,
-        "kind" to kind.wireName,
-        "name" to name,
-        "active" to active,
+    fun toMessage(): NativeVoiceDevice = NativeVoiceDevice(
+        id = id.toLong(),
+        kind = kind.message,
+        name = name,
+        active = active,
     )
 }
 
@@ -125,8 +144,17 @@ internal fun voiceOutputDevices(
             )
         }
         .filter { it.kind.route.name.lowercase() in routeNames }
-        .distinctBy { it.kind to it.name }
+        .distinctBy(::outputDeviceKey)
         .sortedWith(compareBy({ it.kind.ordinal }, { it.name?.contains(" Watch", ignoreCase = true) == true }))
+}
+
+private fun outputDeviceKey(device: VoiceOutputDevice): Pair<VoiceOutputDeviceKind, String> {
+    return when {
+        device.kind == VoiceOutputDeviceKind.Earpiece || device.kind == VoiceOutputDeviceKind.Speaker ->
+            device.kind to ""
+        device.name == null || device.name == Build.MODEL -> device.kind to "#${device.id}"
+        else -> device.kind to device.name
+    }
 }
 
 internal fun bluetoothAddressesMatch(first: String?, second: String?): Boolean {
@@ -231,6 +259,14 @@ internal fun activeCommunicationDeviceId(audioManager: AudioManager): Int? {
     return safeCommunicationDeviceId(audioManager)
 }
 
+internal fun hasBluetoothConnectPermission(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        return true
+    }
+    return context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) ==
+        PackageManager.PERMISSION_GRANTED
+}
+
 internal fun requestedBluetoothAddress(
     audioManager: AudioManager,
     route: VoiceOutputRoute,
@@ -242,7 +278,11 @@ internal fun requestedBluetoothAddress(
     ) {
         return null
     }
-    return outputDevices(audioManager).firstOrNull { it.id == deviceId }?.address
+    return try {
+        outputDevices(audioManager).firstOrNull { it.id == deviceId }?.address
+    } catch (_: SecurityException) {
+        null
+    }
 }
 
 internal fun applyVoiceOutputRoute(
@@ -262,10 +302,11 @@ internal fun applyVoiceOutputRoute(
         deviceId,
     )
     for (device in candidates) {
-        if (!force && safeCommunicationDeviceId(audioManager) == device.id) {
+        val current = safeCommunicationDeviceId(audioManager)
+        if (!force && current == device.id) {
             return device.id
         }
-        if (force) {
+        if (force && current != null && current != device.id) {
             safeClearCommunicationDevice(audioManager)
         }
         if (safeSetCommunicationDevice(audioManager, device)) {
@@ -396,20 +437,26 @@ internal fun applyTelecomCallRoute(
     val state = connection.callAudioState
     val target = telecomRouteForVoiceOutput(route)
     if (bluetoothAddress != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && state != null) {
-        val bluetoothDevice = state.supportedBluetoothDevices.firstOrNull {
-            bluetoothAddressesMatch(it.address, bluetoothAddress)
-        }
-        if (bluetoothDevice != null) {
-            val alreadyActive = state.route == CallAudioState.ROUTE_BLUETOOTH &&
-                bluetoothAddressesMatch(state.activeBluetoothDevice?.address, bluetoothAddress)
-            if (force || !alreadyActive) {
-                connection.requestBluetoothAudio(bluetoothDevice)
+        try {
+            val bluetoothDevice = state.supportedBluetoothDevices.firstOrNull {
+                bluetoothAddressesMatch(it.address, bluetoothAddress)
             }
-            return
+            if (bluetoothDevice != null) {
+                val alreadyActive = state.route == CallAudioState.ROUTE_BLUETOOTH &&
+                    bluetoothAddressesMatch(state.activeBluetoothDevice?.address, bluetoothAddress)
+                if (force || !alreadyActive) {
+                    connection.requestBluetoothAudio(bluetoothDevice)
+                }
+                return
+            }
+        } catch (_: SecurityException) {
         }
     }
     if (telecomRouteRequestNeeded(target, state?.route, state?.supportedRouteMask, force)) {
-        connection.setAudioRoute(target)
+        try {
+            connection.setAudioRoute(target)
+        } catch (_: SecurityException) {
+        }
     }
 }
 

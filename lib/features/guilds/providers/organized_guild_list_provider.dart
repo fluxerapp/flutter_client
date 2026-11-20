@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart' show immutable, listEquals;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show UserSettingsTableData;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -220,18 +223,24 @@ List<Guild> guildsForExpressionPicker({
 @Riverpod(keepAlive: true)
 Stream<List<UserSettingsResponseGuildFolders>> guildFolders(Ref ref) async* {
   final db = ref.watch(fluxerDatabaseProvider);
-  final UserSettingsViewState userState = ref.watch(
-    userSettingsViewModelProvider,
+  final String userId = ref.watch(
+    userSettingsViewModelProvider.select(
+      (UserSettingsViewState state) => state.userId,
+    ),
   );
 
-  if (userState.userId.isEmpty) {
+  if (userId.isEmpty) {
     yield [];
     return;
   }
 
-  await for (final settings in db.userSettingsDao.watchSettings(
-    userState.userId,
-  )) {
+  await for (final settings
+      in db.userSettingsDao
+          .watchSettings(userId)
+          .distinct(
+            (UserSettingsTableData? a, UserSettingsTableData? b) =>
+                a?.data == b?.data,
+          )) {
     if (settings == null) {
       yield [];
       continue;

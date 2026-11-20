@@ -25,14 +25,20 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class VoicePipVideo extends ConsumerWidget {
-  const VoicePipVideo({required this.tileId, super.key});
+  const VoicePipVideo({required this.tileId, this.blocked, super.key});
 
   final String tileId;
+  final bool? blocked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    final String? key = voiceSessionParticipantsKey(voice);
+    final (VoicePipSessionInputs voice, String? guildId) = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState state) =>
+            (voicePipSessionInputs(state), state.guildId),
+      ),
+    );
+    final String? key = voice.participantsKey;
     final ({String identity, VoiceParticipantTileSource source})? parsed =
         parseVoiceParticipantTileId(tileId);
     if (key == null || parsed == null) {
@@ -57,7 +63,7 @@ class VoicePipVideo extends ConsumerWidget {
       return const ColoredBox(color: Color(0xFF111111));
     }
     final String? me = ref.watch(currentUserIdProvider);
-    if (ref.watch(voicePipFeaturedBlockedProvider)) {
+    if (blocked ?? ref.watch(voicePipFeaturedBlockedProvider)) {
       return const VoiceBlockedParticipantPlaceholder(
         cornerRadius: 0,
         showLabel: false,
@@ -68,13 +74,13 @@ class VoicePipVideo extends ConsumerWidget {
       voice: match.voice,
       userId: match.userId,
       currentUserId: me,
-      localConnectionId: voice.activeConnectionId,
+      localConnectionId: voice.localConnectionId,
     );
     final database.User? user = match.user;
     final GuildUserDisplay? userDisplay = watchGuildScopedUserDisplay(
       ref: ref,
       userId: match.userId,
-      guildId: voice.guildId,
+      guildId: guildId,
       currentUserId: me,
     );
     final int? avatarArgb = userDisplay?.avatarColor ?? user?.avatarColor;

@@ -74,8 +74,19 @@ class OxygenUpdate extends _$OxygenUpdate {
       return;
     }
     state = OxygenUpdateStatus.updating;
+    final OxygenUpdateProgress progress = ref.read(
+      oxygenUpdateProgressProvider.notifier,
+    )..value = null;
     try {
-      if (await OxygenUpdater.prepareUpdateOnExit()) {
+      final bool downloaded = await OxygenUpdater.downloadUpdate(
+        onProgress: (double value) {
+          if (ref.mounted) {
+            progress.value = value;
+          }
+        },
+      );
+      if (downloaded) {
+        await OxygenUpdater.applyUpdateOnExit();
         DesktopTray.quit();
         return;
       }
@@ -85,8 +96,19 @@ class OxygenUpdate extends _$OxygenUpdate {
     } on Object catch (error, stackTrace) {
       talker.error('[Oxygen] Update failed', error, stackTrace);
       if (ref.mounted) {
+        progress.value = null;
         state = OxygenUpdateStatus.available;
       }
     }
   }
+}
+
+@Riverpod(keepAlive: true)
+class OxygenUpdateProgress extends _$OxygenUpdateProgress {
+  @override
+  double? build() => null;
+
+  double? get value => state;
+
+  set value(double? value) => state = value;
 }

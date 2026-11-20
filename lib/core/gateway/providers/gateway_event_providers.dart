@@ -671,20 +671,3 @@ void gatewayEphemeralStateRecoveryListener(Ref ref) {
         .clearAll();
   });
 }
-
-@Riverpod(keepAlive: true)
-class InviteCache extends _$InviteCache {
-  @override
-  Map<String, Map<String, dynamic>> build(String accountUserId) => {};
-
-  void addInvite(Map<String, dynamic> data) {
-    final code = data['code'] as String?;
-    if (code != null) {
-      state = {...state, code: data};
-    }
-  }
-
-  void removeInvite(String code) {
-    state = Map.of(state)..remove(code);
-  }
-}

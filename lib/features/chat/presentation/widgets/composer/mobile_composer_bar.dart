@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
@@ -139,7 +140,10 @@ class MobileComposerTextGrowth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSize(
-      duration: MobileComposerLayout.resize,
+      duration: FluxerMotionSuppression.durationOf(
+        context,
+        MobileComposerLayout.resize,
+      ),
       curve: Curves.easeOut,
       alignment: Alignment.topCenter,
       child: child,
@@ -356,7 +360,10 @@ class MobileComposerPopSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: MobileComposerLayout.sendPop,
+      duration: FluxerMotionSuppression.durationOf(
+        context,
+        MobileComposerLayout.sendPop,
+      ),
       layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
         return Center(child: currentChild);
       },

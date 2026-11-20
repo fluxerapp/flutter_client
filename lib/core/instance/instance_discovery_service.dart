@@ -106,7 +106,7 @@ class InstanceDiscoveryService {
         '[InstanceDiscovery] Retrying $wellKnownUrl after the local network '
         'prompt',
       );
-      return _dio.get<dynamic>(wellKnownUrl);
+      return await _dio.get<dynamic>(wellKnownUrl);
     }
   }
 

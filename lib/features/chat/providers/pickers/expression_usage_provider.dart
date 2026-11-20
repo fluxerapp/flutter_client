@@ -63,7 +63,7 @@ class ExpressionUsage extends _$ExpressionUsage {
     if (userId == null) {
       return const <String, UsageEntry>{};
     }
-    return kind.read(
+    return await kind.read(
       ref.read(fluxerDatabaseProvider).userPreferencesDao,
       userId,
     );

@@ -306,7 +306,7 @@ Future<bool> matureChannelLocked(Ref ref, String channelId) async {
   if (context != null) {
     return context.effectiveMatureContent;
   }
-  return ref.watch(matureGroupDmProvider(channelId).future);
+  return await ref.watch(matureGroupDmProvider(channelId).future);
 }
 
 @riverpod

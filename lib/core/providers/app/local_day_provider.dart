@@ -30,3 +30,11 @@ class LocalDay extends _$LocalDay {
     }
   }
 }
+
+@Riverpod(keepAlive: true)
+class RelativeTimeTick extends _$RelativeTimeTick {
+  @override
+  int build() => 0;
+
+  void tick() => state = state + 1;
+}

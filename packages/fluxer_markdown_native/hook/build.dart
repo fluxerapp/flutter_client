@@ -28,6 +28,8 @@ void main(List<String> args) async {
     if (linker != null) {
       final envTriple = triple.toUpperCase().replaceAll('-', '_');
       environment['CARGO_TARGET_${envTriple}_LINKER'] = linker.toFilePath();
+      environment['CARGO_TARGET_${envTriple}_RUSTFLAGS'] =
+          '-C link-arg=-Wl,-z,max-page-size=16384';
     }
     if (code.targetOS == OS.iOS) {
       environment['IPHONEOS_DEPLOYMENT_TARGET'] = '${code.iOS.targetVersion}';

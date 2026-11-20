@@ -89,6 +89,7 @@ import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:fluxer_app/shared/utils/input_modality.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -398,21 +399,27 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    final Channel? channel = ref
-        .watch(channelByIdProvider(msg.channelId))
-        .value;
-    if (channel != null && channel.isThread) {
-      final String? parentId = channel.parentId;
-      if (parentId != null) {
-        final Channel? parent = ref.watch(channelByIdProvider(parentId)).value;
-        if (isForumPostOriginalPoster(
-          thread: channel,
-          parentChannel: parent,
+    final ({String? parentId, String? ownerId})? thread = ref.watch(
+      channelByIdProvider(msg.channelId).select((AsyncValue<Channel?> value) {
+        final Channel? channel = value.value;
+        return channel != null && channel.isThread
+            ? (parentId: channel.parentId, ownerId: channel.ownerId)
+            : null;
+      }),
+    );
+    final String? parentId = thread?.parentId;
+    if (parentId != null &&
+        isForumPostOwner(
+          threadOwnerId: thread?.ownerId,
+          parentIsThreadOnly: ref.watch(
+            channelByIdProvider(parentId).select(
+              (AsyncValue<Channel?> value) =>
+                  value.value?.isThreadOnly ?? false,
+            ),
+          ),
           authorId: msg.authorId,
         )) {
-          tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
-        }
-      }
+      tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
     }
     return tags;
   }
@@ -808,10 +815,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         msg.authorId == widget.currentUserId &&
         msg.isUserMessage &&
         msg.messageSnapshots.isEmpty;
-    final doubleTapAction = ref
-        .watch(doubleTapActionPreferencesProvider)
-        .effectiveAction;
+    final doubleTapAction = ref.watch(
+      doubleTapActionPreferencesProvider.select(
+        (state) => state.effectiveAction,
+      ),
+    );
+    final bool touchInput = ref.watch(inputModalityProvider);
     final bool doubleTapEnabled =
+        touchInput &&
         !widget.inboxPreviewMode &&
         !isFailed &&
         !isSending &&
@@ -1020,24 +1031,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     );
     final onReply = widget.onReply;
-    final Widget semanticBody = Semantics(
-      container: true,
-      label: _messageSemanticLabel(
+    final Widget semanticBody = _MessageSemantics(
+      message: msg,
+      guildId: guildId,
+      currentUserId: widget.currentUserId,
+      label: (String author) => _messageSemanticLabel(
         context,
         msg,
-        author: watchMessageAuthorDisplay(
-          ref: ref,
-          message: msg,
-          guildId: guildId,
-          currentUserId: widget.currentUserId,
-        ).displayName,
+        author: author,
         isSending: isSending,
         isFailed: isFailed,
       ),
       child: body,
     );
-    final bool hasChannelDetailsSession =
-        ref.watch(channelDetailsDrawerProvider) != null;
+    final bool hasChannelDetailsSession = ref.watch(
+      channelDetailsDrawerProvider.select((session) => session != null),
+    );
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final bool channelDetailsDrawerBlocksSwipe = ref.watch(
       channelDetailsDrawerRevealProvider.select(
@@ -1050,9 +1059,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     final bool swipeToOpenChannelDetails =
         handheldChannelDetailsGesturesApply(context) &&
-        ref.watch(swipeRightToLeftActionPreferencesProvider).effectiveAction ==
-            SwipeRightToLeftActionPreference.channelDetails;
-    if (!isTouch || widget.inboxPreviewMode) {
+        ref.watch(
+          swipeRightToLeftActionPreferencesProvider.select(
+            (state) =>
+                state.effectiveAction ==
+                SwipeRightToLeftActionPreference.channelDetails,
+          ),
+        );
+    if (!isTouch || !touchInput || widget.inboxPreviewMode) {
       return _wrapMessageSendingDim(
         dim: dimEntireMessage,
         child: _wrapKeyboardFocus(
@@ -1676,9 +1690,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 end: kCompactTimestampGap,
               ),
               child: FluxerAvatar.user(
-                key: ValueKey<String>(
-                  'compact-msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
-                ),
+                key: ValueKey<String>('compact-msg-avatar-${msg.authorId}'),
                 fallbackText: authorDisplay.displayName,
                 userId: msg.authorId,
                 imageUrl: authorDisplay.avatarUrl,
@@ -1988,9 +2000,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
               child: ExcludeSemantics(
                 child: FluxerAvatar.user(
-                  key: ValueKey<String>(
-                    'msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
-                  ),
+                  key: ValueKey<String>('msg-avatar-${msg.authorId}'),
                   fallbackText: authorDisplay.displayName,
                   userId: msg.authorId,
                   imageUrl: authorDisplay.avatarUrl,
@@ -2630,7 +2640,7 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
   _MessageDoubleTapGestureRecognizer({
     required this.ignoresPointer,
     super.debugOwner,
-  });
+  }) : super(supportedDevices: kTouchPointerDeviceKinds);
 
   final bool Function(int pointer) ignoresPointer;
 
@@ -2648,6 +2658,33 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
           entry.target is TextSpan &&
           (entry.target as TextSpan).recognizer != null,
     );
+  }
+}
+
+class _MessageSemantics extends ConsumerWidget {
+  const _MessageSemantics({
+    required this.message,
+    required this.guildId,
+    required this.currentUserId,
+    required this.label,
+    required this.child,
+  });
+
+  final Message message;
+  final String? guildId;
+  final String? currentUserId;
+  final String Function(String author) label;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String author = watchMessageAuthorDisplay(
+      ref: ref,
+      message: message,
+      guildId: guildId,
+      currentUserId: currentUserId,
+    ).displayName;
+    return Semantics(container: true, label: label(author), child: child);
   }
 }
 

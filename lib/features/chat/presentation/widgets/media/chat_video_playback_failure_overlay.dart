@@ -25,7 +25,7 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
     if (!_canOpenInBrowser) {
       return;
     }
-    await handleExternalLinkTap(
+    await openAttachmentInBrowser(
       context,
       fallbackUrl,
       useRootNavigator: useRootNavigator,

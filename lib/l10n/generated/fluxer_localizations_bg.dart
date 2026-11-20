@@ -856,9 +856,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Акаунтът ви все още не е заявен. Без потребителско име и парола няма да можете да влезете от други устройства и може да загубите достъп до акаунта си. Заявете акаунта си сега, за да го защитите.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Потребителско име';
-
-  @override
   String get registerTitle => 'Създаване на акаунт';
 
   @override
@@ -1167,9 +1164,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get embedGiftClaim => 'Вземи подарък';
 
   @override
-  String get embedGiftClaimed => 'Подаръкът е взет';
-
-  @override
   String get embedGiftClaimAccount => 'Заяви акаунта си, за да осребриш';
 
   @override
@@ -1178,9 +1172,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Този код за подарък е невалиден или вече е използван.';
-
-  @override
-  String get embedGiftUnavailable => 'Подаръкът не е наличен';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -1398,6 +1389,12 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Входящо повикване';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Игнориране';
 
   @override
@@ -1570,9 +1567,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Добавяне на приятел';
-
-  @override
-  String get addFriendUsernameHint => 'Потребителско име#0000';
 
   @override
   String get addFriendUsernameLabel => 'Потребителско име на приятел';
@@ -4561,8 +4555,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Тази общност за възрастни не е достъпна за акаунта ти.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Включи общностите и каналите с възрастово ограничение на fluxer.com в браузъра си или в настолното приложение. Дотогава те остават скрити в приложението за iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -4884,6 +4879,33 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get connectionEnterDomain => 'Въведете домейн.';
+
+  @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
 
   @override
   String get lookAndFeelThemeSectionTitle => 'Тема';
@@ -6300,6 +6322,27 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Видео';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Превключване на камерата';
@@ -12827,6 +12870,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Поканите са временно на пауза в тази общност';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Поканите са на пауза след предполагаема атака';
+
+  @override
   String get guildNavbarDurationNever => 'никога';
 
   @override
@@ -17582,6 +17629,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17589,6 +17641,15 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override

@@ -15,6 +15,8 @@ bool? _isRuntimeMobileFormFactor;
 
 bool get isFluxerNativeMobileOs => Platform.isAndroid || Platform.isIOS;
 
+bool get isFluxerNativeAndroid => Platform.isAndroid;
+
 bool get isNativeVoiceCallKitPlatform => isFluxerNativeMobileOs;
 
 bool _isFluxerDesktopClassOs() {

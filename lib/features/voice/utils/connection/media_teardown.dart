@@ -13,8 +13,14 @@ Future<void> drainVoiceMediaHandoffs(Ref ref) async {
   ]);
 }
 
-Future<void> waitForVoiceMediaWidgetsToRelease() async {
+const Duration kVoiceMediaWidgetReleaseTimeout = Duration(milliseconds: 250);
+
+Future<void> waitForVoiceMediaWidgetsToRelease({
+  Duration timeout = kVoiceMediaWidgetReleaseTimeout,
+}) async {
   final SchedulerBinding binding = SchedulerBinding.instance;
-  await binding.endOfFrame;
+  if (binding.framesEnabled) {
+    await binding.endOfFrame.timeout(timeout, onTimeout: () {});
+  }
   await Future<void>.delayed(Duration.zero);
 }

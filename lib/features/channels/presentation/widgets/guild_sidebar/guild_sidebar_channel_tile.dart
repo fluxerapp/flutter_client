@@ -78,6 +78,17 @@ class _ChannelTile extends ConsumerWidget {
         );
 
     final bool desktopPointer = usesDesktopPointerUi(context);
+    final bool joinsVoiceOnDoubleClick =
+        isVoice &&
+        desktopPointer &&
+        !(connectedVoiceGuildId == guildId &&
+            connectedVoiceChannelId == channel.id) &&
+        ref.watch(
+          advancedPreferencesProvider.select(
+            (AdvancedPreferencesState state) =>
+                state.voiceChannelJoinRequiresDoubleClick,
+          ),
+        );
     final double rowOpacity = isChannelDirectlyMuted && !isSelected ? 0.5 : 1.0;
     Color faded(Color color) =>
         rowOpacity < 1 ? color.withValues(alpha: color.a * rowOpacity) : color;
@@ -156,6 +167,16 @@ class _ChannelTile extends ConsumerWidget {
                     ref,
                     hasUnread: hasUnread,
                     position: contextMenuPositionAtCenter(context),
+                  ),
+                )
+              : null,
+          onDoubleTap: joinsVoiceOnDoubleClick
+              ? () => unawaited(
+                  joinGuildVoiceChannelFromList(
+                    context: context,
+                    ref: ref,
+                    guildId: guildId,
+                    channel: channel,
                   ),
                 )
               : null,
@@ -310,7 +331,7 @@ class _ChannelTile extends ConsumerWidget {
       state: menuState,
     );
     if (!usesDesktopPointerUi(context)) {
-      return FluxerBottomSheet.showScrollable<void>(
+      return await FluxerBottomSheet.showScrollable<void>(
         context,
         title: channel.name,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
@@ -333,7 +354,7 @@ class _ChannelTile extends ConsumerWidget {
         },
       );
     }
-    return FluxerActionMenu.show(
+    return await FluxerActionMenu.show(
       context,
       position: position,
       builder: (menuContext, close) => channelMenuGroupsToWidgets(

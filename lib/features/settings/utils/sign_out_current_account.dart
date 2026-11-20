@@ -37,7 +37,6 @@ Future<void> signOutCurrentAccount(
       ..invalidate(voiceStatesMapProvider)
       ..invalidate(activeCallsProvider)
       ..invalidate(outgoingVoiceCallInitiatorProvider)
-      ..invalidate(inviteCacheProvider)
       ..invalidate(currentUserIdProvider)
       ..invalidate(dmViewModelProvider)
       ..invalidate(guildListViewModelProvider)

@@ -194,7 +194,7 @@ class _ZoomBinaryMessenger extends BinaryMessenger {
     _inner.setMessageHandler(channel, (ByteData? message) async {
       final double zoom = _zoom();
       if (zoom == 1 || message == null) {
-        return handler(message);
+        return await handler(message);
       }
       final MethodCall call = _kJsonMethodCodec.decodeMethodCall(message);
       final ByteData? reply = await handler(

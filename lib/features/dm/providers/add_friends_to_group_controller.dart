@@ -107,7 +107,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
 
   Future<bool> handleGenerateOrCopyInvite(BuildContext context) async {
     if (inviteLink != null && inviteLink!.isNotEmpty) {
-      return _copyInviteLink(context);
+      return await _copyInviteLink(context);
     }
     final String? link = await handleGenerateInvite(context);
     if (link == null) {
@@ -116,7 +116,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
     if (!context.mounted) {
       return false;
     }
-    return _copyInviteLink(context);
+    return await _copyInviteLink(context);
   }
 
   Future<String?> handleGenerateInvite(BuildContext context) async {

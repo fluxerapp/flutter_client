@@ -4,6 +4,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -21,6 +22,11 @@ _astNodeCache =
       (String, FluxerMarkdownFeatures, Object?),
       List<md.Node>
     >();
+
+void clearMarkdownParseCaches() {
+  _astNodeCache.clear();
+  clearHighlightSpanCache();
+}
 
 class FluxerMarkdown extends StatefulWidget {
   const FluxerMarkdown({

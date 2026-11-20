@@ -187,12 +187,17 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
 
     try {
       final client = ref.read(fluxerClientProvider);
-      await client.users.completePasswordChange(
+      final response = await client.users.completePasswordChange(
         body: PasswordChangeCompleteRequest(
           ticket: _ticket!,
           verificationProof: _verificationProof!,
           newPassword: newPassword,
         ),
+      );
+      await applyReplacementSession(
+        ref,
+        token: response.token,
+        authSessionIdHash: response.authSessionIdHash,
       );
 
       ref
@@ -403,6 +408,7 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
                   ? l10n.resendCountdown(resendCountdown)
                   : l10n.resend,
               size: FluxerButtonSize.small,
+              fitContent: true,
             ),
           ],
         );

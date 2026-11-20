@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -9,6 +10,7 @@ import 'package:fluxer_dart/gateway.dart';
 
 const Duration kGuildMentionGatewayFetchDedup = Duration(milliseconds: 750);
 const Duration kGuildMentionGatewayDebounce = Duration(milliseconds: 300);
+const int kGuildMentionSnapshotCacheCapacity = 3;
 
 class GuildMentionSnapshot {
   GuildMentionSnapshot({required this.members, required this.discriminators});
@@ -32,8 +34,10 @@ class GuildMentionMemberSearch {
   final Map<String, DateTime> _lastGatewayFetchAt = <String, DateTime>{};
   final Map<String, Future<void>> _inFlightGatewayFetches =
       <String, Future<void>>{};
-  final Map<String, GuildMentionSnapshot> _snapshots =
-      <String, GuildMentionSnapshot>{};
+  final BoundedLruCache<String, GuildMentionSnapshot> _snapshots =
+      BoundedLruCache<String, GuildMentionSnapshot>(
+        capacity: kGuildMentionSnapshotCacheCapacity,
+      );
   final Map<String, Future<GuildMentionSnapshot>> _snapshotLoads =
       <String, Future<GuildMentionSnapshot>>{};
   final Map<String, Timer> _gatewayDebounceTimers = <String, Timer>{};
@@ -53,19 +57,19 @@ class GuildMentionMemberSearch {
   }
 
   Future<GuildMentionSnapshot> ensureSnapshot(String guildId) async {
-    final GuildMentionSnapshot? cached = _snapshots[guildId];
+    final GuildMentionSnapshot? cached = _snapshots.get(guildId);
     if (cached != null) {
       return cached;
     }
     final Future<GuildMentionSnapshot>? inFlight = _snapshotLoads[guildId];
     if (inFlight != null) {
-      return inFlight;
+      return await inFlight;
     }
     final Future<GuildMentionSnapshot> load = _loadSnapshot(guildId);
     _snapshotLoads[guildId] = load;
     try {
       final GuildMentionSnapshot snapshot = await load;
-      _snapshots[guildId] = snapshot;
+      _snapshots.set(guildId, snapshot);
       return snapshot;
     } finally {
       final Future<GuildMentionSnapshot>? removed = _snapshotLoads.remove(
@@ -78,16 +82,16 @@ class GuildMentionMemberSearch {
   }
 
   bool snapshotMatchesRowCount(String guildId, int rowCount) {
-    return _snapshots[guildId]?.members.length == rowCount;
+    return _snapshots.peek(guildId)?.members.length == rowCount;
   }
 
   Future<GuildMentionSnapshot> _mergeIntoSnapshot(
     String guildId,
     List<String> userIds,
   ) async {
-    final GuildMentionSnapshot? snapshot = _snapshots[guildId];
+    final GuildMentionSnapshot? snapshot = _snapshots.peek(guildId);
     if (snapshot == null) {
-      return ensureSnapshot(guildId);
+      return await ensureSnapshot(guildId);
     }
     final List<Member> fresh = await _memberRepository
         .getCachedMembersByUserIds(guildId, userIds);
@@ -95,9 +99,9 @@ class GuildMentionMemberSearch {
       fresh,
     );
     final int rowCount = await _database.memberDao.countMembers(guildId);
-    final GuildMentionSnapshot? current = _snapshots[guildId];
+    final GuildMentionSnapshot? current = _snapshots.peek(guildId);
     if (!identical(current, snapshot)) {
-      return current ?? ensureSnapshot(guildId);
+      return await (current ?? ensureSnapshot(guildId));
     }
     final Map<String, Member> freshById = <String, Member>{
       for (final Member member in fresh) member.id: member,
@@ -109,7 +113,7 @@ class GuildMentionMemberSearch {
     ];
     if (merged.length != rowCount) {
       invalidateSnapshot(guildId);
-      return ensureSnapshot(guildId);
+      return await ensureSnapshot(guildId);
     }
     final GuildMentionSnapshot next = GuildMentionSnapshot(
       members: merged,
@@ -118,7 +122,7 @@ class GuildMentionMemberSearch {
         ...freshDiscriminators,
       },
     );
-    _snapshots[guildId] = next;
+    _snapshots.set(guildId, next);
     return next;
   }
 
@@ -244,7 +248,12 @@ class GuildMentionMemberSearch {
   }
 
   void _recordGatewayFetch(String guildId, String query) {
-    _lastGatewayFetchAt['$guildId:$query'] = DateTime.now();
+    final DateTime now = DateTime.now();
+    _lastGatewayFetchAt.removeWhere(
+      (String _, DateTime at) =>
+          now.difference(at) >= kGuildMentionGatewayFetchDedup,
+    );
+    _lastGatewayFetchAt['$guildId:$query'] = now;
   }
 
   Future<({List<Member> members, Set<String> remoteMemberIds})>
@@ -315,7 +324,7 @@ class GuildMentionMemberSearch {
       );
       return (members: cached, remoteMemberIds: const <String>{});
     }
-    return fetchGatewayAndMerge(
+    return await fetchGatewayAndMerge(
       guildId: guildId,
       query: query,
       parsed: parsed,
@@ -345,7 +354,7 @@ class GuildMentionMemberSearch {
       }
       await _ensureGatewaySearch(guildId, trimmed);
     }
-    return _memberRepository.getCachedMembersForGuild(guildId);
+    return await _memberRepository.getCachedMembersForGuild(guildId);
   }
 
   Future<void> _ensureGatewaySearch(String guildId, String query) async {

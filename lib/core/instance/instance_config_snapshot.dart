@@ -111,7 +111,7 @@ class InstanceConfigSnapshot {
       'api_base_url': apiBaseUrl,
       'gateway_url': gatewayUrl,
       'display_domain': displayDomain,
-      if (wellKnown != null) 'well_known': wellKnown!.toJson(),
+      if (wellKnown != null) 'well_known': wellKnownFluxerToJson(wellKnown!),
     });
   }
 

@@ -1,6 +1,7 @@
+// ignore_for_file: document_ignores, implementation_imports
+
 import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoLocalizations, GlobalCupertinoLocalizations;
-import 'package:flutter/material.dart' as flutter show MaterialLocalizations;
 import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_localizations/src/l10n/generated_date_localizations.dart'
     as date_localizations;
@@ -11,6 +12,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_custom.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
+import 'package:material_ui/material_ui.dart'
+    as flutter
+    show MaterialLocalizations;
+import 'package:material_ui/material_ui.dart';
 
 const Set<String> englishBackedLanguageCodes = <String>{'art'};
 
@@ -63,12 +68,12 @@ const List<LocalizationsDelegate<dynamic>> fluxerLocalizationsDelegates =
     <LocalizationsDelegate<dynamic>>[
       FluxerLocalizations.delegate,
       ...GlobalMaterialLocalizations.delegates,
-      l10n.GlobalMaterialLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
       _EnglishBackedLocalizationsDelegate<MaterialLocalizations>(
         GlobalMaterialLocalizations.delegate,
       ),
       _EnglishBackedLocalizationsDelegate<flutter.MaterialLocalizations>(
-        l10n.GlobalMaterialLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
       ),
       _EnglishBackedLocalizationsDelegate<CupertinoLocalizations>(
         GlobalCupertinoLocalizations.delegate,

@@ -66,8 +66,9 @@ jobs:
         env:
           VERSION_NAME: ${{ steps.beta_version_name.outputs.version_name }}
           BUILD_NUMBER: ${{ needs.allocate-android-build-number.outputs.build_number }}
+          BASE_BRANCH: beta
           FLUXER_CI_APP_USER_ID: ${{ vars.FLUXER_CI_APP_USER_ID }}
-        run: bash .github/scripts/sync_beta_android_release_version.sh
+        run: bash .github/scripts/sync_android_release_version.sh
 
   android-fcm:
     name: Android FCM build

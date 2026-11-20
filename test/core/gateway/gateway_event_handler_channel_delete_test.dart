@@ -39,7 +39,7 @@ Future<Channel?> _waitForChannel(
     }
     await Future<void>.delayed(const Duration(milliseconds: 10));
   }
-  return database.channelDao.getChannelById(_channelId);
+  return await database.channelDao.getChannelById(_channelId);
 }
 
 void main() {

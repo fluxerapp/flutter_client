@@ -282,4 +282,88 @@ void main() {
     await tester.pump();
     expect(participant.video.last.quality, VideoQuality.MEDIUM);
   });
+
+  group('background focus', () {
+    tearDown(VoiceVideoClaims.debugResetBackgroundFocus);
+
+    testWidgets('suspends cameras outside the focus and restores on resume', (
+      WidgetTester tester,
+    ) async {
+      final _FakeParticipant focus = _FakeParticipant();
+      final _FakeParticipant other = _FakeParticipant();
+      final VoiceVideoClaim focusClaim = VoiceVideoClaims.of(
+        focus,
+      ).claim(TrackSource.camera, quality: VideoQuality.HIGH);
+      final VoiceVideoClaim otherClaim = VoiceVideoClaims.of(
+        other,
+      ).claim(TrackSource.camera, quality: VideoQuality.HIGH);
+      await tester.pump();
+
+      VoiceVideoClaims.setBackgroundFocus(
+        backgrounded: true,
+        participant: focus,
+        source: TrackSource.camera,
+        quality: VideoQuality.LOW,
+      );
+      await tester.pump();
+      expect(focus.video.last.quality, VideoQuality.LOW);
+      expect(other.video.last.wanted, isTrue);
+
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+      await tester.pump();
+      expect(other.video.last.wanted, isFalse);
+
+      VoiceVideoClaims.setBackgroundFocus(backgrounded: false);
+      await tester.pump();
+      expect(other.video.last.wanted, isTrue);
+      expect(other.video.last.quality, VideoQuality.HIGH);
+      expect(focus.video.last.quality, VideoQuality.HIGH);
+
+      focusClaim.release();
+      otherClaim.release();
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+    });
+
+    testWidgets('a quick resume keeps the subscription', (
+      WidgetTester tester,
+    ) async {
+      final _FakeParticipant other = _FakeParticipant();
+      final VoiceVideoClaim claim = VoiceVideoClaims.of(
+        other,
+      ).claim(TrackSource.camera, quality: VideoQuality.MEDIUM);
+      await tester.pump();
+      final int sent = other.video.length;
+
+      VoiceVideoClaims.setBackgroundFocus(backgrounded: true);
+      await tester.pump(const Duration(milliseconds: 100));
+      VoiceVideoClaims.setBackgroundFocus(backgrounded: false);
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+
+      expect(other.video, hasLength(sent));
+
+      claim.release();
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+    });
+
+    testWidgets('screen shares stay subscribed in the background', (
+      WidgetTester tester,
+    ) async {
+      final _FakeParticipant sharer = _FakeParticipant();
+      final VoiceVideoClaim claim = VoiceVideoClaims.of(
+        sharer,
+      ).claim(TrackSource.screenShareVideo, quality: VideoQuality.HIGH);
+      await tester.pump();
+      final int sent = sharer.video.length;
+
+      VoiceVideoClaims.setBackgroundFocus(backgrounded: true);
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+      await tester.pump();
+
+      expect(sharer.video, hasLength(sent));
+      expect(sharer.video.last.wanted, isTrue);
+
+      claim.release();
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
+    });
+  });
 }

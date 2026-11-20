@@ -825,9 +825,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '계정을 아직 등록하지 않으셨습니다. 사용자 이름과 비밀번호가 없으면 다른 기기에서 로그인할 수 없으며 계정에 액세스하지 못할 수 있습니다. 지금 계정을 등록하여 안전하게 보호하세요.';
 
   @override
-  String get addFriendUsernameOnlyHint => '사용자 이름';
-
-  @override
   String get registerTitle => '계정 만들기';
 
   @override
@@ -1114,9 +1111,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get embedGiftClaim => '선물 받기';
 
   @override
-  String get embedGiftClaimed => '선물 받음';
-
-  @override
   String get embedGiftClaimAccount => '선물 받으려면 계정을 등록하세요';
 
   @override
@@ -1124,9 +1118,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle => '선물 코드가 유효하지 않거나 이미 사용되었습니다.';
-
-  @override
-  String get embedGiftUnavailable => '선물 불가';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -1337,6 +1328,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get incomingVoiceCallLabel => '수신 전화';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => '무시';
 
   @override
@@ -1501,9 +1498,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => '친구 추가';
-
-  @override
-  String get addFriendUsernameHint => '사용자이름#0000';
 
   @override
   String get addFriendUsernameLabel => '친구의 사용자 이름';
@@ -4368,8 +4362,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이 성인 커뮤니티는 회원님의 계정에서 이용할 수 없습니다.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      '브라우저에서 fluxer.com에 접속하거나 데스크톱 앱에서 연령 제한 커뮤니티와 채널을 켜세요. 켜기 전까지는 iOS 앱에서 숨겨진 상태로 유지됩니다.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -4681,6 +4676,33 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get connectionEnterDomain => '도메인을 입력하세요.';
+
+  @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
 
   @override
   String get lookAndFeelThemeSectionTitle => '테마';
@@ -6006,6 +6028,27 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => '비디오';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => '카메라 전환';
@@ -12150,6 +12193,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildNavbarInvitesPaused => '이 커뮤니티에서는 현재 초대가 일시 중지되었습니다';
 
   @override
+  String get guildNavbarInvitesPausedRaid => '레이드가 의심되어 초대가 일시 중지되었습니다';
+
+  @override
   String get guildNavbarDurationNever => '안 함';
 
   @override
@@ -16616,6 +16662,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -16623,6 +16674,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override

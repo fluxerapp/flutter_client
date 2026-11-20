@@ -135,9 +135,10 @@ class VoiceMessageRecordingBar extends StatelessWidget {
 
   static double heightFor(
     FluxerButtonSize actionSize, {
-    double verticalPadding = WideComposerLayout.densePaddingY,
+    required bool touchPrimary,
   }) {
-    return actionSize.height + verticalPadding * 2;
+    return actionSize.height +
+        WideComposerLayout.densePaddingYFor(touchPrimary: touchPrimary) * 2;
   }
 
   static ShapeBorder wideBackgroundShape({required bool hasActionStack}) {

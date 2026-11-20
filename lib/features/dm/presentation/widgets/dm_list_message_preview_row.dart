@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/dm_list_message_preview.dart';
-import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -89,10 +89,9 @@ class DmListTileSubtext extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final String? customStatus = ref.watch(
-      dmListRecipientRowDataProvider.select(
-        (AsyncValue<Map<String, DmListRecipientRowData>> value) =>
-            value.value?[conversation.recipientId]?.customStatus,
-      ),
+      userPresenceProvider(
+        conversation.recipientId,
+      ).select((UserPresence? presence) => presence?.customStatus),
     );
     return CustomStatusDisplay(
       stored: customStatus,

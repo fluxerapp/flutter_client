@@ -60,7 +60,9 @@ class _GuildIconPeekGestureHostState
   }
 
   void _removePeekOverlay() {
-    _peekOverlay?.remove();
+    _peekOverlay
+      ?..remove()
+      ..dispose();
     _peekOverlay = null;
     _peekVisible = false;
     _selectingPeekItem = false;

@@ -30,8 +30,6 @@ double nearestTtsRate(double rate) {
 
 String formatTtsRateLabel(double rate) => 'x${rate.toStringAsFixed(1)}';
 
-double engineSpeechRate(double userRate) => clampTtsRate(userRate) * 0.5;
-
 double? parseTtsRateInput(String input) {
   final Match? match = RegExp(
     r'([0-9]+(?:\.[0-9]+)?)',

@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 110;
+  int get schemaVersion => 111;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1703,6 +1703,12 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.addColumn(
           userPreferencesTable,
           userPreferencesTable.useSystemDynamicColors,
+        );
+      }
+      if (from < 111) {
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_channels_parent_type '
+          'ON channels (parent_id, type)',
         );
       }
     },

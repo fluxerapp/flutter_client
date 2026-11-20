@@ -10,9 +10,11 @@ class _FileAssetBundle extends CachingAssetBundle {
   _FileAssetBundle(this.files);
 
   final Map<String, String> files;
+  int loads = 0;
 
   @override
   Future<ByteData> load(String key) async {
+    loads += 1;
     final Uint8List bytes = File(files[key]!).readAsBytesSync();
     return ByteData.sublistView(bytes);
   }
@@ -105,6 +107,17 @@ void main() {
     );
 
     expect(await _connect(server, context), 'ok');
+  });
+
+  test('the default context loads the bundle once per isolate', () async {
+    final _FileAssetBundle bundle = _FileAssetBundle(<String, String>{
+      bundledRootCertificatesAsset: '${_tls.path}/ca.pem',
+    });
+
+    await trustBundledRootCertificates(isAndroid: true, bundle: bundle);
+    await trustBundledRootCertificates(isAndroid: true, bundle: bundle);
+
+    expect(bundle.loads, 1);
   });
 
   test('other platforms keep their system trust as is', () async {

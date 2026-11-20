@@ -15,6 +15,8 @@ class MarkdownParseCache<K, V extends Object> {
   final int maxEntries;
   final LinkedHashMap<K, V> _entries = LinkedHashMap<K, V>();
 
+  void clear() => _entries.clear();
+
   V resolve(K key, V Function() compute) {
     final existing = _entries.remove(key);
     if (existing != null) {

@@ -125,6 +125,47 @@ class VoiceSpeakerRouteApplyTest {
     }
 
     @Test
+    fun forcedApplyOfTheCurrentDeviceDoesNotClearItFirst() {
+        val buds = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
+        shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece, buds))
+        audioManager.setCommunicationDevice(buds)
+        shadowOf(audioManager).lockCommunicationDevice(true)
+        try {
+            applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Bluetooth, force = true)
+
+            assertEquals(3, audioManager.communicationDevice?.id)
+        } finally {
+            shadowOf(audioManager).lockCommunicationDevice(false)
+        }
+    }
+
+    @Test
+    fun forcedApplyOfADifferentDeviceStillSwitches() {
+        audioManager.setCommunicationDevice(speaker)
+
+        val applied = applyVoiceOutputRoute(audioManager, VoiceOutputRoute.Earpiece, force = true)
+
+        assertEquals(2, applied)
+        assertEquals(2, audioManager.communicationDevice?.id)
+    }
+
+    @Test
+    fun outputDevicesKeepUnnamedBluetoothDevicesApart() {
+        val first = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
+        val second = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 4)
+        val named = namedDevice(AudioDeviceInfo.TYPE_BLE_HEADSET, id = 5, name = "Buds")
+        val namedTwin = namedDevice(AudioDeviceInfo.TYPE_BLE_HEADSET, id = 6, name = "Buds")
+
+        val devices = voiceOutputDevices(
+            listOf(speaker, first, second, named, namedTwin),
+            hasEarpiece = false,
+            activeDeviceId = null,
+        )
+
+        assertEquals(listOf(1, 3, 4, 5), devices.map { it.id })
+    }
+
+    @Test
     fun bluetoothRoutePinsTheBluetoothDevice() {
         val buds = communicationDevice(AudioDeviceInfo.TYPE_BLUETOOTH_SCO, id = 3)
         shadowOf(audioManager).setAvailableCommunicationDevices(listOf(speaker, earpiece, buds))

@@ -832,10 +832,6 @@
     "@unclaimedAccountDescriptionUsername": {
         "description": "Description for the unclaimed account warning on instances where people sign in with a username."
     },
-    "addFriendUsernameOnlyHint": "Korisničko ime",
-    "@addFriendUsernameOnlyHint": {
-        "description": "Placeholder for the add friend field on instances where usernames have no tag."
-    },
     "registerTitle": "Izradi račun",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -1192,10 +1188,6 @@
     "@embedGiftClaim": {
         "description": "Primary button on a redeemable gift embed."
     },
-    "embedGiftClaimed": "Poklon preuzet",
-    "@embedGiftClaimed": {
-        "description": "Disabled button label after a gift is claimed."
-    },
     "embedGiftClaimAccount": "Preuzmite račun za iskorištavanje",
     "@embedGiftClaimAccount": {
         "description": "Button on a gift embed for unclaimed accounts."
@@ -1207,10 +1199,6 @@
     "embedGiftUnknownSubtitle": "Ovaj kôd poklona nije važeći ili je već iskorišten.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
-    },
-    "embedGiftUnavailable": "Poklon nije dostupan",
-    "@embedGiftUnavailable": {
-        "description": "Disabled button when a gift cannot be claimed."
     },
     "giftAcceptClaimSubscription": "Aktiviraj svoju {productName} pretplatu preuzimanjem svog poklona!",
     "@giftAcceptClaimSubscription": {
@@ -1709,10 +1697,6 @@
     "addFriendSheetTitle": "Dodaj prijatelja",
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
-    },
-    "addFriendUsernameHint": "Korisničko ime#0000",
-    "@addFriendUsernameHint": {
-        "description": "Placeholder for the add friend username input."
     },
     "addFriendUsernameLabel": "Korisničko ime prijatelja",
     "@addFriendUsernameLabel": {
@@ -12651,6 +12635,10 @@
     "@guildNavbarInvitesPaused": {
         "description": "Guild tooltip when invites are disabled."
     },
+    "guildNavbarInvitesPausedRaid": "Pozivnice su pauzirane nakon sumnje na napad",
+    "@guildNavbarInvitesPausedRaid": {
+        "description": "Guild tooltip when invites are paused after a suspected raid."
+    },
     "guildNavbarDurationNever": "nikad",
     "@guildNavbarDurationNever": {
         "description": "Invite expiry duration label for no expiry."
@@ -19913,10 +19901,6 @@
     "passkeyNoCredentialsForAccount": "Ovaj uređaj nema pristupni ključ za ovaj račun. Upotrijebite uređaj ili upravitelj lozinki u koji ste ga spremili.",
     "@passkeyNoCredentialsForAccount": {
         "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
-    },
-    "matureContentIosWebOptInBody": "Uključite zajednice i kanale s dobnim ograničenjem na fluxer.com u pregledniku ili u desktop aplikaciji. Do tada ostaju skriveni u iOS aplikaciji.",
-    "@matureContentIosWebOptInBody": {
-        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app."
     },
     "notificationChannelMessages": "Poruke",
     "@notificationChannelMessages": {

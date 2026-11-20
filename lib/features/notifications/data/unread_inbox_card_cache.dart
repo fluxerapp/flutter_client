@@ -22,6 +22,8 @@ class UnreadInboxCardData {
   final bool hasMoreUnread;
 }
 
+const int kUnreadInboxCardCacheMaxChannels = 50;
+
 class UnreadInboxCardCache {
   UnreadInboxCardCache({required this._database, required this._repository});
 
@@ -67,7 +69,12 @@ class UnreadInboxCardCache {
           messages.isNotEmpty &&
           compareSnowflakeIds(messages.last.id, entry.lastMessageId) < 0,
     );
-    _entries[entry.channelId] = data;
+    _entries
+      ..remove(entry.channelId)
+      ..[entry.channelId] = data;
+    while (_entries.length > kUnreadInboxCardCacheMaxChannels) {
+      _entries.remove(_entries.keys.first);
+    }
     return data;
   }
 }

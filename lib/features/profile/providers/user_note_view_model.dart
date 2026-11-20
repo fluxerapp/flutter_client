@@ -18,7 +18,7 @@ class UserNoteViewModel extends _$UserNoteViewModel {
   Future<void> save(String content) async {
     final String trimmed = content.trim();
     if (trimmed.isEmpty) {
-      return delete();
+      return await delete();
     }
     final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     final UserNotesTableData? previous = await database.userNotesDao.getNote(

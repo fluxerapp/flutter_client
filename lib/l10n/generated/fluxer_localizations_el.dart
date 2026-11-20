@@ -859,9 +859,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ο λογαριασμός σας δεν έχει διεκδικηθεί ακόμη. Χωρίς όνομα χρήστη και κωδικό πρόσβασης, δεν θα μπορείτε να συνδεθείτε από άλλες συσκευές και μπορεί να χάσετε την πρόσβαση στον λογαριασμό σας. Διεκδικήστε τώρα τον λογαριασμό σας για να τον ασφαλίσετε.';
 
   @override
-  String get addFriendUsernameOnlyHint => 'Όνομα χρήστη';
-
-  @override
   String get registerTitle => 'Δημιουργία λογαριασμού';
 
   @override
@@ -1173,9 +1170,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get embedGiftClaim => 'Παραλαβή δώρου';
 
   @override
-  String get embedGiftClaimed => 'Το δώρο παραλήφθηκε';
-
-  @override
   String get embedGiftClaimAccount => 'Διεκδίκηση λογαριασμού για εξαργύρωση';
 
   @override
@@ -1184,9 +1178,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη παραληφθεί.';
-
-  @override
-  String get embedGiftUnavailable => 'Το δώρο δεν είναι διαθέσιμο';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -1403,6 +1394,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Εισερχόμενη κλήση';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'Αγνόηση';
 
   @override
@@ -1576,9 +1573,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'Προσθήκη φίλου';
-
-  @override
-  String get addFriendUsernameHint => 'Όνομα χρήστη#0000';
 
   @override
   String get addFriendUsernameLabel => 'Όνομα χρήστη φίλου';
@@ -4584,8 +4578,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτή η κοινότητα ενηλίκων δεν είναι διαθέσιμη στον λογαριασμό σας.';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'Ενεργοποιήστε τις κοινότητες και τα κανάλια με περιορισμό ηλικίας στο fluxer.com από το πρόγραμμα περιήγησης ή από την εφαρμογή για υπολογιστές. Μέχρι τότε παραμένουν κρυφά στην εφαρμογή iOS.';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -4910,6 +4905,33 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get connectionEnterDomain => 'Εισαγάγετε έναν τομέα.';
+
+  @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
 
   @override
   String get lookAndFeelThemeSectionTitle => 'Θέμα';
@@ -6329,6 +6351,27 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'Βίντεο';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'Αλλαγή κάμερας';
@@ -12865,6 +12908,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Οι προσκλήσεις έχουν τεθεί σε παύση σε αυτήν την κοινότητα';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'Οι προσκλήσεις έχουν τεθεί σε παύση μετά από μια ύποπτη επιδρομή';
+
+  @override
   String get guildNavbarDurationNever => 'ποτέ';
 
   @override
@@ -17649,6 +17696,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17656,6 +17708,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override

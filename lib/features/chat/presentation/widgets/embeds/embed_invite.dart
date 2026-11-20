@@ -213,6 +213,7 @@ class _GuildInviteCard extends StatelessWidget {
               child: FluxerGuildBadge(
                 features: features,
                 badgeIds: localGuild?.badgeIds ?? invite.guild.badgeIds,
+                onLightSurface: true,
               ),
             ),
           ],

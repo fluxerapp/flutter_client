@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -8,11 +9,15 @@ part 'user_guild_settings_data_provider.g.dart';
 @Riverpod(keepAlive: true)
 Stream<Map<String, String>> userGuildSettingsData(Ref ref) {
   final db = ref.watch(fluxerDatabaseProvider);
-  return db.userGuildSettingsDao.watchAll().map(
-    (List<UserGuildSettingsTableData> rows) => <String, String>{
-      for (final UserGuildSettingsTableData row in rows) row.guildId: row.data,
-    },
-  );
+  return db.userGuildSettingsDao
+      .watchAll()
+      .map(
+        (List<UserGuildSettingsTableData> rows) => <String, String>{
+          for (final UserGuildSettingsTableData row in rows)
+            row.guildId: row.data,
+        },
+      )
+      .distinct(mapEquals);
 }
 
 AsyncValue<String?> watchUserGuildSettingsData(Ref ref, String guildId) {

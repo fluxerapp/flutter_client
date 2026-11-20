@@ -7,7 +7,8 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show DmChannel, FluxerDatabase, User;
+    show DmChannel, FluxerDatabase;
+import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -25,7 +26,6 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_row_timestamp.dart';
-import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
@@ -37,7 +37,6 @@ import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -702,10 +701,8 @@ void main() {
       (tester) async {
         _setMobileSurface(tester);
 
-        final alicePresence = StreamController<User?>.broadcast();
-        final bobPresence = StreamController<User?>.broadcast();
-        addTearDown(alicePresence.close);
-        addTearDown(bobPresence.close);
+        final FluxerDatabase database = openTestDatabase();
+        final PresenceStore presence = presenceStoreFor(database);
 
         await tester.pumpWidget(
           _buildTestApp(
@@ -732,16 +729,14 @@ void main() {
                   lastMessageTime: _recentTime(),
                 ),
               ],
-              userPresenceStreams: {
-                '200': alicePresence.stream,
-                '201': bobPresence.stream,
-              },
+              database: database,
             ),
           ),
         );
 
-        alicePresence.add(_testUser(id: '200', status: 'online'));
-        bobPresence.add(_testUser(id: '201', status: 'online'));
+        presence
+          ..set('200', status: 'online')
+          ..set('201', status: 'online');
         await tester.pumpAndSettle();
 
         FluxerAvatar avatarFor(String name) => tester.widget<FluxerAvatar>(
@@ -760,8 +755,9 @@ void main() {
         final aliceNameBefore = tester.widget<Text>(findAppText('Alice'));
         final bobNameBefore = tester.widget<Text>(findAppText('Bob'));
 
-        alicePresence.add(_testUser(id: '200', status: 'offline'));
-        bobPresence.add(_testUser(id: '201', status: 'online'));
+        presence
+          ..set('200', status: 'offline')
+          ..set('201', status: 'online');
         await tester.pumpAndSettle();
 
         expect(avatarFor('Alice').status, 'offline');
@@ -824,11 +820,12 @@ void main() {
         _buildTestApp(
           overrides: _buildOverrides(
             dmMessagePreviewMode: DmMessagePreviewMode.none,
-            recipientRows: Stream.value(const {
-              '200': DmListRecipientRowData(
+            presences: const <String, UserPresence>{
+              '200': UserPresence(
+                status: 'online',
                 customStatus: '{"text":"Playing games","emoji_animated":false}',
               ),
-            }),
+            },
             conversations: [
               DmConversation(
                 id: '100',
@@ -1294,46 +1291,12 @@ void _setMobileSurface(
   addTearDown(tester.view.resetDevicePixelRatio);
 }
 
-User _testUser({required String id, required String status}) {
-  return User(
-    id: id,
-    username: 'user$id',
-    discriminator: '0001',
-    bot: false,
-    system: false,
-    status: status,
-    mobile: false,
-    hiddenProfileBadgesJson: '[]',
-  );
-}
-
-List<Override> _userPresenceOverrides(
-  Iterable<DmConversation> conversations, {
-  Map<String, Stream<User?>>? userPresenceStreams,
-}) {
-  final Set<String> userIds = <String>{};
-  for (final DmConversation conversation in conversations) {
-    if (conversation.isGroup) {
-      userIds.addAll(conversation.remoteRecipientIds);
-    } else if (!conversation.isPersonalNotes) {
-      userIds.add(conversation.recipientId);
-    }
-  }
-  return <Override>[
-    for (final String userId in userIds)
-      userPresenceProvider(userId).overrideWith(
-        (Ref ref) => userPresenceStreams?[userId] ?? Stream<User?>.value(null),
-      ),
-  ];
-}
-
 List<Override> _buildOverrides({
   required List<DmConversation> conversations,
   List<Friend> friendsList = const [],
   Set<String> pinnedIds = const <String>{},
   List<String> pinnedOrder = const <String>[],
-  Stream<Map<String, DmListRecipientRowData>>? recipientRows,
-  Map<String, Stream<User?>>? userPresenceStreams,
+  Map<String, UserPresence> presences = const <String, UserPresence>{},
   DmMessagePreviewMode dmMessagePreviewMode = DmMessagePreviewMode.all,
   bool hasReceivedInitialConversations = true,
   String? selectedChannelId,
@@ -1343,6 +1306,15 @@ List<Override> _buildOverrides({
   int pendingFriendRequests = 0,
 }) {
   final db = database ?? openTestDatabase();
+  presenceStoreFor(db).applyAll(<PresenceUpdateRecord>[
+    for (final MapEntry<String, UserPresence> entry in presences.entries)
+      (
+        userId: entry.key,
+        status: entry.value.status,
+        customStatus: entry.value.customStatus,
+        mobile: entry.value.mobile,
+      ),
+  ]);
   return [
     unreadDmChannelsProvider.overrideWith(
       () => _FakeUnreadDmChannels(unreadDms),
@@ -1351,15 +1323,6 @@ List<Override> _buildOverrides({
     blockedUserIdsProvider.overrideWithValue(const <String>{}),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsStatusProvider.overrideWithValue(null),
-    ..._userPresenceOverrides(
-      conversations,
-      userPresenceStreams: userPresenceStreams,
-    ),
-    dmListRecipientRowDataProvider.overrideWith(
-      (ref) =>
-          recipientRows ??
-          Stream.value(const <String, DmListRecipientRowData>{}),
-    ),
     appearancePreferencesProvider.overrideWith(
       () => _TestAppearancePreferences(dmMessagePreviewMode),
     ),

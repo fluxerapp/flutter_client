@@ -5,53 +5,73 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final Directory root = _findProjectRoot(Directory.current);
 
-  test(
-    'sync-beta-android-release writes properties and pubspec build suffix',
-    () {
-      final Directory temp = Directory.systemTemp.createTempSync(
-        'fluxer-release-version-',
-      );
-      addTearDown(() {
-        if (temp.existsSync()) {
-          temp.deleteSync(recursive: true);
-        }
-      });
+  void expectSync({
+    required String pubspecVersion,
+    required String versionName,
+    required String versionCode,
+    required String expectedPubspecVersion,
+  }) {
+    final Directory temp = Directory.systemTemp.createTempSync(
+      'fluxer-release-version-',
+    );
+    addTearDown(() {
+      if (temp.existsSync()) {
+        temp.deleteSync(recursive: true);
+      }
+    });
 
-      final File pubspec = File('${temp.path}/pubspec.yaml')
-        ..writeAsStringSync('''
+    final File pubspec = File('${temp.path}/pubspec.yaml')
+      ..writeAsStringSync('''
 name: fluxer_app
-version: 2026.11.100+1
+version: $pubspecVersion
 ''');
 
-      final File script = File('${root.path}/.github/scripts/app_version.py');
-      final ProcessResult result = Process.runSync('python3', [
-        script.path,
-        'sync-beta-android-release',
-        '2026.11.100-beta.2',
-        '4242',
-      ], workingDirectory: temp.path);
+    final File script = File('${root.path}/.github/scripts/app_version.py');
+    final ProcessResult result = Process.runSync('python3', [
+      script.path,
+      'sync-android-release',
+      versionName,
+      versionCode,
+    ], workingDirectory: temp.path);
 
-      expect(result.exitCode, 0, reason: result.stderr.toString());
+    expect(result.exitCode, 0, reason: result.stderr.toString());
 
-      final File properties = File(
-        '${temp.path}/tool/release/android_release_version.properties',
-      );
-      expect(
-        properties.readAsStringSync(),
-        contains('versionName=2026.11.100-beta.2'),
-      );
-      expect(properties.readAsStringSync(), contains('versionCode=4242'));
-      expect(pubspec.readAsStringSync(), contains('version: 2026.11.100+4242'));
+    final String properties = File(
+      '${temp.path}/tool/release/android_release_version.properties',
+    ).readAsStringSync();
+    expect(properties, contains('versionName=$versionName\n'));
+    expect(properties, contains('versionCode=$versionCode\n'));
+    expect(
+      pubspec.readAsStringSync(),
+      contains('version: $expectedPubspecVersion'),
+    );
 
-      final File changelog = File(
-        '${temp.path}/fastlane/metadata/android/en-US/changelogs/4242.txt',
-      );
-      expect(
-        changelog.readAsStringSync(),
-        contains('feedback.fluxer.com/changelog'),
-      );
-    },
-  );
+    final File changelog = File(
+      '${temp.path}/fastlane/metadata/android/en-US/changelogs/$versionCode.txt',
+    );
+    expect(
+      changelog.readAsStringSync(),
+      contains('feedback.fluxer.com/changelog'),
+    );
+  }
+
+  test('sync-android-release writes beta properties and pubspec build', () {
+    expectSync(
+      pubspecVersion: '2026.11.100+1',
+      versionName: '2026.11.100-beta.2',
+      versionCode: '4242',
+      expectedPubspecVersion: '2026.11.100+4242',
+    );
+  });
+
+  test('sync-android-release writes stable properties and pubspec build', () {
+    expectSync(
+      pubspecVersion: '2026.11.100+4242',
+      versionName: '2026.11.100',
+      versionCode: '4250',
+      expectedPubspecVersion: '2026.11.100+4250',
+    );
+  });
 }
 
 Directory _findProjectRoot(Directory start) {

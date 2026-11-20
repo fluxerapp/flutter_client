@@ -12,7 +12,7 @@ import '../../../helpers/test_l10n.dart';
 
 const Size _screenSize = Size(400, 800);
 
-Future<Future<bool?>> _openSheet(WidgetTester tester) async {
+Future<({Future<bool?> result})> _openSheet(WidgetTester tester) async {
   tester.view.physicalSize = _screenSize;
   tester.view.devicePixelRatio = 1;
   tester.view.padding = FakeViewPadding.zero;
@@ -47,7 +47,7 @@ Future<Future<bool?>> _openSheet(WidgetTester tester) async {
     pageContext,
   );
   await tester.pumpAndSettle();
-  return result;
+  return (result: result);
 }
 
 void main() {
@@ -71,7 +71,7 @@ void main() {
   );
 
   testWidgets('not now closes the sheet without a decision', (tester) async {
-    final Future<bool?> result = await _openSheet(tester);
+    final Future<bool?> result = (await _openSheet(tester)).result;
 
     await tester.tap(find.text(testL10n.observabilityReportingConsentNotNow));
     await tester.pumpAndSettle();
@@ -82,7 +82,7 @@ void main() {
   testWidgets('a scrim tap closes the sheet without a decision', (
     tester,
   ) async {
-    final Future<bool?> result = await _openSheet(tester);
+    final Future<bool?> result = (await _openSheet(tester)).result;
 
     await tester.tapAt(const Offset(200, 20));
     await tester.pumpAndSettle();

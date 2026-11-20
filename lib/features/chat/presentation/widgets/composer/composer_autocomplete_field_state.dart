@@ -346,7 +346,7 @@ class ComposerAutocompleteFieldState
     if (cached != null) {
       return cached;
     }
-    return readEffectiveGuildChannelPermissionBits(
+    return await readEffectiveGuildChannelPermissionBits(
       container: ref.container,
       channelId: _channelId,
     );

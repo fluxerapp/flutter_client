@@ -53,6 +53,16 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_APP_ICON            ICON                    "resources\\app_icon.ico"
+IDI_BADGE_1             ICON                    "resources\\badges\\badge-1.ico"
+IDI_BADGE_2             ICON                    "resources\\badges\\badge-2.ico"
+IDI_BADGE_3             ICON                    "resources\\badges\\badge-3.ico"
+IDI_BADGE_4             ICON                    "resources\\badges\\badge-4.ico"
+IDI_BADGE_5             ICON                    "resources\\badges\\badge-5.ico"
+IDI_BADGE_6             ICON                    "resources\\badges\\badge-6.ico"
+IDI_BADGE_7             ICON                    "resources\\badges\\badge-7.ico"
+IDI_BADGE_8             ICON                    "resources\\badges\\badge-8.ico"
+IDI_BADGE_9             ICON                    "resources\\badges\\badge-9.ico"
+IDI_BADGE_10            ICON                    "resources\\badges\\badge-10.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

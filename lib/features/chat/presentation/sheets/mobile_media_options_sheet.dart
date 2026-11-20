@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
@@ -88,6 +89,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
           ),
         );
     final bool downloadsHidden =
+        launchContext.downloadsHidden ||
         matureMediaHidden ||
         (actionScope != null &&
             ref.watch(
@@ -99,9 +101,13 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     final String? downloadUrl = downloadsHidden
         ? null
         : launchContext.downloadUrl;
-    final String reverseImageSearchUrl = downloadsHidden
+    final String candidateSearchUrl = downloadsHidden
         ? ''
         : launchContext.reverseImageSearchUrl?.trim() ?? '';
+    final String reverseImageSearchUrl =
+        AttachmentRequestAuth.isApiAttachmentUrl(candidateSearchUrl)
+        ? ''
+        : candidateSearchUrl;
     final SearchProviderCategoryState reverseImageEngines = ref.watch(
       advancedPreferencesProvider.select((s) => s.searchEngines.reverseImage),
     );
@@ -148,7 +154,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsFill.arrowSquareOut,
           label: l10n.mediaViewerOpenInBrowser,
-          onTap: () => unawaited(_openLink(linkUrl)),
+          onTap: () => unawaited(_openInBrowser(linkUrl)),
         ),
       if (downloadUrl != null)
         FluxerBottomSheetMenuItem(
@@ -173,7 +179,18 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
             ),
           ),
     ];
+    final VoidCallback? onViewPost = launchContext.onViewPost;
     final List<Widget> groups = <Widget>[
+      if (onViewPost != null)
+        FluxerMenuGroup(
+          children: <Widget>[
+            FluxerBottomSheetMenuItem(
+              icon: PhosphorIconsBold.chatCircle,
+              label: l10n.forumOpenPost,
+              onTap: () => _viewPost(onViewPost),
+            ),
+          ],
+        ),
       if (mediaItems.isNotEmpty) FluxerMenuGroup(children: mediaItems),
     ];
     if (actionScope != null) {
@@ -258,12 +275,28 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     ];
   }
 
+  void _viewPost(VoidCallback onViewPost) {
+    onCloseSheet();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      onCloseViewer?.call();
+      onViewPost();
+    });
+  }
+
   Future<void> _copyLink(String linkUrl) async {
     onCloseSheet();
     if (!hostContext.mounted) {
       return;
     }
     await copyToClipboard(context: hostContext, value: linkUrl);
+  }
+
+  Future<void> _openInBrowser(String linkUrl) async {
+    onCloseSheet();
+    if (!hostContext.mounted) {
+      return;
+    }
+    await openAttachmentInBrowser(hostContext, linkUrl, useRootNavigator: true);
   }
 
   Future<void> _openLink(String linkUrl) async {

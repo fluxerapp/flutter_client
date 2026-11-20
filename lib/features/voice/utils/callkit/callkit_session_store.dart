@@ -33,6 +33,9 @@ class VoiceCallKitSessionStore {
     return channelId;
   }
 
+  List<String> get callKitIds =>
+      List<String>.unmodifiable(_sessionsByCallKitId.keys);
+
   Iterable<MapEntry<String, String>> get channelEntries =>
       _callKitIdByChannelId.entries;
 
@@ -73,6 +76,10 @@ class VoiceCallKitSessionStore {
 
   void markCallKitConnected(String callKitId) {
     _connectedCallKitIds.add(callKitId);
+  }
+
+  void clearCallKitConnected(String callKitId) {
+    _connectedCallKitIds.remove(callKitId);
   }
 
   String registerSession({

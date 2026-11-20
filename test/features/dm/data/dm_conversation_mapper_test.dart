@@ -33,7 +33,7 @@ Future<void> _insertSoloGroup(db.FluxerDatabase database) async {
 
 Future<DmConversation> _conversation(db.FluxerDatabase database) async {
   final db.DmChannel? row = await database.dmChannelDao.getDmChannelById('300');
-  return buildDmConversationFromChannelRow(database, row!);
+  return await buildDmConversationFromChannelRow(database, row!);
 }
 
 void main() {

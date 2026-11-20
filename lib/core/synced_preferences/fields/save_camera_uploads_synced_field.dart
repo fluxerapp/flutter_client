@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
 import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-const int kSaveCameraUploadsToDeviceFieldNumber = 113;
+const int kLegacyChatInputSaveCameraUploadsFieldNumber = 2;
 
 class SaveCameraUploadsSyncedField
     extends SyncedFieldAdapter<ChatInputPreferencesState> {
@@ -34,19 +34,19 @@ class SaveCameraUploadsSyncedField
 
   @override
   ChatInputPreferencesState? readFromProto(pb.SyncedPreferences message) {
-    final List<Int64>? varints = message.unknownFields
-        .getField(kSaveCameraUploadsToDeviceFieldNumber)
-        ?.varints;
-    if (varints != null && varints.isNotEmpty) {
+    if (message.hasSaveCameraUploadsToDevice()) {
       return ChatInputPreferencesState(
-        saveCameraCapturesToDevice: varints.last != Int64.ZERO,
+        saveCameraCapturesToDevice: message.saveCameraUploadsToDevice,
       );
     }
-    if (message.hasChatInput() &&
-        message.chatInput.hasSaveCameraCapturesToDevice()) {
+    final List<Int64>? legacy = message.hasChatInput()
+        ? message.chatInput.unknownFields
+              .getField(kLegacyChatInputSaveCameraUploadsFieldNumber)
+              ?.varints
+        : null;
+    if (legacy != null && legacy.isNotEmpty) {
       return ChatInputPreferencesState(
-        saveCameraCapturesToDevice:
-            message.chatInput.saveCameraCapturesToDevice,
+        saveCameraCapturesToDevice: legacy.last != Int64.ZERO,
       );
     }
     return null;
@@ -54,11 +54,9 @@ class SaveCameraUploadsSyncedField
 
   @override
   $pb.GeneratedMessage toProtoMessage(ChatInputPreferencesState local) =>
-      pb.SyncedPreferences()
-        ..unknownFields.mergeVarintField(
-          kSaveCameraUploadsToDeviceFieldNumber,
-          local.saveCameraCapturesToDevice ? Int64.ONE : Int64.ZERO,
-        );
+      pb.SyncedPreferences(
+        saveCameraUploadsToDevice: local.saveCameraCapturesToDevice,
+      );
 
   @override
   Uint8List encodePushValueBytes(ChatInputPreferencesState local) =>

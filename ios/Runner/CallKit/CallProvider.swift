@@ -11,13 +11,27 @@ enum CallAudioSession {
     rtc.isAudioEnabled = true
   }
 
-  static func deactivate(_ audioSession: AVAudioSession) {
+  static func deactivate(_ audioSession: AVAudioSession, hasLiveCalls: Bool) {
     let rtc = RTCAudioSession.sharedInstance()
     rtc.audioSessionDidDeactivate(audioSession)
     rtc.isAudioEnabled = false
-    if CXCallObserver().calls.isEmpty {
+    if !hasLiveCalls {
       rtc.useManualAudio = false
     }
+  }
+
+  static func reset() {
+    let rtc = RTCAudioSession.sharedInstance()
+    rtc.isAudioEnabled = false
+    rtc.useManualAudio = false
+  }
+
+  static func prepareForOutgoing() {
+    let session = AVAudioSession.sharedInstance()
+    if session.category == .playAndRecord {
+      return
+    }
+    prepareForAnswer()
   }
 
   static func prepareForAnswer() {
@@ -63,12 +77,20 @@ final class CallProvider {
     provider.reportCall(with: uuid, updated: update)
   }
 
+  func reportOutgoingConnecting(uuid: UUID) {
+    provider.reportOutgoingCall(with: uuid, startedConnectingAt: Date())
+  }
+
+  func reportOutgoingConnected(uuid: UUID) {
+    provider.reportOutgoingCall(with: uuid, connectedAt: Date())
+  }
+
   static func update(name: String, handle: String) -> CXCallUpdate {
     let update = CXCallUpdate()
     update.localizedCallerName = name
     update.remoteHandle = CXHandle(type: .generic, value: handle)
     update.hasVideo = false
-    update.supportsHolding = false
+    update.supportsHolding = true
     update.supportsGrouping = false
     update.supportsUngrouping = false
     update.supportsDTMF = false

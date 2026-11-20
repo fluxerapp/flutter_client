@@ -21,8 +21,9 @@ class SocketConnection: NSObject {
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
     
-    private var networkQueue: DispatchQueue?
-    private var shouldKeepRunning = false
+    private var streamThread: Thread?
+    private var streamRunLoop: CFRunLoop?
+    @Atomic private var shouldKeepRunning = false
 
     init?(filePath path: String) {
         filePath = path
@@ -167,28 +168,41 @@ private extension SocketConnection {
   
     func scheduleStreams() {
         shouldKeepRunning = true
-        
-        networkQueue = DispatchQueue.global(qos: .userInitiated)
-        networkQueue?.async { [weak self] in
-            self?.inputStream?.schedule(in: .current, forMode: .common)
-            self?.outputStream?.schedule(in: .current, forMode: .common)
-            RunLoop.current.run()
-            
-            var isRunning = false
-                        
-            repeat {
-                isRunning = self?.shouldKeepRunning ?? false && RunLoop.current.run(mode: .default, before: .distantFuture)
-            } while (isRunning)
+
+        let scheduled = DispatchSemaphore(value: 0)
+        let thread = Thread { [weak self] in
+            let runLoop = RunLoop.current
+            self?.streamRunLoop = CFRunLoopGetCurrent()
+            self?.inputStream?.schedule(in: runLoop, forMode: .common)
+            self?.outputStream?.schedule(in: runLoop, forMode: .common)
+            scheduled.signal()
+
+            while self?.shouldKeepRunning == true && runLoop.run(mode: .default, before: .distantFuture) {}
         }
+        thread.name = "com.fluxer.broadcast.socket"
+        thread.qualityOfService = .userInitiated
+        streamThread = thread
+        thread.start()
+        scheduled.wait()
     }
     
     func unscheduleStreams() {
-        networkQueue?.sync { [weak self] in
-            self?.inputStream?.remove(from: .current, forMode: .common)
-            self?.outputStream?.remove(from: .current, forMode: .common)
-        }
-        
         shouldKeepRunning = false
+        streamThread = nil
+
+        guard let runLoop = streamRunLoop else {
+            return
+        }
+        streamRunLoop = nil
+
+        let input = inputStream
+        let output = outputStream
+        CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes.rawValue) {
+            input?.remove(from: .current, forMode: .common)
+            output?.remove(from: .current, forMode: .common)
+            CFRunLoopStop(runLoop)
+        }
+        CFRunLoopWakeUp(runLoop)
     }
     
     func notifyDidClose(error: Error?) {

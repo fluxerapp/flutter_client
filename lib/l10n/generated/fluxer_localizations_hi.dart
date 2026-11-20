@@ -850,9 +850,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपका खाता अभी तक क्लेम नहीं किया गया है। यूज़रनेम और पासवर्ड के बिना, आप अन्य डिवाइस से साइन इन नहीं कर पाएंगे और आप अपने खाते तक पहुंच खो सकते हैं। अपने खाते को सुरक्षित करने के लिए अभी क्लेम करें।';
 
   @override
-  String get addFriendUsernameOnlyHint => 'यूज़रनेम';
-
-  @override
   String get registerTitle => 'अकाउंट बनाएँ';
 
   @override
@@ -1155,9 +1152,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get embedGiftClaim => 'उपहार क्लेम करें';
 
   @override
-  String get embedGiftClaimed => 'उपहार क्लेम किया गया';
-
-  @override
   String get embedGiftClaimAccount => 'रिडीम करने के लिए अकाउंट क्लेम करें';
 
   @override
@@ -1166,9 +1160,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get embedGiftUnknownSubtitle =>
       'यह उपहार कोड अमान्य है या पहले ही क्लेम किया जा चुका है।';
-
-  @override
-  String get embedGiftUnavailable => 'उपहार उपलब्ध नहीं है';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
@@ -1385,6 +1376,12 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'इनकमिंग कॉल';
 
   @override
+  String get incomingVoiceCallNotificationChannel => 'Incoming calls';
+
+  @override
+  String get missedVoiceCallNotificationChannel => 'Missed calls';
+
+  @override
   String get incomingVoiceCallIgnore => 'अनदेखा करें';
 
   @override
@@ -1551,9 +1548,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get addFriendSheetTitle => 'दोस्त जोड़ें';
-
-  @override
-  String get addFriendUsernameHint => 'उपयोगकर्ता नाम#0000';
 
   @override
   String get addFriendUsernameLabel => 'दोस्त का यूज़रनेम';
@@ -4520,8 +4514,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'यह वयस्क कम्युनिटी आपके अकाउंट के लिए उपलब्ध नहीं है।';
 
   @override
-  String get matureContentIosWebOptInBody =>
-      'उम्र-प्रतिबंधित कम्युनिटी और चैनल अपने ब्राउज़र में fluxer.com पर या डेस्कटॉप ऐप में चालू करें। तब तक वे iOS ऐप में छिपे रहेंगे।';
+  String matureContentIosWebOptInInstanceBody(String webAddress) {
+    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+  }
 
   @override
   String get matureCategoryUnavailableBody =>
@@ -4842,6 +4837,33 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get connectionEnterDomain => 'एक डोमेन दर्ज करें।';
+
+  @override
+  String get connectionsEmptyDescriptionAccounts =>
+      'Link your accounts or verify domain ownership to display them on your profile.';
+
+  @override
+  String connectionsAddProviderAriaLabel(String providerName) {
+    return 'Add $providerName connection';
+  }
+
+  @override
+  String connectionConnectWithProvider(String providerName) {
+    return 'Connect with $providerName';
+  }
+
+  @override
+  String connectionProviderInstructions(String providerName) {
+    return '$providerName opens in your browser. Sign in there to connect your account.';
+  }
+
+  @override
+  String connectionProviderAuthorizeFailed(String providerName) {
+    return 'Couldn\'t start $providerName authorization.';
+  }
+
+  @override
+  String get connectionUnavailable => 'No longer available';
 
   @override
   String get lookAndFeelThemeSectionTitle => 'थीम';
@@ -6236,6 +6258,27 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'वीडियो';
+
+  @override
+  String get voiceControlMoreOptions => 'More options';
+
+  @override
+  String get voiceControlInputSettings => 'Input settings';
+
+  @override
+  String get voiceControlOutputSettings => 'Output settings';
+
+  @override
+  String get voiceControlCameraSettings => 'Camera settings';
+
+  @override
+  String get voiceControlScreenShareSettings => 'Screen share settings';
+
+  @override
+  String get voiceControlStartScreenShare => 'Share your screen';
+
+  @override
+  String get voiceControlStopScreenShare => 'Stop sharing';
 
   @override
   String get voiceControlFlipCamera => 'कैमरा पलटें';
@@ -12663,6 +12706,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इस कम्युनिटी में इनवाइट अभी रोके गए हैं';
 
   @override
+  String get guildNavbarInvitesPausedRaid =>
+      'संदिग्ध रेड के बाद इनवाइट रोक दिए गए हैं';
+
+  @override
   String get guildNavbarDurationNever => 'कभी नहीं';
 
   @override
@@ -17333,6 +17380,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get oxygenUpdating => 'Updating…';
 
   @override
+  String oxygenUpdatingProgress(int percent) {
+    return 'Updating… $percent%';
+  }
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -17340,6 +17392,15 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String desktopTrayHide(String productName) {
     return 'Hide $productName';
+  }
+
+  @override
+  String desktopBadgeUnreadMessages(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Unread messages: $countString';
   }
 
   @override
