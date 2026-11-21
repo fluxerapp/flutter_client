@@ -56,10 +56,6 @@
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
-    "welcomeBack": "다시 오신 것을 환영합니다",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "이메일",
     "@email": {
         "description": "Generic label for an email field."
@@ -5892,15 +5888,6 @@
     "personalNotesSubtitle": "생각과 미리 알림을 위한 나만의 공간",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
-    },
-    "channelWelcomeHeading": "{channelName}에 오신 것을 환영합니다",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "channelWelcomeDescription": "{channelName}의 시작입니다.",
     "@channelWelcomeDescription": {

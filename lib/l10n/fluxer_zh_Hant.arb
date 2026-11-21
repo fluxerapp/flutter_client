@@ -56,10 +56,6 @@
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
-    "welcomeBack": "歡迎回來",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "電子郵件",
     "@email": {
         "description": "Generic label for an email field."
@@ -5892,15 +5888,6 @@
     "personalNotesSubtitle": "專屬於您的私人空間，記錄想法與提醒",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
-    },
-    "channelWelcomeHeading": "歡迎來到 {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "channelWelcomeDescription": "這是 {channelName} 的開頭。",
     "@channelWelcomeDescription": {

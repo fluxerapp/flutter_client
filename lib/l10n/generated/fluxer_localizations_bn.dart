@@ -38,7 +38,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       unreadCount,
     );
 
-    return '$unreadCountString+ new messages since $compactTime';
+    return '$unreadCountString+টি নতুন মেসেজ $compactTime থেকে';
   }
 
   @override
@@ -66,7 +66,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       unreadCount,
     );
 
-    return '$unreadCountString+ new since $shortTime';
+    return 'আরো $unreadCountString+টি নতুন $shortTime থেকে';
   }
 
   @override
@@ -128,28 +128,28 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'আবার চেষ্টা করুন';
 
   @override
   String get splashConnectionLost => 'Connection lost';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'স্ট্যাটাস পেজে দেখুন';
 
   @override
   String get splashConnectionIssuesPrompt => 'Connection issues?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'স্ট্যাটাস পেজ';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'ঘটনাটি সম্পর্কে পড়ুন';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'ঘটনাটির ইতিহাস';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'আরো জানুন';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
