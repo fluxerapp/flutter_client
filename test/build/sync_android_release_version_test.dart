@@ -46,13 +46,7 @@ version: $pubspecVersion
       contains('version: $expectedPubspecVersion'),
     );
 
-    final File changelog = File(
-      '${temp.path}/fastlane/metadata/android/en-US/changelogs/$versionCode.txt',
-    );
-    expect(
-      changelog.readAsStringSync(),
-      contains('feedback.fluxer.com/changelog'),
-    );
+    expect(Directory('${temp.path}/fastlane').existsSync(), isFalse);
   }
 
   test('sync-android-release writes beta properties and pubspec build', () {
