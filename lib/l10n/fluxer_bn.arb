@@ -191,5 +191,55 @@
     "userSettingsNavLanguageAndTime": "ভাষা ও সময়",
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."
+    },
+    "splashViewOnStatusPage": "স্ট্যাটাস পেজে দেখুন",
+    "@splashViewOnStatusPage": {
+        "description": "Link under incident title on splash to open the status page."
+    },
+    "splashStatusPageLink": "স্ট্যাটাস পেজ",
+    "@splashStatusPageLink": {
+        "description": "Link label to the public service status site."
+    },
+    "splashReadIncident": "ঘটনাটি সম্পর্কে পড়ুন",
+    "@splashReadIncident": {
+        "description": "Link label when an active incident exists."
+    },
+    "splashIncidentHistory": "ঘটনাটির ইতিহাস",
+    "@splashIncidentHistory": {
+        "description": "Link label to incident history when no active incident."
+    },
+    "nagbarLearnMore": "আরো জানুন",
+    "@nagbarLearnMore": {
+        "description": "CTA on maintenance and other nagbars that open an external link."
+    },
+    "chatNewMessagesBarNewMessagesSinceEstimated": "{unreadCount}+টি নতুন মেসেজ {compactTime} থেকে",
+    "@chatNewMessagesBarNewMessagesSinceEstimated": {
+        "description": "Wide new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSinceEstimated": "আরো {unreadCount}+টি নতুন {shortTime} থেকে",
+    "@chatNewMessagesBarNewSinceEstimated": {
+        "description": "Compact new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "retry": "আবার চেষ্টা করুন",
+    "@retry": {
+        "description": "Generic label for retry actions (splash, errors, network, etc.)."
     }
 }

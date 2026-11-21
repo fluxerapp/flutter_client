@@ -9,23 +9,24 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   FluxerLocalizationsBe([String locale = 'be']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Ой, у нас збой!';
 
   @override
-  String get chatJumpToPresent => 'Jump to present';
+  String get chatJumpToPresent => 'Перайсці да апошніх паведамленняў';
 
   @override
-  String get chatViewingOlderMessages => 'You\'re viewing older messages';
+  String get chatViewingOlderMessages =>
+      'Вы праглядаеце старэйшыя паведамленні';
 
   @override
   String get chatNewMessagesBarJumpToFirstUnread =>
-      'Jump to first unread message';
+      'Перайсці да першага непрачытанага паведамлення';
 
   @override
-  String get chatNewMessagesBarMarkAsRead => 'Mark as read';
+  String get chatNewMessagesBarMarkAsRead => 'Пазначыць як прачытанае';
 
   @override
-  String get chatNewMessagesBarMarkRead => 'Mark read';
+  String get chatNewMessagesBarMarkRead => 'Пазначыць прачытаным';
 
   @override
   String chatNewMessagesBarNewMessagesSinceEstimated(
@@ -38,7 +39,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       unreadCount,
     );
 
-    return '$unreadCountString+ new messages since $compactTime';
+    return '$unreadCountString+ новых паведамленняў з $compactTime';
   }
 
   @override
@@ -49,10 +50,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '$unreadCount new messages',
-      one: '$unreadCount new message',
+      other: '$unreadCount новага паведамлення',
+      many: '$unreadCount новых паведамленняў',
+      few: '$unreadCount новыя паведамленні',
+      one: '$unreadCount новае паведамленне',
     );
-    return '$_temp0 since $compactTime';
+    return '$_temp0 з $compactTime';
   }
 
   @override
@@ -66,7 +69,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       unreadCount,
     );
 
-    return '$unreadCountString+ new since $shortTime';
+    return '$unreadCountString+ новых з $shortTime';
   }
 
   @override
@@ -74,149 +77,151 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '$unreadCount new',
-      one: '$unreadCount new',
+      other: '$unreadCount новага',
+      many: '$unreadCount новых',
+      few: '$unreadCount новыя',
+      one: '$unreadCount новае',
     );
-    return '$_temp0 since $shortTime';
+    return '$_temp0 з $shortTime';
   }
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the instance.\nShould be fixed in a second!';
+      'З экзэмплярам штосьці не так.\nХутка ўсё выправіцца!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Паўторнае падключэнне…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => 'Паспрабаваць яшчэ раз';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Падключана';
 
   @override
   String get gatewayOfflineToast =>
-      'You\'re offline. Fluxer reconnects when you\'re back online.';
+      'Вы не ў сетцы. Fluxer падключыцца зноў, калі з’явіцца сетка.';
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Тэрмін дзеяння вашага сеанса скончыўся. Увайдзіце зноў.';
 
   @override
   String accountDeletionScheduledNotice(String date) {
-    return 'Your account will be deleted on $date. Signing in before then cancels the deletion.';
+    return 'Ваш уліковы запіс будзе выдалены $date. Калі ўвайсці да гэтай даты, выдаленне будзе скасавана.';
   }
 
   @override
   String get accountDeletionScheduledNoticeNoDate =>
-      'Your account is scheduled for deletion. Signing in before the deletion date cancels it.';
+      'Ваш уліковы запіс запланаваны на выдаленне. Калі ўвайсці да даты выдалення, яно будзе скасавана.';
 
   @override
   String get accountDeletionImmediateNotice =>
-      'We\'re deleting your account now. If your account has an email address, we\'ll email you when it\'s done.';
+      'Мы выдаляем ваш уліковы запіс прама зараз. Калі ў вашага ўліковага запісу ёсць адрас электроннай пошты, мы напішам вам, калі ўсё будзе завершана.';
 
   @override
   String get accountDeletionImmediateNoticeNoEmail =>
-      'We\'re deleting your account now.';
+      'Мы выдаляем ваш уліковы запіс прама зараз.';
 
   @override
   String get accountDisabledNotice =>
-      'Your account is disabled. Sign in again whenever you want to use it.';
+      'Ваш уліковы запіс адключаны. Увайдзіце зноў, калі захочаце ім карыстацца.';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Не ўдалося запусціць: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Паўтарыць';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Злучэнне страчана';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Паглядзець на старонцы стану';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Праблемы са злучэннем?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Старонка стану';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Прачытаць пра інцыдэнт';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Гісторыя інцыдэнтаў';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Даведацца больш';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
-    return 'Maintenance is scheduled for $localizedTime. Expected duration: $duration.';
+    return 'Тэхнічнае абслугоўванне запланавана на $localizedTime. Чаканая працягласць: $duration.';
   }
 
   @override
   String nagbarMaintenanceInProgress(String duration) {
-    return 'Maintenance is in progress. Expected duration: $duration.';
+    return 'Ідзе тэхнічнае абслугоўванне. Чаканая працягласць: $duration.';
   }
 
   @override
-  String get nagbarMaintenanceComplete => 'Maintenance is complete.';
+  String get nagbarMaintenanceComplete => 'Тэхнічнае абслугоўванне завершана.';
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Hey $displayName, claim your account to prevent losing access.';
+    return 'Прывітанне, $displayName! Замацуйце за сабой уліковы запіс, каб не страціць доступ.';
   }
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Hey $displayName, please verify your email address.';
+    return 'Прывітанне, $displayName! Пацвердзіце, калі ласка, свой адрас электроннай пошты.';
   }
 
   @override
-  String get verificationResendEmail => 'Resend email';
+  String get verificationResendEmail => 'Адправіць ліст паўторна';
 
   @override
   String get verificationEmailSent =>
-      'Verification email sent. Check your inbox.';
+      'Ліст для пацвярджэння адпраўлены. Праверце паштовую скрыню.';
 
   @override
   String get verificationEmailRateLimited =>
-      'You\'ve requested too many verification emails. Please wait a moment and try again.';
+      'Вы запыталі занадта шмат лістоў для пацвярджэння. Пачакайце крыху і паспрабуйце яшчэ раз.';
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Адкрыць налады';
 
   @override
-  String get systemPermissionSettingsTitle => 'Enable permission';
+  String get systemPermissionSettingsTitle => 'Уключыце дазвол';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'Адкрыць налады';
 
   @override
   String systemPermissionMicrophoneMessage(String productName) {
-    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+    return 'У $productName няма доступу да вашага мікрафона. Яго можна ўключыць у наладах прыватнасці прылады.';
   }
 
   @override
   String systemPermissionCameraMessage(String productName) {
-    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+    return 'У $productName няма доступу да вашай камеры. Яго можна ўключыць у наладах прыватнасці прылады.';
   }
 
   @override
   String systemPermissionPhotosMessage(String productName) {
-    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+    return 'У $productName няма доступу да вашай фотатэкі. Яго можна ўключыць у наладах прыватнасці прылады.';
   }
 
   @override
   String systemPermissionNotificationsMessage(String productName) {
-    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+    return 'У $productName няма дазволу адпраўляць апавяшчэнні. Яго можна ўключыць у наладах прылады.';
   }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
-    return 'Your subscription failed to renew, but you still have access to $productName perks until $graceDate. Take action now or you\'ll lose all perks.';
+    return 'Не ўдалося працягнуць вашу падпіску, але доступ да пераваг $productName у вас застаецца да $graceDate. Дзейнічайце зараз, інакш вы страціце ўсе перавагі.';
   }
 
   @override
@@ -224,762 +229,769 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String productName,
     String graceDate,
   ) {
-    return 'Your $productName subscription failed to renew. You keep your $productName perks until $graceDate.';
+    return 'Не ўдалося працягнуць вашу падпіску $productName. Перавагі $productName застаюцца ў вас да $graceDate.';
   }
 
   @override
   String nagbarPremiumExpired(String productName) {
-    return 'Your $productName subscription has expired. Renew now to keep your perks.';
+    return 'Тэрмін вашай падпіскі $productName скончыўся. Аднавіце яе зараз, каб захаваць перавагі.';
   }
 
   @override
   String nagbarPremiumExpiredNoAction(String productName) {
-    return 'Your $productName subscription has expired.';
+    return 'Тэрмін вашай падпіскі $productName скончыўся.';
   }
 
   @override
-  String get nagbarManageSubscription => 'Manage subscription';
+  String get nagbarManageSubscription => 'Кіраваць падпіскай';
 
   @override
   String nagbarPremiumOnboardingDefault(
     String productFullName,
     String productName,
   ) {
-    return 'Welcome to $productFullName. Explore your $productName perks and manage your subscription.';
+    return 'Сардэчна запрашаем у $productFullName. Азнаёмцеся з перавагамі $productName і кіруйце падпіскай.';
   }
 
   @override
   String nagbarViewPremiumFeatures(String productName) {
-    return 'View $productName features';
+    return 'Паглядзець функцыі $productName';
   }
 
   @override
   String get nagbarGiftInventoryOne =>
-      'You have a new gift code waiting in your gift inventory.';
+      'У вашым інвентары падарункаў чакае новы падарункавы код.';
 
   @override
   String nagbarGiftInventoryMany(int count) {
-    return 'You have $count new gift codes waiting in your gift inventory.';
+    return 'Новыя падарункавыя коды ў вашым інвентары падарункаў: $count.';
   }
 
   @override
-  String get nagbarViewGiftInventory => 'View gift inventory';
+  String get nagbarViewGiftInventory => 'Паглядзець інвентар падарункаў';
 
   @override
   String get nagbarVisionaryMfa =>
-      'Enable two-factor authentication to protect your Visionary account.';
+      'Уключыце двухфактарную аўтэнтыфікацыю, каб абараніць свой уліковы запіс Visionary.';
 
   @override
-  String get nagbarEnableMfa => 'Enable 2FA';
+  String get nagbarEnableMfa => 'Уключыць 2FA';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
-    return 'Join $communityName to chat with the team and stay up to date.';
+    return 'Далучайцеся да $communityName, каб размаўляць з камандай і сачыць за навінамі.';
   }
 
   @override
   String nagbarGuildMfaRequirement(String communityName) {
-    return 'Moderation actions in $communityName require two-factor authentication. Enable 2FA to kick, ban, time out, or delete messages here.';
+    return 'Мадэрацыя ў $communityName патрабуе двухфактарнай аўтэнтыфікацыі. Уключыце 2FA, каб выганяць, баніць, даваць тайм-аўт або выдаляць паведамленні тут.';
   }
 
   @override
   String nagbarJoinCommunity(String communityName) {
-    return 'Join $communityName';
+    return 'Далучыцца да $communityName';
   }
 
   @override
   String get nagbarPushNotification =>
-      'Enable notifications so you don\'t miss messages and mentions.';
+      'Уключыце апавяшчэнні, каб не прапускаць паведамленні і згадванні.';
 
   @override
-  String get nagbarEnableNotifications => 'Enable notifications';
+  String get nagbarEnableNotifications => 'Уключыць апавяшчэнні';
 
   @override
-  String get email => 'Email';
+  String get email => 'Электронная пошта';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Увядзіце правільны адрас электроннай пошты.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Пароль';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Забылі пароль?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Увайсці';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Увайсці з ключом доступу';
 
   @override
-  String get signInWithBrowser => 'Sign in with your browser';
+  String get signInWithBrowser => 'Увайсці праз браўзер';
 
   @override
   String get signInWithBrowserPasskeyHint =>
-      'To use a passkey on this instance, sign in with your browser.';
+      'Каб выкарыстоўваць ключ доступу на гэтым экзэмпляры, увайдзіце праз браўзер.';
 
   @override
   String get browserSignInFailed =>
-      'Couldn\'t sign in with your browser. Try again.';
+      'Не ўдалося ўвайсці праз браўзер. Паспрабуйце яшчэ раз.';
 
   @override
   String loginLegalAgreement(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
-          'By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+          'Уваходзячы, вы згаджаецеся з <terms>Умовамі выкарыстання</terms> і <privacy>Палітыкай прыватнасці</privacy>.',
       'terms':
-          'By signing in, you agree to the <terms>Terms of service</terms>.',
+          'Уваходзячы, вы згаджаецеся з <terms>Умовамі выкарыстання</terms>.',
       'other':
-          'By signing in, you agree to the <privacy>Privacy policy</privacy>.',
+          'Уваходзячы, вы згаджаецеся з <privacy>Палітыкай прыватнасці</privacy>.',
     });
     return '$_temp0';
   }
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Працягнуць праз $provider';
   }
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Увайдзіце праз сістэму адзінага ўваходу вашай арганізацыі.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'Не ўдалося запусціць SSO';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'Уваход праз SSO скасаваны';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Хочаце ўвайсці праз SSO? Працягніце праз $provider.';
   }
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Няма ўліковага запісу? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Зарэгістравацца';
 
   @override
   String loginHeading(String productName) {
-    return 'Sign in to $productName';
+    return 'Увайсці ў $productName';
   }
 
   @override
   String loginNewAccountPrompt(String productName) {
-    return 'New to $productName? ';
+    return 'Упершыню ў $productName? ';
   }
 
   @override
-  String get loginCreateAccountLink => 'Create an account';
+  String get loginCreateAccountLink => 'Стварыць уліковы запіс';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'АБО';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Скасаваць';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Праверце электронную пошту';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Мы адправілі на электронную пошту спасылку для аўтарызацыі гэтага ўваходу. Адкрыйце паштовую скрыню $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Злучэнне страчана';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Падчас чакання аўтарызацыі злучэнне страцілася. Паспрабуйце яшчэ раз.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired =>
+      'Тэрмін дзеяння спасылкі для ўваходу скончыўся';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Тэрмін дзеяння гэтай спасылкі для аўтарызацыі скончыўся. Увайдзіце зноў.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'Адправіць ліст паўторна';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Адпраўлена паўторна';
 
   @override
   String ipAuthResendCountdown(int seconds) {
-    return '${seconds}s';
+    return '$seconds с';
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Назад';
 
   @override
-  String get next => 'Next';
+  String get next => 'Далей';
 
   @override
-  String get create => 'Create';
+  String get create => 'Стварыць';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Двухфактарная аўтэнтыфікацыя';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Выберыце спосаб праверкі';
 
   @override
-  String get mfaMethodTotp => 'Authenticator app';
+  String get mfaMethodTotp => 'Праграма-аўтэнтыфікатар';
 
   @override
-  String get mfaMethodWebauthn => 'Security key / passkey';
+  String get mfaMethodWebauthn => 'Ключ бяспекі / ключ доступу';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Увядзіце 6-значны код з праграмы-аўтэнтыфікатара або адзін з рэзервовых кодаў.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'Код';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Выкарыстаць іншы спосаб';
 
   @override
   String get mfaPasskeyUnavailable =>
-      'Passkeys from this instance don\'t work in this app, and your account has no other verification method. Sign in with your browser instead.';
+      'Ключы доступу з гэтага экзэмпляра не працуюць у гэтай праграме, а іншых спосабаў праверкі ў вашым уліковым запісе няма. Увайдзіце праз браўзер.';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey => 'Выкарыстаць ключ бяспекі / ключ доступу';
 
   @override
-  String get mfaUseBackupCode => 'Use a backup code';
+  String get mfaUseBackupCode => 'Выкарыстаць рэзервовы код';
 
   @override
   String get mfaUseAuthenticatorCode =>
-      'Use a code from your authenticator app';
+      'Выкарыстаць код з праграмы-аўтэнтыфікатара';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Выберыце ўліковы запіс';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Выберыце ўліковы запіс, каб працягнуць, або дадайце іншы.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Дадаць уліковы запіс';
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Захаваны сеанс гэтага ўліковага запісу будзе выдалены.';
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'Выйсці з уліковага запісу $identifier?';
   }
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Тэрмін дзеяння скончыўся';
 
   @override
   String accountSessionExpiredNotice(String name) {
-    return 'Your session for $name expired. Log in again.';
+    return 'Тэрмін дзеяння сеанса $name скончыўся. Увайдзіце зноў.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Кіраваць уліковымі запісамі';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Не ўдалося пераключыць уліковы запіс. Паспрабуйце яшчэ раз.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Пераключыць уліковы запіс';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Задаць статус';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Сеткавы статус';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => 'У сетцы';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Неактыўны';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Не турбаваць';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Нябачны';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => 'Не ў сетцы';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Пакуль я не змяню';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Не ачышчаць';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'На 10 секунд';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 секунд';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 хвілін';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 хвілін';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 гадзіна';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 гадзіны';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 гадзіны';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 гадзін';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 гадзіны';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 дні';
 
   @override
   String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+      'Вы не будзеце атрымліваць апавяшчэнні на камп’ютары';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Для іншых вы будзеце не ў сетцы';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Задаць уласны статус';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Уласны статус';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Ачысціць уласны статус';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Што адбываецца?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Выберыце эмоджы';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Ачысціць праз';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Захаваць';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Актыўны ўліковы запіс';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Выйсці';
 
   @override
-  String get suspendedTemporaryTitle => 'Account suspended';
+  String get suspendedTemporaryTitle => 'Дзеянне ўліковага запісу прыпынена';
 
   @override
-  String get suspendedBannedTitle => 'Account banned';
+  String get suspendedBannedTitle => 'Уліковы запіс забанены';
 
   @override
-  String get suspendedClosedTitle => 'Account closed';
+  String get suspendedClosedTitle => 'Уліковы запіс закрыты';
 
   @override
-  String get suspendedWhatHappened => 'What happened';
+  String get suspendedWhatHappened => 'Што адбылося';
 
   @override
-  String get suspendedWhy => 'Why';
+  String get suspendedWhy => 'Чаму';
 
   @override
-  String get suspendedHowWeDecided => 'How we decided';
+  String get suspendedHowWeDecided => 'Як мы прымалі рашэнне';
 
   @override
-  String get suspendedHowToAppeal => 'How to appeal';
+  String get suspendedHowToAppeal => 'Як абскардзіць';
 
   @override
   String suspendedNoteFromTeam(String statement) {
-    return 'Note from our team: $statement';
+    return 'Заўвага нашай каманды: $statement';
   }
 
   @override
   String suspendedDecisionId(String decisionId) {
-    return 'Decision ID: $decisionId';
+    return 'ID рашэння: $decisionId';
   }
 
   @override
   String suspendedRule(String title) {
-    return 'Rule: $title';
+    return 'Правіла: $title';
   }
 
   @override
   String suspendedAppealNoDeadline(String email) {
-    return 'If you think we got this wrong, email $email and include your username.';
+    return 'Калі вы лічыце, што мы памыліліся, напішыце на $email і ўкажыце сваё імя карыстальніка.';
   }
 
   @override
   String suspendedAppealNoEmail(String email, String deadline) {
-    return 'If you think we got this wrong, email $email by $deadline. Include the decision ID and your username. Appeals are free, and a person reviews each one.';
+    return 'Калі вы лічыце, што мы памыліліся, напішыце на $email да $deadline. Укажыце ID рашэння і сваё імя карыстальніка. Апеляцыі бясплатныя, і кожную з іх разглядае чалавек.';
   }
 
   @override
   String suspendedAppealWithEmail(String email, String deadline) {
-    return 'If you think we got this wrong, email $email by $deadline. Write from the email address on your account if you can, and include the decision ID. Appeals are free, and a person reviews each one.';
+    return 'Калі вы лічыце, што мы памыліліся, напішыце на $email да $deadline. Па магчымасці пішыце з адраса электроннай пошты вашага ўліковага запісу і ўкажыце ID рашэння. Апеляцыі бясплатныя, і кожную з іх разглядае чалавек.';
   }
 
   @override
   String suspendedDeletionRequest(String email) {
-    return 'To ask us to delete your account and data, email $email from the address on your account.';
+    return 'Каб папрасіць нас выдаліць ваш уліковы запіс і даныя, напішыце на $email з адраса вашага ўліковага запісу.';
   }
 
   @override
   String suspendedDeletionRequestNoEmail(String email) {
-    return 'To ask us to delete your account and data, email $email and include your username.';
+    return 'Каб папрасіць нас выдаліць ваш уліковы запіс і даныя, напішыце на $email і ўкажыце сваё імя карыстальніка.';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to login';
+  String get suspendedBackToLogin => 'Назад да ўваходу';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Забылі пароль?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Увядзіце свой адрас электроннай пошты, і мы адправім вам спасылку для скіду пароля.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Адправіць спасылку для скіду';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Праверце электронную пошту';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Мы адправілі інструкцыі па скідзе пароля на ваш адрас электроннай пошты. Праверце паштовую скрыню і перайдзіце па спасылцы, каб скінуць пароль.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Вярнуцца да ўваходу';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Задаць новы пароль';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Увядзіце новы пароль ніжэй, каб завяршыць скід.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Новы пароль';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Пацвердзіце новы пароль';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Скінуць пароль';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Паролі не супадаюць.';
 
   @override
-  String get recoverAccountTitle => 'Recover your account';
+  String get recoverAccountTitle => 'Аднавіце ўліковы запіс';
 
   @override
   String get recoverAccountDescription =>
-      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+      'Увядзіце імя карыстальніка і ключ аднаўлення з набору для аднаўлення, а потым задайце новы пароль.';
 
   @override
   String get recoverAccountNoKit =>
-      'No recovery kit? Ask an admin of this instance for a password reset link.';
+      'Няма набору для аднаўлення? Папрасіце адміністратара гэтага экзэмпляра даслаць спасылку для скіду пароля.';
 
   @override
-  String get recoveryKitTitle => 'Your recovery kit';
+  String get recoveryKitTitle => 'Ваш набор для аднаўлення';
 
   @override
   String get recoveryKitCreatedDescription =>
-      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+      'Калі вы забудзеце пароль, гэты набор будзе адзіным спосабам вярнуць доступ да ўліковага запісу. Захоўвайце яго ў надзейным месцы, напрыклад у менеджары пароляў або ў надрукаваным выглядзе.';
 
   @override
   String get recoveryKitReplacedDescription =>
-      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+      'Ваш стары набор для аднаўлення больш не дзейнічае. Захоўвайце гэты новы ў надзейным месцы.';
 
   @override
   String get recoveryKitRecoveredDescription =>
-      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+      'Ваш пароль скінуты. Ваш стары набор для аднаўлення больш не дзейнічае. Захоўвайце гэты новы ў надзейным месцы.';
 
   @override
   String get recoveryKitWarning =>
-      'Anyone with this key can reset your password. Never share it.';
+      'Кожны, хто мае гэты ключ, можа скінуць ваш пароль. Ніколі нікому яго не перадавайце.';
 
   @override
-  String get recoveryKitKeyLabel => 'Recovery key';
+  String get recoveryKitKeyLabel => 'Ключ аднаўлення';
 
   @override
   String recoveryKitDocumentTitle(String productName) {
-    return '$productName recovery kit';
+    return 'Набор для аднаўлення $productName';
   }
 
   @override
   String get recoveryKitDocumentIntro =>
-      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+      'Захоўвайце гэту старонку ў надзейным месцы. Калі вы забудзеце пароль, з яе дапамогай можна будзе вярнуць доступ да ўліковага запісу. Любы, у каго ёсць гэты ключ аднаўлення, можа скінуць ваш пароль, таму нікому яго не паказвайце.';
 
   @override
-  String get recoveryKitInstanceLabel => 'Instance';
+  String get recoveryKitInstanceLabel => 'Экзэмпляр';
 
   @override
-  String get recoveryKitCreatedAtLabel => 'Created';
+  String get recoveryKitCreatedAtLabel => 'Створана';
 
   @override
   String get recoveryKitQrCaption =>
-      'Scan to open the recovery page with your details filled in.';
+      'Адсканіруйце, каб адкрыць старонку аднаўлення з ужо запоўненымі звесткамі.';
 
   @override
-  String get recoveryKitStepsTitle => 'How to recover your account';
+  String get recoveryKitStepsTitle => 'Як аднавіць уліковы запіс';
 
   @override
   String recoveryKitStepOpen(String recoverUrl) {
-    return 'Go to $recoverUrl or scan the QR code.';
+    return 'Перайдзіце па адрасе $recoverUrl або адсканіруйце QR-код.';
   }
 
   @override
   String get recoveryKitStepEnter =>
-      'Enter your username and this recovery key.';
+      'Увядзіце сваё імя карыстальніка і гэты ключ аднаўлення.';
 
   @override
   String get recoveryKitStepPassword =>
-      'Choose a new password. You get a new recovery kit and this one stops working.';
+      'Прыдумайце новы пароль. Вы атрымаеце новы набор для аднаўлення, а гэты перастане працаваць.';
 
   @override
-  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+  String get recoveryKitBackupCodesTitle =>
+      'Рэзервовыя коды двухфактарнай аўтэнтыфікацыі';
 
   @override
   String get recoveryKitBackupCodesNote =>
-      'Each code works once in place of your authenticator app.';
+      'Кожны код можна выкарыстаць адзін раз замест праграмы-аўтэнтыфікатара.';
 
   @override
   String get recoveryKitBackupCodesFailed =>
-      'Couldn\'t load your backup codes.';
+      'Не ўдалося загрузіць рэзервовыя коды.';
 
   @override
   String get recoveryKitIncludeBackupCodes =>
-      'Include my two-factor backup codes in the saved image';
+      'Дадаць мае рэзервовыя коды двухфактарнай аўтэнтыфікацыі ў захаваную выяву';
 
   @override
-  String get recoveryKitCopy => 'Copy';
+  String get recoveryKitCopy => 'Скапіраваць';
 
   @override
-  String get recoveryKitCopied => 'Recovery key copied';
+  String get recoveryKitCopied => 'Ключ аднаўлення скапіраваны';
 
   @override
-  String get recoveryKitSaveImage => 'Save image';
+  String get recoveryKitSaveImage => 'Захаваць выяву';
 
   @override
-  String get recoveryKitSaved => 'Recovery kit saved';
+  String get recoveryKitSaved => 'Набор для аднаўлення захаваны';
 
   @override
-  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+  String get recoveryKitSavedToPhotos =>
+      'Набор для аднаўлення захаваны ў «Фота»';
 
   @override
   String get recoveryKitSaveFailed =>
-      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+      'Не ўдалося захаваць набор для аднаўлення. Паспрабуйце яшчэ раз або скапіруйце ключ.';
 
   @override
   String get recoveryKitAcknowledge =>
-      'I\'ve stored my recovery kit somewhere safe';
+      'Мой набор для аднаўлення захаваны ў надзейным месцы';
 
   @override
   String get recoveryKitCreateFailed =>
-      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+      'Не ўдалося стварыць ваш набор для аднаўлення. Яго можна стварыць пазней у наладах уліковага запісу.';
 
   @override
-  String get recoveryKitSectionTitle => 'Recovery kit';
+  String get recoveryKitSectionTitle => 'Набор для аднаўлення';
 
   @override
   String get recoveryKitSectionDescription =>
-      'Lets you reset your password if you forget it.';
+      'Дазваляе скінуць пароль, калі вы яго забудзеце.';
 
   @override
-  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+  String get recoveryKitNone => 'У вас пакуль няма набору для аднаўлення';
 
   @override
   String recoveryKitCreatedRelative(String time) {
-    return 'Created $time';
+    return 'Створаны $time';
   }
 
   @override
-  String get recoveryKitCreate => 'Create recovery kit';
+  String get recoveryKitCreate => 'Стварыць набор для аднаўлення';
 
   @override
-  String get recoveryKitCreateNew => 'Create a new kit';
+  String get recoveryKitCreateNew => 'Стварыць новы набор';
 
   @override
-  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+  String get recoveryKitReplaceTitle => 'Стварыць новы набор для аднаўлення?';
 
   @override
   String get recoveryKitReplaceDescription =>
-      'Your current kit stops working as soon as the new one is created.';
+      'Ваш цяперашні набор перастане дзейнічаць, як толькі будзе створаны новы.';
 
   @override
-  String get recoveryKitReminderTitle => 'Save a recovery kit';
+  String get recoveryKitReminderTitle => 'Захавайце набор для аднаўлення';
 
   @override
   String get recoveryKitReminderBody =>
-      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+      'У вашага ўліковага запісу няма адраса электроннай пошты. Калі вы забудзеце пароль, вярнуць доступ можна будзе толькі з набору для аднаўлення. Гэта зойме ўсяго хвіліну.';
 
   @override
   String get registerUsernameSignInHint =>
-      'You sign in with this username. Pick one you will remember.';
+      'Вы ўваходзіце з гэтым імем карыстальніка. Выберыце такое, якое запомніце.';
 
   @override
-  String get registerUsernameTaken => 'This username is already taken';
+  String get registerUsernameTaken => 'Гэта імя карыстальніка ўжо занятае';
 
   @override
-  String get registerUsernameAvailable => 'This username is available';
+  String get registerUsernameAvailable => 'Гэта імя карыстальніка вольнае';
 
   @override
   String get claimAccountUsernameDescription =>
-      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+      'Замацуйце за сабой уліковы запіс, выбраўшы імя карыстальніка і пароль. З імі вы будзеце ўваходзіць, таму выберыце такія, якія запомніце.';
 
   @override
   String get unclaimedAccountDescriptionUsername =>
-      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+      'Ваш уліковы запіс яшчэ не замацаваны. Без імені карыстальніка і пароля вы не зможаце ўваходзіць з іншых прылад і можаце страціць доступ да ўліковага запісу. Замацуйце яго за сабой зараз, каб абараніць.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Стварыць уліковы запіс';
 
   @override
-  String get registerDisplayName => 'Display name (optional)';
+  String get registerDisplayName => 'Бачнае імя (неабавязкова)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Як вас называць?';
 
   @override
-  String get registerUsername => 'Username (optional)';
+  String get registerUsername => 'Імя карыстальніка (неабавязкова)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Пакіньце пустым, каб атрымаць выпадковае імя карыстальніка';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Для ўнікальнасці аўтаматычна дададзецца 4-значны тэг';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Дата нараджэння';
 
   @override
-  String get registerDateOfBirthDone => 'Done';
+  String get registerDateOfBirthDone => 'Гатова';
 
   @override
-  String get registerDateOfBirthNotSet => 'Not set';
+  String get registerDateOfBirthNotSet => 'Не зададзены';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Месяц';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Дзень';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Год';
 
   @override
   String registerConsentLinks(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
-          'I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
-      'terms': 'I agree to the <terms>Terms of service</terms>',
-      'other': 'I agree to the <privacy>Privacy policy</privacy>',
+          'Я згаджаюся з <terms>Умовамі выкарыстання</terms> і <privacy>Палітыкай прыватнасці</privacy>',
+      'terms': 'Я згаджаюся з <terms>Умовамі выкарыстання</terms>',
+      'other': 'Я згаджаюся з <privacy>Палітыкай прыватнасці</privacy>',
     });
     return '$_temp0';
   }
 
   @override
   String get registerConsentBuiltInRules =>
-      'I agree that this instance has no tolerance for objectionable content or abusive users, and that its administrators can remove content and accounts that break these rules.';
+      'Я згаджаюся, што на гэтым экзэмпляры не цярпяць непрымальнага змесціва і карыстальнікаў, якія абражаюць іншых, і што яго адміністратары могуць выдаляць змесціва і ўліковыя запісы, якія парушаюць гэтыя правілы.';
 
   @override
-  String get registerConfirmPassword => 'Confirm password';
+  String get registerConfirmPassword => 'Пацвердзіце пароль';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Стварыць уліковы запіс';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Ужо ёсць уліковы запіс? ';
 
   @override
   String get registerPendingApproval =>
-      'Your account request is pending approval. You can sign in after an admin approves it.';
+      'Ваш запыт на ўліковы запіс чакае ўхвалення. Увайсці можна будзе пасля таго, як адміністратар яго ўхваліць.';
 
   @override
   String get registerClosed =>
-      'Registration is currently closed. Use a registration link from an admin to create an account.';
+      'Рэгістрацыя зараз закрыта. Каб стварыць уліковы запіс, выкарыстайце спасылку для рэгістрацыі ад адміністратара.';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Ключы доступу для гэтай праграмы не знойдзены. Увайдзіце з электроннай поштай і паролем.';
 
   @override
   String get passkeyNoCredentialsForAccount =>
-      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+      'На гэтай прыладзе няма ключа доступу для гэтага ўліковага запісу. Выкарыстайце прыладу або менеджар пароляў, дзе вы яго захавалі.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Ключы доступу не падтрымліваюцца на гэтай прыладзе.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Ключы доступу не наладжаны для гэтай праграмы. Увайдзіце з электроннай поштай і паролем.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Час чакання аўтэнтыфікацыі праз ключ доступу скончыўся. Паспрабуйце яшчэ раз.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Не ўдалося прайсці аўтэнтыфікацыю праз ключ доступу. Паспрабуйце яшчэ раз.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Не ўдалося стварыць уліковы запіс. Паспрабуйце яшчэ раз.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Зараз не ўдаецца ўвайсці. Паспрабуйце яшчэ раз.';
 
   @override
   String get errorServiceUnavailable =>
-      'This instance is temporarily unavailable. Try again in a moment.';
+      'Гэты экзэмпляр часова недаступны. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword =>
+      'Няправільная электронная пошта або пароль.';
 
   @override
-  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
+  String get errorInvalidUsernameOrPassword =>
+      'Няправільнае імя карыстальніка або пароль.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Не ўдалося адправіць спасылку для скіду. Паспрабуйце яшчэ раз.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Не ўдалося скінуць пароль. Паспрабуйце яшчэ раз.';
 
   @override
-  String get embedInviteJoin => 'Join community';
+  String get embedInviteJoin => 'Далучыцца да суполкі';
 
   @override
-  String get embedInviteGoTo => 'Go to community';
+  String get embedInviteGoTo => 'Перайсці ў суполку';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count у сетцы';
   }
 
   @override
@@ -987,113 +999,116 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$formattedCount Members',
-      one: '$formattedCount Member',
+      other: '$formattedCount удзельніка',
+      many: '$formattedCount удзельнікаў',
+      few: '$formattedCount удзельнікі',
+      one: '$formattedCount удзельнік',
     );
     return '$_temp0';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown invite';
+  String get embedInviteUnknownTitle => 'Невядомае запрашэнне';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle =>
+      'Паспрабуйце папрасіць новае запрашэнне.';
 
   @override
-  String get embedInviteUnavailable => 'Invite unavailable';
+  String get embedInviteUnavailable => 'Запрашэнне недаступнае';
 
   @override
-  String get embedInviteJoinGroup => 'Join group';
+  String get embedInviteJoinGroup => 'Далучыцца да групы';
 
   @override
-  String get embedInviteAlreadyJoined => 'Already joined';
+  String get embedInviteAlreadyJoined => 'Вы ўжо далучыліся';
 
   @override
-  String get embedInviteDisabled => 'Invites disabled';
+  String get embedInviteDisabled => 'Запрашэнні адключаны';
 
   @override
-  String get embedInvitePaused => 'Invites are paused for this community.';
+  String get embedInvitePaused => 'Запрашэнні ў гэту суполку прыпынены.';
 
   @override
   String embedInvitePausedRaid(String productName) {
-    return '$productName detected a potential raid, so new users can\'t join right now.';
+    return '$productName выявіў магчымы рэйд, таму новыя карыстальнікі зараз не могуць далучыцца.';
   }
 
   @override
   String get inviteAcceptInvitesPausedTryAgain =>
-      'This community has paused invites. You can try again later.';
+      'Гэта суполка прыпыніла запрашэнні. Можна паспрабаваць пазней.';
 
   @override
   String inviteAcceptRaidInvitesPaused(String productName) {
-    return '$productName detected a potential raid in this community. Invites are paused, so new users cannot join right now.';
+    return '$productName выявіў магчымы рэйд у гэтай суполцы. Запрашэнні прыпынены, таму новыя карыстальнікі зараз не могуць далучыцца.';
   }
 
   @override
-  String get inviteAcceptTitle => 'You\'ve been invited to join';
+  String get inviteAcceptTitle => 'Вас запрасілі далучыцца да';
 
   @override
-  String get inviteAcceptJoinButton => 'Join community';
+  String get inviteAcceptJoinButton => 'Далучыцца да суполкі';
 
   @override
-  String get inviteAcceptGoToButton => 'Go to community';
+  String get inviteAcceptGoToButton => 'Перайсці ў суполку';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Invites paused';
+  String get inviteAcceptInvitesPaused => 'Запрашэнні прыпынены';
 
   @override
-  String get inviteAcceptNotFoundTitle => 'Invite not found';
+  String get inviteAcceptNotFoundTitle => 'Запрашэнне не знойдзена';
 
   @override
   String get inviteAcceptNotFoundDescription =>
-      'This invite may have expired or been deleted.';
+      'Магчыма, тэрмін дзеяння гэтага запрашэння скончыўся або яго выдалілі.';
 
   @override
-  String get invalidDeepLinkTitle => 'Link couldn\'t be opened';
+  String get invalidDeepLinkTitle => 'Не ўдалося адкрыць спасылку';
 
   @override
   String get invalidDeepLinkDescription =>
-      'This link may be broken, only available on the web, or you might not have access. Check the link and try again.';
+      'Магчыма, гэта спасылка пашкоджаная, даступная толькі ў вэб-версіі, або ў вас няма доступу. Праверце спасылку і паспрабуйце яшчэ раз.';
 
   @override
-  String get invalidDeepLinkGoHomeButton => 'Go to home';
+  String get invalidDeepLinkGoHomeButton => 'На галоўную';
 
   @override
-  String get inviteAcceptJoinGroupButton => 'Join group';
+  String get inviteAcceptJoinGroupButton => 'Далучыцца да групы';
 
   @override
   String inviteAcceptGroupDmDescription(String inviterName) {
-    return 'You\'ve been invited to join a group DM by $inviterName';
+    return 'Запрашэнне ў групавы чат ад $inviterName';
   }
 
   @override
-  String get inviteAcceptSomeone => 'someone';
+  String get inviteAcceptSomeone => 'хтосьці';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'невядомы-канал';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel access denied';
+  String get channelAccessDeniedTitle => 'Доступ да канала забаронены';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'У вас няма доступу да канала, у які адпраўлена гэта паведамленне.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Няма доступу';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'Добра';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Абагуленая тэма';
 
   @override
   String get embedThemeWebOnly =>
-      'You can only import themes on web or desktop.';
+      'Імпартаваць тэмы можна толькі ў вэб-версіі або на камп’ютары.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
-    return 'Visionary (lifetime $productName)';
+    return 'Visionary ($productName назаўсёды)';
   }
 
   @override
@@ -1101,8 +1116,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days of $productName',
-      one: '1 day of $productName',
+      other: '$count дня $productName',
+      many: '$count дзён $productName',
+      few: '$count дні $productName',
+      one: '$count дзень $productName',
     );
     return '$_temp0';
   }
@@ -1112,8 +1129,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks of $productName',
-      one: '1 week of $productName',
+      other: '$count тыдня $productName',
+      many: '$count тыдняў $productName',
+      few: '$count тыдні $productName',
+      one: '$count тыдзень $productName',
     );
     return '$_temp0';
   }
@@ -1123,8 +1142,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months of $productName',
-      one: '1 month of $productName',
+      other: '$count месяца $productName',
+      many: '$count месяцаў $productName',
+      few: '$count месяцы $productName',
+      one: '$count месяц $productName',
     );
     return '$_temp0';
   }
@@ -1134,251 +1155,254 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years of $productName',
-      one: '1 year of $productName',
+      other: '$count года $productName',
+      many: '$count гадоў $productName',
+      few: '$count гады $productName',
+      one: '$count год $productName',
     );
     return '$_temp0';
   }
 
   @override
   String embedGiftFrom(String creatorTag) {
-    return 'From $creatorTag';
+    return 'Ад $creatorTag';
   }
 
   @override
-  String get embedGiftClaimHelp => 'Click to claim your gift!';
+  String get embedGiftClaimHelp => 'Націсніце, каб атрымаць падарунак!';
 
   @override
-  String get embedGiftAlreadyRedeemed => 'Already redeemed';
+  String get embedGiftAlreadyRedeemed => 'Ужо актывавана';
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Claim your account to redeem this gift.';
+      'Каб актываваць гэты падарунак, замацуйце за сабой уліковы запіс.';
 
   @override
-  String get embedGiftClaim => 'Claim gift';
+  String get embedGiftClaim => 'Атрымаць падарунак';
 
   @override
-  String get embedGiftClaimAccount => 'Claim account to redeem';
+  String get embedGiftClaimAccount =>
+      'Замацаваць уліковы запіс, каб актываваць';
 
   @override
-  String get embedGiftUnknownTitle => 'Unknown gift';
+  String get embedGiftUnknownTitle => 'Невядомы падарунак';
 
   @override
   String get embedGiftUnknownSubtitle =>
-      'This gift code is invalid or already claimed.';
+      'Гэты падарункавы код няправільны або ўжо выкарыстаны.';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
-    return 'Claim your gift to activate your $productName subscription!';
+    return 'Атрымайце падарунак, каб актываваць падпіску $productName!';
   }
 
   @override
-  String get giftAcceptAlreadyClaimed => 'This gift has already been claimed.';
+  String get giftAcceptAlreadyClaimed => 'Гэты падарунак ужо атрыманы.';
 
   @override
   String get giftAcceptLifetimeNotInApp =>
-      'This gift can\'t be claimed in the iOS app. You can claim it in the desktop app.';
+      'Гэты падарунак нельга атрымаць у праграме для iOS. Атрымаць яго можна ў настольнай праграме.';
 
   @override
-  String get giftAcceptMaybeLater => 'Maybe later';
+  String get giftAcceptMaybeLater => 'Можа, пазней';
 
   @override
-  String get giftRedeemedToast => 'Gift redeemed!';
+  String get giftRedeemedToast => 'Падарунак актываваны!';
 
   @override
-  String get giftRedeemInvalidTitle => 'Invalid gift code';
+  String get giftRedeemInvalidTitle => 'Няправільны падарункавы код';
 
   @override
   String get giftRedeemInvalidMessage =>
-      'This code is invalid or already used.';
+      'Гэты код няправільны або ўжо выкарыстаны.';
 
   @override
-  String get giftRedeemAlreadyRedeemedTitle => 'Gift already redeemed';
+  String get giftRedeemAlreadyRedeemedTitle => 'Падарунак ужо актываваны';
 
   @override
-  String get giftRedeemAlreadyRedeemedMessage =>
-      'This code was already redeemed.';
+  String get giftRedeemAlreadyRedeemedMessage => 'Гэты код ужо актываваны.';
 
   @override
-  String get giftRedeemNotFoundTitle => 'Gift not found';
+  String get giftRedeemNotFoundTitle => 'Падарунак не знойдзены';
 
   @override
-  String get giftRedeemNotFoundMessage => 'This code doesn\'t exist.';
+  String get giftRedeemNotFoundMessage => 'Такога кода не існуе.';
 
   @override
-  String get giftRedeemFailedTitle => 'Couldn\'t redeem gift';
+  String get giftRedeemFailedTitle => 'Не ўдалося актываваць падарунак';
 
   @override
   String get giftRedeemFailedMessage =>
-      'Couldn\'t redeem this gift. Try again.';
+      'Не ўдалося актываваць гэты падарунак. Паспрабуйце яшчэ раз.';
 
   @override
-  String get giftVisionaryCannotRedeemTitle => 'Can\'t redeem this gift';
+  String get giftVisionaryCannotRedeemTitle =>
+      'Не ўдаецца актываваць гэты падарунак';
 
   @override
   String get giftVisionaryCannotRedeemMessage =>
-      'Visionary accounts can\'t redeem Plutonium gifts. Copy the link to share it with a friend instead.';
+      'Уліковыя запісы Visionary не могуць актываваць падарункі Plutonium. Замест гэтага скапіруйце спасылку і падзяліцеся ёю з сябрам.';
 
   @override
-  String get giftCopyLink => 'Copy gift link';
+  String get giftCopyLink => 'Скапіраваць спасылку на падарунак';
 
   @override
-  String get privacySettings => 'Privacy settings';
+  String get privacySettings => 'Налады прыватнасці';
 
   @override
-  String get privacyDirectMessages => 'Direct messages';
+  String get privacyDirectMessages => 'Асабістыя паведамленні';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Дазволіць асабістыя паведамленні ад іншых удзельнікаў гэтай суполкі';
 
   @override
-  String get privacyBotDirectMessages => 'Bot direct messages';
+  String get privacyBotDirectMessages => 'Асабістыя паведамленні ад ботаў';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Дазволіць ботам з гэтай суполкі пісаць вам асабістыя паведамленні';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Адміністратары суполкі забаранілі асабістыя паведамленні ад удзельнікаў, з якімі ў вас агульная толькі гэта суполка.';
 
   @override
-  String get communityDebug => 'Community debug';
+  String get communityDebug => 'Адладка суполкі';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'Скапіравана ў буфер абмену';
 
   @override
-  String get notificationSettings => 'Notification settings';
+  String get notificationSettings => 'Налады апавяшчэнняў';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'Заглушыць $guildName';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community hides its unread badge and prevents notifications from appearing';
+      'Калі заглушыць суполку, яе значок непрачытаных знікне, а апавяшчэнні не будуць прыходзіць';
 
   @override
-  String get notificationCommunitySettings => 'Community notification settings';
+  String get notificationCommunitySettings => 'Налады апавяшчэнняў суполкі';
 
   @override
-  String get notificationAllMessages => 'All messages';
+  String get notificationAllMessages => 'Усе паведамленні';
 
   @override
-  String get notificationOnlyMentions => 'Only mentions';
+  String get notificationOnlyMentions => 'Толькі згадванні';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Нічога';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'Заглушыць @everyone і @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress all role @mentions';
+  String get notificationSuppressRoles => 'Заглушыць усе @згадванні роляў';
 
   @override
-  String get notificationMobilePush => 'Mobile push notifications';
+  String get notificationMobilePush => 'Мабільныя push-апавяшчэнні';
 
   @override
-  String get notificationOverrides => 'Notification overrides';
+  String get notificationOverrides => 'Перавызначэнні апавяшчэнняў';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Выберыце канал або катэгорыю';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Толькі @згадванні';
 
   @override
-  String get notificationMuteChannel => 'Mute channel';
+  String get notificationMuteChannel => 'Заглушыць канал';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute channel';
+  String get notificationUnmuteChannel => 'Уключыць апавяшчэнні канала';
 
   @override
-  String get notificationUseCategoryDefault => 'Use category default';
+  String get notificationUseCategoryDefault => 'Як у катэгорыі';
 
   @override
-  String get notificationUseCommunityDefault => 'Use community default';
+  String get notificationUseCommunityDefault => 'Як у суполцы';
 
   @override
-  String get notificationNoCategory => 'No category';
+  String get notificationNoCategory => 'Без катэгорыі';
 
   @override
-  String get dmMarkAsRead => 'Mark as read';
+  String get dmMarkAsRead => 'Пазначыць як прачытанае';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'Заглушыць асабісты чат';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'Уключыць апавяшчэнні асабістага чата';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'Замацаваць асабісты чат';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'Адмацаваць асабісты чат';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always show in sidebar';
+  String get dmAlwaysShowInSidebar => 'Заўсёды паказваць на бакавой панэлі';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from always shown';
+  String get dmRemoveFromAlwaysShown => 'Прыбраць з «Заўсёды паказваць»';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'Закрыць асабісты чат';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'Закрыць асабісты чат';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Вы сапраўды хочаце закрыць асабісты чат з $username? Яго заўсёды можна зноў адкрыць пазней.';
   }
 
   @override
   String get dmDeleteMyMessagesTitle =>
-      'Delete your messages in this conversation?';
+      'Выдаліць вашы паведамленні ў гэтай размове?';
 
   @override
   String get dmDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.';
+      'Будуць назаўсёды выдалены ўсе паведамленні, якія вы калі-небудзь адпраўлялі ў гэтай размове. Гэта дзеянне нельга адмяніць.';
 
   @override
-  String get dmCopyChannelId => 'Copy channel ID';
+  String get dmCopyChannelId => 'Скапіраваць ID канала';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'ID канала скапіраваны';
 
   @override
-  String get dmCopyUserId => 'Copy user ID';
+  String get dmCopyUserId => 'Скапіраваць ID карыстальніка';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'ID карыстальніка скапіраваны';
 
   @override
-  String get dmViewProfile => 'View profile';
+  String get dmViewProfile => 'Паглядзець профіль';
 
   @override
-  String get dmVoiceCall => 'Start voice call';
+  String get dmVoiceCall => 'Пачаць галасавы выклік';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Уваходны галасавы выклік';
 
   @override
-  String get incomingVoiceCallSubtitle => 'Voice call';
+  String get incomingVoiceCallSubtitle => 'Галасавы выклік';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Прыняць';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Адхіліць';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Уваходны выклік';
 
   @override
   String get incomingVoiceCallNotificationChannel => 'Incoming calls';
@@ -1387,434 +1411,441 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get missedVoiceCallNotificationChannel => 'Missed calls';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Ігнараваць';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Гэты выклік зараз нельга пачаць. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Не ўдалося падключыцца да гэтага выкліку. Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Не ўдалося далучыцца да гэтага выкліку. Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Не ўдалося абнавіць гэты выклік на серверы. Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
-  String get dmAddNote => 'Add note';
+  String get dmAddNote => 'Дадаць нататку';
 
   @override
-  String get dmEditGroup => 'Edit group';
+  String get dmEditGroup => 'Рэдагаваць групу';
 
   @override
-  String get dmInviteToCommunity => 'Invite to community';
+  String get dmInviteToCommunity => 'Запрасіць у суполку';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Заблакіраваць';
 
   @override
-  String get dmLeaveGroup => 'Leave group';
+  String get dmLeaveGroup => 'Пакінуць групу';
 
   @override
   String dmInviteSentFor(String communityName) {
-    return 'Invite sent for $communityName';
+    return 'Запрашэнне ў $communityName адпраўлена';
   }
 
   @override
-  String get dmInviteSendFailed => 'Couldn\'t send invite. Try again.';
+  String get dmInviteSendFailed =>
+      'Не ўдалося адправіць запрашэнне. Паспрабуйце яшчэ раз.';
 
   @override
   String dmGroupMemberCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Members',
-      one: '1 Member',
+      other: '$count удзельніка',
+      many: '$count удзельнікаў',
+      few: '$count удзельнікі',
+      one: '$count удзельнік',
     );
     return '$_temp0';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'На 15 хвілін';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'На 30 хвілін';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'На 1 гадзіну';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'На 3 гадзіны';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'На 4 гадзіны';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'На 8 гадзін';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'На 24 гадзіны';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'На 3 дні';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Пакуль я зноў не ўключу';
 
   @override
-  String get dmPinGroupDm => 'Pin group DM';
+  String get dmPinGroupDm => 'Замацаваць групавы чат';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin group DM';
+  String get dmUnpinGroupDm => 'Адмацаваць групавы чат';
 
   @override
-  String get dmUnnamedGroup => 'Unnamed group';
+  String get dmUnnamedGroup => 'Група без назвы';
 
   @override
   String dmOwnersGroup(String resolvedName) {
-    return '$resolvedName\'s group';
+    return 'Група карыстальніка $resolvedName';
   }
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'Дадаць асабісты чат у абранае';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'Прыбраць асабісты чат з абранага';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite group DM';
+  String get dmFavoriteGroupDm => 'Дадаць групавы чат у абранае';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite group DM';
+  String get dmUnfavoriteGroupDm => 'Прыбраць групавы чат з абранага';
 
   @override
-  String get dmChangeFriendNickname => 'Change friend nickname';
+  String get dmChangeFriendNickname => 'Змяніць псеўданім сябра';
 
   @override
-  String get dmRemoveFriend => 'Remove friend';
+  String get dmRemoveFriend => 'Выдаліць з сяброў';
 
   @override
-  String get dmAddFriend => 'Add friend';
+  String get dmAddFriend => 'Дадаць у сябры';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept friend request';
+  String get dmAcceptFriendRequest => 'Прыняць запыт у сябры';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore friend request';
+  String get dmIgnoreFriendRequest => 'Ігнараваць запыт у сябры';
 
   @override
-  String get dmFriendRequestSent => 'Friend request sent';
+  String get dmFriendRequestSent => 'Запыт у сябры адпраўлены';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Разблакіраваць';
 
   @override
-  String get dmDebugUser => 'Debug user';
+  String get dmDebugUser => 'Адладка карыстальніка';
 
   @override
-  String get dmDebugChannel => 'Debug channel';
+  String get dmDebugChannel => 'Адладка канала';
 
   @override
-  String get dmDebugCategory => 'Debug category';
+  String get dmDebugCategory => 'Адладка катэгорыі';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'Асабісты чат замацаваны';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'Асабісты чат адмацаваны';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'Асабісты чат заглушаны';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'Заглушэнне асабістага чата знята';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove friend';
+  String get dmRemoveFriendConfirmTitle => 'Выдаліць з сяброў';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Вы сапраўды хочаце выдаліць $username з сяброў?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block user';
+  String get dmBlockConfirmTitle => 'Заблакіраваць карыстальніка';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Вы сапраўды хочаце заблакіраваць $username? Гэты карыстальнік не зможа пісаць вам і адпраўляць запыты ў сябры.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Запыт у сябры адпраўлены';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Дадаць сяброў';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Дадаць у сябры';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Імя карыстальніка сябра';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Адправіць запыт';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound => 'Карыстальнік з такім імем не знойдзены.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a username, then # and the 4-digit tag.';
+      'Увядзіце імя карыстальніка, потым # і 4-значны тэг.';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Запыт у сябры адпраўлены';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Замацуйце за сабой уліковы запіс';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Замацуйце за сабой уліковы запіс, каб адпраўляць запыты ў сябры.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'Пацвердзіце электронную пошту';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Каб адпраўляць запыты ў сябры, трэба пацвердзіць адрас электроннай пошты.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'Пацвердзіць электронную пошту';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Уваходныя запыты ў сябры ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Выходныя запыты ў сябры ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Уваходны запыт у сябры';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Запыт у сябры адпраўлены';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Паглядзець профіль';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Прыняць';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Ігнараваць';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Прыняць запыт у сябры';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Ігнараваць запыт у сябры';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Прыняць запыт у сябры ад $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Ігнараваць запыт у сябры ад $displayName?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Скасаваць запыт';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Не ўдалося скасаваць запыт у сябры. Паспрабуйце яшчэ раз.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Гэты чалавек зараз не прымае запыты ў сябры.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Каб адправіць запыт у сябры, спачатку разблакіруйце карыстальніка.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Нельга адправіць запыт у сябры сабе.';
 
   @override
   String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+      'Вы ўжо сябруеце з гэтым карыстальнікам.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Завяршыце рэгістрацыю, каб адпраўляць запыты ў сябры.';
 
   @override
   String get addFriendVerifyToSend =>
-      'Verify your email before sending friend requests.';
+      'Пацвердзіце электронную пошту, перш чым адпраўляць запыты ў сябры.';
 
   @override
   String get addFriendFriendsListFull =>
-      'Your friends list is full, or theirs is. Remove someone and try again.';
+      'Ваш спіс сяброў або спіс іншага чалавека запоўнены. Выдаліце кагосьці і паспрабуйце яшчэ раз.';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle => 'Не ўдалося адправіць запыт у сябры';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'Не ўдалося адправіць запыт у сябры. Паспрабуйце яшчэ раз.';
 
   @override
-  String get userTagBot => 'BOT';
+  String get userTagBot => 'БОТ';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => 'Сістэма';
 
   @override
-  String get userTagOp => 'OP';
+  String get userTagOp => 'ТС';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Знайдзіце эмоджы сваёй мары';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'Па вашым запыце эмоджы не знойдзены';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Стандартнае эмоджы';
 
   @override
   String emojiInfoDefaultDescription(String productName) {
-    return 'This is a default emoji on $productName.';
+    return 'Гэта стандартнае эмоджы ў $productName.';
   }
 
   @override
   String get emojiInfoCustomGuildDescription =>
-      'This emoji is from this community. You can use it everywhere.';
+      'Гэта эмоджы з гэтай суполкі. Вы можаце выкарыстоўваць яго паўсюль.';
 
   @override
   String get emojiInfoCustomUnknownDescription =>
-      'This is a custom emoji from a community.';
+      'Гэта ўласнае эмоджы з суполкі.';
 
   @override
   String get emojiInfoCustomInviteRequiredDescription =>
-      'This is a custom emoji from a community. Ask the author for an invite to use this emoji.';
+      'Гэта ўласнае эмоджы з суполкі. Каб выкарыстоўваць яго, папрасіце ў аўтара запрашэнне.';
 
   @override
-  String get emojiInfoFromHeader => 'This emoji is from';
+  String get emojiInfoFromHeader => 'Гэта эмоджы з';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Listed in Explore';
+  String get emojiInfoDiscoverableCommunity => 'У раздзеле «Агляд»';
 
   @override
-  String get emojiInfoPrivateCommunity => 'Private community';
+  String get emojiInfoPrivateCommunity => 'Прыватная суполка';
 
   @override
-  String get emojiInfoVerifiedCommunity => 'Verified community';
+  String get emojiInfoVerifiedCommunity => 'Пацверджаная суполка';
 
   @override
-  String get emojiInfoAddToFavorites => 'Add to favorites';
+  String get emojiInfoAddToFavorites => 'Дадаць у абранае';
 
   @override
-  String get emojiInfoRemoveFromFavorites => 'Remove from favorites';
+  String get emojiInfoRemoveFromFavorites => 'Прыбраць з абранага';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently used';
+  String get emojiFrequentlyUsed => 'Часта ўжываныя';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIF';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Медыя';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Стыкеры';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => 'Эмоджы';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'Пошук GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Search Klipy';
+  String get gifPickerSearchKlipy => 'Пошук у Klipy';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Пошук у Tenor';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Абранае';
 
   @override
-  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+  String get gifPickerFavoritesEmptyTitle => 'Пакуль няма абраных GIF';
 
   @override
-  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+  String get gifPickerFavoritesEmptyDescription =>
+      'Дадайце GIF у абранае, каб убачыць яго тут.';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'Папулярныя GIF';
 
   @override
-  String get gifPickerNoResultsTitle => 'No search results';
+  String get gifPickerNoResultsTitle => 'Няма вынікаў пошуку';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription => 'Паспрабуйце іншы пошукавы запыт';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'Не ўдалося загрузіць GIF';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Людзі';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Прырода';
 
   @override
-  String get emojiCategoryFood => 'Food & drink';
+  String get emojiCategoryFood => 'Ежа і напоі';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Актыўнасці';
 
   @override
-  String get emojiCategoryTravel => 'Travel & places';
+  String get emojiCategoryTravel => 'Падарожжы і месцы';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Прадметы';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Сімвалы';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Сцягі';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Адкрыйце $emojiCount з $communityCount з Plutonium.';
   }
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Больш не паказваць';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count уласнага эмоджы',
+      many: '$count уласных эмоджы',
+      few: '$count уласныя эмоджы',
+      one: '$count уласнае эмоджы',
     );
     return '$_temp0';
   }
@@ -1824,41 +1855,43 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count суполкі',
+      many: '$count суполак',
+      few: '$count суполак',
+      one: '$count суполкі',
     );
     return '$_temp0';
   }
 
   @override
-  String get stickerPickerSearchHint => 'Find the perfect sticker';
+  String get stickerPickerSearchHint => 'Знайдзіце ідэальны стыкер';
 
   @override
-  String get stickerPickerEmptyNoCommunitiesTitle => 'No stickers available';
+  String get stickerPickerEmptyNoCommunitiesTitle => 'Няма даступных стыкераў';
 
   @override
   String get stickerPickerEmptyNoCommunitiesBody =>
-      'Join a community with stickers to use them here.';
+      'Далучыцеся да суполкі са стыкерамі, каб выкарыстоўваць іх тут.';
 
   @override
-  String get stickerPickerEmptyHereTitle => 'No stickers available';
+  String get stickerPickerEmptyHereTitle => 'Няма даступных стыкераў';
 
   @override
   String get stickerPickerEmptyHereBody =>
-      'No stickers are available in this conversation.';
+      'У гэтай размове няма даступных стыкераў.';
 
   @override
-  String get stickerPickerNoResultsTitle => 'No stickers found';
+  String get stickerPickerNoResultsTitle => 'Стыкеры не знойдзены';
 
   @override
-  String get stickerPickerNoResultsBody => 'Try a different search term.';
+  String get stickerPickerNoResultsBody => 'Паспрабуйце іншы пошукавы запыт.';
 
   @override
   String stickerPlutoniumUpsellText(
     String stickerCount,
     String communityCount,
   ) {
-    return 'Unlock $stickerCount from $communityCount with Plutonium.';
+    return 'Адкрыйце $stickerCount з $communityCount з Plutonium.';
   }
 
   @override
@@ -1866,296 +1899,305 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count stickers',
-      one: '1 sticker',
+      other: '$count стыкера',
+      many: '$count стыкераў',
+      few: '$count стыкеры',
+      one: '$count стыкер',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External link warning';
+  String get externalLinkWarningTitle => 'Папярэджанне пра знешнюю спасылку';
 
   @override
   String externalLinkWarningLeaving(String productName) {
-    return 'You are about to leave $productName';
+    return 'Вы пакідаеце $productName';
   }
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Знешнія спасылкі могуць быць небяспечнымі. Будзьце асцярожныя.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'URL прызначэння:';
 
   @override
-  String get externalLinksSectionTitle => 'External links';
+  String get externalLinksSectionTitle => 'Знешнія спасылкі';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Наладзьце, як апрацоўваць папярэджанні пра знешнія спасылкі.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Заўсёды давяраць ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' — не паказваць гэта папярэджанне ў наступны раз';
 
   @override
-  String get externalLinkVisitSite => 'Visit site';
+  String get externalLinkVisitSite => 'Наведаць сайт';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Давяраць усім знешнім спасылкам';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Прыбіраць з URL параметры адсочвання';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Аўтаматычна выдаляць параметры адсочвання (напрыклад, utm_source, fbclid, gclid) з URL у паведамленнях, якія вы адпраўляеце. Спасылка ачышчаецца раней, чым яе ўбачыць хтосьці іншы.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'Давяраць усім знешнім спасылкам?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Усе знешнія спасылкі стануць даверанымі, і папярэджанне не будзе паказвацца ні для аднаго дамена. Вашы цяперашнія давераныя дамены будуць заменены. Гэта менш бяспечна.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust all';
+  String get externalLinkTrustAllConfirmAction => 'Давяраць усім';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Больш не давяраць усім спасылкам?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Папярэджанні пра знешнія спасылкі зноў будуць паказвацца. Давераныя дамены трэба будзе дадаваць паасобку.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable trust all';
+  String get externalLinkStopTrustingAllAction => 'Адключыць «давяраць усім»';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Усе знешнія спасылкі лічацца даверанымі. Папярэджанні паказвацца не будуць.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Давераных даменаў: $count. Каб дадаць яшчэ, стаўце сцяжок, калі адкрываеце знешнія спасылкі.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Калі ўключана, папярэджанні пра знешнія спасылкі не паказваюцца. Гэта менш бяспечна.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Файл выявы занадта вялікі. Выберыце файл меншы за 10 МБ.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Для аніміраваных аватараў патрэбны Plutonium';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Для аніміраваных банераў патрэбны Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF not supported';
+  String get animatedAvifNotSupported => 'Аніміраваныя AVIF не падтрымліваюцца';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Абразаць і паварочваць аніміраваныя файлы AVIF пакуль нельга. Калі працягнуць, файл будзе загружаны ў арыгінальным выглядзе.';
 
   @override
-  String get uploadAsIs => 'Upload as-is';
+  String get uploadAsIs => 'Загрузіць як ёсць';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Абразаць аніміраваныя выявы пакуль нельга. Будзе выкарыстаны арыгінальны файл.';
 
   @override
-  String get cropAvatar => 'Crop avatar';
+  String get cropAvatar => 'Абрэзаць аватар';
 
   @override
-  String get cropBanner => 'Crop banner';
+  String get cropBanner => 'Абрэзаць банер';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Прапусціць';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Абрэзаць';
 
   @override
-  String get cropTouchHint => 'Pinch to zoom, drag to reposition';
+  String get cropTouchHint =>
+      'Звядзіце пальцы, каб змяніць маштаб, перацягніце, каб перамясціць';
 
   @override
-  String get cropMouseHint => 'Drag corners to resize, drag inside to move';
+  String get cropMouseHint =>
+      'Перацягвайце вуглы, каб змяніць памер, і перацягвайце ўнутры, каб перамясціць';
 
   @override
-  String get changeYourFluxerTag => 'Change your username';
+  String get changeYourFluxerTag => 'Змяніць імя карыстальніка';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Імёны карыстальнікаў могуць змяшчаць толькі літары (a-z, A-Z), лічбы (0-9) і падкрэсліванні. Вялікія і малыя літары ў імёнах не адрозніваюцца.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Імёны карыстальнікаў могуць змяшчаць толькі літары (a-z, A-Z), лічбы (0-9) і знак падкрэслівання. Вялікія і малыя літары ў імёнах не адрозніваюцца. Вы можаце выбраць любы вольны 4-значны тэг ад #0000 да #9999.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Імёны карыстальнікаў могуць змяшчаць толькі літары (a-z, A-Z), лічбы (0-9) і знак падкрэслівання. Вялікія і малыя літары ў імёнах не адрозніваюцца. Вы можаце выбраць любы вольны 4-значны тэг ад #0001 да #9999.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Ад $min да $max сімвалаў';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Толькі літары (a-z, A-Z), лічбы (0-9) і падкрэсліванні (_)';
 
   @override
-  String get fluxerTagAlreadyTaken => 'Username already taken';
+  String get fluxerTagAlreadyTaken => 'Імя карыстальніка ўжо занятае';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The username $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'Імя карыстальніка $username#$discriminator занятае. Калі працягнуць, ваш тэг аўтаматычна зменіцца.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom tag is temporary';
+  String get customTagIsTemporary => 'Уласны тэг часовы';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Ваш уласны 4-значны тэг даступны, толькі пакуль актыўная падпіска Plutonium. Калі падпіска скончыцца $date, пасля 3-дзённага льготнага перыяду тэг зменіцца на выпадковы нумар.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Ваш уласны 4-значны тэг даступны, толькі пакуль актыўная падпіска Plutonium. Калі падпіска скончыцца, пасля 3-дзённага льготнага перыяду тэг зменіцца на выпадковы нумар.';
 
   @override
-  String get iUnderstandContinue => 'I understand, continue';
+  String get iUnderstandContinue => 'Зразумела, працягнуць';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this username, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Калі вы захаваеце гэта імя карыстальніка, ваш уласны 4-значны тэг зменіцца на выпадковы нумар, калі скончыцца падпіска Plutonium. Калі падпіску не ўдасца працягнуць, да змены тэга ў вас будзе 3-дзённы льготны перыяд.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Ваш уласны 4-значны тэг (#$discriminator) дзейнічае, пакуль актыўная падпіска Plutonium. Калі падпіска скончыцца або яе не ўдасца працягнуць, пасля 3-дзённага льготнага перыяду тэг зменіцца на выпадковы нумар.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Наладжвайце свой 4-значны тэг або захоўвайце яго пры змене імя карыстальніка';
 
   @override
-  String get fluxerTagUpdated => 'Username updated';
+  String get fluxerTagUpdated => 'Імя карыстальніка абноўлена';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update username. Please try again.';
+      'Не ўдалося абнавіць імя карыстальніка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Працягнуць';
 
   @override
-  String get profileCustomizationTitle => 'Profile customization';
+  String get profileCustomizationTitle => 'Наладка профілю';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Змяняйце выгляд профілю і адразу глядзіце, як ён выглядае';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Імя карыстальніка';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your username';
+      'Замацуйце за сабой уліковы запіс, каб змяніць імя карыстальніка';
 
   @override
-  String get changeFluxerTag => 'Change username';
+  String get changeFluxerTag => 'Змяніць імя карыстальніка';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Наладзьце свой 4-значны тэг (#$discriminator) на свой густ з Plutonium';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Змяніць імя карыстальніка і 4-значны тэг';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Ваш уласны тэг (#$discriminator) звязаны з падпіскай Plutonium і зменіцца на выпадковы, калі падпіска скончыцца.';
   }
 
   @override
-  String get displayNameLabel => 'Display name';
+  String get displayNameLabel => 'Бачнае імя';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Займеннікі';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => 'Аватар';
 
   @override
-  String get changeAvatar => 'Change avatar';
+  String get changeAvatar => 'Змяніць аватар';
 
   @override
-  String get removeAvatar => 'Remove avatar';
+  String get removeAvatar => 'Выдаліць аватар';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Да 10 МБ. Рэкамендавана: 512×512 пкс';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => 'Банер';
 
   @override
-  String get changeBanner => 'Change banner';
+  String get changeBanner => 'Змяніць банер';
 
   @override
-  String get removeBanner => 'Remove banner';
+  String get removeBanner => 'Выдаліць банер';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'PNG, JPEG, WebP, GIF. Да 10 МБ. Мінімум: 960×540 пкс (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent color';
+  String get accentColorLabel => 'Акцэнтны колер';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Задае колер рамкі і банера ў вашым профілі';
 
   @override
-  String get aboutMeLabel => 'About me';
+  String get aboutMeLabel => 'Пра мяне';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Можна выкарыстоўваць спасылкі, эмоджы і Markdown.';
 
   @override
-  String get emojiPickerTitle => 'Emoji';
+  String get emojiPickerTitle => 'Эмоджы';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Бэйджы';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Выберыце, якія бэйджы іншыя бачаць у вашым профілі.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'У вас пакуль няма бэйджаў.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Не ўдалося загрузіць вашы бэйджы.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Паказваць $badgeLabel у вашым профілі';
   }
 
   @override
@@ -2164,662 +2206,676 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Паказаць усе бэйджы';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: 'Яшчэ +$count бэйджа, паказаць усе',
+      many: 'Яшчэ +$count бэйджаў, паказаць усе',
+      few: 'Яшчэ +$count бэйджы, паказаць усе',
+      one: 'Яшчэ +$count бэйдж, паказаць усе',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Паказваецца, толькі калі ваш бэйдж Visionary бачны і не замаскаваны.';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium badge privacy';
+  String get plutoniumBadgePrivacyTitle => 'Прыватнасць бэйджа Plutonium';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Выберыце, як іншыя бачаць ваш бэйдж Plutonium';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'Цалкам схаваць бэйдж Plutonium';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Цалкам схаваць ваш бэйдж Plutonium ад іншых карыстальнікаў';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Схаваць дату пакупкі Plutonium';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Схаваць дату пакупкі Plutonium ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Прыбраць з бэйджа дату першай пакупкі Plutonium';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'Паказваць Visionary як падпіску';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Паказваць ваш Visionary як звычайную падпіску';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Схаваць бэйдж Visionary ID';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Схаваць бэйдж Visionary ID (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Прыбраць ваш бэйдж Visionary ID';
 
   @override
   String get operatorPassName => 'Operator Pass';
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass з $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Паказваць бэйдж у маім профілі';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Схаваць, калі вы атрымалі $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount =>
+      'Схаваць, колькі ў вас пропускаў Operator Pass';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Да 10 МБ. Рэкамендавана: 512×512 пкс. Для аніміраваных аватараў (GIF) патрэбны Plutonium.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Упрыгожце профіль статычным або аніміраваным банерам, каб ён вылучаўся.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Атрымаць Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotSoldHere =>
-      'Plutonium can\'t be bought in this version of the app.';
+      'У гэтай версіі праграмы Plutonium купіць нельга.';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Папярэдні прагляд';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Паведамленне';
 
   @override
   String profilePreviewMemberSince(String productName) {
-    return '$productName member since';
+    return 'У $productName з';
   }
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed account';
+  String get unclaimedAccountTitle => 'Незамацаваны ўліковы запіс';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Ваш уліковы запіс яшчэ не замацаваны. Без электроннай пошты і пароля вы можаце страціць доступ. Замацуйце ўліковы запіс за сабой зараз, каб абараніць яго.';
 
   @override
-  String get claimAccount => 'Claim account';
+  String get claimAccount => 'Замацаваць уліковы запіс';
 
   @override
-  String get profileTypeLabel => 'Profile type';
+  String get profileTypeLabel => 'Тып профілю';
 
   @override
-  String get profileTypeGlobal => 'Global profile';
+  String get profileTypeGlobal => 'Глабальны профіль';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Вы рэдагуеце свой профіль у суполцы. Гэты профіль будзе бачны толькі ў гэтай суполцы і заменіць ваш глабальны профіль.';
 
   @override
-  String get communityNicknameLabel => 'Community nickname';
+  String get communityNicknameLabel => 'Псеўданім у суполцы';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Каб наладзіць аватар, банер, акцэнтны колер і біяграфію для асобных суполак, патрэбны Plutonium. Псеўданім і займеннікі ў суполцы бясплатныя для ўсіх.';
 
   @override
-  String get avatarModeInherit => 'Use global profile';
+  String get avatarModeInherit => 'Выкарыстоўваць глабальны профіль';
 
   @override
-  String get avatarModeCustom => 'Use custom image';
+  String get avatarModeCustom => 'Выкарыстаць уласную выяву';
 
   @override
-  String get avatarModeUnset => 'Don\'t show';
+  String get avatarModeUnset => 'Не паказваць';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Профіль абноўлены';
 
   @override
-  String get sudoTitle => 'Verify your identity';
+  String get sudoTitle => 'Пацвердзіце, што гэта вы';
 
   @override
   String get sudoDescription =>
-      'This action requires verification to continue.';
+      'Каб працягнуць, гэта дзеянне трэба пацвердзіць.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator code';
+  String get sudoAuthenticatorCode => 'Код аўтэнтыфікатара';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Пароль';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'Аўтэнтыфікатар';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Не ўдалося прайсці праверку. Паспрабуйце яшчэ раз.';
 
   @override
-  String get sudoWrongPassword => 'That password is wrong. Try again.';
+  String get sudoWrongPassword => 'Няправільны пароль. Паспрабуйце яшчэ раз.';
 
   @override
-  String get sudoEmailCodeSend => 'Email me a code';
+  String get sudoEmailCodeSend => 'Адправіць мне код на электронную пошту';
 
   @override
   String get sudoEmailCodeSent =>
-      'We sent a 6-digit code to your email address.';
+      'Мы адправілі 6-значны код на ваш адрас электроннай пошты.';
 
   @override
-  String get sudoEmailCodeLabel => 'Code from the email';
+  String get sudoEmailCodeLabel => 'Код з ліста';
 
   @override
-  String get sudoEmailCodeResend => 'Send a new code';
+  String get sudoEmailCodeResend => 'Адправіць новы код';
 
   @override
-  String get sudoSsoReauthHint => 'Sign in again to confirm it\'s you.';
+  String get sudoSsoReauthHint =>
+      'Увайдзіце зноў, каб пацвердзіць, што гэта вы.';
 
   @override
-  String get sudoSsoReauthButtonGeneric => 'Sign in again';
+  String get sudoSsoReauthButtonGeneric => 'Увайсці зноў';
 
   @override
   String sudoSsoReauthButton(String provider) {
-    return 'Sign in with $provider';
+    return 'Увайсці праз $provider';
   }
 
   @override
   String get sudoSsoReauthWrongAccount =>
-      'You signed in to a different account. Sign in with the account you\'re using here.';
+      'Вы ўвайшлі ў іншы ўліковы запіс. Увайдзіце ў той уліковы запіс, якім карыстаецеся тут.';
 
   @override
   String get sudoPasskeyUnavailable =>
-      'Passkeys from this instance don\'t work in this app. Use your authenticator app or a backup code, or confirm on the web.';
+      'Ключы доступу з гэтага экзэмпляра не працуюць у гэтай праграме. Выкарыстайце праграму-аўтэнтыфікатар або рэзервовы код ці пацвердзіце ў вэб-версіі.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Уліковы запіс';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Кіруйце электроннай поштай, паролем і наладамі ўліковага запісу';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Бяспека';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Абараніце ўліковы запіс з дапамогай двухфактарнай аўтэнтыфікацыі і ключоў доступу';
 
   @override
   String get securitySectionDescriptionNoPasskeys =>
-      'Protect your account with two-factor authentication';
+      'Абараніце ўліковы запіс з дапамогай двухфактарнай аўтэнтыфікацыі';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email settings';
+  String get securityLoginEmailSectionTitle => 'Налады электроннай пошты';
 
   @override
   String securityLoginEmailSectionDescription(String productName) {
-    return 'Manage the email address you use to sign in to $productName';
+    return 'Кіруйце адрасам электроннай пошты, з якім вы ўваходзіце ў $productName';
   }
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email address';
+  String get securityLoginEmailAddressLabel => 'Адрас электроннай пошты';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Электронная пошта не зададзена';
 
   @override
-  String get securityLoginChangeEmail => 'Change email';
+  String get securityLoginChangeEmail => 'Змяніць электронную пошту';
 
   @override
-  String get securityLoginAddEmail => 'Add email';
+  String get securityLoginAddEmail => 'Дадаць электронную пошту';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Паказаць';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Схаваць';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Пароль';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Змяніце пароль, каб уліковы запіс заставаўся ў бяспецы';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current password';
+  String get securityLoginCurrentPasswordLabel => 'Цяперашні пароль';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Апошняя змена: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: never';
+  String get securityLoginPasswordNeverChanged => 'Апошняя змена: ніколі';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Пароль не зададзены';
 
   @override
-  String get securityLoginChangePassword => 'Change password';
+  String get securityLoginChangePassword => 'Змяніць пароль';
 
   @override
-  String get securityLoginSetPassword => 'Set password';
+  String get securityLoginSetPassword => 'Задаць пароль';
 
   @override
-  String get passwordChangeTitle => 'Change password';
+  String get passwordChangeTitle => 'Змяніць пароль';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Перш чым змяніць пароль, мы адправім на ваш адрас электроннай пошты код пацвярджэння, каб пераканацца, што гэта вы.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Пачаць';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify your email';
+  String get passwordChangeVerifyTitle => 'Пацвердзіце электронную пошту';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Увядзіце код пацвярджэння, адпраўлены на ваш адрас электроннай пошты.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification code';
+  String get passwordChangeVerificationCode => 'Код пацвярджэння';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Пацвердзіць';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set new password';
+  String get passwordChangeNewPasswordTitle => 'Задаць новы пароль';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Увядзіце новы пароль ніжэй.';
 
   @override
-  String get passwordChangeNewPassword => 'New password';
+  String get passwordChangeNewPassword => 'Новы пароль';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm new password';
+  String get passwordChangeConfirmPassword => 'Пацвердзіце новы пароль';
 
   @override
-  String get passwordChangeSubmit => 'Change password';
+  String get passwordChangeSubmit => 'Змяніць пароль';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Пароль зменены';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => 'Паролі не супадаюць';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode =>
+      'Няправільны код або тэрмін яго дзеяння скончыўся';
 
   @override
-  String get emailChangeTitle => 'Change email';
+  String get emailChangeTitle => 'Змяніць электронную пошту';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Перш чым змяніць адрас электроннай пошты, мы адправім коды пацвярджэння, каб пераканацца, што гэта вы.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Пачаць';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify current email';
+  String get emailChangeVerifyOriginalTitle => 'Пацвердзіць цяперашнюю пошту';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Увядзіце код пацвярджэння, адпраўлены на ваш цяперашні адрас электроннай пошты.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter new email';
+  String get emailChangeNewEmailTitle => 'Увядзіце новы адрас';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Увядзіце новы адрас электроннай пошты, які хочаце выкарыстоўваць.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New email';
+  String get emailChangeNewEmailLabel => 'Новая электронная пошта';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send verification code';
+  String get emailChangeNewEmailSubmit => 'Адправіць код пацвярджэння';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify new email';
+  String get emailChangeVerifyNewTitle => 'Пацвердзіць новую пошту';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Увядзіце код пацвярджэння, адпраўлены на ваш новы адрас электроннай пошты.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'Электронная пошта зменена';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode =>
+      'Няправільны код або тэрмін яго дзеяння скончыўся';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Адправіць паўторна';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Адправіць зноў ($seconds с)';
   }
 
   @override
-  String get verificationCode => 'Verification code';
+  String get verificationCode => 'Код пацвярджэння';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Пацвердзіць';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Уключыць';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Адключыць';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Выдаліць';
 
   @override
-  String get save => 'Save';
+  String get save => 'Захаваць';
 
   @override
-  String get securityTfaSectionTitle => 'Two-factor authentication';
+  String get securityTfaSectionTitle => 'Двухфактарная аўтэнтыфікацыя';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Дадайце ўліковаму запісу дадатковы ўзровень абароны';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator app';
+  String get securityTfaAuthenticatorApp => 'Праграма-аўтэнтыфікатар';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Двухфактарная аўтэнтыфікацыя ўключана';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Выкарыстоўвайце праграму-аўтэнтыфікатар, каб атрымліваць коды для двухфактарнай аўтэнтыфікацыі';
 
   @override
-  String get securityTfaBackupCodes => 'Backup codes';
+  String get securityTfaBackupCodes => 'Рэзервовыя коды';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Праглядайце рэзервовыя коды для аднаўлення ўліковага запісу і кіруйце імі';
 
   @override
-  String get securityTfaViewCodes => 'View codes';
+  String get securityTfaViewCodes => 'Паглядзець коды';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => 'Ключы доступу';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Выкарыстоўвайце ключы доступу для ўваходу без пароля і для двухфактарнай аўтэнтыфікацыі';
 
   @override
-  String get securityPasskeysRegistered => 'Registered passkeys';
+  String get securityPasskeysRegistered => 'Зарэгістраваныя ключы доступу';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Няма зарэгістраваных ключоў доступу';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'ключа доступу зарэгістравана',
+      many: 'ключоў доступу зарэгістравана',
+      few: 'ключы доступу зарэгістраваны',
+      one: 'ключ доступу зарэгістраваны',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 (максімум 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add passkey';
+  String get securityPasskeysAdd => 'Дадаць ключ доступу';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Дададзена: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Апошняе выкарыстанне: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Перайменаваць';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete passkey';
+  String get securityPasskeysDeleteTitle => 'Выдаліць ключ доступу';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Вы сапраўды хочаце выдаліць ключ доступу «$name»?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name passkey';
+  String get securityPasskeyNameTitle => 'Назваць ключ доступу';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey name';
+  String get securityPasskeyNameLabel => 'Назва ключа доступу';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, work computer';
+  String get securityPasskeyNameHint =>
+      'напрыклад, YubiKey, iPhone, працоўны камп’ютар';
 
   @override
-  String get securityClaimTitle => 'Security features';
+  String get securityClaimTitle => 'Функцыі бяспекі';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Замацуйце за сабой уліковы запіс, каб атрымаць доступ да функцый бяспекі, такіх як двухфактарная аўтэнтыфікацыя і ключы доступу.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication or passkeys.';
+      'Каб наладзіць двухфактарную аўтэнтыфікацыю або ключы доступу, спачатку пацвердзіце адрас электроннай пошты.';
 
   @override
-  String get totpEnableTitle => 'Setup authenticator app';
+  String get totpEnableTitle => 'Наладзіць праграму-аўтэнтыфікатар';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Адсканіруйце QR-код праграмай-аўтэнтыфікатарам, каб атрымліваць коды для двухфактарнай аўтэнтыфікацыі.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'Код';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Увядзіце 6-значны код з праграмы-аўтэнтыфікатара';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => 'Двухфактарная аўтэнтыфікацыя ўключана';
 
   @override
-  String get totpDisableTitle => 'Remove authenticator app';
+  String get totpDisableTitle => 'Выдаліць праграму-аўтэнтыфікатар';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Каб выключыць двухфактарную аўтэнтыфікацыю, увядзіце 6-значны код з праграмы-аўтэнтыфікатара.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Двухфактарная аўтэнтыфікацыя выключана';
 
   @override
-  String get backupCodesTitle => 'Backup codes';
+  String get backupCodesTitle => 'Рэзервовыя коды';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Калі вы страціце доступ да праграмы-аўтэнтыфікатара і ў вас не будзе гэтых кодаў, вы назаўсёды страціце доступ да ўліковага запісу. Спампуйце або скапіруйце іх зараз і захавайце ў надзейным месцы.';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Скапіраваць';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'Рэзервовыя коды скапіраваны ў буфер абмену';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Мае рэзервовыя коды спампаваныя або скапіраваныя і захоўваюцца ў надзейным месцы.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Гатова';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger zone';
+  String get dangerZoneSectionTitle => 'Небяспечная зона';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Незваротныя і разбуральныя дзеянні';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable account';
+  String get dangerZoneDisableTitle => 'Адключыць уліковы запіс';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Часова адключыць уліковы запіс. Уключыць яго зноў можна пазней — проста ўвайдзіце.';
 
   @override
   String get dangerZoneDeleteEntryDescription =>
-      'Delete your account and personal data. You can delete your messages too.';
+      'Выдаліце свой уліковы запіс і асабістыя даныя. Можна выдаліць і свае паведамленні.';
 
   @override
   String get dangerZoneDeleteIntro =>
-      'Your account, profile and personal data are deleted. Messages you don\'t delete stay where you sent them, without your name or profile.';
+      'Ваш уліковы запіс, профіль і асабістыя даныя выдаляюцца. Паведамленні, якія вы не выдаліце, застануцца там, дзе вы іх адправілі, але без вашага імя і профілю.';
 
   @override
-  String get dangerZoneDeleteMessagesLabel => 'Also delete my messages';
+  String get dangerZoneDeleteMessagesLabel => 'Выдаліць і мае паведамленні';
 
   @override
   String get dangerZoneDeleteMessagesHint =>
-      'Deletes every message you sent in DMs, group DMs and communities, together with your account.';
+      'Разам з уліковым запісам выдаляюцца ўсе паведамленні, якія вы адправілі ў асабістых чатах, групавых чатах і суполках.';
 
   @override
   String dangerZoneDeleteExportHint(String privacyDashboard) {
-    return 'To keep a copy of your data, request an export in the $privacyDashboard first.';
+    return 'Каб захаваць копію сваіх даных, спачатку запытайце экспарт у раздзеле $privacyDashboard.';
   }
 
   @override
-  String get dangerZoneDeleteLater => 'Delete in 14 days';
+  String get dangerZoneDeleteLater => 'Выдаліць праз 14 дзён';
 
   @override
   String get dangerZoneDeleteLaterHint =>
-      'You can cancel by signing in during the 14 days.';
+      'Каб скасаваць выдаленне, увайдзіце на працягу гэтых 14 дзён.';
 
   @override
-  String get dangerZoneDeleteSchedule => 'Schedule deletion';
+  String get dangerZoneDeleteSchedule => 'Запланаваць выдаленне';
 
   @override
   String get dangerZoneDeleteScheduleHint =>
-      'Your account is deleted after this instance\'s waiting period. Signing in before then cancels it.';
+      'Ваш уліковы запіс будзе выдалены пасля перыяду чакання гэтага экзэмпляра. Калі ўвайсці раней, выдаленне скасуецца.';
 
   @override
-  String get dangerZoneDeleteNow => 'Delete now';
+  String get dangerZoneDeleteNow => 'Выдаліць зараз';
 
   @override
-  String get dangerZoneDeleteNowConfirmTitle => 'Delete your account now?';
+  String get dangerZoneDeleteNowConfirmTitle => 'Выдаліць уліковы запіс зараз?';
 
   @override
   String get dangerZoneDeleteNowConfirmBody =>
-      'Your account is deleted right away and can\'t be recovered.';
+      'Ваш уліковы запіс будзе выдалены адразу, і аднавіць яго будзе нельга.';
 
   @override
   String get dangerZoneDeleteAppStoreBilling =>
-      'Your Plutonium subscription is billed by Apple. Deleting your account doesn\'t cancel it, so cancel it in the App Store first.';
+      'Падпіска Plutonium аплачваецца праз Apple. Выдаленне ўліковага запісу яе не скасоўвае, таму спачатку скасуйце падпіску ў App Store.';
 
   @override
   String get dangerZoneDeleteGooglePlayBilling =>
-      'Your Plutonium subscription is billed by Google Play. Deleting your account doesn\'t cancel it, so cancel it in Google Play first.';
+      'Падпіска Plutonium аплачваецца праз Google Play. Выдаленне ўліковага запісу яе не скасоўвае, таму спачатку скасуйце падпіску ў Google Play.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Пасля адключэння ўліковага запісу вы выйдзеце з усіх сеансаў. Уключыць уліковы запіс зноў можна ў любы час: проста ўвайдзіце.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete account';
+  String get dangerZoneDeleteTitle => 'Выдаліць уліковы запіс';
 
   @override
-  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+  String get dangerZoneDeleteCannotDeleteAccount =>
+      'Нельга выдаліць уліковы запіс';
 
   @override
   String get dangerZoneDeleteOwnsCommunitiesList =>
-      'You own these communities. Delete each one, or give it to another member, before you delete your account.';
+      'Вы ўладальнік гэтых суполак. Перш чым выдаліць уліковы запіс, выдаліце кожную з іх або перадайце іншаму ўдзельніку.';
 
   @override
   String get dangerZoneDeleteOwnedCommunitiesHelp =>
-      'Tap a community to open its settings. \"Delete community\" is at the bottom. To give it away, open \"Members\", tap a member, tap the three dots on their profile and choose \"Transfer ownership\".';
+      'Націсніце на суполку, каб адкрыць яе налады. Кнопка «Выдаліць суполку» знаходзіцца ўнізе. Каб перадаць суполку, адкрыйце «Удзельнікі», націсніце на ўдзельніка, націсніце на тры кропкі ў яго профілі і выберыце «Перадаць правы ўладальніка».';
 
   @override
-  String get claimAccountTitle => 'Claim your account';
+  String get claimAccountTitle => 'Замацуйце за сабой уліковы запіс';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Замацуйце за сабой уліковы запіс, дадаўшы электронную пошту і пароль. Перад завяршэннем мы дашлём код пацвярджэння, каб праверыць вашу электронную пошту.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'Электронная пошта';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Пароль';
 
   @override
-  String get claimAccountSendCode => 'Send code';
+  String get claimAccountSendCode => 'Адправіць код';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Увядзіце код, які мы адправілі вам на электронную пошту, каб пацвердзіць яе. Пароль будзе зададзены, як толькі код будзе пацверджаны.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Уліковы запіс паспяхова замацаваны';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Адбылася памылка';
 
   @override
-  String get networkErrorMessage => 'Something went wrong. Please try again.';
+  String get networkErrorMessage =>
+      'Нешта пайшло не так. Паспрабуйце яшчэ раз.';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Няправільны код';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count года таму',
+      many: '$count гадоў таму',
+      few: '$count гады таму',
+      one: '$count год таму',
     );
     return '$_temp0';
   }
@@ -2829,8 +2885,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count месяца таму',
+      many: '$count месяцаў таму',
+      few: '$count месяцы таму',
+      one: '$count месяц таму',
     );
     return '$_temp0';
   }
@@ -2840,8 +2898,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count дня таму',
+      many: '$count дзён таму',
+      few: '$count дні таму',
+      one: '$count дзень таму',
     );
     return '$_temp0';
   }
@@ -2851,8 +2911,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count гадзіны таму',
+      many: '$count гадзін таму',
+      few: '$count гадзіны таму',
+      one: '$count гадзіну таму',
     );
     return '$_temp0';
   }
@@ -2862,8 +2924,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count хвіліны таму',
+      many: '$count хвілін таму',
+      few: '$count хвіліны таму',
+      one: '$count хвіліну таму',
     );
     return '$_temp0';
   }
@@ -2873,8 +2937,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks ago',
-      one: '1 week ago',
+      other: '$count тыдня таму',
+      many: '$count тыдняў таму',
+      few: '$count тыдні таму',
+      one: '$count тыдзень таму',
     );
     return '$_temp0';
   }
@@ -2884,8 +2950,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count minutes',
-      one: 'in 1 minute',
+      other: 'праз $count хвіліны',
+      many: 'праз $count хвілін',
+      few: 'праз $count хвіліны',
+      one: 'праз $count хвіліну',
     );
     return '$_temp0';
   }
@@ -2895,8 +2963,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count hours',
-      one: 'in 1 hour',
+      other: 'праз $count гадзіны',
+      many: 'праз $count гадзін',
+      few: 'праз $count гадзіны',
+      one: 'праз $count гадзіну',
     );
     return '$_temp0';
   }
@@ -2906,8 +2976,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count days',
-      one: 'in 1 day',
+      other: 'праз $count дня',
+      many: 'праз $count дзён',
+      few: 'праз $count дні',
+      one: 'праз $count дзень',
     );
     return '$_temp0';
   }
@@ -2917,8 +2989,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count weeks',
-      one: 'in 1 week',
+      other: 'праз $count тыдня',
+      many: 'праз $count тыдняў',
+      few: 'праз $count тыдні',
+      one: 'праз $count тыдзень',
     );
     return '$_temp0';
   }
@@ -2928,8 +3002,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count months',
-      one: 'in 1 month',
+      other: 'праз $count месяца',
+      many: 'праз $count месяцаў',
+      few: 'праз $count месяцы',
+      one: 'праз $count месяц',
     );
     return '$_temp0';
   }
@@ -2939,430 +3015,438 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count years',
-      one: 'in 1 year',
+      other: 'праз $count года',
+      many: 'праз $count гадоў',
+      few: 'праз $count гады',
+      one: 'праз $count год',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'толькі што';
 
   @override
-  String get authorizedAppsTitle => 'Authorized applications';
+  String get authorizedAppsTitle => 'Аўтарызаваныя праграмы';
 
   @override
   String authorizedAppsDescription(String productName) {
-    return 'These applications have been granted access to your $productName account.';
+    return 'Гэтыя праграмы маюць доступ да вашага ўліковага запісу $productName.';
   }
 
   @override
-  String get authorizedAppsEmptyTitle => 'No authorized applications';
+  String get authorizedAppsEmptyTitle => 'Няма аўтарызаваных праграм';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Вы яшчэ не аўтарызавалі ніводнай праграмы для доступу да вашага ўліковага запісу.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to load authorized applications';
+      'Не ўдалося загрузіць аўтарызаваныя праграмы';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Аўтарызавана $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Выдадзеныя дазволы';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Адклікаць';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Адклікаць доступ праграмы';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Вы сапраўды хочаце адклікаць доступ у $appName? Гэта праграма больш не будзе мець доступу да вашага ўліковага запісу.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Доступ да асноўнай інфармацыі вашага профілю (імя карыстальніка, аватар і г. д.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail =>
+      'Праглядаць ваш адрас электроннай пошты';
 
   @override
-  String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+  String get authorizedAppsScopeGuilds => 'Праглядаць суполкі, у якіх вы ёсць';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections =>
+      'Праглядаць вашы падключаныя ўліковыя запісы';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Дадаць бота ў суполку з запытанымі дазволамі';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Доступ да адміністрацыйных канцавых кропак';
 
   @override
-  String get applicationsTitle => 'Applications';
+  String get applicationsTitle => 'Праграмы';
 
   @override
-  String get applicationsCreate => 'Create application';
+  String get applicationsCreate => 'Стварыць праграму';
 
   @override
-  String get applicationsCreateSubmit => 'Create';
+  String get applicationsCreateSubmit => 'Стварыць';
 
   @override
   String get applicationsCreateClaimTooltip =>
-      'Claim your account to create applications.';
+      'Замацуйце за сабой уліковы запіс, каб ствараць праграмы.';
 
   @override
   String applicationsDocsLink(String domain) {
-    return 'Read the documentation ($domain)';
+    return 'Прачытаць дакументацыю ($domain)';
   }
 
   @override
-  String get applicationsLoadError => 'Unable to load applications';
+  String get applicationsLoadError => 'Не ўдалося загрузіць праграмы';
 
   @override
   String get applicationsLoadErrorDescription =>
-      'Check your connection and try again.';
+      'Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
-  String get applicationsEmptyTitle => 'No applications yet';
+  String get applicationsEmptyTitle => 'Пакуль няма праграм';
 
   @override
   String applicationsEmptyDescription(String apiName) {
-    return 'Create your first application to get started with the $apiName.';
+    return 'Стварыце сваю першую праграму, каб пачаць працу з $apiName.';
   }
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Створана $date';
   }
 
   @override
-  String get applicationsName => 'Application name';
+  String get applicationsName => 'Назва праграмы';
 
   @override
-  String get applicationsNameHint => 'My application';
+  String get applicationsNameHint => 'Мая праграма';
 
   @override
-  String get applicationsNameRequired => 'Application name is required';
+  String get applicationsNameRequired => 'Патрэбна назва праграмы';
 
   @override
-  String get applicationsBackToList => 'Back to list';
+  String get applicationsBackToList => 'Назад да спіса';
 
   @override
-  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+  String get applicationsDetailLoadError =>
+      'Не ўдалося загрузіць гэту праграму';
 
   @override
   String get applicationsDetailLoadErrorDescription =>
-      'Try again or go back to the applications list.';
+      'Паспрабуйце яшчэ раз або вярніцеся да спіса праграм.';
 
   @override
-  String get applicationsId => 'Application ID';
+  String get applicationsId => 'ID праграмы';
 
   @override
-  String get applicationsCopyId => 'Copy ID';
+  String get applicationsCopyId => 'Скапіраваць ID';
 
   @override
-  String get applicationsSecretsTitle => 'Secrets & tokens';
+  String get applicationsSecretsTitle => 'Сакрэты і токены';
 
   @override
   String get applicationsSecretsDescription =>
-      'Keep these safe. Regenerating will break existing integrations.';
+      'Захоўвайце іх у бяспецы. Калі стварыць іх нанава, цяперашнія інтэграцыі перастануць працаваць.';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'Сакрэт кліента';
 
   @override
-  String get applicationsBotToken => 'Bot token';
+  String get applicationsBotToken => 'Токен бота';
 
   @override
-  String get applicationsRegenerate => 'Regenerate';
+  String get applicationsRegenerate => 'Стварыць нанава';
 
   @override
   String get applicationsRegenerateClientSecretTitle =>
-      'Regenerate client secret?';
+      'Стварыць сакрэт кліента нанава?';
 
   @override
-  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+  String get applicationsRegenerateBotTokenTitle =>
+      'Стварыць токен бота нанава?';
 
   @override
   String get applicationsRegenerateClientSecretDescription =>
-      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+      'Калі стварыць нанава, цяперашні сакрэт перастане дзейнічаць. Абнавіце ўвесь код, які выкарыстоўвае старое значэнне.';
 
   @override
   String get applicationsRegenerateBotTokenDescription =>
-      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+      'Калі стварыць нанава, цяперашні токен перастане дзейнічаць. Абнавіце ўвесь код, які выкарыстоўвае старое значэнне.';
 
   @override
   String get applicationsClientSecretRegenerated =>
-      'Client secret regenerated. Update any code that uses the old secret.';
+      'Сакрэт кліента створаны нанава. Абнавіце ўвесь код, які выкарыстоўвае стары сакрэт.';
 
   @override
   String get applicationsBotTokenRegenerated =>
-      'Bot token regenerated. Update any code that uses the old token.';
+      'Токен бота створаны нанава. Абнавіце ўвесь код, які выкарыстоўвае стары токен.';
 
   @override
-  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+  String get applicationsRegenerateFailed =>
+      'Не ўдалося стварыць сакрэт нанава';
 
   @override
-  String get applicationsInfoTitle => 'Application information';
+  String get applicationsInfoTitle => 'Інфармацыя пра праграму';
 
   @override
   String get applicationsInfoDescription =>
-      'Basic settings and allowed redirect URIs.';
+      'Асноўныя налады і дазволеныя URI перанакіравання.';
 
   @override
-  String get applicationsPublicBot => 'Public bot';
+  String get applicationsPublicBot => 'Публічны бот';
 
   @override
   String get applicationsPublicBotDescription =>
-      'Allow anyone to invite this bot to their communities.';
+      'Дазволіць усім запрашаць гэтага бота ў свае суполкі.';
 
   @override
-  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+  String get applicationsRequireCodeGrant => 'Патрабаваць выдачы кода OAuth2';
 
   @override
   String get applicationsRequireCodeGrantDescription =>
-      'Requires a redirect URI and an authorization code when inviting this bot.';
+      'Пры запрашэнні гэтага бота патрэбны URI перанакіравання і код аўтарызацыі.';
 
   @override
-  String get applicationsRedirectUris => 'Redirect URIs';
+  String get applicationsRedirectUris => 'URI перанакіравання';
 
   @override
-  String get applicationsAddRedirect => 'Add redirect';
+  String get applicationsAddRedirect => 'Дадаць перанакіраванне';
 
   @override
-  String get applicationsDeleteRedirect => 'Delete redirect URI';
+  String get applicationsDeleteRedirect => 'Выдаліць URI перанакіравання';
 
   @override
-  String get applicationsBotProfileTitle => 'Bot profile';
+  String get applicationsBotProfileTitle => 'Профіль бота';
 
   @override
   String get applicationsBotProfileDescription =>
-      'Avatar, tag, and rich profile details for your bot.';
+      'Аватар, тэг і пашыраныя звесткі профілю для вашага бота.';
 
   @override
-  String get applicationsBotAvatar => 'Bot avatar';
+  String get applicationsBotAvatar => 'Аватар бота';
 
   @override
-  String get applicationsUsernameRequired => 'Username is required';
+  String get applicationsUsernameRequired => 'Патрэбна імя карыстальніка';
 
   @override
   String get applicationsUsernameTooLong =>
-      'Username must be at most 32 characters';
+      'Імя карыстальніка мусіць змяшчаць не больш за 32 сімвалы';
 
   @override
   String get applicationsUsernameInvalid =>
-      'Username can only contain letters, numbers, and underscores';
+      'Імя карыстальніка можа змяшчаць толькі літары, лічбы і падкрэсліванні';
 
   @override
-  String get applicationsBotUsername => 'Bot username';
+  String get applicationsBotUsername => 'Імя карыстальніка бота';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'Дыскрымінатар';
 
   @override
-  String get applicationsBotBio => 'Bot bio';
+  String get applicationsBotBio => 'Пра бота';
 
   @override
   String get applicationsBotBioHint =>
-      'A helpful bot that does amazing things!';
+      'Карысны бот, які робіць дзівосныя рэчы!';
 
   @override
-  String get applicationsNoBotBanner => 'No bot banner';
+  String get applicationsNoBotBanner => 'Няма банера бота';
 
   @override
-  String get applicationsFriendlyBot => 'Friendly bot';
+  String get applicationsFriendlyBot => 'Сяброўскі бот';
 
   @override
   String get applicationsFriendlyBotDescription =>
-      'Allow users to send this bot friend requests for manual approval.';
+      'Дазволіць карыстальнікам адпраўляць гэтаму боту запыты ў сябры для ручнога ўхвалення.';
 
   @override
   String get applicationsManualFriendApproval =>
-      'Require manual friend approval';
+      'Патрабаваць ручнога ўхвалення запытаў у сябры';
 
   @override
   String get applicationsManualFriendApprovalDescription =>
-      'Friend requests to this bot need manual approval.';
+      'Запыты ў сябры да гэтага бота патрабуюць ручнога ўхвалення.';
 
   @override
-  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+  String get applicationsOauthBuilderTitle => 'Канструктар URL OAuth2';
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Складзіце URL аўтарызацыі з вобласцямі доступу і дазволамі.';
 
   @override
-  String get applicationsScopes => 'Scopes';
+  String get applicationsScopes => 'Вобласці доступу';
 
   @override
-  String get applicationsRedirectUri => 'Redirect URI';
+  String get applicationsRedirectUri => 'URI перанакіравання';
 
   @override
-  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+  String get applicationsSelectRedirectUri => 'Выберыце URI перанакіравання';
 
   @override
   String get applicationsRedirectRequiredCodeGrant =>
-      'Redirect URI is required because this bot requires OAuth2 code grant.';
+      'URI перанакіравання абавязковы, бо гэты бот патрабуе выдачы кода OAuth2.';
 
   @override
   String get applicationsRedirectRequiredScopes =>
-      'Redirect URI is required when not using only the bot scope.';
+      'URI перанакіравання абавязковы, калі выкарыстоўваецца не толькі вобласць доступу bot.';
 
   @override
-  String get applicationsBotPermissions => 'Bot permissions';
+  String get applicationsBotPermissions => 'Дазволы бота';
 
   @override
-  String get applicationsAuthorizeUrl => 'Authorize URL';
+  String get applicationsAuthorizeUrl => 'URL аўтарызацыі';
 
   @override
   String get applicationsAuthorizeUrlPlaceholder =>
-      'Select scopes (and redirect URI if required)';
+      'Выберыце вобласці доступу (і URI перанакіравання, калі патрэбна)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Скапіраваць URL аўтарызацыі';
 
   @override
-  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+  String get applicationsCopiedUrl => 'URL скапіраваны ў буфер абмену';
 
   @override
-  String get applicationsDangerTitle => 'Danger zone';
+  String get applicationsDangerTitle => 'Небяспечная зона';
 
   @override
   String get applicationsDangerSubtitle =>
-      'This cannot be undone. Removing the application also deletes its bot.';
+      'Гэта дзеянне нельга адмяніць. Выдаленне праграмы выдаляе і яе бота.';
 
   @override
   String get applicationsDangerHelper =>
-      'Once deleted, the application and its credentials are permanently removed.';
+      'Пасля выдалення праграма і яе ўліковыя даныя будуць выдалены назаўсёды.';
 
   @override
-  String get applicationsDelete => 'Delete application';
+  String get applicationsDelete => 'Выдаліць праграму';
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return 'Вы сапраўды хочаце выдаліць $name? Гэта дзеянне нельга адмяніць. Усе звязаныя даныя, у тым ліку карыстальнік-бот, будуць выдалены назаўсёды.';
   }
 
   @override
-  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+  String get applicationsDeleteFailed => 'Не ўдалося выдаліць праграму';
 
   @override
-  String get applicationsUpdated => 'Application updated successfully';
+  String get applicationsUpdated => 'Праграма паспяхова абноўлена';
 
   @override
-  String get applicationsNoChanges => 'No changes to save';
+  String get applicationsNoChanges => 'Няма змен для захавання';
 
   @override
-  String get applicationsSearchBots => 'Applications & bots';
+  String get applicationsSearchBots => 'Праграмы і боты';
 
   @override
   String get applicationsSearchBotsDescription =>
-      'Create and manage applications and bots for your account';
+      'Стварайце праграмы і ботаў для свайго ўліковага запісу і кіруйце імі';
 
   @override
   String get applicationsSearchInfoDescription =>
-      'Edit application basics and redirect URIs';
+      'Рэдагаваць асноўныя звесткі праграмы і URI перанакіравання';
 
   @override
   String get applicationsSearchBotProfileDescription =>
-      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+      'Змяніць аватар, тэг, біяграфію і банер бота, а таксама паводзіны запытаў у сябры';
 
   @override
   String get applicationsSearchOauthDescription =>
-      'Build an authorization URL with scopes, redirects, and bot permissions';
+      'Стварыце URL аўтарызацыі з абласцямі доступу, перанакіраваннямі і дазволамі бота';
 
   @override
   String get applicationsSearchSecretsDescription =>
-      'View and regenerate client secrets and bot tokens';
+      'Праглядаць і ствараць нанава сакрэты кліента і токены ботаў';
 
   @override
-  String get applicationsSearchBotsKeyword => 'Bots';
+  String get applicationsSearchBotsKeyword => 'Боты';
 
   @override
-  String get applicationsSearchDocumentation => 'Documentation';
+  String get applicationsSearchDocumentation => 'Дакументацыя';
 
   @override
-  String get blockedUsersTitle => 'Blocked users';
+  String get blockedUsersTitle => 'Заблакіраваныя карыстальнікі';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Заблакіраваныя карыстальнікі не могуць адпраўляць вам запыты ў сябры або пісаць вам асабістыя паведамленні.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No blocked users';
+  String get blockedUsersEmptyTitle => 'Няма заблакіраваных карыстальнікаў';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => 'Вы яшчэ нікога не заблакіравалі.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to load blocked users';
+  String get blockedUsersLoadError =>
+      'Не ўдалося загрузіць заблакіраваных карыстальнікаў';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Разблакіраваць';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock user';
+  String get blockedUsersUnblockTitle => 'Разблакіраваць карыстальніка';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Вы сапраўды хочаце разблакіраваць $username?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy username';
+  String get blockedUsersCopyTag => 'Скапіраваць імя карыстальніка';
 
   @override
-  String get blockedUsersCopyId => 'Copy user ID';
+  String get blockedUsersCopyId => 'Скапіраваць ID карыстальніка';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Не ўдалося загрузіць профіль';
 
   @override
-  String get userProfileLoading => 'Loading profile';
+  String get userProfileLoading => 'Загрузка профілю';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Паўтарыць';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Паведамленне';
 
   @override
-  String get userProfileVoiceCall => 'Voice call';
+  String get userProfileVoiceCall => 'Галасавы выклік';
 
   @override
-  String get userProfileVideoCall => 'Video call';
+  String get userProfileVideoCall => 'Відэавыклік';
 
   @override
-  String get userProfileEditProfile => 'Edit profile';
+  String get userProfileEditProfile => 'Рэдагаваць профіль';
 
   @override
   String userProfileStaffBadgeTooltip(String productName) {
-    return '$productName Staff';
+    return 'Супрацоўнік $productName';
   }
 
   @override
   String userProfileCtpBadgeTooltip(String productName) {
-    return '$productName Community Team';
+    return 'Каманда суполкі $productName';
   }
 
   @override
   String userProfilePartnerBadgeTooltip(String productName) {
-    return '$productName Partner';
+    return 'Партнёр $productName';
   }
 
   @override
   String userProfileBugHunterBadgeTooltip(String productName) {
-    return '$productName Bug Hunter';
+    return 'Паляўнічы за памылкамі $productName';
   }
 
   @override
@@ -3370,7 +3454,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String premiumProductFullName,
     String date,
   ) {
-    return '$premiumProductFullName subscriber since $date';
+    return 'Падпісчык $premiumProductFullName з $date';
   }
 
   @override
@@ -3383,7 +3467,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String productName,
     String date,
   ) {
-    return '$productName Visionary since $date';
+    return '$productName Visionary з $date';
   }
 
   @override
@@ -3393,168 +3477,168 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual friends ($count)';
+    return 'Агульныя сябры ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual communities ($count)';
+    return 'Агульныя суполкі ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual friends';
+  String get userProfileMutualFriendsTitle => 'Агульныя сябры';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual communities';
+  String get userProfileMutualCommunitiesTitle => 'Агульныя суполкі';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => 'Агульныя сябры не знойдзены.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities => 'Агульныя суполкі не знойдзены.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Псеўданім: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'Адкрыць асабісты чат';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Вы заблакіравалі $username. Вы не зможаце адпраўляць паведамленні, пакуль не разблакіруеце гэтага карыстальніка.';
   }
 
   @override
-  String get blockedUserComposerBarrierAction => 'Unblock';
+  String get blockedUserComposerBarrierAction => 'Разблакіраваць';
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get userProfileOpenDm => 'Адкрыць асабісты чат';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileNoteTitle => 'Заўвага';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteVisibility => '(бачна толькі вам)';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteSave => 'Захаваць';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteDelete => 'Выдаліць';
 
   @override
-  String get userProfileMemberSince => 'Member since';
+  String get userProfileMemberSince => 'Дата далучэння';
 
   @override
-  String get userProfileAboutMe => 'About me';
+  String get userProfileAboutMe => 'Пра мяне';
 
   @override
-  String get userProfileRoles => 'Roles';
+  String get userProfileRoles => 'Ролі';
 
   @override
-  String get memberRoleAdd => 'Add role';
+  String get memberRoleAdd => 'Дадаць ролю';
 
   @override
   String memberRoleRemove(String roleName) {
-    return 'Remove role $roleName';
+    return 'Прыбраць ролю $roleName';
   }
 
   @override
   String get userProfileNoRolesInCommunity =>
-      'This user has no roles in this community.';
+      'У гэтага карыстальніка няма роляў у гэтай суполцы.';
 
   @override
   String memberRolesNoRolesYet(String rolesSettingsPath) {
-    return 'No roles yet. Add roles in $rolesSettingsPath';
+    return 'Пакуль няма роляў. Дадайце ролі ў раздзеле $rolesSettingsPath';
   }
 
   @override
-  String get memberRolesNoRolesAvailable => 'No roles available';
+  String get memberRolesNoRolesAvailable => 'Няма даступных роляў';
 
   @override
   String memberRolesNoRolesAvailableDescription(String rolesSettingsPath) {
-    return 'There are no roles to assign in this community at this time, but you can create a new role in $rolesSettingsPath.';
+    return 'Зараз у гэтай суполцы няма роляў, якія можна прызначыць, але вы можаце стварыць новую ролю ў раздзеле $rolesSettingsPath.';
   }
 
   @override
-  String get guildSettingsTitle => 'Community settings';
+  String get guildSettingsTitle => 'Налады суполкі';
 
   @override
-  String get guildSettingsRolesTab => 'Roles';
+  String get guildSettingsRolesTab => 'Ролі';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'Добра';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Мясцовы час';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Мясцовы час у профілі';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Задайце часавы пояс адзін раз, каб $productName мог падтрымліваць ваша зрушэнне ад UTC актуальным пры пераходзе на летні і зімовы час. Іншыя бачаць толькі зрушэнне ад UTC, а не дакладны ідэнтыфікатар часавага пояса.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'Змяніць мясцовы час у профілі';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Часавы пояс';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Выберыце часавы пояс, паводле якога $productName вылічвае ваша зрушэнне ад UTC, каб паказваць мясцовы час у профілі.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Пошук часавых паясоў';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Не зададзены';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Іншыя бачаць толькі ваша цяперашняе зрушэнне ад UTC, калі вы вырашыце паказваць мясцовы час у профілі. Яны не бачаць дакладны ідэнтыфікатар вашага часавага пояса, напрыклад $timezoneIdentifierExample. $productName захоўвае гэты ідэнтыфікатар толькі для таго, каб зрушэнне аўтаматычна абнаўлялася пры пераходзе на летні і зімовы час.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Усе';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Дазволіць бачыць ваш мясцовы час усім, хто можа праглядаць ваш поўны профіль';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Сябры';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Дазволіць сябрам бачыць ваш мясцовы час';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Удзельнікі суполкі';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Дазволіць бачыць ваш мясцовы час удзельнікам суполак, у якіх вы ёсць';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Той жа час, што і ў вас';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return '$duration ahead of you';
+    return 'Апярэджвае вас на $duration';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration behind you';
+    return 'Адстае ад вас на $duration';
   }
 
   @override
@@ -3562,14 +3646,18 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours гадзіны',
+      many: '$hours гадзін',
+      few: '$hours гадзіны',
+      one: '$hours гадзіна',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes хвіліны',
+      many: '$minutes хвілін',
+      few: '$minutes хвіліны',
+      one: '$minutes хвіліна',
     );
     return '$_temp0 $_temp1';
   }
@@ -3579,8 +3667,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours гадзіны',
+      many: '$hours гадзін',
+      few: '$hours гадзіны',
+      one: '$hours гадзіна',
     );
     return '$_temp0';
   }
@@ -3590,360 +3680,363 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes хвіліны',
+      many: '$minutes хвілін',
+      few: '$minutes хвіліны',
+      one: '$minutes хвіліна',
     );
     return '$_temp0';
   }
 
   @override
-  String get userProfileCopyUsername => 'Copy username';
+  String get userProfileCopyUsername => 'Скапіраваць імя карыстальніка';
 
   @override
-  String get userProfileCopyUserId => 'Copy user ID';
+  String get userProfileCopyUserId => 'Скапіраваць ID карыстальніка';
 
   @override
-  String get userProfileViewMainProfile => 'View main profile';
+  String get userProfileViewMainProfile => 'Адкрыць асноўны профіль';
 
   @override
-  String get userProfileViewCommunityProfile => 'View community profile';
+  String get userProfileViewCommunityProfile => 'Паглядзець профіль у суполцы';
 
   @override
-  String get userProfileBlockUser => 'Block user';
+  String get userProfileBlockUser => 'Заблакіраваць карыстальніка';
 
   @override
-  String get userProfileUnblockUser => 'Unblock user';
+  String get userProfileUnblockUser => 'Разблакіраваць карыстальніка';
 
   @override
-  String get userProfileRemoveFriend => 'Remove friend';
+  String get userProfileRemoveFriend => 'Выдаліць з сяброў';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block user';
+  String get userProfileBlockConfirmTitle => 'Заблакіраваць карыстальніка';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Вы сапраўды хочаце заблакіраваць $username?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock user';
+  String get userProfileUnblockConfirmTitle => 'Разблакіраваць карыстальніка';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Вы сапраўды хочаце разблакіраваць $username?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Выдаліць з сяброў';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Вы сапраўды хочаце выдаліць $username з сяброў?';
   }
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'Не ўдалося захаваць нататку';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Змяніць псеўданім';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Выгнаць';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Забаніць';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Тайм-аўт';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Зняць тайм-аўт';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Перадаць правы ўладальніка';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Паскардзіцца на паведамленне';
 
   @override
-  String get userProfileReportUserProfile => 'Report profile';
+  String get userProfileReportUserProfile => 'Паскардзіцца на профіль';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'Выгнаць $username?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Вы сапраўды хочаце выгнаць $username? Гэты карыстальнік зможа далучыцца зноў па новым запрашэнні.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Зняць тайм-аўт?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Пасля зняцця тайм-аўту $username зноў зможа адпраўляць паведамленні, ставіць рэакцыі і далучацца да галасавых каналаў.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Перадаць правы ўладальніка?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Перадаць правы ўладальніка гэтай суполкі карыстальніку $username? Гэта дзеянне незваротнае, і вы страціце ўсе правы ўладальніка.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'Забаніць $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Працягласць бану';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'Свая працягласць (секунды)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Любое значэнне ад $min да $max секунд';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel =>
+      'Выдаліць гісторыю паведамленняў';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Нічога не выдаляць';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => 'За апошнія 24 гадзіны';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => 'За апошнія 7 дзён';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Прычына (неабавязкова)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Увядзіце прычыну бану';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Забаніць удзельніка';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'Тайм-аўт для $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Працягласць тайм-аўту';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Даць тайм-аўт удзельніку';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Псеўданім';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Увядзіце псеўданім';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Захаваць';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return 'Карыстальнік $username выгнаны';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return 'Карыстальнік $username забанены';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'Карыстальніку $username дадзены тайм-аўт';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Тайм-аўт для $username зняты';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Псеўданім абноўлены';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Правы ўладальніка перададзены';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'Назаўсёды';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 секунд';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 хвілін';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 хвілін';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 гадзіна';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 гадзін';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 дзень';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 дні';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 дзён';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 тыдзень';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 тыдні';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 месяц';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Уласнае…';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name піша...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 і $name2 пішуць...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1, $name2 і $name3 пішуць...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Некалькі чалавек набіраюць тэкст...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Збіраецца жменька клавіятурных ваяўнікоў...';
 
   @override
-  String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+  String get typingIndicatorSymphony => 'Пачалася сімфонія пстрычак клавіш...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => 'Тут сапраўдная фіеста набору тэксту';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'Ого, гэта апакаліпсіс набору тэксту';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Рады, што вы тут, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Вітаем, $username! Адчувайце сябе як дома.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Прывітанне, $username! Рады, што вы з намі.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Прывітанне, $username! Далучайцеся, калі будзеце гатовыя.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Прывітанне, $username! Рады вас тут бачыць!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Прывітанне, $username! Спадзяёмся, вам тут спадабаецца.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Прывітанне, $username! Сардэчна запрашаем на борт!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Добра, што вы да нас дабраліся, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Сардэчна запрашаем, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Вітаем, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Вітаем, $username! Мы рады, што вы тут.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Вітаем, $username! Спадзяёмся, вам тут спадабаецца.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Вітаем, $username! Ваша наступная размова пачынаецца тут.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Вітаем, $username. Мы рады, што вы з намі.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Рады вас бачыць, $username! Заходзьце.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Вы тут, $username! Рады, што вы з намі.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Вы тут, $username! Пачынаем.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'зараз';
 
   @override
   String relativeTimeShortMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count хв',
+      many: '$count хв',
+      few: '$count хв',
+      one: '$count хв',
     );
     return '$_temp0';
   }
@@ -3953,8 +4046,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count гадз',
+      many: '$count гадз',
+      few: '$count гадз',
+      one: '$count гадз',
     );
     return '$_temp0';
   }
@@ -3964,8 +4059,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count дн',
+      many: '$count дн',
+      few: '$count дн',
+      one: '$count дн',
     );
     return '$_temp0';
   }
@@ -3975,8 +4072,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '$count мес',
+      many: '$count мес',
+      few: '$count мес',
+      one: '$count мес',
     );
     return '$_temp0';
   }
@@ -3986,50 +4085,54 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '$count г',
+      many: '$count г',
+      few: '$count г',
+      one: '$count г',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My devices';
+  String get linkedDevicesTitle => 'Мае прылады';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Тут паказаны ўсе прылады, з якіх зараз выкананы ўваход у ваш уліковы запіс. Адклічце сеансы, якіх вы не пазнаяце.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current device';
+  String get linkedDevicesCurrentDevice => 'Цяперашняя прылада';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other devices';
+  String get linkedDevicesOtherDevices => 'Іншыя прылады';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter selection mode';
+  String get linkedDevicesEnterSelection => 'Уключыць рэжым выбару';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit selection mode';
+  String get linkedDevicesExitSelection => 'Выйсці з рэжыму выбару';
 
   @override
-  String get linkedDevicesSelectAll => 'Select all';
+  String get linkedDevicesSelectAll => 'Вылучыць усё';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear selection';
+  String get linkedDevicesClearSelection => 'Ачысціць выбар';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Адклікаць прыладу';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Выйсці на ўсіх іншых прыладах';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Выйсці на $count прылады',
+      many: 'Выйсці на $count прыладах',
+      few: 'Выйсці на $count прыладах',
+      one: 'Выйсці на $count прыладзе',
     );
     return '$_temp0';
   }
@@ -4039,14 +4142,17 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Выйсці на $count прылады',
+      many: 'Выйсці на $count прыладах',
+      few: 'Выйсці на $count прыладах',
+      one: 'Выйсці на $count прыладзе',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Выйсці на ўсіх іншых прыладах';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -4054,284 +4160,298 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Выбраныя прылады выйдуць з вашага ўліковага запісу. На іх трэба будзе ўвайсці зноў.',
+      many:
+          'Выбраныя прылады выйдуць з вашага ўліковага запісу. На іх трэба будзе ўвайсці зноў.',
+      few:
+          'Выбраныя прылады выйдуць з вашага ўліковага запісу. На іх трэба будзе ўвайсці зноў.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Выбраныя прылады выйдуць з вашага ўліковага запісу. На іх трэба будзе ўвайсці зноў.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Выбраныя прылады выйдуць з вашага ўліковага запісу. На іх трэба будзе ўвайсці зноў.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Працягнуць';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'На ўсіх прыладах, з якіх вы выйдзеце, трэба будзе ўвайсці зноў';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network error';
+  String get linkedDevicesLoadErrorTitle => 'Памылка сеткі';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Узніклі праблемы з падключэннем да прасторава-часавага кантынууму. Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Прылады адключаны',
+      many: 'Прылады адключаны',
+      few: 'Прылады адключаны',
+      one: 'Прылады адключаны',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Не ўдалося выйсці. Паспрабуйце яшчэ раз.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'Невядомая АС';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown platform';
+  String get linkedDevicesUnknownPlatform => 'Невядомая платформа';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Паглядзець падрабязнасці';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Звесткі пра прыладу';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Прылада';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Кліент';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Месцазнаходжанне';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-адрас';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Апошняе выкарыстанне';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Цяперашні сеанс';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Невядома';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return 'Павольны рэжым: $duration';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Дзейнічае павольны рэжым. Пачакайце, перш чым адправіць наступнае паведамленне.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Павольны рэжым уключаны, але на вас ён не распаўсюджваецца.';
 
   @override
-  String get slowmodeStatusEnabled => 'Slowmode is enabled';
+  String get slowmodeStatusEnabled => 'Уключаны павольны рэжым';
 
   @override
   String slowmodeStatusActive(String remaining) {
-    return 'Slowmode is active ($remaining)';
+    return 'Павольны рэжым актыўны ($remaining)';
   }
 
   @override
   String slowmodeTooltipSetImmune(String durationLabel) {
-    return 'Slowmode is set to $durationLabel, but you are immune.';
+    return 'Зададзены павольны рэжым: $durationLabel, але на вас ён не распаўсюджваецца.';
   }
 
   @override
   String slowmodeTooltipSetWait(String durationLabel) {
-    return 'Slowmode is set to $durationLabel. Wait before sending another message.';
+    return 'Зададзены павольны рэжым: $durationLabel. Пачакайце, перш чым адпраўляць наступнае паведамленне.';
   }
 
   @override
   String slowmodeTooltipSetChannel(String durationLabel) {
-    return 'Slowmode is set to $durationLabel for this channel.';
+    return 'Для гэтага канала зададзены павольны рэжым: $durationLabel.';
   }
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Вы не можаце адпраўляць паведамленні ў гэтым канале.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Сістэмныя аб’явы ад каманды $productName. Адказваць тут нельга.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Перапіска ў гэтай суполцы часова прыпынена.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'У вас тайм-аўт. Паведамленні, рэакцыі і галасавая сувязь прыпынены да канца тайм-аўту.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Каб пісаць паведамленні ў гэтай суполцы, замацуйце за сабой уліковы запіс.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Каб пісаць паведамленні ў гэтай суполцы, пацвердзіце адрас электроннай пошты.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Ваш уліковы запіс занадта новы, каб адпраўляць паведамленні ў гэтай суполцы.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Вы яшчэ недастаткова доўга ў гэтай суполцы, каб адпраўляць паведамленні.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail =>
+      'Пацвердзіць электронную пошту';
 
   @override
   String get accountLimitedNotice =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Адпраўка паведамленняў у вашым уліковым запісе прыпынена. Праверце электронную пошту: каб працягнуць, трэба зрабіць адзін хуткі крок.';
 
   @override
-  String get messagingPausedTextDidNotGoThrough => 'My text didn\'t go through';
+  String get messagingPausedTextDidNotGoThrough => 'Праблема з SMS';
 
   @override
   String messagingPausedHelpBody(String supportEmail) {
-    return 'Email $supportEmail and a person will check your account. You can also reply to the email we sent you.';
+    return 'Напішыце на $supportEmail, і чалавек з нашай каманды праверыць ваш уліковы запіс. Таксама можна адказаць на ліст, які мы вам адправілі.';
   }
 
   @override
-  String get messagingPausedHelpCountryLabel => 'Country you\'re in';
+  String get messagingPausedHelpCountryLabel => 'Краіна, дзе вы знаходзіцеся';
 
   @override
-  String get messagingPausedHelpCopyDetails => 'Copy details';
+  String get messagingPausedHelpCopyDetails => 'Скапіраваць звесткі';
 
   @override
-  String get messagingPausedHelpEmailSupport => 'Email support';
+  String get messagingPausedHelpEmailSupport => 'Напісаць у службу падтрымкі';
 
   @override
   String messagingPausedHelpAccountIdLine(String accountId) {
-    return 'Account ID: $accountId';
+    return 'ID уліковага запісу: $accountId';
   }
 
   @override
   String messagingPausedHelpUsernameLine(String username) {
-    return 'Username: $username';
+    return 'Імя карыстальніка: $username';
   }
 
   @override
   String messagingPausedHelpAccountCreatedLine(String createdAt) {
-    return 'Account created: $createdAt';
+    return 'Уліковы запіс створаны: $createdAt';
   }
 
   @override
   String messagingPausedHelpCountryLine(String country) {
-    return 'Country: $country';
+    return 'Краіна: $country';
   }
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Гэтыя файлы занадта вялікія, каб адправіць іх разам';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'Адпусціце файлы, каб загрузіць іх';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend =>
+      'Адпусціце файлы, каб адразу адправіць іх';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Галасавое паведамленне';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag to trash to delete, slide up to lock, or release to send.';
+      'Утрымлівайце, каб запісаць. Перацягніце ў кошык, каб выдаліць, правядзіце ўверх, каб замацаваць запіс, або адпусціце, каб адправіць.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Выдаліць галасавое паведамленне';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Адправіць галасавое паведамленне';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Не ўдаецца пачаць запіс. Дазвольце доступ да мікрафона.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Каб запісаць галасавое паведамленне, пакіньце галасавы выклік.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Не ўдалося запісаць. Паспрабуйце яшчэ раз.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Не ўдалося адправіць галасавое паведамленне. Паспрабуйце яшчэ раз.';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Прайграць';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'Паўза';
 
   @override
-  String get voiceMessageSeekForward => 'Seek forward';
+  String get voiceMessageSeekForward => 'Перамотаць наперад';
 
   @override
-  String get voiceMessageSeekBackward => 'Seek backward';
+  String get voiceMessageSeekBackward => 'Перамотаць назад';
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Рэдагаваць далучэнне';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Назва файла';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Апісанне';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint =>
+      'Альтэрнатыўны тэкст (неабавязкова)';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Пазначыць як спойлер';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Прыбраць далучэнне';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Спампаваць';
 
   @override
-  String get chatAttachmentDownloadedToast => 'Saved to photos';
+  String get chatAttachmentDownloadedToast => 'Захавана ў «Фота»';
 
   @override
   String get chatAttachmentDownloadFailedToast =>
-      'Couldn\'t download attachment';
+      'Не ўдалося спампаваць далучэнне';
 
   @override
   String chatAttachmentDownloadPhotosAccessToast(String productName) {
-    return '$productName needs access to your photo library to save this attachment.';
+    return 'Каб захаваць гэта далучэнне, дайце $productName доступ да фотатэкі.';
   }
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip =>
+      'Тэрмін дзеяння далучэння скончыўся';
 
   @override
   String chatTextualPreviewExpandLines(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count lines)',
-      one: 'Expand ($count line)',
+      other: 'Разгарнуць ($count радка)',
+      many: 'Разгарнуць ($count радкоў)',
+      few: 'Разгарнуць ($count радкі)',
+      one: 'Разгарнуць ($count радок)',
     );
     return '$_temp0';
   }
@@ -4341,8 +4461,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count lines)',
-      one: 'Collapse ($count line)',
+      other: 'Згарнуць ($count радка)',
+      many: 'Згарнуць ($count радкоў)',
+      few: 'Згарнуць ($count радкі)',
+      one: 'Згарнуць ($count радок)',
     );
     return '$_temp0';
   }
@@ -4352,8 +4474,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count rows)',
-      one: 'Expand ($count row)',
+      other: 'Разгарнуць ($count радка)',
+      many: 'Разгарнуць ($count радкоў)',
+      few: 'Разгарнуць ($count радкі)',
+      one: 'Разгарнуць ($count радок)',
     );
     return '$_temp0';
   }
@@ -4363,8 +4487,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count rows)',
-      one: 'Collapse ($count row)',
+      other: 'Згарнуць ($count радка)',
+      many: 'Згарнуць ($count радкоў)',
+      few: 'Згарнуць ($count радкі)',
+      one: 'Згарнуць ($count радок)',
     );
     return '$_temp0';
   }
@@ -4374,8 +4500,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count lines left)',
-      one: '... ($count line left)',
+      other: '... (засталося $count радка)',
+      many: '... (засталося $count радкоў)',
+      few: '... (засталіся $count радкі)',
+      one: '... (застаўся $count радок)',
     );
     return '$_temp0';
   }
@@ -4385,314 +4513,322 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count rows left)',
-      one: '... ($count row left)',
+      other: '... (засталося $count радка)',
+      many: '... (засталося $count радкоў)',
+      few: '... (засталіся $count радкі)',
+      one: '... (застаўся $count радок)',
     );
     return '$_temp0';
   }
 
   @override
-  String get chatTextualPreviewViewWholeFile => 'View whole file';
+  String get chatTextualPreviewViewWholeFile => 'Паглядзець увесь файл';
 
   @override
-  String get chatTextualPreviewChangeLanguage => 'Change language';
+  String get chatTextualPreviewChangeLanguage => 'Змяніць мову';
 
   @override
-  String get chatTextualPreviewSearchLanguage => 'Search language…';
+  String get chatTextualPreviewSearchLanguage => 'Пошук мовы…';
 
   @override
-  String get chatTextualPreviewSyntaxHighlighting => 'Syntax highlighting';
+  String get chatTextualPreviewSyntaxHighlighting => 'Падсвятленне сінтаксісу';
 
   @override
-  String get chatTextualPreviewNoLanguagesFound => 'No results found';
+  String get chatTextualPreviewNoLanguagesFound => 'Нічога не знойдзена';
 
   @override
-  String get chatTextualPreviewMoreOptions => 'More options';
+  String get chatTextualPreviewMoreOptions => 'Іншыя параметры';
 
   @override
-  String get chatTextualPreviewWrapText => 'Wrap text';
+  String get chatTextualPreviewWrapText => 'Пераносіць тэкст';
 
   @override
   String chatTextualPreviewSizeError(int previewLimitKb) {
-    return 'File is too large for inline preview (limit $previewLimitKb KB).';
+    return 'Файл занадта вялікі для папярэдняга прагляду (ліміт — $previewLimitKb КБ).';
   }
 
   @override
-  String get chatTextualPreviewLoadError => 'Unable to load preview.';
+  String get chatTextualPreviewLoadError =>
+      'Не ўдалося загрузіць папярэдні прагляд.';
 
   @override
-  String get chatTextualPreviewLanguagePlaintext => 'Plain text';
+  String get chatTextualPreviewLanguagePlaintext => 'Звычайны тэкст';
 
   @override
-  String get chatTextualPreviewCopy => 'Copy';
+  String get chatTextualPreviewCopy => 'Скапіраваць';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Галерэя';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Камера';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Выбраць файлы';
 
   @override
-  String get chatAttachmentSpoiler => 'Spoiler';
+  String get chatAttachmentSpoiler => 'Спойлер';
 
   @override
-  String get chatMediaSpoilerOverlayLabel => 'SPOILER';
+  String get chatMediaSpoilerOverlayLabel => 'СПОЙЛЕР';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Паказаць спойлер';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Паказаць';
 
   @override
-  String get matureMediaRevealLabel => 'Reveal sensitive media';
+  String get matureMediaRevealLabel => 'Паказаць адчувальныя медыя';
 
   @override
   String get matureMediaAppLockedLabel =>
-      'Sensitive media is hidden on iPhone and iPad.';
+      'Адчувальныя медыя на iPhone і iPad схаваны.';
 
   @override
   String get matureMediaMinorLockedLabel =>
-      'Sensitive media is hidden for your account.';
+      'Адчувальныя медыя схаваны для вашага ўліковага запісу.';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Змесціва для дарослых';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Суполка для дарослых';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Катэгорыя для дарослых';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Канал для дарослых';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Папярэджанне аб змесціве суполкі';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle =>
+      'Папярэджанне аб змесціве катэгорыі';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Папярэджанне аб змесціве канала';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Тут ёсць адчувальнае змесціва.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Гэта суполка пазначана як суполка са змесцівам для дарослых і можа змяшчаць матэрыялы, якія некаторым карыстальнікам могуць не падысці.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Гэта катэгорыя пазначана як катэгорыя са змесцівам для дарослых і можа змяшчаць матэрыялы, якія некаторым карыстальнікам могуць не падысці.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Гэты канал пазначаны як канал са змесцівам для дарослых і можа змяшчаць матэрыялы, якія некаторым карыстальнікам могуць не падысці.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Гэты галасавы канал пазначаны як канал са змесцівам для дарослых і можа змяшчаць матэрыялы, якія некаторым карыстальнікам могуць не падысці.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Гэты канал-спасылка пазначаны як канал са змесцівам для дарослых і можа адкрываць матэрыялы, якія некаторым карыстальнікам могуць не падысці.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Гэта суполка для дарослых недаступная для вашага ўліковага запісу.';
 
   @override
   String matureContentIosWebOptInInstanceBody(String webAddress) {
-    return 'Turn on age-restricted communities and channels at $webAddress in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
+    return 'Уключыце суполкі і каналы з узроставымі абмежаваннямі на $webAddress у браўзеры або ў настольнай праграме. Да таго часу ў праграме для iOS яны застаюцца схаванымі.';
   }
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Гэта катэгорыя для дарослых недаступная для вашага ўліковага запісу.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Гэты канал для дарослых недаступны для вашага ўліковага запісу.';
 
   @override
   String get matureContentAppLockedBody =>
-      '18+ content is off on iPhone and iPad. To view communities and channels marked 18+ here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
+      'Змесціва 18+ на iPhone і iPad выключана. Каб праглядаць тут суполкі і каналы з адзнакай 18+, адкрыйце Fluxer у вэб-версіі або на камп’ютары, перайдзіце ў раздзел «Прыватнасць» у наладах і ўключыце «Дазволіць змесціва 18+ на iPhone і iPad».';
 
   @override
   String get matureContentRegionLockedBody =>
-      'Due to mature content laws where you are, mature content is not available from here.';
+      'Паводле законаў пра змесціва для дарослых у вашым рэгіёне яно адсюль недаступнае.';
 
   @override
-  String get matureMessageHiddenPreview => 'Message in an 18+ channel';
+  String get matureMessageHiddenPreview => 'Паведамленне ў канале 18+';
 
   @override
   String get ageRangeUnderMinimumTitle =>
-      'Fluxer isn\'t available on this account';
+      'Fluxer недаступны для гэтага ўліковага запісу';
 
   @override
   String get ageRangeUnderMinimumBody =>
-      'The age range shared by your Apple Account is under 13. Fluxer is only for people aged 13 and over.';
+      'Паводле ўзроставага дыяпазону, які перадае ваш Apple Account, вам менш за 13 гадоў. Fluxer прызначаны толькі для людзей ад 13 гадоў.';
 
   @override
   String get ageRangeUnderMinimumBodyGoogle =>
-      'The age range shared by your Google Account is under 13. Fluxer is only for people aged 13 and over.';
+      'Паводле ўзроставага дыяпазону, які перадае ваш Google Account, вам менш за 13 гадоў. Fluxer прызначаны толькі для людзей ад 13 гадоў.';
 
   @override
   String get ageRangeUnlockBody =>
-      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Apple Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+      'Па законе вашага рэгіёна для доступу да змесціва для дарослых недастаткова ўвесці дату нараджэння, але яго можна адкрыць з дапамогай узроставага дыяпазону з вашага Apple Account. Fluxer атрымлівае ўзроставы дыяпазон, толькі калі вам 18 гадоў або больш. Дыяпазон да 18 гадоў застаецца на гэтай прыладзе.';
 
   @override
   String get ageRangeUnlockBodyGoogle =>
-      'Where you are, the law says a date of birth you type in isn\'t enough for mature content, and you can use the age range on your Google Account to unlock it. Fluxer only gets the age range if it\'s 18 or over. An age range under 18 stays on this device.';
+      'Па законе вашага рэгіёна для доступу да змесціва для дарослых недастаткова ўвесці дату нараджэння, але яго можна адкрыць з дапамогай узроставага дыяпазону з вашага Google Account. Fluxer атрымлівае ўзроставы дыяпазон, толькі калі вам 18 гадоў або больш. Дыяпазон да 18 гадоў застаецца на гэтай прыладзе.';
 
   @override
-  String get ageRangeUnlockHelpLink => 'How unlocking mature content works';
+  String get ageRangeUnlockHelpLink =>
+      'Як працуе адкрыццё змесціва для дарослых';
 
   @override
-  String get ageRangeUnlockButton => 'Unlock mature content';
+  String get ageRangeUnlockButton => 'Адкрыць змесціва для дарослых';
 
   @override
   String get ageRangeUnlockUnderAdult =>
-      'Mature content stays off because the age range on your Apple Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+      'Змесціва для дарослых застаецца выключаным, бо паводле ўзроставага дыяпазону ў вашым Apple Account вам менш за 18 гадоў. Дыяпазон застаецца на гэтай прыладзе і не адпраўляецца ў Fluxer.';
 
   @override
   String get ageRangeUnlockUnderAdultGoogle =>
-      'Mature content stays off because the age range on your Google Account is under 18. The age range stays on this device and isn\'t sent to Fluxer.';
+      'Змесціва для дарослых застаецца выключаным, бо паводле ўзроставага дыяпазону ў вашым Google Account вам менш за 18 гадоў. Дыяпазон застаецца на гэтай прыладзе і не адпраўляецца ў Fluxer.';
 
   @override
   String get ageRangeUnlockFailed =>
-      'Fluxer couldn\'t unlock mature content. Please try again later.';
+      'Fluxer не ўдалося адкрыць змесціва для дарослых. Паспрабуйце яшчэ раз пазней.';
 
   @override
   String get ageRangeUnlockDateOfBirthRequired =>
-      'Your account needs a date of birth before Fluxer can use your age range.';
+      'Каб Fluxer мог выкарыстаць ваш узроставы дыяпазон, ва ўліковым запісе павінна быць указана дата нараджэння.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Працягнуць';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Зразумела';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Адкрыць спасылку';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel =>
+      'Асабістыя паведамленні ад сяброў';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Асабістыя паведамленні ад іншых';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Паведамленні ў каналах суполак';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Паказаць';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Размыццё';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Заблакіраваць';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Скінуць';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Захаваць';
 
   @override
   String get sensitiveContentAppLockedHint =>
-      'To choose \"Show\" here, open Fluxer on the web or on desktop, go to \"Privacy\" in your settings and turn on \"Allow 18+ content on iPhone and iPad\".';
+      'Каб выбраць тут «Паказаць», адкрыйце Fluxer у вэб-версіі або на камп’ютары, перайдзіце ў раздзел «Прыватнасць» у наладах і ўключыце «Дазволіць змесціва 18+ на iPhone і iPad».';
 
   @override
   String get sensitiveContentInstallFromPlayHint =>
-      'Unlocking mature content with your Google Account needs the copy of Fluxer from Google Play.';
+      'Каб адкрыць змесціва для дарослых праз Google Account, патрэбна копія Fluxer з Google Play.';
 
   @override
   String get sensitiveContentFinishInPlayHint =>
-      'Google Play needs one more step before it can share an age range. Open the Play Store to finish it, then come back and press \"Unlock mature content\" again.';
+      'Каб Google Play мог перадаць узроставы дыяпазон, трэба зрабіць яшчэ адзін крок. Адкрыйце Play Store і завяршыце яго там, потым вярніцеся і зноў націсніце «Адкрыць змесціва для дарослых».';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count файла',
+      many: '$count файлаў',
+      few: '$count файлы',
+      one: '$count файл',
     );
-    return 'Uploading $_temp0';
+    return 'Загрузка: $_temp0';
   }
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Тэрмін дзеяння сканчаецца $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Тэрмін дзеяння сканчаецца паміж $start і $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Падключэнні';
 
   @override
   String connectionsDescription(String productName) {
-    return 'Link external accounts and domains to your $productName profile. Verified connections will be displayed on your profile for others to see.';
+    return 'Падключайце знешнія ўліковыя запісы і дамены да свайго профілю $productName. Пацверджаныя падключэнні будуць бачныя іншым у вашым профілі.';
   }
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Пакуль няма падключэнняў';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Падключыце ўліковы запіс Bluesky або пацвердзіце валоданне даменам, каб паказаць іх у сваім профілі.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Пацвердзіце валоданне даменам, каб паказваць яго ў сваім профілі.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'Дамен';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Дадаць падключэнне Bluesky';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Дадаць падключэнне дамена';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Рэдагаваць';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Прыбраць';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Гэта падключэнне пацверджана.';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => 'Гэта падключэнне не пацверджана.';
 
   @override
-  String get connectionAddTitle => 'Add connection';
+  String get connectionAddTitle => 'Дадаць падключэнне';
 
   @override
-  String get connectionTypeLabel => 'Connection type';
+  String get connectionTypeLabel => 'Тып падключэння';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => 'Імя карыстальніка';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'Дамен';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -4701,486 +4837,492 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'У вас ужо ёсць гэта падключэнне.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Падключыць праз Bluesky';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Працягнуць';
 
   @override
-  String get connectionVerifyTitle => 'Verify connection';
+  String get connectionVerifyTitle => 'Пацвердзіць падключэнне';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Каб пацвердзіць валоданне даменам, выкарыстайце запіс ніжэй.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'Запіс DNS TXT';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'Хост';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Значэнне';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Скапіраваць хост';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Скапіраваць значэнне';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Скапіравана!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Размясціце файл токена';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Спампуйце **fluxer-verification** і пакладзіце яго ў папку **.well-known**, каб мы маглі праверыць дамен.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'Спампаваць fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'У файле ёсць токен праверкі, які мы атрымаем з **$dnsUrl**.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'Захаваць fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Пацвердзіць';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Назад';
 
   @override
-  String get connectionEditTitle => 'Edit connection';
+  String get connectionEditTitle => 'Рэдагаваць падключэнне';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Выберыце, хто можа бачыць гэта падключэнне ў вашым профілі.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Усе';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Дазволіць усім бачыць гэта падключэнне ў вашым профілі';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Сябры';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Дазволіць сябрам бачыць гэта падключэнне';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community members';
+  String get connectionVisibilityCommunityMembers => 'Удзельнікі суполкі';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Дазволіць бачыць гэта падключэнне ўдзельнікам суполак, у якіх вы ёсць';
 
   @override
-  String get connectionRemoveTitle => 'Remove connection';
+  String get connectionRemoveTitle => 'Выдаліць падключэнне';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Вы сапраўды хочаце выдаліць гэта падключэнне? Гэта дзеянне нельга адмяніць.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Прыбраць';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'Не ўдалося загрузіць падключэнні';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'Не ўдалося абнавіць парадак';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Не ўдалося пачаць праверку. Паспрабуйце яшчэ раз.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Не ўдалося праверыць. Праверце запіс DNS і паспрабуйце яшчэ раз.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Не ўдалося пачаць аўтарызацыю ў Bluesky.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'Не ўдалося абнавіць падключэнне';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'Не ўдалося выдаліць падключэнне';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'Файл fluxer-verification захаваны';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => 'Не ўдалося захаваць файл';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Увядзіце ідэнтыфікатар Bluesky.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Увядзіце дамен.';
 
   @override
   String get connectionsEmptyDescriptionAccounts =>
-      'Link your accounts or verify domain ownership to display them on your profile.';
+      'Прывяжыце свае ўліковыя запісы або пацвердзіце валоданне даменам, каб паказваць іх у сваім профілі.';
 
   @override
   String connectionsAddProviderAriaLabel(String providerName) {
-    return 'Add $providerName connection';
+    return 'Дадаць падключэнне $providerName';
   }
 
   @override
   String connectionConnectWithProvider(String providerName) {
-    return 'Connect with $providerName';
+    return 'Падключыць праз $providerName';
   }
 
   @override
   String connectionProviderInstructions(String providerName) {
-    return '$providerName opens in your browser. Sign in there to connect your account.';
+    return '$providerName адкрыецца ў браўзеры. Увайдзіце там, каб падключыць уліковы запіс.';
   }
 
   @override
   String connectionProviderAuthorizeFailed(String providerName) {
-    return 'Couldn\'t start $providerName authorization.';
+    return 'Не ўдалося пачаць аўтарызацыю праз $providerName.';
   }
 
   @override
-  String get connectionUnavailable => 'No longer available';
+  String get connectionUnavailable => 'Больш недаступна';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'Тэма';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between system, dark, coal, or light appearance.';
+      'Выберыце тэму: сістэмную, цёмную, «Вугаль» або светлую.';
 
   @override
-  String get lookAndFeelHdrSectionTitle => 'High dynamic range';
+  String get lookAndFeelHdrSectionTitle => 'Высокі дынамічны дыяпазон';
 
   @override
   String get lookAndFeelHdrSectionDescription =>
-      'Control how HDR images are displayed on HDR-capable monitors.';
+      'Кіруйце тым, як HDR-выявы паказваюцца на маніторах з падтрымкай HDR.';
 
   @override
-  String get lookAndFeelHdrFullName => 'Full dynamic range';
+  String get lookAndFeelHdrFullName => 'Поўны дынамічны дыяпазон';
 
   @override
   String get lookAndFeelHdrFullDescription =>
-      'Display HDR images at full brightness and color range.';
+      'Паказваць HDR-выявы з поўнай яркасцю і дыяпазонам колераў.';
 
   @override
-  String get lookAndFeelHdrStandardName => 'Standard range';
+  String get lookAndFeelHdrStandardName => 'Стандартны дыяпазон';
 
   @override
   String get lookAndFeelHdrStandardDescription =>
-      'Tone-map HDR images to standard range, reducing peak brightness.';
+      'Пераводзіць HDR-выявы ў стандартны дыяпазон, змяншаючы пікавую яркасць.';
 
   @override
   String get lookAndFeelHdrDisplayModeLabel =>
-      'High dynamic range display mode';
+      'Рэжым дысплэя з высокім дынамічным дыяпазонам';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark theme';
+  String get lookAndFeelThemeDark => 'Цёмная тэма';
 
   @override
-  String get lookAndFeelThemeDarkLegacy => 'Dark (legacy) theme';
+  String get lookAndFeelThemeDarkLegacy => 'Цёмная (састарэлая) тэма';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal theme';
+  String get lookAndFeelThemeCoal => 'Тэма «Вугаль»';
 
   @override
-  String get lookAndFeelThemeLight => 'Light theme';
+  String get lookAndFeelThemeLight => 'Светлая тэма';
 
   @override
-  String get lookAndFeelThemeSystem => 'System theme';
+  String get lookAndFeelThemeSystem => 'Сістэмная тэма';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Сінхранізаваць тэму паміж прыладамі';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Калі ўключана, змены тэмы сінхранізуюцца на ўсіх вашых прыладах. Калі выключана, гэта прылада выкарыстоўвае ўласную наладу тэмы.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Сістэмная тэма аўтаматычна выключае сінхранізацыю, каб на гэтай прыладзе тэма адпавядала сістэмнай наладзе.';
 
   @override
   String get lookAndFeelUseSystemDynamicColorsLabel =>
-      'Use Material You colors';
+      'Выкарыстоўваць колеры Material You';
 
   @override
   String get lookAndFeelUseSystemDynamicColorsDescription =>
-      'Tint the theme with your device\'s system colors.';
+      'Афарбоўваць тэму сістэмнымі колерамі прылады.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Не ўдалося сінхранізаваць тэму з вашым уліковым запісам. Паспрабуйце яшчэ раз.';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'Колеры тэмы';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'Наладзьце асобныя колеры тэмы для гэтай прылады.';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'Рэдагаванне: $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle =>
+      'Сінхранізацыя з Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'Выкарыстоўваць колеры з Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'Калі ўключана, змены колераў у Theme Studio на камп’ютары прымяняюцца на гэтай прыладзе. Калі выключана, гэта прылада захоўвае свае колеры.';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'Адпраўляць змены колераў у Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'Калі ўключана, колеры, якія вы змяняеце тут, сінхранізуюцца з Theme Studio на іншых вашых прыладах. Калі выключана, Theme Studio на камп’ютары захоўвае свае колеры.';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'Змены колераў з Theme Studio на камп’ютары не будуць прымяняцца на гэтай прыладзе.';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Асноўныя колеры';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'Калі ў вас усталяваны шпалеры чата, гэтага колеру не будзе відаць.';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'Скінуць усе колеры для $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Скінуць колеры тэмы?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'Вашы ўласныя колеры для $mode на гэтай прыладзе будуць выдалены.';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Брэнд і кнопкі';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Чат і паведамленні';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars =>
+      'Бакавыя панэлі і навігацыя';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'Тэкст';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'Загалоўкі';
 
   @override
-  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+  String get lookAndFeelThemeColorsGroupStatus => 'Статус';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'Убудаванні і згадванні';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts =>
+      'Акцэнты і папярэджанні';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls =>
+      'Паверхні і элементы кіравання';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Маштабаванне шрыфту чата';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Наладзьце памер шрыфту ў вобласці чата.';
 
   @override
-  String get lookAndFeelChatFontSizeLabel => 'Chat font size';
+  String get lookAndFeelChatFontSizeLabel => 'Памер шрыфту чата';
 
   @override
-  String get lookAndFeelAppZoomTitle => 'App zoom level';
+  String get lookAndFeelAppZoomTitle => 'Маштаб праграмы';
 
   @override
-  String get lookAndFeelAppZoomDescription =>
-      'Adjust the application\'s zoom level.';
+  String get lookAndFeelAppZoomDescription => 'Наладзьце маштаб праграмы.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Шпалеры чата';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Выберыце фон для чата. Ён захоўваецца толькі на гэтай прыладзе.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Гэта налада захоўваецца толькі на гэтай прыладзе';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Шпалеры чата захоўваюцца толькі на гэтай прыладзе і не сінхранізуюцца з іншымі прыладамі.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Прадвызначана';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Уласная выява';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Зорнае поле';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Колер $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'Градыент $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Зацямненне шпалер';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Не ўдалося зрабіць гэту выяву шпалерамі.';
 
   @override
-  String get lookAndFeelMessagesSectionTitle => 'Messages';
+  String get lookAndFeelMessagesSectionTitle => 'Паведамленні';
 
   @override
   String get lookAndFeelMessagesSectionDescription =>
-      'Choose how messages are displayed in chat channels.';
+      'Выберыце, як паказваюцца паведамленні ў каналах чата.';
 
   @override
   String get lookAndFeelMessageGroupSpacingLabel =>
-      'Space between message groups';
+      'Прамежак паміж групамі паведамленняў';
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
-    return '${spacing}px';
+    return '$spacing пкс';
   }
 
   @override
   String lookAndFeelPixelsAccessibleValue(int value) {
-    return '$value pixels';
+    return 'Пікселяў: $value';
   }
 
   @override
-  String get lookAndFeelMessageDisplayModeLabel => 'Message display mode';
+  String get lookAndFeelMessageDisplayModeLabel =>
+      'Рэжым адлюстравання паведамленняў';
 
   @override
-  String get lookAndFeelMessageDisplayComfyName => 'Comfy';
+  String get lookAndFeelMessageDisplayComfyName => 'Зручны';
 
   @override
   String get lookAndFeelMessageDisplayComfyDescription =>
-      'Spacious layout with clear visual separation between messages.';
+      'Прасторны макет з выразным візуальным падзелам паміж паведамленнямі.';
 
   @override
-  String get lookAndFeelMessageDisplayDenseName => 'Dense';
+  String get lookAndFeelMessageDisplayDenseName => 'Шчыльны';
 
   @override
   String get lookAndFeelMessageDisplayDenseDescription =>
-      'Maximizes visible messages with minimal spacing.';
+      'Найбольш паведамленняў на экране з мінімальнымі водступамі.';
 
   @override
-  String get lookAndFeelHideUserAvatarsLabel => 'Hide user avatars';
+  String get lookAndFeelHideUserAvatarsLabel =>
+      'Схаваць аватары карыстальнікаў';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Інтэрфейс';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Наладзьце элементы інтэрфейсу і іх паводзіны.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Індыкатары набору ў спісе каналаў';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Выберыце, як індыкатары набору паказваюцца ў спісе каналаў, калі хтосьці піша ў канале.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing indicator + avatars';
+      'Індыкатар набору + аватары';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Паказваць індыкатар набору з аватарамі карыстальнікаў у спісе каналаў';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing indicator only';
+      'Толькі індыкатар набору';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Паказваць толькі індыкатар набору без аватараў';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Схавана';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Не паказваць індыкатары набору ў спісе каналаў';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Паказваць набор у выбраным канале';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Калі выключана (прадвызначана), індыкатары набору не паказваюцца ў канале, які вы зараз праглядаеце.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'агульны';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Падказкі для клавіятуры';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Выберыце, ці паказваць спалучэнні клавіш у падказках.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Не паказваць спалучэнні клавіш у падказках';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Калі ўключана, значкі спалучэнняў клавіш у падказках схаваныя.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Community list';
+  String get lookAndFeelGuildSidebarTitle => 'Спіс суполак';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how direct messages and communities behave in the sidebar.';
+      'Наладзьце, як асабістыя чаты і суполкі паводзяць сябе на бакавой панэлі.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -5188,780 +5330,791 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
+          '$count суполкі часова недаступныя праз няспраўнасць патокавага кандэнсатара.',
+      many:
+          '$count суполак часова недаступныя праз няспраўнасць патокавага кандэнсатара.',
+      few:
+          '$count суполкі часова недаступныя праз няспраўнасць патокавага кандэнсатара.',
       one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          '$count суполка часова недаступная праз няспраўнасць патокавага кандэнсатара.',
     );
     return '$_temp0';
   }
 
   @override
-  String get communityTemporarilyUnavailable =>
-      'Community temporarily unavailable';
+  String get communityTemporarilyUnavailable => 'Суполка часова недаступная';
 
   @override
   String get guildUnavailableDescription =>
-      'Something went wrong. We\'re working on it.';
+      'Штосьці пайшло не так. Мы ўжо працуем над гэтым.';
 
   @override
-  String get guildNotFoundTitle =>
-      'This is not the community you\'re looking for.';
+  String get guildNotFoundTitle => 'Гэта не тая суполка, якую вы шукаеце.';
 
   @override
   String get guildNotFoundDescription =>
-      'The community you\'re looking for may have been deleted or you may not have access to it.';
+      'Магчыма, суполка, якую вы шукаеце, выдалена або ў вас няма да яе доступу.';
 
   @override
   String guildStaffOnlyAccessibleNagbar(
     String communityName,
     String productName,
   ) {
-    return '$communityName is currently only accessible to $productName staff members';
+    return 'Суполка $communityName зараз даступная толькі супрацоўнікам $productName';
   }
 
   @override
-  String get guildNavbarTemporarilyUnavailable => 'temporarily unavailable';
+  String get guildNavbarTemporarilyUnavailable => 'часова недаступна';
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs into folder';
+  String get lookAndFeelCollapseDMsLabel => 'Згарнуць асабістыя чаты ў папку';
 
   @override
   String lookAndFeelCollapseDMsDescription(String productName) {
-    return 'When enabled, unread DMs in the community list are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
+    return 'Калі ўключана, непрачытаныя асабістыя чаты ў спісе суполак згортваюцца ў папку на кнопцы $productName. Каб разгарнуць або згарнуць папку, націсніце кнопку $productName на старонцы асабістых чатаў.';
   }
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'Адкрываць суполкі на апошнім канале';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'Калі націснуць на суполку, адразу адкрыецца апошні канал, які вы ў ёй праглядалі. Каб убачыць спіс яе каналаў, правядзіце ўправа.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel list';
+  String get lookAndFeelChannelListSectionTitle => 'Спіс каналаў';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Кіруйце паводзінамі індыкатара непрачытаных для заглушаных каналаў у спісах каналаў.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Паказваць індыкатар непрачытаных на заглушаных каналах';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Калі ўключана, у заглушаных каналаў злева паказваецца бляклы індыкатар непрачытаных. Згадванні з’яўляюцца незалежна ад гэтай налады.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active now';
+  String get lookAndFeelActiveNowSectionTitle => 'Зараз актыўныя';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how active now surfaces across the app.';
+      'Выберыце, дзе ў праграме паказваецца «Зараз актыўныя».';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show active now on the home screen';
+      'Паказваць «Зараз актыўныя» на галоўным экране';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show active now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Паказваць «Зараз актыўныя» на галоўным экране, каб бачыць сяброў, якія размаўляюць у галасавых каналах. Вы ўбачыце папярэдні прагляд, канал, хто ўжо там, і зможаце хутка далучыцца.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Абранае';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Кіруйце бачнасцю абранага ва ўсёй праграме.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Уключыць абранае';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Калі ўключана, вы можаце дадаваць каналы ў абранае, і яны будуць паказвацца ў раздзеле «Абранае». Калі выключана, усе элементы інтэрфейсу, звязаныя з абраным (кнопкі, пункты меню), будуць схаваныя. Ваша абранае захаваецца.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Абранае';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'У абраным пакуль пуста';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Пазначайце каналы зорачкай у загалоўку чата, каб яны былі тут.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Сардэчна запрашаем у абранае';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Ваша асабістая прастора для хуткага доступу да любімых каналаў, асабістых чатаў і груп. Націсніце зорку на любым канале, каб дадаць яго сюды.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => 'Не для вас? Выключыць можна ў любы час.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Адключыць абранае';
 
   @override
-  String get favoritesAddedToast => 'Added to favorites';
+  String get favoritesAddedToast => 'Дададзена ў абранае';
 
   @override
-  String get favoritesRemovedToast => 'Removed from favorites';
+  String get favoritesRemovedToast => 'Прыбрана з абранага';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Абранае схавана';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Заглушыць абранае';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Уключыць апавяшчэнні абранага';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Меню абранага';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Стварыць катэгорыю';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Назва катэгорыі';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Схаваць заглушаныя каналы';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Паказваць заглушаныя каналы';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Задаць псеўданім';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Псеўданім';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Захаваць псеўданім';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'Перамясціць у катэгорыю';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Без катэгорыі';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Іншае';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from favorites';
+  String get favoritesRemoveFromFavorites => 'Прыбраць з абранага';
 
   @override
-  String get favoritesAddToFavorites => 'Add to favorites';
+  String get favoritesAddToFavorites => 'Дадаць у абранае';
 
   @override
-  String get favoritesAddToSavedMedia => 'Add to saved media';
+  String get favoritesAddToSavedMedia => 'Дадаць у захаваныя медыя';
 
   @override
-  String get favoritesRemoveFromSavedMedia => 'Remove from saved media';
+  String get favoritesRemoveFromSavedMedia => 'Прыбраць з захаваных медыя';
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'Add to URL-only GIF favorites';
+      'Дадаць у абраныя GIF толькі па URL';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
-      'Remove from URL-only GIF favorites';
+      'Прыбраць з абраных GIF па URL';
 
   @override
-  String get savedMediaAddTitle => 'Add to saved media';
+  String get savedMediaAddTitle => 'Дадаць у захаваныя медыя';
 
   @override
-  String get savedMediaFormNameLabel => 'Name';
+  String get savedMediaFormNameLabel => 'Імя';
 
   @override
-  String get savedMediaFormNameHint => 'My awesome media';
+  String get savedMediaFormNameHint => 'Мае выдатныя медыя';
 
   @override
-  String get savedMediaFormAltTextLabel => 'Alt text';
+  String get savedMediaFormAltTextLabel => 'Альтэрнатыўны тэкст';
 
   @override
-  String get savedMediaFormAltTextHint => 'Describe the media';
+  String get savedMediaFormAltTextHint => 'Апішыце медыя';
 
   @override
-  String get savedMediaFormTagsLabel => 'Tags';
+  String get savedMediaFormTagsLabel => 'Тэгі';
 
   @override
-  String get savedMediaFormTagsHint => 'funny, reaction, work';
+  String get savedMediaFormTagsHint => 'смешнае, рэакцыя, праца';
 
   @override
-  String get savedMediaSaveError => 'Could not update saved media.';
+  String get savedMediaSaveError => 'Не ўдалося абнавіць захаваныя медыя.';
 
   @override
-  String get savedMediaNameRequired => 'Name is required.';
+  String get savedMediaNameRequired => 'Увядзіце назву.';
 
   @override
-  String get savedMediaEdit => 'Edit';
+  String get savedMediaEdit => 'Рэдагаваць';
 
   @override
-  String get savedMediaEditTitle => 'Edit saved media';
+  String get savedMediaEditTitle => 'Рэдагаваць захаваныя медыя';
 
   @override
-  String get savedMediaDeleteTitle => 'Delete saved media';
+  String get savedMediaDeleteTitle => 'Выдаліць захаваныя медыя';
 
   @override
   String savedMediaDeleteConfirm(String name) {
-    return 'Remove \"$name\" from your saved media?';
+    return 'Выдаліць «$name» з захаваных медыя?';
   }
 
   @override
-  String get savedMediaDeleteFailed => 'Couldn\'t delete saved media.';
+  String get savedMediaDeleteFailed => 'Не ўдалося выдаліць захаваныя медыя.';
 
   @override
-  String get savedMediaSearchHint => 'Search saved media';
+  String get savedMediaSearchHint => 'Пошук захаваных медыя';
 
   @override
-  String get savedMediaUnavailableTitle => 'Saved media unavailable';
+  String get savedMediaUnavailableTitle => 'Захаваныя медыя недаступныя';
 
   @override
-  String get savedMediaUnavailableBody => 'Try again in a moment.';
+  String get savedMediaUnavailableBody => 'Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get savedMediaEmptyTitle => 'No saved media';
+  String get savedMediaEmptyTitle => 'Няма захаваных медыя';
 
   @override
-  String get savedMediaEmptyBody => 'Save media from messages to see it here.';
+  String get savedMediaEmptyBody =>
+      'Захоўвайце медыя з паведамленняў, каб бачыць іх тут.';
 
   @override
-  String get savedMediaNoResultsTitle => 'No results';
+  String get savedMediaNoResultsTitle => 'Няма вынікаў';
 
   @override
   String get savedMediaNoResultsBody =>
-      'Try a different search term or filter.';
+      'Паспрабуйце іншы пошукавы запыт або фільтр.';
 
   @override
-  String get savedMediaFilterAll => 'All';
+  String get savedMediaFilterAll => 'Усе';
 
   @override
-  String get savedMediaFilterImages => 'Images';
+  String get savedMediaFilterImages => 'Выявы';
 
   @override
-  String get savedMediaFilterVideos => 'Videos';
+  String get savedMediaFilterVideos => 'Відэа';
 
   @override
-  String get savedMediaFilterAudio => 'Audio';
+  String get savedMediaFilterAudio => 'Аўдыя';
 
   @override
-  String get savedMediaFilterGifs => 'GIFs';
+  String get savedMediaFilterGifs => 'GIF';
 
   @override
   String get savedMediaGifBadge => 'GIF';
 
   @override
-  String get gifFavoriteFirstTimeTitle =>
-      'How should we save your GIF favorites?';
+  String get gifFavoriteFirstTimeTitle => 'Як захоўваць вашы абраныя GIF?';
 
   @override
   String get gifFavoriteFirstTimeDescription =>
-      'You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.';
+      'Пазначаныя зорачкай GIF можна захоўваць у абраным толькі па URL або загружаць у захаваныя медыя. Выберыце варыянт, які вам больш падыходзіць. Змяніць яго можна ў любы час у раздзеле Налады > Дадаткова > Медыя.';
 
   @override
   String get gifFavoriteFirstTimeUrlOnlyDetails =>
-      'URL-only favorites (default): synced across your devices, no upload, doesn\'t count against saved media. The original media may disappear if its host removes it.';
+      'Абранае толькі па URL (прадвызначана): сінхранізуецца паміж вашымі прыладамі, без загрузкі, не ўлічваецца ў захаваных медыя. Арыгінальнае медыя можа знікнуць, калі яго выдаліць сайт, дзе яно размешчана.';
 
   @override
   String get gifFavoriteFirstTimeSavedMediaDetails =>
-      'Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.';
+      'Захаваныя медыя: загружаюцца, падтрымліваюць тэгі і пошук, захоўваюцца назаўсёды, але ўлічваюцца ў ліміт захаваных медыя.';
 
   @override
-  String get gifFavoriteFirstTimeHint => 'We\'ll only ask once.';
+  String get gifFavoriteFirstTimeHint => 'Мы спытаем толькі адзін раз.';
 
   @override
-  String get gifFavoriteFirstTimeUseUrlOnly => 'Use URL-only (recommended)';
+  String get gifFavoriteFirstTimeUseUrlOnly => 'Толькі па URL (рэкамендуецца)';
 
   @override
-  String get gifFavoriteFirstTimeUseSavedMedia => 'Use saved media';
+  String get gifFavoriteFirstTimeUseSavedMedia =>
+      'Выкарыстоўваць захаваныя медыя';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Схаваць абранае';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Усе элементы інтэрфейсу, звязаныя з абраным, у тым ліку кнопкі і пункты меню, будуць схаваныя. Ваша абранае захаваецца, і яго можна зноў уключыць у любы час у раздзеле Налады > Дадаткова > Выгляд.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct message';
+  String get favoritesDirectMessageSubtitle => 'Асабістае паведамленне';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Дысплэй';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Кіруйце тым, як паказваюцца паведамленні, медыя і іншае змесціва.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Медыя';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Наладзьце памеры медыя і кнопкі.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Увод';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Наладзьце поле ўводу паведамленняў.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Бакавая панэль';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Наладзьце выгляд бакавой панэлі суполкі.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Прадвызначана хаваць заглушаныя каналы';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Аўтаматычна хаваць заглушаныя каналы на бакавой панэлі пры далучэнні да новых суполак';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Прадвызначана хаваць заглушаныя каналы?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'У новых суполках, да якіх вы далучыцеся, заглушаныя каналы будуць аўтаматычна схаваны. Ужыць гэту наладу і да ўсіх вашых цяперашніх суполак?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Больш не хаваць заглушаныя каналы прадвызначана?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'У новых суполках, да якіх вы далучыцеся, заглушаныя каналы больш не будуць аўтаматычна хавацца. Паказваць заглушаныя каналы і ва ўсіх вашых цяперашніх суполках?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Ужыць да ўсіх суполак';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'Паказаць ва ўсіх суполках';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Толькі новыя суполкі';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media display';
+  String get messagesMediaDisplaySectionTitle => 'Адлюстраванне медыя';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Кіруйце тым, як паказваюцца выявы, відэа і іншыя медыя. Усе медыя змяншаюцца і канвертуюцца. Вельмі вялікія файлы, якія нельга сціснуць да папярэдняга прагляду, не будуць убудоўвацца незалежна ад гэтых налад.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Калі адпраўлены ў чат як спасылкі';
 
   @override
   String messagesMediaDisplayInlineAttachmentLabel(String productName) {
-    return 'When uploaded directly to $productName';
+    return 'Калі загружана непасрэдна ў $productName';
   }
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link previews';
+  String get messagesMediaLinkPreviewsSectionTitle =>
+      'Папярэдні прагляд спасылак';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Кіруйце папярэднім праглядам спасылак на сайты ў чаце';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Паказваць убудаванні і папярэдні прагляд спасылак на сайты';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Рэакцыі';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Наладзьце рэакцыі эмоджы на паведамленні';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Паказваць рэакцыі эмоджы на паведамленнях';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler content';
+  String get messagesMediaSpoilersSectionTitle => 'Змесціва спойлера';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Кіруйце паказам спойлераў';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Паказваць спойлеры';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Па націсканні';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Паказваць змесціва спойлера пасля націскання';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'У каналах, якія я мадэрую';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage messages\" permission';
+      'Заўсёды паказваць спойлеры ў каналах, дзе ў вас ёсць дазвол «Кіраваць паведамленнямі»';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Заўсёды';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Заўсёды паказваць змесціва пад спойлерам';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media size preferences';
+  String get messagesMediaSizeSectionTitle => 'Памеры медыя';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Наладзьце максімальны памер убудаваных і далучаных медыя. Меншыя памеры займаюць менш месца на экране, а большыя паказваюць больш дэталей.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Медыя са спасылак (убудаванні)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'Загружаныя далучэнні';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Кампактны (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Меншы памер медыя';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Зручны (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Большы памер медыя з больш дэталямі';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF behavior';
+  String get messagesMediaGifsSectionTitle => 'Паводзіны GIF';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Кіруйце тым, як GIF устаўляюцца ў чат';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'Аўтаматычна адпраўляць GIF пасля выбару';
 
   @override
-  String get messagesMediaCameraUploadsSectionTitle => 'Camera uploads';
+  String get messagesMediaCameraUploadsSectionTitle => 'Загрузкі з камеры';
 
   @override
   String get messagesMediaCameraUploadsSectionDescription =>
-      'Choose whether photos and videos taken with the in-app camera are kept on your device';
+      'Выберыце, ці захоўваць на прыладзе фота і відэа, знятыя ўбудаванай камерай';
 
   @override
-  String get messagesMediaCameraUploadsSaveToDeviceLabel => 'Save to device';
+  String get messagesMediaCameraUploadsSaveToDeviceLabel =>
+      'Захоўваць на прыладзе';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Аўтадапаўненне выразаў (праз двукроп’е)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Выберыце, што паказваецца ў аўтадапаўненні выразаў, калі вы ўводзіце двукроп’е. Наладзьце прапановы на свой густ.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Паказваць стандартныя эмоджы ў аўтадапаўненні выразаў';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Паказваць уласныя эмоджы ў аўтадапаўненні выразаў';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Паказваць стыкеры ў аўтадапаўненні выразаў';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Паказваць захаваныя медыя ў аўтадапаўненні выразаў';
 
   @override
-  String get accessibilitySaturationTitle => 'Saturation';
+  String get accessibilitySaturationTitle => 'Насычанасць';
 
   @override
-  String get accessibilityVisualGroupTitle => 'Visual';
+  String get accessibilityVisualGroupTitle => 'Візуальныя';
 
   @override
-  String get accessibilityAlwaysUnderlineLinksLabel => 'Always underline links';
+  String get accessibilityAlwaysUnderlineLinksLabel =>
+      'Заўсёды падкрэсліваць спасылкі';
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Паказваць альтэрнатыўны тэкст на выявах';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Паказваць альтэрнатыўны тэкст пад выявамі, калі ён ёсць.';
 
   @override
-  String get accessibilityDimStrikethroughTextLabel => 'Dim strikethrough text';
+  String get accessibilityDimStrikethroughTextLabel =>
+      'Прыглушаць закрэслены тэкст';
 
   @override
-  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'Папярэдні прагляд паведамленняў у асабістых чатах';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
-      'DM message preview mode';
+      'Рэжым папярэдняга прагляду паведамленняў у асабістых чатах';
 
   @override
-  String get accessibilityDmMessagePreviewAllName => 'All messages';
+  String get accessibilityDmMessagePreviewAllName => 'Усе паведамленні';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Show message previews for all DM conversations';
+      'Паказваць папярэдні прагляд паведамленняў для ўсіх асабістых чатаў';
 
   @override
-  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'Толькі непрачытаныя асабістыя чаты';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Only show message previews for DMs with unread messages';
+      'Паказваць папярэдні прагляд паведамленняў толькі для асабістых чатаў з непрачытанымі паведамленнямі';
 
   @override
-  String get accessibilityDmMessagePreviewNoneName => 'None';
+  String get accessibilityDmMessagePreviewNoneName => 'Няма';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Don\'t show message previews in the DM list';
+      'Не паказваць папярэдні прагляд паведамленняў у спісе асабістых чатаў';
 
   @override
-  String get accessibilityScreenReaderGroupTitle => 'Screen reader';
+  String get accessibilityScreenReaderGroupTitle => 'Праграма чытання з экрана';
 
   @override
   String accessibilityScreenReaderGroupDescription(String productName) {
-    return 'Control how $productName works with screen readers.';
+    return 'Кіруйце тым, як $productName працуе з праграмамі чытання з экрана.';
   }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
-      'Announce new messages';
+      'Абвяшчаць новыя паведамленні';
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesDescription =>
-      'Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.';
+      'Дазволіць праграмам чытання з экрана паведамляць пра новыя паведамленні, якія прыходзяць у адкрыты канал. На гукі апавяшчэнняў гэта не ўплывае.';
 
   @override
-  String get accessibilityTtsGroupTitle => 'Text-to-speech';
+  String get accessibilityTtsGroupTitle => 'Агучванне тэксту';
 
   @override
   String get accessibilityTtsGroupDescription =>
-      'Choose a speed for spoken text.';
+      'Выберыце хуткасць агучвання тэксту.';
 
   @override
-  String get accessibilityTtsSpeechPlaybackSpeedLabel =>
-      'Speech playback speed';
+  String get accessibilityTtsSpeechPlaybackSpeedLabel => 'Хуткасць агучвання';
 
   @override
-  String get accessibilityTtsPlaySampleLabel => 'Play sample';
+  String get accessibilityTtsPlaySampleLabel => 'Прайграць узор';
 
   @override
-  String get accessibilityTtsSilenceSampleLabel => 'Silence sample';
+  String get accessibilityTtsSilenceSampleLabel => 'Узор цішыні';
 
   @override
-  String get accessibilityPreviewButtonLabel => 'Preview button';
+  String get accessibilityPreviewButtonLabel => 'Кнопка папярэдняга прагляду';
 
   @override
   String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl) {
-    return 'This shows how links appear: $linkPreviewExampleUrl';
+    return 'Так выглядаюць спасылкі: $linkPreviewExampleUrl';
   }
 
   @override
-  String get accessibilityPreviewUserName => 'Preview user';
+  String get accessibilityPreviewUserName => 'Карыстальнік для прагляду';
 
   @override
-  String get accessibilityKeyboardGroupTitle => 'Keyboard';
+  String get accessibilityKeyboardGroupTitle => 'Клавіятура';
 
   @override
   String get accessibilityShowTextareaFocusRingLabel =>
-      'Show focus ring on chat textarea';
+      'Паказваць рамку фокусу ў тэкставым полі чата';
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Escape key exits keyboard mode';
+      'Клавіша Escape выключае рэжым клавіятуры';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
-      'Show context menu shortcuts';
+      'Паказваць спалучэнні клавіш у кантэкстным меню';
 
   @override
   String get accessibilityConfirmBeforeStartingCallsLabel =>
-      'Confirm before starting calls';
+      'Пытаць пацвярджэнне перад пачаткам выклікаў';
 
   @override
-  String get accessibilityAnimationGroupTitle => 'Animation';
+  String get accessibilityAnimationGroupTitle => 'Анімацыя';
 
   @override
   String get accessibilityReducedMotionActiveNote =>
-      'Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.';
+      'Памяншэнне руху ўключана, таму анімацыі змесціва прадвызначана прыпынены. Любую з іх можна зноў уключыць, каб яна прайгравалася.';
 
   @override
-  String get accessibilityPlayAnimatedEmojisLabel => 'Play animated emojis';
+  String get accessibilityPlayAnimatedEmojisLabel =>
+      'Прайграваць аніміраваныя эмоджы';
 
   @override
-  String get accessibilityAutoPlayGifsMobileLabel => 'Automatically play GIFs';
+  String get accessibilityAutoPlayGifsMobileLabel =>
+      'Аўтаматычна прайграваць GIF';
 
   @override
   String accessibilityAutoPlayGifsDesktopLabel(String productName) {
-    return 'Automatically play GIFs when $productName is focused';
+    return 'Аўтаматычна прайграваць GIF, калі $productName у фокусе';
   }
 
   @override
   String get accessibilityPlayingDespiteReducedMotion =>
-      'Playing despite reduced motion.';
+      'Прайграецца, нягледзячы на памяншэнне руху.';
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep animated emojis playing.';
+      'Прыпынена праз памяншэнне руху. Уключыце, каб аніміраваныя эмоджы прайграваліся.';
 
   @override
   String get accessibilityPausedGifByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep GIFs playing.';
+      'Прыпынена праз памяншэнне руху. Уключыце, каб GIF прайграваліся.';
 
   @override
-  String get accessibilityStickerAnimationsTitle => 'Sticker animations';
+  String get accessibilityStickerAnimationsTitle => 'Анімацыі стыкераў';
 
   @override
   String get accessibilityStickerAnimationPreferenceLabel =>
-      'Sticker animation preference';
+      'Налада анімацыі стыкераў';
 
   @override
-  String get accessibilityStickerAlwaysAnimateName => 'Always animate';
+  String get accessibilityStickerAlwaysAnimateName => 'Заўсёды аніміраваць';
 
   @override
   String get accessibilityStickerAlwaysAnimateDescription =>
-      'Stickers will always animate';
+      'Стыкеры заўсёды будуць аніміраваныя';
 
   @override
   String get accessibilityStickerAnimateOnInteractionName =>
-      'Animate on interaction';
+      'Аніміраваць пры ўзаемадзеянні';
 
   @override
   String get accessibilityStickerAnimateOnPressDescription =>
-      'Stickers will animate when you press them';
+      'Стыкеры будуць аніміравацца, калі вы на іх націскаеце';
 
   @override
   String get accessibilityStickerAnimateOnHoverDescription =>
-      'Stickers will animate when you hover or interact with them';
+      'Стыкеры будуць аніміравацца, калі вы наводзіце на іх курсор або ўзаемадзейнічаеце з імі';
 
   @override
-  String get accessibilityStickerNeverAnimateName => 'Never animate';
+  String get accessibilityStickerNeverAnimateName => 'Ніколі не аніміраваць';
 
   @override
   String get accessibilityStickerNeverAnimateDescription =>
-      'Stickers will never animate';
+      'Стыкеры ніколі не будуць аніміравацца';
 
   @override
   String get accessibilityStickersAlwaysDespiteReducedMotion =>
-      'Always animating despite reduced motion.';
+      'Заўсёды аніміраваць, нягледзячы на зменшаны рух.';
 
   @override
   String get accessibilityStickersReducedMotionHint =>
-      'Reduced motion limits stickers to animate on interaction. Choose always animate to override.';
+      'Пры памяншэнні руху стыкеры анімуюцца толькі пры ўзаемадзеянні. Каб змяніць гэта, выберыце «Заўсёды аніміраваць».';
 
   @override
   String get accessibilityStickersDefaultsOnMobile =>
-      'Defaults to animate on interaction on mobile to preserve battery life.';
+      'Прадвызначана на мабільных прыладах анімацыя ўключаецца пры ўзаемадзеянні, каб берагчы зарад батарэі.';
 
   @override
-  String get accessibilityMotionGroupTitle => 'Motion';
+  String get accessibilityMotionGroupTitle => 'Рух';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemLabel =>
-      'Sync reduced motion setting with system';
+      'Сінхранізаваць наладу памяншэння руху з сістэмай';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemDescription =>
-      'Use this device\'s system reduced motion preference, or customize it below.';
+      'Выкарыстоўваць сістэмную наладу памяншэння руху на гэтай прыладзе або наладзіць яго ніжэй.';
 
   @override
-  String get accessibilityReducedMotionOverrideLabel => 'Reduce motion';
+  String get accessibilityReducedMotionOverrideLabel => 'Памяншаць рух';
 
   @override
   String get accessibilityReducedMotionOverrideSyncedDescription =>
-      'Disable animations and transitions. Currently controlled by your system setting.';
+      'Адключыць анімацыі і пераходы. Зараз гэтым кіруе сістэмная налада.';
 
   @override
   String get accessibilityReducedMotionOverrideManualDescription =>
-      'Disable animations and transitions throughout the app.';
+      'Адключыць анімацыі і пераходы ва ўсёй праграме.';
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
-      'Animated emojis, GIFs and stickers stay under your control in the Animation tab.';
+      'Аніміраванымі эмоджы, GIF і стыкерамі вы кіруеце на ўкладцы «Анімацыя».';
 
   @override
-  String get accessibilityConfirmStartCallTitle => 'Start call?';
+  String get accessibilityConfirmStartCallTitle => 'Пачаць выклік?';
 
   @override
   String get accessibilityConfirmStartCallDescription =>
-      'Are you sure you want to start this call?';
+      'Вы сапраўды хочаце пачаць гэты выклік?';
 
   @override
-  String get accessibilityConfirmStartCallConfirmLabel => 'Start call';
+  String get accessibilityConfirmStartCallConfirmLabel => 'Пачаць выклік';
 
   @override
   String get accessibilityTtsSampleDescription =>
-      'Hear the sample line spoken with your chosen speed.';
+      'Праслухайце ўзорны сказ з выбранай хуткасцю.';
 
   @override
   String get accessibilityTtsSampleText =>
-      'Doc, I\'m from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.';
+      'Док, я з будучыні. Я прыбыў сюды на машыне часу, якую вы вынайшлі. Цяпер мне патрэбна ваша дапамога, каб вярнуцца ў 1985 год.';
 
   @override
   String get accessibilityTtsUnsupportedDescription =>
-      'Speech synthesis is unavailable on this device.';
+      'Сінтэз маўлення на гэтай прыладзе недаступны.';
 
   @override
   String get accessibilityTtsPlaybackFailedDescription =>
-      'Speech playback failed. Try again, or check that audio output is working.';
+      'Не ўдалося прайграць агучванне. Паспрабуйце яшчэ раз або праверце, ці працуе вывад гуку.';
 
   @override
-  String get ttsSubstitutionUnknownUser => 'unknown user';
+  String get ttsSubstitutionUnknownUser => 'невядомы карыстальнік';
 
   @override
-  String get ttsSubstitutionUnknownRole => 'unknown role';
+  String get ttsSubstitutionUnknownRole => 'невядомая роля';
 
   @override
-  String get ttsSubstitutionUnknownChannel => 'unknown channel';
+  String get ttsSubstitutionUnknownChannel => 'невядомы канал';
 
   @override
-  String get ttsSubstitutionCodeBlock => 'code block';
+  String get ttsSubstitutionCodeBlock => 'блок кода';
 
   @override
-  String get ttsSubstitutionSpoiler => 'spoiler';
+  String get ttsSubstitutionSpoiler => 'спойлер';
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
-    return 'emoji $emojiName';
+    return 'эмоджы $emojiName';
   }
 
   @override
   String ttsSubstitutionSlashCommand(String commandName) {
-    return 'slash $commandName';
+    return 'слэш $commandName';
   }
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return '$authorName said: $formatted';
+    return '$authorName кажа: $formatted';
   }
 
   @override
@@ -5970,7 +6123,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'Replying to $replyAuthorName, $authorName said: $formatted';
+    return '$authorName адказвае $replyAuthorName: $formatted';
   }
 
   @override
@@ -5979,153 +6132,154 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String get ttsSentSticker => 'sent a sticker';
+  String get ttsSentSticker => 'адпраўляе стыкер';
 
   @override
-  String get ttsSentAttachment => 'sent an attachment';
+  String get ttsSentAttachment => 'адпраўляе далучэнне';
 
   @override
   String ttsSentAttachments(int count) {
-    return 'sent $count attachments';
+    return 'адпраўляе далучэнні: $count';
   }
 
   @override
-  String get ttsSentEmbed => 'sent an embed';
+  String get ttsSentEmbed => 'адпраўляе ўбудаванне';
 
   @override
   String messageScreenReaderAnnouncement(String author, String summary) {
-    return '$author sent $summary';
+    return '$author адпраўляе $summary';
   }
 
   @override
-  String get dmListSentAnAttachment => 'Sent an attachment';
+  String get dmListSentAnAttachment => 'Адпраўлена далучэнне';
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username pinned a message to this channel.';
+    return '$username замацоўвае паведамленне ў гэтым канале.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username added $userName to the group.';
+    return '$username дадае $userName у групу.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username added someone to the group.';
+    return '$username дадае кагосьці ў групу.';
   }
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return '$username has left the group.';
+    return '$username пакідае групу.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username removed $userName from the group.';
+    return '$username выдаляе $userName з групы.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username removed someone from the group.';
+    return '$username выдаляе кагосьці з групы.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username changed the channel name to $newName.';
+    return '$username змяняе назву канала на $newName.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username changed the channel name.';
+    return '$username змяняе назву канала.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username changed the channel icon.';
+    return '$username змяняе значок канала.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username started a call.';
+    return '$username пачынае выклік.';
   }
 
   @override
-  String get systemCallJoinTheCall => 'Join the call';
+  String get systemCallJoinTheCall => 'Далучыцца да выкліку';
 
   @override
   String systemCallStartedThatLasted(String username, String duration) {
-    return '$username started a call that lasted $duration.';
+    return 'Выклік ад $username доўжыўся $duration.';
   }
 
   @override
   String systemCallMissedWithDuration(String username, String duration) {
-    return 'You missed a call from $username that lasted $duration.';
+    return 'Вы прапусцілі выклік ад $username, які доўжыўся $duration.';
   }
 
   @override
   String systemCallMissed(String username) {
-    return 'You missed a call from $username.';
+    return 'Вы прапусцілі выклік ад $username.';
   }
 
   @override
-  String get systemCallDurationFewSeconds => 'a few seconds';
+  String get systemCallDurationFewSeconds => 'некалькі секунд';
 
   @override
-  String get systemCallDurationMinute => 'a minute';
+  String get systemCallDurationMinute => 'хвіліна';
 
   @override
-  String get systemCallDurationOneYear => '1 year';
+  String get systemCallDurationOneYear => '1 год';
 
   @override
-  String get systemCallDurationOneMonth => '1 month';
+  String get systemCallDurationOneMonth => '1 месяц';
 
   @override
-  String get systemCallDurationOneWeek => '1 week';
+  String get systemCallDurationOneWeek => '1 тыдзень';
 
   @override
-  String get systemCallDurationOneDay => '1 day';
+  String get systemCallDurationOneDay => '1 дзень';
 
   @override
-  String get systemCallDurationOneHour => '1 hour';
+  String get systemCallDurationOneHour => '1 гадзіна';
 
   @override
   String systemCallDurationYears(int count) {
-    return '$count years';
+    return '$count г';
   }
 
   @override
   String systemCallDurationMonths(int count) {
-    return '$count months';
+    return '$count мес';
   }
 
   @override
   String systemCallDurationWeeks(int count) {
-    return '$count weeks';
+    return '$count тыдз';
   }
 
   @override
   String systemCallDurationDays(int count) {
-    return '$count days';
+    return '$count дн';
   }
 
   @override
   String systemCallDurationHours(int count) {
-    return '$count hours';
+    return '$count гадз';
   }
 
   @override
   String systemCallDurationMinutes(int count) {
-    return '$count minutes';
+    return '$count хв';
   }
 
   @override
   String systemUnknownMessage(String productName) {
-    return 'Update $productName to view this message.';
+    return 'Абнавіце $productName, каб убачыць гэта паведамленне.';
   }
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice connection confirmation';
+  String get voiceConnectionConfirmTitle =>
+      'Пацвярджэнне галасавога падключэння';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -6133,92 +6287,99 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Вы ўжо падключыліся да гэтага галасавога канала з $count іншай прылады. Што вы хочаце зрабіць?',
+      many:
+          'Вы ўжо падключыліся да гэтага галасавога канала з $count іншых прылад. Што вы хочаце зрабіць?',
+      few:
+          'Вы ўжо падключыліся да гэтага галасавога канала з $count іншых прылад. Што вы хочаце зрабіць?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Вы ўжо падключыліся да гэтага галасавога канала з $count іншай прылады. Што вы хочаце зрабіць?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to this device';
+  String get voiceConnectionConfirmSwitch => 'Перайсці на гэту прыладу';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just join (keep other connections)';
+      'Проста далучыцца (захаваць іншыя падключэнні)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Нічога не рабіць, я не хачу далучацца';
 
   @override
-  String get voiceJoinFailedTitle => 'Couldn\'t join voice';
+  String get voiceJoinFailedTitle =>
+      'Не ўдалося далучыцца да галасавога канала';
 
   @override
   String get voiceMultiDeviceDisconnectFailed =>
-      'Couldn\'t disconnect your other devices. Try again in a moment.';
+      'Не ўдалося адключыць іншыя вашы прылады. Паспрабуйце яшчэ раз крыху пазней.';
 
   @override
-  String get voiceChannelJoin => 'Join voice channel';
+  String get voiceChannelJoin => 'Далучыцца да галасавога канала';
 
   @override
-  String get voiceCallJoin => 'Join call';
+  String get voiceCallJoin => 'Далучыцца да выкліку';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to voice';
+  String get voiceChannelJoinConnect => 'Падключыцца да галасавога канала';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'У вас няма дазволу далучацца да гэтага галасавога канала';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Мікрафон, камера і дэманстрацыя экрана абаронены скразным шыфраваннем.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Мікрафон, камера і дэманстрацыя экрана абаронены скразным шыфраваннем.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Скразное шыфраванне недаступнае, бо ў гэтым галасавым канале ёсць удзельнік, які яго не падтрымлівае.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Скразное шыфраванне недаступнае, бо ў гэтым выкліку ёсць удзельнік, які яго не падтрымлівае.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Каб далучыцца да гэтага зашыфраванага выкліку, абнавіце кліент.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Не ўдалося запусціць мікрафон. Вы ўсё яшчэ ў выкліку.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Падключэнне…';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Мабільная прылада';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Камп’ютар';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted =>
+      'Мікрафон выключаны суполкай';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Заглушана';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'Гук выключаны суполкай';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Гук выключаны';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Падключэнне: $connectionId';
   }
 
   @override
@@ -6226,109 +6387,114 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count удзельніка',
+      many: '$count удзельнікаў',
+      few: '$count удзельнікі',
+      one: '$count удзельнік',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Выйсці';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Заглушыць';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Уключыць апавяшчэнні';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Выключыць гук';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Уключыць гук';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => 'Відэа';
 
   @override
-  String get voiceControlMoreOptions => 'More options';
+  String get voiceControlMoreOptions => 'Іншыя параметры';
 
   @override
-  String get voiceControlInputSettings => 'Input settings';
+  String get voiceControlInputSettings => 'Налады ўводу';
 
   @override
-  String get voiceControlOutputSettings => 'Output settings';
+  String get voiceControlOutputSettings => 'Налады вываду';
 
   @override
-  String get voiceControlCameraSettings => 'Camera settings';
+  String get voiceControlCameraSettings => 'Налады камеры';
 
   @override
-  String get voiceControlScreenShareSettings => 'Screen share settings';
+  String get voiceControlScreenShareSettings => 'Налады дэманстрацыі экрана';
 
   @override
-  String get voiceControlStartScreenShare => 'Share your screen';
+  String get voiceControlStartScreenShare => 'Паказаць экран';
 
   @override
-  String get voiceControlStopScreenShare => 'Stop sharing';
+  String get voiceControlStopScreenShare => 'Спыніць дэманстрацыю';
 
   @override
-  String get voiceControlFlipCamera => 'Flip camera';
+  String get voiceControlFlipCamera => 'Пераключыць камеру';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Дэманстрацыя экрана';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText =>
+      'Ідзе дэманстрацыя вашага экрана.';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Адключыцца';
 
   @override
-  String get voiceInChat => 'In voice chat';
+  String get voiceInChat => 'У галасавым чаце';
 
   @override
-  String get voiceConnectionFailed => 'Connection failed';
+  String get voiceConnectionFailed => 'Не ўдалося падключыцца';
 
   @override
-  String get voiceConnectionRetry => 'Try again';
+  String get voiceConnectionRetry => 'Паспрабаваць яшчэ раз';
 
   @override
-  String get voiceConnectionDismiss => 'Dismiss';
+  String get voiceConnectionDismiss => 'Закрыць';
 
   @override
-  String get voiceCallControlsSheetLabel => 'Voice call controls';
+  String get voiceCallControlsSheetLabel => 'Кіраванне галасавым выклікам';
 
   @override
-  String get voiceCallBarOpenCallHint => 'Opens the call';
+  String get voiceCallBarOpenCallHint => 'Адкрывае выклік';
 
   @override
-  String get voiceParticipantSpeaking => 'Speaking';
+  String get voiceParticipantSpeaking => 'Гаворыць';
 
   @override
-  String get voiceParticipantOptionsAction => 'Participant options';
+  String get voiceParticipantOptionsAction => 'Параметры ўдзельніка';
 
   @override
   String voiceParticipantOtherDevicesLabel(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Show $count more devices',
-      one: 'Show 1 more device',
+      other: 'Паказаць яшчэ $count прылады',
+      many: 'Паказаць яшчэ $count прылад',
+      few: 'Паказаць яшчэ $count прылады',
+      one: 'Паказаць яшчэ $count прыладу',
     );
     return '$_temp0';
   }
 
   @override
-  String get voicePipReturnToCallLabel => 'Return to call';
+  String get voicePipReturnToCallLabel => 'Вярнуцца да выкліку';
 
   @override
   String voiceAnnounceUserJoined(String name) {
-    return '$name joined';
+    return '$name далучаецца';
   }
 
   @override
   String voiceAnnounceUserLeft(String name) {
-    return '$name left';
+    return '$name выходзіць';
   }
 
   @override
@@ -6336,8 +6502,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count people joined',
-      one: '1 person joined',
+      other: 'Далучыліся $count чалавека',
+      many: 'Далучыліся $count чалавек',
+      few: 'Далучыліся $count чалавекі',
+      one: 'Далучыўся $count чалавек',
     );
     return '$_temp0';
   }
@@ -6347,199 +6515,204 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count people left',
-      one: '1 person left',
+      other: 'Выйшлі $count чалавека',
+      many: 'Выйшлі $count чалавек',
+      few: 'Выйшлі $count чалавекі',
+      one: 'Выйшаў $count чалавек',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceAnnounceSomeone => 'Someone';
+  String get voiceAnnounceSomeone => 'Хтосьці';
 
   @override
-  String get voiceAnnounceConnected => 'Connected to voice';
+  String get voiceAnnounceConnected => 'Падключана да галасавога канала';
 
   @override
-  String get voiceAnnounceReconnecting => 'Reconnecting to voice';
+  String get voiceAnnounceReconnecting =>
+      'Паўторнае падключэнне да галасавога канала';
 
   @override
-  String get voiceAnnounceReconnected => 'Reconnected to voice';
+  String get voiceAnnounceReconnected => 'Зноў падключана да галасавога канала';
 
   @override
-  String get voiceAnnounceDisconnected => 'Disconnected from voice';
+  String get voiceAnnounceDisconnected => 'Адключана ад галасавога канала';
 
   @override
-  String get voiceAnnounceMoved => 'Now in a different voice channel';
+  String get voiceAnnounceMoved => 'Вы ў іншым галасавым канале';
 
   @override
-  String get voiceAnnounceServerMuted => 'A moderator muted you';
+  String get voiceAnnounceServerMuted => 'Мадэратар выключыў вам мікрафон';
 
   @override
-  String get voiceAnnounceServerUnmuted => 'A moderator unmuted you';
+  String get voiceAnnounceServerUnmuted => 'Мадэратар уключыў вам мікрафон';
 
   @override
-  String get voiceAnnounceServerDeafened => 'A moderator deafened you';
+  String get voiceAnnounceServerDeafened => 'Мадэратар выключыў вам гук';
 
   @override
-  String get voiceAnnounceServerUndeafened => 'A moderator undeafened you';
+  String get voiceAnnounceServerUndeafened => 'Мадэратар уключыў вам гук';
 
   @override
-  String get voiceAnnounceMicMuted => 'Microphone muted';
+  String get voiceAnnounceMicMuted => 'Мікрафон выключаны';
 
   @override
-  String get voiceAnnounceMicUnmuted => 'Microphone unmuted';
+  String get voiceAnnounceMicUnmuted => 'Мікрафон уключаны';
 
   @override
   String get accessibilityAnnounceCallJoinsAndLeavesLabel =>
-      'Announce call joins and leaves';
+      'Абвяшчаць, хто далучаецца да выкліку і выходзіць з яго';
 
   @override
   String get accessibilityAnnounceCallJoinsAndLeavesDescription =>
-      'Let screen readers say who joins or leaves the voice call you\'re in. Connection changes and moderator actions are always announced.';
+      'Дазволіць праграмам чытання з экрана паведамляць, хто далучаецца да вашага галасавога выкліку або выходзіць з яго. Пра змены злучэння і дзеянні мадэратараў паведамляецца заўсёды.';
 
   @override
-  String get voiceConnectionDisconnected => 'Disconnected';
+  String get voiceConnectionDisconnected => 'Адключана';
 
   @override
   String voicePingMs(int currentLatency) {
-    return 'Ping: ${currentLatency}ms';
+    return 'Пінг: $currentLatency мс';
   }
 
   @override
-  String get voiceMeasuringLatency => 'Measuring latency...';
+  String get voiceMeasuringLatency => 'Вымярэнне затрымкі...';
 
   @override
   String voiceJumpToChannel(String channelSourceLabel) {
-    return 'Jump to $channelSourceLabel';
+    return 'Перайсці да $channelSourceLabel';
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'Змяніць памер бакавой панэлі';
 
   @override
-  String get voiceConnectionTitle => 'Voice connection';
+  String get voiceConnectionTitle => 'Галасавое падключэнне';
 
   @override
-  String get voiceConnectionAdvancedStats => 'Advanced';
+  String get voiceConnectionAdvancedStats => 'Дадаткова';
 
   @override
-  String get voiceShowCallAvatars => 'Show call avatars';
+  String get voiceShowCallAvatars => 'Паказваць аватары ў выкліку';
 
   @override
-  String get voiceShowConnectionId => 'Show connection ID';
+  String get voiceShowConnectionId => 'Паказваць ID падключэння';
 
   @override
-  String get voiceAudioProcessing => 'Audio processing';
+  String get voiceAudioProcessing => 'Апрацоўка гуку';
 
   @override
-  String get voiceConnectionSessionSection => 'Session';
+  String get voiceConnectionSessionSection => 'Сеанс';
 
   @override
-  String get voiceConnectionDurationLabel => 'Duration';
+  String get voiceConnectionDurationLabel => 'Працягласць';
 
   @override
-  String get voiceConnectionParticipantsLabel => 'Participants';
+  String get voiceConnectionParticipantsLabel => 'Удзельнікі';
 
   @override
-  String get voiceConnectionNetworkSection => 'Network';
+  String get voiceConnectionNetworkSection => 'Сетка';
 
   @override
-  String get voiceConnectionPingLabel => 'Ping';
+  String get voiceConnectionPingLabel => 'Пінг';
 
   @override
-  String get voiceConnectionJitterLabel => 'Jitter';
+  String get voiceConnectionJitterLabel => 'Джытар';
 
   @override
-  String get voiceConnectionSendLabel => 'Send';
+  String get voiceConnectionSendLabel => 'Адправіць';
 
   @override
-  String get voiceConnectionReceiveLabel => 'Receive';
+  String get voiceConnectionReceiveLabel => 'Атрымана';
 
   @override
   String get voiceConnectionUnavailable => '—';
 
   @override
   String voiceConnectionDuration(int minutes, int seconds) {
-    return '${minutes}m ${seconds}s';
+    return '$minutes хв $seconds с';
   }
 
   @override
   String voiceConnectionLatencyMs(int latency) {
-    return '$latency ms';
+    return '$latency мс';
   }
 
   @override
   String voiceConnectionJitterMs(String jitter) {
-    return '$jitter ms';
+    return '$jitter мс';
   }
 
   @override
   String voiceConnectionBandwidthKbps(String bandwidth) {
-    return '$bandwidth kbps';
+    return '$bandwidth кбіт/с';
   }
 
   @override
-  String get userAreaMuteMicrophone => 'Mute microphone';
+  String get userAreaMuteMicrophone => 'Выключыць мікрафон';
 
   @override
-  String get userAreaUnmuteMicrophone => 'Unmute microphone';
+  String get userAreaUnmuteMicrophone => 'Уключыць мікрафон';
 
   @override
-  String get userAreaUserSettings => 'User settings';
+  String get userAreaUserSettings => 'Налады карыстальніка';
 
   @override
-  String get voiceParticipantMenuViewProfile => 'View profile';
+  String get voiceParticipantMenuViewProfile => 'Паглядзець профіль';
 
   @override
-  String get voiceParticipantMenuReport => 'Report';
+  String get voiceParticipantMenuReport => 'Паскардзіцца';
 
   @override
-  String get voiceParticipantMenuFocus => 'Focus this person';
+  String get voiceParticipantMenuFocus => 'Вылучыць гэтага чалавека';
 
   @override
-  String get voiceParticipantMenuUnfocus => 'Unfocus';
+  String get voiceParticipantMenuUnfocus => 'Зняць вылучэнне';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Community mute';
+  String get voiceParticipantMenuCommunityMute =>
+      'Выключыць мікрафон у суполцы';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Community deafen';
+  String get voiceParticipantMenuCommunityDeafen => 'Выключыць гук у суполцы';
 
   @override
-  String get voiceParticipantMenuUserVolume => 'User volume';
+  String get voiceParticipantMenuUserVolume => 'Гучнасць карыстальніка';
 
   @override
-  String get voiceParticipantMenuStreamVolume => 'Stream volume';
+  String get voiceParticipantMenuStreamVolume => 'Гучнасць трансляцыі';
 
   @override
-  String get voiceParticipantMenuStopStreaming => 'Stop streaming';
+  String get voiceParticipantMenuStopStreaming => 'Спыніць трансляцыю';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => 'Чат';
 
   @override
-  String get voiceCallViewModeLabel => 'View';
+  String get voiceCallViewModeLabel => 'Выгляд';
 
   @override
-  String get voiceCallViewModeGrid => 'Grid';
+  String get voiceCallViewModeGrid => 'Сетка';
 
   @override
-  String get voiceCallViewModeFocus => 'Focus';
+  String get voiceCallViewModeFocus => 'Фокус';
 
   @override
-  String get voicePanelSettingsSectionTitle => 'Voice settings';
+  String get voicePanelSettingsSectionTitle => 'Налады голасу';
 
   @override
-  String get voicePanelUseEarpieceLabel => 'Use earpiece';
+  String get voicePanelUseEarpieceLabel =>
+      'Выводзіць гук праз размоўны дынамік';
 
   @override
-  String get voiceOutputRouteSpeaker => 'Speaker';
+  String get voiceOutputRouteSpeaker => 'Дынамік';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Размоўны дынамік';
 
   @override
-  String get voiceOutputRouteHeadset => 'Headphones';
+  String get voiceOutputRouteHeadset => 'Навушнікі';
 
   @override
   String get voiceOutputRouteBluetooth => 'Bluetooth';
@@ -6548,221 +6721,225 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get voiceOutputRouteBluetoothLe => 'Bluetooth LE';
 
   @override
-  String get voiceOutputRouteHearingAid => 'Hearing aid';
+  String get voiceOutputRouteHearingAid => 'Слыхавы апарат';
 
   @override
-  String get voiceOutputRouteUsb => 'USB headset';
+  String get voiceOutputRouteUsb => 'USB-гарнітура';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Змяніць аўдыявыхад';
 
   @override
-  String get voicePanelOnlyShowVideosLabel => 'Only show videos';
+  String get voicePanelOnlyShowVideosLabel => 'Паказваць толькі відэа';
 
   @override
   String get voicePanelOnlyShowVideosDescription =>
-      'Only show participants who have their camera on.';
+      'Паказваць толькі ўдзельнікаў з уключанай камерай.';
 
   @override
-  String get voicePanelShowOwnCameraLabel => 'Show my own camera';
+  String get voicePanelShowOwnCameraLabel => 'Паказваць маю камеру';
 
   @override
-  String get voicePrioritizeSpeakersLabel => 'Prioritize speakers';
+  String get voicePrioritizeSpeakersLabel => 'Прыярытэт тым, хто гаворыць';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Паказаць чат';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count unread messages',
-      one: '$count unread message',
+      other: '$count непрачытанага паведамлення',
+      many: '$count непрачытаных паведамленняў',
+      few: '$count непрачытаныя паведамленні',
+      one: '$count непрачытанае паведамленне',
     );
-    return 'Show chat with $_temp0';
+    return 'Паказаць чат: $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Для відэа патрэбны дазвол на доступ да камеры.';
 
   @override
   String get voiceMicPermissionRequired =>
-      'Allow microphone access to unmute in this call.';
+      'Каб уключыць мікрафон у гэтым выкліку, дайце доступ да мікрафона.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Не ўдалося пачаць дэманстрацыю экрана. Паспрабуйце яшчэ раз.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Дазвол на дэманстрацыю экрана не дадзены.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'На гэтай прыладзе дэманстрацыя экрана недаступная.';
 
   @override
-  String get voiceWatchStream => 'Watch stream';
+  String get voiceWatchStream => 'Глядзець трансляцыю';
 
   @override
-  String get voiceStopWatching => 'Stop watching';
+  String get voiceStopWatching => 'Спыніць прагляд';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'Спыніць прагляд цяперашняй трансляцыі';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'На ўвесь экран';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip =>
+      'Выйсці з поўнаэкраннага рэжыму';
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Маштаб $scale';
   }
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'Вы ведзяце трансляцыю';
 
   @override
   String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+      'Удзельнікі бачаць вашу трансляцыю.';
 
   @override
   String get voiceBlockedParticipantVideoHidden =>
-      'Video from someone you blocked';
+      'Відэа ад карыстальніка, якога вы заблакіравалі';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'У эфіры';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'Паглядзець выклік';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'На ўвесь экран';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'Адкрыць выклік на ўвесь экран';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'Падключэнне…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'У выкліку';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'Галасавы выклік';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'Падключэнне…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'Асабісты выклік';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'Групавы выклік';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'Праблема з галасавой сувяззю';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'Галасавы';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback =>
+      'Галасавая сувязь падключана';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'Апавяшчэнні';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'Непрачытанае';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'Згадванні';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'Закладкі';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'Фільтраваць згадванні';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'Фільтры згадванняў';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      'Уключаць згадванні @everyone і @here';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => 'Уключаць згадванні роляў';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'Уключаць усе згадванні ў суполках';
 
   @override
-  String get notificationsNoUnreadTitle => 'No unread messages';
+  String get notificationsNoUnreadTitle => 'Няма непрачытаных паведамленняў';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'Вы ўсё прагледзелі.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No recent mentions';
+  String get notificationsNoMentionsTitle => 'Няма нядаўніх згадванняў';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'Тут на працягу 7 дзён будуць паказвацца ўсе @згадванні вас.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'Вы дайшлі да канца';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'Вы праглядзелі ўсе апошнія згадванні. Не хвалюйцеся, хутка тут з’явяцца новыя.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'Перайсці';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'Прыбраць згадванне';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'Паглядзець усё непрачытанае';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'Пазначыць як прачытанае';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'Разгарнуць';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'Згарнуць';
 
   @override
   String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+      'Не ўдалося загрузіць гэта паведамленне.';
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author згадвае вас у $place:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author адказвае вам у $place:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author згадвае вас:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author адказвае вам:';
   }
 
   @override
@@ -6771,21 +6948,21 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'Адказаць';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'Нядаўняя актыўнасць';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'Выдаліць апавяшчэнне';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return 'Засталося сімвалаў: $remaining';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'Паведамленне занадта доўгае';
 
   @override
   String characterCounterTooLongToast(int maxLength) {
@@ -6793,7 +6970,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
         intl.NumberFormat.decimalPattern(localeName);
     final String maxLengthString = maxLengthNumberFormat.format(maxLength);
 
-    return 'Messages can be up to $maxLengthString characters. Shorten this one to send it.';
+    return 'Паведамленне можа змяшчаць не больш за $maxLengthString сімвалаў. Скараціце гэта, каб адправіць яго.';
   }
 
   @override
@@ -6802,442 +6979,449 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return 'Засталося сімвалаў: $remaining. З $productName можна пісаць да $premiumMaxLength сімвалаў.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => 'Не ўдалося адправіць паведамленне';
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Не ўдалося адправіць паведамленне. Націсніце, каб убачыць варыянты.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {
-    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+    return 'Не ўдалося даставіць ваша паведамленне. Звычайна гэта бывае, калі ў вас няма агульнай суполкі з атрымальнікам або атрымальнік прымае асабістыя паведамленні толькі ад сяброў. Магчыма, вам таксама трэба змяніць налады прыватнасці асабістых паведамленняў у раздзеле $settingsPath.';
   }
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Your message could not be delivered. You need to claim your account to send direct messages.';
+      'Ваша паведамленне не дастаўлена. Каб адпраўляць асабістыя паведамленні, трэба замацаваць за сабой уліковы запіс.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Your message could not be delivered. You need to claim your account to send messages.';
+      'Ваша паведамленне не дастаўлена. Каб адпраўляць паведамленні, трэба замацаваць за сабой уліковы запіс.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Ваша паведамленне не дастаўлена, бо яго пазначылі нашы сістэмы бяспекі. Калі вы лічыце, што гэта памылка, звярніцеся ў службу падтрымкі.';
 
   @override
   String get chatSendFailureContentBlockedSelfHosted =>
-      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'Ваша паведамленне не дастаўлена, бо яго пазначылі нашы сістэмы бяспекі. Калі вы лічыце, што гэта памылка, звярніцеся да адміністратараў гэтага экзэмпляра.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
-      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+      'Не ўдалося даставіць ваша паведамленне, бо ў ім ёсць эмоджы або стыкеры для дарослых, якія тут не дазволены.';
 
   @override
-  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+  String get chatClientSystemOnlyYouCanSee =>
+      'Гэта паведамленне бачыце толькі вы.';
 
   @override
-  String get chatClientSystemDismiss => 'Dismiss';
+  String get chatClientSystemDismiss => 'Закрыць';
 
   @override
-  String get privacyDashboardCommunicationSection => 'Communication';
+  String get privacyDashboardCommunicationSection => 'Зносіны';
 
   @override
-  String get privacyDashboardProfilePrivacySection => 'Profile privacy';
+  String get privacyDashboardProfilePrivacySection => 'Прыватнасць профілю';
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Friends & direct messages';
+      'Сябры і асабістыя паведамленні';
 
   @override
-  String get privacyDashboardActivitySharingSection => 'Activity sharing';
+  String get privacyDashboardActivitySharingSection =>
+      'Абагульванне актыўнасці';
 
   @override
-  String get privacyDashboardSensitiveContentSection => 'Sensitive content';
+  String get privacyDashboardSensitiveContentSection => 'Адчувальнае змесціва';
 
   @override
-  String get privacyDashboardDataExportSection => 'Data export';
+  String get privacyDashboardDataExportSection => 'Экспарт даных';
 
   @override
-  String get privacyDashboardDataDeletionSection => 'Data deletion';
+  String get privacyDashboardDataDeletionSection => 'Выдаленне даных';
 
   @override
   String get privacyDashboardProfilePrivacyTitle =>
-      'Who can see your full profile';
+      'Хто можа бачыць ваш поўны профіль';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunities =>
-      'Friends and all communities';
+      'Сябры і ўсе суполкі';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunitiesDesc =>
-      'Your full profile is visible to friends and to anyone in your communities';
+      'Ваш поўны профіль бачаць сябры і ўсе ў вашых суполках';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunities =>
-      'Friends and small communities only';
+      'Толькі сябры і невялікія суполкі';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
-      'Your full profile is visible to friends and members of your communities with 200 or fewer members';
+      'Ваш поўны профіль бачаць сябры і ўдзельнікі вашых суполак, у якіх не больш за 200 удзельнікаў';
 
   @override
-  String get privacyDashboardProfilePrivacyFriendsOnly => 'Friends only';
+  String get privacyDashboardProfilePrivacyFriendsOnly => 'Толькі сябры';
 
   @override
   String get privacyDashboardProfilePrivacyFriendsOnlyDesc =>
-      'Your full profile is only visible to your friends';
+      'Ваш поўны профіль бачаць толькі вашы сябры';
 
   @override
-  String get privacyDashboardFriendRequestsTitle => 'Friend requests';
+  String get privacyDashboardFriendRequestsTitle => 'Запыты ў сябры';
 
   @override
-  String get privacyDashboardFriendRequestsEveryone => 'Everyone';
+  String get privacyDashboardFriendRequestsEveryone => 'Усе';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriends =>
-      'Friends of friends';
+  String get privacyDashboardFriendRequestsFriendsOfFriends => 'Сябры сяброў';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
-      'Community members';
+      'Удзельнікі суполкі';
 
   @override
-  String get privacyDashboardDirectMessagesTitle => 'Direct messages';
+  String get privacyDashboardDirectMessagesTitle => 'Асабістыя паведамленні';
 
   @override
   String get privacyDashboardDirectMessagesMembers =>
-      'Allow direct messages from community members';
+      'Дазволіць асабістыя паведамленні ад удзельнікаў суполкі';
 
   @override
   String get privacyDashboardDirectMessagesBots =>
-      'Allow direct messages from community bots';
+      'Дазволіць асабістыя паведамленні ад ботаў суполкі';
 
   @override
-  String get privacyDashboardIncomingCallsTitle => 'Incoming calls';
+  String get privacyDashboardIncomingCallsTitle => 'Уваходныя выклікі';
 
   @override
-  String get privacyDashboardAllowedCallers => 'Allowed callers';
+  String get privacyDashboardAllowedCallers => 'Каму дазволена выклікаць';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
-      'Block all incoming calls';
+      'Блакіраваць усе ўваходныя выклікі';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
-      'Only allow friends to call you (recommended)';
+      'Дазваляць выклікі толькі ад сяброў (рэкамендуецца)';
 
   @override
   String get privacyDashboardIncomingCallCustomDesc =>
-      'Allow friends plus additional groups you choose';
+      'Дазваляць выклікі ад сяброў і выбраных вамі дадатковых груп';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
-      'Allow anyone to call you, even strangers';
+      'Дазваляць выклікі ад усіх, нават ад незнаёмых';
 
   @override
-  String get privacyDashboardAdditionalGroups => 'Additional groups';
+  String get privacyDashboardAdditionalGroups => 'Дадатковыя групы';
 
   @override
-  String get privacyDashboardRingBehavior => 'Ring behavior';
+  String get privacyDashboardRingBehavior => 'Паводзіны званка';
 
   @override
-  String get privacyDashboardSilentCalls => 'Silent calls from everyone';
+  String get privacyDashboardSilentCalls => 'Бязгучныя выклікі ад усіх';
 
   @override
-  String get privacyDashboardGroupDmTitle => 'Who can add you to group chats';
+  String get privacyDashboardGroupDmTitle =>
+      'Хто можа дадаваць вас у групавыя чаты';
 
   @override
-  String get privacyDashboardAllowedInvites => 'Allowed invites';
+  String get privacyDashboardAllowedInvites => 'Каму дазволена запрашаць';
 
   @override
   String get privacyDashboardGroupDmNobodyDesc =>
-      'Don\'t let anyone add you to group chats without asking';
+      'Нікому не дазваляць дадаваць вас у групавыя чаты без пытання';
 
   @override
   String get privacyDashboardGroupDmFriendsOnlyDesc =>
-      'Only allow friends to add you without asking (recommended)';
+      'Дазваляць дадаваць вас без пытання толькі сябрам (рэкамендуецца)';
 
   @override
   String get privacyDashboardGroupDmCustomDesc =>
-      'Allow friends plus additional groups to add you';
+      'Дазваляць дадаваць вас сябрам і дадатковым групам';
 
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
-      'Allow anyone to add you to group chats without asking';
+      'Дазваляць усім дадаваць вас у групавыя чаты без пытання';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Voice activity on active now';
+      'Галасавая актыўнасць у «Зараз актыўныя»';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
-      'Share your voice activity with friends';
+      'Абагульваць галасавую актыўнасць з сябрамі';
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
-      'Share voice activity with all friends?';
+      'Абагульваць галасавую актыўнасць з усімі сябрамі?';
 
   @override
   String get privacyDashboardVoiceActivityDisableTitle =>
-      'Stop sharing voice activity with all friends?';
+      'Спыніць абагульванне галасавой актыўнасці з усімі сябрамі?';
 
   @override
   String get privacyDashboardVoiceActivityEnableDesc =>
-      'You\'re about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Вы збіраецеся пачаць абагульваць сваю галасавую актыўнасць з усімі сябрамі, у тым ліку будучымі. Усе яны атрымаюць абнаўленне, а змяніць гэта зноў можна будзе толькі праз 24 гадзіны.';
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'You\'re about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Вы збіраецеся спыніць абагульванне сваёй галасавой актыўнасці з усімі сябрамі, у тым ліку будучымі. Усе яны атрымаюць абнаўленне, а змяніць гэта зноў можна будзе толькі праз 24 гадзіны.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
-      'Yes, share with all friends';
+      'Так, абагуліць з усімі сябрамі';
 
   @override
-  String get privacyDashboardVoiceActivityDisableConfirm => 'Yes, stop sharing';
+  String get privacyDashboardVoiceActivityDisableConfirm =>
+      'Так, спыніць абагульванне';
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
-    return 'Available again in $time';
+    return 'Зноў будзе даступна праз $time';
   }
 
   @override
   String get privacyDashboardVoiceActivityUpdated =>
-      'Voice activity sharing updated';
+      'Абагульванне галасавой актыўнасці абноўлена';
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Couldn\'t update voice activity sharing right now';
+      'Зараз не ўдалося абнавіць абагульванне галасавой актыўнасці';
 
   @override
   String get privacyDashboardDataExportDesc =>
-      'Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.';
+      'Стварыце архіў даных свайго ўліковага запісу для спампоўкі, у тым ліку паведамленні і URL далучэнняў. Большасць людзей хоча ўсё, але ніжэй можна звузіць аб’ём.';
 
   @override
-  String get privacyDashboardExportMyData => 'Export my data';
+  String get privacyDashboardExportMyData => 'Экспартаваць мае даныя';
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.';
+      'Назаўсёды выдаліць адпраўленыя вамі паведамленні ў асабістых чатах, групавых чатах і суполках. Выдаленне ідзе ў фоне, і калі яно скончыцца, вы атрымаеце асабістае паведамленне.';
 
   @override
-  String get privacyDashboardDeleteMyMessages => 'Delete my messages';
+  String get privacyDashboardDeleteMyMessages => 'Выдаліць мае паведамленні';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersTitle =>
-      'Allow direct messages from community members?';
+      'Дазволіць асабістыя паведамленні ад удзельнікаў суполкі?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersTitle =>
-      'Block direct messages from community members?';
+      'Блакіраваць асабістыя паведамленні ад удзельнікаў суполкі?';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Allow bots to send you direct messages?';
+      'Дазволіць ботам адпраўляць вам асабістыя паведамленні?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Block bots from sending you direct messages?';
+      'Забараніць ботам адпраўляць вам асабістыя паведамленні?';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Do you also want to allow direct messages from members of your existing communities?';
+      'Ці хочаце вы таксама дазволіць асабістыя паведамленні ад удзельнікаў вашых цяперашніх суполак?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
-      'Do you also want to block direct messages from members of your existing communities?';
+      'Ці хочаце вы таксама заблакіраваць асабістыя паведамленні ад удзельнікаў вашых цяперашніх суполак?';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
-      'Do you also want to allow bots from your existing communities to send you direct messages?';
+      'Ці хочаце вы таксама дазволіць ботам з вашых цяперашніх суполак адпраўляць вам асабістыя паведамленні?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsDesc =>
-      'Do you also want to block bots from your existing communities?';
+      'Заблакіраваць таксама ботаў з суполак, у якіх вы ўжо ёсць?';
 
   @override
   String get privacyDashboardDmConfirmPerCommunityHint =>
-      'You can also change this setting per-community by long-pressing the community name and selecting privacy settings.';
+      'Гэту наладу можна змяніць і для кожнай суполкі асобна: утрымлівайце назву суполкі і выберыце налады прыватнасці.';
 
   @override
-  String get privacyDashboardDmConfirmAllowAll => 'Allow for all communities';
+  String get privacyDashboardDmConfirmAllowAll => 'Дазволіць для ўсіх суполак';
 
   @override
-  String get privacyDashboardDmConfirmBlockAll => 'Block for all communities';
+  String get privacyDashboardDmConfirmBlockAll =>
+      'Блакіраваць ва ўсіх суполках';
 
   @override
-  String get privacyDashboardDmConfirmSkip => 'Skip this step';
+  String get privacyDashboardDmConfirmSkip => 'Прапусціць гэты крок';
 
   @override
-  String get privacyDashboardDataRequestGoBack => 'Go back';
+  String get privacyDashboardDataRequestGoBack => 'Назад';
 
   @override
-  String get privacyDashboardDataRequestExportTitle => 'Export my data';
+  String get privacyDashboardDataRequestExportTitle => 'Экспартаваць мае даныя';
 
   @override
-  String get privacyDashboardDataRequestDeleteTitle => 'Delete my messages';
+  String get privacyDashboardDataRequestDeleteTitle =>
+      'Выдаліць мае паведамленні';
 
   @override
   String get privacyDashboardDataRequestExportSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get an email when your archive is ready.';
+      'Мы апрацуем гэта як мага хутчэй. Калі ваш архіў будзе гатовы, вы атрымаеце ліст.';
 
   @override
   String get privacyDashboardDataRequestDeleteSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get a DM from us when it\'s done.';
+      'Мы апрацуем гэта як мага хутчэй. Калі ўсё будзе гатова, вы атрымаеце ад нас асабістае паведамленне.';
 
   @override
-  String get privacyDashboardDataRequestScopeTitle => 'What to include';
+  String get privacyDashboardDataRequestScopeTitle => 'Што ўключыць';
 
   @override
-  String get privacyDashboardDataRequestExportEverything => 'Everything';
+  String get privacyDashboardDataRequestExportEverything => 'Усё';
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Export every message you have ever sent, plus all of your account settings, memberships, and metadata.';
+      'Экспартаваць усе паведамленні, якія вы калі-небудзь адпраўлялі, а таксама ўсе налады ўліковага запісу, членства ў суполках і метаданыя.';
 
   @override
-  String get privacyDashboardDataRequestExportCustom => 'Custom selection';
+  String get privacyDashboardDataRequestExportCustom => 'Уласны выбар';
 
   @override
   String get privacyDashboardDataRequestExportCustomDesc =>
-      'Choose which conversation kinds, communities, and time window to include in the archive.';
+      'Выберыце, якія тыпы размоў, суполкі і перыяд часу ўключыць у архіў.';
 
   @override
   String get privacyDashboardDataRequestDeleteSelected =>
-      'Choose what to include';
+      'Выберыце, што ўключыць';
 
   @override
   String get privacyDashboardDataRequestDeleteSelectedDesc =>
-      'Pick which kinds of conversations to clean up.';
+      'Выберыце, якія тыпы размоў ачысціць.';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessible =>
-      'Only places I can\'t access anymore';
+      'Толькі месцы, да якіх у мяне больш няма доступу';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Only delete messages from communities and group DMs you have left or been removed from.';
+      'Выдаліць паведамленні толькі з суполак і групавых чатаў, якія вы пакінулі або з якіх вас выдалілі.';
 
   @override
-  String get privacyDashboardDataRequestKindsTitle => 'Which conversations';
+  String get privacyDashboardDataRequestKindsTitle => 'Якія размовы';
 
   @override
   String get privacyDashboardDataRequestKindsBody =>
-      'Toggle the kinds of conversations you want included.';
+      'Уключыце тыпы размоў, якія трэба ўключыць.';
 
   @override
-  String get privacyDashboardDataRequestKindDms => 'Open DMs';
+  String get privacyDashboardDataRequestKindDms => 'Адкрытыя асабістыя чаты';
 
   @override
-  String get privacyDashboardDataRequestKindDmsClosed => 'Closed DMs';
+  String get privacyDashboardDataRequestKindDmsClosed =>
+      'Закрытыя асабістыя чаты';
 
   @override
-  String get privacyDashboardDataRequestKindGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestKindGroupDms => 'Групавыя чаты';
 
   @override
-  String get privacyDashboardDataRequestKindCommunities => 'Communities';
+  String get privacyDashboardDataRequestKindCommunities => 'Суполкі';
 
   @override
-  String get privacyDashboardDataRequestCommunitiesTitle => 'Which communities';
+  String get privacyDashboardDataRequestCommunitiesTitle => 'Якія суполкі';
 
   @override
-  String get privacyDashboardDataRequestGuildFilterMode => 'Community filter';
+  String get privacyDashboardDataRequestGuildFilterMode => 'Фільтр суполак';
 
   @override
   String get privacyDashboardDataRequestGuildFilterExclude =>
-      'Include all except selected';
+      'Уключыць усе, акрамя выбраных';
 
   @override
-  String get privacyDashboardDataRequestGuildFilterInclude =>
-      'Only the selected ones';
+  String get privacyDashboardDataRequestGuildFilterInclude => 'Толькі выбраныя';
 
   @override
   String get privacyDashboardDataRequestCommunitiesEmpty =>
-      'You aren\'t in any communities right now.';
+      'Зараз вы не ўваходзіце ні ў адну суполку.';
 
   @override
-  String get privacyDashboardDataRequestWhenTitle => 'Time range';
+  String get privacyDashboardDataRequestWhenTitle => 'Перыяд часу';
 
   @override
-  String get privacyDashboardDataRequestDateMode => 'Time range';
+  String get privacyDashboardDataRequestDateMode => 'Перыяд часу';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'All time';
+  String get privacyDashboardDataRequestAllTime => 'За ўвесь час';
 
   @override
-  String get privacyDashboardDataRequestCustomRange => 'Custom range';
+  String get privacyDashboardDataRequestCustomRange => 'Уласны дыяпазон';
 
   @override
-  String get privacyDashboardDataRequestStartDate => 'Start date';
+  String get privacyDashboardDataRequestStartDate => 'Дата пачатку';
 
   @override
-  String get privacyDashboardDataRequestEndDate => 'End date';
+  String get privacyDashboardDataRequestEndDate => 'Дата заканчэння';
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Leave either field blank to leave that end of the window unbounded.';
+      'Каб не абмяжоўваць перыяд з аднаго боку, пакіньце адпаведнае поле пустым.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
-      'Pick at least one kind of conversation to include.';
+      'Выберыце хаця б адзін тып размоў.';
 
   @override
   String get privacyDashboardDataRequestDateRangeError =>
-      'Start date must be earlier than end date.';
+      'Дата пачатку мусіць быць раней за дату заканчэння.';
 
   @override
-  String get privacyDashboardDataRequestConfirmTitle => 'Review and confirm';
+  String get privacyDashboardDataRequestConfirmTitle =>
+      'Праверце і пацвердзіце';
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'We\'ll build a downloadable archive of every message you have ever sent and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Мы створым архіў для спампоўкі з усімі паведамленнямі, якія вы калі-небудзь адпраўлялі, і напішам вам, калі ён будзе гатовы. Спасылка для спампоўкі ў лісце дзейнічае 7 дзён.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
-      'We\'ll build a downloadable archive that matches the filters below and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Мы створым архіў для спампоўкі паводле фільтраў ніжэй і напішам вам, калі ён будзе гатовы. Спасылка для спампоўкі ў лісце дзейнічае 7 дзён.';
 
   @override
   String get privacyDashboardDataRequestDeleteConfirm =>
-      'Permanently delete the messages that match the filters below. This cannot be undone.';
+      'Назаўсёды выдаліць паведамленні, якія адпавядаюць фільтрам ніжэй. Гэта дзеянне нельга адмяніць.';
 
   @override
   String get privacyDashboardDataRequestDeleteDanger =>
-      'There is no recovery once this starts. We will DM you when it finishes.';
+      'Калі працэс пачнецца, адмяніць яго будзе нельга. Калі ён скончыцца, мы адправім вам асабістае паведамленне.';
 
   @override
-  String get privacyDashboardDataRequestRequestExport => 'Request export';
+  String get privacyDashboardDataRequestRequestExport => 'Запытаць экспарт';
 
   @override
-  String get privacyDashboardDataRequestDeleteMessages => 'Delete messages';
+  String get privacyDashboardDataRequestDeleteMessages =>
+      'Выдаліць паведамленні';
 
   @override
-  String get privacyDashboardDataRequestSummaryScope => 'Scope';
+  String get privacyDashboardDataRequestSummaryScope => 'Вобласць';
 
   @override
-  String get privacyDashboardDataRequestSummaryConversations => 'Conversations';
+  String get privacyDashboardDataRequestSummaryConversations => 'Размовы';
 
   @override
-  String get privacyDashboardDataRequestSummaryCommunities => 'Communities';
+  String get privacyDashboardDataRequestSummaryCommunities => 'Суполкі';
 
   @override
-  String get privacyDashboardDataRequestSummaryTimeRange => 'Time range';
+  String get privacyDashboardDataRequestSummaryTimeRange => 'Перыяд часу';
 
   @override
-  String get privacyDashboardDataRequestSummaryNone => 'None';
+  String get privacyDashboardDataRequestSummaryNone => 'Няма';
 
   @override
   String privacyDashboardDataRequestSummaryFrom(String start) {
-    return 'From $start';
+    return 'Ад $start';
   }
 
   @override
   String privacyDashboardDataRequestSummaryUntil(String end) {
-    return 'Until $end';
+    return 'Да $end';
   }
 
   @override
@@ -7250,10 +7434,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '$count community',
+      other: '$count суполкі',
+      many: '$count суполак',
+      few: '$count суполак',
+      one: '$count суполкі',
     );
-    return 'All except $_temp0';
+    return 'Усе, акрамя $_temp0';
   }
 
   @override
@@ -7261,46 +7447,51 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '$count community',
+      other: '$count суполкі',
+      many: '$count суполак',
+      few: '$count суполкі',
+      one: '$count суполка',
     );
-    return 'Only $_temp0';
+    return 'Толькі $_temp0';
   }
 
   @override
   String get privacyDashboardDataRequestSummaryDmsOpen =>
-      'Open direct messages';
+      'Адкрытыя асабістыя чаты';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
-      'Closed direct messages';
+      'Закрытыя асабістыя чаты';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsBoth =>
-      'Direct messages (open and closed)';
+      'Асабістыя паведамленні (адкрытыя і закрытыя)';
 
   @override
-  String get privacyDashboardDataRequestSummaryGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestSummaryGroupDms => 'Групавыя чаты';
 
   @override
-  String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
-      'Communities';
+  String get privacyDashboardDataRequestSummaryCommunitiesIncluded => 'Суполкі';
 
   @override
   String privacyDashboardDurationHoursMinutes(int hours, int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '$hours hour',
+      other: '$hours гадзіны',
+      many: '$hours гадзін',
+      few: '$hours гадзіны',
+      one: '$hours гадзіна',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '$minutes minute',
+      other: '$minutes хвіліны',
+      many: '$minutes хвілін',
+      few: '$minutes хвіліны',
+      one: '$minutes хвіліна',
     );
-    return '$_temp0 and $_temp1';
+    return '$_temp0 і $_temp1';
   }
 
   @override
@@ -7308,8 +7499,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '$hours hour',
+      other: '$hours гадзіны',
+      many: '$hours гадзін',
+      few: '$hours гадзіны',
+      one: '$hours гадзіна',
     );
     return '$_temp0';
   }
@@ -7319,8 +7512,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '$minutes minute',
+      other: '$minutes хвіліны',
+      many: '$minutes хвілін',
+      few: '$minutes хвіліны',
+      one: '$minutes хвіліна',
     );
     return '$_temp0';
   }
@@ -7330,541 +7525,556 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '$seconds seconds',
-      one: '$seconds second',
+      other: '$seconds секунды',
+      many: '$seconds секунд',
+      few: '$seconds секунды',
+      one: '$seconds секунда',
     );
     return '$_temp0';
   }
 
   @override
-  String get privacyDashboardLoadFailed => 'Failed to load privacy settings';
+  String get privacyDashboardLoadFailed =>
+      'Не ўдалося загрузіць налады прыватнасці';
 
   @override
-  String get privacyDashboardRetry => 'Retry';
+  String get privacyDashboardRetry => 'Паўтарыць';
 
   @override
   String get privacyDashboardSensitiveContentSaveFailed =>
-      'Failed to save sensitive content settings.';
+      'Не ўдалося захаваць налады адчувальнага змесціва.';
 
   @override
-  String get privacyDashboardDataRequestFailed => 'Failed to complete request.';
+  String get privacyDashboardDataRequestFailed => 'Не ўдалося выканаць запыт.';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete failed message';
+  String get chatMessageDeleteFailed => 'Выдаліць неадпраўленае паведамленне';
 
   @override
-  String get chatMessageAddReaction => 'Add reaction';
+  String get chatMessageAddReaction => 'Дадаць рэакцыю';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint => 'Двойчы націсніце на паведамленне, каб';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'Двойчы націсніце на сваё паведамленне, каб адрэдагаваць яго';
 
   @override
-  String get doubleTapReactionEdit => 'Edit';
+  String get doubleTapReactionEdit => 'Рэдагаваць';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Змяніць прадвызначанае';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle =>
+      'Выберыце эмоджы для двайнога націскання';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'Жэсты';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'Наладзьце двайное націсканне і правядзенне па паведамленнях.';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'Эмоджы рэакцыі';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'Выкарыстоўваецца, калі двайное націсканне дадае рэакцыю.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'Дзеянне пры двайным націсканні';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName => 'Дадаць рэакцыю';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'Дадае ваша эмоджы для двайнога націскання як рэакцыю.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName =>
+      'Рэдагаваць паведамленне';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'Адкрывае рэдактар для паведамленняў, якія вы адправілі. На іншыя паведамленні не ўплывае.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Нічога';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'Двайное націсканне выключана.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'Правядзенне справа налева';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'Адказ правядзеннем';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'Правядзіце па паведамленні, каб адказаць, а каб адрэдагаваць сваё паведамленне, утрымлівайце яго.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'Паказаць звесткі пра канал';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'Правядзіце па паведамленні або націсніце на загаловак канала, каб адкрыць звесткі пра канал на бакавой панэлі.';
 
   @override
-  String get chatMessageEdit => 'Edit message';
+  String get chatMessageEdit => 'Рэдагаваць паведамленне';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatMessageReply => 'Адказаць';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Паведамленне';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Не ўдалося адправіць адказ';
 
   @override
-  String get notificationChannelMessages => 'Messages';
+  String get notificationChannelMessages => 'Паведамленні';
 
   @override
-  String get notificationChannelDirectMessages => 'Direct messages';
+  String get notificationChannelDirectMessages => 'Асабістыя паведамленні';
 
   @override
-  String get notificationChannelForumPosts => 'New forum posts';
+  String get notificationChannelForumPosts => 'Новыя допісы на форуме';
 
   @override
-  String get notificationChannelMessagesSilent => 'Messages without sound';
+  String get notificationChannelMessagesSilent => 'Паведамленні без гуку';
 
   @override
   String get notificationChannelDirectMessagesSilent =>
-      'Direct messages without sound';
+      'Асабістыя паведамленні без гуку';
 
   @override
-  String get notificationChannelDescription => 'Messages and alerts';
+  String get notificationChannelDescription => 'Паведамленні і апавяшчэнні';
 
   @override
-  String get notificationNewMessageFallback => 'New message';
+  String get notificationNewMessageFallback => 'Новае паведамленне';
 
   @override
-  String get notificationLocalUserName => 'Me';
+  String get notificationLocalUserName => 'Я';
 
   @override
-  String get notificationGroupDmTitle => 'Group DM';
+  String get notificationGroupDmTitle => 'Групавы чат';
 
   @override
-  String get notificationUnknownSender => 'Unknown';
+  String get notificationUnknownSender => 'Невядома';
 
   @override
   String notificationAttachmentPreview(String filename) {
-    return 'Attachment: $filename';
+    return 'Далучэнне: $filename';
   }
 
   @override
   String notificationStickerPreview(String name) {
-    return 'Sticker: $name';
+    return 'Стыкер: $name';
   }
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatMessageForward => 'Пераслаць';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get forwardMessageTitle => 'Пераслаць паведамленне';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get forwardSearchHint => 'Пошук каналаў або асабістых чатаў';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct messages';
+  String get forwardDirectMessagesSection => 'Асабістыя паведамленні';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get forwardCommentHint => 'Дадаць каментарый (неабавязкова)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Адправіць ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Каналы не знойдзены';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Паведамленне перасланае';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Каментарыі недаступныя, бо ў адным з выбраных каналаў уключаны павольны рэжым.';
 
   @override
   String get forwardSendSlowmodeBlocked =>
-      'Waiting for slowmode in one or more selected channels to expire.';
+      'Чакаем, пакуль скончыцца павольны рэжым у адным або некалькіх выбраных каналах.';
 
   @override
-  String get slowmodeRateLimitedTitle => 'Slowmode active';
+  String get slowmodeRateLimitedTitle => 'Павольны рэжым актыўны';
 
   @override
   String slowmodeRateLimitedMessage(String duration) {
-    return 'Slowmode is on — wait $duration before sending another.';
+    return 'Уключаны павольны рэжым: пачакайце $duration, перш чым адправіць наступнае паведамленне.';
   }
 
   @override
   String get chatAttachmentDropSlowmodeDisabled =>
-      'Direct upload is disabled during slowmode.';
+      'Падчас павольнага рэжыму прамая загрузка адключана.';
 
   @override
-  String get shareMediaTitle => 'Share to';
+  String get shareMediaTitle => 'Падзяліцца ў';
 
   @override
-  String get shareMediaMessageHint => 'Add an optional message…';
+  String get shareMediaMessageHint => 'Дадайце паведамленне (неабавязкова)…';
 
   @override
-  String get shareMediaSendButton => 'Send';
+  String get shareMediaSendButton => 'Адправіць';
 
   @override
-  String get shareMediaSuccessToast => 'Media shared';
+  String get shareMediaSuccessToast => 'Медыя адпраўлены';
 
   @override
   String shareMediaPartialSuccessToast(int count) {
-    return 'Shared to $count destinations';
+    return 'Адпраўлена адрасатам: $count';
   }
 
   @override
-  String get shareMediaFailedToast => 'Failed to share media';
+  String get shareMediaFailedToast => 'Не ўдалося адправіць медыя';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Тут нельга адпраўляць паведамленні';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Тут нельга ўбудоўваць спасылкі';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Тут нельга далучаць файлы';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Адпраўка паведамленняў у гэтай суполцы адключана';
 
   @override
-  String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+  String get forwardDestinationTimedOut => 'У вас тайм-аўт у гэтай суполцы';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Павольны рэжым · пачакайце $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy message';
+  String get chatMessageCopyText => 'Скапіраваць паведамленне';
 
   @override
-  String get chatMessageCopyEmbedText => 'Copy embed text';
+  String get chatMessageCopyEmbedText => 'Скапіраваць тэкст убудавання';
 
   @override
-  String get chatMessageTranslate => 'Translate';
+  String get chatMessageTranslate => 'Перакласці';
 
   @override
   String chatMessageTranslatedFrom(String language) {
-    return 'Translated from $language';
+    return 'Перакладзена з мовы: $language';
   }
 
   @override
-  String get chatMessageSeeOriginal => 'See original';
+  String get chatMessageSeeOriginal => 'Паказаць арыгінал';
 
   @override
-  String get chatMessageSeeTranslation => 'See translation';
+  String get chatMessageSeeTranslation => 'Паказаць пераклад';
 
   @override
-  String get chatMessageTranslating => 'Translating…';
+  String get chatMessageTranslating => 'Перакладаецца…';
 
   @override
-  String get chatMessageTranslateFailed => 'Couldn\'t translate this message.';
+  String get chatMessageTranslateFailed =>
+      'Не ўдалося перакласці гэта паведамленне.';
 
   @override
   String get chatMessageTranslateUnavailable =>
-      'Translation isn\'t available on this device.';
+      'На гэтай прыладзе пераклад недаступны.';
 
   @override
-  String get chatMessageSpeak => 'Speak message';
+  String get chatMessageSpeak => 'Агучыць паведамленне';
 
   @override
-  String get chatMessageStopSpeaking => 'Stop speaking';
+  String get chatMessageStopSpeaking => 'Спыніць агучванне';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Замацаваць паведамленне';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Адмацаваць паведамленне';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Адмацаваць';
 
   @override
-  String get chatMessageBookmark => 'Bookmark message';
+  String get chatMessageBookmark => 'Дадаць у закладкі';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove bookmark';
+  String get chatMessageRemoveBookmark => 'Прыбраць з закладак';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as unread';
+  String get chatMessageMarkAsUnread => 'Пазначыць як непрачытанае';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy message link';
+  String get chatMessageCopyMessageLink =>
+      'Скапіраваць спасылку на паведамленне';
 
   @override
-  String get chatMessageOpenLink => 'Open link';
+  String get chatMessageOpenLink => 'Адкрыць спасылку';
 
   @override
-  String get chatMessageCopyLink => 'Copy link';
+  String get chatMessageCopyLink => 'Скапіраваць спасылку';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy message ID';
+  String get chatMessageCopyMessageId => 'Скапіраваць ID паведамлення';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Паглядзець рэакцыі';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Прыбраць усе рэакцыі';
 
   @override
-  String get chatMessageDebug => 'Debug message';
+  String get chatMessageDebug => 'Адладка паведамлення';
 
   @override
-  String get messageAlertNote => 'Note';
+  String get messageAlertNote => 'Заўвага';
 
   @override
-  String get messageAlertTip => 'Tip';
+  String get messageAlertTip => 'Парада';
 
   @override
-  String get messageAlertImportant => 'Important';
+  String get messageAlertImportant => 'Важна';
 
   @override
-  String get messageAlertWarning => 'Warning';
+  String get messageAlertWarning => 'Папярэджанне';
 
   @override
-  String get messageAlertCaution => 'Caution';
+  String get messageAlertCaution => 'Асцярожна';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Адладка паведамлення';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'Скапіраваць JSON';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'JSON паведамлення скапіраваны ў буфер абмену';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Рэакцыі';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty =>
+      'Такую рэакцыю пакуль ніхто не паставіў.';
 
   @override
-  String get chatReactionAddFailed => 'Failed to add reaction';
+  String get chatReactionAddFailed => 'Не ўдалося дадаць рэакцыю';
 
   @override
-  String get chatReactionRemoveFailed => 'Failed to remove reaction';
+  String get chatReactionRemoveFailed => 'Не ўдалося прыбраць рэакцыю';
 
   @override
-  String get chatMessageReport => 'Report message';
+  String get chatMessageReport => 'Паскардзіцца на паведамленне';
 
   @override
-  String get reportFlowTitleMessage => 'Report message';
+  String get reportFlowTitleMessage => 'Паскардзіцца на паведамленне';
 
   @override
-  String get reportFlowTitleUserProfile => 'Report profile';
+  String get reportFlowTitleUserProfile => 'Паскардзіцца на профіль';
 
   @override
-  String get reportFlowTitleCommunity => 'Report community';
+  String get reportFlowTitleCommunity => 'Паскардзіцца на суполку';
 
   @override
-  String get reportFlowSummaryTitle => 'Check your report';
+  String get reportFlowSummaryTitle => 'Праверце сваю скаргу';
 
   @override
   String get reportFlowSummarySubtitle =>
-      'Make sure this looks right before you send it.';
+      'Перш чым адправіць, праверце, ці ўсё правільна.';
 
   @override
   String reportFlowDisclaimer(String guidelines) {
-    return 'Only report what you honestly believe breaks the rules. Misusing reports goes against our $guidelines.';
+    return 'Скардзіцеся толькі на тое, што, на вашу шчырую думку, парушае правілы. Злоўжыванне скаргамі супярэчыць нашым $guidelines.';
   }
 
   @override
-  String get reportFlowCommunityGuidelinesLink => 'Community Guidelines';
+  String get reportFlowCommunityGuidelinesLink => 'правілам супольнасці';
 
   @override
   String get reportFlowDisclaimerNoLink =>
-      'Only report what you honestly believe breaks the rules, and please don\'t send the same report twice.';
+      'Скардзіцеся толькі на тое, што, на вашу шчырую думку, парушае правілы, і, калі ласка, не адпраўляйце адну і тую ж скаргу двойчы.';
 
   @override
-  String get reportFlowSelectedMessage => 'Message you\'re reporting';
+  String get reportFlowSelectedMessage =>
+      'Паведамленне, на якое вы скардзіцеся';
 
   @override
-  String get reportFlowSelectedPerson => 'Person you\'re reporting';
+  String get reportFlowSelectedPerson => 'Чалавек, на якога вы скардзіцеся';
 
   @override
-  String get reportFlowSelectedCommunity => 'Community you\'re reporting';
+  String get reportFlowSelectedCommunity => 'Суполка, на якую вы скардзіцеся';
 
   @override
-  String get reportFlowReportCategory => 'Your answers';
+  String get reportFlowReportCategory => 'Вашы адказы';
 
   @override
-  String get reportFlowSubmit => 'Send report';
+  String get reportFlowSubmit => 'Адправіць скаргу';
 
   @override
-  String get reportFlowBack => 'Back';
+  String get reportFlowBack => 'Назад';
 
   @override
-  String get reportFlowNext => 'Next';
+  String get reportFlowNext => 'Далей';
 
   @override
-  String get reportFlowDone => 'Done';
+  String get reportFlowDone => 'Гатова';
 
   @override
-  String get reportFlowThankYouTitle => 'Report sent';
+  String get reportFlowThankYouTitle => 'Скарга адпраўлена';
 
   @override
-  String get reportFlowThankYouNoReportTitle => 'Thanks for flagging this';
+  String get reportFlowThankYouNoReportTitle => 'Дзякуй, што паведамілі';
 
   @override
   String reportFlowThankYouBody(String productName) {
-    return 'The $productName safety team will review your report. We won\'t reveal that it came from you.';
+    return 'Каманда бяспекі $productName разгледзіць вашу скаргу. Мы не раскрыем, што яна ад вас.';
   }
 
   @override
   String get reportFlowThankYouBodySelfHosted =>
-      'The administrators of this instance will review your report. We won\'t reveal that it came from you.';
+      'Адміністратары гэтага экзэмпляра разгледзяць вашу скаргу. Мы не раскрыем, што яна ад вас.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
-      'Thanks for telling us. This doesn\'t break our rules on its own, so we didn\'t send a report. If it targets someone or uses slurs, report it again and choose Abusive or harmful content.';
+      'Дзякуй, што паведамілі. Само па сабе гэта не парушае нашых правіл, таму скаргу мы не адправілі. Калі гэта скіравана супраць каго-небудзь або змяшчае абразлівыя словы, паскардзіцеся яшчэ раз і выберыце «Абразлівае або шкоднае змесціва».';
 
   @override
   String get reportFlowThankYouNoReportBodyShort =>
-      'Thanks for telling us. This doesn\'t break our rules on its own, so we didn\'t send a report.';
+      'Дзякуй, што паведамілі. Само па сабе гэта не парушае нашых правіл, таму скаргу мы не адправілі.';
 
   @override
-  String get reportFlowMoreYouCanDo => 'Your options';
+  String get reportFlowMoreYouCanDo => 'Вашы варыянты';
 
   @override
   String reportFlowBlockName(String name) {
-    return 'Block $name';
+    return 'Заблакіраваць $name';
   }
 
   @override
   String get reportFlowBlockDescription =>
-      'Hides their messages and stops them messaging you';
+      'Хавае паведамленні гэтага карыстальніка і забараняе яму пісаць вам';
 
   @override
-  String get reportFlowBlockButton => 'Block';
+  String get reportFlowBlockButton => 'Заблакіраваць';
 
   @override
-  String get reportFlowBlockedButton => 'Blocked';
+  String get reportFlowBlockedButton => 'Заблакіравана';
 
   @override
   String get reportFlowUrgentBanner =>
-      'If someone is in immediate danger, contact local emergency services first.';
+      'Калі камусьці пагражае непасрэдная небяспека, спачатку звярніцеся ў мясцовыя экстранныя службы.';
 
   @override
-  String get reportFlowLoadFailed => 'Couldn\'t load the report form.';
+  String get reportFlowLoadFailed => 'Не ўдалося загрузіць форму скаргі.';
 
   @override
-  String get reportFlowTryAgain => 'Try again';
+  String get reportFlowTryAgain => 'Паспрабаваць яшчэ раз';
 
   @override
   String get reportFlowOutdated =>
-      'The report form changed. Please start again.';
+      'Форма скаргі змянілася. Калі ласка, пачніце спачатку.';
 
   @override
   String get reportFlowAlreadyReported =>
-      'You\'ve already reported this message.';
+      'Вы ўжо скардзіліся на гэта паведамленне.';
 
   @override
   String get reportFlowAlreadyReportedProfile =>
-      'You\'ve already reported this profile today.';
+      'Вы ўжо скардзіліся на гэты профіль сёння.';
 
   @override
   String get reportFlowAlreadyReportedCommunity =>
-      'You\'ve already reported this community.';
+      'Вы ўжо скардзіліся на гэту суполку.';
 
   @override
   String get reportFlowRateLimited =>
-      'You\'re sending reports too quickly. Try again later.';
+      'Вы адпраўляеце скаргі занадта хутка. Паспрабуйце пазней.';
 
   @override
   String get reportFlowSubmitFailed =>
-      'Your report didn\'t go through. Try again.';
+      'Вашу скаргу не ўдалося адправіць. Паспрабуйце яшчэ раз.';
 
   @override
   String get reportFlowAccountSetupRequired =>
-      'Claim your account and verify your email to send reports.';
+      'Каб адпраўляць скаргі, замацуйце за сабой уліковы запіс і пацвердзіце электронную пошту.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress embeds';
+  String get chatMessageSuppressEmbeds => 'Схаваць убудаванні';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress embeds';
+  String get chatMessageUnsuppressEmbeds => 'Паказаць убудаванні';
 
   @override
-  String get chatMessageDelete => 'Delete message';
+  String get chatMessageDelete => 'Выдаліць паведамленне';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete message';
+  String get chatMessageDeleteConfirmTitle => 'Выдаліць паведамленне';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Вы сапраўды хочаце выдаліць гэта паведамленне?';
 
   @override
-  String get chatMessageDeleteAttachment => 'Delete attachment';
+  String get chatMessageDeleteAttachment => 'Выдаліць далучэнне';
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'Вы сапраўды хочаце выдаліць гэта далучэнне?';
 
   @override
-  String get chatMessageEditAttachmentAltText => 'Edit alt text';
+  String get chatMessageEditAttachmentAltText =>
+      'Рэдагаваць альтэрнатыўны тэкст';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Яшчэ';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Рэдагаванне паведамлення';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Зыходнае паведамленне выдалена';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Не ўдалося загрузіць зыходнае паведамленне';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'Паведамленне змяшчае далучаныя медыя';
 
   @override
   String chatBlockedMessagesCollapsed(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count blocked messages',
-      one: '1 blocked message',
+      other: '$count заблакіраванага паведамлення',
+      many: '$count заблакіраваных паведамленняў',
+      few: '$count заблакіраваныя паведамленні',
+      one: '$count заблакіраванае паведамленне',
     );
     return '$_temp0';
   }
@@ -7874,151 +8084,155 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count potential spammer messages',
-      one: '1 potential spammer message',
+      other: '$count паведамлення магчымых спамераў',
+      many: '$count паведамленняў магчымых спамераў',
+      few: '$count паведамленні магчымых спамераў',
+      one: '$count паведамленне магчымага спамера',
     );
     return '$_temp0';
   }
 
   @override
   String get chatReplyHiddenBlockedAuthor =>
-      'Reply hidden because the original author is blocked.';
+      'Адказ схаваны, бо аўтар зыходнага паведамлення заблакіраваны.';
 
   @override
   String get chatReplyHiddenSpammerAuthor =>
-      'Reply hidden because the original author is marked as a spammer.';
+      'Адказ схаваны, бо аўтар зыходнага паведамлення пазначаны як спамер.';
 
   @override
-  String get devMarkAsSpamLocally => 'Mark as spam locally';
+  String get devMarkAsSpamLocally => 'Пазначыць як спам лакальна';
 
   @override
-  String get devIgnoreSpamFlag => 'Ignore spam flag';
+  String get devIgnoreSpamFlag => 'Ігнараваць адзнаку спаму';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => 'Не ўдалося загрузіць паведамленні.';
 
   @override
-  String get dmEmptyStateTitle => 'No messages yet';
+  String get dmEmptyStateTitle => 'Паведамленняў пакуль няма';
 
   @override
-  String get dmEmptyStateBody => 'Send a message to start the conversation.';
+  String get dmEmptyStateBody => 'Адпраўце паведамленне, каб пачаць размову.';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'Не ўдалося загрузіць паведамленні';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle =>
+      'Перавызначыць наладу згадванняў?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname аддае перавагу адказам з @згадваннем. Усё роўна адправіць без згадвання?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname аддае перавагу адказам без @згадвання. Усё роўна адправіць са згадваннем?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Ігнараваць наладу';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Націсніце, каб выключыць згадванне карыстальніка, якому вы адказваеце.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Націсніце, каб уключыць згадванне карыстальніка, якому вы адказваеце.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Згадаць аўтара паведамлення, на якое вы адказваеце';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'УКЛ';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'ВЫКЛ';
 
   @override
   String chatReplyingTo(String authorName) {
-    return 'Replying to $authorName';
+    return 'Адказ для $authorName';
   }
 
   @override
   String chatForwardedFrom(String source) {
-    return 'Forwarded from $source';
+    return 'Пераслана з $source';
   }
 
   @override
-  String get chatForwardedLabel => 'Forwarded';
+  String get chatForwardedLabel => 'Пераслана';
 
   @override
-  String get chatForwardedFromLabel => 'Forwarded from';
+  String get chatForwardedFromLabel => 'Пераслана з';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Скасаваць адказ';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Рэдагаваць паведамленне';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Няма змен для захавання';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'Ваша паведамленне не абнавілася';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'Рэдагаваць зноў';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Гэты канал яшчэ не гатовы. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(зменена)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Гэта было паведамленне @silent.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Сёння ў $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Учора ў $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Папярэдні прагляд выявы';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Закрыць прагляд медыя';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Адкрыць у браўзеры';
 
   @override
-  String get mediaViewerOptions => 'Media options';
+  String get mediaViewerOptions => 'Параметры медыя';
 
   @override
-  String get mediaViewerCopyLink => 'Copy link';
+  String get mediaViewerCopyLink => 'Скапіраваць спасылку';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Пераслаць';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Павялічыць';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Паменшыць';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Папярэдняе далучэнне';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Наступнае далучэнне';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -8027,303 +8241,308 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String mediaViewerAttachmentThumbnail(int index) {
-    return 'Attachment $index';
+    return 'Далучэнне $index';
   }
 
   @override
-  String get mediaViewerDismissBackdrop => 'Dismiss';
+  String get mediaViewerDismissBackdrop => 'Закрыць';
 
   @override
-  String get videoPlayerPlay => 'Play';
+  String get videoPlayerPlay => 'Прайграць';
 
   @override
-  String get videoPlayerPause => 'Pause';
+  String get videoPlayerPause => 'Паўза';
 
   @override
-  String get videoPlayerVolume => 'Volume';
+  String get videoPlayerVolume => 'Гучнасць';
 
   @override
   String videoPlayerPlaybackSpeed(String speed) {
-    return 'Playback speed ${speed}x';
+    return 'Хуткасць прайгравання ${speed}x';
   }
 
   @override
-  String get videoPlayerFullScreen => 'Full screen';
+  String get videoPlayerFullScreen => 'На ўвесь экран';
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls =>
+      'Паказаць або схаваць кіраванне відэа';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Выключыць гук відэа';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Уключыць гук відэа';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Прайграць відэа';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Прыпыніць відэа';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Прагрэс відэа';
 
   @override
-  String get chatVideoPlaybackFailed => 'Could not play this video.';
+  String get chatVideoPlaybackFailed => 'Не ўдалося прайграць гэта відэа.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => 'Не ўдалося загрузіць гэту выяву.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Апавясціць карыстальнікаў з гэтай роляй, якія маюць дазвол праглядаць гэты канал.';
 
   @override
-  String get composerAutocompleteSuggestions => 'Suggestions';
+  String get composerAutocompleteSuggestions => 'Падказкі';
 
   @override
-  String get composerAutocompleteCommandsHeading => 'Commands';
+  String get composerAutocompleteCommandsHeading => 'Каманды';
 
   @override
-  String get composerAutocompleteChoicesHeading => 'Choices';
+  String get composerAutocompleteChoicesHeading => 'Варыянты';
 
   @override
   String get composerAutocompleteOptionalArgumentsHeading =>
-      'Optional arguments';
+      'Неабавязковыя аргументы';
 
   @override
-  String get composerAutocompleteMediaHeading => 'Media';
+  String get composerAutocompleteMediaHeading => 'Медыя';
 
   @override
-  String get composerAutocompleteStickersHeading => 'Stickers';
+  String get composerAutocompleteStickersHeading => 'Стыкеры';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'Эмоджы';
 
   @override
-  String get composerAutocompleteGifsHeading => 'GIFs';
+  String get composerAutocompleteGifsHeading => 'GIF';
 
   @override
-  String get composerAutocompleteNoGifs => 'No GIFs found';
+  String get composerAutocompleteNoGifs => 'GIF не знойдзены';
 
   @override
   String get composerCommandShrugDescription =>
-      'Appends ¯\\_(ツ)_/¯ to your message.';
+      'Дадае ¯\\_(ツ)_/¯ да вашага паведамлення.';
 
   @override
   String get composerCommandTableflipDescription =>
-      'Appends (╯°□°)╯︵ ┻━┻ to your message.';
+      'Дадае (╯°□°)╯︵ ┻━┻ да вашага паведамлення.';
 
   @override
   String get composerCommandUnflipDescription =>
-      'Appends ┬─┬ ノ( ゜-゜ノ) to your message.';
+      'Дадае ┬─┬ ノ( ゜-゜ノ) да вашага паведамлення.';
 
   @override
   String get composerCommandMeDescription =>
-      'Send an action message (wraps in italics).';
+      'Адправіць паведамленне-дзеянне (курсівам).';
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Send a spoiler message (wraps in spoiler tags).';
+      'Адправіць паведамленне са спойлерам (абгортвае ў тэгі спойлера).';
 
   @override
-  String get composerCommandTtsDescription => 'Send a text-to-speech message.';
+  String get composerCommandTtsDescription =>
+      'Адправіць паведамленне з агучваннем тэксту.';
 
   @override
   String get composerCommandNickDescription =>
-      'Change your nickname in this community.';
+      'Змяняць свой псеўданім у гэтай суполцы.';
 
   @override
   String get composerCommandKickDescription =>
-      'Kick a member from this community.';
+      'Выгнаць удзельніка з гэтай суполкі.';
 
   @override
   String get composerCommandBanDescription =>
-      'Ban a member from this community.';
+      'Забаніць удзельніка ў гэтай суполцы.';
 
   @override
   String get composerCommandMsgDescription =>
-      'Send a direct message to a user.';
+      'Адправіць асабістае паведамленне карыстальніку.';
 
   @override
-  String get composerCommandSavedDescription => 'Send a saved media item.';
+  String get composerCommandSavedDescription => 'Адправіць захаванае медыя.';
 
   @override
-  String get composerCommandStickerDescription => 'Send a sticker.';
+  String get composerCommandStickerDescription => 'Адправіць стыкер.';
 
   @override
-  String get composerCommandGifDescription => 'Search for and send a GIF.';
+  String get composerCommandGifDescription => 'Знайсці і адправіць GIF.';
 
   @override
-  String get composerCommandMemberOption => 'The member to target.';
+  String get composerCommandMemberOption =>
+      'Удзельнік, да якога трэба ўжыць каманду.';
 
   @override
-  String get composerCommandReasonOption => 'Reason (optional).';
+  String get composerCommandReasonOption => 'Прычына (неабавязкова).';
 
   @override
-  String get composerCommandMessageOption => 'The message to send.';
+  String get composerCommandMessageOption =>
+      'Паведамленне, якое трэба адправіць.';
 
   @override
-  String get composerCommandQueryOption => 'What to search for.';
+  String get composerCommandQueryOption => 'Што шукаць.';
 
   @override
   String get composerCommandNicknameOption =>
-      'Your new nickname, or leave blank to reset it.';
+      'Ваш новы псеўданім. Пакіньце пустым, каб скінуць.';
 
   @override
   String get composerCommandDeleteMessagesOption =>
-      'How much of the member\'s recent message history to delete.';
+      'Колькі нядаўніх паведамленняў удзельніка выдаліць.';
 
   @override
-  String get composerCommandDeleteMessagesNone => 'Don\'t delete any';
+  String get composerCommandDeleteMessagesNone => 'Нічога не выдаляць';
 
   @override
   String composerCommandDeleteMessagesDays(int count) {
-    return 'Previous $count days';
+    return 'Апошнія дні: $count';
   }
 
   @override
-  String get composerCommandDeleteMessagesOneDay => 'Previous 24 hours';
+  String get composerCommandDeleteMessagesOneDay => 'За апошнія 24 гадзіны';
 
   @override
   String get composerCommandOptionRequired =>
-      'This option is required. Please provide a value.';
+      'Гэты параметр абавязковы. Укажыце значэнне.';
 
   @override
-  String get composerCommandClear => 'Clear command';
+  String get composerCommandClear => 'Ачысціць каманду';
 
   @override
   String composerCommandNicknameChanged(
     String previousNickname,
     String newNickname,
   ) {
-    return 'You changed your nickname in this community from **$previousNickname** to **$newNickname**.';
+    return 'Вы змянілі свой псеўданім у гэтай суполцы з **$previousNickname** на **$newNickname**.';
   }
 
   @override
-  String get composerCommandUnknownUser => 'Unknown user';
+  String get composerCommandUnknownUser => 'Невядомы карыстальнік';
 
   @override
   String composerCommandMsgFailed(String username) {
-    return 'Failed to send a message to **$username**. They may have DMs disabled or you may be blocked.';
+    return 'Не ўдалося адправіць паведамленне карыстальніку **$username**. Магчыма, гэты карыстальнік выключыў асабістыя паведамленні або заблакіраваў вас.';
   }
 
   @override
   String composerCommandOptionalMore(int count) {
-    return '+$count more';
+    return 'яшчэ +$count';
   }
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Дадаць суполку';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Стварыце новую суполку або далучыцеся да наяўнай.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Стварыць суполку';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Далучыцца да суполкі';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Імпартаваць шаблон Discord';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Далучыцца да суполкі';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Увядзіце спасылку-запрашэнне, каб далучыцца да суполкі.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Спасылка-запрашэнне';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Далучыцца да суполкі';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Гэта запрашэнне несапраўднае або тэрмін яго дзеяння скончыўся.';
 
   @override
-  String get addGuildCreateTitle => 'Create a community';
+  String get addGuildCreateTitle => 'Стварыць суполку';
 
   @override
   String get addGuildCreateDescription =>
-      'Create a community for you and your friends to chat.';
+      'Стварыце суполку, дзе вы з сябрамі зможаце размаўляць.';
 
   @override
-  String get addGuildCreateNameLabel => 'Community name';
+  String get addGuildCreateNameLabel => 'Назва суполкі';
 
   @override
-  String get addGuildCreateSubmit => 'Create community';
+  String get addGuildCreateSubmit => 'Стварыць суполку';
 
   @override
   String get addGuildCreateFailed =>
-      'Could not create community. Please try again.';
+      'Не ўдалося стварыць суполку. Паспрабуйце яшчэ раз.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Claim your account';
+  String get addGuildCreateClaimTitle => 'Замацуйце за сабой уліковы запіс';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'You need to claim your account before you can create a community.';
+      'Каб стварыць суполку, замацуйце за сабой уліковы запіс.';
 
   @override
-  String get addGuildCreateVerifyTitle => 'Verify your email';
+  String get addGuildCreateVerifyTitle => 'Пацвердзіце электронную пошту';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'You need to verify your email address before you can create a community.';
+      'Каб стварыць суполку, пацвердзіце адрас электроннай пошты.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Animated icons are not supported when creating a new community. Use a static image.';
+      'Аніміраваныя значкі не падтрымліваюцца пры стварэнні новай суполкі. Выкарыстайце статычную выяву.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'By creating a community, you agree to follow and uphold the ';
+      'Ствараючы суполку, вы згаджаецеся выконваць і падтрымліваць ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
-    return '$productName community guidelines';
+    return 'правілы супольнасці $productName';
   }
 
   @override
   String get addGuildCreateSingleCommunityBlocked =>
-      'This instance is a single community, so additional communities cannot be created.';
+      'Гэты экзэмпляр складаецца з адной суполкі, таму ствараць дадатковыя суполкі нельга.';
 
   @override
-  String get addGuildCreateChangeIcon => 'Change icon';
+  String get addGuildCreateChangeIcon => 'Змяніць значок';
 
   @override
-  String get addGuildCreateIconLabel => 'Community icon';
+  String get addGuildCreateIconLabel => 'Значок суполкі';
 
   @override
   String get addGuildCreateIconHint =>
-      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Да 10 МБ. Рэкамендавана: 512×512 пкс';
 
   @override
   String get addGuildImportDescription =>
-      'Paste a Discord template URL to import its structure into a new community.';
+      'Устаўце URL шаблону Discord, каб імпартаваць яго структуру ў новую суполку.';
 
   @override
-  String get addGuildImportUrlLabel => 'Template URL';
+  String get addGuildImportUrlLabel => 'URL шаблона';
 
   @override
   String get addGuildImportUrlInvalid =>
-      'Enter a valid Discord template URL or code.';
+      'Увядзіце правільны URL або код шаблону Discord.';
 
   @override
   String get addGuildImportFetchFailed =>
-      'Failed to fetch the community template. The template may not exist or the external service is unavailable.';
+      'Не ўдалося атрымаць шаблон суполкі. Магчыма, шаблон не існуе або знешні сэрвіс недаступны.';
 
   @override
   String get addGuildImportInvalidResponse =>
-      'This doesn\'t look like a valid template response.';
+      'Гэта не падобна на правільны адказ з шаблонам.';
 
   @override
-  String get addGuildImportTemplateLabel => 'Template';
+  String get addGuildImportTemplateLabel => 'Шаблон';
 
   @override
   String addGuildImportTemplateStats(
@@ -8332,37 +8551,37 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     int categoryCount,
     int roleCount,
   ) {
-    return '$textChannelCount text, $voiceChannelCount voice, $categoryCount categories, $roleCount roles';
+    return 'Тэкставыя каналы: $textChannelCount, галасавыя: $voiceChannelCount, катэгорыі: $categoryCount, ролі: $roleCount';
   }
 
   @override
-  String get addGuildImportRemoveIcon => 'Remove icon';
+  String get addGuildImportRemoveIcon => 'Выдаліць значок';
 
   @override
   String get addGuildImportTemplateInvalid =>
-      'The community template data is invalid or malformed.';
+      'Даныя шаблона суполкі няправільныя або пашкоджаныя.';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove all reactions';
+      'Прыбраць усе рэакцыі';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Вы сапраўды хочаце прыбраць усе рэакцыі з гэтага паведамлення?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Замацаваць';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Замацаваць гэта паведамленне ў канале, каб яго бачылі ўсе.';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Адмацаваць паведамленне';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Адправіць гэта замацаванае паведамленне назад у мінулае?';
 
   @override
   String systemPinMessage(
@@ -8370,141 +8589,143 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username замацоўвае ў гэтым канале $messageLink. Глядзіце $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'паведамленне';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'усе замацаваныя паведамленні';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Няма замацаваных паведамленняў';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'Тут паказваюцца замацаваныя паведамленні.';
 
   @override
-  String get channelDetailsFallbackTitle => 'Details';
+  String get channelDetailsFallbackTitle => 'Падрабязнасці';
 
   @override
   String channelDetailsGroupDmSubtitle(int count) {
-    return 'Group DM · $count members';
+    return 'Групавы чат · удзельнікаў: $count';
   }
 
   @override
   String channelDetailsCloseDmDescription(String name) {
-    return 'Close your conversation with $name?';
+    return 'Закрыць размову з $name?';
   }
 
   @override
   String channelDetailsLeaveGroupDescription(String name) {
-    return 'Leave $name?';
+    return 'Пакінуць $name?';
   }
 
   @override
-  String get channelDetailsChannelSettingsTitle => 'Channel settings';
+  String get channelDetailsChannelSettingsTitle => 'Налады канала';
 
   @override
-  String get channelDetailsGroupSettingsTitle => 'Group settings';
+  String get channelDetailsGroupSettingsTitle => 'Налады групы';
 
   @override
-  String get channelDetailsDmSettingsTitle => 'DM settings';
+  String get channelDetailsDmSettingsTitle => 'Налады асабістага чата';
 
   @override
-  String get channelDetailsInvitePeople => 'Invite people';
+  String get channelDetailsInvitePeople => 'Запрасіць людзей';
 
   @override
-  String get channelDetailsCopyLink => 'Copy link';
+  String get channelDetailsCopyLink => 'Скапіраваць спасылку';
 
   @override
-  String get channelMenuCopyChannelLink => 'Copy channel link';
+  String get channelMenuCopyChannelLink => 'Скапіраваць спасылку на канал';
 
   @override
-  String get channelMenuCopyRedirectLink => 'Copy redirect link';
+  String get channelMenuCopyRedirectLink =>
+      'Скапіраваць спасылку перанакіравання';
 
   @override
-  String get channelDetailsAddFriendsToGroup => 'Add friends to group';
+  String get channelDetailsAddFriendsToGroup => 'Дадаць сяброў у групу';
 
   @override
-  String get channelDetailsGroupInvites => 'Group invites';
+  String get channelDetailsGroupInvites => 'Запрашэнні ў групу';
 
   @override
-  String get channelDetailsEditChannel => 'Edit channel';
+  String get channelDetailsEditChannel => 'Рэдагаваць канал';
 
   @override
-  String get channelDetailsDeleteChannel => 'Delete channel';
+  String get channelDetailsDeleteChannel => 'Выдаліць канал';
 
   @override
-  String get channelSettingsEditCategory => 'Edit category';
+  String get channelSettingsEditCategory => 'Рэдагаваць катэгорыю';
 
   @override
-  String get channelSettingsTabOverview => 'Overview';
+  String get channelSettingsTabOverview => 'Агульныя звесткі';
 
   @override
-  String get channelSettingsTabPermissions => 'Permissions';
+  String get channelSettingsTabPermissions => 'Дазволы';
 
   @override
-  String get channelSettingsTabInvites => 'Invites';
+  String get channelSettingsTabInvites => 'Запрашэнні';
 
   @override
-  String get channelSettingsTabWebhooks => 'Webhooks';
+  String get channelSettingsTabWebhooks => 'Вэб-хукі';
 
   @override
-  String get channelSettingsDeleteChannel => 'Delete channel';
+  String get channelSettingsDeleteChannel => 'Выдаліць канал';
 
   @override
   String channelSettingsDeleteChannelConfirm(String channelName) {
-    return 'Are you sure you want to delete $channelName? This cannot be undone.';
+    return 'Вы сапраўды хочаце выдаліць $channelName? Гэта нельга адмяніць.';
   }
 
   @override
   String channelSettingsDeleteCategoryConfirm(String categoryName) {
-    return 'Are you sure you want to delete $categoryName? This cannot be undone.';
+    return 'Вы сапраўды хочаце выдаліць $categoryName? Гэта нельга адмяніць.';
   }
 
   @override
-  String get channelSettingsDeleteCategory => 'Delete category';
+  String get channelSettingsDeleteCategory => 'Выдаліць катэгорыю';
 
   @override
-  String get channelSettingsChannelUpdated => 'Channel updated';
+  String get channelSettingsChannelUpdated => 'Канал абноўлены';
 
   @override
-  String get channelSettingsChannelName => 'Channel name';
+  String get channelSettingsChannelName => 'Назва канала';
 
   @override
-  String get channelSettingsCategoryName => 'Category name';
+  String get channelSettingsCategoryName => 'Назва катэгорыі';
 
   @override
-  String get channelSettingsMyCategory => 'My category';
+  String get channelSettingsMyCategory => 'Мая катэгорыя';
 
   @override
-  String get categoryExpandCategory => 'Expand category';
+  String get categoryExpandCategory => 'Разгарнуць катэгорыю';
 
   @override
-  String get categoryCollapseCategory => 'Collapse category';
+  String get categoryCollapseCategory => 'Згарнуць катэгорыю';
 
   @override
-  String get categoryExpandAllCategories => 'Expand all categories';
+  String get categoryExpandAllCategories => 'Разгарнуць усе катэгорыі';
 
   @override
-  String get categoryCollapseAllCategories => 'Collapse all categories';
+  String get categoryCollapseAllCategories => 'Згарнуць усе катэгорыі';
 
   @override
-  String get categoryMuteCategory => 'Mute category';
+  String get categoryMuteCategory => 'Заглушыць катэгорыю';
 
   @override
-  String get categoryUnmuteCategory => 'Unmute category';
+  String get categoryUnmuteCategory => 'Уключыць апавяшчэнні катэгорыі';
 
   @override
-  String get categoryCopyCategoryId => 'Copy category ID';
+  String get categoryCopyCategoryId => 'Скапіраваць ID катэгорыі';
 
   @override
-  String get categoryIdCopied => 'Category ID copied';
+  String get categoryIdCopied => 'ID катэгорыі скапіраваны';
 
   @override
-  String get channelSettingsChannelNamePlaceholder => 'general';
+  String get channelSettingsChannelNamePlaceholder => 'агульны';
 
   @override
   String get channelSettingsUrl => 'URL';
@@ -8513,702 +8734,713 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get channelSettingsUrlPlaceholder => 'https://example.com';
 
   @override
-  String get channelSettingsTopic => 'Topic';
+  String get channelSettingsTopic => 'Тэма';
 
   @override
-  String get channelSettingsTopicPlaceholder => 'Add a topic to this channel';
+  String get channelSettingsTopicPlaceholder => 'Дадаць тэму гэтаму каналу';
 
   @override
-  String get channelSettingsInsertEmoji => 'Insert emoji';
+  String get channelSettingsInsertEmoji => 'Уставіць эмоджы';
 
   @override
-  String get channelSettingsTopicTooLongTitle => 'Channel topic is too long.';
+  String get channelSettingsTopicTooLongTitle => 'Тэма канала занадта доўгая.';
 
   @override
   String get channelSettingsTopicTooLongMessage =>
-      'Shorten the topic and try again.';
+      'Скараціце тэму і паспрабуйце яшчэ раз.';
 
   @override
-  String get channelSettingsSlowmode => 'Slowmode';
+  String get channelSettingsSlowmode => 'Павольны рэжым';
 
   @override
   String channelSettingsSlowmodeDescription(
     String bypassSlowmodePermissionLabel,
   ) {
-    return 'Wait between messages. Members with \"$bypassSlowmodePermissionLabel\" can bypass this.';
+    return 'Інтэрвал паміж паведамленнямі. Удзельнікі з дазволам «$bypassSlowmodePermissionLabel» могуць яго абыходзіць.';
   }
 
   @override
-  String get channelSettingsSlowmodeOff => 'Off';
+  String get channelSettingsSlowmodeOff => 'Выключана';
 
   @override
   String channelSettingsSlowmodeSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds с';
   }
 
   @override
   String channelSettingsSlowmodeMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes хв';
   }
 
   @override
   String channelSettingsSlowmodeHours(int hours) {
-    return '$hours hours';
+    return '$hours гадз';
   }
 
   @override
   String channelSettingsSlowmodeOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute хвіліна';
   }
 
   @override
   String channelSettingsSlowmodeOneHour(int oneHour) {
-    return '$oneHour hour';
+    return '$oneHour гадзіна';
   }
 
   @override
-  String get channelSettingsVoiceQuality => 'Voice quality';
+  String get channelSettingsVoiceQuality => 'Якасць голасу';
 
   @override
   String get channelSettingsVoiceQualityDescription =>
-      'Higher bitrate = better quality and higher bandwidth usage.';
+      'Вышэйшы бітрэйт = лепшая якасць і большы расход трафіку.';
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
-    return '$kilobits kbps';
+    return '$kilobits кбіт/с';
   }
 
   @override
-  String get channelSettingsParticipantLimit => 'Participant limit';
+  String get channelSettingsParticipantLimit => 'Ліміт удзельнікаў';
 
   @override
   String get channelSettingsParticipantLimitDescription =>
-      'Maximum members who can join at once. 0 means unlimited.';
+      'Максімальная колькасць удзельнікаў, якія могуць далучыцца адначасова. 0 — без абмежаванняў.';
 
   @override
   String channelSettingsParticipantLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
-      zero: '∞ No limit',
+      other: '$count удзельніка',
+      many: '$count удзельнікаў',
+      few: '$count удзельнікі',
+      one: '$count удзельнік',
+      zero: '∞ Без абмежаванняў',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsConnectionLimit => 'Connection limit';
+  String get channelSettingsConnectionLimit => 'Ліміт падключэнняў';
 
   @override
   String get channelSettingsConnectionLimitDescription =>
-      'Maximum active connections one member can keep in this channel.';
+      'Максімальная колькасць актыўных падключэнняў аднаго ўдзельніка ў гэтым канале.';
 
   @override
   String channelSettingsConnectionLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count connections',
-      one: '1 connection',
+      other: '$count падключэння',
+      many: '$count падключэнняў',
+      few: '$count падключэнні',
+      one: '$count падключэнне',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsVoiceRegion => 'Voice region';
+  String get channelSettingsVoiceRegion => 'Галасавы рэгіён';
 
   @override
   String get channelSettingsVoiceRegionDescription =>
-      'Select a voice region for this channel. Automatic uses the closest region.';
+      'Выберыце галасавы рэгіён для гэтага канала. Пры аўтаматычным выбары выкарыстоўваецца бліжэйшы рэгіён.';
 
   @override
-  String get channelSettingsVoiceRegionAutomatic => 'Automatic';
+  String get channelSettingsVoiceRegionAutomatic => 'Аўтаматычна';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailed =>
-      'Couldn\'t load voice regions';
+      'Не ўдалося загрузіць галасавыя рэгіёны';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailedDescription =>
-      'Try again in a moment.';
+      'Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
-    return 'Override the $scopeLevel-level setting for this channel. Mature content is shown behind a gate before entry.';
+    return 'Перавызначыць наладу ўзроўню «$scopeLevel» для гэтага канала. Змесціва для дарослых паказваецца толькі пасля бар’ера на ўваходзе.';
   }
 
   @override
-  String get channelSettingsMatureContentInherit => 'Inherit';
+  String get channelSettingsMatureContentInherit => 'Успадкаваць';
 
   @override
-  String get channelSettingsMatureContentOn => 'On';
+  String get channelSettingsMatureContentOn => 'Уключана';
 
   @override
-  String get channelSettingsMatureContentOff => 'Off';
+  String get channelSettingsMatureContentOff => 'Выключана';
 
   @override
   String get channelSettingsMatureContentOnDescription =>
-      'Marks this channel for mature content.';
+      'Пазначае гэты канал як канал са змесцівам для дарослых.';
 
   @override
   String get channelSettingsMatureContentOffDescription =>
-      'Leave this channel ungated for mature content.';
+      'Не ставіць для гэтага канала бар’ер змесціва для дарослых.';
 
   @override
   String channelSettingsMatureContentInheritsOn(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: on';
+    return 'Успадкавана ад $inheritedSourceLabel: уключана';
   }
 
   @override
   String channelSettingsMatureContentInheritsOff(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: off';
+    return 'Успадкавана ад $inheritedSourceLabel: выключана';
   }
 
   @override
-  String get channelSettingsMatureContentCategoryScope => 'Category';
+  String get channelSettingsMatureContentCategoryScope => 'Катэгорыя';
 
   @override
-  String get channelSettingsMatureContentCommunityScope => 'Community';
+  String get channelSettingsMatureContentCommunityScope => 'Суполка';
 
   @override
   String get channelSettingsContentWarningToggle =>
-      'Show a content warning in this channel';
+      'Паказваць папярэджанне аб змесціве ў гэтым канале';
 
   @override
   String get channelSettingsContentWarningToggleDescription =>
-      'Turns on a consent prompt before entering this channel.';
+      'Уключае запыт згоды перад уваходам у гэты канал.';
 
   @override
-  String get channelSettingsContentWarningText => 'Custom warning text';
+  String get channelSettingsContentWarningText => 'Уласны тэкст папярэджання';
 
   @override
   String get channelSettingsContentWarningDefault =>
-      'This contains sensitive content.';
+      'Тут ёсць адчувальнае змесціва.';
 
   @override
-  String get channelSettingsUnknownRole => 'Unknown role';
+  String get channelSettingsUnknownRole => 'Невядомая роля';
 
   @override
-  String get channelSettingsUnknownUser => 'Unknown user';
+  String get channelSettingsUnknownUser => 'Невядомы карыстальнік';
 
   @override
   String get channelSettingsEveryoneRole => '@everyone';
 
   @override
-  String get channelSettingsPermissionsAccessOverrides => 'Access overrides';
+  String get channelSettingsPermissionsAccessOverrides =>
+      'Перавызначэнні доступу';
 
   @override
   String channelSettingsPermissionsEditAccessFor(String name) {
-    return 'Edit access for $name';
+    return 'Змяніць доступ для $name';
   }
 
   @override
-  String get channelSettingsPermissionsBackToOverrides => 'Back to overrides';
+  String get channelSettingsPermissionsBackToOverrides =>
+      'Назад да перавызначэнняў';
 
   @override
   String get channelSettingsPermissionsConfigureBaseAccess =>
-      'Configure base access for this channel';
+      'Наладзьце базавы доступ да гэтага канала';
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Configure overrides for this role';
+      'Наладзьце перавызначэнні для гэтай ролі';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Configure overrides for this member';
+      'Наладзьце перавызначэнні для гэтага ўдзельніка';
 
   @override
-  String get channelSettingsPermissionsSearchPlaceholder =>
-      'Search permissions…';
+  String get channelSettingsPermissionsSearchPlaceholder => 'Пошук дазволаў…';
 
   @override
   String get channelSettingsPermissionsChannelAccessUpdated =>
-      'Channel access updated';
+      'Доступ да канала абноўлены';
 
   @override
-  String get channelSettingsPermissionsTitle => 'Access control';
+  String get channelSettingsPermissionsTitle => 'Кіраванне доступам';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'This channel is synced with the parent category ';
+      'Гэты канал сінхранізаваны з бацькоўскай катэгорыяй ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'This channel is not synced with the parent category ';
+      'Гэты канал не сінхранізаваны з бацькоўскай катэгорыяй ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
 
   @override
-  String get channelSettingsPermissionsSyncWithCategory => 'Sync with category';
+  String get channelSettingsPermissionsSyncWithCategory =>
+      'Сінхранізаваць з катэгорыяй';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentToast =>
-      'Channel synced with parent category';
+      'Канал сінхранізаваны з бацькоўскай катэгорыяй';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Add override';
+  String get channelSettingsPermissionsAddOverride => 'Дадаць перавызначэнне';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
-      'Search roles or members…';
+      'Пошук роляў або ўдзельнікаў…';
 
   @override
-  String get channelSettingsDeleteInvite => 'Delete invite';
+  String get channelSettingsDeleteInvite => 'Выдаліць запрашэнне';
 
   @override
   String get channelSettingsDeleteInviteConfirm =>
-      'Delete this invite? Can\'t be undone.';
+      'Выдаліць гэта запрашэнне? Гэта дзеянне нельга адмяніць.';
 
   @override
-  String get channelSettingsCopyInviteCode => 'Copy invite code';
+  String get channelSettingsCopyInviteCode => 'Скапіраваць код запрашэння';
 
   @override
-  String get channelSettingsCopyInviteUrl => 'Copy invite URL';
+  String get channelSettingsCopyInviteUrl => 'Скапіраваць URL запрашэння';
 
   @override
-  String get channelSettingsWebhookCreated => 'Webhook created';
+  String get channelSettingsWebhookCreated => 'Вэб-хук створаны';
 
   @override
-  String get channelSettingsWebhookCreateFailed => 'Failed to create webhook';
+  String get channelSettingsWebhookCreateFailed =>
+      'Не ўдалося стварыць вэб-хук';
 
   @override
-  String get channelSettingsCreateWebhook => 'Create webhook';
+  String get channelSettingsCreateWebhook => 'Стварыць вэб-хук';
 
   @override
   String get channelSettingsInvitesDescription =>
-      'Manage invite links for this channel.';
+      'Кіраваць спасылкамі-запрашэннямі ў гэты канал.';
 
   @override
-  String get channelSettingsInvitesCreate => 'Create invite';
+  String get channelSettingsInvitesCreate => 'Стварыць запрашэнне';
 
   @override
-  String get channelSettingsInvitesEmpty => 'No invite links';
+  String get channelSettingsInvitesEmpty => 'Няма спасылак-запрашэнняў';
 
   @override
   String get channelSettingsInvitesEmptyDescription =>
-      'This channel doesn\'t have any invite links yet. Create one to invite people to this channel.';
+      'У гэтага канала пакуль няма спасылак-запрашэнняў. Стварыце спасылку, каб запрашаць людзей у гэты канал.';
 
   @override
   String get channelSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invite links for this channel. Try again.';
+      'Пры загрузцы спасылак-запрашэнняў гэтага канала адбылася памылка. Паспрабуйце яшчэ раз.';
 
   @override
   String get channelSettingsWebhooksDescription =>
-      'Manage incoming webhooks that can post messages into this channel.';
+      'Кіраваць уваходнымі вэб-хукамі, якія могуць публікаваць паведамленні ў гэты канал.';
 
   @override
-  String get channelSettingsWebhooksEmpty => 'No webhooks';
+  String get channelSettingsWebhooksEmpty => 'Няма вэб-хукаў';
 
   @override
   String get channelSettingsWebhooksEmptyDescription =>
-      'There are no webhooks configured for this channel. Create a webhook to allow external applications to post messages.';
+      'Для гэтага канала не наладжана ніводнага вэб-хука. Стварыце вэб-хук, каб знешнія праграмы маглі публікаваць паведамленні.';
 
   @override
   String get channelSettingsWebhooksUnsupported =>
-      'This channel does not support webhooks.';
+      'Гэты канал не падтрымлівае вэб-хукі.';
 
   @override
   String channelSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this channel.';
+    return 'Каб праглядаць і змяняць вэб-хукі гэтага канала, патрэбны дазвол «$permission».';
   }
 
   @override
   String get channelSettingsWebhooksLoadFailedTitle =>
-      'Failed to load webhooks';
+      'Не ўдалося загрузіць вэб-хукі';
 
   @override
   String get channelSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks for this channel. Try again.';
+      'Пры загрузцы вэб-хукаў гэтага канала адбылася памылка. Паспрабуйце яшчэ раз.';
 
   @override
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
-    return 'Created by $creator on $date';
+    return 'Аўтар: $creator, $date';
   }
 
   @override
-  String get channelSettingsWebhooksAvatar => 'Avatar';
+  String get channelSettingsWebhooksAvatar => 'Аватар';
 
   @override
-  String get channelSettingsWebhooksUploadImage => 'Upload image';
+  String get channelSettingsWebhooksUploadImage => 'Загрузіць выяву';
 
   @override
-  String get channelSettingsWebhooksRemove => 'Remove';
+  String get channelSettingsWebhooksRemove => 'Прыбраць';
 
   @override
-  String get channelSettingsWebhooksName => 'Name';
+  String get channelSettingsWebhooksName => 'Імя';
 
   @override
-  String get channelSettingsWebhooksNamePlaceholder => 'Webhook name';
+  String get channelSettingsWebhooksNamePlaceholder => 'Назва вэб-хука';
 
   @override
-  String get channelSettingsWebhooksChannel => 'Channel';
+  String get channelSettingsWebhooksChannel => 'Канал';
 
   @override
-  String get channelSettingsWebhooksUrl => 'Webhook URL';
+  String get channelSettingsWebhooksUrl => 'URL вэб-хука';
 
   @override
-  String get channelSettingsWebhooksCopyUrl => 'Copy webhook URL';
+  String get channelSettingsWebhooksCopyUrl => 'Скапіраваць URL вэб-хука';
 
   @override
-  String get channelSettingsWebhooksDelete => 'Delete webhook';
+  String get channelSettingsWebhooksDelete => 'Выдаліць вэб-хук';
 
   @override
   String get channelSettingsWebhooksDeleteFailed =>
-      'Couldn\'t delete this webhook';
+      'Не ўдалося выдаліць гэты вэб-хук';
 
   @override
   String get channelSettingsWebhooksDeleteConfirm =>
-      'Delete this webhook? Can\'t be undone.';
+      'Выдаліць гэты вэб-хук? Гэта нельга адмяніць.';
 
   @override
   String get channelSettingsWebhookTryAgainInAMoment =>
-      'Try again in a moment.';
+      'Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get channelMenuOpenChat => 'Open chat';
+  String get channelMenuOpenChat => 'Адкрыць чат';
 
   @override
-  String get channelMenuDuplicateChannel => 'Duplicate channel';
+  String get channelMenuDuplicateChannel => 'Стварыць копію канала';
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'Новы канал атрымае дазволы канала $channelName.';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'Новы галасавы канал атрымае дазволы, ліміт карыстальнікаў і бітрэйт канала $channelName.';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'Перамясціць у катэгорыю';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'Без катэгорыі';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'Катэгорыя запоўнена';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'Гэта катэгорыя ўжо змяшчае максімальную колькасць каналаў: $maxChannelsPerCategory.';
   }
 
   @override
   String get channelMenuResetMatureContentAgreeState =>
-      'Reset mature content agreement state';
+      'Скінуць стан згоды на змесціва для дарослых';
 
   @override
   String get channelMenuDeleteMyMessagesTitle =>
-      'Delete your messages in this channel?';
+      'Выдаліць вашы паведамленні ў гэтым канале?';
 
   @override
   String get channelMenuDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this channel. This cannot be undone.';
+      'Будуць назаўсёды выдалены ўсе паведамленні, якія вы калі-небудзь адпраўлялі ў гэтым канале. Гэта дзеянне нельга адмяніць.';
 
   @override
-  String get channelMenuDeleteMyMessagesConfirm => 'Delete my messages';
+  String get channelMenuDeleteMyMessagesConfirm => 'Выдаліць мае паведамленні';
 
   @override
-  String get channelMenuDeletedYourMessages => 'Deleted your messages';
+  String get channelMenuDeletedYourMessages => 'Вашы паведамленні выдалены';
 
   @override
   String get channelMenuCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Не ўдалося выдаліць вашы паведамленні';
 
   @override
-  String get channelDetailsSystemMessage => 'System message';
+  String get channelDetailsSystemMessage => 'Сістэмнае паведамленне';
 
   @override
-  String get channelDetailsTextChannel => 'Text channel';
+  String get channelDetailsTextChannel => 'Тэкставы канал';
 
   @override
-  String get channelDetailsVoiceChannel => 'Voice channel';
+  String get channelDetailsVoiceChannel => 'Галасавы канал';
 
   @override
-  String get channelDetailsCategory => 'Category';
+  String get channelDetailsCategory => 'Катэгорыя';
 
   @override
-  String get channelDetailsLinkChannel => 'Link channel';
+  String get channelDetailsLinkChannel => 'Канал-спасылка';
 
   @override
-  String get channelDetailsGenericChannel => 'Channel';
+  String get channelDetailsGenericChannel => 'Канал';
 
   @override
-  String get channelDetailsMutedConversation => 'Muted conversation';
+  String get channelDetailsMutedConversation => 'Размова заглушана';
 
   @override
-  String get channelDetailsUnmutedConversation => 'Unmuted conversation';
+  String get channelDetailsUnmutedConversation => 'Заглушэнне размовы знята';
 
   @override
-  String get channelDetailsMutedChannel => 'Muted channel';
+  String get channelDetailsMutedChannel => 'Канал заглушаны';
 
   @override
-  String get channelDetailsUnmutedChannel => 'Unmuted channel';
+  String get channelDetailsUnmutedChannel => 'Заглушэнне канала знята';
 
   @override
   String get channelDetailsNotificationSettingsUpdated =>
-      'Notification settings updated';
+      'Налады апавяшчэнняў абноўлены';
 
   @override
-  String get channelDetailsTabMembers => 'Members';
+  String get channelDetailsTabMembers => 'Удзельнікі';
 
   @override
-  String get channelDetailsTabPins => 'Pins';
+  String get channelDetailsTabPins => 'Замацаваныя';
 
   @override
-  String get channelDetailsActionMute => 'Mute';
+  String get channelDetailsActionMute => 'Заглушыць';
 
   @override
-  String get channelDetailsActionUnmute => 'Unmute';
+  String get channelDetailsActionUnmute => 'Уключыць апавяшчэнні';
 
   @override
-  String get channelDetailsActionSearch => 'Search';
+  String get channelDetailsActionSearch => 'Пошук';
 
   @override
-  String get channelDetailsActionMore => 'More';
+  String get channelDetailsActionMore => 'Яшчэ';
 
   @override
-  String get channelDetailsMembersEmptyTitle => 'No members to show';
+  String get channelDetailsMembersEmptyTitle => 'Няма ўдзельнікаў для паказу';
 
   @override
   String get channelDetailsMembersEmptyBody =>
-      'Members will appear here once the community data is loaded.';
+      'Удзельнікі з’явяцца тут, калі загрузяцца даныя суполкі.';
 
   @override
-  String get memberListPermissionDeniedTitle => 'You can\'t view members';
+  String get memberListPermissionDeniedTitle =>
+      'Вы не можаце праглядаць удзельнікаў';
 
   @override
   String get memberListPermissionDeniedBody =>
-      'You can\'t view the members of this channel in this community';
+      'Вы не можаце праглядаць удзельнікаў гэтага канала ў гэтай суполцы';
 
   @override
-  String get memberListUnavailableTitle => 'Member list unavailable';
+  String get memberListUnavailableTitle => 'Спіс удзельнікаў недаступны';
 
   @override
   String get memberListUnavailableBody =>
-      'Member lists are temporarily unavailable in this community';
+      'Спісы ўдзельнікаў часова недаступныя ў гэтай суполцы';
 
   @override
-  String get channelDetailsPinsLoadFailedTitle => 'Pins could not be loaded';
+  String get channelDetailsPinsLoadFailedTitle =>
+      'Не ўдалося загрузіць замацаваныя паведамленні';
 
   @override
   String get channelDetailsPinsGuildEndHint =>
-      'Members with the \"Pin messages\" permission can pin messages for everyone to see.';
+      'Удзельнікі з дазволам «Замацоўваць паведамленні» могуць замацоўваць паведамленні, каб іх бачылі ўсе.';
 
   @override
   String get channelDetailsPinsDmEndHint =>
-      'You can pin messages in this conversation for everyone to see.';
+      'У гэтай размове вы можаце замацоўваць паведамленні, каб іх бачылі ўсе.';
 
   @override
-  String get channelDetailsPinsEndReached => 'You\'ve reached the end';
+  String get channelDetailsPinsEndReached => 'Вы дайшлі да канца';
 
   @override
-  String get channelHeaderPinnedMessages => 'Pinned messages';
+  String get channelHeaderPinnedMessages => 'Замацаваныя паведамленні';
 
   @override
-  String get channelHeaderPinnedMessagesUnread => 'Pinned messages, unread';
+  String get channelHeaderPinnedMessagesUnread =>
+      'Замацаваныя паведамленні, ёсць непрачытаныя';
 
   @override
-  String get channelHeaderMemberList => 'Member list';
+  String get channelHeaderMemberList => 'Спіс удзельнікаў';
 
   @override
-  String get channelHeaderInbox => 'Inbox';
+  String get channelHeaderInbox => 'Уваходныя';
 
   @override
   String get channelHeaderNotificationSettingsMuted =>
-      'Notification settings, muted';
+      'Налады апавяшчэнняў, заглушана';
 
   @override
-  String get channelHeaderOpenDetails => 'Open channel details';
+  String get channelHeaderOpenDetails => 'Адкрыць звесткі пра канал';
 
   @override
-  String get channelDetailsSearchTitle => 'Search';
+  String get channelDetailsSearchTitle => 'Пошук';
 
   @override
-  String get channelDetailsSearchHint => 'Search messages';
+  String get channelDetailsSearchHint => 'Пошук паведамленняў';
 
   @override
-  String get channelDetailsSearchFilterFrom => 'From';
+  String get channelDetailsSearchFilterFrom => 'Ад';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Has';
+  String get channelDetailsSearchFilterHas => 'Змяшчае';
 
   @override
-  String get channelDetailsSearchFilterIn => 'In';
+  String get channelDetailsSearchFilterIn => 'У';
 
   @override
-  String get channelDetailsSearchFilterMentions => 'Mentions';
+  String get channelDetailsSearchFilterMentions => 'Згадванні';
 
   @override
-  String get channelDetailsSearchFilterMore => 'More';
+  String get channelDetailsSearchFilterMore => 'Яшчэ';
 
   @override
-  String get channelDetailsSearchMoreFiltersActive => 'Active';
+  String get channelDetailsSearchMoreFiltersActive => 'Актыўна';
 
   @override
   String channelDetailsSearchChannelsCount(int count) {
-    return '$count channels';
+    return 'Каналаў: $count';
   }
 
   @override
   String channelDetailsSearchUsersCount(int count) {
-    return '$count users';
+    return 'Карыстальнікаў: $count';
   }
 
   @override
-  String get channelDetailsSearchAuthorTypeUser => 'User';
+  String get channelDetailsSearchAuthorTypeUser => 'Карыстальнік';
 
   @override
-  String get channelDetailsSearchAuthorTypeBot => 'Bot';
+  String get channelDetailsSearchAuthorTypeBot => 'Бот';
 
   @override
-  String get channelDetailsSearchAuthorTypeWebhook => 'Webhook';
+  String get channelDetailsSearchAuthorTypeWebhook => 'Вэб-хук';
 
   @override
-  String get channelDetailsSearchFilterByChannel => 'Filter by channel';
+  String get channelDetailsSearchFilterByChannel => 'Фільтраваць па канале';
 
   @override
-  String get channelDetailsSearchChannelsHint => 'Search channels';
+  String get channelDetailsSearchChannelsHint => 'Пошук каналаў';
 
   @override
-  String get channelDetailsSearchChannelsEmpty => 'No channels found';
+  String get channelDetailsSearchChannelsEmpty => 'Каналы не знойдзены';
 
   @override
-  String get channelDetailsSearchMoreFiltersPinned => 'Pinned';
+  String get channelDetailsSearchMoreFiltersPinned => 'Замацавана';
 
   @override
-  String get channelDetailsSearchPinnedTrue => 'Pinned only';
+  String get channelDetailsSearchPinnedTrue => 'Толькі замацаваныя';
 
   @override
-  String get channelDetailsSearchPinnedFalse => 'Exclude pinned';
+  String get channelDetailsSearchPinnedFalse => 'Без замацаваных';
 
   @override
-  String get channelDetailsSearchClearFilter => 'Clear';
+  String get channelDetailsSearchClearFilter => 'Ачысціць';
 
   @override
-  String get channelDetailsSearchMoreFiltersAuthorType => 'Author type';
+  String get channelDetailsSearchMoreFiltersAuthorType => 'Тып аўтара';
 
   @override
-  String get channelDetailsSearchMoreFiltersDate => 'Date';
+  String get channelDetailsSearchMoreFiltersDate => 'Дата';
 
   @override
-  String get channelDetailsSearchMoreFiltersDateMode => 'Date mode';
+  String get channelDetailsSearchMoreFiltersDateMode => 'Рэжым даты';
 
   @override
-  String get channelDetailsSearchMoreFiltersPickDate => 'Pick a date';
+  String get channelDetailsSearchMoreFiltersPickDate => 'Выберыце дату';
 
   @override
-  String get channelDetailsSearchMoreFiltersLink => 'Link hostname';
+  String get channelDetailsSearchMoreFiltersLink => 'Хост спасылкі';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileName => 'Filename contains';
+  String get channelDetailsSearchMoreFiltersFileName => 'Назва файла змяшчае';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileType => 'File extension';
+  String get channelDetailsSearchMoreFiltersFileType => 'Пашырэнне файла';
 
   @override
-  String get channelDetailsSearchContentPoll => 'Poll';
+  String get channelDetailsSearchContentPoll => 'Апытанне';
 
   @override
   String get channelDetailsSearchContentPollDescription =>
-      'Messages with a poll';
+      'Паведамленні з апытаннем';
 
   @override
-  String get channelDetailsSearchContentForward => 'Forward';
+  String get channelDetailsSearchContentForward => 'Пераслаць';
 
   @override
   String get channelDetailsSearchContentForwardDescription =>
-      'Forwarded messages';
+      'Перасланыя паведамленні';
 
   @override
-  String get channelDetailsSearchFilterSort => 'Sort';
+  String get channelDetailsSearchFilterSort => 'Сартаванне';
 
   @override
-  String get channelHeaderSearchFiltersTitle => 'Search filters';
+  String get channelHeaderSearchFiltersTitle => 'Фільтры пошуку';
 
   @override
-  String get channelHeaderSearchRecentTitle => 'Recent searches';
+  String get channelHeaderSearchRecentTitle => 'Нядаўнія пошукі';
 
   @override
-  String get channelHeaderSearchUsersTitle => 'Users';
+  String get channelHeaderSearchUsersTitle => 'Карыстальнікі';
 
   @override
-  String get channelHeaderSearchChannelsTitle => 'Channels';
+  String get channelHeaderSearchChannelsTitle => 'Каналы';
 
   @override
-  String get channelHeaderSearchValuesTitle => 'Values';
+  String get channelHeaderSearchValuesTitle => 'Значэнні';
 
   @override
-  String get channelHeaderSearchDatesTitle => 'Dates';
+  String get channelHeaderSearchDatesTitle => 'Даты';
 
   @override
-  String get channelHeaderSearchDefaultBadge => 'Default';
+  String get channelHeaderSearchDefaultBadge => 'Прадвызначана';
 
   @override
-  String get channelHeaderSearchClearHistory => 'Clear';
+  String get channelHeaderSearchClearHistory => 'Ачысціць';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'Выдаліць з нядаўніх пошукаў';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'Фільтры';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'Фільтраваць вынікі';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'Ад пэўнага чалавека';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel => 'Згадвае пэўнага чалавека';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel =>
+      'Ёсць спасылка, файл або ўбудаванне';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'У пэўным канале';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'Адпраўлена ў пэўны дзень';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'Адпраўлена да пэўнай даты';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'Адпраўлена пасля пэўнай даты';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'Замацаванае ці не';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'Па тыпе аўтара';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'Сёння';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'Учора';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'Паведамленні';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'Выявы';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'Замацаваныя';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'Спасылкі';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'Файлы';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -9220,53 +9452,56 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String get channelHeaderSearchFilterDescFrom => 'a user';
+  String get channelHeaderSearchFilterDescFrom => 'карыстальнік';
 
   @override
-  String get channelHeaderSearchFilterDescMentions => 'a user';
+  String get channelHeaderSearchFilterDescMentions => 'карыстальнік';
 
   @override
   String get channelHeaderSearchFilterDescHas =>
-      'link, embed, image, video, sound, file, sticker, …';
+      'спасылка, убудаванне, выява, відэа, гук, файл, стыкер, …';
 
   @override
-  String get channelHeaderSearchFilterDescBefore => 'a date or date range';
+  String get channelHeaderSearchFilterDescBefore => 'дата або дыяпазон дат';
 
   @override
-  String get channelHeaderSearchFilterDescOn => 'a date or date range';
+  String get channelHeaderSearchFilterDescOn => 'дата або дыяпазон дат';
 
   @override
-  String get channelHeaderSearchFilterDescDuring => 'a date or date range';
+  String get channelHeaderSearchFilterDescDuring => 'дата або дыяпазон дат';
 
   @override
-  String get channelHeaderSearchFilterDescAfter => 'a date or date range';
+  String get channelHeaderSearchFilterDescAfter => 'дата або дыяпазон дат';
 
   @override
-  String get channelHeaderSearchFilterDescIn => 'a channel';
+  String get channelHeaderSearchFilterDescIn => 'канал';
 
   @override
-  String get channelHeaderSearchFilterDescPinned => 'true or false';
+  String get channelHeaderSearchFilterDescPinned => 'так або не';
 
   @override
-  String get channelHeaderSearchFilterDescAuthorType => 'user, bot, or webhook';
+  String get channelHeaderSearchFilterDescAuthorType =>
+      'карыстальнік, бот або вэб-хук';
 
   @override
   String get channelHeaderSearchFilterDescLinkFrom =>
-      'a hostname, e.g. example.com';
+      'імя хоста, напрыклад example.com';
 
   @override
   String get channelHeaderSearchFilterDescFileName =>
-      'part of an attachment filename';
+      'частка назвы файла далучэння';
 
   @override
   String get channelHeaderSearchFilterDescFileType =>
-      'a file extension, e.g. png';
+      'пашырэнне файла, напрыклад png';
 
   @override
-  String get channelHeaderSearchFilterDescSort => 'timestamp or relevance';
+  String get channelHeaderSearchFilterDescSort =>
+      'па часе або па рэлевантнасці';
 
   @override
-  String get channelHeaderSearchFilterDescOrder => 'asc or desc';
+  String get channelHeaderSearchFilterDescOrder =>
+      'па ўзрастанні або па змяншэнні';
 
   @override
   String channelDetailsSearchResultCount(int count) {
@@ -9277,471 +9512,485 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString results',
-      one: '1 result',
+      other: '$countString выніку',
+      many: '$countString вынікаў',
+      few: '$countString вынікі',
+      one: '$countString вынік',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelDetailsSearchFilterByUser => 'Filter by user';
+  String get channelDetailsSearchFilterByUser => 'Фільтраваць па карыстальніку';
 
   @override
-  String get channelDetailsSearchFilterByContent => 'Filter by content';
+  String get channelDetailsSearchFilterByContent => 'Фільтраваць па змесціве';
 
   @override
-  String get channelDetailsSearchSortBy => 'Sort results by';
+  String get channelDetailsSearchSortBy => 'Сартаваць вынікі па';
 
   @override
-  String get channelDetailsSearchIn => 'Search in';
+  String get channelDetailsSearchIn => 'Шукаць у';
 
   @override
-  String get channelDetailsSearchEmptyTitle => 'Search this conversation';
+  String get channelDetailsSearchEmptyTitle => 'Пошук у гэтай размове';
 
   @override
   String get channelDetailsSearchEmptyBody =>
-      'Enter text, an author, or a content filter to find messages.';
+      'Увядзіце тэкст, аўтара або фільтр змесціва, каб знайсці паведамленні.';
 
   @override
-  String get channelDetailsSearchIndexingTitle => 'Messages are indexing';
+  String get channelDetailsSearchIndexingTitle => 'Паведамленні індэксуюцца';
 
   @override
   String get channelDetailsSearchIndexingBody =>
-      'Try again shortly once search finishes indexing this scope.';
+      'Паспрабуйце яшчэ раз крыху пазней, калі пошук скончыць індэксаваць гэту вобласць.';
 
   @override
-  String get channelDetailsSearchNoResultsTitle => 'No results';
+  String get channelDetailsSearchNoResultsTitle => 'Няма вынікаў';
 
   @override
   String get channelDetailsSearchNoResultsBody =>
-      'Try different search terms or filters.';
+      'Паспрабуйце іншыя пошукавыя запыты або фільтры.';
 
   @override
-  String get channelDetailsMembersOnline => 'Online';
+  String get channelDetailsMembersOnline => 'У сетцы';
 
   @override
-  String get channelDetailsMembersOffline => 'Offline';
+  String get channelDetailsMembersOffline => 'Не ў сетцы';
 
   @override
-  String get channelDetailsMemberYou => 'You';
+  String get channelDetailsMemberYou => 'Вы';
 
   @override
-  String get channelDetailsSearchUsersHint => 'Search users';
+  String get channelDetailsSearchUsersHint => 'Шукаць карыстальнікаў';
 
   @override
-  String get channelDetailsSearchUsersTypeToSearch => 'Type to search members';
+  String get channelDetailsSearchUsersTypeToSearch =>
+      'Пачніце ўводзіць, каб шукаць удзельнікаў';
 
   @override
-  String get channelDetailsSearchUsersEmpty => 'No users found';
+  String get channelDetailsSearchUsersEmpty => 'Карыстальнікі не знойдзены';
 
   @override
-  String get channelDetailsSearchUsersNoAvailable => 'No users available';
+  String get channelDetailsSearchUsersNoAvailable =>
+      'Няма даступных карыстальнікаў';
 
   @override
-  String get channelDetailsDone => 'Done';
+  String get channelDetailsDone => 'Гатова';
 
   @override
-  String get channelDetailsHasFilterPrompt => 'Show messages that contain:';
+  String get channelDetailsHasFilterPrompt =>
+      'Паказаць паведамленні, якія змяшчаюць:';
 
   @override
-  String get channelDetailsRetry => 'Retry';
+  String get channelDetailsRetry => 'Паўтарыць';
 
   @override
-  String get channelDetailsPinnedMessageTitle => 'Pinned message';
+  String get channelDetailsPinnedMessageTitle => 'Замацаванае паведамленне';
 
   @override
-  String get channelDetailsSearchResultTitle => 'Search result';
+  String get channelDetailsSearchResultTitle => 'Вынік пошуку';
 
   @override
-  String get channelDetailsJumpToMessage => 'Jump to message';
+  String get channelDetailsJumpToMessage => 'Перайсці да паведамлення';
 
   @override
-  String get channelDetailsUnpinMessage => 'Unpin message';
+  String get channelDetailsUnpinMessage => 'Адмацаваць паведамленне';
 
   @override
-  String get channelDetailsCopyMessageLink => 'Copy message link';
+  String get channelDetailsCopyMessageLink =>
+      'Скапіраваць спасылку на паведамленне';
 
   @override
-  String get channelDetailsCopyMessageId => 'Copy message ID';
+  String get channelDetailsCopyMessageId => 'Скапіраваць ID паведамлення';
 
   @override
-  String get channelDetailsMessageUnpinned => 'Message unpinned';
+  String get channelDetailsMessageUnpinned => 'Паведамленне адмацавана';
 
   @override
-  String get channelDetailsSearchScopeCurrentCommunity => 'Current community';
+  String get channelDetailsSearchScopeCurrentCommunity => 'Цяперашняя суполка';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Current DM';
+  String get channelDetailsSearchScopeCurrentDm => 'Цяперашні асабісты чат';
 
   @override
-  String get channelDetailsSearchScopeAllCommunities => 'All communities';
+  String get channelDetailsSearchScopeAllCommunities => 'Усе суполкі';
 
   @override
-  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'All DMs only';
+  String get channelDetailsSearchScopeAllDmsOnlyGuild =>
+      'Толькі ўсе асабістыя чаты';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'All DMs';
+  String get channelDetailsSearchScopeAllDms => 'Усе асабістыя чаты';
 
   @override
-  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Open DMs only';
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild =>
+      'Толькі адкрытыя асабістыя чаты';
 
   @override
-  String get channelDetailsSearchScopeOpenDms => 'Open DMs';
+  String get channelDetailsSearchScopeOpenDms => 'Адкрытыя асабістыя чаты';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'All DMs + communities';
+      'Усе асабістыя чаты + суполкі';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Open DMs + communities';
+      'Адкрытыя асабістыя чаты + суполкі';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Search only in the current community';
+      'Шукаць толькі ў цяперашняй суполцы';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
-      'Search only in the current DM';
+      'Шукаць толькі ў цяперашнім асабістым чаце';
 
   @override
   String get channelDetailsSearchScopeAllCommunitiesDescription =>
-      'Across all communities you\'re currently in';
+      'Ва ўсіх суполках, у якіх вы зараз ёсць';
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Across all DMs you\'ve ever been in only';
+      'Толькі ва ўсіх асабістых чатах, у якіх вы калі-небудзь былі';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'Across all DMs you\'ve ever been in';
+      'Ва ўсіх асабістых чатах, у якіх вы калі-небудзь былі';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
-      'Across all DMs you currently have open only';
+      'Толькі ва ўсіх асабістых чатах, адкрытых зараз';
 
   @override
   String get channelDetailsSearchScopeOpenDmsDescription =>
-      'Across all DMs you currently have open';
+      'Ва ўсіх асабістых чатах, адкрытых зараз';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunitiesDescription =>
-      'Across all DMs you\'ve ever been in + all communities you\'re currently in';
+      'Ва ўсіх асабістых чатах, у якіх вы калі-небудзь былі, і ва ўсіх суполках, у якіх вы зараз ёсць';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunitiesDescription =>
-      'Across all DMs you currently have open + all communities you\'re currently in';
+      'Ва ўсіх адкрытых зараз асабістых чатах і ва ўсіх суполках, у якіх вы зараз ёсць';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Newest first';
+  String get channelDetailsSearchSortNewest => 'Спачатку найноўшыя';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Oldest first';
+  String get channelDetailsSearchSortOldest => 'Спачатку найстарэйшыя';
 
   @override
-  String get channelDetailsSearchSortRelevance => 'Most relevant';
+  String get channelDetailsSearchSortRelevance => 'Найбольш адпаведныя';
 
   @override
   String get channelDetailsSearchSortNewestDescription =>
-      'Show most recent messages first';
+      'Спачатку паказваць найноўшыя паведамленні';
 
   @override
   String get channelDetailsSearchSortOldestDescription =>
-      'Show oldest messages first';
+      'Спачатку паказваць найстарэйшыя паведамленні';
 
   @override
   String get channelDetailsSearchSortRelevanceDescription =>
-      'Show most relevant messages first';
+      'Спачатку паказваць найбольш адпаведныя паведамленні';
 
   @override
-  String get channelDetailsSearchContentImage => 'Image upload';
+  String get channelDetailsSearchContentImage => 'Загрузка выявы';
 
   @override
-  String get channelDetailsSearchContentVideo => 'Video upload';
+  String get channelDetailsSearchContentVideo => 'Загрузка відэа';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Audio upload';
+  String get channelDetailsSearchContentAudio => 'Загрузка аўдыя';
 
   @override
-  String get channelDetailsSearchContentFile => 'File upload';
+  String get channelDetailsSearchContentFile => 'Загрузка файла';
 
   @override
-  String get channelDetailsSearchContentLink => 'Link';
+  String get channelDetailsSearchContentLink => 'Спасылка';
 
   @override
-  String get channelDetailsSearchContentEmbed => 'Link preview or embed';
+  String get channelDetailsSearchContentEmbed =>
+      'Папярэдні прагляд спасылкі або ўбудаванне';
 
   @override
-  String get channelDetailsSearchContentSticker => 'Sticker';
+  String get channelDetailsSearchContentSticker => 'Стыкер';
 
   @override
   String get channelDetailsSearchContentImageDescription =>
-      'Uploaded image files only';
+      'Толькі загружаныя выявы';
 
   @override
   String get channelDetailsSearchContentVideoDescription =>
-      'Uploaded video files only';
+      'Толькі загружаныя відэафайлы';
 
   @override
   String get channelDetailsSearchContentAudioDescription =>
-      'Uploaded audio files only';
+      'Толькі загружаныя аўдыяфайлы';
 
   @override
   String get channelDetailsSearchContentFileDescription =>
-      'Any uploaded attachment';
+      'Любое загружанае далучэнне';
 
   @override
   String get channelDetailsSearchContentLinkDescription =>
-      'Typed URL in the message text';
+      'URL, набраны ў тэксце паведамлення';
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Resolved previews and rich embeds, not uploads';
+      'Згенераваныя папярэднія прагляды і разгорнутыя ўбудаванні, а не загружаныя файлы';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
-      'Sticker attached to the message';
+      'Стыкер, далучаны да паведамлення';
 
   @override
   String channelDetailsSearchContentTypesCount(int count) {
-    return '$count types';
+    return 'Тыпаў: $count';
   }
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Асабістыя нататкі';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Ваша прыватная прастора для думак і напамінаў';
 
   @override
   String groupDmWelcome(String displayName) {
-    return 'Welcome to $displayName. Add friends to get the group going.';
+    return 'Сардэчна запрашаем у $displayName. Дадайце сяброў, каб група ажыла.';
   }
 
   @override
-  String get groupDmWelcomeEditGroup => 'Edit group';
+  String get groupDmWelcomeEditGroup => 'Рэдагаваць групу';
 
   @override
-  String get groupDmWelcomeAddFriends => 'Add friends to group';
+  String get groupDmWelcomeAddFriends => 'Дадаць сяброў у групу';
 
   @override
-  String get dmGroupInvites => 'Invites';
+  String get dmGroupInvites => 'Запрашэнні';
 
   @override
-  String get groupDmEditTitle => 'Edit group';
+  String get groupDmEditTitle => 'Рэдагаваць групу';
 
   @override
-  String get groupDmGroupName => 'Group name';
+  String get groupDmGroupName => 'Назва групы';
 
   @override
-  String get groupDmMyGroup => 'My group';
+  String get groupDmMyGroup => 'Мая група';
 
   @override
   String get groupDmGroupNameMaxLength =>
-      'Group name must not exceed 100 characters';
+      'Назва групы мусіць змяшчаць не больш за 100 сімвалаў';
 
   @override
-  String get groupDmGroupIcon => 'Group icon';
+  String get groupDmGroupIcon => 'Значок групы';
 
   @override
-  String get groupDmUploadIcon => 'Upload icon';
+  String get groupDmUploadIcon => 'Загрузіць значок';
 
   @override
-  String get groupDmChangeIcon => 'Change icon';
+  String get groupDmChangeIcon => 'Змяніць значок';
 
   @override
-  String get groupDmRemoveIcon => 'Remove icon';
+  String get groupDmRemoveIcon => 'Выдаліць значок';
 
   @override
-  String get groupDmUpdated => 'Group updated';
+  String get groupDmUpdated => 'Група абноўлена';
 
   @override
-  String get groupDmUpdateFailed => 'Couldn\'t update group. Try again.';
+  String get groupDmUpdateFailed =>
+      'Не ўдалося абнавіць групу. Паспрабуйце яшчэ раз.';
 
   @override
   String get groupDmAnimatedIconNotSupported =>
-      'Animated icons are not supported. Use a static image.';
+      'Аніміраваныя значкі не падтрымліваюцца. Выкарыстайце статычную выяву.';
 
   @override
   String get groupDmAnimatedIconNotSupportedTitle =>
-      'Animated icons are not supported';
+      'Аніміраваныя значкі не падтрымліваюцца';
 
   @override
-  String get groupDmIconFileTooLargeTitle => 'Icon file is too large';
+  String get groupDmIconFileTooLargeTitle => 'Файл значка занадта вялікі';
 
   @override
   String groupDmIconFileTooLargeBody(String maxSize) {
-    return 'Icon file is too large. Choose a file smaller than $maxSize.';
+    return 'Файл значка занадта вялікі. Выберыце файл меншы за $maxSize.';
   }
 
   @override
-  String get groupDmUnsupportedIconFormat => 'Unsupported icon format';
+  String get groupDmUnsupportedIconFormat => 'Фармат значка не падтрымліваецца';
 
   @override
-  String get groupDmUnsupportedIconFormatBody => 'Unsupported file type.';
+  String get groupDmUnsupportedIconFormatBody =>
+      'Тып файла не падтрымліваецца.';
 
   @override
-  String get groupDmInvalidImage => 'Invalid image';
+  String get groupDmInvalidImage => 'Няправільная выява';
 
   @override
   String get groupDmInvalidImageBody =>
-      'That image is invalid. Try another one.';
+      'Гэта выява няправільная. Паспрабуйце іншую.';
 
   @override
-  String get groupDmAddFriends => 'Add';
+  String get groupDmAddFriends => 'Дадаць';
 
   @override
-  String get groupDmOrSendInvite => 'or send an invite to a friend:';
+  String get groupDmOrSendInvite => 'або адпраўце сябру запрашэнне:';
 
   @override
-  String get groupDmGenerateInviteLink => 'Generate invite link';
+  String get groupDmGenerateInviteLink => 'Стварыць спасылку-запрашэнне';
 
   @override
-  String get groupDmCreateInvite => 'Create';
+  String get groupDmCreateInvite => 'Стварыць';
 
   @override
-  String get groupDmInviteExpires24Hours => 'Your invite expires in 24 hours';
+  String get groupDmInviteExpires24Hours =>
+      'Ваша запрашэнне дзейнічае 24 гадзіны';
 
   @override
   String get groupDmAddFriendFailed =>
-      'Couldn\'t add this friend to the group. Please try again.';
+      'Не ўдалося дадаць гэтага сябра ў групу. Паспрабуйце яшчэ раз.';
 
   @override
   String get groupDmGroupFull =>
-      'This group is full. Remove someone before adding more people.';
+      'Гэта група запоўнена. Каб дадаць іншых людзей, спачатку выдаліце кагосьці.';
 
   @override
   String get groupDmRateLimited =>
-      'You\'re going too fast. Wait a moment and try again.';
+      'Вы занадта спяшаецеся. Пачакайце крыху і паспрабуйце яшчэ раз.';
 
   @override
   String get groupDmCreateInviteFailedBody =>
-      'Couldn\'t generate an invite link. Please try again.';
+      'Не ўдалося стварыць спасылку-запрашэнне. Паспрабуйце яшчэ раз.';
 
   @override
   String get guildNavbarCreateInviteFailed =>
-      'Couldn\'t create an invite link. Please try again.';
+      'Не ўдалося стварыць спасылку-запрашэнне. Паспрабуйце яшчэ раз.';
 
   @override
   String get guildNavbarCreateInviteMissingPermissions =>
-      'You don\'t have permission to create an invite in this channel.';
+      'У вас няма дазволу ствараць запрашэнні ў гэтым канале.';
 
   @override
   String get guildNavbarCreateInviteMaxInvites =>
-      'This community has reached its invite limit.';
+      'Суполка дасягнула ліміту запрашэнняў.';
 
   @override
-  String get groupDmCopyInviteFailed => 'Failed to copy invite link';
+  String get groupDmCopyInviteFailed =>
+      'Не ўдалося скапіраваць спасылку-запрашэнне';
 
   @override
   String get groupDmInvitesOwnerOnly =>
-      'Only the group owner can manage invites.';
+      'Кіраваць запрашэннямі можа толькі ўладальнік групы.';
 
   @override
-  String get groupDmNoInvitesCreated => 'No invites created';
+  String get groupDmNoInvitesCreated => 'Запрашэнні не створаны';
 
   @override
-  String get groupDmLoadingInvites => 'Loading invites...';
+  String get groupDmLoadingInvites => 'Загрузка запрашэнняў...';
 
   @override
-  String get groupDmInvitesLoadFailed => 'Failed to load invites. Try again.';
+  String get groupDmInvitesLoadFailed =>
+      'Не ўдалося загрузіць запрашэнні. Паспрабуйце яшчэ раз.';
 
   @override
   String get groupDmInvitesRevokeConfirm =>
-      'Revoke this invite? Can\'t be undone.';
+      'Адклікаць гэта запрашэнне? Гэта дзеянне нельга адмяніць.';
 
   @override
-  String get groupDmInviteRevoked => 'Invite revoked';
+  String get groupDmInviteRevoked => 'Запрашэнне адклікана';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'Выдаліць з групы';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'Выдаліць $userName з групы?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'Прыбраць';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'Выдалены з групы';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return 'Карыстальнік $userName яшчэ ў групе. Паспрабуйце яшчэ раз праз хвіліну.';
   }
 
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
-    return 'Created by $name. Expires in $time.';
+    return 'Аўтар: $name. Тэрмін дзеяння сканчаецца праз $time.';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'There are no older messages in $channelName.';
+    return 'У канале $channelName больш ранніх паведамленняў няма.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Напішыце сабе';
 
   @override
   String channelComposerHint(String channelName) {
-    return 'Message #$channelName';
+    return 'Напісаць у #$channelName';
   }
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Напісаць @$recipientName';
   }
 
   @override
   String groupDmNamedComposerHint(String groupName) {
-    return 'Message $groupName';
+    return 'Напісаць у $groupName';
   }
 
   @override
-  String get groupDmComposerHint => 'Message group';
+  String get groupDmComposerHint => 'Група паведамленняў';
 
   @override
-  String get composerHint => 'Message';
+  String get composerHint => 'Паведамленне';
 
   @override
-  String get composerOpenExpressionPicker => 'Open expression picker';
+  String get composerOpenExpressionPicker => 'Адкрыць панэль выразаў';
 
   @override
-  String get composerShowKeyboard => 'Show keyboard';
+  String get composerShowKeyboard => 'Паказаць клавіятуру';
 
   @override
-  String get composerCloseAttachmentPanel => 'Close attachment picker';
+  String get composerCloseAttachmentPanel => 'Закрыць выбар далучэнняў';
 
   @override
-  String get composerSendMessage => 'Send message';
+  String get composerSendMessage => 'Адправіць паведамленне';
 
   @override
-  String get chatAttachmentPanelPhotos => 'Photos';
+  String get chatAttachmentPanelPhotos => 'Фота';
 
   @override
-  String get chatAttachmentPanelFiles => 'Files';
+  String get chatAttachmentPanelFiles => 'Файлы';
 
   @override
   String get chatAttachmentLibraryPermissionTitle =>
-      'Photo library access needed';
+      'Патрэбны доступ да фотатэкі';
 
   @override
   String get chatAttachmentLibraryPermissionBody =>
-      'Allow photo library access to browse and attach recent photos and videos.';
+      'Дайце доступ да фотатэкі, каб праглядаць і далучаць нядаўнія фота і відэа.';
 
   @override
-  String get chatAttachmentLibraryPermissionSettings => 'Open settings';
+  String get chatAttachmentLibraryPermissionSettings => 'Адкрыць налады';
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'Тут паказаны толькі фота і відэа, якімі вы дазволілі дзяліцца.';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'Кіраваць';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9749,322 +9998,324 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   }
 
   @override
-  String get messageAccessibilitySendingSuffix => ', sending';
+  String get messageAccessibilitySendingSuffix => ', адпраўляецца';
 
   @override
-  String get messageAccessibilityFailedSuffix => ', failed to send';
+  String get messageAccessibilityFailedSuffix => ', не ўдалося адправіць';
 
   @override
-  String get messageAccessibilityAttachmentSummary => 'an attachment';
+  String get messageAccessibilityAttachmentSummary => 'далучэнне';
 
   @override
   String messageAccessibilityAttachmentsSummary(int count) {
-    return '$count attachments';
+    return 'далучэнні: $count';
   }
 
   @override
-  String get messageAccessibilityImageSummary => 'an image';
+  String get messageAccessibilityImageSummary => 'выява';
 
   @override
-  String get messageAccessibilityVideoSummary => 'a video';
+  String get messageAccessibilityVideoSummary => 'відэа';
 
   @override
-  String get messageAccessibilityAudioSummary => 'an audio file';
+  String get messageAccessibilityAudioSummary => 'аўдыяфайл';
 
   @override
   String messageAccessibilityStickerSummary(String name) {
-    return 'sticker $name';
+    return 'стыкер $name';
   }
 
   @override
   String messageAccessibilityFileSummary(String filename) {
-    return 'file $filename';
+    return 'файл $filename';
   }
 
   @override
   String get messageAccessibilitySpoilerAttachmentSummary =>
-      'a spoiler attachment';
+      'далучэнне-спойлер';
 
   @override
-  String get messageAccessibilityEmbedSummary => 'an embed';
+  String get messageAccessibilityEmbedSummary => 'убудаванне';
 
   @override
-  String get messageAccessibilityEmptySummary => 'a message';
+  String get messageAccessibilityEmptySummary => 'паведамленне';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Ваша прыватная прастора';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Ачысціць асабістыя нататкі';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Усе паведамленні і далучэнні ў вашых асабістых нататках будуць выдалены назаўсёды. Гэта нельга адмяніць.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Ачысціць';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return 'Выдалена паведамленняў з асабістых нататак: $count';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Асабістыя нататкі ўжо былі пустыя';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'Не ўдалося ачысціць асабістыя нататкі';
 
   @override
-  String get userSettingsGroupYourAccount => 'Your account';
+  String get userSettingsGroupYourAccount => 'Ваш уліковы запіс';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'Аплата';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'Праграма';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'Распрацоўшчык';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'Толькі для супрацоўнікаў';
 
   @override
-  String get userSettingsSearchPlaceholder => 'Search settings...';
+  String get userSettingsSearchPlaceholder => 'Пошук налад...';
 
   @override
-  String get userSettingsSearchClear => 'Clear search';
+  String get userSettingsSearchClear => 'Ачысціць пошук';
 
   @override
-  String get userSettingsSearchNoResults => 'No settings found';
+  String get userSettingsSearchNoResults => 'Налады не знойдзены';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'Скапіраваць спасылку на раздзел';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'Скапіраваць спасылку на старонку';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return 'Старонка $productName';
   }
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Профіль';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & login';
+  String get userSettingsNavSecurityLogin => 'Бяспека і ўваход';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts';
+  String get userSettingsNavGiftsAndCodes => 'Падарункі';
 
   @override
-  String get giftSettingsClaimAccountTitle => 'Claim your account';
+  String get giftSettingsClaimAccountTitle =>
+      'Замацуйце за сабой уліковы запіс';
 
   @override
   String get giftSettingsClaimAccountDescription =>
-      'Claim your account to redeem or manage Plutonium gift codes.';
+      'Замацуйце за сабой уліковы запіс, каб актываваць падарункавыя коды Plutonium або кіраваць імі.';
 
   @override
-  String get giftSettingsRedeemTitle => 'Redeem a gift';
+  String get giftSettingsRedeemTitle => 'Актываваць падарунак';
 
   @override
   String get giftSettingsRedeemDescription =>
-      'Enter a gift code to redeem Plutonium for your account.';
+      'Увядзіце падарункавы код, каб актываваць Plutonium для свайго ўліковага запісу.';
 
   @override
-  String get giftSettingsRedeemPlaceholder => 'Enter gift code…';
+  String get giftSettingsRedeemPlaceholder => 'Увядзіце падарункавы код…';
 
   @override
-  String get giftSettingsRedeemButton => 'Redeem';
+  String get giftSettingsRedeemButton => 'Актываваць';
 
   @override
   String get giftSettingsRedeemSuccess =>
-      'Gift redeemed successfully. Enjoy your Plutonium.';
+      'Падарунак актываваны. Карыстайцеся Plutonium з задавальненнем.';
 
   @override
-  String get giftSettingsPurchasedTitle => 'Purchased gifts';
+  String get giftSettingsPurchasedTitle => 'Купленыя падарункі';
 
   @override
   String get giftSettingsPurchasedDescription =>
-      'Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!';
+      'Кіруйце купленымі падарункавымі кодамі Plutonium. Падзяліцеся спасылкай на падарунак з кімсьці асаблівым або актывуйце яго для сябе!';
 
   @override
-  String get giftSettingsEmptyTitle => 'No gifts yet';
+  String get giftSettingsEmptyTitle => 'Пакуль няма падарункаў';
 
   @override
   String get giftSettingsEmptyDescription =>
-      'Buy a Plutonium gift from the Plutonium tab to share with friends.';
+      'Купіце падарунак Plutonium на ўкладцы Plutonium, каб падзяліцца з сябрамі.';
 
   @override
-  String get giftSettingsGoToPlutonium => 'Go to Plutonium';
+  String get giftSettingsGoToPlutonium => 'Перайсці да Plutonium';
 
   @override
-  String get giftSettingsLoadFailedTitle => 'Failed to load gift inventory';
+  String get giftSettingsLoadFailedTitle =>
+      'Не ўдалося загрузіць інвентар падарункаў';
 
   @override
-  String get giftSettingsLoadFailedDescription => 'Try again later.';
+  String get giftSettingsLoadFailedDescription => 'Паспрабуйце пазней.';
 
   @override
-  String get giftSettingsTryAgain => 'Try again';
+  String get giftSettingsTryAgain => 'Паспрабаваць яшчэ раз';
 
   @override
-  String get giftSettingsGiftUrl => 'Gift URL';
+  String get giftSettingsGiftUrl => 'URL падарунка';
 
   @override
-  String get giftSettingsCopy => 'Copy';
+  String get giftSettingsCopy => 'Скапіраваць';
 
   @override
-  String get giftSettingsCopied => 'Copied';
+  String get giftSettingsCopied => 'Скапіравана';
 
   @override
   String giftSettingsPurchasedDate(String date) {
-    return 'Purchased $date';
+    return 'Куплены $date';
   }
 
   @override
   String giftSettingsRedeemedDate(String date) {
-    return 'Redeemed $date';
+    return 'Актываваны $date';
   }
 
   @override
   String giftSettingsRedeemedBy(String name) {
-    return 'Redeemed by $name';
+    return 'Актываваны карыстальнікам $name';
   }
 
   @override
-  String get giftSettingsAlreadyRedeemed => 'This gift has been redeemed';
+  String get giftSettingsAlreadyRedeemed => 'Гэты падарунак ужо актываваны';
 
   @override
-  String get giftSettingsRedeemForYourself => 'Redeem for yourself';
+  String get giftSettingsRedeemForYourself => 'Актываваць для сябе';
 
   @override
-  String get giftSettingsShareWithFriend => 'Share with a friend';
+  String get giftSettingsShareWithFriend => 'Падзяліцца з сябрам';
 
   @override
   String get premiumPlutoniumTagline =>
-      'Unlock higher limits and exclusive features while supporting an independent communication platform.';
+      'Атрымайце вышэйшыя ліміты і эксклюзіўныя функцыі і падтрымайце незалежную платформу для зносін.';
 
   @override
-  String get premiumPurchaseMode => 'Purchase mode';
+  String get premiumPurchaseMode => 'Рэжым пакупкі';
 
   @override
-  String get premiumForMe => 'For me';
+  String get premiumForMe => 'Для сябе';
 
   @override
-  String get premiumAsAGift => 'As a gift';
+  String get premiumAsAGift => 'У падарунак';
 
   @override
-  String get premiumMonthly => 'Monthly';
+  String get premiumMonthly => 'Штомесяц';
 
   @override
-  String get premiumYearly => 'Yearly';
+  String get premiumYearly => 'Штогод';
 
   @override
-  String get premiumPerMonth => 'per month';
+  String get premiumPerMonth => 'у месяц';
 
   @override
-  String get premiumPerYear => 'per year';
+  String get premiumPerYear => 'у год';
 
   @override
-  String get premiumOneTimePurchase => 'one-time purchase';
+  String get premiumOneTimePurchase => 'аднаразовая пакупка';
 
   @override
-  String get premiumSave17 => 'Save 17%';
+  String get premiumSave17 => 'Эканомія 17%';
 
   @override
-  String get premiumUpgradeNow => 'Upgrade now';
+  String get premiumUpgradeNow => 'Аформіць зараз';
 
   @override
-  String get premiumBuyGift => 'Buy gift';
+  String get premiumBuyGift => 'Купіць падарунак';
 
   @override
-  String get premiumOneYearGift => '1 year gift';
+  String get premiumOneYearGift => 'Падарунак на 1 год';
 
   @override
-  String get premiumOneMonthGift => '1 month gift';
+  String get premiumOneMonthGift => 'Падарунак на 1 месяц';
 
   @override
   String get premiumScrollPrompt =>
-      'Scroll down to view all the perks included with Plutonium';
+      'Пракруціце ўніз, каб убачыць усе перавагі Plutonium';
 
   @override
-  String get premiumFreeVsPlutonium => 'Free vs Plutonium';
+  String get premiumFreeVsPlutonium => 'Бясплатна ці Plutonium';
 
   @override
-  String get premiumFreeColumn => 'Free';
+  String get premiumFreeColumn => 'Бясплатна';
 
   @override
-  String get premiumGiftSectionTitle => 'Gift Plutonium';
+  String get premiumGiftSectionTitle => 'Падараваць Plutonium';
 
   @override
   String get premiumGiftSectionDescription =>
-      'Share the Plutonium experience with your friends by purchasing a gift subscription.';
+      'Падзяліцеся Plutonium з сябрамі: купіце падарункавую падпіску.';
 
   @override
-  String get premiumGiftBannerOne =>
-      'You have a new gift code waiting for you!';
+  String get premiumGiftBannerOne => 'Вас чакае новы падарункавы код!';
 
   @override
   String premiumGiftBannerMany(int count) {
-    return 'You have $count new gift codes waiting for you!';
+    return 'Новыя падарункавыя коды, якія вас чакаюць: $count!';
   }
 
   @override
-  String get premiumViewGifts => 'View gifts';
+  String get premiumViewGifts => 'Паглядзець падарункі';
 
   @override
-  String get premiumReadyToUpgrade => 'Ready to upgrade?';
+  String get premiumReadyToUpgrade => 'Гатовыя да паляпшэння?';
 
   @override
-  String get premiumReadyToBuyGift => 'Ready to buy a gift?';
+  String get premiumReadyToBuyGift => 'Гатовыя купіць падарунак?';
 
   @override
-  String get premiumManageSubscription => 'Manage subscription';
+  String get premiumManageSubscription => 'Кіраваць падпіскай';
 
   @override
-  String get premiumRedeemGiftCode => 'Redeem gift code';
+  String get premiumRedeemGiftCode => 'Актываваць падарункавы код';
 
   @override
-  String get premiumGiftBadge => 'Gift';
+  String get premiumGiftBadge => 'Падарунак';
 
   @override
-  String get premiumCancelSubscriptionTitle => 'Cancel subscription?';
+  String get premiumCancelSubscriptionTitle => 'Скасаваць падпіску?';
 
   @override
   String get premiumCancelSubscriptionBody =>
-      'You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.';
+      'Перавагі застаюцца ў вас да наступнай даты працягнення, а потым у вас будзе 3-дзённы льготны перыяд, каб падпісацца зноў і захаваць гісторыю падпіскі.';
 
   @override
-  String get premiumCancelSubscriptionConfirm => 'Cancel subscription';
+  String get premiumCancelSubscriptionConfirm => 'Скасаваць падпіску';
 
   @override
-  String get premiumPurchaseHistoryTitle => 'Purchase history';
+  String get premiumPurchaseHistoryTitle => 'Гісторыя пакупак';
 
   @override
   String get premiumPurchaseHistoryDescription =>
-      'Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.';
+      'Вашы апошнія рахункі. Каб змяніць спосаб аплаты падпіскі, дадайце або выберыце яго ў плацежным партале і зрабіце прадвызначаным.';
 
   @override
-  String get premiumManagePaymentMethods => 'Manage payment methods';
+  String get premiumManagePaymentMethods => 'Кіраваць спосабамі аплаты';
 
   @override
-  String get premiumSelfServeRefundButton => 'Refund latest purchase';
+  String get premiumSelfServeRefundButton => 'Вярнуць грошы за апошнюю пакупку';
 
   @override
   String premiumDisclaimerAgreement(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
-          'By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+          'Купляючы, вы згаджаецеся з нашымі <terms>Умовамі выкарыстання</terms> і <privacy>Палітыкай прыватнасці</privacy>.',
       'terms':
-          'By purchasing, you agree to our <terms>Terms of service</terms>.',
+          'Купляючы, вы згаджаецеся з нашымі <terms>Умовамі выкарыстання</terms>.',
       'other':
-          'By purchasing, you agree to our <privacy>Privacy policy</privacy>.',
+          'Купляючы, вы згаджаецеся з нашай <privacy>Палітыкай прыватнасці</privacy>.',
     });
     return '$_temp0';
   }
@@ -10073,11 +10324,11 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String premiumDisclaimerAgreementPast(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
-          'By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.',
+          'Купляючы, вы пагадзіліся з нашымі <terms>Умовамі выкарыстання</terms> і <privacy>Палітыкай прыватнасці</privacy>.',
       'terms':
-          'By purchasing, you agreed to our <terms>Terms of service</terms>.',
+          'Купляючы, вы пагадзіліся з нашымі <terms>Умовамі выкарыстання</terms>.',
       'other':
-          'By purchasing, you agreed to our <privacy>Privacy policy</privacy>.',
+          'Купляючы, вы пагадзіліся з нашай <privacy>Палітыкай прыватнасці</privacy>.',
     });
     return '$_temp0';
   }
@@ -10086,549 +10337,557 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String instanceLegalLinksList(String links) {
     String _temp0 = intl.Intl.selectLogic(links, {
       'both':
-          '<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>',
-      'terms': '<terms>Terms of service</terms>',
-      'other': '<privacy>Privacy policy</privacy>',
+          '<terms>Умовы выкарыстання</terms> і <privacy>Палітыка прыватнасці</privacy>',
+      'terms': '<terms>Умовы выкарыстання</terms>',
+      'other': '<privacy>Палітыка прыватнасці</privacy>',
     });
     return '$_temp0';
   }
 
   @override
   String premiumActiveUntil(String date) {
-    return 'Active until $date';
+    return 'Актыўная да $date';
   }
 
   @override
-  String get premiumSubscriptionCanceling => 'Canceling';
+  String get premiumSubscriptionCanceling => 'Скасоўваецца';
 
   @override
   String premiumCancelsOn(String date) {
-    return 'Cancels on $date. Perks remain active until then.';
+    return 'Скасуецца $date. Да гэтага часу перавагі застаюцца актыўнымі.';
   }
 
   @override
-  String get premiumReactivateSubscription => 'Reactivate';
+  String get premiumReactivateSubscription => 'Аднавіць';
 
   @override
   String premiumGiftedUntil(String date) {
-    return 'Gifted until $date. Does not renew automatically.';
+    return 'Падаравана да $date. Аўтаматычна не працягваецца.';
   }
 
   @override
   String get premiumGiftGraceEnded =>
-      'Your gift time has ended. Subscribe to keep Plutonium.';
+      'Падараваны час скончыўся. Падпішыцеся, каб захаваць Plutonium.';
 
   @override
   String get premiumGiftTimeAddedAfterSubscription =>
-      'Subscribing charges you now. Your remaining gift time is added after your paid period.';
+      'Пры афармленні падпіскі аплата спісваецца адразу. Рэшта падараванага часу дадасца пасля аплачанага перыяду.';
 
   @override
-  String get premiumComparisonFeatureColumn => 'Feature';
+  String get premiumComparisonFeatureColumn => 'Функцыя';
 
   @override
   String get premiumDisclaimerRefund =>
-      'Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.';
+      'Вярнуць грошы самастойна можна на працягу 3 дзён пасля аплаты, не часцей за раз у 30 дзён. Пасля вяртання грошай падпіска скасоўваецца. Пакупнікі з ЕС/ЕЭП пры афармленні пакупкі адмаўляюцца ад 14-дзённага права на адмову ад дагавора, каб атрымаць доступ адразу. Замест апратэставання плацяжу праз банк карыстайцеся кнопкай вяртання грошай у праграме. Апратэставанне плацяжу можа назаўсёды абмежаваць ваш уліковы запіс. Stripe бяспечна апрацоўвае плацяжы. Мы ніколі не бачым поўны нумар вашай карткі.';
 
   @override
-  String get premiumTermsOfService => 'Terms of service';
+  String get premiumTermsOfService => 'Умовы выкарыстання';
 
   @override
-  String get premiumPrivacyPolicy => 'Privacy policy';
+  String get premiumPrivacyPolicy => 'Палітыка прыватнасці';
 
   @override
-  String get premiumCheckoutStartFailedTitle => 'Couldn\'t start checkout';
+  String get premiumCheckoutStartFailedTitle =>
+      'Не ўдалося пачаць афармленне заказу';
 
   @override
   String get premiumCheckoutStartFailedBody =>
-      'Something went wrong while starting checkout. Please try again in a moment.';
+      'Пры пачатку афармлення заказу штосьці пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String get premiumPlanUnavailable =>
-      'This plan isn\'t available. Contact support.';
+      'Гэты план недаступны. Звярніцеся ў службу падтрымкі.';
 
   @override
   String get premiumPlanUnavailableSelfHosted =>
-      'This plan isn\'t available. Contact the administrators of this instance.';
+      'Гэты план недаступны. Звярніцеся да адміністратараў гэтага экзэмпляра.';
 
   @override
   String premiumDistributionPriceNote(String percent) {
-    return 'Prices in this version of the app are a little higher because $percent of each payment goes to the cost of distributing it.';
+    return 'Цэны ў гэтай версіі праграмы крыху вышэйшыя, бо $percent кожнага плацяжу ідзе на выдаткі на яе распаўсюджванне.';
   }
 
   @override
-  String get premiumCompletePaymentTitle => 'Complete payment';
+  String get premiumCompletePaymentTitle => 'Завяршыць аплату';
 
   @override
   String get premiumCompletePaymentBody =>
-      'You are now navigating to Stripe to complete the payment. Return to Fluxer once you\'ve completed it.';
+      'Цяпер вы пяройдзеце ў Stripe, каб завяршыць аплату. Пасля аплаты вярніцеся ў Fluxer.';
 
   @override
-  String get premiumChoosePaymentMethodTitle => 'Choose payment method';
+  String get premiumChoosePaymentMethodTitle => 'Выберыце спосаб аплаты';
 
   @override
   String get premiumPixPaymentPromptDescription =>
-      'Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Плаціце праз Pix automático, каб дазволіць рэгулярныя спісанні проста з вашага бразільскага банка. Або выберыце «Аплата карткай», каб увесці даныя крэдытнай карткі на наступным экране Stripe.';
 
   @override
-  String get premiumUsePix => 'Use Pix';
+  String get premiumUsePix => 'Выкарыстаць Pix';
 
   @override
   String get premiumUpiPaymentPromptDescription =>
-      'Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Плаціце праз UPI, каб аформіць у вашым індыйскім банку электроннае даручэнне паводле правіл RBI. Або выберыце «Аплата карткай», каб увесці даныя крэдытнай карткі на наступным экране Stripe.';
 
   @override
-  String get premiumUseUpi => 'Use UPI';
+  String get premiumUseUpi => 'Выкарыстаць UPI';
 
   @override
-  String get premiumUseCard => 'Use card';
+  String get premiumUseCard => 'Выкарыстаць картку';
 
   @override
   String get premiumCustomerPortalOpenFailedTitle =>
-      'Couldn\'t open the billing portal';
+      'Не ўдалося адкрыць плацежны партал';
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
-      'Something went wrong while opening the billing portal. Please try again in a moment.';
+      'Пры адкрыцці плацежнага партала штосьці пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get premiumAlreadyVisionaryTitle => 'You\'re already Visionary';
+  String get premiumAlreadyVisionaryTitle => 'Вы ўжо Visionary';
 
   @override
   String get premiumAlreadyVisionaryBody =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed. You can still buy gifts for others.';
+      'Visionary ужо дае бестэрміновы доступ, таму рэгулярная падпіска не патрэбна. Купляць падарункі для іншых па-ранейшаму можна.';
 
   @override
-  String get premiumExistingSubscriptionTitle => 'Subscription already exists';
+  String get premiumExistingSubscriptionTitle => 'Падпіска ўжо ёсць';
 
   @override
   String get premiumExistingSubscriptionBody =>
-      'We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.';
+      'Мы знайшлі ў гэтага ўліковага запісу наяўную падпіску Fluxer Plutonium. Кіруйце ёю ў абароненым плацежным партале, каб абнавіць плацежныя даныя або праверыць стан працягнення. Калі вы толькі што аплацілі, пачакайце хвіліну і зноў адкрыйце гэту старонку.';
 
   @override
-  String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
+  String get premiumPurchasesDisabledTitle => 'Пакупкі недаступныя';
 
   @override
   String premiumPurchasesDisabledBody(String supportEmail) {
-    return 'Purchases are disabled for this account. Contact $supportEmail if this looks wrong.';
+    return 'Пакупкі для гэтага ўліковага запісу адключаны. Калі гэта падобна на памылку, напішыце на $supportEmail.';
   }
 
   @override
   String get premiumPurchasesDisabledBodySelfHosted =>
-      'Purchases are disabled for this account. Contact this instance\'s administrators if this looks wrong.';
+      'Пакупкі для гэтага ўліковага запісу адключаны. Калі вам здаецца, што гэта памылка, звярніцеся да адміністратараў гэтага экзэмпляра.';
 
   @override
   String get premiumClaimAccountToPurchase =>
-      'Claim your account to purchase Fluxer Plutonium.';
+      'Каб купіць Fluxer Plutonium, замацуйце за сабой уліковы запіс.';
 
   @override
   String get premiumVerifyEmailToPurchase =>
-      'You need to verify your email before you can purchase Fluxer Plutonium.';
+      'Каб купіць Fluxer Plutonium, пацвердзіце адрас электроннай пошты.';
 
   @override
-  String get premiumPerkCommunities => 'Communities';
+  String get premiumPerkCommunities => 'Суполкі';
 
   @override
-  String get premiumPerkMessageCharacterLimit => 'Message character limit';
+  String get premiumPerkMessageCharacterLimit =>
+      'Ліміт сімвалаў у паведамленні';
 
   @override
-  String get premiumPerkBookmarkedMessages => 'Bookmarked messages';
+  String get premiumPerkBookmarkedMessages => 'Закладкі на паведамленні';
 
   @override
-  String get premiumPerkFileUploadSize => 'File upload size';
+  String get premiumPerkFileUploadSize => 'Памер файла для загрузкі';
 
   @override
-  String get premiumPerkUseAnimatedEmojis => 'Use animated emojis';
+  String get premiumPerkUseAnimatedEmojis =>
+      'Выкарыстоўваць аніміраваныя эмоджы';
 
   @override
-  String get premiumPerkVideoQuality => 'Video quality';
+  String get premiumPerkVideoQuality => 'Якасць відэа';
 
   @override
   String get premiumPerkAnimatedAvatarsBanners =>
-      'Animated avatars & profile banners';
+      'Аніміраваныя аватары і банеры профілю';
 
   @override
-  String get premiumPerkEarlyAccess => 'Early access to new features';
+  String get premiumPerkEarlyAccess => 'Ранні доступ да новых функцый';
 
   @override
-  String get premiumPerkVideoQualityRestricted => '720p/30fps';
+  String get premiumPerkVideoQualityRestricted => '720p/30 кадр/с';
 
   @override
-  String get premiumPerkVideoQualityStock => 'Up to 4K/60fps';
+  String get premiumPerkVideoQualityStock => 'Да 4K/60 кадр/с';
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly або $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/мес';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/год';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'або';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'Вашы эмоджы — паўсюль';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Выкарыстоўвайце ўласныя эмоджы і стыкеры з любой сваёй суполкі ў кожным чаце і кожнай суполцы, дзе вы ёсць.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Профіль, які вылучаецца';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Аніміраваныя аватар і банер, бэйдж падпісчыка, жаданы чатырохзначны тэг пасля імя карыстальніка* і асобны профіль для кожнай суполкі.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => 'Адпраўляйце файлы да 500 МБ';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Дзяліцеся поўнымі відэа і вялікімі файламі без папярэдняга сціскання. Бясплатныя ўліковыя запісы могуць адпраўляць файлы да 25 МБ.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Трансліруйце ў 4K пры 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Транслюйце экран або камеру ў якасці да 4K пры 60 кадрах у секунду. Бясплатныя ўліковыя запісы трансліруюць да 720p пры 30.';
 
   @override
-  String get storePlutoniumStreamTitleIos => 'Stream in higher quality';
+  String get storePlutoniumStreamTitleIos => 'Трансліруйце ў лепшай якасці';
 
   @override
   String get storePlutoniumStreamBodyIos =>
-      'Share your screen or camera in up to 1080p at 60 frames per second in the app, and in up to 4K at 60 in the desktop app. Free accounts stream in up to 720p at 30.';
+      'Паказвайце экран або камеру ў якасці да 1080p з 60 кадрамі ў секунду ў праграме і да 4K з 60 кадрамі ў настольнай праграме. Бясплатныя ўліковыя запісы трансліруюць у якасці да 720p з 30 кадрамі.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumManageHeading => 'Ваша падпіска';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle =>
+      'Параўнайце бясплатны план і Plutonium';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Не ўсе гэтыя функцыі ёсць у мабільнай праграме. Некаторыя даступныя толькі на камп’ютары.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Недаступна';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'Даступна';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Выбірайце 4-значны нумар пасля імя карыстальніка*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Асобны профіль для кожнай суполкі';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge => 'Бэйдж падпісчыка ў вашым профілі';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Фоны для відэавыклікаў, якія можна захаваць';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Суполкі, да якіх можна далучыцца';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Сімвалаў у адным паведамленні';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks =>
+      'Паведамленні, якія можна дадаць у закладкі';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload =>
+      'Найбольшы файл, які можна загрузіць';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Медыя, якія можна захаваць на потым';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Выкарыстоўвайце аніміраваныя эмоджы ў паведамленнях';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Выкарыстоўвайце ўласныя эмоджы і стыкеры ў любой суполцы';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Якасць відэавыклікаў і дэманстрацыі экрана';
 
   @override
   String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+      'Аніміраваныя аватар і банер профілю';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Ранні доступ да новых функцый';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Уласныя тэмы для праграмы';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => 'Да 720p пры 30 FPS';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => 'Да 4K пры 60 FPS';
 
   @override
   String get storePlutoniumVideoPlutoniumIos =>
-      'Up to 1080p at 60 FPS in the app, up to 4K at 60 FPS on desktop';
+      'Да 1080p з 60 FPS у праграме, да 4K з 60 FPS на камп’ютары';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Можна выбраць толькі тэг, якога яшчэ няма ў іншага карыстальніка з такім самым імем. Вялікія і малыя літары ў імёнах не адрозніваюцца, таму Mina#4821 і mina#4821 лічацца аднолькавымі. Тэг #0000 зарэзерваваны для ўдзельнікаў Fluxer Visionary.';
 
   @override
   String get storePlutoniumTagFootnoteIos =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same.';
+      'Можна выбраць толькі тэг, якога яшчэ няма ў іншага карыстальніка з такім самым імем. Вялікія і малыя літары ў імёнах не адрозніваюцца, таму Mina#4821 і mina#4821 лічацца аднолькавымі.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary => 'Даведайцеся больш пра Visionary.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Хочаце проста падтрымаць распрацоўку Fluxer з адкрытым кодам? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Лепш зрабіце ахвяраванне.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Падпіска фінансуе Fluxer і адкрывае';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Уласныя эмоджы і стыкеры ў любым чаце';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile and badge, and a custom tag number';
+      'Аніміраваны профіль і бэйдж, а таксама ўласны нумар тэга';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => 'Загрузка файлаў да 500 МБ';
 
   @override
-  String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+  String get storePlutoniumHighlightMessages => 'Паведамленні да 4000 сімвалаў';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Асобны профіль для кожнай суполкі';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'І яшчэ шмат чаго';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'Аўтаматычна працягваецца праз Google Play, пакуль вы не скасуеце падпіску.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Аўтаматычна працягваецца праз App Store, пакуль вы не скасуеце падпіску.';
 
   @override
-  String get storePlutoniumAppleEula => 'Apple\'s standard Terms of Use (EULA)';
+  String get storePlutoniumAppleEula =>
+      'Стандартныя ўмовы выкарыстання Apple (EULA)';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'Аднавіць пакупкі';
 
   @override
-  String get storePlutoniumRestoreDone =>
-      'Your Plutonium subscription was restored.';
+  String get storePlutoniumRestoreDone => 'Вашу падпіску Plutonium адноўлена.';
 
   @override
   String get storePlutoniumRestoreNothing =>
-      'There\'s no Plutonium subscription to restore for this Apple Account.';
+      'Для гэтага Apple Account няма падпіскі Plutonium, якую можна аднавіць.';
 
   @override
   String get storePlutoniumRestoreFailed =>
-      'Couldn\'t restore purchases. Try again in a moment.';
+      'Не ўдалося аднавіць пакупкі. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'У вас ужо ёсць падпіска Fluxer Plutonium.';
 
   @override
   String get storePlutoniumOwnedByOtherAccount =>
-      'The Apple Account on this device already pays for Plutonium on a different Fluxer account.';
+      'Apple Account на гэтай прыладзе ўжо аплачвае Plutonium для іншага ўліковага запісу Fluxer.';
 
   @override
-  String get storePlutoniumClaimFailedTitle => 'Plutonium wasn\'t added';
+  String get storePlutoniumClaimFailedTitle => 'Plutonium не дададзены';
 
   @override
   String get storePlutoniumClaimFailedBody =>
-      'The App Store confirmed your purchase, but Plutonium couldn\'t be added to this account. Tap \"Restore purchases\" to try again, or contact support if it still doesn\'t work.';
+      'App Store пацвердзіў вашу пакупку, але дадаць Plutonium да гэтага ўліковага запісу не ўдалося. Націсніце «Аднавіць пакупкі», каб паспрабаваць яшчэ раз, або звярніцеся ў службу падтрымкі, калі гэта не дапаможа.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return 'Эканомія $percent%';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Пакупка атрымана. Plutonium з’явіцца тут, як толькі актывуецца.';
 
   @override
   String get storePlutoniumApprovalPending =>
-      'Your purchase is waiting for approval. Plutonium is added to your account once it\'s approved.';
+      'Ваша пакупка чакае ўхвалення. Plutonium дададуць да вашага ўліковага запісу, як толькі яе ўхваляць.';
 
   @override
   String get storePlutoniumLoadFailed =>
-      'Couldn\'t load Plutonium plans. Check your connection and try again.';
+      'Не ўдалося загрузіць планы Plutonium. Праверце злучэнне і паспрабуйце яшчэ раз.';
 
   @override
-  String get storePlutoniumRetry => 'Try again';
+  String get storePlutoniumRetry => 'Паспрабаваць яшчэ раз';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary ужо дае бестэрміновы доступ, таму рэгулярная падпіска не патрэбна.';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Панэль прыватнасці';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized apps';
+  String get userSettingsNavAuthorizedApps => 'Аўтарызаваныя праграмы';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked users';
+  String get userSettingsNavBlockedUsers => 'Заблакіраваныя карыстальнікі';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked devices';
+  String get userSettingsNavLinkedDevices => 'Падключаныя прылады';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Падключэнні';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & feel';
+  String get userSettingsNavLookAndFeel => 'Выгляд';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Даступнасць';
 
   @override
-  String get userSettingsNavChat => 'Chat';
+  String get userSettingsNavChat => 'Чат';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & video';
+  String get userSettingsNavAudioAndVideo => 'Аўдыя і відэа';
 
   @override
-  String get userSettingsNavShortcuts => 'Shortcuts';
+  String get userSettingsNavShortcuts => 'Спалучэнні клавіш';
 
   @override
-  String get audioAndVideoAudioSectionTitle => 'Audio';
+  String get audioAndVideoAudioSectionTitle => 'Аўдыя';
 
   @override
   String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+      'Наладзьце мікрафон, дынамікі і апрацоўку голасу.';
 
   @override
-  String get audioAndVideoVideoSectionTitle => 'Video';
+  String get audioAndVideoVideoSectionTitle => 'Відэа';
 
   @override
   String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+      'Наладзьце якасць камеры і дэманстрацыі экрана.';
 
   @override
-  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+  String get audioAndVideoInCallBehaviorSectionTitle =>
+      'Паводзіны падчас выкліку';
 
   @override
   String get audioAndVideoInCallBehaviorSectionDescription =>
-      'Control confirmation prompts during voice and video calls.';
+      'Кіруйце запытамі на пацвярджэнне падчас галасавых і відэавыклікаў.';
 
   @override
-  String get audioAndVideoInputDeviceLabel => 'Input device';
+  String get audioAndVideoInputDeviceLabel => 'Прылада ўводу';
 
   @override
-  String get audioAndVideoOutputDeviceLabel => 'Output device';
+  String get audioAndVideoOutputDeviceLabel => 'Прылада вываду';
 
   @override
-  String get audioAndVideoDefaultDeviceLabel => 'Default';
+  String get audioAndVideoDefaultDeviceLabel => 'Прадвызначана';
 
   @override
-  String get audioAndVideoUseSpeakerLabel => 'Use speaker';
+  String get audioAndVideoUseSpeakerLabel => 'Выводзіць гук праз гучны дынамік';
 
   @override
   String get audioAndVideoUseSpeakerDescription =>
-      'When off, audio plays through the earpiece or connected headphones.';
+      'Калі выключана, гук прайграецца праз размоўны дынамік або падключаныя навушнікі.';
 
   @override
-  String get audioAndVideoInputVolumeLabel => 'Input volume';
+  String get audioAndVideoInputVolumeLabel => 'Гучнасць уваходнага сігналу';
 
   @override
-  String get audioAndVideoOutputVolumeLabel => 'Output volume';
+  String get audioAndVideoOutputVolumeLabel => 'Гучнасць вываду';
 
   @override
-  String get audioAndVideoVoiceProcessingSectionTitle => 'Voice processing';
+  String get audioAndVideoVoiceProcessingSectionTitle => 'Апрацоўка голасу';
 
   @override
-  String get audioAndVideoFocusedVoiceLabel => 'Focused voice';
+  String get audioAndVideoFocusedVoiceLabel => 'Сфакусіраваны голас';
 
   @override
   String get audioAndVideoFocusedVoiceDescription =>
-      'Recommended. Cleans up your mic for clear speech.';
+      'Рэкамендуецца. Ачышчае гук мікрафона, каб маўленне было выразным.';
 
   @override
-  String get audioAndVideoDirectInputLabel => 'Direct input';
+  String get audioAndVideoDirectInputLabel => 'Прамы ўвод';
 
   @override
   String get audioAndVideoDirectInputDescription =>
-      'Sends your audio untouched. Best if you\'re using external audio software.';
+      'Адпраўляе ваш гук без змен. Найлепш падыходзіць, калі вы карыстаецеся знешнімі праграмамі для гуку.';
 
   @override
-  String get audioAndVideoCustomProfileLabel => 'Custom';
+  String get audioAndVideoCustomProfileLabel => 'Уласны';
 
   @override
   String get audioAndVideoCustomProfileDescription =>
-      'Adjust each setting yourself: noise suppression, echo cancellation, and gain.';
+      'Наладжвайце кожны параметр самі: шумапрыглушэнне, прыглушэнне рэха і ўзмацненне.';
 
   @override
-  String get audioAndVideoNoiseSuppressionSectionTitle => 'Noise suppression';
+  String get audioAndVideoNoiseSuppressionSectionTitle => 'Шумапрыглушэнне';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Enhanced';
+  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Палепшанае';
 
   @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => 'Standard';
+  String get audioAndVideoNoiseSuppressionStandardLabel => 'Стандартнае';
 
   @override
-  String get audioAndVideoNoiseSuppressionNoneLabel => 'None';
+  String get audioAndVideoNoiseSuppressionNoneLabel => 'Няма';
 
   @override
-  String get audioAndVideoEchoCancellationLabel => 'Echo cancellation';
+  String get audioAndVideoEchoCancellationLabel => 'Прыглушэнне рэха';
 
   @override
-  String get audioAndVideoAutomaticGainControlLabel => 'Automatic gain control';
+  String get audioAndVideoAutomaticGainControlLabel =>
+      'Аўтаматычнае рэгуляванне ўзмацнення';
 
   @override
   String get audioAndVideoAutomaticGainControlDescription =>
-      'Evens out your mic volume. Off when enhanced suppression is on.';
+      'Выраўноўвае гучнасць мікрафона. Не працуе, калі ўключана палепшанае шумапрыглушэнне.';
 
   @override
-  String get audioAndVideoMicTestSectionTitle => 'Mic test';
+  String get audioAndVideoMicTestSectionTitle => 'Праверка мікрафона';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Start mic test';
+  String get audioAndVideoMicTestStartLabel => 'Пачаць праверку мікрафона';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Stop mic test';
+  String get audioAndVideoMicTestStopLabel => 'Спыніць праверку мікрафона';
 
   @override
-  String get audioAndVideoCameraLabel => 'Camera';
+  String get audioAndVideoCameraLabel => 'Камера';
 
   @override
-  String get audioAndVideoMirrorCameraLabel => 'Mirror camera';
+  String get audioAndVideoMirrorCameraLabel => 'Люстраны выгляд камеры';
 
   @override
-  String get audioAndVideoCameraQualitySectionTitle => 'Camera quality';
+  String get audioAndVideoCameraQualitySectionTitle => 'Якасць камеры';
 
   @override
   String get audioAndVideoCameraQuality480pLabel => '480p';
@@ -10641,841 +10900,867 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String get audioAndVideoScreenShareQualitySectionTitle =>
-      'Screen share quality';
+      'Якасць дэманстрацыі экрана';
 
   @override
-  String get audioAndVideoFrameRateSectionTitle => 'Frame rate';
+  String get audioAndVideoFrameRateSectionTitle => 'Частата кадраў';
 
   @override
-  String get audioAndVideoFrameRate15Label => '15 FPS';
+  String get audioAndVideoFrameRate15Label => '15 кадр/с';
 
   @override
-  String get audioAndVideoFrameRate30Label => '30 FPS';
+  String get audioAndVideoFrameRate30Label => '30 кадр/с';
 
   @override
-  String get audioAndVideoFrameRate60Label => '60 FPS';
+  String get audioAndVideoFrameRate60Label => '60 кадр/с';
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'This instance currently allows screen share up to 720p at 30 FPS.';
+      'Зараз гэты экзэмпляр дазваляе дэманстрацыю экрана ў якасці да 720p з 30 FPS.';
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
-      'Don\'t ask when hiding my camera';
+      'Не пытаць, калі я хаваю сваю камеру';
 
   @override
   String get audioAndVideoSkipHideOwnScreenshareConfirmLabel =>
-      'Don\'t ask when hiding my screen share';
+      'Не пытаць, калі я хаваю дэманстрацыю свайго экрана';
 
   @override
-  String get userSettingsNavNotifications => 'Notifications';
+  String get userSettingsNavNotifications => 'Апавяшчэнні';
 
   @override
-  String get notificationsGeneralSectionTitle => 'General';
+  String get notificationsGeneralSectionTitle => 'Агульны';
 
   @override
-  String get notificationsEnableNotificationsLabel => 'Enable notifications';
+  String get notificationsEnableNotificationsLabel => 'Уключыць апавяшчэнні';
 
   @override
   String notificationsEnableNotificationsDescription(String productName) {
-    return 'Get notified when you receive messages. You may need to allow notifications for $productName in your device settings. For per-channel/per-community controls, open notification settings from a community\'s menu.';
+    return 'Атрымлівайце апавяшчэнні пра новыя паведамленні. Магчыма, трэба будзе дазволіць апавяшчэнні для $productName у наладах прылады. Каб наладжваць апавяшчэнні для асобных каналаў або суполак, адкрыйце налады апавяшчэнняў у меню суполкі.';
   }
 
   @override
   String get notificationsEnableDesktopNotificationsLabel =>
-      'Enable desktop notifications';
+      'Уключыць апавяшчэнні на камп’ютары';
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
-      'Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.';
+      'Выкарыстоўвае цэнтр апавяшчэнняў АС. Каб наладжваць апавяшчэнні для асобных каналаў або суполак, націсніце правай кнопкай мышы на значок суполкі і адкрыйце налады апавяшчэнняў.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
-      'Push notification inactive timeout';
+      'Час бяздзейнасці для push-апавяшчэнняў';
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return '$productName avoids sending push notifications to your mobile devices when you are at your computer. Choose how long you need to be inactive on desktop before you receive push notifications.';
+    return '$productName не адпраўляе push-апавяшчэнні на мабільныя прылады, пакуль вы за камп’ютарам. Выберыце, колькі часу вы мусіце быць неактыўныя на камп’ютары, перш чым пачнуць прыходзіць push-апавяшчэнні.';
   }
 
   @override
   String notificationsPushInactiveTimeoutOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute хвіліна';
   }
 
   @override
   String notificationsPushInactiveTimeoutMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes хв';
   }
 
   @override
-  String get notificationsMentionPreferenceSectionTitle => 'Mention preference';
+  String get notificationsMentionPreferenceSectionTitle => 'Налада згадванняў';
 
   @override
   String get notificationsReplyMentionPreferenceAriaLabel =>
-      'Reply mention preference';
+      'Налада згадванняў у адказах';
 
   @override
-  String get notificationsMentionNoPreferenceName => 'No preference';
+  String get notificationsMentionNoPreferenceName => 'Без перавагі';
 
   @override
   String get notificationsMentionNoPreferenceDescription =>
-      'Respect the sender\'s intent, with no warning when they toggle the @ mention';
+      'Паважаць намер адпраўніка, без папярэджання, калі ў паведамленні ўключана або выключана @згадванне';
 
   @override
-  String get notificationsMentionPreferMentionName => 'Prefer @mention';
+  String get notificationsMentionPreferMentionName => 'Са згадваннем праз @';
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Default replies to @mention you, and warn the sender if they disable it';
+      'Прадвызначана ўключаць у адказах згадванне праз @ і папярэджваць адпраўніка, калі яго выключаюць';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Prefer no @mention';
+  String get notificationsMentionPreferNoMentionName => 'Без згадвання праз @';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
-      'Default replies to omit the @mention, and warn the sender if they enable it';
+      'Прадвызначана не ўключаць у адказах згадванне праз @ і папярэджваць адпраўніка, калі яго ўключаюць';
 
   @override
-  String get notificationsTtsSectionTitle => 'Text-to-speech notifications';
+  String get notificationsTtsSectionTitle => 'Апавяшчэнні з агучваннем тэксту';
 
   @override
-  String get notificationsTtsEnableCommandLabel =>
-      'Enable /tts speech playback';
+  String get notificationsTtsEnableCommandLabel => 'Уключыць агучванне /tts';
 
   @override
   String get notificationsTtsEnableCommandDescription =>
-      'Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.';
+      'Дазволіць камандзе /tts зачытваць ваша паведамленне ўголас. Калі гэта выключыць, такія каманды застануцца звычайным тэкстам.';
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Adjust playback speed in ';
+      'Хуткасць прайгравання можна змяніць у раздзеле ';
 
   @override
-  String get notificationsTtsAccessibilityLinkLabel => 'Accessibility';
+  String get notificationsTtsAccessibilityLinkLabel => 'Даступнасць';
 
   @override
   String get notificationsTtsAccessibilityLinkSuffix => '.';
 
   @override
   String get notificationsTtsAutoNarrationTitle =>
-      'Automatic message narration';
+      'Аўтаматычнае агучванне паведамленняў';
 
   @override
   String get notificationsTtsAutoNarrationDescription =>
-      'Converts incoming content to speech, regardless of whether it came from /tts.';
+      'Агучвае ўваходнае змесціва незалежна ад таго, ці прыйшло яно праз /tts.';
 
   @override
-  String get notificationsTtsModeAllChannelsName => 'Every channel';
+  String get notificationsTtsModeAllChannelsName => 'Кожны канал';
 
   @override
   String get notificationsTtsModeAllChannelsDescription =>
-      'Let every incoming message be spoken, regardless of which channel is open.';
+      'Агучваць кожнае ўваходнае паведамленне незалежна ад таго, які канал адкрыты.';
 
   @override
-  String get notificationsTtsModeCurrentChannelName => 'Active channel only';
+  String get notificationsTtsModeCurrentChannelName => 'Толькі актыўны канал';
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Narrates only the channel you\'re viewing. Narration follows you between channels.';
+      'Агучваецца толькі канал, які вы праглядаеце. Агучванне пераходзіць разам з вамі паміж каналамі.';
 
   @override
-  String get notificationsTtsModeNeverName => 'Never automatically';
+  String get notificationsTtsModeNeverName => 'Ніколі аўтаматычна';
 
   @override
   String get notificationsTtsModeNeverDescription =>
-      'Remain silent unless someone runs /tts manually.';
+      'Нічога не агучваць, пакуль хтосьці не запусціць /tts уручную.';
 
   @override
-  String get notificationsTtsModeAriaLabel => 'Speak all messages out loud';
+  String get notificationsTtsModeAriaLabel => 'Агучваць усе паведамленні';
 
   @override
-  String get notificationsSoundsSectionTitle => 'Sounds';
+  String get notificationsSoundsSectionTitle => 'Гукі';
 
   @override
-  String get notificationsMasterVolumeLabel => 'Master volume';
+  String get notificationsMasterVolumeLabel => 'Агульная гучнасць';
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Sets the level for every sound effect. Per-sound overrides ignore this.';
+      'Задае ўзровень для кожнага гукавога эфекту. Перавызначэнні для асобных гукаў гэта ігнаруюць.';
 
   @override
-  String get notificationsResetToDefaultVolume => 'Reset to default volume';
+  String get notificationsResetToDefaultVolume =>
+      'Скінуць гучнасць да прадвызначанай';
 
   @override
   String get notificationsDisableAllSoundsLabel =>
-      'Disable all notification sounds';
+      'Адключыць усе гукі апавяшчэнняў';
 
   @override
   String get notificationsDisableAllSoundsDescription =>
-      'Your existing notification sound settings will be preserved.';
+      'Вашы цяперашнія налады гукаў апавяшчэнняў будуць захаваны.';
 
   @override
-  String get notificationsShowMoreSoundEffects => 'Show more sound effects';
+  String get notificationsShowMoreSoundEffects =>
+      'Паказаць больш гукавых эфектаў';
 
   @override
-  String get notificationsShowFewerSoundEffects => 'Show fewer sound effects';
+  String get notificationsShowFewerSoundEffects =>
+      'Паказаць менш гукавых эфектаў';
 
   @override
-  String get notificationsPreviewSound => 'Preview sound';
+  String get notificationsPreviewSound => 'Праслухаць гук';
 
   @override
-  String get notificationsPerSoundVolumeTitle => 'Per-sound volume';
+  String get notificationsPerSoundVolumeTitle => 'Гучнасць для кожнага гуку';
 
   @override
   String get notificationsPerSoundVolumeDescription =>
-      'Set custom volumes for individual sounds. Sounds without an override follow the master volume.';
+      'Задайце ўласную гучнасць для асобных гукаў. Гукі без перавызначэння выкарыстоўваюць агульную гучнасць.';
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
-    return 'Active custom sound volume overrides: $overrideCount.';
+    return 'Актыўныя перавызначэнні гучнасці ўласных гукаў: $overrideCount.';
   }
 
   @override
   String notificationsFollowingMasterVolume(int effectiveValue) {
-    return 'Following master • $effectiveValue%';
+    return 'Як агульная • $effectiveValue%';
   }
 
   @override
   String notificationsResetSoundToMasterVolume(String label) {
-    return 'Reset $label to master volume';
+    return 'Скінуць $label да агульнай гучнасці';
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Reset all overrides';
+  String get notificationsResetAllOverrides => 'Скінуць усе перавызначэнні';
 
   @override
   String notificationsMuteSound(String label) {
-    return 'Mute $label';
+    return 'Выключыць гук: $label';
   }
 
   @override
   String notificationsUnmuteSound(String label) {
-    return 'Unmute $label';
+    return 'Уключыць гук: $label';
   }
 
   @override
-  String get notificationsSoundMessage => 'Community message notifications';
+  String get notificationsSoundMessage =>
+      'Апавяшчэнні пра паведамленні суполкі';
 
   @override
-  String get notificationsSoundDirectMessage => 'Direct message notifications';
+  String get notificationsSoundDirectMessage =>
+      'Апавяшчэнні пра асабістыя паведамленні';
 
   @override
   String get notificationsSoundSameChannelMessage =>
-      'Current channel message notifications';
+      'Апавяшчэнні пра паведамленні цяперашняга канала';
 
   @override
-  String get notificationsSoundMute => 'Voice mute';
+  String get notificationsSoundMute => 'Выключэнне мікрафона';
 
   @override
-  String get notificationsSoundUnmute => 'Voice unmute';
+  String get notificationsSoundUnmute => 'Уключэнне мікрафона';
 
   @override
-  String get notificationsSoundDeaf => 'Voice deafen';
+  String get notificationsSoundDeaf => 'Выключэнне гуку ў галасавым чаце';
 
   @override
-  String get notificationsSoundUndeaf => 'Voice undeafen';
+  String get notificationsSoundUndeaf => 'Уключэнне гуку ў галасавым чаце';
 
   @override
-  String get notificationsSoundUserJoin => 'User joins channel';
+  String get notificationsSoundUserJoin => 'Карыстальнік далучаецца да канала';
 
   @override
-  String get notificationsSoundUserLeave => 'User leaves channel';
+  String get notificationsSoundUserLeave => 'Карыстальнік пакідае канал';
 
   @override
-  String get notificationsSoundUserMove => 'User moved channel';
+  String get notificationsSoundUserMove =>
+      'Карыстальніка перамясцілі ў іншы канал';
 
   @override
-  String get notificationsSoundViewerJoin => 'Viewer joins stream';
+  String get notificationsSoundViewerJoin => 'Глядач далучаецца да трансляцыі';
 
   @override
-  String get notificationsSoundViewerLeave => 'Viewer leaves stream';
+  String get notificationsSoundViewerLeave => 'Глядач пакідае трансляцыю';
 
   @override
-  String get notificationsSoundVoiceDisconnect => 'Voice disconnected';
+  String get notificationsSoundVoiceDisconnect =>
+      'Галасавое падключэнне перарвана';
 
   @override
-  String get notificationsSoundIncomingRing => 'Incoming call';
+  String get notificationsSoundIncomingRing => 'Уваходны выклік';
 
   @override
-  String get notificationsSoundCameraOn => 'Camera on';
+  String get notificationsSoundCameraOn => 'Камера ўключана';
 
   @override
-  String get notificationsSoundCameraOff => 'Camera off';
+  String get notificationsSoundCameraOff => 'Камера выключана';
 
   @override
-  String get notificationsSoundScreenShareStart => 'Screen share start';
+  String get notificationsSoundScreenShareStart =>
+      'Пачатак дэманстрацыі экрана';
 
   @override
-  String get notificationsSoundScreenShareStop => 'Screen share stop';
+  String get notificationsSoundScreenShareStop =>
+      'Спыненне дэманстрацыі экрана';
 
   @override
   String get notificationsAfkTimeoutSyncFailed =>
-      'Couldn\'t update push notification timeout. Try again.';
+      'Не ўдалося абнавіць час бяздзейнасці для push-апавяшчэнняў. Паспрабуйце яшчэ раз.';
 
   @override
   String get notificationsMentionPreferenceSyncFailed =>
-      'Couldn\'t update mention preference. Try again.';
+      'Не ўдалося абнавіць наладу згадванняў. Паспрабуйце яшчэ раз.';
 
   @override
-  String get notificationsPermissionDeniedTitle => 'Notifications blocked';
+  String get notificationsPermissionDeniedTitle => 'Апавяшчэнні заблакіраваны';
 
   @override
   String get notificationsEnableNotificationsPermissionDenied =>
-      'Couldn\'t enable notifications. Allow notification permission to continue.';
+      'Не ўдалося ўключыць апавяшчэнні. Каб працягнуць, дайце дазвол на апавяшчэнні.';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel =>
+      'Пастаўшчык push-апавяшчэнняў';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'Дыстрыб’ютар';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'Не выбраны';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'Выберыце дыстрыб’ютара';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'Змяніць дыстрыб’ютара push-апавяшчэнняў';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'Шлюз';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Рэтранслятар Fluxer Push';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'Выкарыстоўваецца';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'Выключана';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'Не выкарыстоўваецца';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle =>
+      'Рэтранслятар push-апавяшчэнняў';
 
   @override
   String notificationsPushRelaySectionDescription(String pushProvider) {
-    return '$pushProvider only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.';
+    return '$pushProvider дастаўляе push-апавяшчэнні толькі праз уласны сэрвіс, таму апавяшчэнні для гэтай прылады праходзяць праз рэтранслятар Fluxer.';
   }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'Выкарыстоўваць push-рэтранслятар Fluxer';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Калі выключыць, рэгістрацыя push для гэтай прылады будзе выдалена і прылада перастане атрымліваць push-апавяшчэнні.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Рэтранслятар push-апавяшчэнняў';
 
   @override
   String pushRelayConsentDescription(String pushProvider) {
-    return '$pushProvider only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.';
+    return '$pushProvider дастаўляе push-апавяшчэнні толькі праз уласны сэрвіс, таму апавяшчэнні для гэтай прылады праходзяць праз рэтранслятар Fluxer.';
   }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Прыміце ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push relay privacy notice';
+  String get pushRelayConsentNoticeLink =>
+      'паведамленне пра прыватнасць push-рэтранслятара';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' , каб уключыць push-апавяшчэнні на гэтай прыладзе. Прыняць яго трэба толькі адзін раз на кожнай прыладзе.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Прыняць і працягнуць';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Не зараз';
 
   @override
   String pushRelayConsentDeclinedToast(String settingLabel) {
-    return 'Push notifications stay off for this account on this device. You can turn them on later with \"$settingLabel\" in notification settings.';
+    return 'Для гэтага ўліковага запісу на гэтай прыладзе push-апавяшчэнні застаюцца выключанымі. Уключыць іх пазней можна наладай «$settingLabel» у наладах апавяшчэнняў.';
   }
 
   @override
-  String get pushRelayConsentDeclinedToastAction => 'Open settings';
+  String get pushRelayConsentDeclinedToastAction => 'Адкрыць налады';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & time';
+  String get userSettingsNavLanguageAndTime => 'Мова і час';
 
   @override
-  String get languageAndTimeLanguageSectionTitle => 'Interface language';
+  String get languageAndTimeLanguageSectionTitle => 'Мова інтэрфейсу';
 
   @override
   String get languageAndTimeLanguageSectionDescription =>
-      'Choose the language used throughout the app';
+      'Выберыце мову ўсёй праграмы';
 
   @override
-  String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+  String get languageAndTimeTimeFormatSectionTitle => 'Фармат часу';
 
   @override
   String get languageAndTimeTimeFormatSectionDescription =>
-      'Choose how times are displayed throughout the app';
+      'Выберыце, як паказваецца час ва ўсёй праграме';
 
   @override
-  String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
+  String get languageAndTimeTimeFormatSelectionLabel => 'Выбар фармату часу';
 
   @override
-  String get languageAndTimeTimeFormatAuto => 'Auto';
+  String get languageAndTimeTimeFormatAuto => 'Аўта';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12-гадзінны';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24-гадзінны';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'App language: $format';
+    return 'Мова праграмы: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'System locale: $format';
+    return 'Рэгіянальныя налады сістэмы: $format';
   }
 
   @override
   String get languageAndTimeUseSystemLocaleForTimeFormat =>
-      'Use system locale for time format';
+      'Выкарыстоўваць фармат часу з рэгіянальных налад сістэмы';
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
-      'Failed to update time format';
+      'Не ўдалося абнавіць фармат часу';
 
   @override
-  String get userSettingsNavDefaultApps => 'Default apps';
+  String get userSettingsNavDefaultApps => 'Прадвызначаныя праграмы';
 
   @override
-  String get defaultAppsWebBrowserSectionTitle => 'Web browser';
+  String get defaultAppsWebBrowserSectionTitle => 'Вэб-браўзер';
 
   @override
   String get defaultAppsWebBrowserSectionDescription =>
-      'Choose which browser opens when you tap a link.';
+      'Выберыце браўзер, у якім адкрываюцца спасылкі.';
 
   @override
   String get defaultAppsWebBrowserNativeAppNote =>
-      'If an app is installed for a site, links will open in that app first.';
+      'Калі для сайта ўсталявана праграма, спасылкі спачатку адкрываюцца ў ёй.';
 
   @override
-  String get defaultAppsWebBrowserInApp => 'In-app browser';
+  String get defaultAppsWebBrowserInApp => 'Браўзер у праграме';
 
   @override
-  String get defaultAppsWebBrowserExternal => 'External browser';
+  String get defaultAppsWebBrowserExternal => 'Знешні браўзер';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'Значок праграмы';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'Значок праграмы';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Выберыце значок для галоўнага экрана.';
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'Выберыце значок для галоўнага экрана. Пры змене значка праграма перазапусціцца.';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'Змяніць значок праграмы?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'Fluxer перазапусціцца, каб прымяніць новы значок на галоўным экране.';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'Змяніць значок';
 
   @override
-  String get appIconOptionDefault => 'Default';
+  String get appIconOptionDefault => 'Прадвызначана';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Зорнае поле';
 
   @override
-  String get appIconOptionSweden => 'Sweden';
+  String get appIconOptionSweden => 'Швецыя';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'Адценні шэрага';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'Вясёлка';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'Хвалі';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'Храматычная аберацыя';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'Бруталізм';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'Бруталізм у адценнях шэрага';
 
   @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'На гэтай прыладзе нельга змяніць значок праграмы.';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Дадаткова';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle =>
+      'Справаздачы пра прадукцыйнасць';
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'Дапамажыце Fluxer выпраўляць памылкі ў гэтай праграме: дзяліцеся данымі пра збоі і прадукцыйнасць. Прадвызначана гэта выключана.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Адпраўляць справаздачы пра збоі і прадукцыйнасць';
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.';
+      'Справаздачы трапляюць у сістэму адсочвання памылак Fluxer, нават калі вы ўвайшлі на іншым экзэмпляры. Яны звязаны з выпадковым ID гэтага ўсталявання і не ўтрымліваюць ID вашага ўліковага запісу, назваў экзэмпляраў або змесціва паведамленняў.';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle => 'Дапамажыце выправіць збоі';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sending a crash report helps us find and fix the problem faster.';
+      'Fluxer нечакана закрыўся. Справаздача пра збой дапаможа нам хутчэй знайсці і выправіць праблему.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors, performance data, network request timings and the screens and taps that led up to a problem, linked to a random ID for this install. They never include message content, and they go only to Fluxer\'s own error tracker. You can turn this off at any time.';
+      'Справаздачы ўтрымліваюць журналы збояў, памылкі, даныя пра прадукцыйнасць, час выканання сеткавых запытаў, а таксама экраны і націсканні, якія папярэднічалі праблеме, і звязаны з выпадковым ID гэтага ўсталявання. Яны ніколі не ўтрымліваюць змесціва паведамленняў і трапляюць толькі ва ўласную сістэму адсочвання памылак Fluxer. Выключыць гэта можна ў любы час.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'Каб уключыць пазней, адкрыйце Налады → Дадаткова → $reportingToggle.';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree =>
+      'Адправіць справаздачы пра збоі';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t ask again';
+  String get observabilityReportingConsentDecline => 'Больш не пытаць';
 
   @override
-  String get observabilityReportingConsentNotNow => 'Not now';
+  String get observabilityReportingConsentNotNow => 'Не зараз';
 
   @override
-  String get advancedSettingsConfigure => 'Configure';
+  String get advancedSettingsConfigure => 'Наладзіць';
 
   @override
-  String get advancedSettingsCategoryPrivacy => 'Privacy';
+  String get advancedSettingsCategoryPrivacy => 'Прыватнасць';
 
   @override
-  String get advancedSettingsCategoryAppearance => 'Appearance';
+  String get advancedSettingsCategoryAppearance => 'Выгляд';
 
   @override
-  String get advancedSettingsCategoryAccessibility => 'Accessibility';
+  String get advancedSettingsCategoryAccessibility => 'Даступнасць';
 
   @override
-  String get advancedSettingsCategoryChat => 'Chat';
+  String get advancedSettingsCategoryChat => 'Чат';
 
   @override
-  String get advancedSettingsCategoryMedia => 'Media';
+  String get advancedSettingsCategoryMedia => 'Медыя';
 
   @override
-  String get advancedSettingsCategoryVoice => 'Voice';
+  String get advancedSettingsCategoryVoice => 'Галасавы';
 
   @override
-  String get advancedSettingsCategoryDeveloper => 'Developer';
+  String get advancedSettingsCategoryDeveloper => 'Распрацоўшчык';
 
   @override
-  String get advancedSettingEnableTextSelectionLabel => 'Enable text selection';
+  String get advancedSettingEnableTextSelectionLabel =>
+      'Уключыць вылучэнне тэксту';
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Allow selecting text in the app';
+      'Дазволіць вылучэнне тэксту ў праграме';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Enable video seek thumbnails';
+      'Уключыць мініяцюры перамоткі відэа';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Thumbnail or live frame while scrubbing video';
+      'Мініяцюра або жывы кадр пры перамотцы відэа';
 
   @override
-  String get advancedSettingHapticFeedbackLabel => 'Haptic feedback';
+  String get advancedSettingHapticFeedbackLabel => 'Тактыльны водгук';
 
   @override
   String get advancedSettingHapticFeedbackDescription =>
-      'Vibration feedback for taps and actions. Won\'t sync across devices.';
+      'Вібрацыя пры націсканнях і дзеяннях. Не сінхранізуецца паміж прыладамі.';
 
   @override
-  String get advancedSettingShowNekoLabel => 'Show Neko';
+  String get advancedSettingShowNekoLabel => 'Паказваць Нэка';
 
   @override
   String get advancedSettingShowNekoDescription =>
-      'Neko cat that chases your cursor';
+      'Кот Нэка, які гоніцца за курсорам';
 
   @override
   String get advancedSettingShowNekoDescriptionTouch =>
-      'Show Neko on your chat input';
+      'Паказваць Нэка ў полі ўводу чата';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationLabel =>
-      'Splash zoom animation';
+      'Анімацыя маштабу на застаўцы';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationDescription =>
-      'Zoom the logo out when leaving the splash screen';
+      'Памяншаць лагатып пры выхадзе з застаўкі';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Цытаты на застаўцы';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Паказваць выпадковую цытату на застаўцы. Не сінхранізуецца паміж прыладамі.';
 
   @override
-  String get advancedSettingKeyboardHintsLabel => 'Keyboard hints';
+  String get advancedSettingKeyboardHintsLabel => 'Падказкі для клавіятуры';
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Keyboard shortcut hints in tooltips';
+      'Спалучэнні клавіш у падказках';
 
   @override
-  String get advancedSettingEnableFavoritesLabel => 'Enable favorites';
+  String get advancedSettingEnableFavoritesLabel => 'Уключыць абранае';
 
   @override
   String get advancedSettingEnableFavoritesDescription =>
-      'Show favorites throughout the app';
+      'Паказваць абранае ва ўсёй праграме';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorLabel =>
-      'Voice channel join behavior';
+      'Паводзіны пры далучэнні да галасавога канала';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
-      'Confirmation or double-click for community voice joins';
+      'Пацвярджэнне або падвойнае націсканне для далучэння да галасавых каналаў суполак';
 
   @override
   String get advancedSettingRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Патрабаваць падвойнага націскання для далучэння да галасавых каналаў';
 
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
-      'Confirm before joining voice channels';
+      'Пытаць пацвярджэнне перад далучэннем да галасавых каналаў';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
-      'Automatically send GIFs when selected';
+      'Аўтаматычна адпраўляць GIF пасля выбару';
 
   @override
   String get advancedSettingAutoSendGifsDescription =>
-      'Automatically send GIFs from the picker without confirmation';
+      'Аўтаматычна адпраўляць GIF з панэлі выбару без пацвярджэння';
 
   @override
   String get advancedSettingSaveGifFavoritesLabel =>
-      'Save GIF favorites as saved media';
+      'Захоўваць абраныя GIF як захаваныя медыя';
 
   @override
   String get advancedSettingSaveGifFavoritesDescription =>
-      'Choose how starred GIF favorites are stored';
+      'Выберыце, як захоўваюцца абраныя GIF';
 
   @override
-  String get advancedSettingMediaButtonsLabel => 'Media buttons';
+  String get advancedSettingMediaButtonsLabel => 'Кнопкі медыя';
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Customize which buttons and indicators appear on media attachments and embeds';
+      'Наладзьце, якія кнопкі і індыкатары паказваюцца на медыядалучэннях і ўбудаваннях';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Upload attachments before sending';
+      'Загружаць далучэнні перад адпраўкай';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Start uploading attachments as soon as they are added to the message input';
+      'Пачынаць загрузку далучэнняў, як толькі яны дададзены ў поле ўводу паведамлення';
 
   @override
   String get advancedSettingStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Прыбіраць з URL параметры адсочвання';
 
   @override
   String get advancedSettingStripTrackingDescription =>
-      'Automatically remove tracking parameters from URLs in messages you send';
+      'Аўтаматычна выдаляць параметры адсочвання з URL у паведамленнях, якія вы адпраўляеце';
 
   @override
-  String get advancedSettingTrustAllLinksLabel => 'Trust all external links';
+  String get advancedSettingTrustAllLinksLabel =>
+      'Давяраць усім знешнім спасылкам';
 
   @override
-  String get advancedSettingSearchEnginesLabel => 'Search engines';
+  String get advancedSettingSearchEnginesLabel => 'Пошукавыя сістэмы';
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Configure search engines used from selected text';
+      'Наладзьце пошукавыя сістэмы для пошуку вылучанага тэксту';
 
   @override
-  String get advancedSettingTranslatorsLabel => 'Translators';
+  String get advancedSettingTranslatorsLabel => 'Перакладчыкі';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'Configure translator providers used from selected text';
+      'Наладзьце пастаўшчыкоў перакладу для вылучанага тэксту';
 
   @override
-  String get advancedSettingReverseImageSearchLabel => 'Reverse image search';
+  String get advancedSettingReverseImageSearchLabel => 'Зваротны пошук выяў';
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Reverse image search providers';
+      'Пастаўшчыкі зваротнага пошуку выяў';
 
   @override
-  String get advancedSettingMessageActionBarLabel => 'Message action bar';
+  String get advancedSettingMessageActionBarLabel =>
+      'Панэль дзеянняў з паведамленнем';
 
   @override
   String get advancedSettingMessageActionBarDescription =>
-      'Customize the action bar that appears when hovering over messages';
+      'Наладзьце панэль дзеянняў, якая з’яўляецца пры навядзенні на паведамленні';
 
   @override
   String get advancedSettingExpressionAutocompleteLabel =>
-      'Expression autocomplete';
+      'Аўтадапаўненне выразаў';
 
   @override
   String get advancedSettingExpressionAutocompleteDescription =>
-      'Pick what appears when you type a colon in the message input';
+      'Выберыце, што паказваецца, калі вы ўводзіце двукроп’е ў поле паведамлення';
 
   @override
-  String get advancedSettingInputButtonsLabel => 'Message input buttons';
+  String get advancedSettingInputButtonsLabel =>
+      'Кнопкі поля ўводу паведамлення';
 
   @override
   String get advancedSettingInputButtonsDescription =>
-      'Pick which buttons show in the message input';
+      'Выберыце, якія кнопкі паказваюцца ў полі ўводу паведамлення';
 
   @override
   String get advancedSettingScrollToBottomOnSendLabel =>
-      'Scroll to bottom when sending a message';
+      'Пракручваць уніз пры адпраўцы паведамлення';
 
   @override
   String get advancedSettingScrollToBottomOnSendDescription =>
-      'Choose how chat moves after you send a message';
+      'Выберыце, як пракручваецца чат пасля адпраўкі паведамлення';
 
   @override
   String get advancedSettingSkipMarkAllAsReadLabel =>
-      'Skip \"Mark all as read\" confirmation';
+      'Прапускаць пацвярджэнне «Пазначыць усё як прачытанае»';
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Mark all unread inbox channels as read immediately, without asking to confirm';
+      'Пазначаць усе непрачытаныя каналы ва ўваходных як прачытаныя адразу, без пацвярджэння';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Прадвызначана хаваць заглушаныя каналы';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Hide channels you\'ve muted from community sidebars';
+      'Не паказваць заглушаныя каналы на бакавых панэлях суполак';
 
   @override
-  String get advancedSettingShowGifIndicatorLabel => 'Show GIF indicator';
+  String get advancedSettingShowGifIndicatorLabel => 'Паказваць індыкатар GIF';
 
   @override
   String get advancedSettingShowAttachmentExpiryLabel =>
-      'Show attachment expiry indicator';
+      'Паказваць індыкатар заканчэння тэрміну дзеяння далучэння';
 
   @override
-  String get advancedSettingShowMediaDeleteLabel => 'Show delete button';
+  String get advancedSettingShowMediaDeleteLabel =>
+      'Паказваць кнопку выдалення';
 
   @override
-  String get advancedSettingShowMediaDownloadLabel => 'Show download button';
+  String get advancedSettingShowMediaDownloadLabel =>
+      'Паказваць кнопку спампоўкі';
 
   @override
-  String get advancedSettingShowMediaFavoriteLabel => 'Show favorite button';
+  String get advancedSettingShowMediaFavoriteLabel =>
+      'Паказваць кнопку «У абранае»';
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
-      'Show suppress embeds button';
+      'Паказваць кнопку хавання ўбудаванняў';
 
   @override
   String get advancedSettingShowMessageActionBarLabel =>
-      'Show message action bar';
+      'Паказваць панэль дзеянняў з паведамленнем';
 
   @override
-  String get advancedSettingShowOnlyMoreButtonLabel => 'Show only more button';
+  String get advancedSettingShowOnlyMoreButtonLabel =>
+      'Паказваць толькі кнопку «Яшчэ»';
 
   @override
-  String get advancedSettingShowQuickReactionsLabel => 'Show quick reactions';
+  String get advancedSettingShowQuickReactionsLabel =>
+      'Паказваць хуткія рэакцыі';
 
   @override
-  String get advancedSettingEnableShiftToExpandLabel =>
-      'Enable Shift to expand';
+  String get advancedSettingEnableShiftToExpandLabel => 'Разгортванне па Shift';
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Show default emojis in expression autocomplete';
+      'Паказваць стандартныя эмоджы ў аўтадапаўненні выразаў';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Паказваць уласныя эмоджы ў аўтадапаўненні выразаў';
 
   @override
   String get advancedSettingShowStickersAutocompleteLabel =>
-      'Show stickers in expression autocomplete';
+      'Паказваць стыкеры ў аўтадапаўненні выразаў';
 
   @override
   String get advancedSettingShowSavedMediaAutocompleteLabel =>
-      'Show saved media in expression autocomplete';
+      'Паказваць захаваныя медыя ў аўтадапаўненні выразаў';
 
   @override
-  String get advancedSettingShowGifsButtonLabel => 'Show GIFs button';
+  String get advancedSettingShowGifsButtonLabel => 'Паказваць кнопку GIF';
 
   @override
-  String get advancedSettingShowMediaButtonLabel => 'Show media button';
+  String get advancedSettingShowMediaButtonLabel => 'Паказваць кнопку медыя';
 
   @override
-  String get advancedSettingShowStickersButtonLabel => 'Show stickers button';
+  String get advancedSettingShowStickersButtonLabel =>
+      'Паказваць кнопку стыкераў';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel => 'Show emoji button';
+  String get advancedSettingShowEmojiButtonLabel => 'Паказваць кнопку эмоджы';
 
   @override
-  String get advancedSettingShowSendButtonLabel => 'Show send button';
+  String get advancedSettingShowSendButtonLabel => 'Паказваць кнопку адпраўкі';
 
   @override
-  String get advancedSettingNewDeviceAlertsLabel => 'Show new device alerts';
+  String get advancedSettingNewDeviceAlertsLabel =>
+      'Паказваць абвесткі пра новыя прылады';
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Prompt for new audio devices';
+      'Пытаць пра новыя аўдыяпрылады';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
-      'Connection volume controls';
+      'Элементы кіравання гучнасцю падключэння';
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Show per-device participant volume sliders in voice menus';
+      'Паказваць у галасавых меню паўзункі гучнасці ўдзельнікаў для кожнай прылады';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
-      'Screen share preview behavior';
+      'Паводзіны папярэдняга прагляду дэманстрацыі экрана';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Preview, popout, and stream thumbnail behavior';
+      'Паводзіны папярэдняга прагляду, выплыўных вокнаў і мініяцюр трансляцыі';
 
   @override
-  String get advancedSettingScreenShareCodecLabel => 'Screen share codec';
+  String get advancedSettingScreenShareCodecLabel =>
+      'Кодэк дэманстрацыі экрана';
 
   @override
   String get advancedSettingScreenShareCodecDescription =>
-      'Video codec for screen sharing';
+      'Відэакодэк для дэманстрацыі экрана';
 
   @override
-  String get advancedSettingScreenShareCodecAuto => 'Automatic (recommended)';
+  String get advancedSettingScreenShareCodecAuto =>
+      'Аўтаматычна (рэкамендуецца)';
 
   @override
   String get advancedSettingScreenShareCodecAv1 => 'AV1';
@@ -11494,310 +11779,322 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
 
   @override
   String get advancedSettingPauseScreenSharePreviewLabel =>
-      'Pause my screen share preview in the background';
+      'Прыпыняць папярэдні прагляд маёй дэманстрацыі экрана ў фоне';
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Hide my stream preview thumbnail';
+      'Схаваць мініяцюру папярэдняга прагляду маёй трансляцыі';
 
   @override
-  String get advancedSettingDeveloperModeLabel => 'Enable developer mode';
+  String get advancedSettingDeveloperModeLabel =>
+      'Уключыць рэжым распрацоўшчыка';
 
   @override
-  String get advancedSettingDeveloperModeDescription => 'Enable developer mode';
+  String get advancedSettingDeveloperModeDescription =>
+      'Уключыць рэжым распрацоўшчыка';
 
   @override
-  String get advancedSettingDefaultSearchEngineLabel => 'Default search engine';
+  String get advancedSettingDefaultSearchEngineLabel =>
+      'Прадвызначаная пошукавая сістэма';
 
   @override
   String get advancedSettingDefaultSearchEngineDescription =>
-      'Choose which search engine is used by default when searching selected text.';
+      'Выберыце, якая пошукавая сістэма выкарыстоўваецца прадвызначана пры пошуку вылучанага тэксту.';
 
   @override
   String get advancedSettingBuiltInSearchEnginesLabel =>
-      'Built-in search engines';
+      'Убудаваныя пошукавыя сістэмы';
 
   @override
   String get advancedSettingBuiltInSearchEnginesDescription =>
-      'Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.';
+      'Уключайце або адключайце ўбудаваныя пошукавыя сістэмы. Уключаныя сістэмы з’яўляюцца ў кантэкстным меню паведамлення, калі вылучаны тэкст.';
 
   @override
-  String get advancedSettingCustomSearchEnginesLabel => 'Custom search engines';
+  String get advancedSettingCustomSearchEnginesLabel =>
+      'Уласныя пошукавыя сістэмы';
 
   @override
   String advancedSettingCustomSearchEnginesDescription(Object query) {
-    return 'Add your own search engines with a custom URL pattern. Use \'$query\' as a placeholder for the search text.';
+    return 'Дадавайце ўласныя пошукавыя сістэмы з уласным шаблонам URL. Выкарыстоўвайце \'$query\' як заменнік для тэксту пошуку.';
   }
 
   @override
-  String get advancedSettingAddSearchEngineLabel => 'Add search engine';
+  String get advancedSettingAddSearchEngineLabel => 'Дадаць пошукавую сістэму';
 
   @override
   String get advancedSettingEnableAtLeastOneSearchEngineLabel =>
-      'Enable at least one search engine below.';
+      'Уключыце ніжэй хаця б адну пошукавую сістэму.';
 
   @override
-  String get advancedSettingRemoveSearchEngineLabel => 'Remove search engine';
+  String get advancedSettingRemoveSearchEngineLabel =>
+      'Выдаліць пошукавую сістэму';
 
   @override
-  String get advancedSettingDefaultTranslatorLabel => 'Default translator';
+  String get advancedSettingDefaultTranslatorLabel =>
+      'Прадвызначаны перакладчык';
 
   @override
   String get advancedSettingDefaultTranslatorDescription =>
-      'Choose which translator is used by default when translating selected text.';
+      'Выберыце, які перакладчык выкарыстоўваецца прадвызначана пры перакладзе вылучанага тэксту.';
 
   @override
-  String get advancedSettingBuiltInTranslatorsLabel => 'Built-in translators';
+  String get advancedSettingBuiltInTranslatorsLabel =>
+      'Убудаваныя перакладчыкі';
 
   @override
   String get advancedSettingBuiltInTranslatorsDescription =>
-      'Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.';
+      'Уключайце або адключайце ўбудаваныя перакладчыкі. Уключаныя перакладчыкі з’яўляюцца ў кантэкстным меню паведамлення, калі вылучаны тэкст.';
 
   @override
-  String get advancedSettingCustomTranslatorsLabel => 'Custom translators';
+  String get advancedSettingCustomTranslatorsLabel => 'Уласныя перакладчыкі';
 
   @override
   String advancedSettingCustomTranslatorsDescription(Object query) {
-    return 'Add your own translators with a custom URL pattern. Use \'$query\' as a placeholder for the text to translate.';
+    return 'Дадавайце ўласныя перакладчыкі з уласным шаблонам URL. Выкарыстоўвайце \'$query\' як заменнік для тэксту, які трэба перакласці.';
   }
 
   @override
-  String get advancedSettingAddTranslatorLabel => 'Add translator';
+  String get advancedSettingAddTranslatorLabel => 'Дадаць перакладчык';
 
   @override
   String get advancedSettingEnableAtLeastOneTranslatorLabel =>
-      'Enable at least one translator below.';
+      'Уключыце ніжэй хаця б адзін перакладчык.';
 
   @override
-  String get advancedSettingRemoveTranslatorLabel => 'Remove translator';
+  String get advancedSettingRemoveTranslatorLabel => 'Выдаліць перакладчык';
 
   @override
   String get advancedSettingDefaultReverseImageSearchLabel =>
-      'Default reverse image search';
+      'Прадвызначаны зваротны пошук выяў';
 
   @override
   String get advancedSettingDefaultReverseImageSearchDescription =>
-      'Choose which reverse image search service is used by default when searching an image.';
+      'Выберыце, які сэрвіс зваротнага пошуку выяў выкарыстоўваецца прадвызначана пры пошуку выявы.';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchLabel =>
-      'Built-in reverse image search';
+      'Убудаваны зваротны пошук выяў';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Enable or disable built-in reverse image search providers. Enabled providers appear in the options of images.';
+      'Уключайце або выключайце ўбудаваных пастаўшчыкоў зваротнага пошуку выяў. Уключаныя пастаўшчыкі з’яўляюцца ў параметрах выяў.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
-      'Custom reverse image search';
+      'Уласны зваротны пошук выяў';
 
   @override
   String advancedSettingCustomReverseImageSearchDescription(Object url) {
-    return 'Add your own reverse image search providers with a custom URL pattern. Use \'$url\' as a placeholder for the image URL.';
+    return 'Дадавайце ўласных пастаўшчыкоў зваротнага пошуку выяў з уласным шаблонам URL. Выкарыстоўвайце \'$url\' як заменнік для URL выявы.';
   }
 
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
-      'Add reverse image search';
+      'Дадаць зваротны пошук выяў';
 
   @override
   String searchProviderSearchWith(String engine) {
-    return 'Search with $engine';
+    return 'Шукаць праз $engine';
   }
 
   @override
   String searchProviderTranslateWith(String engine) {
-    return 'Translate with $engine';
+    return 'Перакласці праз $engine';
   }
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
-      'Enable at least one reverse image search provider below.';
+      'Уключыце ніжэй хаця б адзін сэрвіс зваротнага пошуку выяў.';
 
   @override
   String get advancedSettingRemoveReverseImageSearchLabel =>
-      'Remove reverse image search';
+      'Выдаліць зваротны пошук выяў';
 
   @override
-  String get advancedSettingAddSearchEngineTitle => 'Add search engine';
+  String get advancedSettingAddSearchEngineTitle => 'Дадаць пошукавую сістэму';
 
   @override
-  String get advancedSettingEditSearchEngineTitle => 'Edit search engine';
+  String get advancedSettingEditSearchEngineTitle =>
+      'Рэдагаваць пошукавую сістэму';
 
   @override
-  String get advancedSettingAddTranslatorTitle => 'Add translation provider';
+  String get advancedSettingAddTranslatorTitle =>
+      'Дадаць пастаўшчыка перакладу';
 
   @override
-  String get advancedSettingEditTranslatorTitle => 'Edit translation provider';
+  String get advancedSettingEditTranslatorTitle =>
+      'Рэдагаваць пастаўшчыка перакладу';
 
   @override
   String get advancedSettingAddReverseImageSearchTitle =>
-      'Add reverse image search engine';
+      'Дадаць сістэму зваротнага пошуку выяў';
 
   @override
   String get advancedSettingEditReverseImageSearchTitle =>
-      'Edit reverse image search engine';
+      'Рэдагаваць сістэму зваротнага пошуку выяў';
 
   @override
-  String get advancedSettingSearchProviderNameLabel => 'Name';
+  String get advancedSettingSearchProviderNameLabel => 'Імя';
 
   @override
-  String get advancedSettingSearchProviderUrlLabel => 'URL pattern';
+  String get advancedSettingSearchProviderUrlLabel => 'Шаблон URL';
 
   @override
   String get advancedSettingSearchProviderNameTextPlaceholder =>
-      'My search engine';
+      'Мая пошукавая сістэма';
 
   @override
   String get advancedSettingSearchProviderNameTranslatePlaceholder =>
-      'My translator';
+      'Мой перакладчык';
 
   @override
   String get advancedSettingSearchProviderNameImagePlaceholder =>
-      'My reverse image search';
+      'Мой зваротны пошук выяў';
 
   @override
   String advancedSettingSearchProviderUrlTextHint(Object query) {
-    return 'Use \'$query\' where the search text should be inserted.';
+    return 'Выкарыстоўвайце \'$query\' там, дзе трэба ўставіць тэкст пошуку.';
   }
 
   @override
   String advancedSettingSearchProviderUrlTranslateHint(Object query) {
-    return 'Use \'$query\' where the text to translate should be inserted.';
+    return 'Выкарыстоўвайце \'$query\' там, дзе трэба ўставіць тэкст для перакладу.';
   }
 
   @override
   String advancedSettingSearchProviderUrlImageHint(Object url) {
-    return 'Use \'$url\' where the image URL should be inserted.';
+    return 'Выкарыстоўвайце \'$url\' там, дзе трэба ўставіць URL выявы.';
   }
 
   @override
-  String get advancedSettingSearchProviderNameRequired => 'Name is required.';
+  String get advancedSettingSearchProviderNameRequired => 'Увядзіце назву.';
 
   @override
-  String get advancedSettingSearchProviderUrlRequired =>
-      'URL pattern is required.';
+  String get advancedSettingSearchProviderUrlRequired => 'Патрэбны шаблон URL.';
 
   @override
   String advancedSettingSearchProviderUrlMustContainQuery(Object query) {
-    return 'URL pattern must contain \'$query\' placeholder.';
+    return 'Шаблон URL мусіць змяшчаць заменнік \'$query\'.';
   }
 
   @override
   String advancedSettingSearchProviderUrlMustContainUrl(Object url) {
-    return 'URL pattern must contain \'$url\' placeholder.';
+    return 'Шаблон URL мусіць змяшчаць заменнік \'$url\'.';
   }
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'URL pattern must be a valid URL.';
+      'Шаблон URL мусіць быць правільным URL.';
 
   @override
-  String get advancedSettingAddSearchProviderAction => 'Add';
+  String get advancedSettingAddSearchProviderAction => 'Дадаць';
 
   @override
-  String get advancedSettingEditSearchProviderAction => 'Edit';
+  String get advancedSettingEditSearchProviderAction => 'Рэдагаваць';
 
   @override
-  String get advancedSettingRemoveSearchProviderConfirmAction => 'Remove';
+  String get advancedSettingRemoveSearchProviderConfirmAction => 'Прыбраць';
 
   @override
   String advancedSettingRemoveSearchProviderConfirmDescription(
     String engineName,
   ) {
-    return 'Are you sure you want to remove $engineName?';
+    return 'Вы сапраўды хочаце выдаліць $engineName?';
   }
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Праграмы';
 
   @override
-  String get userSettingsNavAppLogs => 'App logs';
+  String get userSettingsNavAppLogs => 'Журналы праграмы';
 
   @override
   String get userSettingsNavFluxerAppPrivacyPolicy =>
-      'Fluxer app privacy policy';
+      'Палітыка прыватнасці праграмы Fluxer';
 
   @override
-  String get userSettingsTitle => 'Settings';
+  String get userSettingsTitle => 'Налады';
 
   @override
-  String get userSettingsCopyAppInfo => 'Copy app info';
+  String get userSettingsCopyAppInfo => 'Скапіраваць звесткі пра праграму';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer tools';
+  String get userSettingsNavDeveloperTools => 'Інструменты распрацоўшчыка';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits config';
+  String get userSettingsNavLimitsConfig => 'Канфігурацыя лімітаў';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature flags';
+  String get userSettingsNavFeatureFlags => 'Сцягі функцый';
 
   @override
-  String get userSettingsNavHelp => 'Help and support';
+  String get userSettingsNavHelp => 'Даведка і падтрымка';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s new';
+  String get userSettingsNavWhatsNew => 'Што новага';
 
   @override
-  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+  String get userSettingsJoinFluxerLabs => 'Далучыцца да Fluxer Labs';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'Пакінуць водгук';
 
   @override
-  String get userSettingsNavAppLicenses => 'App licenses';
+  String get userSettingsNavAppLicenses => 'Ліцэнзіі праграмы';
 
   @override
   String get userSettingsAppLicensesDescription =>
-      'Open-source software used by this app. This app is built with Flutter.';
+      'Праграмнае забеспячэнне з адкрытым кодам, якое выкарыстоўвае гэта праграма. Праграма створана на Flutter.';
 
   @override
-  String get userSettingsAppLicensesLoadError => 'Could not load app licenses.';
+  String get userSettingsAppLicensesLoadError =>
+      'Не ўдалося загрузіць ліцэнзіі праграмы.';
 
   @override
   String userSettingsAppLicensesPackageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count licenses',
-      one: '1 license',
+      other: '$count ліцэнзіі',
+      many: '$count ліцэнзій',
+      few: '$count ліцэнзіі',
+      one: '$count ліцэнзія',
     );
     return '$_temp0';
   }
 
   @override
-  String get userSettingsNavLogOut => 'Sign out';
+  String get userSettingsNavLogOut => 'Выйсці';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Выйсці?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Увайсці зноў можна ў любы час.';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Пошук';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Сябры';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Шукаць каналы, людзей або суполкі';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Пошук сяброў';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Нічога не знойдзена';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Паспрабуйце іншую назву або выкарыстайце прэфіксы @ / # / ! / *, каб адфільтраваць вынікі.';
 
   @override
-  String get quickSwitcherTitle => 'Quick switcher';
+  String get quickSwitcherTitle => 'Хуткі пераключальнік';
 
   @override
   String quickSwitcherFooterPrefixHint(
@@ -11806,356 +12103,359 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String voiceChannelPrefix,
     String communityPrefix,
   ) {
-    return 'Start searches with $peoplePrefix $textChannelPrefix $voiceChannelPrefix $communityPrefix to narrow down results.';
+    return 'Пачынайце пошук з $peoplePrefix $textChannelPrefix $voiceChannelPrefix $communityPrefix, каб звузіць вынікі.';
   }
 
   @override
-  String get discoverySidebarApps => 'Apps';
+  String get discoverySidebarApps => 'Праграмы';
 
   @override
-  String get discoverySidebarThemes => 'Themes';
+  String get discoverySidebarThemes => 'Тэмы';
 
   @override
-  String get discoverySidebarComingSoon => 'Coming soon';
+  String get discoverySidebarComingSoon => 'Хутка будзе';
 
   @override
   String discoverySidebarComingSoonItem(String itemLabel) {
-    return '$itemLabel, coming soon';
+    return '$itemLabel, хутка';
   }
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Людзі';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Групавыя чаты';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Тэкставыя каналы';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'Галіны';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Галасавыя каналы';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'Суполкі';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Налады';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Галоўная';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct messages';
+  String get quickSwitcherDirectMessagesLabel => 'Асабістыя паведамленні';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Абранае';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User settings';
+  String get quickSwitcherUserSettingsLabel => 'Налады карыстальніка';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Апавяшчэнні';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Закладкі';
 
   @override
-  String get savedMessagesEmptyTitle => 'No bookmarks';
+  String get savedMessagesEmptyTitle => 'Няма закладак';
 
   @override
   String get savedMessagesEmptyBody =>
-      'Bookmark messages to save them for later.';
+      'Дадавайце паведамленні ў закладкі, каб захаваць іх на потым.';
 
   @override
-  String get savedMessagesEndBody => 'There\'s nothing more to see here.';
+  String get savedMessagesEndBody => 'Тут больш нічога няма.';
 
   @override
-  String get savedMessagesRemoveTooltip => 'Remove bookmark';
+  String get savedMessagesRemoveTooltip => 'Прыбраць з закладак';
 
   @override
-  String get savedMessagesAddedToast => 'Added to bookmarks';
+  String get savedMessagesAddedToast => 'Дададзена ў закладкі';
 
   @override
-  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+  String get savedMessagesRemovedToast => 'Прыбрана з закладак';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Згадванні';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Пакуль няма сяброў';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'Дадайце сябра, каб пачаць.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Няма сяброў, якія адпавядаюць гэтаму пошуку';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Паспрабуйце іншае імя.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Карыстальнік';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Вы';
 
   @override
-  String get quickSwitcherSearchAliasDm => 'DM';
+  String get quickSwitcherSearchAliasDm => 'Асабісты чат';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => 'АЧ';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Паведамленні';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Абр';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Абранае';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Уваходныя';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Захаванае';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Закрыць';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Перайсці ўніз';
 
   @override
-  String get chatUnreadDividerNew => 'New';
+  String get chatUnreadDividerNew => 'Новы';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Пацвердзіць';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'Зразумела';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Загрузка';
 
   @override
-  String get uiSearch => 'Search';
+  String get uiSearch => 'Пошук';
 
   @override
-  String get uiStartCall => 'Start call';
+  String get uiStartCall => 'Пачаць выклік';
 
   @override
-  String get uiStartVideoCall => 'Start video call';
+  String get uiStartVideoCall => 'Пачаць відэавыклік';
 
   @override
-  String get uiPlay => 'Play';
+  String get uiPlay => 'Прайграць';
 
   @override
-  String get uiPause => 'Pause';
+  String get uiPause => 'Паўза';
 
   @override
-  String get uiDownload => 'Download';
+  String get uiDownload => 'Спампаваць';
 
   @override
-  String get uiMoreActions => 'More actions';
+  String get uiMoreActions => 'Іншыя дзеянні';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Незахаваныя змены';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Скінуць';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Адкрыць выбар колеру';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Выбраць';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Пошук';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Варыянтаў не знойдзена';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Закрыць апавяшчэнне';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Выбар колеру';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Згадаць усіх?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Апавяшчэнне атрымаюць удзельнікі: $count. Працягнуць?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Апавяшчэнне атрымаюць удзельнікі ў сетцы: $count. Працягнуць?';
   }
 
   @override
   String mentionConfirmRoleBody(int count, String roleName) {
-    return 'This will notify $count members with the $roleName role. Continue?';
+    return 'Апавяшчэнне атрымаюць удзельнікі з роляй $roleName: $count. Працягнуць?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Згадаць';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'Тут нельга выкарыстоўваць гэта эмоджы.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'URL экзэмпляра';
 
   @override
   String get instanceUrlPlaceholder => 'fluxer.com';
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.com for the official instance, or the exact URL of a self-hosted instance.';
+      'Для афіцыйнага экзэмпляра ўвядзіце fluxer.com, а для ўласнага — дакладны URL экзэмпляра.';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Вярнуць Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Падключыць';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Падключэнне…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Не ўдалося падключыцца да экзэмпляра';
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'Не ўдалося падключыцца да $domain. Паспрабуйце яшчэ раз.';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'Не ўдалося прачытаць канфігурацыю гэтага экзэмпляра. Праверце адрас і паспрабуйце яшчэ раз.';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'Гэты экзэмпляр састарэў для гэтай праграмы. Папрасіце адміністратара $domain абнавіць Fluxer.';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return 'На $domain працуе навейшая версія Fluxer, чым гэта праграма. Абнавіце праграму і паспрабуйце яшчэ раз.';
   }
 
   @override
   String instanceInsecureConnection(String domain) {
-    return '$domain doesn\'t use a secure connection (https). Fluxer connects over http only to instances on your local network.';
+    return '$domain не выкарыстоўвае абароненае злучэнне (https). Па http Fluxer падключаецца толькі да экзэмпляраў у вашай лакальнай сетцы.';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle => 'Гэты экзэмпляр нельга выкарыстаць';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'Паспрабаваць яшчэ раз';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'Абнавіць праграму';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'Сачыце за навінамі на старонцы стану.';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'старонка стану';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Нядаўнія экзэмпляры';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'Выдаліць $domain з нядаўніх экзэмпляраў';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Падключыцца да экзэмпляра';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Змяніць';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Каб увайсці, падключыцеся да экзэмпляра';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct messages';
+  String get guildNavbarDirectMessages => 'Асабістыя паведамленні';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities => 'Explore communities';
+  String get guildNavbarExploreDiscoverableCommunities => 'Шукаць суполкі';
 
   @override
-  String get discoveryExplore => 'Explore';
+  String get discoveryExplore => 'Агляд';
 
   @override
-  String get discoveryExplorePublicCommunities => 'Explore public communities';
+  String get discoveryExplorePublicCommunities => 'Агляд публічных суполак';
 
   @override
   String get discoveryListingSubheading =>
-      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Explore.';
+      'Хочаце, каб ваша суполка была тут? Падайце заяўку, калі суполка адпавядае патрабаванням у раздзеле «Налады суполкі > Агляд».';
 
   @override
-  String get discoverySearchCommunities => 'Search communities';
+  String get discoverySearchCommunities => 'Пошук суполак';
 
   @override
-  String get discoveryFilterByLanguage => 'Filter by language';
+  String get discoveryFilterByLanguage => 'Фільтраваць па мове';
 
   @override
-  String get discoveryAllLanguages => 'All languages';
+  String get discoveryAllLanguages => 'Усе мовы';
 
   @override
-  String get discoveryAllCategories => 'All';
+  String get discoveryAllCategories => 'Усе';
 
   @override
-  String get discoveryCategoryGaming => 'Gaming';
+  String get discoveryCategoryGaming => 'Гульні';
 
   @override
-  String get discoveryCategoryMusic => 'Music';
+  String get discoveryCategoryMusic => 'Музыка';
 
   @override
-  String get discoveryCategoryEntertainment => 'Entertainment';
+  String get discoveryCategoryEntertainment => 'Забавы';
 
   @override
-  String get discoveryCategoryEducation => 'Education';
+  String get discoveryCategoryEducation => 'Адукацыя';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Science & technology';
+  String get discoveryCategoryScienceAndTechnology => 'Навука і тэхналогіі';
 
   @override
-  String get discoveryCategoryContentCreator => 'Content creator';
+  String get discoveryCategoryContentCreator => 'Стваральнік кантэнту';
 
   @override
-  String get discoveryCategoryAnimeAndManga => 'Anime & manga';
+  String get discoveryCategoryAnimeAndManga => 'Анімэ і манга';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+  String get discoveryCategoryMoviesAndTv => 'Фільмы і ТБ';
 
   @override
-  String get discoveryCategoryOther => 'Other';
+  String get discoveryCategoryOther => 'Іншае';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'No communities match.';
+  String get discoveryNoCommunitiesMatch => 'Няма адпаведных суполак.';
 
   @override
-  String get discoveryJoinCommunity => 'Join community';
+  String get discoveryJoinCommunity => 'Далучыцца да суполкі';
 
   @override
-  String get discoveryJoined => 'Joined';
+  String get discoveryJoined => 'Вы далучыліся';
 
   @override
   String discoveryOnlineCount(String count) {
-    return '$count online';
+    return '$count у сетцы';
   }
 
   @override
@@ -12167,346 +12467,357 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString members',
-      one: '1 member',
+      other: '$countString удзельніка',
+      many: '$countString удзельнікаў',
+      few: '$countString удзельнікі',
+      one: '# удзельнік',
     );
     return '$_temp0';
   }
 
   @override
-  String get discoveryNoDescription => 'No description.';
+  String get discoveryNoDescription => 'Няма апісання.';
 
   @override
-  String get discoveryCommunities => 'Communities';
+  String get discoveryCommunities => 'Суполкі';
 
   @override
-  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+  String get discoveryJoinErrorGenericTitle =>
+      'Не ўдалося далучыцца да гэтай суполкі';
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Something went wrong. Please try again in a moment.';
+      'Штосьці пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'This community is full';
+  String get discoveryJoinErrorFullTitle => 'Гэта суполка запоўнена';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'This community has reached its member limit, so you can\'t join right now.';
+      'Суполка дасягнула ліміту ўдзельнікаў, таму зараз далучыцца нельга.';
 
   @override
-  String get discoveryJoinErrorMaxGuildsTitle =>
-      'You\'ve reached the community limit';
+  String get discoveryJoinErrorMaxGuildsTitle => 'Вы дасягнулі ліміту суполак';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'You\'re in the maximum number of communities. Leave one and try again.';
+      'Вы ўжо ў максімальнай колькасці суполак. Пакіньце адну і паспрабуйце яшчэ раз.';
 
   @override
-  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+  String get discoveryJoinErrorBannedTitle =>
+      'Вы не можаце далучыцца да гэтай суполкі';
 
   @override
-  String get discoveryJoinErrorBannedMessage =>
-      'You have been banned from this community.';
+  String get discoveryJoinErrorBannedMessage => 'У гэтай суполцы ў вас бан.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
-      'This community is no longer available';
+      'Гэта суполка больш недаступная';
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'It may have left Explore or turned off new joins. Refresh the page and you won\'t see it again.';
+      'Магчыма, суполка пакінула раздзел «Агляд» або адключыла новыя далучэнні. Абнавіце старонку, і яна больш не будзе паказвацца.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+  String get discoveryJoinErrorRateLimitTitle => 'Вы занадта спяшаецеся';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Please wait a moment and try again.';
+      'Пачакайце крыху і паспрабуйце яшчэ раз.';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a community';
+  String get guildNavbarAddCommunity => 'Дадаць суполку';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get guildNavbarHelp => 'Даведка';
 
   @override
-  String get scrollIndicatorNew => 'New';
+  String get scrollIndicatorNew => 'Новы';
 
   @override
-  String get scrollIndicatorNewMessages => 'New messages';
+  String get scrollIndicatorNewMessages => 'Новыя паведамленні';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return 'Згарнуць $folderName';
   }
 
   @override
-  String get guildNavbarGuildSelected => 'selected';
+  String get guildNavbarGuildSelected => 'выбрана';
 
   @override
-  String get guildNavbarGuildUnread => 'unread';
+  String get guildNavbarGuildUnread => 'непрачытанае';
 
   @override
   String guildNavbarGuildMentions(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count mentions',
-      one: '1 mention',
+      other: '$count згадвання',
+      many: '$count згадванняў',
+      few: '$count згадванні',
+      one: '$count згадванне',
     );
     return '$_temp0';
   }
 
   @override
-  String get navigationItemMuted => 'muted';
+  String get navigationItemMuted => 'заглушана';
 
   @override
-  String get authShowPassword => 'Show password';
+  String get authShowPassword => 'Паказаць пароль';
 
   @override
-  String get authHidePassword => 'Hide password';
+  String get authHidePassword => 'Схаваць пароль';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Яшчэ працуем…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Не ўдалося завяршыць праверку. Паспрабуйце яшчэ раз.';
 
   @override
-  String get chatLoadingMessages => 'Loading messages';
+  String get chatLoadingMessages => 'Загрузка паведамленняў';
 
   @override
-  String get friendsMessageFriend => 'Message';
+  String get friendsMessageFriend => 'Паведамленне';
 
   @override
-  String get friendsFriendActions => 'Friend actions';
+  String get friendsFriendActions => 'Дзеянні з сябрам';
 
   @override
-  String get friendsAcceptRequest => 'Accept friend request';
+  String get friendsAcceptRequest => 'Прыняць запыт у сябры';
 
   @override
-  String get friendsDeclineRequest => 'Decline friend request';
+  String get friendsDeclineRequest => 'Адхіліць запыт у сябры';
 
   @override
-  String get friendsCancelRequest => 'Cancel friend request';
+  String get friendsCancelRequest => 'Скасаваць запыт у сябры';
 
   @override
-  String get friendsOpenInbox => 'Inbox';
+  String get friendsOpenInbox => 'Уваходныя';
 
   @override
-  String get friendsPageTitle => 'My friends';
+  String get friendsPageTitle => 'Мае сябры';
 
   @override
-  String get friendsActiveNowTitle => 'In voice now';
+  String get friendsActiveNowTitle => 'Зараз у галасавых каналах';
 
   @override
-  String get friendsActiveNowEmptyTitle => 'Nobody is in a voice channel';
+  String get friendsActiveNowEmptyTitle => 'Нікога няма ў галасавых каналах';
 
   @override
   String get friendsActiveNowEmptyBody =>
-      'Friends who join a voice channel will show up here.';
+      'Тут будуць паказвацца сябры, якія далучацца да галасавога канала.';
 
   @override
-  String get friendsTabOnline => 'Online';
+  String get friendsTabOnline => 'У сетцы';
 
   @override
-  String get friendsTabAll => 'All';
+  String get friendsTabAll => 'Усе';
 
   @override
-  String get friendsTabPending => 'Pending';
+  String get friendsTabPending => 'Чакае';
 
   @override
-  String get friendsTabBlocked => 'Blocked';
+  String get friendsTabBlocked => 'Заблакіравана';
 
   @override
-  String get friendsSearchOnline => 'Search online friends';
+  String get friendsSearchOnline => 'Шукаць сяброў у сетцы';
 
   @override
-  String get friendsSearchAll => 'Search friends';
+  String get friendsSearchAll => 'Пошук сяброў';
 
   @override
-  String get friendsSearchPending => 'Search pending requests';
+  String get friendsSearchPending => 'Пошук запытаў, якія чакаюць адказу';
 
   @override
-  String get friendsSearchBlocked => 'Search blocked users';
+  String get friendsSearchBlocked => 'Пошук заблакіраваных карыстальнікаў';
 
   @override
-  String get friendsEmptySearchTitle => 'No friends match that search';
+  String get friendsEmptySearchTitle =>
+      'Няма сяброў, якія адпавядаюць гэтаму пошуку';
 
   @override
   String get friendsEmptySearchBody =>
-      'Try another name or check your spelling.';
+      'Паспрабуйце іншае імя або праверце правапіс.';
 
   @override
-  String get friendsEmptyOnlineTitle => 'No friends online';
+  String get friendsEmptyOnlineTitle => 'Няма сяброў у сетцы';
 
   @override
   String get friendsEmptyOnlineBody =>
-      'When they come online, they\'ll appear right here.';
+      'Як толькі яны з’явяцца ў сетцы, вы ўбачыце іх тут.';
 
   @override
-  String get friendsEmptyAllTitle => 'No friends yet';
+  String get friendsEmptyAllTitle => 'Пакуль няма сяброў';
 
   @override
-  String get friendsEmptyAllBody => 'Add a friend with their username and tag.';
+  String get friendsEmptyAllBody =>
+      'Дадайце сябра па імені карыстальніка і тэгу.';
 
   @override
-  String get friendsEmptyPendingTitle => 'No pending requests';
+  String get friendsEmptyPendingTitle => 'Няма запытаў, якія чакаюць адказу';
 
   @override
-  String get friendsEmptyPendingBody => 'Pending friend requests show up here.';
+  String get friendsEmptyPendingBody =>
+      'Тут паказваюцца запыты ў сябры, якія чакаюць адказу.';
 
   @override
-  String get friendsEmptyBlockedBody => 'You haven\'t blocked anyone.';
+  String get friendsEmptyBlockedBody => 'Вы нікога не заблакіравалі.';
 
   @override
-  String get friendsOutgoingStatus => 'Outgoing friend request';
+  String get friendsOutgoingStatus => 'Выходны запыт у сябры';
 
   @override
-  String get friendsBlockedStatus => 'Blocked';
+  String get friendsBlockedStatus => 'Заблакіравана';
 
   @override
-  String get profileRemoveFriend => 'Remove friend';
+  String get profileRemoveFriend => 'Выдаліць з сяброў';
 
   @override
-  String get profileUnblockUser => 'Unblock user';
+  String get profileUnblockUser => 'Разблакіраваць карыстальніка';
 
   @override
-  String get profileAcceptFriendRequest => 'Accept friend request';
+  String get profileAcceptFriendRequest => 'Прыняць запыт у сябры';
 
   @override
-  String get profileCancelFriendRequest => 'Cancel friend request';
+  String get profileCancelFriendRequest => 'Скасаваць запыт у сябры';
 
   @override
-  String get profileSendFriendRequest => 'Add friend';
+  String get profileSendFriendRequest => 'Дадаць у сябры';
 
   @override
-  String get accountOverflowMenu => 'Account options';
+  String get accountOverflowMenu => 'Параметры ўліковага запісу';
 
   @override
-  String get navHome => 'Home';
+  String get navHome => 'Галоўная';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Апавяшчэнні';
 
   @override
-  String get navYou => 'You';
+  String get navYou => 'Вы';
 
   @override
-  String get guildFolderSettingsTitle => 'Folder settings';
+  String get guildFolderSettingsTitle => 'Налады папкі';
 
   @override
-  String get guildFolderNameLabel => 'Folder name';
+  String get guildFolderNameLabel => 'Назва папкі';
 
   @override
-  String get guildFolderColorLabel => 'Folder color';
+  String get guildFolderColorLabel => 'Колер папкі';
 
   @override
-  String get guildFolderShowIconWhenCollapsed => 'Show icon when collapsed';
+  String get guildFolderShowIconWhenCollapsed =>
+      'Паказваць значок, калі згорнута';
 
   @override
-  String get guildFolderIconLabel => 'Folder icon';
+  String get guildFolderIconLabel => 'Значок папкі';
 
   @override
-  String get guildFolderDelete => 'Delete folder';
+  String get guildFolderDelete => 'Выдаліць папку';
 
   @override
-  String get guildFolderIconFolder => 'Folder';
+  String get guildFolderIconFolder => 'Папка';
 
   @override
-  String get guildFolderIconStar => 'Star';
+  String get guildFolderIconStar => 'Зорка';
 
   @override
-  String get guildFolderIconHeart => 'Heart';
+  String get guildFolderIconHeart => 'Сэрца';
 
   @override
-  String get guildFolderIconBookmark => 'Bookmark';
+  String get guildFolderIconBookmark => 'Закладка';
 
   @override
-  String get guildFolderIconGameController => 'Game controller';
+  String get guildFolderIconGameController => 'Гульнявы кантролер';
 
   @override
-  String get guildFolderIconShield => 'Shield';
+  String get guildFolderIconShield => 'Шчыт';
 
   @override
-  String get guildFolderIconMusicNote => 'Music note';
+  String get guildFolderIconMusicNote => 'Нота';
 
   @override
-  String get guildFolderMarkAsRead => 'Mark folder as read';
+  String get guildFolderMarkAsRead => 'Пазначыць папку як прачытаную';
 
   @override
-  String get guildBulkMuteCommunities => 'Mute communities';
+  String get guildBulkMuteCommunities => 'Заглушыць суполкі';
 
   @override
-  String get guildBulkUnmuteCommunities => 'Unmute communities';
+  String get guildBulkUnmuteCommunities => 'Уключыць апавяшчэнні суполак';
 
   @override
   String get guildBulkCommunityNotificationSettings =>
-      'Community notification settings';
+      'Налады апавяшчэнняў суполкі';
 
   @override
-  String get guildBulkCommunityPrivacySettings => 'Community privacy settings';
+  String get guildBulkCommunityPrivacySettings => 'Налады прыватнасці суполкі';
 
   @override
-  String get guildBulkAllowEveryoneAndHere => 'Allow @everyone and @here';
+  String get guildBulkAllowEveryoneAndHere => 'Дазволіць @everyone і @here';
 
   @override
-  String get guildBulkAllowRoleMentions => 'Allow role mentions';
+  String get guildBulkAllowRoleMentions => 'Дазволіць згадванні роляў';
 
   @override
-  String get guildBulkEnableMobilePush => 'Enable mobile push notifications';
+  String get guildBulkEnableMobilePush => 'Уключыць мабільныя push-апавяшчэнні';
 
   @override
-  String get guildBulkDisableMobilePush => 'Disable mobile push notifications';
+  String get guildBulkDisableMobilePush =>
+      'Адключыць мабільныя push-апавяшчэнні';
 
   @override
-  String get guildBulkAllowDirectMessages => 'Allow direct messages';
+  String get guildBulkAllowDirectMessages => 'Дазволіць асабістыя паведамленні';
 
   @override
-  String get guildBulkBlockDirectMessages => 'Block direct messages';
+  String get guildBulkBlockDirectMessages =>
+      'Блакіраваць асабістыя паведамленні';
 
   @override
-  String get guildBulkAllowBotDirectMessages => 'Allow bot direct messages';
+  String get guildBulkAllowBotDirectMessages =>
+      'Дазволіць асабістыя паведамленні ад ботаў';
 
   @override
-  String get guildBulkBlockBotDirectMessages => 'Block bot direct messages';
+  String get guildBulkBlockBotDirectMessages =>
+      'Блакіраваць асабістыя паведамленні ад ботаў';
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => 'Групавы чат';
 
   @override
-  String get guildNavbarCreateChannel => 'Create channel';
+  String get guildNavbarCreateChannel => 'Стварыць канал';
 
   @override
-  String get guildNavbarChannelType => 'Channel type';
+  String get guildNavbarChannelType => 'Тып канала';
 
   @override
-  String get guildNavbarTextChannel => 'Text';
+  String get guildNavbarTextChannel => 'Тэкст';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs and emoji';
+      'Адпраўляйце паведамленні, выявы, GIF і эмоджы';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice';
+  String get guildNavbarVoiceChannel => 'Галасавы';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out with voice, video and screen share';
+      'Размаўляйце голасам, з відэа і дэманстрацыяй экрана';
 
   @override
-  String get guildNavbarLinkChannel => 'Link';
+  String get guildNavbarLinkChannel => 'Спасылка';
 
   @override
-  String get guildNavbarLinkChannelDescription =>
-      'Shortcut to an external website';
+  String get guildNavbarLinkChannelDescription => 'Спасылка на знешні сайт';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'Імя';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'новы-канал';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
@@ -12515,340 +12826,341 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarChannelTypeSelection => 'Channel type selection';
+  String get guildNavbarChannelTypeSelection => 'Выбар тыпу канала';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'Прыватны канал';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'Праглядаць гэты канал змогуць толькі выбраныя ўдзельнікі і ролі.';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'Дадаць удзельнікаў або ролі';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint => 'Шукаць удзельнікаў або ролі';
 
   @override
-  String get guildNavbarCreateCategory => 'Create category';
+  String get guildNavbarCreateCategory => 'Стварыць катэгорыю';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New category';
+  String get guildNavbarNewCategoryHint => 'Новая катэгорыя';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Запрасіце сяброў у $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Атрымальнікі патрапяць у #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Пошук сяброў';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Пакуль няма сяброў';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Няма вынікаў';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Або адпраўце сябру спасылку-запрашэнне:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Спасылка-запрашэнне';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Скапіраваць';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Скапіравана!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Тэрмін дзеяння вашай спасылкі-запрашэння скончыцца праз 7 дзён.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Гэта спасылка-запрашэнне бестэрміновая.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Тэрмін дзеяння вашай спасылкі-запрашэння скончыцца праз $duration.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Рэдагаваць спасылку-запрашэнне';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Налады спасылкі-запрашэння';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire after';
+  String get guildNavbarExpireAfter => 'Тэрмін дзеяння';
 
   @override
-  String get guildNavbarMaxUses => 'Max number of uses';
+  String get guildNavbarMaxUses => 'Максімальная колькасць выкарыстанняў';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant temporary membership';
+  String get guildNavbarGrantTemporaryMembership => 'Даць часовае членства';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Удзельнікі, якім не прызначылі ролю, будуць выдалены, калі выйдуць з сеткі';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create new link';
+  String get guildNavbarCreateNewLink => 'Стварыць новую спасылку';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Адпраўлена';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Запрасіць';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave community';
+  String get guildNavbarLeaveCommunityTitle => 'Пакінуць суполку';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Вы сапраўды хочаце пакінуць гэту суполку? Вы больш не зможаце бачыць яе паведамленні.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave community';
+  String get guildNavbarLeaveCommunityConfirm => 'Пакінуць суполку';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Выдаліць вашы паведамленні ў гэтай суполцы?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Назаўсёды выдаліць усе паведамленні, якія вы адправілі тут, ва ўсіх каналах. Гэта нельга адмяніць.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete my messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Выдаліць мае паведамленні';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Вашы паведамленні выдалены';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Не ўдалося выдаліць вашы паведамленні';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Прыбраць перавызначэнне';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Заглушана да $formattedDate';
   }
 
   @override
-  String get channelMutedHint => 'Muted';
+  String get channelMutedHint => 'Заглушана';
 
   @override
   String guildNavbarStaffOnlyAccessible(String productName) {
-    return 'Only accessible to $productName staff';
+    return 'Даступна толькі супрацоўнікам $productName';
   }
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Запрашэнні ў гэту суполку зараз прыпынены';
 
   @override
   String get guildNavbarInvitesPausedRaid =>
-      'Invites are paused after a suspected raid';
+      'Запрашэнні прыпынены праз падазрэнне на рэйд';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'ніколі';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 хвілін';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 гадзіна';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 гадзін';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 гадзін';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 дзень';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 дзён';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count с';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Ніколі';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Без абмежаванняў';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 выкарыстанне';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return 'Выкарыстанняў: $count';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as read';
+  String get guildMenuMarkAsRead => 'Пазначыць як прачытанае';
 
   @override
-  String get guildMenuInviteMembers => 'Invite members';
+  String get guildMenuInviteMembers => 'Запрасіць удзельнікаў';
 
   @override
-  String get guildMenuCommunitySettings => 'Community settings';
+  String get guildMenuCommunitySettings => 'Налады суполкі';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit community profile';
+  String get guildMenuEditCommunityProfile => 'Рэдагаваць профіль у суполцы';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute community';
+  String get guildMenuUnmuteCommunity => 'Уключыць апавяшчэнні суполкі';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute community';
+  String get guildMenuMuteCommunity => 'Заглушыць суполку';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide muted channels';
+  String get guildMenuHideMutedChannels => 'Схаваць заглушаныя каналы';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug community';
+  String get guildMenuDebugCommunity => 'Адладка суполкі';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy community ID';
+  String get guildMenuCopyCommunityId => 'Скапіраваць ID суполкі';
 
   @override
-  String get guildMenuReportCommunity => 'Report community';
+  String get guildMenuReportCommunity => 'Паскардзіцца на суполку';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Да $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Агульны';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & permissions';
+  String get guildMenuSettingsRoles => 'Ролі і дазволы';
 
   @override
-  String get guildMenuSettingsEmoji => 'Emoji';
+  String get guildMenuSettingsEmoji => 'Эмоджы';
 
   @override
-  String get guildMenuSettingsStickers => 'Stickers';
+  String get guildMenuSettingsStickers => 'Стыкеры';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & moderation';
+  String get guildMenuSettingsSafetyModeration => 'Бяспека і мадэрацыя';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity log';
+  String get guildMenuSettingsActivityLog => 'Журнал дзеянняў';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Вэб-хукі';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Explore';
+  String get guildMenuSettingsDiscovery => 'Агляд';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Удзельнікі';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invites';
+  String get guildMenuSettingsInviteLinks => 'Запрашэнні';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Баны';
 
   @override
-  String get guildMenuSettingsChannels => 'Channels';
+  String get guildMenuSettingsChannels => 'Каналы';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'У вас няма дазволу праглядаць гэту ўкладку налад.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'Значок';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'Банер';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'Імя';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Мая выдатная суполка';
 
   @override
-  String get guildSettingsCreateRole => 'Create role';
+  String get guildSettingsCreateRole => 'Стварыць ролю';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Ролі';
 
   @override
-  String get guildSettingsRolesNewRole => 'New role';
+  String get guildSettingsRolesNewRole => 'Новая роля';
 
   @override
-  String get guildSettingsRolesDeleteRole => 'Delete role';
+  String get guildSettingsRolesDeleteRole => 'Выдаліць ролю';
 
   @override
-  String get guildSettingsRolesBackToRoles => 'Back to roles';
+  String get guildSettingsRolesBackToRoles => 'Назад да роляў';
 
   @override
-  String get guildSettingsBackToSettings => 'Back to settings';
+  String get guildSettingsBackToSettings => 'Назад да налад';
 
   @override
   String guildSettingsRolesEditTitle(String name) {
-    return 'Edit \"$name\"';
+    return 'Рэдагаваць «$name»';
   }
 
   @override
   String get guildSettingsRolesEditSubtitle =>
-      'Configure role settings and permissions';
+      'Наладзьце параметры і дазволы ролі';
 
   @override
-  String get guildSettingsRolesDisplaySection => 'Display';
+  String get guildSettingsRolesDisplaySection => 'Дысплэй';
 
   @override
-  String get guildSettingsRolesRoleName => 'Role name';
+  String get guildSettingsRolesRoleName => 'Назва ролі';
 
   @override
-  String get guildSettingsRolesRoleColor => 'Role color';
+  String get guildSettingsRolesRoleColor => 'Колер ролі';
 
   @override
   String get guildSettingsRolesRoleColorHelper =>
-      'Type a color (hex, rgb(), hsl(), or name) or use the picker.';
+      'Увядзіце колер (hex, rgb(), hsl() або назву) або выберыце колер на палітры.';
 
   @override
-  String get guildSettingsRolesShowSeparately => 'Show this role separately';
+  String get guildSettingsRolesShowSeparately => 'Паказваць гэту ролю асобна';
 
   @override
   String get guildSettingsRolesShowSeparatelyHelper =>
-      'Lists members with this role in their own section in the member list.';
+      'Паказвае ўдзельнікаў з гэтай роляй у асобным раздзеле спіса ўдзельнікаў.';
 
   @override
-  String get guildSettingsRolesAllowMentions => 'Allow mentions for this role';
+  String get guildSettingsRolesAllowMentions =>
+      'Дазволіць згадванні гэтай ролі';
 
   @override
   String guildSettingsRolesAllowMentionsHelper(String permission) {
-    return 'Members with the \"$permission\" permission can always mention roles, regardless of this setting.';
+    return 'Удзельнікі з дазволам «$permission» заўсёды могуць згадваць ролі незалежна ад гэтай налады.';
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Значок ролі';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Загрузіце выяву або выберыце эмоджы. Удзельнікі атрымліваюць значок сваёй найвышэйшай ролі, у якой ён ёсць.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12856,748 +13168,761 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Не менш за $minimumSize, да $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Загрузіць значок ролі';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Цяперашні значок ролі, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Цяперашні значок ролі, загружаная выява';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Выбраць эмоджы';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Загрузіць выяву';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Выдаліць значок';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Аніміраваныя значкі не падтрымліваюцца. Выкарыстайце статычную выяву.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Гэты тып файла не падтрымліваецца. Падтрымліваюцца: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Не ўдалося загрузіць гэту выяву. Паспрабуйце іншую.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Так выглядаюць паведамленні';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Значок ролі, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Абрэзаць значок ролі';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Захаваць значок';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Прапусціць абрэзку';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Не ўдалося абрэзаць значок. Паспрабуйце яшчэ раз.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Перацягвайце, каб змяніць размяшчэнне значка ролі, і выкарыстоўвайце кола пракруткі або жэст звядзення пальцаў для маштабавання. Рэкамендаваны мінімальны памер — $minimumWidth×$minimumHeight пкс.';
   }
 
   @override
   String get guildSettingsRolesClearPermissionsHelp =>
-      'Use this button to quickly clear all permissions.';
+      'Выкарыстоўвайце гэту кнопку, каб хутка ачысціць усе дазволы.';
 
   @override
-  String get guildSettingsRolesClearPermissions => 'Clear permissions';
+  String get guildSettingsRolesClearPermissions => 'Ачысціць дазволы';
 
   @override
-  String get guildSettingsRolesPermissionsSection => 'Permissions';
+  String get guildSettingsRolesPermissionsSection => 'Дазволы';
 
   @override
-  String get guildSettingsRolesSearchPermissions => 'Search permissions';
+  String get guildSettingsRolesSearchPermissions => 'Пошук дазволаў';
 
   @override
-  String get guildSettingsRolesDenseLayout => 'Dense layout';
+  String get guildSettingsRolesDenseLayout => 'Шчыльны макет';
 
   @override
-  String get guildSettingsRolesComfyLayout => 'Comfy layout';
+  String get guildSettingsRolesComfyLayout => 'Зручны макет';
 
   @override
-  String get guildSettingsRolesSingleColumn => 'Single column';
+  String get guildSettingsRolesSingleColumn => 'Адзін слупок';
 
   @override
-  String get guildSettingsRolesTwoColumns => 'Two columns';
+  String get guildSettingsRolesTwoColumns => 'Два слупкі';
 
   @override
-  String get guildSettingsRolesNoPermissionsFound => 'No permissions found';
+  String get guildSettingsRolesNoPermissionsFound => 'Дазволы не знойдзены';
 
   @override
-  String get guildSettingsRolesHoistOrder => 'Hoist order';
+  String get guildSettingsRolesHoistOrder => 'Парадак адлюстравання';
 
   @override
-  String get guildSettingsRolesResetHoistOrder => 'Reset to default';
+  String get guildSettingsRolesResetHoistOrder => 'Скінуць да прадвызначанага';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
-      'Drag roles to customize the order they appear in the member list.';
+      'Перацягвайце ролі, каб змяніць парадак, у якім яны паказваюцца ў спісе ўдзельнікаў.';
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'No hoisted roles. Enable \"Show this role separately\" on a role to see it here.';
+      'Няма роляў, якія паказваюцца асобна. Уключыце для ролі «Паказваць гэту ролю асобна», каб яна з’явілася тут.';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
-    return 'You need the \"$permission\" permission to edit these permissions';
+    return 'Каб рэдагаваць гэтыя дазволы, патрэбны дазвол «$permission»';
   }
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'You cannot edit a role at or above your highest role';
+      'Нельга рэдагаваць ролю, якая на адным узроўні з вашай найвышэйшай роляй або вышэй за яе';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
-      'You cannot grant a permission you don\'t have';
+      'Нельга даць дазвол, якога ў вас няма';
 
   @override
   String get guildSettingsRolesCannotRemoveOwnPermission =>
-      'You cannot remove this permission because it would remove it from yourself';
+      'Нельга прыбраць гэты дазвол, бо тады вы страціце яго самі';
 
   @override
-  String get guildSettingsRolesUpdatedSuccess => 'Roles updated successfully';
+  String get guildSettingsRolesUpdatedSuccess => 'Ролі паспяхова абноўлены';
 
   @override
-  String get guildSettingsRolesCreatedSuccess => 'Role created successfully';
+  String get guildSettingsRolesCreatedSuccess => 'Роля паспяхова створана';
 
   @override
-  String get guildSettingsRolesDeletedSuccess => 'Role deleted successfully';
+  String get guildSettingsRolesDeletedSuccess => 'Роля паспяхова выдалена';
 
   @override
   String get guildSettingsRolesHoistResetSuccess =>
-      'Hoist order reset to default';
+      'Парадак адлюстравання скінуты да прадвызначанага';
 
   @override
-  String get guildSettingsRolesNameRequiredTitle => 'Role name is required';
+  String get guildSettingsRolesNameRequiredTitle => 'Патрэбна назва ролі';
 
   @override
   String get guildSettingsRolesNameRequiredBody =>
-      'Give the role a name before saving.';
+      'Перш чым захаваць, дайце ролі назву.';
 
   @override
-  String get guildSettingsRolesCreateFailedTitle => 'Couldn\'t create role';
+  String get guildSettingsRolesCreateFailedTitle => 'Не ўдалося стварыць ролю';
 
   @override
-  String get guildSettingsRolesUpdateFailedTitle => 'Couldn\'t update roles';
+  String get guildSettingsRolesUpdateFailedTitle => 'Не ўдалося абнавіць ролі';
 
   @override
-  String get guildSettingsRolesDeleteFailedTitle => 'Couldn\'t delete role';
+  String get guildSettingsRolesDeleteFailedTitle => 'Не ўдалося выдаліць ролю';
 
   @override
   String guildSettingsRolesDeleteFailedBody(String name) {
-    return 'We couldn\'t delete \"$name\". Try again.';
+    return 'Не ўдалося выдаліць «$name». Паспрабуйце яшчэ раз.';
   }
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Couldn\'t reset hoist order';
+      'Не ўдалося скінуць парадак адлюстравання';
 
   @override
-  String get guildSettingsRolesTryAgainInAMoment => 'Try again in a moment.';
+  String get guildSettingsRolesTryAgainInAMoment =>
+      'Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String guildSettingsRolesDeleteConfirm(String name) {
-    return 'Are you sure you want to delete the $name role? Any members with this role will no longer have it.';
+    return 'Вы сапраўды хочаце выдаліць ролю $name? Усе ўдзельнікі з гэтай роляй страцяць яе.';
   }
 
   @override
-  String get permissionCategoryCommunityWide => 'Community-wide';
+  String get permissionCategoryCommunityWide => 'Для ўсёй суполкі';
 
   @override
-  String get permissionCategoryMessagesMedia => 'Messages & media';
+  String get permissionCategoryMessagesMedia => 'Паведамленні і медыя';
 
   @override
-  String get permissionCategoryModeration => 'Moderation';
+  String get permissionCategoryModeration => 'Мадэрацыя';
 
   @override
-  String get permissionCategoryChannelAccess => 'Channel access';
+  String get permissionCategoryChannelAccess => 'Доступ да канала';
 
   @override
-  String get permissionCategoryChannelManagement => 'Channel management';
+  String get permissionCategoryChannelManagement => 'Кіраванне каналамі';
 
   @override
-  String get permissionCategoryAudioVideo => 'Audio & video';
+  String get permissionCategoryAudioVideo => 'Аўдыя і відэа';
 
   @override
-  String get permissionAdministrator => 'Administrator';
+  String get permissionAdministrator => 'Адміністратар';
 
   @override
   String get permissionAdministratorDescription =>
-      'Grants all permissions and bypasses channel restrictions. Highly sensitive.';
+      'Дае ўсе дазволы і абыходзіць абмежаванні каналаў. Вельмі небяспечна.';
 
   @override
-  String get permissionViewActivityLog => 'View activity log';
+  String get permissionViewActivityLog => 'Праглядаць журнал дзеянняў';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Read the community\'s activity log of changes and moderation actions.';
+      'Праглядаць журнал дзеянняў суполкі са зменамі і дзеяннямі мадэрацыі.';
 
   @override
-  String get permissionManageCommunity => 'Manage community';
+  String get permissionManageCommunity => 'Кіраваць суполкай';
 
   @override
   String get permissionManageCommunityDescription =>
-      'Edit global settings like name, description, and icon.';
+      'Рэдагуйце глабальныя налады, такія як назва, апісанне і значок.';
 
   @override
-  String get permissionManageRoles => 'Manage roles';
+  String get permissionManageRoles => 'Кіраваць ролямі';
 
   @override
   String get permissionManageRolesDescription =>
-      'Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites.';
+      'Ствараць, рэдагаваць або выдаляць ролі, ніжэйшыя за вашу найвышэйшую ролю. Таксама дазваляе рэдагаваць перавызначэнні дазволаў каналаў.';
 
   @override
-  String get permissionManageChannels => 'Manage channels';
+  String get permissionManageChannels => 'Кіраваць каналамі';
 
   @override
-  String get permissionManageChannel => 'Manage channel';
+  String get permissionManageChannel => 'Кіраваць каналам';
 
   @override
   String get permissionManageChannelDescription =>
-      'Rename and edit this channel\'s settings.';
+      'Пераймяноўваць канал і змяняць яго налады.';
 
   @override
-  String get permissionManagePermissions => 'Manage permissions';
+  String get permissionManagePermissions => 'Кіраваць дазволамі';
 
   @override
   String get permissionManagePermissionsDescription =>
-      'Edit overwrites for roles and members in this channel.';
+      'Рэдагаваць перавызначэнні дазволаў для роляў і ўдзельнікаў у гэтым канале.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Create, edit, or delete webhooks for this channel.';
+      'Ствараць, рэдагаваць або выдаляць вэб-хукі гэтага канала.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
-      'See the member list for this channel.';
+      'Бачыць спіс удзельнікаў гэтага канала.';
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
-      'Manage invite links for this channel.';
+      'Кіраваць спасылкамі-запрашэннямі ў гэты канал.';
 
   @override
-  String get permissionOverwriteDeny => 'Deny';
+  String get permissionOverwriteDeny => 'Забараніць';
 
   @override
-  String get permissionOverwriteInherit => 'Neutral (inherit)';
+  String get permissionOverwriteInherit => 'Нейтральна (успадкаваць)';
 
   @override
-  String get permissionOverwriteAllow => 'Allow';
+  String get permissionOverwriteAllow => 'Дазволіць';
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Use these buttons to quickly set all permissions.';
+      'Выкарыстоўвайце гэтыя кнопкі, каб хутка задаць усе дазволы.';
 
   @override
   String get permissionManageChannelsDescription =>
-      'Create, edit, or delete channels and categories.';
+      'Ствараць, рэдагаваць або выдаляць каналы і катэгорыі.';
 
   @override
-  String get permissionKickMembers => 'Kick members';
+  String get permissionKickMembers => 'Выганяць удзельнікаў';
 
   @override
-  String get permissionBanMembers => 'Ban members';
+  String get permissionBanMembers => 'Баніць удзельнікаў';
 
   @override
-  String get permissionCreateInviteLinks => 'Create invite links';
+  String get permissionCreateInviteLinks => 'Ствараць спасылкі-запрашэнні';
 
   @override
-  String get permissionChangeOwnNickname => 'Change own nickname';
+  String get permissionChangeOwnNickname => 'Змяніць уласны псеўданім';
 
   @override
   String get permissionChangeOwnNicknameDescription =>
-      'Update your own nickname.';
+      'Змяняць свой псеўданім.';
 
   @override
-  String get permissionManageNicknames => 'Manage nicknames';
+  String get permissionManageNicknames => 'Кіраваць псеўданімамі';
 
   @override
   String get permissionManageNicknamesDescription =>
-      'Change other members\' nicknames.';
+      'Змяняць псеўданімы іншых удзельнікаў.';
 
   @override
-  String get permissionCreateEmojiStickers => 'Create emoji & stickers';
+  String get permissionCreateEmojiStickers => 'Ствараць эмоджы і стыкеры';
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Upload new emoji and stickers, and manage your own creations.';
+      'Загружаць новыя эмоджы і стыкеры і кіраваць уласнымі.';
 
   @override
-  String get permissionManageEmojiStickers => 'Manage emoji & stickers';
+  String get permissionManageEmojiStickers => 'Кіраваць эмоджы і стыкерамі';
 
   @override
   String get permissionManageEmojiStickersDescription =>
-      'Edit or delete emoji and stickers created by other members.';
+      'Рэдагаваць або выдаляць эмоджы і стыкеры, створаныя іншымі ўдзельнікамі.';
 
   @override
-  String get permissionManageWebhooks => 'Manage webhooks';
+  String get permissionManageWebhooks => 'Кіраваць вэб-хукамі';
 
   @override
   String get permissionManageWebhooksDescription =>
-      'Create, edit, or delete webhooks.';
+      'Ствараць, рэдагаваць або выдаляць вэб-хукі.';
 
   @override
-  String get permissionSendMessages => 'Send messages';
+  String get permissionSendMessages => 'Адпраўляць паведамленні';
 
   @override
-  String get permissionSendTtsMessages => 'Send TTS messages';
+  String get permissionSendTtsMessages => 'Адпраўляць TTS-паведамленні';
 
   @override
   String get permissionSendTtsMessagesDescription =>
-      'Send text-to-speech messages.';
+      'Адпраўляць паведамленні з агучваннем тэксту.';
 
   @override
-  String get permissionManageMessages => 'Manage messages';
+  String get permissionManageMessages => 'Кіраваць паведамленнямі';
 
   @override
   String get permissionManageMessagesDescription =>
-      'Delete other members\' messages. Pinning is controlled separately.';
+      'Выдаляць паведамленні іншых удзельнікаў. Замацаванне наладжваецца асобна.';
 
   @override
-  String get permissionPinMessages => 'Pin messages';
+  String get permissionPinMessages => 'Замацоўваць паведамленні';
 
   @override
-  String get permissionEmbedLinks => 'Embed links';
+  String get permissionEmbedLinks => 'Убудоўваць спасылкі';
 
   @override
-  String get permissionAttachFiles => 'Attach files';
+  String get permissionAttachFiles => 'Далучаць файлы';
 
   @override
-  String get permissionMentionEveryone => 'Use @everyone/@here and @role';
+  String get permissionMentionEveryone =>
+      'Выкарыстоўваць @everyone/@here і @роля';
 
   @override
   String get permissionMentionEveryoneDescription =>
-      'Mention everyone or any role (even if the role isn\'t set to be mentionable).';
+      'Згадваць усіх або любую ролю (нават калі ролю не дазволена згадваць).';
 
   @override
-  String get permissionUseExternalEmoji => 'Use external emoji';
+  String get permissionUseExternalEmoji => 'Выкарыстоўваць знешнія эмоджы';
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Use emoji from other communities.';
+      'Выкарыстоўваць эмоджы з іншых суполак.';
 
   @override
-  String get permissionUseExternalStickers => 'Use external stickers';
+  String get permissionUseExternalStickers => 'Выкарыстоўваць знешнія стыкеры';
 
   @override
-  String get permissionAddReactions => 'Add reactions';
+  String get permissionAddReactions => 'Дадаваць рэакцыі';
 
   @override
   String get permissionAddReactionsDescription =>
-      'Add new reactions to messages.';
+      'Дадаваць новыя рэакцыі да паведамленняў.';
 
   @override
-  String get permissionBypassSlowmode => 'Bypass slowmode';
+  String get permissionBypassSlowmode => 'Абыход павольнага рэжыму';
 
   @override
   String get permissionBypassSlowmodeDescription =>
-      'Ignore per-channel message rate limits.';
+      'Не ўлічваць абмежаванні частаты паведамленняў у каналах.';
 
   @override
-  String get permissionTimeOutMembers => 'Time out members';
+  String get permissionTimeOutMembers => 'Даваць тайм-аўт удзельнікам';
 
   @override
   String get permissionTimeOutMembersDescription =>
-      'Prevent members from sending messages, reacting, and joining voice for a duration.';
+      'Забараняць удзельнікам на пэўны час адпраўляць паведамленні, рэагаваць і далучацца да галасавых каналаў.';
 
   @override
-  String get permissionViewChannel => 'View channel';
+  String get permissionViewChannel => 'Праглядаць канал';
 
   @override
-  String get permissionViewChannelMembers => 'View channel members';
+  String get permissionViewChannelMembers => 'Праглядаць удзельнікаў канала';
 
   @override
   String get permissionViewChannelMembersDescription =>
-      'See the member list for channels in this community.';
+      'Бачыць спіс удзельнікаў каналаў у гэтай суполцы.';
 
   @override
-  String get permissionConnect => 'Connect';
+  String get permissionConnect => 'Падключыць';
 
   @override
-  String get permissionSpeak => 'Speak';
+  String get permissionSpeak => 'Гаварыць';
 
   @override
-  String get permissionStreamVideo => 'Stream video';
+  String get permissionStreamVideo => 'Трансляваць відэа';
 
   @override
-  String get permissionUseVoiceActivity => 'Use voice activity';
+  String get permissionUseVoiceActivity =>
+      'Выкарыстоўваць галасавую актыўнасць';
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Without this permission, push-to-talk is required.';
+      'Без гэтага дазволу абавязковы рэжым рацыі.';
 
   @override
-  String get permissionPrioritySpeaker => 'Priority speaker';
+  String get permissionPrioritySpeaker => 'Прыярытэтны голас';
 
   @override
-  String get permissionMuteMembers => 'Mute members';
+  String get permissionMuteMembers => 'Выключаць мікрафон удзельнікам';
 
   @override
-  String get permissionDeafenMembers => 'Deafen members';
+  String get permissionDeafenMembers => 'Выключаць гук удзельнікам';
 
   @override
-  String get permissionMoveMembers => 'Move members';
+  String get permissionMoveMembers => 'Перамяшчаць удзельнікаў';
 
   @override
   String get permissionMoveMembersDescription =>
-      'Drag members between channels they can access.';
+      'Перацягваць удзельнікаў паміж каналамі, да якіх у іх ёсць доступ.';
 
   @override
-  String get permissionSetVoiceRegion => 'Set voice region';
+  String get permissionSetVoiceRegion => 'Змяняць галасавы рэгіён';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'Кіраваць галінамі';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'Пераймяноўваць, архіваваць, блакіраваць і выдаляць галіны, задаваць для іх павольны рэжым і праглядаць прыватныя галіны.';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'Ствараць публічныя галіны';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'Ствараць галіны, якія бачаць усе, хто можа праглядаць канал.';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'Ствараць прыватныя галіны';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'Ствараць галіны толькі па запрашэнні.';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads =>
+      'Адпраўляць паведамленні ў галінах';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'Адпраўляць паведамленні ў галінах і допісах на форуме.';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'Гэта галіна архіваваная.';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'Гэта галіна заблакіравана. Пісаць у ёй або зноў адкрыць яе могуць толькі мадэратары.';
 
   @override
   String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+      'Для гэтага паведамлення ўжо ёсць галіна.';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'Суполка дасягнула ліміту актыўных галін.';
 
   @override
-  String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+  String get threadErrorMaxMembers => 'Галіна дасягнула ліміту ўдзельнікаў.';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'На гэтым форуме можна замацаваць толькі адзін допіс.';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags =>
+      'На форуме можа быць не больш за 20 тэгаў.';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique =>
+      'Назвы тэгаў мусяць быць унікальнымі.';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'Перш чым патрабаваць тэгі, дадайце тэг, якім могуць карыстацца ўсе.';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'Выберыце хаця б адзін тэг для гэтага допісу.';
 
   @override
-  String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+  String get threadErrorUnknownTag => 'Аднаго з выбраных тэгаў больш не існуе.';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'Гэтыя налады апавяшчэнняў нельга прымяніць да галіны.';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'Допісы яшчэ індэксуюцца. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'Гэта дзеянне недаступнае ў гэтым канале.';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'Стварыць галіну';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'Назва галіны';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'Дайце галіне назву.';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'Новая галіна';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'Прыватная галіна';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'Гэту галіну могуць бачыць толькі людзі, якіх вы запросіце, і мадэратары.';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'Паведамленне';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'Увядзіце паведамленне, каб пачаць размову!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'Стварыць яшчэ адну галіну можна будзе праз $seconds секунды.',
+      many: 'Стварыць яшчэ адну галіну можна будзе праз $seconds секунд.',
+      few: 'Стварыць яшчэ адну галіну можна будзе праз $seconds секунды.',
+      one: 'Стварыць яшчэ адну галіну можна будзе праз $seconds секунду.',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'Не ўдалося стварыць галіну: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'Галіны';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'Актыўна';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'Закрытыя';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'Вы далучыліся';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'Іншыя актыўныя галіны';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'Публічныя галіны';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'Прыватныя галіны';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'Галін няма. Галіна — гэта часовы тэкставы канал, які дапамагае засяродзіцца на адной размове.';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'Закрытых галін няма.';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'Загрузіць яшчэ';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'Пошук галін';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'Няма адпаведных галін';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'Паспрабуйце іншую назву або праверце іншую ўкладку.';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'Не ўдалося выканаць пошук па галінах. Паспрабуйце пазней.';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'Пошук у гэтай суполцы яшчэ рыхтуецца. Хутка паспрабуем зноў...';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count паведамлення',
+      many: '$count паведамленняў',
+      few: '$count паведамленні',
+      one: '$count паведамленне',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'Некаторыя згаданыя ролі не дададзены ў гэту галіну.';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'Удзельнікі галіны';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count удзельніка',
+      many: '$count удзельнікаў',
+      few: '$count удзельнікі',
+      one: '$count удзельнік',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'Да гэтай галіны яшчэ ніхто не далучыўся.';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return 'Выдаліць $name з галіны';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'Далучыцца да галіны';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'Пакінуць галіну';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'Далучыцеся да гэтай галіны, каб бачыць яе ў спісе каналаў і атрымліваць апавяшчэнні.';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'Гэта галіна закрыта. Калі адправіць паведамленне, яна зноў адкрыецца.';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'Гэта галіна заблакіравана. Адпраўляць паведамленні могуць толькі мадэратары.';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'Закрыць галіну';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'Зноў адкрыць галіну';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'Заблакіраваць галіну';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'Разблакіраваць галіну';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'Выдаліць галіну';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'Вы сапраўды хочаце выдаліць $threadName? Гэта дзеянне нельга адмяніць.';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'Галіна выдалена';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'Пазначыць як прачытанае';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'Заглушыць галіну';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'Уключыць апавяшчэнні галіны';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'Галіна заглушана';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'Заглушэнне галіны знята';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'Налады апавяшчэнняў';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault => 'Як у канале';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'Скапіраваць спасылку';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'Скапіраваць ID галіны';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'Іншыя параметры';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'Налады галіны';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'Налады галіны захаваны';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'Хаваць пасля бяздзейнасці';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'Пасля такога перыяду бяздзейнасці галіна перастае паказвацца ў спісе каналаў.';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive =>
+      'Прадвызначаны час схавання пасля бяздзейнасці';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'Пасля такога перыяду бяздзейнасці новыя галіны перастаюць паказвацца ў спісе каналаў.';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'Прадвызначаны павольны рэжым у галінах';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 гадзіна';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 гадзіны';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 дні';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 тыдзень';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'Дазволіць запрашаць усім';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'Удзельнікі гэтай прыватнай галіны могуць дадаваць іншых людзей.';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'Аўтар галіны: $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'Зыходнае паведамленне выдалена.';
 
   @override
   String systemThreadCreated(
@@ -13605,279 +13930,280 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username стварае галіну: $threadLink. Глядзіце $allThreadsLink.';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'усе галіны';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'галіна';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username стварае галіну.';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'Уласных эмоджы пакуль няма.';
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => 'Уласных стыкераў пакуль няма.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => 'Праверка ўдзельнікаў';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Выберыце, што павінна быць ва ўдзельнікаў, перш чым яны змогуць пісаць у суполцы або адпраўляць асабістыя паведамленні яе ўдзельнікам.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Удзельнікі з ролямі могуць абыходзіць гэтыя праверкі. Для публічных прастор рэкамендуем уключыць праверку.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Explore need at least email verification. You can\'t pick \"None\" while your community is listed in Explore.';
+      'Суполкам з раздзела «Агляд» патрэбна прынамсі пацвярджэнне электроннай пошты. Варыянт «Няма» нельга выбраць, пакуль ваша суполка ёсць у раздзеле «Агляд».';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Змесціва для дарослых і папярэджанні аб змесціве';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Наладзьце адзнаку змесціва для дарослых і неабавязковыя папярэджанні аб змесціве для ўдзельнікаў.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Змесціва для дарослых';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Пазначыць гэту суполку як суполку са змесцівам для дарослых.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Няма';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Праверка не патрабуецца.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Нізкі';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Патрэбны пацверджаны адрас электроннай пошты.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Сярэдні';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Патрабуецца пацверджаны адрас электроннай пошты і ўліковы запіс, створаны не менш за 5 хвілін таму.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Высокі';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Патрэбна ўсё з узроўню «Сярэдні», а таксама членства ў суполцы не менш за 10 хвілін.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Сачыце за дзеяннямі мадэратараў у суполцы.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Журнал пакуль пусты';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Тут будуць паказвацца дзеянні мадэрацыі і змены ў суполцы.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Усе карыстальнікі';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Усе дзеянні';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Прычына не ўказана.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Невядомы карыстальнік';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Прычына';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'хтосьці';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'штосьці';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'невядомы аб’ект';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'нічога';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Невядомая мэта';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Суполка абноўлена';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Канал створаны';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Канал абноўлены';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Канал выдалены';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'Галіна створана';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'Галіна абноўлена';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'Галіна выдалена';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate =>
+      'Дададзена перавызначэнне дазволаў канала';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Абноўлена перавызначэнне дазволаў канала';
 
   @override
   String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+      'Выдалена перавызначэнне дазволаў канала';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Удзельнік выгнаны';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Неактыўныя ўдзельнікі выдалены';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Удзельнік забанены';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'З удзельніка зняты бан';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Удзельнік абноўлены';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Ролі ўдзельніка абноўлены';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Удзельнік перамешчаны';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Удзельнік адключаны';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Бот дададзены';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Роля створана';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Роля абноўлена';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Роля выдалена';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Запрашэнне створана';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Запрашэнне абноўлена';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Запрашэнне выдалена';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Вэб-хук створаны';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Вэб-хук абноўлены';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Вэб-хук выдалены';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Эмоджы створана';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Эмоджы абноўлена';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Эмоджы выдалена';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Стыкер створаны';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Стыкер абноўлены';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Стыкер выдалены';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Паведамленне выдалена';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Паведамленні выдалены';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Паведамленне замацавана';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Паведамленне адмацавана';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor абнаўляе налады суполкі.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor стварае канал $target.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor абнаўляе канал $target.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor выдаляе канал $target.';
   }
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor стварае галіну $target.';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor абнаўляе галіну $target.';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor выдаляе галіну $target.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor дадае дазволы канала для $target.';
   }
 
   @override
@@ -13886,12 +14212,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor дадае дазволы для $target у канале $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor абнаўляе дазволы канала для $target.';
   }
 
   @override
@@ -13900,12 +14226,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor абнаўляе дазволы для $target у канале $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor выдаляе дазволы канала для $target.';
   }
 
   @override
@@ -13914,47 +14240,47 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor выдаляе дазволы для $target у канале $channel.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor выганяе $target.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor баніць $target.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor знімае бан з $target.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor абнаўляе $target.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor абнаўляе ролі $target.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor выдаляе неактыўных удзельнікаў.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor выдаляе ўдзельнікаў без актыўнасці на працягу дзён: $days.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor перамяшчае $target у іншы галасавы канал.';
   }
 
   @override
@@ -13963,37 +14289,37 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor перамяшчае $target у $channel.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor адключае $target ад галасавога канала.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor дадае бота $target.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor стварае ролю $target.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor абнаўляе ролю $target.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor выдаляе ролю $target.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor стварае запрашэнне $target.';
   }
 
   @override
@@ -14002,12 +14328,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor стварае запрашэнне $target для канала $channel.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor абнаўляе запрашэнне $target.';
   }
 
   @override
@@ -14016,12 +14342,12 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor абнаўляе запрашэнне $target для канала $channel.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor выдаляе запрашэнне $target.';
   }
 
   @override
@@ -14030,72 +14356,72 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor выдаляе запрашэнне $target для канала $channel.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor стварае вэб-хук $target.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor абнаўляе вэб-хук $target.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor выдаляе вэб-хук $target.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor дадае эмоджы $target.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor абнаўляе эмоджы $target.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor выдаляе эмоджы $target.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor дадае стыкер $target.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor абнаўляе стыкер $target.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor выдаляе стыкер $target.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor выдаляе паведамленне.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor выдаляе паведамленне ў канале $channel.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor выдаляе некалькі паведамленняў.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor выдаляе паведамленні: $count.';
   }
 
   @override
@@ -14103,7 +14429,7 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor выдаляе некалькі паведамленняў у канале $channel.';
   }
 
   @override
@@ -14112,32 +14438,32 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor выдаляе паведамленні ў канале $channel: $count.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor замацоўвае паведамленне.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor замацоўвае паведамленне ў канале $channel.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor адмацоўвае паведамленне.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor адмацоўвае паведамленне ў канале $channel.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor выконвае дзеянне над $target.';
   }
 
   @override
@@ -14146,164 +14472,164 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return 'Поле $field зменена з $oldValue на $newValue.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return 'Для поля $field зададзена значэнне $newValue.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return 'Поле $field ачышчана (было $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return 'Поле $field абноўлена.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Суполка перайменавана ў $name.';
   }
 
   @override
-  String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+  String get auditLogChangeUpdatedCommunityIcon => 'Значок суполкі абноўлены.';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'Запрашэнні прыпынены.';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'Запрашэнні адноўлены.';
 
   @override
-  String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+  String get auditLogChangeTurnedOnDetachedBanner => 'Асобны банер уключаны.';
 
   @override
-  String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+  String get auditLogChangeTurnedOffDetachedBanner => 'Асобны банер выключаны.';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'Дазволены гнуткія назвы тэкставых каналаў.';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'Больш не дазволены гнуткія назвы тэкставых каналаў.';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown =>
+      'Схавана карона ўладальніка суполкі.';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'Карона ўладальніка суполкі больш не хаваецца.';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'Іншым дазволена кланіраваць эмоджы гэтай суполкі.';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'Іншым больш не дазволена кланіраваць эмоджы гэтай суполкі.';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'Іншым дазволена кланіраваць стыкеры гэтай суполкі.';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'Іншым больш не дазволена кланіраваць стыкеры гэтай суполкі.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Канал перайменаваны ў $name.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Тэма ачышчана.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Тэма зменена на $topic.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent =>
+      'Змесціва для дарослых уключана.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'Змесціва для дарослых выключана.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Зададзены псеўданім $nickname.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Псеўданім $nickname прыбраны.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Удзельніку выключаны мікрафон.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Удзельніку ўключаны мікрафон.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Удзельніку выключаны гук.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'Удзельніку ўключаны гук.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return 'Дададзена: $roles.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return 'Прыбрана: $roles.';
   }
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Значок ролі зададзены: $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Значок ролі зменены з $oldEmoji на $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Значок ролі прыбраны';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => 'Зададзены ўласны значок ролі';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => 'Уласны значок ролі зменены';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => 'Уласны значок ролі выдалены';
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Канал: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Паведамленне: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Хто запрасіў: $value.';
   }
 
   @override
@@ -14311,8 +14637,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted $count messages.',
-      one: 'Deleted $count message.',
+      other: 'Выдалена $count паведамлення.',
+      many: 'Выдалена $count паведамленняў.',
+      few: 'Выдалена $count паведамленні.',
+      one: 'Выдалена $count паведамленне.',
     );
     return '$_temp0';
   }
@@ -14322,355 +14650,363 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed $count members.',
-      one: 'Removed $count member.',
+      other: 'Выдалена $count удзельніка.',
+      many: 'Выдалена $count удзельнікаў.',
+      few: 'Выдалены $count удзельнікі.',
+      one: 'Выдалены $count удзельнік.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'Гэта запрашэнне бестэрміновае.';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => 'Дае часовае членства.';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => 'Дае пастаяннае членства.';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'View and manage every webhook configured across your community.';
+      'Праглядайце ўсе вэб-хукі, наладжаныя ў вашай суполцы, і кіруйце імі.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks';
+  String get guildSettingsWebhooksEmpty => 'Няма вэб-хукаў';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
-    return 'This community doesn\'t have any webhooks yet. Go to $channelSettingsPath to create one.';
+    return 'У гэтай суполцы пакуль няма вэб-хукаў. Каб стварыць вэб-хук, перайдзіце ў раздзел $channelSettingsPath.';
   }
 
   @override
   String guildSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this community.';
+    return 'Каб праглядаць і змяняць вэб-хукі гэтай суполкі, патрэбны дазвол «$permission».';
   }
 
   @override
-  String get guildSettingsWebhooksLoadFailedTitle => 'Failed to load webhooks';
+  String get guildSettingsWebhooksLoadFailedTitle =>
+      'Не ўдалося загрузіць вэб-хукі';
 
   @override
   String get guildSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks. Try again.';
+      'Пры загрузцы вэб-хукаў адбылася памылка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get guildSettingsWebhooksUpdated => 'Webhooks updated';
+  String get guildSettingsWebhooksUpdated => 'Вэб-хукі абноўлены';
 
   @override
-  String get guildSettingsWebhooksUpdateFailed => 'Failed to update webhooks';
+  String get guildSettingsWebhooksUpdateFailed =>
+      'Не ўдалося абнавіць вэб-хукі';
 
   @override
-  String get guildSettingsUnknownChannel => 'Unknown channel';
+  String get guildSettingsUnknownChannel => 'Невядомы канал';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL скапіраваны ў буфер абмену';
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'List your community in Explore so others can find and join it.';
+      'Дадайце сваю суполку ў раздзел «Агляд», каб іншыя маглі знайсці яе і далучыцца.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
-      'Not enough members';
+      'Недастаткова ўдзельнікаў';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '$count member',
+      other: '$count удзельніка',
+      many: '$count удзельнікаў',
+      few: '$count удзельнікаў',
+      one: '$count удзельніка',
     );
-    return 'Your community needs at least $_temp0 before it can be listed in Explore.';
+    return 'Каб суполку можна было паказаць у раздзеле «Агляд», у ёй павінна быць не менш за $_temp0.';
   }
 
   @override
-  String get guildSettingsDiscoveryStatusLabel => 'Status:';
+  String get guildSettingsDiscoveryStatusLabel => 'Статус:';
 
   @override
-  String get guildSettingsDiscoveryStatusPending => 'Pending';
+  String get guildSettingsDiscoveryStatusPending => 'Чакае';
 
   @override
-  String get guildSettingsDiscoveryStatusApproved => 'Approved';
+  String get guildSettingsDiscoveryStatusApproved => 'Ухвалена';
 
   @override
-  String get guildSettingsDiscoveryStatusRejected => 'Rejected';
+  String get guildSettingsDiscoveryStatusRejected => 'Адхілена';
 
   @override
-  String get guildSettingsDiscoveryStatusRemoved => 'Removed';
+  String get guildSettingsDiscoveryStatusRemoved => 'Выдалена';
 
   @override
   String guildSettingsDiscoveryReason(String reason) {
-    return 'Reason: $reason';
+    return 'Прычына: $reason';
   }
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Your community is listed in Explore. You can update your listing details below or withdraw to remove it.';
+      'Ваша суполка ёсць у раздзеле «Агляд». Ніжэй можна абнавіць звесткі пра яе або адклікаць заяўку, каб прыбраць суполку адтуль.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
-      'Your application is pending review. You can still update your listing details or withdraw the application.';
+      'Ваша заяўка чакае разгляду. Вы па-ранейшаму можаце абнавіць звесткі заяўкі або адклікаць яе.';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Катэгорыя';
 
   @override
   String get guildSettingsDiscoveryCategoryHelp =>
-      'Choose the category that best describes your community. You can change this any time.';
+      'Выберыце катэгорыю, якая найлепш апісвае вашу суполку. Гэта можна змяніць у любы час.';
 
   @override
-  String get guildSettingsDiscoveryPrimaryLanguage => 'Primary language';
+  String get guildSettingsDiscoveryPrimaryLanguage => 'Асноўная мова';
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'The language most of your community speaks. It\'s used to filter results in Explore.';
+      'Мова, на якой размаўляе большасць вашай суполкі. Па ёй фільтруюцца вынікі ў раздзеле «Агляд».';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Апісанне';
 
   @override
   String get guildSettingsDiscoveryDescriptionPlaceholder =>
-      'Describe what your community is about';
+      'Апішыце, пра што ваша суполка';
 
   @override
-  String get guildSettingsDiscoveryDescriptionRequired =>
-      'A description is required.';
+  String get guildSettingsDiscoveryDescriptionRequired => 'Патрэбна апісанне.';
 
   @override
   String guildSettingsDiscoveryDescriptionMinLength(int minLength) {
-    return 'Description must be at least $minLength characters.';
+    return 'Апісанне павінна змяшчаць не менш за $minLength сімв.';
   }
 
   @override
   String guildSettingsDiscoveryDescriptionMaxLength(int maxLength) {
-    return 'Description must be no more than $maxLength characters.';
+    return 'Апісанне павінна змяшчаць не больш за $maxLength сімв.';
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Custom tags';
+  String get guildSettingsDiscoveryTags => 'Уласныя тэгі';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Up to $maxTags tags help people find your community. They show up when people search in Explore.';
+    return 'Тэгі (да $maxTags) дапамагаюць людзям знайсці вашу суполку. Яны ўлічваюцца пры пошуку ў раздзеле «Агляд».';
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'Add a tag and press Enter';
+  String get guildSettingsDiscoveryTagsHint => 'Дадайце тэг і націсніце Enter';
 
   @override
-  String get guildSettingsDiscoveryAddTag => 'Add';
+  String get guildSettingsDiscoveryAddTag => 'Дадаць';
 
   @override
   String guildSettingsDiscoveryRemoveTag(String tag) {
-    return 'Remove tag $tag';
+    return 'Прыбраць тэг $tag';
   }
 
   @override
-  String get guildSettingsDiscoveryTagErrorTitle => 'Couldn\'t add tag';
+  String get guildSettingsDiscoveryTagErrorTitle => 'Не ўдалося дадаць тэг';
 
   @override
   String guildSettingsDiscoveryTagRequirements(int maxLength) {
-    return 'Tags must be 2 to $maxLength characters and alphanumeric.';
+    return 'Тэгі мусяць змяшчаць ад 2 да $maxLength сімвалаў і складацца з літар і лічбаў.';
   }
 
   @override
   String guildSettingsDiscoveryTagLimit(int maxTags) {
-    return 'You can only add up to $maxTags tags.';
+    return 'Максімальная колькасць тэгаў: $maxTags.';
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Apply';
+  String get guildSettingsDiscoveryApply => 'Ужыць';
 
   @override
-  String get guildSettingsDiscoverySave => 'Save';
+  String get guildSettingsDiscoverySave => 'Захаваць';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Адклікаць';
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Application to Explore sent';
+      'Заяўка ў раздзел «Агляд» адпраўлена';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => 'Explore listing updated';
+  String get guildSettingsDiscoveryListingUpdated =>
+      'Заяўка ў раздзеле «Агляд» абноўлена';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Application to Explore withdrawn';
+      'Заяўка ў раздзел «Агляд» адклікана';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
-      'Couldn\'t withdraw application';
+      'Не ўдалося адклікаць заяўку';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
-      'Try again in a moment.';
+      'Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search by username or ID';
+  String get guildSettingsMembersSearchHint =>
+      'Пошук па імені карыстальніка або ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return 'Удзельнікаў: $count';
   }
 
   @override
-  String get guildMembersRecentTitle => 'Recent members';
+  String get guildMembersRecentTitle => 'Нядаўнія ўдзельнікі';
 
   @override
   String guildMembersShowingCount(int displayedCount, int totalCount) {
-    return 'Showing $displayedCount of $totalCount total members';
+    return 'Паказана $displayedCount з $totalCount удзельнікаў';
   }
 
   @override
-  String get guildMembersSort => 'Sort';
+  String get guildMembersSort => 'Сартаванне';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Спачатку найноўшыя';
 
   @override
-  String get guildMembersSortOldest => 'Oldest first';
+  String get guildMembersSortOldest => 'Спачатку найстарэйшыя';
 
   @override
-  String get guildMembersColumnName => 'Name';
+  String get guildMembersColumnName => 'Імя';
 
   @override
-  String get guildMembersColumnMemberSince => 'Member since';
+  String get guildMembersColumnMemberSince => 'Дата далучэння';
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Joined $productName';
+    return 'Дата далучэння да $productName';
   }
 
   @override
-  String get guildMembersColumnJoinMethod => 'Join method';
+  String get guildMembersColumnJoinMethod => 'Спосаб далучэння';
 
   @override
-  String get guildMembersColumnRoles => 'Roles';
+  String get guildMembersColumnRoles => 'Ролі';
 
   @override
-  String get guildMembersFilterMemberSince => 'Filter by member since';
+  String get guildMembersFilterMemberSince => 'Фільтраваць па даце далучэння';
 
   @override
   String get guildMembersFilterJoinedProduct =>
-      'Filter by account creation date';
+      'Фільтраваць па даце стварэння ўліковага запісу';
 
   @override
-  String get guildMembersFilterJoinMethod => 'Filter by join method';
+  String get guildMembersFilterJoinMethod => 'Фільтраваць па спосабе далучэння';
 
   @override
-  String get guildMembersFilterRoles => 'Filter by roles';
+  String get guildMembersFilterRoles => 'Фільтраваць па ролях';
 
   @override
-  String get guildMembersFilterAll => 'All';
+  String get guildMembersFilterAll => 'Усе';
 
   @override
-  String get guildMembersFilterPast1Hour => 'Past 1 hour';
+  String get guildMembersFilterPast1Hour => 'Апошняя гадзіна';
 
   @override
-  String get guildMembersFilterPast24Hours => 'Past 24 hours';
+  String get guildMembersFilterPast24Hours => 'Апошнія 24 гадзіны';
 
   @override
-  String get guildMembersFilterPast7Days => 'Past 7 days';
+  String get guildMembersFilterPast7Days => 'Апошнія 7 дзён';
 
   @override
-  String get guildMembersFilterPast2Weeks => 'Past 2 weeks';
+  String get guildMembersFilterPast2Weeks => 'Апошнія 2 тыдні';
 
   @override
-  String get guildMembersFilterPast3Weeks => 'Past 3 weeks';
+  String get guildMembersFilterPast3Weeks => 'Апошнія 3 тыдні';
 
   @override
-  String get guildMembersFilterPast4Weeks => 'Past 4 weeks';
+  String get guildMembersFilterPast4Weeks => 'Апошнія 4 тыдні';
 
   @override
-  String get guildMembersFilterPast3Months => 'Past 3 months';
+  String get guildMembersFilterPast3Months => 'Апошнія 3 месяцы';
 
   @override
-  String get guildMembersFilterCustomRange => 'Custom range...';
+  String get guildMembersFilterCustomRange => 'Уласны дыяпазон...';
 
   @override
-  String get guildMembersDateRangeTitle => 'Custom date range';
+  String get guildMembersDateRangeTitle => 'Уласны дыяпазон дат';
 
   @override
-  String get guildMembersDateAfter => 'After date';
+  String get guildMembersDateAfter => 'Пасля даты';
 
   @override
-  String get guildMembersDateBefore => 'Before date';
+  String get guildMembersDateBefore => 'Да даты';
 
   @override
-  String get guildMembersClearAll => 'Clear all';
+  String get guildMembersClearAll => 'Ачысціць усё';
 
   @override
-  String get guildMembersRowsPerPage => 'Rows per page';
+  String get guildMembersRowsPerPage => 'Радкоў на старонцы';
 
   @override
-  String get guildMembersEmptySearch => 'Nobody matches that search.';
+  String get guildMembersEmptySearch => 'Па гэтым пошуку нікога не знойдзена.';
 
   @override
   String get guildMembersLoadError =>
-      'Something went wrong loading members. Try again later.';
+      'Пры загрузцы ўдзельнікаў штосьці пайшло не так. Паспрабуйце пазней.';
 
   @override
-  String get guildMembersIndexing => 'Indexing members…';
+  String get guildMembersIndexing => 'Індэксацыя ўдзельнікаў…';
 
   @override
-  String get guildMembersJoinSourceCreator => 'Community creator';
+  String get guildMembersJoinSourceCreator => 'Стваральнік суполкі';
 
   @override
-  String get guildMembersJoinSourceInvite => 'Invite';
+  String get guildMembersJoinSourceInvite => 'Запрасіць';
 
   @override
   String guildMembersJoinSourceInviteCode(String code) {
-    return 'Invite ($code)';
+    return 'Запрашэнне ($code)';
   }
 
   @override
   String guildMembersJoinSourceInvitedBy(String name) {
-    return 'Invited by $name';
+    return 'Запрашэнне ад $name';
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'Vanity URL';
+  String get guildMembersJoinSourceVanityUrl => 'Персаналізаваны URL';
 
   @override
-  String get guildMembersJoinSourceBotInvite => 'Bot invite';
+  String get guildMembersJoinSourceBotInvite => 'Запрашэнне бота';
 
   @override
-  String get guildMembersJoinSourcePlatformAdmin => 'Platform admin';
+  String get guildMembersJoinSourcePlatformAdmin => 'Адміністратар платформы';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Explore';
+  String get guildMembersJoinSourceDiscovery => 'Агляд';
 
   @override
-  String get guildMembersJoinMethodUnknown => 'Unknown';
+  String get guildMembersJoinMethodUnknown => 'Невядома';
 
   @override
-  String get guildMembersCommunityOwner => 'Community owner';
+  String get guildMembersCommunityOwner => 'Уладальнік суполкі';
 
   @override
-  String get guildMembersViewAllRoles => 'View all roles';
+  String get guildMembersViewAllRoles => 'Паглядзець усе ролі';
 
   @override
-  String get guildMembersJoinedJustNow => 'Just now';
+  String get guildMembersJoinedJustNow => 'Толькі што';
 
   @override
   String guildMembersJoinedMinutesAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count хвіліны таму',
+      many: '$count хвілін таму',
+      few: '$count хвіліны таму',
+      one: '# хвіліну таму',
     );
     return '$_temp0';
   }
@@ -14680,1130 +15016,1161 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count гадзіны таму',
+      many: '$count гадзін таму',
+      few: '$count гадзіны таму',
+      one: '# гадзіну таму',
     );
     return '$_temp0';
   }
 
   @override
-  String get guildMembersChannelListLabel => 'Members';
+  String get guildMembersChannelListLabel => 'Удзельнікі';
 
   @override
-  String get guildSettingsInvitesTitle => 'Invites';
+  String get guildSettingsInvitesTitle => 'Запрашэнні';
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View all invites for this community. To create a new invite, go to a channel and use the invite button.';
+      'Праглядайце ўсе запрашэнні ў гэту суполку. Каб стварыць новае запрашэнне, перайдзіце ў канал і націсніце кнопку запрашэння.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No invite links';
+  String get guildSettingsInvitesEmpty => 'Няма спасылак-запрашэнняў';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
-      'This community doesn\'t have any invite links yet. Go to a channel and create an invite to invite people.';
+      'У гэтай суполкі пакуль няма спасылак-запрашэнняў. Перайдзіце ў канал і стварыце запрашэнне, каб запрашаць людзей.';
 
   @override
-  String get guildSettingsInvitesLoadFailedTitle => 'Failed to load invites';
+  String get guildSettingsInvitesLoadFailedTitle =>
+      'Не ўдалося загрузіць запрашэнні';
 
   @override
   String get guildSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invites. Try again.';
+      'Пры загрузцы запрашэнняў адбылася памылка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get guildSettingsInvitesTryAgain => 'Try again';
+  String get guildSettingsInvitesTryAgain => 'Паспрабаваць яшчэ раз';
 
   @override
   String get guildSettingsInvitesShowCreatedDate =>
-      'Show creation date instead of expiration date';
+      'Паказваць дату стварэння замест даты заканчэння';
 
   @override
-  String get guildSettingsInvitesPauseInvites => 'Pause invites';
+  String get guildSettingsInvitesPauseInvites => 'Прыпыніць запрашэнні';
 
   @override
-  String get guildSettingsInvitesEnableInvites => 'Enable invites';
+  String get guildSettingsInvitesEnableInvites => 'Уключыць запрашэнні';
 
   @override
   String get guildSettingsInvitesPauseForCommunityTitle =>
-      'Pause invites for this community';
+      'Прыпыніць запрашэнні ў гэту суполку';
 
   @override
   String get guildSettingsInvitesEnableForCommunityTitle =>
-      'Enable invites for this community';
+      'Уключыць запрашэнні ў гэту суполку';
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Pause invites? New users won\'t be able to join through invite links until you re-enable them. Existing members won\'t be affected.';
+      'Прыпыніць запрашэнні? Новыя карыстальнікі не змогуць далучацца па спасылках-запрашэннях, пакуль вы іх зноў не ўключыце. На цяперашніх удзельнікаў гэта не паўплывае.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
-      'Enable invites? Users will be able to join this community through invite links again.';
+      'Уключыць запрашэнні? Карыстальнікі зноў змогуць далучацца да гэтай суполкі па спасылках-запрашэннях.';
 
   @override
-  String get guildSettingsInvitesPause => 'Pause';
+  String get guildSettingsInvitesPause => 'Паўза';
 
   @override
   String get guildSettingsInvitesPausedForCommunity =>
-      'Invites are paused for this community.';
+      'Запрашэнні ў гэту суполку прыпынены.';
 
   @override
   String guildSettingsInvitesPausedBecauseRaid(String productName) {
-    return 'Invites are paused because $productName detected a potential raid. New users can\'t join right now.';
+    return 'Запрашэнні прыпынены, бо $productName выявіў магчымы рэйд. Новыя карыстальнікі зараз не могуць далучыцца.';
   }
 
   @override
-  String get guildSettingsInvitesLabelInviter => 'Inviter:';
+  String get guildSettingsInvitesLabelInviter => 'Хто запрасіў:';
 
   @override
-  String get guildSettingsInvitesLabelChannel => 'Channel:';
+  String get guildSettingsInvitesLabelChannel => 'Канал:';
 
   @override
-  String get guildSettingsInvitesLabelCode => 'Code:';
+  String get guildSettingsInvitesLabelCode => 'Код:';
 
   @override
-  String get guildSettingsInvitesLabelUses => 'Uses:';
+  String get guildSettingsInvitesLabelUses => 'Выкарыстана разоў:';
 
   @override
-  String get guildSettingsInvitesLabelCreated => 'Created:';
+  String get guildSettingsInvitesLabelCreated => 'Створана:';
 
   @override
-  String get guildSettingsInvitesLabelExpires => 'Expires:';
+  String get guildSettingsInvitesLabelExpires => 'Сканчаецца:';
 
   @override
-  String get guildSettingsInvitesUnknown => 'Unknown';
+  String get guildSettingsInvitesUnknown => 'Невядома';
 
   @override
-  String get guildSettingsInvitesNoCategory => 'No category';
+  String get guildSettingsInvitesNoCategory => 'Без катэгорыі';
 
   @override
-  String get guildSettingsInvitesExpired => 'Expired';
+  String get guildSettingsInvitesExpired => 'Тэрмін дзеяння скончыўся';
 
   @override
-  String get guildSettingsInvitesNever => 'Never';
+  String get guildSettingsInvitesNever => 'Ніколі';
 
   @override
-  String get guildSettingsInvitesCopyLink => 'Copy invite link';
+  String get guildSettingsInvitesCopyLink => 'Скапіраваць спасылку-запрашэнне';
 
   @override
-  String get guildSettingsInvitesRevoke => 'Revoke invite';
+  String get guildSettingsInvitesRevoke => 'Адклікаць запрашэнне';
 
   @override
-  String get guildSettingsInvitesRevokeFailedTitle => 'Couldn\'t revoke invite';
+  String get guildSettingsInvitesRevokeFailedTitle =>
+      'Не ўдалося адклікаць запрашэнне';
 
   @override
   String get guildSettingsInvitesRevokeFailedDescription =>
-      'The link may still work. Try again in a moment.';
+      'Магчыма, спасылка яшчэ працуе. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Праглядайце забаненых карыстальнікаў і кіруйце імі.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Пошук у банах';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Забаненых карыстальнікаў няма.';
 
   @override
-  String get guildSettingsBanExpiresLabel => 'Expires';
+  String get guildSettingsBanExpiresLabel => 'Сканчаецца';
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'No bans found matching your search.';
+      'Па вашым запыце баны не знойдзены.';
 
   @override
-  String get guildSettingsBanDetailsTitle => 'Ban details';
+  String get guildSettingsBanDetailsTitle => 'Звесткі пра бан';
 
   @override
-  String get guildSettingsBanViewDetails => 'View details';
+  String get guildSettingsBanViewDetails => 'Паглядзець падрабязнасці';
 
   @override
-  String get guildSettingsBannedOn => 'Banned on';
+  String get guildSettingsBannedOn => 'Дата бану';
 
   @override
-  String get guildSettingsBannedBy => 'Banned by';
+  String get guildSettingsBannedBy => 'Хто забаніў';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+  String get guildSettingsRevokeBanTitle => 'Зняць бан';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
-    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+    return 'Вы сапраўды хочаце зняць бан з $displayName? Гэты карыстальнік зможа зноў далучыцца да суполкі.';
   }
 
   @override
   String guildSettingsRevokeBanSuccess(String displayName) {
-    return 'Revoked ban for $displayName';
+    return 'Бан з $displayName зняты';
   }
 
   @override
-  String get guildSettingsCommunitySettings => 'Community settings';
+  String get guildSettingsCommunitySettings => 'Налады суполкі';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Выдаліць суполку';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Вы сапраўды хочаце выдаліць гэту суполку? Гэта дзеянне нельга адмяніць. Усе каналы, паведамленні і налады будуць выдалены назаўсёды.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Суполка выдалена';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Не ўдалося выдаліць гэту суполку';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'Выразы';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'Суполка';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'Інтэграцыі';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'Людзі';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => 'Брэндынг';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Абнавіце значок, назву, банер і фон запрашэння';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Загрузіць банер';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Налады бяздзейнасці';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'Наладзьце AFK-канал і час бяздзейнасці';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'Сістэма і прывітанні';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Выберыце, куды трапляюць сістэмныя і вітальныя паведамленні';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Прадвызначаныя апавяшчэнні';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Суполкі, дзе больш за 250 чалавек, прымусова пераводзяцца на наладу «Толькі згадванні». Ваша першапачатковая налада захоўваецца і будзе вернута, калі ў суполцы стане менш за 250 удзельнікаў.';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Дазволіць гнуткія назвы тэкставых каналаў';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Схаваць карону ўладальніка суполкі';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Асобны банер';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Паказвае банер у асобным раздзеле пад загалоўкам суполкі.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Загрузіць значок';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Прыбраць';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Фон запрашэння';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Фон убудаванага чата';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Загрузіць фон';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Няма банера суполкі';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => 'Няма фону запрашэння';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Папярэдні прагляд';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Паглядзіце, як ваша запрашэнне выглядае для наведвальнікаў.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle =>
+      'Назвы тэкставых каналаў';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle =>
+      'Карона ўладальніка суполкі';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Выберыце, ці паказваць карону побач з уладальнікам суполкі';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Выраўноўванне карткі';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Па цэнтры';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Злева';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Справа';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Ужываецца толькі на шырокіх экранах.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Чытаць гісторыю паведамленняў';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Змяніць, што бачаць карыстальнікі без дазволу «$permission»';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Задайце ў асобным акне парог гісторыі паведамленняў для ўдзельнікаў без дазволу $permission.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Адкрыць парог гісторыі паведамленняў';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Парог гісторыі паведамленняў';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Уключыць парог гісторыі паведамленняў';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Парогавая дата';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read message history can view messages sent after this date.';
+      'Удзельнікі без дазволу «Чытаць гісторыю паведамленняў» могуць праглядаць паведамленні, адпраўленыя пасля гэтай даты.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Парог гісторыі паведамленняў абноўлены';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Дазволіць вялікія літары і прабелы ў назвах тэкставых каналаў. Калі выключана, у назвах дазволены толькі малыя літары, злучкі і знакі падкрэслівання.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Хавае карону побач з уладальнікам суполкі ўсюды.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the animated icon community feature.';
+      'Для аніміраваных значкоў суполцы патрэбна функцыя «Аніміраваны значок».';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the animated banner community feature.';
+      'Для аніміраваных банераў суполцы патрэбна функцыя «Аніміраваны банер».';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'Канал AFK / неактыўных';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Перамяшчаць удзельнікаў у гэты канал, калі яны AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Няма AFK-канала';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'Час бяздзейнасці (AFK)';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 хвіліна';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 хвілін';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 хвілін';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 хвілін';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 гадзіна';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds с';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Канал прызначэння';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Тут будуць з’яўляцца вітальныя і сістэмныя паведамленні.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Няма сістэмнага канала';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages =>
+      'Схаваць паведамленні пра далучэнне';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Хавае паведамленні пра далучэнне ў выбраным канале.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Прадвызначаныя налады апавяшчэнняў';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Усе паведамленні';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Апавяшчаць пра ўсе паведамленні';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Толькі згадванні';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Апавяшчаць толькі пра згадванні';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Да 10 МБ. Мінімум: 960×540 пкс (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Да 10 МБ. Мінімум: 960×540 пкс (16:9). Паказваецца ва ўбудаваных запрашэннях у чаце.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Фільтрацыя змесціва';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Аўтаматычна правяраць паведамленні на змесціва адкрытага характару ў каналах, не пазначаных як каналы для дарослых.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Explore must scan messages from all members. You can\'t change this setting while your community is listed in Explore.';
+      'Суполкі ў раздзеле «Агляд» павінны правяраць паведамленні ўсіх удзельнікаў. Пакуль ваша суполка ёсць у раздзеле «Агляд», гэту наладу змяніць нельга.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'Выключана';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Даверыць мадэрацыю самой суполцы';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole =>
+      'Фільтраваць удзельнікаў без роляў';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Рэкамендуецца для большасці суполак';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Фільтраваць усіх';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Максімальная абарона для сямейных прастор';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle =>
+      'Паказваць папярэджанне аб змесціве';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Уключае запыт згоды перад уваходам у любы канал.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Уласны тэкст папярэджання';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Тут ёсць адчувальнае змесціва.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => 'Патрабаванне 2FA';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Патрабаваць ад мадэратараў двухфактарную аўтэнтыфікацыю, перш чым яны змогуць баніць, выганяць, даваць тайм-аўт або выдаляць паведамленні.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'Патрабаваць 2FA для дзеянняў мадэрацыі';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Каб змяніць гэту наладу, уключыце 2FA у сваім уліковым запісе';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Пошук эмоджы';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload emoji';
+  String get guildSettingsEmojiUploadTitle => 'Загрузіць эмоджы';
 
   @override
-  String get guildSettingsEmojiSlotsTitle => 'Emoji slots';
+  String get guildSettingsEmojiSlotsTitle => 'Месцы для эмоджы';
 
   @override
-  String get guildSettingsEmojiDropZone => 'Drag and drop emoji files here';
+  String get guildSettingsEmojiDropZone => 'Перацягніце сюды файлы эмоджы';
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Failed to load emojis. Try again later.';
+      'Не ўдалося загрузіць эмоджы. Паспрабуйце пазней.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
-      'No emojis found matching your search.';
+      'Па вашым запыце эмоджы не знойдзены.';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'You\'ve reached the maximum number of emojis. Delete some existing emojis to make room.';
+      'Вы дасягнулі максімальнай колькасці эмоджы. Каб вызваліць месца, выдаліце некаторыя з іх.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under $maxSize. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.';
+    return 'Назвы эмоджы мусяць змяшчаць не менш за 2 сімвалы і могуць складацца з літар, лічбаў і падкрэсліванняў. Памер эмоджы мусіць быць меншы за $maxSize. Статычныя выявы аўтаматычна памяншаюцца да 128x128 пікселяў і сціскаюцца. Аніміраваныя эмоджы і SVG мусяць адразу ўкладвацца ў ліміт.';
   }
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
-      'Some emojis couldn\'t be added';
+      'Некаторыя эмоджы не ўдалося дадаць';
 
   @override
-  String get guildSettingsEmojiRenameTitle => 'Rename emoji';
+  String get guildSettingsEmojiRenameTitle => 'Перайменаваць эмоджы';
 
   @override
   String get guildSettingsEmojiRenameHint =>
-      '2-32 characters, letters, numbers, underscores.';
+      '2–32 сімвалы: літары, лічбы, знакі падкрэслівання.';
 
   @override
-  String get guildSettingsEmojiColumnName => 'Name';
+  String get guildSettingsEmojiColumnName => 'Імя';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Uploaded by';
+  String get guildSettingsEmojiColumnUploader => 'Хто загрузіў';
 
   @override
-  String get guildSettingsEmojiDeleteTitle => 'Delete emoji';
+  String get guildSettingsEmojiDeleteTitle => 'Выдаліць эмоджы';
 
   @override
   String guildSettingsEmojiDeleteBody(String name) {
-    return 'Delete :$name:? Can\'t be undone.';
+    return 'Выдаліць :$name:? Гэта нельга адмяніць.';
   }
 
   @override
   String get guildSettingsEmojiPurgeLabel =>
-      'Purge this emoji from storage and CDN';
+      'Выдаліць гэта эмоджы са сховішча і CDN';
 
   @override
   String get guildSettingsEmojiNameTooShort =>
-      'Emoji name must be at least 2 characters long';
+      'Назва эмоджы мусіць змяшчаць не менш за 2 сімвалы';
 
   @override
   String get guildSettingsEmojiNameTooLong =>
-      'Emoji name must be at most 32 characters long';
+      'Назва эмоджы мусіць змяшчаць не больш за 32 сімвалы';
 
   @override
-  String get guildSettingsEmojiInvalidNameTitle => 'Invalid emoji name';
+  String get guildSettingsEmojiInvalidNameTitle => 'Няправільная назва эмоджы';
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
-      'Couldn\'t rename this emoji';
+      'Не ўдалося перайменаваць гэта эмоджы';
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
-      'Couldn\'t delete this emoji';
+      'Не ўдалося выдаліць гэта эмоджы';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
-      'Allow others to clone your emojis';
+      'Дазволіць іншым кланіраваць вашы эмоджы';
 
   @override
   String get guildSettingsCloneEmojiDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom emojis. This does not prevent them from saving the image and uploading it themselves.';
+      'Калі ўключана, удзельнікі іншых суполак могуць кланіраваць вашы ўласныя эмоджы адным націсканнем кнопкі «Кланіраваць» у праграме. Гэта не перашкаджае ім захаваць выяву і загрузіць яе самастойна.';
 
   @override
   String get guildSettingsCloneStickerTitle =>
-      'Allow others to clone your stickers';
+      'Дазволіць іншым кланіраваць вашы стыкеры';
 
   @override
   String get guildSettingsCloneStickerDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom stickers. This does not prevent them from saving the image and uploading it themselves.';
+      'Калі ўключана, удзельнікі іншых суполак могуць кланіраваць вашы ўласныя стыкеры адным націсканнем кнопкі «Кланіраваць» у праграме. Гэта не перашкаджае ім захаваць выяву і загрузіць яе самастойна.';
 
   @override
   String guildSettingsClonePermissionHint(String permission) {
-    return 'Only members with the \"$permission\" permission can change this.';
+    return 'Змяніць гэта могуць толькі ўдзельнікі з дазволам «$permission».';
   }
 
   @override
   String get guildSettingsCloneEmojiUpdateFailed =>
-      'Couldn\'t update emoji cloning';
+      'Не ўдалося абнавіць кланіраванне эмоджы';
 
   @override
   String get guildSettingsCloneStickerUpdateFailed =>
-      'Couldn\'t update sticker cloning';
+      'Не ўдалося абнавіць кланіраванне стыкераў';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Неаніміраваныя эмоджы ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Аніміраваныя эмоджы ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Пошук стыкераў';
 
   @override
-  String get guildSettingsStickerSlotsTitle => 'Sticker slots';
+  String get guildSettingsStickerSlotsTitle => 'Месцы для стыкераў';
 
   @override
-  String get guildSettingsStickerUploadTitle => 'Upload sticker';
+  String get guildSettingsStickerUploadTitle => 'Загрузіць стыкер';
 
   @override
   String get guildSettingsStickerDropZone =>
-      'Drag and drop a sticker file here (one at a time)';
+      'Перацягніце сюды файл стыкера (па адным)';
 
   @override
-  String get guildSettingsStickerDensity => 'Sticker density';
+  String get guildSettingsStickerDensity => 'Шчыльнасць стыкераў';
 
   @override
-  String get guildSettingsStickerDensityCozy => 'Cozy';
+  String get guildSettingsStickerDensityCozy => 'Утульны';
 
   @override
-  String get guildSettingsStickerDensityCompact => 'Compact';
+  String get guildSettingsStickerDensityCompact => 'Кампактны';
 
   @override
-  String get guildSettingsStickersLoadFailedTitle => 'Failed to load stickers';
+  String get guildSettingsStickersLoadFailedTitle =>
+      'Не ўдалося загрузіць стыкеры';
 
   @override
   String get guildSettingsStickersLoadFailedBody =>
-      'There was an error loading the stickers. Try again.';
+      'Пры загрузцы стыкераў адбылася памылка. Паспрабуйце яшчэ раз.';
 
   @override
   String get guildSettingsStickersSearchEmpty =>
-      'No stickers found matching your search.';
+      'Па вашым запыце стыкеры не знойдзены.';
 
   @override
   String get guildSettingsStickerSlotsFull =>
-      'You\'ve reached the maximum number of stickers. Delete some existing stickers to make room.';
+      'Вы дасягнулі максімальнай колькасці стыкераў. Каб вызваліць месца, выдаліце некаторыя з іх.';
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Stickers are saved at 320x320 pixels and must be under $maxSize. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+    return 'Стыкеры захоўваюцца памерам 320x320 пікселяў і мусяць быць меншыя за $maxSize. Статычныя выявы аўтаматычна памяншаюцца і сціскаюцца. Аніміраваныя стыкеры і SVG мусяць адразу ўкладвацца ў ліміт.';
   }
 
   @override
-  String get guildSettingsStickerAddTitle => 'Add sticker';
+  String get guildSettingsStickerAddTitle => 'Дадаць стыкер';
 
   @override
-  String get guildSettingsStickerEditTitle => 'Edit sticker';
+  String get guildSettingsStickerEditTitle => 'Рэдагаваць стыкер';
 
   @override
-  String get guildSettingsStickerNameLabel => 'Name';
+  String get guildSettingsStickerNameLabel => 'Імя';
 
   @override
-  String get guildSettingsStickerNameHint => 'My awesome sticker';
+  String get guildSettingsStickerNameHint => 'Мой выдатны стыкер';
 
   @override
-  String get guildSettingsStickerDescriptionLabel => 'Description';
+  String get guildSettingsStickerDescriptionLabel => 'Апісанне';
 
   @override
-  String get guildSettingsStickerDescriptionHint => 'Describe the sticker';
+  String get guildSettingsStickerDescriptionHint => 'Апішыце стыкер';
 
   @override
   String guildSettingsStickerTagsLabel(int count, int limit) {
-    return 'Tags ($count/$limit)';
+    return 'Тэгі ($count/$limit)';
   }
 
   @override
-  String get guildSettingsStickerTagHint => 'Add a tag';
+  String get guildSettingsStickerTagHint => 'Дадаць тэг';
 
   @override
-  String get guildSettingsStickerTagAdd => 'Add';
+  String get guildSettingsStickerTagAdd => 'Дадаць';
 
   @override
-  String get guildSettingsStickerNameRequired => 'Name is required';
+  String get guildSettingsStickerNameRequired => 'Патрэбна назва';
 
   @override
   String get guildSettingsStickerNameTooShort =>
-      'Name must be at least 2 characters';
+      'Назва мусіць змяшчаць не менш за 2 сімвалы';
 
   @override
   String get guildSettingsStickerNameTooLong =>
-      'Name must be 30 characters or less';
+      'Назва павінна змяшчаць не больш за 30 сімвалаў';
 
   @override
   String get guildSettingsStickerDescriptionTooLong =>
-      'Description must be 500 characters or less';
+      'Апісанне павінна змяшчаць не больш за 500 сімвалаў';
 
   @override
   String get guildSettingsStickerCreateFailedTitle =>
-      'Couldn\'t create this sticker';
+      'Не ўдалося стварыць гэты стыкер';
 
   @override
-  String get guildSettingsStickerDeleteTitle => 'Delete sticker';
+  String get guildSettingsStickerDeleteTitle => 'Выдаліць стыкер';
 
   @override
   String guildSettingsStickerDeleteBody(String name) {
-    return 'Delete \"$name\"? Can\'t be undone.';
+    return 'Выдаліць «$name»? Гэта нельга адмяніць.';
   }
 
   @override
   String get guildSettingsStickerPurgeLabel =>
-      'Purge this sticker from storage and CDN';
+      'Выдаліць гэты стыкер са сховішча і CDN';
 
   @override
   String get guildSettingsStickerDeleteFailedTitle =>
-      'Couldn\'t delete this sticker';
+      'Не ўдалося выдаліць гэты стыкер';
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'To create a webhook, open $channelSettingsPath. You can still edit and organize all existing webhooks here.';
+    return 'Каб стварыць вэб-хук, адкрыйце $channelSettingsPath. Тут можна рэдагаваць і ўпарадкоўваць усе наяўныя вэб-хукі.';
   }
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Забаненыя карыстальнікі';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Хто запрасіў';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Канал';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'Код';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Выкарыстанні';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Створана';
 
   @override
-  String get guildSettingsInvitesTableExpires => 'Expires';
+  String get guildSettingsInvitesTableExpires => 'Сканчаецца';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Фільтраваць па карыстальніку';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Фільтраваць па дзеянні';
 
   @override
-  String get createDm => 'Create DM';
+  String get createDm => 'Стварыць асабісты чат';
 
   @override
-  String get createGroupDm => 'Create group DM';
+  String get createGroupDm => 'Стварыць групавы чат';
 
   @override
-  String get createDmNewMessage => 'New message';
+  String get createDmNewMessage => 'Новае паведамленне';
 
   @override
-  String get createDmSelectFriends => 'Select friends';
+  String get createDmSelectFriends => 'Выбраць сяброў';
 
   @override
-  String get createDmChooseFriendsSubtitle => 'Choose friends to message.';
+  String get createDmChooseFriendsSubtitle =>
+      'Выберыце сяброў, якім хочаце напісаць.';
 
   @override
-  String get createDmSearchFriends => 'Search friends';
+  String get createDmSearchFriends => 'Пошук сяброў';
 
   @override
-  String get createDmNoFriendsFound => 'No friends found';
+  String get createDmNoFriendsFound => 'Сябры не знойдзены';
 
   @override
-  String get createDmNoFriendsYet => 'You have no friends yet';
+  String get createDmNoFriendsYet => 'У вас пакуль няма сяброў';
 
   @override
-  String get createDmClaimToStartDms => 'Claim your account to start DMs.';
+  String get createDmClaimToStartDms =>
+      'Каб пісаць асабістыя паведамленні, замацуйце за сабой уліковы запіс.';
 
   @override
-  String get createDmVerifyToStartDms => 'Verify your email to start DMs.';
+  String get createDmVerifyToStartDms =>
+      'Каб пісаць асабістыя паведамленні, пацвердзіце электронную пошту.';
 
   @override
-  String get createDmVerifyYourEmail => 'Verify your email';
+  String get createDmVerifyYourEmail => 'Пацвердзіце электронную пошту';
 
   @override
-  String get createDmNewGroup => 'New group';
+  String get createDmNewGroup => 'Новая група';
 
   @override
   String createDmCreateGroupWithRecipient(String userName) {
-    return 'Create a new group with $userName';
+    return 'Стварыць новую групу з $userName';
   }
 
   @override
-  String get createDmConfirmNewGroup => 'Confirm new group';
+  String get createDmConfirmNewGroup => 'Пацвердзіць новую групу';
 
   @override
-  String get createDmCreateNewGroup => 'Create new group';
+  String get createDmCreateNewGroup => 'Стварыць новую групу';
 
   @override
   String createDmRemoveFriend(String displayName) {
-    return 'Remove $displayName';
+    return 'Прыбраць $displayName';
   }
 
   @override
   String get createDmDuplicateGroupDescription =>
-      'You already have a group with these users. Do you really want to create a new one? That\'s fine too!';
+      'У вас ужо ёсць група з гэтымі карыстальнікамі. Сапраўды хочаце стварыць новую? Гэта таксама можна!';
 
   @override
-  String get createDmNoActivityYet => 'No activity yet';
+  String get createDmNoActivityYet => 'Пакуль няма актыўнасці';
 
   @override
-  String get createDmSomeUsersCantBeAdded => 'Some users can\'t be added';
+  String get createDmSomeUsersCantBeAdded =>
+      'Некаторых карыстальнікаў нельга дадаць';
 
   @override
-  String get createDmCreateWithoutThem => 'Create without them';
+  String get createDmCreateWithoutThem => 'Стварыць без іх';
 
   @override
   String get createDmUnaddableIntro =>
-      'The following people can\'t be added to this group DM:';
+      'Гэтых людзей нельга дадаць у гэты групавы чат:';
 
   @override
   String createDmUnaddableProceed(int count) {
-    return 'Create the group DM with the remaining $count recipient(s) and skip the others?';
+    return 'Стварыць групавы чат з астатнімі ўдзельнікамі ($count) і прапусціць іншых?';
   }
 
   @override
   String get createDmUnaddableNoneRemaining =>
-      'No remaining recipients to create a group DM with.';
+      'Не засталося атрымальнікаў, з якімі можна стварыць групавы чат.';
 
   @override
-  String get createDmUnaddableUserNotFound => 'User not found';
+  String get createDmUnaddableUserNotFound => 'Карыстальнік не знойдзены';
 
   @override
-  String get createDmUnaddableBlocked => 'You can\'t message this user';
+  String get createDmUnaddableBlocked => 'Гэтаму карыстальніку нельга напісаць';
 
   @override
-  String get createDmUnaddableNotFriends => 'Not on your friends list';
+  String get createDmUnaddableNotFriends => 'Не ў вашым спісе сяброў';
 
   @override
   String get createDmUnaddableGroupDisabled =>
-      'Doesn\'t allow being added to group DMs';
+      'Не дазваляе дадаваць сябе ў групавыя чаты';
 
   @override
-  String get dmListMessagesTitle => 'Messages';
+  String get dmListMessagesTitle => 'Паведамленні';
 
   @override
-  String get dmListDirectMessagesTitle => 'Direct messages';
+  String get dmListDirectMessagesTitle => 'Асабістыя паведамленні';
 
   @override
-  String get dmListFriendsButton => 'Friends';
+  String get dmListFriendsButton => 'Сябры';
 
   @override
-  String get keybindsSearchShortcuts => 'Search shortcuts';
+  String get keybindsSearchShortcuts => 'Пошук спалучэнняў клавіш';
 
   @override
-  String get keybindSectionDefaults => 'Defaults';
+  String get keybindSectionDefaults => 'Прадвызначаныя';
 
   @override
-  String get keybindSectionMessages => 'Messages';
+  String get keybindSectionMessages => 'Паведамленні';
 
   @override
-  String get keybindSectionNavigation => 'Navigation';
+  String get keybindSectionNavigation => 'Навігацыя';
 
   @override
-  String get keybindSectionDragAndDrop => 'Drag and drop';
+  String get keybindSectionDragAndDrop => 'Перацягванне';
 
   @override
-  String get keybindSectionChat => 'Chat';
+  String get keybindSectionChat => 'Чат';
 
   @override
-  String get keybindSectionVoiceAndVideo => 'Voice and video';
+  String get keybindSectionVoiceAndVideo => 'Гук і відэа';
 
   @override
-  String get keybindSectionMisc => 'Miscellaneous';
+  String get keybindSectionMisc => 'Рознае';
 
   @override
-  String get keybindActionShowShortcutsList => 'Show keyboard shortcuts list';
+  String get keybindActionShowShortcutsList =>
+      'Паказаць спіс спалучэнняў клавіш';
 
   @override
-  String get keybindActionCopyText => 'Copy text';
+  String get keybindActionCopyText => 'Скапіраваць тэкст';
 
   @override
-  String get keybindActionMarkUnread => 'Mark as unread';
+  String get keybindActionMarkUnread => 'Пазначыць як непрачытанае';
 
   @override
-  String get keybindActionFocusTextarea => 'Focus text area';
+  String get keybindActionFocusTextarea => 'Перавесці фокус на тэкставае поле';
 
   @override
-  String get keybindActionSwitchCommunities => 'Switch between communities';
+  String get keybindActionSwitchCommunities => 'Пераключацца паміж суполкамі';
 
   @override
-  String get keybindActionSwitchChannels => 'Switch between channels';
+  String get keybindActionSwitchChannels => 'Пераключацца паміж каналамі';
 
   @override
   String get keybindActionHistoryBack =>
-      'Move back through viewed channel history';
+      'Назад па гісторыі прагледжаных каналаў';
 
   @override
   String get keybindActionHistoryForward =>
-      'Move forward through viewed channel history';
+      'Наперад па гісторыі прагледжаных каналаў';
 
   @override
-  String get keybindActionJumpUnreadChannels => 'Jump between unread channels';
+  String get keybindActionJumpUnreadChannels =>
+      'Пераходзіць паміж непрачытанымі каналамі';
 
   @override
   String get keybindActionJumpMentionChannels =>
-      'Jump between unread channels with mentions';
+      'Пераходзіць паміж непрачытанымі каналамі са згадваннямі';
 
   @override
-  String get keybindActionJumpCurrentCall => 'Jump to the current call';
+  String get keybindActionJumpCurrentCall => 'Перайсці да цяперашняга выкліку';
 
   @override
   String get keybindActionToggleLastGuildDms =>
-      'Toggle between last community and DMs';
+      'Пераключацца паміж апошняй суполкай і асабістымі чатамі';
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
-      'Switch to previous community or DMs';
+      'Перайсці да папярэдняй суполкі або асабістых чатаў';
 
   @override
   String get keybindActionNextCommunityOrDms =>
-      'Switch to next community or DMs';
+      'Перайсці да наступнай суполкі або асабістых чатаў';
 
   @override
-  String get keybindActionGoToDms => 'Go to direct messages';
+  String get keybindActionGoToDms => 'Перайсці да асабістых паведамленняў';
 
   @override
-  String get keybindActionGoToFirstCommunity => 'Go to first community';
+  String get keybindActionGoToFirstCommunity => 'Перайсці ў першую суполку';
 
   @override
-  String get keybindActionGoToSecondCommunity => 'Go to second community';
+  String get keybindActionGoToSecondCommunity => 'Перайсці ў другую суполку';
 
   @override
-  String get keybindActionGoToThirdCommunity => 'Go to third community';
+  String get keybindActionGoToThirdCommunity => 'Перайсці ў трэцюю суполку';
 
   @override
-  String get keybindActionGoToFourthCommunity => 'Go to fourth community';
+  String get keybindActionGoToFourthCommunity => 'Перайсці ў чацвёртую суполку';
 
   @override
-  String get keybindActionGoToFifthCommunity => 'Go to fifth community';
+  String get keybindActionGoToFifthCommunity => 'Перайсці ў пятую суполку';
 
   @override
-  String get keybindActionGoToSixthCommunity => 'Go to sixth community';
+  String get keybindActionGoToSixthCommunity => 'Перайсці ў шостую суполку';
 
   @override
-  String get keybindActionGoToSeventhCommunity => 'Go to seventh community';
+  String get keybindActionGoToSeventhCommunity => 'Перайсці ў сёмую суполку';
 
   @override
-  String get keybindActionGoToEighthCommunity => 'Go to eighth community';
+  String get keybindActionGoToEighthCommunity => 'Перайсці ў восьмую суполку';
 
   @override
-  String get keybindActionToggleQuickSwitcher => 'Toggle quick switcher';
+  String get keybindActionToggleQuickSwitcher =>
+      'Адкрыць або закрыць хуткі пераключальнік';
 
   @override
-  String get keybindActionCreateOrJoinCommunity => 'Create or join a community';
+  String get keybindActionCreateOrJoinCommunity =>
+      'Стварыць суполку або далучыцца да наяўнай';
 
   @override
-  String get keybindActionStartDragAndDrop => 'Start drag and drop';
+  String get keybindActionStartDragAndDrop => 'Пачаць перацягванне';
 
   @override
-  String get keybindActionMove => 'Move';
+  String get keybindActionMove => 'Перамясціць';
 
   @override
-  String get keybindActionDropItem => 'Drop item';
+  String get keybindActionDropItem => 'Апусціць элемент';
 
   @override
-  String get keybindActionCancel => 'Cancel';
+  String get keybindActionCancel => 'Скасаваць';
 
   @override
-  String get keybindActionMarkCommunityRead => 'Mark community as read';
+  String get keybindActionMarkCommunityRead =>
+      'Пазначыць суполку як прачытаную';
 
   @override
-  String get keybindActionMarkChannelRead => 'Mark channel as read';
+  String get keybindActionMarkChannelRead => 'Пазначыць канал як прачытаны';
 
   @override
-  String get keybindActionStartGroupDm => 'Start a group DM';
+  String get keybindActionStartGroupDm => 'Стварыць групавы чат';
 
   @override
-  String get keybindActionTogglePinnedMessages => 'Toggle pinned messages';
+  String get keybindActionTogglePinnedMessages =>
+      'Паказаць або схаваць замацаваныя паведамленні';
 
   @override
-  String get keybindActionToggleInbox => 'Toggle the inbox';
+  String get keybindActionToggleInbox => 'Паказаць або схаваць уваходныя';
 
   @override
-  String get keybindActionMarkTopInboxRead => 'Mark top inbox channel as read';
+  String get keybindActionMarkTopInboxRead =>
+      'Пазначыць верхні канал ва ўваходных як прачытаны';
 
   @override
-  String get keybindActionMarkAllInboxRead => 'Mark all inbox channels as read';
+  String get keybindActionMarkAllInboxRead =>
+      'Пазначыць усе каналы ва ўваходных як прачытаныя';
 
   @override
   String get keybindActionToggleMemberList =>
-      'Toggle the member list or voice chat';
+      'Паказаць або схаваць спіс удзельнікаў або галасавы чат';
 
   @override
-  String get keybindActionToggleEmojiPicker => 'Toggle the emoji picker';
+  String get keybindActionToggleEmojiPicker =>
+      'Адкрыць або закрыць панэль эмоджы';
 
   @override
-  String get keybindActionToggleGifPicker => 'Toggle the GIF picker';
+  String get keybindActionToggleGifPicker => 'Адкрыць або закрыць панэль GIF';
 
   @override
-  String get keybindActionToggleStickerPicker => 'Toggle the sticker picker';
+  String get keybindActionToggleStickerPicker =>
+      'Адкрыць або закрыць панэль стыкераў';
 
   @override
-  String get keybindActionScrollChatUp => 'Scroll chat up';
+  String get keybindActionScrollChatUp => 'Пракруціць чат уверх';
 
   @override
-  String get keybindActionScrollChatDown => 'Scroll chat down';
+  String get keybindActionScrollChatDown => 'Пракруціць чат уніз';
 
   @override
   String get keybindActionJumpOldestUnread =>
-      'Jump to the oldest unread message';
+      'Перайсці да найстарэйшага непрачытанага паведамлення';
 
   @override
-  String get keybindActionFocusComposer => 'Focus the text area';
+  String get keybindActionFocusComposer => 'Перавесці фокус на тэкставае поле';
 
   @override
-  String get keybindActionUploadFile => 'Upload a file';
+  String get keybindActionUploadFile => 'Загрузіць файл';
 
   @override
-  String get keybindActionCopyChannelLink => 'Copy channel link';
+  String get keybindActionCopyChannelLink => 'Скапіраваць спасылку на канал';
 
   @override
-  String get keybindActionToggleSavedMedia => 'Toggle saved media';
+  String get keybindActionToggleSavedMedia =>
+      'Паказаць або схаваць захаваныя медыя';
 
   @override
-  String get keybindActionSendVoiceMessage => 'Send voice message';
+  String get keybindActionSendVoiceMessage =>
+      'Адправіць галасавое паведамленне';
 
   @override
-  String get keybindActionAnswerCall => 'Answer the incoming call';
+  String get keybindActionAnswerCall => 'Адказаць на ўваходны выклік';
 
   @override
-  String get keybindActionDeclineCall => 'Decline the incoming call';
+  String get keybindActionDeclineCall => 'Адхіліць уваходны выклік';
 
   @override
-  String get keybindActionStartDmCall => 'Start a call in a DM or group';
+  String get keybindActionStartDmCall =>
+      'Пачаць выклік у асабістым або групавым чаце';
 
   @override
-  String get keybindActionToggleSoundboard => 'Toggle the soundboard';
+  String get keybindActionToggleSoundboard =>
+      'Адкрыць або закрыць гукавую панэль';
 
   @override
   String get keybindActionToggleCompactCallView =>
-      'Expand or collapse compact call view';
+      'Разгарнуць або згарнуць кампактны выгляд выкліку';
 
   @override
-  String get keybindActionPushToTalkPriority => 'Push to talk (priority)';
+  String get keybindActionPushToTalkPriority => 'Рэжым рацыі (прыярытэт)';
 
   @override
-  String get keybindActionVoiceActivityPriority => 'Voice activity priority';
+  String get keybindActionVoiceActivityPriority =>
+      'Прыярытэт галасавой актыўнасці';
 
   @override
-  String get keybindActionOpenHelp => 'Open help';
+  String get keybindActionOpenHelp => 'Адкрыць даведку';
 
   @override
-  String get keybindActionSearchMessages => 'Search messages';
+  String get keybindActionSearchMessages => 'Пошук паведамленняў';
 
   @override
-  String get keybindActionOpenContextMenu => 'Open the context menu';
+  String get keybindActionOpenContextMenu => 'Адкрыць кантэкстнае меню';
 
   @override
-  String get keybindActionOpenSettings => 'Open your settings';
+  String get keybindActionOpenSettings => 'Адкрыць налады';
 
   @override
-  String get keybindActionOpenThemeStudio => 'Open theme studio popout';
+  String get keybindActionOpenThemeStudio =>
+      'Адкрыць асобнае акно Theme Studio';
 
   @override
-  String get keybindActionZoomIn => 'Zoom in';
+  String get keybindActionZoomIn => 'Павялічыць';
 
   @override
-  String get keybindActionZoomOut => 'Zoom out';
+  String get keybindActionZoomOut => 'Паменшыць';
 
   @override
-  String get keybindActionZoomReset => 'Reset zoom';
+  String get keybindActionZoomReset => 'Скінуць маштаб';
 
   @override
   String get clipboardPasteFailed =>
-      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
+      'Не ўдалося ўставіць. Буфер абмену пусты або заблакіраваны для гэтай праграмы.';
 
   @override
-  String get homeQuickActionDms => 'DMs';
+  String get homeQuickActionDms => 'АЧ';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'Спачатку адкрыйце Fluxer і ўвайдзіце.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Вы не ў выкліку.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer не ўдалося гэта знайсці.';
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Асабістыя паведамленні адключаны на гэтым экзэмпляры.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer не ўдалося гэта выканаць.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Мікрафон выключаны.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Мікрафон уключаны.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Вы выйшлі з галасавога канала.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Падключэнне да галасавога канала.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Пачынаецца выклік.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Статус зменены на «$status».';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Fluxer адкрываецца.';
 
   @override
-  String get assistantOkMessageSent => 'Message sent.';
+  String get assistantOkMessageSent => 'Паведамленне адпраўлена.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Уласны статус абноўлены.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Уласны статус ачышчаны.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Аб’ява';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Публікуйце абнаўленні, на якія могуць падпісвацца іншыя суполкі';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Канал аб’яў';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Канал аб’яў';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Дазваляе іншым суполкам падпісвацца на гэты канал і атрымліваць копіі таго, што вы публікуеце.';
 
   @override
-  String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+  String get channelSettingsStopAnnouncementTitle => 'Адключыць канал аб’яў?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15811,226 +16178,233 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          'На гэты канал падпісана $count канала. Калі пераўтварыць яго ў тэкставы канал, гэтыя падпіскі будуць скасаваны.',
+      many:
+          'На гэты канал падпісана $count каналаў. Калі пераўтварыць яго ў тэкставы канал, гэтыя падпіскі будуць скасаваны.',
+      few:
+          'На гэты канал падпісаны $count каналы. Калі пераўтварыць яго ў тэкставы канал, гэтыя падпіскі будуць скасаваны.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          'На гэты канал падпісаны $count канал. Калі пераўтварыць яго ў тэкставы канал, гэтыя падпіскі будуць скасаваны.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Калі пераўтварыць гэты канал у тэкставы, будуць прыбраны ўсе падпіскі каналаў на яго.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Пераўтварыць';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed =>
+      'Не ўдалося пераўтварыць гэты канал';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'На гэты канал яшчэ падпісаны іншыя каналы. Перш чым пераўтварыць яго, скасуйце гэтыя падпіскі.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Падпісацца на канал';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Падпісацца на гэты канал';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Выберыце, куды будуць трапляць яго апублікаваныя паведамленні. Адпісацца можна ў любы час: Налады суполкі → Вэб-хукі.';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'Суполка';
 
   @override
-  String get channelFollowChannel => 'Channel';
+  String get channelFollowChannel => 'Канал';
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Гэта канал з узроставым абмежаваннем. Абнаўленні можна адпраўляць толькі ў каналы з узроставым абмежаваннем.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'У гэтага канала ёсць папярэджанне аб змесціве. Абнаўленні можна адпраўляць толькі ў каналы з папярэджаннем аб змесціве або ўзроставым абмежаваннем.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Суполкі і каналы, дзе вы не можаце кіраваць вэб-хукамі, схаваны.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Вы не можаце кіраваць вэб-хукамі ні ў адной суполцы. Папрасіце адміністратара падпісацца на гэты канал.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Падпісацца';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Не ўдалося падпісацца на гэты канал.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Абнаўленні ўжо ў дарозе!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return 'Паведамленні, апублікаваныя ў $sourceName, будуць з’яўляцца ў #$targetName.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Зразумела!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Падпішыцеся, каб атрымліваць гэтыя аб’явы ў выбраны вамі канал.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Падпісацца на канал';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Апублікаваць';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Апублікавана';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Апублікаваць паведамленне?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Копія будзе адпраўлена ва ўсе каналы, падпісаныя на гэты.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Паведамленне апублікавана';
 
   @override
   String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+      'Гэта паведамленне ўжо апублікавана.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle =>
+      'Не ўдалося апублікаваць гэта паведамленне';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Нешта пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Не так хутка';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return 'Апублікаваць зноў можна будзе праз $duration.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Вы публікуеце занадта хутка. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Таксама будуць выдалены копіі, адпраўленыя ў каналы, падпісаныя на гэты.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle =>
+      'Рэдагаваць апублікаванае паведамленне?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Таксама будуць абноўлены копіі, адпраўленыя ў каналы, падпісаныя на гэты.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Захаваць';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Не так хутка';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Рэдагаваць гэта апублікаванае паведамленне зноў можна будзе праз $duration.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Вы рэдагуеце гэта апублікаванае паведамленне занадта хутка. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Зыходнае паведамленне выдалена]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'Суполка';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username падпісвае гэты канал на $source. Паведамленні, апублікаваныя там, будуць з’яўляцца тут.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username падпісвае гэты канал на $source.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Яшчэ не адпраўлена падпісчыкам.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Больш не паказваць';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Закрыць';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Каналы, на якія ёсць падпіска';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Каналы аб’яў, на якія падпісаны гэты канал. Каб больш не атрымліваць копіі, адпішыцеся.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Каналы аб’яў, на якія падпісаны каналы гэтай суполкі.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'З $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Абнаўленні прыпынены, бо канал-крыніца больш недаступны.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return 'Адпісацца ад $name?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Гэты канал перастане атрымліваць копіі з таго канала аб’яў.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Адпісацца';
 
   @override
-  String get crosspostCommunityTitle => 'Community';
+  String get crosspostCommunityTitle => 'Суполка';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
+  String get crosspostGoToCommunity => 'Перайсці ў суполку';
 
   @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Далучыцца да суполкі';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
+      'Не ўдалося загрузіць гэту суполку. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return 'Удзельнікаў: $count';
   }
 
   @override
   String crosspostOnline(int count) {
-    return '$count online';
+    return '$count у сетцы';
   }
 
   @override
@@ -16038,8 +16412,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count хвіліны',
+      many: '$count хвілін',
+      few: '$count хвіліны',
+      one: '$count хвіліна',
     );
     return '$_temp0';
   }
@@ -16049,97 +16425,102 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count секунды',
+      many: '$count секунд',
+      few: '$count секунды',
+      one: '$count секунда',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Тып канала не падтрымліваецца';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Гэта версія праграмы не падтрымлівае такі тып канала.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Канал не падтрымліваецца';
 
   @override
-  String get forumChannelTypeForum => 'Forum';
+  String get forumChannelTypeForum => 'Форум';
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'Допісы, упарадкаваныя па тэмах і тэгах';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'Медыя';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'Допісы, пабудаваныя вакол выяў і відэа';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'Новы допіс';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'Новы медыядопіс';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'Шукаць допісы';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'Сартаванне і выгляд';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'Пошук для гэтай суполкі яшчэ рыхтуецца. Допісы з’явяцца тут, як толькі ён будзе гатовы.';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'Пакуль няма допісаў';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint => 'Пачніце размову тут першымі.';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults =>
+      'Няма допісаў, якія адпавядаюць вашаму пошуку';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'Паспрабуйце іншыя словы або ачысціце фільтр тэгаў.';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'Стварыце першы допіс';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'Старэйшыя допісы';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'Не ўдалося загрузіць допісы.';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'Паспрабаваць яшчэ раз';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'Замацавана';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'Заблакіравана';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'У архіве';
 
   @override
-  String get forumPostNewBadge => 'New';
+  String get forumPostNewBadge => 'Новы';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'Зыходнае паведамленне выдалена.';
 
   @override
-  String get forumPostBlockedAuthor => 'Post from someone you blocked';
+  String get forumPostBlockedAuthor =>
+      'Допіс ад карыстальніка, якога вы заблакіравалі';
 
   @override
-  String get threadBlockedAuthor => 'Thread from someone you blocked';
+  String get threadBlockedAuthor =>
+      'Галіна ад карыстальніка, якога вы заблакіравалі';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -16151,8 +16532,10 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '$count new message',
+      other: '$count новага паведамлення',
+      many: '$count новых паведамленняў',
+      few: '$count новыя паведамленні',
+      one: '$count новае паведамленне',
     );
     return '$_temp0';
   }
@@ -16162,1161 +16545,1198 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new',
-      one: '1 new',
+      other: '$count новага',
+      many: '$count новых',
+      few: '$count новыя',
+      one: '$count новае',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPostHasNewMessagesShort => 'New';
+  String get forumPostHasNewMessagesShort => 'Новае';
 
   @override
-  String get forumPostHasNewMessages => 'New messages';
+  String get forumPostHasNewMessages => 'Новыя паведамленні';
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'Дадаць прадвызначаную рэакцыю';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'Адкрыць допіс';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'Рэдагаваць тэгі';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'Захаваць тэгі';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'Выберыце не больш за $count тэга.',
+      many: 'Выберыце не больш за $count тэгаў.',
+      few: 'Выберыце не больш за $count тэгі.',
+      one: 'Выберыце не больш за $count тэг.',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'Замацаваць допіс';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'Адмацаваць допіс';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'Пазначыць як прачытанае';
 
   @override
-  String get forumReportPost => 'Report post';
+  String get forumReportPost => 'Паскардзіцца на допіс';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'Скапіраваць спасылку';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'Правілы допісаў';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'Раскажыце, што тут публікаваць і як гэта рабіць.';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'Назва';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'Паведамленне';
 
   @override
   String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+      'Напішыце першае паведамленне свайго допісу';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'Дадайце подпіс';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'Тэгі';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'Тэгі (абавязкова)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'Дадаць медыя';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'Дадаць файл';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'Прыбраць далучэнне';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'Апублікаваць';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'Дайце свайму допісу назву.';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'Каб апублікаваць тут, дадайце хаця б адну выяву або відэа.';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired =>
+      'Напішыце паведамленне або дадайце файл.';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'Нядаўна актыўныя';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'Дата публікацыі';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'Спіс';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'Галерэя';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'Пазначаць новыя допісы як непрачытаныя';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'Пазначаць гэты канал як непрачытаны, калі хтосьці стварае допіс.';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'Павольны рэжым для допісаў';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Інтэрвал паміж стварэннем допісаў. Удзельнікі з дазволам «$bypassSlowmodePermissionLabel» могуць яго абыходзіць.';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'Павольны рэжым паведамленняў у допісах';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'Павольны рэжым для паведамленняў у новых допісах.';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'Хаваць пасля бяздзейнасці';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'Новыя допісы архівуюцца пасля такога перыяду без актыўнасці.';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'Прадвызначаная рэакцыя';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'Выбраць эмоджы';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'Змяніць';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'Прыбраць';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'Прадвызначаны парадак сартавання';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'Прадвызначаны макет';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'Фільтр па тэгах';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'Супадае з любым выбраным тэгам';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'Супадае з усімі выбранымі тэгамі';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'Патрабаваць тэгі';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'Пры стварэнні допісу трэба выбраць хаця б адзін тэг.';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads => 'Хаваць параметры спампоўкі медыя';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'Схаваць спампоўку, адкрыццё ў браўзеры і капіраванне спасылкі для выяў і відэа ў допісах.';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'Тэгі ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'Тэгі дапамагаюць знаходзіць і фільтраваць допісы. Мадэраваныя тэгі могуць ставіць толькі мадэратары.';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'Стварыць тэг';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'Рэдагаваць тэг';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'Захаваць тэг';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'Выдаліць тэг';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'Назва тэга';
 
   @override
-  String get forumTagEmoji => 'Emoji';
+  String get forumTagEmoji => 'Эмоджы';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'Прыбраць эмоджы';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'Ставіць могуць толькі мадэратары';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'Ставіць і прыбіраць гэты тэг могуць толькі ўдзельнікі, якія могуць кіраваць галінамі.';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'Мадэраваны';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'Апублікаваць зноў можна будзе праз $seconds секунды.',
+      many: 'Апублікаваць зноў можна будзе праз $seconds секунд.',
+      few: 'Апублікаваць зноў можна будзе праз $seconds секунды.',
+      one: 'Апублікаваць зноў можна будзе праз $seconds секунду.',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'Пачаць у рэжыме P2P?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'Аўдыя і відэа перадаюцца напрамую паміж удзельнікамі з меншай затрымкай. Іншыя ўдзельнікі бачаць ваш IP-адрас. Удзельнічаць могуць да $maxParticipants чалавек. Хто не можа падключыцца напрамую, не зможа ўдзельнічаць, пакуль хтосьці не пераключыць выклік на стандартны.';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'Пачаць у рэжыме P2P';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'Пачаць звычайны выклік';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'Далучыцца да P2P-выкліку?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'Гэты выклік злучае ўдзельнікаў напрамую. Іншыя ўдзельнікі бачаць ваш IP-адрас. Удзельнічаць могуць да $maxParticipants чалавек. Калі вы не можаце падключыцца напрамую, вы не зможаце ўдзельнічаць, пакуль хтосьці не пераключыць выклік на стандартны.';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'У гэтым канале дазволены толькі P2P-выклікі. Удзельнікі злучаюцца напрамую і бачаць ваш IP-адрас. Удзельнічаць могуць да $maxParticipants чалавек. Калі вы не можаце падключыцца напрамую, вы не зможаце ўдзельнічаць.';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'Далучыцца';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel => 'Больш не пытаць, заўсёды згаджацца';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'Заўсёды пагаджацца далучацца да P2P-выклікаў';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'Далучацца да P2P-выклікаў без пацвярджэння. Іншыя ўдзельнікі бачаць ваш IP-адрас.';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'Прамое злучэнне. Медыя шыфруюцца паміж удзельнікамі.';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'Перайсці на звычайны выклік';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'Усе ўдзельнікі выкліку пяройдуць на стандартны выклік праз сервер.';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'Не ўдалося ўсталяваць прамое злучэнне. Выйдзіце з выкліку або пераключыце ўсіх на стандартны выклік.';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError => 'P2P-выклікі зараз недаступныя.';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'Гэта P2P-выклік, і каб далучыцца, патрэбна ваша згода.';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'Гэты выклік запоўнены.';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'У P2P-выкліках дэманстрацыя экрана з гэтай прылады недаступная.';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'Пачаць P2P-выклік';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'Толькі P2P-выклікі';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'Удзельнікі злучаюцца напрамую і бачаць IP-адрасы адно аднаго. Перад далучэннем кожны павінен даць згоду. Удзельнічаць могуць да $maxParticipants чалавек.';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'Не ўдаецца злучыцца напрамую з $name';
   }
 
   @override
-  String get favoritesRenameCategory => 'Rename category';
+  String get favoritesRenameCategory => 'Перайменаваць катэгорыю';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle => 'Не ўдалося прыняць запыт у сябры';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'Гэты запыт у сябры больш недаступны. Абнавіце старонку і паспрабуйце яшчэ раз.';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'Завяршыце рэгістрацыю, каб прымаць запыты ў сябры.';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'Не ўдалося прыняць запыт у сябры. Паспрабуйце яшчэ раз.';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle => 'Не ўдалося скасаваць запыт у сябры';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle =>
+      'Не ўдалося праігнараваць запыт у сябры';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'Не ўдалося праігнараваць запыт у сябры. Паспрабуйце яшчэ раз.';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'Не ўдалося выдаліць з сяброў';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'Не ўдалося выдаліць гэтага сябра. Паспрабуйце яшчэ раз.';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'Не ўдалося заблакіраваць карыстальніка';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount =>
+      'Гэты ўліковы запіс нельга заблакіраваць.';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'Не ўдалося заблакіраваць гэтага карыстальніка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle =>
+      'Не ўдалося разблакіраваць карыстальніка';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'Не ўдалося разблакіраваць гэтага карыстальніка. Паспрабуйце яшчэ раз.';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'Скасаваць запыт у сябры для $userName?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'Штосьці пайшло не так';
 
   @override
   String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+      'Адбылася нечаканая памылка. Паспрабуйце яшчэ раз.';
 
   @override
   String get errorTwoFactorRequiredTitle =>
-      'Two-factor authentication required';
+      'Патрэбна двухфактарная аўтэнтыфікацыя';
 
   @override
   String get errorTwoFactorRequiredMessage =>
-      'This community requires two-factor authentication for moderation actions. Set up 2FA on your account to continue.';
+      'Гэта суполка патрабуе двухфактарнай аўтэнтыфікацыі для дзеянняў мадэрацыі. Каб працягнуць, наладзьце 2FA для свайго ўліковага запісу.';
 
   @override
-  String get errorTwoFactorRequiredSetUp => 'Set up 2FA';
+  String get errorTwoFactorRequiredSetUp => 'Наладзіць 2FA';
 
   @override
   String get memberRolesUpdateFailed =>
-      'Couldn\'t update this member\'s roles. Try again.';
+      'Не ўдалося абнавіць ролі гэтага ўдзельніка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'Адпраўка паведамленняў прыпынена';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Адпраўка паведамленняў у вашым уліковым запісе прыпынена. Праверце электронную пошту: каб працягнуць, трэба зрабіць адзін хуткі крок.';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'Функцыя часова адключана';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'Гэта функцыя прыпынена. Паспрабуйце пазней.';
 
   @override
-  String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+  String get dmErrorStartConversationTitle => 'Не ўдалося пачаць гэту размову';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'Магчыма, гэты чалавек не прымае ад вас паведамленні або ў вас больш няма агульнай суполкі.';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'Гэтага карыстальніка больш не існуе. Абнавіце старонку і паспрабуйце яшчэ раз.';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'Каб пачаць асабістую перапіску, трэба замацаваць за сабой уліковы запіс.';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'Каб пачаць асабісты чат, пацвердзіце адрас электроннай пошты.';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle =>
+      'У гэтай групе занадта шмат людзей';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'Вы дадалі больш людзей, чым дазваляе групавы чат. Выдаліце некалькі і паспрабуйце яшчэ раз.';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle => 'Вы дасягнулі ліміту групавых чатаў';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'У вас або ў кагосьці з тых, каго вы дадаяце, ужо адкрыта максімальная колькасць групавых чатаў. Пакіньце адзін і паспрабуйце яшчэ раз.';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'Не ўдалося дадаць у групу';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle =>
+      'Не ўдалося стварыць спасылку-запрашэнне';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'Не ўдалося закрыць асабісты чат';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'Не ўдалося пакінуць групу';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'Не ўдалося далучыцца да суполкі';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'Адміністратары прыпынілі запрашэнні, таму зараз далучыцца нельга.';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'Суполка запоўнена';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'Суполка дасягнула максімальнай колькасці ўдзельнікаў і зараз не прымае новых.';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'Патрэбна падключэнне да шлюза';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'Для часовых запрашэнняў патрэбна актыўнае злучэнне. Праверце яго і паспрабуйце яшчэ раз.';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'У вас бан';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'У гэтай суполцы ў вас бан, таму далучыцца нельга.';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'Ваш IP-адрас забанены';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'Ваш IP-адрас забанены ў гэтай суполцы, і вы не можаце далучыцца.';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'Патрэбна пацвярджэнне ўліковага запісу';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'Спачатку дадайце да ўліковага запісу электронную пошту і пароль.';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'Не ўдалося пакінуць суполку';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'Зараз не ўдалося выйсці. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'Ваша паведамленне не адпраўлена';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage =>
+      'Паспрабуйце адправіць паведамленне яшчэ раз.';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle =>
+      'Вы адпраўляеце паведамленні занадта хутка';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'Не так хутка: пачакайце крыху, перш чым паспрабаваць зноў.';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'Змесціва для дарослых забаронена';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'Гэты канал не пазначаны як канал са змесцівам для дарослых. Змесціва для дарослых можна адпраўляць толькі ў такія каналы. Калі трэба, папрасіце мадэратара змяніць наладу канала.';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'Вы або ваш суразмоўца вырашылі блакіраваць адчувальныя медыя ў асабістых паведамленнях. Кожны з вас можа змяніць гэта ў раздзеле $settingsPath.';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'Гэта група не пазначана як група са змесцівам для дарослых. Уладальнік групы можа ўключыць «Змесціва для дарослых» у наладах групы, калі ўсім удзельнікам 18 гадоў або больш.';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'Файл занадта вялікі';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'Адзін або некалькі файлаў, якія вы спрабуеце загрузіць, перавышаюць максімальны памер $maxSize на файл.';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'Ого, гэта цяжка';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'Гэта вельмі «цяжкае» паведамленне. Каб дадаць новыя рэакцыі, спачатку трэба прыбраць некаторыя.';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'Пакуль у вас тайм-аўт, дадаваць новыя рэакцыі нельга.';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count файла',
+      many: '$count файлаў',
+      few: '$count файлы',
+      one: '$count файл',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'За адзін раз можна загрузіць не больш за $_temp0. Паспрабуйце яшчэ раз з меншай колькасцю файлаў.';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'Вы рэдагуеце паведамленні занадта хутка';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage =>
+      'Паспрабуйце адрэдагаваць паведамленне яшчэ раз.';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle =>
+      'Вы выдаляеце паведамленні занадта хутка';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'Пачакайце крыху, перш чым выдаляць іншыя паведамленні.';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'Не ўдалося выдаліць паведамленне';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage =>
+      'Паспрабуйце выдаліць гэта паведамленне яшчэ раз.';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle => 'Не ўдалося выдаліць далучэнне';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'Паспрабуйце выдаліць гэта далучэнне яшчэ раз.';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle =>
+      'Не ўдалося абнавіць альтэрнатыўны тэкст';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'Гэтага паведамлення больш няма.';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission =>
+      'Вы не можаце рэдагаваць гэта паведамленне.';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'Рэдагаванне часова недаступнае. Паспрабуйце пазней.';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'Не ўдалося абнавіць альтэрнатыўны тэкст. Паспрабуйце яшчэ раз.';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'Не ўдалося замацаваць паведамленне';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'Не ўдалося адмацаваць паведамленне';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage =>
+      'Штосьці пайшло не так. Паспрабуйце пазней.';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'Зараз вы не можаце ўзаемадзейнічаць з гэтым карыстальнікам.';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'Дасягнуты ліміт закладак';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count закладкі',
+      many: '$count закладак',
+      few: '$count закладкі',
+      one: '$count закладка',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'У вас ужо $_temp0. Выдаліце адну, каб дадаць новую.';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'Дасягнуты ліміт захаваных медыя';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count файла',
+      many: '$count файлаў',
+      few: '$count файлы',
+      one: '$count файл',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'Вы дасягнулі ліміту захаваных медыя: $_temp0. Выдаліце адзін, каб дадаць новы.';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'Змесціва заблакіравана';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Ваша дзеянне не выканана, бо яго пазначылі нашы сістэмы бяспекі. Калі вы лічыце, што гэта памылка, звярніцеся ў службу падтрымкі.';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'Ваша дзеянне не выканана, бо яго пазначылі нашы сістэмы бяспекі. Калі вы лічыце, што гэта памылка, звярніцеся да адміністратараў гэтага экзэмпляра.';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'Канал выдалены';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'Катэгорыя выдалена';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'Вы не можаце гэта выдаліць';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'У вас няма дазволу выдаляць гэты канал.';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'У вас няма дазволу выдаляць гэту катэгорыю.';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'Ужо выдалена';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'Гэтага канала больш няма. Магчыма, яго ўжо выдалілі.';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'Гэтай катэгорыі больш няма. Магчыма, яе ўжо выдалілі.';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle =>
+      'Не ўдалося выдаліць гэты канал';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'Не ўдалося выдаліць гэту катэгорыю';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'Не ўдалося абнавіць дазволы канала';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'Не ўдалося захаваць налады канала';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'Няма вольных месцаў для эмоджы';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'Няма вольных месцаў для стыкераў';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'Праверце гэтыя файлы і паспрабуйце яшчэ раз з меншымі або прасцейшымі выявамі.';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'Назвы эмоджы могуць змяшчаць толькі літары, лічбы і знакі падкрэслівання.';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'Гэтага эмоджы больш няма';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Магчыма, яго выдалілі. Назва вернута да ранейшай.';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle =>
+      'Вы не можаце перайменаваць гэта эмоджы';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'У вас няма дазволу пераймяноўваць гэта эмоджы. Назва вернута да ранейшай.';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'Пачакайце крыху і паспрабуйце перайменаваць яшчэ раз.';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Назва вернута да ранейшай. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'Падобна, яго ўжо выдалілі.';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle =>
+      'Вы не можаце выдаліць гэта эмоджы';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'У вас няма дазволу выдаляць гэта эмоджы.';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'Пачакайце крыху і паспрабуйце выдаліць яшчэ раз.';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'Стыкер занадта вялікі';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'Сэрвіс загрузкі адхіліў гэты стыкер як большы за $maxSize. Паспрабуйце меншы файл, прасцейшую выяву або карацейшую анімацыю.';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'Пры падрыхтоўцы гэтага стыкера штосьці пайшло не так. Паспрабуйце іншы файл або паўтарыце спробу праз хвіліну.';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'Не ўдалося абнавіць гэты стыкер';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'Не ўдалося даць удзельніку тайм-аўт. Паспрабуйце яшчэ раз.';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'Не ўдалося зняць тайм-аўт. Паспрабуйце яшчэ раз.';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'Не ўдалося выгнаць удзельніка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'Не ўдалося забаніць удзельніка. Паспрабуйце яшчэ раз.';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle =>
+      'Не ўдалося перадаць правы ўладальніка';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'Зараз не ўдалося перадаць правы ўладальніка карыстальніку $username.';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'Не ўдалося зняць бан';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'Вы не можаце гэтага зрабіць';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'У вас няма дазволу рабіць гэта з гэтым удзельнікам.';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'Удзельніка ўжо няма ў выкліку';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'Гэты ўдзельнік больш не падключаны да галасавога канала.';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'Удзельнік не знойдзены';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'Гэтага ўдзельніка больш няма ў суполцы. Абнавіце старонку і паспрабуйце яшчэ раз.';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut => 'Пакуль у вас тайм-аўт, далучацца нельга.';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'Каб далучыцца да гэтага галасавога канала, замацуйце за сабой уліковы запіс.';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'Каб пачынаць асабістыя выклікі або далучацца да іх, замацуйце за сабой уліковы запіс.';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'Гэты галасавы канал дасягнуў ліміту карыстальнікаў. Паспрабуйце пазней або далучыцеся да іншага канала.';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'Вы дасягнулі ліміту падключэнняў да гэтага галасавога канала.';
 
   @override
   String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+      'Гэты галасавы канал больш недаступны.';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'Не ўдалося загрузіць аватар';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'Не ўдалося загрузіць банер';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'Загрузіце замест яе статычную выяву.';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'Не ўдалося выдаліць ключ доступу';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'Плацяжы недаступныя';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'Плацяжы часова недаступныя. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'Няма актыўнай падпіскі';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'На гэтым уліковым запісе не знойдзена актыўнай падпіскі. Абнавіце старонку і паспрабуйце яшчэ раз.';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'Скасаванне ўжо запланавана';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'Скасаванне вашай падпіскі ўжо запланавана на канец плацежнага перыяду.';
 
   @override
-  String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+  String get premiumNotCancelingTitle => 'Скасаванне падпіскі не запланавана';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'Скасаванне вашай падпіскі не запланавана, таму аднаўляць няма чаго.';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'Не ўдалося скасаваць падпіску';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'Пры скасаванні падпіскі штосьці пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+  String get premiumReactivateFailedTitle => 'Не ўдалося аднавіць падпіску';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'Пры аднаўленні падпіскі штосьці пайшло не так. Паспрабуйце яшчэ раз праз хвіліну.';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle => 'Вярнуць грошы за апошнюю пакупку?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'Грошы за ваш апошні рахунак будуць вернуты, а звязаная з ім падпіска — скасавана. Наступныя 30 дзён вярнуць грошы самастойна яшчэ раз будзе нельга.';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'Вярнуць грошы за пакупку';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'Вяртанне грошай аформлена. Грошы могуць паступіць на працягу некалькіх рабочых дзён.';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle => 'Тэрмін вяртання грошай мінуў';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'Ваша апошняя пакупка ўжо па-за тэрмінам вяртання грошай. Па пытаннях аплаты звяртайцеся ў службу падтрымкі.';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle => 'Вы нядаўна ўжо вярталі грошы';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'Вы ўжо нядаўна самастойна вярталі грошы. Зноў вярнуць грошы можна будзе пасля перыяду чакання.';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'Няма чаго вяртаць';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'На гэтым уліковым запісе не знойдзена нядаўняй пакупкі, за якую можна вярнуць грошы.';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle =>
+      'Не ўдалося вярнуць грошы за гэту пакупку';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'Пры вяртанні грошай штосьці пайшло не так. Калі гэта паўтараецца, звярніцеся ў службу падтрымкі.';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle =>
+      'Спачатку пацвердзіце электронную пошту';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'Каб купіць $productName, пацвердзіце адрас электроннай пошты.';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'Афармленне заказу недаступнае';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'Афармленне заказу для гэтага ўліковага запісу заблакіравана. Калі патрэбна дапамога, напішыце на $supportEmail.';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'Афармленне заказу для гэтага ўліковага запісу заблакіравана.';
 
   @override
   String splashGatewayUnreachable(String domain) {
-    return 'Can\'t connect to $domain. Check your internet connection and try again.';
+    return 'Не ўдаецца падключыцца да $domain. Праверце злучэнне з інтэрнэтам і паспрабуйце яшчэ раз.';
   }
 
   @override
-  String get appLockSettingTitle => 'App lock';
+  String get appLockSettingTitle => 'Блакіроўка праграмы';
 
   @override
-  String get appLockConfigure => 'Configure';
+  String get appLockConfigure => 'Наладзіць';
 
   @override
   String get appLockSettingDescription =>
-      'Fluxer asks for your PIN after it has been in the background for the time you choose. App lock applies to every account on this device.';
+      'Fluxer будзе пытацца ваш PIN-код, калі праграма прабудзе ў фоне выбраны вамі час. Блакіроўка дзейнічае для ўсіх уліковых запісаў на гэтай прыладзе.';
 
   @override
-  String get appLockTimeoutLabel => 'Lock after';
+  String get appLockTimeoutLabel => 'Блакіраваць праз';
 
   @override
-  String get appLockTimeoutImmediately => 'Immediately';
+  String get appLockTimeoutImmediately => 'Адразу';
 
   @override
-  String get appLockTimeoutThirtySeconds => '30 seconds';
+  String get appLockTimeoutThirtySeconds => '30 секунд';
 
   @override
-  String get appLockTimeoutOneMinute => '1 minute';
+  String get appLockTimeoutOneMinute => '1 хвіліна';
 
   @override
-  String get appLockTimeoutFiveMinutes => '5 minutes';
+  String get appLockTimeoutFiveMinutes => '5 хвілін';
 
   @override
-  String get appLockTimeoutFifteenMinutes => '15 minutes';
+  String get appLockTimeoutFifteenMinutes => '15 хвілін';
 
   @override
-  String get appLockTimeoutOneHour => '1 hour';
+  String get appLockTimeoutOneHour => '1 гадзіна';
 
   @override
-  String get appLockTurnOff => 'Turn off app lock';
+  String get appLockTurnOff => 'Выключыць блакіроўку праграмы';
 
   @override
-  String get appLockTurnOffConfirmTitle => 'Turn off app lock?';
+  String get appLockTurnOffConfirmTitle => 'Выключыць блакіроўку праграмы?';
 
   @override
   String get appLockTurnOffConfirmBody =>
-      'Fluxer will open without asking for your PIN.';
+      'Fluxer будзе адкрывацца без PIN-кода.';
 
   @override
-  String get appLockEnterCurrentPinTitle => 'Enter your PIN';
+  String get appLockEnterCurrentPinTitle => 'Увядзіце PIN-код';
 
   @override
   String appLockEnterCurrentPinSubtitle(int digits) {
-    return 'Enter your current $digits-digit PIN to continue.';
+    return 'Каб працягнуць, увядзіце цяперашні PIN-код (колькасць лічбаў: $digits).';
   }
 
   @override
-  String get appLockSetPinTitle => 'Set a PIN';
+  String get appLockSetPinTitle => 'Задайце PIN-код';
 
   @override
   String appLockCreatePinSubtitle(int digits) {
-    return 'Choose a $digits-digit PIN.';
+    return 'Прыдумайце PIN-код з такой колькасці лічбаў: $digits.';
   }
 
   @override
-  String get appLockConfirmPinSubtitle => 'Enter the PIN again to confirm';
+  String get appLockConfirmPinSubtitle =>
+      'Увядзіце PIN-код яшчэ раз для пацвярджэння';
 
   @override
-  String get appLockPinMismatch => 'The PINs don\'t match. Try again.';
+  String get appLockPinMismatch =>
+      'PIN-коды не супадаюць. Паспрабуйце яшчэ раз.';
 
   @override
   String get appLockTooManyAttemptsShort =>
-      'Too many attempts. Wait before trying again.';
+      'Занадта шмат спроб. Пачакайце, перш чым паспрабаваць зноў.';
 
   @override
-  String get appLockUnlockTitle => 'Unlock Fluxer';
+  String get appLockUnlockTitle => 'Разблакіраваць Fluxer';
 
   @override
   String appLockUnlockSubtitlePin(int digits) {
-    return 'Enter your $digits-digit PIN';
+    return 'Увядзіце PIN-код (колькасць лічбаў: $digits)';
   }
 
   @override
   String appLockCooldownMessage(String time) {
-    return 'Too many attempts. Try again in $time.';
+    return 'Занадта шмат спроб. Паспрабуйце яшчэ раз праз $time.';
   }
 
   @override
-  String get appLockWrongPin => 'Incorrect PIN';
+  String get appLockWrongPin => 'Няправільны PIN-код';
 
   @override
-  String get appLockForgotPin => 'Forgot PIN? Sign out';
+  String get appLockForgotPin => 'Забылі PIN-код? Выйдзіце';
 
   @override
-  String get appLockSignOutConfirmTitle => 'Sign out and turn off app lock?';
+  String get appLockSignOutConfirmTitle =>
+      'Выйсці і выключыць блакіроўку праграмы?';
 
   @override
   String get appLockSignOutConfirmBody =>
-      'Every account on this device will be signed out and app lock will be turned off.';
+      'З усіх уліковых запісаў на гэтай прыладзе будзе выкананы выхад, а блакіроўка праграмы будзе выключана.';
 
   @override
-  String get appLockBiometricReason => 'Unlock Fluxer';
+  String get appLockBiometricReason => 'Разблакіраваць Fluxer';
 
   @override
-  String get appLockPinFieldLabel => 'PIN';
+  String get appLockPinFieldLabel => 'PIN-код';
 
   @override
-  String get appLockBiometricFailed => 'That didn\'t match. Try again.';
+  String get appLockBiometricFailed => 'Не супала. Паспрабуйце яшчэ раз.';
 
   @override
   String get appLockBiometricFaceId => 'Face ID';
 
   @override
-  String get appLockBiometricFaceUnlock => 'face unlock';
+  String get appLockBiometricFaceUnlock => 'распазнаванне твару';
 
   @override
-  String get appLockBiometricFingerprint => 'fingerprint';
+  String get appLockBiometricFingerprint => 'адбітак пальца';
 
   @override
   String get appLockBiometricTouchId => 'Touch ID';
 
   @override
-  String get appLockBiometricGeneric => 'biometrics';
+  String get appLockBiometricGeneric => 'біяметрычныя даныя';
 
   @override
   String appLockUseBiometric(String method) {
-    return 'Use $method';
+    return 'Скарыстаць $method';
   }
 
   @override
   String appLockUnlockSubtitleWithBiometric(String method) {
-    return 'Use $method or enter your PIN';
+    return 'Скарыстайце $method або ўвядзіце PIN-код';
   }
 
   @override
   String appLockBiometricSwitchLabel(String method) {
-    return 'Unlock with $method';
+    return 'Разблакіраваць праз $method';
   }
 
   @override
-  String get appLockSetPinButton => 'Set PIN';
+  String get appLockSetPinButton => 'Задаць PIN-код';
 
   @override
-  String get appLockChangePinButton => 'Change PIN';
+  String get appLockChangePinButton => 'Змяніць PIN-код';
 
   @override
-  String get appLockRowDescription => 'Require a PIN to open Fluxer';
+  String get appLockRowDescription => 'Патрабаваць PIN-код для адкрыцця Fluxer';
 
   @override
   String appLockRowDescriptionEnabled(String duration) {
-    return 'On. Locks after $duration in the background.';
+    return 'Уключана. Блакіруецца пасля $duration у фоне.';
   }
 
   @override
   String get appLockRowDescriptionEnabledImmediately =>
-      'On. Locks as soon as you leave Fluxer.';
+      'Уключана. Блакіруецца адразу, як толькі вы выходзіце з Fluxer.';
 
   @override
   String appLockRowDescriptionWithBiometric(String method) {
-    return 'Require a PIN or $method to open Fluxer';
+    return 'Патрабаваць PIN-код або $method для адкрыцця Fluxer';
   }
 
   @override
-  String get appLockBiometricSwitchHint => 'Your PIN still works too';
+  String get appLockBiometricSwitchHint => 'PIN-код таксама працуе';
 
   @override
   String appLockBiometricEither(String first, String second) {
-    return '$first or $second';
+    return '$first або $second';
   }
 
   @override
-  String get voiceDiagnosticsCopy => 'Copy voice diagnostics';
+  String get voiceDiagnosticsCopy => 'Скапіраваць галасавую дыягностыку';
 
   @override
   String get voiceDiagnosticsCopyDescription =>
-      'Share with the developers to help fix call issues';
+      'Падзяліцеся з распрацоўшчыкамі, каб дапамагчы выправіць праблемы з выклікамі';
 
   @override
-  String get voiceDiagnosticsCopied => 'Copied voice diagnostics to clipboard';
+  String get voiceDiagnosticsCopied =>
+      'Дыягностыка галасавой сувязі скапіравана ў буфер абмену';
 
   @override
-  String get voiceDiagnosticsInCallHint => 'In a call';
+  String get voiceDiagnosticsInCallHint => 'У выкліку';
 
   @override
-  String get oxygenUpdateAvailable => 'Update available';
+  String get oxygenUpdateAvailable => 'Ёсць абнаўленне';
 
   @override
-  String get oxygenUpdating => 'Updating…';
+  String get oxygenUpdating => 'Абнаўленне…';
 
   @override
   String oxygenUpdatingProgress(int percent) {
-    return 'Updating… $percent%';
+    return 'Абнаўленне… $percent%';
   }
 
   @override
   String desktopTrayShow(String productName) {
-    return 'Show $productName';
+    return 'Паказаць $productName';
   }
 
   @override
   String desktopTrayHide(String productName) {
-    return 'Hide $productName';
+    return 'Схаваць $productName';
   }
 
   @override
@@ -17325,80 +17745,80 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
         intl.NumberFormat.decimalPattern(localeName);
     final String countString = countNumberFormat.format(count);
 
-    return 'Unread messages: $countString';
+    return 'Непрачытаныя паведамленні: $countString';
   }
 
   @override
-  String get desktopTrayOpenSettings => 'Open settings';
+  String get desktopTrayOpenSettings => 'Адкрыць налады';
 
   @override
-  String get desktopTrayStatus => 'Status';
+  String get desktopTrayStatus => 'Статус';
 
   @override
-  String get desktopTrayAccounts => 'Accounts';
+  String get desktopTrayAccounts => 'Уліковыя запісы';
 
   @override
-  String get desktopTrayMuteMic => 'Mute microphone';
+  String get desktopTrayMuteMic => 'Выключыць мікрафон';
 
   @override
-  String get desktopTrayUnmuteMic => 'Unmute microphone';
+  String get desktopTrayUnmuteMic => 'Уключыць мікрафон';
 
   @override
-  String get desktopTrayDeafen => 'Deafen';
+  String get desktopTrayDeafen => 'Выключыць гук';
 
   @override
-  String get desktopTrayUndeafen => 'Undeafen';
+  String get desktopTrayUndeafen => 'Уключыць гук';
 
   @override
   String desktopTrayDisconnectFrom(String channel) {
-    return 'Disconnect from $channel';
+    return 'Адключыцца ад $channel';
   }
 
   @override
-  String get desktopTrayDisconnectVoice => 'Disconnect from voice';
+  String get desktopTrayDisconnectVoice => 'Адключыцца ад галасавога канала';
 
   @override
-  String get desktopTrayCheckForUpdates => 'Check for updates';
+  String get desktopTrayCheckForUpdates => 'Праверыць абнаўленні';
 
   @override
   String desktopTrayUpdateNow(String productName) {
-    return 'Update $productName now';
+    return 'Абнавіць $productName зараз';
   }
 
   @override
-  String get desktopTrayCopyBuildInfo => 'Copy build info';
+  String get desktopTrayCopyBuildInfo => 'Скапіраваць звесткі пра зборку';
 
   @override
   String desktopTrayRestart(String productName) {
-    return 'Restart $productName';
+    return 'Перазапусціць $productName';
   }
 
   @override
   String desktopTrayQuit(String productName) {
-    return 'Quit $productName';
+    return 'Выйсці з $productName';
   }
 
   @override
-  String get userSettingsNavDesktop => 'Desktop';
+  String get userSettingsNavDesktop => 'Камп’ютар';
 
   @override
-  String get desktopSettingsWindowSectionTitle => 'Desktop window';
+  String get desktopSettingsWindowSectionTitle => 'Акно настольнай праграмы';
 
   @override
-  String get desktopSettingsShowTrayIcon => 'Show system tray icon';
+  String get desktopSettingsShowTrayIcon => 'Паказваць значок у сістэмным трэі';
 
   @override
-  String get desktopSettingsShowMenuBarIcon => 'Show menu bar icon';
+  String get desktopSettingsShowMenuBarIcon => 'Паказваць значок у радку меню';
 
   @override
-  String get desktopSettingsMinimizeToTray => 'Minimize to tray';
+  String get desktopSettingsMinimizeToTray => 'Згортваць у трэй';
 
   @override
-  String get desktopSettingsMinimizeToMenuBar => 'Minimize to menu bar';
+  String get desktopSettingsMinimizeToMenuBar => 'Згортваць у радок меню';
 
   @override
-  String get desktopSettingsCloseToTray => 'Close to tray';
+  String get desktopSettingsCloseToTray => 'Закрываць у трэй';
 
   @override
-  String get desktopSettingsCloseToMenuBar => 'Close to menu bar';
+  String get desktopSettingsCloseToMenuBar => 'Закрываць у радок меню';
 }

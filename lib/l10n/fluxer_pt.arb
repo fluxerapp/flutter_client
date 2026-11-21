@@ -1,5 +1,5 @@
 {
-    "reconnectingTitle": "Deu ruim!",
+    "reconnectingTitle": "Isto não fluiu bem!",
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
@@ -56,15 +56,11 @@
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
-    "welcomeBack": "Bem-vindo(a) de volta",
-    "@welcomeBack": {
-        "description": "Greeting on the login screen; usable wherever returning users are welcomed."
-    },
     "email": "E-mail",
     "@email": {
         "description": "Generic label for an email field."
     },
-    "emailInvalid": "Por favor, insira um endereço de e-mail válido.",
+    "emailInvalid": "Por favor, insere um endereço de e-mail válido.",
     "@emailInvalid": {
         "description": "Error shown when the email field contains an invalid email format."
     },
@@ -72,7 +68,7 @@
     "@password": {
         "description": "Generic label for a password field."
     },
-    "forgotPassword": "Esqueceu sua senha?",
+    "forgotPassword": "Esqueceste-te da tua senha?",
     "@forgotPassword": {
         "description": "Link or button to start password recovery."
     },
@@ -93,7 +89,7 @@
             }
         }
     },
-    "organizationSsoProvider": "Entre com o provedor de login único da sua organização.",
+    "organizationSsoProvider": "Entra com o provedor de login único da tua organização.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
     },
@@ -105,7 +101,7 @@
     "@ssoCancelled": {
         "description": "Shown when the user cancels the single sign-on browser flow."
     },
-    "preferSso": "Prefere usar SSO? Continue com {provider}.",
+    "preferSso": "Preferes usar SSO? Continua com {provider}.",
     "@preferSso": {
         "description": "Optional sign-in note when SSO is available but not required.",
         "placeholders": {
@@ -114,11 +110,11 @@
             }
         }
     },
-    "needAccountPrompt": "Precisa de uma conta? ",
+    "needAccountPrompt": "Precisas de uma conta? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
-    "register": "Registrar",
+    "register": "Registar",
     "@register": {
         "description": "Generic label to create a new account."
     },
@@ -134,7 +130,7 @@
     "@ipAuthCheckEmail": {
         "description": "Title when IP authorization email has been sent."
     },
-    "ipAuthDescription": "Enviamos um link por e-mail para autorizar este login. Por favor, abra sua caixa de entrada para {email}.",
+    "ipAuthDescription": "Enviámos um link por e-mail para autorizar este login. Por favor, abre a tua caixa de entrada para {email}.",
     "@ipAuthDescription": {
         "description": "Description telling the user to check their email for IP auth.",
         "placeholders": {
@@ -147,7 +143,7 @@
     "@ipAuthConnectionLost": {
         "description": "Title when polling for IP authorization fails."
     },
-    "ipAuthConnectionLostDescription": "Perdemos a conexão enquanto aguardávamos a autorização. Por favor, tente novamente.",
+    "ipAuthConnectionLostDescription": "Perdemos a conexão enquanto aguardávamos a autorização. Por favor, tenta novamente.",
     "@ipAuthConnectionLostDescription": {
         "description": "Description when IP authorization polling fails."
     },
@@ -155,7 +151,7 @@
     "@ipAuthLinkExpired": {
         "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
     },
-    "ipAuthLinkExpiredDescription": "Este link de autorização expirou. Por favor, faça login novamente.",
+    "ipAuthLinkExpiredDescription": "Este link de autorização expirou. Por favor, inicia sessão de novo.",
     "@ipAuthLinkExpiredDescription": {
         "description": "Body shown when the IP authorization ticket has expired."
     },
@@ -184,11 +180,11 @@
     "@mfaTitle": {
         "description": "Title for the MFA challenge screen."
     },
-    "mfaChooseMethod": "Escolha um método de verificação",
+    "mfaChooseMethod": "Escolhe um método de verificação",
     "@mfaChooseMethod": {
         "description": "Description text when multiple MFA methods are available."
     },
-    "mfaMethodTotp": "Aplicativo autenticador",
+    "mfaMethodTotp": "Aplicação autenticadora",
     "@mfaMethodTotp": {
         "description": "Label for the TOTP authenticator method."
     },
@@ -196,7 +192,7 @@
     "@mfaMethodWebauthn": {
         "description": "Label for the WebAuthn security key method."
     },
-    "mfaTotpDescription": "Digite o código de 6 dígitos do seu aplicativo autenticador ou um dos seus códigos de backup.",
+    "mfaTotpDescription": "Digita o código de 6 dígitos da tua aplicação autenticadora ou um dos teus códigos de backup.",
     "@mfaTotpDescription": {
         "description": "Description for the TOTP code entry screen."
     },
@@ -220,7 +216,7 @@
     "@mfaUseAuthenticatorCode": {
         "description": "Link under the two-factor code field that switches back to the number keyboard for a code from an authenticator app."
     },
-    "accountSelectorTitle": "Escolha uma conta",
+    "accountSelectorTitle": "Escolhe uma conta",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
     },
@@ -381,11 +377,11 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedTemporaryTitle": "Conta Suspensa",
+    "suspendedTemporaryTitle": "Conta suspensa",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedBackToLogin": "Voltar ao login",
+    "suspendedBackToLogin": "Voltar ao início de sessão",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
     },
@@ -636,7 +632,7 @@
     "@registerTitle": {
         "description": "Title for the registration screen."
     },
-    "registerDisplayName": "Nome de Exibição (Opcional)",
+    "registerDisplayName": "Nome de exibição (opcional)",
     "@registerDisplayName": {
         "description": "Label for the display name field."
     },
@@ -644,7 +640,7 @@
     "@registerDisplayNameHint": {
         "description": "Hint for the display name field."
     },
-    "registerUsername": "Nome de Usuário (Opcional)",
+    "registerUsername": "Nome de utilizador (opcional)",
     "@registerUsername": {
         "description": "Label for the username field."
     },
@@ -673,7 +669,7 @@
         "description": "Placeholder for the year select."
     },
     "registerConsentLinks": "{links, select, both{Concordo com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>} terms{Concordo com os <terms>Termos de serviço</terms>} other{Concordo com a <privacy>Política de privacidade</privacy>}}",
-    "registerConfirmPassword": "Confirmar Senha",
+    "registerConfirmPassword": "Confirmar palavra-passe",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
     },
@@ -733,7 +729,7 @@
     "@embedInviteJoin": {
         "description": "Button to join a guild from an invite embed card."
     },
-    "embedInviteGoTo": "Ir para a Comunidade",
+    "embedInviteGoTo": "Ir para a comunidade",
     "@embedInviteGoTo": {
         "description": "Button when user is already a member of the guild."
     },
@@ -758,7 +754,7 @@
             }
         }
     },
-    "embedInviteUnknownTitle": "Convite Desconhecido",
+    "embedInviteUnknownTitle": "Convite desconhecido",
     "@embedInviteUnknownTitle": {
         "description": "Title when an invite is expired or invalid."
     },
@@ -766,7 +762,7 @@
     "@embedInviteUnknownSubtitle": {
         "description": "Subtitle when an invite is expired or invalid."
     },
-    "embedInviteUnavailable": "Convite Indisponível",
+    "embedInviteUnavailable": "Convite indisponível",
     "@embedInviteUnavailable": {
         "description": "Disabled button label when an invite is unavailable."
     },
@@ -778,15 +774,15 @@
     "@inviteAcceptJoinButton": {
         "description": "Primary action to join a community from the invite modal."
     },
-    "inviteAcceptGoToButton": "Ir para a Comunidade",
+    "inviteAcceptGoToButton": "Ir para a comunidade",
     "@inviteAcceptGoToButton": {
         "description": "Primary action when the user is already a member of the invited community."
     },
-    "inviteAcceptInvitesPaused": "Convites em Pausa",
+    "inviteAcceptInvitesPaused": "Convites em pausa",
     "@inviteAcceptInvitesPaused": {
         "description": "Disabled action label when community invites are paused."
     },
-    "inviteAcceptNotFoundTitle": "Convite Inválido",
+    "inviteAcceptNotFoundTitle": "Convite não encontrado",
     "@inviteAcceptNotFoundTitle": {
         "description": "Title when an invite link is expired or invalid."
     },
@@ -815,7 +811,7 @@
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
-    "channelAccessDeniedTitle": "Acesso ao Canal Negado",
+    "channelAccessDeniedTitle": "Acesso ao canal recusado",
     "@channelAccessDeniedTitle": {
         "description": "Title of the modal shown when clicking a jump link to an inaccessible channel."
     },
@@ -839,11 +835,11 @@
     "@embedThemeWebOnly": {
         "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "privacySettings": "Configurações de Privacidade",
+    "privacySettings": "Definições de privacidade",
     "@privacySettings": {
         "description": "Title for guild privacy settings bottom sheet."
     },
-    "privacyDirectMessages": "Mensagens Diretas",
+    "privacyDirectMessages": "Mensagens privadas",
     "@privacyDirectMessages": {
         "description": "Label for the DM toggle in guild privacy settings."
     },
@@ -851,7 +847,7 @@
     "@privacyDirectMessagesDescription": {
         "description": "Description for the DM toggle in guild privacy settings."
     },
-    "privacyBotDirectMessages": "Mensagens Diretas de Bots",
+    "privacyBotDirectMessages": "Mensagens privadas do bot",
     "@privacyBotDirectMessages": {
         "description": "Label for the bot DM toggle in guild privacy settings."
     },
@@ -863,7 +859,7 @@
     "@privacyMutualDmsDisabled": {
         "description": "Warning shown when guild has DISABLE_MUTUAL_DMS feature."
     },
-    "communityDebug": "Depuração da Comunidade",
+    "communityDebug": "Depuração da comunidade",
     "@communityDebug": {
         "description": "Title for the debug community bottom sheet."
     },
@@ -871,7 +867,7 @@
     "@copiedToClipboard": {
         "description": "Toast message after copying text to clipboard."
     },
-    "notificationSettings": "Configurações de Notificação",
+    "notificationSettings": "Definições de notificações",
     "@notificationSettings": {
         "description": "Title for guild notification settings bottom sheet."
     },
@@ -884,19 +880,19 @@
             }
         }
     },
-    "notificationMuteDescription": "Silenciar uma comunidade impede que indicadores de não lidas e notificações apareçam, a menos que você seja mencionado",
+    "notificationMuteDescription": "Silenciar uma comunidade oculta o ícone de mensagens por ler e impede que as notificações apareçam",
     "@notificationMuteDescription": {
         "description": "Description for the mute toggle in guild notification settings."
     },
-    "notificationCommunitySettings": "Configurações de Notificação da Comunidade",
+    "notificationCommunitySettings": "Definições de notificações da comunidade",
     "@notificationCommunitySettings": {
         "description": "Section title for notification frequency options."
     },
-    "notificationAllMessages": "Todas as Mensagens",
+    "notificationAllMessages": "Todas as mensagens",
     "@notificationAllMessages": {
         "description": "Radio option for receiving all message notifications."
     },
-    "notificationOnlyMentions": "Apenas Menções",
+    "notificationOnlyMentions": "Apenas menções",
     "@notificationOnlyMentions": {
         "description": "Radio option for receiving only mention notifications."
     },
@@ -912,7 +908,7 @@
     "@notificationSuppressRoles": {
         "description": "Toggle label to suppress all role mentions."
     },
-    "notificationMobilePush": "Notificações push para celular",
+    "notificationMobilePush": "Notificações push em dispositivos móveis",
     "@notificationMobilePush": {
         "description": "Toggle label for mobile push notifications."
     },
@@ -932,7 +928,7 @@
     "@notificationMuteChannel": {
         "description": "Switch label for muting a channel override."
     },
-    "notificationUnmuteChannel": "Ativar som do canal",
+    "notificationUnmuteChannel": "Ativar o som do canal",
     "@notificationUnmuteChannel": {
         "description": "Action label for unmuting a channel from the context menu."
     },
@@ -960,7 +956,7 @@
     "@dmUnpinDm": {
         "description": "DM context menu action to unpin a DM."
     },
-    "dmAlwaysShowInSidebar": "Sempre mostrar na barra lateral",
+    "dmAlwaysShowInSidebar": "Mostrar sempre na barra lateral",
     "@dmAlwaysShowInSidebar": {
         "description": "DM context menu action to always show in sidebar."
     },
@@ -993,7 +989,7 @@
     "@dmChannelIdCopied": {
         "description": "Toast message after copying a channel ID."
     },
-    "dmCopyUserId": "Copiar ID do usuário",
+    "dmCopyUserId": "Copiar ID do utilizador",
     "@dmCopyUserId": {
         "description": "DM context menu action to copy the recipient user ID."
     },
@@ -1123,7 +1119,7 @@
     "@dmMuteForever": {
         "description": "Mute duration option: indefinite."
     },
-    "dmPinGroupDm": "Fixar DM de grupo",
+    "dmPinGroupDm": "Afixar MP de grupo",
     "@dmPinGroupDm": {
         "description": "DM context menu action to pin a group DM."
     },
@@ -1139,7 +1135,7 @@
     "@dmUnfavoriteDm": {
         "description": "DM context menu action to unfavorite a DM."
     },
-    "dmFavoriteGroupDm": "Favoritar conversa em grupo",
+    "dmFavoriteGroupDm": "Favoritar MP de grupo",
     "@dmFavoriteGroupDm": {
         "description": "DM context menu action to favorite a group DM."
     },
@@ -1159,15 +1155,15 @@
     "@dmAddFriend": {
         "description": "DM context menu action to send a friend request."
     },
-    "dmAcceptFriendRequest": "Aceitar solicitação de amizade",
+    "dmAcceptFriendRequest": "Aceitar pedido de amizade",
     "@dmAcceptFriendRequest": {
         "description": "DM context menu action to accept a friend request."
     },
-    "dmIgnoreFriendRequest": "Ignorar solicitação de amizade",
+    "dmIgnoreFriendRequest": "Ignorar pedido de amizade",
     "@dmIgnoreFriendRequest": {
         "description": "DM context menu action to ignore a friend request."
     },
-    "dmFriendRequestSent": "Solicitação de amizade enviada",
+    "dmFriendRequestSent": "Pedido de amizade enviado",
     "@dmFriendRequestSent": {
         "description": "DM context menu label when a friend request is pending."
     },
@@ -1175,7 +1171,7 @@
     "@dmUnblock": {
         "description": "DM context menu action to unblock a user."
     },
-    "dmDebugUser": "Depurar usuário",
+    "dmDebugUser": "Depurar utilizador",
     "@dmDebugUser": {
         "description": "DM context menu action to debug user data."
     },
@@ -1212,7 +1208,7 @@
             }
         }
     },
-    "dmBlockConfirmTitle": "Bloquear usuário",
+    "dmBlockConfirmTitle": "Bloquear utilizador",
     "@dmBlockConfirmTitle": {
         "description": "Title for the block user confirmation modal."
     },
@@ -1389,7 +1385,7 @@
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
     },
-    "emojiFrequentlyUsed": "Usados com frequência",
+    "emojiFrequentlyUsed": "Utilizados com frequência",
     "@emojiFrequentlyUsed": {
         "description": "Frequently used emojis section."
     },
@@ -1413,7 +1409,7 @@
     "@gifPickerSearch": {
         "description": "Generic GIF picker search placeholder while provider configuration loads."
     },
-    "gifPickerSearchKlipy": "Pesquisar Klipy",
+    "gifPickerSearchKlipy": "Pesquisar no Klipy",
     "@gifPickerSearchKlipy": {
         "description": "GIF picker search placeholder for Klipy."
     },
@@ -1429,7 +1425,7 @@
     "@gifPickerTrending": {
         "description": "Trending GIFs category and view title."
     },
-    "gifPickerNoResultsTitle": "Nenhum resultado de pesquisa",
+    "gifPickerNoResultsTitle": "Não foram encontrados resultados",
     "@gifPickerNoResultsTitle": {
         "description": "GIF picker empty search title."
     },
@@ -1453,7 +1449,7 @@
     "@emojiCategoryNature": {
         "description": "Animals & nature category."
     },
-    "emojiCategoryFood": "Comida e Bebida",
+    "emojiCategoryFood": "Comida e bebida",
     "@emojiCategoryFood": {
         "description": "Food & drink category."
     },
@@ -1461,7 +1457,7 @@
     "@emojiCategoryActivity": {
         "description": "Activities & sports category."
     },
-    "emojiCategoryTravel": "Viagem e Lugares",
+    "emojiCategoryTravel": "Viagens e locais",
     "@emojiCategoryTravel": {
         "description": "Travel & places category."
     },
@@ -1511,7 +1507,7 @@
             }
         }
     },
-    "externalLinkWarningTitle": "Aviso de link externo",
+    "externalLinkWarningTitle": "Aviso sobre ligações externas",
     "@externalLinkWarningTitle": {
         "description": "Title of the external link warning modal."
     },
@@ -1532,7 +1528,7 @@
     "@externalLinkWarningDestinationUrl": {
         "description": "Label above the destination URL in the external link warning modal."
     },
-    "externalLinksSectionTitle": "Links Externos",
+    "externalLinksSectionTitle": "Links externos",
     "@externalLinksSectionTitle": {
         "description": "Heading for the external links settings section."
     },
@@ -1572,7 +1568,7 @@
     "@externalLinkTrustAllConfirmDescription": {
         "description": "Description of the confirmation modal for trusting all external links."
     },
-    "externalLinkTrustAllConfirmAction": "Confiar em Todos",
+    "externalLinkTrustAllConfirmAction": "Confiar em todos",
     "@externalLinkTrustAllConfirmAction": {
         "description": "Confirm action for trusting all external links."
     },
@@ -1584,7 +1580,7 @@
     "@externalLinkStopTrustingAllDescription": {
         "description": "Description of the confirmation modal for disabling trust-all external links."
     },
-    "externalLinkStopTrustingAllAction": "Desativar Confiança Total",
+    "externalLinkStopTrustingAllAction": "Desativar a opção «Confiar em todos»",
     "@externalLinkStopTrustingAllAction": {
         "description": "Confirm action for disabling trust-all external links."
     },
@@ -1617,7 +1613,7 @@
     "@animatedBannersRequirePlutonium": {
         "description": "Toast shown when non-premium user tries uploading animated banner."
     },
-    "animatedAvifNotSupported": "AVIF animado não suportado",
+    "animatedAvifNotSupported": "O formato AVIF animado não é suportado",
     "@animatedAvifNotSupported": {
         "description": "Title for animated AVIF confirmation sheet."
     },
@@ -1625,7 +1621,7 @@
     "@animatedAvifNotSupportedBody": {
         "description": "Body text explaining animated AVIF limitation."
     },
-    "uploadAsIs": "Carregar como está",
+    "uploadAsIs": "Carregar tal como está",
     "@uploadAsIs": {
         "description": "Button to upload an animated image without cropping."
     },
@@ -1633,11 +1629,11 @@
     "@croppingAnimatedNotSupported": {
         "description": "Toast when premium user uploads animated image that can't be cropped."
     },
-    "cropAvatar": "Cortar Avatar",
+    "cropAvatar": "Recortar avatar",
     "@cropAvatar": {
         "description": "Title for the avatar crop bottom sheet."
     },
-    "cropBanner": "Cortar Banner",
+    "cropBanner": "Recortar banner",
     "@cropBanner": {
         "description": "Title for the banner crop bottom sheet."
     },
@@ -1699,7 +1695,7 @@
             }
         }
     },
-    "customTagIsTemporary": "Tag personalizada é temporária",
+    "customTagIsTemporary": "A etiqueta personalizada é temporária",
     "@customTagIsTemporary": {
         "description": "Title for the temporary tag warning sheet."
     },
@@ -1716,7 +1712,7 @@
     "@customTagTemporaryBody": {
         "description": "Warning body when premium subscription expiry date is unknown."
     },
-    "iUnderstandContinue": "Entendi, Continuar",
+    "iUnderstandContinue": "Compreendo, continuar",
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
@@ -1749,7 +1745,7 @@
     "@continueAction": {
         "description": "Generic continue button label."
     },
-    "profileCustomizationTitle": "Personalização do Perfil",
+    "profileCustomizationTitle": "Personalização do perfil",
     "@profileCustomizationTitle": {
         "description": "Heading for the profile customization settings section."
     },
@@ -1765,7 +1761,7 @@
     "@claimAccountToChangeFluxerTag": {
         "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "Alterar Nome de usuário",
+    "changeFluxerTag": "Alterar nome de utilizador",
     "@changeFluxerTag": {
         "description": "Button label to open the username change flow."
     },
@@ -1791,7 +1787,7 @@
             }
         }
     },
-    "displayNameLabel": "Nome de Exibição",
+    "displayNameLabel": "Nome de exibição",
     "@displayNameLabel": {
         "description": "Label for the display name input."
     },
@@ -1803,11 +1799,11 @@
     "@avatarLabel": {
         "description": "Label for the avatar upload section."
     },
-    "changeAvatar": "Alterar Avatar",
+    "changeAvatar": "Alterar avatar",
     "@changeAvatar": {
         "description": "Button to upload a new avatar image."
     },
-    "removeAvatar": "Remover Avatar",
+    "removeAvatar": "Remover avatar",
     "@removeAvatar": {
         "description": "Button to remove the current avatar."
     },
@@ -1819,11 +1815,11 @@
     "@bannerLabel": {
         "description": "Label for the banner upload section."
     },
-    "changeBanner": "Alterar Banner",
+    "changeBanner": "Alterar banner",
     "@changeBanner": {
         "description": "Button to upload a new banner image."
     },
-    "removeBanner": "Remover Banner",
+    "removeBanner": "Remover banner",
     "@removeBanner": {
         "description": "Button to remove the current banner."
     },
@@ -1831,7 +1827,7 @@
     "@bannerDescription": {
         "description": "Helper text describing banner image requirements."
     },
-    "accentColorLabel": "Cor de Destaque",
+    "accentColorLabel": "Cor de destaque",
     "@accentColorLabel": {
         "description": "Label for the accent color picker."
     },
@@ -1839,7 +1835,7 @@
     "@accentColorDescription": {
         "description": "Helper text for the accent color picker."
     },
-    "aboutMeLabel": "Sobre Mim",
+    "aboutMeLabel": "Sobre mim",
     "@aboutMeLabel": {
         "description": "Label for the bio text area."
     },
@@ -1933,7 +1929,7 @@
     "@profilePreviewMessage": {
         "description": "Disabled message button in the profile preview card."
     },
-    "profilePreviewMemberSince": "Membro {productName} Desde",
+    "profilePreviewMemberSince": "Membro de {productName} desde",
     "@profilePreviewMemberSince": {
         "description": "Label for the member-since date in the profile preview card.",
         "placeholders": {
@@ -1942,7 +1938,7 @@
             }
         }
     },
-    "unclaimedAccountTitle": "Conta Não Reivindicada",
+    "unclaimedAccountTitle": "Conta não reclamada",
     "@unclaimedAccountTitle": {
         "description": "Title for the unclaimed account warning bar."
     },
@@ -1950,15 +1946,15 @@
     "@unclaimedAccountDescription": {
         "description": "Description for the unclaimed account warning bar."
     },
-    "claimAccount": "Reivindicar Conta",
+    "claimAccount": "Reclamar conta",
     "@claimAccount": {
         "description": "Button to start the account claiming flow."
     },
-    "profileTypeLabel": "Tipo de Perfil",
+    "profileTypeLabel": "Tipo de perfil",
     "@profileTypeLabel": {
         "description": "Label for the profile type dropdown"
     },
-    "profileTypeGlobal": "Perfil Global",
+    "profileTypeGlobal": "Perfil global",
     "@profileTypeGlobal": {
         "description": "Option for global profile in profile type selector"
     },
@@ -1966,7 +1962,7 @@
     "@profileTypeGuildDescription": {
         "description": "Description shown when editing a per-guild profile"
     },
-    "communityNicknameLabel": "Apelido da Comunidade",
+    "communityNicknameLabel": "Apelido na comunidade",
     "@communityNicknameLabel": {
         "description": "Label for the community nickname field"
     },
@@ -1974,15 +1970,15 @@
     "@perGuildPremiumUpsellText": {
         "description": "Upsell text for per-guild premium features"
     },
-    "avatarModeInherit": "Usar Perfil Global",
+    "avatarModeInherit": "Utilizar perfil global",
     "@avatarModeInherit": {
         "description": "Avatar/banner mode: inherit from global profile"
     },
-    "avatarModeCustom": "Usar Imagem Personalizada",
+    "avatarModeCustom": "Utilizar imagem personalizada",
     "@avatarModeCustom": {
         "description": "Avatar/banner mode: use a custom image"
     },
-    "avatarModeUnset": "Não Mostrar",
+    "avatarModeUnset": "Não mostrar",
     "@avatarModeUnset": {
         "description": "Avatar/banner mode: hide even if global exists"
     },
@@ -1998,7 +1994,7 @@
     "@sudoDescription": {
         "description": "Description text in the sudo verification bottom sheet."
     },
-    "sudoAuthenticatorCode": "Código do Autenticador",
+    "sudoAuthenticatorCode": "Código do autenticador",
     "@sudoAuthenticatorCode": {
         "description": "Label for the TOTP authenticator code input field in sudo verification."
     },
@@ -2038,7 +2034,7 @@
     "@securitySectionDescriptionNoPasskeys": {
         "description": "Description for the Security section heading when passkeys are not available on the instance."
     },
-    "securityLoginEmailSectionTitle": "Configurações de E-mail",
+    "securityLoginEmailSectionTitle": "Definições de e-mail",
     "@securityLoginEmailSectionTitle": {
         "description": "Title for email settings section in Security & Login."
     },
@@ -2051,7 +2047,7 @@
             }
         }
     },
-    "securityLoginEmailAddressLabel": "Endereço de E-mail",
+    "securityLoginEmailAddressLabel": "Endereço de e-mail",
     "@securityLoginEmailAddressLabel": {
         "description": "Label for email address row."
     },
@@ -2059,11 +2055,11 @@
     "@securityLoginNoEmailSet": {
         "description": "Shown when the user has no email address set."
     },
-    "securityLoginChangeEmail": "Alterar E-mail",
+    "securityLoginChangeEmail": "Alterar e-mail",
     "@securityLoginChangeEmail": {
         "description": "Button label to change email address."
     },
-    "securityLoginAddEmail": "Adicionar E-mail",
+    "securityLoginAddEmail": "Adicionar e-mail",
     "@securityLoginAddEmail": {
         "description": "Button label to add an email address."
     },
@@ -2083,7 +2079,7 @@
     "@securityLoginPasswordSectionDescription": {
         "description": "Description for password section."
     },
-    "securityLoginCurrentPasswordLabel": "Senha Atual",
+    "securityLoginCurrentPasswordLabel": "Palavra-passe atual",
     "@securityLoginCurrentPasswordLabel": {
         "description": "Label for current password row."
     },
@@ -2096,7 +2092,7 @@
             }
         }
     },
-    "securityLoginPasswordNeverChanged": "Última alteração: Nunca",
+    "securityLoginPasswordNeverChanged": "Última alteração: nunca",
     "@securityLoginPasswordNeverChanged": {
         "description": "Shown when the password has never been changed."
     },
@@ -2104,15 +2100,15 @@
     "@securityLoginNoPasswordSet": {
         "description": "Shown when the user has no password set."
     },
-    "securityLoginChangePassword": "Alterar Senha",
+    "securityLoginChangePassword": "Alterar palavra-passe",
     "@securityLoginChangePassword": {
         "description": "Button label to change password."
     },
-    "securityLoginSetPassword": "Definir Senha",
+    "securityLoginSetPassword": "Definir palavra-passe",
     "@securityLoginSetPassword": {
         "description": "Button label to set a password."
     },
-    "passwordChangeTitle": "Alterar Senha",
+    "passwordChangeTitle": "Alterar palavra-passe",
     "@passwordChangeTitle": {
         "description": "Title for password change flow."
     },
@@ -2124,7 +2120,7 @@
     "@passwordChangeStart": {
         "description": "Button label to start password change flow."
     },
-    "passwordChangeVerifyTitle": "Verifique Seu E-mail",
+    "passwordChangeVerifyTitle": "Confirma o teu endereço de e-mail",
     "@passwordChangeVerifyTitle": {
         "description": "Title for email verification step in password change."
     },
@@ -2132,7 +2128,7 @@
     "@passwordChangeVerifyDescription": {
         "description": "Description for email verification step."
     },
-    "passwordChangeVerificationCode": "Código de Verificação",
+    "passwordChangeVerificationCode": "Código de verificação",
     "@passwordChangeVerificationCode": {
         "description": "Label for verification code input."
     },
@@ -2140,7 +2136,7 @@
     "@passwordChangeVerify": {
         "description": "Button label to verify the code."
     },
-    "passwordChangeNewPasswordTitle": "Definir Nova Senha",
+    "passwordChangeNewPasswordTitle": "Definir nova palavra-passe",
     "@passwordChangeNewPasswordTitle": {
         "description": "Title for new password entry step."
     },
@@ -2148,15 +2144,15 @@
     "@passwordChangeNewPasswordDescription": {
         "description": "Description for new password entry step."
     },
-    "passwordChangeNewPassword": "Nova Senha",
+    "passwordChangeNewPassword": "Nova palavra-passe",
     "@passwordChangeNewPassword": {
         "description": "Label for new password input."
     },
-    "passwordChangeConfirmPassword": "Confirmar Nova Senha",
+    "passwordChangeConfirmPassword": "Confirmar nova palavra-passe",
     "@passwordChangeConfirmPassword": {
         "description": "Label for confirm password input."
     },
-    "passwordChangeSubmit": "Alterar Senha",
+    "passwordChangeSubmit": "Alterar palavra-passe",
     "@passwordChangeSubmit": {
         "description": "Button label to submit password change."
     },
@@ -2192,7 +2188,7 @@
     "@emailChangeVerifyOriginalDescription": {
         "description": "Description for original email verification step."
     },
-    "emailChangeNewEmailTitle": "Inserir novo e-mail",
+    "emailChangeNewEmailTitle": "Introduz um novo endereço de e-mail",
     "@emailChangeNewEmailTitle": {
         "description": "Title for new email entry step."
     },
@@ -2208,7 +2204,7 @@
     "@emailChangeNewEmailSubmit": {
         "description": "Button label to submit new email and send verification code."
     },
-    "emailChangeVerifyNewTitle": "Verificar novo e-mail",
+    "emailChangeVerifyNewTitle": "Verifica o novo endereço de e-mail",
     "@emailChangeVerifyNewTitle": {
         "description": "Title for verifying new email step."
     },
@@ -2281,7 +2277,7 @@
     "@securityTfaAuthenticatorDisabled": {
         "description": "Status when TOTP is disabled."
     },
-    "securityTfaBackupCodes": "Códigos de backup",
+    "securityTfaBackupCodes": "Códigos de segurança",
     "@securityTfaBackupCodes": {
         "description": "Label for backup codes row."
     },
@@ -2301,7 +2297,7 @@
     "@securityPasskeysSectionDescription": {
         "description": "Description for passkeys section."
     },
-    "securityPasskeysRegistered": "Chaves de acesso registradas",
+    "securityPasskeysRegistered": "Chaves de acesso registadas",
     "@securityPasskeysRegistered": {
         "description": "Label for registered passkeys row."
     },
@@ -2344,7 +2340,7 @@
     "@securityPasskeysRename": {
         "description": "Button to rename a passkey."
     },
-    "securityPasskeysDeleteTitle": "Excluir chave de acesso",
+    "securityPasskeysDeleteTitle": "Apagar a chave de acesso",
     "@securityPasskeysDeleteTitle": {
         "description": "Title for passkey delete confirmation."
     },
@@ -2365,11 +2361,11 @@
     "@securityPasskeyNameLabel": {
         "description": "Label for passkey name input."
     },
-    "securityPasskeyNameHint": "Ex: YubiKey, iPhone, Computador do trabalho",
+    "securityPasskeyNameHint": "por exemplo, YubiKey, iPhone, computador do trabalho",
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityClaimTitle": "Recursos de Segurança",
+    "securityClaimTitle": "Funcionalidades de segurança",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
     },
@@ -2377,11 +2373,11 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Você precisa verificar seu endereço de e-mail antes de configurar a autenticação de dois fatores, chaves de acesso ou verificação por SMS.",
+    "securityVerifyEmailRequired": "Tens de verificar o teu endereço de e-mail antes de poderes configurar a autenticação de dois fatores ou as chaves de acesso.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
-    "totpEnableTitle": "Configurar App Autenticador",
+    "totpEnableTitle": "Configurar a aplicação de autenticação",
     "@totpEnableTitle": {
         "description": "Title for TOTP enable sheet."
     },
@@ -2401,7 +2397,7 @@
     "@totpEnableSuccess": {
         "description": "Toast after TOTP enabled."
     },
-    "totpDisableTitle": "Remover App Autenticador",
+    "totpDisableTitle": "Remover a aplicação de autenticação",
     "@totpDisableTitle": {
         "description": "Title for TOTP disable sheet."
     },
@@ -2413,7 +2409,7 @@
     "@totpDisableSuccess": {
         "description": "Toast after TOTP disabled."
     },
-    "backupCodesTitle": "Códigos de Backup",
+    "backupCodesTitle": "Códigos de segurança",
     "@backupCodesTitle": {
         "description": "Title for backup codes sheet."
     },
@@ -2437,7 +2433,7 @@
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
     },
-    "dangerZoneSectionTitle": "Zona de Perigo",
+    "dangerZoneSectionTitle": "Zona de perigo",
     "@dangerZoneSectionTitle": {
         "description": "Title for danger zone section."
     },
@@ -2445,7 +2441,7 @@
     "@dangerZoneSectionDescription": {
         "description": "Description for danger zone section heading."
     },
-    "dangerZoneDisableTitle": "Desativar Conta",
+    "dangerZoneDisableTitle": "Desativar conta",
     "@dangerZoneDisableTitle": {
         "description": "Title for account disable."
     },
@@ -2457,7 +2453,7 @@
     "@dangerZoneDisableConfirmDescription": {
         "description": "Confirmation description for account disable."
     },
-    "dangerZoneDeleteTitle": "Excluir Conta",
+    "dangerZoneDeleteTitle": "Eliminar conta",
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
@@ -2465,7 +2461,7 @@
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
     },
-    "claimAccountTitle": "Reivindicar Sua Conta",
+    "claimAccountTitle": "Reclama a tua conta",
     "@claimAccountTitle": {
         "description": "Title for claim account sheet."
     },
@@ -2550,7 +2546,7 @@
     "@relativeTimeJustNow": {
         "description": "Relative time for very recent events."
     },
-    "authorizedAppsTitle": "Aplicativos Autorizados",
+    "authorizedAppsTitle": "Aplicações autorizadas",
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
@@ -2563,7 +2559,7 @@
             }
         }
     },
-    "authorizedAppsEmptyTitle": "Nenhum Aplicativo Autorizado",
+    "authorizedAppsEmptyTitle": "Não existem aplicações autorizadas",
     "@authorizedAppsEmptyTitle": {
         "description": "Title shown when the user has no authorized OAuth2 applications."
     },
@@ -2571,7 +2567,7 @@
     "@authorizedAppsEmptyDescription": {
         "description": "Body text shown when the user has no authorized OAuth2 applications."
     },
-    "authorizedAppsLoadError": "Falha ao Carregar Aplicativos Autorizados",
+    "authorizedAppsLoadError": "Não foi possível carregar as aplicações autorizadas",
     "@authorizedAppsLoadError": {
         "description": "Error message shown when loading authorized applications fails."
     },
@@ -2629,7 +2625,7 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "blockedUsersTitle": "Usuários Bloqueados",
+    "blockedUsersTitle": "Utilizadores bloqueados",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
     },
@@ -2637,7 +2633,7 @@
     "@blockedUsersDescription": {
         "description": "Subtitle under the Blocked Users header."
     },
-    "blockedUsersEmptyTitle": "Nenhum Usuário Bloqueado",
+    "blockedUsersEmptyTitle": "Não há utilizadores bloqueados",
     "@blockedUsersEmptyTitle": {
         "description": "Empty state title shown when the user has not blocked anyone."
     },
@@ -2645,7 +2641,7 @@
     "@blockedUsersEmptyDescription": {
         "description": "Empty state description for blocked users."
     },
-    "blockedUsersLoadError": "Falha ao Carregar Usuários Bloqueados",
+    "blockedUsersLoadError": "Não foi possível carregar os utilizadores bloqueados",
     "@blockedUsersLoadError": {
         "description": "Error message shown when blocked users fail to load."
     },
@@ -2653,7 +2649,7 @@
     "@blockedUsersUnblock": {
         "description": "Button label that unblocks a user."
     },
-    "blockedUsersUnblockTitle": "Desbloquear Usuário",
+    "blockedUsersUnblockTitle": "Desbloquear utilizador",
     "@blockedUsersUnblockTitle": {
         "description": "Title of the bottom sheet that confirms unblocking a user."
     },
@@ -2670,7 +2666,7 @@
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },
-    "blockedUsersCopyId": "Copiar ID do Usuário",
+    "blockedUsersCopyId": "Copiar ID do utilizador",
     "@blockedUsersCopyId": {
         "description": "Context menu item that copies the user's ID."
     },
@@ -2686,15 +2682,15 @@
     "@userProfileMessage": {
         "description": "Action card label that opens a DM with the user."
     },
-    "userProfileVoiceCall": "Chamada de Voz",
+    "userProfileVoiceCall": "Chamada de voz",
     "@userProfileVoiceCall": {
         "description": "Action card label that starts a voice call with the user."
     },
-    "userProfileVideoCall": "Chamada de Vídeo",
+    "userProfileVideoCall": "Videochamada",
     "@userProfileVideoCall": {
         "description": "Action card label that starts a video call with the user."
     },
-    "userProfileEditProfile": "Editar Perfil",
+    "userProfileEditProfile": "Editar perfil",
     "@userProfileEditProfile": {
         "description": "Action card label shown on the current user's own profile sheet."
     },
@@ -2776,7 +2772,7 @@
             }
         }
     },
-    "userProfileMutualFriends": "Amigos em Comum ({count})",
+    "userProfileMutualFriends": "Amigos em comum ({count})",
     "@userProfileMutualFriends": {
         "description": "Profile mutual friends entry label with count.",
         "placeholders": {
@@ -2785,7 +2781,7 @@
             }
         }
     },
-    "userProfileMutualCommunities": "Comunidades em Comum ({count})",
+    "userProfileMutualCommunities": "Comunidades mútuas ({count})",
     "@userProfileMutualCommunities": {
         "description": "Profile mutual communities entry label with count.",
         "placeholders": {
@@ -2794,7 +2790,7 @@
             }
         }
     },
-    "userProfileMutualFriendsTitle": "Amigos em Comum",
+    "userProfileMutualFriendsTitle": "Amigos em comum",
     "@userProfileMutualFriendsTitle": {
         "description": "Bottom sheet title for mutual friends."
     },
@@ -2860,31 +2856,31 @@
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
     },
-    "userProfileAboutMe": "Sobre Mim",
+    "userProfileAboutMe": "Sobre mim",
     "@userProfileAboutMe": {
         "description": "Header of the bio section in the bio card."
     },
-    "userProfileCopyUsername": "Copiar nome de usuário",
+    "userProfileCopyUsername": "Copiar nome de utilizador",
     "@userProfileCopyUsername": {
         "description": "Three-dot menu item: copy username#discriminator to clipboard."
     },
-    "userProfileCopyUserId": "Copiar ID do usuário",
+    "userProfileCopyUserId": "Copiar ID do utilizador",
     "@userProfileCopyUserId": {
         "description": "Three-dot menu item: copy user snowflake to clipboard."
     },
-    "userProfileViewMainProfile": "Ver Perfil Principal",
+    "userProfileViewMainProfile": "Ver perfil principal",
     "@userProfileViewMainProfile": {
         "description": "Three-dot menu item shown from a community profile that switches to the user's main profile."
     },
-    "userProfileViewCommunityProfile": "Ver Perfil da Comunidade",
+    "userProfileViewCommunityProfile": "Ver perfil da comunidade",
     "@userProfileViewCommunityProfile": {
         "description": "Three-dot menu item shown from a main profile that switches back to the user's community profile."
     },
-    "userProfileBlockUser": "Bloquear usuário",
+    "userProfileBlockUser": "Bloquear utilizador",
     "@userProfileBlockUser": {
         "description": "Three-dot menu item to block the user."
     },
-    "userProfileUnblockUser": "Desbloquear usuário",
+    "userProfileUnblockUser": "Desbloquear utilizador",
     "@userProfileUnblockUser": {
         "description": "Three-dot menu item to unblock the user."
     },
@@ -2892,7 +2888,7 @@
     "@userProfileRemoveFriend": {
         "description": "Three-dot menu item to remove the friendship."
     },
-    "userProfileBlockConfirmTitle": "Bloquear usuário",
+    "userProfileBlockConfirmTitle": "Bloquear utilizador",
     "@userProfileBlockConfirmTitle": {
         "description": "Confirmation sheet title before blocking a user."
     },
@@ -2905,7 +2901,7 @@
             }
         }
     },
-    "userProfileUnblockConfirmTitle": "Desbloquear usuário",
+    "userProfileUnblockConfirmTitle": "Desbloquear utilizador",
     "@userProfileUnblockConfirmTitle": {
         "description": "Confirmation sheet title before unblocking a user."
     },
@@ -3451,7 +3447,7 @@
             }
         }
     },
-    "linkedDevicesTitle": "Meus Dispositivos",
+    "linkedDevicesTitle": "Os meus dispositivos",
     "@linkedDevicesTitle": {
         "description": "Heading for the Linked Devices settings page."
     },
@@ -3459,27 +3455,27 @@
     "@linkedDevicesDescription": {
         "description": "Description shown under the Linked Devices heading."
     },
-    "linkedDevicesCurrentDevice": "Dispositivo Atual",
+    "linkedDevicesCurrentDevice": "Dispositivo atual",
     "@linkedDevicesCurrentDevice": {
         "description": "Group label for the session currently making the request."
     },
-    "linkedDevicesOtherDevices": "Outros Dispositivos",
+    "linkedDevicesOtherDevices": "Outros dispositivos",
     "@linkedDevicesOtherDevices": {
         "description": "Group label for sessions other than the current one."
     },
-    "linkedDevicesEnterSelection": "Entrar no Modo de Seleção",
+    "linkedDevicesEnterSelection": "Entrar no modo de seleção",
     "@linkedDevicesEnterSelection": {
         "description": "Tooltip on the button that enables bulk-revoke selection mode."
     },
-    "linkedDevicesExitSelection": "Sair do Modo de Seleção",
+    "linkedDevicesExitSelection": "Sair do modo de seleção",
     "@linkedDevicesExitSelection": {
         "description": "Tooltip on the button that disables bulk-revoke selection mode."
     },
-    "linkedDevicesSelectAll": "Selecionar Tudo",
+    "linkedDevicesSelectAll": "Selecionar tudo",
     "@linkedDevicesSelectAll": {
         "description": "Tooltip on the select-all button while in selection mode."
     },
-    "linkedDevicesClearSelection": "Limpar Seleção",
+    "linkedDevicesClearSelection": "Limpar seleção",
     "@linkedDevicesClearSelection": {
         "description": "Tooltip on the clear-selection button while in selection mode."
     },
@@ -3534,7 +3530,7 @@
     "@linkedDevicesLogoutDisclaimer": {
         "description": "Disclaimer shown beneath the bulk-action button."
     },
-    "linkedDevicesLoadErrorTitle": "Erro de Rede",
+    "linkedDevicesLoadErrorTitle": "Erro de rede",
     "@linkedDevicesLoadErrorTitle": {
         "description": "Title shown when loading the sessions list fails."
     },
@@ -3559,7 +3555,7 @@
     "@linkedDevicesUnknownOs": {
         "description": "Fallback shown when the session's OS field is missing."
     },
-    "linkedDevicesUnknownPlatform": "Plataforma Desconhecida",
+    "linkedDevicesUnknownPlatform": "Plataforma desconhecida",
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -3994,11 +3990,11 @@
     "@connectionUnverifiedLabel": {
         "description": "Semantic label / tooltip for the unverified badge on a connection card."
     },
-    "connectionAddTitle": "Adicionar Conexão",
+    "connectionAddTitle": "Adicionar ligação",
     "@connectionAddTitle": {
         "description": "Title of the add-connection bottom sheet (step 1)."
     },
-    "connectionTypeLabel": "Tipo de Conexão",
+    "connectionTypeLabel": "Tipo de ligação",
     "@connectionTypeLabel": {
         "description": "Label for the connection-type select in the add-connection sheet."
     },
@@ -4030,7 +4026,7 @@
     "@connectionContinue": {
         "description": "Primary button label on the add-connection sheet for the domain flow."
     },
-    "connectionVerifyTitle": "Verificar Conexão",
+    "connectionVerifyTitle": "Verificar a ligação",
     "@connectionVerifyTitle": {
         "description": "Title of the verify-connection bottom sheet (step 2)."
     },
@@ -4096,7 +4092,7 @@
     "@connectionBack": {
         "description": "Secondary button on the verify step that returns to step 1."
     },
-    "connectionEditTitle": "Editar Conexão",
+    "connectionEditTitle": "Editar ligação",
     "@connectionEditTitle": {
         "description": "Title of the edit-connection bottom sheet."
     },
@@ -4120,7 +4116,7 @@
     "@connectionVisibilityFriendsDesc": {
         "description": "Description under the Friends visibility toggle."
     },
-    "connectionVisibilityCommunityMembers": "Membros da Comunidade",
+    "connectionVisibilityCommunityMembers": "Membros da comunidade",
     "@connectionVisibilityCommunityMembers": {
         "description": "Label for the Community Members visibility toggle."
     },
@@ -4128,7 +4124,7 @@
     "@connectionVisibilityCommunityMembersDesc": {
         "description": "Description under the Community Members visibility toggle."
     },
-    "connectionRemoveTitle": "Remover Conexão",
+    "connectionRemoveTitle": "Remover ligação",
     "@connectionRemoveTitle": {
         "description": "Title of the remove-connection confirmation sheet."
     },
@@ -5876,15 +5872,6 @@
     "personalNotesSubtitle": "Seu espaço particular para pensamentos e lembretes",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
-    },
-    "channelWelcomeHeading": "Bem-vindo(a) a {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "channelWelcomeDescription": "Este é o início de {channelName}.",
     "@channelWelcomeDescription": {
@@ -8369,7 +8356,7 @@
         "description": "Upload requirements for chat embed background images."
     },
     "guildSettingsModerationContentFilterTitle": "Filtragem de conteúdo",
-    "guildSettingsModerationContentFilterDescription": "Verifique automaticamente as mensagens em busca de conteúdo explícito em canais não marcados como adultos.",
+    "guildSettingsModerationContentFilterDescription": "Verificar automaticamente as mensagens em busca de conteúdo explícito em canais não marcados como adultos.",
     "guildSettingsModerationContentFilterDiscoveryNote": "As comunidades listadas em Explorar precisam analisar as mensagens de todos os membros. Você não pode alterar esta configuração enquanto sua comunidade estiver listada em Explorar.",
     "guildSettingsContentFilterOff": "Desativado",
     "guildSettingsContentFilterOffDescription": "Deixe a comunidade se auto-moderar",
@@ -8432,7 +8419,7 @@
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
     },
-    "sessionExpiredToast": "Sua sessão expirou. Por favor entre novamente.",
+    "sessionExpiredToast": "A tua sessão expirou. Por favor entra novamente.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
     },
@@ -8515,7 +8502,7 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "dmDebugCategory": "Categoria de Depuração",
+    "dmDebugCategory": "Depurar categoria",
     "@dmDebugCategory": {
         "description": "Category context menu action to debug category data."
     },
@@ -8627,7 +8614,7 @@
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
     },
-    "chatViewingOlderMessages": "Você está vendo mensagens antigas",
+    "chatViewingOlderMessages": "Estás a ver mensagens antigas",
     "@chatViewingOlderMessages": {
         "description": "Bottom bar text shown while the message list is detached from the present."
     },
@@ -8639,7 +8626,7 @@
     "@chatNewMessagesBarMarkAsRead": {
         "description": "Wide new messages bar action."
     },
-    "chatNewMessagesBarMarkRead": "Marcar lido",
+    "chatNewMessagesBarMarkRead": "Marcar como lido",
     "@chatNewMessagesBarMarkRead": {
         "description": "Compact new messages bar action."
     },
@@ -8693,11 +8680,11 @@
             }
         }
     },
-    "nagbarLearnMore": "Saiba mais",
+    "nagbarLearnMore": "Saber mais",
     "@nagbarLearnMore": {
         "description": "CTA on maintenance and other nagbars that open an external link."
     },
-    "nagbarMaintenanceScheduled": "Uma manutenção está agendada para {localizedTime}. Duração prevista: {duration}.",
+    "nagbarMaintenanceScheduled": "Manutenção agendada para as {localizedTime}. Duração esperada: {duration}.",
     "@nagbarMaintenanceScheduled": {
         "description": "Maintenance nagbar before planned work begins.",
         "placeholders": {
@@ -8709,7 +8696,7 @@
             }
         }
     },
-    "nagbarMaintenanceInProgress": "Manutenção em andamento. Duração prevista: {duration}.",
+    "nagbarMaintenanceInProgress": "Manutenção em progresso. Duração esperada: {duration}.",
     "@nagbarMaintenanceInProgress": {
         "description": "Maintenance nagbar while work is active.",
         "placeholders": {
@@ -8722,7 +8709,7 @@
     "@nagbarMaintenanceComplete": {
         "description": "Maintenance nagbar after planned work finishes."
     },
-    "nagbarUnclaimedAccountMessage": "Olá, {displayName}, reivindique sua conta para não perder o acesso.",
+    "nagbarUnclaimedAccountMessage": "Oi {displayName}, reclama a tua conta para evitares perder o acesso.",
     "@nagbarUnclaimedAccountMessage": {
         "description": "Unclaimed account nagbar body.",
         "placeholders": {
@@ -8731,7 +8718,7 @@
             }
         }
     },
-    "nagbarEmailVerificationMessage": "Olá, {displayName}, verifique seu endereço de e-mail.",
+    "nagbarEmailVerificationMessage": "Oi {displayName}, por favor verifica o teu endereço de email.",
     "@nagbarEmailVerificationMessage": {
         "description": "Email verification nagbar body.",
         "placeholders": {
@@ -8740,19 +8727,19 @@
             }
         }
     },
-    "nagbarOpenSettings": "Abrir configurações",
+    "nagbarOpenSettings": "Abrir definições",
     "@nagbarOpenSettings": {
         "description": "Nagbar CTA that opens user settings."
     },
-    "systemPermissionSettingsTitle": "Ativar permissão",
+    "systemPermissionSettingsTitle": "Conceder permissão",
     "@systemPermissionSettingsTitle": {
         "description": "Title for the system permission settings prompt modal."
     },
-    "systemPermissionSettingsOpenSettings": "Abrir configurações",
+    "systemPermissionSettingsOpenSettings": "Abrir definições",
     "@systemPermissionSettingsOpenSettings": {
         "description": "Primary action that opens the device app settings for a blocked permission."
     },
-    "systemPermissionMicrophoneMessage": "O {productName} não tem acesso ao seu microfone. Você pode ativá-lo nas configurações de privacidade do dispositivo.",
+    "systemPermissionMicrophoneMessage": "O Fluxer não tem acesso ao teu microfone. Podes concedê-lo nas definições de privacidade do teu dispositivo.",
     "@systemPermissionMicrophoneMessage": {
         "description": "Body text when microphone access must be enabled in system settings.",
         "placeholders": {
@@ -8761,7 +8748,7 @@
             }
         }
     },
-    "systemPermissionCameraMessage": "O {productName} não tem acesso à sua câmera. Você pode ativá-la nas configurações de privacidade do dispositivo.",
+    "systemPermissionCameraMessage": "O Fluxer não tem acesso à tua câmara. Podes concedê-lo nas definições de privacidade do teu dispositivo.",
     "@systemPermissionCameraMessage": {
         "description": "Body text when camera access must be enabled in system settings.",
         "placeholders": {
@@ -8809,11 +8796,11 @@
             }
         }
     },
-    "nagbarManageSubscription": "Gerenciar assinatura",
+    "nagbarManageSubscription": "Gerir subscrição",
     "@nagbarManageSubscription": {
         "description": "Nagbar CTA that opens the billing portal."
     },
-    "nagbarPremiumOnboardingDefault": "Boas-vindas ao {productFullName}. Explore suas vantagens do {productName} e gerencie sua assinatura.",
+    "nagbarPremiumOnboardingDefault": "Bem-vindo ao {productFullName}. Explora as tuas vantagens {productName} e gere a tua subscrição.",
     "@nagbarPremiumOnboardingDefault": {
         "description": "Premium onboarding nagbar default body.",
         "placeholders": {
@@ -8825,7 +8812,7 @@
             }
         }
     },
-    "nagbarViewPremiumFeatures": "Ver recursos do {productName}",
+    "nagbarViewPremiumFeatures": "Ver as funcionalidades {productName}",
     "@nagbarViewPremiumFeatures": {
         "description": "Premium onboarding nagbar CTA.",
         "placeholders": {
@@ -8847,11 +8834,11 @@
             }
         }
     },
-    "nagbarViewGiftInventory": "Ver inventário de presentes",
+    "nagbarViewGiftInventory": "Ver inventário de prendas",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
     },
-    "nagbarVisionaryMfa": "Ative a autenticação de dois fatores para proteger sua conta Visionary.",
+    "nagbarVisionaryMfa": "Ligar autenticação de duplo fator para proteger a tua conta Visionary.",
     "@nagbarVisionaryMfa": {
         "description": "Visionary MFA nagbar body."
     },
@@ -8859,7 +8846,7 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarGuildMembershipCta": "Entre em {communityName} para conversar com a equipe e ficar por dentro das novidades.",
+    "nagbarGuildMembershipCta": "Junta-te a {communityName} para falar com a equipa e para te manteres em dia.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
         "placeholders": {
@@ -8877,15 +8864,15 @@
             }
         }
     },
-    "nagbarPushNotification": "Ative as notificações para não perder mensagens e menções.",
+    "nagbarPushNotification": "Liga as notificações para não perderes mensagens e menções.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
     },
-    "nagbarEnableNotifications": "Ativar notificações",
+    "nagbarEnableNotifications": "Ligar notificações",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "next": "Avançar",
+    "next": "Seguinte",
     "@next": {
         "description": "Generic next button label."
     },
@@ -18756,15 +18743,15 @@
     "@premiumRefundOutsideWindowTitle": {
         "description": "Title of the refund error dialog when the purchase is too old."
     },
-    "premiumRefundOutsideWindowMessage": "Sua compra mais recente não está mais dentro do prazo de reembolso. Entre em contato com o suporte para questões de cobrança.",
+    "premiumRefundOutsideWindowMessage": "A tua compra mais recente já não está dentro da janela de reembolso. Entra em contacto com o suporte para questões de cobrança.",
     "@premiumRefundOutsideWindowMessage": {
         "description": "Body of the refund error dialog when the purchase is too old."
     },
-    "premiumRefundCooldownTitle": "Você pediu um reembolso recentemente",
+    "premiumRefundCooldownTitle": "Solicitaste um reembolso recentemente",
     "@premiumRefundCooldownTitle": {
         "description": "Title of the refund error dialog during the refund cooldown."
     },
-    "premiumRefundCooldownMessage": "Você já usou um reembolso por conta própria recentemente. Você poderá pedir outro reembolso quando o período de espera terminar.",
+    "premiumRefundCooldownMessage": "Já usaste um reembolso por conta própria recentemente. Poderás pedir outro reembolso quando o período de espera terminar.",
     "@premiumRefundCooldownMessage": {
         "description": "Body of the refund error dialog during the refund cooldown."
     },
@@ -18772,7 +18759,7 @@
     "@premiumRefundNothingTitle": {
         "description": "Title of the refund error dialog when there is no recent purchase."
     },
-    "premiumRefundNothingMessage": "Não encontramos uma compra recente para reembolsar nesta conta.",
+    "premiumRefundNothingMessage": "Não encontrámos uma compra recente para reembolsar nesta conta.",
     "@premiumRefundNothingMessage": {
         "description": "Body of the refund error dialog when there is no recent purchase."
     },
@@ -18780,15 +18767,15 @@
     "@premiumRefundFailedTitle": {
         "description": "Title of the refund error dialog for other failures."
     },
-    "premiumRefundFailedMessage": "Algo deu errado ao emitir seu reembolso. Entre em contato com o suporte se isso continuar acontecendo.",
+    "premiumRefundFailedMessage": "Algo correu mal ao emitir o teu reembolso. Entra em contacto com o suporte se isto continuar a acontecer.",
     "@premiumRefundFailedMessage": {
         "description": "Body of the refund error dialog for other failures."
     },
-    "premiumVerifyEmailTitle": "Verifique seu e-mail primeiro",
+    "premiumVerifyEmailTitle": "Verifica o teu e-mail primeiro",
     "@premiumVerifyEmailTitle": {
         "description": "Title of the checkout error dialog when the email is unverified."
     },
-    "premiumVerifyEmailBody": "Você precisa verificar seu e-mail antes de comprar {productName}.",
+    "premiumVerifyEmailBody": "Precisas de verificar o teu e-mail antes de comprar o {productName}.",
     "@premiumVerifyEmailBody": {
         "description": "Body of the checkout error dialog when the email is unverified. productName is the premium product name.",
         "placeholders": {
@@ -18797,11 +18784,11 @@
             }
         }
     },
-    "premiumCheckoutBlockedTitle": "Checkout indisponível",
+    "premiumCheckoutBlockedTitle": "Finalização de compra indisponível",
     "@premiumCheckoutBlockedTitle": {
         "description": "Title of the checkout error dialog when checkout is blocked for the account."
     },
-    "premiumCheckoutBlockedBody": "O checkout está bloqueado para esta conta. Entre em contato com {supportEmail} se precisar de ajuda.",
+    "premiumCheckoutBlockedBody": "A finalização de compra está bloqueada para esta conta. Entra em contacto com {supportEmail} se precisares de ajuda.",
     "@premiumCheckoutBlockedBody": {
         "description": "Body of the checkout error dialog when checkout is blocked, on the official instance.",
         "placeholders": {
@@ -18810,7 +18797,7 @@
             }
         }
     },
-    "premiumCheckoutBlockedBodySelfHosted": "O checkout está bloqueado para esta conta.",
+    "premiumCheckoutBlockedBodySelfHosted": "A finalização de compra está bloqueada para esta conta.",
     "@premiumCheckoutBlockedBodySelfHosted": {
         "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
     },
@@ -19870,7 +19857,7 @@
     "@forumReportPost": {
         "description": "Forum post actions item that reports the post's first message."
     },
-    "splashGatewayUnreachable": "Não foi possível se conectar a {domain}. Verifique sua conexão com a internet e tente novamente.",
+    "splashGatewayUnreachable": "Não foi possível a ligação a {domain}. Verifica a tua ligação à internet e tenta novamente.",
     "@splashGatewayUnreachable": {
         "description": "Shown on the splash screen when the app can't connect to the instance at launch and there is no cached content to show. A Retry button follows. domain is the instance host, for example fluxer.com.",
         "placeholders": {
@@ -19924,20 +19911,96 @@
     "@notificationUnknownSender": {
         "description": "Notification sender name used when a push has no sender."
     },
-    "voiceDiagnosticsCopy": "Copy voice diagnostics",
+    "voiceDiagnosticsCopy": "Copiar diagnósticos de voz",
     "@voiceDiagnosticsCopy": {
         "description": "Action label that copies voice call diagnostics as JSON to the clipboard so they can be shared with the developers."
     },
-    "voiceDiagnosticsCopyDescription": "Share with the developers to help fix call issues",
+    "voiceDiagnosticsCopyDescription": "Partilhar com os programadores para ajudar a resolver problemas em chamadas",
     "@voiceDiagnosticsCopyDescription": {
         "description": "Subtitle under the copy voice diagnostics row in the voice call controls sheet."
     },
-    "voiceDiagnosticsCopied": "Copied voice diagnostics to clipboard",
+    "voiceDiagnosticsCopied": "Diagnósticos de voz copiados para a área de transferência",
     "@voiceDiagnosticsCopied": {
         "description": "Toast shown after voice diagnostics JSON was copied to the clipboard."
     },
-    "voiceDiagnosticsInCallHint": "In a call",
+    "voiceDiagnosticsInCallHint": "Em chamada",
     "@voiceDiagnosticsInCallHint": {
         "description": "Muted hint next to the copy voice diagnostics action when the user is currently connected to a voice call."
+    },
+    "matureContentIosWebOptInInstanceBody": "Ativa as comunidades e canais restritos por idade em {webAddress} no teu browser ou na aplicação desktop. Estes conteúdos manter-se-ão escondidos na aplicação iOS até o fazeres.",
+    "@matureContentIosWebOptInInstanceBody": {
+        "description": "Body when mature access must be enabled on web or desktop instead of in the iOS app. webAddress is the web app address of the instance the user is signed in to, such as fluxer.com or chat.example.com.",
+        "placeholders": {
+            "webAddress": {
+                "type": "String",
+                "example": "chat.example.com"
+            }
+        }
+    },
+    "ageRangeUnderMinimumBodyGoogle": "A faixa etária partilhada pela tua conta Google está abaixo dos 13 anos. O Fluxer é só para pessoas com 13 ou mais anos de idade.",
+    "@ageRangeUnderMinimumBodyGoogle": {
+        "description": "Body of the full-screen page shown on Android when the age range shared through Google Play is under 13."
+    },
+    "ageRangeUnlockBody": "Onde te encontras, a lei determina que a data de nascimento que escreves não é suficiente para o acesso a conteúdo para adultos, e podes usar a faixa etária na tua conta Apple para o desbloqueares. O Fluxer só obtém a faixa etária se esta for de 18 anos ou mais. Uma faixa etária de abaixo de 18 mantém-se apenas neste dispositivo.",
+    "@ageRangeUnlockBody": {
+        "description": "Text above the \"Unlock mature content\" button in the sensitive content settings on iPhone and iPad, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Apple for the age range on the Apple Account, and the app sends it to Fluxer only if it is 18 or over."
+    },
+    "ageRangeUnlockBodyGoogle": "Onde te encontras, a lei determina que a data de nascimento que escreves não é suficiente para o acesso a conteúdo para adultos, e podes usar a faixa etária na tua conta Google para o desbloqueares. O Fluxer só obtém a faixa etária se esta for de 18 anos ou mais. Uma faixa etária de abaixo de 18 mantém-se apenas neste dispositivo.",
+    "@ageRangeUnlockBodyGoogle": {
+        "description": "Text above the \"Unlock mature content\" button in the sensitive content settings on Android, shown only on fluxer.com accounts in places where the law says a date of birth typed into the app isn't enough for mature content. The button asks Google Play for the age range on the Google Account, and the app sends it to Fluxer only if it is 18 or over."
+    },
+    "ageRangeUnlockHelpLink": "Como funciona o desbloqueio de conteúdo para adultos",
+    "@ageRangeUnlockHelpLink": {
+        "description": "Link to the help article about unlocking mature content with the age range from Apple or Google, shown in the sensitive content settings."
+    },
+    "ageRangeUnlockButton": "Desbloquear conteúdo para adultos",
+    "@ageRangeUnlockButton": {
+        "description": "Button in the sensitive content settings that asks Apple or Google Play for the age range on the account. Apple or Google shows its own prompt first."
+    },
+    "ageRangeUnlockUnderAdult": "O conteúdo para adultos mantém-se desativado porque a faixa etária na tua conta Apple é de abaixo dos 18 anos. A faixa etária mantém-se neste dispositivo e não é enviada para o Fluxer.",
+    "@ageRangeUnlockUnderAdult": {
+        "description": "Shown in the sensitive content settings on iPhone and iPad when the age range from the Apple Account is under 18. The app keeps it on the device and never sends it."
+    },
+    "ageRangeUnlockUnderAdultGoogle": "O conteúdo para adultos mantém-se desativado porque a faixa etária na tua conta Google é de abaixo dos 18 anos. A faixa etária mantém-se neste dispositivo e não é enviada para o Fluxer.",
+    "@ageRangeUnlockUnderAdultGoogle": {
+        "description": "Shown in the sensitive content settings on Android when the age range from the Google Account is under 18. The app keeps it on the device and never sends it."
+    },
+    "ageRangeUnlockFailed": "O Fluxer não pôde desbloquear o conteúdo para adultos. Por favor tenta de novo mais tarde.",
+    "@ageRangeUnlockFailed": {
+        "description": "Shown under the \"Unlock mature content\" button when sending an age range of 18 or over to Fluxer failed."
+    },
+    "ageRangeUnlockDateOfBirthRequired": "A tua conta precisa de uma data de nascimento antes de o Fluxer poder usar a tua faixa etária.",
+    "@ageRangeUnlockDateOfBirthRequired": {
+        "description": "Shown under the \"Unlock mature content\" button when the account has no date of birth, which Fluxer needs before it accepts an age range."
+    },
+    "sensitiveContentInstallFromPlayHint": "Desbloquear conteúdo para adultos com a tua conta Google requer a versão Google Play do Fluxer.",
+    "@sensitiveContentInstallFromPlayHint": {
+        "description": "Hint under the \"Unlock mature content\" button on Android when the app was downloaded from outside Google Play, which can't get the age range from Google Play."
+    },
+    "sensitiveContentFinishInPlayHint": "O Google Play requer mais um passo antes de poder partilhar uma faixa etária. Abre a Play Store para terminares, e depois volta e pressiona \"Desbloquear conteúdo para adultos\" de novo.",
+    "@sensitiveContentFinishInPlayHint": {
+        "description": "Hint under the \"Unlock mature content\" button on Android when Google Play needs the user to finish a step in the Play Store before it shares an age range. The quoted label must match ageRangeUnlockButton."
+    },
+    "connectionsEmptyDescriptionAccounts": "Liga as tuas contas ou confirma que o domínio te pertence para as mostrares no teu perfil.",
+    "@connectionsEmptyDescriptionAccounts": {
+        "description": "Empty-state description when the instance offers account connections besides domains."
+    },
+    "connectionsAddProviderAriaLabel": "Adicionar ligação {providerName}",
+    "@connectionsAddProviderAriaLabel": {
+        "description": "Semantic label for an instance connection provider's add-connection tile. providerName is the provider display name.",
+        "placeholders": {
+            "providerName": {
+                "type": "String"
+            }
+        }
+    },
+    "connectionConnectWithProvider": "Associar a {providerName}",
+    "@connectionConnectWithProvider": {
+        "description": "Button label for starting an external account connection. providerName is the provider display name.",
+        "placeholders": {
+            "providerName": {
+                "type": "String"
+            }
+        }
     }
 }
