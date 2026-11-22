@@ -25,7 +25,7 @@
   </a>
 </p>
 
-This is the repo for the official Fluxer mobile / tablet app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
+This is the repo for the official Fluxer mobile, tablet, and desktop app powered by [Flutter framework](https://flutter.dev).
 
 You can follow what is planned in the [Fluxer roadmap](https://fluxer.app/blog/roadmap-2026).
 
@@ -47,6 +47,9 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 | Android | Obtainium | Stable / Beta | [Auto-updates from GitHub](#auto-updates-with-obtainium) |
 | Android | F-Droid | Soon | — |
 | Android | Accrescent | Waiting for Accrescent submissions to be open | — |
+| macOS (Oxygen) | Website | Closed Alpha | — |
+| Window (Oxygen) | Website | Closed Alpha | — |
+| Linux (Oxygen) | Website | — | — |
 
 ### Android (APK)
 
