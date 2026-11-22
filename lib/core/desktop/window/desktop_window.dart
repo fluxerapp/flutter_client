@@ -2,32 +2,44 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/core/desktop/autostart/desktop_autostart.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_placement.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_state.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/desktop_behavior_preferences_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 const Size _kDefaultSize = Size(1280, 720);
 
+bool _usesNativeTitleBar = false;
+
+bool get desktopUsesNativeTitleBar =>
+    (Platform.isWindows || Platform.isLinux) && _usesNativeTitleBar;
+
 TitleBarStyle? _titleBarStyle() {
-  if (Platform.isMacOS || Platform.isWindows) {
+  if (Platform.isMacOS || (Platform.isWindows && !_usesNativeTitleBar)) {
     return TitleBarStyle.hidden;
   }
   return null;
 }
 
-Future<void> configureDesktopWindow() async {
+Future<void> configureDesktopWindow(List<String> args) async {
   await windowManager.ensureInitialized();
 
+  await DesktopAutostart.resolveLaunch(args);
   final (
-    DesktopWindowState? saved,
+    DesktopBehaviorPreferencesState behavior,
     List<Rect> workAreas,
     Rect? primary,
   ) = await (
-    loadDesktopWindowState(),
+    readDesktopBehaviorPreferences(),
     displayWorkAreas(),
     primaryWorkArea(),
   ).wait;
+  _usesNativeTitleBar = behavior.useNativeTitleBar;
+  final DesktopWindowState? saved = behavior.rememberWindowState
+      ? await loadDesktopWindowState()
+      : null;
 
   final Rect? savedArea = saved == null
       ? null
@@ -61,8 +73,14 @@ Future<void> configureDesktopWindow() async {
   );
 
   final bool maximized = saved?.maximized ?? false;
+  final bool startHidden =
+      DesktopAutostart.launchedAtLogin && behavior.startMinimized;
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    unawaited(_showDesktopWindow(maximized: maximized));
+    unawaited(
+      startHidden
+          ? desktopMainWindow.refresh()
+          : _showDesktopWindow(maximized: maximized),
+    );
   });
 }
 

@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provi
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_transmit_provider.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart';
@@ -219,6 +220,10 @@ class VoiceSession extends _$VoiceSession {
       ..listen<Set<String>>(
         blockedUserIdsProvider,
         (_, _) => unawaited(applyAllParticipantVolumes()),
+      )
+      ..listen<bool>(
+        voiceMicrophoneGateOpenProvider,
+        (_, bool open) => _applyMicrophoneGate(open: open),
       )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
@@ -3978,6 +3983,7 @@ class VoiceSession extends _$VoiceSession {
     final VoiceMeshTransport? mesh = state.mesh;
     if (mesh != null) {
       final int? channelBitrate = await _currentChannelBitrate();
+      mesh.setMicrophoneGate(open: ref.read(voiceMicrophoneGateOpenProvider));
       await mesh.setMicrophoneEnabled(
         enabled: enabled,
         options: applicator.buildAudioCaptureOptions(settings),
@@ -3999,6 +4005,26 @@ class VoiceSession extends _$VoiceSession {
       enabled: enabled,
       channelBitrate: await _currentChannelBitrate(),
     );
+    if (enabled) {
+      _applyMicrophoneGate(open: ref.read(voiceMicrophoneGateOpenProvider));
+    }
+  }
+
+  void _applyMicrophoneGate({required bool open}) {
+    final VoiceMeshTransport? mesh = state.mesh;
+    if (mesh != null) {
+      mesh.setMicrophoneGate(open: open);
+      return;
+    }
+    final LocalTrackPublication? publication = state
+        .liveKitRoom
+        ?.localParticipant
+        ?.getTrackPublicationBySource(TrackSource.microphone);
+    final LocalTrack? track = publication?.track;
+    if (track == null) {
+      return;
+    }
+    track.mediaStreamTrack.enabled = open;
   }
 
   Future<void> _applyVoiceOutputRouting(VoiceSettingsState settings) async {
@@ -4096,7 +4122,10 @@ class VoiceSession extends _$VoiceSession {
       }
       final bool screenShareCodecChanged =
           previous == null ||
-          previous.preferredScreenShareCodec != next.preferredScreenShareCodec;
+          previous.preferredScreenShareCodec !=
+              next.preferredScreenShareCodec ||
+          previous.screenShareAv1OptIn != next.screenShareAv1OptIn ||
+          previous.screenShareHevcOptIn != next.screenShareHevcOptIn;
       if (screenShareCodecChanged &&
           _hasPublishedLocalScreenShareVideo(requireTrack: false)) {
         _refreshingScreenShare = true;

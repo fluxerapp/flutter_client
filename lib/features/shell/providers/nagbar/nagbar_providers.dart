@@ -1,9 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_conditions.dart';
@@ -218,7 +220,11 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
     canShowLinuxInputAccess: false,
     canShowDesktopDownload: false,
     canShowSoftwareEncoder: false,
-    canShowStreamerMode: false,
+    canShowStreamerMode: ref.watch(
+      streamerModeProvider.select(
+        (StreamerModeState state) => state.shouldShowNagbar,
+      ),
+    ),
   );
 }
 

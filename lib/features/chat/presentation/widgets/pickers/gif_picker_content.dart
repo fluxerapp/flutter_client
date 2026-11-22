@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -1465,7 +1466,7 @@ class _GifTile extends StatelessWidget {
   }
 }
 
-class _GifMediaPreview extends StatelessWidget {
+class _GifMediaPreview extends ConsumerWidget {
   const _GifMediaPreview({
     required this.url,
     required this.sourceUrl,
@@ -1477,14 +1478,20 @@ class _GifMediaPreview extends StatelessWidget {
   final bool allowAnimatedImagePlayback;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool animatePicker = ref.watch(
+      interfaceExtrasPreferencesProvider.select(
+        (InterfaceExtrasState state) =>
+            state[InterfaceExtraFlag.animateGifPicker],
+      ),
+    );
     final base = url.isNotEmpty ? url : sourceUrl;
     if (base.isEmpty) {
       return const _GifMediaPlaceholder();
     }
     return FluxerAnimatedImage(
       animatedUrl: buildMediaProxyUrl(base, format: 'webp', animated: true),
-      playing: allowAnimatedImagePlayback,
+      playing: allowAnimatedImagePlayback && animatePicker,
       placeholder: const _GifMediaPlaceholder(),
       fadeInDuration: _kGifTileFadeInDuration,
     );

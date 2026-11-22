@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
+import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
@@ -126,6 +128,11 @@ final voiceSystemPipTargetProvider = Provider<VoiceSystemPipTarget?>((Ref ref) {
       media: session.media,
       currentUserId: currentUserId,
       localConnectionId: session.connectionId,
+      includeScreenShares: !ref.watch(
+        voiceSettingsProvider.select(
+          (VoiceSettingsState s) => s.disableScreenSharePip,
+        ),
+      ),
     ),
   );
   if (tileId == null) {

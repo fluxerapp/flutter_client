@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provide
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
 import 'package:fluxer_app/features/input/providers/keybind_handler_registry.dart';
+import 'package:fluxer_app/features/input/providers/keybind_preferences_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/input/services/keybind_navigation.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
@@ -46,9 +47,9 @@ import 'package:fluxer_app/features/settings/providers/preferences/appearance_pr
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_transmit_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
-import 'package:fluxer_app/features/voice/utils/audio/push_to_talk_utils.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -416,8 +417,38 @@ void registerKeybindHandlers({
       await executeDeclineIncomingVoiceCall(ref, context, pending.first);
       return true;
     })
+    ..register(KeybindAction.voicePushToTalk, () async {
+      if (!ref.read(voicePushToTalkActiveProvider)) {
+        return false;
+      }
+      ref.read(voiceTransmitHoldProvider.notifier).pressPushToTalk();
+      return true;
+    })
+    ..register(KeybindAction.voicePushToMute, () async {
+      if (!ref.read(voiceSessionProvider).isInVoice) {
+        return false;
+      }
+      ref
+          .read(voiceTransmitHoldProvider.notifier)
+          .setPushToMuteHeld(held: true);
+      return true;
+    })
+    ..register(KeybindAction.voiceToggleVad, () async {
+      await ref.read(keybindPreferencesProvider.notifier).toggleTransmitMode();
+      return true;
+    })
     ..register(KeybindAction.voicePushToTalkPriority, () async {
-      if (!isPushToTalkEffective()) {
+      if (!ref.read(voicePushToTalkActiveProvider)) {
+        return false;
+      }
+      ref.read(voiceTransmitHoldProvider.notifier).pressPushToTalk();
+      ref
+          .read(voicePrioritySpeakerProvider.notifier)
+          .setPrioritySpeakerHeld(held: true);
+      return true;
+    })
+    ..register(KeybindAction.voicePriorityVad, () async {
+      if (ref.read(voicePushToTalkActiveProvider)) {
         return false;
       }
       ref
@@ -425,14 +456,24 @@ void registerKeybindHandlers({
           .setPrioritySpeakerHeld(held: true);
       return true;
     })
-    ..register(KeybindAction.voicePriorityVad, () async {
-      if (isPushToTalkEffective()) {
-        return false;
-      }
+    ..registerRelease(KeybindAction.voicePushToTalk, () {
+      ref.read(voiceTransmitHoldProvider.notifier).releasePushToTalk();
+    })
+    ..registerRelease(KeybindAction.voicePushToMute, () {
+      ref
+          .read(voiceTransmitHoldProvider.notifier)
+          .setPushToMuteHeld(held: false);
+    })
+    ..registerRelease(KeybindAction.voicePushToTalkPriority, () {
+      ref.read(voiceTransmitHoldProvider.notifier).releasePushToTalk();
       ref
           .read(voicePrioritySpeakerProvider.notifier)
-          .setPrioritySpeakerHeld(held: true);
-      return true;
+          .setPrioritySpeakerHeld(held: false);
+    })
+    ..registerRelease(KeybindAction.voicePriorityVad, () {
+      ref
+          .read(voicePrioritySpeakerProvider.notifier)
+          .setPrioritySpeakerHeld(held: false);
     })
     ..register(KeybindAction.messageEdit, () {
       return withFocusedMessage((Message message) {

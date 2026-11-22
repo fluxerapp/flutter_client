@@ -1,6 +1,7 @@
 #include "my_application.h"
 
 #include <flutter_linux/flutter_linux.h>
+#include <string.h>
 
 #include "flutter/generated_plugin_registrant.h"
 #include "launcher_badge.h"
@@ -12,7 +13,31 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+static gboolean launched_at_login(MyApplication* self) {
+  if (self->dart_entrypoint_arguments == nullptr) {
+    return FALSE;
+  }
+  return g_strv_contains(
+      const_cast<const gchar* const*>(self->dart_entrypoint_arguments),
+      "--autostart");
+}
+
+static gboolean uses_native_title_bar() {
+  g_autofree gchar* path =
+      g_build_filename(g_get_user_data_dir(), APPLICATION_ID,
+                       "shared_preferences.json", nullptr);
+  g_autofree gchar* contents = nullptr;
+  if (!g_file_get_contents(path, &contents, nullptr, nullptr)) {
+    return FALSE;
+  }
+  return strstr(contents,
+                "\"flutter.desktop_use_native_title_bar\":true") != nullptr;
+}
+
 static void first_frame_cb(MyApplication* self, FlView* view) {
+  if (launched_at_login(self)) {
+    return;
+  }
   gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(view)));
 }
 
@@ -44,10 +69,12 @@ static void my_application_activate(GApplication* application) {
   gtk_window_set_title(window, APPLICATION_NAME);
   set_window_icon(window);
 
-  GtkWidget* empty_header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_set_size_request(empty_header, -1, 0);
-  gtk_widget_show(empty_header);
-  gtk_window_set_titlebar(window, empty_header);
+  if (!uses_native_title_bar()) {
+    GtkWidget* empty_header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_size_request(empty_header, -1, 0);
+    gtk_widget_show(empty_header);
+    gtk_window_set_titlebar(window, empty_header);
+  }
 
   gtk_window_set_default_size(window, 1280, 720);
 

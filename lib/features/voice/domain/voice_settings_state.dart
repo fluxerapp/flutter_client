@@ -85,6 +85,7 @@ const int kDefaultVoiceVolumePercent = 100;
 const int kMinVoiceVolumePercent = 0;
 const int kMaxVoiceVolumePercent = 200;
 const int kDefaultVideoFrameRate = 30;
+const int kDefaultVadThreshold = 50;
 
 enum ScreenShareCodecPreference { auto, av1, h265, vp9, h264, vp8 }
 
@@ -119,6 +120,11 @@ class VoiceSettingsState {
     this.suppressNewDeviceAlerts = false,
     this.pauseOwnScreenSharePreviewOnUnfocus = true,
     this.prioritizeSpeakingParticipants = false,
+    this.vadAutoSensitivity = true,
+    this.vadThreshold = kDefaultVadThreshold,
+    this.screenShareAv1OptIn = false,
+    this.screenShareHevcOptIn = false,
+    this.disableScreenSharePip = false,
   });
 
   final String inputDeviceId;
@@ -150,6 +156,11 @@ class VoiceSettingsState {
   final bool suppressNewDeviceAlerts;
   final bool pauseOwnScreenSharePreviewOnUnfocus;
   final bool prioritizeSpeakingParticipants;
+  final bool vadAutoSensitivity;
+  final int vadThreshold;
+  final bool screenShareAv1OptIn;
+  final bool screenShareHevcOptIn;
+  final bool disableScreenSharePip;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -185,6 +196,11 @@ class VoiceSettingsState {
     bool? suppressNewDeviceAlerts,
     bool? pauseOwnScreenSharePreviewOnUnfocus,
     bool? prioritizeSpeakingParticipants,
+    bool? vadAutoSensitivity,
+    int? vadThreshold,
+    bool? screenShareAv1OptIn,
+    bool? screenShareHevcOptIn,
+    bool? disableScreenSharePip,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -230,6 +246,12 @@ class VoiceSettingsState {
           this.pauseOwnScreenSharePreviewOnUnfocus,
       prioritizeSpeakingParticipants:
           prioritizeSpeakingParticipants ?? this.prioritizeSpeakingParticipants,
+      vadAutoSensitivity: vadAutoSensitivity ?? this.vadAutoSensitivity,
+      vadThreshold: vadThreshold ?? this.vadThreshold,
+      screenShareAv1OptIn: screenShareAv1OptIn ?? this.screenShareAv1OptIn,
+      screenShareHevcOptIn: screenShareHevcOptIn ?? this.screenShareHevcOptIn,
+      disableScreenSharePip:
+          disableScreenSharePip ?? this.disableScreenSharePip,
     );
   }
 
@@ -263,6 +285,11 @@ class VoiceSettingsState {
       'pauseOwnScreenSharePreviewOnUnfocus':
           pauseOwnScreenSharePreviewOnUnfocus,
       'prioritizeSpeakingParticipants': prioritizeSpeakingParticipants,
+      'vadAutoSensitivity': vadAutoSensitivity,
+      'vadThreshold': vadThreshold,
+      'screenShareAv1OptIn': screenShareAv1OptIn,
+      'screenShareHevcOptIn': screenShareHevcOptIn,
+      'disableScreenSharePip': disableScreenSharePip,
     };
   }
 
@@ -311,6 +338,13 @@ class VoiceSettingsState {
           json['pauseOwnScreenSharePreviewOnUnfocus'] as bool? ?? true,
       prioritizeSpeakingParticipants:
           json['prioritizeSpeakingParticipants'] as bool? ?? false,
+      vadAutoSensitivity: json['vadAutoSensitivity'] as bool? ?? true,
+      vadThreshold:
+          ((json['vadThreshold'] as num?)?.round() ?? kDefaultVadThreshold)
+              .clamp(0, 100),
+      screenShareAv1OptIn: json['screenShareAv1OptIn'] as bool? ?? false,
+      screenShareHevcOptIn: json['screenShareHevcOptIn'] as bool? ?? false,
+      disableScreenSharePip: json['disableScreenSharePip'] as bool? ?? false,
     );
   }
 }

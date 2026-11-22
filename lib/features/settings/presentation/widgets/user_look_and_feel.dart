@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_streamer_mode_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -420,6 +421,7 @@ class UserLookAndFeel extends ConsumerWidget {
               ),
             ],
           ),
+          const UserStreamerModeSection(),
           FluxerSettingsSection(
             title: l10n.lookAndFeelFavoritesSectionTitle,
             description: l10n.lookAndFeelFavoritesSectionDescription,

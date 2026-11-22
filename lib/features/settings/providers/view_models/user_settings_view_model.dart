@@ -375,6 +375,8 @@ class UserSettingsViewState {
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
 
+  bool get hasPasskeyMfa => authenticatorTypes.contains(2);
+
   bool get lacksMfa =>
       isProfileLoaded && !mfaEnabled && authenticatorTypes.isEmpty;
 

@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_f
 import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/guild_folders_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/guild_nsfw_agreements_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/keybinds_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/local_spam_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/member_list_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/mention_frecency_synced_field.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/core/synced_preferences/fields/search_engines_synced_
 import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sound_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/swipe_right_to_left_action_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/synced_extras_fields.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/textual_preview_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/unread_channels_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/voice_prompts_synced_field.dart';
@@ -60,4 +62,8 @@ void registerDefaultSyncedFieldAdapters({
   registerAdapter(DoubleTapReactionSyncedField(ref));
   registerAdapter(DoubleTapActionSyncedField(ref));
   registerAdapter(SwipeRightToLeftActionSyncedField(ref));
+  registerAdapter(KeybindsSyncedField(ref));
+  registerAdapter(SpellcheckSyncedField(ref));
+  registerAdapter(ChatInputSyncedField(ref));
+  registerAdapter(HiddenGuildButtonsSyncedField(ref));
 }

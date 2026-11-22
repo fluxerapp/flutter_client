@@ -4,6 +4,7 @@ abstract final class GuildFeatures {
   static const String banner = 'BANNER';
   static const String detachedBanner = 'DETACHED_BANNER';
   static const String inviteSplash = 'INVITE_SPLASH';
+  static const String vanityUrl = 'VANITY_URL';
   static const String textChannelFlexibleNames = 'TEXT_CHANNEL_FLEXIBLE_NAMES';
   static const String hideOwnerCrown = 'HIDE_OWNER_CROWN';
   static const String invitesDisabled = 'INVITES_DISABLED';

@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_input_field.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/sync/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -16,6 +18,7 @@ import 'package:fluxer_app/shared/utils/app_locale_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
+import 'package:intl/intl.dart';
 
 class UserLanguageAndTime extends ConsumerWidget {
   const UserLanguageAndTime({super.key, this.scrollController});
@@ -187,8 +190,169 @@ class UserLanguageAndTime extends ConsumerWidget {
               ),
             ],
           ),
+          const _RegionalFormatSection(),
+          if (composerSpellCheckSupported)
+            FluxerSettingsSection(
+              title: l10n.languageAndTimeSpellcheckTitle,
+              children: [
+                FluxerSettingsSwitchItem(
+                  label: l10n.languageAndTimeSpellcheckLabel,
+                  description: l10n.languageAndTimeSpellcheckDescription,
+                  value: ref.watch(
+                    syncedExtrasPreferencesProvider.select(
+                      (SyncedExtrasState state) => state.spellcheckEnabled,
+                    ),
+                  ),
+                  onChanged: (bool value) => unawaited(
+                    ref
+                        .read(syncedExtrasPreferencesProvider.notifier)
+                        .setSpellcheckEnabled(value: value),
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
+    );
+  }
+}
+
+const String _kRegionalFormatLanguage = '';
+
+class _RegionalFormatSection extends ConsumerWidget {
+  const _RegionalFormatSection();
+
+  static final DateTime _sample = DateTime(2026, 11, 6, 21, 23);
+
+  String _localeLabel(String tag) {
+    final String? intl = resolveIntlLocale(tag);
+    if (intl == null) {
+      return tag;
+    }
+    return '$tag · ${DateFormat.yMd(intl).format(_sample)}';
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? regionalFormat = ref.watch(regionalFormatPreferenceProvider);
+    final TimestampFormatTypes timestampFormat = ref.watch(
+      timestampFormatPreferenceProvider,
+    );
+    final String locale =
+        ref.watch(userRegionalFormattingLocaleProvider) ??
+        Localizations.localeOf(context).toLanguageTag();
+    final String? intlLocale = resolveIntlLocale(locale);
+    final String autoExample = DateFormat.yMd(intlLocale).format(_sample);
+
+    Future<void> run(Future<void> Function() action) async {
+      try {
+        await action();
+      } on Object {
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.languageAndTimeFormatSyncFailed,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+      }
+    }
+
+    final List<String> locales = <String>[
+      ...kRegionalFormatLocales,
+      if (regionalFormat != null &&
+          regionalFormat != kRegionalFormatSystem &&
+          !kRegionalFormatLocales.contains(regionalFormat))
+        regionalFormat,
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        FluxerSettingsSection(
+          title: l10n.languageAndTimeRegionalFormatTitle,
+          description: l10n.languageAndTimeRegionalFormatDescription,
+          children: <Widget>[
+            FluxerSelect<String>(
+              hint: l10n.languageAndTimeRegionalFormatTitle,
+              searchHint: l10n.languageAndTimeRegionalFormatSearch,
+              value: regionalFormat ?? _kRegionalFormatLanguage,
+              scrollableSheet: true,
+              stretch: true,
+              items: <FluxerSelectItem<String>>[
+                FluxerSelectItem<String>(
+                  value: _kRegionalFormatLanguage,
+                  label: l10n.languageAndTimeRegionalFormatSameAsLanguage,
+                ),
+                FluxerSelectItem<String>(
+                  value: kRegionalFormatSystem,
+                  label: l10n.languageAndTimeRegionalFormatSystem,
+                ),
+                for (final String tag in locales)
+                  FluxerSelectItem<String>(
+                    value: tag,
+                    label: _localeLabel(tag),
+                    searchText: tag,
+                  ),
+              ],
+              onChanged: (String value) => unawaited(
+                run(
+                  () => ref
+                      .read(regionalFormatPreferenceProvider.notifier)
+                      .setRegionalFormat(
+                        value == _kRegionalFormatLanguage ? null : value,
+                      ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        FluxerSettingsSection(
+          title: l10n.languageAndTimeDateFormatTitle,
+          children: <Widget>[
+            FluxerRadioGroup<TimestampFormatTypes>(
+              value: timestampFormat,
+              onChanged: (TimestampFormatTypes value) => unawaited(
+                run(
+                  () => ref
+                      .read(timestampFormatPreferenceProvider.notifier)
+                      .setTimestampFormat(value),
+                ),
+              ),
+              items: <FluxerRadioItem<TimestampFormatTypes>>[
+                FluxerRadioItem(
+                  value: TimestampFormatTypes.auto,
+                  label: l10n.languageAndTimeDateFormatAuto,
+                  description: autoExample,
+                ),
+                for (final (TimestampFormatTypes type, String label)
+                    in <(TimestampFormatTypes, String)>[
+                      (
+                        TimestampFormatTypes.iso8601,
+                        l10n.languageAndTimeDateFormatIso,
+                      ),
+                      (
+                        TimestampFormatTypes.dayMonthYear,
+                        l10n.languageAndTimeDateFormatDayFirst,
+                      ),
+                      (
+                        TimestampFormatTypes.monthDayYear,
+                        l10n.languageAndTimeDateFormatMonthFirst,
+                      ),
+                    ])
+                  FluxerRadioItem(
+                    value: type,
+                    label: label,
+                    description: DateFormat(
+                      numericDatePatternFor(type),
+                    ).format(_sample),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

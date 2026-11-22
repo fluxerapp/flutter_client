@@ -261,7 +261,6 @@ bool isUserSettingsScrollFieldVisible({
     return false;
   }
   switch (scrollFieldId) {
-    case 'streamer-mode':
     case 'advanced-settings-desktop':
     case 'advanced-settings-notifications':
     case 'advanced-settings-account':

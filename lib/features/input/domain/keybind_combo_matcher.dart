@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
+import 'package:fluxer_app/features/input/domain/keybind_key_names.dart';
 
 String normalizeShortcutKey(String key) {
   if (key == ' ') {
@@ -32,7 +33,9 @@ bool keyboardEventTriggerMatchesCombo(KeybindCombo combo, KeyEvent event) {
         ? event.character!
         : event.logicalKey.keyLabel;
     if (normalizeShortcutKey(eventKey) ==
-        normalizeShortcutKey(expectedLayoutKey)) {
+            normalizeShortcutKey(expectedLayoutKey) ||
+        normalizeShortcutKey(webKeyForKeyEvent(event)) ==
+            normalizeShortcutKey(expectedLayoutKey)) {
       return true;
     }
     if (combo.code != null &&
@@ -54,6 +57,10 @@ bool keyboardEventTriggerMatchesCombo(KeybindCombo combo, KeyEvent event) {
 }
 
 String? _physicalKeyName(KeyEvent event) {
+  final String? webCode = webCodeForPhysicalKey(event.physicalKey);
+  if (webCode != null) {
+    return webCode;
+  }
   final String debugName = event.physicalKey.debugName ?? '';
   if (debugName.startsWith('PhysicalKeyboardKey.')) {
     return debugName.substring('PhysicalKeyboardKey.'.length);

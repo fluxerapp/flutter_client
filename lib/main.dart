@@ -203,7 +203,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if (isFluxerDesktopOs) {
     await _bootstrapStep('app.bootstrap.window', () async {
-      await configureDesktopWindow();
+      await configureDesktopWindow(args);
     });
     await _bootstrapStep('app.bootstrap.tray', () async {
       await DesktopTray.start(container);

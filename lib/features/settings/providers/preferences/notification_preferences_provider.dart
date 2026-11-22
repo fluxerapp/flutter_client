@@ -12,6 +12,7 @@ part 'notification_preferences_provider.g.dart';
 
 const String _kNotificationsEnabledKey = 'notification_prefs_enabled';
 const String _kTtsNotificationModeKey = 'notification_prefs_tts_mode';
+const String _kUnreadMessageBadgeKey = 'notification_prefs_unread_badge';
 
 enum NotificationEnableResult {
   success,
@@ -23,21 +24,26 @@ class NotificationPreferencesState {
   const NotificationPreferencesState({
     this.notificationsEnabled = true,
     this.ttsNotificationMode = TtsNotificationMode.never,
+    this.unreadMessageBadgeEnabled = true,
     this.isLoaded = false,
   });
 
   final bool notificationsEnabled;
   final TtsNotificationMode ttsNotificationMode;
+  final bool unreadMessageBadgeEnabled;
   final bool isLoaded;
 
   NotificationPreferencesState copyWith({
     bool? notificationsEnabled,
     TtsNotificationMode? ttsNotificationMode,
+    bool? unreadMessageBadgeEnabled,
     bool? isLoaded,
   }) {
     return NotificationPreferencesState(
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       ttsNotificationMode: ttsNotificationMode ?? this.ttsNotificationMode,
+      unreadMessageBadgeEnabled:
+          unreadMessageBadgeEnabled ?? this.unreadMessageBadgeEnabled,
       isLoaded: isLoaded ?? this.isLoaded,
     );
   }
@@ -62,6 +68,8 @@ class NotificationPreferences extends _$NotificationPreferences {
     state = state.copyWith(
       notificationsEnabled: enabled,
       ttsNotificationMode: mode,
+      unreadMessageBadgeEnabled:
+          preferences.getBool(_kUnreadMessageBadgeKey) ?? true,
       isLoaded: true,
     );
   }
@@ -93,5 +101,11 @@ class NotificationPreferences extends _$NotificationPreferences {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setInt(_kTtsNotificationModeKey, mode.index);
     state = state.copyWith(ttsNotificationMode: mode);
+  }
+
+  Future<void> setUnreadMessageBadgeEnabled({required bool value}) async {
+    state = state.copyWith(unreadMessageBadgeEnabled: value);
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(_kUnreadMessageBadgeKey, value);
   }
 }

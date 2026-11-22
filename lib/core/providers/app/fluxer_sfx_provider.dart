@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/profile/domain/presence_notification_policy.
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/notification_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/settings/utils/sound/sound_type_utils.dart';
 import 'package:fluxer_app/features/settings/utils/sound/sound_volume_utils.dart';
@@ -29,6 +30,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'fluxer_sfx_provider.g.dart';
 
 bool _soundEffectAllowed(Ref ref, String soundType) {
+  if (ref.read(streamerModeProvider).shouldDisableSounds) {
+    return false;
+  }
   return shouldPlaySoundEffect(
     notificationsEnabled: ref
         .read(notificationPreferencesProvider)
@@ -39,6 +43,9 @@ bool _soundEffectAllowed(Ref ref, String soundType) {
 }
 
 void _playConfiguredSfx(Ref ref, FluxerSfxClip clip) {
+  if (ref.read(streamerModeProvider).shouldDisableSounds) {
+    return;
+  }
   unawaited(
     playFluxerSoundEffect(
       prefs: ref.read(soundPreferencesProvider),

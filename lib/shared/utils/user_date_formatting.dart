@@ -21,6 +21,124 @@ const List<String> _twelveHourLocalePrefixes = <String>[
   'tl',
 ];
 
+const String kRegionalFormatSystem = 'system';
+
+const List<String> kRegionalFormatLocales = <String>[
+  'ar-AE',
+  'ar-EG',
+  'ar-SA',
+  'be-BY',
+  'bg-BG',
+  'bn-BD',
+  'bn-IN',
+  'ca-ES',
+  'cs-CZ',
+  'da-DK',
+  'de-AT',
+  'de-CH',
+  'de-DE',
+  'el-GR',
+  'en-AU',
+  'en-CA',
+  'en-GB',
+  'en-IE',
+  'en-IN',
+  'en-NZ',
+  'en-PH',
+  'en-SG',
+  'en-US',
+  'en-ZA',
+  'es-419',
+  'es-AR',
+  'es-CL',
+  'es-CO',
+  'es-ES',
+  'es-MX',
+  'es-US',
+  'et-EE',
+  'fi-FI',
+  'fil-PH',
+  'fr-BE',
+  'fr-CA',
+  'fr-CH',
+  'fr-FR',
+  'he-IL',
+  'hi-IN',
+  'hr-HR',
+  'hu-HU',
+  'id-ID',
+  'is-IS',
+  'it-CH',
+  'it-IT',
+  'ja-JP',
+  'ko-KR',
+  'lt-LT',
+  'lv-LV',
+  'ms-MY',
+  'nb-NO',
+  'nl-BE',
+  'nl-NL',
+  'pl-PL',
+  'pt-BR',
+  'pt-PT',
+  'ro-RO',
+  'ru-RU',
+  'sk-SK',
+  'sl-SI',
+  'sq-AL',
+  'sr-RS',
+  'sv-FI',
+  'sv-SE',
+  'th-TH',
+  'tr-TR',
+  'uk-UA',
+  'vi-VN',
+  'zh-CN',
+  'zh-HK',
+  'zh-TW',
+];
+
+String? _regionalLocaleOverride;
+TimestampFormatTypes _timestampFormat = TimestampFormatTypes.auto;
+
+String? resolveIntlLocale(String locale) {
+  final String canonical = Intl.canonicalizedLocale(
+    locale.replaceAll('-', '_'),
+  );
+  if (DateFormat.localeExists(canonical)) {
+    return canonical;
+  }
+  final String language = canonical.split('_').first;
+  return DateFormat.localeExists(language) ? language : null;
+}
+
+void configureUserDateFormatting({
+  required String? regionalLocale,
+  required TimestampFormatTypes timestampFormat,
+}) {
+  final String? resolved = regionalLocale == null
+      ? null
+      : resolveIntlLocale(regionalLocale);
+  if (resolved == _regionalLocaleOverride &&
+      timestampFormat == _timestampFormat) {
+    return;
+  }
+  _regionalLocaleOverride = resolved;
+  _timestampFormat = timestampFormat;
+  _formatCache.clear();
+}
+
+String _formattingLocale(String locale) => _regionalLocaleOverride ?? locale;
+
+String? numericDatePatternFor(TimestampFormatTypes format) {
+  return switch (format) {
+    TimestampFormatTypes.iso8601 => 'yyyy-MM-dd',
+    TimestampFormatTypes.dayMonthYear => 'dd/MM/yyyy',
+    TimestampFormatTypes.monthDayYear => 'MM/dd/yyyy',
+    _ => null,
+  };
+}
+
 bool localeUses12Hour(String locale) {
   final String normalized = locale.toLowerCase();
   return _twelveHourLocalePrefixes.any(normalized.startsWith);
@@ -50,7 +168,7 @@ String formatUserTime(
 }) {
   return _cachedFormat(
     _UserFormatKind.time,
-    locale,
+    _formattingLocale(locale),
     use12Hour: use12Hour,
     withSeconds: withSeconds,
   ).format(localDateTime);
@@ -64,7 +182,7 @@ String formatUserDateTime(
 }) {
   return _cachedFormat(
     _UserFormatKind.shortDateTime,
-    locale,
+    _formattingLocale(locale),
     use12Hour: use12Hour,
     withSeconds: withSeconds,
   ).format(localDateTime);
@@ -75,10 +193,11 @@ String formatUserCompactDateTime(
   String locale, {
   required bool use12Hour,
 }) {
-  final String datePattern = DateFormat.yMd(
-    locale,
-  ).pattern!.replaceAll(RegExp('y+'), 'yy');
-  final String date = DateFormat(datePattern, locale).format(localDateTime);
+  final String formatting = _formattingLocale(locale);
+  final String datePattern =
+      numericDatePatternFor(_timestampFormat) ??
+      DateFormat.yMd(formatting).pattern!.replaceAll(RegExp('y+'), 'yy');
+  final String date = DateFormat(datePattern, formatting).format(localDateTime);
   final String time = formatUserTime(
     localDateTime,
     locale,
@@ -88,11 +207,11 @@ String formatUserCompactDateTime(
 }
 
 String formatUserFullDate(DateTime localDateTime, String locale) {
-  return DateFormat.yMMMMEEEEd(locale).format(localDateTime);
+  return DateFormat.yMMMMEEEEd(_formattingLocale(locale)).format(localDateTime);
 }
 
 String formatUserMediumDate(DateTime localDateTime, String locale) {
-  return DateFormat.yMMMd(locale).format(localDateTime);
+  return DateFormat.yMMMd(_formattingLocale(locale)).format(localDateTime);
 }
 
 String formatUserMediumDateTime(
@@ -102,7 +221,7 @@ String formatUserMediumDateTime(
 }) {
   return _cachedFormat(
     _UserFormatKind.mediumDateTime,
-    locale,
+    _formattingLocale(locale),
     use12Hour: use12Hour,
     withSeconds: false,
   ).format(localDateTime);
@@ -146,13 +265,18 @@ DateFormat _buildFormat(
 ) {
   return switch (kind) {
     _UserFormatKind.time => DateFormat(timePattern, locale),
-    _UserFormatKind.shortDateTime => DateFormat.yMd(
+    _UserFormatKind.shortDateTime => _numericDateFormat(
       locale,
     ).addPattern(timePattern),
     _UserFormatKind.mediumDateTime => DateFormat.yMMMd(
       locale,
     ).addPattern(timePattern),
   };
+}
+
+DateFormat _numericDateFormat(String locale) {
+  final String? pattern = numericDatePatternFor(_timestampFormat);
+  return pattern == null ? DateFormat.yMd(locale) : DateFormat(pattern, locale);
 }
 
 String _timePattern(

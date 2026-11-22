@@ -92,6 +92,8 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/push_notification_permission_status_provider.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -99,6 +101,7 @@ import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoticon_conversion.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
 import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -5200,10 +5203,14 @@ class ChatViewModel extends _$ChatViewModel {
     if (text.isEmpty) {
       return text;
     }
+    final String converted =
+        ref.read(syncedExtrasPreferencesProvider).convertEmoticons
+        ? convertEmoticonsToEmoji(text)
+        : text;
     if (!ref.read(chatPreferencesProvider).sanitizeUrls) {
-      return text;
+      return converted;
     }
-    return sanitizeUrlsInContent(text);
+    return sanitizeUrlsInContent(converted);
   }
 
   ({String content, int flags}) _normalizeOutgoing(String text) {
@@ -5766,6 +5773,31 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  final Map<String, Future<void>> _orderedAttachmentSends =
+      <String, Future<void>>{};
+
+  ({Future<void> ready, Completer<void> done}) _reserveOrderedAttachmentSend(
+    String channelId,
+  ) {
+    final Completer<void> done = Completer<void>();
+    if (!ref.read(
+      interfaceExtrasPreferencesProvider,
+    )[InterfaceExtraFlag.sequentialFileSend]) {
+      return (ready: Future<void>.value(), done: done);
+    }
+    final Future<void> ready =
+        _orderedAttachmentSends[channelId] ?? Future<void>.value();
+    _orderedAttachmentSends[channelId] = done.future;
+    return (ready: ready, done: done);
+  }
+
+  void _releaseOrderedAttachmentSend(String channelId, Completer<void> done) {
+    done.complete();
+    if (identical(_orderedAttachmentSends[channelId], done.future)) {
+      _orderedAttachmentSends.remove(channelId)?.ignore();
+    }
+  }
+
   Future<void> _completeSendWithAttachments({
     required String channelId,
     required String outgoingText,
@@ -5779,6 +5811,8 @@ class ChatViewModel extends _$ChatViewModel {
     int? messageFlags,
     bool tts = false,
   }) async {
+    final ({Future<void> ready, Completer<void> done}) orderedSlot =
+        _reserveOrderedAttachmentSend(channelId);
     final int fileCount =
         ref
             .read(
@@ -5814,6 +5848,7 @@ class ChatViewModel extends _$ChatViewModel {
             in prepared.attachmentMetadata ?? const <ApiAttachmentMetadata>[])
           attachment.filename,
       ];
+      await orderedSlot.ready;
       final DateTime sendStartedAt = DateTime.now();
       final Message sent = await _sendWithRateLimitRetry(
         () => ref
@@ -5897,6 +5932,7 @@ class ChatViewModel extends _$ChatViewModel {
       _handleSendFailure(optimisticMessageId, error);
       _parkFailedLocalSend(optimisticMessageId, clientNonce);
     } finally {
+      _releaseOrderedAttachmentSend(channelId, orderedSlot.done);
       _uploadKeepAlive.end();
     }
   }
@@ -7250,7 +7286,15 @@ class ChatViewModel extends _$ChatViewModel {
       (text ?? state.messageText).trim(),
     );
     final String editedContent = hasVisibleContent(sanitized) ? sanitized : '';
-    if (editedContent.isEmpty || editedContent == editingMessage.content) {
+    final bool keepAttachmentsOnly =
+        editedContent.isEmpty &&
+        editingMessage.content.isNotEmpty &&
+        editingMessage.attachments.isNotEmpty &&
+        ref.read(
+          interfaceExtrasPreferencesProvider,
+        )[InterfaceExtraFlag.keepAttachmentsOnEmptyEdit];
+    if ((editedContent.isEmpty && !keepAttachmentsOnly) ||
+        editedContent == editingMessage.content) {
       talker.debug(
         '[ChatViewModel] edit save noop messageId=${editingMessage.id}',
       );

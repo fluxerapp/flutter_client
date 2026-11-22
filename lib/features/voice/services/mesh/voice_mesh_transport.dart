@@ -579,6 +579,16 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     }
   }
 
+  bool _micGateOpen = true;
+
+  void setMicrophoneGate({required bool open}) {
+    _micGateOpen = open;
+    final LocalTrack? track = _localTracks[VoiceMeshSource.microphone];
+    if (track != null && !_micMuted) {
+      track.mediaStreamTrack.enabled = open;
+    }
+  }
+
   Future<void> setMicrophoneEnabled({
     required bool enabled,
     required AudioCaptureOptions options,
@@ -600,7 +610,7 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     if (existing == null) {
       await _openMicrophone(options: options, inputGain: inputGain);
     } else {
-      existing.mediaStreamTrack.enabled = true;
+      existing.mediaStreamTrack.enabled = _micGateOpen;
     }
     _micMuted = false;
     _publishLocalChange();
@@ -615,7 +625,7 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     }
     await _openMicrophone(options: options, inputGain: inputGain);
     _localTracks[VoiceMeshSource.microphone]?.mediaStreamTrack.enabled =
-        !_micMuted;
+        !_micMuted && _micGateOpen;
     _publishLocalChange();
   }
 
@@ -638,6 +648,7 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     }
     await track.start();
     await Helper.setVolume(inputGain, track.mediaStreamTrack);
+    track.mediaStreamTrack.enabled = _micGateOpen;
     await _stopMicVisualizer();
     await _replaceLocalTrack(VoiceMeshSource.microphone, track);
     if (_closed) {

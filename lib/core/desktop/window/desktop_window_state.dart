@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 
 const Duration _kSaveDebounce = Duration(milliseconds: 500);
 const String _kWindowStateKey = 'desktop_window_state_v1';
+const String kDesktopRememberWindowStateKey = 'desktop_remember_window_state';
 
 @immutable
 class DesktopWindowState {
@@ -98,6 +99,10 @@ class DesktopWindowStateTracker with WindowListener {
   }
 
   Future<void> _save() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getBool(kDesktopRememberWindowStateKey) == false) {
+      return;
+    }
     final bool maximized;
     try {
       if (await windowManager.isFullScreen() ||

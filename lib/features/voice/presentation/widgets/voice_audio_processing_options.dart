@@ -52,7 +52,33 @@ class VoiceAudioProcessingOptions extends ConsumerWidget {
             ),
           ],
         ),
-        if (settings.voiceProcessingMode == VoiceProcessingMode.custom)
+        if (settings.voiceProcessingMode == VoiceProcessingMode.custom) ...[
+          FluxerSettingsSwitchItem(
+            label: l10n.audioAndVideoAutoActivityThresholdLabel,
+            description: l10n.audioAndVideoAutoActivityThresholdDescription,
+            value: settings.vadAutoSensitivity,
+            onChanged: (bool value) {
+              unawaited(settingsNotifier.setVadAutoSensitivity(value: value));
+            },
+          ),
+          if (!settings.vadAutoSensitivity)
+            FluxerSettingsSubsection(
+              title: l10n.audioAndVideoActivityThresholdLabel,
+              description: l10n.audioAndVideoActivityThresholdDescription,
+              children: <Widget>[
+                FluxerSlider(
+                  defaultValue: settings.vadThreshold.toDouble(),
+                  factoryDefaultValue: kDefaultVadThreshold.toDouble(),
+                  minValue: 0,
+                  maxValue: 100,
+                  step: 1,
+                  onValueRender: (double value) => Text('${value.round()}%'),
+                  onValueChange: (double value) {
+                    unawaited(settingsNotifier.setVadThreshold(value.round()));
+                  },
+                ),
+              ],
+            ),
           FluxerSettingsSubsection(
             title: l10n.audioAndVideoNoiseSuppressionSectionTitle,
             children: <Widget>[
@@ -98,6 +124,7 @@ class VoiceAudioProcessingOptions extends ConsumerWidget {
               ),
             ],
           ),
+        ],
       ],
     );
   }

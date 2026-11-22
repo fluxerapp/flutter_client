@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.
 import 'package:fluxer_app/features/profile/domain/presence_notification_policy.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -150,9 +151,9 @@ void desktopMessageNotificationBinding(Ref ref) {
       selfIsDnd: isPresenceDoNotDisturb(
         ref.read(userSettingsStatusProvider)?.status,
       ),
-      popupsEnabled: ref
-          .read(notificationPreferencesProvider)
-          .notificationsEnabled,
+      popupsEnabled:
+          ref.read(notificationPreferencesProvider).notificationsEnabled &&
+          !ref.read(streamerModeProvider).shouldDisableNotifications,
       windowFocused: isDesktopMainWindowFocused(),
       activeChannelId: ref.read(activeChannelIdProvider),
     )) {

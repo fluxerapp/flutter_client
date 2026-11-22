@@ -63,6 +63,18 @@ IDI_BADGE_7             ICON                    "resources\\badges\\badge-7.ico"
 IDI_BADGE_8             ICON                    "resources\\badges\\badge-8.ico"
 IDI_BADGE_9             ICON                    "resources\\badges\\badge-9.ico"
 IDI_BADGE_10            ICON                    "resources\\badges\\badge-10.ico"
+IDI_BADGE_11            ICON                    "resources\\badges\\badge-11.ico"
+IDI_BADGE_DARK_1        ICON                    "resources\\badges\\badge-dark-1.ico"
+IDI_BADGE_DARK_2        ICON                    "resources\\badges\\badge-dark-2.ico"
+IDI_BADGE_DARK_3        ICON                    "resources\\badges\\badge-dark-3.ico"
+IDI_BADGE_DARK_4        ICON                    "resources\\badges\\badge-dark-4.ico"
+IDI_BADGE_DARK_5        ICON                    "resources\\badges\\badge-dark-5.ico"
+IDI_BADGE_DARK_6        ICON                    "resources\\badges\\badge-dark-6.ico"
+IDI_BADGE_DARK_7        ICON                    "resources\\badges\\badge-dark-7.ico"
+IDI_BADGE_DARK_8        ICON                    "resources\\badges\\badge-dark-8.ico"
+IDI_BADGE_DARK_9        ICON                    "resources\\badges\\badge-dark-9.ico"
+IDI_BADGE_DARK_10       ICON                    "resources\\badges\\badge-dark-10.ico"
+IDI_BADGE_DARK_11       ICON                    "resources\\badges\\badge-dark-11.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

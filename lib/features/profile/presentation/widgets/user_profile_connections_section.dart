@@ -1,5 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connection_item.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -9,7 +11,7 @@ enum UserProfileConnectionsVariant { compact, cards, list }
 const double _kCardGap = 8;
 const double _kCompactTileGap = 6;
 
-class UserProfileConnectionsSection extends StatelessWidget {
+class UserProfileConnectionsSection extends ConsumerWidget {
   const UserProfileConnectionsSection({
     required this.connections,
     this.embedded = false,
@@ -22,7 +24,14 @@ class UserProfileConnectionsSection extends StatelessWidget {
   final UserProfileConnectionsVariant variant;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(
+      streamerModeProvider.select(
+        (StreamerModeState state) => state.shouldHidePersonalInformation,
+      ),
+    )) {
+      return const SizedBox.shrink();
+    }
     if (connections.isEmpty) {
       return const SizedBox.shrink();
     }

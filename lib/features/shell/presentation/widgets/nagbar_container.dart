@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_g
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_onboarding_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/push_notification_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/scheduled_maintenance_nagbar.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/streamer_mode_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/unclaimed_account_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/visionary_mfa_nagbar.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
@@ -54,6 +55,7 @@ class NagbarContainer extends ConsumerWidget {
       NagbarType.visionaryMfa => const VisionaryMfaNagbar(),
       NagbarType.guildMembershipCta => const GuildMembershipCtaNagbar(),
       NagbarType.pushNotification => const PushNotificationNagbar(),
+      NagbarType.streamerMode => const StreamerModeNagbar(),
       _ => const SizedBox.shrink(),
     };
   }

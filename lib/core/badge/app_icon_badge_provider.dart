@@ -45,11 +45,27 @@ class AppIconBadge extends _$AppIconBadge {
     );
     final int pendingFriends =
         ref.watch(pendingFriendRequestCountProvider).value ?? 0;
+    final bool guildHasUnread = ref.watch(
+      guildReadStateProvider.select(
+        (Map<String, GuildReadStateEntry> states) =>
+            states.values.any((GuildReadStateEntry entry) => entry.hasUnread),
+      ),
+    );
+    final bool dmHasUnread = ref.watch(
+      unreadDmChannelsProvider.select(
+        (UnreadDmState state) => state.unreadChannelIds.isNotEmpty,
+      ),
+    );
     final AppIconBadgeValue next = computeAppIconBadge(
       guildMentionCount: guildMentionCount,
       dmMentionCount: dmMentionCount,
       pendingFriendRequestCount: pendingFriends,
+      hasUnread: guildHasUnread || dmHasUnread,
     );
-    return previous != null && previous.count == next.count ? previous : next;
+    return previous != null &&
+            previous.count == next.count &&
+            previous.hasUnread == next.hasUnread
+        ? previous
+        : next;
   }
 }

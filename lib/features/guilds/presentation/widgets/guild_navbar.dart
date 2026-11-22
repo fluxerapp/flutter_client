@@ -97,6 +97,7 @@ import 'package:fluxer_app/features/moderation/presentation/report_flow/open_rep
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
@@ -286,6 +287,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required bool showAddCommunity,
     required bool showExplore,
     required bool hideDirectMessages,
+    bool showHelp = true,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[];
     if (!hideDirectMessages) {
@@ -347,7 +349,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
       );
     }
-    entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+    if (showHelp) {
+      entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+    }
     return entries;
   }
 
@@ -509,6 +513,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       showAddCommunity: showAddCommunity,
       showExplore: showExplore,
       hideDirectMessages: hideDirectMessages,
+      showHelp: !ref.watch(
+        syncedExtrasPreferencesProvider.select(
+          (SyncedExtrasState state) => state.hideHelpButton,
+        ),
+      ),
     );
     _indicatorEntries = navbarEntries;
     _indicatorFolderGuilds = guildNavbarScrollIndicatorFolderGuilds(

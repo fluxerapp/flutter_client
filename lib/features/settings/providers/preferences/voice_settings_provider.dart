@@ -176,6 +176,31 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  Future<void> setVadAutoSensitivity({required bool value}) async {
+    state = state.copyWith(vadAutoSensitivity: value);
+    _schedulePersist();
+  }
+
+  Future<void> setVadThreshold(int value) async {
+    state = state.copyWith(vadThreshold: value.clamp(0, 100));
+    _schedulePersist();
+  }
+
+  Future<void> setScreenShareAv1OptIn({required bool value}) async {
+    state = state.copyWith(screenShareAv1OptIn: value);
+    _schedulePersist();
+  }
+
+  Future<void> setScreenShareHevcOptIn({required bool value}) async {
+    state = state.copyWith(screenShareHevcOptIn: value);
+    _schedulePersist();
+  }
+
+  Future<void> setDisableScreenSharePip({required bool value}) async {
+    state = state.copyWith(disableScreenSharePip: value);
+    _schedulePersist();
+  }
+
   Future<void> setParticipantVolume(String userId, int value) async {
     final int clamped = clampVoiceVolumePercent(value);
     final Map<String, int> nextVolumes = Map<String, int>.from(

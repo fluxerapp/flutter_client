@@ -109,6 +109,16 @@ class UserNotificationsSettings extends ConsumerWidget {
                   ),
                 ),
               ),
+              if (isDesktopOs)
+                FluxerSettingsSwitchItem(
+                  label: l10n.notificationsUnreadMessageBadgeLabel,
+                  value: notificationPrefs.unreadMessageBadgeEnabled,
+                  onChanged: (bool value) => unawaited(
+                    notificationNotifier.setUnreadMessageBadgeEnabled(
+                      value: value,
+                    ),
+                  ),
+                ),
               const UserNotificationsPushDeliveryDetails(),
               if (isDesktopOs) ...[
                 Text(

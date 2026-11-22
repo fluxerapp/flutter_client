@@ -117,7 +117,7 @@ void main() {
       find.text('Choose how times are displayed throughout the app'),
       findsOneWidget,
     );
-    expect(find.text('Auto'), findsOneWidget);
+    expect(find.text('Auto'), findsNWidgets(2));
     expect(find.text('12-hour'), findsOneWidget);
     expect(find.text('24-hour'), findsOneWidget);
     expect(find.text('Use system locale for time format'), findsOneWidget);

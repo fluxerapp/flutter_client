@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/input/domain/keybind_combo_format.dart';
 import 'package:fluxer_app/features/input/domain/keybind_section.dart';
 import 'package:fluxer_app/features/input/utils/default_shortcuts_display.dart';
 import 'package:fluxer_app/features/input/utils/keybind_action_labels.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_custom_keybinds_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/keybind_hint/fluxer_keybind_hint.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -224,6 +225,8 @@ class _UserShortcutsState extends State<UserShortcuts> {
             controller: _searchController,
             hintText: l10n.keybindsSearchShortcuts,
           ),
+          SizedBox(height: layout.s4),
+          UserCustomKeybindsSection(searchQuery: _searchQuery),
           SizedBox(height: layout.s4),
           DefaultShortcutsList(searchQuery: _searchQuery),
         ],
