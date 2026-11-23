@@ -562,6 +562,7 @@ class GuildDrag extends _$GuildDrag {
   double? _verticalBoundsTop;
   double? _verticalBoundsBottom;
   Offset? _lastRawDragGlobalPosition;
+  Offset? _hoverResolvedGlobalPosition;
 
   @override
   DragState build() => const DragState();
@@ -641,6 +642,7 @@ class GuildDrag extends _$GuildDrag {
   }) {
     _dragStartGlobalPosition = null;
     _lastRawDragGlobalPosition = null;
+    _hoverResolvedGlobalPosition = null;
     _resetHoverStabilization();
     state = DragState(
       dragItemId: itemId,
@@ -681,7 +683,8 @@ class GuildDrag extends _$GuildDrag {
 
   bool finalizeHoverForDrop() {
     final Offset? globalPosition = _lastRawDragGlobalPosition;
-    if (globalPosition == null) {
+    if (globalPosition == null ||
+        globalPosition == _hoverResolvedGlobalPosition) {
       return false;
     }
     return _updateHoverFromGlobalPosition(
@@ -692,7 +695,8 @@ class GuildDrag extends _$GuildDrag {
 
   GuildDropHoverIntent? resolvedDropIntentForCommit() {
     final Offset? globalPosition = _lastRawDragGlobalPosition;
-    if (globalPosition != null) {
+    if (globalPosition != null &&
+        globalPosition != _hoverResolvedGlobalPosition) {
       _updateHoverFromGlobalPosition(globalPosition, stabilizeHover: false);
     }
     return _hoverIntentFromState();
@@ -732,6 +736,7 @@ class GuildDrag extends _$GuildDrag {
         return false;
       }
     }
+    _hoverResolvedGlobalPosition = globalPosition;
     return _applyHoverIntent(
       resolved.intent,
       targetBounds: resolved.bounds,
@@ -1088,6 +1093,7 @@ class GuildDrag extends _$GuildDrag {
   void endDrag() {
     _dragStartGlobalPosition = null;
     _lastRawDragGlobalPosition = null;
+    _hoverResolvedGlobalPosition = null;
     _resetHoverStabilization();
     state = const DragState();
   }
