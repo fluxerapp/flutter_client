@@ -146,6 +146,10 @@ class VoiceAudioSessionTest {
             android.media.AudioAttributes.USAGE_VOICE_COMMUNICATION,
             shadowOf(audioManager).lastAudioFocusRequest.audioFocusRequest.audioAttributes.usage,
         )
+        assertEquals(
+            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK,
+            shadowOf(audioManager).lastAudioFocusRequest.audioFocusRequest.focusGain,
+        )
     }
 
     @Test
@@ -331,6 +335,21 @@ class VoiceAudioSessionTest {
 
         session.setPreferredRoute(VoiceOutputRoute.Speaker, null, true)
 
+        assertEquals(1, audioManager.communicationDevice?.id)
+    }
+
+    @Test
+    fun focusLostToAnotherAppIsNotTakenBack() {
+        activate(VoiceOutputRoute.Earpiece)
+        val claimed = shadowOf(audioManager).lastAudioFocusRequest
+        session.onFocusChange(AudioManager.AUDIOFOCUS_LOSS)
+
+        idle(3_000)
+        session.setPreferredRoute(VoiceOutputRoute.Speaker, null, true)
+        session.refreshRoute("test")
+        idle(3_000)
+
+        assertTrue(claimed === shadowOf(audioManager).lastAudioFocusRequest)
         assertEquals(1, audioManager.communicationDevice?.id)
     }
 
