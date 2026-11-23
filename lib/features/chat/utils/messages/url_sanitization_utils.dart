@@ -233,6 +233,9 @@ String _withSourceFragment(String target, String fragment) {
 String _paramKey(String pair) {
   final int eqIndex = pair.indexOf('=');
   final String raw = eqIndex == -1 ? pair : pair.substring(0, eqIndex);
+  if (_invalidPercentEscapeRegex.hasMatch(raw)) {
+    return raw.toLowerCase();
+  }
   try {
     return Uri.decodeQueryComponent(raw).toLowerCase();
   } on FormatException {

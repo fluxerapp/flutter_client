@@ -194,5 +194,12 @@ void main() {
         'See https://example.com/.',
       );
     });
+
+    test('keeps a link whose param name has a malformed percent escape', () {
+      expect(
+        sanitizeUrlsInContent('https://example.com/?a%zz=1'),
+        'https://example.com/?a%zz=1',
+      );
+    });
   });
 }
