@@ -165,6 +165,13 @@ bool shouldPlaceBelowExpandedFolderColumn({
   if (!columnBottom.isFinite) {
     return false;
   }
+  for (final GuildDragTargetBounds target in targets) {
+    if (target.parentFolderId == null &&
+        target.top >= columnBottom - kGuildDragSeamAdjacentTolerance &&
+        globalY >= target.top) {
+      return false;
+    }
+  }
   if (globalY > columnBottom + kGuildDragSeamAdjacentTolerance) {
     return true;
   }
