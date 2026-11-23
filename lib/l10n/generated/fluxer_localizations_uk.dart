@@ -12300,6 +12300,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get discoveryFilterByLanguage => 'Фільтрувати за мовою';
 
   @override
+  String discoveryFilteringByLanguage(String language) {
+    return 'Filtering by $language';
+  }
+
+  @override
+  String discoverySearchResultsFor(String query) {
+    return 'Search results for “$query”';
+  }
+
+  @override
   String get discoveryAllLanguages => 'Усі мови';
 
   @override
@@ -12337,6 +12347,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryJoinCommunity => 'Приєднатися до спільноти';
+
+  @override
+  String get discoveryOpenCommunity => 'Open community';
+
+  @override
+  String get discoveryPublicCommunity => 'Public community';
+
+  @override
+  String discoveryPreviewCommunity(String communityName) {
+    return 'Preview $communityName';
+  }
 
   @override
   String get discoveryJoined => 'Приєднано';

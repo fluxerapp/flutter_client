@@ -14543,6 +14543,24 @@
   "@discoveryFilterByLanguage": {
     "description": "Label for the language filter on the Explore page."
   },
+  "discoveryFilteringByLanguage": "Filtering by {language}",
+  "@discoveryFilteringByLanguage": {
+    "description": "Label for the Explore language filter button once a language is chosen.",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverySearchResultsFor": "Search results for “{query}”",
+  "@discoverySearchResultsFor": {
+    "description": "Heading in the Explore navigation bar when a search is active.",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
   "discoveryAllLanguages": "All languages",
   "@discoveryAllLanguages": {
     "description": "Option label for showing communities in all languages."
@@ -14594,6 +14612,23 @@
   "discoveryJoinCommunity": "Join community",
   "@discoveryJoinCommunity": {
     "description": "Button label to join a community listed in Explore."
+  },
+  "discoveryOpenCommunity": "Open community",
+  "@discoveryOpenCommunity": {
+    "description": "Button label in the Explore community preview popup shown when the user is already a member."
+  },
+  "discoveryPublicCommunity": "Public community",
+  "@discoveryPublicCommunity": {
+    "description": "Line shown above the community name in the Explore community preview popup."
+  },
+  "discoveryPreviewCommunity": "Preview {communityName}",
+  "@discoveryPreviewCommunity": {
+    "description": "Accessible label for an Explore community card, which opens a preview of the community.",
+    "placeholders": {
+      "communityName": {
+        "type": "String"
+      }
+    }
   },
   "discoveryJoined": "Joined",
   "@discoveryJoined": {

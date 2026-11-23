@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_cat
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_filters.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_grid_slivers.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_language_select.dart';
+import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_navbar.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
@@ -170,6 +171,13 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
       if (previous == null) {
         return;
       }
+      if (!isMobile &&
+          _scrollController.hasClients &&
+          (previous.query != next.query ||
+              previous.categoryId != next.categoryId ||
+              previous.language != next.language)) {
+        _scrollController.jumpTo(0);
+      }
       if (previous.guilds.length != next.guilds.length ||
           previous.isLoading != next.isLoading ||
           previous.isLoadingMore != next.isLoadingMore) {
@@ -200,29 +208,15 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
                   showBackButton: showBackButton,
                   showCollapsedTitle: _showCollapsedTitle,
                 ),
-                const SliverToBoxAdapter(
-                  child: DiscoveryFilters(showLanguageFilter: false),
-                ),
+                const SliverToBoxAdapter(child: DiscoveryFilters()),
                 buildDiscoveryCategoryTabsSliver(context),
                 ...gridSlivers,
               ]
             : <Widget>[
-                SliverToBoxAdapter(
-                  child: _buildDesktopHero(
-                    colors: colors,
-                    textStyles: textStyles,
-                    layout: layout,
-                    l10n: l10n,
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: DiscoveryFilters(
-                    autofocusSearch: true,
-                    maxContentWidth: discoveryFiltersMaxContentWidth,
-                  ),
-                ),
-                buildDiscoveryCategoryTabsSliver(context),
+                SliverToBoxAdapter(child: SizedBox(height: layout.s5)),
                 ...gridSlivers,
+                if (state.guilds.isNotEmpty)
+                  SliverToBoxAdapter(child: SizedBox(height: layout.s8)),
               ],
       ),
     );
@@ -247,45 +241,22 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
         ],
       );
     }
+    if (!isMobile) {
+      return ColoredBox(
+        color: colors.backgroundSecondaryLighter,
+        child: Column(
+          children: <Widget>[
+            const DiscoveryNavbar(),
+            Expanded(child: scrollView),
+          ],
+        ),
+      );
+    }
     final Widget content = HostedUiBackgroundBleed(
       color: colors.backgroundPrimary,
       child: ColoredBox(color: colors.backgroundPrimary, child: scrollView),
     );
     return content;
-  }
-
-  Widget _buildDesktopHero({
-    required FluxerColorTheme colors,
-    required FluxerTextTheme textStyles,
-    required FluxerLayoutTheme layout,
-    required FluxerLocalizations l10n,
-  }) {
-    return Container(
-      width: double.infinity,
-      color: colors.brandPrimary,
-      padding: EdgeInsets.fromLTRB(layout.s4, layout.s6, layout.s4, layout.s5),
-      child: Column(
-        children: <Widget>[
-          Text(
-            l10n.discoveryExplorePublicCommunities,
-            textAlign: TextAlign.center,
-            style: textStyles.heading.copyWith(
-              color: Colors.white,
-              fontSize: 28,
-            ),
-          ),
-          SizedBox(height: layout.s2),
-          Text(
-            l10n.discoveryListingSubheading,
-            textAlign: TextAlign.center,
-            style: textStyles.bodyMedium.copyWith(
-              color: Colors.white.withValues(alpha: 0.85),
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildMobileHeaderSliver(

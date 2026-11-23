@@ -12271,6 +12271,16 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get discoveryFilterByLanguage => 'Filtra per lingua';
 
   @override
+  String discoveryFilteringByLanguage(String language) {
+    return 'Filtering by $language';
+  }
+
+  @override
+  String discoverySearchResultsFor(String query) {
+    return 'Search results for “$query”';
+  }
+
+  @override
   String get discoveryAllLanguages => 'Tutte le lingue';
 
   @override
@@ -12308,6 +12318,17 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get discoveryJoinCommunity => 'Unisciti alla community';
+
+  @override
+  String get discoveryOpenCommunity => 'Open community';
+
+  @override
+  String get discoveryPublicCommunity => 'Public community';
+
+  @override
+  String discoveryPreviewCommunity(String communityName) {
+    return 'Preview $communityName';
+  }
 
   @override
   String get discoveryJoined => 'Unito';

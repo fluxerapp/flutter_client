@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/discovery/data/discovery_repository.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_providers.dart';
@@ -119,6 +118,15 @@ class DiscoveryController extends _$DiscoveryController {
     });
   }
 
+  void submitQuery(String query) {
+    _debounceTimer?.cancel();
+    if (query == state.query) {
+      return;
+    }
+    state = state.copyWith(query: query);
+    unawaited(search(reset: true));
+  }
+
   void setCategory(int? categoryId) {
     if (state.categoryId == categoryId) {
       return;
@@ -208,18 +216,14 @@ class DiscoveryController extends _$DiscoveryController {
     try {
       await repository.joinGuild(guildId);
       await ref.read(guildRepositoryProvider).syncServers();
-      state = state.copyWith(
-        joiningGuildIds: state.joiningGuildIds
-            .where((String id) => id != guildId)
-            .toSet(),
-      );
-    } on DioException {
-      state = state.copyWith(
-        joiningGuildIds: state.joiningGuildIds
-            .where((String id) => id != guildId)
-            .toSet(),
-      );
-      rethrow;
+    } finally {
+      if (ref.mounted) {
+        state = state.copyWith(
+          joiningGuildIds: state.joiningGuildIds
+              .where((String id) => id != guildId)
+              .toSet(),
+        );
+      }
     }
   }
 }

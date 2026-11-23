@@ -19972,6 +19972,18 @@ abstract class FluxerLocalizations {
   /// **'Filter by language'**
   String get discoveryFilterByLanguage;
 
+  /// Label for the Explore language filter button once a language is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtering by {language}'**
+  String discoveryFilteringByLanguage(String language);
+
+  /// Heading in the Explore navigation bar when a search is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Search results for “{query}”'**
+  String discoverySearchResultsFor(String query);
+
   /// Option label for showing communities in all languages.
   ///
   /// In en, this message translates to:
@@ -20049,6 +20061,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Join community'**
   String get discoveryJoinCommunity;
+
+  /// Button label in the Explore community preview popup shown when the user is already a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Open community'**
+  String get discoveryOpenCommunity;
+
+  /// Line shown above the community name in the Explore community preview popup.
+  ///
+  /// In en, this message translates to:
+  /// **'Public community'**
+  String get discoveryPublicCommunity;
+
+  /// Accessible label for an Explore community card, which opens a preview of the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview {communityName}'**
+  String discoveryPreviewCommunity(String communityName);
 
   /// Button label when the user is already in a community listed in Explore.
   ///
