@@ -1413,7 +1413,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 final spoilerSyncKeys = spoilerSyncKeysForMessageEmbed(
                   messageContent: msg.content,
                   embed: embed,
-                  messageEmbeds: msg.embeds,
                 );
                 return wrapPart(
                   _buildEmbed(

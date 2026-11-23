@@ -90,47 +90,68 @@ void main() {
   });
 
   group('spoilerSyncKeysForMessageEmbed', () {
-    test('single embed inherits spoiler urls when metadata does not match', () {
-      const Embed embed = Embed(
-        type: EmbedType.link,
-        url: 'https://redirect.example/landing',
-        title: 'Site',
-      );
+    const Embed redirected = Embed(
+      type: EmbedType.link,
+      url: 'https://redirect.example/landing',
+      title: 'Site',
+    );
+
+    test('embed inherits spoiler urls when metadata does not match', () {
       expect(
         spoilerSyncKeysForMessageEmbed(
           messageContent: '||https://google.com||',
-          embed: embed,
-          messageEmbeds: const [embed],
+          embed: redirected,
         ),
         <String>['https://google.com'],
       );
     });
 
-    test('skips fallback when message has text outside spoilers', () {
-      const Embed embed = Embed(
-        type: EmbedType.link,
-        url: 'https://redirect.example/landing',
-      );
+    test('applies fallback when text outside spoilers has no urls', () {
       expect(
         spoilerSyncKeysForMessageEmbed(
           messageContent: 'look ||https://google.com||',
-          embed: embed,
-          messageEmbeds: const [embed],
+          embed: redirected,
+        ),
+        <String>['https://google.com'],
+      );
+    });
+
+    test('skips fallback when a url is outside spoilers', () {
+      expect(
+        spoilerSyncKeysForMessageEmbed(
+          messageContent: 'https://a.com ||https://google.com||',
+          embed: redirected,
         ),
         isEmpty,
       );
     });
 
-    test('does not apply single-embed fallback when multiple embeds', () {
-      const Embed a = Embed(type: EmbedType.link, url: 'https://a.com');
-      const Embed b = Embed(type: EmbedType.link, url: 'https://b.com');
+    test('skips fallback for rich embeds', () {
+      const Embed rich = Embed(
+        type: EmbedType.rich,
+        url: 'https://redirect.example/landing',
+      );
       expect(
         spoilerSyncKeysForMessageEmbed(
           messageContent: '||https://google.com||',
-          embed: a,
-          messageEmbeds: const [a, b],
+          embed: rich,
         ),
         isEmpty,
+      );
+    });
+
+    test('matches attachment urls regardless of signature', () {
+      const Embed image = Embed(
+        type: EmbedType.image,
+        url: 'https://cdn.example/attachments/1/2/a.png?ex=1&is=2&hm=3',
+      );
+      expect(
+        spoilerSyncKeysForMessageEmbed(
+          messageContent:
+              'https://other.example ||https://cdn.example/attachments/1/2/a.png?ex=9&is=8&hm=7||',
+          embed: image,
+        ),
+        <String>['https://cdn.example/attachments/1/2/a.png'],
       );
     });
   });

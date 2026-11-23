@@ -133,7 +133,6 @@ class ForwardedMessageContent extends ConsumerWidget {
                               spoilerSyncKeysForMessageEmbed(
                                 messageContent: snapshot.content,
                                 embed: embed,
-                                messageEmbeds: snapshot.embeds,
                               );
                           return Padding(
                             padding: const EdgeInsets.only(top: 4),
