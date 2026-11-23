@@ -181,23 +181,27 @@ class _DiscoveryNavbarCategoryTab extends StatelessWidget {
           duration: context.motion.fast,
           height: 32,
           constraints: const BoxConstraints(maxWidth: 192),
-          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: layout.s3),
           decoration: BoxDecoration(
             color: background,
             borderRadius: layout.radiusMd,
           ),
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.textStyles.bodySmall.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              height: 1.25,
-              color: isActive || hovered
-                  ? colors.textPrimary
-                  : colors.textTertiary,
+          child: Center(
+            widthFactor: 1,
+            child: Text(
+              label,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: context.textStyles.bodySmall.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                height: 1.25,
+                leadingDistribution: TextLeadingDistribution.even,
+                color: isActive || hovered
+                    ? colors.textPrimary
+                    : colors.textTertiary,
+              ),
             ),
           ),
         );
@@ -272,7 +276,8 @@ class _DiscoveryNavbarSearchFieldState
     );
     final TextStyle inputStyle = context.textStyles.bodySmall.copyWith(
       fontSize: 14,
-      height: 22 / 14,
+      height: 1.25,
+      leadingDistribution: TextLeadingDistribution.even,
       color: colors.textPrimary,
     );
     return TapRegion(
@@ -281,7 +286,7 @@ class _DiscoveryNavbarSearchFieldState
         duration: context.motion.fast,
         width: kChannelHeaderSearchFieldWidth,
         constraints: const BoxConstraints(minHeight: 36),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
         decoration: BoxDecoration(
           color: colors.backgroundTextarea,
           borderRadius: layout.radiusXl,
