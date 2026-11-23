@@ -16094,6 +16094,30 @@
   "@permissionSendMessagesInThreadsDescription": {
     "description": "Permission description."
   },
+  "permissionCreatePosts": "Create posts",
+  "@permissionCreatePosts": {
+    "description": "Permission name in forum and media channel permissions. Lets members create posts."
+  },
+  "permissionCreatePostsDescription": "Allows members to create posts in this channel.",
+  "@permissionCreatePostsDescription": {
+    "description": "Description of the Create posts permission in forum and media channel permissions."
+  },
+  "permissionSendMessagesInPosts": "Send messages in posts",
+  "@permissionSendMessagesInPosts": {
+    "description": "Permission name in forum and media channel permissions. Lets members reply in posts."
+  },
+  "permissionSendMessagesInPostsDescription": "Allows members to send messages in posts.",
+  "@permissionSendMessagesInPostsDescription": {
+    "description": "Description of the Send messages in posts permission in forum and media channel permissions."
+  },
+  "permissionManagePosts": "Manage posts",
+  "@permissionManagePosts": {
+    "description": "Permission name in forum and media channel permissions. Lets members moderate posts."
+  },
+  "permissionManagePostsDescription": "Allows members to rename, close, lock, pin and delete posts, and to edit their tags.",
+  "@permissionManagePostsDescription": {
+    "description": "Description of the Manage posts permission in forum and media channel permissions."
+  },
   "threadErrorArchived": "This thread is archived.",
   "@threadErrorArchived": {
     "description": "Error shown when a thread or forum request is refused."

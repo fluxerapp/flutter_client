@@ -22100,6 +22100,42 @@ abstract class FluxerLocalizations {
   /// **'Send messages in threads and forum posts.'**
   String get permissionSendMessagesInThreadsDescription;
 
+  /// Permission name in forum and media channel permissions. Lets members create posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Create posts'**
+  String get permissionCreatePosts;
+
+  /// Description of the Create posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to create posts in this channel.'**
+  String get permissionCreatePostsDescription;
+
+  /// Permission name in forum and media channel permissions. Lets members reply in posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages in posts'**
+  String get permissionSendMessagesInPosts;
+
+  /// Description of the Send messages in posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to send messages in posts.'**
+  String get permissionSendMessagesInPostsDescription;
+
+  /// Permission name in forum and media channel permissions. Lets members moderate posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage posts'**
+  String get permissionManagePosts;
+
+  /// Description of the Manage posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to rename, close, lock, pin and delete posts, and to edit their tags.'**
+  String get permissionManagePostsDescription;
+
   /// Error shown when a thread or forum request is refused.
   ///
   /// In en, this message translates to:

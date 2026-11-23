@@ -12839,6 +12839,27 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '스레드와 포럼 게시물에 메시지를 보낼 수 있습니다.';
 
   @override
+  String get permissionCreatePosts => 'Create posts';
+
+  @override
+  String get permissionCreatePostsDescription =>
+      'Allows members to create posts in this channel.';
+
+  @override
+  String get permissionSendMessagesInPosts => 'Send messages in posts';
+
+  @override
+  String get permissionSendMessagesInPostsDescription =>
+      'Allows members to send messages in posts.';
+
+  @override
+  String get permissionManagePosts => 'Manage posts';
+
+  @override
+  String get permissionManagePostsDescription =>
+      'Allows members to rename, close, lock, pin and delete posts, and to edit their tags.';
+
+  @override
   String get threadErrorArchived => '보관된 스레드입니다.';
 
   @override

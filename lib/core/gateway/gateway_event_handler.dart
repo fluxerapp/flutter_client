@@ -54,6 +54,10 @@ typedef VoiceStateCallback = void Function(VoiceState state);
 typedef VoiceBulkCallback = void Function(List<VoiceState> states);
 typedef GuildVoiceStatesSnapshotCallback =
     void Function(String guildId, List<VoiceState> states);
+typedef ThreadGuildsReadyCallback =
+    void Function(Set<String> activeGuildIds, Set<String> unavailableGuildIds);
+typedef GuildThreadsActiveCallback =
+    void Function(String guildId, {required bool active});
 typedef CallCreateCallback = void Function(CallCreateEvent event);
 typedef CallUpdateCallback = void Function(CallUpdateEvent event);
 typedef ChannelCallback = void Function(String channelId);
@@ -172,6 +176,8 @@ class GatewayEventHandler {
     this.onGuildPermissionsChanged,
     this.onGuildPermissionsEvict,
     this.onGuildRemove,
+    this.onThreadGuildsReady,
+    this.onGuildThreadsActive,
     this.onChannelPermissionChanged,
     this.onChannelDelete,
     this.onSavedMessageCreate,
@@ -260,6 +266,8 @@ class GatewayEventHandler {
   final GuildCallback? onGuildPermissionsChanged;
   final GuildCallback? onGuildPermissionsEvict;
   final GuildCallback? onGuildRemove;
+  final ThreadGuildsReadyCallback? onThreadGuildsReady;
+  final GuildThreadsActiveCallback? onGuildThreadsActive;
   final ChannelCallback? onChannelPermissionChanged;
   final ChannelCallback? onChannelDelete;
   final SavedMessageCreateCallback? onSavedMessageCreate;
@@ -1388,6 +1396,16 @@ class GatewayEventHandler {
         onUserSettingsHydrate?.call(hydratedSettings);
       }
       onUnavailableGuildsReady?.call(event.rawGuilds);
+      onThreadGuildsReady?.call(
+        <String>{
+          for (final ParsedReadyGuild parsed in processedGuilds)
+            if (parsed.guildData.threads != null) parsed.guildData.guild.id,
+        },
+        <String>{
+          for (final rawGuild in event.rawGuilds)
+            if (rawGuild['unavailable'] == true) rawGuild['id'] as String,
+        },
+      );
       onReady?.call();
       if (readyVoiceStates.isNotEmpty) {
         onVoiceStatesBulk?.call(readyVoiceStates);
@@ -2800,6 +2818,12 @@ class GatewayEventHandler {
     _emit(
       () => onGuildVoiceStatesSnapshot?.call(guildId, event.guild.voiceStates),
     );
+    _emit(
+      () => onGuildThreadsActive?.call(
+        guildId,
+        active: event.guild.threads != null,
+      ),
+    );
   }
 
   Future<({List<String> channelIds, Set<String> roleGuildIds})>
@@ -2899,6 +2923,7 @@ class GatewayEventHandler {
       _emit(() => onGuildPermissionsEvict?.call(event.guildId));
       return;
     }
+    _emit(() => onGuildThreadsActive?.call(event.guildId, active: false));
     await _removeGuildLocally(event.guildId);
   }
 

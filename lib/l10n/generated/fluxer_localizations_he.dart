@@ -13206,6 +13206,27 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'שליחת הודעות בשרשורים ובפוסטים בפורום.';
 
   @override
+  String get permissionCreatePosts => 'Create posts';
+
+  @override
+  String get permissionCreatePostsDescription =>
+      'Allows members to create posts in this channel.';
+
+  @override
+  String get permissionSendMessagesInPosts => 'Send messages in posts';
+
+  @override
+  String get permissionSendMessagesInPostsDescription =>
+      'Allows members to send messages in posts.';
+
+  @override
+  String get permissionManagePosts => 'Manage posts';
+
+  @override
+  String get permissionManagePostsDescription =>
+      'Allows members to rename, close, lock, pin and delete posts, and to edit their tags.';
+
+  @override
   String get threadErrorArchived => 'השרשור הזה נמצא בארכיון.';
 
   @override

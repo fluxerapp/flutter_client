@@ -431,6 +431,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onGuildRemove: (guildId) => ifMounted(() {
       DrawerNavigationCoordinator.leaveDeletedGuild(ref.container, guildId);
     }),
+    onThreadGuildsReady: (active, unavailable) => ifMounted(() {
+      ref
+          .read(threadGuildsProvider(readAccountUserId(ref)).notifier)
+          .handleReady(active, unavailable);
+    }),
+    onGuildThreadsActive: (guildId, {required active}) => ifMounted(() {
+      ref
+          .read(threadGuildsProvider(readAccountUserId(ref)).notifier)
+          .setActive(guildId, active: active);
+    }),
     onChannelPermissionChanged: (channelId) => ifMounted(() {
       unawaited(
         ref
