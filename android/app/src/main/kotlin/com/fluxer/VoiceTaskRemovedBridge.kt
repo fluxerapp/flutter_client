@@ -3,6 +3,7 @@ package com.fluxer
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import com.fluxer.voice.screenshare.ScreenShareForegroundService
 import com.hiennv.flutter_callkit_incoming.CallkitNotificationService
 import com.hiennv.flutter_callkit_incoming.FlutterCallkitIncomingPlugin
 import io.flutter.embedding.engine.FlutterEngine
@@ -25,6 +26,10 @@ internal fun endActiveCallKitSessionsForAppTaskRemoved(context: Context) {
     }
     try {
         CallkitNotificationService.stopService(appContext)
+    } catch (_: Throwable) {
+    }
+    try {
+        ScreenShareForegroundService.stop(appContext)
     } catch (_: Throwable) {
     }
     VoiceTaskRemovedWatcherService.stop(appContext)

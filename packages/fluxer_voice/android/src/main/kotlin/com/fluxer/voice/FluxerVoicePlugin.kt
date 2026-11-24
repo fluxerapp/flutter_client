@@ -3,6 +3,8 @@ package com.fluxer.voice
 import android.app.Activity
 import com.cloudwebrtc.webrtc.FlutterWebRTCPlugin
 import com.fluxer.voice.pip.VoicePipController
+import com.fluxer.voice.screenshare.ScreenShareForegroundService
+import com.fluxer.voice.screenshare.ScreenShareServiceBridge
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -15,6 +17,7 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
     private var callGuardBridge: SystemVoiceCallGuardBridge? = null
     private var pip: VoicePipController? = null
     private var noiseFilter: VoiceNoiseFilter? = null
+    private var screenShareService: ScreenShareServiceBridge? = null
     private var activityBinding: ActivityPluginBinding? = null
     private val userLeaveHint = PluginRegistry.UserLeaveHintListener {
         pip?.onUserLeaveHint()
@@ -31,6 +34,11 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
             it.register(binding.binaryMessenger)
         }
         pip = VoicePipController(context).also {
+            it.register(binding.binaryMessenger)
+        }
+        screenShareService = ScreenShareServiceBridge(
+            ScreenShareForegroundService.controller(context),
+        ).also {
             it.register(binding.binaryMessenger)
         }
         noiseFilter = VoiceNoiseFilter {
@@ -50,6 +58,8 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
         pip = null
         noiseFilter?.unregister()
         noiseFilter = null
+        screenShareService?.unregister()
+        screenShareService = null
         session = null
     }
 

@@ -3042,10 +3042,9 @@ class VoiceSession extends _$VoiceSession {
         final bool hasBackground = await enableAndroidScreenShareBackground(
           notificationText: screenShareNotificationText,
         );
-        if (!hasBackground || !await isAndroidScreenShareBackgroundRunning()) {
+        if (!hasBackground) {
           talker.warning(
-            '[Voice] Screen-share background service could not be started '
-            'or is not running.',
+            '[Voice] Screen-share background service could not be started.',
           );
           await disableAndroidScreenShareBackground();
           state = state.copyWith(

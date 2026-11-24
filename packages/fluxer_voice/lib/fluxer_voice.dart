@@ -26,3 +26,4 @@ export 'src/voice_audio_session.dart';
 export 'src/voice_output_route.dart';
 export 'src/voice_pip.dart';
 export 'src/voice_process_activity.dart';
+export 'src/voice_screen_share_service.dart';
