@@ -313,6 +313,7 @@ class _DiscoveryNavbarSearchFieldState
                 style: inputStyle,
                 decoration: InputDecoration(
                   isDense: true,
+                  visualDensity: VisualDensity.standard,
                   filled: false,
                   hintText: l10n.discoverySearchCommunities,
                   hintStyle: inputStyle.copyWith(color: colors.textTertiary),
