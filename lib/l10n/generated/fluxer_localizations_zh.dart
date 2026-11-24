@@ -10004,12 +10004,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get audioAndVideoNoiseSuppressionSectionTitle => '降噪';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => '增强';
-
-  @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => '标准';
-
-  @override
   String get audioAndVideoNoiseSuppressionNoneLabel => '无';
 
   @override
@@ -10019,8 +10013,66 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get audioAndVideoAutomaticGainControlLabel => '自动增益控制';
 
   @override
-  String get audioAndVideoAutomaticGainControlDescription =>
-      '自动均衡麦克风音量。开启增强抑制时关闭。';
+  String get audioAndVideoAutoGainControlDescription =>
+      'Evens out your mic volume so you are not too quiet.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionGateLabel => 'Noise gate';
+
+  @override
+  String get audioAndVideoNoiseSuppressionNoneDescription =>
+      'Keeps all background noise.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionStandardDescription =>
+      'Reduces steady sounds like fans.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionGateDescription =>
+      'Mutes your mic while you\'re quiet. Doesn\'t remove noise while you talk.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionRnnoiseDescription =>
+      'Recommended. Removes noise like typing and fans while you talk.';
+
+  @override
+  String audioAndVideoNoiseSuppressionFallback(
+    String requested,
+    String effective,
+  ) {
+    return '$requested could not start. Using $effective instead.';
+  }
+
+  @override
+  String get audioAndVideoEchoCancellationDescription =>
+      'Stops your speakers from looping back into your mic.';
+
+  @override
+  String get voiceAudioProcessingDirectInput =>
+      'Audio processing (direct input, raw)';
+
+  @override
+  String get voiceAudioProcessingFocusedVoice =>
+      'Audio processing (focused voice)';
+
+  @override
+  String get voiceAudioProcessingCustomEnhanced =>
+      'Audio processing (custom, enhanced)';
+
+  @override
+  String get voiceAudioProcessingCustom => 'Audio processing (custom)';
+
+  @override
+  String get voiceAudioProcessingCustomNoSuppression =>
+      'Audio processing (custom, no suppression)';
+
+  @override
+  String audioAndVideoExternalProcessorWarning(String processor) {
+    return 'Looks like you\'re using $processor. Stacking Fluxer\'s processing on top can cause pumping or distortion. Direct input passes your audio through untouched.';
+  }
+
+  @override
+  String get audioAndVideoSwitchToDirectInput => 'Switch to direct input';
 
   @override
   String get audioAndVideoMicTestSectionTitle => '麦克风测试';
@@ -26703,12 +26755,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get audioAndVideoNoiseSuppressionSectionTitle => '雜訊抑制';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => '加強';
-
-  @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => '標準';
-
-  @override
   String get audioAndVideoNoiseSuppressionNoneLabel => '無';
 
   @override
@@ -26716,10 +26762,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get audioAndVideoAutomaticGainControlLabel => '自動增益控制';
-
-  @override
-  String get audioAndVideoAutomaticGainControlDescription =>
-      '讓你的麥克風音量更平均。啟用增強式抑制時會關閉。';
 
   @override
   String get audioAndVideoMicTestSectionTitle => '麥克風測試';

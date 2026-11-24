@@ -13,18 +13,28 @@ enum VoiceProcessingMode {
   }
 }
 
-enum NoiseSuppressionTier {
-  enhanced,
+enum NoiseSuppressionBackend {
+  none,
   standard,
-  none;
+  gate,
+  rnnoise;
 
-  static NoiseSuppressionTier fromJson(String? value) {
-    return NoiseSuppressionTier.values.firstWhere(
-      (NoiseSuppressionTier tier) => tier.name == value,
-      orElse: () => NoiseSuppressionTier.enhanced,
-    );
+  static const Set<NoiseSuppressionBackend> native = <NoiseSuppressionBackend>{
+    gate,
+    rnnoise,
+  };
+
+  bool get isNative => native.contains(this);
+
+  bool get isEnhanced => this == rnnoise;
+
+  static NoiseSuppressionBackend? fromJson(String? value) {
+    return NoiseSuppressionBackend.values.asNameMap()[value];
   }
 }
+
+const NoiseSuppressionBackend kDefaultNoiseSuppressionBackend =
+    NoiseSuppressionBackend.rnnoise;
 
 enum CameraResolution {
   low,
@@ -97,9 +107,8 @@ class VoiceSettingsState {
     this.inputVolume = kDefaultVoiceVolumePercent,
     this.outputVolume = kDefaultVoiceVolumePercent,
     this.voiceProcessingMode = VoiceProcessingMode.voice,
-    this.noiseSuppressionTier = NoiseSuppressionTier.enhanced,
+    this.noiseSuppressionBackend,
     this.echoCancellation = true,
-    this.noiseSuppression = true,
     this.autoGainControl = true,
     this.outputRoute = VoiceOutputRoute.speaker,
     this.outputRouteOverride,
@@ -133,9 +142,8 @@ class VoiceSettingsState {
   final int inputVolume;
   final int outputVolume;
   final VoiceProcessingMode voiceProcessingMode;
-  final NoiseSuppressionTier noiseSuppressionTier;
+  final NoiseSuppressionBackend? noiseSuppressionBackend;
   final bool echoCancellation;
-  final bool noiseSuppression;
   final bool autoGainControl;
   final VoiceOutputRoute outputRoute;
   final VoiceOutputRoute? outputRouteOverride;
@@ -172,9 +180,8 @@ class VoiceSettingsState {
     int? inputVolume,
     int? outputVolume,
     VoiceProcessingMode? voiceProcessingMode,
-    NoiseSuppressionTier? noiseSuppressionTier,
+    NoiseSuppressionBackend? noiseSuppressionBackend,
     bool? echoCancellation,
-    bool? noiseSuppression,
     bool? autoGainControl,
     VoiceOutputRoute? outputRoute,
     VoiceOutputRoute? outputRouteOverride,
@@ -209,9 +216,9 @@ class VoiceSettingsState {
       inputVolume: inputVolume ?? this.inputVolume,
       outputVolume: outputVolume ?? this.outputVolume,
       voiceProcessingMode: voiceProcessingMode ?? this.voiceProcessingMode,
-      noiseSuppressionTier: noiseSuppressionTier ?? this.noiseSuppressionTier,
+      noiseSuppressionBackend:
+          noiseSuppressionBackend ?? this.noiseSuppressionBackend,
       echoCancellation: echoCancellation ?? this.echoCancellation,
-      noiseSuppression: noiseSuppression ?? this.noiseSuppression,
       autoGainControl: autoGainControl ?? this.autoGainControl,
       outputRoute: outputRoute ?? this.outputRoute,
       outputRouteOverride: clearOutputRouteOverride
@@ -263,9 +270,8 @@ class VoiceSettingsState {
       'inputVolume': inputVolume,
       'outputVolume': outputVolume,
       'voiceProcessingMode': voiceProcessingMode.name,
-      'noiseSuppressionTier': noiseSuppressionTier.name,
+      'noiseSuppressionBackend': noiseSuppressionBackend?.name,
       'echoCancellation': echoCancellation,
-      'noiseSuppression': noiseSuppression,
       'autoGainControl': autoGainControl,
       'outputRoute': outputRoute.name,
       'cameraResolution': cameraResolution.name,
@@ -304,9 +310,8 @@ class VoiceSettingsState {
       voiceProcessingMode: VoiceProcessingMode.fromJson(
         json['voiceProcessingMode'] as String?,
       ),
-      noiseSuppressionTier: _resolveNoiseSuppressionTier(json),
+      noiseSuppressionBackend: _resolveNoiseSuppressionBackend(json),
       echoCancellation: json['echoCancellation'] as bool? ?? true,
-      noiseSuppression: json['noiseSuppression'] as bool? ?? true,
       autoGainControl: json['autoGainControl'] as bool? ?? true,
       outputRoute: _outputRouteFromJson(json),
       cameraResolution: CameraResolution.fromJson(
@@ -403,20 +408,29 @@ Map<String, int> _parseParticipantVolumes(Object? value) {
   return parsed;
 }
 
-NoiseSuppressionTier _resolveNoiseSuppressionTier(Map<String, Object?> json) {
+NoiseSuppressionBackend? _resolveNoiseSuppressionBackend(
+  Map<String, Object?> json,
+) {
+  if (json.containsKey('noiseSuppressionBackend')) {
+    return NoiseSuppressionBackend.fromJson(
+      json['noiseSuppressionBackend'] as String?,
+    );
+  }
   final String? tier = json['noiseSuppressionTier'] as String?;
   if (tier != null) {
-    return NoiseSuppressionTier.fromJson(tier);
+    return tier == 'enhanced' ? null : NoiseSuppressionBackend.fromJson(tier);
   }
   final bool deepFilter =
       json['deepFilterNoiseSuppression'] as bool? ??
       json['deepFilterNoiseSuppressionPrefV2'] as bool? ??
       true;
   if (deepFilter) {
-    return NoiseSuppressionTier.enhanced;
+    return null;
   }
-  final bool standardNs = json['noiseSuppression'] as bool? ?? true;
-  return standardNs ? NoiseSuppressionTier.standard : NoiseSuppressionTier.none;
+  final bool standard = json['noiseSuppression'] as bool? ?? true;
+  return standard
+      ? NoiseSuppressionBackend.standard
+      : NoiseSuppressionBackend.none;
 }
 
 int _clampVolume(Object? value) {

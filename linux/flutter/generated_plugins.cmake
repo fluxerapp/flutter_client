@@ -12,6 +12,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_secure_storage_linux
   flutter_webrtc
   fluxer_clipboard
+  fluxer_voice
   livekit_client
   media_kit_libs_linux
   record_linux

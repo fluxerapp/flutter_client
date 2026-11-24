@@ -15,6 +15,7 @@
 #include <flutter_secure_storage_linux/flutter_secure_storage_linux_plugin.h>
 #include <flutter_webrtc/flutter_web_r_t_c_plugin.h>
 #include <fluxer_clipboard/fluxer_clipboard_plugin.h>
+#include <fluxer_voice/fluxer_voice_plugin.h>
 #include <livekit_client/live_kit_plugin.h>
 #include <media_kit_libs_linux/media_kit_libs_linux_plugin.h>
 #include <record_linux/record_linux_plugin.h>
@@ -53,6 +54,9 @@ void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) fluxer_clipboard_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "FluxerClipboardPlugin");
   fluxer_clipboard_plugin_register_with_registrar(fluxer_clipboard_registrar);
+  g_autoptr(FlPluginRegistrar) fluxer_voice_registrar =
+      fl_plugin_registry_get_registrar_for_plugin(registry, "FluxerVoicePlugin");
+  fluxer_voice_plugin_register_with_registrar(fluxer_voice_registrar);
   g_autoptr(FlPluginRegistrar) livekit_client_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "LiveKitPlugin");
   live_kit_plugin_register_with_registrar(livekit_client_registrar);

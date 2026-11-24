@@ -649,6 +649,12 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.audioAndVideo,
     fieldId: 'audio',
     label: _l((l10n) => l10n.audioAndVideoVoiceProcessingSectionTitle),
+    keywords: [
+      _l((l10n) => l10n.audioAndVideoNoiseSuppressionSectionTitle),
+      _l((l10n) => l10n.audioAndVideoNoiseSuppressionGateLabel),
+      _l((l10n) => l10n.audioAndVideoEchoCancellationLabel),
+      _l((l10n) => l10n.audioAndVideoAutomaticGainControlLabel),
+    ],
   ),
   _UserSettingsSearchOption(
     id: 'av:camera',

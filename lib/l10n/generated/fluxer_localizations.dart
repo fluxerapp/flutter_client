@@ -17367,23 +17367,11 @@ abstract class FluxerLocalizations {
   /// **'Adjust each setting yourself: noise suppression, echo cancellation, and gain.'**
   String get audioAndVideoCustomProfileDescription;
 
-  /// Subsection title for noise suppression tier selection.
+  /// Subsection title for the noise suppression backend selection.
   ///
   /// In en, this message translates to:
   /// **'Noise suppression'**
   String get audioAndVideoNoiseSuppressionSectionTitle;
-
-  /// Enhanced noise suppression option using AI filtering.
-  ///
-  /// In en, this message translates to:
-  /// **'Enhanced'**
-  String get audioAndVideoNoiseSuppressionEnhancedLabel;
-
-  /// Standard browser or platform noise suppression option.
-  ///
-  /// In en, this message translates to:
-  /// **'Standard'**
-  String get audioAndVideoNoiseSuppressionStandardLabel;
 
   /// No noise suppression option.
   ///
@@ -17406,8 +17394,95 @@ abstract class FluxerLocalizations {
   /// Description for automatic gain control toggle.
   ///
   /// In en, this message translates to:
-  /// **'Evens out your mic volume. Off when enhanced suppression is on.'**
-  String get audioAndVideoAutomaticGainControlDescription;
+  /// **'Evens out your mic volume so you are not too quiet.'**
+  String get audioAndVideoAutoGainControlDescription;
+
+  /// Noise suppression option for the noise gate backend.
+  ///
+  /// In en, this message translates to:
+  /// **'Noise gate'**
+  String get audioAndVideoNoiseSuppressionGateLabel;
+
+  /// Explains the option that turns noise suppression off.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps all background noise.'**
+  String get audioAndVideoNoiseSuppressionNoneDescription;
+
+  /// Explains the WebRTC noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduces steady sounds like fans.'**
+  String get audioAndVideoNoiseSuppressionStandardDescription;
+
+  /// Explains the noise gate option.
+  ///
+  /// In en, this message translates to:
+  /// **'Mutes your mic while you\'re quiet. Doesn\'t remove noise while you talk.'**
+  String get audioAndVideoNoiseSuppressionGateDescription;
+
+  /// Explains the RNNoise noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended. Removes noise like typing and fans while you talk.'**
+  String get audioAndVideoNoiseSuppressionRnnoiseDescription;
+
+  /// Shown when the requested noise suppression backend failed. {requested} and {effective} are backend names such as RNNoise and WebRTC.
+  ///
+  /// In en, this message translates to:
+  /// **'{requested} could not start. Using {effective} instead.'**
+  String audioAndVideoNoiseSuppressionFallback(
+    String requested,
+    String effective,
+  );
+
+  /// Description for echo cancellation toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops your speakers from looping back into your mic.'**
+  String get audioAndVideoEchoCancellationDescription;
+
+  /// Tooltip in the voice status for the direct input profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (direct input, raw)'**
+  String get voiceAudioProcessingDirectInput;
+
+  /// Tooltip in the voice status for the focused voice profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (focused voice)'**
+  String get voiceAudioProcessingFocusedVoice;
+
+  /// Tooltip in the voice status for the custom profile with enhanced noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom, enhanced)'**
+  String get voiceAudioProcessingCustomEnhanced;
+
+  /// Tooltip in the voice status for the custom profile with standard noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom)'**
+  String get voiceAudioProcessingCustom;
+
+  /// Tooltip in the voice status for the custom profile without noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom, no suppression)'**
+  String get voiceAudioProcessingCustomNoSuppression;
+
+  /// Warning when the input device belongs to external audio software. {processor} is a product name such as NVIDIA Broadcast.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like you\'re using {processor}. Stacking Fluxer\'s processing on top can cause pumping or distortion. Direct input passes your audio through untouched.'**
+  String audioAndVideoExternalProcessorWarning(String processor);
+
+  /// Button that switches voice processing to the direct input profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to direct input'**
+  String get audioAndVideoSwitchToDirectInput;
 
   /// Subsection title for microphone test controls.
   ///

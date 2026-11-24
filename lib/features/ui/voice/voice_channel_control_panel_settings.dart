@@ -11,9 +11,10 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audi
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/utils/audio/noise_suppression_labels.dart';
+import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/voice_diagnostics_report.dart';
@@ -58,9 +59,9 @@ Future<void> confirmSwitchToStandardVoiceCall(
   ref.read(voiceSessionProvider.notifier).switchToStandardCall();
 }
 
-Future<void> setVoicePanelNoiseSuppressionTier(
+Future<void> setVoicePanelNoiseSuppression(
   WidgetRef ref,
-  NoiseSuppressionTier tier,
+  NoiseSuppressionBackend backend,
 ) async {
   final VoiceSettings settingsNotifier = ref.read(
     voiceSettingsProvider.notifier,
@@ -69,7 +70,7 @@ Future<void> setVoicePanelNoiseSuppressionTier(
   if (settings.voiceProcessingMode != VoiceProcessingMode.custom) {
     await settingsNotifier.setVoiceProcessingMode(VoiceProcessingMode.custom);
   }
-  await settingsNotifier.setNoiseSuppressionTier(tier);
+  await settingsNotifier.setNoiseSuppressionBackend(backend);
 }
 
 bool watchCanSwitchToStandardVoiceCall(
@@ -85,20 +86,8 @@ bool watchCanSwitchToStandardVoiceCall(
   return !(ref.watch(channelByIdProvider(channelId)).value?.rtcP2p ?? false);
 }
 
-(NoiseSuppressionTier, bool) watchVoicePanelNoiseSuppression(WidgetRef ref) {
-  final bool supported = ref
-      .watch(voiceNoiseFilterProvider)
-      .maybeWhen(
-        data: (VoiceNoiseFilterState value) => value.isSupported,
-        orElse: () => false,
-      );
-  return (
-    effectiveVoicePanelNoiseSuppressionTier(
-      settings: ref.watch(voiceSettingsProvider),
-      noiseFilterSupported: supported,
-    ),
-    supported,
-  );
+NoiseSuppressionBackend watchVoicePanelNoiseSuppression(WidgetRef ref) {
+  return requestedNoiseSuppressionBackend(ref.watch(voiceSettingsProvider));
 }
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
@@ -129,12 +118,8 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
     final VoiceCallLayout callLayoutNotifier = ref.read(
       voiceCallLayoutProvider.notifier,
     );
-    final (
-      NoiseSuppressionTier noiseSuppressionTier,
-      bool noiseFilterSupported,
-    ) = watchVoicePanelNoiseSuppression(
-      ref,
-    );
+    final NoiseSuppressionBackend noiseSuppressionBackend =
+        watchVoicePanelNoiseSuppression(ref);
     final String? channelId = this.channelId;
     final bool showChatRow =
         channelId != null &&
@@ -266,25 +251,22 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(layout.s4),
-                child: FluxerRadioGroup<NoiseSuppressionTier>(
-                  value: noiseSuppressionTier,
-                  onChanged: (NoiseSuppressionTier value) {
-                    unawaited(setVoicePanelNoiseSuppressionTier(ref, value));
+                child: FluxerRadioGroup<NoiseSuppressionBackend>(
+                  value: noiseSuppressionBackend,
+                  onChanged: (NoiseSuppressionBackend value) {
+                    unawaited(setVoicePanelNoiseSuppression(ref, value));
                   },
-                  items: <FluxerRadioItem<NoiseSuppressionTier>>[
-                    FluxerRadioItem(
-                      value: NoiseSuppressionTier.enhanced,
-                      label: l10n.audioAndVideoNoiseSuppressionEnhancedLabel,
-                      enabled: noiseFilterSupported,
-                    ),
-                    FluxerRadioItem(
-                      value: NoiseSuppressionTier.standard,
-                      label: l10n.audioAndVideoNoiseSuppressionStandardLabel,
-                    ),
-                    FluxerRadioItem(
-                      value: NoiseSuppressionTier.none,
-                      label: l10n.audioAndVideoNoiseSuppressionNoneLabel,
-                    ),
+                  items: <FluxerRadioItem<NoiseSuppressionBackend>>[
+                    for (final NoiseSuppressionBackend backend
+                        in NoiseSuppressionBackend.values)
+                      FluxerRadioItem(
+                        value: backend,
+                        label: noiseSuppressionBackendLabel(l10n, backend),
+                        description: noiseSuppressionBackendDescription(
+                          l10n,
+                          backend,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -309,22 +291,6 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-NoiseSuppressionTier effectiveVoicePanelNoiseSuppressionTier({
-  required VoiceSettingsState settings,
-  required bool noiseFilterSupported,
-}) {
-  switch (settings.voiceProcessingMode) {
-    case VoiceProcessingMode.studio:
-      return NoiseSuppressionTier.none;
-    case VoiceProcessingMode.voice:
-      return noiseFilterSupported
-          ? NoiseSuppressionTier.enhanced
-          : NoiseSuppressionTier.standard;
-    case VoiceProcessingMode.custom:
-      return settings.noiseSuppressionTier;
   }
 }
 

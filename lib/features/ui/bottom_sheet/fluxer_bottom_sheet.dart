@@ -1680,7 +1680,7 @@ class FluxerBottomSheetHeader extends StatelessWidget {
                           ? context.textStyles.channelName.copyWith(
                               color: colors.textPrimary,
                               fontSize: 18,
-                              height: 20 / 18,
+                              height: 1.3,
                             )
                           : context.textStyles.channelName.copyWith(
                               color: colors.textPrimary,

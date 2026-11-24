@@ -47,6 +47,12 @@ android {
     defaultConfig {
         minSdk = 24
     }
+
+    externalNativeBuild {
+        cmake {
+            path = "src/main/cpp/CMakeLists.txt"
+        }
+    }
 }
 
 kotlin {
@@ -56,6 +62,9 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":flutter_webrtc"))
+    compileOnly("io.github.webrtc-sdk:android:150.7871.04")
+    testImplementation("io.github.webrtc-sdk:android:150.7871.04")
     implementation("androidx.core:core:1.13.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.14.1")

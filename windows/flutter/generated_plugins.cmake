@@ -14,6 +14,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_secure_storage_windows
   flutter_webrtc
   fluxer_clipboard
+  fluxer_voice
   gal
   livekit_client
   local_auth_windows

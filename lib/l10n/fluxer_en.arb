@@ -13073,15 +13073,7 @@
   },
   "audioAndVideoNoiseSuppressionSectionTitle": "Noise suppression",
   "@audioAndVideoNoiseSuppressionSectionTitle": {
-    "description": "Subsection title for noise suppression tier selection."
-  },
-  "audioAndVideoNoiseSuppressionEnhancedLabel": "Enhanced",
-  "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-    "description": "Enhanced noise suppression option using AI filtering."
-  },
-  "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-  "@audioAndVideoNoiseSuppressionStandardLabel": {
-    "description": "Standard browser or platform noise suppression option."
+    "description": "Subsection title for the noise suppression backend selection."
   },
   "audioAndVideoNoiseSuppressionNoneLabel": "None",
   "@audioAndVideoNoiseSuppressionNoneLabel": {
@@ -13095,9 +13087,78 @@
   "@audioAndVideoAutomaticGainControlLabel": {
     "description": "Toggle label for automatic gain control."
   },
-  "audioAndVideoAutomaticGainControlDescription": "Evens out your mic volume. Off when enhanced suppression is on.",
-  "@audioAndVideoAutomaticGainControlDescription": {
+  "audioAndVideoAutoGainControlDescription": "Evens out your mic volume so you are not too quiet.",
+  "@audioAndVideoAutoGainControlDescription": {
     "description": "Description for automatic gain control toggle."
+  },
+  "audioAndVideoNoiseSuppressionGateLabel": "Noise gate",
+  "@audioAndVideoNoiseSuppressionGateLabel": {
+    "description": "Noise suppression option for the noise gate backend."
+  },
+  "audioAndVideoNoiseSuppressionNoneDescription": "Keeps all background noise.",
+  "@audioAndVideoNoiseSuppressionNoneDescription": {
+    "description": "Explains the option that turns noise suppression off."
+  },
+  "audioAndVideoNoiseSuppressionStandardDescription": "Reduces steady sounds like fans.",
+  "@audioAndVideoNoiseSuppressionStandardDescription": {
+    "description": "Explains the WebRTC noise suppression option."
+  },
+  "audioAndVideoNoiseSuppressionGateDescription": "Mutes your mic while you're quiet. Doesn't remove noise while you talk.",
+  "@audioAndVideoNoiseSuppressionGateDescription": {
+    "description": "Explains the noise gate option."
+  },
+  "audioAndVideoNoiseSuppressionRnnoiseDescription": "Recommended. Removes noise like typing and fans while you talk.",
+  "@audioAndVideoNoiseSuppressionRnnoiseDescription": {
+    "description": "Explains the RNNoise noise suppression option."
+  },
+  "audioAndVideoNoiseSuppressionFallback": "{requested} could not start. Using {effective} instead.",
+  "@audioAndVideoNoiseSuppressionFallback": {
+    "description": "Shown when the requested noise suppression backend failed. {requested} and {effective} are backend names such as RNNoise and WebRTC.",
+    "placeholders": {
+      "requested": {
+        "type": "String"
+      },
+      "effective": {
+        "type": "String"
+      }
+    }
+  },
+  "audioAndVideoEchoCancellationDescription": "Stops your speakers from looping back into your mic.",
+  "@audioAndVideoEchoCancellationDescription": {
+    "description": "Description for echo cancellation toggle."
+  },
+  "voiceAudioProcessingDirectInput": "Audio processing (direct input, raw)",
+  "@voiceAudioProcessingDirectInput": {
+    "description": "Tooltip in the voice status for the direct input profile."
+  },
+  "voiceAudioProcessingFocusedVoice": "Audio processing (focused voice)",
+  "@voiceAudioProcessingFocusedVoice": {
+    "description": "Tooltip in the voice status for the focused voice profile."
+  },
+  "voiceAudioProcessingCustomEnhanced": "Audio processing (custom, enhanced)",
+  "@voiceAudioProcessingCustomEnhanced": {
+    "description": "Tooltip in the voice status for the custom profile with enhanced noise suppression."
+  },
+  "voiceAudioProcessingCustom": "Audio processing (custom)",
+  "@voiceAudioProcessingCustom": {
+    "description": "Tooltip in the voice status for the custom profile with standard noise suppression."
+  },
+  "voiceAudioProcessingCustomNoSuppression": "Audio processing (custom, no suppression)",
+  "@voiceAudioProcessingCustomNoSuppression": {
+    "description": "Tooltip in the voice status for the custom profile without noise suppression."
+  },
+  "audioAndVideoExternalProcessorWarning": "Looks like you're using {processor}. Stacking Fluxer's processing on top can cause pumping or distortion. Direct input passes your audio through untouched.",
+  "@audioAndVideoExternalProcessorWarning": {
+    "description": "Warning when the input device belongs to external audio software. {processor} is a product name such as NVIDIA Broadcast.",
+    "placeholders": {
+      "processor": {
+        "type": "String"
+      }
+    }
+  },
+  "audioAndVideoSwitchToDirectInput": "Switch to direct input",
+  "@audioAndVideoSwitchToDirectInput": {
+    "description": "Button that switches voice processing to the direct input profile."
   },
   "audioAndVideoMicTestSectionTitle": "Mic test",
   "@audioAndVideoMicTestSectionTitle": {

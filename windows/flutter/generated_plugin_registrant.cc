@@ -17,6 +17,7 @@
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
 #include <flutter_webrtc/flutter_web_r_t_c_plugin.h>
 #include <fluxer_clipboard/fluxer_clipboard_plugin_c_api.h>
+#include <fluxer_voice/fluxer_voice_plugin_c_api.h>
 #include <gal/gal_plugin_c_api.h>
 #include <livekit_client/live_kit_plugin.h>
 #include <local_auth_windows/local_auth_plugin.h>
@@ -55,6 +56,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("FlutterWebRTCPlugin"));
   FluxerClipboardPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FluxerClipboardPluginCApi"));
+  FluxerVoicePluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FluxerVoicePluginCApi"));
   GalPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("GalPluginCApi"));
   LiveKitPluginRegisterWithRegistrar(

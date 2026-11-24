@@ -10749,12 +10749,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get audioAndVideoNoiseSuppressionSectionTitle => 'Подавление шума';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Улучшенное';
-
-  @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => 'Стандартный';
-
-  @override
   String get audioAndVideoNoiseSuppressionNoneLabel => 'Нет';
 
   @override
@@ -10765,8 +10759,66 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Автоматическая регулировка усиления';
 
   @override
-  String get audioAndVideoAutomaticGainControlDescription =>
-      'Выравнивает громкость вашего микрофона. Отключено при включенном усиленном шумоподавлении.';
+  String get audioAndVideoAutoGainControlDescription =>
+      'Evens out your mic volume so you are not too quiet.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionGateLabel => 'Noise gate';
+
+  @override
+  String get audioAndVideoNoiseSuppressionNoneDescription =>
+      'Keeps all background noise.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionStandardDescription =>
+      'Reduces steady sounds like fans.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionGateDescription =>
+      'Mutes your mic while you\'re quiet. Doesn\'t remove noise while you talk.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionRnnoiseDescription =>
+      'Recommended. Removes noise like typing and fans while you talk.';
+
+  @override
+  String audioAndVideoNoiseSuppressionFallback(
+    String requested,
+    String effective,
+  ) {
+    return '$requested could not start. Using $effective instead.';
+  }
+
+  @override
+  String get audioAndVideoEchoCancellationDescription =>
+      'Stops your speakers from looping back into your mic.';
+
+  @override
+  String get voiceAudioProcessingDirectInput =>
+      'Audio processing (direct input, raw)';
+
+  @override
+  String get voiceAudioProcessingFocusedVoice =>
+      'Audio processing (focused voice)';
+
+  @override
+  String get voiceAudioProcessingCustomEnhanced =>
+      'Audio processing (custom, enhanced)';
+
+  @override
+  String get voiceAudioProcessingCustom => 'Audio processing (custom)';
+
+  @override
+  String get voiceAudioProcessingCustomNoSuppression =>
+      'Audio processing (custom, no suppression)';
+
+  @override
+  String audioAndVideoExternalProcessorWarning(String processor) {
+    return 'Looks like you\'re using $processor. Stacking Fluxer\'s processing on top can cause pumping or distortion. Direct input passes your audio through untouched.';
+  }
+
+  @override
+  String get audioAndVideoSwitchToDirectInput => 'Switch to direct input';
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Тест микрофона';

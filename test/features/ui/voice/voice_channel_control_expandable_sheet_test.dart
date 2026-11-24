@@ -144,7 +144,7 @@ void main() {
       expect(find.byKey(kVoiceControlPanelOnlyShowVideosKey), findsOneWidget);
       expect(find.byKey(kVoiceControlPanelShowOwnCameraKey), findsOneWidget);
       expect(
-        find.byType(FluxerRadioGroup<NoiseSuppressionTier>),
+        find.byType(FluxerRadioGroup<NoiseSuppressionBackend>),
         findsOneWidget,
       );
     });

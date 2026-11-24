@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/voice/providers/voice_capability_providers.d
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
@@ -54,6 +55,7 @@ import 'package:fluxer_app/features/voice/utils/audio/audio_route_recovery.dart'
 import 'package:fluxer_app/features/voice/utils/audio/effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/utils/audio/entrance_sound_playback.dart';
 import 'package:fluxer_app/features/voice/utils/audio/participant_volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/voice_join_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
@@ -3978,6 +3980,12 @@ class VoiceSession extends _$VoiceSession {
     if (_shouldDeferWebRtcMediaWork('microphone_publish')) {
       return;
     }
+    if (enabled) {
+      await _prepareNoiseFilter();
+      if (!ref.mounted) {
+        return;
+      }
+    }
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
     final VoiceMeshTransport? mesh = state.mesh;
@@ -4009,6 +4017,9 @@ class VoiceSession extends _$VoiceSession {
       _applyMicrophoneGate(open: ref.read(voiceMicrophoneGateOpenProvider));
     }
   }
+
+  Future<void> _prepareNoiseFilter() =>
+      ref.read(voiceNoiseFilterProvider.notifier).prepareCapture();
 
   void _applyMicrophoneGate({required bool open}) {
     final VoiceMeshTransport? mesh = state.mesh;
@@ -4053,6 +4064,19 @@ class VoiceSession extends _$VoiceSession {
     if (!state.isInVoice) {
       return;
     }
+    final ResolvedVoiceProcessing? previousProcessing = previous == null
+        ? null
+        : _voiceSettingsApplicator().resolveProcessing(previous);
+    final bool processingChanged =
+        previous == null ||
+        previous.voiceProcessingMode != next.voiceProcessingMode ||
+        previous.noiseSuppressionBackend != next.noiseSuppressionBackend;
+    if (processingChanged) {
+      await _prepareNoiseFilter();
+      if (!ref.mounted || !state.isInVoice) {
+        return;
+      }
+    }
     final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
     final bool outputRoutingChanged =
         previous == null ||
@@ -4071,12 +4095,13 @@ class VoiceSession extends _$VoiceSession {
     }
     final bool audioChanged =
         previous == null ||
-        previous.inputDeviceId != next.inputDeviceId ||
-        previous.voiceProcessingMode != next.voiceProcessingMode ||
-        previous.noiseSuppressionTier != next.noiseSuppressionTier ||
-        previous.echoCancellation != next.echoCancellation ||
-        previous.noiseSuppression != next.noiseSuppression ||
-        previous.autoGainControl != next.autoGainControl;
+        previousProcessing == null ||
+        voiceCaptureRestartRequired(
+          previousSettings: previous,
+          previous: previousProcessing,
+          nextSettings: next,
+          next: applicator.resolveProcessing(next),
+        );
     final bool inputVolumeChanged =
         previous == null || previous.inputVolume != next.inputVolume;
     final bool cameraChanged =

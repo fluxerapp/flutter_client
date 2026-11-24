@@ -84,6 +84,51 @@ void main() {
     );
   });
 
+  testWidgets('explains each noise suppression option', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: <Override>[
+        voiceSessionProvider.overrideWith(_TestVoiceSession.new),
+        voiceChannelTextChatSupportedProvider(
+          'voice-1',
+        ).overrideWith((Ref ref) => Future<bool>.value(false)),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SingleChildScrollView(
+              child: VoiceChannelControlPanelSettings(channelId: 'voice-1'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    for (final String description in <String>[
+      testL10n.audioAndVideoNoiseSuppressionNoneDescription,
+      testL10n.audioAndVideoNoiseSuppressionStandardDescription,
+      testL10n.audioAndVideoNoiseSuppressionGateDescription,
+      testL10n.audioAndVideoNoiseSuppressionRnnoiseDescription,
+    ]) {
+      expect(find.text(description), findsOneWidget);
+    }
+  });
+
   testWidgets('shows copy voice diagnostics as the last row', (
     WidgetTester tester,
   ) async {

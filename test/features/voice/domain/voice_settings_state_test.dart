@@ -103,4 +103,64 @@ void main() {
       expect(restored.participantLocalMutes, <String, bool>{'42': true});
     });
   });
+
+  group('VoiceSettingsState noiseSuppressionBackend', () {
+    NoiseSuppressionBackend? read(Map<String, dynamic> json) =>
+        VoiceSettingsState.fromJson(json).noiseSuppressionBackend;
+
+    test('defaults to null', () {
+      expect(read(<String, dynamic>{}), isNull);
+    });
+
+    test('migrates saved tiers', () {
+      expect(
+        read(<String, dynamic>{'noiseSuppressionTier': 'enhanced'}),
+        isNull,
+      );
+      expect(
+        read(<String, dynamic>{'noiseSuppressionTier': 'standard'}),
+        NoiseSuppressionBackend.standard,
+      );
+      expect(
+        read(<String, dynamic>{'noiseSuppressionTier': 'none'}),
+        NoiseSuppressionBackend.none,
+      );
+    });
+
+    test('migrates the older deep filter flags', () {
+      expect(
+        read(<String, dynamic>{'deepFilterNoiseSuppression': false}),
+        NoiseSuppressionBackend.standard,
+      );
+      expect(
+        read(<String, dynamic>{
+          'deepFilterNoiseSuppression': false,
+          'noiseSuppression': false,
+        }),
+        NoiseSuppressionBackend.none,
+      );
+    });
+
+    test('round trips and wins over the old tier', () {
+      for (final NoiseSuppressionBackend? backend in <NoiseSuppressionBackend?>[
+        null,
+        ...NoiseSuppressionBackend.values,
+      ]) {
+        expect(
+          read(
+            VoiceSettingsState(noiseSuppressionBackend: backend).toJson()
+              ..['noiseSuppressionTier'] = 'standard',
+          ),
+          backend,
+        );
+      }
+    });
+
+    test('ignores unknown backends', () {
+      expect(
+        read(<String, dynamic>{'noiseSuppressionBackend': 'deep_filter'}),
+        isNull,
+      );
+    });
+  });
 }

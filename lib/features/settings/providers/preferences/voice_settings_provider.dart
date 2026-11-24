@@ -73,8 +73,8 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
-  Future<void> setNoiseSuppressionTier(NoiseSuppressionTier value) async {
-    state = state.copyWith(noiseSuppressionTier: value);
+  Future<void> setNoiseSuppressionBackend(NoiseSuppressionBackend value) async {
+    state = state.copyWith(noiseSuppressionBackend: value);
     _schedulePersist();
   }
 

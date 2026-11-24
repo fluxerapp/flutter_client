@@ -39,6 +39,7 @@ Future<Map<String, Object?>> _collect({
     appInfo: appInfo ?? () async => _kInfo,
     enumerateDevices: devices ?? () async => <MediaDevice>[],
     audioRoute: audioRoute ?? () async => null,
+    noiseFilter: () async => null,
     statsSources: statsSources,
     now: DateTime.utc(2026, 11, 10, 12),
     timeout: const Duration(milliseconds: 50),

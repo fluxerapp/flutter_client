@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_transmit_provider.dart';
@@ -84,6 +85,10 @@ class VoiceActivityGateController extends _$VoiceActivityGateController {
         .read(voiceTransmitHoldProvider.notifier)
         .setVoiceActivityOpen(open: false);
     try {
+      await ref.read(voiceNoiseFilterProvider.notifier).prepareCapture();
+      if (generation != _generation) {
+        return;
+      }
       final VoiceSettingsApplicator applicator = ref.read(
         voiceSettingsApplicatorProvider,
       );

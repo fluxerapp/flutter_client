@@ -1,6 +1,7 @@
 package com.fluxer.voice
 
 import android.app.Activity
+import com.cloudwebrtc.webrtc.FlutterWebRTCPlugin
 import com.fluxer.voice.pip.VoicePipController
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -13,6 +14,7 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
     private var routeBridge: VoiceAudioSessionBridge? = null
     private var callGuardBridge: SystemVoiceCallGuardBridge? = null
     private var pip: VoicePipController? = null
+    private var noiseFilter: VoiceNoiseFilter? = null
     private var activityBinding: ActivityPluginBinding? = null
     private val userLeaveHint = PluginRegistry.UserLeaveHintListener {
         pip?.onUserLeaveHint()
@@ -31,6 +33,11 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
         pip = VoicePipController(context).also {
             it.register(binding.binaryMessenger)
         }
+        noiseFilter = VoiceNoiseFilter {
+            webRtcPlugin(binding)?.audioProcessingController
+        }.also {
+            it.register(binding.binaryMessenger)
+        }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -41,6 +48,8 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
         pip?.attachActivity(null)
         pip?.unregister()
         pip = null
+        noiseFilter?.unregister()
+        noiseFilter = null
         session = null
     }
 
@@ -59,6 +68,10 @@ class FluxerVoicePlugin : FlutterPlugin, ActivityAware {
     override fun onDetachedFromActivity() {
         bindActivity(null)
     }
+
+    @Suppress("DEPRECATION")
+    private fun webRtcPlugin(binding: FlutterPlugin.FlutterPluginBinding): FlutterWebRTCPlugin? =
+        binding.flutterEngine.plugins.get(FlutterWebRTCPlugin::class.java) as? FlutterWebRTCPlugin
 
     private fun bindActivity(binding: ActivityPluginBinding?) {
         activityBinding?.removeOnUserLeaveHintListener(userLeaveHint)
