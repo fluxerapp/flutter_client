@@ -58,10 +58,10 @@ jobs:
       build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
-  # ios-testflight:
-  #   name: iOS TestFlight build
-  #   uses: ./.github/workflows/ios-canary-testflight.yml
-  #   secrets: inherit
+  ios-testflight:
+    name: iOS TestFlight build
+    uses: ./.github/workflows/ios-canary-testflight.yml
+    secrets: inherit
 
   # macos-testflight:
   #   name: macOS TestFlight build
