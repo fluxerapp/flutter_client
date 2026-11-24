@@ -1,7 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/audio/stream_audio_utils.dart';
 import 'package:fluxer_app/features/voice/utils/media/track_renderer_cache.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_audio_session.dart';
@@ -30,11 +28,6 @@ final voiceTrackRendererCacheProvider =
               }
             },
           );
-      _bindVoiceSession(
-        ref,
-        onEnded: cache.markSessionEnded,
-        onActive: cache.markSessionActive,
-      );
       ref.onDispose(cache.markSessionEnded);
       return cache;
     });
@@ -46,30 +39,6 @@ final voiceScreenShareAudioSessionProvider =
             start: resumeScreenSharePlayback,
             stop: pauseScreenSharePlayback,
           );
-      _bindVoiceSession(
-        ref,
-        onEnded: session.markSessionEnded,
-        onActive: session.markSessionActive,
-      );
       ref.onDispose(session.markSessionEnded);
       return session;
     });
-
-void _bindVoiceSession(
-  Ref ref, {
-  required void Function() onEnded,
-  required void Function() onActive,
-}) {
-  ref.listen<VoiceSessionState>(voiceSessionProvider, (
-    VoiceSessionState? previous,
-    VoiceSessionState next,
-  ) {
-    if (next.isInVoice) {
-      onActive();
-      return;
-    }
-    if (previous?.isInVoice ?? false) {
-      onEnded();
-    }
-  });
-}

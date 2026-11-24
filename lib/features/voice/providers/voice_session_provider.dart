@@ -47,6 +47,7 @@ import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provi
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_track_handoff_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_transmit_provider.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
@@ -71,7 +72,9 @@ import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/lifecycle/lifecycle_log.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/media/track_renderer_cache.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/android_screen_share_background.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_audio_session.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
@@ -192,6 +195,7 @@ class VoiceSession extends _$VoiceSession {
     final String? accountUserId = accountUserIdOrNull(ref, watch: true);
 
     ref.onDispose(_teardownOnDispose);
+    _bindMediaHandoffs();
 
     if (accountUserId != null) {
       ref
@@ -263,6 +267,26 @@ class VoiceSession extends _$VoiceSession {
         );
       });
     return const VoiceSessionState();
+  }
+
+  void _bindMediaHandoffs() {
+    final VoiceTrackRendererCache<RTCVideoRenderer> renderers = ref.read(
+      voiceTrackRendererCacheProvider,
+    );
+    final VoiceScreenShareAudioSession<AudioTrack> screenShareAudio = ref.read(
+      voiceScreenShareAudioSessionProvider,
+    );
+    listenSelf((VoiceSessionState? previous, VoiceSessionState next) {
+      if (next.isInVoice) {
+        renderers.markSessionActive();
+        screenShareAudio.markSessionActive();
+        return;
+      }
+      if (previous?.isInVoice ?? false) {
+        renderers.markSessionEnded();
+        screenShareAudio.markSessionEnded();
+      }
+    });
   }
 
   void _runVoiceAsync(Future<void> Function() body, {String? label}) {
