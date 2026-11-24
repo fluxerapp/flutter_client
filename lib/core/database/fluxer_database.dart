@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/database/daos/guild_emoji_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_last_channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_sticker_dao.dart';
 import 'package:fluxer_app/core/database/daos/local_message_sends_dao.dart';
+import 'package:fluxer_app/core/database/daos/local_settings_dao.dart';
 import 'package:fluxer_app/core/database/daos/local_spam_overrides_dao.dart';
 import 'package:fluxer_app/core/database/daos/member_dao.dart';
 import 'package:fluxer_app/core/database/daos/message_dao.dart';
@@ -45,6 +46,7 @@ import 'package:fluxer_app/core/database/tables/guild_emojis.dart';
 import 'package:fluxer_app/core/database/tables/guild_last_channels.dart';
 import 'package:fluxer_app/core/database/tables/guild_stickers.dart';
 import 'package:fluxer_app/core/database/tables/local_message_sends.dart';
+import 'package:fluxer_app/core/database/tables/local_settings.dart';
 import 'package:fluxer_app/core/database/tables/local_spam_overrides.dart';
 import 'package:fluxer_app/core/database/tables/member_cache_access.dart';
 import 'package:fluxer_app/core/database/tables/members.dart';
@@ -107,6 +109,7 @@ part 'fluxer_database.g.dart';
     RecentInstances,
     ThreadMembers,
     LocalMessageSends,
+    LocalSettingsTable,
   ],
   daos: [
     AuthSessionDao,
@@ -139,6 +142,7 @@ part 'fluxer_database.g.dart';
     RecentInstancesDao,
     ThreadDao,
     LocalMessageSendsDao,
+    LocalSettingsDao,
   ],
 )
 class FluxerDatabase extends _$FluxerDatabase {
@@ -147,7 +151,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 111;
+  int get schemaVersion => 112;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1711,13 +1715,16 @@ class FluxerDatabase extends _$FluxerDatabase {
           'ON channels (parent_id, type)',
         );
       }
+      if (from < 112) {
+        await _createTableIfNotExists(m, localSettingsTable);
+      }
     },
   );
 
-  Future<void> clearUserData() async {
+  Future<void> clearUserData(String userId) async {
     await transaction(() async {
       await clearAccountData();
-      await userPreferencesDao.clearAll();
+      await userPreferencesDao.deletePreferences(userId);
     });
   }
 

@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
 import 'package:window_manager/window_manager.dart';
 
 const Duration _kSaveDebounce = Duration(milliseconds: 500);
-const String _kWindowStateKey = 'desktop_window_state_v1';
-const String kDesktopRememberWindowStateKey = 'desktop_remember_window_state';
 
 @immutable
 class DesktopWindowState {
@@ -50,31 +48,15 @@ class DesktopWindowState {
   }
 }
 
-Future<DesktopWindowState?> loadDesktopWindowState() async {
-  try {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final String? raw = preferences.getString(_kWindowStateKey);
-    if (raw == null) {
-      return null;
-    }
-    return DesktopWindowState.fromJson(jsonDecode(raw));
-  } on Object {
-    return null;
-  }
-}
-
-Future<void> saveDesktopWindowState(DesktopWindowState state) async {
-  try {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(_kWindowStateKey, jsonEncode(state.toJson()));
-  } on Object {
-    return;
-  }
-}
+DesktopWindowState? readDesktopWindowState(LocalSettingsStore store) =>
+    DesktopWindowState.fromJson(
+      store.read(LocalSettingKeys.desktopWindowState),
+    );
 
 class DesktopWindowStateTracker with WindowListener {
-  DesktopWindowStateTracker(this._normalBounds);
+  DesktopWindowStateTracker(this._normalBounds, this._store);
 
+  final LocalSettingsStore _store;
   Rect _normalBounds;
   Timer? _debounce;
 
@@ -99,8 +81,7 @@ class DesktopWindowStateTracker with WindowListener {
   }
 
   Future<void> _save() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getBool(kDesktopRememberWindowStateKey) == false) {
+    if (!_store.read(LocalSettingKeys.desktopRememberWindowState)) {
       return;
     }
     final bool maximized;
@@ -116,8 +97,9 @@ class DesktopWindowStateTracker with WindowListener {
     } on Object {
       return;
     }
-    await saveDesktopWindowState(
-      DesktopWindowState(bounds: _normalBounds, maximized: maximized),
+    _store.write(
+      LocalSettingKeys.desktopWindowState,
+      DesktopWindowState(bounds: _normalBounds, maximized: maximized).toJson(),
     );
   }
 }

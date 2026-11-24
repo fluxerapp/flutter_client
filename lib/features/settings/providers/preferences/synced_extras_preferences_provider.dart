@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_key.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
-import 'package:fluxer_app/shared/utils/shared_preferences_or_null.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'synced_extras_preferences_provider.g.dart';
 
@@ -54,54 +55,53 @@ class SyncedExtrasState {
   );
 }
 
-const String _kSpellcheckKey = 'synced_extras_spellcheck_enabled';
-const String _kConvertEmoticonsKey = 'synced_extras_convert_emoticons';
-const String _kHideHelpButtonKey = 'synced_extras_hide_help_button';
-const String _kHideDownloadButtonKey = 'synced_extras_hide_download_button';
-
 @Riverpod(keepAlive: true)
 class SyncedExtrasPreferences extends _$SyncedExtrasPreferences {
   @override
   SyncedExtrasState build() {
-    unawaited(_load());
-    return const SyncedExtrasState();
-  }
-
-  Future<void> _load() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null || !ref.mounted) {
-      return;
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    final String? userId = ref.watch(currentUserIdProvider);
+    if (userId == null) {
+      return const SyncedExtrasState();
     }
-    state = SyncedExtrasState(
-      spellcheckEnabled: preferences.getBool(_kSpellcheckKey) ?? true,
-      convertEmoticons: preferences.getBool(_kConvertEmoticonsKey) ?? false,
-      hideHelpButton: preferences.getBool(_kHideHelpButtonKey) ?? false,
-      hideDownloadButton: preferences.getBool(_kHideDownloadButtonKey) ?? false,
+    return SyncedExtrasState(
+      spellcheckEnabled: store.readAccount(
+        LocalSettingKeys.spellcheckEnabled,
+        userId: userId,
+      ),
+      convertEmoticons: store.readAccount(
+        LocalSettingKeys.convertEmoticons,
+        userId: userId,
+      ),
+      hideHelpButton: store.readAccount(
+        LocalSettingKeys.hideHelpButton,
+        userId: userId,
+      ),
+      hideDownloadButton: store.readAccount(
+        LocalSettingKeys.hideDownloadButton,
+        userId: userId,
+      ),
     );
   }
 
-  Future<void> _persist() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null) {
+  void _write(AccountFlag key, {required bool value}) {
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId == null) {
       return;
     }
-    await preferences.setBool(_kSpellcheckKey, state.spellcheckEnabled);
-    await preferences.setBool(_kConvertEmoticonsKey, state.convertEmoticons);
-    await preferences.setBool(_kHideHelpButtonKey, state.hideHelpButton);
-    await preferences.setBool(
-      _kHideDownloadButtonKey,
-      state.hideDownloadButton,
-    );
+    ref
+        .read(localSettingsStoreProvider)
+        .writeAccount(key, value, userId: userId);
   }
 
   Future<void> applySpellcheck({required bool enabled}) async {
     state = state.copyWith(spellcheckEnabled: enabled);
-    await _persist();
+    _write(LocalSettingKeys.spellcheckEnabled, value: enabled);
   }
 
   Future<void> applyConvertEmoticons({required bool enabled}) async {
     state = state.copyWith(convertEmoticons: enabled);
-    await _persist();
+    _write(LocalSettingKeys.convertEmoticons, value: enabled);
   }
 
   Future<void> applyHiddenGuildButtons({
@@ -109,7 +109,8 @@ class SyncedExtrasPreferences extends _$SyncedExtrasPreferences {
     required bool download,
   }) async {
     state = state.copyWith(hideHelpButton: help, hideDownloadButton: download);
-    await _persist();
+    _write(LocalSettingKeys.hideHelpButton, value: help);
+    _write(LocalSettingKeys.hideDownloadButton, value: download);
   }
 
   Future<void> setSpellcheckEnabled({required bool value}) async {

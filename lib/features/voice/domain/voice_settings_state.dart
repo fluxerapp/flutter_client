@@ -99,6 +99,17 @@ const int kDefaultVadThreshold = 50;
 
 enum ScreenShareCodecPreference { auto, av1, h265, vp9, h264, vp8 }
 
+const Set<String> kVoiceAccountSettingFields = <String>{
+  'participantVolumes',
+  'participantLocalMutes',
+  'streamAudioVolumes',
+  'streamAudioMuted',
+  'showVoiceConnectionAvatarStack',
+  'showVoiceConnectionId',
+  'showConnectionVolumeControls',
+  'prioritizeSpeakingParticipants',
+};
+
 class VoiceSettingsState {
   const VoiceSettingsState({
     this.inputDeviceId = kDefaultVoiceDeviceId,
@@ -299,6 +310,24 @@ class VoiceSettingsState {
     };
   }
 
+  Map<String, Object?> deviceJson() => toJson()
+    ..removeWhere(
+      (String field, _) => kVoiceAccountSettingFields.contains(field),
+    );
+
+  Map<String, Object?> accountJson() => toJson()
+    ..removeWhere(
+      (String field, _) => !kVoiceAccountSettingFields.contains(field),
+    );
+
+  static VoiceSettingsState? tryFromJson(Map<String, Object?> json) {
+    try {
+      return VoiceSettingsState.fromJson(json);
+    } on Object {
+      return null;
+    }
+  }
+
   factory VoiceSettingsState.fromJson(Map<String, Object?> json) {
     return VoiceSettingsState(
       inputDeviceId: json['inputDeviceId'] as String? ?? kDefaultVoiceDeviceId,
@@ -353,6 +382,14 @@ class VoiceSettingsState {
     );
   }
 }
+
+Map<String, Object?> changedVoiceFields(
+  Map<String, Object?> previous,
+  Map<String, Object?> next,
+) => <String, Object?>{
+  for (final MapEntry<String, Object?> entry in next.entries)
+    if (entry.value != previous[entry.key]) entry.key: entry.value,
+};
 
 ScreenShareCodecPreference _screenShareCodecFromJson(String? value) {
   return ScreenShareCodecPreference.values.firstWhere(

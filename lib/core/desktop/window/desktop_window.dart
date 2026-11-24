@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/desktop/autostart/desktop_autostart.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_placement.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_state.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/desktop_behavior_preferences_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -23,22 +24,22 @@ TitleBarStyle? _titleBarStyle() {
   return null;
 }
 
-Future<void> configureDesktopWindow(List<String> args) async {
+Future<void> configureDesktopWindow(
+  List<String> args, {
+  required LocalSettingsStore localSettings,
+}) async {
   await windowManager.ensureInitialized();
 
   await DesktopAutostart.resolveLaunch(args);
-  final (
-    DesktopBehaviorPreferencesState behavior,
-    List<Rect> workAreas,
-    Rect? primary,
-  ) = await (
-    readDesktopBehaviorPreferences(),
+  final DesktopBehaviorPreferencesState behavior =
+      readDesktopBehaviorPreferences(localSettings);
+  final (List<Rect> workAreas, Rect? primary) = await (
     displayWorkAreas(),
     primaryWorkArea(),
   ).wait;
   _usesNativeTitleBar = behavior.useNativeTitleBar;
   final DesktopWindowState? saved = behavior.rememberWindowState
-      ? await loadDesktopWindowState()
+      ? readDesktopWindowState(localSettings)
       : null;
 
   final Rect? savedArea = saved == null
@@ -69,7 +70,7 @@ Future<void> configureDesktopWindow(List<String> args) async {
 
   await desktopMainWindow.attach();
   windowManager.addListener(
-    DesktopWindowStateTracker(await windowManager.getBounds()),
+    DesktopWindowStateTracker(await windowManager.getBounds(), localSettings),
   );
 
   final bool maximized = saved?.maximized ?? false;

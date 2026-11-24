@@ -1,20 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/desktop/window/desktop_window_state.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_key.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'desktop_behavior_preferences_provider.g.dart';
-
-const String _kShowTrayIconKey = 'desktop_show_tray_icon';
-const String _kMinimizeToTrayKey = 'desktop_minimize_to_tray';
-const String _kCloseToTrayKey = 'desktop_close_to_tray';
-const String _kStartMinimizedKey = 'desktop_start_minimized';
-const String _kRememberWindowStateKey = kDesktopRememberWindowStateKey;
-const String _kColoredTrayIconKey = 'desktop_colored_tray_icon';
-const String _kMonochromeTrayIconToneKey = 'desktop_monochrome_tray_icon_tone';
-const String _kUnreadLauncherBadgeKey = 'desktop_unread_launcher_badge';
-const String _kDarkTaskbarBadgeKey = 'desktop_dark_taskbar_badge';
-const String _kUseNativeTitleBarKey = 'desktop_use_native_title_bar';
 
 enum MonochromeTrayIconTone {
   auto('auto'),
@@ -121,21 +113,26 @@ class DesktopBehaviorPreferencesState {
   );
 }
 
-Future<DesktopBehaviorPreferencesState> readDesktopBehaviorPreferences() async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+DesktopBehaviorPreferencesState readDesktopBehaviorPreferences(
+  LocalSettingsStore store,
+) {
   return DesktopBehaviorPreferencesState(
-    showTrayIcon: preferences.getBool(_kShowTrayIconKey) ?? true,
-    storedMinimizeToTray: preferences.getBool(_kMinimizeToTrayKey) ?? false,
-    storedCloseToTray: preferences.getBool(_kCloseToTrayKey) ?? true,
-    storedStartMinimized: preferences.getBool(_kStartMinimizedKey) ?? false,
-    rememberWindowState: preferences.getBool(_kRememberWindowStateKey) ?? true,
-    coloredTrayIcon: preferences.getBool(_kColoredTrayIconKey) ?? false,
-    monochromeTrayIconTone: MonochromeTrayIconTone.fromStorage(
-      preferences.getString(_kMonochromeTrayIconToneKey),
+    showTrayIcon: store.read(LocalSettingKeys.desktopShowTrayIcon),
+    storedMinimizeToTray: store.read(LocalSettingKeys.desktopMinimizeToTray),
+    storedCloseToTray: store.read(LocalSettingKeys.desktopCloseToTray),
+    storedStartMinimized: store.read(LocalSettingKeys.desktopStartMinimized),
+    rememberWindowState: store.read(
+      LocalSettingKeys.desktopRememberWindowState,
     ),
-    unreadLauncherBadge: preferences.getBool(_kUnreadLauncherBadgeKey) ?? false,
-    darkTaskbarBadge: preferences.getBool(_kDarkTaskbarBadgeKey) ?? false,
-    useNativeTitleBar: preferences.getBool(_kUseNativeTitleBarKey) ?? false,
+    coloredTrayIcon: store.read(LocalSettingKeys.desktopColoredTrayIcon),
+    monochromeTrayIconTone: MonochromeTrayIconTone.fromStorage(
+      store.read(LocalSettingKeys.desktopMonochromeTrayIconTone),
+    ),
+    unreadLauncherBadge: store.read(
+      LocalSettingKeys.desktopUnreadLauncherBadge,
+    ),
+    darkTaskbarBadge: store.read(LocalSettingKeys.desktopDarkTaskbarBadge),
+    useNativeTitleBar: store.read(LocalSettingKeys.desktopUseNativeTitleBar),
   );
 }
 
@@ -143,68 +140,79 @@ Future<DesktopBehaviorPreferencesState> readDesktopBehaviorPreferences() async {
 class DesktopBehaviorPreferences extends _$DesktopBehaviorPreferences {
   @override
   DesktopBehaviorPreferencesState build() =>
-      const DesktopBehaviorPreferencesState();
+      readDesktopBehaviorPreferences(ref.watch(localSettingsStoreProvider));
 
-  Future<void> load() async {
-    state = await readDesktopBehaviorPreferences();
-  }
+  void _write(DeviceFlag key, {required bool value}) =>
+      ref.read(localSettingsStoreProvider).write(key, value);
 
-  Future<void> _setBool(String key, bool value) async {
+  Future<void> _mirrorForNativeClose(
+    DeviceFlag key, {
+    required bool value,
+  }) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(key, value);
+    await preferences.setBool(key.name, value);
   }
 
   Future<void> setShowTrayIcon({required bool value}) async {
     state = state.copyWith(showTrayIcon: value);
-    await _setBool(_kShowTrayIconKey, value);
+    _write(LocalSettingKeys.desktopShowTrayIcon, value: value);
+    await _mirrorForNativeClose(
+      LocalSettingKeys.desktopShowTrayIcon,
+      value: value,
+    );
   }
 
   Future<void> setMinimizeToTray({required bool value}) async {
     state = state.copyWith(minimizeToTray: value);
-    await _setBool(_kMinimizeToTrayKey, value);
+    _write(LocalSettingKeys.desktopMinimizeToTray, value: value);
   }
 
   Future<void> setCloseToTray({required bool value}) async {
     state = state.copyWith(closeToTray: value);
-    await _setBool(_kCloseToTrayKey, value);
+    _write(LocalSettingKeys.desktopCloseToTray, value: value);
+    await _mirrorForNativeClose(
+      LocalSettingKeys.desktopCloseToTray,
+      value: value,
+    );
   }
 
   Future<void> setStartMinimized({required bool value}) async {
     state = state.copyWith(startMinimized: value);
-    await _setBool(_kStartMinimizedKey, value);
+    _write(LocalSettingKeys.desktopStartMinimized, value: value);
   }
 
   Future<void> setRememberWindowState({required bool value}) async {
     state = state.copyWith(rememberWindowState: value);
-    await _setBool(_kRememberWindowStateKey, value);
+    _write(LocalSettingKeys.desktopRememberWindowState, value: value);
   }
 
   Future<void> setColoredTrayIcon({required bool value}) async {
     state = state.copyWith(coloredTrayIcon: value);
-    await _setBool(_kColoredTrayIconKey, value);
+    _write(LocalSettingKeys.desktopColoredTrayIcon, value: value);
   }
 
   Future<void> setMonochromeTrayIconTone(MonochromeTrayIconTone value) async {
     state = state.copyWith(monochromeTrayIconTone: value);
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(
-      _kMonochromeTrayIconToneKey,
-      value.storageValue,
-    );
+    ref
+        .read(localSettingsStoreProvider)
+        .write(
+          LocalSettingKeys.desktopMonochromeTrayIconTone,
+          value.storageValue,
+        );
   }
 
   Future<void> setUnreadLauncherBadge({required bool value}) async {
     state = state.copyWith(unreadLauncherBadge: value);
-    await _setBool(_kUnreadLauncherBadgeKey, value);
+    _write(LocalSettingKeys.desktopUnreadLauncherBadge, value: value);
   }
 
   Future<void> setDarkTaskbarBadge({required bool value}) async {
     state = state.copyWith(darkTaskbarBadge: value);
-    await _setBool(_kDarkTaskbarBadgeKey, value);
+    _write(LocalSettingKeys.desktopDarkTaskbarBadge, value: value);
   }
 
   Future<void> setUseNativeTitleBar({required bool value}) async {
     state = state.copyWith(useNativeTitleBar: value);
-    await _setBool(_kUseNativeTitleBarKey, value);
+    _write(LocalSettingKeys.desktopUseNativeTitleBar, value: value);
   }
 }

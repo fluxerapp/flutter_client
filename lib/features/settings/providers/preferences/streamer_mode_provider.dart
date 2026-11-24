@@ -3,18 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/desktop/windows/windows_process_names.dart';
-import 'package:fluxer_app/shared/utils/shared_preferences_or_null.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_key.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'streamer_mode_provider.g.dart';
 
-const String _kManualEnabledKey = 'streamer_mode_manual_enabled';
-const String _kAutoEnableKey = 'streamer_mode_auto_enable';
-const String _kHidePersonalInformationKey = 'streamer_mode_hide_personal';
-const String _kHideInviteLinksKey = 'streamer_mode_hide_invite_links';
-const String _kDisableSoundsKey = 'streamer_mode_disable_sounds';
-const String _kDisableNotificationsKey = 'streamer_mode_disable_notifications';
 const Duration _kCaptureAppPollInterval = Duration(seconds: 15);
 const Set<String> _kCaptureProcessNames = <String>{
   'obs',
@@ -120,35 +116,28 @@ class StreamerMode extends _$StreamerMode {
   @override
   StreamerModeState build() {
     ref.onDispose(() => _pollTimer?.cancel());
-    unawaited(_load());
-    return const StreamerModeState();
-  }
-
-  Future<void> _load() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null || !ref.mounted) {
-      return;
-    }
-    state = state.copyWith(
-      manualEnabled: preferences.getBool(_kManualEnabledKey) ?? false,
-      autoEnable: preferences.getBool(_kAutoEnableKey) ?? true,
-      hidePersonalInformation:
-          preferences.getBool(_kHidePersonalInformationKey) ?? true,
-      hideInviteLinks: preferences.getBool(_kHideInviteLinksKey) ?? true,
-      disableSounds: preferences.getBool(_kDisableSoundsKey) ?? true,
-      disableNotifications:
-          preferences.getBool(_kDisableNotificationsKey) ?? true,
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    scheduleMicrotask(() {
+      if (ref.mounted) {
+        _updatePolling();
+      }
+    });
+    return StreamerModeState(
+      manualEnabled: store.read(LocalSettingKeys.streamerModeManualEnabled),
+      autoEnable: store.read(LocalSettingKeys.streamerModeAutoEnable),
+      hidePersonalInformation: store.read(
+        LocalSettingKeys.streamerModeHidePersonalInformation,
+      ),
+      hideInviteLinks: store.read(LocalSettingKeys.streamerModeHideInviteLinks),
+      disableSounds: store.read(LocalSettingKeys.streamerModeDisableSounds),
+      disableNotifications: store.read(
+        LocalSettingKeys.streamerModeDisableNotifications,
+      ),
     );
-    _updatePolling();
   }
 
-  Future<void> _setBool(String key, bool value) async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null) {
-      return;
-    }
-    await preferences.setBool(key, value);
-  }
+  void _write(DeviceFlag key, {required bool value}) =>
+      ref.read(localSettingsStoreProvider).write(key, value);
 
   void dismissNagbar() {
     state = state.copyWith(nagbarDismissed: true);
@@ -156,33 +145,33 @@ class StreamerMode extends _$StreamerMode {
 
   Future<void> setManualEnabled({required bool value}) async {
     state = state.copyWith(manualEnabled: value, nagbarDismissed: false);
-    await _setBool(_kManualEnabledKey, value);
+    _write(LocalSettingKeys.streamerModeManualEnabled, value: value);
   }
 
   Future<void> setAutoEnable({required bool value}) async {
     state = state.copyWith(autoEnable: value);
     _updatePolling();
-    await _setBool(_kAutoEnableKey, value);
+    _write(LocalSettingKeys.streamerModeAutoEnable, value: value);
   }
 
   Future<void> setHidePersonalInformation({required bool value}) async {
     state = state.copyWith(hidePersonalInformation: value);
-    await _setBool(_kHidePersonalInformationKey, value);
+    _write(LocalSettingKeys.streamerModeHidePersonalInformation, value: value);
   }
 
   Future<void> setHideInviteLinks({required bool value}) async {
     state = state.copyWith(hideInviteLinks: value);
-    await _setBool(_kHideInviteLinksKey, value);
+    _write(LocalSettingKeys.streamerModeHideInviteLinks, value: value);
   }
 
   Future<void> setDisableSounds({required bool value}) async {
     state = state.copyWith(disableSounds: value);
-    await _setBool(_kDisableSoundsKey, value);
+    _write(LocalSettingKeys.streamerModeDisableSounds, value: value);
   }
 
   Future<void> setDisableNotifications({required bool value}) async {
     state = state.copyWith(disableNotifications: value);
-    await _setBool(_kDisableNotificationsKey, value);
+    _write(LocalSettingKeys.streamerModeDisableNotifications, value: value);
   }
 
   Future<void> disable() async {
@@ -192,8 +181,8 @@ class StreamerMode extends _$StreamerMode {
       captureAppDetected: false,
     );
     _updatePolling();
-    await _setBool(_kManualEnabledKey, false);
-    await _setBool(_kAutoEnableKey, false);
+    _write(LocalSettingKeys.streamerModeManualEnabled, value: false);
+    _write(LocalSettingKeys.streamerModeAutoEnable, value: false);
   }
 
   void _updatePolling() {

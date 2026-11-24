@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
@@ -20,13 +23,10 @@ import 'package:fluxer_app/features/notifications/data/unread_inbox_view.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'notifications_providers.g.dart';
 
 enum NotificationsInboxTab { unreads, mentions }
-
-const String _kMentionSeenBoundaryKeyPrefix = 'notifications_mentions_seen_';
 
 class MentionSeenBoundaryState {
   const MentionSeenBoundaryState({required this.loaded, this.messageId});
@@ -37,40 +37,37 @@ class MentionSeenBoundaryState {
 
 @Riverpod(keepAlive: true)
 class MentionSeenBoundary extends _$MentionSeenBoundary {
-  String _key = _kMentionSeenBoundaryKeyPrefix;
-
   @override
   MentionSeenBoundaryState build() {
-    final String key =
-        '$_kMentionSeenBoundaryKeyPrefix${ref.watch(currentUserIdProvider) ?? ''}';
-    _key = key;
-    unawaited(_load(key));
-    return const MentionSeenBoundaryState(loaded: false);
-  }
-
-  Future<void> _load(String key) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (key != _key || state.loaded) {
-      return;
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    final String? userId = ref.watch(currentUserIdProvider);
+    if (userId == null) {
+      return const MentionSeenBoundaryState(loaded: false);
     }
-    state = MentionSeenBoundaryState(
+    return MentionSeenBoundaryState(
       loaded: true,
-      messageId: preferences.getString(key),
+      messageId: store.readAccount(
+        LocalSettingKeys.mentionSeenBoundary,
+        userId: userId,
+      ),
     );
   }
 
   void markSeen(String messageId) {
-    if (!state.loaded || compareSnowflakeIds(messageId, state.messageId) <= 0) {
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId == null ||
+        !state.loaded ||
+        compareSnowflakeIds(messageId, state.messageId) <= 0) {
       return;
     }
     state = MentionSeenBoundaryState(loaded: true, messageId: messageId);
-    final String key = _key;
-    unawaited(
-      SharedPreferences.getInstance().then(
-        (SharedPreferences preferences) =>
-            preferences.setString(key, messageId),
-      ),
-    );
+    ref
+        .read(localSettingsStoreProvider)
+        .writeAccount(
+          LocalSettingKeys.mentionSeenBoundary,
+          messageId,
+          userId: userId,
+        );
   }
 }
 

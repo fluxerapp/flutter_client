@@ -56,7 +56,6 @@ class DesktopTray with TrayListener, WindowListener {
       _container.read(desktopTrayMenuStateProvider);
 
   Future<void> _start() async {
-    await _container.read(desktopBehaviorPreferencesProvider.notifier).load();
     windowManager.addListener(this);
     trayManager.addListener(this);
     desktopMainWindow.addListener(_syncVisibilityLabel);

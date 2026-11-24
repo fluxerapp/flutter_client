@@ -20,7 +20,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
@@ -115,12 +114,16 @@ void main() {
     testWidgets('shows persisted mute and deafen and connects with them', (
       WidgetTester tester,
     ) async {
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        kPersistedSelfMuteKey: true,
-        kPersistedSelfDeafKey: true,
-      });
-      final (_, Completer<VoiceChannelJoinSheetResult?> result) =
-          await _pumpSheetHost(tester);
+      final (
+        ProviderContainer container,
+        Completer<VoiceChannelJoinSheetResult?> result,
+      ) = await _pumpSheetHost(
+        tester,
+      );
+      await container
+          .read(localVoiceStateProvider.notifier)
+          .setSelfDeaf(deafened: true);
+      await tester.pump();
 
       final VoiceChannelJoinSheetResult? connectResult = await _openAndConnect(
         tester,
@@ -141,7 +144,6 @@ void main() {
     testWidgets('undeafen in the sheet is used on connect', (
       WidgetTester tester,
     ) async {
-      SharedPreferences.setMockInitialValues(<String, Object>{});
       final (
         ProviderContainer container,
         Completer<VoiceChannelJoinSheetResult?> result,
@@ -172,7 +174,6 @@ void main() {
     testWidgets('unmuted prefs stay unmuted on connect', (
       WidgetTester tester,
     ) async {
-      SharedPreferences.setMockInitialValues(<String, Object>{});
       final (_, Completer<VoiceChannelJoinSheetResult?> result) =
           await _pumpSheetHost(tester);
 

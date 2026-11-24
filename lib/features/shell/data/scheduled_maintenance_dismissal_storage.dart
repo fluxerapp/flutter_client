@@ -1,7 +1,7 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
 
-const String kScheduledMaintenanceDismissKeyPrefix =
-    'fluxer_scheduled_maintenance_dismissed:';
+const int _kMaxDismissedMaintenance = 50;
 
 abstract interface class ScheduledMaintenanceDismissalStorage {
   Future<bool> isDismissed({
@@ -12,34 +12,22 @@ abstract interface class ScheduledMaintenanceDismissalStorage {
   Future<void> dismiss({required String maintenanceId, required String status});
 }
 
-class SharedPreferencesScheduledMaintenanceDismissalStorage
+class LocalScheduledMaintenanceDismissalStorage
     implements ScheduledMaintenanceDismissalStorage {
-  SharedPreferencesScheduledMaintenanceDismissalStorage(this._preferences);
+  LocalScheduledMaintenanceDismissalStorage(this._store);
 
-  final Future<SharedPreferences> _preferences;
-
-  String _dismissKey(String maintenanceId, String status) {
-    return '$kScheduledMaintenanceDismissKeyPrefix$maintenanceId:$status';
-  }
-
-  String _legacyDismissKey(String maintenanceId) {
-    return '$kScheduledMaintenanceDismissKeyPrefix$maintenanceId';
-  }
+  final LocalSettingsStore _store;
 
   @override
   Future<bool> isDismissed({
     required String maintenanceId,
     required String status,
   }) async {
-    final SharedPreferences preferences = await _preferences;
-    if (preferences.getString(_dismissKey(maintenanceId, status)) == '1') {
-      return true;
-    }
-    if (status == 'scheduled' &&
-        preferences.getString(_legacyDismissKey(maintenanceId)) == '1') {
-      return true;
-    }
-    return false;
+    final List<String> dismissed = _store.read(
+      LocalSettingKeys.dismissedScheduledMaintenance,
+    );
+    return dismissed.contains('$maintenanceId:$status') ||
+        (status == 'scheduled' && dismissed.contains(maintenanceId));
   }
 
   @override
@@ -47,8 +35,19 @@ class SharedPreferencesScheduledMaintenanceDismissalStorage
     required String maintenanceId,
     required String status,
   }) async {
-    final SharedPreferences preferences = await _preferences;
-    await preferences.setString(_dismissKey(maintenanceId, status), '1');
+    final String entry = '$maintenanceId:$status';
+    final List<String> dismissed = <String>[
+      ..._store
+          .read(LocalSettingKeys.dismissedScheduledMaintenance)
+          .where((String existing) => existing != entry),
+      entry,
+    ];
+    _store.write(
+      LocalSettingKeys.dismissedScheduledMaintenance,
+      dismissed.length > _kMaxDismissedMaintenance
+          ? dismissed.sublist(dismissed.length - _kMaxDismissedMaintenance)
+          : dismissed,
+    );
   }
 }
 

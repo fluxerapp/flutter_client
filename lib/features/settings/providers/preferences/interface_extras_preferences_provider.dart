@@ -1,23 +1,24 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/shared/utils/shared_preferences_or_null.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_key.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'interface_extras_preferences_provider.g.dart';
 
 enum InterfaceExtraFlag {
-  messageDoubleClickActions('interface_message_double_click_actions', false),
-  animateGifPicker('interface_animate_gif_picker', true),
-  hideBlockedMessages('interface_hide_blocked_messages', false),
-  keepAttachmentsOnEmptyEdit('interface_keep_attachments_on_empty_edit', false),
-  sequentialFileSend('interface_sequential_file_send', false);
+  messageDoubleClickActions(LocalSettingKeys.messageDoubleClickActions),
+  animateGifPicker(LocalSettingKeys.animateGifPicker),
+  hideBlockedMessages(LocalSettingKeys.hideBlockedMessages),
+  keepAttachmentsOnEmptyEdit(LocalSettingKeys.keepAttachmentsOnEmptyEdit),
+  sequentialFileSend(LocalSettingKeys.sequentialFileSend);
 
-  const InterfaceExtraFlag(this.storageKey, this.defaultValue);
+  const InterfaceExtraFlag(this.setting);
 
-  final String storageKey;
-  final bool defaultValue;
+  final DeviceFlag setting;
+
+  bool get defaultValue => setting.defaultValue;
 }
 
 @immutable
@@ -49,27 +50,15 @@ class InterfaceExtrasState {
 class InterfaceExtrasPreferences extends _$InterfaceExtrasPreferences {
   @override
   InterfaceExtrasState build() {
-    unawaited(_load());
-    return const InterfaceExtrasState(<InterfaceExtraFlag, bool>{});
-  }
-
-  Future<void> _load() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null || !ref.mounted) {
-      return;
-    }
-    state = InterfaceExtrasState(<InterfaceExtraFlag, bool>{
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    return InterfaceExtrasState(<InterfaceExtraFlag, bool>{
       for (final InterfaceExtraFlag flag in InterfaceExtraFlag.values)
-        flag: preferences.getBool(flag.storageKey) ?? flag.defaultValue,
+        flag: store.read(flag.setting),
     });
   }
 
   Future<void> set(InterfaceExtraFlag flag, {required bool value}) async {
     state = state.withFlag(flag, value);
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null) {
-      return;
-    }
-    await preferences.setBool(flag.storageKey, value);
+    ref.read(localSettingsStoreProvider).write(flag.setting, value);
   }
 }

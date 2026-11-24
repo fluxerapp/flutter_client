@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 111;
+const int _expectedSchemaVersion = 112;
 
 const int _guardedBaselineVersion = 67;
 
@@ -234,6 +234,22 @@ void main() {
           row['detail'] as String,
       ];
       expect(plan.join(' '), contains('idx_channels_parent_type'));
+    });
+
+    test('upgrade adds the local settings table', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 111);
+      raw.execute('DROP TABLE local_settings');
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+
+      expect(await db.localSettingsDao.loadAll(), isEmpty);
+      expect(_userVersion(raw), db.schemaVersion);
+      expect(_schemaTables(raw), contains('local_settings'));
     });
 
     test('upgrade drops the local mention filter table', () async {

@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -14,12 +17,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const Duration _kReminderDelay = Duration(seconds: 5);
-
-String recoveryKitPromptShownKey(String userId) =>
-    'fluxer_recovery_kit_prompt_shown_$userId';
 
 class RecoveryKitGate extends ConsumerStatefulWidget {
   const RecoveryKitGate({required this.child, super.key});
@@ -141,10 +140,11 @@ class _RecoveryKitGateState extends ConsumerState<RecoveryKitGate> {
       return;
     }
     try {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
-      final String key = recoveryKitPromptShownKey(userId);
-      if (preferences.getBool(key) ?? false) {
+      final LocalSettingsStore store = ref.read(localSettingsStoreProvider);
+      if (store.readAccount(
+        LocalSettingKeys.recoveryKitPromptShown,
+        userId: userId,
+      )) {
         return;
       }
       final RecoveryKitStatusResponse status = await ref.read(
@@ -156,7 +156,11 @@ class _RecoveryKitGateState extends ConsumerState<RecoveryKitGate> {
           ref.read(pendingRecoveryKitProvider) != null) {
         return;
       }
-      await preferences.setBool(key, true);
+      store.writeAccount(
+        LocalSettingKeys.recoveryKitPromptShown,
+        true,
+        userId: userId,
+      );
       await _showReminder();
     } on Exception catch (e) {
       talker.warning('[RecoveryKitGate] Reminder check failed: $e');

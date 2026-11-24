@@ -1,19 +1,14 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/input/domain/custom_keybind.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
-import 'package:fluxer_app/shared/utils/shared_preferences_or_null.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 part 'keybind_preferences_provider.g.dart';
-
-const String _kKeybindPreferencesKey = 'keybind_preferences_v1';
 
 @immutable
 class KeybindPreferencesState {
@@ -131,36 +126,16 @@ class KeybindPreferencesState {
 @Riverpod(keepAlive: true)
 class KeybindPreferences extends _$KeybindPreferences {
   SyncedKeybindSettings? _remote;
-  bool _loaded = false;
 
   @override
   KeybindPreferencesState build() {
-    unawaited(_load());
-    return const KeybindPreferencesState();
-  }
-
-  Future<void> _load() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null) {
-      _loaded = true;
-      return;
-    }
-    final String? raw = preferences.getString(_kKeybindPreferencesKey);
-    KeybindPreferencesState loaded = const KeybindPreferencesState();
-    if (raw != null) {
-      try {
-        loaded = KeybindPreferencesState.fromJson(jsonDecode(raw));
-      } on Object {
-        loaded = const KeybindPreferencesState();
-      }
-    }
-    final SyncedKeybindSettings? remote = _remote;
-    if (loaded.syncAcrossDevices && remote != null) {
-      loaded = _withSynced(loaded, remote);
-    }
-    _loaded = true;
-    if (ref.mounted) {
-      state = loaded;
+    final Map<String, Object?> json = ref
+        .watch(localSettingsStoreProvider)
+        .read(LocalSettingKeys.keybindPreferences);
+    try {
+      return KeybindPreferencesState.fromJson(json);
+    } on Object {
+      return const KeybindPreferencesState();
     }
   }
 
@@ -184,9 +159,9 @@ class KeybindPreferences extends _$KeybindPreferences {
 
   Future<void> applySynced(SyncedKeybindSettings value) async {
     _remote = value;
-    if (_loaded && state.syncAcrossDevices) {
+    if (state.syncAcrossDevices) {
       state = _withSynced(state, value);
-      await _persist();
+      _persist();
     }
   }
 
@@ -195,19 +170,12 @@ class KeybindPreferences extends _$KeybindPreferences {
     if (next.syncAcrossDevices) {
       ref.markSyncedDirty(SyncedPreferenceField.keybinds);
     }
-    await _persist();
+    _persist();
   }
 
-  Future<void> _persist() async {
-    final SharedPreferences? preferences = await sharedPreferencesOrNull();
-    if (preferences == null) {
-      return;
-    }
-    await preferences.setString(
-      _kKeybindPreferencesKey,
-      jsonEncode(state.toJson()),
-    );
-  }
+  void _persist() => ref
+      .read(localSettingsStoreProvider)
+      .write(LocalSettingKeys.keybindPreferences, state.toJson());
 
   Future<void> setTransmitMode(VoiceTransmitMode mode) =>
       _commit(state.copyWith(transmitMode: mode));
