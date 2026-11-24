@@ -85,6 +85,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? messageDoubleClickActions,
     $core.bool? announceCallJoinsAndLeaves,
+    $core.bool? animateGifPicker,
   }) {
     final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -204,6 +205,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.messageDoubleClickActions = messageDoubleClickActions;
     if (announceCallJoinsAndLeaves != null)
       result.announceCallJoinsAndLeaves = announceCallJoinsAndLeaves;
+    if (animateGifPicker != null) result.animateGifPicker = animateGifPicker;
     return result;
   }
 
@@ -289,6 +291,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
     ..aOB(66, _omitFieldNames ? '' : 'messageDoubleClickActions')
     ..aOB(67, _omitFieldNames ? '' : 'announceCallJoinsAndLeaves')
+    ..aOB(68, _omitFieldNames ? '' : 'animateGifPicker')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -890,6 +893,15 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasAnnounceCallJoinsAndLeaves() => $_has(62);
   @$pb.TagNumber(67)
   void clearAnnounceCallJoinsAndLeaves() => $_clearField(67);
+
+  @$pb.TagNumber(68)
+  $core.bool get animateGifPicker => $_getBF(63);
+  @$pb.TagNumber(68)
+  set animateGifPicker($core.bool value) => $_setBool(63, value);
+  @$pb.TagNumber(68)
+  $core.bool hasAnimateGifPicker() => $_has(63);
+  @$pb.TagNumber(68)
+  void clearAnimateGifPicker() => $_clearField(68);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {

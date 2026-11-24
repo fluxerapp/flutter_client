@@ -434,6 +434,27 @@ List<DefaultKeybind> buildDefaultKeybinds() {
       section: KeybindSection.voiceAndVideo,
     ),
     const DefaultKeybind(
+      action: KeybindAction.voicePushToTalk,
+      combo: KeybindCombo(key: ''),
+      hideFromDefaults: true,
+      informationalOnly: true,
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
+      action: KeybindAction.voicePushToMute,
+      combo: KeybindCombo(key: ''),
+      hideFromDefaults: true,
+      informationalOnly: true,
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
+      action: KeybindAction.voiceToggleVad,
+      combo: KeybindCombo(key: ''),
+      hideFromDefaults: true,
+      informationalOnly: true,
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
       action: KeybindAction.voicePushToTalkPriority,
       combo: KeybindCombo(key: ''),
       hideFromDefaults: true,

@@ -1,6 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -8,7 +9,6 @@ import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart'
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'shell_sidebar_width_provider.g.dart';
 
@@ -16,37 +16,16 @@ part 'shell_sidebar_width_provider.g.dart';
 class ShellSidebarWidth extends _$ShellSidebarWidth {
   @override
   double? build() {
-    ref.listen<String?>(currentUserIdProvider, (
-      String? previous,
-      String? next,
-    ) {
-      if (next != previous) {
-        unawaited(_loadForUser(next));
-      }
-    }, fireImmediately: true);
-    return null;
-  }
-
-  Future<void> _loadForUser(String? userId) async {
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    final String? userId = ref.watch(currentUserIdProvider);
     if (userId == null) {
-      if (!ref.mounted) {
-        return;
-      }
-      state = null;
-      return;
+      return null;
     }
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final String? raw = preferences.getString(
-      shellSidebarWidthStorageKey(userId),
+    final double? stored = store.readAccount(
+      LocalSettingKeys.shellSidebarWidth,
+      userId: userId,
     );
-    final double? parsed = parseStoredShellSidebarWidth(raw);
-    if (raw != null && parsed == null) {
-      await preferences.remove(shellSidebarWidthStorageKey(userId));
-    }
-    if (!ref.mounted || ref.read(currentUserIdProvider) != userId) {
-      return;
-    }
-    state = parsed;
+    return stored == null ? null : clampShellSidebarWidth(stored);
   }
 
   void setWidth(double width, {required bool persist}) {
@@ -55,35 +34,31 @@ class ShellSidebarWidth extends _$ShellSidebarWidth {
     }
     final double clamped = clampShellSidebarWidth(width);
     state = clamped;
-    if (!persist) {
-      return;
-    }
     final String? userId = ref.read(currentUserIdProvider);
-    if (userId == null) {
+    if (!persist || userId == null) {
       return;
     }
-    unawaited(_persist(userId, clamped));
+    ref
+        .read(localSettingsStoreProvider)
+        .writeAccount(
+          LocalSettingKeys.shellSidebarWidth,
+          clamped.roundToDouble(),
+          userId: userId,
+        );
   }
 
   Future<void> reset() async {
     if (!ref.mounted) {
       return;
     }
-    final String? userId = ref.read(currentUserIdProvider);
     state = null;
+    final String? userId = ref.read(currentUserIdProvider);
     if (userId == null) {
       return;
     }
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove(shellSidebarWidthStorageKey(userId));
-  }
-
-  Future<void> _persist(String userId, double width) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(
-      shellSidebarWidthStorageKey(userId),
-      width.round().toString(),
-    );
+    ref
+        .read(localSettingsStoreProvider)
+        .removeAccount(LocalSettingKeys.shellSidebarWidth, userId: userId);
   }
 }
 

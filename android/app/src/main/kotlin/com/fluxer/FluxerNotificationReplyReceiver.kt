@@ -4,26 +4,15 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.PowerManager
-import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
-import kotlin.concurrent.thread
 
 class FluxerNotificationReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != ACTION_REPLY) {
             return
         }
-        val pending = goAsync()
-        val appContext = context.applicationContext
-        val wakeLock = partialWakeLock(appContext)
-        thread(name = "fluxer-notification-reply") {
-            try {
-                dispatchReply(appContext, intent)
-            } finally {
-                releaseWakeLock(wakeLock)
-                pending.finish()
-            }
+        runNotificationAction(context, "notification_reply") { appContext ->
+            dispatchReply(appContext, intent)
         }
     }
 
@@ -64,34 +53,6 @@ class FluxerNotificationReplyReceiver : BroadcastReceiver() {
                 features = intent.getStringExtra(EXTRA_FEATURES),
             )
         }
-
-        private fun partialWakeLock(context: Context): PowerManager.WakeLock? {
-            val power = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-                ?: return null
-            return try {
-                power.newWakeLock(
-                    PowerManager.PARTIAL_WAKE_LOCK,
-                    "fluxer:notification_reply",
-                ).apply {
-                    setReferenceCounted(false)
-                    acquire(WAKE_LOCK_MS)
-                }
-            } catch (_: Exception) {
-                null
-            }
-        }
-
-        private fun releaseWakeLock(wakeLock: PowerManager.WakeLock?) {
-            if (wakeLock == null || !wakeLock.isHeld) {
-                return
-            }
-            try {
-                wakeLock.release()
-            } catch (_: Exception) {
-            }
-        }
-
-        private const val WAKE_LOCK_MS = 30_000L
     }
 }
 
@@ -101,12 +62,7 @@ internal class AndroidNotificationReplyUi(
     private val failureBody: String?,
 ) : NotificationReplyUi {
     override fun cancel(id: Int, tag: String?) {
-        val manager = manager() ?: return
-        if (tag.isNullOrEmpty()) {
-            manager.cancel(id)
-        } else {
-            manager.cancel(tag, id)
-        }
+        context.getSystemService(NotificationManager::class.java)?.cancel(tag, id)
     }
 
     override fun clearSending(id: Int, tag: String?) {
@@ -114,21 +70,13 @@ internal class AndroidNotificationReplyUi(
     }
 
     override fun showFailure() {
-        val manager = manager() ?: return
-        val notification = NotificationCompat.Builder(context, MESSAGE_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_fluxer)
-            .setColor(PUSH_ACCENT_COLOR)
-            .setContentTitle(failureTitle ?: DEFAULT_FAILURE_TITLE)
-            .setContentText(failureBody ?: DEFAULT_FAILURE_BODY)
-            .setSilent(true)
-            .setOnlyAlertOnce(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
-        manager.notify(FAILED_REPLY_NOTIFICATION_TAG, FAILED_REPLY_NOTIFICATION_ID, notification)
-    }
-
-    private fun manager(): NotificationManager? {
-        return context.getSystemService(NotificationManager::class.java)
+        showNotificationActionFailure(
+            context = context,
+            id = FAILED_REPLY_NOTIFICATION_ID,
+            tag = FAILED_REPLY_NOTIFICATION_TAG,
+            title = failureTitle ?: DEFAULT_FAILURE_TITLE,
+            body = failureBody ?: DEFAULT_FAILURE_BODY,
+        )
     }
 
     private companion object {

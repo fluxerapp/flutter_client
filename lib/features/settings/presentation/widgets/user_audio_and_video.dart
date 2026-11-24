@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/voice_entrance_sound_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_mic_test_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/voice_push_to_talk_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_prompts_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/features/voice/utils/media/voice_media_device_label.d
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class UserAudioAndVideo extends ConsumerStatefulWidget {
@@ -184,6 +187,11 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   ),
                 ],
               ),
+              if (!isTouchPrimaryInput(ref))
+                FluxerSettingsSubsection(
+                  title: l10n.audioAndVideoInputModeTitle,
+                  children: const <Widget>[VoicePushToTalkSettings()],
+                ),
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoVoiceProcessingSectionTitle,
                 children: const <Widget>[VoiceAudioProcessingOptions()],
@@ -191,6 +199,11 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoMicTestSectionTitle,
                 children: const [VoiceMicTestSection()],
+              ),
+              FluxerSettingsSubsection(
+                title: l10n.entranceSoundSectionTitle,
+                description: l10n.entranceSoundSectionDescription,
+                children: const <Widget>[VoiceEntranceSoundSection()],
               ),
             ],
           ),
@@ -336,6 +349,14 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                       promptsNotifier.setSkipHideOwnScreenshareConfirm(
                         value: value,
                       ),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.audioAndVideoShowConnectionIdsLabel,
+                    description: l10n.audioAndVideoShowConnectionIdsDescription,
+                    value: settings.showVoiceConnectionId,
+                    onChanged: (bool value) => unawaited(
+                      settingsNotifier.setShowVoiceConnectionId(value: value),
                     ),
                   ),
                   FluxerSettingsSwitchItem.grouped(

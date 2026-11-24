@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_settings_section.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/totp_disable_sh
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_enable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/app_lock_settings_row.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/resend_verification_email.dart';
@@ -30,8 +32,11 @@ import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_subsection.dart';
+import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/text/fluxer_field_label.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -53,6 +58,7 @@ class UserSecurityLogin extends ConsumerStatefulWidget {
 
 class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   bool _emailRevealed = false;
+  bool _updatingPasskeyTwoFactor = false;
 
   String _maskEmail(String email) {
     final atIndex = email.indexOf('@');
@@ -112,6 +118,11 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     FluxerColorTheme colors,
     FluxerLocalizations l10n,
   ) {
+    final bool hidePersonal = ref.watch(
+      streamerModeProvider.select(
+        (StreamerModeState state) => state.shouldHidePersonalInformation,
+      ),
+    );
     return FluxerSettingsSubsection(
       title: l10n.securityLoginEmailSectionTitle,
       description: l10n.securityLoginEmailSectionDescription(
@@ -130,7 +141,9 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         ] else ...[
           _responsiveRow(
             label: l10n.securityLoginEmailAddressLabel,
-            detail: _emailRevealed ? s.email! : _maskEmail(s.email!),
+            detail: _emailRevealed && !hidePersonal
+                ? s.email!
+                : _maskEmail(s.email!),
             actionLabel: l10n.securityLoginChangeEmail,
             onAction: () => EmailChangeSheet.show(context, ref),
             mobileAccessory: FluxerTextLink(
@@ -143,7 +156,9 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _emailRevealed ? s.email! : _maskEmail(s.email!),
+                  _emailRevealed && !hidePersonal
+                      ? s.email!
+                      : _maskEmail(s.email!),
                   style: context.textStyles.bodySmall,
                 ),
                 const SizedBox(height: 4),
@@ -380,8 +395,69 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
           ...passkeyState.credentials.map(
             (pk) => _buildPasskeyItem(pk, colors, l10n),
           ),
+        if (passkeyState.credentials.isNotEmpty)
+          FluxerSettingsSwitchItem(
+            label: l10n.securityPasskeyTwoFactorLabel,
+            description: l10n.securityPasskeyTwoFactorDescription,
+            value: ref.watch(
+              userSettingsViewModelProvider.select(
+                (state) => state.hasPasskeyMfa,
+              ),
+            ),
+            enabled: !_updatingPasskeyTwoFactor,
+            onChanged: (bool value) =>
+                unawaited(_setPasskeyTwoFactor(enabled: value)),
+          ),
       ],
     );
+  }
+
+  Future<void> _setPasskeyTwoFactor({required bool enabled}) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    setState(() => _updatingPasskeyTwoFactor = true);
+    try {
+      final WebAuthnTwoFactorResponse response = await ref
+          .read(fluxerClientProvider)
+          .users
+          .setWebauthnTwoFactor(
+            body: WebAuthnTwoFactorRequest(enabled: enabled),
+          );
+      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      final List<WebAuthnTwoFactorResponseBackupCodes> codes =
+          response.backupCodes ??
+          const <WebAuthnTwoFactorResponseBackupCodes>[];
+      if (codes.isNotEmpty && mounted) {
+        await BackupCodesSheet.showWithCodes(
+          context,
+          ref,
+          codes: <MfaBackupCodesResponseBackupCodes>[
+            for (final WebAuthnTwoFactorResponseBackupCodes code in codes)
+              MfaBackupCodesResponseBackupCodes(
+                code: code.code,
+                consumed: code.consumed,
+              ),
+          ],
+        );
+      }
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[Security] Passkey two-factor update failed',
+        error,
+        stackTrace,
+      );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.securityPasskeyTwoFactorFailed,
+              variant: FluxerToastVariant.danger,
+            ),
+          );
+    } finally {
+      if (mounted) {
+        setState(() => _updatingPasskeyTwoFactor = false);
+      }
+    }
   }
 
   Widget _buildPasskeyItem(

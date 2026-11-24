@@ -21,7 +21,6 @@ import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinat
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -103,9 +102,6 @@ Future<void> _settle(WidgetTester tester) async {
 }
 
 Future<_Harness> _start(WidgetTester tester, {required bool enabled}) async {
-  SharedPreferences.setMockInitialValues(<String, Object>{
-    'open_communities_to_last_channel': enabled,
-  });
   final FluxerDatabase db = await _seed();
   addTearDown(db.close);
   late final _Harness harness;
@@ -162,7 +158,9 @@ Future<_Harness> _start(WidgetTester tester, {required bool enabled}) async {
   );
   addTearDown(container.dispose);
   harness = _Harness(db, router, container, chat);
-  await container.read(localSettingsProvider.notifier).load();
+  await container
+      .read(localSettingsProvider.notifier)
+      .setOpenCommunitiesToLastChannel(value: enabled);
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,

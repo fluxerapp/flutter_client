@@ -60,7 +60,7 @@ void main() {
 
   test('default screen share publishes one 720p30 layer that keeps fps', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
-      noiseFilterSupported: false,
+      unavailableBackends: NoiseSuppressionBackend.native,
       videoQualityCaps: VideoQualityCaps.base,
       meshPhoneCap: false,
     );
@@ -84,7 +84,7 @@ void main() {
 
   test('high resolution is clamped without higher video quality', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
-      noiseFilterSupported: false,
+      unavailableBackends: NoiseSuppressionBackend.native,
       videoQualityCaps: VideoQualityCaps.base,
       meshPhoneCap: false,
     );

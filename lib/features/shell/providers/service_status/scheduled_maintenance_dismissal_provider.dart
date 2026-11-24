@@ -1,8 +1,8 @@
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/features/shell/data/scheduled_maintenance_dismissal_storage.dart';
 import 'package:fluxer_app/features/shell/data/service_status_client.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_maintenance.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'scheduled_maintenance_dismissal_provider.g.dart';
 
@@ -10,8 +10,8 @@ part 'scheduled_maintenance_dismissal_provider.g.dart';
 ScheduledMaintenanceDismissalStorage scheduledMaintenanceDismissalStorage(
   Ref ref,
 ) {
-  return SharedPreferencesScheduledMaintenanceDismissalStorage(
-    SharedPreferences.getInstance(),
+  return LocalScheduledMaintenanceDismissalStorage(
+    ref.watch(localSettingsStoreProvider),
   );
 }
 

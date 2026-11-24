@@ -1,7 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="false" />
@@ -33,7 +37,6 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <!-- Launcher app-icon badge (app_badge_plus) -->
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
@@ -304,11 +307,9 @@
         <meta-data
             android:name="com.fluxer.PUSH_PROVIDER"
             android:value="${pushProvider}" />
-        <service
-            android:name="de.julianassmann.flutter_background.IsolateHolderService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="mediaProjection" />
+        <meta-data
+            android:name="com.fluxer.voice.SCREEN_SHARE_ICON"
+            android:resource="@drawable/ic_stat_fluxer" />
         <service
             android:name=".UploadKeepAliveService"
             android:exported="false"
@@ -325,6 +326,9 @@
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
+        <receiver
+            android:name=".FluxerNotificationMarkReadReceiver"
+            android:exported="false" />
         <receiver
             android:name=".FluxerNotificationReplyReceiver"
             android:exported="false" />

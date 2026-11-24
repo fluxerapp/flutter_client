@@ -11,10 +11,12 @@ import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_peer.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
+import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_voice/fluxer_voice.dart';
@@ -52,6 +54,9 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
   required Future<AppRuntimeInfo> Function() appInfo,
   Future<List<MediaDevice>> Function()? enumerateDevices,
   Future<Object?> Function()? audioRoute,
+  Future<Object?> Function()? noiseFilter,
+  Set<NoiseSuppressionBackend> unavailableBackends =
+      const <NoiseSuppressionBackend>{},
   Map<String, VoiceDiagnosticsStatsSource>? statsSources,
   DateTime? now,
   Duration timeout = _kCollectTimeout,
@@ -63,11 +68,14 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
       statsSources ?? voiceDiagnosticsStatsSources(session);
   final Future<Object?> Function() route =
       audioRoute ?? readVoiceAudioRouteDiagnostics;
+  final Future<Object?> Function() filter =
+      noiseFilter ?? readVoiceNoiseFilterDiagnostics;
   final (
     Object? app,
     Object? mediaDevices,
     Object? webrtc,
     Object? audioRouteJson,
+    Object? noiseFilterJson,
   ) = await (
     _withTimeout('app info', () async {
       final AppRuntimeInfo info = await appInfo();
@@ -78,6 +86,7 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
     }, timeout),
     _collectWebRtc(sources, timeout),
     _withTimeout('audio route', route, timeout),
+    _withTimeout('noise filter', filter, timeout),
   ).wait;
   return <String, Object?>{
     'schemaVersion': 1,
@@ -95,6 +104,10 @@ Future<Map<String, Object?>> collectVoiceDiagnostics({
     'voiceSettings': _safe(() => _settingsJson(settings)),
     'mediaDevices': mediaDevices,
     'audioRoute': audioRouteJson,
+    'audioProcessing': _safe(
+      () => _audioProcessingJson(settings, unavailableBackends),
+    ),
+    'noiseFilter': noiseFilterJson,
     'webrtc': webrtc,
   };
 }
@@ -107,6 +120,40 @@ Future<Object?> readVoiceAudioRouteDiagnostics() async {
   return <String, Object?>{
     'dartOwners': session.owners.toList(),
     'native': await session.diagnostics(),
+  };
+}
+
+Future<Object?> readVoiceNoiseFilterDiagnostics() async {
+  final NativeNoiseFilterStatus? status = await FluxerNoiseFilter.instance
+      .status();
+  if (status == null) {
+    return null;
+  }
+  return <String, Object?>{
+    'attached': status.attached,
+    'backend': status.backend.name,
+    'sampleRate': status.sampleRate,
+    'frames': status.frames,
+    'bypassedFrames': status.bypassedFrames,
+    'recoveredFrames': status.recoveredFrames,
+    'averageMicros': status.averageMicros,
+    'maxMicros': status.maxMicros,
+  };
+}
+
+Map<String, Object?> _audioProcessingJson(
+  VoiceSettingsState settings,
+  Set<NoiseSuppressionBackend> unavailableBackends,
+) {
+  final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
+    settings: settings,
+    unavailableBackends: unavailableBackends,
+  );
+  return <String, Object?>{
+    'requestedBackend': requestedNoiseSuppressionBackend(settings).name,
+    'effectiveBackend': processing.backend.name,
+    'echoCancellation': processing.echoCancellation,
+    'autoGainControl': processing.autoGainControl,
   };
 }
 
@@ -161,6 +208,7 @@ Future<String> buildVoiceDiagnosticsJson(ProviderContainer container) async {
       session: container.read(voiceSessionProvider),
       connectionStats: container.read(voiceConnectionStatsProvider),
       settings: container.read(voiceSettingsProvider),
+      unavailableBackends: container.read(voiceNoiseFilterProvider),
       appInfo: () => container.read(appRuntimeInfoProvider.future),
     );
   } on Object catch (error) {

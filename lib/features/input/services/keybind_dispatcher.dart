@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/input/domain/editable_focus_behavior.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo_matcher.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
+import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
 
 const Set<KeybindAction> kVoiceFullscreenAllowedKeybindActions =
     <KeybindAction>{
@@ -15,16 +16,26 @@ const Set<KeybindAction> kVoiceFullscreenAllowedKeybindActions =
 
 class KeybindDispatcher {
   KeybindDispatcher({List<DefaultKeybind>? entries})
-    : _entries = entries ?? buildDefaultKeybinds();
+    : entries = entries ?? buildDefaultKeybinds();
 
-  final List<DefaultKeybind> _entries;
+  List<DefaultKeybind> entries;
+
+  List<KeybindAction> matchHoldActions(KeyEvent event) {
+    return <KeybindAction>[
+      for (final DefaultKeybind entry in entries)
+        if (kHoldKeybindActions.contains(entry.action) &&
+            entry.combo.hasTrigger &&
+            keyboardEventTriggerMatchesCombo(entry.combo, event))
+          entry.action,
+    ];
+  }
 
   List<KeybindAction> matchActions({
     required KeyEvent event,
     required KeybindDispatchContext context,
   }) {
     final List<DefaultKeybind> matches = <DefaultKeybind>[];
-    for (final DefaultKeybind entry in _entries) {
+    for (final DefaultKeybind entry in entries) {
       if (!entry.combo.hasTrigger) {
         continue;
       }
@@ -85,7 +96,9 @@ class KeybindDispatcher {
         !kVoiceFullscreenAllowedKeybindActions.contains(entry.action)) {
       return false;
     }
-    if (context.modalOpen && !_isAllowedInModal(entry.action)) {
+    if (context.modalOpen &&
+        !_isAllowedInModal(entry.action) &&
+        !kHoldKeybindActions.contains(entry.action)) {
       return false;
     }
     if (context.editableHasFocus) {

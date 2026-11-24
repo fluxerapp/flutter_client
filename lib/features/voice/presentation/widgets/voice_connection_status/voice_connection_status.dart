@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provi
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/audio/noise_suppression_labels.dart';
 import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -237,18 +238,10 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
       statusColor = colors.statusDanger;
     }
 
-    final bool noiseFilterSupported = ref
-        .watch(voiceNoiseFilterProvider)
-        .maybeWhen(
-          data: (VoiceNoiseFilterState value) => value.isSupported,
-          orElse: () => false,
-        );
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
+    final NoiseSuppressionBackend effectiveBackend = resolveVoiceProcessing(
       settings: settings,
-      noiseFilterSupported: noiseFilterSupported,
-    );
-    final bool processingActive =
-        processing.useNoiseFilter || processing.noiseSuppression;
+      unavailableBackends: ref.watch(voiceNoiseFilterProvider),
+    ).backend;
 
     final bool showAvatars =
         settings.showVoiceConnectionAvatarStack && voice.isConnected;
@@ -335,8 +328,15 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
               ),
               UserPanelControlButton(
                 icon: const PhosphorIcon(PhosphorIconsFill.waveform),
-                isSelected: processingActive,
-                tooltip: l10n.voiceAudioProcessing,
+                isSelected: voiceProcessingActive(
+                  mode: settings.voiceProcessingMode,
+                  backend: effectiveBackend,
+                ),
+                tooltip: voiceAudioProcessingTooltip(
+                  l10n,
+                  mode: settings.voiceProcessingMode,
+                  backend: effectiveBackend,
+                ),
                 onPressed: () {
                   unawaited(showVoiceAudioProcessingModal(context));
                 },

@@ -18,6 +18,8 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/desktop/tray/desktop_tray.dart';
 import 'package:fluxer_app/core/desktop/updater/oxygen_updater.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
@@ -104,6 +106,20 @@ void _bootstrapChatAttachmentAudioAfterSplashReveal(
   });
 }
 
+void _flushLocalSettingsOnBackground(LocalSettingsStore store) {
+  AppLifecycleListener(
+    onStateChange: (AppLifecycleState state) {
+      if (state != AppLifecycleState.resumed) {
+        unawaited(store.flush());
+      }
+    },
+    onExitRequested: () async {
+      await store.flush();
+      return AppExitResponse.exit;
+    },
+  );
+}
+
 void _runFluxerApp(ProviderContainer container) {
   runApp(
     UncontrolledProviderScope(
@@ -171,6 +187,14 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   }
   await Future.wait<void>([
     rootCertificates,
+    _bootstrapStep('app.bootstrap.local_settings', () async {
+      final LocalSettingsStore store = container.read(
+        localSettingsStoreProvider,
+      );
+      await store.load();
+      _flushLocalSettingsOnBackground(store);
+      container.read(localSettingsProvider);
+    }),
     () async {
       await _bootstrapStep(
         'app.bootstrap.foreground_session',
@@ -180,7 +204,6 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         await Future.wait<void>([
           container.read(observabilityReportingProvider.notifier).load(),
           container.read(pushRelayConsentProvider.notifier).load(),
-          container.read(localSettingsProvider.notifier).load(),
           loadMessageStickerAspectRatios(),
         ]);
         await loadObservabilityReportingPrompt(container);
@@ -203,7 +226,10 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if (isFluxerDesktopOs) {
     await _bootstrapStep('app.bootstrap.window', () async {
-      await configureDesktopWindow();
+      await configureDesktopWindow(
+        args,
+        localSettings: container.read(localSettingsStoreProvider),
+      );
     });
     await _bootstrapStep('app.bootstrap.tray', () async {
       await DesktopTray.start(container);

@@ -17,11 +17,16 @@ flutter:
         pluginClass: FluxerVoicePlugin
       macos:
         pluginClass: FluxerVoicePlugin
+      windows:
+        pluginClass: FluxerVoicePluginCApi
+      linux:
+        pluginClass: FluxerVoicePlugin
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_callkit_incoming: ^3.1.6
+  flutter_webrtc: ^1.6.3
 
 dev_dependencies:
   flutter_test:

@@ -9,7 +9,7 @@ void main() {
     'capture options disable voice isolation and use platform NS when filter is missing',
     () {
       const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
-        noiseFilterSupported: false,
+        unavailableBackends: NoiseSuppressionBackend.native,
         videoQualityCaps: VideoQualityCaps.base,
         meshPhoneCap: false,
       );
@@ -25,7 +25,7 @@ void main() {
 
   test('room options include channel bitrate publish encoding', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
-      noiseFilterSupported: false,
+      unavailableBackends: NoiseSuppressionBackend.native,
       videoQualityCaps: VideoQualityCaps.base,
       meshPhoneCap: false,
     );

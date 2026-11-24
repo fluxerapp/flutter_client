@@ -8,11 +8,29 @@ final RegExp _trailingPunctRegex = RegExp(r'[.,;:!?]+$');
 final RegExp _codeSpanRegex = RegExp(r'```[\s\S]*?```|``[^`]*``|`[^`\n]*`');
 
 final RegExp _youtubeHostRegex = RegExp(
-  r'(?:^|\.)(?:youtube\.com|youtu\.be)$',
+  r'(?:^|\.)(?:youtube\.com|youtu\.be|youtube-nocookie\.com)$',
   caseSensitive: false,
 );
 
-const Set<String> _youtubeTrackingParams = {'si', 'pp'};
+final RegExp _youtubeComHostRegex = RegExp(
+  r'(?:^|\.)youtube\.com$',
+  caseSensitive: false,
+);
+
+const Set<String> _youtubeTrackingParams = {'si', 'is', 'pp'};
+
+const Set<String> _youtubeComTrackingParams = {
+  'feature',
+  'app',
+  'src',
+  'lid',
+  'cid',
+  'embeds_referring_euri',
+};
+
+const int _maxRedirectDepth = 2;
+
+final RegExp _invalidPercentEscapeRegex = RegExp('%(?![0-9a-fA-F]{2})');
 
 const Set<String> _trackingParams = {
   'fbclid',
@@ -102,7 +120,7 @@ String _sanitizeUrlsInGap(String text) {
   });
 }
 
-String _cleanSingleUrl(String url) {
+String _cleanSingleUrl(String url, {int depth = 0}) {
   final int questionIndex = url.indexOf('?');
   if (questionIndex == -1) {
     return url;
@@ -123,6 +141,17 @@ String _cleanSingleUrl(String url) {
     return url;
   }
   final bool isYoutube = _youtubeHostRegex.hasMatch(parsed.host);
+  final bool isYoutubeCom = _youtubeComHostRegex.hasMatch(parsed.host);
+  if (isYoutubeCom && depth < _maxRedirectDepth) {
+    final String? target = _youtubeRedirectTarget(parsed);
+    if (target != null) {
+      final String unwrapped = _cleanSingleUrl(
+        _withSourceFragment(target, fragmentPart),
+        depth: depth + 1,
+      );
+      return unwrapped.length <= url.length ? unwrapped : url;
+    }
+  }
   final List<String> kept = <String>[];
   bool mutated = false;
   for (final String part in query.split('&')) {
@@ -130,7 +159,11 @@ String _cleanSingleUrl(String url) {
       mutated = true;
       continue;
     }
-    if (_isTrackingParam(_paramKey(part), isYoutube: isYoutube)) {
+    if (_isTrackingParam(
+      _paramKey(part),
+      isYoutube: isYoutube,
+      isYoutubeCom: isYoutubeCom,
+    )) {
       mutated = true;
       continue;
     }
@@ -145,9 +178,64 @@ String _cleanSingleUrl(String url) {
   return '$basePart?${kept.join('&')}$fragmentPart';
 }
 
+String? _youtubeRedirectTarget(Uri parsed) {
+  final Map<String, List<String>> params;
+  try {
+    params = parsed.queryParametersAll;
+  } on FormatException {
+    return null;
+  }
+  for (final MapEntry<String, List<String>> entry in params.entries) {
+    if (entry.key.toLowerCase() != 'q') {
+      continue;
+    }
+    final String target = entry.value.first;
+    if (_isHttpUrl(target)) {
+      return target;
+    }
+    final String? decoded = _decodeComponentOrNull(target);
+    return decoded != null && _isHttpUrl(decoded) ? decoded : null;
+  }
+  return null;
+}
+
+bool _isHttpUrl(String value) {
+  final Uri? uri = Uri.tryParse(value);
+  return uri != null &&
+      (uri.scheme == 'http' || uri.scheme == 'https') &&
+      uri.host.isNotEmpty;
+}
+
+String? _decodeComponentOrNull(String value) {
+  // Uri.decodeComponent throws ArgumentError on a malformed escape.
+  if (_invalidPercentEscapeRegex.hasMatch(value)) {
+    return null;
+  }
+  try {
+    return Uri.decodeComponent(value);
+  } on FormatException {
+    return null;
+  }
+}
+
+String _withSourceFragment(String target, String fragment) {
+  if (fragment.isEmpty) {
+    return target;
+  }
+  final int hashIndex = target.indexOf('#');
+  if (fragment == '#') {
+    return hashIndex == -1 ? '$target#' : target;
+  }
+  final String base = hashIndex == -1 ? target : target.substring(0, hashIndex);
+  return '$base$fragment';
+}
+
 String _paramKey(String pair) {
   final int eqIndex = pair.indexOf('=');
   final String raw = eqIndex == -1 ? pair : pair.substring(0, eqIndex);
+  if (_invalidPercentEscapeRegex.hasMatch(raw)) {
+    return raw.toLowerCase();
+  }
   try {
     return Uri.decodeQueryComponent(raw).toLowerCase();
   } on FormatException {
@@ -155,11 +243,18 @@ String _paramKey(String pair) {
   }
 }
 
-bool _isTrackingParam(String name, {required bool isYoutube}) {
+bool _isTrackingParam(
+  String name, {
+  required bool isYoutube,
+  required bool isYoutubeCom,
+}) {
   if (_trackingParams.contains(name)) {
     return true;
   }
   if (isYoutube && _youtubeTrackingParams.contains(name)) {
+    return true;
+  }
+  if (isYoutubeCom && _youtubeComTrackingParams.contains(name)) {
     return true;
   }
   for (final String prefix in _trackingPrefixes) {

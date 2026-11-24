@@ -12,26 +12,10 @@ const double kShellSidebarWidthMin = 200;
 const double kShellSidebarWidthMax = 480;
 const double kShellSidebarWidthDesktopDefault = 320;
 
-const String kShellSidebarWidthStorageKeyPrefix = 'fluxer:ui:sidebar-width';
-
-String shellSidebarWidthStorageKey(String userId) =>
-    '$kShellSidebarWidthStorageKeyPrefix:$userId';
-
 double clampShellSidebarWidth(double value) {
   return value
       .clamp(kShellSidebarWidthMin, kShellSidebarWidthMax)
       .roundToDouble();
-}
-
-double? parseStoredShellSidebarWidth(String? raw) {
-  if (raw == null || raw.isEmpty) {
-    return null;
-  }
-  final double? parsed = double.tryParse(raw);
-  if (parsed == null || !parsed.isFinite) {
-    return null;
-  }
-  return clampShellSidebarWidth(parsed);
 }
 
 bool shellSidebarResizeEnabled(BuildContext context) {

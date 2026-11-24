@@ -25,7 +25,7 @@ import '../../helpers/message_realtime_test_helpers.dart';
 class _TestNotificationPreferences extends NotificationPreferences {
   @override
   NotificationPreferencesState build() {
-    return const NotificationPreferencesState(isLoaded: true);
+    return const NotificationPreferencesState();
   }
 }
 

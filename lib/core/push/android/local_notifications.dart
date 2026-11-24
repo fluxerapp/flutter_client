@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/push/notification/ids.dart'
         pushMessageNotificationId,
         pushNotificationCancelIds;
 import 'package:fluxer_app/core/push/notification/localization.dart';
+import 'package:fluxer_app/core/push/notification/mark_read.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/notification/reply.dart';
 import 'package:fluxer_app/core/push/notification/reply_background.dart';
@@ -36,6 +37,8 @@ export 'package:fluxer_app/core/push/android/channels.dart'
 
 const int _kReplyFailedNotificationId = 900001;
 const String _kReplyFailedNotificationTag = 'fluxer_reply_failed';
+const int _kMarkReadFailedNotificationId = 900002;
+const String _kMarkReadFailedNotificationTag = 'fluxer_mark_read_failed';
 const Duration _kPushMediaWait = Duration(seconds: 4);
 
 final class LocalPushNotifications {
@@ -215,7 +218,7 @@ final class LocalPushNotifications {
   }
 
   void _onNotificationResponse(NotificationResponse response) {
-    if (response.actionId == kPushReplyActionId) {
+    if (isPushNotificationActionId(response.actionId)) {
       return;
     }
     _onNotificationTap?.call(response.payload);
@@ -241,11 +244,29 @@ final class LocalPushNotifications {
       hint: pushReplyHint(),
       failureTitle: pushNotificationLocalizations().notificationChannelMessages,
       failureBody: pushReplyFailedBody(),
+      markReadTitle: pushMarkReadActionTitle(),
+      markReadFailureBody: pushMarkReadFailedBody(),
       replyMention: await resolvePushReplyMention(payload),
     );
   }
 
-  Future<void> showReplyFailed() async {
+  Future<void> showReplyFailed() => _showActionFailed(
+    id: _kReplyFailedNotificationId,
+    tag: _kReplyFailedNotificationTag,
+    body: pushReplyFailedBody(),
+  );
+
+  Future<void> showMarkReadFailed() => _showActionFailed(
+    id: _kMarkReadFailedNotificationId,
+    tag: _kMarkReadFailedNotificationTag,
+    body: pushMarkReadFailedBody(),
+  );
+
+  Future<void> _showActionFailed({
+    required int id,
+    required String tag,
+    required String body,
+  }) async {
     if (!_initialized) {
       final bool ready = await ensureInitialized();
       if (!ready) {
@@ -255,9 +276,9 @@ final class LocalPushNotifications {
     final FluxerLocalizations l10n = pushNotificationLocalizations();
     try {
       await _plugin.show(
-        id: _kReplyFailedNotificationId,
+        id: id,
         title: l10n.notificationChannelMessages,
-        body: pushReplyFailedBody(),
+        body: body,
         notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             kAndroidPushMessageChannelId,
@@ -268,7 +289,7 @@ final class LocalPushNotifications {
             playSound: false,
             enableVibration: false,
             silent: true,
-            tag: _kReplyFailedNotificationTag,
+            tag: tag,
           ),
           iOS: const DarwinNotificationDetails(
             presentSound: false,
@@ -279,7 +300,7 @@ final class LocalPushNotifications {
       );
     } on Object catch (e, st) {
       if (kDebugMode) {
-        debugPrint('[LocalPushNotifications] reply failed notice: $e\n$st');
+        debugPrint('[LocalPushNotifications] action failed notice: $e\n$st');
       }
     }
   }
@@ -291,7 +312,7 @@ final class LocalPushNotifications {
     if (details == null ||
         !details.didNotificationLaunchApp ||
         response == null ||
-        response.actionId == kPushReplyActionId) {
+        isPushNotificationActionId(response.actionId)) {
       return null;
     }
     final String? payload = response.payload;

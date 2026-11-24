@@ -1,5 +1,6 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/attachment_url_signature.dart';
 
 final RegExp _spoilerRegex = RegExp(r'\|\|([\s\S]*?)\|\|');
 final RegExp _urlRegex = RegExp(
@@ -25,7 +26,7 @@ Set<String> extractSpoileredUrls(String content) {
 }
 
 String? normalizeSpoilerUrl(String url) {
-  final uri = Uri.tryParse(url.trim());
+  final uri = Uri.tryParse(stripAttachmentSignature(url.trim()));
   if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
     return null;
   }
@@ -153,26 +154,20 @@ List<String> spoilerSyncKeysForEmbed(Embed embed, Set<String> spoileredUrls) {
   return List<String>.unmodifiable(keys);
 }
 
-bool _messageContentIsOnlySpoilers(String content) {
-  var rest = content;
-  for (final RegExpMatch match in _spoilerRegex.allMatches(content)) {
-    rest = rest.replaceRange(match.start, match.end, '');
-  }
-  return rest.trim().isEmpty;
+bool _hasUrlOutsideSpoilers(String content) {
+  return _urlRegex.hasMatch(content.replaceAll(_spoilerRegex, ' '));
 }
 
 List<String> spoilerSyncKeysForMessageEmbed({
   required String messageContent,
   required Embed embed,
-  required List<Embed> messageEmbeds,
 }) {
   final Set<String> spoileredUrls = extractSpoileredUrls(messageContent);
   final List<String> keys = spoilerSyncKeysForEmbed(embed, spoileredUrls);
   if (keys.isNotEmpty ||
       spoileredUrls.isEmpty ||
-      messageEmbeds.length != 1 ||
-      messageEmbeds.first != embed ||
-      !_messageContentIsOnlySpoilers(messageContent)) {
+      embed.type == EmbedType.rich ||
+      _hasUrlOutsideSpoilers(messageContent)) {
     return keys;
   }
   return List<String>.unmodifiable(spoileredUrls);

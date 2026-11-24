@@ -15,6 +15,8 @@ Future<bool> attachAndroidNotificationReply({
   required String hint,
   required String failureTitle,
   required String failureBody,
+  required String markReadTitle,
+  required String markReadFailureBody,
   required bool replyMention,
   String? tag,
 }) async {
@@ -33,6 +35,8 @@ Future<bool> attachAndroidNotificationReply({
           'hint': hint,
           'failureTitle': failureTitle,
           'failureBody': failureBody,
+          'markReadTitle': markReadTitle,
+          'markReadFailureBody': markReadFailureBody,
           'replyMention': replyMention,
           'features': buildFluxerApiFeaturesHeaderValue(),
         });

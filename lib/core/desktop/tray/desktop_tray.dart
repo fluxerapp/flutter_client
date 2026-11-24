@@ -28,6 +28,7 @@ class DesktopTray with TrayListener, WindowListener {
   late final DesktopTrayActions _actions;
   bool _trayVisible = false;
   bool _quitting = false;
+  ({bool colored, MonochromeTrayIconTone tone})? _iconStyle;
   String? _visibilityLabelShown;
 
   static Future<void> start(ProviderContainer container) async {
@@ -55,7 +56,6 @@ class DesktopTray with TrayListener, WindowListener {
       _container.read(desktopTrayMenuStateProvider);
 
   Future<void> _start() async {
-    await _container.read(desktopBehaviorPreferencesProvider.notifier).load();
     windowManager.addListener(this);
     trayManager.addListener(this);
     desktopMainWindow.addListener(_syncVisibilityLabel);
@@ -80,16 +80,39 @@ class DesktopTray with TrayListener, WindowListener {
       _disposeTray();
     } else if (!_trayVisible) {
       unawaited(_createTray());
+    } else {
+      unawaited(_refreshIcon());
     }
+  }
+
+  ({bool colored, MonochromeTrayIconTone tone}) _currentIconStyle() => (
+    colored: _preferences.coloredTrayIcon,
+    tone: _preferences.monochromeTrayIconTone,
+  );
+
+  Future<void> _refreshIcon() async {
+    final ({bool colored, MonochromeTrayIconTone tone}) style =
+        _currentIconStyle();
+    if (style == _iconStyle) {
+      return;
+    }
+    _iconStyle = style;
+    final String iconPath = await resolveDesktopTrayIcon(_preferences);
+    if (!_trayVisible) {
+      return;
+    }
+    await _guard(
+      'update icon',
+      () => trayManager.setIcon(iconPath, isTemplate: Platform.isMacOS),
+    );
   }
 
   Future<void> _createTray() async {
     _trayVisible = true;
     try {
-      await trayManager.setIcon(
-        desktopTrayIconAsset(),
-        isTemplate: Platform.isMacOS,
-      );
+      _iconStyle = _currentIconStyle();
+      final String iconPath = await resolveDesktopTrayIcon(_preferences);
+      await trayManager.setIcon(iconPath, isTemplate: Platform.isMacOS);
     } on Object catch (error, stackTrace) {
       _trayVisible = false;
       talker.error(
@@ -105,6 +128,7 @@ class DesktopTray with TrayListener, WindowListener {
   void _disposeTray() {
     if (_trayVisible) {
       _trayVisible = false;
+      _iconStyle = null;
       _visibilityLabelShown = null;
       unawaited(_guard('destroy', trayManager.destroy));
     }

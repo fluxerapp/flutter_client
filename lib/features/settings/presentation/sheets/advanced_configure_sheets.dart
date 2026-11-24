@@ -310,6 +310,17 @@ Future<void> showAdvancedScreenSharePreviewSheet(BuildContext context) {
                       .setPauseOwnScreenSharePreviewOnUnfocus(value: value),
                 ),
                 FluxerSettingsSwitchItem.grouped(
+                  label: l10n.advancedSettingDisableScreenSharePipLabel,
+                  value: ref.watch(
+                    voiceSettingsProvider.select(
+                      (state) => state.disableScreenSharePip,
+                    ),
+                  ),
+                  onChanged: (value) => ref
+                      .read(voiceSettingsProvider.notifier)
+                      .setDisableScreenSharePip(value: value),
+                ),
+                FluxerSettingsSwitchItem.grouped(
                   label: l10n.advancedSettingHideStreamPreviewLabel,
                   value: advanced.disableStreamPreviews,
                   onChanged: (value) =>

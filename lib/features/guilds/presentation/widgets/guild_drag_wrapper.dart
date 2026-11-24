@@ -525,6 +525,7 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
   late final AnimationController _liftController;
   late final AnimationController _releaseController;
   bool _animationControllersDisposed = false;
+  GuildDrag? _dragNotifier;
 
   @override
   void initState() {
@@ -667,7 +668,18 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     return box.localToGlobal(Offset(box.size.width / 2, 0)).dx;
   }
 
+  void _handleDragStarted() {
+    _dragNotifier = ref.read(guildDragProvider.notifier);
+    widget.onDragStarted(_anchorGlobalCenterX(context));
+  }
+
   void _handleDragEnded() {
+    if (!mounted) {
+      _dragNotifier?.endDrag();
+      _dragNotifier = null;
+      return;
+    }
+    _dragNotifier = null;
     if (!widget.useTouchDrag) {
       _removeFeedbackOverlay();
       widget.onDragEnded();
@@ -747,15 +759,14 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     if (widget.useTouchDrag) {
       return LongPressDraggable<GuildDragData>(
         data: widget.data,
-        onDragStarted: () =>
-            widget.onDragStarted(_anchorGlobalCenterX(context)),
+        onDragStarted: _handleDragStarted,
         onDragUpdate: widget.onDragUpdate == null
             ? null
             : (details) {
                 widget.onDragUpdate!(details.globalPosition);
                 _syncFeedbackOverlay();
               },
-        onDragEnd: (_) => _handleDragEnded(),
+        onDragCompleted: _handleDragEnded,
         onDraggableCanceled: (_, _) => _handleDragEnded(),
         feedback: const SizedBox.shrink(),
         childWhenDragging: widget.childWhenDragging,
@@ -765,14 +776,14 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     return Draggable<GuildDragData>(
       data: widget.data,
       dragAnchorStrategy: pointerDragAnchorStrategy,
-      onDragStarted: () => widget.onDragStarted(_anchorGlobalCenterX(context)),
+      onDragStarted: _handleDragStarted,
       onDragUpdate: (DragUpdateDetails details) {
         ref
             .read(guildDragProvider.notifier)
             .updateDragMovement(details.globalPosition, updateHover: false);
       },
-      onDragEnd: (_) => widget.onDragEnded(),
-      onDraggableCanceled: (_, _) => widget.onDragEnded(),
+      onDragCompleted: _handleDragEnded,
+      onDraggableCanceled: (_, _) => _handleDragEnded(),
       feedback: Transform.scale(scale: 0.9, child: widget.dragFeedback),
       childWhenDragging: widget.childWhenDragging,
       child: widget.child,

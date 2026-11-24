@@ -5,12 +5,18 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_drag_wrapper.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class _TouchInput extends InputModalityNotifier {
   @override
   bool build() => true;
+}
+
+class _PointerInput extends InputModalityNotifier {
+  @override
+  bool build() => false;
 }
 
 class _RailRevision extends Notifier<int> {
@@ -85,11 +91,65 @@ Widget _guildItem(String id) {
     itemId: id,
     isFolder: false,
     dragFeedback: GuildDragFeedback(label: id),
-    child: const SizedBox(width: 48, height: 48),
+    child: const SizedBox(
+      width: 48,
+      height: 48,
+      child: ColoredBox(color: Colors.blue),
+    ),
   );
 }
 
+Future<void> _releaseDragAfterRailRemoved(
+  WidgetTester tester, {
+  required bool touch,
+}) async {
+  final ProviderContainer container = ProviderContainer(
+    overrides: [
+      inputModalityProvider.overrideWith(
+        touch ? _TouchInput.new : _PointerInput.new,
+      ),
+    ],
+  );
+  addTearDown(container.dispose);
+
+  await tester.pumpWidget(
+    _rail(
+      container: container,
+      child: Column(children: <Widget>[_guildItem('1'), _guildItem('2')]),
+    ),
+  );
+
+  final TestGesture gesture = await tester.startGesture(
+    tester.getCenter(find.byKey(const ValueKey<String>('guild-1'))),
+  );
+  if (touch) {
+    await tester.pump(const Duration(milliseconds: 600));
+  }
+  for (var i = 0; i < 10; i++) {
+    await gesture.moveBy(const Offset(0, 8));
+    await tester.pump(const Duration(milliseconds: 16));
+  }
+  expect(container.read(guildDragProvider).dragItemId, '1');
+
+  await tester.pumpWidget(_rail(container: container, child: const SizedBox()));
+  await gesture.up();
+  await tester.pump(const Duration(seconds: 1));
+
+  expect(tester.takeException(), isNull);
+  expect(container.read(guildDragProvider).dragItemId, isNull);
+}
+
 void main() {
+  testWidgets(
+    'a touch drag ends when its guild unmounts before release',
+    (WidgetTester tester) => _releaseDragAfterRailRemoved(tester, touch: true),
+  );
+
+  testWidgets(
+    'a pointer drag ends when its guild unmounts before release',
+    (WidgetTester tester) => _releaseDragAfterRailRemoved(tester, touch: false),
+  );
+
   testWidgets(
     'removing the guild rail after a touch reorder unmounts every item',
     (WidgetTester tester) async {

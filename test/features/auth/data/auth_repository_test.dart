@@ -38,6 +38,33 @@ void main() {
       );
     });
 
+    test('signing out keeps the preferences of other accounts', () async {
+      for (final String userId in <String>['a', 'b']) {
+        await db.authSessionDao.saveSessionMetadata(userId: userId);
+        await tokenStorage.saveToken(userId: userId, token: 'token-$userId');
+        await db.userPreferencesDao.setEmojiSkinTone(userId, 'tone-$userId');
+      }
+
+      final AuthRepository signOutRepository = AuthRepository(
+        FluxerClient(
+          Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+            ..httpClientAdapter = const _JsonResponseAdapter(
+              expectedPath: '/v1/auth/logout',
+              responseJson: <String, Object?>{},
+            ),
+        ),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+      await signOutRepository.logout('a');
+
+      expect(await db.userPreferencesDao.getPreferences('a'), isNull);
+      expect(await db.userPreferencesDao.getEmojiSkinTone('b'), 'tone-b');
+      expect(await tokenStorage.readToken('a'), isNull);
+      expect(await tokenStorage.readToken('b'), 'token-b');
+    });
+
     test('passkey login options come back as a plain JSON map', () async {
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
         ..httpClientAdapter = const _JsonResponseAdapter(

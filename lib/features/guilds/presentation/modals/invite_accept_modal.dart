@@ -34,19 +34,29 @@ Future<void> showInviteAcceptModal(
   BuildContext context, {
   required String code,
 }) {
-  return showDialog<void>(
+  return showInviteStyleModal<void>(
+    context,
+    child: InviteAcceptModalBody(code: code),
+  );
+}
+
+Future<T?> showInviteStyleModal<T>(
+  BuildContext context, {
+  required Widget child,
+}) {
+  return showDialog<T>(
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.35),
     builder: (BuildContext dialogContext) {
-      return _InviteAcceptModalDialog(code: code);
+      return _InviteAcceptModalDialog(child: child);
     },
   );
 }
 
 class _InviteAcceptModalDialog extends ConsumerWidget {
-  const _InviteAcceptModalDialog({required this.code});
+  const _InviteAcceptModalDialog({required this.child});
 
-  final String code;
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -80,7 +90,7 @@ class _InviteAcceptModalDialog extends ConsumerWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
-                  InviteAcceptModalBody(code: code),
+                  child,
                   PositionedDirectional(
                     top: 12,
                     end: 12,
@@ -172,22 +182,22 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
       inviteAcceptProvider(widget.code),
     );
     return async.when(
-      loading: () => const _InviteAcceptBackground(
+      loading: () => const InviteAcceptBackground(
         splashUrl: null,
         child: Center(child: FluxerLoadingSpinner()),
       ),
-      error: (_, _) => _InviteAcceptBackground(
+      error: (_, _) => InviteAcceptBackground(
         splashUrl: null,
-        child: _InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
+        child: InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
       ),
       data: (InviteAcceptState state) => switch (state) {
-        InviteAcceptLoading() => const _InviteAcceptBackground(
+        InviteAcceptLoading() => const InviteAcceptBackground(
           splashUrl: null,
           child: Center(child: FluxerLoadingSpinner()),
         ),
-        InviteAcceptNotFound() => _InviteAcceptBackground(
+        InviteAcceptNotFound() => InviteAcceptBackground(
           splashUrl: null,
-          child: _InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
+          child: InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
         ),
         InviteAcceptGuild(:final invite) => _GuildInviteContent(
           code: widget.code,
@@ -197,9 +207,9 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
           onJoin: () => unawaited(_acceptInvite()),
           onGoTo: () => _navigateToGuild(invite),
         ),
-        InviteAcceptGroupDm(:final invite) => _InviteAcceptBackground(
+        InviteAcceptGroupDm(:final invite) => InviteAcceptBackground(
           splashUrl: null,
-          child: _InviteAcceptCard(
+          child: InviteAcceptCard(
             child: _GroupDmInviteContent(
               invite: invite,
               l10n: l10n,
@@ -213,8 +223,12 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
   }
 }
 
-class _InviteAcceptBackground extends StatelessWidget {
-  const _InviteAcceptBackground({required this.splashUrl, required this.child});
+class InviteAcceptBackground extends StatelessWidget {
+  const InviteAcceptBackground({
+    required this.splashUrl,
+    required this.child,
+    super.key,
+  });
 
   final String? splashUrl;
   final Widget child;
@@ -306,8 +320,8 @@ class _InviteFoodPattern extends StatelessWidget {
   }
 }
 
-class _InviteAcceptCard extends StatelessWidget {
-  const _InviteAcceptCard({required this.child});
+class InviteAcceptCard extends StatelessWidget {
+  const InviteAcceptCard({required this.child, super.key});
 
   final Widget child;
 
@@ -447,13 +461,13 @@ class _GuildInviteContent extends ConsumerWidget {
       paused: l10n.inviteAcceptInvitesPausedTryAgain,
       raidPaused: l10n.inviteAcceptRaidInvitesPaused(productName),
     );
-    return _InviteAcceptBackground(
+    return InviteAcceptBackground(
       splashUrl: _splashUrl,
-      child: _InviteAcceptCard(
+      child: InviteAcceptCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _InviteGuildHeader(
+            InviteGuildHeader(
               iconUrl: _iconUrl,
               guildName: invite.guild.name,
               features: features,
@@ -524,8 +538,8 @@ class _GuildInviteContent extends ConsumerWidget {
   }
 }
 
-class _InviteGuildHeader extends StatelessWidget {
-  const _InviteGuildHeader({
+class InviteGuildHeader extends StatelessWidget {
+  const InviteGuildHeader({
     required this.iconUrl,
     required this.guildName,
     required this.features,
@@ -533,6 +547,7 @@ class _InviteGuildHeader extends StatelessWidget {
     required this.subtitle,
     required this.onlineLabel,
     required this.membersLabel,
+    super.key,
   });
 
   final String? iconUrl;

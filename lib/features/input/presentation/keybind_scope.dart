@@ -5,11 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
+import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
+import 'package:fluxer_app/features/input/presentation/keybind_recorder.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
 import 'package:fluxer_app/features/input/providers/keybind_handler_registry.dart';
+import 'package:fluxer_app/features/input/providers/keybind_preferences_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
 import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
@@ -29,20 +33,76 @@ class KeybindScope extends ConsumerStatefulWidget {
   ConsumerState<KeybindScope> createState() => _KeybindScopeState();
 }
 
-class _KeybindScopeState extends ConsumerState<KeybindScope> {
+class _KeybindScopeState extends ConsumerState<KeybindScope>
+    with WidgetsBindingObserver {
   final KeybindDispatcher _dispatcher = KeybindDispatcher();
+  final Set<KeybindAction> _heldActions = <KeybindAction>{};
   bool _handlersRegistered = false;
 
   @override
   void initState() {
     super.initState();
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
+    WidgetsBinding.instance.addObserver(this);
+    _applyKeybindPreferences(ref.read(keybindPreferencesProvider));
+    ref.listenManual<KeybindPreferencesState>(
+      keybindPreferencesProvider,
+      (_, KeybindPreferencesState next) => _applyKeybindPreferences(next),
+    );
+  }
+
+  void _applyKeybindPreferences(KeybindPreferencesState preferences) {
+    _dispatcher.entries = resolveEffectiveKeybinds(
+      defaults: buildDefaultKeybinds(),
+      customKeybinds: preferences.customKeybinds,
+      disableBuiltinKeybinds: preferences.disableBuiltinKeybinds,
+    );
   }
 
   @override
   void dispose() {
     HardwareKeyboard.instance.removeHandler(_handleKeyEvent);
+    WidgetsBinding.instance.removeObserver(this);
+    _releaseHeldActions();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _releaseHeldActions();
+    }
+  }
+
+  void _releaseHeldActions() {
+    final KeybindHandlerRegistry registry = ref.read(
+      keybindHandlerRegistryProvider,
+    );
+    for (final KeybindAction action in _heldActions) {
+      registry.invokeRelease(action);
+    }
+    _heldActions.clear();
+  }
+
+  bool _handleHoldRelease(KeyEvent event) {
+    if (_heldActions.isEmpty) {
+      return false;
+    }
+    final List<KeybindAction> released = _dispatcher
+        .matchHoldActions(event)
+        .where(_heldActions.contains)
+        .toList();
+    if (released.isEmpty) {
+      return false;
+    }
+    final KeybindHandlerRegistry registry = ref.read(
+      keybindHandlerRegistryProvider,
+    );
+    for (final KeybindAction action in released) {
+      _heldActions.remove(action);
+      registry.invokeRelease(action);
+    }
+    return true;
   }
 
   @override
@@ -55,8 +115,14 @@ class _KeybindScopeState extends ConsumerState<KeybindScope> {
   }
 
   bool _handleKeyEvent(KeyEvent event) {
-    if (isTouchPrimaryInput(ref)) {
+    if (isTouchPrimaryInput(ref) || KeybindRecorder.isRecording) {
       return false;
+    }
+    if (event is KeyUpEvent) {
+      return _handleHoldRelease(event);
+    }
+    if (event is KeyRepeatEvent && _heldActions.isNotEmpty) {
+      return _dispatcher.matchHoldActions(event).any(_heldActions.contains);
     }
     if (event is! KeyDownEvent) {
       return false;
@@ -198,6 +264,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope> {
     );
     for (final KeybindAction action in actions) {
       final bool handled = await registry.invoke(action);
+      if (handled && kHoldKeybindActions.contains(action)) {
+        _heldActions.add(action);
+      }
       if (handled) {
         if (action == KeybindAction.messageFocusTextarea) {
           final bool escapeExits = ref.read(

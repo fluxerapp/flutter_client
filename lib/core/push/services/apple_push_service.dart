@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/push/android/local_notifications.dart';
+import 'package:fluxer_app/core/push/notification/mark_read.dart';
 import 'package:fluxer_app/core/push/notification/reply.dart';
 import 'package:fluxer_app/core/push/notification/sound_settings.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
@@ -87,7 +88,7 @@ class ApplePushService implements PushService {
   static Future<void> _announceReplyHandler() async {
     if (!_replyHandlerInstalled) {
       _replyHandlerInstalled = true;
-      _channel.setMethodCallHandler(_onReplyCall);
+      _channel.setMethodCallHandler(_onActionCall);
     }
     for (var attempt = 0; attempt < 25; attempt++) {
       try {
@@ -105,15 +106,32 @@ class ApplePushService implements PushService {
     }
   }
 
-  static Future<void> _onReplyCall(MethodCall call) async {
-    if (call.method != 'sendNotificationReply') {
-      return;
-    }
+  static Future<void> _onActionCall(MethodCall call) async {
     final Object? arguments = call.arguments;
     if (arguments is! Map) {
       return;
     }
-    final String? text = arguments['text']?.toString();
+    final Map<String, String> payload = _actionPayload(arguments);
+    switch (call.method) {
+      case 'sendNotificationReply':
+        final PushReplyResult result = await sendPushNotificationReply(
+          payload: payload,
+          text: arguments['text']?.toString(),
+        );
+        if (result == PushReplyResult.failed) {
+          await LocalPushNotifications().showReplyFailed();
+        }
+      case 'markNotificationRead':
+        final PushMarkReadResult result = await sendPushNotificationMarkRead(
+          payload: payload,
+        );
+        if (result == PushMarkReadResult.failed) {
+          await LocalPushNotifications().showMarkReadFailed();
+        }
+    }
+  }
+
+  static Map<String, String> _actionPayload(Map<Object?, Object?> arguments) {
     final Object? rawPayload = arguments['payload'];
     final Map<String, String> payload = <String, String>{};
     if (rawPayload is Map) {
@@ -125,13 +143,7 @@ class ApplePushService implements PushService {
         payload[entry.key.toString()] = value;
       }
     }
-    final PushReplyResult result = await sendPushNotificationReply(
-      payload: payload,
-      text: text,
-    );
-    if (result == PushReplyResult.failed) {
-      await LocalPushNotifications().showReplyFailed();
-    }
+    return payload;
   }
 
   @override

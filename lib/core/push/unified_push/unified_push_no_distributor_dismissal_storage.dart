@@ -1,6 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
-const String kUnifiedPushNoDistributorDismissKey = 'fluxer_UnifiedPushUi_asked';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
 
 abstract interface class UnifiedPushNoDistributorDismissalStorage {
   Future<bool> isDismissed();
@@ -8,21 +7,17 @@ abstract interface class UnifiedPushNoDistributorDismissalStorage {
   Future<void> dismiss();
 }
 
-class SharedPreferencesUnifiedPushNoDistributorDismissalStorage
+class LocalUnifiedPushNoDistributorDismissalStorage
     implements UnifiedPushNoDistributorDismissalStorage {
-  SharedPreferencesUnifiedPushNoDistributorDismissalStorage(this._preferences);
+  LocalUnifiedPushNoDistributorDismissalStorage(this._store);
 
-  final Future<SharedPreferences> _preferences;
-
-  @override
-  Future<bool> isDismissed() async {
-    final SharedPreferences preferences = await _preferences;
-    return preferences.getBool(kUnifiedPushNoDistributorDismissKey) ?? false;
-  }
+  final LocalSettingsStore _store;
 
   @override
-  Future<void> dismiss() async {
-    final SharedPreferences preferences = await _preferences;
-    await preferences.setBool(kUnifiedPushNoDistributorDismissKey, true);
-  }
+  Future<bool> isDismissed() async =>
+      _store.read<bool>(LocalSettingKeys.unifiedPushNoDistributorDismissed);
+
+  @override
+  Future<void> dismiss() async =>
+      _store.write(LocalSettingKeys.unifiedPushNoDistributorDismissed, true);
 }

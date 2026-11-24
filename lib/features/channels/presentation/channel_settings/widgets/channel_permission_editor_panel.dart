@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite_update.dart';
@@ -91,6 +93,9 @@ class _ChannelPermissionEditorPanelState
         generateChannelPermissionSpec(
           FluxerLocalizations.of(context),
           widget.channel.type,
+          threads: ref
+              .read(threadGuildsProvider(readAccountUserId(ref)))
+              .contains(widget.channel.guildId),
         );
     for (final GuildPermissionCategorySpec spec in specs) {
       for (final GuildPermissionEntry permission in spec.permissions) {
@@ -217,8 +222,17 @@ class _ChannelPermissionEditorPanelState
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final PermissionLayoutState layout = ref.watch(permissionLayoutProvider);
+    final bool threads = ref.watch(
+      threadGuildsProvider(
+        watchAccountUserId(ref),
+      ).select((Set<String> ids) => ids.contains(widget.channel.guildId)),
+    );
     final List<GuildPermissionCategorySpec> specs = filterGuildPermissionSpec(
-      specs: generateChannelPermissionSpec(l10n, widget.channel.type),
+      specs: generateChannelPermissionSpec(
+        l10n,
+        widget.channel.type,
+        threads: threads,
+      ),
       query: _searchQuery,
     );
     final ChannelPermissionState? allPermissionsState = _allPermissionsState(

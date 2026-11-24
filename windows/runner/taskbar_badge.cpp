@@ -12,6 +12,8 @@
 namespace {
 
 constexpr int kMaxBadgeIcon = 10;
+constexpr int kUnreadDotBadge = -1;
+constexpr int kUnreadDotIcon = 11;
 constexpr int kOverlayBaseSize = 16;
 
 const flutter::EncodableValue* FindArgument(const flutter::EncodableMap& map,
@@ -49,7 +51,7 @@ TaskbarBadge::TaskbarBadge(flutter::BinaryMessenger* messenger, HWND window)
             count = *count32;
           } else if (const auto* count64 = std::get_if<int64_t>(value)) {
             count = static_cast<int>(std::clamp<int64_t>(
-                *count64, 0, std::numeric_limits<int>::max()));
+                *count64, kUnreadDotBadge, std::numeric_limits<int>::max()));
           }
         }
         std::wstring description;
@@ -58,7 +60,13 @@ TaskbarBadge::TaskbarBadge(flutter::BinaryMessenger* messenger, HWND window)
             description = Utf8ToWide(*text);
           }
         }
-        SetCount(count, description);
+        bool dark = false;
+        if (const auto* value = FindArgument(*args, "dark")) {
+          if (const auto* flag = std::get_if<bool>(value)) {
+            dark = *flag;
+          }
+        }
+        SetCount(count, description, dark);
         result->Success();
       });
 }
@@ -71,18 +79,20 @@ void TaskbarBadge::HandleMessage(UINT message) {
   if (message == taskbar_button_created_message_) {
     taskbar_.Reset();
     Apply();
-  } else if (message == WM_DPICHANGED && count_ > 0) {
+  } else if (message == WM_DPICHANGED && count_ != 0) {
     Apply();
   }
 }
 
-void TaskbarBadge::SetCount(int count, const std::wstring& description) {
-  count = std::max(count, 0);
-  if (count == count_ && description == description_) {
+void TaskbarBadge::SetCount(int count, const std::wstring& description,
+                            bool dark) {
+  count = std::max(count, kUnreadDotBadge);
+  if (count == count_ && description == description_ && dark == dark_) {
     return;
   }
   count_ = count;
   description_ = description;
+  dark_ = dark;
   Apply();
 }
 
@@ -98,13 +108,15 @@ void TaskbarBadge::Apply() {
     taskbar_ = taskbar;
   }
   HICON icon = nullptr;
-  if (count_ > 0) {
-    int index = std::min(count_, kMaxBadgeIcon);
+  if (count_ != 0) {
+    int index = count_ == kUnreadDotBadge ? kUnreadDotIcon
+                                          : std::min(count_, kMaxBadgeIcon);
+    int first = dark_ ? IDI_BADGE_DARK_1 : IDI_BADGE_1;
     UINT dpi = ::GetDpiForWindow(window_);
     int size = ::MulDiv(kOverlayBaseSize, dpi == 0 ? 96 : dpi, 96);
     icon = static_cast<HICON>(::LoadImageW(
         ::GetModuleHandleW(nullptr),
-        MAKEINTRESOURCEW(IDI_BADGE_1 + index - 1), IMAGE_ICON, size, size,
+        MAKEINTRESOURCEW(first + index - 1), IMAGE_ICON, size, size,
         LR_DEFAULTCOLOR));
   }
   taskbar_->SetOverlayIcon(window_, icon,

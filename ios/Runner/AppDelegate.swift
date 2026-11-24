@@ -17,7 +17,7 @@ import flutter_callkit_incoming
     VoipRegistry.shared.start()
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     UNUserNotificationCenter.current().delegate = self
-    ApplePushBridge.shared.registerReplyCategory()
+    ApplePushBridge.shared.registerMessageCategory()
     AssistantBridge.shared.refreshAppShortcutsInBackground()
     startMeasureIfEnabled()
     return result
@@ -144,6 +144,13 @@ import flutter_callkit_incoming
       )
       return
     }
+    if response.actionIdentifier == PushNotificationPayload.messageMarkReadActionId {
+      ApplePushBridge.shared.handleNotificationMarkRead(
+        userInfo: response.notification.request.content.userInfo,
+        completion: completionHandler
+      )
+      return
+    }
     if response.actionIdentifier == CallkitNotificationManager.CALLBACK_ACTION {
       let data = response.notification.request.content.userInfo as? [String: Any]
       SwiftFlutterCallkitIncomingPlugin.sharedInstance?.sendCallbackEvent(data)
@@ -168,7 +175,7 @@ import flutter_callkit_incoming
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     VoipRegistry.shared.register(messenger: engineBridge.applicationRegistrar.messenger())
     ApplePushBridge.shared.register(engineBridge: engineBridge)
-    ApplePushBridge.shared.registerReplyCategory()
+    ApplePushBridge.shared.registerMessageCategory()
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
     NativePasteBridge.shared.register(engineBridge: engineBridge)

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/domain/discovery_category_labels.dart';
+import 'package:fluxer_app/features/discovery/presentation/modals/discovery_guild_preview_modal.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_context_menu.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -122,20 +123,16 @@ class DiscoveryGuildCard extends ConsumerWidget {
         badgeFeatures: badgeFeatures,
         onlineLabel: l10n.discoveryOnlineCount(onlineCount),
         membersLabel: l10n.discoveryMemberCount(memberCount),
-        onTap: isJoining
-            ? null
-            : () {
-                if (isAlreadyMember) {
-                  context.go(RoutePaths.guild(guild.id));
-                  return;
-                }
-                if (singleCommunity) {
-                  return;
-                }
-                unawaited(
-                  _handleJoin(context: context, ref: ref, guildId: guild.id),
-                );
-              },
+        semanticLabel: isAlreadyMember
+            ? guild.name
+            : l10n.discoveryPreviewCommunity(guild.name),
+        onTap: () {
+          if (isAlreadyMember) {
+            context.go(RoutePaths.guild(guild.id));
+            return;
+          }
+          unawaited(showDiscoveryGuildPreviewModal(context, guild: guild));
+        },
         onContextMenu: (Offset position) =>
             unawaited(_showContextMenu(context, ref, position, reportTarget)),
       );
@@ -432,6 +429,7 @@ class _DiscoveryGuildDesktopCard extends StatelessWidget {
     required this.badgeFeatures,
     required this.onlineLabel,
     required this.membersLabel,
+    required this.semanticLabel,
     required this.onTap,
     required this.onContextMenu,
   });
@@ -441,6 +439,7 @@ class _DiscoveryGuildDesktopCard extends StatelessWidget {
   final List<String> badgeFeatures;
   final String onlineLabel;
   final String membersLabel;
+  final String semanticLabel;
   final VoidCallback? onTap;
   final ValueChanged<Offset> onContextMenu;
 
@@ -451,7 +450,7 @@ class _DiscoveryGuildDesktopCard extends StatelessWidget {
       onSecondaryTapUp: (TapUpDetails details) =>
           onContextMenu(details.globalPosition),
       button: true,
-      semanticLabel: guild.name,
+      semanticLabel: semanticLabel,
       builder: (BuildContext context, Set<WidgetState> states) =>
           _buildCard(context, hovered: states.contains(WidgetState.hovered)),
     );

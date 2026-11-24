@@ -348,7 +348,7 @@ class AuthRepository {
     }
     await _db.authSessionDao.removeSession(userId);
     await _tokenStorage.deleteToken(userId);
-    await _db.clearUserData();
+    await _db.clearUserData(userId);
   }
 
   Future<IpAuthPollResult> pollIpAuthorization(String ticket) async {

@@ -139,6 +139,12 @@ String keybindActionLabel(FluxerLocalizations l10n, KeybindAction action) {
       return l10n.keybindActionToggleSoundboard;
     case KeybindAction.voiceToggleCompactCallView:
       return l10n.keybindActionToggleCompactCallView;
+    case KeybindAction.voicePushToTalk:
+      return l10n.keybindActionPushToTalk;
+    case KeybindAction.voicePushToMute:
+      return l10n.keybindActionPushToMute;
+    case KeybindAction.voiceToggleVad:
+      return l10n.keybindActionToggleVoiceActivity;
     case KeybindAction.voicePushToTalkPriority:
       return l10n.keybindActionPushToTalkPriority;
     case KeybindAction.voicePriorityVad:

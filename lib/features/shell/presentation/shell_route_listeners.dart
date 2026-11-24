@@ -46,9 +46,11 @@ import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_prov
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_activity_gate_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -610,7 +612,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   Widget build(BuildContext context) {
     ref
       ..watch(pushNotificationsCoordinatorProvider)
-      ..watch(appIconBadgeCoordinatorProvider);
+      ..watch(appIconBadgeCoordinatorProvider)
+      ..watch(voiceActivityGateControllerProvider)
+      ..watch(userRegionalFormattingLocaleProvider);
     if (defaultTargetPlatform == TargetPlatform.iOS &&
         ref.watch(premiumStorePurchasesEnabledProvider)) {
       ref.listen(premiumStoreProvider, (_, _) {});

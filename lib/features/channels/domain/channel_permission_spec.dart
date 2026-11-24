@@ -5,14 +5,18 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
   FluxerLocalizations l10n,
-  ChannelType channelType,
-) {
+  ChannelType channelType, {
+  required bool threads,
+}) {
+  final bool isPostChannel =
+      threads &&
+      (channelType == ChannelType.guildForum ||
+          channelType == ChannelType.guildMedia);
   final bool includeThreadPermissions =
-      channelType == ChannelType.guildText ||
-      channelType == ChannelType.guildAnnouncement ||
-      channelType == ChannelType.guildCategory ||
-      channelType == ChannelType.guildForum ||
-      channelType == ChannelType.guildMedia;
+      threads &&
+      (channelType == ChannelType.guildText ||
+          channelType == ChannelType.guildAnnouncement ||
+          channelType == ChannelType.guildCategory);
   final bool includeVoicePermissions =
       channelType == ChannelType.guildVoice ||
       channelType == ChannelType.guildCategory;
@@ -36,7 +40,24 @@ List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
     GuildPermissionCategorySpec(
       title: l10n.permissionCategoryMessagesMedia,
       permissions: <GuildPermissionEntry>[
-        _channelEntry(l10n, Permission.sendMessages),
+        if (isPostChannel) ...<GuildPermissionEntry>[
+          GuildPermissionEntry(
+            title: l10n.permissionCreatePosts,
+            description: l10n.permissionCreatePostsDescription,
+            flag: Permission.sendMessages,
+          ),
+          GuildPermissionEntry(
+            title: l10n.permissionSendMessagesInPosts,
+            description: l10n.permissionSendMessagesInPostsDescription,
+            flag: Permission.sendMessagesInThreads,
+          ),
+          GuildPermissionEntry(
+            title: l10n.permissionManagePosts,
+            description: l10n.permissionManagePostsDescription,
+            flag: Permission.manageThreads,
+          ),
+        ] else
+          _channelEntry(l10n, Permission.sendMessages),
         _channelEntry(l10n, Permission.manageMessages),
         _channelEntry(l10n, Permission.pinMessages),
         _channelEntry(l10n, Permission.embedLinks),

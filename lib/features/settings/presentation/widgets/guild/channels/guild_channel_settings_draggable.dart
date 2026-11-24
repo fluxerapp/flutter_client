@@ -53,7 +53,7 @@ class GuildChannelSettingsDraggable extends StatelessWidget {
         onDragUpdate: (DragUpdateDetails details) {
           onDragMove(details.globalPosition);
         },
-        onDragEnd: (_) => handleDragEnded(),
+        onDragCompleted: handleDragEnded,
         onDraggableCanceled: (_, _) => handleDragEnded(),
         feedback: feedback,
         childWhenDragging: Opacity(opacity: 0, child: child),
@@ -74,7 +74,7 @@ class GuildChannelSettingsDraggable extends StatelessWidget {
       onDragUpdate: (DragUpdateDetails details) {
         onDragMove(details.globalPosition);
       },
-      onDragEnd: (_) => handleDragEnded(),
+      onDragCompleted: handleDragEnded,
       onDraggableCanceled: (_, _) => handleDragEnded(),
       feedback: feedback,
       childWhenDragging: const SizedBox.shrink(),

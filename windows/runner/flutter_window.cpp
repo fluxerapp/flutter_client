@@ -1,6 +1,9 @@
 #include "flutter_window.h"
 
+#include <algorithm>
 #include <optional>
+#include <string>
+#include <vector>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -26,8 +29,16 @@ bool FlutterWindow::OnCreate() {
       flutter_controller_->engine()->messenger(), GetHandle());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
-  flutter_controller_->engine()->SetNextFrameCallback([&]() {
-    this->Show();
+  const std::vector<std::string>& arguments =
+      project_.dart_entrypoint_arguments();
+  const bool launched_at_login =
+      std::find(arguments.begin(), arguments.end(), "--autostart") !=
+      arguments.end();
+  flutter_controller_->engine()->SetNextFrameCallback([this,
+                                                       launched_at_login]() {
+    if (!launched_at_login) {
+      this->Show();
+    }
   });
 
   flutter_controller_->ForceRedraw();

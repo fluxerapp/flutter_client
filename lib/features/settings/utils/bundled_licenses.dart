@@ -20,6 +20,8 @@ List<BundledLicense> bundledLicenses(TargetPlatform platform) {
       asset: 'assets/licenses/serde.txt',
     ),
     (packages: <String>['WebRTC'], asset: 'assets/licenses/webrtc.txt'),
+    (packages: <String>['RNNoise'], asset: 'assets/licenses/rnnoise.txt'),
+    (packages: <String>['SpeexDSP'], asset: 'assets/licenses/speexdsp.txt'),
     if (apple) ...<BundledLicense>[
       (packages: <String>['libmpv'], asset: 'assets/licenses/libmpv.txt'),
       (

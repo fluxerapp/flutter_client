@@ -147,7 +147,11 @@ void main() {
       const Locale('en'),
     );
     Set<Permission> flags(ChannelType type) => <Permission>{
-      for (final category in generateChannelPermissionSpec(l10n, type))
+      for (final category in generateChannelPermissionSpec(
+        l10n,
+        type,
+        threads: true,
+      ))
         for (final entry in category.permissions) entry.flag,
     };
     final Set<Permission> announcement = flags(ChannelType.guildAnnouncement);

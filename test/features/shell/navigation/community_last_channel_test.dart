@@ -18,7 +18,6 @@ import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -242,10 +241,9 @@ void main() {
       addTearDown(router.dispose);
       final ProviderContainer container = _container(db, router);
       addTearDown(container.dispose);
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        'open_communities_to_last_channel': enabled,
-      });
-      await container.read(localSettingsProvider.notifier).load();
+      await container
+          .read(localSettingsProvider.notifier)
+          .setOpenCommunitiesToLastChannel(value: enabled);
       await _pumpApp(tester, container, router);
       router.go('/channels/g1/g1-general');
       await _settle(tester);

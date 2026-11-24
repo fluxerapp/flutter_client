@@ -22,12 +22,13 @@ class TaskbarBadge {
   void HandleMessage(UINT message);
 
  private:
-  void SetCount(int count, const std::wstring& description);
+  void SetCount(int count, const std::wstring& description, bool dark);
   void Apply();
 
   HWND window_;
   UINT taskbar_button_created_message_;
   int count_ = 0;
+  bool dark_ = false;
   std::wstring description_;
   Microsoft::WRL::ComPtr<ITaskbarList3> taskbar_;
   std::unique_ptr<flutter::MethodChannel<flutter::EncodableValue>> channel_;

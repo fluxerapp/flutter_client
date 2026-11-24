@@ -71,6 +71,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -821,6 +822,21 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     );
     final bool touchInput = ref.watch(inputModalityProvider);
+    final bool doubleClickEnabled =
+        !touchInput &&
+        desktop &&
+        !widget.inboxPreviewMode &&
+        !isFailed &&
+        !isSending &&
+        msg.isUserMessage &&
+        widget.canSendMessages &&
+        (canEditOwnMessage || widget.onReply != null) &&
+        ref.watch(
+          interfaceExtrasPreferencesProvider.select(
+            (InterfaceExtrasState state) =>
+                state[InterfaceExtraFlag.messageDoubleClickActions],
+          ),
+        );
     final bool doubleTapEnabled =
         touchInput &&
         !widget.inboxPreviewMode &&
@@ -1005,7 +1021,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         : rowGestures;
     final body = RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
-        if (doubleTapEnabled)
+        if (doubleTapEnabled || doubleClickEnabled)
           _MessageDoubleTapGestureRecognizer:
               GestureRecognizerFactoryWithHandlers<
                 _MessageDoubleTapGestureRecognizer
@@ -1016,12 +1032,16 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   debugOwner: this,
                 ),
                 (_MessageDoubleTapGestureRecognizer recognizer) {
-                  recognizer.onDoubleTap = () => dispatchDoubleTapMessageAction(
-                    ref: ref,
-                    action: doubleTapAction,
-                    onReaction: widget.onReaction,
-                    onEdit: canEditOwnMessage ? widget.onEdit : null,
-                  );
+                  recognizer.onDoubleTap = doubleClickEnabled
+                      ? () => canEditOwnMessage
+                            ? widget.onEdit?.call()
+                            : widget.onReply?.call()
+                      : () => dispatchDoubleTapMessageAction(
+                          ref: ref,
+                          action: doubleTapAction,
+                          onReaction: widget.onReaction,
+                          onEdit: canEditOwnMessage ? widget.onEdit : null,
+                        );
                 },
               ),
       },
@@ -1393,7 +1413,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 final spoilerSyncKeys = spoilerSyncKeysForMessageEmbed(
                   messageContent: msg.content,
                   embed: embed,
-                  messageEmbeds: msg.embeds,
                 );
                 return wrapPart(
                   _buildEmbed(

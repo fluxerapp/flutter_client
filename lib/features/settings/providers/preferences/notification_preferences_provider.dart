@@ -1,17 +1,16 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar/push_notification_permission_status_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'notification_preferences_provider.g.dart';
-
-const String _kNotificationsEnabledKey = 'notification_prefs_enabled';
-const String _kTtsNotificationModeKey = 'notification_prefs_tts_mode';
 
 enum NotificationEnableResult {
   success,
@@ -23,22 +22,23 @@ class NotificationPreferencesState {
   const NotificationPreferencesState({
     this.notificationsEnabled = true,
     this.ttsNotificationMode = TtsNotificationMode.never,
-    this.isLoaded = false,
+    this.unreadMessageBadgeEnabled = true,
   });
 
   final bool notificationsEnabled;
   final TtsNotificationMode ttsNotificationMode;
-  final bool isLoaded;
+  final bool unreadMessageBadgeEnabled;
 
   NotificationPreferencesState copyWith({
     bool? notificationsEnabled,
     TtsNotificationMode? ttsNotificationMode,
-    bool? isLoaded,
+    bool? unreadMessageBadgeEnabled,
   }) {
     return NotificationPreferencesState(
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       ttsNotificationMode: ttsNotificationMode ?? this.ttsNotificationMode,
-      isLoaded: isLoaded ?? this.isLoaded,
+      unreadMessageBadgeEnabled:
+          unreadMessageBadgeEnabled ?? this.unreadMessageBadgeEnabled,
     );
   }
 }
@@ -47,22 +47,15 @@ class NotificationPreferencesState {
 class NotificationPreferences extends _$NotificationPreferences {
   @override
   NotificationPreferencesState build() {
-    unawaited(_load());
-    return const NotificationPreferencesState();
-  }
-
-  Future<void> _load() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final bool enabled = preferences.getBool(_kNotificationsEnabledKey) ?? true;
-    final int modeIndex =
-        preferences.getInt(_kTtsNotificationModeKey) ??
-        TtsNotificationMode.never.index;
-    final TtsNotificationMode mode = TtsNotificationMode
-        .values[modeIndex.clamp(0, TtsNotificationMode.values.length - 1)];
-    state = state.copyWith(
-      notificationsEnabled: enabled,
-      ttsNotificationMode: mode,
-      isLoaded: true,
+    final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
+    final int modeIndex = store.read(LocalSettingKeys.ttsNotificationMode);
+    return NotificationPreferencesState(
+      notificationsEnabled: store.read(LocalSettingKeys.notificationsEnabled),
+      ttsNotificationMode: TtsNotificationMode
+          .values[modeIndex.clamp(0, TtsNotificationMode.values.length - 1)],
+      unreadMessageBadgeEnabled: store.read(
+        LocalSettingKeys.unreadMessageBadge,
+      ),
     );
   }
 
@@ -83,15 +76,24 @@ class NotificationPreferences extends _$NotificationPreferences {
         return NotificationEnableResult.permissionDenied;
       }
     }
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_kNotificationsEnabledKey, value);
+    ref
+        .read(localSettingsStoreProvider)
+        .write(LocalSettingKeys.notificationsEnabled, value);
     state = state.copyWith(notificationsEnabled: value);
     return NotificationEnableResult.success;
   }
 
   Future<void> setTtsNotificationMode(TtsNotificationMode mode) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setInt(_kTtsNotificationModeKey, mode.index);
+    ref
+        .read(localSettingsStoreProvider)
+        .write(LocalSettingKeys.ttsNotificationMode, mode.index);
     state = state.copyWith(ttsNotificationMode: mode);
+  }
+
+  Future<void> setUnreadMessageBadgeEnabled({required bool value}) async {
+    ref
+        .read(localSettingsStoreProvider)
+        .write(LocalSettingKeys.unreadMessageBadge, value);
+    state = state.copyWith(unreadMessageBadgeEnabled: value);
   }
 }

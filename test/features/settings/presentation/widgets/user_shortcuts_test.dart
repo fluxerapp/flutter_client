@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -41,7 +42,7 @@ void main() {
   });
 
   testWidgets('UserShortcuts shows search field', (WidgetTester tester) async {
-    await tester.pumpWidget(_wrap(const UserShortcuts()));
+    await tester.pumpWidget(ProviderScope(child: _wrap(const UserShortcuts())));
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.keybindsSearchShortcuts), findsOneWidget);

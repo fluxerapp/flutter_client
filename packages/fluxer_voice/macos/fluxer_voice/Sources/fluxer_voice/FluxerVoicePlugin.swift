@@ -9,6 +9,10 @@ public final class FluxerVoicePlugin: NSObject, FlutterPlugin, VoiceProcessActiv
       binaryMessenger: registrar.messenger,
       api: FluxerVoicePlugin()
     )
+    VoiceNoiseFilterHostApiSetup.setUp(
+      binaryMessenger: registrar.messenger,
+      api: VoiceNoiseFilter()
+    )
   }
 
   func begin() throws {

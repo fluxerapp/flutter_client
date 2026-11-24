@@ -27,19 +27,19 @@ part 'voice_settings_applicator.g.dart';
 
 class VoiceSettingsApplicator {
   const VoiceSettingsApplicator({
-    required this.noiseFilterSupported,
+    required this.unavailableBackends,
     required this.videoQualityCaps,
     required this.meshPhoneCap,
   });
 
-  final bool noiseFilterSupported;
+  final Set<NoiseSuppressionBackend> unavailableBackends;
   final VideoQualityCaps videoQualityCaps;
   final bool meshPhoneCap;
 
   VoiceSettingsApplicator forChannelMode(VoiceChannelMode mode) {
     final bool isP2p = mode == VoiceChannelMode.p2p;
     return VoiceSettingsApplicator(
-      noiseFilterSupported: noiseFilterSupported,
+      unavailableBackends: unavailableBackends,
       videoQualityCaps: isP2p ? VideoQualityCaps.full : videoQualityCaps,
       meshPhoneCap: isFluxerMobileOs && isP2p,
     );
@@ -62,10 +62,7 @@ class VoiceSettingsApplicator {
     int? channelBitrate,
   }) {
     final VoiceSettingsState settings = _clampVideo(configured);
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
-      settings: settings,
-      noiseFilterSupported: noiseFilterSupported,
-    );
+    final ResolvedVoiceProcessing processing = resolveProcessing(settings);
     final String? audioDeviceId = _resolveDeviceId(settings.inputDeviceId);
     final AudioPublishOptions? audioPublish = buildMicrophonePublishOptions(
       channelBitrate: channelBitrate,
@@ -93,11 +90,15 @@ class VoiceSettingsApplicator {
     );
   }
 
-  AudioCaptureOptions buildAudioCaptureOptions(VoiceSettingsState settings) {
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
+  ResolvedVoiceProcessing resolveProcessing(VoiceSettingsState settings) {
+    return resolveVoiceProcessing(
       settings: settings,
-      noiseFilterSupported: noiseFilterSupported,
+      unavailableBackends: unavailableBackends,
     );
+  }
+
+  AudioCaptureOptions buildAudioCaptureOptions(VoiceSettingsState settings) {
+    final ResolvedVoiceProcessing processing = resolveProcessing(settings);
     return AudioCaptureOptions(
       deviceId: _resolveDeviceId(settings.inputDeviceId),
       echoCancellation: processing.echoCancellation,
@@ -106,22 +107,6 @@ class VoiceSettingsApplicator {
       voiceIsolation: false,
     );
   }
-
-  Future<void> attachNoiseFilterToMicrophone({
-    required LocalParticipant participant,
-    required VoiceSettingsState settings,
-  }) async {
-    final LocalAudioTrack? track = _microphoneTrack(participant);
-    if (track == null) {
-      return;
-    }
-    await attachNoiseFilterToTrack(track: track, settings: settings);
-  }
-
-  Future<void> attachNoiseFilterToTrack({
-    required LocalAudioTrack track,
-    required VoiceSettingsState settings,
-  }) async {}
 
   LocalAudioTrack? _microphoneTrack(LocalParticipant participant) {
     final LocalTrackPublication? publication = participant
@@ -225,10 +210,6 @@ class VoiceSettingsApplicator {
     if (!enabled) {
       return;
     }
-    await attachNoiseFilterToMicrophone(
-      participant: participant,
-      settings: settings,
-    );
     await applyInputVolumeToMicrophone(
       participant: participant,
       inputVolumePercent: settings.inputVolume,
@@ -291,6 +272,8 @@ class VoiceSettingsApplicator {
     return VideoPublishOptions(
       videoCodec: preferredScreenShareVideoCodec(
         settings.preferredScreenShareCodec,
+        av1OptIn: settings.screenShareAv1OptIn,
+        hevcOptIn: settings.screenShareHevcOptIn,
       ),
       screenShareEncoding: screenShareVideoParameters(
         resolution: settings.screenshareResolution,
@@ -513,8 +496,6 @@ class VoiceSettingsApplicator {
     );
   }
 
-  Future<void> applyNoiseFilterBypass(VoiceSettingsState settings) async {}
-
   Future<void> refreshMicrophoneAfterRouteChange({
     required Room room,
     required VoiceSettingsState settings,
@@ -524,15 +505,10 @@ class VoiceSettingsApplicator {
     if (participant == null) {
       return;
     }
-    await applyNoiseFilterBypass(settings);
     final LocalAudioTrack? track = _microphoneTrack(participant);
     final AudioCaptureOptions options = buildAudioCaptureOptions(settings);
     if (track != null) {
       await track.restartTrack(options);
-      await attachNoiseFilterToMicrophone(
-        participant: participant,
-        settings: settings,
-      );
       await applyInputVolumeToMicrophone(
         participant: participant,
         inputVolumePercent: settings.inputVolume,
@@ -562,7 +538,6 @@ class VoiceSettingsApplicator {
     if (participant == null) {
       return;
     }
-    await applyNoiseFilterBypass(settings);
     if (!microphoneEnabled) {
       return;
     }
@@ -708,14 +683,8 @@ class VoiceSettingsApplicator {
 
 @Riverpod(keepAlive: true)
 VoiceSettingsApplicator voiceSettingsApplicator(Ref ref) {
-  final bool noiseFilterSupported = ref
-      .watch(voiceNoiseFilterProvider)
-      .maybeWhen(
-        data: (VoiceNoiseFilterState value) => value.isSupported,
-        orElse: () => false,
-      );
   return VoiceSettingsApplicator(
-    noiseFilterSupported: noiseFilterSupported,
+    unavailableBackends: ref.watch(voiceNoiseFilterProvider),
     videoQualityCaps: ref.watch(instanceVideoQualityCapsProvider),
     meshPhoneCap: false,
   );

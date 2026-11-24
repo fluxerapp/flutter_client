@@ -404,6 +404,81 @@ void main() {
         isNull,
       );
     });
+
+    test('returns null over a root community two slots below the folder', () {
+      expect(
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: 360,
+          targets: <GuildDragTargetBounds>[
+            ...expandedFolderTargets,
+            const GuildDragTargetBounds(
+              itemId: 'root-1',
+              isFolder: false,
+              top: 276,
+              bottom: 332,
+            ),
+            const GuildDragTargetBounds(
+              itemId: 'root-2',
+              isFolder: false,
+              top: 332,
+              bottom: 388,
+            ),
+          ],
+        ),
+        isNull,
+      );
+    });
+
+    test('returns folder after in the gap above the next root community', () {
+      expect(
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: 272,
+          targets: <GuildDragTargetBounds>[
+            ...expandedFolderTargets,
+            const GuildDragTargetBounds(
+              itemId: 'root-1',
+              isFolder: false,
+              top: 276,
+              bottom: 332,
+            ),
+          ],
+        ),
+        const GuildDropHoverIntent(
+          targetId: folderId,
+          isFolder: true,
+          position: DropPosition.after,
+        ),
+      );
+    });
+
+    test('returns null over a root community below a collapsed folder', () {
+      expect(
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: 244,
+          targets: const <GuildDragTargetBounds>[
+            GuildDragTargetBounds(
+              itemId: folderId,
+              isFolder: true,
+              top: 100,
+              bottom: 156,
+            ),
+            GuildDragTargetBounds(
+              itemId: 'root-1',
+              isFolder: false,
+              top: 160,
+              bottom: 216,
+            ),
+            GuildDragTargetBounds(
+              itemId: 'root-2',
+              isFolder: false,
+              top: 216,
+              bottom: 272,
+            ),
+          ],
+        ),
+        isNull,
+      );
+    });
   });
 
   group('normalizeGuildDropSeam', () {

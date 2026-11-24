@@ -51,6 +51,7 @@ export 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.da
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_button.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_settings_select_row.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_subsection.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_sheet_section_nav.dart';

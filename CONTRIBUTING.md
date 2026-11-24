@@ -130,7 +130,7 @@ The synced preferences protobuf code in `lib/core/synced_preferences/generated/`
 bash tool/generate_protos.sh
 ```
 
-## Native markdown parser (experimental)
+## Native markdown parser
 
 The `fluxer/` submodule vendors the canonical Rust markdown parser. A Dart
 native-assets build hook (`packages/fluxer_markdown_native`) compiles it with
@@ -142,6 +142,12 @@ cross-compilation targets:
 
 ```text
 rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+```
+
+On macOS:
+
+```text
+rustup target add --toolchain 1.98.1 aarch64-apple-darwin x86_64-apple-darwin aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
 ```
 
 ## Mobile builds

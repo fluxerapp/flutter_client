@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/age/declared_age_range_lock.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/instance/account_identity_sync.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
@@ -174,14 +175,16 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
               content = BetaBanner(child: overlayStack(layered));
             } else {
               content = overlayStack(
-                DragToResizeArea(
-                  child: Column(
-                    children: [
-                      const NativeTitlebar(),
-                      Expanded(child: layered),
-                    ],
-                  ),
-                ),
+                desktopUsesNativeTitleBar
+                    ? layered
+                    : DragToResizeArea(
+                        child: Column(
+                          children: [
+                            const NativeTitlebar(),
+                            Expanded(child: layered),
+                          ],
+                        ),
+                      ),
               );
             }
 

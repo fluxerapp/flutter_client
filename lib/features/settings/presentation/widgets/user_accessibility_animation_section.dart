@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provi
 import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -108,6 +109,20 @@ class UserAccessibilityAnimationSection extends ConsumerWidget {
                 applyWrite(
                   resolveGifAutoPlayRequest(input: input, value: value),
                 ),
+              ),
+            ),
+            FluxerSettingsSwitchItem.grouped(
+              label: l10n.accessibilityAnimateGifPickerLabel,
+              value: ref.watch(
+                interfaceExtrasPreferencesProvider.select(
+                  (InterfaceExtrasState state) =>
+                      state[InterfaceExtraFlag.animateGifPicker],
+                ),
+              ),
+              onChanged: (value) => unawaited(
+                ref
+                    .read(interfaceExtrasPreferencesProvider.notifier)
+                    .set(InterfaceExtraFlag.animateGifPicker, value: value),
               ),
             ),
           ],

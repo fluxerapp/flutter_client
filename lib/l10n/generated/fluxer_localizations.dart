@@ -2102,7 +2102,7 @@ abstract class FluxerLocalizations {
   /// **'Allow bots from this community to send you direct messages'**
   String get privacyBotDirectMessagesDescription;
 
-  /// Warning shown when guild has DISABLE_MUTUAL_DMS feature.
+  /// Description for the DM toggle in guild privacy settings when the community admins have turned off direct messages between members who are not friends, so the toggle is locked off and has no effect.
   ///
   /// In en, this message translates to:
   /// **'The community admins have disabled receiving direct messages solely from mutual members in this community.'**
@@ -11995,6 +11995,12 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t send reply'**
   String get notificationReplyFailed;
 
+  /// Body of the local notification shown when the mark as read notification action fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t mark as read'**
+  String get notificationMarkReadFailed;
+
   /// Android notification channel name for community messages.
   ///
   /// In en, this message translates to:
@@ -17361,23 +17367,11 @@ abstract class FluxerLocalizations {
   /// **'Adjust each setting yourself: noise suppression, echo cancellation, and gain.'**
   String get audioAndVideoCustomProfileDescription;
 
-  /// Subsection title for noise suppression tier selection.
+  /// Subsection title for the noise suppression backend selection.
   ///
   /// In en, this message translates to:
   /// **'Noise suppression'**
   String get audioAndVideoNoiseSuppressionSectionTitle;
-
-  /// Enhanced noise suppression option using AI filtering.
-  ///
-  /// In en, this message translates to:
-  /// **'Enhanced'**
-  String get audioAndVideoNoiseSuppressionEnhancedLabel;
-
-  /// Standard browser or platform noise suppression option.
-  ///
-  /// In en, this message translates to:
-  /// **'Standard'**
-  String get audioAndVideoNoiseSuppressionStandardLabel;
 
   /// No noise suppression option.
   ///
@@ -17400,8 +17394,95 @@ abstract class FluxerLocalizations {
   /// Description for automatic gain control toggle.
   ///
   /// In en, this message translates to:
-  /// **'Evens out your mic volume. Off when enhanced suppression is on.'**
-  String get audioAndVideoAutomaticGainControlDescription;
+  /// **'Evens out your mic volume so you are not too quiet.'**
+  String get audioAndVideoAutoGainControlDescription;
+
+  /// Noise suppression option for the noise gate backend.
+  ///
+  /// In en, this message translates to:
+  /// **'Noise gate'**
+  String get audioAndVideoNoiseSuppressionGateLabel;
+
+  /// Explains the option that turns noise suppression off.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps all background noise.'**
+  String get audioAndVideoNoiseSuppressionNoneDescription;
+
+  /// Explains the WebRTC noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduces steady sounds like fans.'**
+  String get audioAndVideoNoiseSuppressionStandardDescription;
+
+  /// Explains the noise gate option.
+  ///
+  /// In en, this message translates to:
+  /// **'Mutes your mic while you\'re quiet. Doesn\'t remove noise while you talk.'**
+  String get audioAndVideoNoiseSuppressionGateDescription;
+
+  /// Explains the RNNoise noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended. Removes noise like typing and fans while you talk.'**
+  String get audioAndVideoNoiseSuppressionRnnoiseDescription;
+
+  /// Shown when the requested noise suppression backend failed. {requested} and {effective} are backend names such as RNNoise and WebRTC.
+  ///
+  /// In en, this message translates to:
+  /// **'{requested} could not start. Using {effective} instead.'**
+  String audioAndVideoNoiseSuppressionFallback(
+    String requested,
+    String effective,
+  );
+
+  /// Description for echo cancellation toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops your speakers from looping back into your mic.'**
+  String get audioAndVideoEchoCancellationDescription;
+
+  /// Tooltip in the voice status for the direct input profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (direct input, raw)'**
+  String get voiceAudioProcessingDirectInput;
+
+  /// Tooltip in the voice status for the focused voice profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (focused voice)'**
+  String get voiceAudioProcessingFocusedVoice;
+
+  /// Tooltip in the voice status for the custom profile with enhanced noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom, enhanced)'**
+  String get voiceAudioProcessingCustomEnhanced;
+
+  /// Tooltip in the voice status for the custom profile with standard noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom)'**
+  String get voiceAudioProcessingCustom;
+
+  /// Tooltip in the voice status for the custom profile without noise suppression.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio processing (custom, no suppression)'**
+  String get voiceAudioProcessingCustomNoSuppression;
+
+  /// Warning when the input device belongs to external audio software. {processor} is a product name such as NVIDIA Broadcast.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like you\'re using {processor}. Stacking Fluxer\'s processing on top can cause pumping or distortion. Direct input passes your audio through untouched.'**
+  String audioAndVideoExternalProcessorWarning(String processor);
+
+  /// Button that switches voice processing to the direct input profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to direct input'**
+  String get audioAndVideoSwitchToDirectInput;
 
   /// Subsection title for microphone test controls.
   ///
@@ -19972,6 +20053,18 @@ abstract class FluxerLocalizations {
   /// **'Filter by language'**
   String get discoveryFilterByLanguage;
 
+  /// Label for the Explore language filter button once a language is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtering by {language}'**
+  String discoveryFilteringByLanguage(String language);
+
+  /// Heading in the Explore navigation bar when a search is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Search results for “{query}”'**
+  String discoverySearchResultsFor(String query);
+
   /// Option label for showing communities in all languages.
   ///
   /// In en, this message translates to:
@@ -20049,6 +20142,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Join community'**
   String get discoveryJoinCommunity;
+
+  /// Button label in the Explore community preview popup shown when the user is already a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Open community'**
+  String get discoveryOpenCommunity;
+
+  /// Line shown above the community name in the Explore community preview popup.
+  ///
+  /// In en, this message translates to:
+  /// **'Public community'**
+  String get discoveryPublicCommunity;
+
+  /// Accessible label for an Explore community card, which opens a preview of the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview {communityName}'**
+  String discoveryPreviewCommunity(String communityName);
 
   /// Button label when the user is already in a community listed in Explore.
   ///
@@ -22069,6 +22180,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Send messages in threads and forum posts.'**
   String get permissionSendMessagesInThreadsDescription;
+
+  /// Permission name in forum and media channel permissions. Lets members create posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Create posts'**
+  String get permissionCreatePosts;
+
+  /// Description of the Create posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to create posts in this channel.'**
+  String get permissionCreatePostsDescription;
+
+  /// Permission name in forum and media channel permissions. Lets members reply in posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages in posts'**
+  String get permissionSendMessagesInPosts;
+
+  /// Description of the Send messages in posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to send messages in posts.'**
+  String get permissionSendMessagesInPostsDescription;
+
+  /// Permission name in forum and media channel permissions. Lets members moderate posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage posts'**
+  String get permissionManagePosts;
+
+  /// Description of the Manage posts permission in forum and media channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows members to rename, close, lock, pin and delete posts, and to edit their tags.'**
+  String get permissionManagePostsDescription;
 
   /// Error shown when a thread or forum request is refused.
   ///
@@ -28760,6 +28907,864 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Close to menu bar'**
   String get desktopSettingsCloseToMenuBar;
+
+  /// Desktop setting toggle that starts the app automatically when the user signs in to the computer.
+  ///
+  /// In en, this message translates to:
+  /// **'Launch at login'**
+  String get desktopSettingsLaunchAtLogin;
+
+  /// Desktop setting toggle; when the app is launched at login it starts hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Start minimized'**
+  String get desktopSettingsStartMinimized;
+
+  /// Description under the start minimized toggle on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'When launched at login, start in the system tray instead of opening the window'**
+  String get desktopSettingsStartMinimizedTrayDescription;
+
+  /// Description under the start minimized toggle on macOS.
+  ///
+  /// In en, this message translates to:
+  /// **'When launched at login, start in the menu bar instead of opening the window'**
+  String get desktopSettingsStartMinimizedMenuBarDescription;
+
+  /// Desktop setting toggle that restores the window size and position on the next launch.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember window size and position'**
+  String get desktopSettingsRememberWindowState;
+
+  /// Desktop setting toggle on Windows and Linux. Switches the system tray icon from monochrome to the full-color app icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Use colored tray icon'**
+  String get desktopSettingsColoredTrayIcon;
+
+  /// Description under the colored tray icon toggle on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the full-color icon instead of a monochrome one that matches your taskbar.'**
+  String get desktopSettingsColoredTrayIconDescription;
+
+  /// Desktop setting toggle on Linux. Controls whether unread messages without mentions put a badge on the app icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge the app icon for unread messages'**
+  String get desktopSettingsUnreadLauncherBadge;
+
+  /// Description under the Linux unread app icon badge toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Linux taskbars can only show a number, so unread messages without mentions show as 1. Mentions always show their count.'**
+  String get desktopSettingsUnreadLauncherBadgeDescription;
+
+  /// Desktop setting toggle on Windows. Switches the unread badge drawn over the taskbar button from red to dark gray.
+  ///
+  /// In en, this message translates to:
+  /// **'Use dark taskbar badge'**
+  String get desktopSettingsDarkTaskbarBadge;
+
+  /// Description under the dark taskbar badge toggle on Windows.
+  ///
+  /// In en, this message translates to:
+  /// **'Draw the unread badge on the taskbar button in dark gray instead of red.'**
+  String get desktopSettingsDarkTaskbarBadgeDescription;
+
+  /// Desktop setting toggle on Windows and Linux that uses the operating system's window title bar instead of the app's own.
+  ///
+  /// In en, this message translates to:
+  /// **'Use native title bar'**
+  String get desktopSettingsUseNativeTitleBar;
+
+  /// Description under desktop settings that only apply after the app restarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes effect after you restart the app.'**
+  String get desktopSettingsRestartRequiredDescription;
+
+  /// Desktop settings section title on Windows and Linux for choosing the color of the monochrome system tray icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Tray icon color'**
+  String get desktopSettingsTrayIconColorTitle;
+
+  /// Section description shown when the colored tray icon is on, so the monochrome color choice has no effect.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off the colored tray icon to choose a color here.'**
+  String get desktopSettingsTrayIconColorColoredNotice;
+
+  /// Tray icon color option. The app picks white or black from the taskbar or panel color.
+  ///
+  /// In en, this message translates to:
+  /// **'Match the taskbar'**
+  String get desktopSettingsTrayIconColorAuto;
+
+  /// Description under the automatic tray icon color option.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick white or black from the color of your taskbar or panel.'**
+  String get desktopSettingsTrayIconColorAutoDescription;
+
+  /// Tray icon color option for a white monochrome tray icon, for dark taskbars and panels.
+  ///
+  /// In en, this message translates to:
+  /// **'White'**
+  String get desktopSettingsTrayIconColorWhite;
+
+  /// Tray icon color option for a black monochrome tray icon, for light taskbars and panels.
+  ///
+  /// In en, this message translates to:
+  /// **'Black'**
+  String get desktopSettingsTrayIconColorBlack;
+
+  /// Accessible description of the taskbar badge dot shown when there are unread messages but no mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread messages'**
+  String get desktopBadgeUnreadMessagesNoCount;
+
+  /// Notification setting toggle on desktop. Shows a dot on the app icon when there are unread messages without mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable unread message badge'**
+  String get notificationsUnreadMessageBadgeLabel;
+
+  /// Keybind action label; hold the key to transmit your microphone while push-to-talk is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Push to talk'**
+  String get keybindActionPushToTalk;
+
+  /// Keybind action label; hold the key to mute your microphone temporarily.
+  ///
+  /// In en, this message translates to:
+  /// **'Push to mute'**
+  String get keybindActionPushToMute;
+
+  /// Keybind action label that switches between voice activity and push-to-talk.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle voice activity / push-to-talk'**
+  String get keybindActionToggleVoiceActivity;
+
+  /// Accessibility label for the button that records a new keyboard shortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'Record keybind'**
+  String get keybindRecorderSemanticLabel;
+
+  /// Shown inside the keybind recorder while it is waiting for keys. Escape cancels, Backspace clears.
+  ///
+  /// In en, this message translates to:
+  /// **'Press a key combination…'**
+  String get keybindRecorderRecording;
+
+  /// Shown inside the keybind recorder when no keys are set.
+  ///
+  /// In en, this message translates to:
+  /// **'Not assigned'**
+  String get keybindRecorderUnassigned;
+
+  /// Section title in keyboard shortcut settings for user-defined keybinds.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom keybinds'**
+  String get keybindsCustomSectionTitle;
+
+  /// Description under the custom keybinds section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own keybinds. A custom keybind replaces the built-in shortcut for the same action.'**
+  String get keybindsCustomSectionDescription;
+
+  /// Button that adds a new custom keybind row.
+  ///
+  /// In en, this message translates to:
+  /// **'Add keybind'**
+  String get keybindsAddKeybind;
+
+  /// Accessibility label for the button that deletes a custom keybind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove keybind'**
+  String get keybindsRemoveKeybind;
+
+  /// Placeholder in the action picker of a custom keybind row.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an action'**
+  String get keybindsChooseAction;
+
+  /// Toggle that turns off all default keyboard shortcuts so only custom keybinds work.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable built-in shortcuts'**
+  String get keybindsDisableBuiltinLabel;
+
+  /// Description under the disable built-in shortcuts toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Only your custom keybinds will work.'**
+  String get keybindsDisableBuiltinDescription;
+
+  /// Toggle that syncs custom keybinds and push-to-talk settings to the account.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync keybinds across devices'**
+  String get keybindsSyncAcrossDevicesLabel;
+
+  /// Description under the sync keybinds toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the same custom keybinds and push-to-talk settings on every device signed in to this account.'**
+  String get keybindsSyncAcrossDevicesDescription;
+
+  /// Voice settings subsection title for choosing voice activity or push-to-talk.
+  ///
+  /// In en, this message translates to:
+  /// **'Input mode'**
+  String get audioAndVideoInputModeTitle;
+
+  /// Voice settings toggle that only transmits the microphone while a key is held.
+  ///
+  /// In en, this message translates to:
+  /// **'Push-to-talk'**
+  String get audioAndVideoPushToTalkLabel;
+
+  /// Description under the push-to-talk toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your microphone only transmits while you hold the push-to-talk key and the app is focused.'**
+  String get audioAndVideoPushToTalkDescription;
+
+  /// Voice settings label for the key that activates push-to-talk.
+  ///
+  /// In en, this message translates to:
+  /// **'Push-to-talk keybind'**
+  String get audioAndVideoPushToTalkKeybindLabel;
+
+  /// Voice settings label for how long the microphone stays on after releasing the push-to-talk key.
+  ///
+  /// In en, this message translates to:
+  /// **'Release delay'**
+  String get audioAndVideoReleaseDelayLabel;
+
+  /// Description for the push-to-talk release delay.
+  ///
+  /// In en, this message translates to:
+  /// **'How long your microphone stays on after you let go of the key.'**
+  String get audioAndVideoReleaseDelayDescription;
+
+  /// Push-to-talk release delay option in milliseconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{milliseconds} ms'**
+  String audioAndVideoReleaseDelayMilliseconds(int milliseconds);
+
+  /// Push-to-talk release delay option in seconds; seconds may contain a decimal.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} s'**
+  String audioAndVideoReleaseDelaySeconds(String seconds);
+
+  /// Voice settings toggle in the custom profile that lets the app decide when you are speaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-set activity threshold'**
+  String get audioAndVideoAutoActivityThresholdLabel;
+
+  /// Description under the auto-set activity threshold toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off to choose how loud you need to be before your microphone transmits.'**
+  String get audioAndVideoAutoActivityThresholdDescription;
+
+  /// Voice settings slider label for the input level that opens the microphone.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity threshold'**
+  String get audioAndVideoActivityThresholdLabel;
+
+  /// Description for the activity threshold slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Your microphone transmits when your input is above this level. Use the mic test to check your levels.'**
+  String get audioAndVideoActivityThresholdDescription;
+
+  /// Voice settings toggle that shows connection IDs in the voice connection panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show connection IDs'**
+  String get audioAndVideoShowConnectionIdsLabel;
+
+  /// Description under the show connection IDs toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the connection ID in the voice connection panel, useful when reporting call problems.'**
+  String get audioAndVideoShowConnectionIdsDescription;
+
+  /// Advanced setting toggle that keeps screen shares out of the floating picture-in-picture view.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable picture-in-picture popout for screen shares'**
+  String get advancedSettingDisableScreenSharePipLabel;
+
+  /// Advanced setting toggle that opts in to the AV1 codec for screen sharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow AV1 screen sharing'**
+  String get advancedSettingScreenShareAv1OptInLabel;
+
+  /// Advanced setting toggle that opts in to the H.265 codec for screen sharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow H.265 (HEVC) screen sharing'**
+  String get advancedSettingScreenShareHevcOptInLabel;
+
+  /// Description under the AV1 and H.265 screen share opt-in toggles.
+  ///
+  /// In en, this message translates to:
+  /// **'Off by default because it may cause compatibility issues for viewers.'**
+  String get advancedSettingScreenShareOptInDescription;
+
+  /// Voice settings subsection title for the sound others hear when you join a voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entrance sound'**
+  String get entranceSoundSectionTitle;
+
+  /// Description of the entrance sound subsection.
+  ///
+  /// In en, this message translates to:
+  /// **'Play a short sound for everyone when you join a voice channel.'**
+  String get entranceSoundSectionDescription;
+
+  /// Shown in voice settings when the account cannot use entrance sounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom entrance sounds aren\'t available on your account.'**
+  String get entranceSoundUnavailable;
+
+  /// Error shown when the entrance sound library fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your entrance sounds.'**
+  String get entranceSoundLoadFailed;
+
+  /// Toast shown when uploading an entrance sound fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t upload that sound. Use an MP3, OGG, M4A or WAV clip up to 5.2 seconds.'**
+  String get entranceSoundUploadFailed;
+
+  /// Toast shown when selecting or deleting an entrance sound fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update your entrance sound.'**
+  String get entranceSoundUpdateFailed;
+
+  /// Toast shown when the chosen entrance sound file is too big.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is larger than 1 MB.'**
+  String get entranceSoundTooLarge;
+
+  /// Label for the picker that chooses where an entrance sound is used.
+  ///
+  /// In en, this message translates to:
+  /// **'Applies to'**
+  String get entranceSoundAppliesTo;
+
+  /// Entrance sound scope option used everywhere unless overridden.
+  ///
+  /// In en, this message translates to:
+  /// **'All communities and DMs'**
+  String get entranceSoundScopeGlobal;
+
+  /// Description of the global entrance sound scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Used by default unless a community or DM sound overrides it.'**
+  String get entranceSoundScopeGlobalDescription;
+
+  /// Entrance sound scope option for communities without their own sound.
+  ///
+  /// In en, this message translates to:
+  /// **'All communities'**
+  String get entranceSoundScopeGuilds;
+
+  /// Description of the all-communities entrance sound scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Used in communities that do not have their own sound.'**
+  String get entranceSoundScopeGuildsDescription;
+
+  /// Entrance sound scope option for direct-message calls.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages'**
+  String get entranceSoundScopeDms;
+
+  /// Description of the DM entrance sound scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for all direct-message calls.'**
+  String get entranceSoundScopeDmsDescription;
+
+  /// Description of a single-community entrance sound scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Used only in this community.'**
+  String get entranceSoundScopeGuildDescription;
+
+  /// Entrance sound option that clears the sound for the chosen scope.
+  ///
+  /// In en, this message translates to:
+  /// **'No sound'**
+  String get entranceSoundNone;
+
+  /// Duration of an entrance sound in seconds, may contain a decimal.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} s'**
+  String entranceSoundDuration(String seconds);
+
+  /// Accessibility label for the button that previews an entrance sound.
+  ///
+  /// In en, this message translates to:
+  /// **'Play sound'**
+  String get entranceSoundPreview;
+
+  /// Accessibility label for the button that removes an entrance sound from the library.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete from library'**
+  String get entranceSoundDelete;
+
+  /// Button that uploads a new entrance sound.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload new'**
+  String get entranceSoundUpload;
+
+  /// Shows how many entrance sounds are saved out of the maximum allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Library: {count} of {max}'**
+  String entranceSoundLibraryCount(int count, int max);
+
+  /// Look and feel settings section for hiding private information while streaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Streamer mode'**
+  String get streamerModeSectionTitle;
+
+  /// Description of the streamer mode settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide personal details and quiet the app while you stream or share your screen.'**
+  String get streamerModeSectionDescription;
+
+  /// Toggle that turns streamer mode on manually.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable streamer mode'**
+  String get streamerModeEnableLabel;
+
+  /// Desktop toggle that turns streamer mode on when streaming software is running.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically enable streamer mode'**
+  String get streamerModeAutoEnableLabel;
+
+  /// Description under the automatic streamer mode toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns on when OBS or XSplit is running.'**
+  String get streamerModeAutoEnableDescription;
+
+  /// Streamer mode option that hides emails, connections and notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide personal information'**
+  String get streamerModeHidePersonalLabel;
+
+  /// Description under the hide personal information streamer mode option.
+  ///
+  /// In en, this message translates to:
+  /// **'Hides your email, profile connections and notes.'**
+  String get streamerModeHidePersonalDescription;
+
+  /// Streamer mode option that hides invite links so viewers can't join.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide invite links'**
+  String get streamerModeHideInviteLinksLabel;
+
+  /// Description under the hide invite links streamer mode option.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite links are hidden but can still be copied.'**
+  String get streamerModeHideInviteLinksDescription;
+
+  /// Streamer mode option that mutes app sound effects.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable all sound effects'**
+  String get streamerModeDisableSoundsLabel;
+
+  /// Streamer mode option that stops desktop notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable notifications'**
+  String get streamerModeDisableNotificationsLabel;
+
+  /// Banner shown at the top of the app while streamer mode is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Streamer mode is on. Personal details are hidden.'**
+  String get streamerModeNagbarMessage;
+
+  /// Banner button that turns streamer mode off.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get streamerModeNagbarDisable;
+
+  /// Language settings section for the locale used to write dates, times and numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional format'**
+  String get languageAndTimeRegionalFormatTitle;
+
+  /// Description of the regional format section.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates, times and numbers follow this format. Prices stay in the currency of your billing country.'**
+  String get languageAndTimeRegionalFormatDescription;
+
+  /// Search placeholder in the regional format picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Search formats…'**
+  String get languageAndTimeRegionalFormatSearch;
+
+  /// Regional format option that follows the app language.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as language'**
+  String get languageAndTimeRegionalFormatSameAsLanguage;
+
+  /// Regional format option that follows the device locale.
+  ///
+  /// In en, this message translates to:
+  /// **'System format'**
+  String get languageAndTimeRegionalFormatSystem;
+
+  /// Language settings section for how dates are written.
+  ///
+  /// In en, this message translates to:
+  /// **'Date format'**
+  String get languageAndTimeDateFormatTitle;
+
+  /// Date format option that follows the regional format.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get languageAndTimeDateFormatAuto;
+
+  /// Date format option year-month-day.
+  ///
+  /// In en, this message translates to:
+  /// **'ISO 8601'**
+  String get languageAndTimeDateFormatIso;
+
+  /// Date format option day/month/year.
+  ///
+  /// In en, this message translates to:
+  /// **'Day first'**
+  String get languageAndTimeDateFormatDayFirst;
+
+  /// Date format option month/day/year.
+  ///
+  /// In en, this message translates to:
+  /// **'Month first'**
+  String get languageAndTimeDateFormatMonthFirst;
+
+  /// Toast shown when saving the regional or date format fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save your format. Try again.'**
+  String get languageAndTimeFormatSyncFailed;
+
+  /// Advanced chat setting; messages with attachments are delivered in the order you sent them.
+  ///
+  /// In en, this message translates to:
+  /// **'Send file messages in order'**
+  String get advancedSettingSequentialFileSendLabel;
+
+  /// Description under the sequential file send setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait for earlier uploads to finish so messages with files arrive in the order you sent them.'**
+  String get advancedSettingSequentialFileSendDescription;
+
+  /// Advanced chat setting; saving an edit with no text keeps the message's attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep attachments when clearing an edit'**
+  String get advancedSettingKeepAttachmentsOnEmptyEditLabel;
+
+  /// Description under the keep attachments setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving an edit with no text keeps the attachments instead of doing nothing.'**
+  String get advancedSettingKeepAttachmentsOnEmptyEditDescription;
+
+  /// Advanced chat setting for mouse users; double-clicking your own message edits it, others are replied to.
+  ///
+  /// In en, this message translates to:
+  /// **'Double-click a message to edit or reply'**
+  String get advancedSettingDoubleClickActionsLabel;
+
+  /// Description under the double-click message actions setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Double-click your own message to edit it, or someone else\'s to reply.'**
+  String get advancedSettingDoubleClickActionsDescription;
+
+  /// Chat input setting that turns text emoticons such as :) into emoji when sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert emoticons to emoji'**
+  String get messagesMediaConvertEmoticonsLabel;
+
+  /// Description under the convert emoticons setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns text like :) into 🙂 when you send a message.'**
+  String get messagesMediaConvertEmoticonsDescription;
+
+  /// Language settings section for spellcheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Spellcheck'**
+  String get languageAndTimeSpellcheckTitle;
+
+  /// Toggle that underlines misspelled words in the message composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable spellcheck'**
+  String get languageAndTimeSpellcheckLabel;
+
+  /// Description under the spellcheck toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Underline misspelled words while you type messages.'**
+  String get languageAndTimeSpellcheckDescription;
+
+  /// Security setting toggle that asks for a passkey after the password when signing in.
+  ///
+  /// In en, this message translates to:
+  /// **'Require a passkey as your second factor'**
+  String get securityPasskeyTwoFactorLabel;
+
+  /// Description under the passkey second factor toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a passkey after your password when you sign in.'**
+  String get securityPasskeyTwoFactorDescription;
+
+  /// Toast shown when changing the passkey second factor setting fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update passkey two-factor authentication.'**
+  String get securityPasskeyTwoFactorFailed;
+
+  /// Advanced appearance setting that shows the help center button in the community list.
+  ///
+  /// In en, this message translates to:
+  /// **'Show help center button'**
+  String get advancedSettingShowHelpButtonLabel;
+
+  /// Description under the show help center button setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the question mark button at the bottom of the community list.'**
+  String get advancedSettingShowHelpButtonDescription;
+
+  /// Advanced settings section title for experimental features.
+  ///
+  /// In en, this message translates to:
+  /// **'Experimental'**
+  String get advancedSettingsCategoryExperimental;
+
+  /// Experimental setting that removes blocked users' messages from channels instead of collapsing them.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide messages from blocked users'**
+  String get advancedSettingHideBlockedMessagesLabel;
+
+  /// Description under the hide blocked messages setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked messages are removed from the chat instead of showing a collapsed row.'**
+  String get advancedSettingHideBlockedMessagesDescription;
+
+  /// Accessibility toggle; when off, GIFs in the picker stay still until sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Play GIFs in the GIF picker'**
+  String get accessibilityAnimateGifPickerLabel;
+
+  /// Community invite settings section for the custom invite link.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL'**
+  String get guildVanityUrlTitle;
+
+  /// Description of the vanity URL section.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your community a custom invite link. Leave it empty to remove it.'**
+  String get guildVanityUrlDescription;
+
+  /// Placeholder for the vanity URL code input.
+  ///
+  /// In en, this message translates to:
+  /// **'your-community'**
+  String get guildVanityUrlHint;
+
+  /// Button that saves the vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get guildVanityUrlSave;
+
+  /// How many times the vanity URL has been used.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 use} other{{count} uses}}'**
+  String guildVanityUrlUses(int count);
+
+  /// Toast shown after saving a vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL saved.'**
+  String get guildVanityUrlSaved;
+
+  /// Toast shown after removing the vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Your vanity URL has been removed.'**
+  String get guildVanityUrlRemoved;
+
+  /// Error shown when saving the vanity URL fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the vanity URL. It may already be taken.'**
+  String get guildVanityUrlSaveFailed;
+
+  /// Error shown when loading the vanity URL fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load vanity URL. Try again.'**
+  String get guildVanityUrlLoadFailed;
+
+  /// Validation error for a too short vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL must be at least 2 characters long.'**
+  String get guildVanityUrlTooShort;
+
+  /// Validation error for a too long vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL must be no more than 32 characters long.'**
+  String get guildVanityUrlTooLong;
+
+  /// Validation error for invalid characters in the vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL can only contain letters, numbers and hyphens between them.'**
+  String get guildVanityUrlInvalidCharacters;
+
+  /// Operator Pass settings section for the public wall of pass holders. Operators are people with an Operator Pass.
+  ///
+  /// In en, this message translates to:
+  /// **'Operators\' wall'**
+  String get operatorPassWallTitle;
+
+  /// Operator Pass setting toggle; when off, the user is left off the Operators' wall.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me on the wall'**
+  String get operatorPassWallShowMeLabel;
+
+  /// Operator Pass setting; new profile names and avatars go to the Operators' wall right away.
+  ///
+  /// In en, this message translates to:
+  /// **'Send profile changes to the wall'**
+  String get operatorPassWallSendChangesLabel;
+
+  /// Operator Pass setting, off by default, that adds the wall name to the published yearly Operators list.
+  ///
+  /// In en, this message translates to:
+  /// **'Add my name to the yearly Operators list'**
+  String get operatorPassWallReleaseListLabel;
+
+  /// Description under the yearly Operators list toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Each yearly list goes into the notes of a Fluxer release and a file in its source code. Earlier versions and copies others made can\'t be recalled.'**
+  String get operatorPassWallReleaseListDescription;
+
+  /// Operator Pass settings section for the Fluxer Labs community.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Labs'**
+  String get operatorPassLabsTitle;
+
+  /// Description of the Fluxer Labs section. #operators is a channel name, keep it as is.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pass opens #operators in Fluxer Labs, where you can talk about self-hosting, bots and the API.'**
+  String get operatorPassLabsDescription;
+
+  /// Operator Pass toggle; #operators is a channel name, keep it as is.
+  ///
+  /// In en, this message translates to:
+  /// **'Show #operators'**
+  String get operatorPassShowOperatorsLabel;
+
+  /// Description under the Show #operators toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning this off takes away your access to #operators until you turn it on again.'**
+  String get operatorPassShowOperatorsDescription;
+
+  /// Operator Pass toggle that greets the user by name in #operators once.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome me in #operators'**
+  String get operatorPassGreetingLabel;
+
+  /// Description under the greeting toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'We welcome you by name in #operators once, soon after your pass is delivered or you turn this on.'**
+  String get operatorPassGreetingDescription;
+
+  /// Toast shown when saving Operator Pass settings fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update your Operator Pass settings.'**
+  String get operatorPassUpdateFailed;
 }
 
 class _FluxerLocalizationsDelegate

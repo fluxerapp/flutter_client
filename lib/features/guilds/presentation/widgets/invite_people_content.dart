@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/streamer_mode_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -383,7 +384,7 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
   }
 }
 
-class _InviteLinkFooter extends StatelessWidget {
+class _InviteLinkFooter extends ConsumerWidget {
   const _InviteLinkFooter({
     required this.l10n,
     required this.linkController,
@@ -407,7 +408,12 @@ class _InviteLinkFooter extends StatelessWidget {
   final VoidCallback onEdit;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool obscureLink = ref.watch(
+      streamerModeProvider.select(
+        (StreamerModeState state) => state.shouldHideInviteLinks,
+      ),
+    );
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
@@ -432,6 +438,7 @@ class _InviteLinkFooter extends StatelessWidget {
                 return FluxerInput(
                   controller: linkController,
                   readOnly: true,
+                  obscureText: obscureLink,
                   hint: l10n.guildNavbarInviteLink,
                   trailing: Padding(
                     padding: EdgeInsets.all(layout.s1),

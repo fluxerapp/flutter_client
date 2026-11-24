@@ -13,18 +13,28 @@ enum VoiceProcessingMode {
   }
 }
 
-enum NoiseSuppressionTier {
-  enhanced,
+enum NoiseSuppressionBackend {
+  none,
   standard,
-  none;
+  gate,
+  rnnoise;
 
-  static NoiseSuppressionTier fromJson(String? value) {
-    return NoiseSuppressionTier.values.firstWhere(
-      (NoiseSuppressionTier tier) => tier.name == value,
-      orElse: () => NoiseSuppressionTier.enhanced,
-    );
+  static const Set<NoiseSuppressionBackend> native = <NoiseSuppressionBackend>{
+    gate,
+    rnnoise,
+  };
+
+  bool get isNative => native.contains(this);
+
+  bool get isEnhanced => this == rnnoise;
+
+  static NoiseSuppressionBackend? fromJson(String? value) {
+    return NoiseSuppressionBackend.values.asNameMap()[value];
   }
 }
+
+const NoiseSuppressionBackend kDefaultNoiseSuppressionBackend =
+    NoiseSuppressionBackend.rnnoise;
 
 enum CameraResolution {
   low,
@@ -85,8 +95,20 @@ const int kDefaultVoiceVolumePercent = 100;
 const int kMinVoiceVolumePercent = 0;
 const int kMaxVoiceVolumePercent = 200;
 const int kDefaultVideoFrameRate = 30;
+const int kDefaultVadThreshold = 50;
 
 enum ScreenShareCodecPreference { auto, av1, h265, vp9, h264, vp8 }
+
+const Set<String> kVoiceAccountSettingFields = <String>{
+  'participantVolumes',
+  'participantLocalMutes',
+  'streamAudioVolumes',
+  'streamAudioMuted',
+  'showVoiceConnectionAvatarStack',
+  'showVoiceConnectionId',
+  'showConnectionVolumeControls',
+  'prioritizeSpeakingParticipants',
+};
 
 class VoiceSettingsState {
   const VoiceSettingsState({
@@ -96,9 +118,8 @@ class VoiceSettingsState {
     this.inputVolume = kDefaultVoiceVolumePercent,
     this.outputVolume = kDefaultVoiceVolumePercent,
     this.voiceProcessingMode = VoiceProcessingMode.voice,
-    this.noiseSuppressionTier = NoiseSuppressionTier.enhanced,
+    this.noiseSuppressionBackend,
     this.echoCancellation = true,
-    this.noiseSuppression = true,
     this.autoGainControl = true,
     this.outputRoute = VoiceOutputRoute.speaker,
     this.outputRouteOverride,
@@ -119,6 +140,11 @@ class VoiceSettingsState {
     this.suppressNewDeviceAlerts = false,
     this.pauseOwnScreenSharePreviewOnUnfocus = true,
     this.prioritizeSpeakingParticipants = false,
+    this.vadAutoSensitivity = true,
+    this.vadThreshold = kDefaultVadThreshold,
+    this.screenShareAv1OptIn = false,
+    this.screenShareHevcOptIn = false,
+    this.disableScreenSharePip = false,
   });
 
   final String inputDeviceId;
@@ -127,9 +153,8 @@ class VoiceSettingsState {
   final int inputVolume;
   final int outputVolume;
   final VoiceProcessingMode voiceProcessingMode;
-  final NoiseSuppressionTier noiseSuppressionTier;
+  final NoiseSuppressionBackend? noiseSuppressionBackend;
   final bool echoCancellation;
-  final bool noiseSuppression;
   final bool autoGainControl;
   final VoiceOutputRoute outputRoute;
   final VoiceOutputRoute? outputRouteOverride;
@@ -150,6 +175,11 @@ class VoiceSettingsState {
   final bool suppressNewDeviceAlerts;
   final bool pauseOwnScreenSharePreviewOnUnfocus;
   final bool prioritizeSpeakingParticipants;
+  final bool vadAutoSensitivity;
+  final int vadThreshold;
+  final bool screenShareAv1OptIn;
+  final bool screenShareHevcOptIn;
+  final bool disableScreenSharePip;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -161,9 +191,8 @@ class VoiceSettingsState {
     int? inputVolume,
     int? outputVolume,
     VoiceProcessingMode? voiceProcessingMode,
-    NoiseSuppressionTier? noiseSuppressionTier,
+    NoiseSuppressionBackend? noiseSuppressionBackend,
     bool? echoCancellation,
-    bool? noiseSuppression,
     bool? autoGainControl,
     VoiceOutputRoute? outputRoute,
     VoiceOutputRoute? outputRouteOverride,
@@ -185,6 +214,11 @@ class VoiceSettingsState {
     bool? suppressNewDeviceAlerts,
     bool? pauseOwnScreenSharePreviewOnUnfocus,
     bool? prioritizeSpeakingParticipants,
+    bool? vadAutoSensitivity,
+    int? vadThreshold,
+    bool? screenShareAv1OptIn,
+    bool? screenShareHevcOptIn,
+    bool? disableScreenSharePip,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -193,9 +227,9 @@ class VoiceSettingsState {
       inputVolume: inputVolume ?? this.inputVolume,
       outputVolume: outputVolume ?? this.outputVolume,
       voiceProcessingMode: voiceProcessingMode ?? this.voiceProcessingMode,
-      noiseSuppressionTier: noiseSuppressionTier ?? this.noiseSuppressionTier,
+      noiseSuppressionBackend:
+          noiseSuppressionBackend ?? this.noiseSuppressionBackend,
       echoCancellation: echoCancellation ?? this.echoCancellation,
-      noiseSuppression: noiseSuppression ?? this.noiseSuppression,
       autoGainControl: autoGainControl ?? this.autoGainControl,
       outputRoute: outputRoute ?? this.outputRoute,
       outputRouteOverride: clearOutputRouteOverride
@@ -230,6 +264,12 @@ class VoiceSettingsState {
           this.pauseOwnScreenSharePreviewOnUnfocus,
       prioritizeSpeakingParticipants:
           prioritizeSpeakingParticipants ?? this.prioritizeSpeakingParticipants,
+      vadAutoSensitivity: vadAutoSensitivity ?? this.vadAutoSensitivity,
+      vadThreshold: vadThreshold ?? this.vadThreshold,
+      screenShareAv1OptIn: screenShareAv1OptIn ?? this.screenShareAv1OptIn,
+      screenShareHevcOptIn: screenShareHevcOptIn ?? this.screenShareHevcOptIn,
+      disableScreenSharePip:
+          disableScreenSharePip ?? this.disableScreenSharePip,
     );
   }
 
@@ -241,9 +281,8 @@ class VoiceSettingsState {
       'inputVolume': inputVolume,
       'outputVolume': outputVolume,
       'voiceProcessingMode': voiceProcessingMode.name,
-      'noiseSuppressionTier': noiseSuppressionTier.name,
+      'noiseSuppressionBackend': noiseSuppressionBackend?.name,
       'echoCancellation': echoCancellation,
-      'noiseSuppression': noiseSuppression,
       'autoGainControl': autoGainControl,
       'outputRoute': outputRoute.name,
       'cameraResolution': cameraResolution.name,
@@ -263,7 +302,30 @@ class VoiceSettingsState {
       'pauseOwnScreenSharePreviewOnUnfocus':
           pauseOwnScreenSharePreviewOnUnfocus,
       'prioritizeSpeakingParticipants': prioritizeSpeakingParticipants,
+      'vadAutoSensitivity': vadAutoSensitivity,
+      'vadThreshold': vadThreshold,
+      'screenShareAv1OptIn': screenShareAv1OptIn,
+      'screenShareHevcOptIn': screenShareHevcOptIn,
+      'disableScreenSharePip': disableScreenSharePip,
     };
+  }
+
+  Map<String, Object?> deviceJson() => toJson()
+    ..removeWhere(
+      (String field, _) => kVoiceAccountSettingFields.contains(field),
+    );
+
+  Map<String, Object?> accountJson() => toJson()
+    ..removeWhere(
+      (String field, _) => !kVoiceAccountSettingFields.contains(field),
+    );
+
+  static VoiceSettingsState? tryFromJson(Map<String, Object?> json) {
+    try {
+      return VoiceSettingsState.fromJson(json);
+    } on Object {
+      return null;
+    }
   }
 
   factory VoiceSettingsState.fromJson(Map<String, Object?> json) {
@@ -277,9 +339,8 @@ class VoiceSettingsState {
       voiceProcessingMode: VoiceProcessingMode.fromJson(
         json['voiceProcessingMode'] as String?,
       ),
-      noiseSuppressionTier: _resolveNoiseSuppressionTier(json),
+      noiseSuppressionBackend: _resolveNoiseSuppressionBackend(json),
       echoCancellation: json['echoCancellation'] as bool? ?? true,
-      noiseSuppression: json['noiseSuppression'] as bool? ?? true,
       autoGainControl: json['autoGainControl'] as bool? ?? true,
       outputRoute: _outputRouteFromJson(json),
       cameraResolution: CameraResolution.fromJson(
@@ -311,9 +372,24 @@ class VoiceSettingsState {
           json['pauseOwnScreenSharePreviewOnUnfocus'] as bool? ?? true,
       prioritizeSpeakingParticipants:
           json['prioritizeSpeakingParticipants'] as bool? ?? false,
+      vadAutoSensitivity: json['vadAutoSensitivity'] as bool? ?? true,
+      vadThreshold:
+          ((json['vadThreshold'] as num?)?.round() ?? kDefaultVadThreshold)
+              .clamp(0, 100),
+      screenShareAv1OptIn: json['screenShareAv1OptIn'] as bool? ?? false,
+      screenShareHevcOptIn: json['screenShareHevcOptIn'] as bool? ?? false,
+      disableScreenSharePip: json['disableScreenSharePip'] as bool? ?? false,
     );
   }
 }
+
+Map<String, Object?> changedVoiceFields(
+  Map<String, Object?> previous,
+  Map<String, Object?> next,
+) => <String, Object?>{
+  for (final MapEntry<String, Object?> entry in next.entries)
+    if (entry.value != previous[entry.key]) entry.key: entry.value,
+};
 
 ScreenShareCodecPreference _screenShareCodecFromJson(String? value) {
   return ScreenShareCodecPreference.values.firstWhere(
@@ -369,20 +445,29 @@ Map<String, int> _parseParticipantVolumes(Object? value) {
   return parsed;
 }
 
-NoiseSuppressionTier _resolveNoiseSuppressionTier(Map<String, Object?> json) {
+NoiseSuppressionBackend? _resolveNoiseSuppressionBackend(
+  Map<String, Object?> json,
+) {
+  if (json.containsKey('noiseSuppressionBackend')) {
+    return NoiseSuppressionBackend.fromJson(
+      json['noiseSuppressionBackend'] as String?,
+    );
+  }
   final String? tier = json['noiseSuppressionTier'] as String?;
   if (tier != null) {
-    return NoiseSuppressionTier.fromJson(tier);
+    return tier == 'enhanced' ? null : NoiseSuppressionBackend.fromJson(tier);
   }
   final bool deepFilter =
       json['deepFilterNoiseSuppression'] as bool? ??
       json['deepFilterNoiseSuppressionPrefV2'] as bool? ??
       true;
   if (deepFilter) {
-    return NoiseSuppressionTier.enhanced;
+    return null;
   }
-  final bool standardNs = json['noiseSuppression'] as bool? ?? true;
-  return standardNs ? NoiseSuppressionTier.standard : NoiseSuppressionTier.none;
+  final bool standard = json['noiseSuppression'] as bool? ?? true;
+  return standard
+      ? NoiseSuppressionBackend.standard
+      : NoiseSuppressionBackend.none;
 }
 
 int _clampVolume(Object? value) {

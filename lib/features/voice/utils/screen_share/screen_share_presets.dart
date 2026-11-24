@@ -111,11 +111,15 @@ int _clampFrameRate(int frameRate) {
   return frameRate;
 }
 
-String preferredScreenShareVideoCodec(ScreenShareCodecPreference preference) {
+String preferredScreenShareVideoCodec(
+  ScreenShareCodecPreference preference, {
+  bool av1OptIn = false,
+  bool hevcOptIn = false,
+}) {
   return switch (preference) {
     ScreenShareCodecPreference.auto => 'vp8',
-    ScreenShareCodecPreference.av1 => 'av1',
-    ScreenShareCodecPreference.h265 => 'h265',
+    ScreenShareCodecPreference.av1 => av1OptIn ? 'av1' : 'vp8',
+    ScreenShareCodecPreference.h265 => hevcOptIn ? 'h265' : 'vp8',
     ScreenShareCodecPreference.vp9 => 'vp9',
     ScreenShareCodecPreference.h264 => 'h264',
     ScreenShareCodecPreference.vp8 => 'vp8',

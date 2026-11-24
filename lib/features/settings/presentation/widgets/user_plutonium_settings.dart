@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_highlights.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_marketing.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_operator_pass_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -168,6 +169,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const UserOperatorPassSection(),
             if (user?.hasUnreadGiftInventory ?? false) ...[
               Padding(
                 padding: settingsScrollPadding(context),

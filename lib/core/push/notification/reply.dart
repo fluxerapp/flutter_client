@@ -149,26 +149,28 @@ Future<PushReplyResult> sendPushNotificationReply({
       isNotificationClearPayload(payload)) {
     return PushReplyResult.skipped;
   }
-  final Future<PushReplyAccount?> Function(String userId) lookup =
-      lookupAccount ?? lookupPushReplyAccount;
-  final PushReplyAccount? account = await lookup(userId);
-  if (account == null || account.token.isEmpty || account.apiBaseUrl.isEmpty) {
-    return PushReplyResult.failed;
-  }
-  final bool replyMention =
-      await (resolveReplyMention ?? resolvePushReplyMention)(payload);
-  final PushReplySend send = PushReplySend(
-    apiBaseUrl: account.apiBaseUrl,
-    token: account.token,
-    channelId: channelId,
-    body: buildMessageCreateBody(
-      content: content,
-      replyToId: messageId,
-      replyMention: replyMention,
-    ),
-  );
   try {
-    await (post ?? postPushReply)(send);
+    final PushReplyAccount? account =
+        await (lookupAccount ?? lookupPushReplyAccount)(userId);
+    if (account == null ||
+        account.token.isEmpty ||
+        account.apiBaseUrl.isEmpty) {
+      return PushReplyResult.failed;
+    }
+    final bool replyMention =
+        await (resolveReplyMention ?? resolvePushReplyMention)(payload);
+    await (post ?? postPushReply)(
+      PushReplySend(
+        apiBaseUrl: account.apiBaseUrl,
+        token: account.token,
+        channelId: channelId,
+        body: buildMessageCreateBody(
+          content: content,
+          replyToId: messageId,
+          replyMention: replyMention,
+        ),
+      ),
+    );
   } on Object {
     return PushReplyResult.failed;
   }
@@ -197,16 +199,18 @@ Map<String, String> pushReplyHeaders(String token) => <String, String>{
   fluxerApiFeaturesHeaderName: buildFluxerApiFeaturesHeaderValue(),
 };
 
+Dio pushReplyDio({required String apiBaseUrl, required String token}) => Dio(
+  BaseOptions(
+    baseUrl: apiBaseUrl,
+    connectTimeout: const Duration(seconds: 20),
+    sendTimeout: const Duration(seconds: 20),
+    receiveTimeout: const Duration(seconds: 20),
+    headers: pushReplyHeaders(token),
+  ),
+);
+
 Future<void> postPushReply(PushReplySend send) async {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: send.apiBaseUrl,
-      connectTimeout: const Duration(seconds: 20),
-      sendTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
-      headers: pushReplyHeaders(send.token),
-    ),
-  );
+  final Dio dio = pushReplyDio(apiBaseUrl: send.apiBaseUrl, token: send.token);
   try {
     final String channelId = Uri.encodeComponent(send.channelId);
     await dio.post<void>('/channels/$channelId/messages', data: send.body);

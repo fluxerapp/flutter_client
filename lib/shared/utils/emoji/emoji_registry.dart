@@ -49,6 +49,9 @@ class EmojiRegistry {
   static const _kAssetPath = 'assets/emojis.json';
 
   static Map<String, String>? _nameToSurrogate;
+  static List<String> _emoticonShortcuts = const <String>[];
+
+  static List<String> get emoticonShortcuts => _emoticonShortcuts;
   static Map<String, EmojiEntry>? _nameToEntry;
   static Map<String, EmojiEntry>? _surrogateToEntry;
   static Map<String, List<EmojiEntry>>? _categories;
@@ -104,6 +107,7 @@ class EmojiRegistry {
     final ByteData asset = await rootBundle.load(_kAssetPath);
     final _EmojiCatalog catalog = await compute(_parseEmojiCatalog, asset);
     _nameToSurrogate = catalog.nameToSurrogate;
+    _emoticonShortcuts = catalog.emoticonShortcuts;
     _nameToEntry = catalog.nameToEntry;
     _surrogateToEntry = catalog.surrogateToEntry;
     _categories = catalog.categories;
@@ -160,8 +164,10 @@ class _EmojiCatalog {
     required this.allEmojis,
     required this.unicodeEmojiMatcher,
     required this.maxUnicodeEmojiLength,
+    this.emoticonShortcuts = const <String>[],
   });
 
+  final List<String> emoticonShortcuts;
   final Map<String, String> nameToSurrogate;
   final Map<String, EmojiEntry> nameToEntry;
   final Map<String, EmojiEntry> surrogateToEntry;
@@ -264,21 +270,25 @@ _EmojiCatalog _parseEmojiCatalog(ByteData asset) {
   }
 
   final shortcuts = json['shortcuts'] as Map<String, dynamic>?;
+  final emoticonShortcuts = <String>[];
   if (shortcuts != null) {
     for (final entry in shortcuts.entries) {
       final targetName = entry.value as String;
       final targetSurrogate = nameMap[targetName];
       if (targetSurrogate != null) {
         nameMap[entry.key] = targetSurrogate;
+        emoticonShortcuts.add(entry.key);
       }
     }
   }
+  emoticonShortcuts.sort((a, b) => b.length.compareTo(a.length));
 
   for (var i = 0; i < kSkinToneSurrogates.length; i++) {
     nameMap['skin-tone-${i + 1}'] = kSkinToneSurrogates[i];
   }
 
   return _EmojiCatalog(
+    emoticonShortcuts: emoticonShortcuts,
     nameToSurrogate: nameMap,
     nameToEntry: entryMap,
     surrogateToEntry: surrogateMap,

@@ -557,6 +557,26 @@ class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
   void clearAll() => state = {};
 }
 
+@Riverpod(keepAlive: true)
+class ThreadGuilds extends _$ThreadGuilds {
+  @override
+  Set<String> build(String accountUserId) => {};
+
+  void handleReady(
+    Set<String> activeGuildIds,
+    Set<String> unavailableGuildIds,
+  ) {
+    state = {...activeGuildIds, ...state.where(unavailableGuildIds.contains)};
+  }
+
+  void setActive(String guildId, {required bool active}) {
+    if (state.contains(guildId) == active) {
+      return;
+    }
+    state = active ? {...state, guildId} : ({...state}..remove(guildId));
+  }
+}
+
 @riverpod
 VoiceState? voiceStateForConnection(Ref ref, String connectionId) {
   return ref.watch(

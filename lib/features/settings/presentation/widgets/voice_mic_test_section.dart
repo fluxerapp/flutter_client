@@ -10,10 +10,10 @@ import 'package:fluxer_app/features/settings/presentation/widgets/audio_level_me
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/audio/mic_test_track.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -67,6 +67,10 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     if (!micOk || !mounted) {
       return;
     }
+    await ref.read(voiceNoiseFilterProvider.notifier).prepareCapture();
+    if (!mounted) {
+      return;
+    }
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     final VoiceSettingsApplicator applicator = ref.read(
       voiceSettingsApplicatorProvider,
@@ -75,9 +79,8 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       await acquireNativeVoiceAudioSession(kVoiceMicTestAudioOwner);
       await applicator.applySpeakerOutput(settings: settings);
       await _configureOutputDevice(settings.outputDeviceId);
-      final LocalAudioTrack track = await _createMicTestTrack(
-        applicator: applicator,
-        settings: settings,
+      final LocalAudioTrack track = await LocalAudioTrack.create(
+        applicator.buildAudioCaptureOptions(settings),
       );
       _track = track;
       await track.start();
@@ -108,13 +111,6 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       talker.error('Failed to start mic test', error, stackTrace);
       await _stopTest();
     }
-  }
-
-  Future<LocalAudioTrack> _createMicTestTrack({
-    required VoiceSettingsApplicator applicator,
-    required VoiceSettingsState settings,
-  }) {
-    return createMicTestAudioTrack(applicator: applicator, settings: settings);
   }
 
   Future<void> _configureOutputDevice(String outputDeviceId) async {

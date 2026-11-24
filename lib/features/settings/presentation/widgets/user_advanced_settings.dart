@@ -2,11 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/advanced_configure_sheets.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/advanced_search_sheets.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/interface_extra_switch.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/advanced_setting_visibility.dart';
@@ -110,6 +113,18 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(appearancePreferencesProvider.notifier)
                     .setShowNeko(value: value),
+              ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingShowHelpButtonLabel,
+                description: l10n.advancedSettingShowHelpButtonDescription,
+                value: !ref.watch(
+                  syncedExtrasPreferencesProvider.select(
+                    (state) => state.hideHelpButton,
+                  ),
+                ),
+                onChanged: (value) => ref
+                    .read(syncedExtrasPreferencesProvider.notifier)
+                    .setHideHelpButton(value: !value),
               ),
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingMobileSplashZoomAnimationLabel,
@@ -241,6 +256,24 @@ class UserAdvancedSettings extends ConsumerWidget {
                     .read(advancedPreferencesProvider.notifier)
                     .setSaveGifFavoritesAsSavedMedia(value: value),
               ),
+              InterfaceExtraSwitch(
+                flag: InterfaceExtraFlag.sequentialFileSend,
+                label: l10n.advancedSettingSequentialFileSendLabel,
+                description: l10n.advancedSettingSequentialFileSendDescription,
+              ),
+              InterfaceExtraSwitch(
+                flag: InterfaceExtraFlag.keepAttachmentsOnEmptyEdit,
+                label: l10n.advancedSettingKeepAttachmentsOnEmptyEditLabel,
+                description:
+                    l10n.advancedSettingKeepAttachmentsOnEmptyEditDescription,
+              ),
+              if (!isTouchPrimaryInput(ref))
+                InterfaceExtraSwitch(
+                  flag: InterfaceExtraFlag.messageDoubleClickActions,
+                  label: l10n.advancedSettingDoubleClickActionsLabel,
+                  description:
+                      l10n.advancedSettingDoubleClickActionsDescription,
+                ),
               FluxerSettingsConfigureRow(
                 title: l10n.advancedSettingMediaButtonsLabel,
                 description: l10n.advancedSettingMediaButtonsDescription,
@@ -348,10 +381,20 @@ class UserAdvancedSettings extends ConsumerWidget {
                   FluxerSelectItem(
                     value: ScreenShareCodecPreference.av1,
                     label: l10n.advancedSettingScreenShareCodecAv1,
+                    enabled: ref.watch(
+                      voiceSettingsProvider.select(
+                        (state) => state.screenShareAv1OptIn,
+                      ),
+                    ),
                   ),
                   FluxerSelectItem(
                     value: ScreenShareCodecPreference.h265,
                     label: l10n.advancedSettingScreenShareCodecH265,
+                    enabled: ref.watch(
+                      voiceSettingsProvider.select(
+                        (state) => state.screenShareHevcOptIn,
+                      ),
+                    ),
                   ),
                   FluxerSelectItem(
                     value: ScreenShareCodecPreference.vp9,
@@ -369,6 +412,30 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: ref
                     .read(voiceSettingsProvider.notifier)
                     .setPreferredScreenShareCodec,
+              ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingScreenShareAv1OptInLabel,
+                description: l10n.advancedSettingScreenShareOptInDescription,
+                value: ref.watch(
+                  voiceSettingsProvider.select(
+                    (state) => state.screenShareAv1OptIn,
+                  ),
+                ),
+                onChanged: (value) => ref
+                    .read(voiceSettingsProvider.notifier)
+                    .setScreenShareAv1OptIn(value: value),
+              ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingScreenShareHevcOptInLabel,
+                description: l10n.advancedSettingScreenShareOptInDescription,
+                value: ref.watch(
+                  voiceSettingsProvider.select(
+                    (state) => state.screenShareHevcOptIn,
+                  ),
+                ),
+                onChanged: (value) => ref
+                    .read(voiceSettingsProvider.notifier)
+                    .setScreenShareHevcOptIn(value: value),
               ),
             ],
           ),
@@ -400,6 +467,17 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(voiceSettingsProvider.notifier)
                     .setShowConnectionVolumeControls(value: value),
+              ),
+            ],
+          ),
+          FluxerSettingsSection(
+            sectionId: 'advanced-settings-experimental',
+            title: l10n.advancedSettingsCategoryExperimental,
+            children: [
+              InterfaceExtraSwitch(
+                flag: InterfaceExtraFlag.hideBlockedMessages,
+                label: l10n.advancedSettingHideBlockedMessagesLabel,
+                description: l10n.advancedSettingHideBlockedMessagesDescription,
               ),
             ],
           ),

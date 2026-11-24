@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
+import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -68,6 +70,7 @@ List<VoicePipCandidate> buildVoicePipCandidates({
   required VoiceMediaRoom? media,
   required String? currentUserId,
   required String? localConnectionId,
+  bool includeScreenShares = true,
 }) {
   final List<VoicePipCandidate> tiles = <VoicePipCandidate>[];
   for (final VoiceChannelParticipantData participant in participants) {
@@ -114,7 +117,7 @@ List<VoicePipCandidate> buildVoicePipCandidates({
     final bool hasScreen =
         participant.voice.selfStream ||
         (mediaParticipant != null && mediaParticipant.hasScreenShare);
-    if (hasScreen) {
+    if (hasScreen && includeScreenShares) {
       tiles.add(
         VoicePipCandidate(
           tileId: voiceParticipantTileId(
@@ -165,6 +168,11 @@ class VoicePipFeatured extends Notifier<String?> {
       media: voice.media,
       currentUserId: ref.watch(currentUserIdProvider),
       localConnectionId: voice.localConnectionId,
+      includeScreenShares: !ref.watch(
+        voiceSettingsProvider.select(
+          (VoiceSettingsState s) => s.disableScreenSharePip,
+        ),
+      ),
     );
     final VoicePipFeaturedResult next = selectVoicePipFeatured(
       previous: _result,

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
@@ -91,7 +92,9 @@ class RouteStateNotifier extends _$RouteStateNotifier {
       if (!ref.mounted) {
         return;
       }
-      if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.idle) {
+      final WidgetsBinding binding = WidgetsBinding.instance;
+      final bool hasBootstrapped = binding.rootElement != null;
+      if (hasBootstrapped && binding.schedulerPhase == SchedulerPhase.idle) {
         apply();
         return;
       }
@@ -99,7 +102,7 @@ class RouteStateNotifier extends _$RouteStateNotifier {
         return;
       }
       scheduled = true;
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      binding.addPostFrameCallback((_) {
         scheduled = false;
         apply();
       });

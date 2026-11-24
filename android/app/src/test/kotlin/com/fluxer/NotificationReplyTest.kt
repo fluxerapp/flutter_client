@@ -125,6 +125,21 @@ class NotificationReplyTest {
     }
 
     @Test
+    fun throwingAccountLookupDoesNotCancel() {
+        val ui = RecordingReplyUi()
+        val outcome = NotificationReplyDispatcher(
+            accounts = NotificationReplyAccountLookup { error("locked") },
+            poster = NotificationReplyPoster { true },
+            ui = ui,
+        ).dispatch(sampleInput())
+
+        assertEquals(NotificationReplyOutcome.Failed, outcome)
+        assertNull(ui.cancelledId)
+        assertTrue(ui.clearedSending)
+        assertTrue(ui.failed)
+    }
+
+    @Test
     fun failedPostDoesNotCancel() {
         val ui = RecordingReplyUi()
         val outcome = dispatcher(

@@ -98,6 +98,7 @@ import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart'
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -229,6 +230,7 @@ const double _kJumpToPresentApproachFraction = 0.75;
 const int _kMaxSimultaneousDeleteCollapses = 3;
 
 class _MessageListState extends ConsumerState<MessageList> {
+  bool _hideBlockedMessages = false;
   late final _LiveTailScrollController _scrollController =
       _LiveTailScrollController(holdTrailingEdge: _holdsLiveTailEdge);
   final GlobalKey _unreadCenterKey = GlobalKey();
@@ -619,6 +621,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       ),
     );
     final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
+    _hideBlockedMessages = ref.watch(
+      interfaceExtrasPreferencesProvider.select(
+        (InterfaceExtrasState state) =>
+            state[InterfaceExtraFlag.hideBlockedMessages],
+      ),
+    );
     ref.watch(localUserSpamOverrideProvider.select((state) => state.version));
     final bool hasMoreNewerMessages = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.hasMoreNewerMessages),
@@ -3925,6 +3933,10 @@ class _MessageListState extends ConsumerState<MessageList> {
         return _buildDateSeparator(context, item.dividerDate!);
       case ChannelStreamType.messageGroupBlocked:
       case ChannelStreamType.messageGroupSpammer:
+        if (_hideBlockedMessages &&
+            item.type == ChannelStreamType.messageGroupBlocked) {
+          return const SizedBox.shrink();
+        }
         final String? groupKey = item.groupKey;
         final bool isRevealed =
             groupKey != null && revealedCollapsedGroupKey == groupKey;

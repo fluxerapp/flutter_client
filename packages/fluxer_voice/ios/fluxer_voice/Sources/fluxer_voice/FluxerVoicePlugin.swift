@@ -4,6 +4,7 @@ import UIKit
 public final class FluxerVoicePlugin: NSObject, FlutterPlugin {
   private let activeRoute = VoiceActiveRouteBridge()
   private let callGuard = SystemVoiceCallGuard()
+  private let noiseFilter = VoiceNoiseFilter()
   private let pip: VoicePipController
 
   private init(registrar: FlutterPluginRegistrar) {
@@ -18,6 +19,7 @@ public final class FluxerVoicePlugin: NSObject, FlutterPlugin {
     let plugin = FluxerVoicePlugin(registrar: registrar)
     plugin.activeRoute.register(messenger: messenger)
     SystemVoiceCallGuardHostApiSetup.setUp(binaryMessenger: messenger, api: plugin.callGuard)
+    VoiceNoiseFilterHostApiSetup.setUp(binaryMessenger: messenger, api: plugin.noiseFilter)
     VoicePipHostApiSetup.setUp(binaryMessenger: messenger, api: plugin.pip)
     VoicePipEventsStreamHandler.register(with: messenger, streamHandler: plugin.pip.events)
     registrar.register(

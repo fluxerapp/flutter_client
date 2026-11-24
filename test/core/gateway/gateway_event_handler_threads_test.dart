@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
@@ -1040,6 +1042,109 @@ void main() {
 
       expect((await h.database.channelDao.getChannelById(_threadId))?.type, 10);
       expect((await h.database.channelDao.getChannelById(_textId))?.type, 5);
+    });
+  });
+
+  group('thread guilds', () {
+    late ProviderContainer container;
+    late FluxerDatabase database;
+    late GatewayEventHandler handler;
+
+    Set<String> activeGuildIds() => container.read(threadGuildsProvider('100'));
+
+    setUp(() {
+      container = ProviderContainer();
+      addTearDown(container.dispose);
+      database = openTestDatabase();
+      handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onThreadGuildsReady: (Set<String> active, Set<String> unavailable) =>
+            container
+                .read(threadGuildsProvider('100').notifier)
+                .handleReady(active, unavailable),
+        onGuildThreadsActive: (String guildId, {required bool active}) =>
+            container
+                .read(threadGuildsProvider('100').notifier)
+                .setActive(guildId, active: active),
+      );
+    });
+
+    test('a guild whose READY payload has a threads key is active', () async {
+      await _ready(handler, withThreads: true);
+
+      expect(activeGuildIds(), <String>{_guildId});
+    });
+
+    test(
+      'a READY threads key with no threads still activates the guild',
+      () async {
+        await _ready(
+          handler,
+          withThreads: true,
+          threads: <Map<String, Object?>>[],
+        );
+
+        expect(activeGuildIds(), <String>{_guildId});
+      },
+    );
+
+    test(
+      'a guild whose READY payload has no threads key is inactive',
+      () async {
+        await _ready(handler, withThreads: true);
+        await _ready(handler, withThreads: false, sessionId: 'session-2');
+
+        expect(activeGuildIds(), isEmpty);
+      },
+    );
+
+    test('a guild unavailable in READY keeps its active state', () async {
+      await _ready(handler, withThreads: true);
+      await _ready(
+        handler,
+        withThreads: false,
+        sessionId: 'session-2',
+        unavailable: true,
+      );
+
+      expect(activeGuildIds(), <String>{_guildId});
+    });
+
+    test('GUILD_CREATE with a threads key activates the guild', () async {
+      await _ready(handler, withThreads: false);
+      await _guildCreate(handler, withThreads: true);
+
+      expect(activeGuildIds(), <String>{_guildId});
+    });
+
+    test('GUILD_CREATE without a threads key deactivates the guild', () async {
+      await _ready(handler, withThreads: true);
+      await _guildCreate(handler, withThreads: false);
+
+      expect(activeGuildIds(), isEmpty);
+    });
+
+    test('GUILD_DELETE deactivates the guild', () async {
+      await _ready(handler, withThreads: true);
+      await handler.handle(const GuildDeleteEvent(guildId: _guildId));
+      await database.guildDao
+          .watchServerById(_guildId)
+          .firstWhere((Server? server) => server == null);
+
+      expect(activeGuildIds(), isEmpty);
+    });
+
+    test('an unavailable GUILD_DELETE keeps the guild active', () async {
+      await _ready(handler, withThreads: true);
+      await handler.handle(
+        const GuildDeleteEvent(guildId: _guildId, unavailable: true),
+      );
+      await database.guildDao
+          .watchServerById(_guildId)
+          .firstWhere((Server? server) => server?.unavailable ?? false);
+
+      expect(activeGuildIds(), <String>{_guildId});
     });
   });
 }

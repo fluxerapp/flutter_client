@@ -4,6 +4,7 @@ abstract final class GuildFeatures {
   static const String banner = 'BANNER';
   static const String detachedBanner = 'DETACHED_BANNER';
   static const String inviteSplash = 'INVITE_SPLASH';
+  static const String vanityUrl = 'VANITY_URL';
   static const String textChannelFlexibleNames = 'TEXT_CHANNEL_FLEXIBLE_NAMES';
   static const String hideOwnerCrown = 'HIDE_OWNER_CROWN';
   static const String invitesDisabled = 'INVITES_DISABLED';
@@ -13,6 +14,7 @@ abstract final class GuildFeatures {
   static const String cloneEmojiDisabled = 'CLONE_EMOJI_DISABLED';
   static const String cloneStickerDisabled = 'CLONE_STICKER_DISABLED';
   static const String expressionPurgeAllowed = 'EXPRESSION_PURGE_ALLOWED';
+  static const String memberDmsDisabled = 'MEMBER_DMS_DISABLED';
 }
 
 bool isCloneEmojiAllowed(List<String> features) {

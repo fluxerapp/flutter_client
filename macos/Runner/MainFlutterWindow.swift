@@ -1,9 +1,11 @@
 import Cocoa
 import FlutterMacOS
+import ServiceManagement
 
 class MainFlutterWindow: NSWindow {
   private var hasHiddenAtLaunch = false
   private var hideAfterFullScreenExit = false
+  private var platformChannel: FlutterMethodChannel?
 
   override func awakeFromNib() {
     let flutterViewController = FlutterViewController()
@@ -17,6 +19,7 @@ class MainFlutterWindow: NSWindow {
     self.tabbingMode = .disallowed
 
     RegisterGeneratedPlugins(registry: flutterViewController)
+    registerPlatformChannel(flutterViewController)
 
     NotificationCenter.default.addObserver(
       self,
@@ -89,5 +92,55 @@ class MainFlutterWindow: NSWindow {
     }
     closeButton.target = self
     closeButton.action = #selector(closeButtonPressed(_:))
+  }
+
+  private func registerPlatformChannel(_ controller: FlutterViewController) {
+    let channel = FlutterMethodChannel(
+      name: "fluxer_app/desktop_platform",
+      binaryMessenger: controller.engine.binaryMessenger
+    )
+    channel.setMethodCallHandler { call, result in
+      switch call.method {
+      case "wasLaunchedAtLogin":
+        result(AppDelegate.launchedAtLogin)
+      case "autostartIsEnabled":
+        if #available(macOS 13.0, *) {
+          result(SMAppService.mainApp.status == .enabled)
+        } else {
+          result(false)
+        }
+      case "autostartSetEnabled":
+        let arguments = call.arguments as? [String: Any]
+        let enabled = arguments?["enabled"] as? Bool ?? false
+        guard #available(macOS 13.0, *) else {
+          result(nil)
+          return
+        }
+        do {
+          if enabled {
+            try SMAppService.mainApp.register()
+          } else {
+            try SMAppService.mainApp.unregister()
+          }
+          result(nil)
+        } catch {
+          result(
+            FlutterError(
+              code: "autostart_failed",
+              message: error.localizedDescription,
+              details: nil
+            )
+          )
+        }
+      case "setDockBadge":
+        let arguments = call.arguments as? [String: Any]
+        let label = arguments?["label"] as? String
+        NSApp.dockTile.badgeLabel = label
+        result(nil)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    platformChannel = channel
   }
 }

@@ -15,8 +15,15 @@ export 'src/messages.g.dart'
         VoiceAudioSessionHostApi,
         VoicePipHostApi,
         VoiceRoutePickerHostApi;
+export 'src/noise_filter.dart';
+export 'src/noise_filter.g.dart'
+    show
+        NativeNoiseFilterBackend,
+        NativeNoiseFilterStatus,
+        VoiceNoiseFilterHostApi;
 export 'src/system_voice_call_guard.dart';
 export 'src/voice_audio_session.dart';
 export 'src/voice_output_route.dart';
 export 'src/voice_pip.dart';
 export 'src/voice_process_activity.dart';
+export 'src/voice_screen_share_service.dart';

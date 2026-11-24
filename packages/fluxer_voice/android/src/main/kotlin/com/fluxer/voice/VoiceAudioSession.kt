@@ -26,7 +26,6 @@ private const val DEVICE_REFRESH_DEBOUNCE_MS = 300L
 private const val OWN_CHANGE_GRACE_MS = 300L
 private const val SETTLED_REAPPLY_MS = 2_000L
 private const val FOCUS_RETRY_MS = 500L
-private const val FOCUS_REREQUEST_MS = 2_000L
 private const val SCO_TIMEOUT_MS = 4_000L
 private const val SCO_MAX_ATTEMPTS = 2
 private const val REASSERT_MAX_COUNT = 6
@@ -77,7 +76,6 @@ internal class VoiceAudioSession(
     private var focusRequest: AudioFocusRequest? = null
     private var focusState: String = "none"
     private var focusLost = false
-    private var lastFocusRequestAt = 0L
     private var lastForcedApplyAt = Long.MIN_VALUE / 2
     private var telecomOwnsRoute = false
     private var waitingForExternalCall = false
@@ -429,9 +427,6 @@ internal class VoiceAudioSession(
             log("defer $reason: external call")
             return
         }
-        if (focusLost && clock() - lastFocusRequestAt >= FOCUS_REREQUEST_MS) {
-            requestFocus(retry = false)
-        }
         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             appliedMode = audioManager.mode
@@ -629,10 +624,9 @@ internal class VoiceAudioSession(
     }
 
     private fun requestFocus(retry: Boolean) {
-        lastFocusRequestAt = clock()
         val result = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val request = focusRequest ?: AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                val request = focusRequest ?: AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
                     .setAudioAttributes(
                         AudioAttributes.Builder()
                             .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
@@ -649,7 +643,7 @@ internal class VoiceAudioSession(
                 audioManager.requestAudioFocus(
                     focusListener,
                     AudioManager.STREAM_VOICE_CALL,
-                    AudioManager.AUDIOFOCUS_GAIN,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK,
                 )
             }
         } catch (_: SecurityException) {

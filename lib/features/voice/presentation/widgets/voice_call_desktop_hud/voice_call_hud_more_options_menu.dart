@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/voice/providers/voice_call_display_preferenc
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/audio/noise_suppression_labels.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -44,7 +45,7 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
     final VoiceCallLayout layoutNotifier = ref.read(
       voiceCallLayoutProvider.notifier,
     );
-    final (NoiseSuppressionTier tier, bool noiseFilterSupported) =
+    final NoiseSuppressionBackend selectedBackend =
         watchVoicePanelNoiseSuppression(ref);
     final bool showSwitchToStandard = watchCanSwitchToStandardVoiceCall(
       ref,
@@ -53,8 +54,8 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
       ),
     );
 
-    void selectNoiseTier(NoiseSuppressionTier value) {
-      unawaited(setVoicePanelNoiseSuppressionTier(ref, value));
+    void selectNoiseBackend(NoiseSuppressionBackend value) {
+      unawaited(setVoicePanelNoiseSuppression(ref, value));
     }
 
     return Column(
@@ -100,22 +101,13 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
         FluxerMenuSectionHeader(
           label: l10n.audioAndVideoNoiseSuppressionSectionTitle,
         ),
-        FluxerMenuRadioItem(
-          label: l10n.audioAndVideoNoiseSuppressionEnhancedLabel,
-          isSelected: tier == NoiseSuppressionTier.enhanced,
-          enabled: noiseFilterSupported,
-          onPressed: () => selectNoiseTier(NoiseSuppressionTier.enhanced),
-        ),
-        FluxerMenuRadioItem(
-          label: l10n.audioAndVideoNoiseSuppressionStandardLabel,
-          isSelected: tier == NoiseSuppressionTier.standard,
-          onPressed: () => selectNoiseTier(NoiseSuppressionTier.standard),
-        ),
-        FluxerMenuRadioItem(
-          label: l10n.audioAndVideoNoiseSuppressionNoneLabel,
-          isSelected: tier == NoiseSuppressionTier.none,
-          onPressed: () => selectNoiseTier(NoiseSuppressionTier.none),
-        ),
+        for (final NoiseSuppressionBackend backend
+            in NoiseSuppressionBackend.values)
+          FluxerMenuRadioItem(
+            label: noiseSuppressionBackendLabel(l10n, backend),
+            isSelected: selectedBackend == backend,
+            onPressed: () => selectNoiseBackend(backend),
+          ),
         const FluxerMenuDivider(),
         if (showSwitchToStandard)
           FluxerMenuItem(

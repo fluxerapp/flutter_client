@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' show BoxWidthStyle;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
@@ -13,12 +14,18 @@ import 'package:fluxer_app/features/chat/services/composer_mention_controller.da
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/auto_text_direction_builder.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+
+bool get composerSpellCheckSupported =>
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) &&
+    WidgetsBinding.instance.platformDispatcher.nativeSpellCheckServiceDefined;
 
 class ComposerInputField extends ConsumerWidget {
   const ComposerInputField({
@@ -107,6 +114,13 @@ class ComposerInputField extends ConsumerWidget {
     final bool canUpgrade =
         maxMessageLength < premiumMaxLength &&
         ref.watch(premiumBillingNavVisibleProvider);
+    final bool spellCheck =
+        composerSpellCheckSupported &&
+        ref.watch(
+          syncedExtrasPreferencesProvider.select(
+            (SyncedExtrasState state) => state.spellcheckEnabled,
+          ),
+        );
 
     return ComposerClipboardScope(
       channelId: channelId,
@@ -195,6 +209,9 @@ class ComposerInputField extends ConsumerWidget {
                                             TextCapitalization.sentences,
                                         autocorrect: true,
                                         enableInlinePrediction: true,
+                                        spellCheckConfiguration: spellCheck
+                                            ? const SpellCheckConfiguration()
+                                            : const SpellCheckConfiguration.disabled(),
                                         contextMenuBuilder:
                                             clipboardScope.buildContextMenu,
                                         contentInsertionConfiguration:

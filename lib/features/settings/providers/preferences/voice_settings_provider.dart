@@ -1,108 +1,88 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_settings_provider.g.dart';
 
-const Duration _kVoiceSettingsPersistDebounce = Duration(milliseconds: 500);
-
 @Riverpod(keepAlive: true)
 class VoiceSettings extends _$VoiceSettings {
   String? _userId;
-  Timer? _persistTimer;
 
   @override
-  VoiceSettingsState build() {
-    ref.onDispose(() {
-      _persistTimer?.cancel();
-    });
-    return const VoiceSettingsState();
-  }
+  VoiceSettingsState build() => _parse(
+    ref.watch(localSettingsStoreProvider).read(LocalSettingKeys.voiceDevice),
+  );
 
   Future<void> load(String userId) async {
     _userId = userId;
-    final db = ref.read(fluxerDatabaseProvider);
-    final String? json = await db.userPreferencesDao.getVoiceSettingsJson(
-      userId,
-    );
-    if (json == null || json.isEmpty) {
-      return;
-    }
-    try {
-      final Object? decoded = jsonDecode(json);
-      if (decoded is! Map<String, Object?>) {
-        return;
-      }
-      state = VoiceSettingsState.fromJson(decoded);
-    } on Object {
-      return;
-    }
+    final LocalSettingsStore store = ref.read(localSettingsStoreProvider);
+    state = _parse(<String, Object?>{
+      ...store.read(LocalSettingKeys.voiceDevice),
+      ...store.readAccount(
+        LocalSettingKeys.voiceDeviceOverrides,
+        userId: userId,
+      ),
+      ...store.readAccount(LocalSettingKeys.voiceAccount, userId: userId),
+    });
   }
 
+  VoiceSettingsState _parse(Map<String, Object?> json) =>
+      VoiceSettingsState.tryFromJson(json) ?? const VoiceSettingsState();
+
   Future<void> setInputDeviceId(String value) async {
-    state = state.copyWith(inputDeviceId: value);
-    _schedulePersist();
+    _update(state.copyWith(inputDeviceId: value));
   }
 
   Future<void> setOutputDeviceId(String value) async {
-    state = state.copyWith(outputDeviceId: value);
-    _schedulePersist();
+    _update(state.copyWith(outputDeviceId: value));
   }
 
   Future<void> setVideoDeviceId(String value) async {
-    state = state.copyWith(videoDeviceId: value);
-    _schedulePersist();
+    _update(state.copyWith(videoDeviceId: value));
   }
 
   Future<void> setInputVolume(int value) async {
-    state = state.copyWith(inputVolume: clampVoiceVolumePercent(value));
-    _schedulePersist();
+    _update(state.copyWith(inputVolume: clampVoiceVolumePercent(value)));
   }
 
   Future<void> setOutputVolume(int value) async {
-    state = state.copyWith(outputVolume: clampVoiceVolumePercent(value));
-    _schedulePersist();
+    _update(state.copyWith(outputVolume: clampVoiceVolumePercent(value)));
   }
 
   Future<void> setVoiceProcessingMode(VoiceProcessingMode value) async {
-    state = state.copyWith(voiceProcessingMode: value);
-    _schedulePersist();
+    _update(state.copyWith(voiceProcessingMode: value));
   }
 
-  Future<void> setNoiseSuppressionTier(NoiseSuppressionTier value) async {
-    state = state.copyWith(noiseSuppressionTier: value);
-    _schedulePersist();
+  Future<void> setNoiseSuppressionBackend(NoiseSuppressionBackend value) async {
+    _update(state.copyWith(noiseSuppressionBackend: value));
   }
 
   Future<void> setEchoCancellation({required bool value}) async {
-    state = state.copyWith(echoCancellation: value);
-    _schedulePersist();
+    _update(state.copyWith(echoCancellation: value));
   }
 
   Future<void> setAutoGainControl({required bool value}) async {
-    state = state.copyWith(autoGainControl: value);
-    _schedulePersist();
+    _update(state.copyWith(autoGainControl: value));
   }
 
   Future<void> setOutputRoute(VoiceOutputRoute route) async {
-    state = state.copyWith(outputRoute: route);
-    _schedulePersist();
+    _update(state.copyWith(outputRoute: route));
   }
 
   Future<void> selectOutputDevice(VoiceOutputDevice device) async {
     final VoiceOutputRoute route = device.route;
-    state = state
-        .copyWith(clearOutputRouteOverride: true)
-        .copyWith(
-          outputRoute: isBuiltInVoiceOutputRoute(route) ? route : null,
-          outputRouteOverride: route,
-          outputDeviceOverride: device.id,
-        );
-    _schedulePersist();
+    _update(
+      state
+          .copyWith(clearOutputRouteOverride: true)
+          .copyWith(
+            outputRoute: isBuiltInVoiceOutputRoute(route) ? route : null,
+            outputRouteOverride: route,
+            outputDeviceOverride: device.id,
+          ),
+    );
   }
 
   void clearOutputRouteOverride() {
@@ -113,67 +93,75 @@ class VoiceSettings extends _$VoiceSettings {
   }
 
   Future<void> setCameraFacing(VoiceCameraFacing value) async {
-    state = state.copyWith(cameraFacing: value);
-    _schedulePersist();
+    _update(state.copyWith(cameraFacing: value));
   }
 
   Future<void> setCameraResolution(CameraResolution value) async {
-    state = state.copyWith(cameraResolution: value);
-    _schedulePersist();
+    _update(state.copyWith(cameraResolution: value));
   }
 
   Future<void> setMirrorCamera({required bool value}) async {
-    state = state.copyWith(mirrorCamera: value);
-    _schedulePersist();
+    _update(state.copyWith(mirrorCamera: value));
   }
 
   Future<void> setScreenshareResolution(ScreenshareResolution value) async {
-    state = state.copyWith(screenshareResolution: value);
-    _schedulePersist();
+    _update(state.copyWith(screenshareResolution: value));
   }
 
   Future<void> setVideoFrameRate(int value) async {
-    state = state.copyWith(videoFrameRate: value);
-    _schedulePersist();
+    _update(state.copyWith(videoFrameRate: value));
   }
 
   Future<void> setShowVoiceConnectionAvatarStack({required bool value}) async {
-    state = state.copyWith(showVoiceConnectionAvatarStack: value);
-    _schedulePersist();
+    _update(state.copyWith(showVoiceConnectionAvatarStack: value));
   }
 
   Future<void> setShowVoiceConnectionId({required bool value}) async {
-    state = state.copyWith(showVoiceConnectionId: value);
-    _schedulePersist();
+    _update(state.copyWith(showVoiceConnectionId: value));
   }
 
   Future<void> setShowConnectionVolumeControls({required bool value}) async {
-    state = state.copyWith(showConnectionVolumeControls: value);
-    _schedulePersist();
+    _update(state.copyWith(showConnectionVolumeControls: value));
   }
 
   Future<void> setPreferredScreenShareCodec(
     ScreenShareCodecPreference value,
   ) async {
-    state = state.copyWith(preferredScreenShareCodec: value);
-    _schedulePersist();
+    _update(state.copyWith(preferredScreenShareCodec: value));
   }
 
   Future<void> setSuppressNewDeviceAlerts({required bool value}) async {
-    state = state.copyWith(suppressNewDeviceAlerts: value);
-    _schedulePersist();
+    _update(state.copyWith(suppressNewDeviceAlerts: value));
   }
 
   Future<void> setPauseOwnScreenSharePreviewOnUnfocus({
     required bool value,
   }) async {
-    state = state.copyWith(pauseOwnScreenSharePreviewOnUnfocus: value);
-    _schedulePersist();
+    _update(state.copyWith(pauseOwnScreenSharePreviewOnUnfocus: value));
   }
 
   Future<void> setPrioritizeSpeakingParticipants({required bool value}) async {
-    state = state.copyWith(prioritizeSpeakingParticipants: value);
-    _schedulePersist();
+    _update(state.copyWith(prioritizeSpeakingParticipants: value));
+  }
+
+  Future<void> setVadAutoSensitivity({required bool value}) async {
+    _update(state.copyWith(vadAutoSensitivity: value));
+  }
+
+  Future<void> setVadThreshold(int value) async {
+    _update(state.copyWith(vadThreshold: value.clamp(0, 100)));
+  }
+
+  Future<void> setScreenShareAv1OptIn({required bool value}) async {
+    _update(state.copyWith(screenShareAv1OptIn: value));
+  }
+
+  Future<void> setScreenShareHevcOptIn({required bool value}) async {
+    _update(state.copyWith(screenShareHevcOptIn: value));
+  }
+
+  Future<void> setDisableScreenSharePip({required bool value}) async {
+    _update(state.copyWith(disableScreenSharePip: value));
   }
 
   Future<void> setParticipantVolume(String userId, int value) async {
@@ -182,8 +170,7 @@ class VoiceSettings extends _$VoiceSettings {
       state.participantVolumes,
     );
     nextVolumes[userId] = clamped;
-    state = state.copyWith(participantVolumes: nextVolumes);
-    _schedulePersist();
+    _update(state.copyWith(participantVolumes: nextVolumes));
   }
 
   Future<void> setParticipantLocalMuted(
@@ -194,8 +181,7 @@ class VoiceSettings extends _$VoiceSettings {
       state.participantLocalMutes,
     );
     nextMuted[userId] = muted;
-    state = state.copyWith(participantLocalMutes: nextMuted);
-    _schedulePersist();
+    _update(state.copyWith(participantLocalMutes: nextMuted));
   }
 
   Future<void> setStreamVolume(String streamKey, int value) async {
@@ -204,8 +190,7 @@ class VoiceSettings extends _$VoiceSettings {
       state.streamAudioVolumes,
     );
     nextVolumes[streamKey] = clamped;
-    state = state.copyWith(streamAudioVolumes: nextVolumes);
-    _schedulePersist();
+    _update(state.copyWith(streamAudioVolumes: nextVolumes));
   }
 
   Future<void> setStreamMuted(String streamKey, {required bool muted}) async {
@@ -213,26 +198,46 @@ class VoiceSettings extends _$VoiceSettings {
       state.streamAudioMuted,
     );
     nextMuted[streamKey] = muted;
-    state = state.copyWith(streamAudioMuted: nextMuted);
-    _schedulePersist();
+    _update(state.copyWith(streamAudioMuted: nextMuted));
   }
 
-  void _schedulePersist() {
-    _persistTimer?.cancel();
-    _persistTimer = Timer(_kVoiceSettingsPersistDebounce, () {
-      unawaited(_persist());
-    });
-  }
-
-  Future<void> _persist() async {
+  void _update(VoiceSettingsState next) {
+    final Map<String, Object?> changed = changedVoiceFields(
+      state.deviceJson(),
+      next.deviceJson(),
+    );
+    state = next;
+    final LocalSettingsStore store = ref.read(localSettingsStoreProvider);
+    if (changed.isNotEmpty) {
+      store.write(LocalSettingKeys.voiceDevice, <String, Object?>{
+        ...store.read(LocalSettingKeys.voiceDevice),
+        ...changed,
+      });
+    }
     final String? userId = _userId;
     if (userId == null) {
       return;
     }
-    final db = ref.read(fluxerDatabaseProvider);
-    await db.userPreferencesDao.setVoiceSettingsJson(
-      userId,
-      jsonEncode(state.toJson()),
+    store.writeAccount(
+      LocalSettingKeys.voiceAccount,
+      next.accountJson(),
+      userId: userId,
     );
+    _dropOverrides(changed.keys.toSet(), userId: userId);
+  }
+
+  void _dropOverrides(Set<String> fields, {required String userId}) {
+    final LocalSettingsStore store = ref.read(localSettingsStoreProvider);
+    final Map<String, Object?> overrides = store.readAccount(
+      LocalSettingKeys.voiceDeviceOverrides,
+      userId: userId,
+    );
+    if (!overrides.keys.any(fields.contains)) {
+      return;
+    }
+    store.writeAccount(LocalSettingKeys.voiceDeviceOverrides, <String, Object?>{
+      for (final MapEntry<String, Object?> entry in overrides.entries)
+        if (!fields.contains(entry.key)) entry.key: entry.value,
+    }, userId: userId);
   }
 }
