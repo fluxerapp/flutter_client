@@ -145,7 +145,7 @@ class DesktopBehaviorPreferences extends _$DesktopBehaviorPreferences {
   void _write(DeviceFlag key, {required bool value}) =>
       ref.read(localSettingsStoreProvider).write(key, value);
 
-  Future<void> _mirrorForNativeClose(
+  Future<void> _mirrorForNativeRunner(
     DeviceFlag key, {
     required bool value,
   }) async {
@@ -156,7 +156,7 @@ class DesktopBehaviorPreferences extends _$DesktopBehaviorPreferences {
   Future<void> setShowTrayIcon({required bool value}) async {
     state = state.copyWith(showTrayIcon: value);
     _write(LocalSettingKeys.desktopShowTrayIcon, value: value);
-    await _mirrorForNativeClose(
+    await _mirrorForNativeRunner(
       LocalSettingKeys.desktopShowTrayIcon,
       value: value,
     );
@@ -170,7 +170,7 @@ class DesktopBehaviorPreferences extends _$DesktopBehaviorPreferences {
   Future<void> setCloseToTray({required bool value}) async {
     state = state.copyWith(closeToTray: value);
     _write(LocalSettingKeys.desktopCloseToTray, value: value);
-    await _mirrorForNativeClose(
+    await _mirrorForNativeRunner(
       LocalSettingKeys.desktopCloseToTray,
       value: value,
     );
@@ -214,5 +214,9 @@ class DesktopBehaviorPreferences extends _$DesktopBehaviorPreferences {
   Future<void> setUseNativeTitleBar({required bool value}) async {
     state = state.copyWith(useNativeTitleBar: value);
     _write(LocalSettingKeys.desktopUseNativeTitleBar, value: value);
+    await _mirrorForNativeRunner(
+      LocalSettingKeys.desktopUseNativeTitleBar,
+      value: value,
+    );
   }
 }
