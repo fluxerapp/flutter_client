@@ -2102,7 +2102,7 @@ abstract class FluxerLocalizations {
   /// **'Allow bots from this community to send you direct messages'**
   String get privacyBotDirectMessagesDescription;
 
-  /// Warning shown when guild has DISABLE_MUTUAL_DMS feature.
+  /// Description for the DM toggle in guild privacy settings when the community admins have turned off direct messages between members who are not friends, so the toggle is locked off and has no effect.
   ///
   /// In en, this message translates to:
   /// **'The community admins have disabled receiving direct messages solely from mutual members in this community.'**

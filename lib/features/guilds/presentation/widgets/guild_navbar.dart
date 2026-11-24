@@ -82,6 +82,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_voice_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/visible_unavailable_guild_count_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_menu_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';

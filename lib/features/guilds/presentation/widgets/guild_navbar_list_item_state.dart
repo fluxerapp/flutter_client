@@ -857,46 +857,41 @@ class _GuildListItemState extends State<_GuildListItem> {
       builder: (sheetContext, close) {
         final layout = sheetContext.layout;
 
-        final isMutualDmsDisabled = guild.features.contains(
-          'DISABLE_MUTUAL_DMS',
+        final memberDmsDisabled = hasGuildFeature(
+          guild.features,
+          GuildFeatures.memberDmsDisabled,
         );
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: layout.s4),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: FluxerMenuGroup(
             children: [
-              if (isMutualDmsDisabled) ...[
-                FluxerWarningAlert(message: l10n.privacyMutualDmsDisabled),
-                SizedBox(height: layout.s4),
-              ],
-              FluxerMenuGroup(
-                children: [
-                  ValueListenableBuilder<bool>(
-                    valueListenable: isDmsAllowed,
-                    builder: (_, allowed, _) => FluxerToggleSwitch(
-                      label: l10n.privacyDirectMessages,
-                      description: l10n.privacyDirectMessagesDescription,
-                      value: allowed,
-                      onChanged: (allowed) {
-                        isDmsAllowed.value = allowed;
-                        widget.onToggleDms?.call(allowed: allowed);
-                      },
-                    ),
-                  ),
-                  ValueListenableBuilder<bool>(
-                    valueListenable: isBotDmsAllowed,
-                    builder: (_, allowed, _) => FluxerToggleSwitch(
-                      label: l10n.privacyBotDirectMessages,
-                      description: l10n.privacyBotDirectMessagesDescription,
-                      value: allowed,
-                      onChanged: (allowed) {
-                        isBotDmsAllowed.value = allowed;
-                        widget.onToggleBotDms?.call(allowed: allowed);
-                      },
-                    ),
-                  ),
-                ],
+              ValueListenableBuilder<bool>(
+                valueListenable: isDmsAllowed,
+                builder: (_, allowed, _) => FluxerToggleSwitch(
+                  label: l10n.privacyDirectMessages,
+                  description: memberDmsDisabled
+                      ? l10n.privacyMutualDmsDisabled
+                      : l10n.privacyDirectMessagesDescription,
+                  value: allowed && !memberDmsDisabled,
+                  enabled: !memberDmsDisabled,
+                  onChanged: (allowed) {
+                    isDmsAllowed.value = allowed;
+                    widget.onToggleDms?.call(allowed: allowed);
+                  },
+                ),
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: isBotDmsAllowed,
+                builder: (_, allowed, _) => FluxerToggleSwitch(
+                  label: l10n.privacyBotDirectMessages,
+                  description: l10n.privacyBotDirectMessagesDescription,
+                  value: allowed,
+                  onChanged: (allowed) {
+                    isBotDmsAllowed.value = allowed;
+                    widget.onToggleBotDms?.call(allowed: allowed);
+                  },
+                ),
               ),
             ],
           ),

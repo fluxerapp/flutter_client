@@ -14,6 +14,7 @@ abstract final class GuildFeatures {
   static const String cloneEmojiDisabled = 'CLONE_EMOJI_DISABLED';
   static const String cloneStickerDisabled = 'CLONE_STICKER_DISABLED';
   static const String expressionPurgeAllowed = 'EXPRESSION_PURGE_ALLOWED';
+  static const String memberDmsDisabled = 'MEMBER_DMS_DISABLED';
 }
 
 bool isCloneEmojiAllowed(List<String> features) {
