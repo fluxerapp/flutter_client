@@ -7514,6 +7514,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get notificationReplyFailed => 'Odpověď se nepodařilo odeslat';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Zprávy';
 
   @override

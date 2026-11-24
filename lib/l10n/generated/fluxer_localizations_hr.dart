@@ -7502,6 +7502,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nije moguće poslati odgovor';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Poruke';
 
   @override

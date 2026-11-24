@@ -7569,6 +7569,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nepavyko išsiųsti atsakymo';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Žinutės';
 
   @override

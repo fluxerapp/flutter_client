@@ -330,6 +330,9 @@
             </intent-filter>
         </service>
         <receiver
+            android:name=".FluxerNotificationMarkReadReceiver"
+            android:exported="false" />
+        <receiver
             android:name=".FluxerNotificationReplyReceiver"
             android:exported="false" />
         <receiver

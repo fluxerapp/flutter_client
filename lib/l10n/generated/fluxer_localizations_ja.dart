@@ -7187,6 +7187,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get notificationReplyFailed => '返信を送信できませんでした';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'メッセージ';
 
   @override

@@ -7490,6 +7490,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get notificationReplyFailed => 'Vastauksen lähettäminen epäonnistui';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Viestit';
 
   @override

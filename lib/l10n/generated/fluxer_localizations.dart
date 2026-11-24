@@ -11995,6 +11995,12 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t send reply'**
   String get notificationReplyFailed;
 
+  /// Body of the local notification shown when the mark as read notification action fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t mark as read'**
+  String get notificationMarkReadFailed;
+
   /// Android notification channel name for community messages.
   ///
   /// In en, this message translates to:

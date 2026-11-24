@@ -7471,6 +7471,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get notificationReplyFailed => 'Kunne ikke sende svar';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Beskeder';
 
   @override

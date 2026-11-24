@@ -7534,6 +7534,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get notificationReplyFailed => 'Неуспешно изпращане на отговор';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Съобщения';
 
   @override

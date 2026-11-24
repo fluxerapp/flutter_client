@@ -7467,6 +7467,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get notificationReplyFailed => 'Yanıt gönderilemedi';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Mesajlar';
 
   @override

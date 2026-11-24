@@ -7463,6 +7463,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get notificationReplyFailed => 'Không thể gửi trả lời';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Tin nhắn';
 
   @override

@@ -7455,6 +7455,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get notificationReplyFailed => 'تعذّر إرسال الرد';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'الرسائل';
 
   @override

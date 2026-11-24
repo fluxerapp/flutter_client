@@ -7561,6 +7561,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get notificationReplyFailed => 'No se pudo enviar la respuesta';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Mensajes';
 
   @override

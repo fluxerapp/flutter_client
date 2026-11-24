@@ -7034,6 +7034,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get notificationReplyFailed => '无法发送回复';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => '消息';
 
   @override

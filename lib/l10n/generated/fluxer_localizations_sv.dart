@@ -7493,6 +7493,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get notificationReplyFailed => 'Kunde inte skicka svar';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Meddelanden';
 
   @override

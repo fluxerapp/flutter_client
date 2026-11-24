@@ -7529,6 +7529,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationReplyFailed => 'Nem sikerült elküldeni a választ';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Üzenetek';
 
   @override

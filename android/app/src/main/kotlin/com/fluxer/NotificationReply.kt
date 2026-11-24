@@ -87,13 +87,16 @@ internal fun buildNotificationReplyRequest(
     if (base.isEmpty() || authorization.isEmpty() || channelId.isEmpty() || messageId.isEmpty()) {
         return null
     }
-    val encodedChannel = URLEncoder.encode(channelId, Charsets.UTF_8.name()).replace("+", "%20")
     return NotificationReplyRequest(
-        url = "$base/channels/$encodedChannel/messages",
+        url = "$base/channels/${pathSegment(channelId)}/messages",
         authorization = authorization,
         body = notificationReplyBody(content, messageId, replyMention),
         features = features?.trim()?.takeIf { it.isNotEmpty() },
     )
+}
+
+internal fun pathSegment(value: String): String {
+    return URLEncoder.encode(value, Charsets.UTF_8.name()).replace("+", "%20")
 }
 
 internal fun notificationReplyBody(
@@ -124,35 +127,34 @@ internal class NotificationReplyDispatcher(
             ui.clearSending(input.notificationId, input.tag)
             return NotificationReplyOutcome.Skipped
         }
-        val account = accounts.read(input.userId)
-        val request = account?.let {
-            buildNotificationReplyRequest(
-                it,
-                input.channelId,
-                input.messageId,
-                content,
-                input.replyMention,
-                input.features,
-            )
-        }
-        if (request == null) {
-            return fail(input)
-        }
-        val sent = try {
-            poster.post(request)
-        } catch (error: Exception) {
-            FluxerNativeMeasure.reportHandled(
-                error,
-                source = "notification_reply",
-                context = "http post",
-            )
-            false
-        }
-        if (!sent) {
+        if (!send(input, content)) {
             return fail(input)
         }
         ui.cancel(input.notificationId, input.tag)
         return NotificationReplyOutcome.Sent
+    }
+
+    private fun send(input: NotificationReplyInput, content: String): Boolean {
+        return try {
+            val request = accounts.read(input.userId)?.let {
+                buildNotificationReplyRequest(
+                    it,
+                    input.channelId,
+                    input.messageId,
+                    content,
+                    input.replyMention,
+                    input.features,
+                )
+            }
+            request != null && poster.post(request)
+        } catch (error: Exception) {
+            FluxerNativeMeasure.reportHandled(
+                error,
+                source = "notification_reply",
+                context = "send",
+            )
+            false
+        }
     }
 
     private fun fail(input: NotificationReplyInput): NotificationReplyOutcome {

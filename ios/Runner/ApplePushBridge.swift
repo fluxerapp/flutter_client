@@ -12,7 +12,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private static let defaultNotificationTitle = "Fluxer"
   private static let defaultNotificationBody = "New message"
   private static let maxPendingPushEvents = 32
-  private static let maxPendingReplies = 8
+  private static let maxPendingActions = 8
 
   private var deviceTokenHex: String?
   private var eventSink: FlutterEventSink?
@@ -23,8 +23,8 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private let tapStreamHandler = ApplePushTapStreamHandler()
   private var methodChannel: FlutterMethodChannel?
   private var replyHandlerReady = false
-  private var pendingReplies: [PendingReply] = []
-  private var replyCategoryGeneration = 0
+  private var pendingActions: [PendingNotificationAction] = []
+  private var messageCategoryGeneration = 0
   private var activeUserId: String?
   private static let activeUserIdKey = "fluxer_active_user_id"
 
@@ -82,7 +82,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     }
   }
 
-  func registerReplyCategory() {
+  func registerMessageCategory() {
     let reply = UNTextInputNotificationAction(
       identifier: PushNotificationPayload.messageReplyActionId,
       title: NSLocalizedString("PUSH_REPLY", comment: ""),
@@ -90,19 +90,24 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       textInputButtonTitle: NSLocalizedString("PUSH_REPLY", comment: ""),
       textInputPlaceholder: NSLocalizedString("PUSH_REPLY_PLACEHOLDER", comment: "")
     )
+    let markRead = UNNotificationAction(
+      identifier: PushNotificationPayload.messageMarkReadActionId,
+      title: NSLocalizedString("PUSH_MARK_READ", comment: ""),
+      options: []
+    )
     let category = UNNotificationCategory(
       identifier: PushNotificationPayload.messageReplyCategoryId,
-      actions: [reply],
+      actions: [reply, markRead],
       intentIdentifiers: ["INSendMessageIntent"],
       hiddenPreviewsBodyPlaceholder: NSLocalizedString("PUSH_NEW_MESSAGE", comment: ""),
       options: []
     )
     DispatchQueue.main.async {
-      self.replyCategoryGeneration += 1
-      let generation = self.replyCategoryGeneration
+      self.messageCategoryGeneration += 1
+      let generation = self.messageCategoryGeneration
       UNUserNotificationCenter.current().getNotificationCategories { existing in
         DispatchQueue.main.async {
-          guard generation == self.replyCategoryGeneration else {
+          guard generation == self.messageCategoryGeneration else {
             return
           }
           var categories = existing.filter {
@@ -130,41 +135,74 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       "text": trimmed,
       "payload": Self.flattenUserInfo(resolved),
     ]
+    dispatchAction(
+      PendingNotificationAction(
+        method: "sendNotificationReply",
+        args: args,
+        completion: completion
+      )
+    )
+  }
+
+  func handleNotificationMarkRead(
+    userInfo: [AnyHashable: Any],
+    completion: @escaping () -> Void
+  ) {
+    let resolved = WebPushRecordDecryptor.resolvedUserInfo(userInfo)
+    guard let channelId = PushNotificationPayload.resolveChannelId(from: resolved),
+      let messageId = PushNotificationPayload.replyMessageId(from: resolved)
+    else {
+      completion()
+      return
+    }
+    var payload = Self.flattenUserInfo(resolved)
+    payload["channel_id"] = channelId
+    payload["message_id"] = messageId
+    let action = PendingNotificationAction(
+      method: "markNotificationRead",
+      args: ["payload": payload],
+      completion: completion
+    )
+    removeDeliveredNotificationsForChannel(channelId: channelId, upToMessageId: messageId) {
+      self.dispatchAction(action)
+    }
+  }
+
+  private func dispatchAction(_ action: PendingNotificationAction) {
     DispatchQueue.main.async {
       if self.replyHandlerReady, let channel = self.methodChannel {
-        self.invokeReply(channel: channel, args: args, completion: completion)
+        self.invokeAction(channel: channel, action: action)
         return
       }
-      self.pendingReplies.append(PendingReply(args: args, completion: completion))
-      let overflow = self.pendingReplies.count - Self.maxPendingReplies
+      self.pendingActions.append(action)
+      let overflow = self.pendingActions.count - Self.maxPendingActions
       if overflow > 0 {
-        let dropped = Array(self.pendingReplies.prefix(overflow))
-        self.pendingReplies.removeFirst(overflow)
-        for reply in dropped {
-          reply.completion()
+        let dropped = Array(self.pendingActions.prefix(overflow))
+        self.pendingActions.removeFirst(overflow)
+        for action in dropped {
+          action.completion()
         }
       }
     }
   }
 
-  private func flushPendingReplies() {
-    guard replyHandlerReady, let channel = methodChannel, !pendingReplies.isEmpty else {
+  private func flushPendingActions() {
+    guard replyHandlerReady, let channel = methodChannel, !pendingActions.isEmpty else {
       return
     }
-    let queued = pendingReplies
-    pendingReplies.removeAll()
-    for reply in queued {
-      invokeReply(channel: channel, args: reply.args, completion: reply.completion)
+    let queued = pendingActions
+    pendingActions.removeAll()
+    for action in queued {
+      invokeAction(channel: channel, action: action)
     }
   }
 
-  private func invokeReply(
+  private func invokeAction(
     channel: FlutterMethodChannel,
-    args: [String: Any],
-    completion: @escaping () -> Void
+    action: PendingNotificationAction
   ) {
-    channel.invokeMethod("sendNotificationReply", arguments: args) { _ in
-      DispatchQueue.main.async(execute: completion)
+    channel.invokeMethod(action.method, arguments: action.args) { _ in
+      DispatchQueue.main.async(execute: action.completion)
     }
   }
 
@@ -461,7 +499,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       DispatchQueue.main.async {
         self.replyHandlerReady = true
         result(nil)
-        self.flushPendingReplies()
+        self.flushPendingActions()
       }
     case "setNotificationSoundSettings":
       guard let args = call.arguments as? [String: Any],
@@ -601,7 +639,8 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   }
 }
 
-private struct PendingReply {
+private struct PendingNotificationAction {
+  let method: String
   let args: [String: Any]
   let completion: () -> Void
 }

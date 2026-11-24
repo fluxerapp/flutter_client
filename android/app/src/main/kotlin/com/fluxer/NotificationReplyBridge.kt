@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -38,12 +39,14 @@ class NotificationReplyBridge(
             val userId = call.argument<String>("userId")
             val title = call.argument<String>("title")
             val hint = call.argument<String>("hint")
+            val markReadTitle = call.argument<String>("markReadTitle")
             if (
                 channelId.isNullOrEmpty() ||
                 messageId.isNullOrEmpty() ||
                 userId.isNullOrEmpty() ||
                 title.isNullOrEmpty() ||
-                hint.isNullOrEmpty()
+                hint.isNullOrEmpty() ||
+                markReadTitle.isNullOrEmpty()
             ) {
                 return null
             }
@@ -59,6 +62,8 @@ class NotificationReplyBridge(
                 features = call.argument<String>("features"),
                 failureTitle = call.argument<String>("failureTitle"),
                 failureBody = call.argument<String>("failureBody"),
+                markReadTitle = markReadTitle,
+                markReadFailureBody = call.argument<String>("markReadFailureBody"),
             )
         }
 
@@ -71,6 +76,8 @@ class NotificationReplyBridge(
             val builder = Notification.Builder.recoverBuilder(context, status.notification)
             builder.setOnlyAlertOnce(true)
             builder.addAction(notificationAction(context, action))
+            builder.addAction(markReadAction(context, action))
+            builder.addExtras(Bundle().apply { putString(EXTRA_MESSAGE_ID, action.messageId) })
             publish(manager, action.id, action.tag, builder.build())
             return true
         }
@@ -81,6 +88,14 @@ class NotificationReplyBridge(
             val builder = Notification.Builder.recoverBuilder(context, status.notification)
             builder.setOnlyAlertOnce(true)
             publish(manager, id, tag, builder.build())
+        }
+
+        fun cancelIfLatest(context: Context, id: Int, tag: String?, messageId: String) {
+            val manager = context.getSystemService(NotificationManager::class.java) ?: return
+            val status = postedNotification(manager, id, tag) ?: return
+            if (status.notification.extras.getString(EXTRA_MESSAGE_ID) == messageId) {
+                manager.cancel(status.tag, status.id)
+            }
         }
 
         private fun postedNotification(
@@ -118,14 +133,8 @@ class NotificationReplyBridge(
             val intent = Intent(context, FluxerNotificationReplyReceiver::class.java).apply {
                 this.action = ACTION_REPLY
                 data = Uri.parse("fluxer://notification-reply/${action.id}")
-                putExtra(EXTRA_NOTIFICATION_ID, action.id)
-                putExtra(EXTRA_NOTIFICATION_TAG, action.tag)
-                putExtra(EXTRA_CHANNEL_ID, action.channelId)
-                putExtra(EXTRA_MESSAGE_ID, action.messageId)
-                putExtra(EXTRA_USER_ID, action.userId)
+                putTarget(action)
                 putExtra(EXTRA_REPLY_MENTION, action.replyMention)
-                putExtra(EXTRA_FEATURES, action.features)
-                putExtra(EXTRA_FAILURE_TITLE, action.failureTitle)
                 putExtra(EXTRA_FAILURE_BODY, action.failureBody)
             }
             var flags = PendingIntent.FLAG_UPDATE_CURRENT
@@ -140,6 +149,39 @@ class NotificationReplyBridge(
                 .addRemoteInput(remoteInput)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 builder.setSemanticAction(Notification.Action.SEMANTIC_ACTION_REPLY)
+            }
+            return builder.build()
+        }
+
+        private fun Intent.putTarget(action: NotificationReplyAction) {
+            putExtra(EXTRA_NOTIFICATION_ID, action.id)
+            putExtra(EXTRA_NOTIFICATION_TAG, action.tag)
+            putExtra(EXTRA_CHANNEL_ID, action.channelId)
+            putExtra(EXTRA_MESSAGE_ID, action.messageId)
+            putExtra(EXTRA_USER_ID, action.userId)
+            putExtra(EXTRA_FEATURES, action.features)
+            putExtra(EXTRA_FAILURE_TITLE, action.failureTitle)
+        }
+
+        private fun markReadAction(
+            context: Context,
+            action: NotificationReplyAction,
+        ): Notification.Action {
+            val intent = Intent(context, FluxerNotificationMarkReadReceiver::class.java).apply {
+                this.action = ACTION_MARK_READ
+                data = Uri.parse("fluxer://notification-mark-read/${action.id}")
+                putTarget(action)
+                putExtra(EXTRA_FAILURE_BODY, action.markReadFailureBody)
+            }
+            val pending = PendingIntent.getBroadcast(
+                context,
+                action.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+            val builder = Notification.Action.Builder(null, action.markReadTitle, pending)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                builder.setSemanticAction(Notification.Action.SEMANTIC_ACTION_MARK_AS_READ)
             }
             return builder.build()
         }
@@ -158,4 +200,6 @@ private data class NotificationReplyAction(
     val features: String?,
     val failureTitle: String?,
     val failureBody: String?,
+    val markReadTitle: String,
+    val markReadFailureBody: String?,
 )

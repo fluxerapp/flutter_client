@@ -9454,6 +9454,10 @@
   "@notificationReplyFailed": {
     "description": "Body of the local notification shown when a notification reply fails to send."
   },
+  "notificationMarkReadFailed": "Couldn't mark as read",
+  "@notificationMarkReadFailed": {
+    "description": "Body of the local notification shown when the mark as read notification action fails."
+  },
   "notificationChannelMessages": "Messages",
   "@notificationChannelMessages": {
     "description": "Android notification channel name for community messages."

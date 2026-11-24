@@ -7546,6 +7546,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get notificationReplyFailed => 'Не вдалося надіслати відповідь';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Повідомлення';
 
   @override

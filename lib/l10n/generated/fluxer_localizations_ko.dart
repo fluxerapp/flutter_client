@@ -7180,6 +7180,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get notificationReplyFailed => '답장을 보낼 수 없습니다';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => '메시지';
 
   @override

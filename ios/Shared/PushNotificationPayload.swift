@@ -10,6 +10,7 @@ enum PushNotificationPayload {
   static let messageReplyCategoryId = "fluxer_message"
   static let groupDmTitleSuffix = " (Group DM)"
   static let messageReplyActionId = "fluxer_reply"
+  static let messageMarkReadActionId = "fluxer_mark_read"
 
   static func canReply(from userInfo: [AnyHashable: Any]) -> Bool {
     if isClearPayload(from: userInfo) || isCallRingPayload(from: userInfo) {

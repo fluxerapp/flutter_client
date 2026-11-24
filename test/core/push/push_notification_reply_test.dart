@@ -175,6 +175,32 @@ void main() {
       expect(lookups, 0);
     });
 
+    test('fails when the account lookup or the request throws', () async {
+      const Map<String, String> payload = <String, String>{
+        'channel_id': 'c',
+        'message_id': 'm',
+        'target_user_id': 'user-b',
+      };
+      expect(
+        await sendPushNotificationReply(
+          payload: payload,
+          text: 'hi',
+          lookupAccount: (String userId) async => throw StateError('locked'),
+        ),
+        PushReplyResult.failed,
+      );
+      expect(
+        await sendPushNotificationReply(
+          payload: payload,
+          text: 'hi',
+          lookupAccount: (String userId) async => accountB,
+          post: (PushReplySend send) async => throw StateError('offline'),
+          resolveReplyMention: (Map<String, String> payload) async => true,
+        ),
+        PushReplyResult.failed,
+      );
+    });
+
     test('fails when that account has no token', () async {
       var posted = false;
       final PushReplyResult result = await sendPushNotificationReply(

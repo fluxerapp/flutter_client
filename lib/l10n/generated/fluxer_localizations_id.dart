@@ -7459,6 +7459,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get notificationReplyFailed => 'Tidak dapat mengirim balasan';
 
   @override
+  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+
+  @override
   String get notificationChannelMessages => 'Pesan';
 
   @override
