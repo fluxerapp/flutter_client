@@ -61,7 +61,7 @@ abstract final class LocalSettingKeys {
   static const DeviceSettingKey<int> ttsNotificationMode =
       DeviceSettingKey<int>(
         'notification_prefs_tts_mode',
-        defaultValue: 0,
+        defaultValue: 2,
         codec: IntSettingCodec(),
       );
   static const DeviceFlag unreadMessageBadge = DeviceFlag(
