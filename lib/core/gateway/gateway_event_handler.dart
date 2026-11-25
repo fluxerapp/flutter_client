@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/gateway/presence_store.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
@@ -920,7 +921,7 @@ class GatewayEventHandler {
           userId: event.user.id,
           status: event.userSettings?.status ?? 'online',
           customStatus: serializeCustomStatus(event.userSettings?.customStatus),
-          mobile: isFluxerMobileClient,
+          mobile: isFluxerNativeMobileOs,
         ),
       ];
       await database.userDao.upsertUsersIfChanged(<db.UsersCompanion>[
@@ -1448,7 +1449,7 @@ class GatewayEventHandler {
       userId,
       status: event.settings.status,
       customStatus: serializeCustomStatus(event.settings.customStatus),
-      mobile: isFluxerMobileClient,
+      mobile: isFluxerNativeMobileOs,
     );
     UserSettingsResponse hydrated = event.settings;
     if (existing != null) {

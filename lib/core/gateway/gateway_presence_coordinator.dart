@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/gateway/gateway_lifecycle_presence.dart';
-import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
@@ -41,7 +40,7 @@ void bindGatewayPresenceCoordinator(Ref ref, {required bool mobileOs}) {
           ref.read(appUiForegroundProvider) || ackFlushesBeforeAfk > 0,
       status: settings?.status ?? 'online',
       customStatus: gatewayCustomStatusFromSettings(settings?.customStatus),
-      mobile: isFluxerMobileClient,
+      mobile: isFluxerNativeMobileOs,
       markAfkWhenBackgrounded: true,
     );
     final GatewayPresence? previous = lastSent;

@@ -44,45 +44,107 @@ void main() {
     });
   });
 
-  group('resolveClientPlatform', () {
-    test('reports linux mobile form factor as linux client platform', () {
-      expect(
-        resolveClientPlatform(TargetPlatform.linux, mobileFormFactor: true),
-        'linux',
-      );
-    });
-
-    test('reports desktop linux as desktop client platform', () {
-      expect(resolveClientPlatform(TargetPlatform.linux), 'desktop');
-    });
+  test('reports every desktop os as a desktop client and device', () {
+    for (final TargetPlatform platform in <TargetPlatform>[
+      TargetPlatform.linux,
+      TargetPlatform.macOS,
+      TargetPlatform.windows,
+    ]) {
+      expect(resolveClientPlatform(platform), 'desktop');
+      expect(resolveDeviceClass(platform), 'desktop');
+    }
   });
 
-  group('resolveDeviceClass', () {
-    test('reports mobile form factor on desktop os as mobile device class', () {
-      expect(
-        resolveDeviceClass(TargetPlatform.linux, mobileFormFactor: true),
-        'mobile',
-      );
-      expect(
-        resolveDeviceClass(TargetPlatform.macOS, mobileFormFactor: true),
-        'mobile',
-      );
-    });
-
-    test('reports desktop form factor as desktop device class', () {
-      expect(resolveDeviceClass(TargetPlatform.linux), 'desktop');
-    });
+  test('reports phones as mobile devices', () {
+    expect(resolveDeviceClass(TargetPlatform.android), 'mobile');
+    expect(resolveDeviceClass(TargetPlatform.iOS), 'mobile');
   });
 
   group('buildFluxerClientUserAgent', () {
-    test('uses Fluxer Linux label for linux mobile platform', () {
+    String userAgentFor(
+      TargetPlatform platform, {
+      String osVersion = '',
+      String distribution = '',
+    }) => buildFluxerClientUserAgent(
+      clientPlatform: resolveClientPlatform(platform),
+      clientVersion: '1.0.0',
+      releaseChannel: 'beta',
+      systemToken: resolveUserAgentSystemToken(
+        platform,
+        osVersion: osVersion,
+        distribution: distribution,
+      ),
+    );
+
+    test('names desktop clients Fluxer Oxygen with their real os', () {
+      expect(
+        userAgentFor(TargetPlatform.macOS, osVersion: '27.2.0'),
+        'Fluxer Oxygen/1.0.0 (Macintosh; Mac OS X 27.2.0; beta)',
+      );
+      expect(
+        userAgentFor(TargetPlatform.windows, osVersion: '10.0.26100'),
+        'Fluxer Oxygen/1.0.0 (Windows NT 10.0.26100; beta)',
+      );
+      expect(
+        userAgentFor(
+          TargetPlatform.linux,
+          osVersion: '24.04.1 LTS (Noble Numbat)',
+          distribution: 'Ubuntu',
+        ),
+        'Fluxer Oxygen/1.0.0 (Linux; Ubuntu 24.04.1; beta)',
+      );
+    });
+
+    test('still names the os when details are missing', () {
+      expect(
+        userAgentFor(TargetPlatform.macOS),
+        'Fluxer Oxygen/1.0.0 (Macintosh; beta)',
+      );
+      expect(
+        userAgentFor(TargetPlatform.windows),
+        'Fluxer Oxygen/1.0.0 (Windows NT; beta)',
+      );
+      expect(
+        userAgentFor(TargetPlatform.linux, distribution: 'Linux'),
+        'Fluxer Oxygen/1.0.0 (Linux; beta)',
+      );
+    });
+
+    test('drops kernel strings and unsafe distribution characters', () {
+      expect(
+        userAgentFor(
+          TargetPlatform.linux,
+          osVersion: 'Linux 6.11.0-arch1-1 #1 SMP PREEMPT_DYNAMIC',
+          distribution: 'Arch Linux',
+        ),
+        'Fluxer Oxygen/1.0.0 (Linux; Arch Linux; beta)',
+      );
+      expect(
+        userAgentFor(
+          TargetPlatform.linux,
+          osVersion: '12 (bookworm)',
+          distribution: 'Debian GNU/Linux\r\n (é)',
+        ),
+        'Fluxer Oxygen/1.0.0 (Linux; Debian GNU Linux 12; beta)',
+      );
+    });
+
+    test('keeps the mobile user agents unchanged', () {
+      expect(
+        userAgentFor(TargetPlatform.android),
+        'Fluxer Android/1.0.0 (beta)',
+      );
+      expect(userAgentFor(TargetPlatform.iOS), 'Fluxer iOS/1.0.0 (beta)');
+    });
+
+    test('omits missing parts', () {
       expect(
         buildFluxerClientUserAgent(
-          clientPlatform: 'linux',
-          clientVersion: '1.0.0',
-          releaseChannel: 'beta',
+          clientPlatform: 'desktop',
+          clientVersion: null,
+          releaseChannel: null,
         ),
-        'Fluxer Linux/1.0.0 (beta)',
+        'Fluxer Oxygen',
       );
     });
   });

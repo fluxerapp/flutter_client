@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_build_environment.dart';
-import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
 const int fluxerClientPropertiesSchemaVersion = 1;
@@ -70,17 +69,13 @@ String mapAppBuildEnvironmentToReleaseChannel(AppBuildEnvironment environment) {
   };
 }
 
-String resolveClientPlatform(
-  TargetPlatform targetPlatform, {
-  bool mobileFormFactor = false,
-}) {
+String resolveClientPlatform(TargetPlatform targetPlatform) {
   switch (targetPlatform) {
     case TargetPlatform.android:
       return 'android';
     case TargetPlatform.iOS:
       return 'ios';
     case TargetPlatform.linux:
-      return mobileFormFactor ? 'linux' : 'desktop';
     case TargetPlatform.macOS:
     case TargetPlatform.windows:
     case TargetPlatform.fuchsia:
@@ -88,10 +83,7 @@ String resolveClientPlatform(
   }
 }
 
-String resolveDeviceClass(
-  TargetPlatform targetPlatform, {
-  bool mobileFormFactor = false,
-}) {
+String resolveDeviceClass(TargetPlatform targetPlatform) {
   switch (targetPlatform) {
     case TargetPlatform.android:
     case TargetPlatform.iOS:
@@ -100,7 +92,7 @@ String resolveDeviceClass(
     case TargetPlatform.macOS:
     case TargetPlatform.windows:
     case TargetPlatform.fuchsia:
-      return mobileFormFactor ? 'mobile' : 'desktop';
+      return 'desktop';
   }
 }
 
@@ -124,31 +116,54 @@ String? normalizeOptionalString(String? value) {
   return trimmed;
 }
 
+String? resolveUserAgentSystemToken(
+  TargetPlatform targetPlatform, {
+  String osVersion = '',
+  String distribution = '',
+}) {
+  final String version =
+      RegExp(r'^\d+(?:\.\d+)*').stringMatch(osVersion.trim()) ?? '';
+  switch (targetPlatform) {
+    case TargetPlatform.macOS:
+      return version.isEmpty ? 'Macintosh' : 'Macintosh; Mac OS X $version';
+    case TargetPlatform.windows:
+      return version.isEmpty ? 'Windows NT' : 'Windows NT $version';
+    case TargetPlatform.linux:
+      final String name = distribution
+          .replaceAll(RegExp('[^A-Za-z0-9._-]+'), ' ')
+          .trim();
+      if (name.isEmpty || name == 'Linux') {
+        return 'Linux';
+      }
+      return version.isEmpty ? 'Linux; $name' : 'Linux; $name $version';
+    case TargetPlatform.android:
+    case TargetPlatform.iOS:
+    case TargetPlatform.fuchsia:
+      return null;
+  }
+}
+
 String buildFluxerClientUserAgent({
   required String clientPlatform,
   required String? clientVersion,
   required String? releaseChannel,
+  String? systemToken,
 }) {
   final String clientName = switch (clientPlatform) {
     'android' => 'Fluxer Android',
     'ios' => 'Fluxer iOS',
-    'linux' => 'Fluxer Linux',
-    'desktop' => 'Fluxer Desktop',
+    'desktop' => 'Fluxer Oxygen',
     'client' => 'Fluxer Client',
     _ => 'Fluxer Client',
   };
   final String? version = normalizeOptionalString(clientVersion);
   final String? channel = normalizeOptionalString(releaseChannel);
-  if (version != null && channel != null) {
-    return '$clientName/$version ($channel)';
-  }
-  if (version != null) {
-    return '$clientName/$version';
-  }
-  if (channel != null) {
-    return '$clientName ($channel)';
-  }
-  return clientName;
+  final String product = version == null ? clientName : '$clientName/$version';
+  final String details = <String>[
+    ?normalizeOptionalString(systemToken),
+    ?channel,
+  ].join('; ');
+  return details.isEmpty ? product : '$product ($details)';
 }
 
 String? mapAbiToFluxerArchitecture() {
@@ -207,11 +222,7 @@ FluxerClientProperties buildFluxerClientProperties({
   AppRuntimeInfo? runtimeInfo,
 }) {
   final TargetPlatform target = defaultTargetPlatform;
-  final bool mobileFormFactor = isFluxerRuntimeMobileFormFactor;
-  final String clientPlatform = resolveClientPlatform(
-    target,
-    mobileFormFactor: mobileFormFactor,
-  );
+  final String clientPlatform = resolveClientPlatform(target);
   final AppBuildEnvironment environment =
       runtimeInfo?.environment ?? AppBuildConfig.environment;
   final String releaseChannel = mapAppBuildEnvironmentToReleaseChannel(
@@ -224,6 +235,11 @@ FluxerClientProperties buildFluxerClientProperties({
     clientPlatform: clientPlatform,
     clientVersion: clientVersion,
     releaseChannel: releaseChannel,
+    systemToken: resolveUserAgentSystemToken(
+      target,
+      osVersion: runtimeInfo?.osVersionLabel ?? '',
+      distribution: runtimeInfo?.deviceModelLabel ?? '',
+    ),
   );
   final int? parsedBuildNumber = int.tryParse(runtimeInfo?.buildNumber ?? '');
   return FluxerClientProperties(
@@ -232,7 +248,7 @@ FluxerClientProperties buildFluxerClientProperties({
     clientRuntime: fluxerClientRuntimeFlutter,
     os: normalizeFluxerOperatingSystem(),
     browser: fluxerBrowserName,
-    device: resolveDeviceClass(target, mobileFormFactor: mobileFormFactor),
+    device: resolveDeviceClass(target),
     locale: PlatformDispatcher.instance.locale.toLanguageTag(),
     systemLocale: Platform.localeName,
     userAgent: userAgent,

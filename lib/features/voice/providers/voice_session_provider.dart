@@ -842,7 +842,7 @@ class VoiceSession extends _$VoiceSession {
         selfDeaf: selfDeaf,
         selfVideo: false,
         selfStream: false,
-        isMobile: isFluxerMobileOs,
+        isMobile: isFluxerNativeMobileOs,
         p2p: p2p ? true : null,
       ),
     );
@@ -1388,7 +1388,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: selfVideo,
             selfStream: _lastReportedSelfStream ?? false,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
             p2p: s.mesh != null ? true : null,
           ),
         );
@@ -1412,7 +1412,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: current?.selfVideo ?? false,
             selfStream: current?.selfStream ?? false,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
             p2p: false,
           ),
         );
@@ -2723,7 +2723,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: false,
             selfStream: false,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -2738,7 +2738,7 @@ class VoiceSession extends _$VoiceSession {
             selfDeaf: false,
             selfVideo: false,
             selfStream: false,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -3248,7 +3248,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: selfVideo,
             selfStream: selfStream,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
     final EffectiveAudioState audio = computeEffectiveAudioState(
@@ -3300,7 +3300,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: current?.selfVideo ?? false,
             selfStream: selfStream,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -3593,7 +3593,7 @@ class VoiceSession extends _$VoiceSession {
           selfDeaf: _pendingSelfDeaf,
           selfVideo: false,
           selfStream: false,
-          isMobile: isFluxerMobileOs,
+          isMobile: isFluxerNativeMobileOs,
         ),
       );
       if (!sent) {
@@ -4749,7 +4749,7 @@ class VoiceSession extends _$VoiceSession {
             selfStream: current?.selfStream ?? false,
             viewerStreamKeys: viewerStreamKeys,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }

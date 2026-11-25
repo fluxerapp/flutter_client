@@ -60,7 +60,7 @@ void sendVoiceStateDisconnect(
           selfVideo: false,
           selfStream: false,
           connectionId: connectionId,
-          isMobile: isFluxerMobileOs,
+          isMobile: isFluxerNativeMobileOs,
         ),
       );
 }

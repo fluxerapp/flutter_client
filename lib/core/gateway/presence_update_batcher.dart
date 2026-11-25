@@ -6,8 +6,6 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
 const Duration kPresenceUpdateBatchDelay = Duration(milliseconds: 500);
 
-bool get isFluxerMobileClient => isFluxerMobileOs;
-
 class PresenceUpdateBatcher {
   PresenceUpdateBatcher({
     required this._database,
@@ -43,7 +41,7 @@ class PresenceUpdateBatcher {
         userId,
         status: status,
         customStatus: customStatus,
-        mobile: isFluxerMobileClient,
+        mobile: isFluxerNativeMobileOs,
       );
       if (user != null) {
         unawaited(
