@@ -166,71 +166,127 @@ class FluxerModal {
           child: buildModalContent(mobileFullscreen: false),
         );
 
-        return wrapFluxerOverlayBackHandler(
-          canDismiss: true,
+        return _buildFluxerModalOverlay(
+          dialogContext,
+          close: close,
           onBack: onBack,
-          onDismiss: close,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: FluxerGestureDetector(
-                  onTap: close,
-                  child: ColoredBox(
-                    color: Colors.black.withValues(alpha: 0.35),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                      child: const SizedBox.expand(),
+          child: useMobileFullscreen
+              ? SafeArea(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: layout.s2),
+                      child: Material(
+                        color: dialogTheme.backgroundColor,
+                        surfaceTintColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: layout.radiusXxl.topLeft,
+                          ),
+                          side: themeShape?.side ?? BorderSide.none,
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: buildModalContent(mobileFullscreen: true),
+                      ),
                     ),
+                  ),
+                )
+              : keyboardInset > 0
+              ? Align(alignment: Alignment.bottomCenter, child: centeredDialog)
+              : CreaseAwareAlign(child: centeredDialog),
+        );
+      },
+    );
+  }
+
+  static Future<T?> showBare<T>(
+    BuildContext context, {
+    required String semanticLabel,
+    required FluxerModalBuilder builder,
+    bool? useRootNavigator,
+  }) {
+    return showDialog<T>(
+      context: context,
+      useRootNavigator:
+          useRootNavigator ?? resolveShellPopupUseRootNavigator(context),
+      barrierColor: Colors.transparent,
+      builder: (BuildContext dialogContext) {
+        void close() => Navigator.of(dialogContext).pop();
+        final layout = dialogContext.layout;
+        final RoundedRectangleBorder? themeShape =
+            DialogTheme.of(dialogContext).shape as RoundedRectangleBorder?;
+        return _buildFluxerModalOverlay(
+          dialogContext,
+          close: close,
+          child: CreaseAwareAlign(
+            child: Dialog(
+              insetPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 24,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: layout.radiusLg,
+                side: themeShape?.side ?? BorderSide.none,
+              ),
+              child: Semantics(
+                scopesRoute: true,
+                namesRoute: true,
+                explicitChildNodes: true,
+                label: semanticLabel,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: SingleChildScrollView(
+                    child: builder(dialogContext, close),
                   ),
                 ),
               ),
-
-              AnimatedPadding(
-                duration: dialogContext.motion.normal,
-                curve: dialogContext.motion.curve,
-                padding: EdgeInsets.only(bottom: keyboardInset),
-                child: MediaQuery.removeViewInsets(
-                  context: dialogContext,
-                  removeBottom: true,
-                  child: useMobileFullscreen
-                      ? SafeArea(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: layout.s2,
-                              ),
-                              child: Material(
-                                color: dialogTheme.backgroundColor,
-                                surfaceTintColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: layout.radiusXxl.topLeft,
-                                  ),
-                                  side: themeShape?.side ?? BorderSide.none,
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: buildModalContent(
-                                  mobileFullscreen: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : keyboardInset > 0
-                      ? Align(
-                          alignment: Alignment.bottomCenter,
-                          child: centeredDialog,
-                        )
-                      : CreaseAwareAlign(child: centeredDialog),
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },
     );
   }
+}
+
+Widget _buildFluxerModalOverlay(
+  BuildContext context, {
+  required VoidCallback close,
+  required Widget child,
+  VoidCallback? onBack,
+}) {
+  return wrapFluxerOverlayBackHandler(
+    canDismiss: true,
+    onBack: onBack,
+    onDismiss: close,
+    child: Stack(
+      children: [
+        Positioned.fill(
+          child: FluxerGestureDetector(
+            onTap: close,
+            child: ColoredBox(
+              color: Colors.black.withValues(alpha: 0.35),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: const SizedBox.expand(),
+              ),
+            ),
+          ),
+        ),
+        AnimatedPadding(
+          duration: context.motion.normal,
+          curve: context.motion.curve,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: MediaQuery.removeViewInsets(
+            context: context,
+            removeBottom: true,
+            child: child,
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class FluxerConfirmModal {

@@ -22,6 +22,7 @@ import flutter_local_notifications
 import flutter_secure_storage_darwin
 import flutter_webrtc
 import fluxer_clipboard
+import fluxer_macos
 import fluxer_voice
 import gal
 import in_app_purchase_storekit
@@ -63,6 +64,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterSecureStorageDarwinPlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStorageDarwinPlugin"))
   FlutterWebRTCPlugin.register(with: registry.registrar(forPlugin: "FlutterWebRTCPlugin"))
   FluxerClipboardPlugin.register(with: registry.registrar(forPlugin: "FluxerClipboardPlugin"))
+  FluxerMacosPlugin.register(with: registry.registrar(forPlugin: "FluxerMacosPlugin"))
   FluxerVoicePlugin.register(with: registry.registrar(forPlugin: "FluxerVoicePlugin"))
   GalPlugin.register(with: registry.registrar(forPlugin: "GalPlugin"))
   InAppPurchasePlugin.register(with: registry.registrar(forPlugin: "InAppPurchasePlugin"))

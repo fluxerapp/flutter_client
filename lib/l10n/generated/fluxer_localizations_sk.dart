@@ -18069,4 +18069,109 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
   @override
   String get operatorPassUpdateFailed =>
       'Couldn\'t update your Operator Pass settings.';
+
+  @override
+  String get macPermissionMicrophone => 'Microphone';
+
+  @override
+  String get macPermissionCamera => 'Camera';
+
+  @override
+  String get macPermissionScreenRecording => 'Screen Recording';
+
+  @override
+  String get macPermissionInputMonitoring => 'Input Monitoring';
+
+  @override
+  String get macPermissionMicrophonePurpose => 'Lets people hear you in calls.';
+
+  @override
+  String get macPermissionCameraPurpose => 'Lets people see you on video.';
+
+  @override
+  String get macPermissionScreenRecordingPurpose =>
+      'Lets you share your screen or a window.';
+
+  @override
+  String get macPermissionInputMonitoringPurpose =>
+      'Lets push-to-talk and keybinds work in other apps.';
+
+  @override
+  String get macPermissionAllow => 'Allow';
+
+  @override
+  String get macPermissionOpenSystemSettings => 'Open System Settings';
+
+  @override
+  String macPermissionQuitPromptAdvice(String productName) {
+    return 'If macOS asks to quit and reopen $productName, choose Later.';
+  }
+
+  @override
+  String get macPermissionAllowed => 'Allowed';
+
+  @override
+  String get macPermissionNotAllowed => 'Not allowed';
+
+  @override
+  String get macPermissionNotNow => 'Not now';
+
+  @override
+  String get macPermissionRelaunchToApply => 'Relaunch to apply';
+
+  @override
+  String macPermissionProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get macPermissionsSettingsTitle => 'macOS permissions';
+
+  @override
+  String macPermissionsSettingsDescription(String productName) {
+    return 'Review the permissions $productName uses for voice, video, screen sharing, and keybinds.';
+  }
+
+  @override
+  String audioAndVideoEnablePlatformPermission(String permissionName) {
+    return 'Enable $permissionName permission';
+  }
+
+  @override
+  String audioAndVideoPushToTalkPermissionLimited(
+    String productName,
+    String permissionName,
+  ) {
+    return 'Push-to-talk only works while $productName is focused until $permissionName is enabled.';
+  }
+
+  @override
+  String get audioAndVideoPushToTalkGlobalDescription =>
+      'Your microphone only transmits while you hold the push-to-talk key.';
+
+  @override
+  String get mediaPermissionBlockedMicrophoneTitle =>
+      'Microphone permission required';
+
+  @override
+  String get mediaPermissionBlockedCameraTitle => 'Camera permission required';
+
+  @override
+  String get mediaPermissionBlockedScreenTitle =>
+      'Screen recording permission required';
+
+  @override
+  String mediaPermissionBlockedMicrophoneBody(String productName) {
+    return '$productName needs access to your microphone. Allow microphone access in your operating system privacy settings and restart the app.';
+  }
+
+  @override
+  String mediaPermissionBlockedCameraBody(String productName) {
+    return '$productName needs access to your camera. Allow camera access in your operating system privacy settings and restart the app.';
+  }
+
+  @override
+  String mediaPermissionBlockedScreenBody(String productName) {
+    return '$productName needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.';
+  }
 }

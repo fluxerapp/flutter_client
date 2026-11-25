@@ -5,13 +5,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/input/domain/default_keybind.dart';
 import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
+import 'package:fluxer_app/features/input/domain/global_shortcut_matcher.dart';
+import 'package:fluxer_app/features/input/domain/global_shortcut_press_deduper.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
 import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
 import 'package:fluxer_app/features/input/presentation/keybind_recorder.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
+import 'package:fluxer_app/features/input/providers/global_shortcuts_provider.dart';
 import 'package:fluxer_app/features/input/providers/keybind_handler_registry.dart';
 import 'package:fluxer_app/features/input/providers/keybind_preferences_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
@@ -37,6 +41,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     with WidgetsBindingObserver {
   final KeybindDispatcher _dispatcher = KeybindDispatcher();
   final Set<KeybindAction> _heldActions = <KeybindAction>{};
+  final Set<KeybindAction> _globallyHeldActions = <KeybindAction>{};
+  final GlobalShortcutPressDeduper _pressDeduper = GlobalShortcutPressDeduper();
+  late final GlobalShortcuts _globalShortcuts;
   bool _handlersRegistered = false;
 
   @override
@@ -49,6 +56,48 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       keybindPreferencesProvider,
       (_, KeybindPreferencesState next) => _applyKeybindPreferences(next),
     );
+    _globalShortcuts = ref.read(globalShortcutsProvider.notifier);
+    ref.listenManual<GlobalShortcutsState>(
+      globalShortcutsProvider,
+      (_, GlobalShortcutsState next) => _setGlobalRouting(active: next.running),
+      fireImmediately: true,
+    );
+    _globalShortcuts.attach(_handleGlobalShortcut);
+  }
+
+  void _setGlobalRouting({required bool active}) {
+    if (_dispatcher.globalRoutingActive == active) {
+      return;
+    }
+    _releaseHeldActions();
+    _dispatcher.globalRoutingActive = active;
+  }
+
+  void _handleGlobalShortcut(GlobalShortcutTransition transition) {
+    if (!mounted) {
+      return;
+    }
+    final KeybindHandlerRegistry registry = ref.read(
+      keybindHandlerRegistryProvider,
+    );
+    final KeybindAction action = transition.action;
+    final bool hold = kHoldKeybindActions.contains(action);
+    switch (transition.phase) {
+      case GlobalShortcutPhase.press:
+        if (hold) {
+          _globallyHeldActions.add(action);
+        } else if (_pressDeduper.isDuplicate(
+          action,
+          GlobalShortcutPressSource.hook,
+        )) {
+          return;
+        }
+        unawaited(registry.invoke(action));
+      case GlobalShortcutPhase.release:
+        if (_globallyHeldActions.remove(action)) {
+          registry.invokeRelease(action);
+        }
+    }
   }
 
   void _applyKeybindPreferences(KeybindPreferencesState preferences) {
@@ -63,6 +112,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   void dispose() {
     HardwareKeyboard.instance.removeHandler(_handleKeyEvent);
     WidgetsBinding.instance.removeObserver(this);
+    _globalShortcuts.detach(_handleGlobalShortcut);
     _releaseHeldActions();
     super.dispose();
   }
@@ -138,15 +188,27 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     }
 
     final KeybindDispatchContext contextState = _buildContext();
-    final List<KeybindAction> actions = _dispatcher.matchActions(
+    final List<DefaultKeybind> entries = _dispatcher.matchEntries(
       event: event,
       context: contextState,
     );
-    if (actions.isEmpty) {
+    if (entries.isEmpty) {
       return _handleKeyboardModeNavigation(event);
     }
+    if (_dispatcher.globalRoutingActive &&
+        entries.first.global &&
+        _pressDeduper.isDuplicate(
+          entries.first.action,
+          GlobalShortcutPressSource.window,
+        )) {
+      return true;
+    }
 
-    unawaited(_dispatchFirst(actions));
+    unawaited(
+      _dispatchFirst(<KeybindAction>[
+        for (final DefaultKeybind entry in entries) entry.action,
+      ]),
+    );
     return true;
   }
 

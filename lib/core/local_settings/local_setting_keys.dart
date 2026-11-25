@@ -69,6 +69,16 @@ abstract final class LocalSettingKeys {
     defaultValue: true,
   );
 
+  static const DeviceFlag macPermissionIntroCompleted = DeviceFlag(
+    'mac_permission_intro_completed',
+  );
+  static const DeviceSettingKey<List<String>> macPermissionIntroSkipped =
+      DeviceSettingKey<List<String>>(
+        'mac_permission_intro_skipped',
+        defaultValue: <String>[],
+        codec: StringListSettingCodec(),
+      );
+
   static const DeviceFlag desktopShowTrayIcon = DeviceFlag(
     'desktop_show_tray_icon',
     defaultValue: true,

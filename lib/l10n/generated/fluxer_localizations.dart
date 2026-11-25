@@ -29849,6 +29849,171 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t update your Operator Pass settings.'**
   String get operatorPassUpdateFailed;
+
+  /// Name of the macOS Microphone permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone'**
+  String get macPermissionMicrophone;
+
+  /// Name of the macOS Camera permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get macPermissionCamera;
+
+  /// Name of the macOS screen recording permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen Recording'**
+  String get macPermissionScreenRecording;
+
+  /// Name of the macOS Input Monitoring permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Monitoring'**
+  String get macPermissionInputMonitoring;
+
+  /// One sentence explaining what the macOS Microphone permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets people hear you in calls.'**
+  String get macPermissionMicrophonePurpose;
+
+  /// One sentence explaining what the macOS Camera permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets people see you on video.'**
+  String get macPermissionCameraPurpose;
+
+  /// One sentence explaining what the macOS screen recording permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets you share your screen or a window.'**
+  String get macPermissionScreenRecordingPurpose;
+
+  /// One sentence explaining what the macOS Input Monitoring permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets push-to-talk and keybinds work in other apps.'**
+  String get macPermissionInputMonitoringPurpose;
+
+  /// Button label that makes macOS ask the user for a permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get macPermissionAllow;
+
+  /// Button label that opens the macOS System Settings app at the pane for one permission. Use the name macOS gives System Settings in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Open System Settings'**
+  String get macPermissionOpenSystemSettings;
+
+  /// Advice shown after the user asks for the macOS Screen Recording or Input Monitoring permission. macOS then shows its own dialog with the buttons Quit & Reopen and Later. Use the button name macOS shows in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'If macOS asks to quit and reopen {productName}, choose Later.'**
+  String macPermissionQuitPromptAdvice(String productName);
+
+  /// Short status shown once a macOS permission has been granted.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get macPermissionAllowed;
+
+  /// Screen reader status for a macOS permission that has not been granted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not allowed'**
+  String get macPermissionNotAllowed;
+
+  /// Quiet secondary button that skips one macOS permission for now.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get macPermissionNotNow;
+
+  /// Button label that restarts the desktop app so macOS applies a permission change.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaunch to apply'**
+  String get macPermissionRelaunchToApply;
+
+  /// Screen reader text for the progress dots under a macOS permission screen in the desktop first-run setup.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String macPermissionProgress(int current, int total);
+
+  /// Title of the macOS permissions section in desktop settings.
+  ///
+  /// In en, this message translates to:
+  /// **'macOS permissions'**
+  String get macPermissionsSettingsTitle;
+
+  /// Description of the macOS permissions section in user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the permissions {productName} uses for voice, video, screen sharing, and keybinds.'**
+  String macPermissionsSettingsDescription(String productName);
+
+  /// Voice settings button that opens a platform permission prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable {permissionName} permission'**
+  String audioAndVideoEnablePlatformPermission(String permissionName);
+
+  /// Voice settings warning shown when macOS Input Monitoring is required for system-wide push-to-talk.
+  ///
+  /// In en, this message translates to:
+  /// **'Push-to-talk only works while {productName} is focused until {permissionName} is enabled.'**
+  String audioAndVideoPushToTalkPermissionLimited(
+    String productName,
+    String permissionName,
+  );
+
+  /// Description under the push-to-talk toggle on platforms where push-to-talk also works while other apps are focused.
+  ///
+  /// In en, this message translates to:
+  /// **'Your microphone only transmits while you hold the push-to-talk key.'**
+  String get audioAndVideoPushToTalkGlobalDescription;
+
+  /// Title of the modal shown when microphone permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission required'**
+  String get mediaPermissionBlockedMicrophoneTitle;
+
+  /// Title of the modal shown when camera permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission required'**
+  String get mediaPermissionBlockedCameraTitle;
+
+  /// Title of the modal shown when screen recording permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen recording permission required'**
+  String get mediaPermissionBlockedScreenTitle;
+
+  /// Body of the microphone-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your microphone. Allow microphone access in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedMicrophoneBody(String productName);
+
+  /// Body of the camera-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your camera. Allow camera access in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedCameraBody(String productName);
+
+  /// Body of the screen-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedScreenBody(String productName);
 }
 
 class _FluxerLocalizationsDelegate

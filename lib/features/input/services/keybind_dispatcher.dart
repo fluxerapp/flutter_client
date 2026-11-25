@@ -19,11 +19,13 @@ class KeybindDispatcher {
     : entries = entries ?? buildDefaultKeybinds();
 
   List<DefaultKeybind> entries;
+  bool globalRoutingActive = false;
 
   List<KeybindAction> matchHoldActions(KeyEvent event) {
     return <KeybindAction>[
       for (final DefaultKeybind entry in entries)
         if (kHoldKeybindActions.contains(entry.action) &&
+            !_isGlobalHold(entry) &&
             entry.combo.hasTrigger &&
             keyboardEventTriggerMatchesCombo(entry.combo, event))
           entry.action,
@@ -31,6 +33,14 @@ class KeybindDispatcher {
   }
 
   List<KeybindAction> matchActions({
+    required KeyEvent event,
+    required KeybindDispatchContext context,
+  }) => matchEntries(
+    event: event,
+    context: context,
+  ).map((DefaultKeybind entry) => entry.action).toList();
+
+  List<DefaultKeybind> matchEntries({
     required KeyEvent event,
     required KeybindDispatchContext context,
   }) {
@@ -58,15 +68,17 @@ class KeybindDispatcher {
         matches.add(entry);
       }
     }
-    if (matches.isEmpty) {
-      return const <KeybindAction>[];
-    }
     matches.sort(
       (DefaultKeybind a, DefaultKeybind b) =>
           b.conflictPriority.compareTo(a.conflictPriority),
     );
-    return matches.map((DefaultKeybind e) => e.action).toList();
+    return matches;
   }
+
+  bool _isGlobalHold(DefaultKeybind entry) =>
+      globalRoutingActive &&
+      entry.global &&
+      kHoldKeybindActions.contains(entry.action);
 
   bool _matchesShortcutsOverlay(KeyEvent event) {
     for (final combo in shortcutsOverlayCombosForPlatform()) {
@@ -82,7 +94,7 @@ class KeybindDispatcher {
     required KeyEvent event,
     required KeybindDispatchContext context,
   }) {
-    if (entry.informationalOnly) {
+    if (entry.informationalOnly || _isGlobalHold(entry)) {
       return false;
     }
     if (entry.requiresKeyboardMode && !context.keyboardModeEnabled) {

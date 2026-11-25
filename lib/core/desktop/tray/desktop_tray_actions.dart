@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
 import 'package:fluxer_app/core/desktop/updater/oxygen_update_provider.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_relaunch.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -25,7 +25,6 @@ class DesktopTrayActions {
   final ProviderContainer _container;
   final VoidCallback showWindow;
   final VoidCallback quit;
-  bool _restarting = false;
 
   void openSettings() {
     final BuildContext? context = _shownRootContext();
@@ -106,38 +105,7 @@ class DesktopTrayActions {
     }
   }
 
-  Future<void> restart() async {
-    if (_restarting) {
-      return;
-    }
-    _restarting = true;
-    try {
-      await _relaunch();
-    } on Object catch (error) {
-      talker.warning('[DesktopTray] Failed to relaunch: $error');
-      _restarting = false;
-      return;
-    }
-    quit();
-  }
-
-  Future<void> _relaunch() async {
-    if (Platform.isMacOS) {
-      final String bundlePath = File(
-        Platform.resolvedExecutable,
-      ).parent.parent.parent.path;
-      await Process.start('/usr/bin/open', <String>[
-        '-n',
-        bundlePath,
-      ], mode: ProcessStartMode.detached);
-      return;
-    }
-    await Process.start(
-      Platform.resolvedExecutable,
-      const <String>[],
-      mode: ProcessStartMode.detached,
-    );
-  }
+  Future<void> restart() => relaunchDesktopApp(quit: quit);
 
   BuildContext? _shownRootContext() {
     showWindow();

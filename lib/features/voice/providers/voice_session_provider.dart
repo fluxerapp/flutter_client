@@ -8,6 +8,8 @@ import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permission_gate.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permissions_controller.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/system_permissions/media_permission_error.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
@@ -30,6 +33,7 @@ import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/ui/system_permissions/media_permission_blocked_modal.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
@@ -80,6 +84,7 @@ import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_macos/fluxer_macos.dart';
 import 'package:fluxer_voice/fluxer_voice.dart' show VoiceAudioSessionEvent;
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -784,7 +789,17 @@ class VoiceSession extends _$VoiceSession {
       }
     }
     if (!joinMicrophoneGranted) {
+      if (!resolvedSelfMute) {
+        unawaited(
+          handleMediaPermissionBlocked(MediaPermissionBlockedKind.microphone),
+        );
+      }
       resolvedSelfMute = true;
+    }
+    if (initialSelfVideo && !joinCameraGranted) {
+      unawaited(
+        handleMediaPermissionBlocked(MediaPermissionBlockedKind.camera),
+      );
     }
     _pendingSelfMute = resolvedSelfMute;
     _pendingSelfDeaf = resolvedSelfDeaf;
@@ -2303,6 +2318,7 @@ class VoiceSession extends _$VoiceSession {
         await _setSessionCameraEnabled(enabled: true);
       } on Object catch (e) {
         talker.error('[Voice] setCameraEnabled on connect: $e');
+        unawaited(_handleCaptureFailure(MediaPermissionBlockedKind.camera, e));
         return;
       }
       if (attempt != _connectGeneration) {
@@ -2772,6 +2788,13 @@ class VoiceSession extends _$VoiceSession {
     return false;
   }
 
+  Future<bool> _handleCaptureFailure(
+    MediaPermissionBlockedKind kind,
+    Object error,
+  ) async =>
+      isMediaPermissionDeniedError(error) &&
+      await handleMediaPermissionBlocked(kind);
+
   void clearError() {
     if (state.errorMessage == null && !state.connectFailed) {
       return;
@@ -2930,6 +2953,7 @@ class VoiceSession extends _$VoiceSession {
         await _setSessionCameraEnabled(enabled: nextVideo);
       } on Object catch (e) {
         talker.error('[Voice] setCameraEnabled: $e');
+        unawaited(_handleCaptureFailure(MediaPermissionBlockedKind.camera, e));
         return;
       }
       await _applySelfVoiceState(
@@ -3033,9 +3057,11 @@ class VoiceSession extends _$VoiceSession {
         shouldEnableScreenShare: nextSelfStream,
       );
       if (!hasCapturePermission) {
-        state = state.copyWith(
-          errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
-        );
+        if (!macPermissions.isSupported) {
+          state = state.copyWith(
+            errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
+          );
+        }
         return;
       }
       if (nextSelfStream) {
@@ -3084,6 +3110,12 @@ class VoiceSession extends _$VoiceSession {
         );
         if (nextSelfStream) {
           await disableAndroidScreenShareBackground();
+          if (await _handleCaptureFailure(
+            MediaPermissionBlockedKind.screen,
+            e,
+          )) {
+            return;
+          }
         }
         state = state.copyWith(errorMessage: _classifyScreenShareException(e));
         return;
@@ -3146,11 +3178,16 @@ class VoiceSession extends _$VoiceSession {
   Future<bool> _requestScreenCapturePermission({
     required bool shouldEnableScreenShare,
   }) async {
-    final bool requiresCapturePermission =
-        Platform.isAndroid ||
-        Platform.isMacOS ||
-        (Platform.isLinux && !isFluxerRuntimeMobileFormFactor);
-    if (!shouldEnableScreenShare || !requiresCapturePermission) {
+    if (!shouldEnableScreenShare) {
+      return true;
+    }
+    if (macPermissions.isSupported) {
+      return await ensureMacPermission(
+        MacPermissionKind.screen,
+        liveProbe: true,
+      );
+    }
+    if (!Platform.isAndroid) {
       return true;
     }
     final bool hasCapturePermission = await Helper.requestCapturePermission();
@@ -3262,6 +3299,9 @@ class VoiceSession extends _$VoiceSession {
       try {
         await _setSessionMicrophoneEnabled(enabled: micOn);
       } on Object catch (e) {
+        unawaited(
+          _handleCaptureFailure(MediaPermissionBlockedKind.microphone, e),
+        );
         if (isTrackPublishFailure(e)) {
           talker.warning('[Voice] setMicrophoneEnabled failed: $e');
           state = state.copyWith(errorMessage: kVoiceSessionErrorMicPublish);
@@ -4523,6 +4563,9 @@ class VoiceSession extends _$VoiceSession {
       } on Object catch (e) {
         lastError = e;
         if (!isTrackPublishFailure(e)) {
+          unawaited(
+            _handleCaptureFailure(MediaPermissionBlockedKind.microphone, e),
+          );
           rethrow;
         }
         if (i < _kMicPublishRetryDelays.length) {

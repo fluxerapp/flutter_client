@@ -16,6 +16,7 @@ class DefaultKeybind {
     this.defaultsShortcutDisplayKind = DefaultsShortcutDisplayKind.normal,
     this.editableFocusBehavior,
     this.conflictPriority = 0,
+    this.global = false,
   });
 
   final KeybindAction action;
@@ -28,4 +29,19 @@ class DefaultKeybind {
   final DefaultsShortcutDisplayKind defaultsShortcutDisplayKind;
   final EditableFocusBehavior? editableFocusBehavior;
   final int conflictPriority;
+  final bool global;
+
+  DefaultKeybind asGlobal() => DefaultKeybind(
+    action: action,
+    combo: combo,
+    section: section,
+    requiresKeyboardMode: requiresKeyboardMode,
+    requiresMessageFocus: requiresMessageFocus,
+    informationalOnly: informationalOnly,
+    hideFromDefaults: hideFromDefaults,
+    defaultsShortcutDisplayKind: defaultsShortcutDisplayKind,
+    editableFocusBehavior: editableFocusBehavior,
+    conflictPriority: conflictPriority,
+    global: true,
+  );
 }

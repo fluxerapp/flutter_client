@@ -61,6 +61,8 @@ dependencies:
     path: packages/fluxer_clipboard
   fluxer_dart:
     path: dart_sdk
+  fluxer_macos:
+    path: packages/fluxer_macos
   fluxer_markdown:
     path: packages/fluxer_markdown
   fluxer_markdown_native:

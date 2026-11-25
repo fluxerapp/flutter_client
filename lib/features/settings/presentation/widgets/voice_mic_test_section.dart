@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/system_permissions/media_permission_error.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/audio_level_meter.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
+import 'package:fluxer_app/features/ui/system_permissions/media_permission_blocked_modal.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
@@ -109,6 +111,11 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       setState(() => _isRunning = true);
     } on Object catch (error, stackTrace) {
       talker.error('Failed to start mic test', error, stackTrace);
+      if (isMediaPermissionDeniedError(error)) {
+        unawaited(
+          handleMediaPermissionBlocked(MediaPermissionBlockedKind.microphone),
+        );
+      }
       await _stopTest();
     }
   }

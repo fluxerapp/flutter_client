@@ -1,6 +1,7 @@
 import 'package:fluxer_app/features/input/domain/custom_keybind.dart';
 import 'package:fluxer_app/features/input/domain/default_keybind.dart';
 import 'package:fluxer_app/features/input/domain/editable_focus_behavior.dart';
+import 'package:fluxer_app/features/input/domain/global_shortcut_resolution.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_section.dart';
 
@@ -51,6 +52,7 @@ List<DefaultKeybind> resolveEffectiveKeybinds({
             ? EditableFocusBehavior.allow
             : base?.editableFocusBehavior,
         conflictPriority: (base?.conflictPriority ?? 0) + 1,
+        global: isGlobalCustomKeybind(custom),
       ),
     );
   }
@@ -58,6 +60,10 @@ List<DefaultKeybind> resolveEffectiveKeybinds({
     ...customEntries,
     if (!disableBuiltinKeybinds)
       for (final DefaultKeybind entry in defaults)
-        if (!overridden.contains(entry.action)) entry,
+        if (!overridden.contains(entry.action))
+          if (kGlobalDefaultKeybindActions.contains(entry.action))
+            entry.asGlobal()
+          else
+            entry,
   ];
 }

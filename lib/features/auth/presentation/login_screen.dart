@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/account_closure_no
 import 'package:fluxer_app/features/auth/presentation/widgets/account_selector.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/mac_permission_intro_gate.dart';
 import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
@@ -88,7 +89,7 @@ class LoginScreen extends ConsumerWidget {
       );
     }
 
-    return const AuthFlowContent();
+    return const MacPermissionIntroGate(child: AuthFlowContent());
   }
 
   @override

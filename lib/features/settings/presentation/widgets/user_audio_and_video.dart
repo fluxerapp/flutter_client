@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permissions_provider.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permissions_state.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_entrance_sound_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_mic_test_section.dart';
@@ -23,6 +25,7 @@ import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_preset
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:fluxer_macos/fluxer_macos.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class UserAudioAndVideo extends ConsumerStatefulWidget {
@@ -41,6 +44,16 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
     });
+    ref.listenManual<(bool, bool)>(
+      macPermissionStatusesProvider.select(
+        (MacPermissionsState state) => (
+          state.isGranted(MacPermissionKind.microphone),
+          state.isGranted(MacPermissionKind.camera),
+        ),
+      ),
+      (_, _) =>
+          unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh()),
+    );
   }
 
   List<FluxerSelectItem<String>> _deviceItems(

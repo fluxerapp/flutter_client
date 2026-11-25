@@ -1120,6 +1120,13 @@ packages:
       relative: true
     source: path
     version: "2.2.0"
+  fluxer_macos:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_macos"
+      relative: true
+    source: path
+    version: "0.0.1"
   fluxer_markdown:
     dependency: "direct main"
     description:

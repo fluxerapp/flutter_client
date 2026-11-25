@@ -11,6 +11,8 @@ import 'package:fluxer_app/core/desktop/downloads/desktop_downloads_provider.dar
 import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_settings.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -20,7 +22,6 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:gal/gal.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 const Duration _kDesktopDownloadStallTimeout = Duration(seconds: 60);
 
@@ -238,7 +239,8 @@ void _showGalleryAccessToast(
     duration: const Duration(seconds: 6),
     action: FluxerToastAction(
       label: l10n.systemPermissionSettingsOpenSettings,
-      onPressed: () => unawaited(openAppSettings()),
+      onPressed: () =>
+          unawaited(openSystemPermissionSettings(SystemPermissionKind.photos)),
     ),
   ),
 );
