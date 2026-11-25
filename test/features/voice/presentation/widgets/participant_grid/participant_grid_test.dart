@@ -12,16 +12,17 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/desktop_tile_presentation.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_divider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_row.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_toggle.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile_nameplate.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/participant_grid/participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/focus_members_row_provider.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -38,10 +39,10 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../helpers/input_modality_override.dart';
-import '../../../helpers/open_test_database.dart';
-import '../../../helpers/test_l10n.dart';
-import '../../../helpers/wide_layout_test_sizes.dart';
+import '../../../../../helpers/input_modality_override.dart';
+import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_l10n.dart';
+import '../../../../../helpers/wide_layout_test_sizes.dart';
 
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
@@ -357,7 +358,7 @@ Future<ProviderContainer> _pumpDesktopCall(
   bool withStage = true,
   Size size = kDesktopTestViewportSize,
 }) async {
-  final Widget grid = VoiceChannelParticipantGrid(
+  final Widget grid = VoiceParticipantGrid(
     guildId: _guildId,
     channelId: _channelId,
     compact: compact,
@@ -512,7 +513,7 @@ Future<ProviderContainer> _pumpTabletGridCall(WidgetTester tester) async {
         home: const Scaffold(
           body: VoiceCallMobilePageLayout(
             channelId: _channelId,
-            child: VoiceChannelParticipantGrid(
+            child: VoiceParticipantGrid(
               guildId: _guildId,
               channelId: _channelId,
             ),
@@ -581,7 +582,7 @@ Future<ProviderContainer> _pumpCall(WidgetTester tester) async {
         home: const Scaffold(
           body: VoiceCallMobilePageLayout(
             channelId: _channelId,
-            child: VoiceChannelParticipantGrid(
+            child: VoiceParticipantGrid(
               guildId: _guildId,
               channelId: _channelId,
             ),

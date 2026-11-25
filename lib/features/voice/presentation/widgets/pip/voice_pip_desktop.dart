@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -26,8 +26,8 @@ const Color _kOverlayStrong = Color(0xC7000000);
 const Color _kOverlayLight = Color(0x1FFFFFFF);
 const Color _kTextStrong = Color(0xFFFFFFFF);
 
-class VoicePipDesktopChrome extends StatefulWidget {
-  const VoicePipDesktopChrome({
+class VoicePipDesktop extends StatefulWidget {
+  const VoicePipDesktop({
     required this.tileId,
     required this.visible,
     required this.onReturnToCall,
@@ -39,14 +39,14 @@ class VoicePipDesktopChrome extends StatefulWidget {
   final VoidCallback onReturnToCall;
 
   @override
-  State<VoicePipDesktopChrome> createState() => _VoicePipDesktopChromeState();
+  State<VoicePipDesktop> createState() => _VoicePipDesktopState();
 }
 
-class _VoicePipDesktopChromeState extends State<VoicePipDesktopChrome> {
+class _VoicePipDesktopState extends State<VoicePipDesktop> {
   late bool _showContent = widget.visible;
 
   @override
-  void didUpdateWidget(VoicePipDesktopChrome oldWidget) {
+  void didUpdateWidget(VoicePipDesktop oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.visible) {
       _showContent = true;
@@ -69,7 +69,7 @@ class _VoicePipDesktopChromeState extends State<VoicePipDesktopChrome> {
         curve: Curves.ease,
         onEnd: _handleFadeEnd,
         child: _showContent
-            ? _PipChromeContent(
+            ? _PipDesktopContent(
                 tileId: widget.tileId,
                 onReturnToCall: widget.onReturnToCall,
               )
@@ -79,8 +79,11 @@ class _VoicePipDesktopChromeState extends State<VoicePipDesktopChrome> {
   }
 }
 
-class _PipChromeContent extends ConsumerWidget {
-  const _PipChromeContent({required this.tileId, required this.onReturnToCall});
+class _PipDesktopContent extends ConsumerWidget {
+  const _PipDesktopContent({
+    required this.tileId,
+    required this.onReturnToCall,
+  });
 
   final String tileId;
   final VoidCallback onReturnToCall;

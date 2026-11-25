@@ -80,5 +80,4 @@ export 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_leave_button.dart';
-export 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 export 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';

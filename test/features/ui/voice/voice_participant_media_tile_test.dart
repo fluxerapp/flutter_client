@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placehold
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:fluxer_app/material_ui.dart';

@@ -1,5 +1,3 @@
-import 'dart:ui' show Offset, Rect;
-
 class VoiceScreenShareFullscreenPrefs {
   const VoiceScreenShareFullscreenPrefs({
     this.userExpanded = false,
@@ -43,28 +41,4 @@ bool voiceScreenShareShouldExpand({
     return true;
   }
   return false;
-}
-
-List<Rect> voiceScreenShareFullscreenRects({
-  required List<Rect> baseRects,
-  required int expandedTileIndex,
-  required double width,
-  required double height,
-  required bool expanded,
-}) {
-  if (!expanded ||
-      expandedTileIndex < 0 ||
-      expandedTileIndex >= baseRects.length) {
-    return baseRects;
-  }
-  final List<Rect> rects = List<Rect>.from(baseRects);
-  rects[expandedTileIndex] = Rect.fromLTWH(0, 0, width, height);
-  for (int i = 0; i < rects.length; i++) {
-    if (i == expandedTileIndex) {
-      continue;
-    }
-    final Offset center = baseRects[i].center;
-    rects[i] = Rect.fromCenter(center: center, width: 0, height: 0);
-  }
-  return rects;
 }

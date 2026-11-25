@@ -121,6 +121,62 @@ VoiceStreamStatsSample voiceStreamMonitoredStats(VideoTrack? track) {
   return kEmptyVoiceStreamStatsSample;
 }
 
+typedef VoiceStreamQuality = ({int height, int fps});
+
+const VoiceStreamQuality kEmptyVoiceStreamQuality = (height: 0, fps: 0);
+
+VoiceStreamQuality voiceStreamQuality(VoiceMediaParticipant? participant) {
+  if (participant == null || !participant.hasScreenShare) {
+    return kEmptyVoiceStreamQuality;
+  }
+  final VideoDimensions? dimensions = participant.screenShareDimensions;
+  final VideoTrack? track = participant.screenShareTrack;
+  final VoiceStreamStatsSample settings = _voiceStreamSettings(track);
+  final VoiceStreamStatsSample stats = voiceStreamMonitoredStats(track);
+  return (
+    height: resolveVoiceStreamLabelHeight(
+      statsWidth: stats.width,
+      statsHeight: stats.height,
+      settingsWidth: settings.width,
+      settingsHeight: settings.height,
+      publicationWidth: dimensions?.width ?? 0,
+      publicationHeight: dimensions?.height ?? 0,
+    ),
+    fps: firstPositiveFrameRate(<int>[
+      settings.fps,
+      stats.fps,
+      _voiceStreamCaptureFps(track),
+    ]),
+  );
+}
+
+VoiceStreamStatsSample _voiceStreamSettings(VideoTrack? track) {
+  if (track == null) {
+    return kEmptyVoiceStreamStatsSample;
+  }
+  try {
+    final Map<String, dynamic> settings = track.mediaStreamTrack.getSettings();
+    return (
+      width: voiceStreamDimensionFromSettings(settings, 'width'),
+      height: voiceStreamDimensionFromSettings(settings, 'height'),
+      fps: voiceStreamFpsFromSettings(settings),
+    );
+  } on Object {
+    return kEmptyVoiceStreamStatsSample;
+  }
+}
+
+int _voiceStreamCaptureFps(VideoTrack? track) {
+  if (track is! LocalVideoTrack) {
+    return 0;
+  }
+  final VideoCaptureOptions options = track.currentOptions;
+  return firstPositiveFrameRate(<int>[
+    parsePositiveFrameRate(options.maxFrameRate),
+    parsePositiveFrameRate(options.params.encoding?.maxFramerate),
+  ]);
+}
+
 EventsListener<TrackEvent>? listenVoiceStreamStats(
   VideoTrack? track,
   void Function() onStats,

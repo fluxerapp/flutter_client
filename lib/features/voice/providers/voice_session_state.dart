@@ -42,6 +42,16 @@ class VoiceSessionState {
       channelId != null &&
       channelId!.isNotEmpty;
 
+  bool isInCall({required String channelId, required String? guildId}) {
+    if (!isInVoice || this.channelId != channelId) {
+      return false;
+    }
+    if (guildId == null) {
+      return this.guildId == null || this.guildId!.isEmpty;
+    }
+    return this.guildId == guildId;
+  }
+
   bool get showDesktopVoiceConnectionSection => isInVoice || connectFailed;
 
   VoiceMediaRoom? get media {

@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/participant_grid/participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -143,7 +143,7 @@ class _DmVoiceCallFullscreenPageState
                       ? VoiceCallMobilePageLayout(
                           channelId: widget.channelId,
                           child: RepaintBoundary(
-                            child: VoiceChannelParticipantGrid(
+                            child: VoiceParticipantGrid(
                               key: const ValueKey<String>(
                                 'voice-participant-grid',
                               ),
@@ -153,7 +153,7 @@ class _DmVoiceCallFullscreenPageState
                         )
                       : VoiceDesktopStage(
                           child: RepaintBoundary(
-                            child: VoiceChannelParticipantGrid(
+                            child: VoiceParticipantGrid(
                               key: const ValueKey<String>(
                                 'voice-participant-grid',
                               ),

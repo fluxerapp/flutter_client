@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_tracks_builder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
@@ -19,8 +20,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-enum VoiceParticipantTileSource { camera, screenShare }
 
 class VoiceParticipantMediaTile extends StatefulWidget {
   const VoiceParticipantMediaTile({

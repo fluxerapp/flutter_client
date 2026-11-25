@@ -1,0 +1,1 @@
+enum VoiceParticipantTileSource { camera, screenShare }
