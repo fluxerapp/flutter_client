@@ -41,6 +41,7 @@ import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscree
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/call_grid_stage_insets.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/focus_layout_metrics.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/grid_layout.dart';
@@ -3517,9 +3518,7 @@ class _DirectConnectionFailedOverlay extends ConsumerWidget {
                         label: l10n.voiceChannelLeave,
                         onPressed: () {
                           unawaited(
-                            ref
-                                .read(voiceSessionProvider.notifier)
-                                .leaveVoice(),
+                            leaveVoiceFromCallView(context: context, ref: ref),
                           );
                         },
                       ),
