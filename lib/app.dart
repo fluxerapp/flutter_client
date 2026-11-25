@@ -43,6 +43,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/widgets/beta_banner.dart';
 import 'package:fluxer_app/shared/widgets/input_modality_listener.dart';
+import 'package:fluxer_app/shared/widgets/legacy_material_scope.dart';
 import 'package:foldable/foldable.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -239,7 +240,9 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
                             navigationBarColor:
                                 materialTheme.scaffoldBackgroundColor,
                           ),
-                      child: NativePasteShortcuts(child: scaled),
+                      child: LegacyMaterialScope(
+                        child: NativePasteShortcuts(child: scaled),
+                      ),
                     ),
                   ),
                 ),

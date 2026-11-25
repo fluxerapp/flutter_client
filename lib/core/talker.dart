@@ -15,16 +15,14 @@ Future<void> pushTalkerLogScreen(
       builder: (BuildContext routeContext) => Builder(
         builder: (BuildContext themedContext) {
           final FluxerColorTheme colors = themedContext.colors;
-          return ScaffoldMessenger(
-            child: talker_ui.TalkerScreen(
-              talker: talker,
-              appBarTitle: title,
-              theme: talker_ui.TalkerScreenTheme(
-                backgroundColor: colors.backgroundPrimary,
-                cardColor: colors.backgroundTertiary,
-                textColor: colors.textPrimary,
-                logColors: _talkerLogColors(colors),
-              ),
+          return talker_ui.TalkerScreen(
+            talker: talker,
+            appBarTitle: title,
+            theme: talker_ui.TalkerScreenTheme(
+              backgroundColor: colors.backgroundPrimary,
+              cardColor: colors.backgroundTertiary,
+              textColor: colors.textPrimary,
+              logColors: _talkerLogColors(colors),
             ),
           );
         },

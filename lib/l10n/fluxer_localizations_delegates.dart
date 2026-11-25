@@ -1,7 +1,13 @@
-// ignore_for_file: document_ignores, implementation_imports
+// ignore_for_file: document_ignores, implementation_imports, deprecated_member_use, migrate_design_widgets
 
 import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoLocalizations, GlobalCupertinoLocalizations;
+import 'package:flutter/cupertino.dart'
+    as legacy_cupertino
+    show CupertinoLocalizations;
+import 'package:flutter/material.dart'
+    as legacy_material
+    show MaterialLocalizations;
 import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_localizations/src/l10n/generated_date_localizations.dart'
     as date_localizations;
@@ -64,21 +70,29 @@ class _EnglishBackedLocalizationsDelegate<T> extends LocalizationsDelegate<T> {
   bool shouldReload(_EnglishBackedLocalizationsDelegate<T> old) => false;
 }
 
-const List<LocalizationsDelegate<dynamic>> fluxerLocalizationsDelegates =
-    <LocalizationsDelegate<dynamic>>[
-      FluxerLocalizations.delegate,
-      ...GlobalMaterialLocalizations.delegates,
-      GlobalMaterialLocalizations.delegate,
-      _EnglishBackedLocalizationsDelegate<MaterialLocalizations>(
-        GlobalMaterialLocalizations.delegate,
-      ),
-      _EnglishBackedLocalizationsDelegate<flutter.MaterialLocalizations>(
-        GlobalMaterialLocalizations.delegate,
-      ),
-      _EnglishBackedLocalizationsDelegate<CupertinoLocalizations>(
-        GlobalCupertinoLocalizations.delegate,
-      ),
-      _EnglishBackedLocalizationsDelegate<WidgetsLocalizations>(
-        l10n.GlobalWidgetsLocalizations.delegate,
-      ),
-    ];
+const List<LocalizationsDelegate<dynamic>>
+fluxerLocalizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  FluxerLocalizations.delegate,
+  ...GlobalMaterialLocalizations.delegates,
+  GlobalMaterialLocalizations.delegate,
+  _EnglishBackedLocalizationsDelegate<MaterialLocalizations>(
+    GlobalMaterialLocalizations.delegate,
+  ),
+  _EnglishBackedLocalizationsDelegate<flutter.MaterialLocalizations>(
+    GlobalMaterialLocalizations.delegate,
+  ),
+  _EnglishBackedLocalizationsDelegate<CupertinoLocalizations>(
+    GlobalCupertinoLocalizations.delegate,
+  ),
+  _EnglishBackedLocalizationsDelegate<WidgetsLocalizations>(
+    l10n.GlobalWidgetsLocalizations.delegate,
+  ),
+  l10n.GlobalMaterialLocalizations.delegate,
+  _EnglishBackedLocalizationsDelegate<legacy_material.MaterialLocalizations>(
+    l10n.GlobalMaterialLocalizations.delegate,
+  ),
+  l10n.GlobalCupertinoLocalizations.delegate,
+  _EnglishBackedLocalizationsDelegate<legacy_cupertino.CupertinoLocalizations>(
+    l10n.GlobalCupertinoLocalizations.delegate,
+  ),
+];
