@@ -28758,6 +28758,90 @@ abstract class FluxerLocalizations {
   /// **'Updating… {percent}%'**
   String oxygenUpdatingProgress(int percent);
 
+  /// Accessible label of the desktop titlebar button that opens the downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'View downloads'**
+  String get desktopDownloadsView;
+
+  /// Accessible label of the desktop titlebar button that opens the downloads panel, used while downloads are running. count is the number of downloads in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'View downloads. {count, plural, one{{count} download in progress} other{{count} downloads in progress}}'**
+  String desktopDownloadsViewActive(int count);
+
+  /// Heading of the desktop downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads'**
+  String get desktopDownloadsTitle;
+
+  /// Button that removes finished downloads from the desktop downloads panel. Downloaded files stay on disk and in-progress downloads stay in the list.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear list'**
+  String get desktopDownloadsClear;
+
+  /// Accessible label of the button that opens the folder containing a downloaded file.
+  ///
+  /// In en, this message translates to:
+  /// **'Show in folder'**
+  String get desktopDownloadsShowInFolder;
+
+  /// Accessible label of the button that stops an in-progress download and deletes the partial file.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel download'**
+  String get desktopDownloadsCancel;
+
+  /// Accessible label of the button that removes a finished download from the desktop downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from list'**
+  String get desktopDownloadsRemove;
+
+  /// Status under a file name in the desktop downloads panel once the file has finished downloading. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get desktopDownloadsCompleted;
+
+  /// Status under a file name in the desktop downloads panel after the user cancels the download. The part of the file that had already downloaded is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled. The partial file was deleted.'**
+  String get desktopDownloadsCancelled;
+
+  /// Status under a file name in the desktop downloads panel when the download finished but the file is no longer where it was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'The file was moved or deleted.'**
+  String get desktopDownloadsFileMissing;
+
+  /// Status under a file name in the desktop downloads panel when the download did not finish. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get desktopDownloadsFailed;
+
+  /// Status under a file name in the desktop downloads panel while the download is starting and no data has arrived yet. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get desktopDownloadsStarting;
+
+  /// Download progress under a file name in the desktop downloads panel. progress is the formatted percentage downloaded so far, for example 42%. total is the formatted size of the whole file, for example 3.2 MB.
+  ///
+  /// In en, this message translates to:
+  /// **'{progress} of {total}'**
+  String desktopDownloadsProgress(String progress, String total);
+
+  /// Toast shown on desktop when a file finishes downloading and the in-app titlebar with the downloads panel is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Download complete'**
+  String get desktopDownloadCompleteToast;
+
   /// Desktop tray/menu bar menu item that shows the hidden app window.
   ///
   /// In en, this message translates to:

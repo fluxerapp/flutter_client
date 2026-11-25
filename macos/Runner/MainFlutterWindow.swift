@@ -137,6 +137,16 @@ class MainFlutterWindow: NSWindow {
         let label = arguments?["label"] as? String
         NSApp.dockTile.badgeLabel = label
         result(nil)
+      case "revealFile":
+        let arguments = call.arguments as? [String: Any]
+        guard let path = arguments?["path"] as? String else {
+          result(
+            FlutterError(code: "reveal_failed", message: "Missing path", details: nil)
+          )
+          return
+        }
+        NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: path)])
+        result(nil)
       default:
         result(FlutterMethodNotImplemented)
       }

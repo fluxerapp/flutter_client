@@ -24,6 +24,7 @@ dependencies:
   cross_file: ^0.3.5+5
   cryptography: ^2.7.0
   cupertino_ui: ^1.1.1
+  dbus: ^0.7.11
   desktop_drop: ^0.8.4
   device_info_plus: ^13.2.0
   dio: ^5.11.1

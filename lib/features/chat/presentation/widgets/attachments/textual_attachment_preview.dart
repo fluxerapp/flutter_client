@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textua
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_footer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_surface.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/csv_attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
@@ -21,7 +22,6 @@ import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_fu
 import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
 typedef TextualAttachmentContentLoader =
     Future<TextualAttachmentContentResult> Function({
@@ -233,7 +233,11 @@ class _TextualAttachmentPreviewState
     if (downloadUrl == null || !mounted) {
       return;
     }
-    await handleExternalLinkTap(context, downloadUrl);
+    await downloadChatAttachmentFile(
+      context: context,
+      url: downloadUrl,
+      filename: _attachment.filename,
+    );
   }
 
   Future<void> _showMoreOptions() async {

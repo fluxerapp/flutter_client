@@ -178,10 +178,21 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
                 desktopUsesNativeTitleBar
                     ? layered
                     : DragToResizeArea(
-                        child: Column(
+                        child: Stack(
+                          fit: StackFit.expand,
                           children: [
-                            const NativeTitlebar(),
-                            Expanded(child: layered),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: kNativeTitlebarHeight,
+                              ),
+                              child: layered,
+                            ),
+                            Overlay.wrap(
+                              child: const Align(
+                                alignment: Alignment.topCenter,
+                                child: NativeTitlebar(),
+                              ),
+                            ),
                           ],
                         ),
                       ),

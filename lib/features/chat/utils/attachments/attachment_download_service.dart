@@ -7,6 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/attachment_request_auth.dart';
+import 'package:fluxer_app/core/desktop/downloads/desktop_downloads_provider.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -19,6 +21,8 @@ import 'package:gal/gal.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+const Duration _kDesktopDownloadStallTimeout = Duration(seconds: 60);
 
 final Dio _attachmentDownloadDio = Dio(
   BaseOptions(
@@ -50,13 +54,24 @@ Future<void> downloadChatAttachmentMedia({
   if (isFluxerDesktopOs) {
     await _downloadToFilePicker(
       context: context,
-      ref: ref,
       url: trimmedUrl,
       filename: filename,
     );
     return;
   }
   await handleExternalLinkTap(context, trimmedUrl);
+}
+
+Future<void> downloadChatAttachmentFile({
+  required BuildContext context,
+  required String url,
+  String? filename,
+}) async {
+  if (isFluxerDesktopOs) {
+    await _downloadToFilePicker(context: context, url: url, filename: filename);
+    return;
+  }
+  await handleExternalLinkTap(context, url);
 }
 
 Future<void> saveLocalAttachmentToDeviceGallery(XFile file) async {
@@ -108,9 +123,13 @@ Future<void> _downloadToGallery({
   String? filename,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final Toast toast = ref.read(toastProvider.notifier);
+  final String productName = ref
+      .read(instanceRuntimeConfigProvider)
+      .productName;
   try {
     if (!await _ensureGalleryAccess()) {
-      _showGalleryAccessToast(ref, l10n);
+      _showGalleryAccessToast(toast, l10n, productName);
       return;
     }
     final String resolvedFilename = resolveAttachmentDownloadFilename(
@@ -124,53 +143,63 @@ Future<void> _downloadToGallery({
       filePath: filePath,
       filename: resolvedFilename,
     );
-    _showSuccessToast(ref, l10n.chatAttachmentDownloadedToast);
+    _showSuccessToast(toast, l10n.chatAttachmentDownloadedToast);
   } on GalException {
-    _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
+    _showFailureToast(toast, l10n.chatAttachmentDownloadFailedToast);
   } on Object {
-    _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
+    _showFailureToast(toast, l10n.chatAttachmentDownloadFailedToast);
   }
 }
 
 Future<void> _downloadToFilePicker({
   required BuildContext context,
-  required WidgetRef ref,
   required String url,
   String? filename,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  File? destination;
+  final ProviderContainer container = ProviderScope.containerOf(
+    context,
+    listen: false,
+  );
+  final Toast toast = container.read(toastProvider.notifier);
+  final DesktopDownloads downloads = container.read(
+    desktopDownloadsProvider.notifier,
+  );
+  final Uri? uri;
   try {
-    final String resolvedFilename = resolveAttachmentDownloadFilename(
-      url: url,
-      filename: filename,
-    );
-    final Uri? uri = await FilePicker.saveFile(
+    uri = await FilePicker.saveFile(
       dialogTitle: l10n.chatAttachmentDownload,
-      fileName: resolvedFilename,
+      fileName: resolveAttachmentDownloadFilename(url: url, filename: filename),
       bytes: Uint8List(0),
     );
-    if (uri == null) {
-      return;
-    }
-    destination = File(uri.toFilePath());
-    await _attachmentDownloadDio.download(url, destination.path);
-    _showSuccessToast(ref, l10n.chatAttachmentDownloadedToast);
   } on Object {
-    if (destination != null) {
-      await _deletePartialDownload(destination);
-    }
-    _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
-  }
-}
-
-Future<void> _deletePartialDownload(File file) async {
-  try {
-    if (file.existsSync()) {
-      await file.delete();
-    }
-  } on Object {
+    _showFailureToast(toast, l10n.chatAttachmentDownloadFailedToast);
     return;
+  }
+  if (uri == null) {
+    return;
+  }
+  final String filePath = uri.toFilePath();
+  final DesktopDownloadOutcome outcome = await downloads.start(
+    filePath: filePath,
+    transfer: (CancelToken cancelToken, ProgressCallback onReceiveProgress) =>
+        _attachmentDownloadDio.download(
+          url,
+          filePath,
+          cancelToken: cancelToken,
+          onReceiveProgress: onReceiveProgress,
+          options: Options(receiveTimeout: _kDesktopDownloadStallTimeout),
+        ),
+  );
+  switch (outcome) {
+    case DesktopDownloadOutcome.completed:
+      if (desktopUsesNativeTitleBar) {
+        _showSuccessToast(toast, l10n.desktopDownloadCompleteToast);
+      }
+    case DesktopDownloadOutcome.failed:
+      _showFailureToast(toast, l10n.chatAttachmentDownloadFailedToast);
+    case DesktopDownloadOutcome.canceled:
+      break;
   }
 }
 
@@ -194,33 +223,26 @@ String resolveAttachmentDownloadFilename({
   return 'attachment';
 }
 
-void _showSuccessToast(WidgetRef ref, String message) {
-  ref
-      .read(toastProvider.notifier)
-      .show(FluxerToast(message: message, variant: FluxerToastVariant.success));
-}
+void _showSuccessToast(Toast toast, String message) => toast.show(
+  FluxerToast(message: message, variant: FluxerToastVariant.success),
+);
 
-void _showGalleryAccessToast(WidgetRef ref, FluxerLocalizations l10n) {
-  final String productName = ref
-      .read(instanceRuntimeConfigProvider)
-      .productName;
-  ref
-      .read(toastProvider.notifier)
-      .show(
-        FluxerToast(
-          message: l10n.chatAttachmentDownloadPhotosAccessToast(productName),
-          variant: FluxerToastVariant.danger,
-          duration: const Duration(seconds: 6),
-          action: FluxerToastAction(
-            label: l10n.systemPermissionSettingsOpenSettings,
-            onPressed: () => unawaited(openAppSettings()),
-          ),
-        ),
-      );
-}
+void _showGalleryAccessToast(
+  Toast toast,
+  FluxerLocalizations l10n,
+  String productName,
+) => toast.show(
+  FluxerToast(
+    message: l10n.chatAttachmentDownloadPhotosAccessToast(productName),
+    variant: FluxerToastVariant.danger,
+    duration: const Duration(seconds: 6),
+    action: FluxerToastAction(
+      label: l10n.systemPermissionSettingsOpenSettings,
+      onPressed: () => unawaited(openAppSettings()),
+    ),
+  ),
+);
 
-void _showFailureToast(WidgetRef ref, String message) {
-  ref
-      .read(toastProvider.notifier)
-      .show(FluxerToast(message: message, variant: FluxerToastVariant.danger));
-}
+void _showFailureToast(Toast toast, String message) => toast.show(
+  FluxerToast(message: message, variant: FluxerToastVariant.danger),
+);

@@ -17544,6 +17544,63 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
+  String get desktopDownloadsView => 'View downloads';
+
+  @override
+  String desktopDownloadsViewActive(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString downloads in progress',
+      one: '$countString download in progress',
+    );
+    return 'View downloads. $_temp0';
+  }
+
+  @override
+  String get desktopDownloadsTitle => 'Downloads';
+
+  @override
+  String get desktopDownloadsClear => 'Clear list';
+
+  @override
+  String get desktopDownloadsShowInFolder => 'Show in folder';
+
+  @override
+  String get desktopDownloadsCancel => 'Cancel download';
+
+  @override
+  String get desktopDownloadsRemove => 'Remove from list';
+
+  @override
+  String get desktopDownloadsCompleted => 'Completed';
+
+  @override
+  String get desktopDownloadsCancelled =>
+      'Cancelled. The partial file was deleted.';
+
+  @override
+  String get desktopDownloadsFileMissing => 'The file was moved or deleted.';
+
+  @override
+  String get desktopDownloadsFailed => 'Failed';
+
+  @override
+  String get desktopDownloadsStarting => 'Starting';
+
+  @override
+  String desktopDownloadsProgress(String progress, String total) {
+    return '$progress of $total';
+  }
+
+  @override
+  String get desktopDownloadCompleteToast => 'Download complete';
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }

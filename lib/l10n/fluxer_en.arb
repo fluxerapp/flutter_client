@@ -20798,6 +20798,76 @@
       }
     }
   },
+  "desktopDownloadsView": "View downloads",
+  "@desktopDownloadsView": {
+    "description": "Accessible label of the desktop titlebar button that opens the downloads panel."
+  },
+  "desktopDownloadsViewActive": "View downloads. {count, plural, one{{count} download in progress} other{{count} downloads in progress}}",
+  "@desktopDownloadsViewActive": {
+    "description": "Accessible label of the desktop titlebar button that opens the downloads panel, used while downloads are running. count is the number of downloads in progress.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "desktopDownloadsTitle": "Downloads",
+  "@desktopDownloadsTitle": {
+    "description": "Heading of the desktop downloads panel."
+  },
+  "desktopDownloadsClear": "Clear list",
+  "@desktopDownloadsClear": {
+    "description": "Button that removes finished downloads from the desktop downloads panel. Downloaded files stay on disk and in-progress downloads stay in the list."
+  },
+  "desktopDownloadsShowInFolder": "Show in folder",
+  "@desktopDownloadsShowInFolder": {
+    "description": "Accessible label of the button that opens the folder containing a downloaded file."
+  },
+  "desktopDownloadsCancel": "Cancel download",
+  "@desktopDownloadsCancel": {
+    "description": "Accessible label of the button that stops an in-progress download and deletes the partial file."
+  },
+  "desktopDownloadsRemove": "Remove from list",
+  "@desktopDownloadsRemove": {
+    "description": "Accessible label of the button that removes a finished download from the desktop downloads panel."
+  },
+  "desktopDownloadsCompleted": "Completed",
+  "@desktopDownloadsCompleted": {
+    "description": "Status under a file name in the desktop downloads panel once the file has finished downloading. Keep it short."
+  },
+  "desktopDownloadsCancelled": "Cancelled. The partial file was deleted.",
+  "@desktopDownloadsCancelled": {
+    "description": "Status under a file name in the desktop downloads panel after the user cancels the download. The part of the file that had already downloaded is deleted."
+  },
+  "desktopDownloadsFileMissing": "The file was moved or deleted.",
+  "@desktopDownloadsFileMissing": {
+    "description": "Status under a file name in the desktop downloads panel when the download finished but the file is no longer where it was saved."
+  },
+  "desktopDownloadsFailed": "Failed",
+  "@desktopDownloadsFailed": {
+    "description": "Status under a file name in the desktop downloads panel when the download did not finish. Keep it short."
+  },
+  "desktopDownloadsStarting": "Starting",
+  "@desktopDownloadsStarting": {
+    "description": "Status under a file name in the desktop downloads panel while the download is starting and no data has arrived yet. Keep it short."
+  },
+  "desktopDownloadsProgress": "{progress} of {total}",
+  "@desktopDownloadsProgress": {
+    "description": "Download progress under a file name in the desktop downloads panel. progress is the formatted percentage downloaded so far, for example 42%. total is the formatted size of the whole file, for example 3.2 MB.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopDownloadCompleteToast": "Download complete",
+  "@desktopDownloadCompleteToast": {
+    "description": "Toast shown on desktop when a file finishes downloading and the in-app titlebar with the downloads panel is turned off."
+  },
   "desktopTrayShow": "Show {productName}",
   "@desktopTrayShow": {
     "description": "Desktop tray/menu bar menu item that shows the hidden app window.",
