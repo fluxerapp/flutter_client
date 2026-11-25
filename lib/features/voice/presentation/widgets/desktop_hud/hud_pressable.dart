@@ -1,11 +1,11 @@
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-typedef VoiceCallHudPressableBuilder =
+typedef VoiceHudPressableBuilder =
     Widget Function(BuildContext context, Set<WidgetState> states);
 
-class VoiceCallHudPressable extends StatefulWidget {
-  const VoiceCallHudPressable({
+class VoiceHudPressable extends StatefulWidget {
+  const VoiceHudPressable({
     required this.tooltip,
     required this.builder,
     this.onPressed,
@@ -16,17 +16,17 @@ class VoiceCallHudPressable extends StatefulWidget {
   });
 
   final String tooltip;
-  final VoiceCallHudPressableBuilder builder;
+  final VoiceHudPressableBuilder builder;
   final ValueChanged<BuildContext>? onPressed;
   final ValueChanged<BuildContext>? onSecondaryPressed;
   final String? semanticLabel;
   final bool? toggled;
 
   @override
-  State<VoiceCallHudPressable> createState() => _VoiceCallHudPressableState();
+  State<VoiceHudPressable> createState() => _VoiceHudPressableState();
 }
 
-class _VoiceCallHudPressableState extends State<VoiceCallHudPressable> {
+class _VoiceHudPressableState extends State<VoiceHudPressable> {
   bool _hovered = false;
   bool _pressed = false;
   bool _focused = false;

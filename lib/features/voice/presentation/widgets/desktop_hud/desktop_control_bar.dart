@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_control_button.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_device_menu.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_menu.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_more_options_menu.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_control_button.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_device_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_more_options_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_style.dart';
 import 'package:fluxer_app/features/voice/providers/active_self_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
@@ -19,8 +19,8 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart';
 
-class VoiceCallDesktopControlBar extends ConsumerWidget {
-  const VoiceCallDesktopControlBar({super.key});
+class VoiceDesktopControlBar extends ConsumerWidget {
+  const VoiceDesktopControlBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,7 +44,7 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
     final VoiceSession session = ref.read(voiceSessionProvider.notifier);
 
     void openSettings() =>
-        unawaited(openVoiceCallHudAudioVideoSettings(context, ref));
+        unawaited(openVoiceHudAudioVideoSettings(context, ref));
 
     void toggleScreenShare() => unawaited(
       session.toggleSelfStream(
@@ -52,14 +52,14 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
       ),
     );
 
-    void openMenu(BuildContext anchor, VoiceCallHudMenuBuilder builder) =>
-        unawaited(showVoiceCallHudMenu(anchor, ref, builder: builder));
+    void openMenu(BuildContext anchor, VoiceHudMenuBuilder builder) =>
+        unawaited(showVoiceHudMenu(anchor, ref, builder: builder));
 
-    void openDeviceMenu(BuildContext anchor, VoiceCallHudDeviceKind kind) {
+    void openDeviceMenu(BuildContext anchor, VoiceHudDeviceKind kind) {
       unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
       openMenu(
         anchor,
-        (VoidCallback close) => VoiceCallHudDeviceMenu(
+        (VoidCallback close) => VoiceHudDeviceMenu(
           kind: kind,
           onClose: close,
           onOpenSettings: openSettings,
@@ -68,15 +68,15 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
     }
 
     void openInputMenu(BuildContext anchor) =>
-        openDeviceMenu(anchor, VoiceCallHudDeviceKind.input);
+        openDeviceMenu(anchor, VoiceHudDeviceKind.input);
     void openOutputMenu(BuildContext anchor) =>
-        openDeviceMenu(anchor, VoiceCallHudDeviceKind.output);
+        openDeviceMenu(anchor, VoiceHudDeviceKind.output);
     void openCameraMenu(BuildContext anchor) =>
-        openDeviceMenu(anchor, VoiceCallHudDeviceKind.camera);
+        openDeviceMenu(anchor, VoiceHudDeviceKind.camera);
 
     void openScreenShareMenu(BuildContext anchor) => openMenu(
       anchor,
-      (VoidCallback close) => VoiceCallHudScreenShareMenu(
+      (VoidCallback close) => VoiceHudScreenShareMenu(
         onClose: close,
         onToggle: toggleScreenShare,
         onOpenSettings: openSettings,
@@ -85,7 +85,7 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
 
     void openMoreOptionsMenu(BuildContext anchor) => openMenu(
       anchor,
-      (VoidCallback close) => VoiceCallHudMoreOptionsMenu(
+      (VoidCallback close) => VoiceHudMoreOptionsMenu(
         onClose: close,
         onSwitchToStandard: () =>
             unawaited(confirmSwitchToStandardVoiceCall(context, ref)),
@@ -96,24 +96,22 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: kVoiceCallHudSurface,
-        borderRadius: BorderRadius.circular(kVoiceCallHudBarRadius),
-        border: Border.all(color: kVoiceCallHudBarBorder),
-        boxShadow: kVoiceCallHudBarShadow,
+        color: kVoiceHudSurface,
+        borderRadius: BorderRadius.circular(kVoiceHudBarRadius),
+        border: Border.all(color: kVoiceHudBarBorder),
+        boxShadow: kVoiceHudBarShadow,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(kVoiceCallHudBarPadding),
+        padding: const EdgeInsets.all(kVoiceHudBarPadding),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          spacing: kVoiceCallHudButtonGap,
+          spacing: kVoiceHudButtonGap,
           children: <Widget>[
-            VoiceCallHudControlButton(
+            VoiceHudControlButton(
               icon: isMuted
                   ? PhosphorIconsFill.microphoneSlash
                   : PhosphorIconsFill.microphone,
-              tone: isMuted
-                  ? VoiceCallHudTone.danger
-                  : VoiceCallHudTone.neutral,
+              tone: isMuted ? VoiceHudTone.danger : VoiceHudTone.neutral,
               tooltip: isMuted
                   ? l10n.voiceControlUnmute
                   : l10n.voiceControlMute,
@@ -124,13 +122,11 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
               settingsTooltip: l10n.voiceControlInputSettings,
               onSettingsPressed: openInputMenu,
             ),
-            VoiceCallHudControlButton(
+            VoiceHudControlButton(
               icon: isDeafened
                   ? PhosphorIconsFill.speakerSlash
                   : PhosphorIconsFill.speakerHigh,
-              tone: isDeafened
-                  ? VoiceCallHudTone.danger
-                  : VoiceCallHudTone.neutral,
+              tone: isDeafened ? VoiceHudTone.danger : VoiceHudTone.neutral,
               tooltip: isDeafened
                   ? l10n.voiceControlUndeafen
                   : l10n.voiceControlDeafen,
@@ -141,13 +137,11 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
               settingsTooltip: l10n.voiceControlOutputSettings,
               onSettingsPressed: openOutputMenu,
             ),
-            VoiceCallHudControlButton(
+            VoiceHudControlButton(
               icon: isVideoOn
                   ? PhosphorIconsFill.camera
                   : PhosphorIconsFill.cameraSlash,
-              tone: isVideoOn
-                  ? VoiceCallHudTone.success
-                  : VoiceCallHudTone.neutral,
+              tone: isVideoOn ? VoiceHudTone.success : VoiceHudTone.neutral,
               tooltip: l10n.voiceControlVideo,
               toggled: isVideoOn,
               onPressed: isConnected
@@ -158,11 +152,11 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
               onSettingsPressed: openCameraMenu,
             ),
             if (canScreenShare)
-              VoiceCallHudControlButton(
+              VoiceHudControlButton(
                 icon: PhosphorIconsFill.monitorPlay,
                 tone: isScreenSharing
-                    ? VoiceCallHudTone.success
-                    : VoiceCallHudTone.neutral,
+                    ? VoiceHudTone.success
+                    : VoiceHudTone.neutral,
                 tooltip: l10n.voiceControlScreenShare,
                 toggled: isScreenSharing,
                 onPressed: isConnected ? (_) => toggleScreenShare() : null,
@@ -170,16 +164,16 @@ class VoiceCallDesktopControlBar extends ConsumerWidget {
                 settingsTooltip: l10n.voiceControlScreenShareSettings,
                 onSettingsPressed: isConnected ? openScreenShareMenu : null,
               ),
-            VoiceCallHudControlButton(
+            VoiceHudControlButton(
               icon: PhosphorIconsBold.dotsThree,
-              tone: VoiceCallHudTone.neutral,
+              tone: VoiceHudTone.neutral,
               tooltip: l10n.voiceControlMoreOptions,
               onPressed: openMoreOptionsMenu,
             ),
-            const VoiceCallHudSeparator(),
-            VoiceCallHudControlButton(
+            const VoiceHudSeparator(),
+            VoiceHudControlButton(
               icon: PhosphorIconsFill.phoneX,
-              tone: VoiceCallHudTone.disconnect,
+              tone: VoiceHudTone.disconnect,
               tooltip: l10n.voiceControlDisconnect,
               onPressed: (_) =>
                   unawaited(endPhoneVoiceCall(context: context, ref: ref)),

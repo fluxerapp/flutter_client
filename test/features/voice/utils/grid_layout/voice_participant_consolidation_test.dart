@@ -36,6 +36,10 @@ void main() {
         ),
         isTrue,
       );
+      expect(
+        result.map((VoiceConsolidatedTile<String> e) => e.expandedDeviceCount),
+        <int>[2, 0],
+      );
     });
   });
 }

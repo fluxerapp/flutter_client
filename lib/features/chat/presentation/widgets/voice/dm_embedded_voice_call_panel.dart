@@ -116,6 +116,7 @@ class _DmEmbeddedVoiceCallPanelState
                   child: LocalCameraOrientationSync(
                     child: VoiceChannelParticipantGrid(
                       channelId: widget.channelId,
+                      compact: true,
                     ),
                   ),
                 ),

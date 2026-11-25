@@ -170,6 +170,16 @@ abstract final class LocalSettingKeys {
         defaultValue: null,
         codec: NullableDoubleSettingCodec(),
       );
+  static const AccountFlag voiceFocusMembersRowVisible = AccountFlag(
+    'voice_focus_members_row_visible',
+    defaultValue: true,
+  );
+  static const AccountSettingKey<double?> voiceFocusMembersRowHeight =
+      AccountSettingKey<double?>(
+        'voice_focus_members_row_height',
+        defaultValue: null,
+        codec: NullableDoubleSettingCodec(),
+      );
   static const AccountSettingKey<String?> mentionSeenBoundary =
       AccountSettingKey<String?>(
         'mention_seen_boundary',

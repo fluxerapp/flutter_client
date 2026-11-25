@@ -211,6 +211,7 @@ void main() {
     Future<String> resolve(
       WidgetTester tester, {
       required bool touchPrimary,
+      Size size = kTabletLandscapeTestViewportSize,
     }) async {
       await tester.pumpWidget(
         ProviderScope(
@@ -222,9 +223,7 @@ void main() {
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: MediaQuery(
-              data: const MediaQueryData(
-                size: kTabletLandscapeTestViewportSize,
-              ),
+              data: MediaQueryData(size: size),
               child: DesktopPointerUiScope(
                 child: Builder(
                   builder: (BuildContext context) => Text(
@@ -249,6 +248,28 @@ void main() {
       WidgetTester tester,
     ) async {
       expect(await resolve(tester, touchPrimary: true), 'handheld');
+    });
+
+    testWidgets('is true for touch on a desktop-sized window', (
+      WidgetTester tester,
+    ) async {
+      expect(
+        await resolve(
+          tester,
+          touchPrimary: true,
+          size: kDesktopTestViewportSize,
+        ),
+        'handheld',
+      );
+    });
+
+    testWidgets('is false for a mouse on a short desktop window', (
+      WidgetTester tester,
+    ) async {
+      expect(
+        await resolve(tester, touchPrimary: false, size: const Size(1280, 560)),
+        'desktop',
+      );
     });
   });
 }

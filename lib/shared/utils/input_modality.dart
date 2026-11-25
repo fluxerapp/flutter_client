@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
 const Duration kIosDesktopPointerSuppressionDuration = Duration(
   milliseconds: 500,
@@ -7,7 +8,8 @@ const Duration kIosDesktopPointerSuppressionDuration = Duration(
 
 bool initialIsTouchPrimary() =>
     defaultTargetPlatform == TargetPlatform.iOS ||
-    defaultTargetPlatform == TargetPlatform.android;
+    defaultTargetPlatform == TargetPlatform.android ||
+    isFluxerRuntimeMobileFormFactor;
 
 const Set<PointerDeviceKind> kTouchPointerDeviceKinds = {
   PointerDeviceKind.touch,

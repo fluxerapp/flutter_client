@@ -1,11 +1,11 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_pressable.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_pressable.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-class VoiceCallDesktopCornerButton extends StatelessWidget {
-  const VoiceCallDesktopCornerButton({
+class VoiceDesktopCornerButton extends StatelessWidget {
+  const VoiceDesktopCornerButton({
     required this.icon,
     required this.tooltip,
     required this.onPressed,
@@ -22,7 +22,7 @@ class VoiceCallDesktopCornerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VoiceCallHudPressable(
+    return VoiceHudPressable(
       tooltip: tooltip,
       toggled: toggled,
       onPressed: (_) => onPressed(),
@@ -36,29 +36,27 @@ class VoiceCallDesktopCornerButton extends StatelessWidget {
             AnimatedContainer(
               duration: context.motion.normal,
               curve: context.motion.curve,
-              width: kVoiceCallHudCornerButtonSize,
-              height: kVoiceCallHudCornerButtonSize,
+              width: kVoiceHudCornerButtonSize,
+              height: kVoiceHudCornerButtonSize,
               decoration: BoxDecoration(
-                color: highlighted
-                    ? kVoiceCallHudSurfaceHover
-                    : kVoiceCallHudSurface,
+                color: highlighted ? kVoiceHudSurfaceHover : kVoiceHudSurface,
                 borderRadius: BorderRadius.circular(
-                  kVoiceCallHudCornerButtonRadius,
+                  kVoiceHudCornerButtonRadius,
                 ),
                 border: Border.all(
                   color: focused
-                      ? kVoiceCallHudFocusBorder
+                      ? kVoiceHudFocusBorder
                       : highlighted
-                      ? kVoiceCallHudCornerBorderHover
-                      : kVoiceCallHudCornerBorder,
-                  width: focused ? kVoiceCallHudFocusBorderWidth : 1,
+                      ? kVoiceHudCornerBorderHover
+                      : kVoiceHudCornerBorder,
+                  width: focused ? kVoiceHudFocusBorderWidth : 1,
                 ),
-                boxShadow: kVoiceCallHudCornerShadow,
+                boxShadow: kVoiceHudCornerShadow,
               ),
               child: Center(
                 child: PhosphorIcon(
                   icon,
-                  size: kVoiceCallHudCornerIconSize,
+                  size: kVoiceHudCornerIconSize,
                   color: Colors.white,
                 ),
               ),

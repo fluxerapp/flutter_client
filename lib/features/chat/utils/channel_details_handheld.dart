@@ -16,7 +16,7 @@ bool handheldChannelDetailsGesturesApply(BuildContext context) {
   final bool handheldOs =
       defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS;
-  return handheldOs && !isDesktopLayout(context);
+  return handheldOs && !isPointerDesktopLayout(context);
 }
 
 bool handheldChannelDetailsUsesDrawer(WidgetRef ref, BuildContext context) {

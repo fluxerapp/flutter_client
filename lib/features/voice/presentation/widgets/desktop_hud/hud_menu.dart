@@ -3,18 +3,18 @@ import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_style.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-typedef VoiceCallHudMenuBuilder = Widget Function(VoidCallback close);
+typedef VoiceHudMenuBuilder = Widget Function(VoidCallback close);
 
-Future<void> showVoiceCallHudMenu(
+Future<void> showVoiceHudMenu(
   BuildContext anchor,
   WidgetRef ref, {
-  required VoiceCallHudMenuBuilder builder,
+  required VoiceHudMenuBuilder builder,
 }) async {
   final RenderObject? renderObject = anchor.findRenderObject();
   if (renderObject is! RenderBox || !renderObject.hasSize) {
@@ -32,7 +32,7 @@ Future<void> showVoiceCallHudMenu(
       placement: FluxerDesktopPlacement.aboveStart,
       builder: (BuildContext menuContext, VoidCallback close) {
         return FluxerDesktopMenuPanel(
-          width: kVoiceCallHudMenuWidth,
+          width: kVoiceHudMenuWidth,
           child: SingleChildScrollView(child: builder(close)),
         );
       },
@@ -42,7 +42,7 @@ Future<void> showVoiceCallHudMenu(
   }
 }
 
-Future<void> openVoiceCallHudAudioVideoSettings(
+Future<void> openVoiceHudAudioVideoSettings(
   BuildContext context,
   WidgetRef ref,
 ) async {
@@ -58,8 +58,8 @@ Future<void> openVoiceCallHudAudioVideoSettings(
   );
 }
 
-class VoiceCallHudMenuSettingsItem extends StatelessWidget {
-  const VoiceCallHudMenuSettingsItem({
+class VoiceHudMenuSettingsItem extends StatelessWidget {
+  const VoiceHudMenuSettingsItem({
     required this.onClose,
     required this.onOpenSettings,
     super.key,

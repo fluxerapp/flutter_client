@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -13,7 +14,15 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/desktop_tile_presentation.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_divider.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_row.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_members_toggle.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile_nameplate.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
+import 'package:fluxer_app/features/voice/providers/focus_members_row_provider.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -29,6 +38,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../helpers/input_modality_override.dart';
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 import '../../../helpers/wide_layout_test_sizes.dart';
@@ -160,6 +170,273 @@ void main() {
     await tester.pump(const Duration(seconds: 4));
     await releaseTestWidgetTree(tester);
   });
+
+  testWidgets('mouse grid uses equal 16:9 cards without touch controls', (
+    WidgetTester tester,
+  ) async {
+    await _pumpDesktopCall(tester);
+
+    final List<Rect> rects = _desktopTileRects(tester);
+    expect(rects, hasLength(3));
+    for (final Rect rect in rects) {
+      expect(rect.width / rect.height, closeTo(16 / 9, 0.01));
+      expect(rect.size, rects.first.size);
+    }
+    expect(find.byType(VoiceDesktopTileNameplate), findsNWidgets(3));
+    expect(find.byIcon(Icons.fullscreen_rounded), findsNothing);
+    expect(find.byType(VoiceDesktopMembersToggle), findsNothing);
+
+    await _endCall(tester);
+  });
+
+  testWidgets('clicking a card focuses it and clicking again restores grid', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = await _pumpDesktopCall(tester);
+
+    await tester.tapAt(_desktopTileRects(tester).first.center);
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(container.read(voiceCallLayoutProvider).pinnedTileId, isNotNull);
+    expect(
+      _desktopTiles(tester).map((VoiceDesktopTile t) => t.presentation),
+      containsAll(<VoiceDesktopTilePresentation>[
+        VoiceDesktopTilePresentation.focusMain,
+        VoiceDesktopTilePresentation.focusSecondary,
+      ]),
+    );
+    final Rect main = _desktopTileRects(
+      tester,
+      VoiceDesktopTilePresentation.focusMain,
+    ).single;
+    final List<Rect> members = _desktopTileRects(
+      tester,
+      VoiceDesktopTilePresentation.focusSecondary,
+    );
+    expect(members, hasLength(2));
+    expect(main.width / main.height, closeTo(16 / 9, 0.01));
+    expect(members.first.top, greaterThanOrEqualTo(main.bottom));
+
+    await tester.tapAt(main.center);
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(container.read(voiceCallLayoutProvider).pinnedTileId, isNull);
+    expect(
+      _desktopTileRects(tester, VoiceDesktopTilePresentation.grid),
+      hasLength(3),
+    );
+
+    await _endCall(tester);
+  });
+
+  testWidgets('the members row can be hidden and resized', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = await _pumpDesktopCall(tester);
+    container
+        .read(voiceCallLayoutProvider.notifier)
+        .setMode(VoiceCallLayoutMode.focus);
+    await tester.pump(const Duration(milliseconds: 400));
+
+    final double before = tester
+        .getSize(find.byType(VoiceDesktopMembersRow))
+        .height;
+    await tester.drag(
+      find.byType(VoiceDesktopMembersDivider),
+      const Offset(0, -80),
+      kind: PointerDeviceKind.mouse,
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(
+      tester.getSize(find.byType(VoiceDesktopMembersRow)).height,
+      greaterThan(before),
+    );
+
+    container.read(voiceCallOverlayProvider.notifier).reveal();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.tap(find.byType(VoiceDesktopMembersToggle));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.byType(VoiceDesktopMembersRow), findsNothing);
+
+    await _endCall(tester);
+  });
+
+  testWidgets('clicking the members divider does not store a height', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = await _pumpDesktopCall(tester);
+    container
+        .read(voiceCallLayoutProvider.notifier)
+        .setMode(VoiceCallLayoutMode.focus);
+    await tester.pump(const Duration(milliseconds: 400));
+
+    await tester.tapAt(
+      tester.getCenter(find.byType(VoiceDesktopMembersDivider)),
+      kind: PointerDeviceKind.mouse,
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(container.read(focusMembersRowProvider).height, isNull);
+
+    await _endCall(tester);
+  });
+
+  testWidgets('tiny compact panels fit every card without overflowing', (
+    WidgetTester tester,
+  ) async {
+    await _pumpDesktopCall(
+      tester,
+      size: const Size(700, 60),
+      compact: true,
+      withStage: false,
+    );
+
+    expect(find.byType(VoiceDesktopTile), findsNWidgets(3));
+    expect(find.byType(VoiceDesktopTileNameplate), findsNothing);
+    expect(tester.takeException(), isNull);
+
+    await _endCall(tester);
+  });
+
+  testWidgets('touch keeps the touch cards on a desktop sized screen', (
+    WidgetTester tester,
+  ) async {
+    await _pumpDesktopCall(tester, touch: true);
+
+    expect(find.byType(VoiceDesktopTile), findsNothing);
+    expect(find.byType(VoiceParticipantMediaTile), findsNWidgets(3));
+
+    await _endCall(tester);
+  });
+
+  testWidgets('switching from mouse to touch swaps the cards live', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = await _pumpDesktopCall(tester);
+    expect(find.byType(VoiceDesktopTile), findsNWidgets(3));
+
+    container
+        .read(inputModalityProvider.notifier)
+        .handlePointerEvent(const PointerDownEvent());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.byType(VoiceDesktopTile), findsNothing);
+
+    await _endCall(tester);
+  });
+}
+
+Future<void> _endCall(WidgetTester tester) async {
+  await tester.pump(const Duration(seconds: 4));
+  await releaseTestWidgetTree(tester);
+}
+
+Finder _desktopTileFinder([VoiceDesktopTilePresentation? presentation]) {
+  return find.byWidgetPredicate(
+    (Widget widget) =>
+        widget is VoiceDesktopTile &&
+        (presentation == null || widget.presentation == presentation),
+  );
+}
+
+List<VoiceDesktopTile> _desktopTiles(WidgetTester tester) =>
+    tester.widgetList<VoiceDesktopTile>(_desktopTileFinder()).toList();
+
+List<Rect> _desktopTileRects(
+  WidgetTester tester, [
+  VoiceDesktopTilePresentation? presentation,
+]) => <Rect>[
+  for (final Element element in _desktopTileFinder(presentation).evaluate())
+    tester.getRect(find.byElementPredicate((Element e) => e == element)),
+];
+
+Future<ProviderContainer> _pumpDesktopCall(
+  WidgetTester tester, {
+  bool touch = false,
+  bool compact = false,
+  bool withStage = true,
+  Size size = kDesktopTestViewportSize,
+}) async {
+  final Widget grid = VoiceChannelParticipantGrid(
+    guildId: _guildId,
+    channelId: _channelId,
+    compact: compact,
+  );
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+
+  final FluxerDatabase db = openTestDatabase();
+  final String participantKey = voiceChannelParticipantsFamilyKey(
+    _guildId,
+    _channelId,
+  );
+  final ProviderContainer container = ProviderContainer(
+    overrides: [
+      fluxerDatabaseProvider.overrideWithValue(db),
+      inputModalityOverride(touch: touch),
+      voiceSessionProvider.overrideWith(_ConnectedVoiceSession.new),
+      currentUserIdProvider.overrideWithValue(_me),
+      localVoiceStateProvider.overrideWithValue(const LocalVoiceStateData()),
+      guildUserDisplayFromDbProvider.overrideWith(
+        (Ref ref, (String, String?) args) =>
+            const AsyncValue<GuildUserDisplay?>.data(null),
+      ),
+      voiceChannelGridStructureProvider(
+        participantKey,
+      ).overrideWith((Ref ref) => 'desktop'),
+      voiceChannelParticipantsProvider(participantKey).overrideWith(
+        (Ref ref) => const <VoiceChannelParticipantData>[
+          VoiceChannelParticipantData(userId: _me, voice: _phoneVoice),
+          VoiceChannelParticipantData(
+            userId: 'friend-1',
+            voice: VoiceState(
+              userId: 'friend-1',
+              guildId: _guildId,
+              channelId: _channelId,
+              connectionId: 'c1',
+            ),
+          ),
+          VoiceChannelParticipantData(
+            userId: 'friend-2',
+            voice: VoiceState(
+              userId: 'friend-2',
+              guildId: _guildId,
+              channelId: _channelId,
+              connectionId: 'c2',
+              selfMute: true,
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+  addTearDown(container.dispose);
+  final FluxerColorTheme colorTheme = buildDarkColorTheme();
+  await tester.pumpWidget(
+    UncontrolledProviderScope(
+      container: container,
+      child: DesktopPointerUiScope(
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: Scaffold(
+            body: withStage ? VoiceDesktopStage(child: grid) : grid,
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 400));
+  return container;
 }
 
 VoiceParticipantMediaTile _mediaTile(

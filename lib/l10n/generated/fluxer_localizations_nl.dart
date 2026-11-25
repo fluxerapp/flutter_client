@@ -6372,6 +6372,23 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String voiceParticipantOptionsFor(String name) {
+    return 'Participant options for $name';
+  }
+
+  @override
+  String get voiceParticipantCollapseDevices => 'Collapse devices';
+
+  @override
+  String get voiceFocusShowMembers => 'Show members';
+
+  @override
+  String get voiceFocusHideMembers => 'Hide members';
+
+  @override
+  String get voiceFocusResizeMembersRow => 'Resize members row';
+
+  @override
   String get voicePipReturnToCallLabel => 'Return to call';
 
   @override

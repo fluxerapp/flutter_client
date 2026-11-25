@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/voice_setting
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_menu.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -15,8 +15,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
-  const VoiceCallHudMoreOptionsMenu({
+class VoiceHudMoreOptionsMenu extends ConsumerWidget {
+  const VoiceHudMoreOptionsMenu({
     required this.onClose,
     required this.onSwitchToStandard,
     required this.onCopyDiagnostics,
@@ -39,8 +39,11 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
     final VoiceCallDisplayPreferences displayNotifier = ref.read(
       voiceCallDisplayPreferencesProvider.notifier,
     );
-    final VoiceCallLayoutMode mode = ref.watch(
-      voiceCallLayoutProvider.select((VoiceCallLayoutState s) => s.mode),
+    final bool isFocused = ref.watch(
+      voiceCallLayoutProvider.select(
+        (VoiceCallLayoutState s) =>
+            s.mode == VoiceCallLayoutMode.focus || s.pinnedTileId != null,
+      ),
     );
     final VoiceCallLayout layoutNotifier = ref.read(
       voiceCallLayoutProvider.notifier,
@@ -65,12 +68,12 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
         FluxerMenuSectionHeader(label: l10n.voiceCallViewModeLabel),
         FluxerMenuRadioItem(
           label: l10n.voiceCallViewModeGrid,
-          isSelected: mode == VoiceCallLayoutMode.grid,
+          isSelected: !isFocused,
           onPressed: () => layoutNotifier.setMode(VoiceCallLayoutMode.grid),
         ),
         FluxerMenuRadioItem(
           label: l10n.voiceCallViewModeFocus,
-          isSelected: mode == VoiceCallLayoutMode.focus,
+          isSelected: isFocused,
           onPressed: () => layoutNotifier.setMode(VoiceCallLayoutMode.focus),
         ),
         const FluxerMenuDivider(),
@@ -126,7 +129,7 @@ class VoiceCallHudMoreOptionsMenu extends ConsumerWidget {
             onCopyDiagnostics();
           },
         ),
-        VoiceCallHudMenuSettingsItem(
+        VoiceHudMenuSettingsItem(
           onClose: onClose,
           onOpenSettings: onOpenSettings,
         ),

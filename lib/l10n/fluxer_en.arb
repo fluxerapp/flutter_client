@@ -8078,6 +8078,31 @@
       }
     }
   },
+  "voiceParticipantOptionsFor": "Participant options for {name}",
+  "@voiceParticipantOptionsFor": {
+    "description": "Accessible label for the menu button on a voice participant tile.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceParticipantCollapseDevices": "Collapse devices",
+  "@voiceParticipantCollapseDevices": {
+    "description": "Tooltip for the chip on a participant tile that collapses that participant's expanded devices back into one tile."
+  },
+  "voiceFocusShowMembers": "Show members",
+  "@voiceFocusShowMembers": {
+    "description": "Tooltip for the button that shows the row of call members below a focused tile."
+  },
+  "voiceFocusHideMembers": "Hide members",
+  "@voiceFocusHideMembers": {
+    "description": "Tooltip for the button that hides the row of call members below a focused tile."
+  },
+  "voiceFocusResizeMembersRow": "Resize members row",
+  "@voiceFocusResizeMembersRow": {
+    "description": "Accessible label for the draggable divider between a focused tile and the row of call members below it."
+  },
   "voicePipReturnToCallLabel": "Return to call",
   "@voicePipReturnToCallLabel": {
     "description": "Screen reader label for the floating picture-in-picture call window."

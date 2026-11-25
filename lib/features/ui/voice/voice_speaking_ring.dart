@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -11,6 +12,9 @@ const Duration kVoiceSpeakingRingInDuration = Duration.zero;
 const Duration kVoiceSpeakingRingOutDuration = Duration(milliseconds: 200);
 const Duration kVoiceSpeakingRingOutDelay = Duration(milliseconds: 100);
 const double kVoiceSpeakingRingWidth = 2.5;
+const BorderRadius kVoiceSpeakingRingRadius = BorderRadius.all(
+  Radius.circular(13),
+);
 
 double voiceSpeakingAvatarRingSize(double shortestSide) {
   return voiceTileAvatarSize(shortestSide) + kVoiceSpeakingRingWidth * 2;
@@ -21,12 +25,18 @@ class VoiceSpeakingRingLayer extends StatelessWidget {
     required this.enabled,
     required this.identity,
     required this.aroundAvatar,
+    this.avatarSizeOf,
+    this.borderRadius = kVoiceSpeakingRingRadius,
+    this.ringWidth = kVoiceSpeakingRingWidth,
     super.key,
   });
 
   final bool enabled;
   final String identity;
   final bool aroundAvatar;
+  final VoiceTileAvatarSizeResolver? avatarSizeOf;
+  final BorderRadius borderRadius;
+  final double ringWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +47,20 @@ class VoiceSpeakingRingLayer extends StatelessWidget {
       enabled: true,
       identity: identity,
       circular: aroundAvatar,
+      borderRadius: borderRadius,
+      ringWidth: ringWidth,
     );
     if (!aroundAvatar) {
       return overlay;
     }
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double size = voiceSpeakingAvatarRingSize(
-          math.min(constraints.maxWidth, constraints.maxHeight),
-        );
+        final double? avatarSize = avatarSizeOf?.call(constraints.biggest);
+        final double size = avatarSize != null
+            ? avatarSize + ringWidth * 2
+            : voiceSpeakingAvatarRingSize(
+                math.min(constraints.maxWidth, constraints.maxHeight),
+              );
         return Center(
           child: SizedBox(width: size, height: size, child: overlay),
         );
@@ -59,12 +74,16 @@ class VoiceSpeakingRingOverlay extends ConsumerWidget {
     required this.enabled,
     required this.identity,
     this.circular = false,
+    this.borderRadius = kVoiceSpeakingRingRadius,
+    this.ringWidth = kVoiceSpeakingRingWidth,
     super.key,
   });
 
   final bool enabled;
   final String identity;
   final bool circular;
+  final BorderRadius borderRadius;
+  final double ringWidth;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -80,6 +99,8 @@ class VoiceSpeakingRingOverlay extends ConsumerWidget {
     return _VoiceSpeakingRingPaint(
       speaking: speaking,
       circular: circular,
+      borderRadius: borderRadius,
+      ringWidth: ringWidth,
       color: context.colors.statusOnline,
     );
   }
@@ -89,11 +110,15 @@ class _VoiceSpeakingRingPaint extends StatefulWidget {
   const _VoiceSpeakingRingPaint({
     required this.speaking,
     required this.circular,
+    required this.borderRadius,
+    required this.ringWidth,
     required this.color,
   });
 
   final bool speaking;
   final bool circular;
+  final BorderRadius borderRadius;
+  final double ringWidth;
   final Color color;
 
   @override
@@ -156,11 +181,8 @@ class _VoiceSpeakingRingPaintState extends State<_VoiceSpeakingRingPaint> {
             decoration: BoxDecoration(
               borderRadius: widget.circular
                   ? BorderRadius.circular(999)
-                  : BorderRadius.circular(13),
-              border: Border.all(
-                color: widget.color,
-                width: kVoiceSpeakingRingWidth,
-              ),
+                  : widget.borderRadius,
+              border: Border.all(color: widget.color, width: widget.ringWidth),
             ),
           ),
         ),

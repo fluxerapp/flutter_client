@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_menu.dart';
 import 'package:fluxer_app/features/voice/providers/active_self_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -14,22 +14,22 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart';
 
-enum VoiceCallHudDeviceKind { input, output, camera }
+enum VoiceHudDeviceKind { input, output, camera }
 
 const List<VoiceMediaDeviceOption> _kDefaultDeviceOnly =
     <VoiceMediaDeviceOption>[
       VoiceMediaDeviceOption(deviceId: kDefaultVoiceDeviceId, label: ''),
     ];
 
-class VoiceCallHudDeviceMenu extends ConsumerWidget {
-  const VoiceCallHudDeviceMenu({
+class VoiceHudDeviceMenu extends ConsumerWidget {
+  const VoiceHudDeviceMenu({
     required this.kind,
     required this.onClose,
     required this.onOpenSettings,
     super.key,
   });
 
-  final VoiceCallHudDeviceKind kind;
+  final VoiceHudDeviceKind kind;
   final VoidCallback onClose;
   final VoidCallback onOpenSettings;
 
@@ -49,19 +49,19 @@ class VoiceCallHudDeviceMenu extends ConsumerWidget {
       String selectedId,
       Future<void> Function(String) select,
     ) = switch (kind) {
-      VoiceCallHudDeviceKind.input => (
+      VoiceHudDeviceKind.input => (
         l10n.audioAndVideoInputDeviceLabel,
         devices.audioInputs,
         settings.inputDeviceId,
         settingsNotifier.setInputDeviceId,
       ),
-      VoiceCallHudDeviceKind.output => (
+      VoiceHudDeviceKind.output => (
         l10n.audioAndVideoOutputDeviceLabel,
         devices.audioOutputs,
         settings.outputDeviceId,
         settingsNotifier.setOutputDeviceId,
       ),
-      VoiceCallHudDeviceKind.camera => (
+      VoiceHudDeviceKind.camera => (
         l10n.audioAndVideoCameraLabel,
         devices.videoInputs,
         settings.videoDeviceId,
@@ -85,17 +85,17 @@ class VoiceCallHudDeviceMenu extends ConsumerWidget {
           ),
         const FluxerMenuDivider(),
         switch (kind) {
-          VoiceCallHudDeviceKind.input => FluxerMenuCheckboxItem(
+          VoiceHudDeviceKind.input => FluxerMenuCheckboxItem(
             label: l10n.voiceControlMute,
             isChecked: selfState?.selfMute ?? false,
             onPressed: () => unawaited(session.toggleSelfMute()),
           ),
-          VoiceCallHudDeviceKind.output => FluxerMenuCheckboxItem(
+          VoiceHudDeviceKind.output => FluxerMenuCheckboxItem(
             label: l10n.voiceControlDeafen,
             isChecked: selfState?.selfDeaf ?? false,
             onPressed: () => unawaited(session.toggleSelfDeafen()),
           ),
-          VoiceCallHudDeviceKind.camera => FluxerMenuCheckboxItem(
+          VoiceHudDeviceKind.camera => FluxerMenuCheckboxItem(
             label: l10n.audioAndVideoMirrorCameraLabel,
             isChecked: settings.mirrorCamera,
             onPressed: () => unawaited(
@@ -104,7 +104,7 @@ class VoiceCallHudDeviceMenu extends ConsumerWidget {
           ),
         },
         const FluxerMenuDivider(),
-        VoiceCallHudMenuSettingsItem(
+        VoiceHudMenuSettingsItem(
           onClose: onClose,
           onOpenSettings: onOpenSettings,
         ),
@@ -113,8 +113,8 @@ class VoiceCallHudDeviceMenu extends ConsumerWidget {
   }
 }
 
-class VoiceCallHudScreenShareMenu extends ConsumerWidget {
-  const VoiceCallHudScreenShareMenu({
+class VoiceHudScreenShareMenu extends ConsumerWidget {
+  const VoiceHudScreenShareMenu({
     required this.onClose,
     required this.onToggle,
     required this.onOpenSettings,
@@ -146,7 +146,7 @@ class VoiceCallHudScreenShareMenu extends ConsumerWidget {
           },
         ),
         const FluxerMenuDivider(),
-        VoiceCallHudMenuSettingsItem(
+        VoiceHudMenuSettingsItem(
           onClose: onClose,
           onOpenSettings: onOpenSettings,
         ),

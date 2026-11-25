@@ -65,16 +65,19 @@ bool isDesktopLayout(BuildContext context) =>
 
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
 
-bool isForumHandheldLayout(BuildContext context) => !isDesktopLayout(context);
+bool isPointerDesktopLayout(BuildContext context) =>
+    isDesktopLayout(context) && usesDesktopPointerUi(context);
+
+bool isForumHandheldLayout(BuildContext context) =>
+    !isPointerDesktopLayout(context);
 
 bool isPhoneVoiceOverlay(BuildContext context) {
   return layoutReferenceExtentOf(MediaQuery.sizeOf(context)) <
       Breakpoints.mobile;
 }
 
-bool isHandheldVoiceOverlay(BuildContext context) {
-  return !isDesktopLayout(context) && !usesDesktopPointerUi(context);
-}
+bool isHandheldVoiceOverlay(BuildContext context) =>
+    !usesDesktopPointerUi(context);
 
 bool shellUsesPhoneChatSlideTransition(BuildContext context) {
   if (!isMobileLayout(context)) {

@@ -1,11 +1,11 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_pressable.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_hud_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_pressable.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-class VoiceCallHudControlButton extends StatelessWidget {
-  const VoiceCallHudControlButton({
+class VoiceHudControlButton extends StatelessWidget {
+  const VoiceHudControlButton({
     required this.icon,
     required this.tone,
     required this.tooltip,
@@ -19,7 +19,7 @@ class VoiceCallHudControlButton extends StatelessWidget {
   });
 
   final PhosphorIconData icon;
-  final VoiceCallHudTone tone;
+  final VoiceHudTone tone;
   final String tooltip;
   final ValueChanged<BuildContext>? onPressed;
   final String? semanticLabel;
@@ -30,8 +30,8 @@ class VoiceCallHudControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final VoiceCallHudToneColors colors = voiceCallHudToneColors(tone);
-    final Widget button = VoiceCallHudPressable(
+    final VoiceHudToneColors colors = voiceHudToneColors(tone);
+    final Widget button = VoiceHudPressable(
       tooltip: tooltip,
       semanticLabel: semanticLabel,
       toggled: toggled,
@@ -42,8 +42,8 @@ class VoiceCallHudControlButton extends StatelessWidget {
         return AnimatedContainer(
           duration: context.motion.normal,
           curve: context.motion.curve,
-          width: kVoiceCallHudButtonSize,
-          height: kVoiceCallHudButtonSize,
+          width: kVoiceHudButtonSize,
+          height: kVoiceHudButtonSize,
           transform: Matrix4.translationValues(
             0,
             states.contains(WidgetState.pressed) ? 1 : 0,
@@ -53,20 +53,20 @@ class VoiceCallHudControlButton extends StatelessWidget {
             color: states.contains(WidgetState.hovered)
                 ? colors.hover
                 : colors.background,
-            borderRadius: BorderRadius.circular(kVoiceCallHudButtonRadius),
+            borderRadius: BorderRadius.circular(kVoiceHudButtonRadius),
             border: states.contains(WidgetState.focused)
                 ? Border.all(
-                    color: kVoiceCallHudFocusBorder,
-                    width: kVoiceCallHudFocusBorderWidth,
+                    color: kVoiceHudFocusBorder,
+                    width: kVoiceHudFocusBorderWidth,
                   )
                 : null,
           ),
           child: Center(
             child: Opacity(
-              opacity: disabled ? kVoiceCallHudDisabledOpacity : 1,
+              opacity: disabled ? kVoiceHudDisabledOpacity : 1,
               child: PhosphorIcon(
                 icon,
-                size: kVoiceCallHudIconSize,
+                size: kVoiceHudIconSize,
                 color: colors.foreground,
               ),
             ),
@@ -78,15 +78,15 @@ class VoiceCallHudControlButton extends StatelessWidget {
       return button;
     }
     return SizedBox.square(
-      dimension: kVoiceCallHudButtonSize,
+      dimension: kVoiceHudButtonSize,
       child: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           button,
           PositionedDirectional(
-            top: kVoiceCallHudCaretInset,
-            end: kVoiceCallHudCaretInset,
-            child: _VoiceCallHudSettingsCaret(
+            top: kVoiceHudCaretInset,
+            end: kVoiceHudCaretInset,
+            child: _VoiceHudSettingsCaret(
               tooltip: settingsTooltip!,
               onPressed: onSettingsPressed,
             ),
@@ -97,8 +97,8 @@ class VoiceCallHudControlButton extends StatelessWidget {
   }
 }
 
-class _VoiceCallHudSettingsCaret extends StatelessWidget {
-  const _VoiceCallHudSettingsCaret({
+class _VoiceHudSettingsCaret extends StatelessWidget {
+  const _VoiceHudSettingsCaret({
     required this.tooltip,
     required this.onPressed,
   });
@@ -108,34 +108,34 @@ class _VoiceCallHudSettingsCaret extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VoiceCallHudPressable(
+    return VoiceHudPressable(
       tooltip: tooltip,
       onPressed: onPressed,
       builder: (BuildContext context, Set<WidgetState> states) {
         return Opacity(
           opacity: states.contains(WidgetState.disabled)
-              ? kVoiceCallHudDisabledOpacity
+              ? kVoiceHudDisabledOpacity
               : 1,
           child: Container(
-            width: kVoiceCallHudCaretSize,
-            height: kVoiceCallHudCaretSize,
+            width: kVoiceHudCaretSize,
+            height: kVoiceHudCaretSize,
             decoration: BoxDecoration(
-              color: kVoiceCallHudSurface,
-              borderRadius: BorderRadius.circular(kVoiceCallHudCaretRadius),
+              color: kVoiceHudSurface,
+              borderRadius: BorderRadius.circular(kVoiceHudCaretRadius),
               border: Border.all(
                 color: states.contains(WidgetState.focused)
-                    ? kVoiceCallHudFocusBorder
-                    : kVoiceCallHudCaretBorder,
+                    ? kVoiceHudFocusBorder
+                    : kVoiceHudCaretBorder,
               ),
-              boxShadow: kVoiceCallHudCaretShadow,
+              boxShadow: kVoiceHudCaretShadow,
             ),
             child: Center(
               child: PhosphorIcon(
                 PhosphorIconsBold.caretDown,
-                size: kVoiceCallHudCaretIconSize,
+                size: kVoiceHudCaretIconSize,
                 color: states.contains(WidgetState.hovered)
                     ? Colors.white
-                    : kVoiceCallHudCaretIcon,
+                    : kVoiceHudCaretIcon,
               ),
             ),
           ),
@@ -145,17 +145,17 @@ class _VoiceCallHudSettingsCaret extends StatelessWidget {
   }
 }
 
-class VoiceCallHudSeparator extends StatelessWidget {
-  const VoiceCallHudSeparator({super.key});
+class VoiceHudSeparator extends StatelessWidget {
+  const VoiceHudSeparator({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: kVoiceCallHudSeparatorWidth,
-      height: kVoiceCallHudSeparatorHeight,
+      width: kVoiceHudSeparatorWidth,
+      height: kVoiceHudSeparatorHeight,
       decoration: BoxDecoration(
-        color: kVoiceCallHudSeparator,
-        borderRadius: BorderRadius.circular(kVoiceCallHudSeparatorWidth),
+        color: kVoiceHudSeparator,
+        borderRadius: BorderRadius.circular(kVoiceHudSeparatorWidth),
       ),
     );
   }

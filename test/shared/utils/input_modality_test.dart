@@ -1,8 +1,29 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/shared/utils/input_modality.dart';
 
 void main() {
+  group('initialIsTouchPrimary', () {
+    tearDown(() {
+      debugDefaultTargetPlatformOverride = null;
+      debugSetFluxerRuntimeMobileFormFactor(value: null);
+    });
+
+    test('starts as mouse on desktop', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+      debugSetFluxerRuntimeMobileFormFactor(value: false);
+      expect(initialIsTouchPrimary(), isFalse);
+    });
+
+    test('starts as touch on a phone running a desktop os', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+      debugSetFluxerRuntimeMobileFormFactor(value: true);
+      expect(initialIsTouchPrimary(), isTrue);
+    });
+  });
+
   group('shouldPromoteDesktopPointerKind', () {
     test('ignores mouse hover on iOS', () {
       expect(

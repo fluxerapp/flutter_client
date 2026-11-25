@@ -24,11 +24,17 @@ import 'package:fluxer_app/features/ui/voice/voice_fullscreen_video_zoom.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_speaking_ring.dart';
 import 'package:fluxer_app/features/ui/voice/voice_tile_metrics.dart';
+import 'package:fluxer_app/features/voice/domain/desktop_tile_presentation.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_focus_view.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_grid_view.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_grid/desktop_tile_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage_insets.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
@@ -93,10 +99,12 @@ class _VoiceGridTileItem {
     required this.data,
     required this.source,
     this.extraDeviceCount = 0,
+    this.expandedDeviceCount = 0,
   });
   final VoiceChannelParticipantData data;
   final VoiceParticipantTileSource source;
   final int extraDeviceCount;
+  final int expandedDeviceCount;
   String get tileId => voiceParticipantTileId(
     voice: data.voice,
     userId: data.userId,
@@ -186,11 +194,13 @@ class VoiceChannelParticipantGrid extends ConsumerStatefulWidget {
   const VoiceChannelParticipantGrid({
     required this.channelId,
     this.guildId,
+    this.compact = false,
     super.key,
   });
 
   final String? guildId;
   final String channelId;
+  final bool compact;
 
   @override
   ConsumerState<VoiceChannelParticipantGrid> createState() =>
@@ -212,6 +222,8 @@ class _VoiceChannelParticipantGridState
   int? _cachedLayoutKey;
   VoiceGridCompactLayout? _cachedCompactLayout;
   int? _cachedCompactKey;
+  VoiceGridDesktopLayout? _cachedDesktopLayout;
+  int? _cachedDesktopKey;
   final Map<String, _VoiceGridTileItem> _placedTiles =
       <String, _VoiceGridTileItem>{};
   final Map<String, Rect> _placedRects = <String, Rect>{};
@@ -225,6 +237,10 @@ class _VoiceChannelParticipantGridState
       return;
     }
     _layoutEpoch = epoch;
+    _clearPlacedTiles();
+  }
+
+  void _clearPlacedTiles() {
     _placedTiles.clear();
     _placedRects.clear();
     _departingTileIds.clear();
@@ -343,10 +359,6 @@ class _VoiceChannelParticipantGridState
     });
   }
 
-  void _revealOverlay() {
-    ref.read(voiceCallOverlayProvider.notifier).reveal();
-  }
-
   void _onPointerHover(PointerHoverEvent event) {
     ref
         .read(voiceCallOverlayProvider.notifier)
@@ -355,13 +367,6 @@ class _VoiceChannelParticipantGridState
 
   void _toggleCallOverlay() {
     ref.read(voiceCallOverlayProvider.notifier).toggle();
-  }
-
-  void _onBackgroundTap() {
-    if (!isHandheldVoiceOverlay(context)) {
-      return;
-    }
-    _toggleCallOverlay();
   }
 
   bool _screenShareExpanded(Set<String> watchedTileIds) {
@@ -612,11 +617,7 @@ class _VoiceChannelParticipantGridState
     required bool isFocusMain,
   }) {
     if (_isCurrentFullscreenTile(item, isFocusMain: isFocusMain)) {
-      if (isHandheldVoiceOverlay(context)) {
-        _toggleCallOverlay();
-      } else {
-        _revealOverlay();
-      }
+      _toggleCallOverlay();
       return;
     }
     if (item.source == VoiceParticipantTileSource.screenShare) {
@@ -632,7 +633,7 @@ class _VoiceChannelParticipantGridState
       _openTileFullscreen(item, isFocusMain: isFocusMain);
       return;
     }
-    _onBackgroundTap();
+    _toggleCallOverlay();
   }
 
   @override
@@ -740,6 +741,7 @@ class _VoiceChannelParticipantGridState
                 data: entry.tile.data,
                 source: entry.tile.source,
                 extraDeviceCount: entry.extraDeviceCount,
+                expandedDeviceCount: entry.expandedDeviceCount,
               ),
         )
         .toList();
@@ -812,6 +814,22 @@ class _VoiceChannelParticipantGridState
   }) {
     final double maxWidth = constraints.maxWidth;
     final double maxHeight = constraints.maxHeight;
+    if (!isHandheldVoiceOverlay(context)) {
+      _clearPlacedTiles();
+      return _buildDesktopLayout(
+        context: context,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        tiles: tiles,
+        watchedTileIds: watchedTileIds,
+        layout: layout,
+        media: media,
+        me: me,
+        localConnectionId: localConnectionId,
+        baseUrl: baseUrl,
+        l10n: l10n,
+      );
+    }
     final bool screenShareExpanded = _screenShareExpanded(watchedTileIds);
     final bool reserveHandheldControls = voiceCallReserveHandheldControls(
       context,
@@ -884,9 +902,7 @@ class _VoiceChannelParticipantGridState
     }
     final bool useCompact = compact && !focus && pinned == null;
     if (!useCompact) {
-      _placedTiles.clear();
-      _placedRects.clear();
-      _departingTileIds.clear();
+      _clearPlacedTiles();
     }
     if (useCompact) {
       final List<_VoiceGridTileItem> cameras = <_VoiceGridTileItem>[];
@@ -1056,6 +1072,191 @@ class _VoiceChannelParticipantGridState
     );
   }
 
+  VoiceGridDesktopLayout _resolveDesktopLayout({
+    required int tileCount,
+    required Size container,
+  }) {
+    final int layoutCacheKey = Object.hash(
+      tileCount,
+      container,
+      widget.compact,
+    );
+    if (_cachedDesktopKey == layoutCacheKey && _cachedDesktopLayout != null) {
+      return _cachedDesktopLayout!;
+    }
+    _cachedDesktopKey = layoutCacheKey;
+    _cachedDesktopLayout = resolveVoiceGridDesktopLayout(
+      tileCount: tileCount,
+      container: container,
+      compact: widget.compact,
+    );
+    return _cachedDesktopLayout!;
+  }
+
+  Widget _buildDesktopLayout({
+    required BuildContext context,
+    required double maxWidth,
+    required double maxHeight,
+    required List<_VoiceGridTileItem> tiles,
+    required Set<String> watchedTileIds,
+    required VoiceCallLayoutState layout,
+    required VoiceMediaRoom? media,
+    required String? me,
+    required String? localConnectionId,
+    required String? baseUrl,
+    required FluxerLocalizations l10n,
+  }) {
+    final ({double header, double footer}) hud = VoiceDesktopStageInsets.of(
+      context,
+    );
+    final EdgeInsets systemInsets = voiceStageSystemInsets(context);
+    final Size stage = Size(
+      math.max(0, maxWidth - systemInsets.horizontal),
+      math.max(0, maxHeight - systemInsets.vertical),
+    );
+    final ({double top, double bottom}) gridPadding =
+        voiceGridDesktopStagePadding(
+          containerHeight: stage.height,
+          compact: widget.compact,
+        );
+    final double gridTop = hud.header + gridPadding.top;
+    final VoiceGridDesktopLayout grid = _resolveDesktopLayout(
+      tileCount: tiles.length,
+      container: Size(
+        stage.width,
+        math.max(0, stage.height - gridTop - gridPadding.bottom - hud.footer),
+      ),
+    );
+    final _VoiceGridTileItem? pinned = tiles
+        .where((_VoiceGridTileItem tile) => tile.tileId == layout.pinnedTileId)
+        .firstOrNull;
+    final _VoiceGridTileItem? main;
+    if (tiles.isEmpty) {
+      main = null;
+    } else if (pinned != null) {
+      main = pinned;
+    } else if (layout.mode == VoiceCallLayoutMode.focus ||
+        grid.visibleTileCount < tiles.length) {
+      main = _autoMainTile(tiles, watchedTileIds: watchedTileIds, me: me);
+    } else {
+      main = null;
+    }
+
+    Widget card(
+      _VoiceGridTileItem tile,
+      VoiceDesktopTilePresentation presentation, {
+      Size size = Size.zero,
+    }) {
+      return KeyedSubtree(
+        key: _tileKey(tile.tileId),
+        child: RepaintBoundary(
+          child: _buildCard(
+            context: context,
+            tile: tile,
+            media: media,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+            isFocusMain: presentation == VoiceDesktopTilePresentation.focusMain,
+            isFilmstrip:
+                presentation == VoiceDesktopTilePresentation.focusSecondary,
+            isActiveScreenShare: watchedTileIds.contains(tile.tileId),
+            screenShareExpanded: false,
+            isWatchingScreenShare: watchedTileIds.isNotEmpty,
+            fillContainer: true,
+            tileWidth: size.width,
+            tileHeight: size.height,
+            desktopPresentation: presentation,
+          ),
+        ),
+      );
+    }
+
+    final Widget content;
+    if (main == null) {
+      content = VoiceDesktopGridView(
+        layout: grid,
+        top: gridTop,
+        tileIds: <String>[
+          for (final _VoiceGridTileItem tile in tiles) tile.tileId,
+        ],
+        moveDuration: _tileMoveDuration(context),
+        moveCurve: _kTileMoveCurve,
+        tileBuilder: (BuildContext _, int index) => card(
+          tiles[index],
+          VoiceDesktopTilePresentation.grid,
+          size: grid.tileSize,
+        ),
+      );
+    } else {
+      final String mainTileId = main.tileId;
+      final List<_VoiceGridTileItem> members = <_VoiceGridTileItem>[
+        for (final _VoiceGridTileItem tile in tiles)
+          if (tile.tileId != mainTileId) tile,
+      ];
+      content = VoiceDesktopFocusView(
+        size: stage,
+        headerHeight: hud.header,
+        footerHeight: hud.footer,
+        compact: widget.compact,
+        main: card(main, VoiceDesktopTilePresentation.focusMain),
+        memberCount: members.length,
+        memberBuilder: (BuildContext _, int index) =>
+            card(members[index], VoiceDesktopTilePresentation.focusSecondary),
+      );
+    }
+    return SizedBox(
+      width: maxWidth,
+      height: maxHeight,
+      child: Padding(
+        padding: systemInsets,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            content,
+            Padding(
+              padding: EdgeInsets.only(top: hud.header),
+              child: _VoiceCallStatusOverlay(
+                channelId: widget.channelId,
+                guildId: widget.guildId,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _watchDesktopStream(_VoiceGridTileItem item) {
+    _watchStream(item);
+    if (ref.read(voiceCallLayoutProvider).pinnedTileId != item.tileId) {
+      ref.read(voiceCallLayoutProvider.notifier).pin(item.tileId);
+    }
+  }
+
+  void _onDesktopTileTap(_VoiceGridTileItem item, {required bool isFocusMain}) {
+    if (item.source == VoiceParticipantTileSource.screenShare &&
+        !_isOwnScreenShareTile(item) &&
+        !ref.read(voiceScreenShareWatchTileProvider).contains(item.tileId)) {
+      _watchDesktopStream(item);
+      return;
+    }
+    final VoiceCallLayoutState layout = ref.read(voiceCallLayoutProvider);
+    final VoiceCallLayout notifier = ref.read(voiceCallLayoutProvider.notifier);
+    final bool focused = voiceCallTileIsFocused(
+      isFocusMode: layout.mode == VoiceCallLayoutMode.focus,
+      pinnedTileId: layout.pinnedTileId,
+      tileId: item.tileId,
+      effectiveMainTileId: isFocusMain ? item.tileId : null,
+    );
+    if (focused) {
+      notifier.unpin();
+    } else {
+      notifier.pin(item.tileId);
+    }
+  }
+
   void _scheduleClearStalePin() {
     if (_stalePinScheduled) {
       return;
@@ -1080,7 +1281,7 @@ class _VoiceChannelParticipantGridState
       height: maxHeight,
       child: FluxerGestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: _onBackgroundTap,
+        onTap: _toggleCallOverlay,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -2094,7 +2295,9 @@ class _VoiceChannelParticipantGridState
     bool edgeToEdge = false,
     double tileWidth = 0,
     double tileHeight = 0,
+    VoiceDesktopTilePresentation? desktopPresentation,
   }) {
+    final bool desktop = desktopPresentation != null;
     final bool featured = tile.tileId == _featuredTileId;
     final bool hostFeatured = featured && voicePipHostsFeatured(_pipPhase);
     final bool hideFeatured = featured && voicePipHidesFeaturedTile(_pipPhase);
@@ -2140,14 +2343,20 @@ class _VoiceChannelParticipantGridState
       tileWidth: tileWidth,
       tileHeight: tileHeight,
       extraDeviceCount: tile.extraDeviceCount,
+      expandedDeviceCount: tile.expandedDeviceCount,
+      desktopPresentation: desktopPresentation,
       streamPreviewUrl: buildViewerStreamPreviewUrl(
         baseUrl: baseUrl,
         voice: tile.data.voice,
         isScreenShareTile:
             tile.source == VoiceParticipantTileSource.screenShare,
       ),
-      onTap: () => _onTileTap(tile, isFocusMain),
-      onWatch: () => _openTileFullscreen(tile, isFocusMain: isFocusMain),
+      onTap: () => desktop
+          ? _onDesktopTileTap(tile, isFocusMain: isFocusMain)
+          : _onTileTap(tile, isFocusMain),
+      onWatch: () => desktop
+          ? _watchDesktopStream(tile)
+          : _openTileFullscreen(tile, isFocusMain: isFocusMain),
       onOpenFullscreen: () =>
           _openTileFullscreen(tile, isFocusMain: isFocusMain),
       onStopWatching: () => _stopWatching(tile.tileId),
@@ -2419,7 +2628,9 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.tileId,
     this.omitVideoTrack = false,
     this.extraDeviceCount = 0,
+    this.expandedDeviceCount = 0,
     this.edgeToEdge = false,
+    this.desktopPresentation,
   });
 
   final VoiceChannelParticipantData data;
@@ -2437,6 +2648,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final double tileHeight;
   final bool edgeToEdge;
   final int extraDeviceCount;
+  final int expandedDeviceCount;
+  final VoiceDesktopTilePresentation? desktopPresentation;
   final String? streamPreviewUrl;
   final VoidCallback onTap;
   final VoidCallback onWatch;
@@ -2508,12 +2721,32 @@ class _VoiceParticipantCard extends ConsumerWidget {
         );
     final String speakingIdentity = participant?.identity ?? data.userId;
     final BorderRadius radius = BorderRadius.circular(edgeToEdge ? 0 : 12);
-    final Color streamSurface = context.colors.backgroundPrimary;
-    final Color cardColor = tileSource == VoiceParticipantTileSource.screenShare
-        ? streamSurface
-        : (avatarArgb == null
-              ? context.colors.brandPrimary
-              : Color(0xFF000000 | avatarArgb));
+    final VoiceDesktopTilePresentation? desktop = desktopPresentation;
+    final Color accentColor = avatarArgb == null
+        ? context.colors.brandPrimary
+        : Color(0xFF000000 | avatarArgb);
+    final Color streamSurface;
+    if (desktop == null) {
+      streamSurface = context.colors.backgroundPrimary;
+    } else if (isActiveScreenShare) {
+      streamSurface = kVoiceDesktopTileVideoSurface;
+    } else {
+      streamSurface = kVoiceDesktopTileStreamSurface;
+    }
+    final Color cardColor;
+    if (tileSource == VoiceParticipantTileSource.screenShare) {
+      cardColor = streamSurface;
+    } else if (desktop != null) {
+      cardColor = voiceDesktopTilePlaceholderColor(accentColor);
+    } else {
+      cardColor = accentColor;
+    }
+    final double videoCornerRadius;
+    if (desktop != null) {
+      videoCornerRadius = voiceDesktopTileRadius(desktop);
+    } else {
+      videoCornerRadius = edgeToEdge ? 0 : 12;
+    }
     final Widget mediaTile = VoiceFullscreenVideoZoom(
       key: ValueKey<String>('voice-fullscreen-zoom-$tileId'),
       enabled: screenShareFullscreenExpanded,
@@ -2530,7 +2763,12 @@ class _VoiceParticipantCard extends ConsumerWidget {
         tileSource: tileSource,
         isActiveScreenShare: isActiveScreenShare,
         fillContainer: fillContainer,
-        videoCornerRadius: edgeToEdge ? 0 : 12,
+        videoCornerRadius: videoCornerRadius,
+        cameraFit: desktop != null ? VideoViewFit.contain : VideoViewFit.cover,
+        videoBackgroundColor: desktop != null
+            ? kVoiceDesktopTileVideoSurface
+            : null,
+        avatarSizeOf: desktop != null ? voiceDesktopTileAvatarSize : null,
         streamPreviewUrl: streamPreviewUrl,
         isTileFocused: isFocusMain,
         pauseOwnScreenSharePreviewOnUnfocus: pauseOwnPreview,
@@ -2574,14 +2812,70 @@ class _VoiceParticipantCard extends ConsumerWidget {
       onContextMenu(position);
     }
 
+    final Widget? connectionFailedOverlay =
+        participant != null && tileSource == VoiceParticipantTileSource.camera
+        ? _DirectConnectionFailedOverlay(
+            participant: participant,
+            display: display,
+            channelId: channelId,
+          )
+        : null;
+    final Map<CustomSemanticsAction, VoidCallback> semanticsActions =
+        <CustomSemanticsAction, VoidCallback>{
+          CustomSemanticsAction(label: l10n.voiceParticipantOptionsAction):
+              openContextMenuFromSemantics,
+        };
+    if (desktop != null) {
+      final bool screenShare =
+          tileSource == VoiceParticipantTileSource.screenShare;
+      return Semantics(
+        button: true,
+        label: semantics.toString(),
+        onTap: onTap,
+        customSemanticsActions: semanticsActions,
+        child: VoiceDesktopTile(
+          presentation: desktop,
+          media: mediaTile,
+          surfaceColor: cardColor,
+          voice: voice,
+          display: display,
+          isScreenShare: screenShare,
+          speakingRingEnabled: ringEnabled,
+          speakingIdentity: speakingIdentity,
+          ringAroundAvatar: omitVideoTrack || !voice.selfVideo,
+          showConnectionId: ref.watch(
+            voiceSettingsProvider.select(
+              (VoiceSettingsState s) => s.showVoiceConnectionId,
+            ),
+          ),
+          showMenuButton:
+              localConnectionId == null ||
+              voice.connectionId != localConnectionId,
+          onTap: onTap,
+          onContextMenu: onContextMenu,
+          onWatch: screenShare && !isOwnScreenShareTile && !isActiveScreenShare
+              ? onWatch
+              : null,
+          streamBadge: screenShare
+              ? _HudStreamStatusBadge(
+                  participant: participant,
+                  collectQuality: isActiveScreenShare,
+                )
+              : null,
+          overlay: connectionFailedOverlay,
+          extraDeviceCount: extraDeviceCount,
+          expandedDeviceCount: expandedDeviceCount,
+          onToggleDevices: () => ref
+              .read(voiceCallLayoutProvider.notifier)
+              .toggleExpandedUser(data.userId),
+        ),
+      );
+    }
     return Semantics(
       button: true,
       label: semantics.toString(),
       onTap: onTap,
-      customSemanticsActions: <CustomSemanticsAction, VoidCallback>{
-        CustomSemanticsAction(label: l10n.voiceParticipantOptionsAction):
-            openContextMenuFromSemantics,
-      },
+      customSemanticsActions: semanticsActions,
       child: DecoratedBox(
         decoration: BoxDecoration(color: cardColor, borderRadius: radius),
         child: ClipRRect(
@@ -2605,15 +2899,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
                     aroundAvatar: omitVideoTrack || !voice.selfVideo,
                   ),
                 ),
-                if (participant != null &&
-                    tileSource == VoiceParticipantTileSource.camera)
-                  Positioned.fill(
-                    child: _DirectConnectionFailedOverlay(
-                      participant: participant,
-                      display: display,
-                      channelId: channelId,
-                    ),
-                  ),
+                if (connectionFailedOverlay != null)
+                  Positioned.fill(child: connectionFailedOverlay),
                 if (tileSource == VoiceParticipantTileSource.screenShare &&
                     !isOwnScreenShareTile &&
                     !isActiveScreenShare &&

@@ -10197,6 +10197,36 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{Show 1 more device} other{Show {count} more devices}}'**
   String voiceParticipantOtherDevicesLabel(int count);
 
+  /// Accessible label for the menu button on a voice participant tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant options for {name}'**
+  String voiceParticipantOptionsFor(String name);
+
+  /// Tooltip for the chip on a participant tile that collapses that participant's expanded devices back into one tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse devices'**
+  String get voiceParticipantCollapseDevices;
+
+  /// Tooltip for the button that shows the row of call members below a focused tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Show members'**
+  String get voiceFocusShowMembers;
+
+  /// Tooltip for the button that hides the row of call members below a focused tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide members'**
+  String get voiceFocusHideMembers;
+
+  /// Accessible label for the draggable divider between a focused tile and the row of call members below it.
+  ///
+  /// In en, this message translates to:
+  /// **'Resize members row'**
+  String get voiceFocusResizeMembersRow;
+
   /// Screen reader label for the floating picture-in-picture call window.
   ///
   /// In en, this message translates to:

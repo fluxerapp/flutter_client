@@ -714,8 +714,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool desktop = usesDesktopPointerUi(context);
     final bool showDesktopActionBar =
         !isMobile && desktop && !widget.inboxPreviewMode;
-    final isTouch =
-        layoutModeOfSize(MediaQuery.sizeOf(context)) != LayoutMode.desktop;
     final MessageRenderSettings? settings = widget.renderSettings;
     final guildId =
         widget.previewRoleGuildId ??
@@ -1086,7 +1084,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 SwipeRightToLeftActionPreference.channelDetails,
           ),
         );
-    if (!isTouch || !touchInput || widget.inboxPreviewMode) {
+    if (!touchInput || widget.inboxPreviewMode) {
       return _wrapMessageSendingDim(
         dim: dimEntireMessage,
         child: _wrapKeyboardFocus(

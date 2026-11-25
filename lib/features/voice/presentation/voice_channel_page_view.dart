@@ -15,8 +15,8 @@ import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart'
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_corner_button.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_corner_button.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_chat_surface.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
@@ -279,14 +279,14 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                   ),
                 ),
               )
-            : VoiceCallDesktopStage(
+            : VoiceDesktopStage(
                 header: ChannelHeader(
                   channelId: widget.channelId,
                   forceVoiceCallStyle: true,
                 ),
                 cornerControls: <Widget>[
                   if (showChatToggle)
-                    VoiceCallDesktopCornerButton(
+                    VoiceDesktopCornerButton(
                       key: kDesktopVoiceChatToggleKey,
                       icon: PhosphorIconsFill.chatTeardrop,
                       tooltip: FluxerLocalizations.of(context).voiceControlChat,
