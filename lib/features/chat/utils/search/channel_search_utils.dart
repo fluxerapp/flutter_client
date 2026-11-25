@@ -111,10 +111,20 @@ IconData channelSearchScopeIcon(MessageSearchScopeFilter value) =>
     switch (value) {
       MessageSearchScopeFilter.current => PhosphorIconsBold.hash,
       MessageSearchScopeFilter.openDms => PhosphorIconsFill.chatCenteredDots,
-      MessageSearchScopeFilter.allDms => PhosphorIconsFill.envelopeSimple,
+      MessageSearchScopeFilter.allDms => PhosphorIconsFill.chatCircle,
       MessageSearchScopeFilter.allGuilds => PhosphorIconsFill.globe,
       MessageSearchScopeFilter.all => PhosphorIconsFill.users,
       MessageSearchScopeFilter.openDmsAndAllGuilds => PhosphorIconsFill.users,
+    };
+
+IconData channelSearchScopeMenuIcon(MessageSearchScopeFilter value) =>
+    switch (value) {
+      MessageSearchScopeFilter.current => PhosphorIconsBold.hash,
+      MessageSearchScopeFilter.openDms => PhosphorIconsBold.chatCenteredDots,
+      MessageSearchScopeFilter.allDms => PhosphorIconsBold.chatCircle,
+      MessageSearchScopeFilter.allGuilds => PhosphorIconsBold.globe,
+      MessageSearchScopeFilter.all => PhosphorIconsBold.users,
+      MessageSearchScopeFilter.openDmsAndAllGuilds => PhosphorIconsBold.users,
     };
 
 String channelSearchSortLabel(

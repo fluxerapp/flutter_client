@@ -1275,57 +1275,113 @@ class _ChannelHeaderSearchFieldState
     });
   }
 
-  Future<void> _openScopeMenu() async {
+  Future<void> _openScopeMenu(Rect anchorRect) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<MessageSearchScopeFilter> options = channelSearchScopeOptions(
       isGuildChannel: _isGuildChannel,
     );
-    final MessageSearchScopeFilter? selected =
-        await FluxerBottomSheet.show<MessageSearchScopeFilter>(
-          context,
-          title: l10n.channelDetailsSearchIn,
-          variant: FluxerBottomSheetVariant.menu,
-          builder: (BuildContext sheetContext, VoidCallback close) {
-            return FluxerBottomSheetContent(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  for (final MessageSearchScopeFilter value
-                      in options) ...<Widget>[
-                    ListTile(
-                      leading: PhosphorIcon(channelSearchScopeIcon(value)),
-                      title: Text(
-                        channelSearchScopeLabel(
-                          l10n,
-                          value,
-                          isGuildChannel: _isGuildChannel,
-                        ),
-                      ),
-                      subtitle: Text(
-                        channelSearchScopeDescription(
-                          l10n,
-                          value,
-                          isGuildChannel: _isGuildChannel,
-                        ),
-                      ),
-                      selected: _effectiveScope == value,
-                      onTap: () => Navigator.of(sheetContext).pop(value),
-                    ),
-                  ],
-                ],
-              ),
-            );
-          },
-        );
-    if (selected != null) {
-      ref.read(channelHeaderSearchProvider.notifier).setScope(selected);
-      if (_controller.text.trim().isNotEmpty ||
-          queryFromControllerHasTerms() ||
-          ref.read(channelHeaderSearchProvider).isActive) {
-        unawaited(_submitSearch());
-      }
+    final MessageSearchScopeFilter currentScope = ref
+        .read(channelHeaderSearchProvider)
+        .scope;
+    final MessageSearchScopeFilter? selected = usesDesktopPointerUi(context)
+        ? await _showScopeActionMenu(
+            l10n: l10n,
+            anchorRect: anchorRect,
+            options: options,
+            currentScope: currentScope,
+          )
+        : await _showScopeBottomSheet(
+            l10n: l10n,
+            options: options,
+            currentScope: currentScope,
+          );
+    if (selected == null || !mounted) {
+      return;
     }
+    ref.read(channelHeaderSearchProvider.notifier).setScope(selected);
+    if (_controller.text.trim().isNotEmpty ||
+        queryFromControllerHasTerms() ||
+        ref.read(channelHeaderSearchProvider).isActive) {
+      unawaited(_submitSearch());
+    }
+  }
+
+  Future<MessageSearchScopeFilter?> _showScopeActionMenu({
+    required FluxerLocalizations l10n,
+    required Rect anchorRect,
+    required List<MessageSearchScopeFilter> options,
+    required MessageSearchScopeFilter currentScope,
+  }) async {
+    final bool isRtl = Directionality.of(context) == TextDirection.rtl;
+    MessageSearchScopeFilter? selected;
+    await FluxerActionMenu.show(
+      context,
+      position: anchorRect.bottomCenter,
+      anchorRect: anchorRect,
+      placement: isRtl
+          ? FluxerDesktopPlacement.belowStart
+          : FluxerDesktopPlacement.belowEnd,
+      builder: (BuildContext menuContext, VoidCallback close) => <Widget>[
+        for (final MessageSearchScopeFilter value in options)
+          FluxerMenuRadioItem(
+            label: channelSearchScopeLabel(
+              l10n,
+              value,
+              isGuildChannel: _isGuildChannel,
+            ),
+            icon: channelSearchScopeMenuIcon(value),
+            isSelected: currentScope == value,
+            onPressed: () {
+              selected = value;
+              close();
+            },
+          ),
+      ],
+    );
+    return selected;
+  }
+
+  Future<MessageSearchScopeFilter?> _showScopeBottomSheet({
+    required FluxerLocalizations l10n,
+    required List<MessageSearchScopeFilter> options,
+    required MessageSearchScopeFilter currentScope,
+  }) {
+    return FluxerBottomSheet.show<MessageSearchScopeFilter>(
+      context,
+      title: l10n.channelDetailsSearchIn,
+      variant: FluxerBottomSheetVariant.menu,
+      builder: (BuildContext sheetContext, VoidCallback close) {
+        return FluxerBottomSheetContent(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for (final MessageSearchScopeFilter value in options) ...<Widget>[
+                ListTile(
+                  leading: PhosphorIcon(channelSearchScopeIcon(value)),
+                  title: Text(
+                    channelSearchScopeLabel(
+                      l10n,
+                      value,
+                      isGuildChannel: _isGuildChannel,
+                    ),
+                  ),
+                  subtitle: Text(
+                    channelSearchScopeDescription(
+                      l10n,
+                      value,
+                      isGuildChannel: _isGuildChannel,
+                    ),
+                  ),
+                  selected: currentScope == value,
+                  onTap: () => Navigator.of(sheetContext).pop(value),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
   }
 
   bool queryFromControllerHasTerms() {
@@ -1434,22 +1490,28 @@ class _ChannelHeaderSearchFieldState
                   : colors.border,
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          padding: const EdgeInsetsDirectional.fromSTEB(6, 2, 10, 2),
           child: Row(
             children: <Widget>[
               _ScopeButton(
                 colors: colors,
-                scopeIcon: channelSearchScopeIcon(scope),
+                scopeIcon: channelSearchScopeMenuIcon(scope),
                 scopeLabel: channelSearchScopeLabel(
                   l10n,
                   scope,
                   isGuildChannel: _isGuildChannel,
                 ),
-                onTap: () => unawaited(_openScopeMenu()),
+                onOpenMenu: _openScopeMenu,
               ),
+              const SizedBox(width: 4),
               Expanded(child: _buildEditableField(context, l10n, colors)),
               if (_controller.text.isNotEmpty)
-                _ClearSearchButton(colors: colors, onPressed: _clearSearch),
+                TextFieldTapRegion(
+                  child: _ClearSearchButton(
+                    colors: colors,
+                    onPressed: _clearSearch,
+                  ),
+                ),
             ],
           ),
         ),
@@ -1462,46 +1524,40 @@ class _ChannelHeaderSearchFieldState
         if (entries.isEmpty) {
           return const SizedBox.shrink();
         }
-        return Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: FluxerGestureDetector(
-                onTap: _hideOverlay,
-                behavior: HitTestBehavior.opaque,
-                child: const ColoredBox(color: Colors.transparent),
+        return CompositedTransformFollower(
+          link: _layerLink,
+          targetAnchor: _openAutocompleteUpward
+              ? (_alignAutocompleteRight
+                    ? Alignment.topRight
+                    : Alignment.topLeft)
+              : (_alignAutocompleteRight
+                    ? Alignment.bottomRight
+                    : Alignment.bottomLeft),
+          followerAnchor: _openAutocompleteUpward
+              ? (_alignAutocompleteRight
+                    ? Alignment.bottomRight
+                    : Alignment.bottomLeft)
+              : (_alignAutocompleteRight
+                    ? Alignment.topRight
+                    : Alignment.topLeft),
+          offset: Offset(0, _openAutocompleteUpward ? -8 : 8),
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Align(
+              alignment: _alignAutocompleteRight
+                  ? Alignment.topRight
+                  : Alignment.topLeft,
+              child: TapRegion(
+                groupId: this,
+                consumeOutsideTaps: true,
+                onTapOutside: (_) => _hideOverlay(),
+                child: TextFieldTapRegion(child: autocomplete),
               ),
             ),
-            CompositedTransformFollower(
-              link: _layerLink,
-              targetAnchor: _openAutocompleteUpward
-                  ? (_alignAutocompleteRight
-                        ? Alignment.topRight
-                        : Alignment.topLeft)
-                  : (_alignAutocompleteRight
-                        ? Alignment.bottomRight
-                        : Alignment.bottomLeft),
-              followerAnchor: _openAutocompleteUpward
-                  ? (_alignAutocompleteRight
-                        ? Alignment.bottomRight
-                        : Alignment.bottomLeft)
-                  : (_alignAutocompleteRight
-                        ? Alignment.topRight
-                        : Alignment.topLeft),
-              offset: Offset(0, _openAutocompleteUpward ? -8 : 8),
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: Align(
-                  alignment: _alignAutocompleteRight
-                      ? Alignment.topRight
-                      : Alignment.topLeft,
-                  child: TextFieldTapRegion(child: autocomplete),
-                ),
-              ),
-            ),
-          ],
+          ),
         );
       },
-      child: searchField,
+      child: TapRegion(groupId: this, child: searchField),
     );
   }
 
@@ -1589,93 +1645,139 @@ class _SearchFieldColors {
   final Color clearHover;
 }
 
+class _SearchFieldInkWell extends StatelessWidget {
+  const _SearchFieldInkWell({
+    required this.focusColor,
+    required this.onTap,
+    required this.onHover,
+    required this.child,
+    this.color = Colors.transparent,
+  });
+
+  final Color color;
+  final Color focusColor;
+  final VoidCallback onTap;
+  final ValueChanged<bool> onHover;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool desktop = usesDesktopPointerUi(context);
+    final BorderRadius radius = BorderRadius.circular(6);
+    return Material(
+      color: color,
+      borderRadius: radius,
+      child: InkWell(
+        mouseCursor: SystemMouseCursors.click,
+        splashFactory: desktop ? NoSplash.splashFactory : null,
+        hoverColor: desktop ? Colors.transparent : null,
+        highlightColor: desktop ? Colors.transparent : null,
+        focusColor: desktop ? focusColor : null,
+        onTap: onTap,
+        onHover: onHover,
+        borderRadius: radius,
+        child: SizedBox.square(dimension: 24, child: Center(child: child)),
+      ),
+    );
+  }
+}
+
 class _ScopeButton extends StatefulWidget {
   const _ScopeButton({
     required this.colors,
     required this.scopeIcon,
     required this.scopeLabel,
-    required this.onTap,
+    required this.onOpenMenu,
   });
 
   final _SearchFieldColors colors;
   final IconData scopeIcon;
   final String scopeLabel;
-  final VoidCallback onTap;
+  final Future<void> Function(Rect anchorRect) onOpenMenu;
 
   @override
   State<_ScopeButton> createState() => _ScopeButtonState();
 }
 
 class _ScopeButtonState extends State<_ScopeButton> {
+  final GlobalKey _iconKey = GlobalKey();
   bool _hovered = false;
+  bool _menuOpen = false;
+
+  Future<void> _openMenu() async {
+    final RenderObject? icon = _iconKey.currentContext?.findRenderObject();
+    if (_menuOpen || icon is! RenderBox || !icon.hasSize) {
+      return;
+    }
+    setState(() => _menuOpen = true);
+    try {
+      await widget.onOpenMenu(icon.localToGlobal(Offset.zero) & icon.size);
+    } finally {
+      if (mounted) {
+        setState(() => _menuOpen = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final Color iconColor = _hovered
+    final bool active = _hovered || _menuOpen;
+    final Color iconColor = active
         ? widget.colors.clearHover
         : widget.colors.icon;
-    final Color badgeIconColor = _hovered
+    final Color badgeIconColor = active
         ? widget.colors.clearHover
         : widget.colors.badgeIcon;
 
-    final Widget button = Semantics(
+    return Semantics(
       button: true,
       label: widget.scopeLabel,
       child: Tooltip(
         message: widget.scopeLabel,
-        child: Material(
-          color: _hovered
-              ? widget.colors.clearHoverBackground
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
-          child: InkWell(
-            onTap: widget.onTap,
-            onHover: (bool hovered) => setState(() => _hovered = hovered),
-            borderRadius: BorderRadius.circular(6),
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(end: 8),
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: <Widget>[
-                    PhosphorIcon(
-                      PhosphorIconsFill.magnifyingGlass,
-                      size: 16,
-                      color: iconColor,
+        child: _SearchFieldInkWell(
+          focusColor: widget.colors.clearHoverBackground,
+          onTap: () => unawaited(_openMenu()),
+          onHover: (bool hovered) => setState(() => _hovered = hovered),
+          child: SizedBox(
+            key: _iconKey,
+            width: 16,
+            height: 16,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                PhosphorIcon(
+                  PhosphorIconsFill.magnifyingGlass,
+                  size: 16,
+                  color: iconColor,
+                ),
+                PositionedDirectional(
+                  start: -4,
+                  bottom: -4,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: widget.colors.badgeBackground,
+                      border: Border.all(color: widget.colors.badgeBorder),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    PositionedDirectional(
-                      start: -4,
-                      bottom: -4,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: widget.colors.badgeBackground,
-                          border: Border.all(color: widget.colors.badgeBorder),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: SizedBox(
-                          width: 12,
-                          height: 12,
-                          child: Center(
-                            child: PhosphorIcon(
-                              widget.scopeIcon,
-                              size: 8,
-                              color: badgeIconColor,
-                            ),
-                          ),
+                    child: SizedBox(
+                      width: 12,
+                      height: 12,
+                      child: Center(
+                        child: PhosphorIcon(
+                          widget.scopeIcon,
+                          size: 8,
+                          color: badgeIconColor,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
       ),
     );
-    return button;
   }
 }
 
@@ -1694,34 +1796,22 @@ class _ClearSearchButtonState extends State<_ClearSearchButton> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget button = Semantics(
+    return Semantics(
       button: true,
       label: FluxerLocalizations.of(context).userSettingsSearchClear,
-      child: Material(
+      child: _SearchFieldInkWell(
         color: _hovered
             ? widget.colors.clearHoverBackground
             : Colors.transparent,
-        borderRadius: BorderRadius.circular(6),
-        child: InkWell(
-          onTap: widget.onPressed,
-          onHover: (bool hovered) => setState(() => _hovered = hovered),
-          borderRadius: BorderRadius.circular(6),
-          child: SizedBox(
-            width: 24,
-            height: 24,
-            child: Center(
-              child: PhosphorIcon(
-                PhosphorIconsBold.x,
-                size: 14,
-                color: _hovered
-                    ? widget.colors.clearHover
-                    : widget.colors.clear,
-              ),
-            ),
-          ),
+        focusColor: widget.colors.clearHoverBackground,
+        onTap: widget.onPressed,
+        onHover: (bool hovered) => setState(() => _hovered = hovered),
+        child: PhosphorIcon(
+          PhosphorIconsBold.x,
+          size: 14,
+          color: _hovered ? widget.colors.clearHover : widget.colors.clear,
         ),
       ),
     );
-    return button;
   }
 }

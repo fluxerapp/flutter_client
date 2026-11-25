@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerMenuGroup;
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
-import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -26,11 +25,19 @@ class FluxerActionMenu {
     BuildContext context, {
     required Offset position,
     required FluxerActionMenuBuilder builder,
+    Rect? anchorRect,
+    FluxerDesktopPlacement placement = FluxerDesktopPlacement.belowStart,
   }) {
     if (!usesDesktopPointerUi(context)) {
       return _showAsBottomSheet(context, builder: builder);
     }
-    return _showAsOverlay(context, position: position, builder: builder);
+    return _showAsOverlay(
+      context,
+      position: position,
+      anchorRect: anchorRect,
+      placement: placement,
+      builder: builder,
+    );
   }
 
   static Future<void> _showAsBottomSheet(
@@ -66,11 +73,15 @@ class FluxerActionMenu {
   static Future<void> _showAsOverlay(
     BuildContext context, {
     required Offset position,
+    required Rect? anchorRect,
+    required FluxerDesktopPlacement placement,
     required FluxerActionMenuBuilder builder,
   }) {
     return pushFluxerDesktopMenu<void>(
       context,
       position: position,
+      anchorRect: anchorRect,
+      placement: placement,
       builder: (BuildContext menuContext, VoidCallback close) {
         return FluxerDesktopMenuPanel.fitContent(
           child: SingleChildScrollView(
@@ -136,6 +147,7 @@ List<_FluxerMenuSectionData> _buildMobileSections(List<Widget> widgets) {
         currentItems.add(
           FluxerBottomSheetMenuRadioItem(
             label: widget.label,
+            icon: widget.icon,
             hint: widget.hint,
             isSelected: widget.isSelected,
             enabled: widget.enabled,
@@ -231,6 +243,7 @@ class FluxerMenuRadioItem extends StatelessWidget {
     required this.label,
     required this.onPressed,
     required this.isSelected,
+    this.icon,
     this.hint,
     this.enabled = true,
     super.key,
@@ -239,6 +252,7 @@ class FluxerMenuRadioItem extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final bool isSelected;
+  final PhosphorIconData? icon;
   final String? hint;
   final bool enabled;
 
@@ -250,7 +264,10 @@ class FluxerMenuRadioItem extends StatelessWidget {
       onTap: onPressed,
       enabled: enabled,
       selected: isSelected,
-      trailing: FluxerRadioIndicator(selected: isSelected),
+      leading: icon == null
+          ? null
+          : PhosphorIcon(icon!, size: kFluxerDesktopMenuRadioIconSize),
+      trailing: FluxerDesktopMenuRadio(selected: isSelected),
     );
   }
 }

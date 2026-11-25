@@ -344,6 +344,49 @@ class FluxerDesktopMenuCheckbox extends StatelessWidget {
   }
 }
 
+class FluxerDesktopMenuRadio extends StatelessWidget {
+  const FluxerDesktopMenuRadio({required this.selected, super.key});
+
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return SizedBox(
+      width: 18,
+      height: 18,
+      child: Center(
+        child: Container(
+          width: 16,
+          height: 16,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: selected
+                ? colors.brandPrimary
+                : fluxerFormSurfaceBackground(context),
+            border: Border.all(
+              color: selected
+                  ? colors.brandPrimary
+                  : colors.backgroundModifierAccent,
+            ),
+          ),
+          child: selected
+              ? Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: colors.brandPrimaryFill,
+                  ),
+                )
+              : null,
+        ),
+      ),
+    );
+  }
+}
+
 class FluxerDesktopMenuGroupLabel extends StatelessWidget {
   const FluxerDesktopMenuGroupLabel({required this.label, super.key});
 
