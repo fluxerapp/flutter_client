@@ -50,8 +50,8 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 | Android | Obtainium | Stable / Beta | [Auto-updates from GitHub](#auto-updates-with-obtainium) |
 | Android | F-Droid | Soon | — |
 | Android | Accrescent | Waiting for Accrescent submissions to be open | — |
-| macOS (Oxygen) | Website | Open Canary | [Installer](https://pkgs.fluxer.com/oxygen/latest/macos) - [Portable](https://pkgs.fluxer.com/oxygen/latest/macos-portable) |
-| Window (Oxygen) | Website | Open Canary | [Installer](https://pkgs.fluxer.com/oxygen/latest/windows) - [Portable](https://pkgs.fluxer.com/oxygen/latest/windows-portable) |
+| macOS (Oxygen) | Website | Open Canary **(not accepting bug reports)** | [Installer](https://pkgs.fluxer.com/oxygen/latest/macos) - [Portable](https://pkgs.fluxer.com/oxygen/latest/macos-portable) |
+| Window (Oxygen) | Website | Open Canary **(not accepting bug reports)** | [Installer](https://pkgs.fluxer.com/oxygen/latest/windows) - [Portable](https://pkgs.fluxer.com/oxygen/latest/windows-portable) |
 | Linux (Oxygen) | Website | Coming soon | — |
 
 ### Android (APK)
