@@ -72,7 +72,7 @@ class _MembersSidebarTile extends ConsumerWidget {
           );
           return Row(
             children: <Widget>[
-              PhosphorIcon(PhosphorIconsRegular.users, size: 20, color: idle),
+              PhosphorIcon(PhosphorIconsFill.users, size: 20, color: idle),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(

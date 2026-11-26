@@ -220,6 +220,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       StartupTimeline.instance.markLive();
       unawaited(markShellCacheLive());
       ref.read(guildSyncProvider(readAccountUserId(ref)).notifier).clearAll();
+      unawaited(
+        ref
+            .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+            .revalidate(),
+      );
       clearGuildRolesPrefetchState();
       clearVoiceParticipantUsersCache();
       ref
