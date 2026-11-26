@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/daos/message_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -125,6 +126,30 @@ void main() {
       for (final String channelId in channelIds) {
         expect(await db.messageDao.getLastMessage(channelId), isNull);
       }
+    });
+
+    test('getExistingMessageKeys handles 20k channels', () async {
+      final FluxerDatabase db = openTestDatabase();
+      const int channelCount = 20000;
+      await db.messageDao.upsertMessages(<MessagesCompanion>[
+        for (int i = 0; i < channelCount; i += 10)
+          MessagesCompanion.insert(
+            id: _snowflakeForIndex(i),
+            channelId: 'channel-$i',
+            authorId: 'author-1',
+            content: 'hello',
+            timestamp: DateTime.utc(2026),
+          ),
+      ]);
+      final Set<MessageKey> existing = await db.messageDao
+          .getExistingMessageKeys(<MessageKey>[
+            for (int i = 0; i < channelCount; i++)
+              (channelId: 'channel-$i', id: _snowflakeForIndex(i)),
+          ]);
+      expect(existing, <MessageKey>{
+        for (int i = 0; i < channelCount; i += 10)
+          (channelId: 'channel-$i', id: _snowflakeForIndex(i)),
+      });
     });
   });
 }

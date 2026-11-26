@@ -91,15 +91,43 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       ? (channelId: message.channelId.value, id: message.id.value)
       : null;
 
+  static const int _keyChunkSize = 500;
+
+  Future<List<TypedResult>> _selectByKeys(
+    Iterable<MessageKey> keys,
+    List<Expression<Object>> columns, {
+    Expression<bool>? filter,
+  }) async {
+    final List<MessageKey> keyList = keys.toList();
+    final List<TypedResult> rows = <TypedResult>[];
+    for (int start = 0; start < keyList.length; start += _keyChunkSize) {
+      final Expression<bool> matches = _matchesKeys(
+        keyList.skip(start).take(_keyChunkSize),
+      );
+      final query = selectOnly(messages)
+        ..addColumns(columns)
+        ..where(filter == null ? matches : matches & filter);
+      rows.addAll(await query.get());
+    }
+    return rows;
+  }
+
   Expression<bool> _matchesKeys(Iterable<MessageKey> keys) {
     final Map<String, List<String>> idsByChannel = <String, List<String>>{};
     for (final MessageKey key in keys) {
       (idsByChannel[key.channelId] ??= <String>[]).add(key.id);
     }
-    return Expression.or(<Expression<bool>>[
+    List<Expression<bool>> level = <Expression<bool>>[
       for (final MapEntry<String, List<String>> entry in idsByChannel.entries)
         messages.channelId.equals(entry.key) & messages.id.isIn(entry.value),
-    ]);
+    ];
+    while (level.length > 1) {
+      level = <Expression<bool>>[
+        for (int i = 0; i < level.length; i += 2)
+          if (i + 1 < level.length) level[i] | level[i + 1] else level[i],
+      ];
+    }
+    return level.single;
   }
 
   Expression<bool> _matchesKey(String channelId, String id) =>
@@ -134,22 +162,16 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<Map<MessageKey, MessageTranslationSnapshot>> getTranslationSnapshots(
     List<MessageKey> keys,
   ) async {
-    if (keys.isEmpty) {
-      return <MessageKey, MessageTranslationSnapshot>{};
-    }
-    final query = selectOnly(messages)
-      ..addColumns([
-        messages.channelId,
-        messages.id,
-        messages.content,
-        messages.translatedContent,
-        messages.translationSourceLanguage,
-        messages.translatedSourceContent,
-        messages.translationTargetLanguage,
-        messages.translationShowOriginal,
-      ])
-      ..where(_matchesKeys(keys));
-    final List<TypedResult> rows = await query.get();
+    final List<TypedResult> rows = await _selectByKeys(keys, [
+      messages.channelId,
+      messages.id,
+      messages.content,
+      messages.translatedContent,
+      messages.translationSourceLanguage,
+      messages.translatedSourceContent,
+      messages.translationTargetLanguage,
+      messages.translationShowOriginal,
+    ]);
     return <MessageKey, MessageTranslationSnapshot>{
       for (final TypedResult row in rows)
         (
@@ -200,13 +222,11 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   }
 
   Future<Map<MessageKey, String>> _clientNonces(List<MessageKey> keys) async {
-    if (keys.isEmpty) {
-      return const <MessageKey, String>{};
-    }
-    final query = selectOnly(messages)
-      ..addColumns([messages.channelId, messages.id, messages.clientNonce])
-      ..where(_matchesKeys(keys) & messages.clientNonce.isNotNull());
-    final List<TypedResult> rows = await query.get();
+    final List<TypedResult> rows = await _selectByKeys(keys, [
+      messages.channelId,
+      messages.id,
+      messages.clientNonce,
+    ], filter: messages.clientNonce.isNotNull());
     final Map<MessageKey, String> nonces = <MessageKey, String>{};
     for (final TypedResult row in rows) {
       final String? nonce = row.read(messages.clientNonce);
@@ -229,14 +249,11 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<Set<MessageKey>> getExistingMessageKeys(
     Iterable<MessageKey> keys,
   ) async {
-    if (keys.isEmpty) {
-      return const <MessageKey>{};
-    }
-    final query = selectOnly(messages)
-      ..addColumns([messages.channelId, messages.id])
-      ..where(_matchesKeys(keys));
     return <MessageKey>{
-      for (final TypedResult row in await query.get())
+      for (final TypedResult row in await _selectByKeys(keys, [
+        messages.channelId,
+        messages.id,
+      ]))
         (channelId: row.read(messages.channelId)!, id: row.read(messages.id)!),
     };
   }
