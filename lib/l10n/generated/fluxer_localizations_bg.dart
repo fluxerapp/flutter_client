@@ -6392,6 +6392,23 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   }
 
   @override
+  String voiceParticipantOptionsFor(String name) {
+    return 'Participant options for $name';
+  }
+
+  @override
+  String get voiceParticipantCollapseDevices => 'Collapse devices';
+
+  @override
+  String get voiceFocusShowMembers => 'Show members';
+
+  @override
+  String get voiceFocusHideMembers => 'Hide members';
+
+  @override
+  String get voiceFocusResizeMembersRow => 'Resize members row';
+
+  @override
   String get voicePipReturnToCallLabel => 'Return to call';
 
   @override
@@ -10686,6 +10703,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Контролирайте подканите за потвърждение по време на гласови и видео разговори.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Входно устройство';
 
   @override
@@ -10852,8 +10872,122 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 кадъра в секунда';
 
   @override
-  String get audioAndVideoInstanceVideoQualityLimit =>
-      'Тази инстанция в момента позволява споделяне на екран до 720p при 30 FPS.';
+  String get audioAndVideoFrameRate120Label => '120 FPS';
+
+  @override
+  String get audioAndVideoQuality1440pLabel => '1440p';
+
+  @override
+  String get audioAndVideoQualitySourceLabel => 'Source';
+
+  @override
+  String get audioAndVideoStreamingModeSectionTitle => 'Streaming mode';
+
+  @override
+  String get audioAndVideoStreamingModeGaming => 'Gaming';
+
+  @override
+  String get audioAndVideoStreamingModeScreenShare => 'Screen share';
+
+  @override
+  String get audioAndVideoStreamingModeCustom => 'Custom';
+
+  @override
+  String audioAndVideoStreamingModeGamingDescription(
+    int frameRate,
+    String resolution,
+  ) {
+    return 'Smooth $frameRate FPS at up to $resolution';
+  }
+
+  @override
+  String audioAndVideoStreamingModeScreenShareDescription(
+    String resolution,
+    int frameRate,
+  ) {
+    return 'Sharp text at up to $resolution, $frameRate FPS';
+  }
+
+  @override
+  String get audioAndVideoStreamingModeCustomDescription =>
+      'Dial in your own numbers';
+
+  @override
+  String audioAndVideoScreenSharePresetOwned(String preset) {
+    return 'Set by the $preset preset. Picking a value here switches to Custom.';
+  }
+
+  @override
+  String audioAndVideoScreenShareSavedNeedsPremium(
+    String savedResolution,
+    int savedFrameRate,
+    String premiumProductName,
+    String resolution,
+    int frameRate,
+  ) {
+    return 'Your saved $savedResolution at $savedFrameRate FPS needs $premiumProductName, so shares use $resolution at $frameRate FPS.';
+  }
+
+  @override
+  String get audioAndVideoScreenShareGroupTitle => 'Screen share';
+
+  @override
+  String audioAndVideoScreenShareUpsellTitle(String premiumProductName) {
+    return 'Unlock HD screen share with $premiumProductName';
+  }
+
+  @override
+  String get audioAndVideoScreenShareUpsellDescription =>
+      'Share your screen in high definition (1080p), quad HD (1440p), or native source resolution, at up to 60 FPS.';
+
+  @override
+  String get audioAndVideoScreenShareUpsellDescriptionMobile =>
+      'Share your screen in 1080p in the app, and in quad HD (1440p) or native source resolution at up to 60 FPS in the desktop app.';
+
+  @override
+  String audioAndVideoGetPremium(String premiumProductName) {
+    return 'Get $premiumProductName';
+  }
+
+  @override
+  String get audioAndVideoAdvancedVideoSettingsLabel =>
+      'Advanced video settings';
+
+  @override
+  String get audioAndVideoOpenAdvancedMediaSettings =>
+      'Open advanced media settings';
+
+  @override
+  String audioAndVideoHighFrameRateRequiresPremium(String premiumProductName) {
+    return 'Frame rates above 30 FPS require $premiumProductName';
+  }
+
+  @override
+  String audioAndVideoInstanceScreenShareLimit(
+    String resolution,
+    int frameRate,
+  ) {
+    return 'This instance currently allows screen sharing up to $resolution at $frameRate FPS.';
+  }
+
+  @override
+  String get audioAndVideoIosScreenShareLimit =>
+      'Screen sharing on iOS is limited to 1080p.';
+
+  @override
+  String get audioAndVideoScreenShareBitrateLabel => 'Bitrate';
+
+  @override
+  String get audioAndVideoScreenShareBitrateDescription =>
+      'With Automatic, the bitrate follows your resolution and frame rate. Higher values keep fast motion sharper and use more upload bandwidth.';
+
+  @override
+  String get audioAndVideoScreenShareBitrateAutomatic => 'Automatic';
+
+  @override
+  String audioAndVideoScreenShareBitrateMbps(String bitrate) {
+    return '$bitrate Mbps';
+  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
@@ -17731,6 +17865,63 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   }
 
   @override
+  String get desktopDownloadsView => 'View downloads';
+
+  @override
+  String desktopDownloadsViewActive(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString downloads in progress',
+      one: '$countString download in progress',
+    );
+    return 'View downloads. $_temp0';
+  }
+
+  @override
+  String get desktopDownloadsTitle => 'Downloads';
+
+  @override
+  String get desktopDownloadsClear => 'Clear list';
+
+  @override
+  String get desktopDownloadsShowInFolder => 'Show in folder';
+
+  @override
+  String get desktopDownloadsCancel => 'Cancel download';
+
+  @override
+  String get desktopDownloadsRemove => 'Remove from list';
+
+  @override
+  String get desktopDownloadsCompleted => 'Completed';
+
+  @override
+  String get desktopDownloadsCancelled =>
+      'Cancelled. The partial file was deleted.';
+
+  @override
+  String get desktopDownloadsFileMissing => 'The file was moved or deleted.';
+
+  @override
+  String get desktopDownloadsFailed => 'Failed';
+
+  @override
+  String get desktopDownloadsStarting => 'Starting';
+
+  @override
+  String desktopDownloadsProgress(String progress, String total) {
+    return '$progress of $total';
+  }
+
+  @override
+  String get desktopDownloadCompleteToast => 'Download complete';
+
+  @override
   String desktopTrayShow(String productName) {
     return 'Show $productName';
   }
@@ -18336,4 +18527,109 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get operatorPassUpdateFailed =>
       'Couldn\'t update your Operator Pass settings.';
+
+  @override
+  String get macPermissionMicrophone => 'Microphone';
+
+  @override
+  String get macPermissionCamera => 'Camera';
+
+  @override
+  String get macPermissionScreenRecording => 'Screen Recording';
+
+  @override
+  String get macPermissionInputMonitoring => 'Input Monitoring';
+
+  @override
+  String get macPermissionMicrophonePurpose => 'Lets people hear you in calls.';
+
+  @override
+  String get macPermissionCameraPurpose => 'Lets people see you on video.';
+
+  @override
+  String get macPermissionScreenRecordingPurpose =>
+      'Lets you share your screen or a window.';
+
+  @override
+  String get macPermissionInputMonitoringPurpose =>
+      'Lets push-to-talk and keybinds work in other apps.';
+
+  @override
+  String get macPermissionAllow => 'Allow';
+
+  @override
+  String get macPermissionOpenSystemSettings => 'Open System Settings';
+
+  @override
+  String macPermissionQuitPromptAdvice(String productName) {
+    return 'If macOS asks to quit and reopen $productName, choose Later.';
+  }
+
+  @override
+  String get macPermissionAllowed => 'Allowed';
+
+  @override
+  String get macPermissionNotAllowed => 'Not allowed';
+
+  @override
+  String get macPermissionNotNow => 'Not now';
+
+  @override
+  String get macPermissionRelaunchToApply => 'Relaunch to apply';
+
+  @override
+  String macPermissionProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get macPermissionsSettingsTitle => 'macOS permissions';
+
+  @override
+  String macPermissionsSettingsDescription(String productName) {
+    return 'Review the permissions $productName uses for voice, video, screen sharing, and keybinds.';
+  }
+
+  @override
+  String audioAndVideoEnablePlatformPermission(String permissionName) {
+    return 'Enable $permissionName permission';
+  }
+
+  @override
+  String audioAndVideoPushToTalkPermissionLimited(
+    String productName,
+    String permissionName,
+  ) {
+    return 'Push-to-talk only works while $productName is focused until $permissionName is enabled.';
+  }
+
+  @override
+  String get audioAndVideoPushToTalkGlobalDescription =>
+      'Your microphone only transmits while you hold the push-to-talk key.';
+
+  @override
+  String get mediaPermissionBlockedMicrophoneTitle =>
+      'Microphone permission required';
+
+  @override
+  String get mediaPermissionBlockedCameraTitle => 'Camera permission required';
+
+  @override
+  String get mediaPermissionBlockedScreenTitle =>
+      'Screen recording permission required';
+
+  @override
+  String mediaPermissionBlockedMicrophoneBody(String productName) {
+    return '$productName needs access to your microphone. Allow microphone access in your operating system privacy settings and restart the app.';
+  }
+
+  @override
+  String mediaPermissionBlockedCameraBody(String productName) {
+    return '$productName needs access to your camera. Allow camera access in your operating system privacy settings and restart the app.';
+  }
+
+  @override
+  String mediaPermissionBlockedScreenBody(String productName) {
+    return '$productName needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.';
+  }
 }

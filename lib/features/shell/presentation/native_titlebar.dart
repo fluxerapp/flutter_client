@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/constants/assets.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/native_downloads_button.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/native_downloads_style.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:window_manager/window_manager.dart';
@@ -11,6 +13,8 @@ import 'package:window_manager/window_manager.dart';
 const kNativeTitlebarHeight = 32.0;
 
 const double _kTitlebarInset = 12;
+const double _kTitlebarGap = 8;
+const double _kMacTrafficLightInset = 78;
 const double _kControlWidth = 48;
 const double _kControlIconSize = 17;
 const double _kWordmarkHeight = 13;
@@ -47,40 +51,58 @@ class NativeTitlebar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isMacOS = Platform.isMacOS;
 
-    return ColoredBox(
-      color: context.colors.backgroundSecondary,
-      child: FluxerGestureDetector(
-        onSecondaryTap: popUpDesktopMainWindowMenu,
-        child: SizedBox(
-          height: kNativeTitlebarHeight,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              const DragToMoveArea(child: SizedBox.expand()),
-              Row(
-                children: isMacOS
-                    ? const [
-                        Spacer(),
-                        _Wordmark(),
-                        SizedBox(width: _kTitlebarInset),
-                      ]
-                    : const [
-                        SizedBox(width: _kTitlebarInset),
-                        _Wordmark(),
-                        Spacer(),
-                        _WindowButton(
-                          icon: _ControlIcon.minimize,
-                          onPressed: minimizeDesktopMainWindow,
-                        ),
-                        _MaximizeButton(),
-                        _WindowButton(
-                          icon: _ControlIcon.close,
-                          isClose: true,
-                          onPressed: closeDesktopMainWindow,
-                        ),
-                      ],
-              ),
-            ],
+    return TapRegion(
+      groupId: kNativeTitlebarTapGroup,
+      child: ColoredBox(
+        color: context.colors.backgroundSecondary,
+        child: FluxerGestureDetector(
+          onSecondaryTap: popUpDesktopMainWindowMenu,
+          child: SizedBox(
+            height: kNativeTitlebarHeight,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                const DragToMoveArea(child: SizedBox.expand()),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: isMacOS ? _kMacTrafficLightInset : 0,
+                    right: isMacOS ? _kTitlebarInset : 0,
+                  ),
+                  child: Row(
+                    children: isMacOS
+                        ? const [
+                            Spacer(),
+                            _Wordmark(),
+                            NativeDownloadsButton(
+                              padding: EdgeInsetsDirectional.only(
+                                start: _kTitlebarGap,
+                              ),
+                            ),
+                          ]
+                        : const [
+                            SizedBox(width: _kTitlebarInset),
+                            _Wordmark(),
+                            Spacer(),
+                            NativeDownloadsButton(
+                              padding: EdgeInsetsDirectional.only(
+                                end: _kTitlebarGap,
+                              ),
+                            ),
+                            _WindowButton(
+                              icon: _ControlIcon.minimize,
+                              onPressed: minimizeDesktopMainWindow,
+                            ),
+                            _MaximizeButton(),
+                            _WindowButton(
+                              icon: _ControlIcon.close,
+                              isClose: true,
+                              onPressed: closeDesktopMainWindow,
+                            ),
+                          ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/providers/voice_system_pip_providers.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_featured_selector.dart';
 import 'package:fluxer_app/features/voice/utils/pip/system_pip_target.dart';

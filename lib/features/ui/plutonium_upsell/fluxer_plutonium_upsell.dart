@@ -74,7 +74,8 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
                   SizedBox(height: layout.s2),
                   FluxerButton.inverted(
                     onPressed:
-                        onButtonPressed ?? () => _openPlutonium(context, ref),
+                        onButtonPressed ??
+                        () => openPlutoniumUpsell(context, ref),
                     label: buttonLabel ?? l10n.getPlutonium,
                     size: buttonSize,
                   ),
@@ -100,18 +101,18 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
       ),
     );
   }
+}
 
-  void _openPlutonium(BuildContext context, WidgetRef ref) {
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      if (ref.read(premiumBillingNavVisibleProvider)) {
-        unawaited(openPlutoniumCommerce(context, ref));
-      }
-      return;
-    }
-    if (userSettingsShowBillingNav(ref)) {
+void openPlutoniumUpsell(BuildContext context, WidgetRef ref) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
+    if (ref.read(premiumBillingNavVisibleProvider)) {
       unawaited(openPlutoniumCommerce(context, ref));
-      return;
     }
-    unawaited(handleExternalLinkTap(context, _kPlutoniumUrl));
+    return;
   }
+  if (userSettingsShowBillingNav(ref)) {
+    unawaited(openPlutoniumCommerce(context, ref));
+    return;
+  }
+  unawaited(handleExternalLinkTap(context, _kPlutoniumUrl));
 }

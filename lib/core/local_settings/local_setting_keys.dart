@@ -69,6 +69,16 @@ abstract final class LocalSettingKeys {
     defaultValue: true,
   );
 
+  static const DeviceFlag macPermissionIntroCompleted = DeviceFlag(
+    'mac_permission_intro_completed',
+  );
+  static const DeviceSettingKey<List<String>> macPermissionIntroSkipped =
+      DeviceSettingKey<List<String>>(
+        'mac_permission_intro_skipped',
+        defaultValue: <String>[],
+        codec: StringListSettingCodec(),
+      );
+
   static const DeviceFlag desktopShowTrayIcon = DeviceFlag(
     'desktop_show_tray_icon',
     defaultValue: true,
@@ -157,6 +167,16 @@ abstract final class LocalSettingKeys {
   static const AccountSettingKey<double?> shellSidebarWidth =
       AccountSettingKey<double?>(
         'shell_sidebar_width',
+        defaultValue: null,
+        codec: NullableDoubleSettingCodec(),
+      );
+  static const AccountFlag voiceFocusMembersRowVisible = AccountFlag(
+    'voice_focus_members_row_visible',
+    defaultValue: true,
+  );
+  static const AccountSettingKey<double?> voiceFocusMembersRowHeight =
+      AccountSettingKey<double?>(
+        'voice_focus_members_row_height',
         defaultValue: null,
         codec: NullableDoubleSettingCodec(),
       );

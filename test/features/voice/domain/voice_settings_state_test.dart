@@ -163,4 +163,61 @@ void main() {
       );
     });
   });
+
+  group('VoiceSettingsState screen share quality', () {
+    test('new users start on the Screen share preset', () {
+      final VoiceSettingsState settings = VoiceSettingsState.fromJson(
+        <String, dynamic>{},
+      );
+      expect(settings.streamingMode, StreamingMode.screenshare);
+      expect(settings.screenShareBitrate, isNull);
+    });
+
+    test('saved quality without a preset stays custom', () {
+      final VoiceSettingsState settings = VoiceSettingsState.fromJson(
+        <String, dynamic>{'screenshareResolution': 'high'},
+      );
+      expect(settings.streamingMode, StreamingMode.custom);
+      expect(settings.screenshareResolution, ScreenshareResolution.high);
+    });
+
+    test('round-trips the new fields through json', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        streamingMode: StreamingMode.gaming,
+        screenshareResolution: ScreenshareResolution.source,
+        videoFrameRate: 120,
+        screenShareBitrate: 15000000,
+      );
+      final VoiceSettingsState restored = VoiceSettingsState.fromJson(
+        settings.toJson(),
+      );
+      expect(restored.streamingMode, StreamingMode.gaming);
+      expect(restored.screenshareResolution, ScreenshareResolution.source);
+      expect(restored.videoFrameRate, 120);
+      expect(restored.screenShareBitrate, 15000000);
+    });
+
+    test('retired and out of range values are mapped', () {
+      final VoiceSettingsState settings =
+          VoiceSettingsState.fromJson(<String, dynamic>{
+            'screenshareResolution': 'low_240p',
+            'videoFrameRate': 240,
+            'screenShareBitrate': -1,
+          });
+      expect(settings.screenshareResolution, ScreenshareResolution.low480p);
+      expect(settings.videoFrameRate, kMaxVideoFrameRate);
+      expect(settings.screenShareBitrate, isNull);
+    });
+
+    test('copyWith can clear the chosen bitrate', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        screenShareBitrate: 4000000,
+      );
+      expect(settings.copyWith(videoFrameRate: 60).screenShareBitrate, 4000000);
+      expect(
+        settings.copyWith(clearScreenShareBitrate: true).screenShareBitrate,
+        isNull,
+      );
+    });
+  });
 }

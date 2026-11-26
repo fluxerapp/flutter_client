@@ -53,6 +53,7 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/operator_pass_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
@@ -65,6 +66,7 @@ import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -74,6 +76,10 @@ export 'gateway_connection_provider.dart';
 export 'gateway_reconnect_provider.dart';
 
 part 'gateway_provider.g.dart';
+
+const Duration _kGuildPermissionsRecomputeDelay = Duration(milliseconds: 16);
+
+const Duration _kSessionInvalidationCooldown = Duration(seconds: 30);
 
 @Riverpod(keepAlive: true)
 void gatewayConnectBinding(Ref ref) {
@@ -91,6 +97,7 @@ void gatewayConnectBinding(Ref ref) {
     if (previous != null) {
       ref.read(gatewayReadyProvider.notifier).reset();
       ref.read(guildAvailabilityProvider.notifier).clear();
+      ref.read(guildDegradedProvider.notifier).clear();
     }
     unawaited(backgroundDropGuard?.cancel());
     backgroundDropGuard = next.stateChanges.listen((GatewayState state) {
@@ -119,12 +126,81 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     messageMentionContextCacheProvider(watchAccountUserId(ref)),
   );
   ({String? guildId})? pendingReadyHeavyWork;
+  final Set<String> pendingPermissionGuildIds = <String>{};
+  Timer? permissionRecomputeTimer;
+  DateTime? lastSessionInvalidation;
+  int? lastOperatorPassCount;
+  ref.onDispose(() => permissionRecomputeTimer?.cancel());
 
   void ifMounted(void Function() action) {
     if (!ref.mounted) {
       return;
     }
     action();
+  }
+
+  void invalidateChannelPermissionBits(Iterable<String> channelIds) {
+    for (final String channelId in channelIds) {
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
+    }
+  }
+
+  void recomputeGuildPermissions(String guildId) {
+    unawaited(
+      ref
+          .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+          .refreshPermissions(guildId),
+    );
+    unawaited(() async {
+      final Iterable<String> channelIds = await ref
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
+          .rebuildGuild(guildId);
+      ifMounted(() => invalidateChannelPermissionBits(channelIds));
+    }());
+  }
+
+  void flushGuildPermissionRecompute() {
+    permissionRecomputeTimer = null;
+    final List<String> guildIds = pendingPermissionGuildIds.toList();
+    pendingPermissionGuildIds.clear();
+    ifMounted(() => guildIds.forEach(recomputeGuildPermissions));
+  }
+
+  void scheduleGuildPermissionRecompute(String guildId) {
+    pendingPermissionGuildIds.add(guildId);
+    permissionRecomputeTimer ??= Timer(
+      _kGuildPermissionsRecomputeDelay,
+      flushGuildPermissionRecompute,
+    );
+  }
+
+  void forgetGuildSessionState(String guildId) {
+    pendingPermissionGuildIds.remove(guildId);
+    ref
+        .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+        .forget(guildId);
+    ref.read(channelMemberCountCacheProvider.notifier).evictGuild(guildId);
+  }
+
+  void handleEventFailure(GatewayEvent event, Object error, StackTrace stack) {
+    talker.error(
+      '[Gateway] Failed to apply ${event.runtimeType}',
+      error,
+      stack,
+    );
+    if (!ref.mounted || event is TypingStartEvent) {
+      return;
+    }
+    final DateTime now = DateTime.now();
+    final DateTime? last = lastSessionInvalidation;
+    if (last != null && now.difference(last) < _kSessionInvalidationCooldown) {
+      return;
+    }
+    lastSessionInvalidation = now;
+    talker.warning('[Gateway] Invalidating session to resync state');
+    connection.invalidateSession();
   }
 
   void runReadyGuildSync(String? guildId) {
@@ -220,6 +296,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       StartupTimeline.instance.markLive();
       unawaited(markShellCacheLive());
       ref.read(guildSyncProvider(readAccountUserId(ref)).notifier).clearAll();
+      unawaited(
+        ref
+            .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+            .revalidate(),
+      );
       clearGuildRolesPrefetchState();
       clearVoiceParticipantUsersCache();
       ref
@@ -236,6 +317,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
           .read(threadMemberListsProvider(readAccountUserId(ref)).notifier)
           .clearAll();
+      ref.read(channelMemberCountCacheProvider.notifier).clearAll();
       scheduleReadyHeavyWork(recoveryGuildId);
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
@@ -385,50 +467,20 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           )
           .clearChannel(channelId);
     }),
-    onGuildPermissionsChanged: (guildId) => ifMounted(() {
-      unawaited(
-        ref
-            .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
-            .refreshPermissions(guildId),
-      );
-      unawaited(
-        ref
-            .read(
-              channelPermissionCacheProvider(readAccountUserId(ref)).notifier,
-            )
-            .rebuildGuild(guildId),
-      );
-      unawaited(() async {
-        final channels = await db.channelDao.getChannels(
-          guildId,
-          includeThreads: true,
-        );
-        ifMounted(() {
-          for (final channel in channels) {
-            ref
-              ..invalidate(
-                effectiveGuildChannelPermissionBitsProvider(channel.id),
-              )
-              ..invalidate(
-                channelLocalGuildChannelPermissionBitsProvider(channel.id),
-              );
-          }
-        });
-      }());
-    }),
-    onGuildPermissionsEvict: (guildId) => ifMounted(() {
+    onGuildPermissionsChanged: (guildId) =>
+        ifMounted(() => scheduleGuildPermissionRecompute(guildId)),
+    onGuildPermissionsEvict: (guildId, channelIds) => ifMounted(() {
+      pendingPermissionGuildIds.remove(guildId);
       ref
           .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
           .evict(guildId);
-      unawaited(
-        ref
-            .read(
-              channelPermissionCacheProvider(readAccountUserId(ref)).notifier,
-            )
-            .evictGuild(guildId),
-      );
+      ref
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
+          .evictChannels(channelIds);
+      invalidateChannelPermissionBits(channelIds);
     }),
     onGuildRemove: (guildId) => ifMounted(() {
+      forgetGuildSessionState(guildId);
       DrawerNavigationCoordinator.leaveDeletedGuild(ref.container, guildId);
     }),
     onThreadGuildsReady: (active, unavailable) => ifMounted(() {
@@ -457,9 +509,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
           .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
           .evictChannel(channelId);
-      ref
-        ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
-        ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
+      invalidateChannelPermissionBits(<String>[channelId]);
+      ref.read(voiceSessionProvider.notifier).handleChannelDeleted(channelId);
       ref.read(chatViewModelProvider.notifier).forgetChannel(channelId);
       ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
       ref.read(savedMessagesProvider.notifier).handleChannelDelete(channelId);
@@ -498,9 +549,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           );
         }),
     onMessageDelete: (event) => ifMounted(() {
+      ref
+          .read(savedMessagesProvider.notifier)
+          .handleMessageDelete(event.messageId);
       messageBus.emit(MessageDeleted(event));
     }),
     onMessageDeleteBulk: (event) => ifMounted(() {
+      final SavedMessagesNotifier saved = ref.read(
+        savedMessagesProvider.notifier,
+      );
+      event.ids.forEach(saved.handleMessageDelete);
       messageBus.emit(MessagesDeletedBulk(event));
     }),
     onMessageReactionChange: (channelId, messageId, {reactionsJson}) =>
@@ -574,10 +632,14 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onUnavailableGuildsReady: (rawGuilds) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
+      ref.read(guildDegradedProvider.notifier).loadFromReady(rawGuilds);
     }),
     onGuildAvailabilityChanged:
         (guildId, {required unavailable, unavailableHidden = false}) =>
             ifMounted(() {
+              if (unavailable) {
+                forgetGuildSessionState(guildId);
+              }
               ref
                   .read(guildAvailabilityProvider.notifier)
                   .handleGuildAvailability(
@@ -586,8 +648,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
                     unavailableHidden: unavailableHidden,
                   );
             }),
-    onGuildAvailable: (guildId) => ifMounted(() {
+    onGuildAvailable: (guildId, {required synced}) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).setGuildAvailable(guildId);
+      if (!synced && ref.read(activeGuildIdProvider) == guildId) {
+        ref
+            .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+            .syncIfNeeded(guildId, force: true);
+      }
     }),
     onMembersChunk: (guildId, userIds, {required chunkCount, nonce}) =>
         ifMounted(() {
@@ -653,11 +720,32 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onForumUnreads: (event) => ifMounted(() {
       ref.read(forumPostUnreadsProvider.notifier).apply(event);
     }),
+    onGuildChannelUpdated: (channelId) => ifMounted(() {
+      unawaited(
+        ref.read(voiceSessionProvider.notifier).handleChannelUpdated(channelId),
+      );
+    }),
+    onOperatorPassUpdate: (passes) => ifMounted(() {
+      final int? previousCount = lastOperatorPassCount;
+      lastOperatorPassCount = passes.count;
+      ref.invalidate(operatorPassSettingsProvider);
+      if (previousCount != passes.count) {
+        unawaited(ref.read(currentUserFullProfileProvider.notifier).refresh());
+      }
+    }),
+    resolveCurrentUserId: () =>
+        ref.mounted ? ref.read(currentUserIdProvider) : null,
+    onGuildDegradedChanged: (guildId, {required degraded}) => ifMounted(() {
+      ref
+          .read(guildDegradedProvider.notifier)
+          .setDegraded(guildId, degraded: degraded);
+    }),
   );
 
   final dispatcher = GatewayEventDispatcher(
     onEvent: handler.handle,
     onFlushWriteBatchers: ref.read(gatewayWriteBatcherFlushAllProvider),
+    onEventFailed: handleEventFailure,
   );
 
   final subscription = connection.events.listen(

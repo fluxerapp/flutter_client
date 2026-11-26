@@ -1,4 +1,12 @@
+// ignore_for_file: document_ignores, deprecated_member_use, migrate_design_widgets
+
 import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoLocalizations;
+import 'package:flutter/cupertino.dart'
+    as legacy_cupertino
+    show CupertinoLocalizations;
+import 'package:flutter/material.dart'
+    as legacy_material
+    show MaterialLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
@@ -16,6 +24,8 @@ void main() {
       MaterialLocalizations,
       flutter.MaterialLocalizations,
       CupertinoLocalizations,
+      legacy_material.MaterialLocalizations,
+      legacy_cupertino.CupertinoLocalizations,
       WidgetsLocalizations,
     ];
     for (final Locale locale in FluxerLocalizations.supportedLocales) {

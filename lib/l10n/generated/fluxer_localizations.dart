@@ -10197,6 +10197,36 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{Show 1 more device} other{Show {count} more devices}}'**
   String voiceParticipantOtherDevicesLabel(int count);
 
+  /// Accessible label for the menu button on a voice participant tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant options for {name}'**
+  String voiceParticipantOptionsFor(String name);
+
+  /// Tooltip for the chip on a participant tile that collapses that participant's expanded devices back into one tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse devices'**
+  String get voiceParticipantCollapseDevices;
+
+  /// Tooltip for the button that shows the row of call members below a focused tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Show members'**
+  String get voiceFocusShowMembers;
+
+  /// Tooltip for the button that hides the row of call members below a focused tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide members'**
+  String get voiceFocusHideMembers;
+
+  /// Accessible label for the draggable divider between a focused tile and the row of call members below it.
+  ///
+  /// In en, this message translates to:
+  /// **'Resize members row'**
+  String get voiceFocusResizeMembersRow;
+
   /// Screen reader label for the floating picture-in-picture call window.
   ///
   /// In en, this message translates to:
@@ -17283,6 +17313,12 @@ abstract class FluxerLocalizations {
   /// **'Control confirmation prompts during voice and video calls.'**
   String get audioAndVideoInCallBehaviorSectionDescription;
 
+  /// Subsection title above the input and output device pickers in voice settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Input and output'**
+  String get audioAndVideoInputAndOutputTitle;
+
   /// Label for microphone input device selection.
   ///
   /// In en, this message translates to:
@@ -17568,11 +17604,176 @@ abstract class FluxerLocalizations {
   /// **'60 FPS'**
   String get audioAndVideoFrameRate60Label;
 
-  /// Note shown when instance limits block higher screen share quality.
+  /// Screen share frame rate option for 120 FPS.
   ///
   /// In en, this message translates to:
-  /// **'This instance currently allows screen share up to 720p at 30 FPS.'**
-  String get audioAndVideoInstanceVideoQualityLimit;
+  /// **'120 FPS'**
+  String get audioAndVideoFrameRate120Label;
+
+  /// Screen share quality option for 1440p resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'1440p'**
+  String get audioAndVideoQuality1440pLabel;
+
+  /// Screen share quality option that sends the native screen resolution, up to 4K. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get audioAndVideoQualitySourceLabel;
+
+  /// Subsection title for picking a screen share quality preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaming mode'**
+  String get audioAndVideoStreamingModeSectionTitle;
+
+  /// Screen share preset that favours smooth motion.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaming'**
+  String get audioAndVideoStreamingModeGaming;
+
+  /// Screen share preset that favours sharp text.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share'**
+  String get audioAndVideoStreamingModeScreenShare;
+
+  /// Screen share preset where the user picks resolution and frame rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get audioAndVideoStreamingModeCustom;
+
+  /// Description of the Gaming preset. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Smooth {frameRate} FPS at up to {resolution}'**
+  String audioAndVideoStreamingModeGamingDescription(
+    int frameRate,
+    String resolution,
+  );
+
+  /// Description of the Screen share preset. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp text at up to {resolution}, {frameRate} FPS'**
+  String audioAndVideoStreamingModeScreenShareDescription(
+    String resolution,
+    int frameRate,
+  );
+
+  /// Description of the Custom preset. Lightly playful.
+  ///
+  /// In en, this message translates to:
+  /// **'Dial in your own numbers'**
+  String get audioAndVideoStreamingModeCustomDescription;
+
+  /// Note under screen share quality while a preset decides resolution and frame rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by the {preset} preset. Picking a value here switches to Custom.'**
+  String audioAndVideoScreenSharePresetOwned(String preset);
+
+  /// Note shown when the saved screen share quality is above what this account can send. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved {savedResolution} at {savedFrameRate} FPS needs {premiumProductName}, so shares use {resolution} at {frameRate} FPS.'**
+  String audioAndVideoScreenShareSavedNeedsPremium(
+    String savedResolution,
+    int savedFrameRate,
+    String premiumProductName,
+    String resolution,
+    int frameRate,
+  );
+
+  /// Video settings group title for screen share quality options.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share'**
+  String get audioAndVideoScreenShareGroupTitle;
+
+  /// Premium upsell title in video settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock HD screen share with {premiumProductName}'**
+  String audioAndVideoScreenShareUpsellTitle(String premiumProductName);
+
+  /// Premium upsell body in video settings. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen in high definition (1080p), quad HD (1440p), or native source resolution, at up to 60 FPS.'**
+  String get audioAndVideoScreenShareUpsellDescription;
+
+  /// Premium upsell body in video settings on phones, where screen share stops at 1080p. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen in 1080p in the app, and in quad HD (1440p) or native source resolution at up to 60 FPS in the desktop app.'**
+  String get audioAndVideoScreenShareUpsellDescriptionMobile;
+
+  /// Button in the video settings upsell that opens the premium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Get {premiumProductName}'**
+  String audioAndVideoGetPremium(String premiumProductName);
+
+  /// Row label in video settings that leads to advanced media settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced video settings'**
+  String get audioAndVideoAdvancedVideoSettingsLabel;
+
+  /// Button in video settings that jumps to the advanced media settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open advanced media settings'**
+  String get audioAndVideoOpenAdvancedMediaSettings;
+
+  /// Video settings note shown when higher frame rates need premium. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame rates above 30 FPS require {premiumProductName}'**
+  String audioAndVideoHighFrameRateRequiresPremium(String premiumProductName);
+
+  /// Neutral note shown when instance limits cap screen share quality. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance currently allows screen sharing up to {resolution} at {frameRate} FPS.'**
+  String audioAndVideoInstanceScreenShareLimit(
+    String resolution,
+    int frameRate,
+  );
+
+  /// Note in video settings on iOS, where the system broadcast sends at most 1080p.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen sharing on iOS is limited to 1080p.'**
+  String get audioAndVideoIosScreenShareLimit;
+
+  /// Label for the screen share video bitrate select.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitrate'**
+  String get audioAndVideoScreenShareBitrateLabel;
+
+  /// Description under the screen share bitrate select. Automatic is the default option label.
+  ///
+  /// In en, this message translates to:
+  /// **'With Automatic, the bitrate follows your resolution and frame rate. Higher values keep fast motion sharper and use more upload bandwidth.'**
+  String get audioAndVideoScreenShareBitrateDescription;
+
+  /// Default option of the screen share bitrate select.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get audioAndVideoScreenShareBitrateAutomatic;
+
+  /// Option of the screen share bitrate select. Mbps is a technical unit token.
+  ///
+  /// In en, this message translates to:
+  /// **'{bitrate} Mbps'**
+  String audioAndVideoScreenShareBitrateMbps(String bitrate);
 
   /// Toggle to skip confirmation when hiding own camera during a call.
   ///
@@ -28758,6 +28959,90 @@ abstract class FluxerLocalizations {
   /// **'Updating… {percent}%'**
   String oxygenUpdatingProgress(int percent);
 
+  /// Accessible label of the desktop titlebar button that opens the downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'View downloads'**
+  String get desktopDownloadsView;
+
+  /// Accessible label of the desktop titlebar button that opens the downloads panel, used while downloads are running. count is the number of downloads in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'View downloads. {count, plural, one{{count} download in progress} other{{count} downloads in progress}}'**
+  String desktopDownloadsViewActive(int count);
+
+  /// Heading of the desktop downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads'**
+  String get desktopDownloadsTitle;
+
+  /// Button that removes finished downloads from the desktop downloads panel. Downloaded files stay on disk and in-progress downloads stay in the list.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear list'**
+  String get desktopDownloadsClear;
+
+  /// Accessible label of the button that opens the folder containing a downloaded file.
+  ///
+  /// In en, this message translates to:
+  /// **'Show in folder'**
+  String get desktopDownloadsShowInFolder;
+
+  /// Accessible label of the button that stops an in-progress download and deletes the partial file.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel download'**
+  String get desktopDownloadsCancel;
+
+  /// Accessible label of the button that removes a finished download from the desktop downloads panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from list'**
+  String get desktopDownloadsRemove;
+
+  /// Status under a file name in the desktop downloads panel once the file has finished downloading. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get desktopDownloadsCompleted;
+
+  /// Status under a file name in the desktop downloads panel after the user cancels the download. The part of the file that had already downloaded is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled. The partial file was deleted.'**
+  String get desktopDownloadsCancelled;
+
+  /// Status under a file name in the desktop downloads panel when the download finished but the file is no longer where it was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'The file was moved or deleted.'**
+  String get desktopDownloadsFileMissing;
+
+  /// Status under a file name in the desktop downloads panel when the download did not finish. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get desktopDownloadsFailed;
+
+  /// Status under a file name in the desktop downloads panel while the download is starting and no data has arrived yet. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get desktopDownloadsStarting;
+
+  /// Download progress under a file name in the desktop downloads panel. progress is the formatted percentage downloaded so far, for example 42%. total is the formatted size of the whole file, for example 3.2 MB.
+  ///
+  /// In en, this message translates to:
+  /// **'{progress} of {total}'**
+  String desktopDownloadsProgress(String progress, String total);
+
+  /// Toast shown on desktop when a file finishes downloading and the in-app titlebar with the downloads panel is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Download complete'**
+  String get desktopDownloadCompleteToast;
+
   /// Desktop tray/menu bar menu item that shows the hidden app window.
   ///
   /// In en, this message translates to:
@@ -29765,6 +30050,171 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t update your Operator Pass settings.'**
   String get operatorPassUpdateFailed;
+
+  /// Name of the macOS Microphone permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone'**
+  String get macPermissionMicrophone;
+
+  /// Name of the macOS Camera permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get macPermissionCamera;
+
+  /// Name of the macOS screen recording permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen Recording'**
+  String get macPermissionScreenRecording;
+
+  /// Name of the macOS Input Monitoring permission. Use the name macOS shows under System Settings, Privacy & Security in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Monitoring'**
+  String get macPermissionInputMonitoring;
+
+  /// One sentence explaining what the macOS Microphone permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets people hear you in calls.'**
+  String get macPermissionMicrophonePurpose;
+
+  /// One sentence explaining what the macOS Camera permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets people see you on video.'**
+  String get macPermissionCameraPurpose;
+
+  /// One sentence explaining what the macOS screen recording permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets you share your screen or a window.'**
+  String get macPermissionScreenRecordingPurpose;
+
+  /// One sentence explaining what the macOS Input Monitoring permission is used for.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets push-to-talk and keybinds work in other apps.'**
+  String get macPermissionInputMonitoringPurpose;
+
+  /// Button label that makes macOS ask the user for a permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get macPermissionAllow;
+
+  /// Button label that opens the macOS System Settings app at the pane for one permission. Use the name macOS gives System Settings in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Open System Settings'**
+  String get macPermissionOpenSystemSettings;
+
+  /// Advice shown after the user asks for the macOS Screen Recording or Input Monitoring permission. macOS then shows its own dialog with the buttons Quit & Reopen and Later. Use the button name macOS shows in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'If macOS asks to quit and reopen {productName}, choose Later.'**
+  String macPermissionQuitPromptAdvice(String productName);
+
+  /// Short status shown once a macOS permission has been granted.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get macPermissionAllowed;
+
+  /// Screen reader status for a macOS permission that has not been granted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not allowed'**
+  String get macPermissionNotAllowed;
+
+  /// Quiet secondary button that skips one macOS permission for now.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get macPermissionNotNow;
+
+  /// Button label that restarts the desktop app so macOS applies a permission change.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaunch to apply'**
+  String get macPermissionRelaunchToApply;
+
+  /// Screen reader text for the progress dots under a macOS permission screen in the desktop first-run setup.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String macPermissionProgress(int current, int total);
+
+  /// Title of the macOS permissions section in desktop settings.
+  ///
+  /// In en, this message translates to:
+  /// **'macOS permissions'**
+  String get macPermissionsSettingsTitle;
+
+  /// Description of the macOS permissions section in user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the permissions {productName} uses for voice, video, screen sharing, and keybinds.'**
+  String macPermissionsSettingsDescription(String productName);
+
+  /// Voice settings button that opens a platform permission prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable {permissionName} permission'**
+  String audioAndVideoEnablePlatformPermission(String permissionName);
+
+  /// Voice settings warning shown when macOS Input Monitoring is required for system-wide push-to-talk.
+  ///
+  /// In en, this message translates to:
+  /// **'Push-to-talk only works while {productName} is focused until {permissionName} is enabled.'**
+  String audioAndVideoPushToTalkPermissionLimited(
+    String productName,
+    String permissionName,
+  );
+
+  /// Description under the push-to-talk toggle on platforms where push-to-talk also works while other apps are focused.
+  ///
+  /// In en, this message translates to:
+  /// **'Your microphone only transmits while you hold the push-to-talk key.'**
+  String get audioAndVideoPushToTalkGlobalDescription;
+
+  /// Title of the modal shown when microphone permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission required'**
+  String get mediaPermissionBlockedMicrophoneTitle;
+
+  /// Title of the modal shown when camera permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission required'**
+  String get mediaPermissionBlockedCameraTitle;
+
+  /// Title of the modal shown when screen recording permission is denied. Keep tone plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen recording permission required'**
+  String get mediaPermissionBlockedScreenTitle;
+
+  /// Body of the microphone-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your microphone. Allow microphone access in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedMicrophoneBody(String productName);
+
+  /// Body of the camera-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs access to your camera. Allow camera access in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedCameraBody(String productName);
+
+  /// Body of the screen-permission-denied modal on Windows and Linux.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.'**
+  String mediaPermissionBlockedScreenBody(String productName);
 }
 
 class _FluxerLocalizationsDelegate

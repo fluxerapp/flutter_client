@@ -18,6 +18,7 @@ class GuildPermissions extends _$GuildPermissions {
   int _generation = 0;
   final Set<String> _inFlight = <String>{};
   final Map<String, int> _evictions = <String, int>{};
+  final Set<String> _stale = <String>{};
 
   @override
   Map<String, int> build(String accountUserId) {
@@ -25,6 +26,7 @@ class GuildPermissions extends _$GuildPermissions {
     _generation++;
     _inFlight.clear();
     _evictions.clear();
+    _stale.clear();
     return {};
   }
 
@@ -35,7 +37,7 @@ class GuildPermissions extends _$GuildPermissions {
 
   Future<int> getPermissions(String guildId) async {
     final int? cached = state[guildId];
-    if (cached != null) {
+    if (cached != null && !_stale.contains(guildId)) {
       return cached;
     }
     final int generation = _generation;
@@ -44,6 +46,7 @@ class GuildPermissions extends _$GuildPermissions {
       <String>[guildId],
     ))[guildId]!;
     if (outcome.shouldCache && _isCurrent(generation, guildId, evictions)) {
+      _stale.remove(guildId);
       state = <String, int>{...state, guildId: outcome.value};
     }
     return outcome.value;
@@ -52,7 +55,7 @@ class GuildPermissions extends _$GuildPermissions {
   Future<void> prefetch(Iterable<String> guildIds) async {
     final List<String> missing = <String>{
       for (final String id in guildIds)
-        if (!state.containsKey(id) && !_inFlight.contains(id)) id,
+        if (_needsCompute(id) && !_inFlight.contains(id)) id,
     }.toList();
     if (missing.isEmpty) {
       return;
@@ -78,13 +81,14 @@ class GuildPermissions extends _$GuildPermissions {
       for (final MapEntry<String, _GuildPermissionsOutcome> entry
           in outcomes.entries)
         if (entry.value.shouldCache &&
-            !state.containsKey(entry.key) &&
+            _needsCompute(entry.key) &&
             _isCurrent(generation, entry.key, evictions[entry.key]!))
           entry.key: entry.value.value,
     };
     if (computed.isEmpty) {
       return;
     }
+    _stale.removeAll(computed.keys);
     state = <String, int>{...state, ...computed};
   }
 
@@ -97,12 +101,14 @@ class GuildPermissions extends _$GuildPermissions {
     if (!_isCurrent(generation, guildId, evictions)) {
       return;
     }
+    _stale.remove(guildId);
     state = <String, int>{...state, guildId: outcome.value};
   }
 
   void evict(String guildId) {
     _evictions[guildId] = (_evictions[guildId] ?? 0) + 1;
     _inFlight.remove(guildId);
+    _stale.remove(guildId);
     if (!state.containsKey(guildId)) {
       return;
     }
@@ -113,11 +119,13 @@ class GuildPermissions extends _$GuildPermissions {
     _generation++;
     _inFlight.clear();
     _evictions.clear();
-    if (state.isEmpty) {
-      return;
-    }
-    state = {};
+    _stale.addAll(state.keys);
   }
+
+  Future<void> revalidate() => prefetch(_stale.toList());
+
+  bool _needsCompute(String guildId) =>
+      !state.containsKey(guildId) || _stale.contains(guildId);
 
   Future<Map<String, _GuildPermissionsOutcome>> _computePermissions(
     List<String> guildIds,

@@ -108,7 +108,7 @@ void main() {
       expect(update.selfDeaf, isTrue);
       expect(update.selfVideo, isFalse);
       expect(update.selfStream, isFalse);
-      expect(update.isMobile, isFluxerMobileOs);
+      expect(update.isMobile, isFluxerNativeMobileOs);
     });
   });
 
@@ -180,7 +180,7 @@ void main() {
                 guildId: _guildId,
                 connectionId: _otherConnectionId,
                 sessionId: _gatewaySessionId,
-                isMobile: isFluxerMobileOs,
+                isMobile: isFluxerNativeMobileOs,
               ),
             );
 
@@ -341,7 +341,7 @@ Map<String, VoiceState> _otherDeviceVoiceStates() {
       guildId: _guildId,
       connectionId: _otherConnectionId,
       sessionId: 'session-other-device',
-      isMobile: isFluxerMobileOs,
+      isMobile: isFluxerNativeMobileOs,
     ),
   };
 }

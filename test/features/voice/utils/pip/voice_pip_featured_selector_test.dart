@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_featured_selector.dart';
 
 VoicePipCandidate _cam({

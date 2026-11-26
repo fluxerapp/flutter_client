@@ -81,4 +81,13 @@ void main() {
 
     expect(connection.syncedGuildIds, <String>['g1', 'g1']);
   });
+
+  test('a forgotten guild is synced again on the next request', () {
+    container.read(guildSyncProvider(readAccountUserId(container)).notifier)
+      ..syncIfNeeded('g1')
+      ..forget('g1')
+      ..syncIfNeeded('g1');
+
+    expect(connection.syncedGuildIds, <String>['g1', 'g1']);
+  });
 }

@@ -4,6 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/voice/voice_tile_metrics.dart';
 
 void main() {
+  test('desktop avatars follow the web avatar scale', () {
+    expect(voiceDesktopTileAvatarSize(const Size(800, 450)), closeTo(144, 1));
+    expect(voiceDesktopTileAvatarSize(const Size(2000, 1125)), 192);
+    expect(voiceDesktopTileAvatarSize(const Size(160, 90)), 66);
+    expect(voiceDesktopTileAvatarSize(const Size(80, 45)), 44);
+  });
+
   test('shrinks the inset on small tiles', () {
     expect(voiceTileMetricsForSize(const Size(180, 100)).inset, 4);
     expect(voiceTileMetricsForSize(const Size(400, 250)).inset, 6);

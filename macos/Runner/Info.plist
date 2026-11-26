@@ -51,6 +51,8 @@
 	<string>Fluxer uses the camera when you take a photo to send or turn on video in a call.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
+	<key>NSScreenCaptureUsageDescription</key>
+	<string>Fluxer captures the screen or window you choose to share.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

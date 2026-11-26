@@ -76,4 +76,34 @@ void main() {
       expect(container.read(guildAvailabilityProvider), isEmpty);
     });
   });
+
+  group('GuildDegraded', () {
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer();
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
+
+    test('loadFromReady keeps only available degraded guilds', () {
+      container.read(guildDegradedProvider.notifier).loadFromReady([
+        {'id': 'g1', 'degraded': true},
+        {'id': 'g2', 'degraded': true, 'unavailable': true},
+        {'id': 'g3'},
+      ]);
+      expect(container.read(guildDegradedProvider), {'g1'});
+    });
+
+    test('setDegraded toggles one guild', () {
+      final GuildDegraded degraded = container.read(
+        guildDegradedProvider.notifier,
+      )..setDegraded('g1', degraded: true);
+      expect(container.read(guildDegradedProvider), {'g1'});
+      degraded.setDegraded('g1', degraded: false);
+      expect(container.read(guildDegradedProvider), isEmpty);
+    });
+  });
 }

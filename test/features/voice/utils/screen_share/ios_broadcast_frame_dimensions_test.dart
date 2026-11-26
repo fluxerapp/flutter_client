@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/voice/domain/video_quality_caps.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_target.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 void main() {
@@ -29,7 +31,7 @@ void main() {
       expect(capped.height, 1334);
     });
 
-    test('sender scale reaches the target from capped frames', () {
+    test('sender scale reaches the target pixel budget from capped frames', () {
       final VideoDimensions source = iosBroadcastFrameDimensions(
         const VideoDimensions(1290, 2796),
       );
@@ -37,14 +39,32 @@ void main() {
         source: source,
         target: const VideoDimensions(1280, 720),
       );
-      expect(source.height / scale, closeTo(1280, 1));
+      final double sentPixels =
+          (source.width / scale) * (source.height / scale);
+      expect(sentPixels, closeTo(1280 * 720, 1));
+    });
+
+    test('a 1080p target sends capped iPhone frames unscaled', () {
+      final VideoDimensions source = iosBroadcastFrameDimensions(
+        const VideoDimensions(1290, 2796),
+      );
+      expect(
+        screenShareScaleDownBy(
+          source: source,
+          target: const VideoDimensions(1920, 1080),
+        ),
+        1,
+      );
     });
   });
 
   test('screen audio follows the platform capability', () {
     final ScreenShareCaptureOptions options = screenShareCaptureOptionsFor(
-      resolution: ScreenshareResolution.medium,
-      frameRate: 30,
+      resolveScreenShareTarget(
+        settings: const VoiceSettingsState(),
+        caps: VideoQualityCaps.base,
+        bitrate: ScreenShareBitrateBudget.automatic,
+      ),
     );
     expect(options.captureScreenAudio, screenShareCapturesSystemAudio);
   });

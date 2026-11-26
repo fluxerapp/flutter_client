@@ -31,5 +31,14 @@ class SavedMessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> removeSavedMessage(String messageId) =>
       (delete(savedMessages)..where((s) => s.messageId.equals(messageId))).go();
 
+  Future<void> removeSavedMessages(List<String> messageIds) {
+    if (messageIds.isEmpty) {
+      return Future<void>.value();
+    }
+    return (delete(
+      savedMessages,
+    )..where((s) => s.messageId.isIn(messageIds))).go();
+  }
+
   Future<void> clearAll() => delete(savedMessages).go();
 }

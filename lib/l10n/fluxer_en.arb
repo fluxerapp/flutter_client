@@ -8078,6 +8078,31 @@
       }
     }
   },
+  "voiceParticipantOptionsFor": "Participant options for {name}",
+  "@voiceParticipantOptionsFor": {
+    "description": "Accessible label for the menu button on a voice participant tile.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceParticipantCollapseDevices": "Collapse devices",
+  "@voiceParticipantCollapseDevices": {
+    "description": "Tooltip for the chip on a participant tile that collapses that participant's expanded devices back into one tile."
+  },
+  "voiceFocusShowMembers": "Show members",
+  "@voiceFocusShowMembers": {
+    "description": "Tooltip for the button that shows the row of call members below a focused tile."
+  },
+  "voiceFocusHideMembers": "Hide members",
+  "@voiceFocusHideMembers": {
+    "description": "Tooltip for the button that hides the row of call members below a focused tile."
+  },
+  "voiceFocusResizeMembersRow": "Resize members row",
+  "@voiceFocusResizeMembersRow": {
+    "description": "Accessible label for the draggable divider between a focused tile and the row of call members below it."
+  },
   "voicePipReturnToCallLabel": "Return to call",
   "@voicePipReturnToCallLabel": {
     "description": "Screen reader label for the floating picture-in-picture call window."
@@ -13015,6 +13040,10 @@
   "@audioAndVideoInCallBehaviorSectionDescription": {
     "description": "Settings section description for in-call behavior prompts."
   },
+  "audioAndVideoInputAndOutputTitle": "Input and output",
+  "@audioAndVideoInputAndOutputTitle": {
+    "description": "Subsection title above the input and output device pickers in voice settings."
+  },
   "audioAndVideoInputDeviceLabel": "Input device",
   "@audioAndVideoInputDeviceLabel": {
     "description": "Label for microphone input device selection."
@@ -13216,9 +13245,184 @@
   "@audioAndVideoFrameRate60Label": {
     "description": "Screen share frame rate option for 60 FPS."
   },
-  "audioAndVideoInstanceVideoQualityLimit": "This instance currently allows screen share up to 720p at 30 FPS.",
-  "@audioAndVideoInstanceVideoQualityLimit": {
-    "description": "Note shown when instance limits block higher screen share quality."
+  "audioAndVideoFrameRate120Label": "120 FPS",
+  "@audioAndVideoFrameRate120Label": {
+    "description": "Screen share frame rate option for 120 FPS."
+  },
+  "audioAndVideoQuality1440pLabel": "1440p",
+  "@audioAndVideoQuality1440pLabel": {
+    "description": "Screen share quality option for 1440p resolution."
+  },
+  "audioAndVideoQualitySourceLabel": "Source",
+  "@audioAndVideoQualitySourceLabel": {
+    "description": "Screen share quality option that sends the native screen resolution, up to 4K. Keep it short."
+  },
+  "audioAndVideoStreamingModeSectionTitle": "Streaming mode",
+  "@audioAndVideoStreamingModeSectionTitle": {
+    "description": "Subsection title for picking a screen share quality preset."
+  },
+  "audioAndVideoStreamingModeGaming": "Gaming",
+  "@audioAndVideoStreamingModeGaming": {
+    "description": "Screen share preset that favours smooth motion."
+  },
+  "audioAndVideoStreamingModeScreenShare": "Screen share",
+  "@audioAndVideoStreamingModeScreenShare": {
+    "description": "Screen share preset that favours sharp text."
+  },
+  "audioAndVideoStreamingModeCustom": "Custom",
+  "@audioAndVideoStreamingModeCustom": {
+    "description": "Screen share preset where the user picks resolution and frame rate."
+  },
+  "audioAndVideoStreamingModeGamingDescription": "Smooth {frameRate} FPS at up to {resolution}",
+  "@audioAndVideoStreamingModeGamingDescription": {
+    "description": "Description of the Gaming preset. FPS is a technical token.",
+    "placeholders": {
+      "frameRate": {
+        "type": "int"
+      },
+      "resolution": {
+        "type": "String",
+        "example": "1440p"
+      }
+    }
+  },
+  "audioAndVideoStreamingModeScreenShareDescription": "Sharp text at up to {resolution}, {frameRate} FPS",
+  "@audioAndVideoStreamingModeScreenShareDescription": {
+    "description": "Description of the Screen share preset. FPS is a technical token.",
+    "placeholders": {
+      "resolution": {
+        "type": "String",
+        "example": "1080p"
+      },
+      "frameRate": {
+        "type": "int"
+      }
+    }
+  },
+  "audioAndVideoStreamingModeCustomDescription": "Dial in your own numbers",
+  "@audioAndVideoStreamingModeCustomDescription": {
+    "description": "Description of the Custom preset. Lightly playful."
+  },
+  "audioAndVideoScreenSharePresetOwned": "Set by the {preset} preset. Picking a value here switches to Custom.",
+  "@audioAndVideoScreenSharePresetOwned": {
+    "description": "Note under screen share quality while a preset decides resolution and frame rate.",
+    "placeholders": {
+      "preset": {
+        "type": "String",
+        "example": "Gaming"
+      }
+    }
+  },
+  "audioAndVideoScreenShareSavedNeedsPremium": "Your saved {savedResolution} at {savedFrameRate} FPS needs {premiumProductName}, so shares use {resolution} at {frameRate} FPS.",
+  "@audioAndVideoScreenShareSavedNeedsPremium": {
+    "description": "Note shown when the saved screen share quality is above what this account can send. FPS is a technical token.",
+    "placeholders": {
+      "savedResolution": {
+        "type": "String"
+      },
+      "savedFrameRate": {
+        "type": "int"
+      },
+      "premiumProductName": {
+        "type": "String",
+        "example": "Plutonium"
+      },
+      "resolution": {
+        "type": "String"
+      },
+      "frameRate": {
+        "type": "int"
+      }
+    }
+  },
+  "audioAndVideoScreenShareGroupTitle": "Screen share",
+  "@audioAndVideoScreenShareGroupTitle": {
+    "description": "Video settings group title for screen share quality options."
+  },
+  "audioAndVideoScreenShareUpsellTitle": "Unlock HD screen share with {premiumProductName}",
+  "@audioAndVideoScreenShareUpsellTitle": {
+    "description": "Premium upsell title in video settings.",
+    "placeholders": {
+      "premiumProductName": {
+        "type": "String",
+        "example": "Plutonium"
+      }
+    }
+  },
+  "audioAndVideoScreenShareUpsellDescription": "Share your screen in high definition (1080p), quad HD (1440p), or native source resolution, at up to 60 FPS.",
+  "@audioAndVideoScreenShareUpsellDescription": {
+    "description": "Premium upsell body in video settings. FPS is a technical token."
+  },
+  "audioAndVideoScreenShareUpsellDescriptionMobile": "Share your screen in 1080p in the app, and in quad HD (1440p) or native source resolution at up to 60 FPS in the desktop app.",
+  "@audioAndVideoScreenShareUpsellDescriptionMobile": {
+    "description": "Premium upsell body in video settings on phones, where screen share stops at 1080p. FPS is a technical token."
+  },
+  "audioAndVideoGetPremium": "Get {premiumProductName}",
+  "@audioAndVideoGetPremium": {
+    "description": "Button in the video settings upsell that opens the premium page.",
+    "placeholders": {
+      "premiumProductName": {
+        "type": "String",
+        "example": "Plutonium"
+      }
+    }
+  },
+  "audioAndVideoAdvancedVideoSettingsLabel": "Advanced video settings",
+  "@audioAndVideoAdvancedVideoSettingsLabel": {
+    "description": "Row label in video settings that leads to advanced media settings."
+  },
+  "audioAndVideoOpenAdvancedMediaSettings": "Open advanced media settings",
+  "@audioAndVideoOpenAdvancedMediaSettings": {
+    "description": "Button in video settings that jumps to the advanced media settings."
+  },
+  "audioAndVideoHighFrameRateRequiresPremium": "Frame rates above 30 FPS require {premiumProductName}",
+  "@audioAndVideoHighFrameRateRequiresPremium": {
+    "description": "Video settings note shown when higher frame rates need premium. FPS is a technical token.",
+    "placeholders": {
+      "premiumProductName": {
+        "type": "String",
+        "example": "Plutonium"
+      }
+    }
+  },
+  "audioAndVideoInstanceScreenShareLimit": "This instance currently allows screen sharing up to {resolution} at {frameRate} FPS.",
+  "@audioAndVideoInstanceScreenShareLimit": {
+    "description": "Neutral note shown when instance limits cap screen share quality. FPS is a technical token.",
+    "placeholders": {
+      "resolution": {
+        "type": "String",
+        "example": "1080p"
+      },
+      "frameRate": {
+        "type": "int"
+      }
+    }
+  },
+  "audioAndVideoIosScreenShareLimit": "Screen sharing on iOS is limited to 1080p.",
+  "@audioAndVideoIosScreenShareLimit": {
+    "description": "Note in video settings on iOS, where the system broadcast sends at most 1080p."
+  },
+  "audioAndVideoScreenShareBitrateLabel": "Bitrate",
+  "@audioAndVideoScreenShareBitrateLabel": {
+    "description": "Label for the screen share video bitrate select."
+  },
+  "audioAndVideoScreenShareBitrateDescription": "With Automatic, the bitrate follows your resolution and frame rate. Higher values keep fast motion sharper and use more upload bandwidth.",
+  "@audioAndVideoScreenShareBitrateDescription": {
+    "description": "Description under the screen share bitrate select. Automatic is the default option label."
+  },
+  "audioAndVideoScreenShareBitrateAutomatic": "Automatic",
+  "@audioAndVideoScreenShareBitrateAutomatic": {
+    "description": "Default option of the screen share bitrate select."
+  },
+  "audioAndVideoScreenShareBitrateMbps": "{bitrate} Mbps",
+  "@audioAndVideoScreenShareBitrateMbps": {
+    "description": "Option of the screen share bitrate select. Mbps is a technical unit token.",
+    "placeholders": {
+      "bitrate": {
+        "type": "String",
+        "example": "4.5"
+      }
+    }
   },
   "audioAndVideoSkipHideOwnCameraConfirmLabel": "Don't ask when hiding my camera",
   "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -20798,6 +21002,76 @@
       }
     }
   },
+  "desktopDownloadsView": "View downloads",
+  "@desktopDownloadsView": {
+    "description": "Accessible label of the desktop titlebar button that opens the downloads panel."
+  },
+  "desktopDownloadsViewActive": "View downloads. {count, plural, one{{count} download in progress} other{{count} downloads in progress}}",
+  "@desktopDownloadsViewActive": {
+    "description": "Accessible label of the desktop titlebar button that opens the downloads panel, used while downloads are running. count is the number of downloads in progress.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "desktopDownloadsTitle": "Downloads",
+  "@desktopDownloadsTitle": {
+    "description": "Heading of the desktop downloads panel."
+  },
+  "desktopDownloadsClear": "Clear list",
+  "@desktopDownloadsClear": {
+    "description": "Button that removes finished downloads from the desktop downloads panel. Downloaded files stay on disk and in-progress downloads stay in the list."
+  },
+  "desktopDownloadsShowInFolder": "Show in folder",
+  "@desktopDownloadsShowInFolder": {
+    "description": "Accessible label of the button that opens the folder containing a downloaded file."
+  },
+  "desktopDownloadsCancel": "Cancel download",
+  "@desktopDownloadsCancel": {
+    "description": "Accessible label of the button that stops an in-progress download and deletes the partial file."
+  },
+  "desktopDownloadsRemove": "Remove from list",
+  "@desktopDownloadsRemove": {
+    "description": "Accessible label of the button that removes a finished download from the desktop downloads panel."
+  },
+  "desktopDownloadsCompleted": "Completed",
+  "@desktopDownloadsCompleted": {
+    "description": "Status under a file name in the desktop downloads panel once the file has finished downloading. Keep it short."
+  },
+  "desktopDownloadsCancelled": "Cancelled. The partial file was deleted.",
+  "@desktopDownloadsCancelled": {
+    "description": "Status under a file name in the desktop downloads panel after the user cancels the download. The part of the file that had already downloaded is deleted."
+  },
+  "desktopDownloadsFileMissing": "The file was moved or deleted.",
+  "@desktopDownloadsFileMissing": {
+    "description": "Status under a file name in the desktop downloads panel when the download finished but the file is no longer where it was saved."
+  },
+  "desktopDownloadsFailed": "Failed",
+  "@desktopDownloadsFailed": {
+    "description": "Status under a file name in the desktop downloads panel when the download did not finish. Keep it short."
+  },
+  "desktopDownloadsStarting": "Starting",
+  "@desktopDownloadsStarting": {
+    "description": "Status under a file name in the desktop downloads panel while the download is starting and no data has arrived yet. Keep it short."
+  },
+  "desktopDownloadsProgress": "{progress} of {total}",
+  "@desktopDownloadsProgress": {
+    "description": "Download progress under a file name in the desktop downloads panel. progress is the formatted percentage downloaded so far, for example 42%. total is the formatted size of the whole file, for example 3.2 MB.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "desktopDownloadCompleteToast": "Download complete",
+  "@desktopDownloadCompleteToast": {
+    "description": "Toast shown on desktop when a file finishes downloading and the in-app titlebar with the downloads panel is turned off."
+  },
   "desktopTrayShow": "Show {productName}",
   "@desktopTrayShow": {
     "description": "Desktop tray/menu bar menu item that shows the hidden app window.",
@@ -21533,5 +21807,159 @@
   "operatorPassUpdateFailed": "Couldn't update your Operator Pass settings.",
   "@operatorPassUpdateFailed": {
     "description": "Toast shown when saving Operator Pass settings fails."
+  },
+  "macPermissionMicrophone": "Microphone",
+  "@macPermissionMicrophone": {
+    "description": "Name of the macOS Microphone permission. Use the name macOS shows under System Settings, Privacy & Security in this language."
+  },
+  "macPermissionCamera": "Camera",
+  "@macPermissionCamera": {
+    "description": "Name of the macOS Camera permission. Use the name macOS shows under System Settings, Privacy & Security in this language."
+  },
+  "macPermissionScreenRecording": "Screen Recording",
+  "@macPermissionScreenRecording": {
+    "description": "Name of the macOS screen recording permission. Use the name macOS shows under System Settings, Privacy & Security in this language."
+  },
+  "macPermissionInputMonitoring": "Input Monitoring",
+  "@macPermissionInputMonitoring": {
+    "description": "Name of the macOS Input Monitoring permission. Use the name macOS shows under System Settings, Privacy & Security in this language."
+  },
+  "macPermissionMicrophonePurpose": "Lets people hear you in calls.",
+  "@macPermissionMicrophonePurpose": {
+    "description": "One sentence explaining what the macOS Microphone permission is used for."
+  },
+  "macPermissionCameraPurpose": "Lets people see you on video.",
+  "@macPermissionCameraPurpose": {
+    "description": "One sentence explaining what the macOS Camera permission is used for."
+  },
+  "macPermissionScreenRecordingPurpose": "Lets you share your screen or a window.",
+  "@macPermissionScreenRecordingPurpose": {
+    "description": "One sentence explaining what the macOS screen recording permission is used for."
+  },
+  "macPermissionInputMonitoringPurpose": "Lets push-to-talk and keybinds work in other apps.",
+  "@macPermissionInputMonitoringPurpose": {
+    "description": "One sentence explaining what the macOS Input Monitoring permission is used for."
+  },
+  "macPermissionAllow": "Allow",
+  "@macPermissionAllow": {
+    "description": "Button label that makes macOS ask the user for a permission."
+  },
+  "macPermissionOpenSystemSettings": "Open System Settings",
+  "@macPermissionOpenSystemSettings": {
+    "description": "Button label that opens the macOS System Settings app at the pane for one permission. Use the name macOS gives System Settings in this language."
+  },
+  "macPermissionQuitPromptAdvice": "If macOS asks to quit and reopen {productName}, choose Later.",
+  "@macPermissionQuitPromptAdvice": {
+    "description": "Advice shown after the user asks for the macOS Screen Recording or Input Monitoring permission. macOS then shows its own dialog with the buttons Quit & Reopen and Later. Use the button name macOS shows in this language.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "macPermissionAllowed": "Allowed",
+  "@macPermissionAllowed": {
+    "description": "Short status shown once a macOS permission has been granted."
+  },
+  "macPermissionNotAllowed": "Not allowed",
+  "@macPermissionNotAllowed": {
+    "description": "Screen reader status for a macOS permission that has not been granted."
+  },
+  "macPermissionNotNow": "Not now",
+  "@macPermissionNotNow": {
+    "description": "Quiet secondary button that skips one macOS permission for now."
+  },
+  "macPermissionRelaunchToApply": "Relaunch to apply",
+  "@macPermissionRelaunchToApply": {
+    "description": "Button label that restarts the desktop app so macOS applies a permission change."
+  },
+  "macPermissionProgress": "Step {current} of {total}",
+  "@macPermissionProgress": {
+    "description": "Screen reader text for the progress dots under a macOS permission screen in the desktop first-run setup.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "macPermissionsSettingsTitle": "macOS permissions",
+  "@macPermissionsSettingsTitle": {
+    "description": "Title of the macOS permissions section in desktop settings."
+  },
+  "macPermissionsSettingsDescription": "Review the permissions {productName} uses for voice, video, screen sharing, and keybinds.",
+  "@macPermissionsSettingsDescription": {
+    "description": "Description of the macOS permissions section in user settings.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "audioAndVideoEnablePlatformPermission": "Enable {permissionName} permission",
+  "@audioAndVideoEnablePlatformPermission": {
+    "description": "Voice settings button that opens a platform permission prompt.",
+    "placeholders": {
+      "permissionName": {
+        "type": "String"
+      }
+    }
+  },
+  "audioAndVideoPushToTalkPermissionLimited": "Push-to-talk only works while {productName} is focused until {permissionName} is enabled.",
+  "@audioAndVideoPushToTalkPermissionLimited": {
+    "description": "Voice settings warning shown when macOS Input Monitoring is required for system-wide push-to-talk.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      },
+      "permissionName": {
+        "type": "String"
+      }
+    }
+  },
+  "audioAndVideoPushToTalkGlobalDescription": "Your microphone only transmits while you hold the push-to-talk key.",
+  "@audioAndVideoPushToTalkGlobalDescription": {
+    "description": "Description under the push-to-talk toggle on platforms where push-to-talk also works while other apps are focused."
+  },
+  "mediaPermissionBlockedMicrophoneTitle": "Microphone permission required",
+  "@mediaPermissionBlockedMicrophoneTitle": {
+    "description": "Title of the modal shown when microphone permission is denied. Keep tone plain."
+  },
+  "mediaPermissionBlockedCameraTitle": "Camera permission required",
+  "@mediaPermissionBlockedCameraTitle": {
+    "description": "Title of the modal shown when camera permission is denied. Keep tone plain."
+  },
+  "mediaPermissionBlockedScreenTitle": "Screen recording permission required",
+  "@mediaPermissionBlockedScreenTitle": {
+    "description": "Title of the modal shown when screen recording permission is denied. Keep tone plain."
+  },
+  "mediaPermissionBlockedMicrophoneBody": "{productName} needs access to your microphone. Allow microphone access in your operating system privacy settings and restart the app.",
+  "@mediaPermissionBlockedMicrophoneBody": {
+    "description": "Body of the microphone-permission-denied modal on Windows and Linux.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaPermissionBlockedCameraBody": "{productName} needs access to your camera. Allow camera access in your operating system privacy settings and restart the app.",
+  "@mediaPermissionBlockedCameraBody": {
+    "description": "Body of the camera-permission-denied modal on Windows and Linux.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaPermissionBlockedScreenBody": "{productName} needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.",
+  "@mediaPermissionBlockedScreenBody": {
+    "description": "Body of the screen-permission-denied modal on Windows and Linux.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
   }
 }

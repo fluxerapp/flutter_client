@@ -1379,6 +1379,11 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         .set(profile.premiumType?.json ?? 0);
     if (state.lacksMfa != lacksMfaBefore) {
       clearAllPermissionCaches(ref);
+      unawaited(
+        ref
+            .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+            .revalidate(),
+      );
     }
   }
 

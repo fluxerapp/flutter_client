@@ -37,6 +37,15 @@ class ComposerDraftDao extends DatabaseAccessor<FluxerDatabase>
     )..where((t) => t.channelId.equals(channelId))).go();
   }
 
+  Future<void> deleteDraftsForChannels(List<String> channelIds) {
+    if (channelIds.isEmpty) {
+      return Future<void>.value();
+    }
+    return (delete(
+      composerDrafts,
+    )..where((t) => t.channelId.isIn(channelIds))).go();
+  }
+
   Future<void> clearAll() {
     return delete(composerDrafts).go();
   }

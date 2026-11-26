@@ -15,6 +15,7 @@ class FluxerWarningAlert extends StatelessWidget {
     this.variant = FluxerAlertVariant.warning,
     this.onDismiss,
     this.dismissLabel,
+    this.actions = const <Widget>[],
     super.key,
   });
 
@@ -23,6 +24,7 @@ class FluxerWarningAlert extends StatelessWidget {
   final FluxerAlertVariant variant;
   final VoidCallback? onDismiss;
   final String? dismissLabel;
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -70,27 +72,30 @@ class FluxerWarningAlert extends StatelessWidget {
             ExcludeSemantics(child: Icon(icon, color: borderColor, size: 20)),
             SizedBox(width: layout.s2),
             Expanded(
-              child: ExcludeSemantics(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (title != null) ...[
+              child: _withActions(
+                context,
+                ExcludeSemantics(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (title != null) ...[
+                        Text(
+                          title!,
+                          style: context.textStyles.bodySmall.copyWith(
+                            color: colors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: layout.s1),
+                      ],
                       Text(
-                        title!,
+                        message,
                         style: context.textStyles.bodySmall.copyWith(
                           color: colors.textPrimary,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: layout.s1),
                     ],
-                    Text(
-                      message,
-                      style: context.textStyles.bodySmall.copyWith(
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -114,6 +119,27 @@ class FluxerWarningAlert extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _withActions(BuildContext context, Widget content) {
+    if (actions.isEmpty) {
+      return content;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        content,
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Wrap(
+            spacing: context.layout.s2,
+            runSpacing: context.layout.s2,
+            children: actions,
+          ),
+        ),
+      ],
     );
   }
 
@@ -169,20 +195,23 @@ class FluxerWarningAlert extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: ExcludeSemantics(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 2,
-                        children: [
-                          if (title != null)
-                            Text(
-                              title!,
-                              style: textStyle.copyWith(
-                                fontWeight: FontWeight.w600,
+                    child: _withActions(
+                      context,
+                      ExcludeSemantics(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 2,
+                          children: [
+                            if (title != null)
+                              Text(
+                                title!,
+                                style: textStyle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          Text(message, style: textStyle),
-                        ],
+                            Text(message, style: textStyle),
+                          ],
+                        ),
                       ),
                     ),
                   ),

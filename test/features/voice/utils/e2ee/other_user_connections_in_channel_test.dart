@@ -177,7 +177,7 @@ void main() {
               'conn-tablet': selfConnection(
                 connectionId: 'conn-tablet',
                 sessionId: 'session-tablet',
-                isMobile: isFluxerMobileOs,
+                isMobile: isFluxerNativeMobileOs,
               ),
             },
             guildId: 'g1',

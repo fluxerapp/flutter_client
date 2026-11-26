@@ -1,13 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/desktop/notifications/desktop_notification_permission.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_settings.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SystemPermissionSettingsPrompt {
   SystemPermissionSettingsPrompt._();
@@ -35,10 +34,7 @@ class SystemPermissionSettingsPrompt {
       actionsBuilder: (void Function([void]) pop) => <Widget>[
         FluxerButton.primary(
           onPressed: () async {
-            if (kind != SystemPermissionKind.notifications ||
-                !await openDesktopNotificationSettings()) {
-              await openAppSettings();
-            }
+            await openSystemPermissionSettings(kind);
             pop();
           },
           label: l10n.systemPermissionSettingsOpenSettings,

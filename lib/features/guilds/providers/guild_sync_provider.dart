@@ -79,6 +79,17 @@ class GuildSync extends _$GuildSync {
     }
   }
 
+  void forget(String guildId) {
+    _ownMemberSyncRequested.remove(guildId);
+    if (_pendingGuildId == guildId) {
+      _pendingGuildId = null;
+    }
+    if (!state.contains(guildId)) {
+      return;
+    }
+    state = <String>{...state}..remove(guildId);
+  }
+
   void clearAll() {
     _ownMemberSyncRequested.clear();
     if (state.isEmpty) {

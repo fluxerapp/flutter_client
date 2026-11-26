@@ -92,11 +92,11 @@ jobs:
       android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
-  # ios-testflight:
-  #   name: iOS TestFlight build
-  #   needs: draft-release
-  #   uses: ./.github/workflows/ios-beta-testflight.yml
-  #   secrets: inherit
+  ios-testflight:
+    name: iOS TestFlight build
+    needs: draft-release
+    uses: ./.github/workflows/ios-beta-testflight.yml
+    secrets: inherit
 
   publish-release-assets:
     name: Upload Android assets to draft release

@@ -1,6 +1,12 @@
 import 'dart:math' as math;
 import 'dart:ui' show Offset, Rect, Size;
 
+const double _kDesktopAvatarMinSize = 44;
+const double _kDesktopAvatarPreferredMinSize = 80;
+const double _kDesktopAvatarMaxSize = 192;
+const double _kDesktopAvatarInset = 24;
+const double _kDesktopAvatarFraction = 0.32;
+
 class VoiceTileMetrics {
   const VoiceTileMetrics({required this.inset});
 
@@ -36,4 +42,16 @@ Rect voiceTileContainContentRect({
   final double width = containerSize.height * contentAspectRatio;
   final double left = (containerSize.width - width) / 2;
   return Rect.fromLTWH(left, 0, width, containerSize.height);
+}
+
+double voiceDesktopTileAvatarSize(Size tile) {
+  final double shortest = math.min(tile.width, tile.height);
+  final double preferred = (shortest * _kDesktopAvatarFraction).clamp(
+    _kDesktopAvatarPreferredMinSize,
+    _kDesktopAvatarMaxSize,
+  );
+  return math.max(
+    _kDesktopAvatarMinSize,
+    math.min(preferred, shortest - _kDesktopAvatarInset),
+  );
 }

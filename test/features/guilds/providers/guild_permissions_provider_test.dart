@@ -144,6 +144,46 @@ void main() {
     },
   );
 
+  test(
+    'clearAll keeps last known values until stale guilds recompute',
+    () async {
+      final db = openTestDatabase();
+      await _seedEveryoneRole(db, permissions: Permission.viewChannel.value);
+      await _seedMember(db);
+
+      final container = await _container(db);
+      addTearDown(container.dispose);
+      final GuildPermissionsProvider permissions = guildPermissionsProvider(
+        readAccountUserId(container),
+      );
+      final notifier = container.read(permissions.notifier);
+
+      expect(
+        await notifier.getPermissions(_guildId),
+        Permission.viewChannel.value,
+      );
+
+      await _seedEveryoneRole(db, permissions: Permission.sendMessages.value);
+      notifier.clearAll();
+
+      expect(
+        container.read(permissions)[_guildId],
+        Permission.viewChannel.value,
+      );
+
+      await notifier.prefetch(<String>[_guildId]);
+
+      expect(
+        container.read(permissions)[_guildId],
+        Permission.sendMessages.value,
+      );
+      expect(
+        await notifier.getPermissions(_guildId),
+        Permission.sendMessages.value,
+      );
+    },
+  );
+
   test('caches a genuine 0 when the member has no permissions', () async {
     final db = openTestDatabase();
     await _seedEveryoneRole(db, permissions: 0);
@@ -237,7 +277,10 @@ void main() {
     notifier.clearAll();
     await dropped;
 
-    expect(container.read(permissions), isEmpty);
+    expect(writes, 1);
+    expect(container.read(permissions), <String, int>{
+      for (final String id in guildIds) id: Permission.viewChannel.value,
+    });
 
     final Future<void> partlyEvicted = notifier.prefetch(guildIds);
     notifier.evict('pg3');

@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_tracks_builder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
@@ -19,8 +20,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-enum VoiceParticipantTileSource { camera, screenShare }
 
 class VoiceParticipantMediaTile extends StatefulWidget {
   const VoiceParticipantMediaTile({
@@ -44,6 +43,9 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     this.omitVideoTrack = false,
     this.subscribeQuality = kVoiceCameraSubscribeQuality,
     this.blocked = false,
+    this.cameraFit = VideoViewFit.cover,
+    this.videoBackgroundColor,
+    this.avatarSizeOf,
     super.key,
   });
 
@@ -67,6 +69,9 @@ class VoiceParticipantMediaTile extends StatefulWidget {
   final bool omitVideoTrack;
   final VideoQuality subscribeQuality;
   final bool blocked;
+  final VideoViewFit cameraFit;
+  final Color? videoBackgroundColor;
+  final VoiceTileAvatarSizeResolver? avatarSizeOf;
 
   @override
   State<VoiceParticipantMediaTile> createState() =>
@@ -288,7 +293,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
                     widget.userId == widget.currentUserId;
                 final VideoViewFit fit = isScreenShareTile
                     ? VideoViewFit.contain
-                    : VideoViewFit.cover;
+                    : widget.cameraFit;
                 final VideoViewMirrorMode mirrorMode;
                 if (!isOwnCameraTile || isScreenShareTile) {
                   mirrorMode = VideoViewMirrorMode.off;
@@ -305,7 +310,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
                   ),
                 );
                 Widget videoWidget = ColoredBox(
-                  color: widget.backgroundColor,
+                  color: widget.videoBackgroundColor ?? widget.backgroundColor,
                   child: SizedBox.expand(child: videoChild),
                 );
                 if (widget.videoCornerRadius > 0) {
@@ -421,6 +426,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
             user: widget.user,
             userDisplay: widget.userDisplay,
             fallbackText: widget.display,
+            avatarSizeOf: widget.avatarSizeOf,
           ),
           if (showVideoPending)
             const Center(

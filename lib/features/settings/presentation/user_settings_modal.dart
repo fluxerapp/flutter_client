@@ -718,7 +718,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       state: state,
       section: section,
       isTouchPrimary: isTouchPrimary,
-      onNavigateSection: (UserSettingsSection target) {
+      onNavigateSection: (UserSettingsSection target, [String? fieldId]) {
         final bool showBilling = userSettingsShowBillingNav(ref);
         final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
         final bool showHelp = userSettingsShowHelpNav(ref);
@@ -738,6 +738,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         );
         if (index != null) {
           setState(() => _selectedIndex = index);
+          _scheduleFieldScroll(fieldId);
         }
       },
     );
@@ -1113,7 +1114,8 @@ Widget _buildUserSettingsSectionContent({
   required UserSettingsSection section,
   required bool isTouchPrimary,
   ScrollController? scrollController,
-  void Function(UserSettingsSection section)? onNavigateSection,
+  void Function(UserSettingsSection section, [String? fieldId])?
+  onNavigateSection,
 }) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
     return const SizedBox.shrink();
@@ -1160,7 +1162,8 @@ Widget _buildUserSettingsSectionBody({
   required UserSettingsSection section,
   required bool isTouchPrimary,
   ScrollController? scrollController,
-  void Function(UserSettingsSection section)? onNavigateSection,
+  void Function(UserSettingsSection section, [String? fieldId])?
+  onNavigateSection,
 }) {
   switch (section) {
     case UserSettingsSection.profile:
@@ -1256,9 +1259,15 @@ Widget _buildUserSettingsSectionBody({
             : () => onNavigateSection(UserSettingsSection.fluxerPlutonium),
       );
     case UserSettingsSection.audioAndVideo:
-      return scrollController == null
-          ? const UserAudioAndVideo()
-          : UserAudioAndVideo(scrollController: scrollController);
+      return UserAudioAndVideo(
+        scrollController: scrollController,
+        onOpenAdvancedSettings: onNavigateSection == null
+            ? null
+            : () => onNavigateSection(
+                UserSettingsSection.advanced,
+                'advanced-settings-media',
+              ),
+      );
     case UserSettingsSection.notifications:
       return scrollController == null
           ? const UserNotificationsSettings()

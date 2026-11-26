@@ -14,6 +14,7 @@ const int kEmojiMaxSizeBytes = 512 * 1024;
 const int kStickerMaxSizeBytes = 512 * 1024;
 const int kMaxGuildEmojisDefault = 500;
 const int kMaxGuildStickersDefault = 500;
+const int kMaxScreenShareBitrateBps = 9000000;
 
 const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.avatarMaxSize: kAvatarMaxSizeBytes,
@@ -33,6 +34,7 @@ const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.maxBioLength: 320,
   LimitKeys.maxBookmarks: kMaxBookmarksNonPremium,
   LimitKeys.maxCameraResolution: 720,
+  LimitKeys.maxScreenShareBitrate: kMaxScreenShareBitrateBps,
   LimitKeys.maxScreenShareFrameRate: 30,
   LimitKeys.maxScreenShareResolution: 720,
   LimitKeys.maxChannelsPerCategory: 50,

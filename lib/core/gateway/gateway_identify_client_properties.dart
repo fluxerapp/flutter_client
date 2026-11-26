@@ -5,7 +5,7 @@ import 'package:fluxer_dart/gateway.dart';
 GatewayIdentifyProperties buildGatewayIdentifyProperties(
   FluxerClientProperties properties,
 ) {
-  final bool isDesktop = isFluxerDesktopOs;
+  final bool isDesktop = !isFluxerNativeMobileOs;
   final String? buildVersion =
       properties.clientVersion ?? properties.buildNumber?.toString();
   return GatewayIdentifyProperties(
@@ -32,6 +32,6 @@ GatewayIdentifyProperties buildGatewayIdentifyProperties(
     desktopArch: properties.desktopArch ?? properties.architecture,
     desktopOs: properties.desktopOs ?? (isDesktop ? properties.os : null),
     e2eeCapable: true,
-    mobile: isFluxerMobileOs,
+    mobile: isFluxerNativeMobileOs,
   );
 }

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/desktop/autostart/desktop_autostart.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/desktop_behavior_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/mac_permissions/mac_permissions_settings_list.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -196,6 +197,12 @@ class _UserDesktopSettingsState extends ConsumerState<UserDesktopSettings> {
                   ],
                 ),
               ],
+            ),
+          if (isMac)
+            FluxerSettingsSection(
+              title: l10n.macPermissionsSettingsTitle,
+              sectionId: 'macos-permissions',
+              children: const [MacPermissionsSettingsList()],
             ),
         ],
       ),

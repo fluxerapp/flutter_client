@@ -280,6 +280,25 @@ enum PushNotificationPayload {
     }
   }
 
+  static func deliveredNotificationIdentifiers(
+    from notifications: [UNNotification],
+    channelId: String,
+    messageIds: Set<String>
+  ) -> [String] {
+    notifications.compactMap { notification in
+      guard notificationMatchesChannel(notification, channelId: channelId),
+        let messageId = resolveMessageIdForDeliveredNotification(
+          notification.request.content,
+          channelId: channelId
+        ),
+        messageIds.contains(messageId)
+      else {
+        return nil
+      }
+      return notification.request.identifier
+    }
+  }
+
   private static func resolveMessageIdForDeliveredNotification(
     _ content: UNNotificationContent,
     channelId: String

@@ -62,4 +62,22 @@ class ChannelMemberCountCache extends _$ChannelMemberCountCache {
       state = next;
     }
   }
+
+  void clearAll() {
+    if (state.isEmpty) {
+      return;
+    }
+    state = <String, ChannelMemberCounts>{};
+  }
+
+  void evictGuild(String guildId) {
+    final String prefix = '$guildId|';
+    if (!state.keys.any((String key) => key.startsWith(prefix))) {
+      return;
+    }
+    state = <String, ChannelMemberCounts>{
+      for (final MapEntry<String, ChannelMemberCounts> entry in state.entries)
+        if (!entry.key.startsWith(prefix)) entry.key: entry.value,
+    };
+  }
 }

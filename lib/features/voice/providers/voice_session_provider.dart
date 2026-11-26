@@ -8,6 +8,8 @@ import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permission_gate.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permissions_controller.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/system_permissions/media_permission_error.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
@@ -30,6 +33,7 @@ import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/ui/system_permissions/media_permission_blocked_modal.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
@@ -80,6 +84,7 @@ import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_macos/fluxer_macos.dart';
 import 'package:fluxer_voice/fluxer_voice.dart' show VoiceAudioSessionEvent;
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -172,6 +177,7 @@ class VoiceSession extends _$VoiceSession {
   Set<String>? _pendingRecoveryInputIds;
   Set<String>? _pendingRecoveryOutputIds;
   bool _isRecoveringAudioRoute = false;
+  int? _lastChannelBitrate;
   VoiceChannelPermissions? _channelPermissions;
   VoiceJoinTiming? _joinTiming;
   Future<void>? _liveKitTeardownTail;
@@ -784,7 +790,17 @@ class VoiceSession extends _$VoiceSession {
       }
     }
     if (!joinMicrophoneGranted) {
+      if (!resolvedSelfMute) {
+        unawaited(
+          handleMediaPermissionBlocked(MediaPermissionBlockedKind.microphone),
+        );
+      }
       resolvedSelfMute = true;
+    }
+    if (initialSelfVideo && !joinCameraGranted) {
+      unawaited(
+        handleMediaPermissionBlocked(MediaPermissionBlockedKind.camera),
+      );
     }
     _pendingSelfMute = resolvedSelfMute;
     _pendingSelfDeaf = resolvedSelfDeaf;
@@ -842,7 +858,7 @@ class VoiceSession extends _$VoiceSession {
         selfDeaf: selfDeaf,
         selfVideo: false,
         selfStream: false,
-        isMobile: isFluxerMobileOs,
+        isMobile: isFluxerNativeMobileOs,
         p2p: p2p ? true : null,
       ),
     );
@@ -1388,7 +1404,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: selfVideo,
             selfStream: _lastReportedSelfStream ?? false,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
             p2p: s.mesh != null ? true : null,
           ),
         );
@@ -1412,7 +1428,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: current?.selfVideo ?? false,
             selfStream: current?.selfStream ?? false,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
             p2p: false,
           ),
         );
@@ -2303,6 +2319,7 @@ class VoiceSession extends _$VoiceSession {
         await _setSessionCameraEnabled(enabled: true);
       } on Object catch (e) {
         talker.error('[Voice] setCameraEnabled on connect: $e');
+        unawaited(_handleCaptureFailure(MediaPermissionBlockedKind.camera, e));
         return;
       }
       if (attempt != _connectGeneration) {
@@ -2723,7 +2740,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: false,
             selfStream: false,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -2738,7 +2755,7 @@ class VoiceSession extends _$VoiceSession {
             selfDeaf: false,
             selfVideo: false,
             selfStream: false,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -2771,6 +2788,13 @@ class VoiceSession extends _$VoiceSession {
     state = state.copyWith(errorMessage: deniedErrorCode);
     return false;
   }
+
+  Future<bool> _handleCaptureFailure(
+    MediaPermissionBlockedKind kind,
+    Object error,
+  ) async =>
+      isMediaPermissionDeniedError(error) &&
+      await handleMediaPermissionBlocked(kind);
 
   void clearError() {
     if (state.errorMessage == null && !state.connectFailed) {
@@ -2930,6 +2954,7 @@ class VoiceSession extends _$VoiceSession {
         await _setSessionCameraEnabled(enabled: nextVideo);
       } on Object catch (e) {
         talker.error('[Voice] setCameraEnabled: $e');
+        unawaited(_handleCaptureFailure(MediaPermissionBlockedKind.camera, e));
         return;
       }
       await _applySelfVoiceState(
@@ -3033,9 +3058,11 @@ class VoiceSession extends _$VoiceSession {
         shouldEnableScreenShare: nextSelfStream,
       );
       if (!hasCapturePermission) {
-        state = state.copyWith(
-          errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
-        );
+        if (!macPermissions.isSupported) {
+          state = state.copyWith(
+            errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
+          );
+        }
         return;
       }
       if (nextSelfStream) {
@@ -3063,6 +3090,8 @@ class VoiceSession extends _$VoiceSession {
             nextSelfStream
                 ? applicator.buildScreenShareCaptureOptions(settings)
                 : null,
+            target: (VideoDimensions? source) =>
+                applicator.screenShareTarget(settings, source: source),
           );
         } else if (room != null && lp != null) {
           awaitingBroadcast = await applicator.setScreenShareEnabled(
@@ -3084,6 +3113,12 @@ class VoiceSession extends _$VoiceSession {
         );
         if (nextSelfStream) {
           await disableAndroidScreenShareBackground();
+          if (await _handleCaptureFailure(
+            MediaPermissionBlockedKind.screen,
+            e,
+          )) {
+            return;
+          }
         }
         state = state.copyWith(errorMessage: _classifyScreenShareException(e));
         return;
@@ -3146,11 +3181,16 @@ class VoiceSession extends _$VoiceSession {
   Future<bool> _requestScreenCapturePermission({
     required bool shouldEnableScreenShare,
   }) async {
-    final bool requiresCapturePermission =
-        Platform.isAndroid ||
-        Platform.isMacOS ||
-        (Platform.isLinux && !isFluxerRuntimeMobileFormFactor);
-    if (!shouldEnableScreenShare || !requiresCapturePermission) {
+    if (!shouldEnableScreenShare) {
+      return true;
+    }
+    if (macPermissions.isSupported) {
+      return await ensureMacPermission(
+        MacPermissionKind.screen,
+        liveProbe: true,
+      );
+    }
+    if (!Platform.isAndroid) {
       return true;
     }
     final bool hasCapturePermission = await Helper.requestCapturePermission();
@@ -3248,7 +3288,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: selfVideo,
             selfStream: selfStream,
             connectionId: connectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
     final EffectiveAudioState audio = computeEffectiveAudioState(
@@ -3262,6 +3302,9 @@ class VoiceSession extends _$VoiceSession {
       try {
         await _setSessionMicrophoneEnabled(enabled: micOn);
       } on Object catch (e) {
+        unawaited(
+          _handleCaptureFailure(MediaPermissionBlockedKind.microphone, e),
+        );
         if (isTrackPublishFailure(e)) {
           talker.warning('[Voice] setMicrophoneEnabled failed: $e');
           state = state.copyWith(errorMessage: kVoiceSessionErrorMicPublish);
@@ -3300,7 +3343,7 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: current?.selfVideo ?? false,
             selfStream: selfStream,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }
@@ -3593,7 +3636,7 @@ class VoiceSession extends _$VoiceSession {
           selfDeaf: _pendingSelfDeaf,
           selfVideo: false,
           selfStream: false,
-          isMobile: isFluxerMobileOs,
+          isMobile: isFluxerNativeMobileOs,
         ),
       );
       if (!sent) {
@@ -3996,7 +4039,45 @@ class VoiceSession extends _$VoiceSession {
         .read(fluxerDatabaseProvider)
         .channelDao
         .getChannelById(channelId);
+    _lastChannelBitrate = row?.bitrate;
     return row?.bitrate;
+  }
+
+  Future<void> handleChannelUpdated(String channelId) async {
+    if (!state.isConnected || state.channelId != channelId) {
+      return;
+    }
+    final int? previous = _lastChannelBitrate;
+    final int? next = await _bitrateForChannel(channelId);
+    if (!ref.mounted ||
+        previous == next ||
+        !state.isConnected ||
+        state.channelId != channelId ||
+        !_shouldPublishMicrophone()) {
+      return;
+    }
+    if (state.mesh != null) {
+      await _setSessionMicrophoneEnabled(enabled: true);
+      return;
+    }
+    final Room? room = state.liveKitRoom;
+    if (room == null) {
+      return;
+    }
+    await _voiceSettingsApplicator().refreshMicrophone(
+      room: room,
+      settings: ref.read(voiceSettingsProvider),
+      microphoneEnabled: true,
+      channelBitrate: next,
+    );
+  }
+
+  void handleChannelDeleted(String channelId) {
+    if (!state.isInVoice || state.channelId != channelId) {
+      return;
+    }
+    talker.info('[Voice] Leaving voice: channel was deleted ($channelId).');
+    unawaited(leaveVoice(endCall: false));
   }
 
   Future<void> _setSessionMicrophoneEnabled({required bool enabled}) async {
@@ -4132,6 +4213,12 @@ class VoiceSession extends _$VoiceSession {
         previous.videoDeviceId != next.videoDeviceId ||
         previous.cameraFacing != next.cameraFacing ||
         previous.cameraResolution != next.cameraResolution;
+    final bool screenShareQualityChanged =
+        previous != null &&
+        (previous.streamingMode != next.streamingMode ||
+            previous.screenshareResolution != next.screenshareResolution ||
+            previous.videoFrameRate != next.videoFrameRate ||
+            previous.screenShareBitrate != next.screenShareBitrate);
     if (mesh != null) {
       await _applyMeshSettingsChange(
         mesh,
@@ -4139,6 +4226,7 @@ class VoiceSession extends _$VoiceSession {
         audioChanged: audioChanged,
         inputVolumeChanged: inputVolumeChanged,
         cameraChanged: cameraChanged,
+        screenShareQualityChanged: screenShareQualityChanged,
       );
     } else if (room != null) {
       if (audioChanged) {
@@ -4174,11 +4262,23 @@ class VoiceSession extends _$VoiceSession {
               next.preferredScreenShareCodec ||
           previous.screenShareAv1OptIn != next.screenShareAv1OptIn ||
           previous.screenShareHevcOptIn != next.screenShareHevcOptIn;
-      if (screenShareCodecChanged &&
-          _hasPublishedLocalScreenShareVideo(requireTrack: false)) {
+      final bool sharing = _hasPublishedLocalScreenShareVideo(
+        requireTrack: false,
+      );
+      if (screenShareCodecChanged && sharing) {
         _refreshingScreenShare = true;
         try {
           await applicator.refreshScreenShare(room: room, settings: next);
+        } finally {
+          _refreshingScreenShare = false;
+        }
+      } else if (screenShareQualityChanged && sharing) {
+        _refreshingScreenShare = true;
+        try {
+          await applicator.applyLiveScreenShareSettings(
+            room: room,
+            settings: next,
+          );
         } finally {
           _refreshingScreenShare = false;
         }
@@ -4205,6 +4305,7 @@ class VoiceSession extends _$VoiceSession {
     required bool audioChanged,
     required bool inputVolumeChanged,
     required bool cameraChanged,
+    required bool screenShareQualityChanged,
   }) async {
     final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
     final double inputGain = inputVoiceVolumePercentToGain(next.inputVolume);
@@ -4218,6 +4319,13 @@ class VoiceSession extends _$VoiceSession {
     }
     if (cameraChanged) {
       await mesh.applyCameraOptions(applicator.buildCameraCaptureOptions(next));
+    }
+    if (screenShareQualityChanged) {
+      await mesh.applyScreenShareTarget(
+        options: applicator.buildScreenShareCaptureOptions(next),
+        target: (VideoDimensions? source) =>
+            applicator.screenShareTarget(next, source: source),
+      );
     }
   }
 
@@ -4523,6 +4631,9 @@ class VoiceSession extends _$VoiceSession {
       } on Object catch (e) {
         lastError = e;
         if (!isTrackPublishFailure(e)) {
+          unawaited(
+            _handleCaptureFailure(MediaPermissionBlockedKind.microphone, e),
+          );
           rethrow;
         }
         if (i < _kMicPublishRetryDelays.length) {
@@ -4749,7 +4860,7 @@ class VoiceSession extends _$VoiceSession {
             selfStream: current?.selfStream ?? false,
             viewerStreamKeys: viewerStreamKeys,
             connectionId: s.activeConnectionId,
-            isMobile: isFluxerMobileOs,
+            isMobile: isFluxerNativeMobileOs,
           ),
         );
   }

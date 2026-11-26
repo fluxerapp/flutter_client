@@ -11,10 +11,13 @@ const List<BoxShadow> kVoiceTileHudChipShadows = <BoxShadow>[
   BoxShadow(color: Color(0x3D000000), blurRadius: 6, offset: Offset(0, 2)),
 ];
 
-BoxDecoration voiceTileHudChipDecoration({required Color color}) {
+BoxDecoration voiceTileHudChipDecoration({
+  required Color color,
+  double radius = kVoiceTileHudChipRadius,
+}) {
   return BoxDecoration(
     color: color,
-    borderRadius: BorderRadius.circular(kVoiceTileHudChipRadius),
+    borderRadius: BorderRadius.circular(radius),
     border: Border.all(color: kVoiceTileHudChipBorder),
     boxShadow: kVoiceTileHudChipShadows,
   );

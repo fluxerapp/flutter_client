@@ -6,9 +6,9 @@ import 'package:fluxer_app/features/settings/providers/preferences/voice_setting
 import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placeholder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_cached_video_track.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_tracks_builder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';

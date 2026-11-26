@@ -1,5 +1,3 @@
-import 'dart:ui' show Rect;
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_fullscreen.dart';
 
@@ -72,22 +70,5 @@ void main() {
         isFalse,
       );
     });
-  });
-
-  test('voiceScreenShareFullscreenRects expands one tile', () {
-    final List<Rect> base = <Rect>[
-      const Rect.fromLTWH(0, 0, 100, 60),
-      const Rect.fromLTWH(120, 0, 80, 60),
-    ];
-    final List<Rect> expanded = voiceScreenShareFullscreenRects(
-      baseRects: base,
-      expandedTileIndex: 0,
-      width: 400,
-      height: 300,
-      expanded: true,
-    );
-    expect(expanded[0], const Rect.fromLTWH(0, 0, 400, 300));
-    expect(expanded[1].width, 0);
-    expect(expanded[1].height, 0);
   });
 }

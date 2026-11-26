@@ -6,7 +6,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
+import 'package:fluxer_app/core/limits/limit_defaults.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/features/voice/domain/video_quality_caps.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
@@ -19,6 +21,8 @@ import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_sender.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_target.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:livekit_client/src/managers/broadcast_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,28 +33,47 @@ class VoiceSettingsApplicator {
   const VoiceSettingsApplicator({
     required this.unavailableBackends,
     required this.videoQualityCaps,
-    required this.meshPhoneCap,
+    this.deviceCaps = VideoQualityCaps.full,
+    this.screenShareBitrateCeilingBps = kMaxScreenShareBitrateBps,
+    this.canChooseScreenShareBitrate = false,
   });
 
   final Set<NoiseSuppressionBackend> unavailableBackends;
   final VideoQualityCaps videoQualityCaps;
-  final bool meshPhoneCap;
+  final VideoQualityCaps deviceCaps;
+  final int screenShareBitrateCeilingBps;
+  final bool canChooseScreenShareBitrate;
+
+  VideoQualityCaps get effectiveCaps => videoQualityCaps.limitedTo(deviceCaps);
 
   VoiceSettingsApplicator forChannelMode(VoiceChannelMode mode) {
     final bool isP2p = mode == VoiceChannelMode.p2p;
     return VoiceSettingsApplicator(
       unavailableBackends: unavailableBackends,
       videoQualityCaps: isP2p ? VideoQualityCaps.full : videoQualityCaps,
-      meshPhoneCap: isFluxerMobileOs && isP2p,
+      deviceCaps: deviceVideoQualityCaps(
+        nativeMobile: isFluxerNativeMobileOs,
+        mobile: isFluxerMobileOs,
+        p2p: isP2p,
+      ),
+      screenShareBitrateCeilingBps: screenShareBitrateCeilingBps,
+      canChooseScreenShareBitrate: canChooseScreenShareBitrate || isP2p,
     );
   }
 
-  VoiceSettingsState _clampVideo(VoiceSettingsState settings) {
-    return clampVoiceVideoSettings(
-      settings,
-      caps: videoQualityCaps,
-      meshPhoneCap: meshPhoneCap,
-      phoneScreenShareCap: isFluxerNativeMobileOs,
+  ScreenShareTarget screenShareTarget(
+    VoiceSettingsState settings, {
+    VideoDimensions? source,
+  }) {
+    return resolveScreenShareTarget(
+      settings: settings,
+      caps: effectiveCaps,
+      bitrate: screenShareBitrateBudget(
+        ceilingBps: screenShareBitrateCeilingBps,
+        chosenBps: settings.screenShareBitrate,
+        canChoose: canChooseScreenShareBitrate,
+      ),
+      source: source,
     );
   }
 
@@ -58,10 +81,9 @@ class VoiceSettingsApplicator {
   static VoidCallback? _pendingIosBroadcastListener;
 
   RoomOptions buildRoomOptions(
-    VoiceSettingsState configured, {
+    VoiceSettingsState settings, {
     int? channelBitrate,
   }) {
-    final VoiceSettingsState settings = _clampVideo(configured);
     final ResolvedVoiceProcessing processing = resolveProcessing(settings);
     final String? audioDeviceId = _resolveDeviceId(settings.inputDeviceId);
     final AudioPublishOptions? audioPublish = buildMicrophonePublishOptions(
@@ -78,14 +100,9 @@ class VoiceSettingsApplicator {
         voiceIsolation: false,
       ),
       defaultAudioPublishOptions: audioPublish ?? const AudioPublishOptions(),
-      defaultCameraCaptureOptions: cameraCaptureOptionsFor(
-        resolution: settings.cameraResolution,
-        deviceId: settings.videoDeviceId,
-        cameraFacing: settings.cameraFacing,
-      ),
-      defaultScreenShareCaptureOptions: screenShareCaptureOptionsFor(
-        resolution: settings.screenshareResolution,
-        frameRate: settings.videoFrameRate,
+      defaultCameraCaptureOptions: buildCameraCaptureOptions(settings),
+      defaultScreenShareCaptureOptions: buildScreenShareCaptureOptions(
+        settings,
       ),
     );
   }
@@ -244,43 +261,38 @@ class VoiceSettingsApplicator {
     }
   }
 
-  CameraCaptureOptions buildCameraCaptureOptions(
-    VoiceSettingsState configured,
-  ) {
-    final VoiceSettingsState settings = _clampVideo(configured);
+  CameraCaptureOptions buildCameraCaptureOptions(VoiceSettingsState settings) {
     return cameraCaptureOptionsFor(
-      resolution: settings.cameraResolution,
+      resolution: effectiveCaps.effectiveCameraResolution(
+        settings.cameraResolution,
+      ),
       deviceId: settings.videoDeviceId,
       cameraFacing: settings.cameraFacing,
     );
   }
 
   ScreenShareCaptureOptions buildScreenShareCaptureOptions(
-    VoiceSettingsState configured,
+    VoiceSettingsState settings,
   ) {
-    final VoiceSettingsState settings = _clampVideo(configured);
-    return screenShareCaptureOptionsFor(
-      resolution: settings.screenshareResolution,
-      frameRate: settings.videoFrameRate,
-    );
+    return screenShareCaptureOptionsFor(screenShareTarget(settings));
   }
 
   VideoPublishOptions buildScreenSharePublishOptions(
-    VoiceSettingsState configured,
+    VoiceSettingsState settings,
   ) {
-    final VoiceSettingsState settings = _clampVideo(configured);
+    final ScreenShareTarget target = screenShareTarget(settings);
     return VideoPublishOptions(
       videoCodec: preferredScreenShareVideoCodec(
         settings.preferredScreenShareCodec,
         av1OptIn: settings.screenShareAv1OptIn,
         hevcOptIn: settings.screenShareHevcOptIn,
       ),
-      screenShareEncoding: screenShareVideoParameters(
-        resolution: settings.screenshareResolution,
-        frameRate: settings.videoFrameRate,
-      ).encoding,
+      screenShareEncoding: VideoEncoding(
+        maxBitrate: target.maxBitrate,
+        maxFramerate: target.frameRate,
+      ),
       simulcast: false,
-      degradationPreference: kScreenShareDegradationPreference,
+      degradationPreference: target.degradationPreference,
     );
   }
 
@@ -311,6 +323,7 @@ class VoiceSettingsApplicator {
         room: room,
         captureOptions: captureOptions,
         publishOptions: publishOptions,
+        settings: settings,
         onSettled: onBroadcastSettled,
       );
       return true;
@@ -336,28 +349,56 @@ class VoiceSettingsApplicator {
       // ignore: invalid_use_of_internal_member
       room.engine.roomOptions = roomOptions;
     }
-    await _applyMobileScreenShareScale(
-      participant: participant,
-      captureOptions: captureOptions,
+    unawaited(
+      applyScreenShareSender(participant: participant, settings: settings),
     );
     return false;
   }
 
-  Future<void> _applyMobileScreenShareScale({
+  Future<void> applyScreenShareSender({
     required LocalParticipant participant,
-    required ScreenShareCaptureOptions captureOptions,
+    required VoiceSettingsState settings,
   }) async {
-    final VideoDimensions? source = nativeMobileScreenCaptureDimensions();
-    if (source == null) {
+    final Track? track = participant
+        .getTrackPublicationBySource(TrackSource.screenShareVideo)
+        ?.track;
+    final RTCRtpSender? sender = track?.sender;
+    if (track == null || sender == null) {
       return;
     }
-    await applyScreenShareSenderScale(
-      participant: participant,
-      scaleResolutionDownBy: screenShareScaleDownBy(
-        source: source,
-        target: captureOptions.params.dimensions,
-      ),
+    final VideoDimensions? source =
+        nativeMobileScreenCaptureDimensions() ??
+        await readScreenShareSourceDimensions(
+          sender.getStats,
+          trackId: track.mediaStreamTrack.id,
+        );
+    await applyScreenShareSenderTarget(
+      sender: sender,
+      target: screenShareTarget(settings, source: source),
+      source: source,
     );
+  }
+
+  Future<void> applyLiveScreenShareSettings({
+    required Room room,
+    required VoiceSettingsState settings,
+  }) async {
+    final LocalParticipant? participant = room.localParticipant;
+    final Track? track = participant
+        ?.getTrackPublicationBySource(TrackSource.screenShareVideo)
+        ?.track;
+    if (participant == null || track is! LocalVideoTrack) {
+      return;
+    }
+    final VideoCaptureOptions current = track.currentOptions;
+    final double frameRate = screenShareTarget(settings).frameRate.toDouble();
+    if (canRestartScreenCaptureSilently &&
+        current is ScreenShareCaptureOptions &&
+        current.maxFrameRate != frameRate) {
+      await refreshScreenShare(room: room, settings: settings);
+      return;
+    }
+    await applyScreenShareSender(participant: participant, settings: settings);
   }
 
   Future<void> _requestIosBroadcast({
@@ -365,6 +406,7 @@ class VoiceSettingsApplicator {
     required Room room,
     required ScreenShareCaptureOptions captureOptions,
     required VideoPublishOptions publishOptions,
+    required VoiceSettingsState settings,
     required void Function(Object? error)? onSettled,
   }) async {
     _clearPendingIosBroadcast();
@@ -383,6 +425,7 @@ class VoiceSettingsApplicator {
           participant: participant,
           captureOptions: captureOptions,
           publishOptions: publishOptions,
+          settings: settings,
           onSettled: onSettled,
         ),
       );
@@ -404,6 +447,7 @@ class VoiceSettingsApplicator {
     required LocalParticipant participant,
     required ScreenShareCaptureOptions captureOptions,
     required VideoPublishOptions publishOptions,
+    required VoiceSettingsState settings,
     required void Function(Object? error)? onSettled,
   }) async {
     LocalVideoTrack? track;
@@ -413,9 +457,9 @@ class VoiceSettingsApplicator {
         track,
         publishOptions: publishOptions,
       );
-      await _applyMobileScreenShareScale(
+      await applyScreenShareSender(
         participant: participant,
-        captureOptions: captureOptions,
+        settings: settings,
       );
       onSettled?.call(null);
     } on Object catch (error) {
@@ -436,32 +480,6 @@ class VoiceSettingsApplicator {
     BroadcastManager()
       ..removeListener(listener)
       ..shouldPublishTrack = true;
-  }
-
-  Future<void> applyScreenShareSenderScale({
-    required LocalParticipant participant,
-    required double scaleResolutionDownBy,
-  }) async {
-    final Track? track = participant
-        .getTrackPublicationBySource(TrackSource.screenShareVideo)
-        ?.track;
-    final RTCRtpSender? sender = track?.sender;
-    if (sender == null) {
-      return;
-    }
-    final RTCRtpParameters parameters = sender.parameters;
-    final List<RTCRtpEncoding>? encodings = parameters.encodings;
-    if (encodings == null || encodings.isEmpty) {
-      return;
-    }
-    for (final RTCRtpEncoding encoding in encodings) {
-      encoding.scaleResolutionDownBy = scaleResolutionDownBy;
-    }
-    try {
-      await sender.setParameters(parameters);
-    } on Object {
-      return;
-    }
   }
 
   Future<void> refreshScreenShare({
@@ -686,6 +704,14 @@ VoiceSettingsApplicator voiceSettingsApplicator(Ref ref) {
   return VoiceSettingsApplicator(
     unavailableBackends: ref.watch(voiceNoiseFilterProvider),
     videoQualityCaps: ref.watch(instanceVideoQualityCapsProvider),
-    meshPhoneCap: false,
+    deviceCaps: deviceVideoQualityCaps(
+      nativeMobile: isFluxerNativeMobileOs,
+      mobile: isFluxerMobileOs,
+      p2p: false,
+    ),
+    screenShareBitrateCeilingBps: ref.watch(
+      instanceScreenShareBitrateCeilingProvider,
+    ),
+    canChooseScreenShareBitrate: ref.watch(instanceHigherVideoQualityProvider),
   );
 }

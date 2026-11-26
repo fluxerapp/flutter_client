@@ -104,6 +104,24 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     notificationMentionFeed,
   )..where((t) => t.messageId.equals(messageId))).go();
 
+  Future<void> deleteMentionRows(List<String> messageIds) {
+    if (messageIds.isEmpty) {
+      return Future<void>.value();
+    }
+    return (delete(
+      notificationMentionFeed,
+    )..where((t) => t.messageId.isIn(messageIds))).go();
+  }
+
+  Future<void> deleteMentionRowsForChannels(List<String> channelIds) {
+    if (channelIds.isEmpty) {
+      return Future<void>.value();
+    }
+    return (delete(
+      notificationMentionFeed,
+    )..where((t) => t.channelId.isIn(channelIds))).go();
+  }
+
   Future<int?> maxMentionOrdinal() async {
     final q =
         await (select(notificationMentionFeed)

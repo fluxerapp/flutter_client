@@ -70,19 +70,22 @@ def upload_measure_ios_dsyms
 
   archive_path = lane_context[SharedValues::XCODEBUILD_ARCHIVE].to_s
   unless File.directory?(archive_path)
-    UI.user_error!("Measure dSYM upload requires an Xcode archive but none was found at #{archive_path.inspect}")
+    UI.important("Measure dSYM upload requires an Xcode archive but none was found at #{archive_path.inspect}; skipping")
+    return
   end
 
   upload_script = File.join(project_root_path, "tool/measure/upload_measure_ios_symbols.sh")
   unless File.exist?(upload_script)
-    UI.user_error!("Missing Measure upload script at #{upload_script}")
+    UI.important("Missing Measure upload script at #{upload_script}; skipping Measure dSYM upload")
+    return
   end
 
   ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH].to_s
-  if File.exist?(ipa_path)
-    sh(upload_script, archive_path, ipa_path)
-  else
-    sh(upload_script, archive_path)
+  upload_args = File.exist?(ipa_path) ? [upload_script, archive_path, ipa_path] : [upload_script, archive_path]
+  begin
+    sh(*upload_args)
+  rescue => err
+    UI.important("Measure dSYM upload failed; continuing without symbolication: #{err.message}")
   end
 end
 

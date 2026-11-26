@@ -1,0 +1,23 @@
+name: fluxer_macos
+description: macOS privacy permissions and global input hook
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.24.0"
+
+flutter:
+  plugin:
+    platforms:
+      macos:
+        pluginClass: FluxerMacosPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pigeon: ^27.3.2

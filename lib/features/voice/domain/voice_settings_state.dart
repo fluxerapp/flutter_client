@@ -52,10 +52,12 @@ enum CameraResolution {
 enum ScreenshareResolution {
   low480p,
   medium,
-  high;
+  high,
+  ultra,
+  source;
 
   static ScreenshareResolution fromJson(String? value) {
-    if (value == 'low_480p') {
+    if (value == 'low_480p' || value == 'low_240p') {
       return ScreenshareResolution.low480p;
     }
     return ScreenshareResolution.values.firstWhere(
@@ -69,6 +71,16 @@ enum ScreenshareResolution {
       return 'low_480p';
     }
     return name;
+  }
+}
+
+enum StreamingMode {
+  gaming,
+  screenshare,
+  custom;
+
+  static StreamingMode? fromJson(String? value) {
+    return StreamingMode.values.asNameMap()[value];
   }
 }
 
@@ -95,6 +107,8 @@ const int kDefaultVoiceVolumePercent = 100;
 const int kMinVoiceVolumePercent = 0;
 const int kMaxVoiceVolumePercent = 200;
 const int kDefaultVideoFrameRate = 30;
+const int kMinVideoFrameRate = 15;
+const int kMaxVideoFrameRate = 120;
 const int kDefaultVadThreshold = 50;
 
 enum ScreenShareCodecPreference { auto, av1, h265, vp9, h264, vp8 }
@@ -129,6 +143,8 @@ class VoiceSettingsState {
     this.mirrorCamera = true,
     this.screenshareResolution = ScreenshareResolution.medium,
     this.videoFrameRate = kDefaultVideoFrameRate,
+    this.streamingMode = StreamingMode.screenshare,
+    this.screenShareBitrate,
     this.participantVolumes = const <String, int>{},
     this.participantLocalMutes = const <String, bool>{},
     this.streamAudioVolumes = const <String, int>{},
@@ -164,6 +180,8 @@ class VoiceSettingsState {
   final bool mirrorCamera;
   final ScreenshareResolution screenshareResolution;
   final int videoFrameRate;
+  final StreamingMode streamingMode;
+  final int? screenShareBitrate;
   final Map<String, int> participantVolumes;
   final Map<String, bool> participantLocalMutes;
   final Map<String, int> streamAudioVolumes;
@@ -203,6 +221,9 @@ class VoiceSettingsState {
     bool? mirrorCamera,
     ScreenshareResolution? screenshareResolution,
     int? videoFrameRate,
+    StreamingMode? streamingMode,
+    int? screenShareBitrate,
+    bool clearScreenShareBitrate = false,
     Map<String, int>? participantVolumes,
     Map<String, bool>? participantLocalMutes,
     Map<String, int>? streamAudioVolumes,
@@ -244,6 +265,10 @@ class VoiceSettingsState {
       screenshareResolution:
           screenshareResolution ?? this.screenshareResolution,
       videoFrameRate: videoFrameRate ?? this.videoFrameRate,
+      streamingMode: streamingMode ?? this.streamingMode,
+      screenShareBitrate: clearScreenShareBitrate
+          ? null
+          : screenShareBitrate ?? this.screenShareBitrate,
       participantVolumes: participantVolumes ?? this.participantVolumes,
       participantLocalMutes:
           participantLocalMutes ?? this.participantLocalMutes,
@@ -290,6 +315,8 @@ class VoiceSettingsState {
       'mirrorCamera': mirrorCamera,
       'screenshareResolution': screenshareResolution.toJson(),
       'videoFrameRate': videoFrameRate,
+      'streamingMode': streamingMode.name,
+      'screenShareBitrate': screenShareBitrate,
       'participantVolumes': participantVolumes,
       'participantLocalMutes': participantLocalMutes,
       'streamAudioVolumes': streamAudioVolumes,
@@ -352,6 +379,10 @@ class VoiceSettingsState {
         json['screenshareResolution'] as String?,
       ),
       videoFrameRate: _clampFrameRate(json['videoFrameRate']),
+      streamingMode: _streamingModeFromJson(json),
+      screenShareBitrate: _screenShareBitrateFromJson(
+        json['screenShareBitrate'],
+      ),
       participantVolumes: _parseParticipantVolumes(json['participantVolumes']),
       participantLocalMutes: _parseStreamAudioMuted(
         json['participantLocalMutes'],
@@ -481,7 +512,26 @@ int _clampFrameRate(Object? value) {
   if (value is! num) {
     return kDefaultVideoFrameRate;
   }
-  return value.round().clamp(15, 60);
+  return value.round().clamp(kMinVideoFrameRate, kMaxVideoFrameRate);
+}
+
+StreamingMode _streamingModeFromJson(Map<String, Object?> json) {
+  final StreamingMode? stored = StreamingMode.fromJson(
+    json['streamingMode'] as String?,
+  );
+  if (stored != null) {
+    return stored;
+  }
+  final bool hasCustomQuality =
+      json['screenshareResolution'] != null || json['videoFrameRate'] != null;
+  return hasCustomQuality ? StreamingMode.custom : StreamingMode.screenshare;
+}
+
+int? _screenShareBitrateFromJson(Object? value) {
+  if (value is! num || !value.isFinite || value <= 0) {
+    return null;
+  }
+  return value.round();
 }
 
 int clampVoiceVolumePercent(int value) {

@@ -53,7 +53,7 @@ Future<String> resolveOsVersionLabel() async {
     }
     if (Platform.isWindows) {
       final WindowsDeviceInfo info = await plugin.windowsInfo;
-      return '${info.majorVersion}.${info.minorVersion}';
+      return '${info.majorVersion}.${info.minorVersion}.${info.buildNumber}';
     }
     if (Platform.isLinux) {
       final LinuxDeviceInfo info = await plugin.linuxInfo;

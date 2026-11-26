@@ -68,6 +68,55 @@ final class PushNotificationClear {
     }
   }
 
+  static Future<void> removeMessages(
+    String channelId,
+    List<String> messageIds,
+  ) async {
+    if (channelId.isEmpty || messageIds.isEmpty) {
+      return;
+    }
+    if (Platform.isAndroid) {
+      await LocalPushNotifications().removeMessagesForChannel(
+        channelId,
+        messageIds.toSet(),
+      );
+      await _invokeNotificationMethod(
+        _androidChannel,
+        'cancelMessages',
+        channelId,
+        messageIds,
+      );
+    }
+    if (Platform.isIOS) {
+      await _invokeNotificationMethod(
+        _appleChannel,
+        'removeDeliveredNotificationsForMessages',
+        channelId,
+        messageIds,
+      );
+    }
+  }
+
+  static Future<void> _invokeNotificationMethod(
+    MethodChannel channel,
+    String method,
+    String channelId,
+    List<String> messageIds,
+  ) async {
+    try {
+      await channel.invokeMethod<Object?>(method, <String, Object>{
+        'channelId': channelId,
+        'messageIds': messageIds,
+      });
+    } on MissingPluginException {
+      return;
+    } on PlatformException catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[PushNotificationClear] $method failed: $e\n$st');
+      }
+    }
+  }
+
   static bool _androidClearIsCovered(String channelId, String readThrough) {
     final String? cleared = _androidClearedThrough[channelId];
     return cleared != null && pushMessageIsCoveredByAck(readThrough, cleared);

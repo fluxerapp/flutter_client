@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/desktop/autostart/desktop_autostart.dart';
+import 'package:fluxer_app/core/desktop/permissions/mac_permissions_controller.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_main_window.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_placement.dart';
 import 'package:fluxer_app/core/desktop/window/desktop_window_state.dart';
@@ -69,6 +70,7 @@ Future<void> configureDesktopWindow(
   }
 
   await desktopMainWindow.attach();
+  unawaited(macPermissions.attach());
   windowManager.addListener(
     DesktopWindowStateTracker(await windowManager.getBounds(), localSettings),
   );

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
 import 'package:fluxer_app/core/gateway/gateway_identify_client_properties.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
@@ -44,6 +45,19 @@ void main() {
     final Map<String, dynamic> wire = toClientPropertiesWireMap(properties);
     expect(wire, containsPair('build_number', 412));
     expect(wire, containsPair('beta_number', 14));
+  });
+
+  test('a compact desktop window does not identify as mobile', () {
+    debugSetFluxerRuntimeMobileFormFactor(value: true);
+    addTearDown(() => debugSetFluxerRuntimeMobileFormFactor(value: null));
+
+    final FluxerClientProperties properties = buildFluxerClientProperties();
+    final GatewayIdentifyProperties gateway = buildGatewayIdentifyProperties(
+      properties,
+    );
+
+    expect(gateway.mobile, isFalse);
+    expect(gateway.desktopOs, properties.os);
   });
 
   test('gateway identify properties serialises mobile', () {

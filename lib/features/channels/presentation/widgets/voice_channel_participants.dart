@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/list/fluxer_selectable_row.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';

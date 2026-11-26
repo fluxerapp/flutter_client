@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/participant_grid/participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -83,7 +83,7 @@ class _DmVoiceCallFullscreenPageState
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
+    final bool usePhoneVoiceOverlay = isHandheldVoiceOverlay(context);
     final bool inThisChannel = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) =>
@@ -143,7 +143,7 @@ class _DmVoiceCallFullscreenPageState
                       ? VoiceCallMobilePageLayout(
                           channelId: widget.channelId,
                           child: RepaintBoundary(
-                            child: VoiceChannelParticipantGrid(
+                            child: VoiceParticipantGrid(
                               key: const ValueKey<String>(
                                 'voice-participant-grid',
                               ),
@@ -151,9 +151,9 @@ class _DmVoiceCallFullscreenPageState
                             ),
                           ),
                         )
-                      : VoiceCallDesktopStage(
+                      : VoiceDesktopStage(
                           child: RepaintBoundary(
-                            child: VoiceChannelParticipantGrid(
+                            child: VoiceParticipantGrid(
                               key: const ValueKey<String>(
                                 'voice-participant-grid',
                               ),
@@ -173,9 +173,6 @@ class _DmVoiceCallFullscreenPageState
         );
       },
     );
-    if (usePhoneVoiceOverlay) {
-      return VoiceCallJoinOverlay(child: scaffold);
-    }
-    return scaffold;
+    return VoiceCallJoinOverlay(active: usePhoneVoiceOverlay, child: scaffold);
   }
 }

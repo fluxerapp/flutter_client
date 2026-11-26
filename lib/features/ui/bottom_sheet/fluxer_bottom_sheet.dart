@@ -2184,11 +2184,13 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
     required this.onTap,
     required this.isSelected,
     super.key,
+    this.icon,
     this.hint,
     this.enabled = true,
   });
 
   final String label;
+  final IconData? icon;
   final String? hint;
   final VoidCallback onTap;
   final bool isSelected;
@@ -2205,7 +2207,10 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
         onTap: onTap,
         enabled: enabled,
         selected: isSelected,
-        trailing: FluxerRadioIndicator(selected: isSelected),
+        leading: icon == null
+            ? null
+            : PhosphorIcon(icon!, size: kFluxerDesktopMenuRadioIconSize),
+        trailing: FluxerDesktopMenuRadio(selected: isSelected),
       );
     }
 
@@ -2235,6 +2240,14 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
               ),
               child: Row(
                 children: <Widget>[
+                  if (icon != null) ...<Widget>[
+                    PhosphorIcon(
+                      icon!,
+                      size: 20,
+                      color: enabled ? colors.textPrimary : colors.textTertiary,
+                    ),
+                    const SizedBox(width: 12),
+                  ],
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

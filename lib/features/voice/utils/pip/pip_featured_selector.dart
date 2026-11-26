@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
 
 const Duration kVoicePipSpeakerHysteresis = Duration(milliseconds: 550);
 

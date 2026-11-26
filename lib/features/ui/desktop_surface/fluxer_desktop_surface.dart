@@ -28,6 +28,7 @@ const double kFluxerDesktopMenuPointerOffset = 4;
 const double kFluxerDesktopMenuPadding = 6;
 const double kFluxerDesktopMenuRowMinHeight = 32;
 const double kFluxerDesktopMenuIconSize = 18;
+const double kFluxerDesktopMenuRadioIconSize = 16;
 const double kFluxerDesktopMenuCaretSize = 14;
 const double kFluxerDesktopSurfaceEdgePadding = 12;
 const double _kEdgePadding = kFluxerDesktopSurfaceEdgePadding;

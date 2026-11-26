@@ -8,8 +8,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_desktop_chrome.dart';
+import 'package:fluxer_app/features/voice/domain/participant_tile_source.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_desktop.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_video.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -640,7 +640,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
               ValueListenableBuilder<bool>(
                 valueListenable: _pipHovered,
                 builder: (BuildContext context, bool hovered, Widget? _) =>
-                    VoicePipDesktopChrome(
+                    VoicePipDesktop(
                       tileId: tileId,
                       visible: hovered || _dragging,
                       onReturnToCall: expandFromPip,

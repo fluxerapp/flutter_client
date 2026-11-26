@@ -6,6 +6,8 @@ import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
+typedef VoiceTileAvatarSizeResolver = double Function(Size tile);
+
 class VoiceCallAvatar extends StatelessWidget {
   const VoiceCallAvatar({
     required this.background,
@@ -13,6 +15,7 @@ class VoiceCallAvatar extends StatelessWidget {
     this.user,
     this.userDisplay,
     this.fallbackText,
+    this.avatarSizeOf,
     super.key,
   });
 
@@ -21,6 +24,7 @@ class VoiceCallAvatar extends StatelessWidget {
   final database.User? user;
   final GuildUserDisplay? userDisplay;
   final String? fallbackText;
+  final VoiceTileAvatarSizeResolver? avatarSizeOf;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,9 @@ class VoiceCallAvatar extends StatelessWidget {
             constraints.maxWidth,
             constraints.maxHeight,
           );
-          final double size = voiceTileAvatarSize(shortest);
+          final double size =
+              avatarSizeOf?.call(constraints.biggest) ??
+              voiceTileAvatarSize(shortest);
           return Center(child: _avatar(size));
         },
       ),

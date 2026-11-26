@@ -169,6 +169,33 @@ void main() {
       );
     });
   });
+  group('maxScreenShareBitrate', () {
+    test('defaults to 9 Mbps', () async {
+      final ProviderContainer container = await _containerWith(
+        _buildEveryoneModeWellKnown(overrides: const <String, num>{}),
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        container.read(instanceLimitProvider(LimitKeys.maxScreenShareBitrate)),
+        9000000,
+      );
+    });
+
+    test('follows an instance rule', () async {
+      final ProviderContainer container = await _containerWith(
+        _buildEveryoneModeWellKnown(
+          overrides: const <String, num>{'max_screen_share_bitrate': 15000000},
+        ),
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        container.read(instanceLimitProvider(LimitKeys.maxScreenShareBitrate)),
+        15000000,
+      );
+    });
+  });
   group('instanceFeatureEnabledProvider', () {
     test('returns true when everyone-mode limits enable the feature', () async {
       final ProviderContainer container = ProviderContainer(

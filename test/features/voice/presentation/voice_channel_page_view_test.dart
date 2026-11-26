@@ -25,8 +25,8 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sh
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_control_bar.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_desktop_hud/voice_call_desktop_stage.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_control_bar.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/desktop_stage.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
@@ -246,6 +246,31 @@ void main() {
       expect(find.byKey(kDesktopVoiceChatToggleKey), findsOneWidget);
     });
 
+    testWidgets('uses the touch call page for touch on a desktop size', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(
+        tester,
+        voiceSession: session,
+        size: kDesktopTestViewportSize,
+        textChatSupported: true,
+        touchPrimary: true,
+      );
+      session.setSession(
+        const VoiceSessionState(
+          isConnected: true,
+          guildId: _guildId,
+          channelId: _channelId,
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(VoiceDesktopStage), findsNothing);
+      expect(find.byType(VoiceCallMobilePageLayout), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    });
+
     testWidgets('uses the pointer HUD stage for a mouse on a tablet size', (
       WidgetTester tester,
     ) async {
@@ -265,7 +290,7 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byType(VoiceCallDesktopStage), findsOneWidget);
+      expect(find.byType(VoiceDesktopStage), findsOneWidget);
       expect(find.byType(VoiceCallMobilePageLayout), findsNothing);
       await releaseTestWidgetTree(tester);
     });
@@ -289,11 +314,11 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byType(VoiceCallDesktopStage), findsOneWidget);
-      expect(find.byType(VoiceCallDesktopControlBar), findsOneWidget);
+      expect(find.byType(VoiceDesktopStage), findsOneWidget);
+      expect(find.byType(VoiceDesktopControlBar), findsOneWidget);
       expect(
         find.descendant(
-          of: find.byType(VoiceCallDesktopStage),
+          of: find.byType(VoiceDesktopStage),
           matching: find.byKey(kDesktopVoiceChatToggleKey),
         ),
         findsOneWidget,

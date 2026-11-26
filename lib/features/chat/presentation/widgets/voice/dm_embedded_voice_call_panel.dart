@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/participant_grid/participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -114,8 +114,9 @@ class _DmEmbeddedVoiceCallPanelState
                 Divider(height: 1, color: context.colors.borderColor),
                 Expanded(
                   child: LocalCameraOrientationSync(
-                    child: VoiceChannelParticipantGrid(
+                    child: VoiceParticipantGrid(
                       channelId: widget.channelId,
+                      compact: true,
                     ),
                   ),
                 ),

@@ -1,8 +1,13 @@
 class VoiceConsolidatedTile<T> {
-  const VoiceConsolidatedTile({required this.tile, this.extraDeviceCount = 0});
+  const VoiceConsolidatedTile({
+    required this.tile,
+    this.extraDeviceCount = 0,
+    this.expandedDeviceCount = 0,
+  });
 
   final T tile;
   final int extraDeviceCount;
+  final int expandedDeviceCount;
 }
 
 List<VoiceConsolidatedTile<T>> consolidateVoiceGridTiles<T>({
@@ -24,8 +29,15 @@ List<VoiceConsolidatedTile<T>> consolidateVoiceGridTiles<T>({
   for (final MapEntry<String, List<T>> entry in cameraByUser.entries) {
     final List<T> devices = entry.value;
     if (expandedUserIds.contains(entry.key) || devices.length == 1) {
-      for (final T tile in devices) {
-        result.add(VoiceConsolidatedTile<T>(tile: tile));
+      for (int i = 0; i < devices.length; i++) {
+        result.add(
+          VoiceConsolidatedTile<T>(
+            tile: devices[i],
+            expandedDeviceCount: i == 0 && devices.length > 1
+                ? devices.length
+                : 0,
+          ),
+        );
       }
       continue;
     }

@@ -21,6 +21,7 @@ abstract final class LimitKeys {
   static const String maxBookmarks = 'max_bookmarks';
   static const String maxCameraResolution = 'max_camera_resolution';
   static const String maxChannelsPerCategory = 'max_channels_per_category';
+  static const String maxScreenShareBitrate = 'max_screen_share_bitrate';
   static const String maxScreenShareFrameRate = 'max_screen_share_frame_rate';
   static const String maxScreenShareResolution = 'max_screen_share_resolution';
   static const String maxCustomBackgrounds = 'max_custom_backgrounds';
@@ -74,6 +75,7 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.maxBioLength: LimitScope.user,
   LimitKeys.maxBookmarks: LimitScope.user,
   LimitKeys.maxCameraResolution: LimitScope.user,
+  LimitKeys.maxScreenShareBitrate: LimitScope.user,
   LimitKeys.maxScreenShareFrameRate: LimitScope.user,
   LimitKeys.maxScreenShareResolution: LimitScope.user,
   LimitKeys.maxChannelsPerCategory: LimitScope.guild,
@@ -125,6 +127,7 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.maxBioLength,
   LimitKeys.maxBookmarks,
   LimitKeys.maxCameraResolution,
+  LimitKeys.maxScreenShareBitrate,
   LimitKeys.maxScreenShareFrameRate,
   LimitKeys.maxScreenShareResolution,
   LimitKeys.maxChannelsPerCategory,
