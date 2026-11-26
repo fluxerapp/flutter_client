@@ -55,6 +55,15 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
                 val messageId = call.argument<String>(ARG_MESSAGE_ID)
                 result.success(cancelForChannel(appContext, channelId, messageId))
             }
+            METHOD_CANCEL_MESSAGES -> {
+                val channelId = call.argument<String>(ARG_CHANNEL_ID)
+                val messageIds = call.argument<List<String>>(ARG_MESSAGE_IDS)
+                if (channelId.isNullOrEmpty() || messageIds.isNullOrEmpty()) {
+                    result.error("invalid_args", "channelId and messageIds are required", null)
+                    return
+                }
+                result.success(cancelMessages(appContext, channelId, messageIds.toSet()))
+            }
             METHOD_CANCEL_ALL -> {
                 cancelAll(appContext)
                 result.success(null)
@@ -91,12 +100,14 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
 
         const val CHANNEL_NAME = "fluxer_app/android_notifications"
         private const val METHOD_CANCEL_FOR_CHANNEL = "cancelForChannel"
+        private const val METHOD_CANCEL_MESSAGES = "cancelMessages"
         private const val METHOD_CANCEL_ALL = "cancelAll"
         private const val METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED = "isNotificationSoundSuppressed"
         private const val METHOD_CONTENT_URI_FOR_IMAGE = "contentUriForImage"
         private const val METHOD_PUBLISH_CONVERSATION_SHORTCUT = "publishConversationShortcut"
         private const val ARG_CHANNEL_ID = "channelId"
         private const val ARG_MESSAGE_ID = "messageId"
+        private const val ARG_MESSAGE_IDS = "messageIds"
         private const val ARG_PATH = "path"
         private const val ARG_ID = "id"
         private const val ARG_LABEL = "label"
@@ -146,6 +157,30 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
                 }
                 manager.cancel(status.tag, status.id)
                 cancelled++
+            }
+            return cancelled
+        }
+
+        fun cancelMessages(
+            context: Context,
+            channelId: String,
+            messageIds: Set<String>,
+        ): Int {
+            val manager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+                    ?: return 0
+            val channelTag = "channel:$channelId"
+            val channelPrefix = "$channelTag:"
+            var cancelled = 0
+            for (status in manager.activeNotifications) {
+                if (!notificationMatchesChannel(status, channelId, channelTag, channelPrefix)) {
+                    continue
+                }
+                val messageId = messageIdFromTag(status.tag, channelPrefix) ?: continue
+                if (messageId in messageIds) {
+                    manager.cancel(status.tag, status.id)
+                    cancelled++
+                }
             }
             return cancelled
         }

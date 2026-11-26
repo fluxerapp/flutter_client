@@ -621,36 +621,73 @@ final class LocalPushNotifications {
       return;
     }
     await _serializedPublish(() async {
-      final PushConversationState? remaining =
-          await AndroidPushConversationHistoryStore.trimAck(
-            conversationTag: channelTag,
-            upToMessageId: upToMessageId,
-          );
-      if (remaining == null) {
-        try {
-          await _plugin.cancel(id: conversationId, tag: channelTag);
-        } on Object catch (e, st) {
-          if (kDebugMode) {
-            debugPrint(
-              '[LocalPushNotifications] cancel conversation failed: $e\n$st',
-            );
-          }
-        }
-        return;
-      }
-      final Set<String>? active = await _activeConversationTags();
-      if (active != null && !active.contains(channelTag)) {
-        await AndroidPushConversationHistoryStore.retainConversations(active);
-        return;
-      }
-      await _publishAndroidConversationNotification(
-        conversationTag: channelTag,
-        payload: enrichPushPayload(remaining.payload),
-        lines: remaining.lines,
-        title: remaining.payload['title'] ?? remaining.lines.last.senderName,
-        alert: false,
+      await _refreshConversation(
+        channelTag: channelTag,
+        conversationId: conversationId,
+        remaining: await AndroidPushConversationHistoryStore.trimAck(
+          conversationTag: channelTag,
+          upToMessageId: upToMessageId,
+        ),
       );
     });
+  }
+
+  Future<void> removeMessagesForChannel(
+    String channelId,
+    Set<String> messageIds,
+  ) async {
+    if (channelId.isEmpty ||
+        messageIds.isEmpty ||
+        defaultTargetPlatform != TargetPlatform.android) {
+      return;
+    }
+    final String channelTag = buildChannelTag(channelId);
+    await _serializedPublish(() async {
+      final ({bool changed, PushConversationState? remaining}) result =
+          await AndroidPushConversationHistoryStore.removeLines(
+            conversationTag: channelTag,
+            messageIds: messageIds,
+          );
+      if (!result.changed || !(_initialized || await ensureInitialized())) {
+        return;
+      }
+      await _refreshConversation(
+        channelTag: channelTag,
+        conversationId: pushGroupSummaryNotificationId(channelTag),
+        remaining: result.remaining,
+      );
+    });
+  }
+
+  Future<void> _refreshConversation({
+    required String channelTag,
+    required int conversationId,
+    required PushConversationState? remaining,
+  }) async {
+    if (remaining == null) {
+      try {
+        await _plugin.cancel(id: conversationId, tag: channelTag);
+      } on Object catch (e, st) {
+        if (kDebugMode) {
+          debugPrint(
+            '[LocalPushNotifications] cancel conversation failed: $e\n$st',
+          );
+        }
+      }
+      return;
+    }
+    final Set<String>? active = await _activeConversationTags();
+    if (active != null && !active.contains(channelTag)) {
+      await AndroidPushConversationHistoryStore.retainConversations(active);
+      return;
+    }
+    await _publishAndroidConversationNotification(
+      conversationTag: channelTag,
+      payload: enrichPushPayload(remaining.payload),
+      lines: remaining.lines,
+      title: remaining.payload['title'] ?? remaining.lines.last.senderName,
+      alert: false,
+    );
   }
 
   Future<void> cancelAll() async {

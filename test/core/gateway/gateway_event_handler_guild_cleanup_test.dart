@@ -541,6 +541,49 @@ void _resyncTests() {
       expect((await database.guildDao.getServerById('g1'))?.unavailable, false);
     });
 
+    test(
+      'guild health follows GUILD_CREATE, health updates and deletes',
+      () async {
+        final database = openTestDatabase();
+        final List<String> changes = <String>[];
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          onGuildDegradedChanged: (String guildId, {required bool degraded}) =>
+              changes.add('$guildId:$degraded'),
+        );
+
+        await handler.handle(
+          parser.parse('GUILD_HEALTH_UPDATE', <String, Object?>{
+            'guild_id': 'g1',
+            'degraded': true,
+          }),
+        );
+        await handler.handle(
+          GuildCreateEvent(
+            guild: GuildCreateData.fromJson({
+              ..._guildRaw(id: 'g1'),
+              'degraded': true,
+            }),
+          ),
+        );
+        await handler.handle(
+          parser.parse('GUILD_HEALTH_UPDATE', <String, Object?>{
+            'guild_id': 'g1',
+            'degraded': false,
+          }),
+        );
+        await handler.handle(
+          GuildSyncEvent(guild: GuildCreateData.fromJson(_guildRaw(id: 'g1'))),
+        );
+        await handler.handle(
+          const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+        );
+
+        expect(changes, <String>['g1:true', 'g1:false', 'g1:false']);
+      },
+    );
+
     test('GUILD_UPDATE keeps the guild position', () async {
       final database = openTestDatabase();
       await database.guildDao.upsertServer(

@@ -261,4 +261,41 @@ void main() {
         await AndroidPushConversationHistoryStore.readState(tag);
     expect(remaining?.payload['title'], 'Alice (#general, My Server)');
   });
+
+  test('removeLines drops deleted messages and reports the change', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('10'),
+      payload: payload,
+    );
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: line('11'),
+      payload: payload,
+    );
+
+    final untouched = await AndroidPushConversationHistoryStore.removeLines(
+      conversationTag: tag,
+      messageIds: <String>{'99'},
+    );
+    expect(untouched.changed, isFalse);
+
+    final partial = await AndroidPushConversationHistoryStore.removeLines(
+      conversationTag: tag,
+      messageIds: <String>{'10'},
+    );
+    expect(partial.changed, isTrue);
+    expect(
+      partial.remaining?.lines.map((PushConversationLine l) => l.messageId),
+      <String>['11'],
+    );
+
+    final emptied = await AndroidPushConversationHistoryStore.removeLines(
+      conversationTag: tag,
+      messageIds: <String>{'11'},
+    );
+    expect(emptied.changed, isTrue);
+    expect(emptied.remaining, isNull);
+    expect(await AndroidPushConversationHistoryStore.readState(tag), isNull);
+  });
 }

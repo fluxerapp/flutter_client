@@ -178,6 +178,40 @@ final class AndroidPushConversationHistoryStore {
     });
   }
 
+  static Future<({bool changed, PushConversationState? remaining})>
+  removeLines({
+    required String conversationTag,
+    required Set<String> messageIds,
+  }) {
+    return _serial(() async {
+      final Map<String, PushConversationState> store = await _readStore();
+      final PushConversationState? existing = store[conversationTag];
+      if (existing == null) {
+        return (changed: false, remaining: null);
+      }
+      final List<PushConversationLine> remaining = existing.lines
+          .where(
+            (PushConversationLine line) => !messageIds.contains(line.messageId),
+          )
+          .toList(growable: false);
+      if (remaining.length == existing.lines.length) {
+        return (changed: false, remaining: existing);
+      }
+      if (remaining.isEmpty) {
+        store.remove(conversationTag);
+        await _writeStore(store);
+        return (changed: true, remaining: null);
+      }
+      final PushConversationState next = PushConversationState(
+        lines: remaining,
+        payload: existing.payload,
+      );
+      store[conversationTag] = next;
+      await _writeStore(store);
+      return (changed: true, remaining: next);
+    });
+  }
+
   static Future<void> retainConversations(Set<String> activeTags) {
     return _serial(() async {
       final Map<String, PushConversationState> store = await _readStore();

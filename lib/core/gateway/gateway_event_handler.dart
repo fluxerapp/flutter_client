@@ -96,6 +96,8 @@ typedef GuildAvailabilityChangedCallback =
     });
 typedef GuildAvailableCallback =
     void Function(String guildId, {required bool synced});
+typedef GuildDegradedCallback =
+    void Function(String guildId, {required bool degraded});
 typedef GuildEvictCallback =
     void Function(String guildId, List<String> channelIds);
 typedef OperatorPassUpdateCallback =
@@ -224,6 +226,7 @@ class GatewayEventHandler {
     this.onGuildChannelUpdated,
     this.onOperatorPassUpdate,
     this.resolveCurrentUserId,
+    this.onGuildDegradedChanged,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
     if (batcher == null) {
@@ -318,6 +321,7 @@ class GatewayEventHandler {
   final ChannelCallback? onGuildChannelUpdated;
   final OperatorPassUpdateCallback? onOperatorPassUpdate;
   final String? Function()? resolveCurrentUserId;
+  final GuildDegradedCallback? onGuildDegradedChanged;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -628,6 +632,21 @@ class GatewayEventHandler {
         await _handleMembersChunk(event);
       case GuildMemberListUpdateEvent():
         _emit(() => onMemberListUpdate?.call(event));
+      case GuildHealthUpdateEvent():
+        _logGatewayDebug(
+          () => talker.debug(
+            '[Gateway] GUILD_HEALTH_UPDATE: ${event.guildId}'
+            ' degraded=${event.degraded}',
+          ),
+        );
+        if (await database.guildDao.getServerById(event.guildId) != null) {
+          _emit(
+            () => onGuildDegradedChanged?.call(
+              event.guildId,
+              degraded: event.degraded,
+            ),
+          );
+        }
       case GuildCountsUpdateEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -1660,6 +1679,8 @@ class GatewayEventHandler {
 
   Future<void> _handleMessageCreate(MessageCreateEvent event) async {
     _hydrateEmbeddedMember(event.guildId, event.member);
+    _hydrateMentionMembers(event.guildId, event.mentionMembers);
+    await _ingestMessageThread(event.message, event.guildId);
     final String channelId = event.message.channelId;
     final int? channelType = event.channelType;
     final String? threadGuildId =
@@ -1672,7 +1693,7 @@ class GatewayEventHandler {
     late final ChannelResolution channelResolution;
     if (mentionCache != null) {
       resolvedMentionCtx = await mentionCache.contextFor(
-        currentUserId: currentUserId,
+        currentUserId: _selfUserId,
         channelId: channelId,
       );
       channelResolution = await mentionCache.resolveChannel(
@@ -1699,7 +1720,7 @@ class GatewayEventHandler {
             );
       resolvedMentionCtx = await buildMessageMentionContext(
         database,
-        currentUserId: currentUserId,
+        currentUserId: _selfUserId,
         channelId: channelId,
       );
     }
@@ -2159,16 +2180,18 @@ class GatewayEventHandler {
 
   Future<void> _handleMessageUpdate(MessageUpdateEvent event) async {
     _hydrateEmbeddedMember(event.guildId, event.member);
+    _hydrateMentionMembers(event.guildId, event.mentionMembers);
+    await _ingestMessageThread(event.message, event.guildId);
     final msg = Message.fromSdk(event.message, currentUserId: _selfUserId);
     final MessageMentionContextCache? mentionCache = messageMentionContextCache;
     final MessageMentionContext mentionCtx = mentionCache != null
         ? await mentionCache.contextFor(
-            currentUserId: currentUserId,
+            currentUserId: _selfUserId,
             channelId: event.message.channelId,
           )
         : await buildMessageMentionContext(
             database,
-            currentUserId: currentUserId,
+            currentUserId: _selfUserId,
             channelId: event.message.channelId,
           );
     final bool mentionsCurrentUser = messageMentionsUser(
@@ -2251,6 +2274,15 @@ class GatewayEventHandler {
       return;
     }
 
+    unawaited(
+      PushNotificationClear.removeMessages(channelId, messageIds).catchError(
+        (Object error, StackTrace stackTrace) => talker.warning(
+          '[Gateway] Could not clear notifications for deleted messages',
+          error,
+          stackTrace,
+        ),
+      ),
+    );
     await database.transaction(() async {
       await database.notificationDao.deleteMentionRows(messageIds);
       await database.savedMessageDao.removeSavedMessages(messageIds);
@@ -2285,6 +2317,39 @@ class GatewayEventHandler {
     if (guildId != null && member != null) {
       unawaited(_hydrateMemberIfMissing(guildId, member));
     }
+  }
+
+  void _hydrateMentionMembers(
+    String? guildId,
+    List<GuildMemberResponse> members,
+  ) {
+    for (final GuildMemberResponse member in members) {
+      _hydrateEmbeddedMember(guildId, member);
+    }
+  }
+
+  Future<void> _ingestMessageThread(
+    MessageResponseSchema message,
+    String? guildId,
+  ) async {
+    final ThreadChannelResponse? thread = message.thread;
+    final String? threadGuildId = thread?.guildId ?? guildId;
+    if (thread == null || threadGuildId == null) {
+      return;
+    }
+    final ChannelResponse channel;
+    try {
+      channel = ChannelResponse.fromJson(<String, Object?>{
+        ...jsonDecode(jsonEncode(thread.toJson())) as Map<String, Object?>,
+        'guild_id': threadGuildId,
+      });
+    } on Object catch (error) {
+      talker.warning(
+        '[Gateway] Unreadable message thread ${thread.id}: $error',
+      );
+      return;
+    }
+    await _handleThreadUpsert(channel, newlyCreated: false);
   }
 
   Future<void> _hydrateMemberIfMissing(
@@ -2878,6 +2943,15 @@ class GatewayEventHandler {
     messageMentionContextCache?.invalidateGuild(guildId);
     if (_guildAvailabilityGenerations[guildId] == availabilityGeneration) {
       _emit(() => onGuildAvailable?.call(guildId, synced: synced));
+      final bool? degraded = guild.degraded;
+      if (!synced || degraded != null) {
+        _emit(
+          () => onGuildDegradedChanged?.call(
+            guildId,
+            degraded: degraded ?? false,
+          ),
+        );
+      }
     }
     _emit(() => onGuildPermissionsChanged?.call(guildId));
     _emit(() => onGuildVoiceStatesSnapshot?.call(guildId, guild.voiceStates));
@@ -2990,6 +3064,7 @@ class GatewayEventHandler {
       ),
     );
     _emit(() => onGuildVoiceEnded?.call(guildId));
+    _emit(() => onGuildDegradedChanged?.call(guildId, degraded: false));
     if (!event.unavailable) {
       _emit(() => onGuildThreadsActive?.call(guildId, active: false));
       await _removeGuildLocally(guildId);

@@ -213,4 +213,51 @@ void main() {
 
     expect((await _waitForMember(database))?.nick, 'first');
   });
+
+  for (final String eventType in <String>['MESSAGE_CREATE', 'MESSAGE_UPDATE']) {
+    test('$eventType stores members attached to mentions', () async {
+      await handler.handle(
+        parser.parse(eventType, <String, Object?>{
+          ..._guildMessageJson(nick: 'Author'),
+          'mentions': <Object?>[
+            <String, Object?>{
+              ..._userJson('400'),
+              'member': _memberJson(nick: 'Mentioned'),
+            },
+          ],
+        }),
+      );
+
+      Member? member;
+      for (int i = 0; i < 50 && member == null; i++) {
+        member = await database.memberDao.getMemberByUserId('400', _guildId);
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      expect(member?.nick, 'Mentioned');
+    });
+
+    test('$eventType stores the thread started from the message', () async {
+      await handler.handle(
+        parser.parse(eventType, <String, Object?>{
+          ..._guildMessageJson(nick: 'Author'),
+          'thread': <String, Object?>{
+            'id': 'm1',
+            'guild_id': _guildId,
+            'parent_id': 'c1',
+            'name': 'Started thread',
+            'type': 11,
+            'position': 0,
+            'nsfw': false,
+            'permission_overwrites': <Object?>[],
+            'rate_limit_per_user': 0,
+            'content_warning_level': 0,
+          },
+        }),
+      );
+
+      final Channel? thread = await database.channelDao.getChannelById('m1');
+      expect(thread?.name, 'Started thread');
+      expect(thread?.parentId, 'c1');
+    });
+  }
 }

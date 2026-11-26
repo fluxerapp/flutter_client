@@ -97,6 +97,7 @@ void gatewayConnectBinding(Ref ref) {
     if (previous != null) {
       ref.read(gatewayReadyProvider.notifier).reset();
       ref.read(guildAvailabilityProvider.notifier).clear();
+      ref.read(guildDegradedProvider.notifier).clear();
     }
     unawaited(backgroundDropGuard?.cancel());
     backgroundDropGuard = next.stateChanges.listen((GatewayState state) {
@@ -631,6 +632,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onUnavailableGuildsReady: (rawGuilds) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
+      ref.read(guildDegradedProvider.notifier).loadFromReady(rawGuilds);
     }),
     onGuildAvailabilityChanged:
         (guildId, {required unavailable, unavailableHidden = false}) =>
@@ -733,6 +735,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     resolveCurrentUserId: () =>
         ref.mounted ? ref.read(currentUserIdProvider) : null,
+    onGuildDegradedChanged: (guildId, {required degraded}) => ifMounted(() {
+      ref
+          .read(guildDegradedProvider.notifier)
+          .setDegraded(guildId, degraded: degraded);
+    }),
   );
 
   final dispatcher = GatewayEventDispatcher(

@@ -353,6 +353,30 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     }
   }
 
+  func removeDeliveredNotificationsForMessages(
+    channelId: String,
+    messageIds: Set<String>,
+    completion: (() -> Void)? = nil
+  ) {
+    guard !channelId.isEmpty, !messageIds.isEmpty else {
+      completion?()
+      return
+    }
+    UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+      let identifiers = PushNotificationPayload.deliveredNotificationIdentifiers(
+        from: notifications,
+        channelId: channelId,
+        messageIds: messageIds
+      )
+      if !identifiers.isEmpty {
+        UNUserNotificationCenter.current().removeDeliveredNotifications(
+          withIdentifiers: identifiers
+        )
+      }
+      completion?()
+    }
+  }
+
   func emitNotificationTap(userInfo: [AnyHashable: Any]) {
     let payload = Self.flattenUserInfo(
       WebPushRecordDecryptor.resolvedUserInfo(userInfo)
@@ -487,6 +511,29 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       self.removeDeliveredNotificationsForChannel(
         channelId: channelId,
         upToMessageId: messageId
+      ) {
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
+    case "removeDeliveredNotificationsForMessages":
+      guard let args = call.arguments as? [String: Any],
+        let channelId = args["channelId"] as? String,
+        let messageIds = args["messageIds"] as? [String],
+        !channelId.isEmpty
+      else {
+        result(
+          FlutterError(
+            code: "invalid_args",
+            message: "channelId and messageIds are required",
+            details: nil
+          )
+        )
+        return
+      }
+      self.removeDeliveredNotificationsForMessages(
+        channelId: channelId,
+        messageIds: Set(messageIds)
       ) {
         DispatchQueue.main.async {
           result(nil)
