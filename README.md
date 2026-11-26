@@ -51,7 +51,7 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 | Android | F-Droid | Soon | — |
 | Android | Accrescent | Waiting for Accrescent submissions to be open | — |
 | macOS (Oxygen) | Direct | Open Canary **(not accepting bug reports)** | [Installer](https://pkgs.fluxer.com/oxygen/latest/macos) - [Portable](https://pkgs.fluxer.com/oxygen/latest/macos-portable) |
-| Window (Oxygen) | Direct | Open Canary **(not accepting bug reports)** | [Installer](https://pkgs.fluxer.com/oxygen/latest/windows) - [Portable](https://pkgs.fluxer.com/oxygen/latest/windows-portable) |
+| Windows (Oxygen) | Direct | Open Canary **(not accepting bug reports)** | [Installer](https://pkgs.fluxer.com/oxygen/latest/windows) - [Portable](https://pkgs.fluxer.com/oxygen/latest/windows-portable) |
 | Linux (Oxygen) | Direct | Coming soon | — |
 
 ### Android (APK)
