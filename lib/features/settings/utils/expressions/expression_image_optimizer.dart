@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:fluxer_app/shared/utils/image_utils.dart';
@@ -57,7 +58,21 @@ Future<String> _optimizeExpressionImage({
   required Uint8List bytes,
   required int maxSizeBytes,
   required int targetSize,
-}) async {
+}) {
+  return Isolate.run<String>(
+    () => _optimizeExpressionImageSync(
+      bytes: bytes,
+      maxSizeBytes: maxSizeBytes,
+      targetSize: targetSize,
+    ),
+  );
+}
+
+String _optimizeExpressionImageSync({
+  required Uint8List bytes,
+  required int maxSizeBytes,
+  required int targetSize,
+}) {
   if (isSvgBytes(bytes)) {
     if (bytes.length <= maxSizeBytes) {
       return base64Encode(bytes);

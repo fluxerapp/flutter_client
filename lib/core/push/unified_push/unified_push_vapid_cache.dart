@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 bool hasUnifiedPushVapid(String? vapid) => vapid != null && vapid.isNotEmpty;
 
 Future<String?> readCachedUnifiedPushVapidPublicKey(String instanceId) async {
-  final FluxerDatabase database = FluxerDatabase();
+  final FluxerDatabase database = FluxerDatabase.shortLived();
   try {
     return await database.mobilePushRegistrationDao.getVapidForInstance(
       instanceId,
@@ -20,7 +20,7 @@ Future<void> writeCachedUnifiedPushVapidPublicKey(
   if (instanceId.isEmpty || vapidPublicKey.isEmpty) {
     return;
   }
-  final FluxerDatabase database = FluxerDatabase();
+  final FluxerDatabase database = FluxerDatabase.shortLived();
   try {
     await database.mobilePushRegistrationDao.saveVapidForInstance(
       instanceId: instanceId,

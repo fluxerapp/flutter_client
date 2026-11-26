@@ -51,3 +51,30 @@ Future<bool> upsertReadStateIfChanged(
   await database.readStateDao.upsertReadState(companion);
   return true;
 }
+
+Future<void> upsertReadStatesIfChanged(
+  FluxerDatabase database,
+  List<ReadStatesCompanion> companions,
+) async {
+  if (companions.isEmpty) {
+    return;
+  }
+  await database.transaction(() async {
+    final Map<String, ReadState> existing = <String, ReadState>{
+      for (final ReadState state
+          in await database.readStateDao.getReadStatesFor(<String>[
+            for (final ReadStatesCompanion companion in companions)
+              companion.channelId.value,
+          ]))
+        state.channelId: state,
+    };
+    await database.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+      for (final ReadStatesCompanion companion in companions)
+        if (!readStateCompanionMatchesPersisted(
+          existing[companion.channelId.value],
+          companion,
+        ))
+          companion,
+    ]);
+  });
+}

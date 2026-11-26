@@ -5,6 +5,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/utils/expressions/expression_image_optimizer.dart';
 import 'package:image/image.dart' as img;
 
+int fnv1a(List<int> values) {
+  int hash = 0x811c9dc5;
+  for (final int value in values) {
+    hash = ((hash ^ (value & 0xff)) * 0x01000193) & 0xffffffff;
+  }
+  return hash;
+}
+
+Uint8List createGradientPng({required int width, required int height}) {
+  final img.Image image = img.Image(
+    width: width,
+    height: height,
+    numChannels: 4,
+  );
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      image.setPixelRgba(
+        x,
+        y,
+        (x * 7) % 256,
+        (y * 11) % 256,
+        (x + y) % 256,
+        (x * y) % 256,
+      );
+    }
+  }
+  return Uint8List.fromList(img.encodePng(image));
+}
+
 void main() {
   Uint8List createPng({required int width, required int height}) {
     final img.Image image = img.Image(width: width, height: height);
@@ -140,4 +169,23 @@ void main() {
     expect(isSvgBytes(svg), isTrue);
     expect(isSvgBytes(png), isFalse);
   });
+
+  test('optimizeGuildEmojiImage output is stable for a fixed input', () async {
+    final String encoded = await optimizeGuildEmojiImage(
+      bytes: createGradientPng(width: 50, height: 30),
+      maxSizeBytes: 1 << 20,
+    );
+    expect(fnv1a(encoded.codeUnits), 988939735);
+  });
+
+  test(
+    'optimizeGuildStickerImage output is stable for a fixed input',
+    () async {
+      final String encoded = await optimizeGuildStickerImage(
+        bytes: createGradientPng(width: 50, height: 30),
+        maxSizeBytes: 1 << 20,
+      );
+      expect(fnv1a(encoded.codeUnits), 1041078885);
+    },
+  );
 }

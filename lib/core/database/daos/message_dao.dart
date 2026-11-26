@@ -98,18 +98,22 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     List<Expression<Object>> columns, {
     Expression<bool>? filter,
   }) async {
-    final List<MessageKey> keyList = keys.toList();
     final List<TypedResult> rows = <TypedResult>[];
-    for (int start = 0; start < keyList.length; start += _keyChunkSize) {
-      final Expression<bool> matches = _matchesKeys(
-        keyList.skip(start).take(_keyChunkSize),
-      );
+    for (final List<MessageKey> chunk in _chunked(keys.toList())) {
+      final Expression<bool> matches = _matchesKeys(chunk);
       final query = selectOnly(messages)
         ..addColumns(columns)
         ..where(filter == null ? matches : matches & filter);
       rows.addAll(await query.get());
     }
     return rows;
+  }
+
+  static Iterable<List<T>> _chunked<T>(List<T> items) sync* {
+    for (int start = 0; start < items.length; start += _keyChunkSize) {
+      final int end = start + _keyChunkSize;
+      yield items.sublist(start, end < items.length ? end : items.length);
+    }
   }
 
   Expression<bool> _matchesKeys(Iterable<MessageKey> keys) {
@@ -246,6 +250,25 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     messages,
   )..where((_) => _matchesKey(channelId, id))).getSingleOrNull();
 
+  Future<List<Message>> getMessagesByKeys(Iterable<MessageKey> keys) async {
+    final List<Message> rows = <Message>[];
+    for (final List<MessageKey> chunk in _chunked(keys.toList())) {
+      rows.addAll(
+        await (select(messages)..where((_) => _matchesKeys(chunk))).get(),
+      );
+    }
+    return rows;
+  }
+
+  Future<String?> getReactionsJson(String channelId, String id) {
+    final query = selectOnly(messages)
+      ..addColumns([messages.reactionsJson])
+      ..where(_matchesKey(channelId, id));
+    return query
+        .map((TypedResult row) => row.read(messages.reactionsJson)!)
+        .getSingleOrNull();
+  }
+
   Future<Set<MessageKey>> getExistingMessageKeys(
     Iterable<MessageKey> keys,
   ) async {
@@ -350,9 +373,15 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   }
 
   Future<Map<String, String>> getLastMessageIds(List<String> channelIds) async {
-    if (channelIds.isEmpty) {
-      return <String, String>{};
-    }
+    return <String, String>{
+      for (final List<String> chunk in _chunked(channelIds))
+        ...await _getLastMessageIdsChunk(chunk),
+    };
+  }
+
+  Future<Map<String, String>> _getLastMessageIdsChunk(
+    List<String> channelIds,
+  ) async {
     final String values = List<String>.filled(
       channelIds.length,
       '(?)',
@@ -572,9 +601,15 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<Map<String, Message>> getLastMessageForChannels(
     List<String> channelIds,
   ) async {
-    if (channelIds.isEmpty) {
-      return {};
-    }
+    return <String, Message>{
+      for (final List<String> chunk in _chunked(channelIds))
+        ...await _getLastMessageForChannelsChunk(chunk),
+    };
+  }
+
+  Future<Map<String, Message>> _getLastMessageForChannelsChunk(
+    List<String> channelIds,
+  ) async {
     final String placeholders = List.filled(channelIds.length, '?').join(', ');
     final List<Variable<String>> channelVariables = channelIds
         .map(Variable<String>.new)

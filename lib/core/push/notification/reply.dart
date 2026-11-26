@@ -119,7 +119,7 @@ Future<MentionReplyPreferences> _readPushReplyPreference(
   String authorId,
   String guildId,
 ) async {
-  final FluxerDatabase database = FluxerDatabase();
+  final FluxerDatabase database = FluxerDatabase.shortLived();
   try {
     return await resolveMentionReplyPreferenceFromDb(
       database: database,

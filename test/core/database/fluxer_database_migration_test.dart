@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 112;
+const int _expectedSchemaVersion = 113;
 
 const int _guardedBaselineVersion = 67;
 
@@ -718,6 +718,30 @@ void main() {
       expect(_schemaIndexes(raw), contains('idx_messages_channel_timestamp'));
       expect(_schemaIndexes(raw), isNot(contains('idx_messages_channel')));
       expect(_schemaIndexes(raw), isNot(contains('idx_messages_author')));
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('v113 creates indexes missing from upgraded databases', () async {
+      const List<String> lateIndexes = <String>[
+        'idx_favorite_channels_parent',
+        'idx_member_cache_access_guild',
+        'idx_notification_mentions_ordinal',
+      ];
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 112);
+      for (final String index in lateIndexes) {
+        raw.execute('DROP INDEX $index');
+      }
+      expect(_schemaIndexes(raw), isNot(containsAll(lateIndexes)));
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.customSelect('SELECT 1').get();
+
+      expect(_schemaIndexes(raw), containsAll(lateIndexes));
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

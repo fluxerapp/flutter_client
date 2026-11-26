@@ -1,27 +1,7 @@
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/github.dart';
-import 'package:flutter_highlight/themes/vs2015.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_code_body.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_surface.dart';
-import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_markdown/fluxer_markdown.dart';
-
-String? resolveHighlightLanguage(String languageCode) {
-  ensureFluxerMarkdownLanguagesRegistered();
-  final String normalized = languageCode.trim().toLowerCase();
-  if (normalized.isEmpty ||
-      normalized == 'plaintext' ||
-      normalized == 'auto' ||
-      normalized == 'ini') {
-    return null;
-  }
-  if (kFluxerMarkdownLanguages.containsKey(normalized)) {
-    return normalized;
-  }
-  return null;
-}
 
 class TextualAttachmentCodePanel extends StatelessWidget {
   const TextualAttachmentCodePanel({
@@ -59,7 +39,7 @@ class TextualAttachmentCodePanel extends StatelessWidget {
         status == TextualAttachmentPreviewStatus.idle) {
       body = const TextualAttachmentPreviewLoading();
     } else {
-      body = _CodeBody(
+      body = TextualAttachmentCodeBody(
         content: textContent!,
         languageCode: languageCode,
         wrapText: wrapText,
@@ -76,69 +56,6 @@ class TextualAttachmentCodePanel extends StatelessWidget {
         scrollController: scrollController,
         child: body,
       ),
-    );
-  }
-}
-
-class _CodeBody extends StatelessWidget {
-  const _CodeBody({
-    required this.content,
-    required this.languageCode,
-    required this.wrapText,
-    this.remainingSuffix,
-  });
-
-  final String content;
-  final String languageCode;
-  final bool wrapText;
-  final String? remainingSuffix;
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final TextStyle monoStyle = codeTextStyleFrom(
-      context.textStyles.smallText.copyWith(
-        color: context.colors.textPrimary,
-        height: kTextualPreviewLineHeight / 13,
-      ),
-      codeTextStyle: context.textStyles.codeText,
-    );
-    final String display = remainingSuffix == null
-        ? content
-        : '$content\n$remainingSuffix';
-    final String? highlightLang = display.length > kMaxCodeHighlightSourceLength
-        ? null
-        : resolveHighlightLanguage(languageCode);
-
-    if (highlightLang != null) {
-      final Widget highlighted = HighlightView(
-        display,
-        language: highlightLang,
-        theme: codeBlockHighlightThemeFor(
-          isDark ? vs2015Theme : githubTheme,
-          codeTextStyle: monoStyle,
-        ),
-        textStyle: monoStyle,
-        padding: wrapText ? kTextualPreviewCodeInset : EdgeInsets.zero,
-      );
-      if (wrapText) {
-        return highlighted;
-      }
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: kTextualPreviewCodeInset,
-        child: highlighted,
-      );
-    }
-
-    final Widget plain = Text(display, softWrap: wrapText, style: monoStyle);
-    if (wrapText) {
-      return Padding(padding: kTextualPreviewCodeInset, child: plain);
-    }
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: kTextualPreviewCodeInset,
-      child: plain,
     );
   }
 }

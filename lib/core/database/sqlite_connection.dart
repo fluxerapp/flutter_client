@@ -12,14 +12,14 @@ import 'package:path_provider/path_provider.dart';
 
 const int kSqliteReadPoolSize = 2;
 
-QueryExecutor openFluxerSqliteConnection() {
+QueryExecutor openFluxerSqliteConnection({int readPool = kSqliteReadPoolSize}) {
   final QueryExecutor executor = LazyDatabase(() async {
     final File file = await _resolveDatabaseFile();
     await file.parent.create(recursive: true);
     return NativeDatabase.createInBackground(
       file,
       setup: driftSqliteSetup(isMobile: isFluxerNativeMobileOs),
-      readPool: kSqliteReadPoolSize,
+      readPool: readPool,
     );
   });
   if (!kFluxerQueryStatsEnabled) {

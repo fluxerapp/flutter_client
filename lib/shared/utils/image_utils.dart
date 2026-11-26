@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -82,7 +83,11 @@ abstract final class ImageUtils {
     return kRoleIconAllowedExtensions.contains(ext);
   }
 
-  static Future<Uint8List> prepareRoleIconUploadBytes(Uint8List bytes) async {
+  static Future<Uint8List> prepareRoleIconUploadBytes(Uint8List bytes) {
+    return Isolate.run<Uint8List>(() => _prepareRoleIconUploadBytesSync(bytes));
+  }
+
+  static Uint8List _prepareRoleIconUploadBytesSync(Uint8List bytes) {
     final img.Image? decoded = img.decodeImage(bytes);
     if (decoded == null) {
       throw const FormatException('decode');
@@ -114,7 +119,16 @@ abstract final class ImageUtils {
   static Future<Uint8List> squareCustomEmojiForRoleIcon(
     Uint8List bytes, {
     int side = 128,
-  }) async {
+  }) {
+    return Isolate.run<Uint8List>(
+      () => _squareCustomEmojiForRoleIconSync(bytes, side),
+    );
+  }
+
+  static Uint8List _squareCustomEmojiForRoleIconSync(
+    Uint8List bytes,
+    int side,
+  ) {
     final img.Image? decoded = img.decodeImage(bytes);
     if (decoded == null) {
       throw const FormatException('decode');

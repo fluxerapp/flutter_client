@@ -86,15 +86,15 @@ class ReactionWriteBatcher {
   Future<void> _applyFlush(MessageKey key, _PendingReactionBatch batch) async {
     final String messageId = key.id;
     try {
-      final message = await _database.messageDao.getMessage(
+      final String? reactionsJson = await _database.messageDao.getReactionsJson(
         key.channelId,
         messageId,
       );
-      if (message == null) {
+      if (reactionsJson == null) {
         return;
       }
       final List<Map<String, dynamic>> reactions = decodeMessageReactionsJson(
-        message.reactionsJson,
+        reactionsJson,
       );
       var changed = false;
       for (final _ReactionDelta delta in batch.deltas) {

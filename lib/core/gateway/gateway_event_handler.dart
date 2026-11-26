@@ -1424,6 +1424,16 @@ class GatewayEventHandler {
 
       settingsMs = phase.elapsedMilliseconds;
     });
+    if (trimCachedMessages) {
+      unawaited(
+        database
+            .customStatement('PRAGMA optimize')
+            .catchError(
+              (Object e, StackTrace st) =>
+                  talker.warning('[Gateway] PRAGMA optimize failed', e, st),
+            ),
+      );
+    }
 
     final Stopwatch postPhase = Stopwatch()..start();
     _lastReadyUserId = event.user.id;
@@ -3208,12 +3218,15 @@ class GatewayEventHandler {
     required bool isAdd,
     String? userId,
   }) async {
-    final msg = await database.messageDao.getMessage(channelId, messageId);
-    if (msg == null) {
+    final String? reactionsJson = await database.messageDao.getReactionsJson(
+      channelId,
+      messageId,
+    );
+    if (reactionsJson == null) {
       return;
     }
 
-    final reactions = decodeMessageReactionsJson(msg.reactionsJson);
+    final reactions = decodeMessageReactionsJson(reactionsJson);
     final isCurrentUser =
         userId != null && _selfUserId != null && userId == _selfUserId;
 
@@ -3239,12 +3252,15 @@ class GatewayEventHandler {
     String emojiName,
     String? emojiId,
   ) async {
-    final msg = await database.messageDao.getMessage(channelId, messageId);
-    if (msg == null) {
+    final String? reactionsJson = await database.messageDao.getReactionsJson(
+      channelId,
+      messageId,
+    );
+    if (reactionsJson == null) {
       return;
     }
 
-    final reactions = decodeMessageReactionsJson(msg.reactionsJson)
+    final reactions = decodeMessageReactionsJson(reactionsJson)
       ..removeWhere(
         (r) =>
             (r['emoji'] as String?) == emojiName &&
@@ -3371,14 +3387,14 @@ class GatewayEventHandler {
 
   Future<void> _handleReactionAddMany(MessageReactionAddManyEvent event) async {
     await reactionWriteBatcher?.flush(event.channelId, event.messageId);
-    final msg = await database.messageDao.getMessage(
+    final String? reactionsJson = await database.messageDao.getReactionsJson(
       event.channelId,
       event.messageId,
     );
-    if (msg == null) {
+    if (reactionsJson == null) {
       return;
     }
-    final reactions = decodeMessageReactionsJson(msg.reactionsJson);
+    final reactions = decodeMessageReactionsJson(reactionsJson);
     for (final r in event.reactions) {
       final emoji = r['emoji'] as Map<String, dynamic>?;
       if (emoji == null) {

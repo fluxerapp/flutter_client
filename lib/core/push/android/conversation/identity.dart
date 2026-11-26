@@ -32,7 +32,7 @@ Future<PushConversationContext> loadPushConversationContext(
   Map<String, String> payload, {
   required String title,
 }) async {
-  final FluxerDatabase database = FluxerDatabase();
+  final FluxerDatabase database = FluxerDatabase.shortLived();
   try {
     return PushConversationContext(
       endpoints: await readPushMediaInstanceUrls(

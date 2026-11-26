@@ -74,6 +74,69 @@ Stream<R> combineLatest2<A, B, R>(
   return controller.stream;
 }
 
+Stream<T> watchCoalesced<T>(
+  DatabaseConnectionUser database,
+  Iterable<ResultSetImplementation<dynamic, dynamic>> tables,
+  Future<T> Function() load, {
+  Duration window = const Duration(milliseconds: 100),
+}) {
+  late final StreamController<T> controller;
+  StreamSubscription<Set<TableUpdate>>? updates;
+  Timer? timer;
+  var loading = false;
+  var dirty = false;
+  late final void Function() schedule;
+
+  Future<void> run() async {
+    if (loading) {
+      dirty = true;
+      return;
+    }
+    loading = true;
+    try {
+      final T value = await load();
+      if (!controller.isClosed) {
+        controller.add(value);
+      }
+    } on Object catch (error, stackTrace) {
+      if (!controller.isClosed && !isDriftCancellation(error)) {
+        controller.addError(error, stackTrace);
+      }
+    } finally {
+      loading = false;
+      if (dirty && !controller.isClosed) {
+        dirty = false;
+        schedule();
+      }
+    }
+  }
+
+  schedule = () {
+    timer ??= Timer(window, () {
+      timer = null;
+      unawaited(run());
+    });
+  };
+
+  controller = StreamController<T>(
+    onListen: () {
+      updates = database
+          .tableUpdates(TableUpdateQuery.onAllTables(tables))
+          .listen((_) => schedule());
+      unawaited(run());
+    },
+    onCancel: () async {
+      timer?.cancel();
+      timer = null;
+      await updates?.cancel();
+      if (!controller.isClosed) {
+        await controller.close();
+      }
+    },
+  );
+  return controller.stream;
+}
+
 extension DriftStreamExtensions<T> on Stream<T> {
   Stream<T> get suppressDriftCancellation =>
       suppressDriftCancellationStream(this);

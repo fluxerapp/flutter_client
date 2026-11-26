@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/database/daos/message_dao.dart' show MessageKey;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -123,11 +124,11 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
       embedded: embedded,
     );
     final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
-    final rows = await Future.wait(
-      missing.map(
-        (refEntry) =>
-            messageDao.getMessage(refEntry.channelId, refEntry.messageId),
-      ),
+    final List<Message> rows = await Message.fromRowsAsync(
+      await messageDao.getMessagesByKeys(<MessageKey>[
+        for (final refEntry in missing)
+          (channelId: refEntry.channelId, id: refEntry.messageId),
+      ]),
     );
     if (!ref.mounted) {
       return;
@@ -138,10 +139,8 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
         changed = true;
       }
     }
-    for (var i = 0; i < missing.length; i++) {
-      final row = rows[i];
-      if (row != null &&
-          _cacheMessage(row.channelId, row.id, Message.fromRow(row))) {
+    for (final Message row in rows) {
+      if (_cacheMessage(row.channelId, row.id, row)) {
         changed = true;
       }
     }

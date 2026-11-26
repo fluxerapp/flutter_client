@@ -148,10 +148,12 @@ part 'fluxer_database.g.dart';
 class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase() : super(_openConnection());
 
+  FluxerDatabase.shortLived() : super(openFluxerSqliteConnection(readPool: 0));
+
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 112;
+  int get schemaVersion => 113;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1718,6 +1720,23 @@ class FluxerDatabase extends _$FluxerDatabase {
       if (from < 112) {
         await _createTableIfNotExists(m, localSettingsTable);
       }
+      if (from < 113) {
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_notification_mentions_ordinal '
+          'ON notification_mention_feed (ordinal)',
+        );
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_favorite_channels_parent '
+          'ON favorite_channels (parent_id)',
+        );
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_member_cache_access_guild '
+          'ON member_cache_access (guild_id)',
+        );
+      }
+    },
+    beforeOpen: (OpeningDetails details) async {
+      await customStatement('PRAGMA optimize=0x10002');
     },
   );
 

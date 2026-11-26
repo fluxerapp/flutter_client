@@ -58,17 +58,15 @@ Future<void> markGuildAsRead(
     return;
   }
 
-  for (final entry in ackEntries) {
-    await upsertReadStateIfChanged(
-      db,
+  await upsertReadStatesIfChanged(db, <ReadStatesCompanion>[
+    for (final entry in ackEntries)
       ReadStatesCompanion(
         channelId: Value(entry.channelId),
         lastMessageId: Value(entry.messageId),
         mentionCount: const Value(0),
         manual: const Value(false),
       ),
-    );
-  }
+  ]);
 
   unawaited(
     client.readStates.ackBulkMessages(

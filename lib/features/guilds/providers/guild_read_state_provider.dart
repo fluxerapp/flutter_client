@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:drift/drift.dart' show Value;
+import 'package:drift/drift.dart' show Table, TableInfo, Value;
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -132,23 +133,28 @@ class GuildReadState extends _$GuildReadState {
       channelLastMessageIndexProvider(readAccountUserId(ref)),
     );
 
-    final readStateSub = db.readStateDao.watchReadStates().listen((rows) {
-      final next = <String, ReadState>{for (final r in rows) r.channelId: r};
-      _readStateRevision++;
-      final touched = _diffReadStates(_readStateSnapshot, next);
-      for (final String channelId in touched) {
-        if (_readStateAckOrMentionsChanged(
-          _readStateSnapshot[channelId],
-          next[channelId],
-        )) {
-          _pendingLatestRefresh.add(channelId);
-        }
-      }
-      _readStateSnapshot = next;
-      if (touched.isNotEmpty) {
-        _enqueueChannels(touched, db, currentUserId, refreshLatest: false);
-      }
-    });
+    final readStateSub =
+        watchCoalesced(db, <TableInfo<Table, Object?>>[
+          db.readStates,
+        ], db.readStateDao.getReadStates).listen((rows) {
+          final next = <String, ReadState>{
+            for (final r in rows) r.channelId: r,
+          };
+          _readStateRevision++;
+          final touched = _diffReadStates(_readStateSnapshot, next);
+          for (final String channelId in touched) {
+            if (_readStateAckOrMentionsChanged(
+              _readStateSnapshot[channelId],
+              next[channelId],
+            )) {
+              _pendingLatestRefresh.add(channelId);
+            }
+          }
+          _readStateSnapshot = next;
+          if (touched.isNotEmpty) {
+            _enqueueChannels(touched, db, currentUserId, refreshLatest: false);
+          }
+        });
 
     final joinedThreadSub = db.threadDao.watchJoinedMembers().listen((
       List<ThreadMember> rows,
@@ -169,9 +175,12 @@ class GuildReadState extends _$GuildReadState {
       }
     });
 
-    final channelSub = db.channelDao
-        .watchAllChannels(includeThreads: true)
-        .listen((channels) {
+    final channelSub =
+        watchCoalesced(
+          db,
+          <TableInfo<Table, Object?>>[db.channels],
+          () => db.channelDao.getAllChannels(includeThreads: true),
+        ).listen((channels) {
           final next = <String, Channel>{for (final c in channels) c.id: c};
           _channelRevision++;
           if (_permissionInputsChanged(_channelSnapshot, next)) {

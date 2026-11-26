@@ -79,6 +79,7 @@ class GuildStickerSettings extends _$GuildStickerSettings {
     state = AsyncData<GuildStickerSettingsState>(
       current.copyWith(isSavingSticker: true),
     );
+    final keepAlive = ref.keepAlive();
     try {
       final String image = await optimizeGuildStickerImage(
         bytes: imageBytes,
@@ -117,6 +118,8 @@ class GuildStickerSettings extends _$GuildStickerSettings {
         current.copyWith(isSavingSticker: false),
       );
       rethrow;
+    } finally {
+      keepAlive.close();
     }
   }
 

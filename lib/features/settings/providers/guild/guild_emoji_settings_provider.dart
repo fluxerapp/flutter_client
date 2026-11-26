@@ -153,6 +153,25 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
     if (current == null || current.uploadingCount != null) {
       return const GuildEmojiUploadResult(failureCount: 0);
     }
+    final keepAlive = ref.keepAlive();
+    try {
+      return await _uploadFiles(
+        current: current,
+        files: files,
+        maxSizeBytes: maxSizeBytes,
+        maxEmojis: maxEmojis,
+      );
+    } finally {
+      keepAlive.close();
+    }
+  }
+
+  Future<GuildEmojiUploadResult> _uploadFiles({
+    required GuildEmojiSettingsState current,
+    required List<({String name, Uint8List bytes})> files,
+    required int maxSizeBytes,
+    required int maxEmojis,
+  }) async {
     state = AsyncData<GuildEmojiSettingsState>(
       current.copyWith(uploadingCount: files.length),
     );

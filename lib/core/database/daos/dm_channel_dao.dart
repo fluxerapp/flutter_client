@@ -111,6 +111,18 @@ class DmChannelDao extends DatabaseAccessor<FluxerDatabase>
   Future<DmChannel?> getDmChannelById(String id) =>
       (select(dmChannels)..where((d) => d.id.equals(id))).getSingleOrNull();
 
+  Future<List<DmChannel>> getDmChannelsByIds(List<String> ids) =>
+      (select(dmChannels)..where((d) => d.id.isIn(ids))).get();
+
+  Future<void> markDmChannelsRead(List<String> ids) {
+    if (ids.isEmpty) {
+      return Future<void>.value();
+    }
+    return (update(dmChannels)..where((d) => d.id.isIn(ids))).write(
+      const DmChannelsCompanion(unreadCount: Value(0)),
+    );
+  }
+
   Future<void> addRecipientId(String channelId, String userId) async {
     final DmChannel? row = await getDmChannelById(channelId);
     if (row == null) {

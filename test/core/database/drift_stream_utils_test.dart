@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:drift/drift.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+
+import '../../helpers/open_test_database.dart';
 
 void main() {
   test('suppressDriftCancellation swallows CancellationException', () async {
@@ -127,5 +130,34 @@ void main() {
       await pumpEventQueue();
       expect(errors, isEmpty);
     });
+  });
+
+  test('watchCoalesced re-queries once for a burst of writes', () async {
+    final FluxerDatabase db = openTestDatabase();
+    addTearDown(db.close);
+    var loads = 0;
+    final List<int> emitted = <int>[];
+    final StreamSubscription<int> sub = watchCoalesced(
+      db,
+      <TableInfo<Table, Object?>>[db.readStates],
+      () async {
+        loads++;
+        return (await db.readStateDao.getReadStates()).length;
+      },
+      window: const Duration(milliseconds: 20),
+    ).listen(emitted.add);
+    addTearDown(sub.cancel);
+    await Future<void>.delayed(const Duration(milliseconds: 40));
+    expect(emitted, <int>[0]);
+
+    for (int i = 0; i < 10; i++) {
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion.insert(channelId: 'channel-$i'),
+      );
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+
+    expect(emitted.last, 10);
+    expect(loads, lessThan(5));
   });
 }

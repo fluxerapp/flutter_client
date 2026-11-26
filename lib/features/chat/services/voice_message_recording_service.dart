@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
@@ -226,23 +227,23 @@ class VoiceMessageRecordingService {
       await _deleteTempFiles();
       return null;
     }
-    final VoiceMessagePcmSlice? pcm = await _resolvePcmAfterStop(
+    final String? sourcePath = _resolveSourcePathAfterStop(
       wavPath: wavPath ?? outputPath,
     );
     _wavOutputPath = null;
-    if (pcm == null) {
+    if (sourcePath == null) {
       await _deleteTempFiles();
       return null;
     }
-    if (_captureMode == VoiceMessageCaptureMode.pcmStream) {
-      final Uint8List wavBytes = encodePcmSliceToWav(
-        samples: pcm.samples,
-        sampleRate: pcm.sampleRate,
-      );
-      await File(outputPath).writeAsBytes(wavBytes, flush: true);
-    }
+    final VoiceWaveformResult? waveform = await _processRecordingInBackground(
+      sourcePath: sourcePath,
+      outputPath: outputPath,
+      isPcmStream: _captureMode == VoiceMessageCaptureMode.pcmStream,
+    );
     await _deleteTempFiles();
-    final VoiceWaveformResult waveform = computeVoiceWaveformFromPcm(pcm);
+    if (waveform == null) {
+      return null;
+    }
     return VoiceMessagePreparedRecording(
       filePath: outputPath,
       duration: waveform.duration,
@@ -250,19 +251,15 @@ class VoiceMessageRecordingService {
     );
   }
 
-  Future<VoiceMessagePcmSlice?> _resolvePcmAfterStop({
-    required String wavPath,
-  }) async {
+  String? _resolveSourcePathAfterStop({required String wavPath}) {
     if (_captureMode == VoiceMessageCaptureMode.fileWithAmplitude) {
-      final File file = File(wavPath);
-      if (!file.existsSync()) {
+      if (!File(wavPath).existsSync()) {
         talker.error(
           '[VoiceMessageRecording] WAV missing after file capture: $wavPath',
         );
         return null;
       }
-      final Uint8List bytes = await file.readAsBytes();
-      return decodeWavMonoPcm(bytes);
+      return wavPath;
     }
     final String? pcmPath = _pcmTempPath;
     if (pcmPath == null) {
@@ -274,12 +271,48 @@ class VoiceMessageRecordingService {
       talker.error('[VoiceMessageRecording] PCM temp file missing: $pcmPath');
       return null;
     }
-    final Uint8List pcmBytes = await pcmFile.readAsBytes();
-    if (pcmBytes.isEmpty) {
+    if (pcmFile.lengthSync() < 2) {
       talker.error('[VoiceMessageRecording] stop() with no PCM data captured');
       return null;
     }
-    return _pcmBytesToSlice(pcmBytes);
+    return pcmPath;
+  }
+
+  static Future<VoiceWaveformResult?> _processRecordingInBackground({
+    required String sourcePath,
+    required String outputPath,
+    required bool isPcmStream,
+  }) {
+    return Isolate.run<VoiceWaveformResult?>(
+      () => processRecordingFile(
+        sourcePath: sourcePath,
+        outputPath: outputPath,
+        isPcmStream: isPcmStream,
+      ),
+    );
+  }
+
+  @visibleForTesting
+  static VoiceWaveformResult? processRecordingFile({
+    required String sourcePath,
+    required String outputPath,
+    required bool isPcmStream,
+  }) {
+    final Uint8List bytes = File(sourcePath).readAsBytesSync();
+    if (!isPcmStream) {
+      final VoiceMessagePcmSlice? pcm = decodeWavMonoPcm(bytes);
+      return pcm == null ? null : computeVoiceWaveformFromPcm(pcm);
+    }
+    final VoiceMessagePcmSlice? pcm = pcmBytesToSlice(bytes);
+    if (pcm == null) {
+      return null;
+    }
+    final Uint8List wavBytes = encodePcmSliceToWav(
+      samples: pcm.samples,
+      sampleRate: pcm.sampleRate,
+    );
+    File(outputPath).writeAsBytesSync(wavBytes, flush: true);
+    return computeVoiceWaveformFromPcm(pcm);
   }
 
   Future<void> discard() async {
@@ -346,7 +379,8 @@ class VoiceMessageRecordingService {
     }
   }
 
-  VoiceMessagePcmSlice? _pcmBytesToSlice(Uint8List pcmBytes) {
+  @visibleForTesting
+  static VoiceMessagePcmSlice? pcmBytesToSlice(Uint8List pcmBytes) {
     final int sampleCount = pcmBytes.length ~/ 2;
     if (sampleCount == 0) {
       return null;

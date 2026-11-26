@@ -144,21 +144,48 @@ class ReadStateRepository {
       );
 
   Future<void> ackLatestBulk(Iterable<String> channelIds) async {
+    final List<String> ids = channelIds.toSet().toList();
+    if (ids.isEmpty) {
+      return;
+    }
+    final List<DmChannel> dms = await _db.dmChannelDao.getDmChannelsByIds(ids);
+    final Map<String, String?> channelPointers = <String, String?>{
+      for (final DmChannel dm in dms) dm.id: dm.lastMessageId,
+    };
+    for (final Channel channel in await _db.channelDao.getChannelsByIds(ids)) {
+      if (channel.lastMessageId != null ||
+          !channelPointers.containsKey(channel.id)) {
+        channelPointers[channel.id] = channel.lastMessageId;
+      }
+    }
+    final Map<String, String> cachedLastIds = await _db.messageDao
+        .getLastMessageIds(ids);
+    final Map<String, ReadState> readStates = <String, ReadState>{
+      for (final ReadState state in await _db.readStateDao.getReadStatesFor(
+        ids,
+      ))
+        state.channelId: state,
+    };
+    final Set<String> dmIds = <String>{for (final DmChannel dm in dms) dm.id};
+
     final entries = <ReadStateAckBulkRequestReadStates>[];
-    for (final channelId in channelIds.toSet()) {
-      final messageId = await latestAckableMessageId(channelId);
+    for (final String channelId in ids) {
+      final ReadState? current = readStates[channelId];
+      final String? messageId = _pickLatestAckable(
+        channelId: channelId,
+        channelLastMessageId: channelPointers[channelId],
+        cachedLastMessageId: cachedLastIds[channelId],
+        readState: current,
+      );
       if (messageId == null || messageId.isEmpty) {
         continue;
       }
-
-      final current = await _db.readStateDao.getReadState(channelId);
       if (current?.lastMessageId == messageId &&
           current?.mentionCount == 0 &&
           current?.manual != true) {
         _syncPushTray(channelId, messageId, manual: current?.manual);
         continue;
       }
-
       entries.add(
         ReadStateAckBulkRequestReadStates(
           channelId: channelId,
@@ -171,12 +198,23 @@ class ReadStateRepository {
       return;
     }
 
+    await _db.transaction(() async {
+      await upsertReadStatesIfChanged(_db, <ReadStatesCompanion>[
+        for (final entry in entries)
+          ReadStatesCompanion(
+            channelId: Value(entry.channelId),
+            lastMessageId: Value(entry.messageId),
+            mentionCount: const Value(0),
+            manual: const Value(false),
+            stickyUnreadMessageId: const Value(null),
+          ),
+      ]);
+      await _db.dmChannelDao.markDmChannelsRead(<String>[
+        for (final entry in entries)
+          if (dmIds.contains(entry.channelId)) entry.channelId,
+      ]);
+    });
     for (final entry in entries) {
-      await applyLocalAck(
-        channelId: entry.channelId,
-        messageId: entry.messageId,
-        mentionCount: 0,
-      );
       _syncPushTray(entry.channelId, entry.messageId);
     }
 
@@ -263,6 +301,20 @@ class ReadStateRepository {
       channelId,
     ))?.id;
     final readState = await _db.readStateDao.getReadState(channelId);
+    return _pickLatestAckable(
+      channelId: channelId,
+      channelLastMessageId: channelLastMessageId,
+      cachedLastMessageId: cachedLastMessageId,
+      readState: readState,
+    );
+  }
+
+  String? _pickLatestAckable({
+    required String channelId,
+    required String? channelLastMessageId,
+    required String? cachedLastMessageId,
+    required ReadState? readState,
+  }) {
     String? latest;
     for (final String? candidate in <String?>[
       channelLastMessageId,
