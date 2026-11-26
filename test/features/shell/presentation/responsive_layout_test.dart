@@ -48,6 +48,91 @@ void main() {
     test('is desktop when shortest side reaches desktop breakpoint', () {
       expect(layoutModeOfSize(kDesktopTestViewportSize), LayoutMode.desktop);
     });
+
+    test('is desktop for pointer input on a minimum-size window', () {
+      expect(
+        layoutModeOfSize(const Size(800, 600), desktopPointer: true),
+        LayoutMode.desktop,
+      );
+      expect(
+        layoutModeOfSize(
+          kTabletLandscapeTestViewportSize,
+          desktopPointer: true,
+        ),
+        LayoutMode.desktop,
+      );
+    });
+
+    test('is mobile for pointer input below the pointer UI width', () {
+      expect(
+        layoutModeOfSize(const Size(600, 800), desktopPointer: true),
+        LayoutMode.mobile,
+      );
+    });
+  });
+
+  group('layoutModeOfContext', () {
+    Future<String> resolve(
+      WidgetTester tester, {
+      required bool touchPrimary,
+      required Size size,
+    }) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            inputModalityProvider.overrideWith(
+              touchPrimary ? _TouchPrimary.new : _MousePrimary.new,
+            ),
+          ],
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: MediaQuery(
+              data: MediaQueryData(size: size),
+              child: DesktopPointerUiScope(
+                child: Builder(
+                  builder: (BuildContext context) => Text(
+                    '${layoutModeOfContext(context).name} '
+                    '${isPinnedSidebarLayout(context)}',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      return tester.widget<Text>(find.byType(Text)).data!;
+    }
+
+    testWidgets('uses the desktop shell for a mouse on a small window', (
+      WidgetTester tester,
+    ) async {
+      expect(
+        await resolve(tester, touchPrimary: false, size: const Size(800, 600)),
+        'desktop false',
+      );
+    });
+
+    testWidgets('keeps the pinned tablet shell for touch on a small window', (
+      WidgetTester tester,
+    ) async {
+      expect(
+        await resolve(tester, touchPrimary: true, size: const Size(800, 600)),
+        'mobile true',
+      );
+    });
+
+    testWidgets('keeps the tablet layout for touch on an iPad landscape', (
+      WidgetTester tester,
+    ) async {
+      expect(
+        await resolve(
+          tester,
+          touchPrimary: true,
+          size: kTabletLandscapeTestViewportSize,
+        ),
+        'tablet false',
+      );
+    });
   });
 
   group('isCompactWideMobileLayout', () {

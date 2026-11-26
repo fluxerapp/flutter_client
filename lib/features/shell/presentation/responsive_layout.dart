@@ -46,7 +46,12 @@ LayoutMode layoutModeOf(double referenceExtent) {
 
 double layoutReferenceExtentOf(Size size) => math.min(size.width, size.height);
 
-LayoutMode layoutModeOfSize(Size size) {
+LayoutMode layoutModeOfSize(Size size, {bool desktopPointer = false}) {
+  if (desktopPointer) {
+    return size.width < kDesktopPointerUiMinWidth
+        ? LayoutMode.mobile
+        : LayoutMode.desktop;
+  }
   final LayoutMode mode = layoutModeOf(layoutReferenceExtentOf(size));
   if (mode != LayoutMode.mobile && size.width < Breakpoints.shellMinWidth) {
     return LayoutMode.mobile;
@@ -54,14 +59,19 @@ LayoutMode layoutModeOfSize(Size size) {
   return mode;
 }
 
+LayoutMode layoutModeOfContext(BuildContext context) => layoutModeOfSize(
+  MediaQuery.sizeOf(context),
+  desktopPointer: usesDesktopPointerUi(context),
+);
+
 bool isMobileLayout(BuildContext context) =>
-    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.mobile;
+    layoutModeOfContext(context) == LayoutMode.mobile;
 
 bool isTabletLayout(BuildContext context) =>
-    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.tablet;
+    layoutModeOfContext(context) == LayoutMode.tablet;
 
 bool isDesktopLayout(BuildContext context) =>
-    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.desktop;
+    layoutModeOfContext(context) == LayoutMode.desktop;
 
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
 
@@ -100,6 +110,7 @@ bool isPinnedSidebarLayoutSize(Size size) {
 }
 
 bool isPinnedSidebarLayout(BuildContext context) =>
+    isMobileLayout(context) &&
     isPinnedSidebarLayoutSize(MediaQuery.sizeOf(context));
 
 bool isCompactWideMobileLayout(BuildContext context) {
@@ -176,7 +187,6 @@ class ResponsiveLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LayoutMode mode = layoutModeOfSize(MediaQuery.sizeOf(context));
-    return builder(context, mode);
+    return builder(context, layoutModeOfContext(context));
   }
 }

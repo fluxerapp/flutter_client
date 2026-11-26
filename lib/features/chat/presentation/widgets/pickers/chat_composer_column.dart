@@ -128,7 +128,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     if (mediaQuery == null) {
       return;
     }
-    if (layoutModeOfSize(mediaQuery.size) != LayoutMode.mobile) {
+    if (layoutModeOfContext(context) != LayoutMode.mobile) {
       return;
     }
     final view = View.of(context);
