@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/desktop/permissions/mac_permissions_provider.dart';
 import 'package:fluxer_app/core/desktop/permissions/mac_permissions_state.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/audio_and_video/video_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_entrance_sound_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_mic_test_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_push_to_talk_settings.dart';
@@ -17,21 +18,23 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
-import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/media/voice_media_device_label.dart';
-import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_macos/fluxer_macos.dart';
-import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_client/livekit_client.dart' show AudioManager;
 
 class UserAudioAndVideo extends ConsumerStatefulWidget {
-  const UserAudioAndVideo({super.key, this.scrollController});
+  const UserAudioAndVideo({
+    super.key,
+    this.scrollController,
+    this.onOpenAdvancedSettings,
+  });
 
   final ScrollController? scrollController;
+  final VoidCallback? onOpenAdvancedSettings;
 
   @override
   ConsumerState<UserAudioAndVideo> createState() => _UserAudioAndVideoState();
@@ -111,7 +114,6 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
-    final layout = context.layout;
     final VoiceSettingsState settings = ref.watch(voiceSettingsProvider);
     final VoiceSettings settingsNotifier = ref.read(
       voiceSettingsProvider.notifier,
@@ -123,11 +125,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     final VoicePromptsPreferences promptsNotifier = ref.read(
       voicePromptsPreferencesProvider.notifier,
     );
-    final VideoQualityCaps videoQualityCaps = ref.watch(
-      voiceVideoQualityCapsProvider,
-    );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
-    final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
     final bool useNativeVoiceAudioRoutePicker =
         showNativeVoiceAudioRoutePicker();
     final bool useAndroidVoiceOutputRoutePicker =
@@ -225,121 +223,9 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
             title: l10n.audioAndVideoVideoSectionTitle,
             description: l10n.audioAndVideoVideoSectionDescription,
             children: [
-              if (showCameraDevicePicker) ...[
-                FluxerSelect<String>(
-                  label: l10n.audioAndVideoCameraLabel,
-                  value: settings.videoDeviceId,
-                  items: _deviceItems(l10n, devices.videoInputs),
-                  onChanged: (String value) =>
-                      unawaited(settingsNotifier.setVideoDeviceId(value)),
-                ),
-                SizedBox(height: layout.s4),
-              ],
-              FluxerSettingsSwitchItem(
-                label: l10n.audioAndVideoMirrorCameraLabel,
-                value: settings.mirrorCamera,
-                onChanged: (bool value) =>
-                    unawaited(settingsNotifier.setMirrorCamera(value: value)),
+              VoiceVideoSettings(
+                onOpenAdvancedSettings: widget.onOpenAdvancedSettings,
               ),
-              FluxerSettingsSubsection(
-                title: l10n.audioAndVideoCameraQualitySectionTitle,
-                children: [
-                  FluxerRadioGroup<CameraResolution>(
-                    value: settings.cameraResolution,
-                    onChanged: (CameraResolution value) {
-                      if (!videoQualityCaps.allowsCameraResolution(value)) {
-                        return;
-                      }
-                      unawaited(settingsNotifier.setCameraResolution(value));
-                    },
-                    items: [
-                      FluxerRadioItem(
-                        value: CameraResolution.low,
-                        label: l10n.audioAndVideoCameraQuality480pLabel,
-                      ),
-                      FluxerRadioItem(
-                        value: CameraResolution.medium,
-                        label: l10n.audioAndVideoCameraQuality720pLabel,
-                      ),
-                      FluxerRadioItem(
-                        value: CameraResolution.high,
-                        label: l10n.audioAndVideoCameraQuality1080pLabel,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              FluxerSettingsSubsection(
-                title: l10n.audioAndVideoScreenShareQualitySectionTitle,
-                children: [
-                  FluxerRadioGroup<ScreenshareResolution>(
-                    value: settings.screenshareResolution,
-                    onChanged: (ScreenshareResolution value) {
-                      if (!videoQualityCaps.allowsScreenShareResolution(
-                        value,
-                      )) {
-                        return;
-                      }
-                      unawaited(
-                        settingsNotifier.setScreenshareResolution(value),
-                      );
-                    },
-                    items: [
-                      FluxerRadioItem(
-                        value: ScreenshareResolution.low480p,
-                        label: l10n.audioAndVideoCameraQuality480pLabel,
-                      ),
-                      FluxerRadioItem(
-                        value: ScreenshareResolution.medium,
-                        label: l10n.audioAndVideoCameraQuality720pLabel,
-                      ),
-                      FluxerRadioItem(
-                        value: ScreenshareResolution.high,
-                        label: l10n.audioAndVideoCameraQuality1080pLabel,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              FluxerSettingsSubsection(
-                title: l10n.audioAndVideoFrameRateSectionTitle,
-                children: [
-                  FluxerRadioGroup<int>(
-                    value: settings.videoFrameRate,
-                    onChanged: (int value) {
-                      if (!videoQualityCaps.allowsFrameRate(value)) {
-                        return;
-                      }
-                      unawaited(settingsNotifier.setVideoFrameRate(value));
-                    },
-                    items: [
-                      FluxerRadioItem(
-                        value: 15,
-                        label: l10n.audioAndVideoFrameRate15Label,
-                      ),
-                      FluxerRadioItem(
-                        value: 30,
-                        label: l10n.audioAndVideoFrameRate30Label,
-                      ),
-                      FluxerRadioItem(
-                        value: 60,
-                        label: l10n.audioAndVideoFrameRate60Label,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              if (!videoQualityCaps.allowsScreenShareResolution(
-                    ScreenshareResolution.high,
-                  ) &&
-                  !videoQualityCaps.allowsFrameRate(60))
-                Padding(
-                  padding: EdgeInsets.only(top: layout.s3),
-                  child: Text(
-                    l10n.audioAndVideoInstanceVideoQualityLimit,
-                    style: context.textStyles.bodySmall.copyWith(fontSize: 13),
-                  ),
-                ),
             ],
           ),
           FluxerSettingsSection(

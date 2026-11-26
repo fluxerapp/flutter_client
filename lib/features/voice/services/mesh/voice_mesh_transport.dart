@@ -12,6 +12,8 @@ import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart
 import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/media/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_sender.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_target.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -182,6 +184,9 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
       <VoiceMeshSource, LocalTrack>{};
   CameraCaptureOptions? _cameraOptions;
   ScreenShareCaptureOptions? _screenShareOptions;
+  ScreenShareTargetResolver? _screenShareTarget;
+  VideoDimensions? _screenShareSource;
+  String? _screenShareSourceReadTrackId;
   int? _micMaxBitrate;
   bool _micMuted = true;
   bool _deafened = false;
@@ -438,7 +443,6 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
           scaleResolutionDownBy: scale,
         );
       case VoiceMeshSource.screenShare:
-        final VideoParameters? params = _screenShareOptions?.params;
         final int watchers = _peers.values
             .where(
               (VoiceMeshPeer peer) =>
@@ -446,18 +450,27 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
             )
             .length;
         final int budget = _kScreenShareBudgetBps ~/ math.max(1, watchers);
-        final VideoDimensions? source = nativeMobileScreenCaptureDimensions();
-        return RTCRtpEncoding(
-          maxBitrate: math.min(params?.encoding?.maxBitrate ?? budget, budget),
-          maxFramerate: params?.encoding?.maxFramerate,
-          scaleResolutionDownBy: source == null || params == null
-              ? 1
-              : screenShareScaleDownBy(
-                  source: source,
-                  target: params.dimensions,
-                ),
+        final ScreenShareTarget? target = _screenShareTarget?.call(
+          _screenShareSource,
+        );
+        if (target == null) {
+          return null;
+        }
+        return screenShareEncoding(
+          target: target,
+          source: _screenShareSource,
+          maxBitrateBps: math.min(target.maxBitrate, budget),
         );
     }
+  }
+
+  RTCDegradationPreference get screenShareDegradationPreference {
+    final ScreenShareTarget? target = _screenShareTarget?.call(
+      _screenShareSource,
+    );
+    return rtcDegradationPreference(
+      target?.degradationPreference ?? DegradationPreference.maintainFramerate,
+    );
   }
 
   Future<List<RTCRtpCodecCapability>> videoCodecPreferences() {
@@ -528,6 +541,13 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
   void _syncAllSenders() {
     for (final VoiceMeshPeer peer in _peers.values) {
       peer.syncSenders();
+    }
+    final LocalTrack? screenShare = _localTracks[VoiceMeshSource.screenShare];
+    if (screenShare is LocalVideoTrack &&
+        _screenShareSource == null &&
+        _peers.isNotEmpty &&
+        _screenShareSourceReadTrackId != screenShare.mediaStreamTrack.id) {
+      unawaited(_readScreenShareSource(screenShare));
     }
   }
 
@@ -742,9 +762,14 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     _publishLocalChange();
   }
 
-  Future<void> setScreenShare(ScreenShareCaptureOptions? options) async {
+  Future<void> setScreenShare(
+    ScreenShareCaptureOptions? options, {
+    ScreenShareTargetResolver? target,
+  }) async {
     if (options == null) {
       _screenShareOptions = null;
+      _screenShareTarget = null;
+      _screenShareSource = null;
       await _replaceLocalTrack(VoiceMeshSource.screenShare, null);
       await _replaceLocalTrack(VoiceMeshSource.screenShareAudio, null);
       _publishLocalChange();
@@ -769,6 +794,8 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
       }
     }
     _screenShareOptions = options;
+    _screenShareTarget = target;
+    _screenShareSource = nativeMobileScreenCaptureDimensions();
     await _replaceLocalTrack(VoiceMeshSource.screenShare, video);
     await _replaceLocalTrack(VoiceMeshSource.screenShareAudio, audio);
     if (video != null) {
@@ -780,6 +807,42 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
       };
     }
     _publishLocalChange();
+  }
+
+  Future<void> applyScreenShareTarget({
+    required ScreenShareCaptureOptions options,
+    required ScreenShareTargetResolver target,
+  }) async {
+    if (!_localTracks.containsKey(VoiceMeshSource.screenShare)) {
+      return;
+    }
+    if (canRestartScreenCaptureSilently &&
+        _screenShareOptions?.maxFrameRate != options.maxFrameRate) {
+      await setScreenShare(options, target: target);
+      return;
+    }
+    _screenShareOptions = options;
+    _screenShareTarget = target;
+    _syncAllSenders();
+  }
+
+  Future<void> _readScreenShareSource(LocalVideoTrack video) async {
+    final VoiceMeshPeer? peer = _peers.values.firstOrNull;
+    if (peer == null) {
+      return;
+    }
+    _screenShareSourceReadTrackId = video.mediaStreamTrack.id;
+    final VideoDimensions? source = await readScreenShareSourceDimensions(
+      peer.getStats,
+      trackId: video.mediaStreamTrack.id,
+    );
+    if (source == null ||
+        _closed ||
+        !identical(_localTracks[VoiceMeshSource.screenShare], video)) {
+      return;
+    }
+    _screenShareSource = source;
+    _syncAllSenders();
   }
 
   Future<void> _replaceLocalTrack(

@@ -112,6 +112,32 @@ class VoiceSettings extends _$VoiceSettings {
     _update(state.copyWith(videoFrameRate: value));
   }
 
+  Future<void> setStreamingMode(StreamingMode value) async {
+    _update(state.copyWith(streamingMode: value));
+  }
+
+  Future<void> setScreenShareQuality({
+    ScreenshareResolution? resolution,
+    int? frameRate,
+  }) async {
+    _update(
+      state.copyWith(
+        streamingMode: StreamingMode.custom,
+        screenshareResolution: resolution,
+        videoFrameRate: frameRate,
+      ),
+    );
+  }
+
+  Future<void> setScreenShareBitrate(int? value) async {
+    _update(
+      state.copyWith(
+        screenShareBitrate: value,
+        clearScreenShareBitrate: value == null,
+      ),
+    );
+  }
+
   Future<void> setShowVoiceConnectionAvatarStack({required bool value}) async {
     _update(state.copyWith(showVoiceConnectionAvatarStack: value));
   }

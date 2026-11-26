@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_compact_select_row.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_button.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
@@ -295,6 +296,7 @@ List<Widget> groupSettingsMenuRows(List<Widget> children) {
 bool _isSettingsMenuRow(Widget widget) =>
     widget is FluxerSettingsSwitchItem ||
     widget is FluxerSettingsConfigureRow ||
+    widget is FluxerSettingsCompactSelectRow ||
     widget is FluxerSettingsAccessoryRow ||
     widget is FluxerSwitchGroupItem ||
     widget is FluxerBottomSheetMenuItem ||

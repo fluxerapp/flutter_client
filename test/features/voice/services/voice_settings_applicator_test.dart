@@ -1,6 +1,6 @@
+import 'package:fluxer_app/features/voice/domain/video_quality_caps.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:test/test.dart';
 
@@ -11,7 +11,6 @@ void main() {
       const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
         unavailableBackends: NoiseSuppressionBackend.native,
         videoQualityCaps: VideoQualityCaps.base,
-        meshPhoneCap: false,
       );
       final AudioCaptureOptions options = applicator.buildAudioCaptureOptions(
         const VoiceSettingsState(),
@@ -27,7 +26,6 @@ void main() {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
       unavailableBackends: NoiseSuppressionBackend.native,
       videoQualityCaps: VideoQualityCaps.base,
-      meshPhoneCap: false,
     );
     final RoomOptions roomOptions = applicator.buildRoomOptions(
       const VoiceSettingsState(),

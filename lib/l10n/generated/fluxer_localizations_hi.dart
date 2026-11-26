@@ -10762,8 +10762,122 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 एफपीएस';
 
   @override
-  String get audioAndVideoInstanceVideoQualityLimit =>
-      'यह इंस्टेंस वर्तमान में 30 FPS पर 720p तक स्क्रीन शेयर की अनुमति देता है।';
+  String get audioAndVideoFrameRate120Label => '120 FPS';
+
+  @override
+  String get audioAndVideoQuality1440pLabel => '1440p';
+
+  @override
+  String get audioAndVideoQualitySourceLabel => 'Source';
+
+  @override
+  String get audioAndVideoStreamingModeSectionTitle => 'Streaming mode';
+
+  @override
+  String get audioAndVideoStreamingModeGaming => 'Gaming';
+
+  @override
+  String get audioAndVideoStreamingModeScreenShare => 'Screen share';
+
+  @override
+  String get audioAndVideoStreamingModeCustom => 'Custom';
+
+  @override
+  String audioAndVideoStreamingModeGamingDescription(
+    int frameRate,
+    String resolution,
+  ) {
+    return 'Smooth $frameRate FPS at up to $resolution';
+  }
+
+  @override
+  String audioAndVideoStreamingModeScreenShareDescription(
+    String resolution,
+    int frameRate,
+  ) {
+    return 'Sharp text at up to $resolution, $frameRate FPS';
+  }
+
+  @override
+  String get audioAndVideoStreamingModeCustomDescription =>
+      'Dial in your own numbers';
+
+  @override
+  String audioAndVideoScreenSharePresetOwned(String preset) {
+    return 'Set by the $preset preset. Picking a value here switches to Custom.';
+  }
+
+  @override
+  String audioAndVideoScreenShareSavedNeedsPremium(
+    String savedResolution,
+    int savedFrameRate,
+    String premiumProductName,
+    String resolution,
+    int frameRate,
+  ) {
+    return 'Your saved $savedResolution at $savedFrameRate FPS needs $premiumProductName, so shares use $resolution at $frameRate FPS.';
+  }
+
+  @override
+  String get audioAndVideoScreenShareGroupTitle => 'Screen share';
+
+  @override
+  String audioAndVideoScreenShareUpsellTitle(String premiumProductName) {
+    return 'Unlock HD screen share with $premiumProductName';
+  }
+
+  @override
+  String get audioAndVideoScreenShareUpsellDescription =>
+      'Share your screen in high definition (1080p), quad HD (1440p), or native source resolution, at up to 60 FPS.';
+
+  @override
+  String get audioAndVideoScreenShareUpsellDescriptionMobile =>
+      'Share your screen in 1080p in the app, and in quad HD (1440p) or native source resolution at up to 60 FPS in the desktop app.';
+
+  @override
+  String audioAndVideoGetPremium(String premiumProductName) {
+    return 'Get $premiumProductName';
+  }
+
+  @override
+  String get audioAndVideoAdvancedVideoSettingsLabel =>
+      'Advanced video settings';
+
+  @override
+  String get audioAndVideoOpenAdvancedMediaSettings =>
+      'Open advanced media settings';
+
+  @override
+  String audioAndVideoHighFrameRateRequiresPremium(String premiumProductName) {
+    return 'Frame rates above 30 FPS require $premiumProductName';
+  }
+
+  @override
+  String audioAndVideoInstanceScreenShareLimit(
+    String resolution,
+    int frameRate,
+  ) {
+    return 'This instance currently allows screen sharing up to $resolution at $frameRate FPS.';
+  }
+
+  @override
+  String get audioAndVideoIosScreenShareLimit =>
+      'Screen sharing on iOS is limited to 1080p.';
+
+  @override
+  String get audioAndVideoScreenShareBitrateLabel => 'Bitrate';
+
+  @override
+  String get audioAndVideoScreenShareBitrateDescription =>
+      'With Automatic, the bitrate follows your resolution and frame rate. Higher values keep fast motion sharper and use more upload bandwidth.';
+
+  @override
+  String get audioAndVideoScreenShareBitrateAutomatic => 'Automatic';
+
+  @override
+  String audioAndVideoScreenShareBitrateMbps(String bitrate) {
+    return '$bitrate Mbps';
+  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>

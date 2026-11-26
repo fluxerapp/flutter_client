@@ -46,6 +46,7 @@ export 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 export 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_settings_compact_select_row.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_button.dart';

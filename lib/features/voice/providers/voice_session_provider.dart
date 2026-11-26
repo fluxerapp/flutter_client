@@ -3089,6 +3089,8 @@ class VoiceSession extends _$VoiceSession {
             nextSelfStream
                 ? applicator.buildScreenShareCaptureOptions(settings)
                 : null,
+            target: (VideoDimensions? source) =>
+                applicator.screenShareTarget(settings, source: source),
           );
         } else if (room != null && lp != null) {
           awaitingBroadcast = await applicator.setScreenShareEnabled(
@@ -4172,6 +4174,12 @@ class VoiceSession extends _$VoiceSession {
         previous.videoDeviceId != next.videoDeviceId ||
         previous.cameraFacing != next.cameraFacing ||
         previous.cameraResolution != next.cameraResolution;
+    final bool screenShareQualityChanged =
+        previous != null &&
+        (previous.streamingMode != next.streamingMode ||
+            previous.screenshareResolution != next.screenshareResolution ||
+            previous.videoFrameRate != next.videoFrameRate ||
+            previous.screenShareBitrate != next.screenShareBitrate);
     if (mesh != null) {
       await _applyMeshSettingsChange(
         mesh,
@@ -4179,6 +4187,7 @@ class VoiceSession extends _$VoiceSession {
         audioChanged: audioChanged,
         inputVolumeChanged: inputVolumeChanged,
         cameraChanged: cameraChanged,
+        screenShareQualityChanged: screenShareQualityChanged,
       );
     } else if (room != null) {
       if (audioChanged) {
@@ -4214,11 +4223,23 @@ class VoiceSession extends _$VoiceSession {
               next.preferredScreenShareCodec ||
           previous.screenShareAv1OptIn != next.screenShareAv1OptIn ||
           previous.screenShareHevcOptIn != next.screenShareHevcOptIn;
-      if (screenShareCodecChanged &&
-          _hasPublishedLocalScreenShareVideo(requireTrack: false)) {
+      final bool sharing = _hasPublishedLocalScreenShareVideo(
+        requireTrack: false,
+      );
+      if (screenShareCodecChanged && sharing) {
         _refreshingScreenShare = true;
         try {
           await applicator.refreshScreenShare(room: room, settings: next);
+        } finally {
+          _refreshingScreenShare = false;
+        }
+      } else if (screenShareQualityChanged && sharing) {
+        _refreshingScreenShare = true;
+        try {
+          await applicator.applyLiveScreenShareSettings(
+            room: room,
+            settings: next,
+          );
         } finally {
           _refreshingScreenShare = false;
         }
@@ -4245,6 +4266,7 @@ class VoiceSession extends _$VoiceSession {
     required bool audioChanged,
     required bool inputVolumeChanged,
     required bool cameraChanged,
+    required bool screenShareQualityChanged,
   }) async {
     final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
     final double inputGain = inputVoiceVolumePercentToGain(next.inputVolume);
@@ -4258,6 +4280,13 @@ class VoiceSession extends _$VoiceSession {
     }
     if (cameraChanged) {
       await mesh.applyCameraOptions(applicator.buildCameraCaptureOptions(next));
+    }
+    if (screenShareQualityChanged) {
+      await mesh.applyScreenShareTarget(
+        options: applicator.buildScreenShareCaptureOptions(next),
+        target: (VideoDimensions? source) =>
+            applicator.screenShareTarget(next, source: source),
+      );
     }
   }
 

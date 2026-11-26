@@ -36,6 +36,8 @@ class FluxerSelectItem<T> {
 
 const double _kMobileTriggerMinHeight = 44;
 
+enum FluxerSelectDensity { regular, compact }
+
 class FluxerSelect<T> extends StatefulWidget {
   FluxerSelect({
     required this.items,
@@ -53,6 +55,7 @@ class FluxerSelect<T> extends StatefulWidget {
     this.stretch = false,
     this.scrollableSheet = false,
     this.useRootNavigator,
+    this.density = FluxerSelectDensity.regular,
     super.key,
   }) : _onChanged = ((value) => onChanged(value as T));
 
@@ -73,6 +76,8 @@ class FluxerSelect<T> extends StatefulWidget {
   final bool scrollableSheet;
 
   final bool? useRootNavigator;
+
+  final FluxerSelectDensity density;
 
   @override
   State<FluxerSelect<T>> createState() => _FluxerSelectState<T>();
@@ -221,9 +226,10 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   ) {
     final colors = context.colors;
     final textStyles = context.textStyles;
+    final bool compact = widget.density == FluxerSelectDensity.compact;
     final TextStyle textStyle = textStyles.bodySmall.copyWith(
-      fontSize: 14,
-      height: 20 / 14,
+      fontSize: compact ? 13 : 14,
+      height: compact ? 18 / 13 : 20 / 14,
       color: colors.textPrimary,
     );
     final Color borderColor = errorText != null
@@ -243,8 +249,8 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
           duration: context.motion.normal,
           curve: Curves.ease,
           width: stretch ? double.infinity : null,
-          constraints: const BoxConstraints(minHeight: 44),
-          padding: const EdgeInsetsDirectional.only(start: 17, end: 7),
+          constraints: BoxConstraints(minHeight: compact ? 34 : 44),
+          padding: EdgeInsetsDirectional.only(start: compact ? 11 : 17, end: 7),
           decoration: BoxDecoration(
             color: fluxerFormSurfaceBackground(context),
             borderRadius: context.layout.radiusLg,
@@ -260,7 +266,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
               Flexible(
                 fit: stretch ? FlexFit.tight : FlexFit.loose,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 11),
+                  padding: EdgeInsets.symmetric(vertical: compact ? 7 : 11),
                   child: Text(
                     selectedItem?.label ?? hint ?? '',
                     style: selectedItem != null
@@ -538,6 +544,31 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
         if (item.searchText case final searchText?) searchText.toLowerCase(),
       ],
   ];
+}
+
+Future<void> showFluxerSelectOptions<T>(
+  BuildContext context, {
+  required String title,
+  required List<FluxerSelectItem<T>> items,
+  required T? value,
+  required ValueChanged<T> onChanged,
+}) async {
+  await FluxerBottomSheet.show<void>(
+    context,
+    title: title,
+    maxHeight: 0.58,
+    variant: FluxerBottomSheetVariant.menu,
+    builder: (BuildContext sheetContext, VoidCallback close) =>
+        _FluxerSelectList<T>(
+          items: items,
+          value: value,
+          shrinkWrap: true,
+          onSelected: (T selected) {
+            close();
+            onChanged(selected);
+          },
+        ),
+  );
 }
 
 class _FluxerSelectList<T> extends StatelessWidget {

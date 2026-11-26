@@ -17598,11 +17598,176 @@ abstract class FluxerLocalizations {
   /// **'60 FPS'**
   String get audioAndVideoFrameRate60Label;
 
-  /// Note shown when instance limits block higher screen share quality.
+  /// Screen share frame rate option for 120 FPS.
   ///
   /// In en, this message translates to:
-  /// **'This instance currently allows screen share up to 720p at 30 FPS.'**
-  String get audioAndVideoInstanceVideoQualityLimit;
+  /// **'120 FPS'**
+  String get audioAndVideoFrameRate120Label;
+
+  /// Screen share quality option for 1440p resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'1440p'**
+  String get audioAndVideoQuality1440pLabel;
+
+  /// Screen share quality option that sends the native screen resolution, up to 4K. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get audioAndVideoQualitySourceLabel;
+
+  /// Subsection title for picking a screen share quality preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaming mode'**
+  String get audioAndVideoStreamingModeSectionTitle;
+
+  /// Screen share preset that favours smooth motion.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaming'**
+  String get audioAndVideoStreamingModeGaming;
+
+  /// Screen share preset that favours sharp text.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share'**
+  String get audioAndVideoStreamingModeScreenShare;
+
+  /// Screen share preset where the user picks resolution and frame rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get audioAndVideoStreamingModeCustom;
+
+  /// Description of the Gaming preset. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Smooth {frameRate} FPS at up to {resolution}'**
+  String audioAndVideoStreamingModeGamingDescription(
+    int frameRate,
+    String resolution,
+  );
+
+  /// Description of the Screen share preset. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp text at up to {resolution}, {frameRate} FPS'**
+  String audioAndVideoStreamingModeScreenShareDescription(
+    String resolution,
+    int frameRate,
+  );
+
+  /// Description of the Custom preset. Lightly playful.
+  ///
+  /// In en, this message translates to:
+  /// **'Dial in your own numbers'**
+  String get audioAndVideoStreamingModeCustomDescription;
+
+  /// Note under screen share quality while a preset decides resolution and frame rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by the {preset} preset. Picking a value here switches to Custom.'**
+  String audioAndVideoScreenSharePresetOwned(String preset);
+
+  /// Note shown when the saved screen share quality is above what this account can send. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved {savedResolution} at {savedFrameRate} FPS needs {premiumProductName}, so shares use {resolution} at {frameRate} FPS.'**
+  String audioAndVideoScreenShareSavedNeedsPremium(
+    String savedResolution,
+    int savedFrameRate,
+    String premiumProductName,
+    String resolution,
+    int frameRate,
+  );
+
+  /// Video settings group title for screen share quality options.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share'**
+  String get audioAndVideoScreenShareGroupTitle;
+
+  /// Premium upsell title in video settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock HD screen share with {premiumProductName}'**
+  String audioAndVideoScreenShareUpsellTitle(String premiumProductName);
+
+  /// Premium upsell body in video settings. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen in high definition (1080p), quad HD (1440p), or native source resolution, at up to 60 FPS.'**
+  String get audioAndVideoScreenShareUpsellDescription;
+
+  /// Premium upsell body in video settings on phones, where screen share stops at 1080p. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen in 1080p in the app, and in quad HD (1440p) or native source resolution at up to 60 FPS in the desktop app.'**
+  String get audioAndVideoScreenShareUpsellDescriptionMobile;
+
+  /// Button in the video settings upsell that opens the premium page.
+  ///
+  /// In en, this message translates to:
+  /// **'Get {premiumProductName}'**
+  String audioAndVideoGetPremium(String premiumProductName);
+
+  /// Row label in video settings that leads to advanced media settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced video settings'**
+  String get audioAndVideoAdvancedVideoSettingsLabel;
+
+  /// Button in video settings that jumps to the advanced media settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open advanced media settings'**
+  String get audioAndVideoOpenAdvancedMediaSettings;
+
+  /// Video settings note shown when higher frame rates need premium. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame rates above 30 FPS require {premiumProductName}'**
+  String audioAndVideoHighFrameRateRequiresPremium(String premiumProductName);
+
+  /// Neutral note shown when instance limits cap screen share quality. FPS is a technical token.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance currently allows screen sharing up to {resolution} at {frameRate} FPS.'**
+  String audioAndVideoInstanceScreenShareLimit(
+    String resolution,
+    int frameRate,
+  );
+
+  /// Note in video settings on iOS, where the system broadcast sends at most 1080p.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen sharing on iOS is limited to 1080p.'**
+  String get audioAndVideoIosScreenShareLimit;
+
+  /// Label for the screen share video bitrate select.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitrate'**
+  String get audioAndVideoScreenShareBitrateLabel;
+
+  /// Description under the screen share bitrate select. Automatic is the default option label.
+  ///
+  /// In en, this message translates to:
+  /// **'With Automatic, the bitrate follows your resolution and frame rate. Higher values keep fast motion sharper and use more upload bandwidth.'**
+  String get audioAndVideoScreenShareBitrateDescription;
+
+  /// Default option of the screen share bitrate select.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get audioAndVideoScreenShareBitrateAutomatic;
+
+  /// Option of the screen share bitrate select. Mbps is a technical unit token.
+  ///
+  /// In en, this message translates to:
+  /// **'{bitrate} Mbps'**
+  String audioAndVideoScreenShareBitrateMbps(String bitrate);
 
   /// Toggle to skip confirmation when hiding own camera during a call.
   ///

@@ -81,5 +81,6 @@ ios/build/
 /lib/features/settings/services/premium_store_purchase_client.dart
 packages/fluxer_billing/build/
 packages/fluxer_billing/pubspec.lock
+packages/fluxer_voice/android/.cxx/
 # Widget Preview related
 .widget_preview/

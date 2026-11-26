@@ -775,7 +775,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
           RTCRtpParameters(
             encodings: <RTCRtpEncoding>[encoding],
             degradationPreference: source == VoiceMeshSource.screenShare
-                ? RTCDegradationPreference.MAINTAIN_FRAMERATE
+                ? _transport.screenShareDegradationPreference
                 : null,
           ),
         );
