@@ -150,6 +150,7 @@ class MessageListViewport extends StatelessWidget {
               child: KeyedSubtree(
                 key: ValueKey<int>(anchorEpoch),
                 child: _withheldBuilder(
+                  context: context,
                   splitIndex: splitIndex,
                   effectiveAnchor: anchorDataIndex == null
                       ? 1.0
@@ -182,12 +183,14 @@ class MessageListViewport extends StatelessWidget {
   }
 
   Widget _withheldBuilder({
+    required BuildContext context,
     required int splitIndex,
     required double effectiveAnchor,
   }) {
     final ValueListenable<int>? listenable = withheldLeading;
     if (listenable == null) {
       return _scrollView(
+        context: context,
         splitIndex: splitIndex,
         effectiveAnchor: effectiveAnchor,
         withheldLeadingCount: 0,
@@ -196,6 +199,7 @@ class MessageListViewport extends StatelessWidget {
     return ValueListenableBuilder<int>(
       valueListenable: listenable,
       builder: (BuildContext context, int _, Widget? _) => _scrollView(
+        context: context,
         splitIndex: splitIndex,
         effectiveAnchor: effectiveAnchor,
         withheldLeadingCount: listenable.value,
@@ -204,6 +208,7 @@ class MessageListViewport extends StatelessWidget {
   }
 
   Widget _scrollView({
+    required BuildContext context,
     required int splitIndex,
     required double effectiveAnchor,
     required int withheldLeadingCount,
@@ -214,6 +219,9 @@ class MessageListViewport extends StatelessWidget {
     return CustomScrollView(
       key: const ValueKey<String>('message-list'),
       controller: controller,
+      scrollBehavior: ScrollConfiguration.of(
+        context,
+      ).copyWith(scrollbars: false),
       center: centerKey,
       anchor: effectiveAnchor,
       dragStartBehavior: DragStartBehavior.down,
