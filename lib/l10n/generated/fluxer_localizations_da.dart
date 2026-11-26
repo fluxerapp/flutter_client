@@ -10616,6 +10616,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Styr bekræftelsesprompter under tale- og videoopkald.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Inputenhed';
 
   @override

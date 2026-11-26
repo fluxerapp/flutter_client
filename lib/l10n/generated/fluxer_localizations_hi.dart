@@ -10599,6 +10599,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'कॉल के दौरान पुष्टि प्रॉम्प्ट को नियंत्रित करें।';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'इनपुट डिवाइस';
 
   @override

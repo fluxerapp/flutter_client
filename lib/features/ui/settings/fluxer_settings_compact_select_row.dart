@@ -34,6 +34,8 @@ class FluxerSettingsCompactSelectRow<T> extends StatelessWidget {
     this.description,
     this.controlWidth = FluxerSettingsSelectWidth.medium,
     this.enabled = true,
+    this.menuMinWidth,
+    this.wrapMenuText = false,
     super.key,
   });
 
@@ -43,6 +45,8 @@ class FluxerSettingsCompactSelectRow<T> extends StatelessWidget {
   final List<FluxerSelectItem<T>> items;
   final FluxerSettingsSelectWidth controlWidth;
   final bool enabled;
+  final double? menuMinWidth;
+  final bool wrapMenuText;
 
   // The generic callback keeps select values strongly typed for callers.
   // ignore: unsafe_variance
@@ -150,6 +154,8 @@ class FluxerSettingsCompactSelectRow<T> extends StatelessWidget {
                     enableSearch: false,
                     stretch: true,
                     density: FluxerSelectDensity.compact,
+                    menuMinWidth: menuMinWidth,
+                    wrapMenuText: wrapMenuText,
                     onChanged: _onChanged,
                   ),
                 ),

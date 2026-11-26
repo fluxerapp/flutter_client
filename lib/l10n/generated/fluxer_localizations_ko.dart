@@ -10183,6 +10183,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '음성 및 영상 통화 중 확인 프롬프트를 제어합니다.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => '입력 장치';
 
   @override

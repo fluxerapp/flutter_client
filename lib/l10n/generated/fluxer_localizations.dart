@@ -17313,6 +17313,12 @@ abstract class FluxerLocalizations {
   /// **'Control confirmation prompts during voice and video calls.'**
   String get audioAndVideoInCallBehaviorSectionDescription;
 
+  /// Subsection title above the input and output device pickers in voice settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Input and output'**
+  String get audioAndVideoInputAndOutputTitle;
+
   /// Label for microphone input device selection.
   ///
   /// In en, this message translates to:

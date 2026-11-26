@@ -10748,6 +10748,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Έλεγχος των προτροπών επιβεβαίωσης κατά τη διάρκεια φωνητικών και βιντεοκλήσεων.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Συσκευή εισόδου';
 
   @override

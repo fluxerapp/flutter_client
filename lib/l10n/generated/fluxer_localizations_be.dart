@@ -10823,6 +10823,9 @@ class FluxerLocalizationsBe extends FluxerLocalizations {
       'Кіруйце запытамі на пацвярджэнне падчас галасавых і відэавыклікаў.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Прылада ўводу';
 
   @override

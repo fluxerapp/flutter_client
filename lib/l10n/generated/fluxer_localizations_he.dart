@@ -10471,6 +10471,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'שליטה בהנחיות אישור במהלך שיחות קול ווידאו.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'התקן קלט';
 
   @override

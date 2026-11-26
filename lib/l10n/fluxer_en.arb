@@ -13040,6 +13040,10 @@
   "@audioAndVideoInCallBehaviorSectionDescription": {
     "description": "Settings section description for in-call behavior prompts."
   },
+  "audioAndVideoInputAndOutputTitle": "Input and output",
+  "@audioAndVideoInputAndOutputTitle": {
+    "description": "Subsection title above the input and output device pickers in voice settings."
+  },
   "audioAndVideoInputDeviceLabel": "Input device",
   "@audioAndVideoInputDeviceLabel": {
     "description": "Label for microphone input device selection."

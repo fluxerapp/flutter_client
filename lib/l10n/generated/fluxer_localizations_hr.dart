@@ -10653,6 +10653,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Upravljajte upitima za potvrdu tijekom glasovnih i videopoziva.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Ulazni uređaj';
 
   @override

@@ -10710,6 +10710,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Керуйте запитами на підтвердження під час голосових та відеодзвінків.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Пристрій введення';
 
   @override

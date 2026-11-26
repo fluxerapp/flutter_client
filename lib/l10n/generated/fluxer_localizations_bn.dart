@@ -10565,6 +10565,9 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Control confirmation prompts during voice and video calls.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Input device';
 
   @override

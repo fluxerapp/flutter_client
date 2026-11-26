@@ -10725,6 +10725,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Kontroluj monity potwierdzenia podczas rozmów głosowych i wideo.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Urządzenie wejściowe';
 
   @override

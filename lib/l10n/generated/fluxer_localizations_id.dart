@@ -10607,6 +10607,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Kontrol permintaan konfirmasi selama panggilan suara dan video.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Perangkat input';
 
   @override

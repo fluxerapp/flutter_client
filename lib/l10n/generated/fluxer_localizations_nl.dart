@@ -10672,6 +10672,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Bevestigingsprompts tijdens spraak- en videogesprekken.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Invoerapparaat';
 
   @override

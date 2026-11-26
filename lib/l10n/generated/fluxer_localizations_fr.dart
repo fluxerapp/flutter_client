@@ -10769,6 +10769,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Contrôler les invites de confirmation pendant les appels vocaux et vidéo.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Périphérique d\'entrée';
 
   @override

@@ -10717,6 +10717,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Управлять запросами на подтверждение во время голосовых и видеозвонков.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Устройство ввода';
 
   @override

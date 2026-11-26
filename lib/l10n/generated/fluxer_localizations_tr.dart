@@ -10613,6 +10613,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sesli ve görüntülü aramalardaki onay uyarılarını yönet.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Giriş aygıtı';
 
   @override

@@ -10632,6 +10632,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Hallitse vahvistuskehotteita ääni- ja videopuheluiden aikana.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Syöttölaite';
 
   @override

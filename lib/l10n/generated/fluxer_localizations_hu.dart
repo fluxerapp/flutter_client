@@ -10699,6 +10699,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Megerősítő üzenetek megjelenítése hang- és videohívások közben.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Bemeneti eszköz';
 
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/desktop/permissions/mac_permissions_provider.dart';
 import 'package:fluxer_app/core/desktop/permissions/mac_permissions_state.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/audio_and_video/video_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_entrance_sound_section.dart';
@@ -41,6 +42,8 @@ class UserAudioAndVideo extends ConsumerStatefulWidget {
 }
 
 class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
+  static const double _kDeviceMenuMinWidth = 280;
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +74,30 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
           ),
         )
         .toList();
+  }
+
+  Widget _deviceRow(
+    FluxerLocalizations l10n, {
+    required String label,
+    required String value,
+    required List<VoiceMediaDeviceOption> devices,
+    required ValueChanged<String> onChanged,
+  }) {
+    final List<VoiceMediaDeviceOption> options = withDefaultVoiceMediaDevice(
+      devices,
+    );
+    final bool isAvailable = options.any(
+      (VoiceMediaDeviceOption device) => device.deviceId == value,
+    );
+    return FluxerSettingsCompactSelectRow<String>(
+      label: label,
+      value: isAvailable ? value : kDefaultVoiceDeviceId,
+      items: _deviceItems(l10n, options),
+      controlWidth: FluxerSettingsSelectWidth.wide,
+      menuMinWidth: _kDeviceMenuMinWidth,
+      wrapMenuText: true,
+      onChanged: onChanged,
+    );
   }
 
   Widget _volumePercentageLabel(double value) {
@@ -146,6 +173,28 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
               if (useNativeVoiceAudioRoutePicker ||
                   useAndroidVoiceOutputRoutePicker)
                 const VoiceChangeAudioOutputSettingsRow()
+              else if (isFluxerDesktopOs)
+                FluxerSettingsSubsection(
+                  title: l10n.audioAndVideoInputAndOutputTitle,
+                  children: <Widget>[
+                    _deviceRow(
+                      l10n,
+                      label: l10n.audioAndVideoInputDeviceLabel,
+                      value: settings.inputDeviceId,
+                      devices: devices.audioInputs,
+                      onChanged: (String value) =>
+                          unawaited(settingsNotifier.setInputDeviceId(value)),
+                    ),
+                    _deviceRow(
+                      l10n,
+                      label: l10n.audioAndVideoOutputDeviceLabel,
+                      value: settings.outputDeviceId,
+                      devices: devices.audioOutputs,
+                      onChanged: (String value) =>
+                          unawaited(settingsNotifier.setOutputDeviceId(value)),
+                    ),
+                  ],
+                )
               else ...<Widget>[
                 FluxerSelect<String>(
                   label: l10n.audioAndVideoInputDeviceLabel,

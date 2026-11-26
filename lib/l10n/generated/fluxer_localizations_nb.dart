@@ -10627,6 +10627,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Vis bekreftelsesvarsler under tale- og videosamtaler.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Inndataenhet';
 
   @override

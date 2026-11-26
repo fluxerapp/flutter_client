@@ -10703,6 +10703,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Контролирайте подканите за потвърждение по време на гласови и видео разговори.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Входно устройство';
 
   @override

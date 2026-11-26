@@ -10193,6 +10193,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '音声通話やビデオ通話中に表示する確認メッセージを設定します。';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => '入力デバイス';
 
   @override

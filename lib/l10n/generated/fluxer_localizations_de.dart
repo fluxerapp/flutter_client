@@ -10735,6 +10735,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Bestätigungsaufforderungen während Sprach- und Videoanrufen steuern.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Eingabegerät';
 
   @override

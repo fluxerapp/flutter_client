@@ -10691,6 +10691,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Controlează solicitările de confirmare în timpul apelurilor vocale și video.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Dispozitiv de intrare';
 
   @override

@@ -10685,6 +10685,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Controlla le richieste di conferma durante le chiamate vocali e video.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Dispositivo di input';
 
   @override

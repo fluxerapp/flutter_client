@@ -10555,6 +10555,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'التحكم في مطالبات التأكيد أثناء المكالمات الصوتية والمرئية.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'جهاز الإدخال';
 
   @override

@@ -10522,6 +10522,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ควบคุมการแจ้งเตือนเพื่อยืนยันระหว่างการโทรด้วยเสียงและวิดีโอ';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'อุปกรณ์อินพุต';
 
   @override

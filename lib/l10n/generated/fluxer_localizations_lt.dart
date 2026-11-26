@@ -10723,6 +10723,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Valdyti patvirtinimo raginimus balso ir vaizdo skambučiuose.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Įvesties įrenginys';
 
   @override

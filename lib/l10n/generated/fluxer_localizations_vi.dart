@@ -10606,6 +10606,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Kiểm soát các lời nhắc xác nhận trong các cuộc gọi thoại và video.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Thiết bị đầu vào';
 
   @override

@@ -10675,6 +10675,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Controle as confirmações durante chamadas de voz e vídeo.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Dispositivo de entrada';
 
   @override

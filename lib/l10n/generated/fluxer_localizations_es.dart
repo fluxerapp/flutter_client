@@ -10732,6 +10732,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Controla los diálogos de confirmación durante las llamadas de voz y vídeo.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Dispositivo de entrada';
 
   @override

@@ -9975,6 +9975,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '在语音和视频通话中控制确认提示。';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => '输入设备';
 
   @override

@@ -10667,6 +10667,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Ovládat výzvy k potvrzení během hlasových a videohovorů.';
 
   @override
+  String get audioAndVideoInputAndOutputTitle => 'Input and output';
+
+  @override
   String get audioAndVideoInputDeviceLabel => 'Vstupní zařízení';
 
   @override
