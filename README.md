@@ -37,6 +37,9 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 ## Download
 
+> [!WARNING]
+> Fluxer Oxygen desktop client is currently in an Open Canary (Alpha), we are not accepting bug reports for it at this time.
+
 | Platform | Channel | Status | Get it |
 | --- | --- | --- | --- |
 | iOS | App Store | In App Store review | — |
@@ -47,9 +50,9 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 | Android | Obtainium | Stable / Beta | [Auto-updates from GitHub](#auto-updates-with-obtainium) |
 | Android | F-Droid | Soon | — |
 | Android | Accrescent | Waiting for Accrescent submissions to be open | — |
-| macOS (Oxygen) | Website | Closed Alpha | — |
-| Window (Oxygen) | Website | Closed Alpha | — |
-| Linux (Oxygen) | Website | — | — |
+| macOS (Oxygen) | Website | Open Canary | [Installer](https://pkgs.fluxer.com/oxygen/latest/macos) - [Portable](https://pkgs.fluxer.com/oxygen/latest/macos-portable) |
+| Window (Oxygen) | Website | Open Canary | [Installer](https://pkgs.fluxer.com/oxygen/latest/windows) - [Portable](https://pkgs.fluxer.com/oxygen/latest/windows-portable) |
+| Linux (Oxygen) | Website | Coming soon | — |
 
 ### Android (APK)
 
