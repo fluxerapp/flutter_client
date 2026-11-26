@@ -38,7 +38,7 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 ## Download
 
 > [!WARNING]
-> Fluxer Oxygen desktop client is currently in an Open Canary (Alpha), we are not accepting bug reports for it at this time.
+> Fluxer Oxygen desktop client is currently in an Open Canary (Alpha), we are not accepting bug reports for it at this time. Any reports for Oxygen on the feedback site will be closed.
 
 | Platform | Channel | Status | Get it |
 | --- | --- | --- | --- |
