@@ -11,7 +11,7 @@ import 'package:fluxer_app/core/local_settings/local_settings_store.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/desktop_behavior_preferences_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
-const Size _kDefaultSize = Size(1280, 720);
+const Size _kDefaultSize = Size(1280, 800);
 
 bool _usesNativeTitleBar = false;
 

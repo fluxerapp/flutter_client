@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 
-const Size kDesktopWindowMinimumSize = Size(480, 560);
+const Size kDesktopWindowMinimumSize = Size(800, 600);
 const double _kMaxWorkAreaFraction = 0.9;
 const double _kMinVisibleTitlebarWidth = 120;
 const double _kMinVisibleTitlebarHeight = 24;
