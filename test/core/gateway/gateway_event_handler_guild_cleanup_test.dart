@@ -4,10 +4,12 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_dart/gateway_client/event_parser.dart';
 
 import '../../helpers/open_test_database.dart';
 
 void main() {
+  _resyncTests();
   group('guild membership cleanup', () {
     Future<
       ({
@@ -22,7 +24,8 @@ void main() {
       final handler = GatewayEventHandler(
         database: database,
         currentUserId: '100',
-        onGuildPermissionsEvict: evictedGuildIds.add,
+        onGuildPermissionsEvict: (String guildId, List<String> _) =>
+            evictedGuildIds.add(guildId),
       );
       return (
         handler: handler,
@@ -306,9 +309,10 @@ void main() {
         final handler = GatewayEventHandler(
           database: database,
           currentUserId: '100',
-          onGuildAvailable: (String guildId) => memberReads.add(
-            database.memberDao.getMemberByUserId('100', guildId),
-          ),
+          onGuildAvailable: (String guildId, {required bool synced}) =>
+              memberReads.add(
+                database.memberDao.getMemberByUserId('100', guildId),
+              ),
         );
         await handler.handle(
           const GuildDeleteEvent(guildId: 'g1', unavailable: true),
@@ -355,7 +359,8 @@ void main() {
         final handler = GatewayEventHandler(
           database: database,
           currentUserId: '100',
-          onGuildAvailable: (String guildId) => availability.add('available'),
+          onGuildAvailable: (String guildId, {required bool synced}) =>
+              availability.add('available'),
           onGuildAvailabilityChanged:
               (
                 String guildId, {
@@ -416,6 +421,261 @@ void main() {
     });
   });
 }
+
+void _resyncTests() {
+  group('gateway resync', () {
+    const EventParser parser = EventParser();
+
+    ReadyEvent readyFor(String userId) => ReadyEvent(
+      sessionId: 'session-1',
+      user: UserPrivateResponse.fromJson(<String, Object?>{
+        ..._user().toJson(),
+        'id': userId,
+      }),
+      rawGuilds: [_guildRaw(id: '200')],
+      privateChannels: const [],
+      relationships: const [],
+      readStates: const [],
+      presences: const [],
+    );
+
+    test('GUILD_CREATE always asks for a permission recompute', () async {
+      final database = openTestDatabase();
+      final List<String> changed = <String>[];
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onGuildPermissionsChanged: changed.add,
+      );
+
+      await handler.handle(
+        GuildCreateEvent(guild: GuildCreateData.fromJson(_guildRaw(id: 'g1'))),
+      );
+
+      expect(changed, <String>['g1']);
+    });
+
+    test(
+      'GUILD_DELETE unavailable evicts the guild channels it removed',
+      () async {
+        final database = openTestDatabase();
+        final List<List<String>> evicted = <List<String>>[];
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          onGuildPermissionsEvict: (_, List<String> channelIds) =>
+              evicted.add(channelIds),
+        );
+        await handler.handle(
+          GuildCreateEvent(
+            guild: GuildCreateData.fromJson({
+              ..._guildRaw(id: 'g1'),
+              'channels': <Map<String, Object?>>[_channelRaw('c1', 'g1')],
+            }),
+          ),
+        );
+
+        await handler.handle(
+          const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+        );
+
+        expect(evicted, <List<String>>[
+          <String>['c1'],
+        ]);
+        expect(await database.channelDao.getChannelById('c1'), isNull);
+        expect(
+          (await database.guildDao.getServerById('g1'))?.unavailable,
+          true,
+        );
+      },
+    );
+
+    test('an outage keeps drafts and a removal drops them', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      final GuildCreateEvent create = GuildCreateEvent(
+        guild: GuildCreateData.fromJson({
+          ..._guildRaw(id: 'g1'),
+          'channels': <Map<String, Object?>>[_channelRaw('c1', 'g1')],
+        }),
+      );
+      await handler.handle(create);
+      await database.composerDraftDao.upsertDraft(
+        channelId: 'c1',
+        content: 'draft',
+      );
+
+      await handler.handle(
+        const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+      );
+      expect(await database.composerDraftDao.getDraft('c1'), isNotNull);
+
+      await handler.handle(create);
+      await handler.handle(const GuildDeleteEvent(guildId: 'g1'));
+      expect(await database.composerDraftDao.getDraft('c1'), isNull);
+    });
+
+    test('GUILD_CREATE right after an outage keeps the fresh data', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      final GuildCreateEvent create = GuildCreateEvent(
+        guild: GuildCreateData.fromJson({
+          ..._guildRaw(id: 'g1'),
+          'channels': <Map<String, Object?>>[_channelRaw('c1', 'g1')],
+        }),
+      );
+      await handler.handle(create);
+
+      await handler.handle(
+        const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+      );
+      await handler.handle(create);
+
+      expect(await database.channelDao.getChannelById('c1'), isNotNull);
+      expect((await database.guildDao.getServerById('g1'))?.unavailable, false);
+    });
+
+    test('GUILD_UPDATE keeps the guild position', () async {
+      final database = openTestDatabase();
+      await database.guildDao.upsertServer(
+        ServersCompanion.insert(
+          id: 'g1',
+          name: 'Guild g1',
+          position: const Value(7),
+        ),
+      );
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+
+      await handler.handle(
+        GuildUpdateEvent(guild: GuildCreateData.fromJson(_guildRaw(id: 'g1'))),
+      );
+
+      expect((await database.guildDao.getServerById('g1'))?.position, 7);
+    });
+
+    test('READY clears permission caches after its data is written', () async {
+      final database = openTestDatabase();
+      final List<String> order = <String>[];
+      late final GatewayEventHandler handler;
+      handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onPermissionsClearAll: () async {
+          order.add('clear');
+          final Server? guild = await database.guildDao.getServerById('200');
+          order.add(guild == null ? 'missing' : 'present');
+        },
+        onReady: () => order.add('ready'),
+      );
+
+      await handler.handle(readyFor('100'));
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(order, <String>['clear', 'ready', 'present']);
+    });
+
+    test('READY for another account is rejected before any write', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        resolveCurrentUserId: () => '100',
+      );
+
+      await expectLater(handler.handle(readyFor('999')), throwsStateError);
+      expect(await database.guildDao.getServerById('200'), isNull);
+    });
+
+    test('CHANNEL_DELETE drops drafts and mention rows', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      await handler.handle(
+        parser.parse('CHANNEL_CREATE', _channelRaw('c1', 'g1')),
+      );
+      await database.composerDraftDao.upsertDraft(
+        channelId: 'c1',
+        content: 'draft',
+      );
+      await database.notificationDao.prependMentionRow(
+        messageId: 'm1',
+        channelId: 'c1',
+      );
+
+      await handler.handle(
+        parser.parse('CHANNEL_DELETE', <String, Object?>{
+          'guild_id': 'g1',
+          'id': 'c1',
+        }),
+      );
+
+      expect(await database.composerDraftDao.getDraft('c1'), isNull);
+      expect(await database.notificationDao.maxMentionOrdinal(), isNull);
+    });
+
+    test('MESSAGE_DELETE removes the saved message entry', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      await database.savedMessageDao.addSavedMessage('m1');
+
+      await handler.handle(
+        const MessageDeleteEvent(messageId: 'm1', channelId: 'c1'),
+      );
+
+      expect(await database.savedMessageDao.isSaved('m1'), isFalse);
+    });
+
+    test('OPERATOR_PASS_UPDATE reaches the handler callback', () async {
+      final database = openTestDatabase();
+      final List<int> counts = <int>[];
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onOperatorPassUpdate: (OperatorPassPassesResponse passes) =>
+            counts.add(passes.count),
+      );
+
+      await handler.handle(
+        parser.parse('OPERATOR_PASS_UPDATE', <String, Object?>{'count': 2}),
+      );
+
+      expect(counts, <int>[2]);
+    });
+  });
+}
+
+Map<String, Object?> _channelRaw(String id, String guildId) =>
+    <String, Object?>{
+      'content_warning_level': 0,
+      'content_warning_text': null,
+      'guild_id': guildId,
+      'id': id,
+      'last_message_id': null,
+      'last_pin_timestamp': null,
+      'name': 'general',
+      'nsfw': false,
+      'nsfw_override': null,
+      'parent_id': null,
+      'permission_overwrites': <Object?>[],
+      'position': 0,
+      'rate_limit_per_user': 0,
+      'topic': null,
+      'type': 0,
+    };
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({
   'id': '100',

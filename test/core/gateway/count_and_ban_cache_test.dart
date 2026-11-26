@@ -45,6 +45,34 @@ void main() {
     );
   });
 
+  test('ChannelMemberCountCache evicts one guild and clears all', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    final ChannelMemberCountCache cache =
+        container.read(channelMemberCountCacheProvider.notifier)
+          ..applyUpdates(const <ChannelMemberCountEntry>[
+            ChannelMemberCountEntry(
+              guildId: 'g1',
+              channelId: 'ch1',
+              memberCount: 12,
+              onlineCount: 4,
+            ),
+            ChannelMemberCountEntry(
+              guildId: 'g2',
+              channelId: 'ch2',
+              memberCount: 3,
+              onlineCount: 1,
+            ),
+          ])
+          ..evictGuild('g1');
+
+    expect(cache.getCounts('g1', 'ch1'), isNull);
+    expect(cache.getCounts('g2', 'ch2')?.memberCount, 3);
+
+    cache.clearAll();
+    expect(container.read(channelMemberCountCacheProvider), isEmpty);
+  });
+
   test('KnownGuildBans tracks add and remove', () {
     final ProviderContainer container = ProviderContainer();
     addTearDown(container.dispose);

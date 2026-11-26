@@ -39,7 +39,7 @@ List<ChannelOverwriteResponse>? decodePermissionOverwritesJson(String? json) {
 
 db.ServersCompanion guildFromSdk(
   GuildResponse sdk, {
-  int position = 0,
+  int? position,
   bool unavailable = false,
   int? memberCount,
   int? onlineCount,
@@ -62,7 +62,7 @@ db.ServersCompanion guildFromSdk(
         : Value(onlineCount),
     featuresJson: Value(jsonEncode(sdk.features)),
     badgeIdsJson: Value(jsonEncode(sdk.badgeIds)),
-    position: Value(position),
+    position: position == null ? const Value.absent() : Value(position),
     unavailable: Value(unavailable),
     disabledOperations: Value(sdk.disabledOperations),
     verificationLevel: Value(sdk.verificationLevel.json ?? 0),

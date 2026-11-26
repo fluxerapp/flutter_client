@@ -101,12 +101,12 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     _setEffectiveBits(channelId: channelId, outcome: outcome);
   }
 
-  Future<void> rebuildGuild(
+  Future<Iterable<String>> rebuildGuild(
     String guildId, {
     Set<String>? onlyChannelIds,
   }) async {
     if (guildId.isEmpty) {
-      return;
+      return const <String>[];
     }
     final Map<String, ChannelPermissionBitsOutcome> outcomes =
         await computeEffectiveGuildChannelPermissionBitsOutcomesForGuild(
@@ -115,9 +115,10 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
           onlyChannelIds: onlyChannelIds,
         );
     if (!ref.mounted) {
-      return;
+      return const <String>[];
     }
     _mergeEffective(outcomes);
+    return outcomes.keys;
   }
 
   Future<void> rebuildAfterReady({
@@ -193,19 +194,23 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     }
   }
 
-  void evictChannel(String channelId) {
-    if (channelId.isEmpty) {
-      return;
-    }
-    if (!state.effective.containsKey(channelId) &&
-        !state.local.containsKey(channelId)) {
+  void evictChannel(String channelId) => evictChannels(<String>[channelId]);
+
+  void evictChannels(Iterable<String> channelIds) {
+    final Set<String> cached = <String>{
+      for (final String channelId in channelIds)
+        if (state.effective.containsKey(channelId) ||
+            state.local.containsKey(channelId))
+          channelId,
+    };
+    if (cached.isEmpty) {
       return;
     }
     final Map<String, int> nextEffective = Map<String, int>.from(
       state.effective,
-    )..remove(channelId);
+    )..removeWhere((String id, _) => cached.contains(id));
     final Map<String, int> nextLocal = Map<String, int>.from(state.local)
-      ..remove(channelId);
+      ..removeWhere((String id, _) => cached.contains(id));
     state = ChannelPermissionCaches(effective: nextEffective, local: nextLocal);
   }
 
@@ -221,15 +226,7 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     if (!ref.mounted) {
       return;
     }
-    final Map<String, int> nextEffective = Map<String, int>.from(
-      state.effective,
-    );
-    final Map<String, int> nextLocal = Map<String, int>.from(state.local);
-    for (final channel in channels) {
-      nextEffective.remove(channel.id);
-      nextLocal.remove(channel.id);
-    }
-    state = ChannelPermissionCaches(effective: nextEffective, local: nextLocal);
+    evictChannels(<String>[for (final channel in channels) channel.id]);
   }
 
   void clearAll() {

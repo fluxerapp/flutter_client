@@ -138,4 +138,47 @@ void main() {
     await dispatcher.dispose();
     expect(flushed, 1);
   });
+
+  test('a failing event is reported and later events still apply', () async {
+    final List<String> handled = <String>[];
+    final List<Object> failures = <Object>[];
+    final GatewayEventDispatcher dispatcher =
+        GatewayEventDispatcher(
+            onEvent: (GatewayEvent event) async {
+              if (event is MessageCreateEvent) {
+                if (event.message.id == '900000000000000001') {
+                  throw StateError('boom');
+                }
+                handled.add(event.message.id);
+              }
+            },
+            onEventFailed: (_, Object error, _) => failures.add(error),
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000001',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000002',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          );
+    await Future<void>.delayed(Duration.zero);
+    expect(failures.single, isA<StateError>());
+    expect(handled, <String>['900000000000000002']);
+    await dispatcher.dispose();
+  });
 }

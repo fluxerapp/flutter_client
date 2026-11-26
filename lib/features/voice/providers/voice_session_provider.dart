@@ -177,6 +177,7 @@ class VoiceSession extends _$VoiceSession {
   Set<String>? _pendingRecoveryInputIds;
   Set<String>? _pendingRecoveryOutputIds;
   bool _isRecoveringAudioRoute = false;
+  int? _lastChannelBitrate;
   VoiceChannelPermissions? _channelPermissions;
   VoiceJoinTiming? _joinTiming;
   Future<void>? _liveKitTeardownTail;
@@ -4038,7 +4039,45 @@ class VoiceSession extends _$VoiceSession {
         .read(fluxerDatabaseProvider)
         .channelDao
         .getChannelById(channelId);
+    _lastChannelBitrate = row?.bitrate;
     return row?.bitrate;
+  }
+
+  Future<void> handleChannelUpdated(String channelId) async {
+    if (!state.isConnected || state.channelId != channelId) {
+      return;
+    }
+    final int? previous = _lastChannelBitrate;
+    final int? next = await _bitrateForChannel(channelId);
+    if (!ref.mounted ||
+        previous == next ||
+        !state.isConnected ||
+        state.channelId != channelId ||
+        !_shouldPublishMicrophone()) {
+      return;
+    }
+    if (state.mesh != null) {
+      await _setSessionMicrophoneEnabled(enabled: true);
+      return;
+    }
+    final Room? room = state.liveKitRoom;
+    if (room == null) {
+      return;
+    }
+    await _voiceSettingsApplicator().refreshMicrophone(
+      room: room,
+      settings: ref.read(voiceSettingsProvider),
+      microphoneEnabled: true,
+      channelBitrate: next,
+    );
+  }
+
+  void handleChannelDeleted(String channelId) {
+    if (!state.isInVoice || state.channelId != channelId) {
+      return;
+    }
+    talker.info('[Voice] Leaving voice: channel was deleted ($channelId).');
+    unawaited(leaveVoice(endCall: false));
   }
 
   Future<void> _setSessionMicrophoneEnabled({required bool enabled}) async {

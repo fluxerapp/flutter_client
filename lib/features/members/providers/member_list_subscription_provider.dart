@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
@@ -141,6 +142,20 @@ void memberListDetailsSubscription(
         (GatewayConnection c) => c.state == GatewayState.connected,
       ),
       (_, _) => _scheduleMemberListSync(ref, syncSubscription),
+    )
+    ..listen<bool>(
+      guildAvailabilityProvider.select(
+        (Set<String> unavailable) => unavailable.contains(guildId),
+      ),
+      (bool? wasUnavailable, bool unavailable) {
+        if (unavailable) {
+          clearSubscriptionState();
+          return;
+        }
+        if (wasUnavailable ?? false) {
+          _scheduleMemberListSync(ref, syncSubscription);
+        }
+      },
     )
     ..onDispose(unsubscribe);
   _scheduleMemberListSync(ref, syncSubscription);
