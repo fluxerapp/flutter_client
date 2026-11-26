@@ -196,9 +196,117 @@ For other environments, use `tool/build_flavor.sh <profile> <flutter args>` or `
 flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
 ```
 
+### Canary examples
+
+Run these from the repository root after the setup steps above. Pick a device with `-d <device id>` (`flutter devices` lists them).
+
+**Android (UnifiedPush, `oss` profile).** This is the build most contributors should use, since it needs no Firebase config:
+
+```bash
+tool/dev.sh unifiedpush
+```
+
+```bash
+tool/dev.sh unifiedpush apk
+```
+
+```bash
+tool/dev.sh unifiedpush apk --release
+```
+
+The same thing without the helper script:
+
+```bash
+dart tool/configure_build.dart --profile=oss && flutter pub get
+```
+
+```bash
+flutter run --flavor canaryUnifiedpush --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=unifiedpush
+```
+
+```bash
+flutter build apk --flavor canaryUnifiedpush --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=unifiedpush
+```
+
+**Android (FCM, `android-fcm` profile).** Needs `android/app/google-services.json` and `packages/fluxer_fcm/lib/firebase_options.dart`:
+
+```bash
+tool/dev.sh fcm
+```
+
+```bash
+tool/dev.sh fcm apk
+```
+
+**iOS (APNs, `dev` profile):**
+
+```bash
+tool/dev.sh apns
+```
+
+```bash
+flutter run --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
+```
+
+```bash
+tool/dev.sh apns ios
+```
+
+```bash
+flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
+```
+
 ## Desktop builds
 
 We plan to provide desktop builds in the future but they will be labeled as Fluxer Oxygen clients. These builds will not replace the Electron version but be a separate version you can download.
+
+Currently only macOS and Windows are being tested.
+
+Desktop builds use the `oss` profile, like the canary CI workflows. Switch your checkout to it first, and switch back to `dev` before committing:
+
+```bash
+dart tool/configure_build.dart --profile=oss && flutter pub get
+```
+
+```bash
+dart tool/configure_build.dart --profile=dev && flutter pub get
+```
+
+**macOS** has `canary`, `beta`, and `stable` schemes. It also needs a stub for `unifiedpush_linux`, written to the gitignored `pubspec_overrides.yaml`:
+
+```bash
+bash tool/apply_macos_pub_overrides.sh && flutter pub get
+```
+
+```bash
+flutter run -d macos --flavor canary --dart-define-from-file=tool/dart_defines/canary.json
+```
+
+```bash
+flutter build macos --flavor canary --dart-define-from-file=tool/dart_defines/canary.json
+```
+
+Delete `pubspec_overrides.yaml` and run `flutter pub get` when you're done with macOS.
+
+**Windows** has no flavors. The environment comes from the dart define only:
+
+```bash
+flutter run -d windows --dart-define-from-file=tool/dart_defines/canary.json
+```
+
+```bash
+flutter build windows --dart-define-from-file=tool/dart_defines/canary.json
+```
+
+**Linux** has no flavors either (not currently tested):
+
+```bash
+flutter run -d linux --dart-define-from-file=tool/dart_defines/canary.json
+```
+
+```bash
+flutter build linux --dart-define-from-file=tool/dart_defines/canary.json
+```
 
 ## Community app icon designs
 
