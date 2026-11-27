@@ -65,6 +65,7 @@ void _configureImagePicker() {
 const Duration _kCachedLaunchFirstFrameLimit = Duration(milliseconds: 1500);
 const Duration _kWarmProcessFirstFrameLimit = Duration(milliseconds: 300);
 const Duration _kWarmProcessMinAge = Duration(seconds: 10);
+const Duration _kExitDatabaseCloseTimeout = Duration(seconds: 2);
 
 Duration _cachedLaunchFirstFrameLimit(Duration? processAge) {
   if (processAge != null && processAge > _kWarmProcessMinAge) {
@@ -106,7 +107,10 @@ void _bootstrapChatAttachmentAudioAfterSplashReveal(
   });
 }
 
-void _flushLocalSettingsOnBackground(LocalSettingsStore store) {
+void _registerAppLifecycleHandlers(
+  LocalSettingsStore store,
+  ProviderContainer container,
+) {
   AppLifecycleListener(
     onStateChange: (AppLifecycleState state) {
       if (state != AppLifecycleState.resumed) {
@@ -115,9 +119,25 @@ void _flushLocalSettingsOnBackground(LocalSettingsStore store) {
     },
     onExitRequested: () async {
       await store.flush();
+      await _closeDatabaseForExit(container);
       return AppExitResponse.exit;
     },
   );
+}
+
+Future<void> _closeDatabaseForExit(ProviderContainer container) async {
+  try {
+    await container
+        .read(fluxerDatabaseProvider)
+        .close()
+        .timeout(_kExitDatabaseCloseTimeout);
+  } on Object catch (error, stack) {
+    FluxerObservability.instance.reportUncaughtError(
+      error,
+      stack,
+      library: 'app.exit.database_close',
+    );
+  }
 }
 
 void _runFluxerApp(ProviderContainer container) {
@@ -192,7 +212,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         localSettingsStoreProvider,
       );
       await store.load();
-      _flushLocalSettingsOnBackground(store);
+      _registerAppLifecycleHandlers(store, container);
       container.read(localSettingsProvider);
     }),
     () async {
