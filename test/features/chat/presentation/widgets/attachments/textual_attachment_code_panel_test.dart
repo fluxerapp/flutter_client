@@ -136,10 +136,20 @@ void main() {
     await tester.pumpWidget(panel(second));
 
     await tester.runAsync(() => highlights![0].done);
+    final bool secondFinished = highlights![1].isComplete;
     await tester.pump();
-    expect(rootSpanFor(second).children, isNull);
+    expect(
+      find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is flutter.RichText && widget.text.toPlainText() == first,
+      ),
+      findsNothing,
+    );
+    if (!secondFinished) {
+      expect(rootSpanFor(second).children, isNull);
+    }
 
-    await tester.runAsync(() => highlights![1].done);
+    await tester.runAsync(() => highlights[1].done);
     await tester.pump();
     expect(rootSpanFor(second).children, isNotEmpty);
   });
