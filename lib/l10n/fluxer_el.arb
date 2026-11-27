@@ -8451,14 +8451,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Τυπική",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Εξισορροπεί την ένταση του μικροφώνου σας. Απενεργοποιείται όταν η ενισχυμένη καταστολή είναι ενεργή.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoCameraLabel": "Κάμερα",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9138,10 +9130,6 @@
     "audioAndVideoCameraQuality480pLabel": "480p",
     "@audioAndVideoCameraQuality480pLabel": {
         "description": "Camera quality option for 480p resolution."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Αυτή η παρουσία αυτήν τη στιγμή επιτρέπει κοινή χρήση οθόνης έως 720p στα 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "systemPermissionSettingsTitle": "Ενεργοποίηση άδειας",
     "@systemPermissionSettingsTitle": {
@@ -10101,10 +10089,6 @@
     "audioAndVideoNoiseSuppressionSectionTitle": "Καταστολή θορύβου",
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Βελτιωμένη",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
     },
     "audioAndVideoMirrorCameraLabel": "Αντικατοπτρισμός κάμερας",
     "@audioAndVideoMirrorCameraLabel": {

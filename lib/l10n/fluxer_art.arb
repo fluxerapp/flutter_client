@@ -39,5 +39,13 @@
     "typingIndicatorMultiple": "jan mute li sitelen...",
     "@typingIndicatorMultiple": {
         "description": "Typing indicator shown when exactly four other users are typing."
+    },
+    "reconnectingTitle": "mi pakala telo!",
+    "@reconnectingTitle": {
+        "description": "Title on the reconnecting / instance error screen."
+    },
+    "chatJumpToPresent": "o lukin e tenpo lon",
+    "@chatJumpToPresent": {
+        "description": "Bottom bar action that returns the message list to the newest messages."
     }
 }

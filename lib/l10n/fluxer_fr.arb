@@ -9305,10 +9305,6 @@
     "@audioAndVideoUseSpeakerDescription": {
         "description": "Description for the speaker output toggle on mobile."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoEchoCancellationLabel": "Annulation de l’écho",
     "@audioAndVideoEchoCancellationLabel": {
         "description": "Toggle label for echo cancellation."
@@ -9822,17 +9818,9 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Égalise le volume de ton micro. Désactivé lorsque la suppression améliorée est activée.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestSectionTitle": "Test micro",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Cette instance autorise actuellement le partage d'écran jusqu'à 720p à 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "voicePanelOnlyShowVideosDescription": "Afficher uniquement les participants qui ont leur caméra activée.",
     "@voicePanelOnlyShowVideosDescription": {
@@ -10510,10 +10498,6 @@
     "audioAndVideoDirectInputDescription": "Envoie votre audio tel quel. Idéal si vous utilisez un logiciel audio externe.",
     "@audioAndVideoDirectInputDescription": {
         "description": "Description for the direct input voice processing profile."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Améliorée",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
     },
     "audioAndVideoNoiseSuppressionNoneLabel": "Aucune",
     "@audioAndVideoNoiseSuppressionNoneLabel": {

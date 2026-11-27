@@ -9032,17 +9032,9 @@
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Jämnar ut din mikrofonvolym. Avstängd när förbättrad brusreducering är på.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoFrameRateSectionTitle": "Bildfrekvens",
     "@audioAndVideoFrameRateSectionTitle": {
         "description": "Subsection title for screen share frame rate selection."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Den här instansen tillåter för närvarande skärmdelning upp till 720p vid 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "permissionOverwriteInherit": "Neutral (ärver)",
     "@permissionOverwriteInherit": {
@@ -9111,14 +9103,6 @@
     "audioAndVideoFocusedVoiceLabel": "Fokuserat röstläge",
     "@audioAndVideoFocusedVoiceLabel": {
         "description": "Voice processing profile optimized for speech."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Förbättrad",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
     },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {

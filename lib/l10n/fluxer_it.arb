@@ -9471,10 +9471,6 @@
     "@audioAndVideoInCallBehaviorSectionDescription": {
         "description": "Settings section description for in-call behavior prompts."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoEchoCancellationLabel": "Cancellazione dell'eco",
     "@audioAndVideoEchoCancellationLabel": {
         "description": "Toggle label for echo cancellation."
@@ -9997,10 +9993,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Controllo automatico del guadagno",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Uniforma il volume del tuo microfono. Disattivato quando la soppressione avanzata è attiva.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "Prova microfono",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10826,10 +10818,6 @@
     "@audioAndVideoCustomProfileDescription": {
         "description": "Description for the custom voice processing profile."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Migliorata",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Nessuno",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10965,10 +10953,6 @@
     "channelDetailsPinsDmEndHint": "Puoi fissare i messaggi in questa conversazione perché tutti li vedano.",
     "@channelDetailsPinsDmEndHint": {
         "description": "Footer hint at the end of the pins list in DM channels."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Questa istanza attualmente consente la condivisione dello schermo fino a 720p a 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "dmListDirectMessagesTitle": "Messaggi diretti",
     "@dmListDirectMessagesTitle": {

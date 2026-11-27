@@ -16,39 +16,39 @@
     "@statusFor10Seconds": {
         "description": "Presence status expiry option for 10 seconds."
     },
-    "statusClearAfter10Seconds": "10 সেকেন্ড",
+    "statusClearAfter10Seconds": "10 সেকেন্ড পর",
     "@statusClearAfter10Seconds": {
         "description": "Custom status clear-after option for 10 seconds."
     },
-    "statusClearAfter15Minutes": "15 মিনিট",
+    "statusClearAfter15Minutes": "15 মিনিট পর",
     "@statusClearAfter15Minutes": {
         "description": "Custom status clear-after option for 15 minutes."
     },
-    "statusClearAfter30Minutes": "30 মিনিট (আধঘন্টা)",
+    "statusClearAfter30Minutes": "30 মিনিট (আধঘন্টা) পর",
     "@statusClearAfter30Minutes": {
         "description": "Custom status clear-after option for 30 minutes."
     },
-    "statusClearAfter1Hour": "1 ঘণ্টা",
+    "statusClearAfter1Hour": "1 ঘণ্টা পর",
     "@statusClearAfter1Hour": {
         "description": "Custom status clear-after option for 1 hour."
     },
-    "statusClearAfter3Hours": "3 ঘণ্টা",
+    "statusClearAfter3Hours": "3 ঘণ্টা পর",
     "@statusClearAfter3Hours": {
         "description": "Custom status clear-after option for 3 hours."
     },
-    "statusClearAfter4Hours": "4 ঘণ্টা",
+    "statusClearAfter4Hours": "4 ঘণ্টা পর",
     "@statusClearAfter4Hours": {
         "description": "Custom status clear-after option for 4 hours."
     },
-    "statusClearAfter8Hours": "8 ঘণ্টা",
+    "statusClearAfter8Hours": "8 ঘণ্টা পর",
     "@statusClearAfter8Hours": {
         "description": "Custom status clear-after option for 8 hours."
     },
-    "statusClearAfter24Hours": "24 ঘণ্টা (1 দিন)",
+    "statusClearAfter24Hours": "24 ঘণ্টা (1 দিন) পর",
     "@statusClearAfter24Hours": {
         "description": "Custom status clear-after option for 24 hours."
     },
-    "statusClearAfter3Days": "3 দিন",
+    "statusClearAfter3Days": "3 দিন পর",
     "@statusClearAfter3Days": {
         "description": "Custom status clear-after option for 3 days."
     },
@@ -241,5 +241,393 @@
     "retry": "আবার চেষ্টা করুন",
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
+    },
+    "email": "ই-মেইল",
+    "@email": {
+        "description": "Generic label for an email field."
+    },
+    "password": "পাসওয়ার্ড",
+    "@password": {
+        "description": "Generic label for a password field."
+    },
+    "forgotPassword": "আপনি কি আপনার পাসওয়ার্ড ভুলে গেছেন?",
+    "@forgotPassword": {
+        "description": "Link or button to start password recovery."
+    },
+    "logIn": "লগ-ইন করুন",
+    "@logIn": {
+        "description": "Primary login submit action."
+    },
+    "ipAuthCheckEmail": "আপনার ই-মেইল দেখুন",
+    "@ipAuthCheckEmail": {
+        "description": "Title when IP authorization email has been sent."
+    },
+    "ipAuthResendEmail": "আবার ই-মেইল পাঠান",
+    "@ipAuthResendEmail": {
+        "description": "Button to resend the IP authorization email."
+    },
+    "back": "ফিরে যান",
+    "@back": {
+        "description": "Generic back button label."
+    },
+    "next": "এরপর দেখুন",
+    "@next": {
+        "description": "Generic next button label."
+    },
+    "mfaCodeLabel": "কোড",
+    "@mfaCodeLabel": {
+        "description": "Label for the MFA code input field."
+    },
+    "accountSelectorTitle": "যেকোনো একটি অ্যাকাউন্ট বাছুন",
+    "@accountSelectorTitle": {
+        "description": "Title for the account selector on the login screen."
+    },
+    "statusUntilIChangeIt": "যতক্ষণ না আমি আমার অ্যাকাউন্টের স্ট্যাটাস বদলাচ্ছি",
+    "@statusUntilIChangeIt": {
+        "description": "Presence status expiry option for a permanent status."
+    },
+    "statusDontClear": "এটি মুছবে না",
+    "@statusDontClear": {
+        "description": "Custom status expiry option to never auto-clear."
+    },
+    "statusDndDescription": "আপনি ডেস্কটপে কোনো রকমের নোটিফিকেশন পাবেন না",
+    "@statusDndDescription": {
+        "description": "Description shown for the do not disturb status option."
+    },
+    "customStatusSetTitle": "নিজ ইচ্ছানুযায়ী যে কোনো স্ট্যাটাস সেট করুন",
+    "@customStatusSetTitle": {
+        "description": "Title for the custom status editor."
+    },
+    "customStatusPlaceholder": "কী চলছে?",
+    "@customStatusPlaceholder": {
+        "description": "Placeholder for the custom status text field."
+    },
+    "customStatusChooseEmoji": "যে কোনো একটি ইমোজি বেছে নিন",
+    "@customStatusChooseEmoji": {
+        "description": "Button to pick an emoji for custom status."
+    },
+    "signOut": "সাইন-আউট করুন",
+    "@signOut": {
+        "description": "Context menu option to sign out of current account."
+    },
+    "suspendedBackToLogin": "লগ-ইন পেজে চলে যান",
+    "@suspendedBackToLogin": {
+        "description": "Button to return to login screen."
+    },
+    "forgotPasswordTitle": "আপনি কি আপনার পাসওয়ার্ড ভুলে গেছেন?",
+    "@forgotPasswordTitle": {
+        "description": "Title for the forgot password screen."
+    },
+    "ipAuthResent": "আবার পাঠানো হয়েছে",
+    "@ipAuthResent": {
+        "description": "Button label after IP authorization email has been resent."
+    },
+    "ipAuthResendCountdown": "{seconds} সে.",
+    "@ipAuthResendCountdown": {
+        "description": "Countdown suffix for the resend button cooldown.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "suspendedHowToAppeal": "কীভাবে আপনি আবেদন করবেন",
+    "@suspendedHowToAppeal": {
+        "description": "Heading on the account restriction screen above the appeal instructions."
+    },
+    "forgotPasswordDescription": "আপনার ই-মেইল এখানে লিখুন এবং আমরা আপনার অ্যাকাউন্টের নতুন পাসওয়ার্ড সেট করার জন্য একটি লিঙ্ক পাঠাবো।",
+    "@forgotPasswordDescription": {
+        "description": "Description for the forgot password screen."
+    },
+    "forgotPasswordSentTitle": "আপনার ই-মেইল দেখুন",
+    "@forgotPasswordSentTitle": {
+        "description": "Title after forgot password email is sent."
+    },
+    "accountAdd": "আরেকটি অ্যাকাউন্ট যোগ করুন",
+    "@accountAdd": {
+        "description": "Button to add a new account."
+    },
+    "statusInvisibleDescription": "এতে আপনার অ্যাকাউন্ট সবার কাছে অফলাইন দেখাবে",
+    "@statusInvisibleDescription": {
+        "description": "Description shown for the invisible status option."
+    },
+    "orDivider": "অথবা",
+    "@orDivider": {
+        "description": "Divider between alternative actions (e.g. email login vs SSO)."
+    },
+    "customStatusClearAfter": "মুছে ফেলুন",
+    "@customStatusClearAfter": {
+        "description": "Label for the custom status expiry picker."
+    },
+    "sessionExpiredToast": "আপনার সেশন পেরিয়ে গেছে। দয়া করে আবার লগ-ইন করুন।",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "nagbarOpenSettings": "সেটিংস খুলুন",
+    "@nagbarOpenSettings": {
+        "description": "Nagbar CTA that opens user settings."
+    },
+    "systemPermissionSettingsOpenSettings": "সেটিংস খুলুন",
+    "@systemPermissionSettingsOpenSettings": {
+        "description": "Primary action that opens the device app settings for a blocked permission."
+    },
+    "ipAuthLinkExpired": "সাইন-ইন করার লিঙ্কের সেশন পেরিয়ে গেছে",
+    "@ipAuthLinkExpired": {
+        "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
+    },
+    "loginCreateAccountLink": "একটি নতুন অ্যাকাউন্ট খুলুন",
+    "@loginCreateAccountLink": {
+        "description": "Link on the sign-in screen that opens the registration screen."
+    },
+    "cancel": "বাতিল করুন",
+    "@cancel": {
+        "description": "Generic cancel button label."
+    },
+    "mfaTryAnotherMethod": "অন্য কোনো উপায়ে চেষ্টা করুন",
+    "@mfaTryAnotherMethod": {
+        "description": "Link to switch to a different MFA method."
+    },
+    "accountRemoveDescription": "এতে আপনার এই অ্যাকাউন্টের সমস্ত সেশনগুলো মুছে যাবে।",
+    "@accountRemoveDescription": {
+        "description": "Description for the remove account confirmation modal."
+    },
+    "forgotPasswordSubmit": "নতুন পাসওয়ার্ড সেট করার জন্য লিঙ্ক পাঠান",
+    "@forgotPasswordSubmit": {
+        "description": "Button to submit the forgot password form."
+    },
+    "accountExpired": "পেরিয়ে গেছে",
+    "@accountExpired": {
+        "description": "Label shown on accounts with expired sessions."
+    },
+    "accountSessionExpiredNotice": "আপনার {name} অ্যাকাউন্টের সেশন পেরিয়ে গেছে। দয়া করে আবার লগ-ইন করুন।",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "forgotPasswordSentDescription": "আমরা আপনার ই-মেইলে অ্যাকাউন্টের পাসওয়ার্ড বদলানোর জন্য একটি লিঙ্ক এবং কিছু প্রয়োজনীয় নির্দেশনা পাঠিয়েছি। দয়া করে আপনার ই-মেইলের ইনবক্স দেখুন এবং আমাদের পাঠানো লিঙ্কে গিয়ে নির্দেশনা অনুযায়ী আপনার অ্যাকাউন্টের পাসওয়ার্ড বদলান।",
+    "@forgotPasswordSentDescription": {
+        "description": "Description after forgot password email is sent."
+    },
+    "resetPasswordTitle": "নতুন পাসওয়ার্ড সেট করুন",
+    "@resetPasswordTitle": {
+        "description": "Title for the reset password screen."
+    },
+    "resetPasswordNewPassword": "নতুন পাসওয়ার্ড",
+    "@resetPasswordNewPassword": {
+        "description": "Label for the new password field."
+    },
+    "resetPasswordConfirm": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+    "@resetPasswordConfirm": {
+        "description": "Label for the confirm password field."
+    },
+    "resetPasswordMismatch": "দুটি পাসওয়ার্ড মিলছে না।",
+    "@resetPasswordMismatch": {
+        "description": "Error when password and confirmation don't match."
+    },
+    "recoveryKitStepOpen": "{recoverUrl} লিঙ্কে যান বা এই QR কোডটি স্ক্যান করুন।",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "forgotPasswordBackToLogin": "লগ-ইন পেজে ফিরে যান",
+    "@forgotPasswordBackToLogin": {
+        "description": "Link to go back to login from forgot password."
+    },
+    "verificationResendEmail": "আবার ইমেইল পাঠান",
+    "@verificationResendEmail": {
+        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
+    },
+    "streamerModeNagbarDisable": "বন্ধ করুন",
+    "@streamerModeNagbarDisable": {
+        "description": "Banner button that turns streamer mode off."
+    },
+    "languageAndTimeTimeFormat12Hour": "12-ঘণ্টা",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24-ঘণ্টা",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "chatMessageTimestampToday": "আজ {time}-এ",
+    "@chatMessageTimestampToday": {
+        "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageTimestampYesterday": "গতকাল {time} -এ",
+    "@chatMessageTimestampYesterday": {
+        "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEdited": "(সংশোধিত)",
+    "@chatMessageEdited": {
+        "description": "Message metadata label displayed after edited messages."
+    },
+    "chatMessageSilent": "এটি ছিল একটি @silent মেসেজ।",
+    "@chatMessageSilent": {
+        "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
+    },
+    "mediaViewerOpenInBrowser": "ব্রাউজারে খুলুন",
+    "@mediaViewerOpenInBrowser": {
+        "description": "Tooltip and accessibility label to open the current media item in an external browser."
+    },
+    "mediaViewerCopyLink": "লিঙ্ক কপি করুন",
+    "@mediaViewerCopyLink": {
+        "description": "Media viewer action that copies the media URL to the clipboard."
+    },
+    "videoPlayerPlay": "চালু করুন",
+    "@videoPlayerPlay": {
+        "description": "Accessibility label of the play button on an inline video."
+    },
+    "videoPlayerPause": "থামান",
+    "@videoPlayerPause": {
+        "description": "Accessibility label of the pause button on an inline video."
+    },
+    "videoPlayerVolume": "শব্দ",
+    "@videoPlayerVolume": {
+        "description": "Accessibility label of the volume button on an inline video."
+    },
+    "chatAttachmentVideoPlay": "ভিডিও চালান",
+    "@chatAttachmentVideoPlay": {
+        "description": "Accessibility label for the play button in mobile attachment fullscreen video."
+    },
+    "chatAttachmentVideoPause": "ভিডিও থামান",
+    "@chatAttachmentVideoPause": {
+        "description": "Accessibility label for the pause button in mobile attachment fullscreen video."
+    },
+    "composerCommandStickerDescription": "একটি স্টিকার পাঠান।",
+    "@composerCommandStickerDescription": {
+        "description": "Slash-command description for /sticker."
+    },
+    "chatMessagePinConfirm": "পিন করুন",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "composerAutocompleteNoGifs": "GIF পাওয়া যায়নি",
+    "@composerAutocompleteNoGifs": {
+        "description": "Empty-state title when GIF autocomplete finds no results."
+    },
+    "chatEditMessageHint": "মেসেজ সংশোধন করুন",
+    "@chatEditMessageHint": {
+        "description": "Composer hint text while editing a message."
+    },
+    "chatEditFailedEditAgain": "আবার মেসেজ সংশোধন করুন",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
+    "chatReplyMentionOn": "চালু রাখুন",
+    "@chatReplyMentionOn": {
+        "description": "On state suffix appended to the reply bar mention toggle label."
+    },
+    "chatReplyMentionOff": "বন্ধ করুন",
+    "@chatReplyMentionOff": {
+        "description": "Off state suffix appended to the reply bar mention toggle label."
+    },
+    "reportFlowDone": "হয়ে গেছে",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
+    },
+    "reportFlowThankYouTitle": "রিপোর্ট পাঠানো হয়ে গেছে",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
+    },
+    "chatMessageTranslate": "অনুবাদ করুন",
+    "@chatMessageTranslate": {
+        "description": "Action label for translating a message on-device."
+    },
+    "chatMessageTranslatedFrom": "{language} থেকে অনুবাদ করা হয়েছে",
+    "@chatMessageTranslatedFrom": {
+        "description": "Footer shown under a translated message.",
+        "placeholders": {
+            "language": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageSeeOriginal": "আসল মেসেজটি দেখুন",
+    "@chatMessageSeeOriginal": {
+        "description": "Toggles a translated message back to the original text."
+    },
+    "userProfileNoteTitle": "নোট",
+    "@userProfileNoteTitle": {
+        "description": "Note section title on the profile sheet."
+    },
+    "userProfileNoteVisibility": "(শুধু আপনিই এটি দেখতে পারবেন)",
+    "@userProfileNoteVisibility": {
+        "description": "Subtitle clarifying the note is private."
+    },
+    "userProfileMemberSince": "সদস্য হয়েছেন",
+    "@userProfileMemberSince": {
+        "description": "Header of the member-since section in the bio card."
+    },
+    "memberRolesConfirmOk": "ঠিক আছে",
+    "@memberRolesConfirmOk": {
+        "description": "Confirm button for the no roles available dialog."
+    },
+    "profileLocalTimePrivacyEveryone": "সবাই",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriends": "বন্ধুরা",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "premiumPrivacyPolicy": "গোপনীয়তা নীতি",
+    "chatNewMessagesBarMarkAsRead": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@chatNewMessagesBarMarkAsRead": {
+        "description": "Wide new messages bar action."
+    },
+    "dmMarkAsRead": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@dmMarkAsRead": {
+        "description": "DM context menu action to mark conversation as read."
+    },
+    "notificationsMarkAsRead": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@notificationsMarkAsRead": {
+        "description": "Mark inbox channel unread as read."
+    },
+    "notificationMarkReadFailed": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করা যায়নি",
+    "@notificationMarkReadFailed": {
+        "description": "Body of the local notification shown when the mark as read notification action fails."
+    },
+    "chatMessageMarkAsUnread": "\"পড়া হয়নি\" হিসেবে মার্ক করুন",
+    "@chatMessageMarkAsUnread": {
+        "description": "Action label for marking a message as unread."
+    },
+    "guildFolderMarkAsRead": "ফোল্ডারটি \"পড়া/দেখা হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@guildFolderMarkAsRead": {
+        "description": "Context menu action that marks every channel in the folder as read."
+    },
+    "guildMenuMarkAsRead": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@guildMenuMarkAsRead": {
+        "description": "Guild menu action to mark all channels as read."
+    },
+    "threadMarkAsRead": "\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@threadMarkAsRead": {
+        "description": "Action that marks a thread as read."
+    },
+    "keybindActionMarkUnread": "\"পড়া হয়নি\" হিসেবে মার্ক করুন",
+    "forumMarkPostRead": "\"পড়া/দেখা হয়ে গিয়েছে\" হিসেবে মার্ক করুন",
+    "@forumMarkPostRead": {
+        "description": "Forum and media channel UI."
+    },
+    "chatNewMessagesBarMarkRead": "পড়া হয়ে গিয়েছে",
+    "@chatNewMessagesBarMarkRead": {
+        "description": "Compact new messages bar action."
     }
 }
