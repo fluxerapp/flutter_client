@@ -73,6 +73,7 @@ String formatPushProviderLabel(PushProviderKind provider) {
     PushProviderKind.firebaseMessaging => 'fcm',
     PushProviderKind.unifiedPush => 'unifiedpush',
     PushProviderKind.apple => 'apns',
+    PushProviderKind.none => 'none',
   };
 }
 

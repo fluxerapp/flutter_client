@@ -26,6 +26,7 @@ String pushProviderDisplayName(PushProviderKind kind) {
     PushProviderKind.apple => 'Apple Push Notifications',
     PushProviderKind.firebaseMessaging => 'Firebase Cloud Messaging',
     PushProviderKind.unifiedPush => 'UnifiedPush',
+    PushProviderKind.none => 'None',
   };
 }
 

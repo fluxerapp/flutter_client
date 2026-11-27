@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
@@ -59,6 +60,20 @@ void main() {
   group('runtime push provider guard', () {
     test('defaults to apple push provider outside FCM builds', () {
       expect(AppBuildConfig.pushProvider, PushProviderKind.apple);
+    });
+
+    test('uses no push provider on windows and linux', () {
+      for (final TargetPlatform platform in <TargetPlatform>[
+        TargetPlatform.windows,
+        TargetPlatform.linux,
+      ]) {
+        debugDefaultTargetPlatformOverride = platform;
+        try {
+          expect(AppBuildConfig.pushProvider, PushProviderKind.none);
+        } finally {
+          debugDefaultTargetPlatformOverride = null;
+        }
+      }
     });
   });
 }

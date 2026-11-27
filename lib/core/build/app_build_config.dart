@@ -58,6 +58,11 @@ class AppBuildConfig {
   }
 
   static PushProviderKind get pushProvider {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux)) {
+      return PushProviderKind.none;
+    }
     switch (_pushProviderValue) {
       case 'fcm':
       case 'firebase':

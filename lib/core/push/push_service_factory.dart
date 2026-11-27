@@ -12,6 +12,9 @@ PushService createPushService() {
   if (Platform.isIOS) {
     return const ApplePushService();
   }
+  if (AppBuildConfig.pushProvider == PushProviderKind.none) {
+    return const NoOpPushService();
+  }
   if (!Platform.isAndroid) {
     return const ApplePushService();
   }

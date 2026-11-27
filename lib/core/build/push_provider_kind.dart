@@ -1,1 +1,1 @@
-enum PushProviderKind { apple, firebaseMessaging, unifiedPush }
+enum PushProviderKind { apple, firebaseMessaging, unifiedPush, none }
