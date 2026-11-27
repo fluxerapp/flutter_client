@@ -1530,13 +1530,19 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       messageId: msg.id,
       baseStyle: widget.previewTextStyle,
       selectable:
-          (widget.renderSettings?.markdown.enableTextSelection ??
-              ref.watch(
-                advancedPreferencesProvider.select(
-                  (AdvancedPreferencesState s) => s.enableTextSelection,
-                ),
-              )) &&
-          !isMobile,
+          !isTouchPrimaryInput(ref) ||
+          ((widget.renderSettings?.markdown.enableTextSelection ??
+                  ref.watch(
+                    advancedPreferencesProvider.select(
+                      (AdvancedPreferencesState s) => s.enableTextSelection,
+                    ),
+                  )) &&
+              !isMobile),
+      onSecondaryTapUpWithoutSelection:
+          usesDesktopPointerUi(context) && !widget.inboxPreviewMode
+          ? (TapUpDetails details) =>
+                _showContextMenu(context, details.globalPosition)
+          : null,
       channelId: msg.channelId,
       mentionChannels: msg.mentionChannels,
       revealSpoilers: revealSpoilers,

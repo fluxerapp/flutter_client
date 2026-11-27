@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
+import 'package:fluxer_app/shared/utils/input_modality.dart';
 
 class ChatListKeyboardDismiss extends StatefulWidget {
   const ChatListKeyboardDismiss({
@@ -20,9 +21,23 @@ class ChatListKeyboardDismiss extends StatefulWidget {
 class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
   _TrackedPointer? _tracked;
 
-  void _handleListInteraction() {
-    FocusManager.instance.primaryFocus?.unfocus();
+  void _handleListInteraction(PointerDeviceKind kind) {
+    final FocusNode? focus = FocusManager.instance.primaryFocus;
+    if (focus != null &&
+        !(isDesktopPointerKind(kind) && _focusIsInsideList(focus))) {
+      focus.unfocus();
+    }
     widget.onDismissPanels?.call();
+  }
+
+  bool _focusIsInsideList(FocusNode focus) {
+    final BuildContext? focusContext = focus.context;
+    if (focusContext == null || !focusContext.mounted) {
+      return false;
+    }
+    return focusContext
+            .findAncestorStateOfType<_ChatListKeyboardDismissState>() ==
+        this;
   }
 
   void _onPointerDown(PointerDownEvent event) {
@@ -31,6 +46,7 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
     }
     _tracked = _TrackedPointer(
       pointer: event.pointer,
+      kind: event.kind,
       downPosition: event.position,
       slop: computeHitSlop(
         event.kind,
@@ -65,7 +81,7 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
     )) {
       return;
     }
-    _handleListInteraction();
+    _handleListInteraction(tracked.kind);
   }
 
   void _onPointerUp(PointerUpEvent event) {
@@ -74,7 +90,7 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
       return;
     }
     if (!tracked.settled) {
-      _handleListInteraction();
+      _handleListInteraction(tracked.kind);
     }
     _tracked = null;
   }
@@ -101,11 +117,13 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
 class _TrackedPointer {
   _TrackedPointer({
     required this.pointer,
+    required this.kind,
     required this.downPosition,
     required this.slop,
   });
 
   final int pointer;
+  final PointerDeviceKind kind;
   final Offset downPosition;
   final double slop;
   bool settled = false;

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/chat_list_keyboard_dismiss.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -182,5 +183,64 @@ void main() {
     await gesture.cancel();
     await tester.pump();
     expect(dismissCount, 0);
+  });
+
+  Future<FocusNode> pumpFocusInsideList(WidgetTester tester) async {
+    final FocusNode focus = FocusNode();
+    addTearDown(focus.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChatListKeyboardDismiss(
+            child: Focus(
+              focusNode: focus,
+              child: const ColoredBox(
+                color: Color(0xFF112233),
+                child: SizedBox.expand(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    focus.requestFocus();
+    await tester.pump();
+    expect(focus.hasFocus, isTrue);
+    return focus;
+  }
+
+  testWidgets('mouse click keeps focus held inside the list', (tester) async {
+    final FocusNode focus = await pumpFocusInsideList(tester);
+    await tester.tapAt(listCenter(tester), kind: PointerDeviceKind.mouse);
+    await tester.pump();
+    expect(focus.hasFocus, isTrue);
+  });
+
+  testWidgets('mouse drag keeps focus held inside the list', (tester) async {
+    final FocusNode focus = await pumpFocusInsideList(tester);
+    final TestGesture gesture = await tester.startGesture(
+      listCenter(tester),
+      kind: PointerDeviceKind.mouse,
+    );
+    await gesture.moveBy(const Offset(0, 40));
+    await tester.pump();
+    expect(focus.hasFocus, isTrue);
+    await gesture.up();
+  });
+
+  testWidgets('touch tap still clears focus held inside the list', (
+    tester,
+  ) async {
+    final FocusNode focus = await pumpFocusInsideList(tester);
+    await tester.tapAt(listCenter(tester));
+    await tester.pump();
+    expect(focus.hasFocus, isFalse);
+  });
+
+  testWidgets('mouse click clears focus held outside the list', (tester) async {
+    final FocusNode focus = await pumpFocusedField(tester);
+    await tester.tapAt(listCenter(tester), kind: PointerDeviceKind.mouse);
+    await tester.pump();
+    expect(focus.hasFocus, isFalse);
   });
 }

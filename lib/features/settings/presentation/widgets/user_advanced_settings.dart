@@ -190,7 +190,8 @@ class UserAdvancedSettings extends ConsumerWidget {
             sectionId: 'advanced-settings-accessibility',
             title: l10n.advancedSettingsCategoryAccessibility,
             children: [
-              if (showWideLayoutAdvancedSettings(context))
+              if (showWideLayoutAdvancedSettings(context) &&
+                  isTouchPrimaryInput(ref))
                 FluxerSettingsSwitchItem(
                   label: l10n.advancedSettingEnableTextSelectionLabel,
                   description:

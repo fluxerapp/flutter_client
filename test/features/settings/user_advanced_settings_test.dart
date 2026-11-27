@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:riverpod/src/framework.dart';
 
 import '../../helpers/test_l10n.dart';
@@ -96,6 +97,11 @@ class _FakeObservabilityReporting extends ObservabilityReporting {
 class _FakeLocalSettings extends LocalSettings {
   @override
   LocalSettingsState build() => const LocalSettingsState();
+}
+
+class _MousePrimaryModality extends InputModalityNotifier {
+  @override
+  bool build() => false;
 }
 
 List<Override> _overrides() {
@@ -247,6 +253,22 @@ void main() {
     expect(
       findTestText(l10n.advancedSettingEnableTextSelectionLabel),
       findsOneWidget,
+    );
+  });
+
+  testWidgets('hides text selection on wide screens with a mouse', (
+    tester,
+  ) async {
+    await pumpAdvancedSettings(
+      tester,
+      size: Size(kWideTestViewportSize.width, 2000),
+      extraOverrides: [
+        inputModalityProvider.overrideWith(_MousePrimaryModality.new),
+      ],
+    );
+    expect(
+      findTestText(l10n.advancedSettingEnableTextSelectionLabel),
+      findsNothing,
     );
   });
 

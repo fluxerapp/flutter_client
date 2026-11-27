@@ -13,6 +13,7 @@ import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart'
 import 'package:fluxer_markdown/src/utils/ansi_palette.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
+import 'package:fluxer_markdown/src/utils/concealed_spoiler_selection.dart';
 import 'package:fluxer_markdown/src/utils/first_strong_text_direction.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
@@ -283,7 +284,9 @@ Widget buildFluxerMarkdownProvidedAst({
       !config.spoilersInitiallyRevealed &&
       _containsInlineSpoiler(nodes);
   final Widget body = hostSpoilers
-      ? _FluxerSpoilerRevealHost(config: config, builder: buildBody)
+      ? ConcealedSpoilerSelectionScope(
+          child: _FluxerSpoilerRevealHost(config: config, builder: buildBody),
+        )
       : buildBody(context);
   return wrapFluxerMarkdownSelectable(
     body: body,
@@ -2107,8 +2110,16 @@ InlineSpan _concealSpoilerInlineSpan(
         ),
       );
     }
-    return TextSpan(
-      text: span.text,
+    final String? text = span.text;
+    if (text == null) {
+      return TextSpan(
+        style: _concealedSpoilerTextStyle(span.style, hiddenBackground),
+        mouseCursor: onTap == null ? null : SystemMouseCursors.click,
+        recognizer: onTap == null ? null : obtainTapRecognizer(onTap),
+      );
+    }
+    return ConcealedSpoilerTextSpan(
+      text: text,
       style: _concealedSpoilerTextStyle(span.style, hiddenBackground),
       mouseCursor: onTap == null ? null : SystemMouseCursors.click,
       recognizer: onTap == null ? null : obtainTapRecognizer(onTap),
@@ -2295,7 +2306,12 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
         children: [
           IgnorePointer(
             ignoring: !_isRevealed,
-            child: FadeTransition(opacity: _opacity, child: widget.child),
+            child: FadeTransition(
+              opacity: _opacity,
+              child: _isRevealed
+                  ? widget.child
+                  : SelectionContainer.disabled(child: widget.child),
+            ),
           ),
           if (!_isRevealed)
             Positioned.fill(child: ColoredBox(color: hiddenBackground)),

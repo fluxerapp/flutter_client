@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart' show SelectionRegistrar;
 import 'package:material_ui/material_ui.dart';
 
 const TextHeightBehavior fluxerBoundedTextHeightBehavior = TextHeightBehavior(
@@ -59,8 +60,40 @@ class FluxerBoundedTextClip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(clipper: const _VerticalTextClipper(), child: child);
+    return ClipRect(
+      clipper: const _VerticalTextClipper(),
+      child: _registerForSelection(context, child),
+    );
   }
+}
+
+Widget _registerForSelection(BuildContext context, Widget child) {
+  if (child is! RichText || child.selectionRegistrar != null) {
+    return child;
+  }
+  final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+  if (registrar == null) {
+    return child;
+  }
+  return RichText(
+    key: child.key,
+    text: child.text,
+    textAlign: child.textAlign,
+    textDirection: child.textDirection,
+    softWrap: child.softWrap,
+    overflow: child.overflow,
+    textScaler: child.textScaler,
+    maxLines: child.maxLines,
+    locale: child.locale,
+    strutStyle: child.strutStyle,
+    textWidthBasis: child.textWidthBasis,
+    textHeightBehavior: child.textHeightBehavior,
+    selectionRegistrar: registrar,
+    selectionColor:
+        child.selectionColor ??
+        DefaultSelectionStyle.of(context).selectionColor ??
+        DefaultSelectionStyle.defaultColor,
+  );
 }
 
 /// Clips stacked combining marks above and below the text box but lets glyphs
