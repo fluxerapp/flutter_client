@@ -248,6 +248,7 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   @override
   Widget build(BuildContext context) => OverlayPortal(
     controller: _overlayController,
+    overlayLocation: OverlayChildLocation.rootOverlay,
     overlayChildBuilder: _buildOverlay,
     child: CompositedTransformTarget(link: _layerLink, child: widget.child),
   );
