@@ -15,7 +15,6 @@ import android.os.IBinder
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 
 private const val NOTIFICATION_CHANNEL_ID = "fluxer_screen_share"
 private const val NOTIFICATION_CHANNEL_NAME = "Screen sharing"
@@ -36,8 +35,7 @@ class ScreenShareForegroundService : Service() {
             val appContext = context.applicationContext
             return ScreenShareServiceController(
                 startService = { title, text ->
-                    ContextCompat.startForegroundService(
-                        appContext,
+                    appContext.startService(
                         Intent(appContext, ScreenShareForegroundService::class.java)
                             .putExtra(EXTRA_TITLE, title)
                             .putExtra(EXTRA_TEXT, text),
