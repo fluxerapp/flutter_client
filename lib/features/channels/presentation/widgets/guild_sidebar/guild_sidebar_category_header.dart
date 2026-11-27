@@ -204,6 +204,17 @@ class _CategoryHeader extends ConsumerWidget {
                     onPressed: () =>
                         unawaited(_createChannelInCategory(context, ref)),
                   ),
+                  const SizedBox(width: 4),
+                  _SidebarRowAction(
+                    icon: PhosphorIconsFill.gear,
+                    label: FluxerLocalizations.of(
+                      context,
+                    ).channelSettingsEditCategory,
+                    selected: false,
+                    onPressed: () => unawaited(
+                      ChannelSettingsFlow.show(context, channelId: category.id),
+                    ),
+                  ),
                 ],
                 const SizedBox(width: 4),
                 ExcludeSemantics(

@@ -81,17 +81,19 @@ class _ChannelTile extends ConsumerWidget {
         );
 
     final bool desktopPointer = usesDesktopPointerUi(context);
-    final bool joinsVoiceOnDoubleClick =
+    final bool voiceJoinRequiresDoubleClick =
         isVoice &&
         desktopPointer &&
-        !(connectedVoiceGuildId == guildId &&
-            connectedVoiceChannelId == channel.id) &&
         ref.watch(
           advancedPreferencesProvider.select(
             (AdvancedPreferencesState state) =>
                 state.voiceChannelJoinRequiresDoubleClick,
           ),
         );
+    final bool joinsVoiceOnDoubleClick =
+        voiceJoinRequiresDoubleClick &&
+        !(connectedVoiceGuildId == guildId &&
+            connectedVoiceChannelId == channel.id);
     final double rowOpacity = isChannelDirectlyMuted && !isSelected ? 0.5 : 1.0;
     Color faded(Color color) =>
         rowOpacity < 1 ? color.withValues(alpha: color.a * rowOpacity) : color;
@@ -129,11 +131,32 @@ class _ChannelTile extends ConsumerWidget {
     final Object? activeDrag = desktopPointer
         ? SidebarDragScope.activeItemOf(context)
         : null;
-    final bool canManageChannels =
+    bool hasChannelPermission(Permission permission) =>
         effectivePermissionBits != null &&
-        hasPermission(effectivePermissionBits, Permission.manageChannels);
+        hasPermission(effectivePermissionBits, permission);
+    final bool canManageChannels = hasChannelPermission(
+      Permission.manageChannels,
+    );
     final bool isDragSource =
         activeDrag is ChannelReorderDragItem && activeDrag.id == channel.id;
+    final ChannelInviteCapability inviteCapability = desktopPointer
+        ? resolveChannelInviteCapability(
+            permissionBits: effectivePermissionBits,
+            channel: channel,
+            guildId: guildId,
+            vanityUrlCode: guild.vanityUrlCode,
+          )
+        : const ChannelInviteCapability(canInvite: false);
+    final bool showOpenChatAction =
+        desktopPointer && isVoice && !voiceJoinRequiresDoubleClick;
+    final bool showEditAction =
+        desktopPointer &&
+        (canManageChannels ||
+            (isVoice && hasChannelPermission(Permission.updateRtcRegion)));
+    final bool hasRowActions =
+        activeDrag == null &&
+        (showOpenChatAction || inviteCapability.canInvite || showEditAction);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool dimForVoiceDrag =
         activeDrag is ChannelReorderDragItem &&
         activeDrag.channelType == ChannelType.guildVoice.wireValue &&
@@ -166,7 +189,7 @@ class _ChannelTile extends ConsumerWidget {
             top: 1,
           ),
           semanticLabel: navigationItemSemanticLabel(
-            l10n: FluxerLocalizations.of(context),
+            l10n: l10n,
             name: channel.name,
             isSelected: isSelected,
             hasUnread: showUnreadIndicator,
@@ -208,63 +231,120 @@ class _ChannelTile extends ConsumerWidget {
               effectivePermissionBits: effectivePermissionBits,
             );
           },
-          childBuilder: (BuildContext context, Set<WidgetState> states) => Row(
-            children: [
-              ChannelIcon(
-                type: channel.type,
-                channel: channel,
-                effectivePermissionBits: connectPermissionBits,
-                canConnectPermissionBits: connectPermissionBits,
-                color: desktopPointer ? desktopIconColor : textColor,
-                e2eeEncrypted: showE2eeVoiceIcon,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  channel.name,
-                  style: context.textStyles.channelName.copyWith(
-                    color: !desktopPointer
-                        ? textColor
-                        : faded(
-                            _desktopSidebarRowTextColor(
-                              context,
-                              hovered: states.contains(WidgetState.hovered),
-                              selected: isSelected,
-                              unread: channelUnreadState.isHighlight,
+          childBuilder: (BuildContext context, Set<WidgetState> states) {
+            final bool hoverActive =
+                desktopPointer &&
+                (isSelected ||
+                    states.contains(WidgetState.hovered) ||
+                    states.contains(WidgetState.focused));
+            final bool showRowActions = hasRowActions && hoverActive;
+            final bool hideMentionBadge =
+                desktopPointer && (hoverActive || activeDrag != null);
+            return Row(
+              children: [
+                ChannelIcon(
+                  type: channel.type,
+                  channel: channel,
+                  effectivePermissionBits: connectPermissionBits,
+                  canConnectPermissionBits: connectPermissionBits,
+                  color: desktopPointer ? desktopIconColor : textColor,
+                  e2eeEncrypted: showE2eeVoiceIcon,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    channel.name,
+                    style: context.textStyles.channelName.copyWith(
+                      color: !desktopPointer
+                          ? textColor
+                          : faded(
+                              _desktopSidebarRowTextColor(
+                                context,
+                                hovered: states.contains(WidgetState.hovered),
+                                selected: isSelected,
+                                unread: channelUnreadState.isHighlight,
+                              ),
                             ),
-                          ),
-                    fontWeight:
-                        channelUnreadState.isHighlight &&
-                            !isSelected &&
-                            !desktopPointer
-                        ? FontWeight.w600
-                        : FontWeight.w500,
-                    height: 20 / 16,
+                      fontWeight:
+                          channelUnreadState.isHighlight &&
+                              !isSelected &&
+                              !desktopPointer
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      height: 20 / 16,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              ChannelListTypingIndicator(
-                channelId: channel.id,
-                guildId: guildId,
-                isSelected: isSelected,
-              ),
-              if (showMentionBadge) ...[
-                const SizedBox(width: 4),
-                FluxerBadgeEntrance(
-                  child: FluxerBadge.count(count: mentionCount),
+                ChannelListTypingIndicator(
+                  channelId: channel.id,
+                  guildId: guildId,
+                  isSelected: isSelected,
                 ),
+                if (showMentionBadge && !hideMentionBadge) ...[
+                  const SizedBox(width: 4),
+                  FluxerBadgeEntrance(
+                    child: FluxerBadge.count(count: mentionCount),
+                  ),
+                ],
+                if (showVoiceUserCount &&
+                    activeDrag == null &&
+                    !showRowActions) ...[
+                  const SizedBox(width: 4),
+                  VoiceChannelUserCount(
+                    currentUserCount: voiceCurrentCount,
+                    userLimit: voiceUserLimit,
+                  ),
+                ],
+                if (showRowActions) ...[
+                  if (showOpenChatAction) ...[
+                    const SizedBox(width: 4),
+                    _SidebarRowAction(
+                      icon: PhosphorIconsFill.chatTeardrop,
+                      label: l10n.channelMenuOpenChat,
+                      selected: isSelected,
+                      onPressed: () =>
+                          unawaited(_openVoiceChannelChat(context, ref)),
+                    ),
+                  ],
+                  if (inviteCapability.canInvite) ...[
+                    const SizedBox(width: 4),
+                    _SidebarRowAction(
+                      icon: PhosphorIconsFill.userPlus,
+                      label: l10n.guildMenuInviteMembers,
+                      selected: isSelected,
+                      onPressed: () => unawaited(
+                        showChannelInviteModal(
+                          context,
+                          ref,
+                          channelId: channel.id,
+                          channelName: channel.name,
+                          guildId: guildId,
+                          useVanityUrl: inviteCapability.useVanityUrl,
+                          vanityUrlCode: inviteCapability.vanityUrlCode,
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (showEditAction) ...[
+                    const SizedBox(width: 4),
+                    _SidebarRowAction(
+                      icon: PhosphorIconsFill.gear,
+                      label: l10n.channelDetailsChannelSettingsTitle,
+                      selected: isSelected,
+                      onPressed: () => unawaited(
+                        ChannelSettingsFlow.show(
+                          context,
+                          channelId: channel.id,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
               ],
-              if (showVoiceUserCount) ...[
-                const SizedBox(width: 4),
-                VoiceChannelUserCount(
-                  currentUserCount: voiceCurrentCount,
-                  userLimit: voiceUserLimit,
-                ),
-              ],
-            ],
-          ),
+            );
+          },
         ),
       ],
     );

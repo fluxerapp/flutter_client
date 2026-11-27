@@ -63,6 +63,7 @@ import 'package:fluxer_app/features/channels/providers/guild_collapsed_categorie
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_entries_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_scroll_store_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dart';
 import 'package:fluxer_app/features/channels/utils/channel_scroll_indicator_severity.dart';
 import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
@@ -123,6 +124,7 @@ part 'guild_sidebar_channel_tile.dart';
 part 'guild_sidebar_header.dart';
 part 'guild_sidebar_helpers.dart';
 part 'guild_sidebar_members_tile.dart';
+part 'guild_sidebar_row_action.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
   const GuildSidebar({super.key});
