@@ -8,6 +8,8 @@ class _CategoryHeader extends ConsumerWidget {
     super.key,
   });
 
+  static const double _kDragSourceOpacity = 0.3;
+
   final ChannelCategory category;
   final bool isCollapsed;
   final String guildId;
@@ -93,6 +95,57 @@ class _CategoryHeader extends ConsumerWidget {
     final bool canManageChannels =
         permissionBits != null &&
         hasPermission(permissionBits, Permission.manageChannels);
+    final Object? activeDrag = SidebarDragScope.activeItemOf(context);
+    final bool isDragSource =
+        activeDrag is ChannelReorderDragItem && activeDrag.id == category.id;
+    final ChannelReorderDragItem dragItem = ChannelReorderDragItem(
+      id: category.id,
+      kind: ChannelReorderDragKind.category,
+      channelType: ChannelType.guildCategory.wireValue,
+    );
+    return SidebarChannelDropTarget(
+      target: ChannelReorderTarget(
+        id: category.id,
+        channelType: ChannelType.guildCategory.wireValue,
+        parentId: null,
+      ),
+      onChannelDrop:
+          (ChannelReorderDragItem item, ChannelReorderDropResult result) =>
+              unawaited(
+                moveChannelFromSidebarDrop(
+                  ref,
+                  guildId: guildId,
+                  item: item,
+                  result: result,
+                ),
+              ),
+      builder: (BuildContext context, bool isOver) =>
+          SidebarDraggable<ChannelReorderDragItem>(
+            data: dragItem,
+            enabled: canManageChannels,
+            child: Opacity(
+              opacity: isDragSource ? _kDragSourceOpacity : 1,
+              child: _buildDesktopRow(
+                context,
+                ref,
+                idle: idle,
+                canManageChannels: canManageChannels,
+                isOver: isOver,
+                isDragging: activeDrag != null,
+              ),
+            ),
+          ),
+    );
+  }
+
+  Widget _buildDesktopRow(
+    BuildContext context,
+    WidgetRef ref, {
+    required Color idle,
+    required bool canManageChannels,
+    required bool isOver,
+    required bool isDragging,
+  }) {
     return Semantics(
       button: true,
       expanded: !isCollapsed,
@@ -101,9 +154,12 @@ class _CategoryHeader extends ConsumerWidget {
         padding: const EdgeInsetsDirectional.only(start: 8, end: 8, top: 4),
         child: FluxerSelectableRow(
           isSelected: false,
+          isActive: isOver,
           selectedColor: Colors.transparent,
           hoverColor: Colors.transparent,
-          pressedColor: Colors.transparent,
+          pressedColor: isOver
+              ? context.colors.surfaceInteractiveHoverBg
+              : Colors.transparent,
           borderRadius: context.layout.radiusMd,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           onTap: () => _toggleCollapsed(ref),
@@ -113,6 +169,7 @@ class _CategoryHeader extends ConsumerWidget {
             final bool hovered = states.contains(WidgetState.hovered);
             final bool showCreate =
                 canManageChannels &&
+                !isDragging &&
                 (hovered || states.contains(WidgetState.focused));
             return Row(
               children: <Widget>[

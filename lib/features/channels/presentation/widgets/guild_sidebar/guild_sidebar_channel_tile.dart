@@ -9,6 +9,9 @@ class _ChannelTile extends ConsumerWidget {
     super.key,
   });
 
+  static const double _kDragSourceOpacity = 0.3;
+  static const double _kVoiceDragDimOpacity = 0.6;
+
   final Channel channel;
   final String guildId;
   final Guild guild;
@@ -123,7 +126,22 @@ class _ChannelTile extends ConsumerWidget {
           )
         : 0;
 
-    return Stack(
+    final Object? activeDrag = desktopPointer
+        ? SidebarDragScope.activeItemOf(context)
+        : null;
+    final bool canManageChannels =
+        effectivePermissionBits != null &&
+        hasPermission(effectivePermissionBits, Permission.manageChannels);
+    final bool isDragSource =
+        activeDrag is ChannelReorderDragItem && activeDrag.id == channel.id;
+    final bool dimForVoiceDrag =
+        activeDrag is ChannelReorderDragItem &&
+        activeDrag.channelType == ChannelType.guildVoice.wireValue &&
+        !isVoice &&
+        channel.parentId != null &&
+        !isSelected;
+
+    Widget buildTile({required bool isOver}) => Stack(
       key: tileKey,
       clipBehavior: Clip.none,
       children: [
@@ -133,6 +151,7 @@ class _ChannelTile extends ConsumerWidget {
           ),
         FluxerSelectableRow(
           isSelected: isSelected,
+          isActive: isOver,
           selectedColor: context.colors.backgroundModifierSelected,
           borderRadius: context.layout.radiusLg,
           margin: EdgeInsets.symmetric(
@@ -248,6 +267,50 @@ class _ChannelTile extends ConsumerWidget {
           ),
         ),
       ],
+    );
+
+    if (!desktopPointer) {
+      return buildTile(isOver: false);
+    }
+    return SidebarChannelDropTarget(
+      target: ChannelReorderTarget(
+        id: channel.id,
+        channelType: channel.typeWire,
+        parentId: channel.parentId,
+      ),
+      onChannelDrop:
+          (ChannelReorderDragItem item, ChannelReorderDropResult result) =>
+              unawaited(
+                moveChannelFromSidebarDrop(
+                  ref,
+                  guildId: guildId,
+                  item: item,
+                  result: result,
+                ),
+              ),
+      onParticipantDrop: isVoice
+          ? (VoiceParticipantDragItem item) => unawaited(
+              moveVoiceParticipantFromSidebarDrop(
+                context,
+                ref,
+                item: item,
+                channel: channel,
+              ),
+            )
+          : null,
+      builder: (BuildContext context, bool isOver) =>
+          SidebarDraggable<ChannelReorderDragItem>(
+            data: ChannelReorderDragItem.fromChannel(channel),
+            enabled: canManageChannels,
+            child: Opacity(
+              opacity: isDragSource
+                  ? _kDragSourceOpacity
+                  : dimForVoiceDrag
+                  ? _kVoiceDragDimOpacity
+                  : 1,
+              child: buildTile(isOver: isOver),
+            ),
+          ),
     );
   }
 

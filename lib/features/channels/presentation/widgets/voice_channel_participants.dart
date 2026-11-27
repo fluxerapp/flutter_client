@@ -1,8 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/voice_participant_drag_item.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/sidebar_drag/sidebar_drag_scope.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/sidebar_drag/sidebar_draggable.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/list/fluxer_selectable_row.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -63,9 +68,61 @@ class _VoiceChannelParticipantTile extends ConsumerWidget {
     required this.participant,
   });
 
+  static const double _kDragSourceOpacity = 0.5;
+  static const double _kFeedbackOpacity = 0.8;
+  static const double _kFeedbackMaxWidth = 220;
+  static const Offset _kFeedbackOffset = Offset(-12, -16);
+
   final String guildId;
   final String channelId;
   final VoiceSidebarParticipant participant;
+
+  Widget _buildDragFeedback(BuildContext context) {
+    final VoiceSidebarParticipant p = participant;
+    return Transform.translate(
+      offset: _kFeedbackOffset,
+      child: Opacity(
+        opacity: _kFeedbackOpacity,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: _kFeedbackMaxWidth),
+          child: Material(
+            color: context.colors.surfaceInteractiveHoverBg,
+            borderRadius: context.layout.radiusMd,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  FluxerAvatar.user(
+                    userId: p.userId,
+                    imageUrl: p.avatarUrl,
+                    fallbackText: p.displayName,
+                    size: 24,
+                    showStatus: false,
+                  ),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      p.displayName,
+                      style: context.textStyles.channelName.copyWith(
+                        color: context.colors.textPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        height: 20 / 14,
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   void _showParticipantMenu(
     BuildContext context,
@@ -112,8 +169,22 @@ class _VoiceChannelParticipantTile extends ConsumerWidget {
     final bool hasIcons =
         flags.selfVideo || showMic || showDeaf || flags.selfStream;
     if (usesDesktopPointerUi(context)) {
-      final bool isCurrentUser = p.userId == watchAccountUserId(ref);
-      return FluxerSelectableRow(
+      final String accountUserId = watchAccountUserId(ref);
+      final bool isCurrentUser = p.userId == accountUserId;
+      final bool canMoveMembers = hasPermission(
+        ref.watch(
+          guildPermissionsProvider(
+            accountUserId,
+          ).select((Map<String, int> permissions) => permissions[guildId] ?? 0),
+        ),
+        Permission.moveMembers,
+      );
+      final Object? activeDrag = SidebarDragScope.activeItemOf(context);
+      final bool isDragSource =
+          activeDrag is VoiceParticipantDragItem &&
+          activeDrag.userId == p.userId &&
+          activeDrag.channelId == channelId;
+      final Widget row = FluxerSelectableRow(
         isSelected: false,
         selectedColor: Colors.transparent,
         hoverColor: context.colors.backgroundModifierHover,
@@ -166,6 +237,19 @@ class _VoiceChannelParticipantTile extends ConsumerWidget {
             ],
           );
         },
+      );
+      return SidebarDraggable<VoiceParticipantDragItem>(
+        data: VoiceParticipantDragItem(
+          userId: p.userId,
+          guildId: guildId,
+          channelId: channelId,
+        ),
+        enabled: canMoveMembers,
+        feedback: _buildDragFeedback(context),
+        child: Opacity(
+          opacity: isDragSource ? _kDragSourceOpacity : 1,
+          child: row,
+        ),
       );
     }
     return FluxerGestureDetector(

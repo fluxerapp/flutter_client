@@ -97,6 +97,7 @@ class _GuildSidebarChannelListState
 
   late final ScrollController _scrollController;
   late final GuildScrollIndicatorController _scrollIndicator;
+  final SidebarDragController _dragController = SidebarDragController();
   final Map<String, GlobalKey> _channelKeys = <String, GlobalKey>{};
   List<String> _indicatorOrder = const <String>[];
   bool _restoring = false;
@@ -319,6 +320,7 @@ class _GuildSidebarChannelListState
       ..removeListener(_persistScroll)
       ..dispose();
     _scrollIndicator.detach();
+    _dragController.dispose();
     super.dispose();
   }
 
@@ -373,6 +375,20 @@ class _GuildSidebarChannelListState
       }
       _clampScrollOffset();
     });
+  }
+
+  void _handleNullSpaceDrop(
+    ChannelReorderDragItem item,
+    ChannelReorderDropResult result,
+  ) {
+    unawaited(
+      moveChannelFromSidebarDrop(
+        ref,
+        guildId: widget.guildId,
+        item: item,
+        result: result,
+      ),
+    );
   }
 
   @override
@@ -482,8 +498,15 @@ class _GuildSidebarChannelListState
                 minimumShrinkOffset: _pendingScroll.value ?? 0,
               ),
             ),
+            if (desktopPointer)
+              SliverToBoxAdapter(
+                child: SidebarNullSpaceDropTarget(
+                  trailing: false,
+                  onChannelDrop: _handleNullSpaceDrop,
+                ),
+              ),
             SliverPadding(
-              padding: EdgeInsets.only(top: desktopPointer ? 10 : 12),
+              padding: EdgeInsets.only(top: desktopPointer ? 0 : 12),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((
                   BuildContext context,
@@ -579,6 +602,13 @@ class _GuildSidebarChannelListState
                 }, childCount: membersOffset + sidebarEntries.length),
               ),
             ),
+            if (desktopPointer && sidebarEntries.isNotEmpty)
+              SliverToBoxAdapter(
+                child: SidebarNullSpaceDropTarget(
+                  trailing: true,
+                  onChannelDrop: _handleNullSpaceDrop,
+                ),
+              ),
           ],
         );
       },
@@ -596,7 +626,15 @@ class _GuildSidebarChannelListState
           topInset: kGuildSidebarScrollIndicatorTopInset,
           child: Opacity(
             opacity: _needsSelectedReveal && _indicatorOrder.isNotEmpty ? 0 : 1,
-            child: channelListView,
+            child: SidebarDragScope(
+              controller: _dragController,
+              child: SidebarDragAutoScroll(
+                controller: _dragController,
+                scrollController: _scrollController,
+                topInset: kGuildSidebarHeaderMinHeight,
+                child: channelListView,
+              ),
+            ),
           ),
         ),
       ),
