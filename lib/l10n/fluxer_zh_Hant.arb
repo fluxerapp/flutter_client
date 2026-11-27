@@ -10051,10 +10051,6 @@
     "@audioAndVideoFrameRate30Label": {
         "description": "Screen share frame rate option for 30 FPS."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "此伺服器目前支援最高 720p、30 FPS 的螢幕分享。",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "隱藏我的鏡頭時不要再詢問",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own camera during a call."
@@ -10515,10 +10511,6 @@
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
     },
-    "audioAndVideoAutomaticGainControlDescription": "讓你的麥克風音量更平均。啟用增強式抑制時會關閉。",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "隱藏我的螢幕分享時不要再詢問",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own screen share during a call."
@@ -10753,14 +10745,6 @@
     "audioAndVideoUseSpeakerDescription": "關閉時，音訊會透過聽筒或連接的耳機播放。",
     "@audioAndVideoUseSpeakerDescription": {
         "description": "Description for the speaker output toggle on mobile."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "加強",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "標準",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
     },
     "audioAndVideoAutomaticGainControlLabel": "自動增益控制",
     "@audioAndVideoAutomaticGainControlLabel": {

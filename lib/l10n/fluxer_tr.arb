@@ -8871,10 +8871,6 @@
     "@audioAndVideoOutputVolumeLabel": {
         "description": "Label for speaker output volume slider."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standart",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoAutomaticGainControlLabel": "Otomatik kazanç kontrolü",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
@@ -9645,10 +9641,6 @@
     "@groupDmInviteRevoked": {
         "description": "Success toast after revoking a group DM invite."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Mikrofon sesini dengeler. Gelişmiş bastırma açıkken kapalıdır.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "guildMenuSettingsChannels": "Kanallar",
     "@guildMenuSettingsChannels": {
         "description": "Guild settings menu item for channel management."
@@ -10372,10 +10364,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Gelişmiş",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "audioAndVideoEchoCancellationLabel": "Yankı engelleme",
     "@audioAndVideoEchoCancellationLabel": {
         "description": "Toggle label for echo cancellation."
@@ -10550,10 +10538,6 @@
     "audioAndVideoVoiceProcessingSectionTitle": "Ses işleme",
     "@audioAndVideoVoiceProcessingSectionTitle": {
         "description": "Subsection title for voice processing profile selection."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Bu kurulum şu anda ekran paylaşımını 30 FPS'de 720p'ye kadar desteklemektedir.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "guildSettingsInvitesLoadFailedDescription": "Davetler yüklenirken bir hata oluştu. Tekrar deneyin.",
     "@guildSettingsInvitesLoadFailedDescription": {

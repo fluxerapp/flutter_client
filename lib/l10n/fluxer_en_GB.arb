@@ -8852,10 +8852,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Enhanced",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "userSettingsNavNotifications": "Notifications",
     "@userSettingsNavNotifications": {
         "description": "User settings navigation item for notification settings."
@@ -9597,10 +9593,6 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "This instance currently allows screen share up to 720p at 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "notificationsEnableNotificationsPermissionDenied": "Couldn't enable notifications. Allow notification permission to continue.",
     "@notificationsEnableNotificationsPermissionDenied": {
         "description": "Toast shown when enabling notifications fails because permission was denied."
@@ -10019,10 +10011,6 @@
     "audioAndVideoUseSpeakerDescription": "When off, audio plays through the earpiece or connected headphones.",
     "@audioAndVideoUseSpeakerDescription": {
         "description": "Description for the speaker output toggle on mobile."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
     },
     "categoryExpandCategory": "Expand category",
     "@categoryExpandCategory": {
@@ -10838,10 +10826,6 @@
     "addGuildCreateVerifyDescription": "You need to verify your email address before you can create a community.",
     "@addGuildCreateVerifyDescription": {
         "description": "Gate description when the user must verify email before creating a community."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Evens out your mic volume. Off when enhanced suppression is on.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestStopLabel": "Stop mic test",
     "@audioAndVideoMicTestStopLabel": {

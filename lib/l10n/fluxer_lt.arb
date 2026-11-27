@@ -8738,10 +8738,6 @@
     "@mediaViewerCopyLink": {
         "description": "Media viewer action that copies the media URL to the clipboard."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Šis serveris šiuo metu leidžia bendrinti ekraną iki 720p raiška ir 30 kadrų per sekundę.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "notificationsSoundUnmute": "Mikrofono įjungimas",
     "@notificationsSoundUnmute": {
         "description": "Sound toggle label for voice unmute."
@@ -10318,14 +10314,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Patobulinta",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standartinis",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMicTestStopLabel": "Sustabdyti mikrofono testą",
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
@@ -10592,10 +10580,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Automatinis stiprinimo valdymas",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Sulygina mikrofono garsumą. Išjungta, kai įjungtas patobulintas slopinimas.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {

@@ -8588,10 +8588,6 @@
     "@voiceParticipantMenuUnfocus": {
         "description": "Voice participant context menu item to return to grid layout."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Покращено",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "audioAndVideoCameraLabel": "Камера",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9559,10 +9555,6 @@
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Вирівнює гучність вашого мікрофона. Вимкнено, коли ввімкнено покращене приглушення.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestSectionTitle": "Тест мікрофона",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -10003,10 +9995,6 @@
     "@guildSettingsInvitesNever": {
         "description": "Label when an invite does not expire."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Стандартний",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMirrorCameraLabel": "Віддзеркалити камеру",
     "@audioAndVideoMirrorCameraLabel": {
         "description": "Switch label for flipping the local camera preview horizontally."
@@ -10014,10 +10002,6 @@
     "audioAndVideoFrameRate60Label": "60 кадрів/с",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "На цьому сервері зараз дозволено демонстрацію екрана з роздільною здатністю до 720p при 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "languageAndTimeLanguageSectionTitle": "Мова інтерфейсу",
     "@languageAndTimeLanguageSectionTitle": {

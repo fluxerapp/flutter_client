@@ -9164,14 +9164,6 @@
     "@audioAndVideoDirectInputLabel": {
         "description": "Voice processing profile that sends unprocessed audio."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Улучшенное",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Стандартный",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Нет",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -9516,10 +9508,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Автоматическая регулировка усиления",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Выравнивает громкость вашего микрофона. Отключено при включенном усиленном шумоподавлении.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "sessionExpiredToast": "Ваша сессия истекла. Пожалуйста, войдите снова.",
     "@sessionExpiredToast": {
@@ -10213,10 +10201,6 @@
                 "type": "String"
             }
         }
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "В этом экземпляре демонстрация экрана ограничена качеством 720p при 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "languageAndTimeTimeFormat24Hour": "24-часовой",
     "@languageAndTimeTimeFormat24Hour": {

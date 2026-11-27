@@ -9238,14 +9238,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Ulepszone",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standardowy",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9614,10 +9606,6 @@
     "@audioAndVideoInCallBehaviorSectionDescription": {
         "description": "Settings section description for in-call behavior prompts."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Wyrównuje głośność mikrofonu. Wyłączone, gdy włączone jest wzmocnione tłumienie.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "permissionAdministrator": "Administrator",
     "@permissionAdministrator": {
         "description": "Permission name."
@@ -9920,10 +9908,6 @@
     "audioAndVideoCameraQuality1080pLabel": "1080p",
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Ta instancja pozwala obecnie na udostępnianie ekranu w rozdzielczości do 720p przy 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "notificationsMentionPreferenceSectionTitle": "Preferencje wzmianek",
     "@notificationsMentionPreferenceSectionTitle": {

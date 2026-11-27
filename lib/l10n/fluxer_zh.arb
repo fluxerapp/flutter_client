@@ -9236,14 +9236,6 @@
     "@audioAndVideoDirectInputDescription": {
         "description": "Description for the direct input voice processing profile."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "增强",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "标准",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoCameraQuality720pLabel": "720p",
     "@audioAndVideoCameraQuality720pLabel": {
         "description": "Camera quality option for 720p resolution."
@@ -9527,10 +9519,6 @@
     "@audioAndVideoEchoCancellationLabel": {
         "description": "Toggle label for echo cancellation."
     },
-    "audioAndVideoAutomaticGainControlDescription": "自动均衡麦克风音量。开启增强抑制时关闭。",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoCameraQuality480pLabel": "480p",
     "@audioAndVideoCameraQuality480pLabel": {
         "description": "Camera quality option for 480p resolution."
@@ -9542,10 +9530,6 @@
     "audioAndVideoFrameRate30Label": "30 帧/秒",
     "@audioAndVideoFrameRate30Label": {
         "description": "Screen share frame rate option for 30 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "此实例目前支持最高 720p、30 FPS 的屏幕共享。",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "隐藏我的摄像头时不再询问",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

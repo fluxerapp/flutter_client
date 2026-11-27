@@ -9911,10 +9911,6 @@
     "@audioAndVideoFrameRate30Label": {
         "description": "Screen share frame rate option for 30 FPS."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "이 인스턴스에서는 현재 최대 720p, 30 FPS로 화면 공유가 가능합니다.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "내 화면 공유 숨길 때 묻지 않기",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own screen share during a call."
@@ -10524,14 +10520,6 @@
     "audioAndVideoFocusedVoiceLabel": "음성 포커스",
     "@audioAndVideoFocusedVoiceLabel": {
         "description": "Voice processing profile optimized for speech."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "향상됨",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "표준",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
     },
     "audioAndVideoEchoCancellationLabel": "에코 제거",
     "@audioAndVideoEchoCancellationLabel": {
@@ -11201,10 +11189,6 @@
     "audioAndVideoNoiseSuppressionSectionTitle": "노이즈 억제",
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "마이크 볼륨을 일정하게 유지합니다. 향상된 노이즈 억제 기능이 켜져 있으면 꺼집니다.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "카메라를 숨길 때 다시 묻지 않기",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

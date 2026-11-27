@@ -8803,10 +8803,6 @@
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Tämä instanssi sallii tällä hetkellä näytönjaon enintään 720p-laadulla ja 30 FPS:llä.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "guildSettingsInvitesLoadFailedTitle": "Kutsujen lataus epäonnistui",
     "@guildSettingsInvitesLoadFailedTitle": {
         "description": "Error title when invites fail to load."
@@ -9565,10 +9561,6 @@
     "@audioAndVideoAudioSectionDescription": {
         "description": "Settings section description for audio settings in the voice and video tab."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Vakio",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMicTestSectionTitle": "Mikrofonitesti",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -10057,10 +10049,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Parannettu",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "permissionCategoryMessagesMedia": "Viestit ja media",
     "@permissionCategoryMessagesMedia": {
         "description": "Permission category label."
@@ -10251,10 +10239,6 @@
     "channelMenuOpenChat": "Avaa chat",
     "@channelMenuOpenChat": {
         "description": "Guild channel menu action that opens a voice channel chat without joining voice."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Tasoittaa mikrofonisi äänenvoimakkuutta. Pois päältä, kun parannettu vaimennus on käytössä.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
