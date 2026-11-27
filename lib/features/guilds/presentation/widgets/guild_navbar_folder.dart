@@ -869,6 +869,8 @@ Future<void> presentGuildMenuSheet(
   BuildContext context,
   WidgetRef ref, {
   required Guild guild,
+  BuildContext? anchorContext,
+  VoidCallback? onMenuClosed,
 }) async {
   final Guild sheetGuild =
       ref
@@ -899,7 +901,9 @@ Future<void> presentGuildMenuSheet(
     muteEndTime: muteState?.muteEndTime,
     hideMutedChannels: muteState?.hideMutedChannels ?? false,
     developerMode: developerMode,
+    anchorContext: anchorContext,
   );
+  onMenuClosed?.call();
   if (action == null || !context.mounted) {
     return;
   }

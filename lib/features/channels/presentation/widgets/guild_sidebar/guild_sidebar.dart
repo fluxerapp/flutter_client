@@ -123,9 +123,20 @@ class GuildSidebar extends ConsumerStatefulWidget {
 }
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
-  Future<void> _handleServerHeaderTap(BuildContext context, Guild guild) async {
+  Future<void> _handleServerHeaderTap(
+    BuildContext context,
+    Guild guild, {
+    BuildContext? anchorContext,
+    VoidCallback? onMenuClosed,
+  }) async {
     if (isMobileLayout(context) || usesDesktopPointerUi(context)) {
-      await presentGuildMenuSheet(context, ref, guild: guild);
+      await presentGuildMenuSheet(
+        context,
+        ref,
+        guild: guild,
+        anchorContext: anchorContext,
+        onMenuClosed: onMenuClosed,
+      );
       return;
     }
 
@@ -148,7 +159,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       return;
     }
 
-    await presentGuildMenuSheet(context, ref, guild: guild);
+    await presentGuildMenuSheet(
+      context,
+      ref,
+      guild: guild,
+      anchorContext: anchorContext,
+      onMenuClosed: onMenuClosed,
+    );
   }
 
   @override
@@ -214,7 +231,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               scrollOffset: savedScrollOffset,
               onTap: guildOutageUnavailable || guild == null
                   ? null
-                  : () => unawaited(_handleServerHeaderTap(context, guild)),
+                  : (BuildContext anchorContext, VoidCallback onMenuClosed) =>
+                        _handleServerHeaderTap(
+                          context,
+                          guild,
+                          anchorContext: anchorContext,
+                          onMenuClosed: onMenuClosed,
+                        ),
             ),
           Expanded(
             child: showStaticHeader
@@ -222,8 +245,16 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                 : _GuildSidebarChannelListHost(
                     activeGuildId: guildId,
                     guild: guild,
-                    onHeaderTap: () =>
-                        unawaited(_handleServerHeaderTap(context, guild)),
+                    onHeaderTap:
+                        (
+                          BuildContext anchorContext,
+                          VoidCallback onMenuClosed,
+                        ) => _handleServerHeaderTap(
+                          context,
+                          guild,
+                          anchorContext: anchorContext,
+                          onMenuClosed: onMenuClosed,
+                        ),
                   ),
           ),
         ],

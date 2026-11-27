@@ -17,7 +17,9 @@ void main() {
               child: GuildSidebarHeaderBody(
                 guild: null,
                 outageUnavailable: false,
-                onTap: () => taps++,
+                onTap: (BuildContext anchor, VoidCallback onMenuClosed) async {
+                  taps++;
+                },
                 collapseRatio: 1,
                 height: 120,
               ),

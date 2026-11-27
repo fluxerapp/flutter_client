@@ -32,6 +32,7 @@ Future<GuildAction?> showGuildBottomSheet(
   DateTime? muteEndTime,
   bool hideMutedChannels = false,
   bool developerMode = false,
+  BuildContext? anchorContext,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final String locale = Localizations.localeOf(context).toString();
@@ -60,10 +61,7 @@ Future<GuildAction?> showGuildBottomSheet(
 
   final result = await FluxerBottomSheet.showScrollable<GuildAction>(
     context,
-    desktop: const FluxerDesktopPresentation(
-      surface: FluxerDesktopSurface.menu,
-      width: 260,
-    ),
+    desktop: _guildMenuDesktopPresentation(anchorContext),
     title: guild.name,
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),
@@ -100,6 +98,30 @@ Future<GuildAction?> showGuildBottomSheet(
   }
 
   return result;
+}
+
+FluxerDesktopPresentation _guildMenuDesktopPresentation(
+  BuildContext? anchorContext,
+) {
+  final RenderObject? anchor = anchorContext != null && anchorContext.mounted
+      ? anchorContext.findRenderObject()
+      : null;
+  if (anchor is! RenderBox || !anchor.hasSize) {
+    return const FluxerDesktopPresentation(
+      surface: FluxerDesktopSurface.menu,
+      width: 260,
+    );
+  }
+  return FluxerDesktopPresentation(
+    surface: FluxerDesktopSurface.menu,
+    width: anchor.size.width.clamp(
+      kFluxerDesktopMenuMinWidth,
+      kFluxerDesktopMenuMaxWidth,
+    ),
+    placement: FluxerDesktopPlacement.belowCenter,
+    anchorContext: anchorContext,
+    reveal: true,
+  );
 }
 
 Widget _buildMenuEntry(

@@ -29,8 +29,11 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
     double x;
     double y;
     if (anchorRect != null) {
-      final double above = anchorRect.top - _kAnchorGap - childSize.height;
-      final double below = anchorRect.bottom + _kAnchorGap;
+      final double gap = placement == FluxerDesktopPlacement.belowCenter
+          ? _kPopoutAnchorGap
+          : _kAnchorGap;
+      final double above = anchorRect.top - gap - childSize.height;
+      final double below = anchorRect.bottom + gap;
       switch (placement) {
         case FluxerDesktopPlacement.rightStart:
           x = anchorRect.right + _kPopoutSideGap;
@@ -48,10 +51,15 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
           x = anchorRect.left;
           y = above >= edge ? above : below;
         case FluxerDesktopPlacement.belowStart:
+        case FluxerDesktopPlacement.belowCenter:
         case FluxerDesktopPlacement.belowEnd:
-          x = placement == FluxerDesktopPlacement.belowEnd
-              ? anchorRect.right - childSize.width
-              : anchorRect.left;
+          x = switch (placement) {
+            FluxerDesktopPlacement.belowEnd =>
+              anchorRect.right - childSize.width,
+            FluxerDesktopPlacement.belowCenter =>
+              anchorRect.center.dx - childSize.width / 2,
+            _ => anchorRect.left,
+          };
           y = below + childSize.height > size.height - edge && above >= edge
               ? above
               : below;
@@ -314,6 +322,7 @@ Future<T?> pushFluxerDesktopRoute<T>(
   bool dismissible = true,
   Route<dynamic>? origin,
   Color? barrierTint,
+  Duration? duration,
   void Function(FluxerDesktopRoute<T> route)? onCreated,
 }) {
   final FluxerDesktopRoute<T> route = FluxerDesktopRoute<T>(
@@ -322,9 +331,11 @@ Future<T?> pushFluxerDesktopRoute<T>(
     dismissible: dismissible,
     barrierTint: barrierTint,
     dismissLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    duration: surface == FluxerDesktopSurface.modal
-        ? context.motion.normal
-        : Duration.zero,
+    duration:
+        duration ??
+        (surface == FluxerDesktopSurface.modal
+            ? context.motion.normal
+            : Duration.zero),
     capturedThemes: InheritedTheme.capture(
       from: context,
       to: navigator.context,

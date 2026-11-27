@@ -1,5 +1,11 @@
 part of 'guild_sidebar.dart';
 
+typedef GuildSidebarHeaderTap =
+    Future<void> Function(
+      BuildContext anchorContext,
+      VoidCallback onMenuClosed,
+    );
+
 class GuildSidebarHeader extends StatelessWidget {
   const GuildSidebarHeader({
     required this.guild,
@@ -13,7 +19,7 @@ class GuildSidebarHeader extends StatelessWidget {
   final Guild? guild;
   final bool outageUnavailable;
   final double channelSidebarWidth;
-  final VoidCallback? onTap;
+  final GuildSidebarHeaderTap? onTap;
   final double scrollOffset;
 
   @override
@@ -62,7 +68,7 @@ class GuildSidebarHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   final Guild guild;
   final bool outageUnavailable;
-  final VoidCallback? onTap;
+  final GuildSidebarHeaderTap? onTap;
   final double bannerWidth;
   final double viewportHeight;
   final double minimumShrinkOffset;
@@ -113,7 +119,7 @@ class GuildSidebarHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class GuildSidebarHeaderBody extends StatelessWidget {
+class GuildSidebarHeaderBody extends StatefulWidget {
   const GuildSidebarHeaderBody({
     required this.guild,
     required this.outageUnavailable,
@@ -125,12 +131,46 @@ class GuildSidebarHeaderBody extends StatelessWidget {
 
   final Guild? guild;
   final bool outageUnavailable;
-  final VoidCallback? onTap;
+  final GuildSidebarHeaderTap? onTap;
   final double collapseRatio;
   final double height;
 
   @override
+  State<GuildSidebarHeaderBody> createState() => _GuildSidebarHeaderBodyState();
+}
+
+class _GuildSidebarHeaderBodyState extends State<GuildSidebarHeaderBody> {
+  final GlobalKey _anchorKey = GlobalKey();
+  bool _menuOpen = false;
+
+  void _setMenuOpen(bool open) {
+    if (mounted && _menuOpen != open) {
+      setState(() => _menuOpen = open);
+    }
+  }
+
+  Future<void> _handleTap() async {
+    final GuildSidebarHeaderTap? onTap = widget.onTap;
+    if (onTap == null || _menuOpen) {
+      return;
+    }
+    _setMenuOpen(true);
+    try {
+      await onTap(
+        _anchorKey.currentContext ?? context,
+        () => _setMenuOpen(false),
+      );
+    } finally {
+      _setMenuOpen(false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Guild? guild = widget.guild;
+    final bool outageUnavailable = widget.outageUnavailable;
+    final double collapseRatio = widget.collapseRatio;
+    final double height = widget.height;
     final bool desktop = usesDesktopPointerUi(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String headerTitle = outageUnavailable
@@ -173,15 +213,15 @@ class GuildSidebarHeaderBody extends StatelessWidget {
       children: [
         if (guild != null &&
             !outageUnavailable &&
-            (guild!.isPartnered ||
-                guild!.isVerified ||
-                guild!.isDiscoverable ||
-                guild!.badgeIds.isNotEmpty))
+            (guild.isPartnered ||
+                guild.isVerified ||
+                guild.isDiscoverable ||
+                guild.badgeIds.isNotEmpty))
           Padding(
             padding: const EdgeInsetsDirectional.only(end: 4),
             child: FluxerGuildBadge(
-              features: guild!.features,
-              badgeIds: guild!.badgeIds,
+              features: guild.features,
+              badgeIds: guild.badgeIds,
               shadows: bannerShadows,
               forceBrightness: bannerForeground > 0.5 ? Brightness.dark : null,
             ),
@@ -203,11 +243,15 @@ class GuildSidebarHeaderBody extends StatelessWidget {
           ),
         ),
         if (!outageUnavailable)
-          PhosphorIcon(
-            PhosphorIconsBold.caretDown,
-            color: caretColor,
-            size: 16,
-            shadows: bannerShadows,
+          AnimatedRotation(
+            turns: desktop && _menuOpen ? 0.5 : 0,
+            duration: context.motion.fast,
+            child: PhosphorIcon(
+              PhosphorIconsBold.caretDown,
+              color: caretColor,
+              size: 16,
+              shadows: bannerShadows,
+            ),
           ),
       ],
     );
@@ -272,12 +316,15 @@ class GuildSidebarHeaderBody extends StatelessWidget {
               height: kGuildSidebarHeaderMinHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Center(child: headerRow),
+                child: Center(key: _anchorKey, child: headerRow),
               ),
             ),
         ],
       ),
     );
+    final VoidCallback? onTap = widget.onTap == null
+        ? null
+        : () => unawaited(_handleTap());
     if (desktop) {
       if (onTap == null) {
         return DesktopSidebarHeaderSurface(height: height, child: content);
@@ -287,7 +334,9 @@ class GuildSidebarHeaderBody extends StatelessWidget {
         builder: (BuildContext context, Set<WidgetState> states) =>
             DesktopSidebarHeaderSurface(
               height: height,
-              active: states.contains(WidgetState.hovered) && !showBannerImage,
+              active:
+                  (_menuOpen || states.contains(WidgetState.hovered)) &&
+                  !showBannerImage,
               child: content,
             ),
       );

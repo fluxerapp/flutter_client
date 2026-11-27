@@ -67,6 +67,7 @@ Future<T?> _showFluxerDesktopSheet<T>(
     origin: origin,
     dismissible: isDismissible,
     barrierTint: barrierColor,
+    duration: !isModal && presentation.reveal ? context.motion.panel : null,
     onCreated: (FluxerDesktopRoute<T> route) {
       _lastDesktopByNavigator[navigator] = route;
     },
@@ -319,6 +320,13 @@ class _FluxerDesktopAnchoredFrame extends StatelessWidget {
               child: scoped,
             ),
           );
+    final Widget sized = maxHeight == null
+        ? panel
+        : ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: available * maxHeight!),
+            child: panel,
+          );
+    final Animation<double>? animation = ModalRoute.of(context)?.animation;
     return CustomSingleChildLayout(
       delegate: FluxerDesktopAnchoredLayoutDelegate(
         posture: deviceFoldPostureOf(context),
@@ -329,12 +337,18 @@ class _FluxerDesktopAnchoredFrame extends StatelessWidget {
             ? kFluxerDesktopMenuPointerOffset
             : 0,
       ),
-      child: maxHeight == null
-          ? panel
-          : ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: available * maxHeight!),
-              child: panel,
-            ),
+      child: presentation.reveal && animation != null
+          ? ScaleTransition(
+              scale: animation.drive(
+                Tween<double>(
+                  begin: 0.98,
+                  end: 1,
+                ).chain(CurveTween(curve: Curves.easeInOut)),
+              ),
+              alignment: _revealAlignment(presentation.placement),
+              child: sized,
+            )
+          : sized,
     );
   }
 }
@@ -451,4 +465,15 @@ class _FluxerDesktopScrollableBodyState
       ),
     );
   }
+}
+
+Alignment _revealAlignment(FluxerDesktopPlacement placement) {
+  return switch (placement) {
+    FluxerDesktopPlacement.belowStart => Alignment.topLeft,
+    FluxerDesktopPlacement.belowCenter => Alignment.topCenter,
+    FluxerDesktopPlacement.belowEnd => Alignment.topRight,
+    FluxerDesktopPlacement.aboveStart => Alignment.bottomLeft,
+    FluxerDesktopPlacement.rightStart => Alignment.centerLeft,
+    FluxerDesktopPlacement.leftStart => Alignment.centerRight,
+  };
 }

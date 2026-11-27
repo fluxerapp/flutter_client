@@ -33,6 +33,7 @@ const double kFluxerDesktopMenuCaretSize = 14;
 const double kFluxerDesktopSurfaceEdgePadding = 12;
 const double _kEdgePadding = kFluxerDesktopSurfaceEdgePadding;
 const double _kAnchorGap = 4;
+const double _kPopoutAnchorGap = 8;
 const double _kPopoutSideGap = 8;
 const double _kAnchorMaxWidth = 420;
 const double _kAnchorMaxHeight = 160;
@@ -42,6 +43,7 @@ enum FluxerDesktopSurface { menu, popout, modal }
 
 enum FluxerDesktopPlacement {
   belowStart,
+  belowCenter,
   belowEnd,
   aboveStart,
   rightStart,
@@ -56,6 +58,7 @@ class FluxerDesktopPresentation {
     this.anchorContext,
     this.showPanelBorder = true,
     this.borderRadius,
+    this.reveal = false,
   });
 
   final FluxerDesktopSurface? surface;
@@ -64,6 +67,7 @@ class FluxerDesktopPresentation {
   final BuildContext? anchorContext;
   final bool showPanelBorder;
   final double? borderRadius;
+  final bool reveal;
 }
 
 class FluxerDesktopSurfaceScope extends InheritedWidget {

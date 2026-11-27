@@ -11,7 +11,7 @@ class _GuildSidebarChannelListHost extends StatefulWidget {
 
   final String activeGuildId;
   final Guild guild;
-  final VoidCallback? onHeaderTap;
+  final GuildSidebarHeaderTap? onHeaderTap;
 
   @override
   State<_GuildSidebarChannelListHost> createState() =>
@@ -83,7 +83,7 @@ class _GuildSidebarChannelList extends ConsumerStatefulWidget {
   final String guildId;
   final Guild guild;
   final bool isActive;
-  final VoidCallback? onHeaderTap;
+  final GuildSidebarHeaderTap? onHeaderTap;
 
   @override
   ConsumerState<_GuildSidebarChannelList> createState() =>
