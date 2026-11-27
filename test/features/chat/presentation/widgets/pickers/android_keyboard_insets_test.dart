@@ -224,6 +224,7 @@ Future<(ProviderContainer, FocusNode, _AndroidKeyboard)> _pumpHarness(
       requestFocus: focusNode.requestFocus,
       readText: () => '',
       hasFocus: () => focusNode.hasFocus,
+      insertTypedText: (_) => false,
     );
   final ProviderContainer container = ProviderContainer(
     overrides: [

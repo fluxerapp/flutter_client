@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/global_shortcut_matcher.dart';
 import 'package:fluxer_app/features/input/domain/global_shortcut_press_deduper.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo_matcher.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
 import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
 import 'package:fluxer_app/features/input/presentation/keybind_recorder.dart';
@@ -203,6 +204,15 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
         )) {
       return true;
     }
+    if (entries.first.action == KeybindAction.chatFocusTextarea &&
+        isAnyKeyFocusTextareaTrigger(event)) {
+      if (event.character == ' ' && _controlHasFocus()) {
+        return false;
+      }
+      return ref
+          .read(composerFocusCoordinatorProvider)
+          .typeIntoComposer(event.character!);
+    }
 
     unawaited(
       _dispatchFirst(<KeybindAction>[
@@ -262,6 +272,11 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
         keyboard.isShiftPressed;
   }
 
+  bool _controlHasFocus() {
+    final FocusNode? focus = FocusManager.instance.primaryFocus;
+    return focus != null && focus is! FocusScopeNode;
+  }
+
   bool _isTextInputFocused() {
     final FocusNode? focus = FocusManager.instance.primaryFocus;
     if (focus == null || !focus.hasFocus) {
@@ -316,8 +331,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     if (rootContext == null) {
       return false;
     }
-    return ModalRoute.of(rootContext)?.isCurrent != true ||
-        Navigator.of(rootContext).canPop();
+    return Navigator.of(rootContext).canPop();
   }
 
   Future<void> _dispatchFirst(List<KeybindAction> actions) async {

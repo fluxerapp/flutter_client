@@ -6,11 +6,13 @@ class _ComposerFocusRegistration {
     required this.requestFocus,
     required this.readText,
     required this.hasFocus,
+    required this.insertTypedText,
   });
 
   final VoidCallback requestFocus;
   final String Function() readText;
   final bool Function() hasFocus;
+  final bool Function(String text) insertTypedText;
 }
 
 class ComposerFocusCoordinator {
@@ -21,6 +23,7 @@ class ComposerFocusCoordinator {
     required VoidCallback requestFocus,
     required String Function() readText,
     required bool Function() hasFocus,
+    required bool Function(String text) insertTypedText,
   }) {
     unregister(requestFocus);
     _stack.add(
@@ -28,6 +31,7 @@ class ComposerFocusCoordinator {
         requestFocus: requestFocus,
         readText: readText,
         hasFocus: hasFocus,
+        insertTypedText: insertTypedText,
       ),
     );
   }
@@ -51,6 +55,8 @@ class ComposerFocusCoordinator {
   String readComposerText() => _active?.readText() ?? '';
 
   bool composerHasFocus() => _active?.hasFocus() ?? false;
+
+  bool typeIntoComposer(String text) => _active?.insertTypedText(text) ?? false;
 }
 
 final composerFocusCoordinatorProvider = Provider<ComposerFocusCoordinator>(

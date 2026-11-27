@@ -13,7 +13,12 @@ const double _kNativeSafe = 34;
 
 ProviderContainer _openFocusedKeyboard() {
   final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator()
-    ..register(requestFocus: () {}, readText: () => '', hasFocus: () => true);
+    ..register(
+      requestFocus: () {},
+      readText: () => '',
+      hasFocus: () => true,
+      insertTypedText: (_) => false,
+    );
   final ProviderContainer container =
       ProviderContainer(
           overrides: [
@@ -286,6 +291,7 @@ void main() {
             requestFocus: () {},
             readText: () => '',
             hasFocus: () => focused,
+            insertTypedText: (_) => false,
           );
         final ProviderContainer container =
             ProviderContainer(
@@ -335,6 +341,7 @@ void main() {
             requestFocus: () {},
             readText: () => '',
             hasFocus: () => true,
+            insertTypedText: (_) => false,
           );
         final ProviderContainer focused =
             ProviderContainer(

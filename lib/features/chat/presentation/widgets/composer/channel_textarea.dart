@@ -350,6 +350,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       requestFocus: _requestComposerFocus,
       readText: _sendableWireText,
       hasFocus: () => _focusNode.hasFocus,
+      insertTypedText: _typeIntoComposer,
     );
     _chatKeybindEffectsSubscription = listenChatKeybindEffects(
       ref,
@@ -584,6 +585,38 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!focused) {
       _keyboardSession.handleFocusLost();
     }
+  }
+
+  bool _typeIntoComposer(String typed) {
+    if (!mounted ||
+        _slashSession.isActive ||
+        _voiceRecording.isActive ||
+        _focusNode.hasFocus ||
+        !_focusNode.canRequestFocus ||
+        !TickerMode.valuesOf(context).enabled ||
+        ModalRoute.isCurrentOf(context) == false) {
+      return false;
+    }
+    final TextEditingValue value = _controller.value;
+    final int length = value.text.length;
+    final TextSelection selection = value.selection;
+    final int start = selection.isValid
+        ? _clampOffset(selection.start, length)
+        : length;
+    final int end = selection.isValid
+        ? _clampOffset(selection.end, length)
+        : length;
+    final TextEditingValue typedValue = TextEditingValue(
+      text: value.text.replaceRange(start, end, typed),
+      selection: TextSelection.collapsed(offset: start + typed.length),
+    );
+    _focusNode.requestFocus();
+    scheduleMicrotask(() {
+      if (mounted) {
+        _controller.value = typedValue;
+      }
+    });
+    return true;
   }
 
   bool _composerEntryFocused() {
