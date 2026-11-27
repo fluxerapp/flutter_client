@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.d
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 class MemberRepository {
   static const int mentionAutocompleteMaxMatches = kMentionMemberSearchLimit;
@@ -12,9 +13,10 @@ class MemberRepository {
   static const int restBackfillMaxGuildMembers = 1000;
 
   final FluxerClient _client;
+  final FluxerWorkerApi _workerApi;
   final db.FluxerDatabase _db;
 
-  const MemberRepository(this._client, this._db);
+  const MemberRepository(this._client, this._db, {required this._workerApi});
 
   Future<List<Member>> getMembersByUserIds(
     String guildId,
@@ -78,26 +80,8 @@ class MemberRepository {
     required String guildId,
     required int limit,
     String? after,
-  }) async {
-    try {
-      return await _client.guilds.listGuildMembers(
-        guildId: guildId,
-        limit: limit,
-        after: after,
-      );
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 200 && e.response?.data != null) {
-        final List<dynamic> rawList = e.response!.data as List<dynamic>;
-        return rawList
-            .map(
-              (dynamic item) =>
-                  GuildMemberResponse.fromJson(item as Map<String, Object?>),
-            )
-            .toList();
-      }
-      throw Exception(e.response?.statusMessage ?? 'Failed to fetch members');
-    }
-  }
+  }) =>
+      _workerApi.listGuildMembers(guildId: guildId, limit: limit, after: after);
 
   Future<void> _upsertGuildMembersFromSdk(
     String guildId,

@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
@@ -83,7 +84,7 @@ Dio _buildFluxerDio({
         fluxerApiFeaturesHeaderName: buildFluxerApiFeaturesHeaderValue(),
       },
     ),
-  );
+  )..transformer = WorkerParsingTransformer();
   final ProviderContainer container = ref.container;
   dio.interceptors.add(
     AcceptLanguageInterceptor(
@@ -249,6 +250,13 @@ FluxerClient fluxerClient(Ref ref) {
   final Dio dio = ref.watch(fluxerDioProvider);
   final String baseUrl = ref.watch(fluxerBaseUrlProvider);
   return FluxerClient(dio, baseUrl: baseUrl);
+}
+
+@Riverpod(keepAlive: true)
+FluxerWorkerApi fluxerWorkerApi(Ref ref) {
+  final Dio dio = ref.watch(fluxerDioProvider);
+  final String baseUrl = ref.watch(fluxerBaseUrlProvider);
+  return FluxerWorkerApi(dio, baseUrl: baseUrl);
 }
 
 @Riverpod(keepAlive: true)

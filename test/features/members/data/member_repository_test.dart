@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart' as domain;
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -31,6 +32,7 @@ void main() {
       final MemberRepository repository = MemberRepository(
         _FakeFluxerClient(),
         database,
+        workerApi: FluxerWorkerApi(Dio()),
       );
       final List<domain.Member> hits = await repository
           .searchMembersForAutocomplete(
@@ -61,6 +63,7 @@ void main() {
       final MemberRepository repository = MemberRepository(
         _FakeFluxerClient(),
         database,
+        workerApi: FluxerWorkerApi(Dio()),
       );
       final List<domain.Member> hits = await repository
           .searchMembersForAutocomplete(
@@ -91,6 +94,7 @@ void main() {
         final MemberRepository repository = MemberRepository(
           _FakeFluxerClient(),
           database,
+          workerApi: FluxerWorkerApi(Dio()),
         );
         expect(await repository.isGuildMemberCacheComplete('g1'), isFalse);
         await database.memberDao.upsertMember(
@@ -117,6 +121,7 @@ void main() {
       final MemberRepository repository = MemberRepository(
         _FakeFluxerClient(),
         database,
+        workerApi: FluxerWorkerApi(Dio()),
       );
       final List<domain.Member> members = await repository
           .getCachedMembersForGuild('g1');

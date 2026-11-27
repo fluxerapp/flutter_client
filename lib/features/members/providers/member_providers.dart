@@ -15,7 +15,11 @@ part 'member_providers.g.dart';
 MemberRepository memberRepository(Ref ref) {
   final client = ref.watch(fluxerClientProvider);
   final database = ref.watch(fluxerDatabaseProvider);
-  return MemberRepository(client, database);
+  return MemberRepository(
+    client,
+    database,
+    workerApi: ref.watch(fluxerWorkerApiProvider),
+  );
 }
 
 final Provider<GuildMentionMemberSearch> guildMentionMemberSearchProvider =

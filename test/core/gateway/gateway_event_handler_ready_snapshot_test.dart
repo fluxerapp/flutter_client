@@ -7,6 +7,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/ready_guilds.dart';
 
 void main() {
   Future<void> sendReady(
@@ -24,7 +25,7 @@ void main() {
       ReadyEvent(
         sessionId: sessionId,
         user: _user(),
-        rawGuilds: rawGuilds,
+        guilds: readyGuilds(rawGuilds),
         privateChannels: privateChannels,
         relationships: const [],
         readStates: const [],

@@ -27,6 +27,7 @@ ChannelPinsRepository channelPinsRepository(Ref ref) => ChannelPinsRepository(
   ref.watch(fluxerClientProvider),
   ref.watch(fluxerDatabaseProvider),
   ref.watch(currentUserIdProvider),
+  workerApi: ref.watch(fluxerWorkerApiProvider),
 );
 
 @Riverpod(keepAlive: true)
@@ -35,6 +36,7 @@ MessageSearchRepository messageSearchRepository(Ref ref) =>
       ref.watch(fluxerClientProvider),
       ref.watch(fluxerDatabaseProvider),
       ref.watch(currentUserIdProvider),
+      workerApi: ref.watch(fluxerWorkerApiProvider),
     );
 
 class ChannelPinsState {

@@ -24,6 +24,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 const int kDmPreviewPreloadBatchSize = 100;
 
@@ -126,6 +127,7 @@ class MessageRepository {
   final String? _currentUserId;
   final MessageMentionContextCache? _mentionContextCache;
   final String? Function()? _gatewaySessionId;
+  late final FluxerWorkerApi _workerApi = FluxerWorkerApi(_dio);
   final Map<String, Future<MessageListLoadResult>> _inFlightPages =
       <String, Future<MessageListLoadResult>>{};
 
@@ -246,14 +248,13 @@ class MessageRepository {
         : null;
 
     try {
-      final List<MessageResponseSchema> data = await _client.channels
-          .listMessages(
-            channelId: channelId,
-            limit: limit.toString(),
-            before: before,
-            after: after,
-            around: around,
-          );
+      final List<MessageResponseSchema> data = await _workerApi.listMessages(
+        channelId: channelId,
+        limit: limit.toString(),
+        before: before,
+        after: after,
+        around: around,
+      );
       mark('http');
 
       final List<Message> embeddedReplyParents = <Message>[];
@@ -870,16 +871,15 @@ class MessageRepository {
     if (sentAtMs == null || authorId == null) {
       return null;
     }
-    final List<MessageResponseSchema> page = await _client.channels
-        .listMessages(
-          channelId: channelId,
-          after: snowflakeFromDateTime(
-            DateTime.fromMillisecondsSinceEpoch(
-              sentAtMs - _kSendLookupClockSkew.inMilliseconds,
-            ),
-          ),
-          limit: '100',
-        );
+    final List<MessageResponseSchema> page = await _workerApi.listMessages(
+      channelId: channelId,
+      after: snowflakeFromDateTime(
+        DateTime.fromMillisecondsSinceEpoch(
+          sentAtMs - _kSendLookupClockSkew.inMilliseconds,
+        ),
+      ),
+      limit: '100',
+    );
     final List<MessageResponseSchema> ordered = [...page]
       ..sort(
         (MessageResponseSchema a, MessageResponseSchema b) =>

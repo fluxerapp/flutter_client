@@ -7,6 +7,7 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_dart/gateway_client/event_parser.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/ready_guilds.dart';
 
 void main() {
   _resyncTests();
@@ -43,7 +44,8 @@ void main() {
         ReadyEvent(
           sessionId: sessionId,
           user: _user(),
-          rawGuilds: rawGuilds,
+          guilds: readyGuilds(rawGuilds),
+          unavailableGuilds: readyUnavailableGuilds(rawGuilds),
           privateChannels: const [],
           relationships: const [],
           readStates: const [],
@@ -432,7 +434,7 @@ void _resyncTests() {
         ..._user().toJson(),
         'id': userId,
       }),
-      rawGuilds: [_guildRaw(id: '200')],
+      guilds: readyGuilds([_guildRaw(id: '200')]),
       privateChannels: const [],
       relationships: const [],
       readStates: const [],

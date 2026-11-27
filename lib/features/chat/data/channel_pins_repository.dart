@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 const int kPinnedMessagesPageSize = 25;
 
@@ -26,10 +27,12 @@ class ChannelPinsRepository {
   const ChannelPinsRepository(
     this._client,
     this._database,
-    this._currentUserId,
-  );
+    this._currentUserId, {
+    required this._workerApi,
+  });
 
   final FluxerClient _client;
+  final FluxerWorkerApi _workerApi;
   final db.FluxerDatabase _database;
   final String? _currentUserId;
 
@@ -37,7 +40,7 @@ class ChannelPinsRepository {
     required String channelId,
     DateTime? before,
   }) async {
-    final response = await _client.channels.listPinnedMessages(
+    final response = await _workerApi.listPinnedMessages(
       channelId: channelId,
       limit: kPinnedMessagesPageSize,
       before: before?.toUtc().toIso8601String(),

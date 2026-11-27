@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/members/domain/guild_members_search_models.d
 import 'package:fluxer_app/features/members/utils/guild_members_search_request_builder.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 class GuildMembersSearchPageResult {
   const GuildMembersSearchPageResult({
@@ -21,12 +22,12 @@ class GuildMembersSearchPageResult {
 
 class GuildMembersSearchRepository {
   GuildMembersSearchRepository({
-    required this.client,
+    required this.workerApi,
     required this.database,
     required this.hydrationService,
   });
 
-  final FluxerClient client;
+  final FluxerWorkerApi workerApi;
   final db.FluxerDatabase database;
   final GuildMemberHydrationService hydrationService;
 
@@ -46,7 +47,7 @@ class GuildMembersSearchRepository {
       joinedProductFilter: state.joinedProductFilter,
       joinMethodFilter: state.joinMethodFilter,
     );
-    final GuildMemberSearchResponse response = await client.guilds
+    final GuildMemberSearchResponse response = await workerApi
         .searchGuildMembers(guildId: guildId, body: request);
     final List<GuildMemberDisplayData> members = await _mapSearchResults(
       guildId,
@@ -117,7 +118,7 @@ guildMembersSearchRepositoryProvider = Provider<GuildMembersSearchRepository>((
   Ref ref,
 ) {
   return GuildMembersSearchRepository(
-    client: ref.watch(fluxerClientProvider),
+    workerApi: ref.watch(fluxerWorkerApiProvider),
     database: ref.watch(fluxerDatabaseProvider),
     hydrationService: ref.watch(guildMemberHydrationServiceProvider),
   );

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_dart/gateway_client/gateway_types.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_availability_provider.g.dart';
@@ -8,10 +9,10 @@ class GuildAvailability extends _$GuildAvailability {
   @override
   Set<String> build() => {};
 
-  void loadFromReady(List<Map<String, dynamic>> rawGuilds) {
+  void loadFromReady(List<ReadyUnavailableGuild> unavailableGuilds) {
     state = {
-      for (final rawGuild in rawGuilds)
-        if (_isTrackedUnavailable(rawGuild)) rawGuild['id'] as String,
+      for (final ReadyUnavailableGuild guild in unavailableGuilds)
+        if (!guild.hidden) guild.id,
     };
   }
 
@@ -38,14 +39,6 @@ class GuildAvailability extends _$GuildAvailability {
   void clear() {
     state = {};
   }
-
-  bool _isTrackedUnavailable(Map<String, dynamic> rawGuild) {
-    final unavailable = rawGuild['unavailable'] as bool? ?? false;
-    if (!unavailable) {
-      return false;
-    }
-    return !(rawGuild['unavailable_hidden'] as bool? ?? false);
-  }
 }
 
 @Riverpod(keepAlive: true)
@@ -53,13 +46,10 @@ class GuildDegraded extends _$GuildDegraded {
   @override
   Set<String> build() => <String>{};
 
-  void loadFromReady(List<Map<String, dynamic>> rawGuilds) {
+  void loadFromReady(List<GuildCreateData> guilds) {
     final Set<String> next = <String>{
-      for (final Map<String, dynamic> rawGuild in rawGuilds)
-        if (rawGuild['degraded'] == true &&
-            rawGuild['unavailable'] != true &&
-            rawGuild['id'] is String)
-          rawGuild['id'] as String,
+      for (final GuildCreateData guild in guilds)
+        if (guild.degraded ?? false) guild.guild.id,
     };
     if (!setEquals(next, state)) {
       state = next;

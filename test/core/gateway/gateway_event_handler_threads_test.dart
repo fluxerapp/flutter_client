@@ -15,6 +15,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/ready_guilds.dart';
 
 const String _guildId = 'g1';
 const String _textId = '1000';
@@ -148,12 +149,12 @@ Future<void> _ready(
   ReadyEvent(
     sessionId: sessionId,
     user: _user(),
-    rawGuilds: [
-      if (unavailable)
-        {'id': _guildId, 'unavailable': true}
-      else
-        _guildRaw(withThreads: withThreads, threads: threads),
-    ],
+    guilds: unavailable
+        ? const <GuildCreateData>[]
+        : readyGuilds([_guildRaw(withThreads: withThreads, threads: threads)]),
+    unavailableGuilds: unavailable
+        ? const <ReadyUnavailableGuild>[ReadyUnavailableGuild(id: _guildId)]
+        : const <ReadyUnavailableGuild>[],
     privateChannels: const [],
     relationships: const [],
     readStates: const [],

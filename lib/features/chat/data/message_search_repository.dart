@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 const int kMessageSearchPageSize = 25;
 
@@ -178,23 +179,24 @@ class MessageSearchRepository {
   const MessageSearchRepository(
     this._client,
     this._database,
-    this._currentUserId,
-  );
+    this._currentUserId, {
+    required this._workerApi,
+  });
 
   final FluxerClient _client;
+  final FluxerWorkerApi _workerApi;
   final db.FluxerDatabase _database;
   final String? _currentUserId;
 
   Future<MessageSearchPage> searchMessages(MessageSearchQuery query) async {
-    final response = await _client.search.searchMessages(
+    final MessageSearchOutcome outcome = await _workerApi.searchMessages(
       body: buildGlobalSearchMessagesRequest(query),
     );
-    final raw = response.toJson();
-    if (raw['indexing'] == true) {
+    final results = outcome.results;
+    if (outcome.indexing || results == null) {
       return const MessageSearchPage.indexing();
     }
 
-    final results = response.toMessageSearchResultsResponse();
     final channelById = <String, ({String? guildId, String? name})>{
       for (final channel in results.channels)
         channel.id: (guildId: channel.guildId, name: channel.name),

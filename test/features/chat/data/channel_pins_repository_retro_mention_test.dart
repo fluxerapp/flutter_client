@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -93,7 +94,12 @@ void main() {
             mentionEveryone: true,
           ),
         ]);
-      final repo = ChannelPinsRepository(FluxerClient(dio), db, 'me');
+      final repo = ChannelPinsRepository(
+        FluxerClient(dio),
+        db,
+        'me',
+        workerApi: FluxerWorkerApi(dio),
+      );
 
       await repo.listPinnedMessages(channelId: 'channel-1');
 
@@ -122,7 +128,12 @@ void main() {
         ..httpClientAdapter = _PinAdapter([
           _pinJson(id: pinId, channelId: 'channel-1', mentionEveryone: false),
         ]);
-      final repo = ChannelPinsRepository(FluxerClient(dio), db, 'me');
+      final repo = ChannelPinsRepository(
+        FluxerClient(dio),
+        db,
+        'me',
+        workerApi: FluxerWorkerApi(dio),
+      );
 
       await repo.listPinnedMessages(channelId: 'channel-1');
 
@@ -153,7 +164,12 @@ void main() {
         ..httpClientAdapter = _PinAdapter([
           _pinJson(id: pinId, channelId: 'channel-1', mentionEveryone: false),
         ]);
-      final repo = ChannelPinsRepository(FluxerClient(dio), db, 'me');
+      final repo = ChannelPinsRepository(
+        FluxerClient(dio),
+        db,
+        'me',
+        workerApi: FluxerWorkerApi(dio),
+      );
 
       await repo.listPinnedMessages(channelId: 'channel-1');
 

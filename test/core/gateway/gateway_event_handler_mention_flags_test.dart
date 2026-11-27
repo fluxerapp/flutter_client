@@ -6,6 +6,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/ready_guilds.dart';
 
 void main() {
   late FluxerDatabase database;
@@ -25,7 +26,7 @@ void main() {
       ReadyEvent(
         sessionId: sessionId,
         user: UserPrivateResponse.fromJson(self),
-        rawGuilds: rawGuilds,
+        guilds: readyGuilds(rawGuilds, self: self),
         privateChannels: const [],
         relationships: const [],
         readStates: const [],
@@ -42,8 +43,9 @@ void main() {
   });
 
   test('READY keeps the own member when a mention preference is set', () async {
+    final Map<String, dynamic> self = _privateUser(mentionFlags: 1);
     await sendReady(
-      _privateUser(mentionFlags: 1),
+      self,
       rawGuilds: <Map<String, dynamic>>[_guildWithOwnMember()],
     );
 
@@ -52,6 +54,9 @@ void main() {
       'g1',
     );
     expect(member?.roleIdsJson, '["r1"]');
+    final User? user = await database.userDao.getUserById('100');
+    expect(user?.username, self['username']);
+    expect(user?.mentionFlags, 1);
   });
 
   test('READY clears a stale mention preference the server omits', () async {

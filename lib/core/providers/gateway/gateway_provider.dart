@@ -630,9 +630,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onCurrentUserUpdate: (UserPrivateResponse user) => ifMounted(() {
       _applyCurrentUserUpdate(ref, user);
     }),
-    onUnavailableGuildsReady: (rawGuilds) => ifMounted(() {
-      ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
-      ref.read(guildDegradedProvider.notifier).loadFromReady(rawGuilds);
+    onUnavailableGuildsReady: (unavailableGuilds, guilds) => ifMounted(() {
+      ref
+          .read(guildAvailabilityProvider.notifier)
+          .loadFromReady(unavailableGuilds);
+      ref.read(guildDegradedProvider.notifier).loadFromReady(guilds);
     }),
     onGuildAvailabilityChanged:
         (guildId, {required unavailable, unavailableHidden = false}) =>

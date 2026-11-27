@@ -1,95 +1,201 @@
-import 'package:flutter/foundation.dart';
-import 'package:fluxer_dart/gateway_client/gateway_types.dart';
+import 'dart:convert';
 
-class ParsedReadyGuild {
-  const ParsedReadyGuild({
-    required this.guildData,
-    required this.position,
-    this.memberCount,
-    this.onlineCount,
+import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/daos/thread_dao.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType;
+import 'package:fluxer_app/shared/utils/sdk_converters.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
+import 'package:fluxer_dart/gateway.dart';
+
+class ReadyGuildRows {
+  const ReadyGuildRows({
+    required this.cachedUsers,
+    required this.servers,
+    required this.channels,
+    required this.roles,
+    required this.memberUsers,
+    required this.members,
+    required this.joinedThreads,
+    required this.emojis,
+    required this.stickers,
+    required this.channelIdsByGuildId,
+    required this.roleIdsByGuildId,
+    required this.voiceStates,
   });
 
-  final GuildCreateData guildData;
-  final int position;
-  final int? memberCount;
-  final int? onlineCount;
+  final List<db.UsersCompanion> cachedUsers;
+  final List<db.ServersCompanion> servers;
+  final List<db.ChannelsCompanion> channels;
+  final List<db.RolesCompanion> roles;
+  final List<db.UsersCompanion> memberUsers;
+  final List<db.MembersCompanion> members;
+  final Map<String, JoinedThreadsSnapshot> joinedThreads;
+  final Map<String, List<db.GuildEmojisCompanion>> emojis;
+  final Map<String, List<db.GuildStickersCompanion>> stickers;
+  final Map<String, Set<String>> channelIdsByGuildId;
+  final Map<String, Set<String>> roleIdsByGuildId;
+  final List<VoiceState> voiceStates;
 }
 
-List<ParsedReadyGuild> parseReadyGuildsOnIsolate(Map<String, Object?> input) {
-  final List<Map<String, dynamic>> rawGuilds =
-      (input['rawGuilds']! as List<Object?>)
-          .map((Object? guild) => Map<String, dynamic>.from(guild! as Map))
-          .toList();
-  final Map<String, int> guildPositions = Map<String, int>.from(
-    input['guildPositions']! as Map,
-  );
-  final Map<String, Map<String, dynamic>> usersById =
-      <String, Map<String, dynamic>>{
-        for (final Object? user in input['users'] as List<Object?>? ?? const [])
-          if (user is Map && user['id'] is String)
-            user['id'] as String: Map<String, dynamic>.from(user),
-      };
-  final List<ParsedReadyGuild> parsed = <ParsedReadyGuild>[];
+ReadyGuildRows readyGuildRowsFor(ReadyEvent event) => switch (event.prepared) {
+  final ReadyGuildRows rows => rows,
+  _ => buildReadyGuildRows(event),
+};
+
+ReadyGuildRows buildReadyGuildRows(ReadyEvent event) {
+  final Map<String, int> guildPositions = _guildPositions(event.userSettings);
   var fallbackPosition = guildPositions.length;
-  for (final Map<String, dynamic> rawGuild in rawGuilds) {
-    final bool unavailable = rawGuild['unavailable'] as bool? ?? false;
-    if (unavailable) {
-      continue;
-    }
-    final GuildCreateData guildData = GuildCreateData.fromJson(
-      withHydratedMemberUsers(rawGuild, usersById),
-    );
+
+  final List<db.UsersCompanion> cachedUsers = <db.UsersCompanion>[
+    for (final Map<String, dynamic> user
+        in event.users ?? const <Map<String, dynamic>>[])
+      userFromPartialSdk(
+        UserPartialResponse.fromJson(user.cast<String, Object?>()),
+      ),
+  ];
+  final List<db.ServersCompanion> servers = <db.ServersCompanion>[];
+  final List<db.ChannelsCompanion> channels = <db.ChannelsCompanion>[];
+  final List<db.RolesCompanion> roles = <db.RolesCompanion>[];
+  final List<db.UsersCompanion> memberUsers = <db.UsersCompanion>[];
+  final List<db.MembersCompanion> members = <db.MembersCompanion>[];
+  final Map<String, JoinedThreadsSnapshot> joinedThreads =
+      <String, JoinedThreadsSnapshot>{};
+  final Map<String, List<db.GuildEmojisCompanion>> emojis =
+      <String, List<db.GuildEmojisCompanion>>{};
+  final Map<String, List<db.GuildStickersCompanion>> stickers =
+      <String, List<db.GuildStickersCompanion>>{};
+  final Map<String, Set<String>> channelIdsByGuildId = <String, Set<String>>{};
+  final Map<String, Set<String>> roleIdsByGuildId = <String, Set<String>>{};
+  final List<VoiceState> voiceStates = <VoiceState>[];
+
+  for (final GuildCreateData guildData in event.guilds) {
     final String guildId = guildData.guild.id;
-    final int position = guildPositions[guildId] ?? fallbackPosition++;
-    parsed.add(
-      ParsedReadyGuild(
-        guildData: guildData,
-        position: position,
-        memberCount: (rawGuild['member_count'] as num?)?.toInt(),
-        onlineCount: (rawGuild['online_count'] as num?)?.toInt(),
+    servers.add(
+      guildFromSdk(
+        guildData.guild,
+        position: guildPositions[guildId] ?? fallbackPosition++,
+        memberCount: guildData.memberCount,
+        onlineCount: guildData.onlineCount,
       ),
     );
+
+    final Set<String> channelIds = <String>{};
+    for (final ChannelResponse channel in guildData.channels) {
+      channels.add(channelFromSdk(channel, guildId));
+      channelIds.add(channel.id);
+    }
+    if (channelIds.isNotEmpty) {
+      channelIdsByGuildId[guildId] = channelIds;
+    }
+
+    final List<db.ThreadMembersCompanion> joined =
+        <db.ThreadMembersCompanion>[];
+    final Set<String> listed = <String>{};
+    for (final ChannelResponse thread
+        in guildData.threads ?? const <ChannelResponse>[]) {
+      if (!isThreadChannelType(thread.type.json ?? -1)) {
+        continue;
+      }
+      channels.add(channelFromSdk(thread, guildId));
+      listed.add(thread.id);
+      final ThreadMemberResponse? member = thread.member;
+      if (member != null) {
+        joined.add(
+          threadMemberFromSdk(member, threadId: thread.id, guildId: guildId),
+        );
+      }
+    }
+    joinedThreads[guildId] = (joined: joined, listedIds: listed);
+
+    if (guildData.roles.isNotEmpty) {
+      roleIdsByGuildId[guildId] = <String>{
+        for (final GuildRoleResponse role in guildData.roles) role.id,
+      };
+      for (final GuildRoleResponse role in guildData.roles) {
+        roles.add(roleFromSdk(role, guildId));
+      }
+    }
+
+    for (final GuildMemberResponse member in guildMembersWithVoiceStates(
+      guildData.members,
+      guildData.voiceStates,
+    )) {
+      memberUsers.add(userFromPartialSdk(member.user));
+      members.add(memberCompanionFromSdk(member, guildId: guildId));
+    }
+    voiceStates.addAll(guildData.voiceStates);
+
+    emojis[guildId] = <db.GuildEmojisCompanion>[
+      for (final GuildEmojiResponse emoji in guildData.emojis)
+        db.GuildEmojisCompanion.insert(
+          id: emoji.id,
+          guildId: guildId,
+          name: emoji.name,
+          animated: Value(emoji.animated),
+        ),
+    ];
+    stickers[guildId] = <db.GuildStickersCompanion>[
+      for (final GuildStickerResponse sticker in guildData.stickers)
+        db.GuildStickersCompanion.insert(
+          id: sticker.id,
+          guildId: guildId,
+          name: sticker.name,
+          description: Value(sticker.description),
+          tagsJson: Value(jsonEncode(sticker.tags)),
+          animated: Value(sticker.animated),
+        ),
+    ];
   }
-  return parsed;
+
+  return ReadyGuildRows(
+    cachedUsers: cachedUsers,
+    servers: servers,
+    channels: channels,
+    roles: roles,
+    memberUsers: memberUsers,
+    members: members,
+    joinedThreads: joinedThreads,
+    emojis: emojis,
+    stickers: stickers,
+    channelIdsByGuildId: channelIdsByGuildId,
+    roleIdsByGuildId: roleIdsByGuildId,
+    voiceStates: voiceStates,
+  );
 }
 
-Map<String, dynamic> withHydratedMemberUsers(
-  Map<String, dynamic> rawGuild,
-  Map<String, Map<String, dynamic>> usersById,
+List<GuildMemberResponse> guildMembersWithVoiceStates(
+  List<GuildMemberResponse> members,
+  List<VoiceState> voiceStates,
 ) {
-  final Object? members = rawGuild['members'];
-  if (members is! List || usersById.isEmpty) {
-    return rawGuild;
+  if (voiceStates.isEmpty) {
+    return members;
   }
-  return <String, dynamic>{
-    ...rawGuild,
-    'members': <Object?>[
-      for (final Object? member in members)
-        if (member is Map &&
-            member['user'] is Map &&
-            !(member['user'] as Map).containsKey('username') &&
-            usersById[(member['user'] as Map)['id']] != null)
-          <String, dynamic>{
-            ...Map<String, dynamic>.from(member),
-            'user': usersById[(member['user'] as Map)['id']],
-          }
-        else
-          member,
-    ],
-  };
+  final Map<String, GuildMemberResponse> byUserId =
+      <String, GuildMemberResponse>{
+        for (final GuildMemberResponse member in members)
+          member.user.id: member,
+      };
+  for (final VoiceState voiceState in voiceStates) {
+    final GuildMemberResponse? member = voiceState.member;
+    if (member != null) {
+      byUserId[member.user.id] = member;
+    }
+  }
+  return byUserId.values.toList();
 }
 
-Future<List<ParsedReadyGuild>> parseReadyGuilds({
-  required List<Map<String, dynamic>> rawGuilds,
-  required Map<String, int> guildPositions,
-  List<Map<String, dynamic>> users = const <Map<String, dynamic>>[],
-}) {
-  if (rawGuilds.isEmpty) {
-    return Future<List<ParsedReadyGuild>>.value(const <ParsedReadyGuild>[]);
+Map<String, int> _guildPositions(UserSettingsResponse? settings) {
+  final Map<String, int> positions = <String, int>{};
+  if (settings == null) {
+    return positions;
   }
-  return compute(parseReadyGuildsOnIsolate, <String, Object?>{
-    'rawGuilds': rawGuilds,
-    'guildPositions': guildPositions,
-    'users': users,
-  });
+  var position = 0;
+  for (final folder in settings.guildFolders) {
+    for (final String guildId in folder.guildIds) {
+      positions[guildId] = position++;
+    }
+  }
+  return positions;
 }

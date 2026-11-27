@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_identify_client_properties.dart';
+import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
@@ -73,6 +74,7 @@ GatewayConnection gatewayConnection(Ref ref) {
     traceAsync: FluxerObservability.instance.traceAsync,
     traceSync: FluxerObservability.instance.traceSync,
     properties: buildGatewayIdentifyProperties(clientProperties),
+    prepareReady: buildReadyGuildRows,
   );
 
   ref.onDispose(connection.dispose);

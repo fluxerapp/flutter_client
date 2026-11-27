@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:fluxer_app/core/database/daos/thread_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
@@ -87,7 +86,10 @@ typedef UserSettingsHydrateCallback =
 typedef CurrentUserUpdateCallback = void Function(UserPrivateResponse user);
 typedef SessionChangingCallback = void Function();
 typedef UnavailableGuildsReadyCallback =
-    void Function(List<Map<String, dynamic>> rawGuilds);
+    void Function(
+      List<ReadyUnavailableGuild> unavailableGuilds,
+      List<GuildCreateData> guilds,
+    );
 typedef GuildAvailabilityChangedCallback =
     void Function(
       String guildId, {
@@ -867,7 +869,8 @@ class GatewayEventHandler {
     }
     talker.info(
       '[Gateway] READY received (session: ${event.sessionId}),'
-      ' guilds: ${event.rawGuilds.length}'
+      ' guilds: ${event.guilds.length}'
+      ', unavailable: ${event.unavailableGuilds.length}'
       ', DMs: ${event.privateChannels.length}'
       ', relationships: ${event.relationships.length}'
       ', presences: ${event.presences.length}'
@@ -885,7 +888,6 @@ class GatewayEventHandler {
     };
     final Map<String, List<String>> prunedGuilds = <String, List<String>>{};
     final List<String> prunedChannelIds = <String>[];
-    final List<VoiceState> readyVoiceStates = <VoiceState>[];
 
     readStateWriteBatcher?.clearAll();
 
@@ -897,16 +899,6 @@ class GatewayEventHandler {
     var settingsMs = 0;
 
     final userSettings = event.userSettings;
-    final guildPositions = <String, int>{};
-    if (userSettings != null) {
-      var pos = 0;
-      for (final folder in userSettings.guildFolders) {
-        for (final guildId in folder.guildIds) {
-          guildPositions[guildId] = pos;
-          pos++;
-        }
-      }
-    }
 
     final bool keepCachedMessages =
         shouldFullWipe &&
@@ -917,19 +909,9 @@ class GatewayEventHandler {
         ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
         : const <String>{};
 
-    List<ParsedReadyGuild> processedGuilds = const <ParsedReadyGuild>[];
-    if (event.rawGuilds.isNotEmpty) {
-      final Stopwatch parsePhase = Stopwatch()..start();
-      processedGuilds = await parseReadyGuilds(
-        rawGuilds: event.rawGuilds,
-        guildPositions: guildPositions,
-        users: <Map<String, dynamic>>[
-          ...?event.users,
-          _selfUserPartialJson(event.user),
-        ],
-      );
-      guildsMs = parsePhase.elapsedMilliseconds;
-    }
+    final Stopwatch parsePhase = Stopwatch()..start();
+    final ReadyGuildRows readyRows = readyGuildRowsFor(event);
+    guildsMs = parsePhase.elapsedMilliseconds;
     await database.transaction(() async {
       final Stopwatch phase = Stopwatch()..start();
       if (shouldFullWipe) {
@@ -1002,168 +984,53 @@ class GatewayEventHandler {
         ),
       ]);
 
-      final cachedUsers = event.users;
-      if (cachedUsers != null && cachedUsers.isNotEmpty) {
-        await database.userDao.upsertUsers(
-          cachedUsers
-              .map(
-                (u) => userFromPartialSdk(
-                  UserPartialResponse.fromJson(u.cast<String, Object?>()),
-                ),
-              )
-              .toList(),
-        );
+      if (readyRows.cachedUsers.isNotEmpty) {
+        await database.userDao.upsertUsers(readyRows.cachedUsers);
       }
 
-      if (event.rawGuilds.isNotEmpty) {
+      if (readyRows.servers.isNotEmpty) {
         phase
           ..reset()
           ..start();
-        final List<db.ServersCompanion> guildCompanions =
-            <db.ServersCompanion>[];
-        final List<db.ChannelsCompanion> channelCompanions =
-            <db.ChannelsCompanion>[];
-        final List<db.RolesCompanion> roleCompanions = <db.RolesCompanion>[];
-        final List<db.UsersCompanion> memberUserCompanions =
-            <db.UsersCompanion>[];
-        final List<db.MembersCompanion> memberCompanions =
-            <db.MembersCompanion>[];
-        final Map<String, JoinedThreadsSnapshot> joinedThreads =
-            <String, JoinedThreadsSnapshot>{};
-        final Map<String, List<db.GuildEmojisCompanion>> emojiReplacements =
-            <String, List<db.GuildEmojisCompanion>>{};
-        final Map<String, List<db.GuildStickersCompanion>> stickerReplacements =
-            <String, List<db.GuildStickersCompanion>>{};
-        final Map<String, Set<String>> snapshotChannelIdsByGuildId =
-            <String, Set<String>>{};
-        final Map<String, Set<String>> snapshotRoleIdsByGuildId =
-            <String, Set<String>>{};
-
-        for (final ParsedReadyGuild parsed in processedGuilds) {
-          final GuildCreateData guildData = parsed.guildData;
-          final String guildId = guildData.guild.id;
-          final Set<String> snapshotChannelIds = <String>{};
-          final Set<String> snapshotRoleIds = <String>{
-            for (final GuildRoleResponse role in guildData.roles) role.id,
-          };
-          guildCompanions.add(
-            guildFromSdk(
-              guildData.guild,
-              position: parsed.position,
-              memberCount: parsed.memberCount,
-              onlineCount: parsed.onlineCount,
-            ),
-          );
-          for (final channel in guildData.channels) {
-            channelCompanions.add(channelFromSdk(channel, guildId));
-            snapshotChannelIds.add(channel.id);
-          }
-          final List<db.ThreadMembersCompanion> joined =
-              <db.ThreadMembersCompanion>[];
-          final Set<String> listed = <String>{};
-          for (final ChannelResponse thread
-              in guildData.threads ?? const <ChannelResponse>[]) {
-            if (!isThreadChannelType(thread.type.json ?? -1)) {
-              continue;
-            }
-            channelCompanions.add(channelFromSdk(thread, guildId));
-            listed.add(thread.id);
-            final ThreadMemberResponse? member = thread.member;
-            if (member != null) {
-              joined.add(
-                threadMemberFromSdk(
-                  member,
-                  threadId: thread.id,
-                  guildId: guildId,
-                ),
-              );
-            }
-          }
-          joinedThreads[guildId] = (joined: joined, listedIds: listed);
-          if (guildData.roles.isNotEmpty) {
-            roleCompanions.addAll(
-              guildData.roles.map((r) => roleFromSdk(r, guildId)),
-            );
-          }
-          for (final member in guildMembersWithVoiceStates(
-            guildData.members,
-            guildData.voiceStates,
-          )) {
-            memberUserCompanions.add(userFromPartialSdk(member.user));
-            memberCompanions.add(
-              memberCompanionFromSdk(member, guildId: guildId),
-            );
-          }
-          if (guildData.voiceStates.isNotEmpty) {
-            readyVoiceStates.addAll(guildData.voiceStates);
-          }
-          if (guildData.emojis.isNotEmpty || diffAgainstCache) {
-            emojiReplacements[guildId] = guildData.emojis
-                .map(
-                  (e) => db.GuildEmojisCompanion.insert(
-                    id: e.id,
-                    guildId: guildId,
-                    name: e.name,
-                    animated: Value(e.animated),
-                  ),
-                )
-                .toList();
-          }
-          if (guildData.stickers.isNotEmpty || diffAgainstCache) {
-            stickerReplacements[guildId] = guildData.stickers
-                .map(
-                  (s) => db.GuildStickersCompanion.insert(
-                    id: s.id,
-                    guildId: guildId,
-                    name: s.name,
-                    description: Value(s.description),
-                    tagsJson: Value(jsonEncode(s.tags)),
-                    animated: Value(s.animated),
-                  ),
-                )
-                .toList();
-          }
-          if (snapshotChannelIds.isNotEmpty) {
-            snapshotChannelIdsByGuildId[guildId] = snapshotChannelIds;
-          }
-          if (snapshotRoleIds.isNotEmpty) {
-            snapshotRoleIdsByGuildId[guildId] = snapshotRoleIds;
-          }
-        }
-
-        if (guildCompanions.isNotEmpty) {
-          await database.guildDao.upsertServers(guildCompanions);
-        }
-        if (channelCompanions.isNotEmpty) {
+        await database.guildDao.upsertServers(readyRows.servers);
+        if (readyRows.channels.isNotEmpty) {
           await database.channelDao.upsertChannelsMerged(
-            channelCompanions,
+            readyRows.channels,
             authoritativeTails: true,
           );
         }
-        if (roleCompanions.isNotEmpty) {
-          await database.roleDao.upsertRoles(roleCompanions);
+        if (readyRows.roles.isNotEmpty) {
+          await database.roleDao.upsertRoles(readyRows.roles);
         }
-        if (memberUserCompanions.isNotEmpty) {
-          await database.userDao.upsertUsers(memberUserCompanions);
+        if (readyRows.memberUsers.isNotEmpty) {
+          await database.userDao.upsertUsers(readyRows.memberUsers);
         }
-        if (memberCompanions.isNotEmpty) {
-          await database.memberDao.upsertMembers(memberCompanions);
+        if (readyRows.members.isNotEmpty) {
+          await database.memberDao.upsertMembers(readyRows.members);
         }
         final Map<String, List<String>> staleThreadIds = await database
             .threadDao
-            .reconcileJoinedForGuilds(joinedThreads);
+            .reconcileJoinedForGuilds(readyRows.joinedThreads);
         for (final MapEntry<String, List<String>> entry
             in staleThreadIds.entries) {
           _forgetThreads(entry.value, guildId: entry.key);
         }
-        await database.guildEmojiDao.replaceForGuilds(emojiReplacements);
-        await database.guildStickerDao.replaceForGuilds(stickerReplacements);
+        await database.guildEmojiDao.replaceForGuilds(
+          diffAgainstCache
+              ? readyRows.emojis
+              : _withoutEmptyLists(readyRows.emojis),
+        );
+        await database.guildStickerDao.replaceForGuilds(
+          diffAgainstCache
+              ? readyRows.stickers
+              : _withoutEmptyLists(readyRows.stickers),
+        );
 
         if (diffAgainstCache) {
           prunedChannelIds.addAll(
             (await _pruneGuildSnapshots(
-              channelIdsByGuildId: snapshotChannelIdsByGuildId,
-              roleIdsByGuildId: snapshotRoleIdsByGuildId,
+              channelIdsByGuildId: readyRows.channelIdsByGuildId,
+              roleIdsByGuildId: readyRows.roleIdsByGuildId,
             )).channelIds,
           );
         }
@@ -1173,8 +1040,9 @@ class GatewayEventHandler {
 
       if (diffAgainstCache) {
         final readyGuildIds = <String>{
-          for (final rawGuild in event.rawGuilds)
-            if (rawGuild['id'] is String) rawGuild['id'] as String,
+          for (final GuildCreateData guild in event.guilds) guild.guild.id,
+          for (final ReadyUnavailableGuild guild in event.unavailableGuilds)
+            guild.id,
         };
         final Set<String> localIdsNow = (await database.guildDao.getServers())
             .map((row) => row.id)
@@ -1456,20 +1324,20 @@ class GatewayEventHandler {
       if (webauthnCredentials != null) {
         onWebauthnCredentialsUpdate?.call(webauthnCredentials);
       }
-      onUnavailableGuildsReady?.call(event.rawGuilds);
+      onUnavailableGuildsReady?.call(event.unavailableGuilds, event.guilds);
       onThreadGuildsReady?.call(
         <String>{
-          for (final ParsedReadyGuild parsed in processedGuilds)
-            if (parsed.guildData.threads != null) parsed.guildData.guild.id,
+          for (final GuildCreateData guild in event.guilds)
+            if (guild.threads != null) guild.guild.id,
         },
         <String>{
-          for (final rawGuild in event.rawGuilds)
-            if (rawGuild['unavailable'] == true) rawGuild['id'] as String,
+          for (final ReadyUnavailableGuild guild in event.unavailableGuilds)
+            guild.id,
         },
       );
       onReady?.call();
-      if (readyVoiceStates.isNotEmpty) {
-        onVoiceStatesBulk?.call(readyVoiceStates);
+      if (readyRows.voiceStates.isNotEmpty) {
+        onVoiceStatesBulk?.call(readyRows.voiceStates);
       }
     });
     final int postMs = postPhase.elapsedMilliseconds;
@@ -1485,7 +1353,7 @@ class GatewayEventHandler {
         'accountData=${accountDataMs}ms readstates=${readstatesMs}ms '
         'settings=${settingsMs}ms post=${postMs}ms '
         'total=${readyStopwatch.elapsedMilliseconds}ms '
-        'guildCount=${event.rawGuilds.length}',
+        'guildCount=${event.guilds.length + event.unavailableGuilds.length}',
       );
   }
 
@@ -3558,20 +3426,6 @@ db.FavoriteMemesTableCompanion? _favoriteMemeCompanion(
   );
 }
 
-Map<String, dynamic> _selfUserPartialJson(UserPrivateResponse user) =>
-    <String, dynamic>{
-      'id': user.id,
-      'username': user.username,
-      'discriminator': user.discriminator,
-      'global_name': user.globalName,
-      'avatar': user.avatar,
-      'avatar_color': user.avatarColor,
-      'flags': user.flags,
-      'bot': user.bot,
-      'system': user.system,
-      'mention_flags': user.mentionFlags?.json,
-    };
-
 String? _gatewaySnowflakeId(Object? value) {
   if (value is String) {
     final trimmed = value.trim();
@@ -3586,23 +3440,8 @@ String? _gatewaySnowflakeId(Object? value) {
   return null;
 }
 
-List<GuildMemberResponse> guildMembersWithVoiceStates(
-  List<GuildMemberResponse> members,
-  List<VoiceState> voiceStates,
-) {
-  if (voiceStates.isEmpty) {
-    return members;
-  }
-  final Map<String, GuildMemberResponse> byUserId =
-      <String, GuildMemberResponse>{
-        for (final GuildMemberResponse member in members)
-          member.user.id: member,
-      };
-  for (final VoiceState voiceState in voiceStates) {
-    final GuildMemberResponse? member = voiceState.member;
-    if (member != null) {
-      byUserId[member.user.id] = member;
-    }
-  }
-  return byUserId.values.toList();
-}
+Map<String, List<T>> _withoutEmptyLists<T>(Map<String, List<T>> lists) =>
+    <String, List<T>>{
+      for (final MapEntry<String, List<T>> entry in lists.entries)
+        if (entry.value.isNotEmpty) entry.key: entry.value,
+    };

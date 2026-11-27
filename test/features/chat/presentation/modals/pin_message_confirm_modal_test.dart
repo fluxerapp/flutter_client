@@ -31,6 +31,7 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/rest.dart';
 
 import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/open_test_database.dart';
@@ -246,7 +247,12 @@ void main() {
 
 class _RecordingPinsRepository extends ChannelPinsRepository {
   _RecordingPinsRepository(FluxerDatabase db)
-    : super(FluxerClient(Dio()), db, 'user-1');
+    : super(
+        FluxerClient(Dio()),
+        db,
+        'user-1',
+        workerApi: FluxerWorkerApi(Dio()),
+      );
 
   final List<String> pinnedIds = <String>[];
   ApiException? failure;

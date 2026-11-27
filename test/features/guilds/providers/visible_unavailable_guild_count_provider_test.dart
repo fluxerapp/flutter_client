@@ -5,13 +5,19 @@ import 'package:fluxer_app/features/guilds/providers/guild_availability_provider
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/visible_unavailable_guild_count_provider.dart';
 
+import '../../../helpers/ready_guilds.dart';
+
 void main() {
   group('VisibleUnavailableGuildCount', () {
     test('lingers after recovery before hiding', () async {
       final container = ProviderContainer();
-      container.read(guildAvailabilityProvider.notifier).loadFromReady([
-        {'id': 'g1', 'unavailable': true},
-      ]);
+      container
+          .read(guildAvailabilityProvider.notifier)
+          .loadFromReady(
+            readyUnavailableGuilds([
+              {'id': 'g1', 'unavailable': true},
+            ]),
+          );
       expect(container.read(visibleUnavailableGuildCountProvider), 1);
 
       container
