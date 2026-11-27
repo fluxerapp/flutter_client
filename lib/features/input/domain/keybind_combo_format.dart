@@ -2,7 +2,7 @@ import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/defaults_shortcut_display_kind.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 
-List<String> formatKeybindComboChips(KeybindCombo combo) {
+List<String> formatKeybindModifierChips(KeybindCombo combo) {
   final List<String> chips = <String>[];
   final bool isMacOS = isMacOsKeybindPlatform;
 
@@ -22,7 +22,11 @@ List<String> formatKeybindComboChips(KeybindCombo combo) {
   if (combo.shift) {
     chips.add(isMacOS ? '⇧' : 'Shift');
   }
+  return chips;
+}
 
+List<String> formatKeybindComboChips(KeybindCombo combo) {
+  final List<String> chips = formatKeybindModifierChips(combo);
   final String keyLabel = _formatKeyLabel(combo.key);
   if (keyLabel.isNotEmpty) {
     chips.add(keyLabel);

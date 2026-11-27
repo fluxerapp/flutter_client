@@ -12,8 +12,12 @@ const Set<KeybindAction> kHoldKeybindActions = <KeybindAction>{
   KeybindAction.voicePriorityVad,
 };
 
-bool _hasCommandModifier(StoredKeybindCombo combo) =>
-    combo.ctrlOrMeta || combo.ctrl || combo.meta || combo.alt;
+bool _allowsWhileTyping(StoredKeybindCombo combo) =>
+    combo.ctrlOrMeta ||
+    combo.ctrl ||
+    combo.meta ||
+    combo.alt ||
+    combo.mouseButton != null;
 
 List<DefaultKeybind> resolveEffectiveKeybinds({
   required List<DefaultKeybind> defaults,
@@ -48,7 +52,7 @@ List<DefaultKeybind> resolveEffectiveKeybinds({
         section: base?.section ?? KeybindSection.misc,
         requiresKeyboardMode: base?.requiresKeyboardMode ?? false,
         requiresMessageFocus: base?.requiresMessageFocus ?? false,
-        editableFocusBehavior: hold || _hasCommandModifier(custom.combo)
+        editableFocusBehavior: hold || _allowsWhileTyping(custom.combo)
             ? EditableFocusBehavior.allow
             : base?.editableFocusBehavior,
         conflictPriority: (base?.conflictPriority ?? 0) + 1,

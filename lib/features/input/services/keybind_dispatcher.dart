@@ -32,6 +32,31 @@ class KeybindDispatcher {
     ];
   }
 
+  List<KeybindAction> matchMouseHoldActions(int button) {
+    return <KeybindAction>[
+      for (final DefaultKeybind entry in entries)
+        if (kHoldKeybindActions.contains(entry.action) &&
+            !_isGlobalHold(entry) &&
+            mouseButtonTriggerMatchesCombo(entry.combo, button))
+          entry.action,
+    ];
+  }
+
+  List<DefaultKeybind> matchMouseEntries({
+    required int button,
+    required KeybindDispatchContext context,
+  }) {
+    return <DefaultKeybind>[
+      for (final DefaultKeybind entry in entries)
+        if (mouseButtonMatchesCombo(entry.combo, button) &&
+            _canDispatch(entry, context: context))
+          entry,
+    ]..sort(
+      (DefaultKeybind a, DefaultKeybind b) =>
+          b.conflictPriority.compareTo(a.conflictPriority),
+    );
+  }
+
   List<KeybindAction> matchActions({
     required KeyEvent event,
     required KeybindDispatchContext context,
@@ -49,7 +74,7 @@ class KeybindDispatcher {
       if (!entry.combo.hasTrigger) {
         continue;
       }
-      if (!_canDispatch(entry, event: event, context: context)) {
+      if (!_canDispatch(entry, context: context)) {
         continue;
       }
       if (entry.action == KeybindAction.chatFocusTextarea &&
@@ -91,7 +116,6 @@ class KeybindDispatcher {
 
   bool _canDispatch(
     DefaultKeybind entry, {
-    required KeyEvent event,
     required KeybindDispatchContext context,
   }) {
     if (entry.informationalOnly || _isGlobalHold(entry)) {

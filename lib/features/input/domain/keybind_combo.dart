@@ -7,6 +7,7 @@ class KeybindCombo {
     this.alt = false,
     this.shift = false,
     this.meta = false,
+    this.mouseButton,
   });
 
   final String key;
@@ -16,6 +17,10 @@ class KeybindCombo {
   final bool alt;
   final bool shift;
   final bool meta;
+  final int? mouseButton;
 
-  bool get hasTrigger => key.isNotEmpty || (code != null && code!.isNotEmpty);
+  bool get hasTrigger =>
+      key.isNotEmpty ||
+      (code != null && code!.isNotEmpty) ||
+      mouseButton != null;
 }

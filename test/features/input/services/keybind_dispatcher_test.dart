@@ -1,10 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/input/domain/custom_keybind.dart';
 import 'package:fluxer_app/features/input/domain/default_keybind.dart';
 import 'package:fluxer_app/features/input/domain/editable_focus_behavior.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
+import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
 import 'package:fluxer_app/features/input/domain/keybind_section.dart';
 import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
 
@@ -92,5 +94,65 @@ void main() {
     dispatcher.globalRoutingActive = true;
     expect(dispatcher.matchActions(event: event, context: context), isEmpty);
     expect(dispatcher.matchHoldActions(event), isEmpty);
+  });
+
+  test('custom mouse button keybinds match only their button', () {
+    final KeybindDispatcher dispatcher = KeybindDispatcher(
+      entries: resolveEffectiveKeybinds(
+        defaults: const <DefaultKeybind>[],
+        customKeybinds: const <CustomKeybindEntry>[
+          CustomKeybindEntry(
+            id: 'mouse',
+            action: 'voice_toggle_mute',
+            combo: StoredKeybindCombo(mouseButton: 4),
+          ),
+        ],
+        disableBuiltinKeybinds: true,
+      ),
+    );
+    const KeybindDispatchContext context = KeybindDispatchContext(
+      keyboardModeEnabled: false,
+      hasMessageFocus: false,
+      editableHasFocus: true,
+      editableText: 'draft',
+      modalOpen: false,
+      fullscreenMediaOpen: false,
+      hasIncomingCall: false,
+      channelHasUnread: false,
+    );
+    expect(
+      dispatcher
+          .matchMouseEntries(button: 4, context: context)
+          .map((DefaultKeybind entry) => entry.action),
+      <KeybindAction>[KeybindAction.voiceToggleMute],
+    );
+    expect(dispatcher.matchMouseEntries(button: 3, context: context), isEmpty);
+    const KeyEvent event = KeyDownEvent(
+      physicalKey: PhysicalKeyboardKey.keyA,
+      logicalKey: LogicalKeyboardKey.keyA,
+      character: 'a',
+      timeStamp: Duration.zero,
+    );
+    expect(dispatcher.matchActions(event: event, context: context), isEmpty);
+  });
+
+  test('mouse push to talk releases on the same button', () {
+    final KeybindDispatcher dispatcher = KeybindDispatcher(
+      entries: resolveEffectiveKeybinds(
+        defaults: const <DefaultKeybind>[],
+        customKeybinds: const <CustomKeybindEntry>[
+          CustomKeybindEntry(
+            id: 'ptt',
+            action: 'voice_push_to_talk',
+            combo: StoredKeybindCombo(mouseButton: 3),
+          ),
+        ],
+        disableBuiltinKeybinds: true,
+      ),
+    );
+    expect(dispatcher.matchMouseHoldActions(3), <KeybindAction>[
+      KeybindAction.voicePushToTalk,
+    ]);
+    expect(dispatcher.matchMouseHoldActions(4), isEmpty);
   });
 }

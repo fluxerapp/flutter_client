@@ -29343,10 +29343,10 @@ abstract class FluxerLocalizations {
   /// **'Record keybind'**
   String get keybindRecorderSemanticLabel;
 
-  /// Shown inside the keybind recorder while it is waiting for keys. Escape cancels, Backspace clears.
+  /// Shown inside the keybind recorder while it is waiting for keys or a mouse button. Escape cancels, Backspace clears.
   ///
   /// In en, this message translates to:
-  /// **'Press a key combination…'**
+  /// **'Press a key combination or mouse button…'**
   String get keybindRecorderRecording;
 
   /// Shown inside the keybind recorder when no keys are set.
@@ -29354,6 +29354,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Not assigned'**
   String get keybindRecorderUnassigned;
+
+  /// Keybind chip label for a shortcut bound to the left mouse button.
+  ///
+  /// In en, this message translates to:
+  /// **'Left mouse button'**
+  String get keybindMouseButtonLeft;
+
+  /// Keybind chip label for a shortcut bound to the middle mouse button (scroll wheel click).
+  ///
+  /// In en, this message translates to:
+  /// **'Middle mouse button'**
+  String get keybindMouseButtonMiddle;
+
+  /// Keybind chip label for a shortcut bound to the right mouse button.
+  ///
+  /// In en, this message translates to:
+  /// **'Right mouse button'**
+  String get keybindMouseButtonRight;
+
+  /// Keybind chip label for a shortcut bound to the mouse side button that navigates back.
+  ///
+  /// In en, this message translates to:
+  /// **'Mouse back button'**
+  String get keybindMouseButtonBack;
+
+  /// Keybind chip label for a shortcut bound to the mouse side button that navigates forward.
+  ///
+  /// In en, this message translates to:
+  /// **'Mouse forward button'**
+  String get keybindMouseButtonForward;
+
+  /// Keybind chip label for a shortcut bound to an extra mouse button without a common name.
+  ///
+  /// In en, this message translates to:
+  /// **'Mouse button {button}'**
+  String keybindMouseButtonNumber(int button);
 
   /// Section title in keyboard shortcut settings for user-defined keybinds.
   ///

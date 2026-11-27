@@ -21308,13 +21308,42 @@
   "@keybindRecorderSemanticLabel": {
     "description": "Accessibility label for the button that records a new keyboard shortcut."
   },
-  "keybindRecorderRecording": "Press a key combination…",
+  "keybindRecorderRecording": "Press a key combination or mouse button…",
   "@keybindRecorderRecording": {
-    "description": "Shown inside the keybind recorder while it is waiting for keys. Escape cancels, Backspace clears."
+    "description": "Shown inside the keybind recorder while it is waiting for keys or a mouse button. Escape cancels, Backspace clears."
   },
   "keybindRecorderUnassigned": "Not assigned",
   "@keybindRecorderUnassigned": {
     "description": "Shown inside the keybind recorder when no keys are set."
+  },
+  "keybindMouseButtonLeft": "Left mouse button",
+  "@keybindMouseButtonLeft": {
+    "description": "Keybind chip label for a shortcut bound to the left mouse button."
+  },
+  "keybindMouseButtonMiddle": "Middle mouse button",
+  "@keybindMouseButtonMiddle": {
+    "description": "Keybind chip label for a shortcut bound to the middle mouse button (scroll wheel click)."
+  },
+  "keybindMouseButtonRight": "Right mouse button",
+  "@keybindMouseButtonRight": {
+    "description": "Keybind chip label for a shortcut bound to the right mouse button."
+  },
+  "keybindMouseButtonBack": "Mouse back button",
+  "@keybindMouseButtonBack": {
+    "description": "Keybind chip label for a shortcut bound to the mouse side button that navigates back."
+  },
+  "keybindMouseButtonForward": "Mouse forward button",
+  "@keybindMouseButtonForward": {
+    "description": "Keybind chip label for a shortcut bound to the mouse side button that navigates forward."
+  },
+  "keybindMouseButtonNumber": "Mouse button {button}",
+  "@keybindMouseButtonNumber": {
+    "description": "Keybind chip label for a shortcut bound to an extra mouse button without a common name.",
+    "placeholders": {
+      "button": {
+        "type": "int"
+      }
+    }
   },
   "keybindsCustomSectionTitle": "Custom keybinds",
   "@keybindsCustomSectionTitle": {

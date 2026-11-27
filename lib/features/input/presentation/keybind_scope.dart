@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -13,6 +14,7 @@ import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo_matcher.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
 import 'package:fluxer_app/features/input/domain/keybind_resolution.dart';
+import 'package:fluxer_app/features/input/domain/mouse_button_tracker.dart';
 import 'package:fluxer_app/features/input/presentation/keybind_recorder.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
@@ -44,6 +46,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   final Set<KeybindAction> _heldActions = <KeybindAction>{};
   final Set<KeybindAction> _globallyHeldActions = <KeybindAction>{};
   final GlobalShortcutPressDeduper _pressDeduper = GlobalShortcutPressDeduper();
+  final MouseButtonTracker _mouseButtons = MouseButtonTracker();
   late final GlobalShortcuts _globalShortcuts;
   late final KeybindHandlerRegistry _handlerRegistry;
   bool _handlersRegistered = false;
@@ -53,6 +56,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     super.initState();
     _handlerRegistry = ref.read(keybindHandlerRegistryProvider);
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
+    GestureBinding.instance.pointerRouter.addGlobalRoute(_handlePointerEvent);
     WidgetsBinding.instance.addObserver(this);
     _applyKeybindPreferences(ref.read(keybindPreferencesProvider));
     ref.listenManual<KeybindPreferencesState>(
@@ -114,6 +118,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   @override
   void dispose() {
     HardwareKeyboard.instance.removeHandler(_handleKeyEvent);
+    GestureBinding.instance.pointerRouter.removeGlobalRoute(
+      _handlePointerEvent,
+    );
     WidgetsBinding.instance.removeObserver(this);
     _globalShortcuts.detach(_handleGlobalShortcut);
     _releaseHeldActions();
@@ -138,8 +145,11 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     if (_heldActions.isEmpty) {
       return false;
     }
-    final List<KeybindAction> released = _dispatcher
-        .matchHoldActions(event)
+    return _releaseHeld(_dispatcher.matchHoldActions(event));
+  }
+
+  bool _releaseHeld(List<KeybindAction> matched) {
+    final List<KeybindAction> released = matched
         .where(_heldActions.contains)
         .toList();
     if (released.isEmpty) {
@@ -229,6 +239,45 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       ]),
     );
     return true;
+  }
+
+  void _handlePointerEvent(PointerEvent event) {
+    final MouseButtonChange? change = _mouseButtons.track(event);
+    if (change == null) {
+      return;
+    }
+    for (final int button in change.released) {
+      if (_heldActions.isNotEmpty) {
+        _releaseHeld(_dispatcher.matchMouseHoldActions(button));
+      }
+    }
+    if (KeybindRecorder.isRecording) {
+      return;
+    }
+    change.pressed.forEach(_handleMouseButtonDown);
+  }
+
+  void _handleMouseButtonDown(int button) {
+    final List<DefaultKeybind> entries = _dispatcher.matchMouseEntries(
+      button: button,
+      context: _buildContext(),
+    );
+    if (entries.isEmpty) {
+      return;
+    }
+    if (_dispatcher.globalRoutingActive &&
+        entries.first.global &&
+        _pressDeduper.isDuplicate(
+          entries.first.action,
+          GlobalShortcutPressSource.window,
+        )) {
+      return;
+    }
+    unawaited(
+      _dispatchFirst(<KeybindAction>[
+        for (final DefaultKeybind entry in entries) entry.action,
+      ]),
+    );
   }
 
   bool _handleTabKey() {

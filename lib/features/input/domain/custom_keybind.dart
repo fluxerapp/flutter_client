@@ -118,6 +118,7 @@ class StoredKeybindCombo {
     alt: alt,
     shift: shift,
     meta: meta,
+    mouseButton: mouseButton,
   );
 
   StoredKeybindCombo withTrigger(KeybindCombo combo) => StoredKeybindCombo(
@@ -128,6 +129,7 @@ class StoredKeybindCombo {
     alt: combo.alt,
     shift: combo.shift,
     meta: combo.meta,
+    mouseButton: combo.mouseButton,
     global: global,
     enabled: enabled,
   );

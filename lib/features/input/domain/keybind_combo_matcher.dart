@@ -25,6 +25,9 @@ bool _isPrintableNonLetterShortcutKey(String? key) {
 }
 
 bool keyboardEventTriggerMatchesCombo(KeybindCombo combo, KeyEvent event) {
+  if (combo.mouseButton != null) {
+    return false;
+  }
   final String? expectedLayoutKey = combo.key.isNotEmpty
       ? combo.key
       : combo.code;
@@ -68,26 +71,31 @@ String? _physicalKeyName(KeyEvent event) {
   return debugName.isEmpty ? null : debugName;
 }
 
-bool keyboardEventMatchesCombo(KeybindCombo combo, KeyEvent event) {
-  if (!combo.hasTrigger) {
-    return false;
-  }
+bool _commandModifiersMatchCombo(KeybindCombo combo) {
   final bool isMacOS = isMacOsKeybindPlatform;
   final bool expectsCtrl = combo.ctrl || (combo.ctrlOrMeta && !isMacOS);
   final bool expectsMeta = combo.meta || (combo.ctrlOrMeta && isMacOS);
   final HardwareKeyboard keyboard = HardwareKeyboard.instance;
-  if (keyboard.isControlPressed != expectsCtrl) {
+  return keyboard.isControlPressed == expectsCtrl &&
+      keyboard.isMetaPressed == expectsMeta &&
+      keyboard.isAltPressed == combo.alt;
+}
+
+bool mouseButtonTriggerMatchesCombo(KeybindCombo combo, int button) =>
+    combo.mouseButton == button;
+
+bool mouseButtonMatchesCombo(KeybindCombo combo, int button) =>
+    mouseButtonTriggerMatchesCombo(combo, button) &&
+    _commandModifiersMatchCombo(combo) &&
+    HardwareKeyboard.instance.isShiftPressed == combo.shift;
+
+bool keyboardEventMatchesCombo(KeybindCombo combo, KeyEvent event) {
+  if (!combo.hasTrigger ||
+      !_commandModifiersMatchCombo(combo) ||
+      !keyboardEventTriggerMatchesCombo(combo, event)) {
     return false;
   }
-  if (keyboard.isMetaPressed != expectsMeta) {
-    return false;
-  }
-  if (keyboard.isAltPressed != combo.alt) {
-    return false;
-  }
-  if (!keyboardEventTriggerMatchesCombo(combo, event)) {
-    return false;
-  }
+  final HardwareKeyboard keyboard = HardwareKeyboard.instance;
   if (keyboard.isShiftPressed != combo.shift) {
     if (combo.shift ||
         !keyboard.isShiftPressed ||

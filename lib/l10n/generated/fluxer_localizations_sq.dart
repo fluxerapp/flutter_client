@@ -17778,10 +17778,31 @@ class FluxerLocalizationsSq extends FluxerLocalizations {
   String get keybindRecorderSemanticLabel => 'Record keybind';
 
   @override
-  String get keybindRecorderRecording => 'Press a key combination…';
+  String get keybindRecorderRecording =>
+      'Press a key combination or mouse button…';
 
   @override
   String get keybindRecorderUnassigned => 'Not assigned';
+
+  @override
+  String get keybindMouseButtonLeft => 'Left mouse button';
+
+  @override
+  String get keybindMouseButtonMiddle => 'Middle mouse button';
+
+  @override
+  String get keybindMouseButtonRight => 'Right mouse button';
+
+  @override
+  String get keybindMouseButtonBack => 'Mouse back button';
+
+  @override
+  String get keybindMouseButtonForward => 'Mouse forward button';
+
+  @override
+  String keybindMouseButtonNumber(int button) {
+    return 'Mouse button $button';
+  }
 
   @override
   String get keybindsCustomSectionTitle => 'Custom keybinds';
