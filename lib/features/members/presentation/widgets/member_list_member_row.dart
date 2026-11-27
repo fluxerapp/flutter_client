@@ -330,7 +330,7 @@ class _MemberListSidebarMemberRowState
                                     top: 1.6,
                                   ),
                                   child: PhosphorIcon(
-                                    PhosphorIconsRegular.crown,
+                                    PhosphorIconsFill.crown,
                                     size: 14,
                                     color: Color(0xFFD8B36F),
                                   ),
