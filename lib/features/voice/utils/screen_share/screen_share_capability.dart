@@ -23,3 +23,6 @@ Future<bool> isScreenShareSupportedOnPlatform() async {
   }
   return false;
 }
+
+bool get usesScreenShareSourcePicker =>
+    Platform.isMacOS || Platform.isWindows || Platform.isLinux;

@@ -14,12 +14,14 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
     required this.leftPanel,
     required this.rightChild,
     this.leftPanelWidthOverride,
+    this.collapsed = false,
     super.key,
   });
 
   final Widget leftPanel;
   final Widget rightChild;
   final double? leftPanelWidthOverride;
+  final bool collapsed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,7 +39,8 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
           desktop: desktop,
         );
     final double channelSidebarWidth = leftPanelWidth - layout.guildListWidth;
-    final bool showResizeHandle = shellSidebarResizeEnabled(context);
+    final bool showResizeHandle =
+        !collapsed && shellSidebarResizeEnabled(context);
     final double resizeHandleBottomInset =
         isMobileLayout(context) && isPinnedSidebarLayout(context)
         ? 0
@@ -47,7 +50,15 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
 
     return Row(
       children: <Widget>[
-        SizedBox(width: leftPanelWidth, child: leftPanel),
+        SizedBox(
+          width: collapsed ? 0 : leftPanelWidth,
+          child: OverflowBox(
+            alignment: AlignmentDirectional.centerStart,
+            minWidth: leftPanelWidth,
+            maxWidth: leftPanelWidth,
+            child: Offstage(offstage: collapsed, child: leftPanel),
+          ),
+        ),
         Expanded(
           child: Stack(
             clipBehavior: Clip.none,
@@ -55,8 +66,8 @@ class ResizableShellSidebarLayout extends ConsumerWidget {
               Row(
                 children: <Widget>[
                   VerticalDivider(
-                    width: 1,
-                    thickness: 1,
+                    width: collapsed ? 0 : 1,
+                    thickness: collapsed ? 0 : 1,
                     color: context.colors.backgroundModifierAccent,
                   ),
                   Expanded(child: rightChild),

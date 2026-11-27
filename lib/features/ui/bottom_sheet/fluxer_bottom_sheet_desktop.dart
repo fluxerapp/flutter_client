@@ -473,6 +473,7 @@ Alignment _revealAlignment(FluxerDesktopPlacement placement) {
     FluxerDesktopPlacement.belowCenter => Alignment.topCenter,
     FluxerDesktopPlacement.belowEnd => Alignment.topRight,
     FluxerDesktopPlacement.aboveStart => Alignment.bottomLeft,
+    FluxerDesktopPlacement.aboveEnd => Alignment.bottomRight,
     FluxerDesktopPlacement.rightStart => Alignment.centerLeft,
     FluxerDesktopPlacement.leftStart => Alignment.centerRight,
   };

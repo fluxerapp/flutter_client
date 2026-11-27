@@ -35,9 +35,11 @@ import 'package:fluxer_app/features/settings/providers/preferences/voice_setting
 import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/ui/system_permissions/media_permission_blocked_modal.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
+import 'package:fluxer_app/features/voice/domain/screen_share_source.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/active_screen_share_source_provider.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -45,6 +47,7 @@ import 'package:fluxer_app/features/voice/providers/voice_callkit_engine_gate_pr
 import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_desktop_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
@@ -2165,6 +2168,7 @@ class VoiceSession extends _$VoiceSession {
           settings: settings,
           enabled: true,
           captureScreenAudio: screenShareCapturesSystemAudio,
+          sourceId: ref.read(activeScreenShareSourceProvider)?.id,
         );
       }
     }
@@ -2464,6 +2468,8 @@ class VoiceSession extends _$VoiceSession {
     );
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     ref.read(voiceScreenShareFullscreenProvider.notifier).reset();
+    ref.read(activeScreenShareSourceProvider.notifier).set(null);
+    unawaited(ref.read(voiceDesktopFullscreenProvider.notifier).exit());
     ref.read(voiceCallLayoutProvider.notifier).reset();
     ref.read(voiceCallDisplayPreferencesProvider.notifier).reset();
     ref.read(voicePrioritySpeakerProvider.notifier).resetPrioritySpeakerState();
@@ -3014,6 +3020,7 @@ class VoiceSession extends _$VoiceSession {
 
   Future<void> toggleSelfStream({
     required String screenShareNotificationText,
+    ScreenShareSource? source,
   }) async {
     final VoiceSessionState s = state;
     if (!s.isInVoice || s.channelId == null || !s.isConnected) {
@@ -3088,7 +3095,10 @@ class VoiceSession extends _$VoiceSession {
         if (mesh != null) {
           await mesh.setScreenShare(
             nextSelfStream
-                ? applicator.buildScreenShareCaptureOptions(settings)
+                ? applicator.buildScreenShareCaptureOptions(
+                    settings,
+                    sourceId: source?.id,
+                  )
                 : null,
             target: (VideoDimensions? source) =>
                 applicator.screenShareTarget(settings, source: source),
@@ -3101,6 +3111,7 @@ class VoiceSession extends _$VoiceSession {
             enabled: nextSelfStream,
             captureScreenAudio:
                 nextSelfStream && screenShareCapturesSystemAudio,
+            sourceId: source?.id,
             onBroadcastSettled: _onIosBroadcastSettled,
           );
         }
@@ -3150,9 +3161,68 @@ class VoiceSession extends _$VoiceSession {
         );
         return;
       }
+      ref
+          .read(activeScreenShareSourceProvider.notifier)
+          .set(nextSelfStream ? source : null);
       _playScreenShareSound(
         nextSelfStream ? FluxerSfxClip.streamStart : FluxerSfxClip.streamStop,
       );
+    } finally {
+      _togglingScreenShare = false;
+    }
+  }
+
+  Future<void> changeSelfStreamSource({
+    required String screenShareNotificationText,
+    required ScreenShareSource source,
+  }) async {
+    if (!_hasPublishedLocalScreenShareVideo(requireTrack: false)) {
+      await toggleSelfStream(
+        screenShareNotificationText: screenShareNotificationText,
+        source: source,
+      );
+      return;
+    }
+    final VoiceSessionState s = state;
+    if (!s.isConnected || _togglingScreenShare) {
+      return;
+    }
+    final VoiceMeshTransport? mesh = s.mesh;
+    final Room? room = s.liveKitRoom;
+    if (mesh == null && room == null) {
+      return;
+    }
+    talker.debug('[Voice] changeSelfStreamSource requested: ${source.kind}');
+    _clearScreenShareError();
+    _togglingScreenShare = true;
+    try {
+      final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
+      final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+      if (mesh != null) {
+        await mesh.setScreenShare(
+          applicator.buildScreenShareCaptureOptions(
+            settings,
+            sourceId: source.id,
+          ),
+          target: (VideoDimensions? dimensions) =>
+              applicator.screenShareTarget(settings, source: dimensions),
+        );
+      } else if (room != null) {
+        await applicator.refreshScreenShare(
+          room: room,
+          settings: settings,
+          sourceId: source.id,
+        );
+      }
+      ref.read(activeScreenShareSourceProvider.notifier).set(source);
+      await _reconcileSelfStreamState(
+        reason: 'change_source',
+        waitForPublication: true,
+      );
+    } on Object catch (e, st) {
+      talker.error('[Voice] changeSelfStreamSource failed: $e', e, st);
+      state = state.copyWith(errorMessage: _classifyScreenShareException(e));
+      await _reconcileSelfStreamState(reason: 'change_source_failed');
     } finally {
       _togglingScreenShare = false;
     }

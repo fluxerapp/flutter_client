@@ -46,6 +46,7 @@ enum FluxerDesktopPlacement {
   belowCenter,
   belowEnd,
   aboveStart,
+  aboveEnd,
   rightStart,
   leftStart,
 }

@@ -43,13 +43,15 @@ bool get canRestartScreenCaptureSilently =>
     Platform.isMacOS || Platform.isWindows;
 
 ScreenShareCaptureOptions screenShareCaptureOptionsFor(
-  ScreenShareTarget target,
-) {
+  ScreenShareTarget target, {
+  String? sourceId,
+}) {
   return ScreenShareCaptureOptions(
     useiOSBroadcastExtension: true,
     captureScreenAudio: screenShareCapturesSystemAudio,
     maxFrameRate: target.frameRate.toDouble(),
     params: target.videoParameters,
+    sourceId: sourceId,
   );
 }
 

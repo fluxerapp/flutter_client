@@ -8497,6 +8497,128 @@
   "@voiceScreenShareExitFullscreenTooltip": {
     "description": "Tooltip for leaving full screen while watching a screen share."
   },
+  "voiceScreenSharePickerTitle": "Choose something to share",
+  "@voiceScreenSharePickerTitle": {
+    "description": "Accessible title of the screen share source picker."
+  },
+  "voiceScreenSharePickerChangeTitle": "Change stream source",
+  "@voiceScreenSharePickerChangeTitle": {
+    "description": "Accessible title of the screen share source picker when switching what is being shared."
+  },
+  "voiceScreenSharePickerApplicationsTab": "Applications",
+  "@voiceScreenSharePickerApplicationsTab": {
+    "description": "Picker tab listing application windows to share."
+  },
+  "voiceScreenSharePickerEntireScreenTab": "Entire screen",
+  "@voiceScreenSharePickerEntireScreenTab": {
+    "description": "Picker tab listing whole displays to share."
+  },
+  "voiceScreenSharePickerShareAction": "Share screen",
+  "@voiceScreenSharePickerShareAction": {
+    "description": "Label shown over a source card when hovering it in the screen share picker."
+  },
+  "voiceScreenSharePickerWindowFallback": "App window",
+  "@voiceScreenSharePickerWindowFallback": {
+    "description": "Name shown for an application window that has no title."
+  },
+  "voiceScreenSharePickerDisplayFallback": "Display",
+  "@voiceScreenSharePickerDisplayFallback": {
+    "description": "Name shown for a display that has no name."
+  },
+  "voiceScreenSharePickerNoWindowsTitle": "No application windows found",
+  "@voiceScreenSharePickerNoWindowsTitle": {
+    "description": "Empty state title when there are no windows to share."
+  },
+  "voiceScreenSharePickerNoWindowsBody": "Open an application window, then try again.",
+  "@voiceScreenSharePickerNoWindowsBody": {
+    "description": "Empty state body when there are no windows to share."
+  },
+  "voiceScreenSharePickerNoDisplaysTitle": "No displays found",
+  "@voiceScreenSharePickerNoDisplaysTitle": {
+    "description": "Empty state title when there are no displays to share."
+  },
+  "voiceScreenSharePickerNoDisplaysBody": "Connect a display, then try again.",
+  "@voiceScreenSharePickerNoDisplaysBody": {
+    "description": "Empty state body when there are no displays to share."
+  },
+  "voiceScreenSharePickerLoadFailed": "Failed to load shareable sources.",
+  "@voiceScreenSharePickerLoadFailed": {
+    "description": "Error shown when the list of windows and displays could not be loaded."
+  },
+  "voiceScreenSharePickerStreamSettings": "Stream settings",
+  "@voiceScreenSharePickerStreamSettings": {
+    "description": "Tooltip for the gear button in the screen share picker footer."
+  },
+  "voiceScreenSharePickerSmootherVideo": "Smoother video",
+  "@voiceScreenSharePickerSmootherVideo": {
+    "description": "Picker footer chip describing the Gaming streaming mode."
+  },
+  "voiceScreenSharePickerClearerText": "Clearer text",
+  "@voiceScreenSharePickerClearerText": {
+    "description": "Picker footer chip describing the Screen share streaming mode."
+  },
+  "voiceScreenShareAudioEntireSystem": "Entire system",
+  "@voiceScreenShareAudioEntireSystem": {
+    "description": "Picker footer chip saying the stream includes all system audio."
+  },
+  "voiceScreenShareAudioNone": "No audio",
+  "@voiceScreenShareAudioNone": {
+    "description": "Picker footer chip saying the stream has no audio."
+  },
+  "voiceScreenSharePickerCheckingPermission": "Checking screen recording permission...",
+  "@voiceScreenSharePickerCheckingPermission": {
+    "description": "Loading state in the screen share picker while checking macOS screen recording permission."
+  },
+  "voiceScreenSharePickerPermissionRequired": "Screen recording permission required",
+  "@voiceScreenSharePickerPermissionRequired": {
+    "description": "Heading in the screen share picker when macOS screen recording permission is missing."
+  },
+  "voiceScreenSharePickerPermissionBody": "Open System Settings → Privacy & Security → Screen Recording, then allow {productName}.",
+  "@voiceScreenSharePickerPermissionBody": {
+    "description": "Body in the screen share picker when macOS screen recording permission is missing. Keep System Settings, Privacy & Security and Screen Recording as macOS shows them in this language.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceScreenSharePickerPermissionWaiting": "Still waiting for screen recording access",
+  "@voiceScreenSharePickerPermissionWaiting": {
+    "description": "Heading in the screen share picker after the user opened macOS screen recording settings and the permission is not active yet."
+  },
+  "voiceScreenSharePickerPermissionRelaunchBody": "Allow {productName} under Screen Recording in System Settings. If it is already allowed, relaunch {productName} so macOS applies it.",
+  "@voiceScreenSharePickerPermissionRelaunchBody": {
+    "description": "Body in the screen share picker after the user opened macOS screen recording settings and the permission is not active yet. Keep Screen Recording and System Settings as macOS shows them in this language.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceScreenShareHidePreviewThumbnail": "Hide preview thumbnail",
+  "@voiceScreenShareHidePreviewThumbnail": {
+    "description": "Checkbox in the stream settings menu that stops sharing a preview image of your stream."
+  },
+  "voiceScreenShareChangeStream": "Change stream",
+  "@voiceScreenShareChangeStream": {
+    "description": "Menu item that reopens the picker to share a different window or display."
+  },
+  "voiceScreenShareStreamQuality": "Stream quality",
+  "@voiceScreenShareStreamQuality": {
+    "description": "Submenu that holds the live frame rate and resolution options while streaming."
+  },
+  "voiceScreenShareResolution": "Resolution",
+  "@voiceScreenShareResolution": {
+    "description": "Section header for screen share resolution options."
+  },
+  "voiceScreenShareEndTooltip": "End screen share",
+  "@voiceScreenShareEndTooltip": {
+    "description": "Tooltip for the screen share button while sharing."
+  },
+  "voiceScreenShareConfigureTooltip": "Configure or end screen share",
+  "@voiceScreenShareConfigureTooltip": {
+    "description": "Tooltip for the sidebar screen share button while sharing."
+  },
   "voiceVideoZoomLevel": "Zoom {scale}",
   "@voiceVideoZoomLevel": {
     "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",

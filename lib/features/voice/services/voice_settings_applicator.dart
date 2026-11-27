@@ -272,9 +272,13 @@ class VoiceSettingsApplicator {
   }
 
   ScreenShareCaptureOptions buildScreenShareCaptureOptions(
-    VoiceSettingsState settings,
-  ) {
-    return screenShareCaptureOptionsFor(screenShareTarget(settings));
+    VoiceSettingsState settings, {
+    String? sourceId,
+  }) {
+    return screenShareCaptureOptionsFor(
+      screenShareTarget(settings),
+      sourceId: sourceId,
+    );
   }
 
   VideoPublishOptions buildScreenSharePublishOptions(
@@ -302,6 +306,7 @@ class VoiceSettingsApplicator {
     required VoiceSettingsState settings,
     required bool enabled,
     bool captureScreenAudio = false,
+    String? sourceId,
     void Function(Object? error)? onBroadcastSettled,
   }) async {
     if (!enabled) {
@@ -312,7 +317,7 @@ class VoiceSettingsApplicator {
 
     final RoomOptions roomOptions = room.roomOptions;
     final ScreenShareCaptureOptions captureOptions =
-        buildScreenShareCaptureOptions(settings);
+        buildScreenShareCaptureOptions(settings, sourceId: sourceId);
     final VideoPublishOptions publishOptions = buildScreenSharePublishOptions(
       settings,
     );
@@ -485,17 +490,23 @@ class VoiceSettingsApplicator {
   Future<void> refreshScreenShare({
     required Room room,
     required VoiceSettingsState settings,
+    String? sourceId,
   }) async {
     final LocalParticipant? participant = room.localParticipant;
     if (participant == null) {
       return;
     }
-    final bool isSharing =
-        participant.getTrackPublicationBySource(TrackSource.screenShareVideo) !=
-        null;
-    if (!isSharing) {
+    final TrackPublication? publication = participant
+        .getTrackPublicationBySource(TrackSource.screenShareVideo);
+    if (publication == null) {
       return;
     }
+    final Track? current = publication.track;
+    final String? currentSourceId =
+        current is LocalVideoTrack &&
+            current.currentOptions is ScreenShareCaptureOptions
+        ? current.currentOptions.deviceId
+        : null;
     final bool captureScreenAudio =
         participant.getTrackPublicationBySource(TrackSource.screenShareAudio) !=
         null;
@@ -511,6 +522,7 @@ class VoiceSettingsApplicator {
       settings: settings,
       enabled: true,
       captureScreenAudio: captureScreenAudio,
+      sourceId: sourceId ?? currentSourceId,
     );
   }
 

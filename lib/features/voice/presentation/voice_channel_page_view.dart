@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_cha
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_desktop_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_chat_jump.dart';
@@ -54,13 +56,22 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   bool _jumpSheetOpen = false;
   String? _openedUnconsumedJumpTarget;
   String? _chatJumpTarget;
+  late final VoiceDesktopFullscreen _fullscreen;
 
   @override
   void initState() {
     super.initState();
+    _fullscreen = ref.read(voiceDesktopFullscreenProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _switchOverviewChannelIfNeeded();
     });
+  }
+
+  @override
+  void dispose() {
+    final VoiceDesktopFullscreen fullscreen = _fullscreen;
+    unawaited(Future<void>.microtask(fullscreen.exit));
+    super.dispose();
   }
 
   @override
@@ -241,7 +252,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
             ],
           ),
         ),
-        if (_isChatPanelOpen)
+        if (_isChatPanelOpen && !ref.watch(voiceDesktopFullscreenProvider))
           _DesktopVoiceChatDock(
             channelId: widget.channelId,
             channelName: channelName,
@@ -249,6 +260,58 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
             onClose: () => setState(_closeDesktopChat),
           ),
       ],
+    );
+  }
+
+  Widget _buildDesktopStage(
+    BuildContext context, {
+    required bool showChatToggle,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool fullScreen = ref.watch(voiceDesktopFullscreenProvider);
+    final Widget stage = VoiceDesktopStage(
+      header: ChannelHeader(
+        channelId: widget.channelId,
+        forceVoiceCallStyle: true,
+      ),
+      cornerControls: <Widget>[
+        if (showChatToggle && !fullScreen)
+          VoiceDesktopCornerButton(
+            key: kDesktopVoiceChatToggleKey,
+            icon: PhosphorIconsFill.chatTeardrop,
+            tooltip: l10n.voiceControlChat,
+            toggled: _isChatPanelOpen,
+            onPressed: _toggleDesktopChat,
+            badge: VoiceChatUnreadBadge(channelId: widget.channelId),
+          ),
+        VoiceDesktopCornerButton(
+          icon: fullScreen
+              ? PhosphorIconsBold.cornersIn
+              : PhosphorIconsBold.cornersOut,
+          tooltip: fullScreen
+              ? l10n.voiceScreenShareExitFullscreenTooltip
+              : l10n.voiceScreenShareEnterFullscreenTooltip,
+          toggled: fullScreen,
+          onPressed: () => unawaited(_fullscreen.toggle()),
+        ),
+      ],
+      child: RepaintBoundary(
+        child: VoiceParticipantGrid(
+          key: const ValueKey<String>('voice-participant-grid'),
+          guildId: widget.guildId,
+          channelId: widget.channelId,
+        ),
+      ),
+    );
+    if (!fullScreen) {
+      return stage;
+    }
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.escape): () =>
+            unawaited(_fullscreen.exit()),
+      },
+      child: Focus(autofocus: true, child: stage),
     );
   }
 
@@ -279,30 +342,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                   ),
                 ),
               )
-            : VoiceDesktopStage(
-                header: ChannelHeader(
-                  channelId: widget.channelId,
-                  forceVoiceCallStyle: true,
-                ),
-                cornerControls: <Widget>[
-                  if (showChatToggle)
-                    VoiceDesktopCornerButton(
-                      key: kDesktopVoiceChatToggleKey,
-                      icon: PhosphorIconsFill.chatTeardrop,
-                      tooltip: FluxerLocalizations.of(context).voiceControlChat,
-                      toggled: _isChatPanelOpen,
-                      onPressed: _toggleDesktopChat,
-                      badge: VoiceChatUnreadBadge(channelId: widget.channelId),
-                    ),
-                ],
-                child: RepaintBoundary(
-                  child: VoiceParticipantGrid(
-                    key: const ValueKey<String>('voice-participant-grid'),
-                    guildId: widget.guildId,
-                    channelId: widget.channelId,
-                  ),
-                ),
-              ),
+            : _buildDesktopStage(context, showChatToggle: showChatToggle),
       ),
     );
   }

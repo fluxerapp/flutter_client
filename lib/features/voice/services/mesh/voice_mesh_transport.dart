@@ -816,12 +816,15 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
     if (!_localTracks.containsKey(VoiceMeshSource.screenShare)) {
       return;
     }
+    final ScreenShareCaptureOptions next = options.copyWith(
+      sourceId: _screenShareOptions?.deviceId,
+    );
     if (canRestartScreenCaptureSilently &&
-        _screenShareOptions?.maxFrameRate != options.maxFrameRate) {
-      await setScreenShare(options, target: target);
+        _screenShareOptions?.maxFrameRate != next.maxFrameRate) {
+      await setScreenShare(next, target: target);
       return;
     }
-    _screenShareOptions = options;
+    _screenShareOptions = next;
     _screenShareTarget = target;
     _syncAllSenders();
   }

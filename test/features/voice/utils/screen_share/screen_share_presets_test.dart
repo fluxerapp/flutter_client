@@ -17,6 +17,15 @@ void main() {
     canChooseScreenShareBitrate: true,
   );
 
+  test('screen share capture targets the chosen source', () {
+    const VoiceSettingsState settings = VoiceSettingsState();
+    expect(free.buildScreenShareCaptureOptions(settings).deviceId, isNull);
+    final ScreenShareCaptureOptions capture = free
+        .buildScreenShareCaptureOptions(settings, sourceId: 'window:42');
+    expect(capture.deviceId, 'window:42');
+    expect(capture.maxFrameRate, 30);
+  });
+
   test('default screen share sends 720p30 for free accounts', () {
     const VoiceSettingsState settings = VoiceSettingsState();
     final ScreenShareCaptureOptions capture = free

@@ -89,6 +89,7 @@ class VoiceParticipantMenuLabels {
     required this.watchStream,
     required this.stopWatching,
     required this.stopStreaming,
+    required this.changeStream,
   });
 
   final String viewProfile;
@@ -105,6 +106,7 @@ class VoiceParticipantMenuLabels {
   final String watchStream;
   final String stopWatching;
   final String stopStreaming;
+  final String changeStream;
 }
 
 void _addMenuGroupIfNotEmpty(
@@ -135,6 +137,7 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
   required VoidCallback onWatchStream,
   required VoidCallback onStopWatching,
   required VoidCallback onStopStreaming,
+  VoidCallback? onChangeStream,
 }) {
   if (capabilities.isScreenShareTile) {
     return _buildStreamMenuGroups(
@@ -143,6 +146,7 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
       onWatchStream: onWatchStream,
       onStopWatching: onStopWatching,
       onStopStreaming: onStopStreaming,
+      onChangeStream: onChangeStream,
       onStreamVolumeChanged: onStreamVolumeChanged,
       onToggleStreamMute: onToggleStreamMute,
     );
@@ -265,6 +269,7 @@ List<VoiceParticipantMenuGroup> _buildStreamMenuGroups({
   required VoidCallback onWatchStream,
   required VoidCallback onStopWatching,
   required VoidCallback onStopStreaming,
+  required VoidCallback? onChangeStream,
   required ValueChanged<int> onStreamVolumeChanged,
   required ValueChanged<bool> onToggleStreamMute,
 }) {
@@ -279,6 +284,12 @@ List<VoiceParticipantMenuGroup> _buildStreamMenuGroups({
             isDanger: true,
             onPressed: onStopStreaming,
           ),
+          if (onChangeStream != null)
+            VoiceParticipantMenuActionEntry(
+              label: labels.changeStream,
+              icon: PhosphorIconsFill.monitorPlay,
+              onPressed: onChangeStream,
+            ),
         ],
       ),
     );

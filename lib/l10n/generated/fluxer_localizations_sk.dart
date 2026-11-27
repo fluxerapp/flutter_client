@@ -6637,6 +6637,102 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
   String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
 
   @override
+  String get voiceScreenSharePickerTitle => 'Choose something to share';
+
+  @override
+  String get voiceScreenSharePickerChangeTitle => 'Change stream source';
+
+  @override
+  String get voiceScreenSharePickerApplicationsTab => 'Applications';
+
+  @override
+  String get voiceScreenSharePickerEntireScreenTab => 'Entire screen';
+
+  @override
+  String get voiceScreenSharePickerShareAction => 'Share screen';
+
+  @override
+  String get voiceScreenSharePickerWindowFallback => 'App window';
+
+  @override
+  String get voiceScreenSharePickerDisplayFallback => 'Display';
+
+  @override
+  String get voiceScreenSharePickerNoWindowsTitle =>
+      'No application windows found';
+
+  @override
+  String get voiceScreenSharePickerNoWindowsBody =>
+      'Open an application window, then try again.';
+
+  @override
+  String get voiceScreenSharePickerNoDisplaysTitle => 'No displays found';
+
+  @override
+  String get voiceScreenSharePickerNoDisplaysBody =>
+      'Connect a display, then try again.';
+
+  @override
+  String get voiceScreenSharePickerLoadFailed =>
+      'Failed to load shareable sources.';
+
+  @override
+  String get voiceScreenSharePickerStreamSettings => 'Stream settings';
+
+  @override
+  String get voiceScreenSharePickerSmootherVideo => 'Smoother video';
+
+  @override
+  String get voiceScreenSharePickerClearerText => 'Clearer text';
+
+  @override
+  String get voiceScreenShareAudioEntireSystem => 'Entire system';
+
+  @override
+  String get voiceScreenShareAudioNone => 'No audio';
+
+  @override
+  String get voiceScreenSharePickerCheckingPermission =>
+      'Checking screen recording permission...';
+
+  @override
+  String get voiceScreenSharePickerPermissionRequired =>
+      'Screen recording permission required';
+
+  @override
+  String voiceScreenSharePickerPermissionBody(String productName) {
+    return 'Open System Settings → Privacy & Security → Screen Recording, then allow $productName.';
+  }
+
+  @override
+  String get voiceScreenSharePickerPermissionWaiting =>
+      'Still waiting for screen recording access';
+
+  @override
+  String voiceScreenSharePickerPermissionRelaunchBody(String productName) {
+    return 'Allow $productName under Screen Recording in System Settings. If it is already allowed, relaunch $productName so macOS applies it.';
+  }
+
+  @override
+  String get voiceScreenShareHidePreviewThumbnail => 'Hide preview thumbnail';
+
+  @override
+  String get voiceScreenShareChangeStream => 'Change stream';
+
+  @override
+  String get voiceScreenShareStreamQuality => 'Stream quality';
+
+  @override
+  String get voiceScreenShareResolution => 'Resolution';
+
+  @override
+  String get voiceScreenShareEndTooltip => 'End screen share';
+
+  @override
+  String get voiceScreenShareConfigureTooltip =>
+      'Configure or end screen share';
+
+  @override
   String voiceVideoZoomLevel(String scale) {
     return 'Zoom $scale';
   }

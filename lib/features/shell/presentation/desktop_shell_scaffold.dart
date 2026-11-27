@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_bar.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
+import 'package:fluxer_app/features/voice/providers/voice_desktop_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -58,15 +59,17 @@ class WideShellScaffold extends ConsumerWidget {
     final bool immersiveVoice = ref.watch(handheldVoiceImmersiveProvider);
     final bool fullScreenVoice =
         isHandheldVoiceOverlay(context) && immersiveVoice;
+    final bool fullScreenStream = ref.watch(voiceDesktopFullscreenProvider);
     final Widget body = fullScreenVoice
         ? navigationShell
         : desktopShellScaffold(
             context: context,
             shellLocation: shellLocation,
             navigationShell: navigationShell,
+            collapseSidebar: fullScreenStream,
           );
     return Scaffold(
-      backgroundColor: fullScreenVoice
+      backgroundColor: fullScreenVoice || fullScreenStream
           ? context.colors.chatBackground
           : context.colors.backgroundPrimary,
       resizeToAvoidBottomInset: false,
@@ -79,8 +82,10 @@ Widget desktopShellScaffold({
   required BuildContext context,
   required String shellLocation,
   required Widget navigationShell,
+  bool collapseSidebar = false,
 }) {
   return ResizableShellSidebarLayout(
+    collapsed: collapseSidebar,
     leftPanel: Column(
       children: <Widget>[
         Expanded(

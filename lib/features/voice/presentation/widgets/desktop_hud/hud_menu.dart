@@ -15,6 +15,7 @@ Future<void> showVoiceHudMenu(
   BuildContext anchor,
   WidgetRef ref, {
   required VoiceHudMenuBuilder builder,
+  FluxerDesktopPlacement placement = FluxerDesktopPlacement.aboveStart,
 }) async {
   final RenderObject? renderObject = anchor.findRenderObject();
   if (renderObject is! RenderBox || !renderObject.hasSize) {
@@ -29,7 +30,7 @@ Future<void> showVoiceHudMenu(
       anchor,
       position: anchorRect.topLeft,
       anchorRect: anchorRect,
-      placement: FluxerDesktopPlacement.aboveStart,
+      placement: placement,
       builder: (BuildContext menuContext, VoidCallback close) {
         return FluxerDesktopMenuPanel(
           width: kVoiceHudMenuWidth,

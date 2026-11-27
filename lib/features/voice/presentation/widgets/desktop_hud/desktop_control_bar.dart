@@ -2,17 +2,20 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/active_share_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_control_button.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_device_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_more_options_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_style.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/stream_settings_menu.dart';
 import 'package:fluxer_app/features/voice/providers/active_self_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_diagnostics_report.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -46,11 +49,7 @@ class VoiceDesktopControlBar extends ConsumerWidget {
     void openSettings() =>
         unawaited(openVoiceHudAudioVideoSettings(context, ref));
 
-    void toggleScreenShare() => unawaited(
-      session.toggleSelfStream(
-        screenShareNotificationText: l10n.voiceScreenShareNotificationText,
-      ),
-    );
+    void toggleScreenShare() => unawaited(startOrStopScreenShare(context, ref));
 
     void openMenu(BuildContext anchor, VoiceHudMenuBuilder builder) =>
         unawaited(showVoiceHudMenu(anchor, ref, builder: builder));
@@ -76,11 +75,18 @@ class VoiceDesktopControlBar extends ConsumerWidget {
 
     void openScreenShareMenu(BuildContext anchor) => openMenu(
       anchor,
-      (VoidCallback close) => VoiceHudScreenShareMenu(
-        onClose: close,
-        onToggle: toggleScreenShare,
-        onOpenSettings: openSettings,
-      ),
+      (VoidCallback close) => isScreenSharing
+          ? VoiceActiveShareMenu(
+              onClose: close,
+              onStop: () => unawaited(stopScreenShare(context, ref)),
+              onChangeSource: () =>
+                  unawaited(changeScreenShareSource(context, ref)),
+              onOpenSettings: openSettings,
+            )
+          : VoiceStreamSettingsMenu(
+              onClose: close,
+              onOpenSettings: openSettings,
+            ),
     );
 
     void openMoreOptionsMenu(BuildContext anchor) => openMenu(
@@ -157,7 +163,10 @@ class VoiceDesktopControlBar extends ConsumerWidget {
                 tone: isScreenSharing
                     ? VoiceHudTone.success
                     : VoiceHudTone.neutral,
-                tooltip: l10n.voiceControlScreenShare,
+                tooltip: isScreenSharing
+                    ? l10n.voiceScreenShareEndTooltip
+                    : l10n.voiceControlStartScreenShare,
+                semanticLabel: l10n.voiceControlScreenShare,
                 toggled: isScreenSharing,
                 onPressed: isConnected ? (_) => toggleScreenShare() : null,
                 onSecondaryPressed: isConnected ? openScreenShareMenu : null,

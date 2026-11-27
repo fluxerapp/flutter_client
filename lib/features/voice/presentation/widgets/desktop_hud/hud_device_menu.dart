@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/utils/media/voice_media_device_label.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 enum VoiceHudDeviceKind { input, output, camera }
@@ -103,48 +102,6 @@ class VoiceHudDeviceMenu extends ConsumerWidget {
             ),
           ),
         },
-        const FluxerMenuDivider(),
-        VoiceHudMenuSettingsItem(
-          onClose: onClose,
-          onOpenSettings: onOpenSettings,
-        ),
-      ],
-    );
-  }
-}
-
-class VoiceHudScreenShareMenu extends ConsumerWidget {
-  const VoiceHudScreenShareMenu({
-    required this.onClose,
-    required this.onToggle,
-    required this.onOpenSettings,
-    super.key,
-  });
-
-  final VoidCallback onClose;
-  final VoidCallback onToggle;
-  final VoidCallback onOpenSettings;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool isSharing =
-        ref.watch(activeSelfVoiceStateProvider)?.selfStream ?? false;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        FluxerMenuItem(
-          label: isSharing
-              ? l10n.voiceControlStopScreenShare
-              : l10n.voiceControlStartScreenShare,
-          icon: isSharing ? PhosphorIconsFill.x : PhosphorIconsFill.monitorPlay,
-          isDanger: isSharing,
-          onPressed: () {
-            onClose();
-            onToggle();
-          },
-        ),
         const FluxerMenuDivider(),
         VoiceHudMenuSettingsItem(
           onClose: onClose,

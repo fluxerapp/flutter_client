@@ -51,6 +51,7 @@ import 'package:fluxer_app/features/voice/providers/voice_transmit_provider.dart
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -381,13 +382,10 @@ void registerKeybindHandlers({
       if (!ref.read(voiceSessionProvider).isConnected) {
         return false;
       }
-      await ref
-          .read(voiceSessionProvider.notifier)
-          .toggleSelfStream(
-            screenShareNotificationText: ref
-                .read(appLocalizationsProvider)
-                .voiceScreenShareNotificationText,
-          );
+      if (!context.mounted) {
+        return false;
+      }
+      await startOrStopScreenShare(context, ref);
       return true;
     })
     ..register(KeybindAction.voiceDisconnect, () async {

@@ -50,6 +50,9 @@ class FluxerDesktopAnchoredLayoutDelegate extends SingleChildLayoutDelegate {
         case FluxerDesktopPlacement.aboveStart:
           x = anchorRect.left;
           y = above >= edge ? above : below;
+        case FluxerDesktopPlacement.aboveEnd:
+          x = anchorRect.right - childSize.width;
+          y = above >= edge ? above : below;
         case FluxerDesktopPlacement.belowStart:
         case FluxerDesktopPlacement.belowCenter:
         case FluxerDesktopPlacement.belowEnd:

@@ -7,9 +7,12 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/active_share_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/desktop_hud/hud_menu.dart';
 import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -74,23 +77,25 @@ class VoiceConnectionLocalControls extends ConsumerWidget {
       }
       controls.add(
         Expanded(
-          child: UserPanelMediaButton(
-            icon: const PhosphorIcon(PhosphorIconsFill.monitorPlay),
-            isActive: isScreenSharing,
-            enabled: isConnected,
-            tooltip: l10n.voiceControlScreenShare,
-            onPressed: isConnected
-                ? () {
-                    unawaited(
-                      ref
-                          .read(voiceSessionProvider.notifier)
-                          .toggleSelfStream(
-                            screenShareNotificationText:
-                                l10n.voiceScreenShareNotificationText,
-                          ),
-                    );
-                  }
-                : null,
+          child: Builder(
+            builder: (BuildContext anchor) => UserPanelMediaButton(
+              icon: const PhosphorIcon(PhosphorIconsFill.monitorPlay),
+              isActive: isScreenSharing,
+              enabled: isConnected,
+              tooltip: isScreenSharing
+                  ? (desktop
+                        ? l10n.voiceScreenShareConfigureTooltip
+                        : l10n.voiceScreenShareEndTooltip)
+                  : l10n.voiceControlStartScreenShare,
+              onPressed: isConnected
+                  ? () => _onScreenSharePressed(
+                      anchor,
+                      ref,
+                      isScreenSharing: isScreenSharing,
+                      desktop: desktop,
+                    )
+                  : null,
+            ),
           ),
         ),
       );
@@ -102,6 +107,31 @@ class VoiceConnectionLocalControls extends ConsumerWidget {
     return Padding(
       padding: EdgeInsets.only(top: context.layout.s3),
       child: Row(children: controls),
+    );
+  }
+
+  void _onScreenSharePressed(
+    BuildContext anchor,
+    WidgetRef ref, {
+    required bool isScreenSharing,
+    required bool desktop,
+  }) {
+    if (!isScreenSharing || !desktop) {
+      unawaited(startOrStopScreenShare(anchor, ref));
+      return;
+    }
+    unawaited(
+      showVoiceHudMenu(
+        anchor,
+        ref,
+        builder: (VoidCallback close) => VoiceActiveShareMenu(
+          onClose: close,
+          onStop: () => unawaited(stopScreenShare(anchor, ref)),
+          onChangeSource: () => unawaited(changeScreenShareSource(anchor, ref)),
+          onOpenSettings: () =>
+              unawaited(openVoiceHudAudioVideoSettings(anchor, ref)),
+        ),
+      ),
     );
   }
 

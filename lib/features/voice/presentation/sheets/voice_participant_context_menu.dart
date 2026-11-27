@@ -27,6 +27,8 @@ import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/features/voice/utils/participant/participant_menu_capabilities.dart';
 import 'package:fluxer_app/features/voice/utils/participant/participant_moderation.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_capability.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -134,6 +136,7 @@ class VoiceParticipantContextMenu {
             watchStream: l10n.voiceWatchStream,
             stopWatching: l10n.voiceStopWatching,
             stopStreaming: l10n.voiceParticipantMenuStopStreaming,
+            changeStream: l10n.voiceScreenShareChangeStream,
           ),
           onViewProfile: () {
             close();
@@ -259,6 +262,12 @@ class VoiceParticipantContextMenu {
                   ),
             );
           },
+          onChangeStream: usesScreenShareSourcePicker
+              ? () {
+                  close();
+                  unawaited(changeScreenShareSource(context, ref));
+                }
+              : null,
         );
 
     if (!capabilities.isScreenShareTile) {

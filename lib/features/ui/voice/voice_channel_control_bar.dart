@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_prov
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -286,14 +287,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
           onPressed: isConnected
               ? () {
                   onControlPressed(() {
-                    unawaited(
-                      ref
-                          .read(voiceSessionProvider.notifier)
-                          .toggleSelfStream(
-                            screenShareNotificationText:
-                                l10n.voiceScreenShareNotificationText,
-                          ),
-                    );
+                    unawaited(startOrStopScreenShare(context, ref));
                   });
                 }
               : null,

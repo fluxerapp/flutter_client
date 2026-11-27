@@ -38,6 +38,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_desktop_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -241,6 +242,8 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
           );
     final bool hideableVoiceHeader =
         forceVoiceCallStyle && isHandheldVoiceOverlay(context);
+    final bool fullScreenStream =
+        isVoiceChannel && ref.watch(voiceDesktopFullscreenProvider);
     final bool showsVoiceOverlay =
         !hideableVoiceHeader ||
         ref.watch(
@@ -278,15 +281,18 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                     builder: (context, constraints) {
                       final bool showMemberList =
                           isWide &&
+                          !fullScreenStream &&
                           isMemberListVisible &&
                           !isSearchActive &&
                           constraints.maxWidth >=
                               ChannelLayout._minWidthForMemberList;
                       return Column(
                         children: [
-                          if (isGuildStaffOnlyAccessible(guild))
+                          if (!fullScreenStream &&
+                              isGuildStaffOnlyAccessible(guild))
                             StaffOnlyGuildNagbar(guildId: widget.guildId),
-                          if (guild != null &&
+                          if (!fullScreenStream &&
+                              guild != null &&
                               guild.mfaLevel == guildMfaLevelElevated)
                             GuildMfaRequirementNagbar(guild: guild),
                           if (!forceVoiceCallStyle) header,

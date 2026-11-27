@@ -19,6 +19,7 @@ VoiceParticipantMenuLabels _labels() {
     watchStream: 'Watch stream',
     stopWatching: 'Stop watching',
     stopStreaming: 'Stop streaming',
+    changeStream: 'Change stream',
   );
 }
 
@@ -64,6 +65,7 @@ VoiceParticipantMenuCapabilities _capabilities({
 
 List<VoiceParticipantMenuGroup> _buildGroups({
   required VoiceParticipantMenuCapabilities capabilities,
+  void Function()? onChangeStream,
 }) {
   return buildVoiceParticipantMenuGroups(
     capabilities: capabilities,
@@ -83,6 +85,7 @@ List<VoiceParticipantMenuGroup> _buildGroups({
     onWatchStream: () {},
     onStopWatching: () {},
     onStopStreaming: () {},
+    onChangeStream: onChangeStream,
   );
 }
 
@@ -235,5 +238,26 @@ void main() {
     expect(_findAction(groups, 'Stop streaming'), isNotNull);
     expect(_hasLabel(groups, 'View profile'), isFalse);
     expect(_findVolume(groups, 'Stream volume'), isNull);
+    expect(_hasLabel(groups, 'Change stream'), isFalse);
+  });
+
+  test('own stream menu offers change stream when a picker exists', () {
+    var changed = false;
+    final List<VoiceParticipantMenuGroup> groups = _buildGroups(
+      capabilities: _capabilities(
+        showDisplayPreferences: false,
+        isScreenShareTile: true,
+        isOwnScreenShare: true,
+      ),
+      onChangeStream: () => changed = true,
+    );
+
+    final VoiceParticipantMenuActionEntry? entry = _findAction(
+      groups,
+      'Change stream',
+    );
+    expect(entry, isNotNull);
+    entry!.onPressed();
+    expect(changed, isTrue);
   });
 }

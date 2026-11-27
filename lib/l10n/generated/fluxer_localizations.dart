@@ -10731,6 +10731,174 @@ abstract class FluxerLocalizations {
   /// **'Exit full screen'**
   String get voiceScreenShareExitFullscreenTooltip;
 
+  /// Accessible title of the screen share source picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose something to share'**
+  String get voiceScreenSharePickerTitle;
+
+  /// Accessible title of the screen share source picker when switching what is being shared.
+  ///
+  /// In en, this message translates to:
+  /// **'Change stream source'**
+  String get voiceScreenSharePickerChangeTitle;
+
+  /// Picker tab listing application windows to share.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get voiceScreenSharePickerApplicationsTab;
+
+  /// Picker tab listing whole displays to share.
+  ///
+  /// In en, this message translates to:
+  /// **'Entire screen'**
+  String get voiceScreenSharePickerEntireScreenTab;
+
+  /// Label shown over a source card when hovering it in the screen share picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Share screen'**
+  String get voiceScreenSharePickerShareAction;
+
+  /// Name shown for an application window that has no title.
+  ///
+  /// In en, this message translates to:
+  /// **'App window'**
+  String get voiceScreenSharePickerWindowFallback;
+
+  /// Name shown for a display that has no name.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get voiceScreenSharePickerDisplayFallback;
+
+  /// Empty state title when there are no windows to share.
+  ///
+  /// In en, this message translates to:
+  /// **'No application windows found'**
+  String get voiceScreenSharePickerNoWindowsTitle;
+
+  /// Empty state body when there are no windows to share.
+  ///
+  /// In en, this message translates to:
+  /// **'Open an application window, then try again.'**
+  String get voiceScreenSharePickerNoWindowsBody;
+
+  /// Empty state title when there are no displays to share.
+  ///
+  /// In en, this message translates to:
+  /// **'No displays found'**
+  String get voiceScreenSharePickerNoDisplaysTitle;
+
+  /// Empty state body when there are no displays to share.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect a display, then try again.'**
+  String get voiceScreenSharePickerNoDisplaysBody;
+
+  /// Error shown when the list of windows and displays could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load shareable sources.'**
+  String get voiceScreenSharePickerLoadFailed;
+
+  /// Tooltip for the gear button in the screen share picker footer.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream settings'**
+  String get voiceScreenSharePickerStreamSettings;
+
+  /// Picker footer chip describing the Gaming streaming mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoother video'**
+  String get voiceScreenSharePickerSmootherVideo;
+
+  /// Picker footer chip describing the Screen share streaming mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearer text'**
+  String get voiceScreenSharePickerClearerText;
+
+  /// Picker footer chip saying the stream includes all system audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Entire system'**
+  String get voiceScreenShareAudioEntireSystem;
+
+  /// Picker footer chip saying the stream has no audio.
+  ///
+  /// In en, this message translates to:
+  /// **'No audio'**
+  String get voiceScreenShareAudioNone;
+
+  /// Loading state in the screen share picker while checking macOS screen recording permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking screen recording permission...'**
+  String get voiceScreenSharePickerCheckingPermission;
+
+  /// Heading in the screen share picker when macOS screen recording permission is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen recording permission required'**
+  String get voiceScreenSharePickerPermissionRequired;
+
+  /// Body in the screen share picker when macOS screen recording permission is missing. Keep System Settings, Privacy & Security and Screen Recording as macOS shows them in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Open System Settings → Privacy & Security → Screen Recording, then allow {productName}.'**
+  String voiceScreenSharePickerPermissionBody(String productName);
+
+  /// Heading in the screen share picker after the user opened macOS screen recording settings and the permission is not active yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Still waiting for screen recording access'**
+  String get voiceScreenSharePickerPermissionWaiting;
+
+  /// Body in the screen share picker after the user opened macOS screen recording settings and the permission is not active yet. Keep Screen Recording and System Settings as macOS shows them in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow {productName} under Screen Recording in System Settings. If it is already allowed, relaunch {productName} so macOS applies it.'**
+  String voiceScreenSharePickerPermissionRelaunchBody(String productName);
+
+  /// Checkbox in the stream settings menu that stops sharing a preview image of your stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide preview thumbnail'**
+  String get voiceScreenShareHidePreviewThumbnail;
+
+  /// Menu item that reopens the picker to share a different window or display.
+  ///
+  /// In en, this message translates to:
+  /// **'Change stream'**
+  String get voiceScreenShareChangeStream;
+
+  /// Submenu that holds the live frame rate and resolution options while streaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream quality'**
+  String get voiceScreenShareStreamQuality;
+
+  /// Section header for screen share resolution options.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get voiceScreenShareResolution;
+
+  /// Tooltip for the screen share button while sharing.
+  ///
+  /// In en, this message translates to:
+  /// **'End screen share'**
+  String get voiceScreenShareEndTooltip;
+
+  /// Tooltip for the sidebar screen share button while sharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure or end screen share'**
+  String get voiceScreenShareConfigureTooltip;
+
   /// Accessibility label for the fullscreen call video pinch-zoom level indicator.
   ///
   /// In en, this message translates to:
