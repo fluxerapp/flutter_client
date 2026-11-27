@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,12 +8,16 @@ class _ComposerFocusRegistration {
     required this.readText,
     required this.hasFocus,
     required this.insertTypedText,
+    this.claimsKeyEvent,
+    this.handleArrowUpEmpty,
   });
 
   final VoidCallback requestFocus;
   final String Function() readText;
   final bool Function() hasFocus;
   final bool Function(String text) insertTypedText;
+  final bool Function(KeyEvent event)? claimsKeyEvent;
+  final bool Function()? handleArrowUpEmpty;
 }
 
 class ComposerFocusCoordinator {
@@ -24,6 +29,8 @@ class ComposerFocusCoordinator {
     required String Function() readText,
     required bool Function() hasFocus,
     required bool Function(String text) insertTypedText,
+    bool Function(KeyEvent event)? claimsKeyEvent,
+    bool Function()? handleArrowUpEmpty,
   }) {
     unregister(requestFocus);
     _stack.add(
@@ -32,6 +39,8 @@ class ComposerFocusCoordinator {
         readText: readText,
         hasFocus: hasFocus,
         insertTypedText: insertTypedText,
+        claimsKeyEvent: claimsKeyEvent,
+        handleArrowUpEmpty: handleArrowUpEmpty,
       ),
     );
   }
@@ -55,6 +64,12 @@ class ComposerFocusCoordinator {
   String readComposerText() => _active?.readText() ?? '';
 
   bool composerHasFocus() => _active?.hasFocus() ?? false;
+
+  bool composerClaimsKeyEvent(KeyEvent event) =>
+      _active?.claimsKeyEvent?.call(event) ?? false;
+
+  bool composerHandleArrowUpEmpty() =>
+      _active?.handleArrowUpEmpty?.call() ?? false;
 
   bool typeIntoComposer(String text) => _active?.insertTypedText(text) ?? false;
 }

@@ -5,6 +5,18 @@ bool isComposerSubmitKey(LogicalKeyboardKey key) {
       key == LogicalKeyboardKey.numpadEnter;
 }
 
+bool composerCommandModifierPressed() {
+  final HardwareKeyboard keyboard = HardwareKeyboard.instance;
+  return keyboard.isControlPressed ||
+      keyboard.isAltPressed ||
+      keyboard.isMetaPressed;
+}
+
+bool composerModifierPressed() {
+  return HardwareKeyboard.instance.isShiftPressed ||
+      composerCommandModifierPressed();
+}
+
 bool composerEnterSends({
   required bool isNativeMobileOs,
   required bool physicalKeyboardConnected,

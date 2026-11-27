@@ -647,6 +647,15 @@ class CloudUploadController extends _$CloudUploadController {
     _discardFiles(<PendingAttachment>[att]);
   }
 
+  void clearAttachments() {
+    final List<PendingAttachment> removed = state.items;
+    if (removed.isEmpty) {
+      return;
+    }
+    state = CloudComposerAttachments.empty;
+    _discardFiles(removed);
+  }
+
   void updateAttachment(
     int attachmentId, {
     required String filename,

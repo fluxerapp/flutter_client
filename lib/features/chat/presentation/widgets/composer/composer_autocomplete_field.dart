@@ -165,6 +165,12 @@ KeyEventResult handleComposerAutocompleteKey(
     return KeyEventResult.ignored;
   }
   final LogicalKeyboardKey key = event.logicalKey;
+  if (composerModifierPressed() &&
+      (key == LogicalKeyboardKey.tab ||
+          key == LogicalKeyboardKey.arrowUp ||
+          key == LogicalKeyboardKey.arrowDown)) {
+    return KeyEventResult.ignored;
+  }
   if (key == LogicalKeyboardKey.escape) {
     state.closeAutocompleteMenu();
     return KeyEventResult.handled;
@@ -192,6 +198,9 @@ KeyEventResult handleComposerAutocompleteKey(
   if (isComposerSubmitKey(key)) {
     if (HardwareKeyboard.instance.isShiftPressed) {
       return KeyEventResult.ignored;
+    }
+    if (composerCommandModifierPressed()) {
+      return KeyEventResult.handled;
     }
     state.applyCurrentSelection();
     return KeyEventResult.handled;

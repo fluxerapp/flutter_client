@@ -45,11 +45,13 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   final Set<KeybindAction> _globallyHeldActions = <KeybindAction>{};
   final GlobalShortcutPressDeduper _pressDeduper = GlobalShortcutPressDeduper();
   late final GlobalShortcuts _globalShortcuts;
+  late final KeybindHandlerRegistry _handlerRegistry;
   bool _handlersRegistered = false;
 
   @override
   void initState() {
     super.initState();
+    _handlerRegistry = ref.read(keybindHandlerRegistryProvider);
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
     WidgetsBinding.instance.addObserver(this);
     _applyKeybindPreferences(ref.read(keybindPreferencesProvider));
@@ -126,11 +128,8 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   }
 
   void _releaseHeldActions() {
-    final KeybindHandlerRegistry registry = ref.read(
-      keybindHandlerRegistryProvider,
-    );
     for (final KeybindAction action in _heldActions) {
-      registry.invokeRelease(action);
+      _handlerRegistry.invokeRelease(action);
     }
     _heldActions.clear();
   }
@@ -179,6 +178,13 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       return false;
     }
 
+    final ComposerFocusCoordinator composer = ref.read(
+      composerFocusCoordinatorProvider,
+    );
+    if (composer.composerClaimsKeyEvent(event)) {
+      return false;
+    }
+
     if (matchTextEditingShortcut(event) != null) {
       return false;
     }
@@ -194,6 +200,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       context: contextState,
     );
     if (entries.isEmpty) {
+      if (_handleArrowUpToComposer(event)) {
+        return true;
+      }
       return _handleKeyboardModeNavigation(event);
     }
     if (_dispatcher.globalRoutingActive &&
@@ -233,6 +242,29 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       ref.read(focusedMessageProvider.notifier).clear();
       ref.read(composerFocusCoordinatorProvider).requestComposerFocus();
     }
+    return true;
+  }
+
+  bool _handleArrowUpToComposer(KeyEvent event) {
+    if (event.logicalKey != LogicalKeyboardKey.arrowUp ||
+        _hasShortcutModifier()) {
+      return false;
+    }
+    if (ref.read(keyboardModeProvider) ||
+        _controlHasFocus() ||
+        _isModalOpen()) {
+      return false;
+    }
+    final ComposerFocusCoordinator composer = ref.read(
+      composerFocusCoordinatorProvider,
+    );
+    if (composer.readComposerText().trim().isNotEmpty) {
+      return false;
+    }
+    if (!composer.composerHandleArrowUpEmpty()) {
+      return false;
+    }
+    composer.requestComposerFocus();
     return true;
   }
 

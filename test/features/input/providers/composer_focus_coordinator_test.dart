@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 
@@ -84,5 +85,55 @@ void main() {
     coordinator.unregister(requestSheetFocus);
     expect(coordinator.typeIntoComposer('i'), isTrue);
     expect(channelTyped, <String>['i']);
+  });
+
+  test('key claims and empty arrow up go to the active composer only', () {
+    final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator();
+    const KeyEvent tab = KeyDownEvent(
+      physicalKey: PhysicalKeyboardKey.tab,
+      logicalKey: LogicalKeyboardKey.tab,
+      timeStamp: Duration.zero,
+    );
+    var claims = true;
+    var arrowUpCalls = 0;
+
+    void requestChannelFocus() {}
+
+    void requestSheetFocus() {}
+
+    expect(coordinator.composerClaimsKeyEvent(tab), isFalse);
+    expect(coordinator.composerHandleArrowUpEmpty(), isFalse);
+
+    coordinator.register(
+      requestFocus: requestChannelFocus,
+      readText: () => '',
+      hasFocus: () => true,
+      insertTypedText: (_) => false,
+      claimsKeyEvent: (KeyEvent event) => claims,
+      handleArrowUpEmpty: () {
+        arrowUpCalls++;
+        return true;
+      },
+    );
+    expect(coordinator.composerClaimsKeyEvent(tab), isTrue);
+    expect(coordinator.composerHandleArrowUpEmpty(), isTrue);
+    expect(arrowUpCalls, 1);
+
+    claims = false;
+    expect(coordinator.composerClaimsKeyEvent(tab), isFalse);
+
+    claims = true;
+    coordinator.register(
+      requestFocus: requestSheetFocus,
+      readText: () => '',
+      hasFocus: () => true,
+      insertTypedText: (_) => false,
+    );
+    expect(coordinator.composerClaimsKeyEvent(tab), isFalse);
+    expect(coordinator.composerHandleArrowUpEmpty(), isFalse);
+    expect(arrowUpCalls, 1);
+
+    coordinator.unregister(requestSheetFocus);
+    expect(coordinator.composerClaimsKeyEvent(tab), isTrue);
   });
 }

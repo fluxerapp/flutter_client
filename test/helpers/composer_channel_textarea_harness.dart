@@ -66,6 +66,12 @@ class MutableChatViewModel extends ChatViewModel {
     state = state.copyWith(editingMessage: message, messageText: messageText);
   }
 
+  void setMessages(List<Message> messages) {
+    state = state.copyWith(
+      write: (messages: messages, origin: MessagesOrigin.liveCreate),
+    );
+  }
+
   void setReplyingTo(Message? message) {
     state = state.copyWith(replyingTo: message);
   }

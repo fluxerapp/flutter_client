@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_input_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_send_and_voice_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_composer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/system_dm_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_bar.dart';
@@ -71,6 +72,8 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_command_execute
 import 'package:fluxer_app/features/chat/utils/composer/composer_emoji_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_expression_tabs.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_keyboard_actions.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_markdown_wrap.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_scroll.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_sendable_content.dart';
@@ -85,6 +88,9 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
+import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
+import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -93,6 +99,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -351,6 +358,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       readText: _sendableWireText,
       hasFocus: () => _focusNode.hasFocus,
       insertTypedText: _typeIntoComposer,
+      claimsKeyEvent: _composerClaimsKeyEvent,
+      handleArrowUpEmpty: _handleArrowUpOnEmptyComposer,
     );
     _chatKeybindEffectsSubscription = listenChatKeybindEffects(
       ref,
@@ -671,7 +680,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
       return KeyEventResult.ignored;
     }
-    if (event.logicalKey == LogicalKeyboardKey.escape) {
+    final LogicalKeyboardKey key = event.logicalKey;
+    final HardwareKeyboard keyboard = HardwareKeyboard.instance;
+    final KeyEventResult navResult = handleComposerAutocompleteKey(
+      _composerFieldKey.currentState,
+      event,
+    );
+    if (navResult == KeyEventResult.handled) {
+      return navResult;
+    }
+    if (key == LogicalKeyboardKey.escape) {
+      if (event is KeyDownEvent &&
+          !_isImeComposing() &&
+          _dismissTopmostComposerAffordance()) {
+        return KeyEventResult.handled;
+      }
       final bool escapeExitsKeyboardMode = ref.read(
         appearancePreferencesProvider.select((s) => s.escapeExitsKeyboardMode),
       );
@@ -681,23 +704,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
       return KeyEventResult.ignored;
     }
-    if (!_enterSends) {
+    if (_applyMarkdownShortcut(event)) {
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.tab && _applyCodeIndent()) {
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.arrowUp &&
+        event is KeyDownEvent &&
+        !composerModifierPressed() &&
+        _controller.text.isEmpty &&
+        _handleArrowUpOnEmptyComposer()) {
+      return KeyEventResult.handled;
+    }
+    if (!isComposerSubmitKey(key)) {
       return KeyEventResult.ignored;
     }
-    final KeyEventResult navResult = handleComposerAutocompleteKey(
-      _composerFieldKey.currentState,
-      event,
-    );
-    if (navResult == KeyEventResult.handled) {
-      return navResult;
+    final bool commandEnter =
+        keyboard.isControlPressed || keyboard.isMetaPressed;
+    if (!_enterSends && !commandEnter) {
+      return KeyEventResult.ignored;
     }
-    if (!isComposerSubmitKey(event.logicalKey)) {
+    if (!commandEnter &&
+        !keyboard.isShiftPressed &&
+        composerSelectionInCodeBlock(_controller.value)) {
       return KeyEventResult.ignored;
     }
     if (event is KeyRepeatEvent) {
       return KeyEventResult.handled;
     }
-    if (HardwareKeyboard.instance.isShiftPressed) {
+    if (keyboard.isShiftPressed) {
       return KeyEventResult.ignored;
     }
     final channelId = ref.read(
@@ -709,13 +745,156 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return KeyEventResult.ignored;
     }
     if (!composerHasSendableContent(ref, channelId, _sendableWireText())) {
-      return KeyEventResult.ignored;
+      return commandEnter ? KeyEventResult.handled : KeyEventResult.ignored;
     }
     if (_isOverCharacterLimit(ref)) {
-      return KeyEventResult.ignored;
+      return commandEnter ? KeyEventResult.handled : KeyEventResult.ignored;
     }
     unawaited(_onSendPressed());
     return KeyEventResult.handled;
+  }
+
+  KeyEventResult _handleSlashSlotKeyEvent(KeyEvent event) {
+    final KeyEventResult navResult = handleComposerAutocompleteKey(
+      _composerFieldKey.currentState,
+      event,
+    );
+    if (navResult == KeyEventResult.handled) {
+      return navResult;
+    }
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.escape &&
+        _dismissTopmostComposerAffordance()) {
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  bool _isImeComposing() {
+    final TextEditingValue value = _controller.value;
+    return value.composing.isValid &&
+        !value.composing.isCollapsed &&
+        !InlineTokenTextEditingController.isInlinePrediction(value);
+  }
+
+  bool _slashSlotHasFocus() {
+    final BuildContext? focusContext =
+        FocusManager.instance.primaryFocus?.context;
+    return _slashSession.isActive &&
+        focusContext != null &&
+        focusContext.findAncestorWidgetOfExactType<SlashCommandComposer>() !=
+            null;
+  }
+
+  bool _composerClaimsKeyEvent(KeyEvent event) {
+    if (event.logicalKey == LogicalKeyboardKey.tab &&
+        !composerCommandModifierPressed()) {
+      if (_slashSlotHasFocus()) {
+        return true;
+      }
+      if (!_focusNode.hasFocus) {
+        return false;
+      }
+      if (!HardwareKeyboard.instance.isShiftPressed &&
+          (_composerFieldKey.currentState?.hasOpenMenu ?? false)) {
+        return true;
+      }
+      return _codeIndentedValue() != null;
+    }
+    return _focusNode.hasFocus && _markdownWrapper(event) != null;
+  }
+
+  String? _markdownWrapper(KeyEvent event) {
+    final TextSelection selection = _controller.selection;
+    if (event is! KeyDownEvent ||
+        !selection.isValid ||
+        selection.isCollapsed ||
+        _isImeComposing()) {
+      return null;
+    }
+    return composerMarkdownShortcutWrapper(event);
+  }
+
+  bool _applyMarkdownShortcut(KeyEvent event) {
+    final String? wrapper = _markdownWrapper(event);
+    if (wrapper == null) {
+      return false;
+    }
+    _controller.value = toggleMarkdownWrap(_controller.value, wrapper);
+    return true;
+  }
+
+  TextEditingValue? _codeIndentedValue() {
+    if (composerCommandModifierPressed() || _isImeComposing()) {
+      return null;
+    }
+    return applyComposerCodeIndent(
+      _controller.value,
+      unindent: HardwareKeyboard.instance.isShiftPressed,
+    );
+  }
+
+  bool _applyCodeIndent() {
+    final TextEditingValue? next = _codeIndentedValue();
+    if (next == null) {
+      return false;
+    }
+    _controller.value = next;
+    return true;
+  }
+
+  bool _handleArrowUpOnEmptyComposer() {
+    if (ref.read(keyboardModeProvider)) {
+      _focusNode.unfocus();
+      ref.read(focusedMessageProvider.notifier).clear();
+      ref.read(messageKeyboardNavigationProvider).focusPrevious();
+      return true;
+    }
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    final Message? message = lastEditableComposerMessage(
+      chatState.messages,
+      ref.read(currentUserIdProvider),
+    );
+    if (message == null) {
+      return false;
+    }
+    ref.read(chatViewModelProvider.notifier).startEdit(message);
+    return true;
+  }
+
+  void _refocusComposerAfterSlashClear() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _focusNode.canRequestFocus) {
+        _focusNode.requestFocus();
+      }
+    });
+  }
+
+  bool _dismissTopmostComposerAffordance() {
+    final ChatViewModel chatNotifier = ref.read(chatViewModelProvider.notifier);
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    if (chatState.editingMessage != null) {
+      chatNotifier.cancelEdit();
+      return true;
+    }
+    final cloudUploads = cloudUploadControllerProvider(
+      readAccountUserId(ref),
+      chatState.channelId,
+    );
+    if (ref.read(cloudUploads).items.isNotEmpty) {
+      ref.read(cloudUploads.notifier).clearAttachments();
+      return true;
+    }
+    if (_slashSession.isActive) {
+      _clearSlashSession();
+      _refocusComposerAfterSlashClear();
+      return true;
+    }
+    if (chatState.replyingTo != null) {
+      chatNotifier.cancelReply();
+      return true;
+    }
+    return false;
   }
 
   int _composerContentLength(String sendableWire) => sendableWire.trim().length;
@@ -779,6 +958,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         onPasteLostContent: _showCorruptedCustomEmojiToast,
         onValidationResult: _toastUploadValidation,
         onUpgradePressed: () => unawaited(openPlutoniumCommerce(context, ref)),
+        onSlashKeyEvent: _handleSlashSlotKeyEvent,
         textAlignVertical: textAlignVertical,
         cursorColor: cursorColor,
         fitLinesToHeight: fitLinesToHeight,

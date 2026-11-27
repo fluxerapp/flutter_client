@@ -68,6 +68,7 @@ class _ComposerInputFieldHarnessState
       onPasteLostContent: () {},
       onValidationResult: (_) {},
       onUpgradePressed: () {},
+      onSlashKeyEvent: (_) => KeyEventResult.ignored,
     );
   }
 }

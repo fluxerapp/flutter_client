@@ -50,6 +50,7 @@ class ComposerInputField extends ConsumerWidget {
     required this.onPasteLostContent,
     required this.onValidationResult,
     required this.onUpgradePressed,
+    required this.onSlashKeyEvent,
     this.textAlignVertical,
     this.cursorColor,
     this.fitLinesToHeight = false,
@@ -78,6 +79,7 @@ class ComposerInputField extends ConsumerWidget {
   final VoidCallback onPasteLostContent;
   final void Function(FileUploadValidationResult result) onValidationResult;
   final VoidCallback onUpgradePressed;
+  final KeyEventResult Function(KeyEvent event) onSlashKeyEvent;
   final TextAlignVertical? textAlignVertical;
   final Color? cursorColor;
   final bool fitLinesToHeight;
@@ -152,11 +154,7 @@ class ComposerInputField extends ConsumerWidget {
                             enabled: perms.isComposerEnabled,
                             style: context.textStyles.inputText,
                             enterSends: enterSends,
-                            onKeyEvent: (KeyEvent event) =>
-                                handleComposerAutocompleteKey(
-                                  composerFieldKey.currentState,
-                                  event,
-                                ),
+                            onKeyEvent: onSlashKeyEvent,
                             onSubmit: onSendPressed,
                           )
                         : ValueListenableBuilder<bool>(
