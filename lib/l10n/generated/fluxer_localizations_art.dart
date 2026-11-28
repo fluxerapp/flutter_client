@@ -9,10 +9,10 @@ class FluxerLocalizationsArt extends FluxerLocalizations {
   FluxerLocalizationsArt([String locale = 'art']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'mi pakala telo!';
 
   @override
-  String get chatJumpToPresent => 'Jump to present';
+  String get chatJumpToPresent => 'o lukin e tenpo lon';
 
   @override
   String get chatViewingOlderMessages => 'You\'re viewing older messages';

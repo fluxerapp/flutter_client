@@ -9190,14 +9190,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Vylepšené",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standardní",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoEchoCancellationLabel": "Potlačení ozvěny",
     "@audioAndVideoEchoCancellationLabel": {
         "description": "Toggle label for echo cancellation."
@@ -10864,10 +10856,6 @@
     "@audioAndVideoCameraQualitySectionTitle": {
         "description": "Subsection title for camera resolution selection."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Tato instance momentálně umožňuje sdílení obrazovky až do rozlišení 720p při 30 snímcích za sekundu.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Neptej se, když skryji svou kameru",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own camera during a call."
@@ -11316,10 +11304,6 @@
     "audioAndVideoCustomProfileLabel": "Vlastní",
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Vyrovnává hlasitost mikrofonu. Vypnuto, když je zapnuté vylepšené potlačení.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestStartLabel": "Spustit test mikrofonu",
     "@audioAndVideoMicTestStartLabel": {

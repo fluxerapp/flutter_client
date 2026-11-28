@@ -10886,14 +10886,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Poboljšano",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standardno",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Ništa",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10905,10 +10897,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Automatska kontrola pojačanja",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Ujednačava glasnoću mikrofona. Isključeno kada je uključeno pojačano suzbijanje.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "Test mikrofona",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10965,10 +10953,6 @@
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Ovo trenutno dopušta dijeljenje zaslona do 720p pri 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Ne pitaj kad skrivam svoju kameru",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

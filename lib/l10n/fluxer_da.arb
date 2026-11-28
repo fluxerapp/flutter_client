@@ -9220,14 +9220,6 @@
     "@audioAndVideoCustomProfileDescription": {
         "description": "Description for the custom voice processing profile."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Forbedret",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoScreenShareQualitySectionTitle": "Kvalitet af skærmdeling",
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
@@ -9982,10 +9974,6 @@
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Denne instans tillader i øjeblikket skærmdeling op til 720p ved 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "guildSettingsRolesPermissionsSection": "Tilladelser",
     "@guildSettingsRolesPermissionsSection": {
         "description": "Section title for role permissions."
@@ -10573,10 +10561,6 @@
     "groupDmGroupName": "Gruppenavn",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Udglatter din mikrofonvolumen. Slået fra, når forbedret undertrykkelse er slået til.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestStartLabel": "Start mikrofontest",
     "@audioAndVideoMicTestStartLabel": {

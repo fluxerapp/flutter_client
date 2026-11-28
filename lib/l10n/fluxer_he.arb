@@ -10886,14 +10886,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "משופר",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "רגיל",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "ללא",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10905,10 +10897,6 @@
     "audioAndVideoAutomaticGainControlLabel": "בקרת הגברה אוטומטית",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "מיישר את עוצמת הקול של המיקרופון שלך. כבוי כאשר דיכוי משופר מופעל.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "בדיקת מיקרופון",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10965,10 +10953,6 @@
     "audioAndVideoFrameRate60Label": "60 פריימים לשנייה",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "השרת הנוכחי מאפשר שיתוף מסך עד 720p ב-30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "אל תשאל כשמסתיר/ה את המצלמה שלי",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

@@ -8846,10 +8846,6 @@
     "@channelDetailsSearchEmptyBody": {
         "description": "Empty state body before the user runs a channel message search."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "عادي",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMirrorCameraLabel": "عكس الكاميرا",
     "@audioAndVideoMirrorCameraLabel": {
         "description": "Switch label for flipping the local camera preview horizontally."
@@ -9017,10 +9013,6 @@
     "audioAndVideoNoiseSuppressionSectionTitle": "إزالة الضوضاء",
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "محسّن",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
     },
     "audioAndVideoEchoCancellationLabel": "إلغاء الصدى",
     "@audioAndVideoEchoCancellationLabel": {
@@ -9979,10 +9971,6 @@
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
     },
-    "audioAndVideoAutomaticGainControlDescription": "يعادل مستوى صوت الميكروفون لديك. يتم إيقافه عند تشغيل كبت الصوت المحسن.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestSectionTitle": "اختبار الميكروفون",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -9994,10 +9982,6 @@
     "audioAndVideoCameraQuality1080pLabel": "1080p",
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "تسمح هذه النسخة حاليًا بمشاركة الشاشة بدقة تصل إلى 720 بكسل بمعدل 30 إطارًا في الثانية.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "notificationsMentionNoPreferenceName": "بلا تفضيل",
     "@notificationsMentionNoPreferenceName": {

@@ -22,10 +22,11 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Jump to first unread message';
 
   @override
-  String get chatNewMessagesBarMarkAsRead => 'Mark as read';
+  String get chatNewMessagesBarMarkAsRead =>
+      '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
-  String get chatNewMessagesBarMarkRead => 'Mark read';
+  String get chatNewMessagesBarMarkRead => 'পড়া হয়ে গিয়েছে';
 
   @override
   String chatNewMessagesBarNewMessagesSinceEstimated(
@@ -99,7 +100,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'আপনার সেশন পেরিয়ে গেছে। দয়া করে আবার লগ-ইন করুন।';
 
   @override
   String accountDeletionScheduledNotice(String date) {
@@ -175,7 +176,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get verificationResendEmail => 'Resend email';
+  String get verificationResendEmail => 'আবার ইমেইল পাঠান';
 
   @override
   String get verificationEmailSent =>
@@ -186,13 +187,13 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'You\'ve requested too many verification emails. Please wait a moment and try again.';
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'সেটিংস খুলুন';
 
   @override
   String get systemPermissionSettingsTitle => 'Enable permission';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'সেটিংস খুলুন';
 
   @override
   String systemPermissionMicrophoneMessage(String productName) {
@@ -295,19 +296,19 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get nagbarEnableNotifications => 'Enable notifications';
 
   @override
-  String get email => 'Email';
+  String get email => 'ই-মেইল';
 
   @override
   String get emailInvalid => 'Please enter a valid email address.';
 
   @override
-  String get password => 'Password';
+  String get password => 'পাসওয়ার্ড';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'আপনি কি আপনার পাসওয়ার্ড ভুলে গেছেন?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'লগ-ইন করুন';
 
   @override
   String get logInWithPasskey => 'Log in with a passkey';
@@ -373,16 +374,16 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get loginCreateAccountLink => 'Create an account';
+  String get loginCreateAccountLink => 'একটি নতুন অ্যাকাউন্ট খুলুন';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'অথবা';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'বাতিল করুন';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'আপনার ই-মেইল দেখুন';
 
   @override
   String ipAuthDescription(String email) {
@@ -397,28 +398,28 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'We lost the connection while waiting for authorization. Please try again.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'সাইন-ইন করার লিঙ্কের সেশন পেরিয়ে গেছে';
 
   @override
   String get ipAuthLinkExpiredDescription =>
       'This authorization link expired. Please sign in again.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'আবার ই-মেইল পাঠান';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'আবার পাঠানো হয়েছে';
 
   @override
   String ipAuthResendCountdown(int seconds) {
-    return '${seconds}s';
+    return '$seconds সে.';
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'ফিরে যান';
 
   @override
-  String get next => 'Next';
+  String get next => 'এরপর দেখুন';
 
   @override
   String get create => 'Create';
@@ -440,10 +441,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Enter the 6-digit code from your authenticator app or one of your backup codes.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'কোড';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'অন্য কোনো উপায়ে চেষ্টা করুন';
 
   @override
   String get mfaPasskeyUnavailable =>
@@ -460,18 +461,18 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Use a code from your authenticator app';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'যেকোনো একটি অ্যাকাউন্ট বাছুন';
 
   @override
   String get accountSelectorDescription =>
       'Select an account to continue, or add a different one.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'আরেকটি অ্যাকাউন্ট যোগ করুন';
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'এতে আপনার এই অ্যাকাউন্টের সমস্ত সেশনগুলো মুছে যাবে।';
 
   @override
   String accountSignOutTitle(String identifier) {
@@ -479,11 +480,11 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'পেরিয়ে গেছে';
 
   @override
   String accountSessionExpiredNotice(String name) {
-    return 'Your session for $name expired. Log in again.';
+    return 'আপনার $name অ্যাকাউন্টের সেশন পেরিয়ে গেছে। দয়া করে আবার লগ-ইন করুন।';
   }
 
   @override
@@ -517,50 +518,53 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get statusOffline => 'Offline';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt =>
+      'যতক্ষণ না আমি আমার অ্যাকাউন্টের স্ট্যাটাস বদলাচ্ছি';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'এটি মুছবে না';
 
   @override
   String get statusFor10Seconds => '10 সেকেন্ডের জন্য';
 
   @override
-  String get statusClearAfter10Seconds => '10 সেকেন্ড';
+  String get statusClearAfter10Seconds => '10 সেকেন্ড পর';
 
   @override
-  String get statusClearAfter15Minutes => '15 মিনিট';
+  String get statusClearAfter15Minutes => '15 মিনিট পর';
 
   @override
-  String get statusClearAfter30Minutes => '30 মিনিট (আধঘন্টা)';
+  String get statusClearAfter30Minutes => '30 মিনিট (আধঘন্টা) পর';
 
   @override
-  String get statusClearAfter1Hour => '1 ঘণ্টা';
+  String get statusClearAfter1Hour => '1 ঘণ্টা পর';
 
   @override
-  String get statusClearAfter3Hours => '3 ঘণ্টা';
+  String get statusClearAfter3Hours => '3 ঘণ্টা পর';
 
   @override
-  String get statusClearAfter4Hours => '4 ঘণ্টা';
+  String get statusClearAfter4Hours => '4 ঘণ্টা পর';
 
   @override
-  String get statusClearAfter8Hours => '8 ঘণ্টা';
+  String get statusClearAfter8Hours => '8 ঘণ্টা পর';
 
   @override
-  String get statusClearAfter24Hours => '24 ঘণ্টা (1 দিন)';
+  String get statusClearAfter24Hours => '24 ঘণ্টা (1 দিন) পর';
 
   @override
-  String get statusClearAfter3Days => '3 দিন';
+  String get statusClearAfter3Days => '3 দিন পর';
 
   @override
   String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+      'আপনি ডেস্কটপে কোনো রকমের নোটিফিকেশন পাবেন না';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription =>
+      'এতে আপনার অ্যাকাউন্ট সবার কাছে অফলাইন দেখাবে';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle =>
+      'নিজ ইচ্ছানুযায়ী যে কোনো স্ট্যাটাস সেট করুন';
 
   @override
   String get customStatusCurrentHint => 'Custom status';
@@ -569,13 +573,13 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get customStatusClear => 'Clear custom status';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'কী চলছে?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'যে কোনো একটি ইমোজি বেছে নিন';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'মুছে ফেলুন';
 
   @override
   String get customStatusSave => 'Save';
@@ -584,7 +588,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get accountActive => 'Active account';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'সাইন-আউট করুন';
 
   @override
   String get suspendedTemporaryTitle => 'Account suspended';
@@ -605,7 +609,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get suspendedHowWeDecided => 'কিভাবে আমরা সিদ্ধান্ত নিলাম';
 
   @override
-  String get suspendedHowToAppeal => 'How to appeal';
+  String get suspendedHowToAppeal => 'কীভাবে আপনি আবেদন করবেন';
 
   @override
   String suspendedNoteFromTeam(String statement) {
@@ -648,46 +652,47 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to login';
+  String get suspendedBackToLogin => 'লগ-ইন পেজে চলে যান';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'আপনি কি আপনার পাসওয়ার্ড ভুলে গেছেন?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'আপনার ই-মেইল এখানে লিখুন এবং আমরা আপনার অ্যাকাউন্টের নতুন পাসওয়ার্ড সেট করার জন্য একটি লিঙ্ক পাঠাবো।';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit =>
+      'নতুন পাসওয়ার্ড সেট করার জন্য লিঙ্ক পাঠান';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'আপনার ই-মেইল দেখুন';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'আমরা আপনার ই-মেইলে অ্যাকাউন্টের পাসওয়ার্ড বদলানোর জন্য একটি লিঙ্ক এবং কিছু প্রয়োজনীয় নির্দেশনা পাঠিয়েছি। দয়া করে আপনার ই-মেইলের ইনবক্স দেখুন এবং আমাদের পাঠানো লিঙ্কে গিয়ে নির্দেশনা অনুযায়ী আপনার অ্যাকাউন্টের পাসওয়ার্ড বদলান।';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'লগ-ইন পেজে ফিরে যান';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'নতুন পাসওয়ার্ড সেট করুন';
 
   @override
   String get resetPasswordDescription =>
       'Enter your new password below to complete the reset process.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'নতুন পাসওয়ার্ড';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'নতুন পাসওয়ার্ড নিশ্চিত করুন';
 
   @override
   String get resetPasswordSubmit => 'Reset password';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'দুটি পাসওয়ার্ড মিলছে না।';
 
   @override
   String get recoverAccountTitle => 'Recover your account';
@@ -746,7 +751,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
 
   @override
   String recoveryKitStepOpen(String recoverUrl) {
-    return 'Go to $recoverUrl or scan the QR code.';
+    return '$recoverUrl লিঙ্কে যান বা এই QR কোডটি স্ক্যান করুন।';
   }
 
   @override
@@ -1308,7 +1313,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get notificationNoCategory => 'No category';
 
   @override
-  String get dmMarkAsRead => 'Mark as read';
+  String get dmMarkAsRead => '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get dmMuteConversation => 'Mute DM';
@@ -3433,10 +3438,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get userProfileOpenDm => 'Open DM';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileNoteTitle => 'নোট';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteVisibility => '(শুধু আপনিই এটি দেখতে পারবেন)';
 
   @override
   String get userProfileNoteSave => 'Save';
@@ -3445,7 +3450,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get userProfileNoteDelete => 'Delete';
 
   @override
-  String get userProfileMemberSince => 'Member since';
+  String get userProfileMemberSince => 'সদস্য হয়েছেন';
 
   @override
   String get userProfileAboutMe => 'About me';
@@ -3485,7 +3490,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get guildSettingsRolesTab => 'Roles';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'ঠিক আছে';
 
   @override
   String get userProfileLocalTime => 'Local time';
@@ -3524,14 +3529,14 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'সবাই';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
       'Allow anyone who can view your full profile to see your local time';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'বন্ধুরা';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
@@ -6846,7 +6851,8 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get notificationsViewAllUnread => 'View all unread';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead =>
+      '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get notificationsExpand => 'Expand';
@@ -7553,7 +7559,8 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get notificationReplyFailed => 'Couldn\'t send reply';
 
   @override
-  String get notificationMarkReadFailed => 'Couldn\'t mark as read';
+  String get notificationMarkReadFailed =>
+      '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করা যায়নি';
 
   @override
   String get notificationChannelMessages => 'Messages';
@@ -7694,15 +7701,15 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatMessageCopyEmbedText => 'Copy embed text';
 
   @override
-  String get chatMessageTranslate => 'Translate';
+  String get chatMessageTranslate => 'অনুবাদ করুন';
 
   @override
   String chatMessageTranslatedFrom(String language) {
-    return 'Translated from $language';
+    return '$language থেকে অনুবাদ করা হয়েছে';
   }
 
   @override
-  String get chatMessageSeeOriginal => 'See original';
+  String get chatMessageSeeOriginal => 'আসল মেসেজটি দেখুন';
 
   @override
   String get chatMessageSeeTranslation => 'See translation';
@@ -7739,7 +7746,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatMessageRemoveBookmark => 'Remove bookmark';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as unread';
+  String get chatMessageMarkAsUnread => '\"পড়া হয়নি\" হিসেবে মার্ক করুন';
 
   @override
   String get chatMessageCopyMessageLink => 'Copy message link';
@@ -7852,10 +7859,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get reportFlowNext => 'Next';
 
   @override
-  String get reportFlowDone => 'Done';
+  String get reportFlowDone => 'হয়ে গেছে';
 
   @override
-  String get reportFlowThankYouTitle => 'Report sent';
+  String get reportFlowThankYouTitle => 'রিপোর্ট পাঠানো হয়ে গেছে';
 
   @override
   String get reportFlowThankYouNoReportTitle => 'Thanks for flagging this';
@@ -8050,10 +8057,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'চালু রাখুন';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'বন্ধ করুন';
 
   @override
   String chatReplyingTo(String authorName) {
@@ -8075,7 +8082,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatReplyCancel => 'Cancel reply';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'মেসেজ সংশোধন করুন';
 
   @override
   String get chatEditNoChanges => 'No changes to save';
@@ -8084,26 +8091,26 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatEditFailed => 'Your message didn\'t update';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'আবার মেসেজ সংশোধন করুন';
 
   @override
   String get chatChannelNotReady =>
       'This channel is not ready yet. Try again in a moment.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(সংশোধিত)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'এটি ছিল একটি @silent মেসেজ।';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'আজ $time-এ';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'গতকাল $time -এ';
   }
 
   @override
@@ -8113,13 +8120,13 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get mediaViewerClose => 'Close media viewer';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'ব্রাউজারে খুলুন';
 
   @override
   String get mediaViewerOptions => 'Media options';
 
   @override
-  String get mediaViewerCopyLink => 'Copy link';
+  String get mediaViewerCopyLink => 'লিঙ্ক কপি করুন';
 
   @override
   String get mediaViewerForward => 'Forward';
@@ -8150,13 +8157,13 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get mediaViewerDismissBackdrop => 'Dismiss';
 
   @override
-  String get videoPlayerPlay => 'Play';
+  String get videoPlayerPlay => 'চালু করুন';
 
   @override
-  String get videoPlayerPause => 'Pause';
+  String get videoPlayerPause => 'থামান';
 
   @override
-  String get videoPlayerVolume => 'Volume';
+  String get videoPlayerVolume => 'শব্দ';
 
   @override
   String videoPlayerPlaybackSpeed(String speed) {
@@ -8176,10 +8183,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get chatAttachmentVideoUnmute => 'Unmute video';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'ভিডিও চালান';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'ভিডিও থামান';
 
   @override
   String get chatAttachmentVideoProgress => 'Video progress';
@@ -8220,7 +8227,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get composerAutocompleteGifsHeading => 'GIFs';
 
   @override
-  String get composerAutocompleteNoGifs => 'No GIFs found';
+  String get composerAutocompleteNoGifs => 'GIF পাওয়া যায়নি';
 
   @override
   String get composerCommandShrugDescription =>
@@ -8265,7 +8272,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get composerCommandSavedDescription => 'Send a saved media item.';
 
   @override
-  String get composerCommandStickerDescription => 'Send a sticker.';
+  String get composerCommandStickerDescription => 'একটি স্টিকার পাঠান।';
 
   @override
   String get composerCommandGifDescription => 'Search for and send a GIF.';
@@ -8467,7 +8474,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Are you sure you want to remove all reactions from this message?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'পিন করুন';
 
   @override
   String get chatMessagePinConfirmDescription =>
@@ -10249,7 +10256,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get premiumTermsOfService => 'Terms of service';
 
   @override
-  String get premiumPrivacyPolicy => 'Privacy policy';
+  String get premiumPrivacyPolicy => 'গোপনীয়তা নীতি';
 
   @override
   String get premiumCheckoutStartFailedTitle => 'Couldn\'t start checkout';
@@ -11312,10 +11319,10 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get languageAndTimeTimeFormatAuto => 'Auto';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12-ঘণ্টা';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24-ঘণ্টা';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
@@ -12745,7 +12752,8 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get guildFolderIconMusicNote => 'Music note';
 
   @override
-  String get guildFolderMarkAsRead => 'Mark folder as read';
+  String get guildFolderMarkAsRead =>
+      'ফোল্ডারটি \"পড়া/দেখা হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get guildBulkMuteCommunities => 'Mute communities';
@@ -13014,7 +13022,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as read';
+  String get guildMenuMarkAsRead => '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get guildMenuInviteMembers => 'Invite members';
@@ -13853,7 +13861,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get threadDeleted => 'Thread deleted';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => '\"পড়া হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get threadMute => 'Mute thread';
@@ -15871,7 +15879,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get keybindActionCopyText => 'Copy text';
 
   @override
-  String get keybindActionMarkUnread => 'Mark as unread';
+  String get keybindActionMarkUnread => '\"পড়া হয়নি\" হিসেবে মার্ক করুন';
 
   @override
   String get keybindActionFocusTextarea => 'Focus text area';
@@ -16537,7 +16545,8 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String get forumUnpinPost => 'Unpin post';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead =>
+      '\"পড়া/দেখা হয়ে গিয়েছে\" হিসেবে মার্ক করুন';
 
   @override
   String get forumReportPost => 'Report post';
@@ -18122,7 +18131,7 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
       'Streamer mode is on. Personal details are hidden.';
 
   @override
-  String get streamerModeNagbarDisable => 'Turn off';
+  String get streamerModeNagbarDisable => 'বন্ধ করুন';
 
   @override
   String get languageAndTimeRegionalFormatTitle => 'Regional format';

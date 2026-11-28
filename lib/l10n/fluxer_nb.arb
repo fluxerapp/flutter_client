@@ -8983,10 +8983,6 @@
     "@audioAndVideoOutputVolumeLabel": {
         "description": "Label for speaker output volume slider."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Jevner ut volumet på mikrofonen din. Av når forbedret undertrykking er på.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestSectionTitle": "Mikrofontest",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -10275,14 +10271,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Forbedret",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Ingen",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -11288,10 +11276,6 @@
     "audioAndVideoScreenShareQualitySectionTitle": "Skjermdelingskvalitet",
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Denne instansen tillater for øyeblikket skjermdeling opptil 720p ved 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Ikke spør når jeg skjuler kameraet mitt",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
