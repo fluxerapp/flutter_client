@@ -59,6 +59,8 @@ class ComposerFocusCoordinator {
     return _stack.last;
   }
 
+  bool get hasComposer => _active != null;
+
   void requestComposerFocus() => _active?.requestFocus();
 
   String readComposerText() => _active?.readText() ?? '';

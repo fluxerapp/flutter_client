@@ -5,7 +5,6 @@ class _CategoryHeader extends ConsumerWidget {
     required this.category,
     required this.isCollapsed,
     required this.guildId,
-    super.key,
   });
 
   static const double _kDragSourceOpacity = 0.3;

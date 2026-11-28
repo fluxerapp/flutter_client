@@ -181,60 +181,70 @@ class _GuildListItemState extends State<_GuildListItem> {
                           : GuildNavbarIconShape.sizeOf(context),
                       height: GuildNavbarIconShape.sizeOf(context),
                       child: Center(
-                        child: SizedBox.square(
-                          dimension: GuildNavbarIconShape.sizeOf(context),
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Center(
-                                child: GuildNavbarIconShape(
-                                  isActive: isActive,
-                                  hasImage: hasImage,
-                                  isUnavailable: widget.isUnavailable,
-                                  child: _buildIconFace(
-                                    context,
-                                    iconUrl: iconUrl,
-                                    activeAnimatedIconUrl:
-                                        activeAnimatedIconUrl,
-                                  ),
-                                ),
-                              ),
-                              if (!widget.isUnavailable &&
-                                  _displayMentionCount > 0)
-                                PositionedDirectional(
-                                  bottom: GuildNavbarPill.badgeInset,
-                                  end: GuildNavbarPill.badgeInset,
-                                  child: FluxerBadgeEntrance(
-                                    child: FluxerBadge.count(
-                                      count: _displayMentionCount,
-                                      cutoutColor: context
-                                          .colors
-                                          .serverSidebarBackground,
+                        child: FluxerRovingFocusItem(
+                          child: FluxerActivatable(
+                            onActivate: widget.onTap,
+                            focusRingRadius: BorderRadius.circular(
+                              isActive
+                                  ? GuildNavbarIconShape.activeRadiusOf(context)
+                                  : GuildNavbarIconShape.idleRadiusOf(context),
+                            ),
+                            child: SizedBox.square(
+                              dimension: GuildNavbarIconShape.sizeOf(context),
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Center(
+                                    child: GuildNavbarIconShape(
+                                      isActive: isActive,
+                                      hasImage: hasImage,
+                                      isUnavailable: widget.isUnavailable,
+                                      child: _buildIconFace(
+                                        context,
+                                        iconUrl: iconUrl,
+                                        activeAnimatedIconUrl:
+                                            activeAnimatedIconUrl,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              if (!widget.isUnavailable &&
-                                  widget.voiceActivity !=
-                                      VoiceActivityType.none)
-                                PositionedDirectional(
-                                  top: _ringBadgeOffset(context),
-                                  end: _ringBadgeOffset(context),
-                                  child: _VoiceActivityBadge(
-                                    type: widget.voiceActivity,
-                                  ),
-                                ),
-                              if (!widget.isUnavailable &&
-                                  !widget.isSelected &&
-                                  widget.invitesPaused &&
-                                  _displayMentionCount == 0 &&
-                                  widget.voiceActivity ==
-                                      VoiceActivityType.none)
-                                PositionedDirectional(
-                                  bottom: _ringBadgeOffset(context),
-                                  end: _ringBadgeOffset(context),
-                                  child: const _PauseBadge(),
-                                ),
-                            ],
+                                  if (!widget.isUnavailable &&
+                                      _displayMentionCount > 0)
+                                    PositionedDirectional(
+                                      bottom: GuildNavbarPill.badgeInset,
+                                      end: GuildNavbarPill.badgeInset,
+                                      child: FluxerBadgeEntrance(
+                                        child: FluxerBadge.count(
+                                          count: _displayMentionCount,
+                                          cutoutColor: context
+                                              .colors
+                                              .serverSidebarBackground,
+                                        ),
+                                      ),
+                                    ),
+                                  if (!widget.isUnavailable &&
+                                      widget.voiceActivity !=
+                                          VoiceActivityType.none)
+                                    PositionedDirectional(
+                                      top: _ringBadgeOffset(context),
+                                      end: _ringBadgeOffset(context),
+                                      child: _VoiceActivityBadge(
+                                        type: widget.voiceActivity,
+                                      ),
+                                    ),
+                                  if (!widget.isUnavailable &&
+                                      !widget.isSelected &&
+                                      widget.invitesPaused &&
+                                      _displayMentionCount == 0 &&
+                                      widget.voiceActivity ==
+                                          VoiceActivityType.none)
+                                    PositionedDirectional(
+                                      bottom: _ringBadgeOffset(context),
+                                      end: _ringBadgeOffset(context),
+                                      child: const _PauseBadge(),
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),

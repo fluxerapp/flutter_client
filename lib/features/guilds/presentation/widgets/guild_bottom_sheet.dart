@@ -77,18 +77,22 @@ Future<GuildAction?> showGuildBottomSheet(
             FluxerMenuGroup(
               children: [
                 for (final entry in group)
-                  _buildMenuEntry(sheetContext, entry, pop, guild.id),
+                  FluxerRovingFocusItem(
+                    child: _buildMenuEntry(sheetContext, entry, pop, guild.id),
+                  ),
               ],
             ),
       ];
 
-      return ListView(
-        controller: scrollController,
-        padding: FluxerBottomSheet.scrollViewPadding(
-          sheetContext,
-          padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      return FluxerRovingFocusList(
+        child: ListView(
+          controller: scrollController,
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.symmetric(horizontal: layout.s4),
+          ),
+          children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
         ),
-        children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
       );
     },
   );

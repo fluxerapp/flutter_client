@@ -93,6 +93,7 @@ import 'package:fluxer_app/features/input/domain/default_keybind.dart';
 import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo_format.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
@@ -562,7 +563,10 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           child: GuildRailDragAutoScroll(
             controller: _scrollController,
             topInset: topPadding,
-            child: guildListView,
+            child: FluxerRovingFocusList(
+              enabled: ref.watch(keyboardModeProvider),
+              child: guildListView,
+            ),
           ),
         ),
       ),

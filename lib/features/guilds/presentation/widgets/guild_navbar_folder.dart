@@ -335,61 +335,76 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                     label: isExpanded
                         ? l10n.guildNavbarCollapseFolder(folderName)
                         : folderName,
-                    child: FluxerGestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        if (_suppressNextFolderTap) {
-                          _suppressNextFolderTap = false;
-                          return;
-                        }
-                        ref
+                    child: FluxerRovingFocusItem(
+                      child: FluxerActivatable(
+                        onActivate: () => ref
                             .read(folderExpandedStateProvider.notifier)
-                            .toggle(folder.id);
-                      },
-                      onSecondaryTapUp: (TapUpDetails details) {
-                        unawaited(
-                          _showFolderContextMenu(
-                            context,
-                            details.globalPosition,
-                          ),
-                        );
-                      },
-                      child: desktop
-                          ? _buildDesktopFolderTile(
-                              context,
-                              palette: palette,
-                              isExpanded: isExpanded,
-                              emphasized: emphasized,
-                            )
-                          : SizedBox.square(
-                              dimension: iconSize,
-                              child: isExpanded
-                                  ? Center(
-                                      child: PhosphorIcon(
-                                        guildFolderIconForName(folder.icon),
-                                        color: context.colors.textPrimary,
-                                        size: 24,
-                                      ),
-                                    )
-                                  : Center(
-                                      child: Container(
-                                        width: iconSize,
-                                        height: iconSize,
-                                        decoration: BoxDecoration(
-                                          color: palette.surface,
-                                          borderRadius: BorderRadius.circular(
-                                            GuildNavbarIconShape.activeRadiusOf(
+                            .toggle(folder.id),
+                        focusRingRadius: BorderRadius.circular(
+                          desktop
+                              ? emphasized
+                                    ? GuildNavbarIconShape
+                                          .desktopFolderEmphasizedRadius
+                                    : GuildNavbarIconShape.desktopFolderRadius
+                              : GuildNavbarIconShape.activeRadiusOf(context),
+                        ),
+                        child: FluxerGestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            if (_suppressNextFolderTap) {
+                              _suppressNextFolderTap = false;
+                              return;
+                            }
+                            ref
+                                .read(folderExpandedStateProvider.notifier)
+                                .toggle(folder.id);
+                          },
+                          onSecondaryTapUp: (TapUpDetails details) {
+                            unawaited(
+                              _showFolderContextMenu(
+                                context,
+                                details.globalPosition,
+                              ),
+                            );
+                          },
+                          child: desktop
+                              ? _buildDesktopFolderTile(
+                                  context,
+                                  palette: palette,
+                                  isExpanded: isExpanded,
+                                  emphasized: emphasized,
+                                )
+                              : SizedBox.square(
+                                  dimension: iconSize,
+                                  child: isExpanded
+                                      ? Center(
+                                          child: PhosphorIcon(
+                                            guildFolderIconForName(folder.icon),
+                                            color: context.colors.textPrimary,
+                                            size: 24,
+                                          ),
+                                        )
+                                      : Center(
+                                          child: Container(
+                                            width: iconSize,
+                                            height: iconSize,
+                                            decoration: BoxDecoration(
+                                              color: palette.surface,
+                                              borderRadius: BorderRadius.circular(
+                                                GuildNavbarIconShape.activeRadiusOf(
+                                                  context,
+                                                ),
+                                              ),
+                                            ),
+                                            child: _buildFolderContent(
                                               context,
+                                              palette: palette,
                                             ),
                                           ),
                                         ),
-                                        child: _buildFolderContent(
-                                          context,
-                                          palette: palette,
-                                        ),
-                                      ),
-                                    ),
-                            ),
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

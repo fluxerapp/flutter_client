@@ -64,6 +64,14 @@ class _MemberListSidebarMemberRowState
   var _isHovered = false;
   var _contextMenuOpen = false;
 
+  void _showProfile() => unawaited(
+    FluxerUserProfileSheet.show(
+      context,
+      userId: widget.userId,
+      guildId: widget.guildId,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     final MemberListMember listMember = widget.listMember;
@@ -111,103 +119,101 @@ class _MemberListSidebarMemberRowState
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         cursor: SystemMouseCursors.click,
-        child: FluxerGestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => unawaited(
-            FluxerUserProfileSheet.show(
-              context,
-              userId: widget.userId,
-              guildId: widget.guildId,
-            ),
-          ),
-          onSecondaryTapUp: (TapUpDetails details) => unawaited(
-            GuildMemberContextMenu.show(
-              context,
-              ref,
-              position: details.globalPosition,
-              guildId: widget.guildId,
-              member: member,
-            ),
-          ),
-          onLongPress: isTouchPrimaryInput(ref)
-              ? () => unawaited(
-                  GuildMemberContextMenu.show(
-                    context,
-                    ref,
-                    position: contextMenuPositionAtCenter(context),
-                    guildId: widget.guildId,
-                    member: member,
-                  ),
-                )
-              : null,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: layout.s2),
-              decoration: BoxDecoration(
-                color: _isHovered
-                    ? context.colors.backgroundModifierHover
-                    : Colors.transparent,
-                borderRadius: layout.radiusMd,
+        child: FluxerActivatable(
+          onActivate: _showProfile,
+          focusRingRadius: context.layout.radiusMd,
+          child: FluxerGestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _showProfile,
+            onSecondaryTapUp: (TapUpDetails details) => unawaited(
+              GuildMemberContextMenu.show(
+                context,
+                ref,
+                position: details.globalPosition,
+                guildId: widget.guildId,
+                member: member,
               ),
-              child: Row(
-                children: <Widget>[
-                  FluxerAvatar.user(
-                    fallbackText: displayName,
-                    userId: widget.userId,
-                    imageUrl: avatarUrl,
-                    avatarColor: member.user.avatarColor,
-                    status: status,
-                    isMobileStatus: presenceUser?.mobile ?? false,
-                    isTyping: isTyping,
-                    size: 32,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Flexible(
-                              child: Text(
-                                displayName,
-                                style: context.textStyles.label.copyWith(
-                                  color: roleColor != null
-                                      ? Color(roleColor)
-                                      : context.colors.textChat,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            if (widget.isOwner) ...<Widget>[
-                              SizedBox(width: layout.s1),
-                              const PhosphorIcon(
-                                PhosphorIconsFill.crown,
-                                size: 12,
-                                color: Color(0xFFFAA61A),
-                              ),
-                            ],
-                            if (showUserTag) ...<Widget>[
-                              SizedBox(width: layout.s1),
-                              FluxerUserTag(
-                                isSystem: member.user.system ?? false,
-                              ),
-                            ],
-                          ],
-                        ),
-                        if (hasVisibleCustomStatus(customStatus))
-                          CustomStatusDisplay(
-                            stored: customStatus,
-                            maxLines: 1,
-                            emojiSize: 14,
-                          ),
-                      ],
+            ),
+            onLongPress: isTouchPrimaryInput(ref)
+                ? () => unawaited(
+                    GuildMemberContextMenu.show(
+                      context,
+                      ref,
+                      position: contextMenuPositionAtCenter(context),
+                      guildId: widget.guildId,
+                      member: member,
                     ),
-                  ),
-                ],
+                  )
+                : null,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: layout.s2),
+                decoration: BoxDecoration(
+                  color: _isHovered
+                      ? context.colors.backgroundModifierHover
+                      : Colors.transparent,
+                  borderRadius: layout.radiusMd,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    FluxerAvatar.user(
+                      fallbackText: displayName,
+                      userId: widget.userId,
+                      imageUrl: avatarUrl,
+                      avatarColor: member.user.avatarColor,
+                      status: status,
+                      isMobileStatus: presenceUser?.mobile ?? false,
+                      isTyping: isTyping,
+                      size: 32,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Text(
+                                  displayName,
+                                  style: context.textStyles.label.copyWith(
+                                    color: roleColor != null
+                                        ? Color(roleColor)
+                                        : context.colors.textChat,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              if (widget.isOwner) ...<Widget>[
+                                SizedBox(width: layout.s1),
+                                const PhosphorIcon(
+                                  PhosphorIconsFill.crown,
+                                  size: 12,
+                                  color: Color(0xFFFAA61A),
+                                ),
+                              ],
+                              if (showUserTag) ...<Widget>[
+                                SizedBox(width: layout.s1),
+                                FluxerUserTag(
+                                  isSystem: member.user.system ?? false,
+                                ),
+                              ],
+                            ],
+                          ),
+                          if (hasVisibleCustomStatus(customStatus))
+                            CustomStatusDisplay(
+                              stored: customStatus,
+                              maxLines: 1,
+                              emojiSize: 14,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -267,98 +273,96 @@ class _MemberListSidebarMemberRowState
           onEnter: (_) => setState(() => _isHovered = true),
           onExit: (_) => setState(() => _isHovered = false),
           cursor: SystemMouseCursors.click,
-          child: FluxerGestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => unawaited(
-              FluxerUserProfileSheet.show(
-                context,
-                userId: widget.userId,
-                guildId: widget.guildId,
-              ),
-            ),
-            onSecondaryTapUp: (TapUpDetails details) =>
-                unawaited(_openContextMenu(member, details.globalPosition)),
-            child: Opacity(
-              opacity: faded ? 0.3 : 1,
-              child: Container(
-                height: 40,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: _contextMenuOpen
-                      ? colors.backgroundModifierSelected
-                      : _isHovered
-                      ? colors.backgroundModifierHover
-                      : Colors.transparent,
-                  borderRadius: context.layout.radiusMd,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    FluxerAvatar.user(
-                      fallbackText: displayName,
-                      userId: widget.userId,
-                      imageUrl: avatarUrl,
-                      avatarColor: member.user.avatarColor,
-                      status: status,
-                      isMobileStatus: isMobileStatus,
-                      isTyping: isTyping,
-                      size: 32,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: Text(
-                                  displayName,
-                                  style: fluxerDesktopRowTitleStyle(
-                                    context,
-                                  ).copyWith(color: nameColor),
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              if (widget.isOwner)
-                                const Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                    start: 4,
-                                    top: 1.6,
-                                  ),
-                                  child: PhosphorIcon(
-                                    PhosphorIconsFill.crown,
-                                    size: 14,
-                                    color: Color(0xFFD8B36F),
-                                  ),
-                                ),
-                              if (showUserTag)
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.only(
-                                    start: 4,
-                                  ),
-                                  child: FluxerUserTag(
-                                    isSystem: member.user.system ?? false,
-                                  ),
-                                ),
-                            ],
-                          ),
-                          if (hasVisibleCustomStatus(customStatus))
-                            CustomStatusDisplay(
-                              stored: customStatus,
-                              maxLines: 1,
-                              emojiSize: 14,
-                              textStyle: fluxerDesktopRowSubtextStyle(
-                                context,
-                              ).copyWith(height: 14 / 11),
-                            ),
-                        ],
+          child: FluxerActivatable(
+            onActivate: _showProfile,
+            focusRingRadius: context.layout.radiusMd,
+            child: FluxerGestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _showProfile,
+              onSecondaryTapUp: (TapUpDetails details) =>
+                  unawaited(_openContextMenu(member, details.globalPosition)),
+              child: Opacity(
+                opacity: faded ? 0.3 : 1,
+                child: Container(
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: _contextMenuOpen
+                        ? colors.backgroundModifierSelected
+                        : _isHovered
+                        ? colors.backgroundModifierHover
+                        : Colors.transparent,
+                    borderRadius: context.layout.radiusMd,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      FluxerAvatar.user(
+                        fallbackText: displayName,
+                        userId: widget.userId,
+                        imageUrl: avatarUrl,
+                        avatarColor: member.user.avatarColor,
+                        status: status,
+                        isMobileStatus: isMobileStatus,
+                        isTyping: isTyping,
+                        size: 32,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: Text(
+                                    displayName,
+                                    style: fluxerDesktopRowTitleStyle(
+                                      context,
+                                    ).copyWith(color: nameColor),
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (widget.isOwner)
+                                  const Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      start: 4,
+                                      top: 1.6,
+                                    ),
+                                    child: PhosphorIcon(
+                                      PhosphorIconsFill.crown,
+                                      size: 14,
+                                      color: Color(0xFFD8B36F),
+                                    ),
+                                  ),
+                                if (showUserTag)
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.only(
+                                      start: 4,
+                                    ),
+                                    child: FluxerUserTag(
+                                      isSystem: member.user.system ?? false,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            if (hasVisibleCustomStatus(customStatus))
+                              CustomStatusDisplay(
+                                stored: customStatus,
+                                maxLines: 1,
+                                emojiSize: 14,
+                                textStyle: fluxerDesktopRowSubtextStyle(
+                                  context,
+                                ).copyWith(height: 14 / 11),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

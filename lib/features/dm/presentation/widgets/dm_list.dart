@@ -47,6 +47,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_ind
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invitable_channel.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -700,65 +701,71 @@ class _DMListState extends ConsumerState<DMList> {
       child: FluxerSmoothScrollbar(
         controller: _scrollController,
         bottomInset: kGuildScrollIndicatorEdgeInset,
-        child: ListView.builder(
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          scrollCacheExtent: const ScrollCacheExtent.pixels(600),
-          padding: listPadding,
-          itemExtent: rowExtent,
-          itemCount: convos.length + leadingRows,
-          findChildIndexCallback: (Key key) {
-            if (key is! ValueKey<String>) {
-              return null;
-            }
-            if (key.value == _kPersonalNotesRowKey) {
-              return isMobile ? 0 : null;
-            }
-            final int convoIndex = convos.indexWhere(
-              (DmConversation c) => c.id == key.value,
-            );
-            return convoIndex < 0 ? null : convoIndex + leadingRows;
-          },
-          itemBuilder: (context, index) {
-            if (isMobile && index == 0) {
-              return KeyedSubtree(
-                key: const ValueKey<String>(_kPersonalNotesRowKey),
-                child: _buildMobilePersonalNotes(
-                  context,
-                  userId,
-                  isSelected: selectedId == userId,
+        child: FluxerRovingFocusList(
+          enabled: ref.watch(keyboardModeProvider),
+          child: ListView.builder(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            scrollCacheExtent: const ScrollCacheExtent.pixels(600),
+            padding: listPadding,
+            itemExtent: rowExtent,
+            itemCount: convos.length + leadingRows,
+            findChildIndexCallback: (Key key) {
+              if (key is! ValueKey<String>) {
+                return null;
+              }
+              if (key.value == _kPersonalNotesRowKey) {
+                return isMobile ? 0 : null;
+              }
+              final int convoIndex = convos.indexWhere(
+                (DmConversation c) => c.id == key.value,
+              );
+              return convoIndex < 0 ? null : convoIndex + leadingRows;
+            },
+            itemBuilder: (context, index) {
+              if (isMobile && index == 0) {
+                return KeyedSubtree(
+                  key: const ValueKey<String>(_kPersonalNotesRowKey),
+                  child: _buildMobilePersonalNotes(
+                    context,
+                    userId,
+                    isSelected: selectedId == userId,
+                  ),
+                );
+              }
+
+              final convo = convos[index - leadingRows];
+              final isSelected = convo.id == selectedId;
+
+              return FluxerRovingFocusItem(
+                key: ValueKey<String>(convo.id),
+                child: ChannelHoverPreload(
+                  channelId: convo.id,
+                  child: Consumer(
+                    builder: (BuildContext context, WidgetRef rowRef, _) =>
+                        desktop
+                        ? _buildDesktopConvoTile(
+                            context,
+                            rowRef: rowRef,
+                            convo: convo,
+                            isSelected: isSelected,
+                            isPinned: pinnedIds.contains(convo.id),
+                            isMuted: mutedIds.contains(convo.id),
+                          )
+                        : _buildConvoTile(
+                            context,
+                            rowRef: rowRef,
+                            convo: convo,
+                            isSelected: isSelected,
+                            isMobile: isMobile,
+                            isPinned: pinnedIds.contains(convo.id),
+                            isMuted: mutedIds.contains(convo.id),
+                          ),
+                  ),
                 ),
               );
-            }
-
-            final convo = convos[index - leadingRows];
-            final isSelected = convo.id == selectedId;
-
-            return ChannelHoverPreload(
-              key: ValueKey<String>(convo.id),
-              channelId: convo.id,
-              child: Consumer(
-                builder: (BuildContext context, WidgetRef rowRef, _) => desktop
-                    ? _buildDesktopConvoTile(
-                        context,
-                        rowRef: rowRef,
-                        convo: convo,
-                        isSelected: isSelected,
-                        isPinned: pinnedIds.contains(convo.id),
-                        isMuted: mutedIds.contains(convo.id),
-                      )
-                    : _buildConvoTile(
-                        context,
-                        rowRef: rowRef,
-                        convo: convo,
-                        isSelected: isSelected,
-                        isMobile: isMobile,
-                        isPinned: pinnedIds.contains(convo.id),
-                        isMuted: mutedIds.contains(convo.id),
-                      ),
-              ),
-            );
-          },
+            },
+          ),
         ),
       ),
     );

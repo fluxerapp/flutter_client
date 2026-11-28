@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
 import 'package:fluxer_app/features/input/services/keybind_handlers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
+import 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_list.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -50,6 +51,10 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   late final GlobalShortcuts _globalShortcuts;
   late final KeybindHandlerRegistry _handlerRegistry;
   bool _handlersRegistered = false;
+  final Stopwatch _clock = Stopwatch()..start();
+  Duration? _windowFocusedAt;
+
+  static const Duration _kRefocusPointerThreshold = Duration(milliseconds: 100);
 
   @override
   void initState() {
@@ -129,9 +134,20 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed) {
-      _releaseHeldActions();
+    if (state == AppLifecycleState.resumed) {
+      _windowFocusedAt = _clock.elapsed;
+      return;
     }
+    _releaseHeldActions();
+  }
+
+  bool _isWithinWindowRefocus() {
+    if (WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed) {
+      return true;
+    }
+    final Duration? focusedAt = _windowFocusedAt;
+    return focusedAt != null &&
+        _clock.elapsed - focusedAt <= _kRefocusPointerThreshold;
   }
 
   void _releaseHeldActions() {
@@ -199,9 +215,12 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       return false;
     }
 
-    if (event.logicalKey == LogicalKeyboardKey.tab &&
-        !HardwareKeyboard.instance.isShiftPressed) {
+    if (event.logicalKey == LogicalKeyboardKey.tab) {
       return _handleTabKey();
+    }
+
+    if (FluxerRovingFocusList.claimsKeyEvent(event)) {
+      return false;
     }
 
     final KeybindDispatchContext contextState = _buildContext();
@@ -282,16 +301,23 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
 
   bool _handleTabKey() {
     final bool wasKeyboardMode = ref.read(keyboardModeProvider);
-    if (wasKeyboardMode &&
-        !ref.read(composerFocusCoordinatorProvider).composerHasFocus()) {
+    ref.read(keyboardModeProvider.notifier).enter();
+    if (wasKeyboardMode || !_canRedirectTabToComposer()) {
       return false;
     }
-    ref.read(keyboardModeProvider.notifier).enter();
-    if (!wasKeyboardMode) {
-      ref.read(focusedMessageProvider.notifier).clear();
-      ref.read(composerFocusCoordinatorProvider).requestComposerFocus();
-    }
+    ref.read(focusedMessageProvider.notifier).clear();
+    ref.read(composerFocusCoordinatorProvider).requestComposerFocus();
     return true;
+  }
+
+  bool _canRedirectTabToComposer() {
+    final ComposerFocusCoordinator composer = ref.read(
+      composerFocusCoordinatorProvider,
+    );
+    if (!composer.hasComposer || _isModalOpen()) {
+      return false;
+    }
+    return composer.composerHasFocus() || !_isTextInputFocused();
   }
 
   bool _handleArrowUpToComposer(KeyEvent event) {
@@ -444,7 +470,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   Widget build(BuildContext context) {
     return Listener(
       onPointerDown: (_) {
-        if (ref.read(keyboardModeProvider)) {
+        if (ref.read(keyboardModeProvider) && !_isWithinWindowRefocus()) {
           ref.read(keyboardModeProvider.notifier).exit();
           ref.read(focusedMessageProvider.notifier).clear();
         }

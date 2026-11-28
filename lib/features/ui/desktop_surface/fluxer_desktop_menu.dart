@@ -197,6 +197,7 @@ class FluxerDesktopMenuRow extends StatelessWidget {
       checked: checked,
       semanticLabel: semanticLabel ?? (hint != null ? '$label. $hint' : label),
       excludeChildSemantics: true,
+      showFocusRing: false,
       builder: (BuildContext context, Set<WidgetState> states) {
         final bool highlighted =
             enabled &&

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/domain/member_list_layout.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
@@ -20,6 +21,7 @@ import 'package:fluxer_app/features/members/providers/member_list_subscription_p
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/members/utils/member_list_access.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -190,57 +192,62 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         : getTotalRowsFromLayout(layouts);
     WidgetsBinding.instance.addPostFrameCallback((_) => _updateDesiredRanges());
     return _ChannelMembersPanel(
-      child: ListView.builder(
-        controller: _scrollController,
-        padding: EdgeInsets.only(
-          top: usesDesktopPointerUi(context) ? 4 : 10,
-          left: context.layout.s2,
-          right: context.layout.s2,
-          bottom: context.layout.s4,
-        ),
-        itemCount: totalRows,
-        itemBuilder: (BuildContext context, int rowIndex) {
-          final MemberListGroupHeaderData? header =
-              resolveMemberListGroupHeader(
-                groups: listState.groups,
-                layouts: layouts,
-                rowIndex: rowIndex,
-                rolesById: rolesById,
+      child: FluxerRovingFocusList(
+        enabled: ref.watch(keyboardModeProvider),
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: EdgeInsets.only(
+            top: usesDesktopPointerUi(context) ? 4 : 10,
+            left: context.layout.s2,
+            right: context.layout.s2,
+            bottom: context.layout.s4,
+          ),
+          itemCount: totalRows,
+          itemBuilder: (BuildContext context, int rowIndex) {
+            final MemberListGroupHeaderData? header =
+                resolveMemberListGroupHeader(
+                  groups: listState.groups,
+                  layouts: layouts,
+                  rowIndex: rowIndex,
+                  rolesById: rolesById,
+                );
+            if (header != null) {
+              return MemberListSidebarGroupHeader(
+                groupName: header.name,
+                count: header.count,
+                iconRole: header.iconRole,
               );
-          if (header != null) {
-            return MemberListSidebarGroupHeader(
-              groupName: header.name,
-              count: header.count,
-              iconRole: header.iconRole,
+            }
+            final MemberListViewportRow? row = listState.rows[rowIndex];
+            if (row == null || row.type != MemberListViewportRowType.member) {
+              return const MemberListSkeletonRow();
+            }
+            final MemberListMember? listMember = row.listMember;
+            final String? userId = row.userId;
+            if (listMember == null || userId == null) {
+              return const MemberListSkeletonRow();
+            }
+            final MemberListGroupLayout? layout = getGroupLayoutForRow(
+              layouts,
+              rowIndex,
             );
-          }
-          final MemberListViewportRow? row = listState.rows[rowIndex];
-          if (row == null || row.type != MemberListViewportRowType.member) {
-            return const MemberListSkeletonRow();
-          }
-          final MemberListMember? listMember = row.listMember;
-          final String? userId = row.userId;
-          if (listMember == null || userId == null) {
-            return const MemberListSkeletonRow();
-          }
-          final MemberListGroupLayout? layout = getGroupLayoutForRow(
-            layouts,
-            rowIndex,
-          );
-          final bool dimmed = layout?.id == 'offline';
-          return MemberListSidebarMemberRow(
-            guildId: guildId,
-            channelId: channelId,
-            listMember: listMember,
-            userId: userId,
-            rolesById: rolesById,
-            dimmed: dimmed,
-            isOwner: shouldShowOwnerCrown(
-              isOwner: guildOwnerId != null && userId == guildOwnerId,
-              features: guild?.features ?? const <String>[],
-            ),
-          );
-        },
+            final bool dimmed = layout?.id == 'offline';
+            return FluxerRovingFocusItem(
+              child: MemberListSidebarMemberRow(
+                guildId: guildId,
+                channelId: channelId,
+                listMember: listMember,
+                userId: userId,
+                rolesById: rolesById,
+                dimmed: dimmed,
+                isOwner: shouldShowOwnerCrown(
+                  isOwner: guildOwnerId != null && userId == guildOwnerId,
+                  features: guild?.features ?? const <String>[],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

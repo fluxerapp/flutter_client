@@ -48,12 +48,14 @@ Widget _buildFluxerDesktopIconButton(
     enabled: onPressed != null,
     semanticLabel: label,
     excludeChildSemantics: true,
+    focusRingRadius: BorderRadius.circular(
+      style.circle ? style.extent / 2 : style.borderRadius,
+    ),
+    focusRingOutset: FluxerButton._kFocusRingOutset,
     builder: (BuildContext context, Set<WidgetState> states) {
       final bool hovered =
           style.active ||
-          (onPressed != null &&
-              (states.contains(WidgetState.hovered) ||
-                  states.contains(WidgetState.focused)));
+          (onPressed != null && states.contains(WidgetState.hovered));
       final Color? borderColor = hovered
           ? style.hoverBorder ?? style.border
           : style.border;

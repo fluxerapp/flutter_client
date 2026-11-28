@@ -64,63 +64,75 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
               button: true,
               selected: widget.isSelected,
               label: widget.label,
-              child: FluxerGestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: widget.onTap,
-                onTapDown: (_) => _setPressed(true),
-                onTapUp: (_) => _setPressed(false),
-                onTapCancel: () => _setPressed(false),
-                child: TweenAnimationBuilder<_DashedGuildIconVisual>(
-                  duration: context.motion.hover,
-                  curve: Curves.easeOut,
-                  tween: _DashedGuildIconVisualTween(target),
-                  builder:
-                      (
-                        BuildContext context,
-                        _DashedGuildIconVisual visual,
-                        Widget? _,
-                      ) {
-                        final double radius =
-                            GuildNavbarIconShape.idleRadiusOf(context) +
-                            (GuildNavbarIconShape.activeRadiusOf(context) -
-                                    GuildNavbarIconShape.idleRadiusOf(
-                                      context,
-                                    )) *
-                                visual.shape;
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: colors.brandPrimary.withValues(
-                              alpha: colors.brandPrimary.a * visual.fill,
-                            ),
-                            borderRadius: BorderRadius.circular(radius),
-                          ),
-                          child: CustomPaint(
-                            foregroundPainter: DashedBorderPainter(
-                              shape: DashedBorderShape.roundedRectangle,
-                              borderRadius: radius,
-                              color: Color.lerp(
-                                colors.backgroundModifierAccent,
-                                colors.textPrimary,
-                                visual.border,
-                              )!,
-                            ),
-                            child: SizedBox.square(
-                              dimension: GuildNavbarIconShape.sizeOf(context),
-                              child: Center(
-                                child: PhosphorIcon(
-                                  widget.icon,
+              child: FluxerRovingFocusItem(
+                child: FluxerActivatable(
+                  onActivate: widget.onTap,
+                  focusRingRadius: BorderRadius.circular(
+                    widget.isSelected || _isHovered
+                        ? GuildNavbarIconShape.activeRadiusOf(context)
+                        : GuildNavbarIconShape.idleRadiusOf(context),
+                  ),
+                  child: FluxerGestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: widget.onTap,
+                    onTapDown: (_) => _setPressed(true),
+                    onTapUp: (_) => _setPressed(false),
+                    onTapCancel: () => _setPressed(false),
+                    child: TweenAnimationBuilder<_DashedGuildIconVisual>(
+                      duration: context.motion.hover,
+                      curve: Curves.easeOut,
+                      tween: _DashedGuildIconVisualTween(target),
+                      builder:
+                          (
+                            BuildContext context,
+                            _DashedGuildIconVisual visual,
+                            Widget? _,
+                          ) {
+                            final double radius =
+                                GuildNavbarIconShape.idleRadiusOf(context) +
+                                (GuildNavbarIconShape.activeRadiusOf(context) -
+                                        GuildNavbarIconShape.idleRadiusOf(
+                                          context,
+                                        )) *
+                                    visual.shape;
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: colors.brandPrimary.withValues(
+                                  alpha: colors.brandPrimary.a * visual.fill,
+                                ),
+                                borderRadius: BorderRadius.circular(radius),
+                              ),
+                              child: CustomPaint(
+                                foregroundPainter: DashedBorderPainter(
+                                  shape: DashedBorderShape.roundedRectangle,
+                                  borderRadius: radius,
                                   color: Color.lerp(
+                                    colors.backgroundModifierAccent,
                                     colors.textPrimary,
-                                    colors.textOnBrandPrimary,
-                                    visual.fill,
+                                    visual.border,
+                                  )!,
+                                ),
+                                child: SizedBox.square(
+                                  dimension: GuildNavbarIconShape.sizeOf(
+                                    context,
                                   ),
-                                  size: 20,
+                                  child: Center(
+                                    child: PhosphorIcon(
+                                      widget.icon,
+                                      color: Color.lerp(
+                                        colors.textPrimary,
+                                        colors.textOnBrandPrimary,
+                                        visual.fill,
+                                      ),
+                                      size: 20,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
+                            );
+                          },
+                    ),
+                  ),
                 ),
               ),
             ),

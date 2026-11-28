@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const EdgeInsetsGeometry kFluxerDesktopSidebarRowMargin =
@@ -136,12 +137,13 @@ class _FluxerSelectableRowState extends State<FluxerSelectableRow> {
           borderRadius: borderRadius,
           splashFactory: NoSplash.splashFactory,
           highlightColor: Colors.transparent,
+          focusColor: Colors.transparent,
           hoverDuration: Duration.zero,
           hoverColor: widget.isSelected
               ? Colors.transparent
               : hoverColor ?? (isInteractive ? effectiveHoverColor : null),
           onHover: widget.childBuilder == null ? null : _setHovered,
-          onFocusChange: widget.childBuilder == null ? null : _setFocused,
+          onFocusChange: _setFocused,
           mouseCursor: isInteractive
               ? SystemMouseCursors.click
               : MouseCursor.defer,
@@ -152,24 +154,30 @@ class _FluxerSelectableRowState extends State<FluxerSelectableRow> {
           onSecondaryTapUp: widget.onContextMenuRequested != null
               ? _handleContextMenuRequested
               : widget.onSecondaryTapUp,
-          child: Container(
-            height: widget.height,
-            padding: desktop ? kFluxerDesktopSidebarRowPadding : widget.padding,
-            decoration: fill == null
-                ? null
-                : BoxDecoration(color: fill, borderRadius: borderRadius),
-            foregroundDecoration: borderColor == null
-                ? null
-                : BoxDecoration(
-                    border: Border.all(color: borderColor),
-                    borderRadius: borderRadius,
-                  ),
-            child:
-                widget.childBuilder?.call(context, <WidgetState>{
-                  if (showHoverState) WidgetState.hovered,
-                  if (_focused) WidgetState.focused,
-                }) ??
-                widget.child,
+          child: FluxerFocusRing(
+            focused: _focused,
+            borderRadius: borderRadius,
+            child: Container(
+              height: widget.height,
+              padding: desktop
+                  ? kFluxerDesktopSidebarRowPadding
+                  : widget.padding,
+              decoration: fill == null
+                  ? null
+                  : BoxDecoration(color: fill, borderRadius: borderRadius),
+              foregroundDecoration: borderColor == null
+                  ? null
+                  : BoxDecoration(
+                      border: Border.all(color: borderColor),
+                      borderRadius: borderRadius,
+                    ),
+              child:
+                  widget.childBuilder?.call(context, <WidgetState>{
+                    if (showHoverState) WidgetState.hovered,
+                    if (_focused) WidgetState.focused,
+                  }) ??
+                  widget.child,
+            ),
           ),
         ),
       ),

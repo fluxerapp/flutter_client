@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/voice/domain/screen_share_source.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/screen_share_picker/picker_style.dart';
@@ -36,59 +35,54 @@ class VoiceScreenSharePickerCard extends StatelessWidget {
         enabled: enabled,
         semanticLabel: label,
         excludeChildSemantics: true,
+        focusRingRadius: BorderRadius.circular(kScreenSharePickerPreviewRadius),
         builder: (BuildContext context, Set<WidgetState> states) {
           final bool hovered = enabled && states.contains(WidgetState.hovered);
           final bool focused = states.contains(WidgetState.focused);
-          return FluxerFocusRing(
-            focused: focused,
-            borderRadius: BorderRadius.circular(
-              kScreenSharePickerPreviewRadius,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: _Preview(
-                    thumbnail: source.thumbnail,
-                    icon: icon,
-                    hovered: hovered,
-                    showAction: hovered || focused,
-                    actionLabel: l10n.voiceScreenSharePickerShareAction,
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: _Preview(
+                  thumbnail: source.thumbnail,
+                  icon: icon,
+                  hovered: hovered,
+                  showAction: hovered || focused,
+                  actionLabel: l10n.voiceScreenSharePickerShareAction,
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    kScreenSharePickerCardBodyHorizontalPadding,
-                    kScreenSharePickerCardBodyTopPadding,
-                    kScreenSharePickerCardBodyHorizontalPadding,
-                    0,
-                  ),
-                  child: Row(
-                    spacing: kScreenSharePickerCardBodyGap,
-                    children: <Widget>[
-                      PhosphorIcon(
-                        icon,
-                        size: kScreenSharePickerCardIconSize,
-                        color: context.colors.textSecondary,
-                      ),
-                      Expanded(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.textStyles.bodyMedium.copyWith(
-                            color: context.colors.textPrimary,
-                            fontSize: kScreenSharePickerCardTitleFontSize,
-                            fontWeight: FontWeight.w600,
-                            height: kScreenSharePickerCardTitleLineHeight,
-                          ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  kScreenSharePickerCardBodyHorizontalPadding,
+                  kScreenSharePickerCardBodyTopPadding,
+                  kScreenSharePickerCardBodyHorizontalPadding,
+                  0,
+                ),
+                child: Row(
+                  spacing: kScreenSharePickerCardBodyGap,
+                  children: <Widget>[
+                    PhosphorIcon(
+                      icon,
+                      size: kScreenSharePickerCardIconSize,
+                      color: context.colors.textSecondary,
+                    ),
+                    Expanded(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textStyles.bodyMedium.copyWith(
+                          color: context.colors.textPrimary,
+                          fontSize: kScreenSharePickerCardTitleFontSize,
+                          fontWeight: FontWeight.w600,
+                          height: kScreenSharePickerCardTitleLineHeight,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

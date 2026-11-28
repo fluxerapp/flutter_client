@@ -518,9 +518,11 @@ class _GuildSidebarChannelListState
                       : index;
                   if (showMembersEntry) {
                     if (index == 0) {
-                      return _MembersSidebarTile(
-                        guildId: widget.guildId,
-                        isSelected: isMembersSelected,
+                      return FluxerRovingFocusItem(
+                        child: _MembersSidebarTile(
+                          guildId: widget.guildId,
+                          isSelected: isMembersSelected,
+                        ),
                       );
                     }
                     if (index == 1 && desktopPointer) {
@@ -549,46 +551,52 @@ class _GuildSidebarChannelListState
                   final GuildSidebarEntry entry = sidebarEntries[entryIndex];
                   switch (entry.kind) {
                     case GuildSidebarEntryKind.categoryHeader:
-                      return _CategoryHeader(
+                      return FluxerRovingFocusItem(
                         key: ValueKey<String>('cat:${entry.category!.id}'),
-                        category: entry.category!,
-                        isCollapsed: entry.isCategoryCollapsed,
-                        guildId: widget.guildId,
+                        child: _CategoryHeader(
+                          category: entry.category!,
+                          isCollapsed: entry.isCategoryCollapsed,
+                          guildId: widget.guildId,
+                        ),
                       );
                     case GuildSidebarEntryKind.channel:
                       final Channel channel = entry.channel!;
-                      return RepaintBoundary(
-                        child: ChannelHoverPreload(
-                          channelId: channel.id,
-                          enabled: isAnnouncementConvertibleChannel(
-                            channel.type,
-                          ),
-                          child: _ChannelTile(
-                            key: ValueKey<String>(channel.id),
-                            tileKey: _channelKeys.putIfAbsent(
-                              channel.id,
-                              GlobalKey.new,
+                      return FluxerRovingFocusItem(
+                        child: RepaintBoundary(
+                          child: ChannelHoverPreload(
+                            channelId: channel.id,
+                            enabled: isAnnouncementConvertibleChannel(
+                              channel.type,
                             ),
-                            channel: channel,
-                            guildId: widget.guildId,
-                            guild: widget.guild,
+                            child: _ChannelTile(
+                              key: ValueKey<String>(channel.id),
+                              tileKey: _channelKeys.putIfAbsent(
+                                channel.id,
+                                GlobalKey.new,
+                              ),
+                              channel: channel,
+                              guildId: widget.guildId,
+                              guild: widget.guild,
+                            ),
                           ),
                         ),
                       );
                     case GuildSidebarEntryKind.thread:
                       final String threadId = entry.channel!.id;
-                      return RepaintBoundary(
-                        child: ChannelHoverPreload(
-                          channelId: threadId,
-                          child: ThreadSidebarTile(
-                            key: ValueKey<String>('thread:$threadId'),
-                            tileKey: _channelKeys.putIfAbsent(
-                              threadId,
-                              GlobalKey.new,
+                      return FluxerRovingFocusItem(
+                        child: RepaintBoundary(
+                          child: ChannelHoverPreload(
+                            channelId: threadId,
+                            child: ThreadSidebarTile(
+                              key: ValueKey<String>('thread:$threadId'),
+                              tileKey: _channelKeys.putIfAbsent(
+                                threadId,
+                                GlobalKey.new,
+                              ),
+                              thread: entry.channel!,
+                              guildId: widget.guildId,
+                              isLast: entry.isLastThread,
                             ),
-                            thread: entry.channel!,
-                            guildId: widget.guildId,
-                            isLast: entry.isLastThread,
                           ),
                         ),
                       );
@@ -632,7 +640,10 @@ class _GuildSidebarChannelListState
                 controller: _dragController,
                 scrollController: _scrollController,
                 topInset: kGuildSidebarHeaderMinHeight,
-                child: channelListView,
+                child: FluxerRovingFocusList(
+                  enabled: ref.watch(keyboardModeProvider),
+                  child: channelListView,
+                ),
               ),
             ),
           ),

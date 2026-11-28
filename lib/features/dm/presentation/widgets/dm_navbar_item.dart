@@ -176,45 +176,53 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
                     FluxerTooltip(
                       message: displayName,
                       position: FluxerTooltipPosition.right,
-                      child: SizedBox.square(
-                        dimension: GuildNavbarIconShape.sizeOf(context),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            if (isGroup && conversation != null)
-                              GroupDmAvatar(
-                                iconUrl: conversation.groupIconUrl,
-                                members: conversation.groupMembers,
-                                size: GuildNavbarIconShape.sizeOf(context),
-                              )
-                            else if (isGroup)
-                              FluxerAvatarCluster(
-                                size: GuildNavbarIconShape.sizeOf(context),
-                              )
-                            else
-                              FluxerAvatar.user(
-                                fallbackText: displayName,
-                                userId: widget.recipientId,
-                                imageUrl: avatarImageUrl,
-                                showStatus: false,
-                                size: GuildNavbarIconShape.sizeOf(context),
-                              ),
-                            if (showBadge)
-                              PositionedDirectional(
-                                bottom: GuildNavbarPill.badgeInset,
-                                end: GuildNavbarPill.badgeInset,
-                                child: Opacity(
-                                  opacity: unreadState.faded ? 0.5 : 1.0,
-                                  child: FluxerBadgeEntrance(
-                                    child: FluxerBadge.count(
-                                      count: mentionCount,
-                                      cutoutColor:
-                                          colors.serverSidebarBackground,
+                      child: FluxerRovingFocusItem(
+                        child: FluxerActivatable(
+                          onActivate: () => unawaited(_navigateToDm()),
+                          focusRingRadius: BorderRadius.circular(
+                            GuildNavbarIconShape.idleRadiusOf(context),
+                          ),
+                          child: SizedBox.square(
+                            dimension: GuildNavbarIconShape.sizeOf(context),
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                if (isGroup && conversation != null)
+                                  GroupDmAvatar(
+                                    iconUrl: conversation.groupIconUrl,
+                                    members: conversation.groupMembers,
+                                    size: GuildNavbarIconShape.sizeOf(context),
+                                  )
+                                else if (isGroup)
+                                  FluxerAvatarCluster(
+                                    size: GuildNavbarIconShape.sizeOf(context),
+                                  )
+                                else
+                                  FluxerAvatar.user(
+                                    fallbackText: displayName,
+                                    userId: widget.recipientId,
+                                    imageUrl: avatarImageUrl,
+                                    showStatus: false,
+                                    size: GuildNavbarIconShape.sizeOf(context),
+                                  ),
+                                if (showBadge)
+                                  PositionedDirectional(
+                                    bottom: GuildNavbarPill.badgeInset,
+                                    end: GuildNavbarPill.badgeInset,
+                                    child: Opacity(
+                                      opacity: unreadState.faded ? 0.5 : 1.0,
+                                      child: FluxerBadgeEntrance(
+                                        child: FluxerBadge.count(
+                                          count: mentionCount,
+                                          cutoutColor:
+                                              colors.serverSidebarBackground,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                          ],
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),

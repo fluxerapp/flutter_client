@@ -42,6 +42,8 @@ export 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
 export 'package:fluxer_app/features/ui/qr_code/fluxer_qr_code.dart';
 export 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 export 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
+export 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_item.dart';
+export 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_list.dart';
 export 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 export 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
@@ -65,6 +67,7 @@ export 'package:fluxer_app/features/ui/stepped_carousel/fluxer_stepped_carousel.
 export 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 export 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 export 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
+export 'package:fluxer_app/features/ui/tappable/fluxer_activatable.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 export 'package:fluxer_app/features/ui/text/fluxer_field_label.dart';

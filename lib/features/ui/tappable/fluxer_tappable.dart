@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_activatable.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
@@ -26,6 +27,9 @@ class FluxerTappable extends StatefulWidget {
     this.semanticLabel,
     this.excludeChildSemantics = false,
     this.hitTestBehavior = HitTestBehavior.opaque,
+    this.showFocusRing = true,
+    this.focusRingRadius,
+    this.focusRingOutset = 0,
     super.key,
   });
 
@@ -47,6 +51,9 @@ class FluxerTappable extends StatefulWidget {
   final String? semanticLabel;
   final bool excludeChildSemantics;
   final HitTestBehavior hitTestBehavior;
+  final bool showFocusRing;
+  final BorderRadius? focusRingRadius;
+  final double focusRingOutset;
 
   @override
   State<FluxerTappable> createState() => _FluxerTappableState();
@@ -127,8 +134,13 @@ class _FluxerTappableState extends State<FluxerTappable> {
             _isPressed = false;
           });
         },
-        child: Focus(
-          includeSemantics: false,
+        child: FluxerActivatable(
+          onActivate: widget.onTap,
+          enabled: widget.enabled,
+          focusable: isInteractive,
+          showFocusRing: widget.showFocusRing,
+          focusRingRadius: widget.focusRingRadius,
+          focusRingOutset: widget.focusRingOutset,
           onFocusChange: (focused) => setState(() => _isFocused = focused),
           child: GestureDetector(
             behavior: widget.hitTestBehavior,

@@ -318,6 +318,8 @@ class FluxerButton extends StatefulWidget {
        fitContent = false,
        child = null;
 
+  static const double _kFocusRingOutset = 2;
+
   final _FluxerDesktopIconStyle? _desktopIcon;
   final FluxerButtonVariant _variant;
   final bool _isCircle;
@@ -411,6 +413,8 @@ class _FluxerButtonState extends State<FluxerButton> {
       enabled: _enabled,
       semanticLabel: _resolveSemanticsLabel(context),
       excludeChildSemantics: true,
+      focusRingRadius: _borderRadius,
+      focusRingOutset: FluxerButton._kFocusRingOutset,
       builder: (context, states) {
         final isHovered = states.contains(WidgetState.hovered);
         final fill = widget.recording
@@ -472,6 +476,8 @@ class _FluxerButtonState extends State<FluxerButton> {
       enabled: _enabled,
       semanticLabel: _resolveSemanticsLabel(context),
       excludeChildSemantics: true,
+      focusRingRadius: radius,
+      focusRingOutset: FluxerButton._kFocusRingOutset,
       builder: (context, states) {
         final bool active = _enabled && states.contains(WidgetState.pressed);
         final bool hovered = _enabled && states.contains(WidgetState.hovered);

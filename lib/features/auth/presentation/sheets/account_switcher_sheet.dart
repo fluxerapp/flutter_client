@@ -363,6 +363,7 @@ class _DesktopAccountMenuItem extends StatelessWidget {
           ? account.identifier
           : '${account.identifier}. $meta',
       excludeChildSemantics: true,
+      showFocusRing: false,
       builder: (BuildContext context, Set<WidgetState> states) {
         final bool highlighted =
             states.contains(WidgetState.hovered) ||
