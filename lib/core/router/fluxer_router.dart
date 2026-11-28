@@ -403,6 +403,7 @@ GoRouter fluxerRouter(Ref ref) {
             context: context,
             key: state.pageKey,
             opaque: false,
+            barrierDismissible: true,
             child: WideSettingsModalOverlay(
               child: FutureBuilder<void>(
                 future: guild_settings.loadLibrary(),

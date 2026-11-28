@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_scope.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
@@ -196,9 +197,13 @@ EdgeInsets settingsScrollPadding(
 }
 
 EdgeInsets settingsScrollPaddingWithSaveBar(BuildContext context) {
+  final bool headerBanner =
+      FluxerUnsavedChangesScope.read(context)?.showsHeaderBanner ?? false;
   return settingsScrollPadding(
     context,
-    bottom: kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
+    bottom: headerBanner
+        ? kSettingsScrollBottomPadding
+        : kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
   );
 }
 

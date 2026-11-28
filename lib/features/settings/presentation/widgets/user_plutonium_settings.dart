@@ -169,7 +169,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const UserOperatorPassSection(),
+            if (isMobileLayout(context)) const UserOperatorPassSection(),
             if (user?.hasUnreadGiftInventory ?? false) ...[
               Padding(
                 padding: settingsScrollPadding(context),

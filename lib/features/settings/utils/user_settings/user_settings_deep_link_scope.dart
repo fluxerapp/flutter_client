@@ -58,6 +58,8 @@ String? userSettingsDeepLinkTabForPage(UserSettingsSection section) {
       return 'shortcuts';
     case UserSettingsSection.fluxerPlutonium:
       return 'plutonium';
+    case UserSettingsSection.operatorPass:
+      return 'operator_pass';
     case UserSettingsSection.giftsAndCodes:
       return 'gift_inventory';
     case UserSettingsSection.connections:

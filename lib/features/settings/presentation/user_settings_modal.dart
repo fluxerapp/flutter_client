@@ -40,6 +40,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_de
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_messages_media.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_settings.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_operator_pass_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_plutonium_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
@@ -50,6 +51,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts
 import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/operator_pass_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_utils.dart';
@@ -177,11 +179,29 @@ class UserSettingsModal extends ConsumerStatefulWidget {
 class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     with UserSettingsSearchQueryMixin {
   var _selectedIndex = 1;
+  final FluxerUnsavedChangesController _unsavedChanges =
+      FluxerUnsavedChangesController();
+  final FluxerSectionOutlineController _sectionOutline =
+      FluxerSectionOutlineController();
 
   @override
   void dispose() {
     disposeSearchQuery();
+    _unsavedChanges.dispose();
+    _sectionOutline.dispose();
     super.dispose();
+  }
+
+  void _requestClose() {
+    Navigator.of(context).maybePop();
+  }
+
+  void _selectIndex(int index, {String? fieldId}) {
+    if (index != _selectedIndex && _unsavedChanges.blocksNavigation()) {
+      return;
+    }
+    setState(() => _selectedIndex = index);
+    _scheduleFieldScroll(fieldId);
   }
 
   @override
@@ -274,13 +294,17 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
           ),
         );
 
-    return WideSettingsModalFrame(
-      includeOuterPadding: false,
-      child: _buildDesktopLayout(
-        state: state,
-        desktopNav: desktopNav,
-        showBilling: showBilling,
-        isTouchPrimary: isTouchPrimary,
+    return FluxerUnsavedChangesGuard(
+      controller: _unsavedChanges,
+      showsHeaderBanner: usesDesktopPointerUi(context),
+      child: WideSettingsModalFrame(
+        includeOuterPadding: false,
+        child: _buildDesktopLayout(
+          state: state,
+          desktopNav: desktopNav,
+          showBilling: showBilling,
+          isTouchPrimary: isTouchPrimary,
+        ),
       ),
     );
   }
@@ -337,7 +361,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                     items:
                         searchSidebar?.items ??
                         desktopNav
-                            .map((entry) => entry.toSidebarItem(l10n))
+                            .map((entry) => _sidebarItem(entry, l10n))
                             .toList(),
                     selectedIndex: searchSidebar == null ? _selectedIndex : -1,
                     onSelected: (index) {
@@ -467,7 +491,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final List<SettingsSidebarItem> navItems = desktopNav.map((
       UserSettingsDesktopNavEntry entry,
     ) {
-      final SettingsSidebarItem item = entry.toSidebarItem(l10n);
+      final SettingsSidebarItem item = _sidebarItem(entry, l10n);
       if (entry.section != UserSettingsSection.profile) {
         return item;
       }
@@ -482,87 +506,117 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         !isSettingsSearchActive && selectedEntry.section != null
         ? userSettingsPageDeepLinkHref(selectedEntry.section!)
         : null;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          width: wideSettingsDesktopSidebarWidth(context),
-          child: DecoratedBox(
-            position: DecorationPosition.foreground,
-            decoration: BoxDecoration(
-              border: BorderDirectional(
-                end: BorderSide(color: context.colors.backgroundModifierAccent),
+    _sectionOutline.setActiveTab(navItems[_selectedIndex].label);
+    return FluxerSectionOutlineScope(
+      controller: _sectionOutline,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: wideSettingsDesktopSidebarWidth(context),
+            child: DecoratedBox(
+              position: DecorationPosition.foreground,
+              decoration: BoxDecoration(
+                border: BorderDirectional(
+                  end: BorderSide(
+                    color: context.colors.backgroundModifierAccent,
+                  ),
+                ),
+              ),
+              child: SettingsSidebar(
+                items: searchSidebar?.items ?? navItems,
+                selectedIndex: searchSidebar == null ? _selectedIndex : -1,
+                showSections: searchSidebar == null,
+                onSelected: (index) {
+                  if (searchSidebar != null) {
+                    _onSearchHitSelected(searchSidebar.hitAtIndex[index]);
+                    return;
+                  }
+                  _onItemSelected(index, desktopNav);
+                },
+                searchController: searchController,
+                onSearchChanged: onSearchQueryChanged,
+                onSearchClear: clearSearchQuery,
+                emptySearchMessage: isSettingsSearchActive
+                    ? l10n.userSettingsSearchNoResults
+                    : null,
+                userId: state.userId,
+                username: state.displayName,
+                avatarUrl: state.avatarUrl,
+                avatarColor: state.avatarColor,
+                profileSelected:
+                    searchSidebar == null && _selectedIndex == profileIndex,
+                onProfileTap: profileIndex < 0
+                    ? null
+                    : () {
+                        if (profileIndex != _selectedIndex &&
+                            _unsavedChanges.blocksNavigation()) {
+                          return;
+                        }
+                        resetSearchQuery();
+                        setState(() => _selectedIndex = profileIndex);
+                      },
+                footer: const _SettingsBuildInfoFooter(inSidebar: true),
               ),
             ),
-            child: SettingsSidebar(
-              items: searchSidebar?.items ?? navItems,
-              selectedIndex: searchSidebar == null ? _selectedIndex : -1,
-              onSelected: (index) {
-                if (searchSidebar != null) {
-                  _onSearchHitSelected(searchSidebar.hitAtIndex[index]);
-                  return;
-                }
-                _onItemSelected(index, desktopNav);
-              },
-              searchController: searchController,
-              onSearchChanged: onSearchQueryChanged,
-              onSearchClear: clearSearchQuery,
-              emptySearchMessage: isSettingsSearchActive
-                  ? l10n.userSettingsSearchNoResults
-                  : null,
-              userId: state.userId,
-              username: state.displayName,
-              avatarUrl: state.avatarUrl,
-              avatarColor: state.avatarColor,
-              profileSelected:
-                  searchSidebar == null && _selectedIndex == profileIndex,
-              onProfileTap: profileIndex < 0
-                  ? null
-                  : () {
-                      resetSearchQuery();
-                      setState(() => _selectedIndex = profileIndex);
-                    },
-              footer: const _SettingsBuildInfoFooter(inSidebar: true),
+          ),
+          Expanded(
+            child: ColoredBox(
+              color: contentBackground,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DesktopSettingsModalHeader(
+                    title: selectedEntry.displayLabel(l10n),
+                    backgroundColor: storePane
+                        ? PremiumStoreStyle.of(context).heroTop
+                        : contentBackground,
+                    foregroundColor: storePane
+                        ? PremiumStoreStyle.of(context).ink
+                        : null,
+                    titleTrailing: pageLink == null
+                        ? null
+                        : FluxerSettingsHeadingLinkButton(
+                            href: pageLink,
+                            target: FluxerSettingsHeadingLinkTarget.page,
+                          ),
+                    onClose: _requestClose,
+                  ),
+                  Expanded(
+                    child: storePane
+                        ? ColoredBox(
+                            color: PremiumStoreStyle.of(context).page,
+                            child: _buildContent(state, desktopNav),
+                          )
+                        : FluxerSectionOutlineListener(
+                            child: WideSettingsContentLayout(
+                              child: _buildContent(state, desktopNav),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: ColoredBox(
-            color: contentBackground,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                DesktopSettingsModalHeader(
-                  title: selectedEntry.displayLabel(l10n),
-                  backgroundColor: storePane
-                      ? PremiumStoreStyle.of(context).heroTop
-                      : contentBackground,
-                  foregroundColor: storePane
-                      ? PremiumStoreStyle.of(context).ink
-                      : null,
-                  titleTrailing: pageLink == null
-                      ? null
-                      : FluxerSettingsHeadingLinkButton(
-                          href: pageLink,
-                          target: FluxerSettingsHeadingLinkTarget.page,
-                        ),
-                  onClose: () => Navigator.of(context).pop(),
-                ),
-                Expanded(
-                  child: storePane
-                      ? ColoredBox(
-                          color: PremiumStoreStyle.of(context).page,
-                          child: _buildContent(state, desktopNav),
-                        )
-                      : WideSettingsContentLayout(
-                          child: _buildContent(state, desktopNav),
-                        ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+
+  SettingsSidebarItem _sidebarItem(
+    UserSettingsDesktopNavEntry entry,
+    FluxerLocalizations l10n,
+  ) {
+    final SettingsSidebarItem item = entry.toSidebarItem(l10n);
+    if (entry.section != UserSettingsSection.operatorPass ||
+        ref.watch(operatorPassSettingsProvider).value != null) {
+      return item;
+    }
+    return SettingsSidebarItem(
+      item.label,
+      icon: item.icon,
+      leading: item.leading,
+      isHidden: true,
     );
   }
 
@@ -614,7 +668,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     if (entry.isSeparator) {
       return;
     }
-    setState(() => _selectedIndex = index);
+    _selectIndex(index);
   }
 
   Future<void> _joinFluxerLabs() async {
@@ -685,12 +739,18 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     if (index == null) {
       return;
     }
+    if (index != _selectedIndex && _unsavedChanges.blocksNavigation()) {
+      return;
+    }
     resetSearchQuery();
     setState(() => _selectedIndex = index);
     _scheduleFieldScroll(hit.fieldId);
   }
 
   Future<void> _logout() async {
+    if (_unsavedChanges.blocksNavigation()) {
+      return;
+    }
     if (!await confirmUserSettingsLogout(context) || !mounted) {
       return;
     }
@@ -737,8 +797,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
           showAppLogs: _showAppLogs(),
         );
         if (index != null) {
-          setState(() => _selectedIndex = index);
-          _scheduleFieldScroll(fieldId);
+          _selectIndex(index, fieldId: fieldId);
         }
       },
     );
@@ -748,7 +807,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     button: true,
     label: FluxerLocalizations.of(context).uiClose,
     child: InkWell(
-      onTap: () => Navigator.of(context).pop(),
+      onTap: _requestClose,
       borderRadius: BorderRadius.circular(20),
       child: SizedBox(
         width: 36,
@@ -1250,6 +1309,11 @@ Widget _buildUserSettingsSectionBody({
         onOpenGifts: onNavigateSection == null
             ? null
             : () => onNavigateSection(UserSettingsSection.giftsAndCodes),
+      );
+    case UserSettingsSection.operatorPass:
+      return SingleChildScrollView(
+        controller: scrollController,
+        child: const UserOperatorPassSection(),
       );
     case UserSettingsSection.giftsAndCodes:
       return UserGiftInventory(

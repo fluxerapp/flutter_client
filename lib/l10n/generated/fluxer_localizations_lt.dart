@@ -12441,6 +12441,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get uiReset => 'Atkurti';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Atidaryti spalvų parinkiklį';
 
   @override

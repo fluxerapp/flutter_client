@@ -12323,6 +12323,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get uiReset => 'Sıfırla';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Renk seçiciyi aç';
 
   @override

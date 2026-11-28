@@ -11573,6 +11573,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get uiReset => '重置';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => '打开颜色选择器';
 
   @override

@@ -12344,6 +12344,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get uiReset => 'Återställ';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Öppna färgväljaren';
 
   @override

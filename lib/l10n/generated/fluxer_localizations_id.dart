@@ -12311,6 +12311,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get uiReset => 'Setel ulang';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Buka pemilih warna';
 
   @override

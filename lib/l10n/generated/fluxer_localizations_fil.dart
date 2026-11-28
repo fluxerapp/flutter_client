@@ -12254,6 +12254,12 @@ class FluxerLocalizationsFil extends FluxerLocalizations {
   String get uiReset => 'Reset';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Open color picker';
 
   @override

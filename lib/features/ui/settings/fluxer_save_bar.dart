@@ -12,6 +12,7 @@ class FluxerSaveBar extends StatelessWidget {
     required this.onSave,
     this.isSaving = false,
     this.label,
+    this.flashing = false,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class FluxerSaveBar extends StatelessWidget {
   final VoidCallback onSave;
   final bool isSaving;
   final String? label;
+  final bool flashing;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +41,13 @@ class FluxerSaveBar extends StatelessWidget {
           duration: motion.normal,
           curve: motion.curve,
           opacity: visible ? 1.0 : 0.0,
-          child: DecoratedBox(
+          child: AnimatedContainer(
             key: ValueKey<bool>(visible),
+            duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: colors.backgroundSecondaryAlt,
+              color: flashing
+                  ? colors.statusDanger
+                  : colors.backgroundSecondaryAlt,
               border: Border(top: BorderSide(color: colors.borderColor)),
             ),
             child: Padding(
@@ -58,7 +63,7 @@ class FluxerSaveBar extends StatelessWidget {
                     child: Text(
                       label ?? l10n.uiUnsavedChanges,
                       style: context.textStyles.bodyMedium.copyWith(
-                        color: colors.textSecondary,
+                        color: flashing ? Colors.white : colors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_error_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_list_item.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_vanity_url_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/vanity_url/vanity_url_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_invites_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
@@ -183,7 +183,6 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
       ),
       const SizedBox(height: 16),
       GuildDisableInvitesButton(guildId: widget.guildId, embedded: true),
-      GuildVanityUrlSection(guildId: widget.guildId),
       const SizedBox(height: 16),
     ];
     final Widget? status = switch (state.loadStatus) {

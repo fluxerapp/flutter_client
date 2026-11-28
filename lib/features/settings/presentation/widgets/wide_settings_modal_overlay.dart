@@ -3,7 +3,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:go_router/go_router.dart';
 
 class WideSettingsModalOverlay extends StatelessWidget {
   const WideSettingsModalOverlay({
@@ -28,7 +27,7 @@ class WideSettingsModalOverlay extends StatelessWidget {
         fit: StackFit.expand,
         children: <Widget>[
           FluxerGestureDetector(
-            onTap: () => context.pop(),
+            onTap: () => Navigator.of(context).maybePop(),
             behavior: HitTestBehavior.opaque,
             child: ColoredBox(color: Colors.black.withValues(alpha: 0.35)),
           ),

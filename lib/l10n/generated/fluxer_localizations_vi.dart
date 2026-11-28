@@ -12318,6 +12318,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get uiReset => 'Đặt lại';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Mở bảng chọn màu';
 
   @override

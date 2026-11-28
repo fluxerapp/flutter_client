@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_section_outline_anchor.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_compact_select_row.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_button.dart';
@@ -109,75 +110,82 @@ class FluxerSettingsSection extends StatelessWidget {
         FluxerSettingsSectionDensity.comfortable => 20,
         FluxerSettingsSectionDensity.compact => layout.s2,
       };
-      return KeyedSubtree(
-        key: scrollKey,
-        child: Container(
-          padding: EdgeInsets.only(top: isFirst ? 0 : 24, bottom: 24),
-          decoration: isFirst
-              ? null
-              : BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: colors.backgroundModifierAccent),
-                  ),
+      final Widget desktopSection = Container(
+        padding: EdgeInsets.only(top: isFirst ? 0 : 24, bottom: 24),
+        decoration: isFirst
+            ? null
+            : BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: colors.backgroundModifierAccent),
                 ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 22),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Semantics(
-                              header: true,
-                              child: Text(
-                                title,
-                                style: textStyles.heading.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.3,
-                                  color: colors.textPrimary,
-                                ),
+              ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 22),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              title,
+                              style: textStyles.heading.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                height: 1.3,
+                                color: colors.textPrimary,
                               ),
                             ),
                           ),
-                          if (sectionLinkButton != null) ...[
-                            const SizedBox(width: 8),
-                            sectionLinkButton,
-                          ],
+                        ),
+                        if (sectionLinkButton != null) ...[
+                          const SizedBox(width: 8),
+                          sectionLinkButton,
                         ],
-                      ),
+                      ],
                     ),
-                    if (titleTrailing != null) ...[
-                      const SizedBox(width: 8),
-                      titleTrailing!,
-                    ],
+                  ),
+                  if (titleTrailing != null) ...[
+                    const SizedBox(width: 8),
+                    titleTrailing!,
                   ],
+                ],
+              ),
+            ),
+            if (description != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                description!,
+                style: textStyles.bodySmall.copyWith(
+                  fontSize: 14,
+                  height: 1.35,
+                  color: colors.textSecondary,
                 ),
               ),
-              if (description != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  description!,
-                  style: textStyles.bodySmall.copyWith(
-                    fontSize: 14,
-                    height: 1.35,
-                    color: colors.textSecondary,
-                  ),
-                ),
-              ],
-              const SizedBox(height: 16),
-              for (int i = 0; i < children.length; i++) ...[
-                children[i],
-                if (i < children.length - 1) SizedBox(height: desktopChildGap),
-              ],
             ],
-          ),
+            const SizedBox(height: 16),
+            for (int i = 0; i < children.length; i++) ...[
+              children[i],
+              if (i < children.length - 1) SizedBox(height: desktopChildGap),
+            ],
+          ],
         ),
+      );
+      return KeyedSubtree(
+        key: scrollKey,
+        child: sectionId == null
+            ? desktopSection
+            : FluxerSectionOutlineAnchor(
+                sectionId: sectionId!,
+                title: title,
+                child: desktopSection,
+              ),
       );
     }
 

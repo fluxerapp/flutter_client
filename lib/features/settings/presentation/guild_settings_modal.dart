@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/moderati
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/overview/guild_overview_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_roles_settings_bridge.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_roles_settings_widget.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/vanity_url/vanity_url_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_error_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_status_body.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_widget.dart';
@@ -49,6 +50,11 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_webhooks_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_section_outline_controller.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_section_outline_listener.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_section_outline_scope.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_controller.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_guard.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -103,11 +109,21 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
   late GuildSettingsTab _selectedTab = widget.initialTab;
   final GuildRolesSettingsBridge _rolesBridge = GuildRolesSettingsBridge();
   bool _rolesSidebarDismissed = false;
+  final FluxerUnsavedChangesController _unsavedChanges =
+      FluxerUnsavedChangesController();
+  final FluxerSectionOutlineController _sectionOutline =
+      FluxerSectionOutlineController();
 
   @override
   void dispose() {
     _rolesBridge.dispose();
+    _unsavedChanges.dispose();
+    _sectionOutline.dispose();
     super.dispose();
+  }
+
+  void _requestClose() {
+    Navigator.of(context).maybePop();
   }
 
   @override
@@ -173,8 +189,49 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     final bool showRolesSidebar =
         activeTab == GuildSettingsTab.roles && !_rolesSidebarDismissed;
 
-    if (usesDesktopPointerUi(context)) {
-      return WideSettingsModalFrame(
+    final bool desktopPointer = usesDesktopPointerUi(context);
+    return FluxerUnsavedChangesGuard(
+      controller: _unsavedChanges,
+      showsHeaderBanner: desktopPointer,
+      child: desktopPointer
+          ? _buildDesktopPointerLayout(
+              l10n: l10n,
+              guild: guild,
+              visibleTabs: visibleTabs,
+              activeTab: activeTab,
+              sidebarItems: sidebarItems,
+              sidebarSelectedIndex: sidebarSelectedIndex,
+              showRolesSidebar: showRolesSidebar,
+              contentBackground: contentBackground,
+            )
+          : _buildWideLayout(
+              l10n: l10n,
+              guild: guild,
+              visibleTabs: visibleTabs,
+              activeTab: activeTab,
+              sidebarItems: sidebarItems,
+              sidebarSelectedIndex: sidebarSelectedIndex,
+              showRolesSidebar: showRolesSidebar,
+              contentBackground: contentBackground,
+              contentGutter: contentGutter,
+            ),
+    );
+  }
+
+  Widget _buildDesktopPointerLayout({
+    required FluxerLocalizations l10n,
+    required Guild? guild,
+    required List<GuildSettingsTab> visibleTabs,
+    required GuildSettingsTab activeTab,
+    required List<SettingsSidebarItem> sidebarItems,
+    required int sidebarSelectedIndex,
+    required bool showRolesSidebar,
+    required Color contentBackground,
+  }) {
+    _sectionOutline.setActiveTab(guildSettingsTabTitle(l10n, activeTab));
+    return FluxerSectionOutlineScope(
+      controller: _sectionOutline,
+      child: WideSettingsModalFrame(
         includeOuterPadding: false,
         backgroundColor: contentBackground,
         child: Scaffold(
@@ -204,17 +261,19 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
                     DesktopSettingsModalHeader(
                       title: guildSettingsTabTitle(l10n, activeTab),
                       backgroundColor: contentBackground,
-                      onClose: () => context.pop(),
+                      onClose: _requestClose,
                     ),
                     Expanded(
-                      child: WideSettingsContentLayout(
-                        child: GuildSettingsAccessGate(
-                          guildId: widget.guildId,
-                          tab: activeTab,
-                          child: GuildSettingsTabBody(
+                      child: FluxerSectionOutlineListener(
+                        child: WideSettingsContentLayout(
+                          child: GuildSettingsAccessGate(
                             guildId: widget.guildId,
                             tab: activeTab,
-                            rolesBridge: _rolesBridge,
+                            child: GuildSettingsTabBody(
+                              guildId: widget.guildId,
+                              tab: activeTab,
+                              rolesBridge: _rolesBridge,
+                            ),
                           ),
                         ),
                       ),
@@ -225,9 +284,21 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
             ],
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
+  Widget _buildWideLayout({
+    required FluxerLocalizations l10n,
+    required Guild? guild,
+    required List<GuildSettingsTab> visibleTabs,
+    required GuildSettingsTab activeTab,
+    required List<SettingsSidebarItem> sidebarItems,
+    required int sidebarSelectedIndex,
+    required bool showRolesSidebar,
+    required Color contentBackground,
+    required double contentGutter,
+  }) {
     return WideSettingsModalFrame(
       includeOuterPadding: false,
       backgroundColor: contentBackground,
@@ -297,7 +368,7 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     button: true,
     label: FluxerLocalizations.of(context).uiClose,
     child: InkWell(
-      onTap: () => context.pop(),
+      onTap: _requestClose,
       borderRadius: BorderRadius.circular(20),
       child: SizedBox(
         width: 36,
@@ -317,6 +388,9 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     required List<GuildSettingsTab> visibleTabs,
     required int index,
   }) {
+    if (_unsavedChanges.blocksNavigation()) {
+      return;
+    }
     if (index >= 0 &&
         index < sidebarItems.length &&
         sidebarItems[index].isDestructive) {
@@ -480,6 +554,10 @@ class GuildSettingsTabBody extends ConsumerWidget {
                 scrollController: scrollController,
               ),
         ),
+      GuildSettingsTab.vanityUrl => GuildVanityUrlTab(
+        guildId: guildId,
+        scrollController: scrollController,
+      ),
       GuildSettingsTab.members => const SizedBox.shrink(),
     };
   }

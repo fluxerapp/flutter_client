@@ -11,6 +11,7 @@ const Set<String> _userSettingsTabTypes = {
   'my_profile',
   'account_security',
   'plutonium',
+  'operator_pass',
   'gift_inventory',
   'privacy_safety',
   'authorized_apps',
@@ -214,6 +215,8 @@ UserSettingsSection? mapUserSettingsDeepLinkToSection(
       return UserSettingsSection.shortcuts;
     case 'plutonium':
       return UserSettingsSection.fluxerPlutonium;
+    case 'operator_pass':
+      return UserSettingsSection.operatorPass;
     case 'gift_inventory':
       return UserSettingsSection.giftsAndCodes;
     case 'linked_accounts':

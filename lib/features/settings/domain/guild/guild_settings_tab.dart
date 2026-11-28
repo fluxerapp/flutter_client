@@ -16,6 +16,7 @@ enum GuildSettingsTab {
   stickers,
   webhooks,
   discovery,
+  vanityUrl,
   members,
   invites,
   bans,
@@ -31,6 +32,7 @@ GuildAction guildSettingsTabToAction(GuildSettingsTab tab) {
     GuildSettingsTab.auditLog => GuildAction.settingsActivityLog,
     GuildSettingsTab.webhooks => GuildAction.settingsWebhooks,
     GuildSettingsTab.discovery => GuildAction.settingsDiscovery,
+    GuildSettingsTab.vanityUrl => GuildAction.settingsInviteLinks,
     GuildSettingsTab.members => GuildAction.settingsMembers,
     GuildSettingsTab.invites => GuildAction.settingsInviteLinks,
     GuildSettingsTab.bans => GuildAction.settingsBans,
@@ -45,6 +47,12 @@ bool isGuildSettingsTabVisible({
   required bool isTouchPrimary,
 }) {
   if (tab == GuildSettingsTab.channels && !isTouchPrimary) {
+    return false;
+  }
+  if (tab == GuildSettingsTab.vanityUrl &&
+      (isTouchPrimary ||
+          guild == null ||
+          !hasGuildFeature(guild.features, GuildFeatures.vanityUrl))) {
     return false;
   }
   final GuildAction action = guildSettingsTabToAction(tab);
@@ -66,7 +74,8 @@ String? guildSettingsTabCategoryLabel(
   return switch (tab) {
     GuildSettingsTab.emoji ||
     GuildSettingsTab.stickers => l10n.guildSettingsCategoryExpressions,
-    GuildSettingsTab.discovery => l10n.guildSettingsCategoryCommunity,
+    GuildSettingsTab.discovery ||
+    GuildSettingsTab.vanityUrl => l10n.guildSettingsCategoryCommunity,
     GuildSettingsTab.webhooks => l10n.guildSettingsCategoryIntegrations,
     GuildSettingsTab.members ||
     GuildSettingsTab.invites ||
@@ -86,6 +95,7 @@ String guildSettingsTabQuery(GuildSettingsTab tab) {
     GuildSettingsTab.auditLog => 'audit-log',
     GuildSettingsTab.webhooks => 'webhooks',
     GuildSettingsTab.discovery => 'discovery',
+    GuildSettingsTab.vanityUrl => 'vanity-url',
     GuildSettingsTab.members => 'members',
     GuildSettingsTab.invites => 'invites',
     GuildSettingsTab.bans => 'bans',
@@ -102,6 +112,7 @@ GuildSettingsTab guildSettingsTabFromQuery(String? tabQuery) {
     'audit-log' => GuildSettingsTab.auditLog,
     'webhooks' => GuildSettingsTab.webhooks,
     'discovery' => GuildSettingsTab.discovery,
+    'vanity-url' => GuildSettingsTab.vanityUrl,
     'members' => GuildSettingsTab.members,
     'invites' => GuildSettingsTab.invites,
     'bans' => GuildSettingsTab.bans,
@@ -142,7 +153,8 @@ String guildSettingsTabPath(String guildId, GuildSettingsTab tab) {
       guildId,
     ),
     GuildSettingsTab.members => RoutePaths.guildSettingsMembersPath(guildId),
-    GuildSettingsTab.invites => RoutePaths.guildSettingsInvitesPath(guildId),
+    GuildSettingsTab.invites ||
+    GuildSettingsTab.vanityUrl => RoutePaths.guildSettingsInvitesPath(guildId),
     GuildSettingsTab.bans => RoutePaths.guildSettingsBansPath(guildId),
     GuildSettingsTab.channels => RoutePaths.guildSettingsChannelsPath(guildId),
   };

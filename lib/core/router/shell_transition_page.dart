@@ -61,6 +61,7 @@ CustomTransitionPage<void> shellFadeTransitionPage({
   String? name,
   Duration? duration,
   bool opaque = true,
+  bool barrierDismissible = false,
 }) {
   final Duration resolved =
       duration ?? ShellTransitionPolicy.rootOverlayFadeDuration(context);
@@ -68,6 +69,10 @@ CustomTransitionPage<void> shellFadeTransitionPage({
     key: key,
     name: name,
     opaque: opaque,
+    barrierDismissible: barrierDismissible,
+    barrierLabel: barrierDismissible
+        ? CupertinoLocalizations.of(context).modalBarrierDismissLabel
+        : null,
     child: FluxerSheetBackdrop(child: child),
     transitionDuration: resolved,
     reverseTransitionDuration: resolved,

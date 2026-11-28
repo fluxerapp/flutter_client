@@ -12485,6 +12485,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get uiReset => 'Επαναφορά';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Άνοιγμα επιλογέα χρώματος';
 
   @override

@@ -14726,6 +14726,14 @@
   "@uiReset": {
     "description": "Reset action label for settings save bars."
   },
+  "uiUnsavedChangesCareful": "Careful — you have unsaved changes",
+  "@uiUnsavedChangesCareful": {
+    "description": "Warning shown in the desktop settings header when the current page has unsaved edits."
+  },
+  "uiSaveChanges": "Save changes",
+  "@uiSaveChanges": {
+    "description": "Primary action in the desktop settings header that saves unsaved edits."
+  },
   "uiOpenColorPicker": "Open color picker",
   "@uiOpenColorPicker": {
     "description": "Accessible label for the color picker trigger button."

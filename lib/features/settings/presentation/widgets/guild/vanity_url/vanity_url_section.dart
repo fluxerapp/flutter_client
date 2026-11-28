@@ -23,9 +23,14 @@ const int _kVanityMinLength = 2;
 const int _kVanityMaxLength = 32;
 
 class GuildVanityUrlSection extends ConsumerStatefulWidget {
-  const GuildVanityUrlSection({required this.guildId, super.key});
+  const GuildVanityUrlSection({
+    required this.guildId,
+    this.showHeader = true,
+    super.key,
+  });
 
   final String guildId;
+  final bool showHeader;
 
   @override
   ConsumerState<GuildVanityUrlSection> createState() =>
@@ -160,15 +165,17 @@ class _GuildVanityUrlSectionState extends ConsumerState<GuildVanityUrlSection> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(l10n.guildVanityUrlTitle, style: context.textStyles.label),
-          SizedBox(height: layout.s1),
-          Text(
-            l10n.guildVanityUrlDescription,
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textSecondary,
+          if (widget.showHeader) ...<Widget>[
+            Text(l10n.guildVanityUrlTitle, style: context.textStyles.label),
+            SizedBox(height: layout.s1),
+            Text(
+              l10n.guildVanityUrlDescription,
+              style: context.textStyles.bodySmall.copyWith(
+                color: context.colors.textSecondary,
+              ),
             ),
-          ),
-          SizedBox(height: layout.s2),
+            SizedBox(height: layout.s2),
+          ],
           FluxerInput(
             controller: _controller,
             hint: l10n.guildVanityUrlHint,

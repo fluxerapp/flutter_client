@@ -11824,6 +11824,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get uiReset => 'リセット';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'カラーピッカーを開く';
 
   @override

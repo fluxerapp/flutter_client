@@ -13,6 +13,8 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavSecurityLogin;
     case UserSettingsSection.fluxerPlutonium:
       return l10n.userSettingsNavFluxerPlutonium;
+    case UserSettingsSection.operatorPass:
+      return l10n.operatorPassName;
     case UserSettingsSection.giftsAndCodes:
       return l10n.userSettingsNavGiftsAndCodes;
     case UserSettingsSection.privacyDashboard:

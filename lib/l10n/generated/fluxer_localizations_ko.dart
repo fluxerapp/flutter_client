@@ -11808,6 +11808,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get uiReset => '초기화';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => '색상 선택기 열기';
 
   @override

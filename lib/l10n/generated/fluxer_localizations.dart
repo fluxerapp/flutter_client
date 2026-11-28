@@ -20176,6 +20176,18 @@ abstract class FluxerLocalizations {
   /// **'Reset'**
   String get uiReset;
 
+  /// Warning shown in the desktop settings header when the current page has unsaved edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Careful — you have unsaved changes'**
+  String get uiUnsavedChangesCareful;
+
+  /// Primary action in the desktop settings header that saves unsaved edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get uiSaveChanges;
+
   /// Accessible label for the color picker trigger button.
   ///
   /// In en, this message translates to:

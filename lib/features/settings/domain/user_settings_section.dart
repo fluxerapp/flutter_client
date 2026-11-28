@@ -2,6 +2,7 @@ enum UserSettingsSection {
   profile,
   securityLogin,
   fluxerPlutonium,
+  operatorPass,
   giftsAndCodes,
   privacyDashboard,
   authorizedApps,

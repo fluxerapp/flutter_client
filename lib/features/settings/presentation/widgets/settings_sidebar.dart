@@ -1,6 +1,12 @@
+import 'dart:async';
+
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/desktop_settings_text.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/sidebar_sections/sidebar_expand_chevron.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/sidebar_sections/sidebar_section_tree.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_section_scroll.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -25,6 +31,9 @@ class SettingsSidebar extends StatelessWidget {
   final VoidCallback? onProfileTap;
   final bool profileSelected;
   final double desktopTopInset;
+  final bool showSections;
+
+  static const int _kSectionScrollAttempts = 20;
 
   const SettingsSidebar({
     required this.items,
@@ -44,6 +53,7 @@ class SettingsSidebar extends StatelessWidget {
     this.onProfileTap,
     this.profileSelected = false,
     this.desktopTopInset = 16,
+    this.showSections = true,
     super.key,
   });
 
@@ -110,6 +120,9 @@ class SettingsSidebar extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = items[index];
                         final isSelected = index == selectedIndex;
+                        if (item.isHidden) {
+                          return const SizedBox.shrink();
+                        }
                         if (item.isSeparator) {
                           return _buildSeparator(context, item);
                         }
@@ -130,7 +143,41 @@ class SettingsSidebar extends StatelessWidget {
     );
   }
 
+  void _handleSectionTap(
+    BuildContext context, {
+    required FluxerSectionOutlineController outline,
+    required int index,
+    required String tab,
+    required String sectionId,
+  }) {
+    if (outline.activeTab == tab) {
+      if (!outline.scrollToSection(sectionId)) {
+        UserSettingsSectionScrollKeys.scheduleScrollToField(context, sectionId);
+      }
+      return;
+    }
+    onSelected(index);
+    unawaited(_scrollWhenTabActive(outline, tab, sectionId));
+  }
+
+  static Future<void> _scrollWhenTabActive(
+    FluxerSectionOutlineController outline,
+    String tab,
+    String sectionId,
+  ) async {
+    await WidgetsBinding.instance.endOfFrame;
+    for (int attempt = 0; attempt < _kSectionScrollAttempts; attempt++) {
+      if (outline.activeTab != tab || outline.scrollToSection(sectionId)) {
+        return;
+      }
+      await WidgetsBinding.instance.endOfFrame;
+    }
+  }
+
   Widget _buildDesktop(BuildContext context) {
+    final FluxerSectionOutlineController? outline = showSections
+        ? FluxerSectionOutlineScope.maybeOf(context)
+        : null;
     final List<Widget> header = <Widget>[
       if (showSearch && searchController != null)
         Padding(
@@ -168,6 +215,11 @@ class SettingsSidebar extends StatelessWidget {
         }
         continue;
       }
+      final String tab = item.label;
+      final bool selected = index == selectedIndex;
+      final bool expandable =
+          outline != null && !item.isDestructive && outline.hasSections(tab);
+      final bool expanded = expandable && outline.isExpanded(tab);
       navChildren.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 3),
@@ -175,12 +227,41 @@ class SettingsSidebar extends StatelessWidget {
             label: item.label,
             icon: item.icon,
             leading: item.leading,
-            selected: index == selectedIndex,
+            selected: selected,
             danger: item.isDestructive,
-            onTap: () => onSelected(index),
+            expandable: expandable,
+            expanded: expanded,
+            onExpand: expandable ? () => outline.expand(tab) : null,
+            onCollapse: expandable ? () => outline.collapse(tab) : null,
+            onTap: () {
+              if (expandable && selected) {
+                outline.toggle(tab);
+                return;
+              }
+              onSelected(index);
+            },
           ),
         ),
       );
+      if (expandable) {
+        navChildren.add(
+          SettingsSidebarSectionTree(
+            key: ValueKey<String>('sections:$tab'),
+            sections: outline.sectionsFor(tab),
+            expanded: expanded,
+            activeSectionId: outline.activeTab == tab
+                ? outline.activeSectionId
+                : null,
+            onSectionTap: (String sectionId) => _handleSectionTap(
+              context,
+              outline: outline,
+              index: index,
+              tab: tab,
+              sectionId: sectionId,
+            ),
+          ),
+        );
+      }
     }
     return ColoredBox(
       color: backgroundColor ?? fluxerFormSurfaceBackground(context),
@@ -340,6 +421,10 @@ class _DesktopSettingsSidebarItem extends StatelessWidget {
     this.icon,
     this.leading,
     this.danger = false,
+    this.expandable = false,
+    this.expanded = false,
+    this.onExpand,
+    this.onCollapse,
   });
 
   final String label;
@@ -347,7 +432,33 @@ class _DesktopSettingsSidebarItem extends StatelessWidget {
   final Widget? leading;
   final bool selected;
   final bool danger;
+  final bool expandable;
+  final bool expanded;
+  final VoidCallback? onExpand;
+  final VoidCallback? onCollapse;
   final VoidCallback onTap;
+
+  KeyEventResult _handleKey(KeyEvent event, {required bool rtl}) {
+    if (!expandable || event is KeyUpEvent) {
+      return KeyEventResult.ignored;
+    }
+    final LogicalKeyboardKey key = event.logicalKey;
+    final bool forward =
+        key ==
+        (rtl ? LogicalKeyboardKey.arrowLeft : LogicalKeyboardKey.arrowRight);
+    final bool backward =
+        key ==
+        (rtl ? LogicalKeyboardKey.arrowRight : LogicalKeyboardKey.arrowLeft);
+    if (forward) {
+      onExpand?.call();
+      return KeyEventResult.handled;
+    }
+    if (backward) {
+      onCollapse?.call();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -357,62 +468,84 @@ class _DesktopSettingsSidebarItem extends StatelessWidget {
         ? fluxerDesktopMenuDangerBackground(colors)
         : colors.surfaceInteractiveHoverBg;
     final BorderRadius radius = context.layout.radiusLg;
-    return Semantics(
-      container: true,
-      button: true,
-      selected: selected,
-      child: FluxerSelectableRow(
-        isSelected: selected && !danger,
-        selectedColor: colors.surfaceInteractiveSelectedBg,
-        borderRadius: radius,
-        hoverColor: hoverColor,
-        pressedColor: hoverColor,
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-        onTap: onTap,
-        childBuilder: (BuildContext context, Set<WidgetState> states) {
-          final bool hovered = states.contains(WidgetState.hovered);
-          final Color textColor = danger
-              ? dangerText
-              : selected || hovered
-              ? colors.textPrimary
-              : colors.textPrimaryMuted;
-          final Color iconColor = danger
-              ? dangerText
-              : selected || hovered
-              ? colors.textPrimary
-              : colors.textTertiary;
-          return ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 22),
-            child: Row(
-              children: <Widget>[
-                if (leading != null)
-                  SizedBox.square(
-                    dimension: 20,
-                    child: IconTheme.merge(
-                      data: IconThemeData(color: iconColor, size: 20),
-                      child: leading!,
-                    ),
-                  )
-                else if (icon != null)
-                  PhosphorIcon(icon!, size: 20, color: iconColor),
-                if (leading != null || icon != null) const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textStyles.bodyMedium.copyWith(
-                      fontSize: 13,
-                      height: 18 / 13,
-                      fontWeight: FontWeight.w500,
-                      color: textColor,
+    return Focus(
+      canRequestFocus: false,
+      skipTraversal: true,
+      onKeyEvent: (FocusNode node, KeyEvent event) => _handleKey(
+        event,
+        rtl: Directionality.of(context) == TextDirection.rtl,
+      ),
+      child: Semantics(
+        container: true,
+        button: true,
+        selected: selected,
+        expanded: expandable ? expanded : null,
+        child: FluxerSelectableRow(
+          isSelected: selected && !danger,
+          selectedColor: colors.surfaceInteractiveSelectedBg,
+          borderRadius: radius,
+          hoverColor: hoverColor,
+          pressedColor: hoverColor,
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+          onTap: onTap,
+          childBuilder: (BuildContext context, Set<WidgetState> states) {
+            final bool hovered = states.contains(WidgetState.hovered);
+            final Color textColor = danger
+                ? dangerText
+                : selected || hovered
+                ? colors.textPrimary
+                : colors.textPrimaryMuted;
+            final Color iconColor = danger
+                ? dangerText
+                : selected || hovered
+                ? colors.textPrimary
+                : colors.textTertiary;
+            return ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 22),
+              child: Row(
+                children: <Widget>[
+                  if (leading != null)
+                    SizedBox.square(
+                      dimension: 20,
+                      child: IconTheme.merge(
+                        data: IconThemeData(color: iconColor, size: 20),
+                        child: leading!,
+                      ),
+                    )
+                  else if (icon != null)
+                    PhosphorIcon(icon!, size: 20, color: iconColor),
+                  if (leading != null || icon != null) const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textStyles.bodyMedium.copyWith(
+                        fontSize: 13,
+                        height: 18 / 13,
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                  if (expandable) ...<Widget>[
+                    const SizedBox(width: 8),
+                    SettingsSidebarExpandChevron(
+                      expanded: expanded,
+                      visible:
+                          selected ||
+                          expanded ||
+                          hovered ||
+                          states.contains(WidgetState.focused),
+                      emphasized:
+                          selected || states.contains(WidgetState.focused),
+                    ),
+                  ],
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

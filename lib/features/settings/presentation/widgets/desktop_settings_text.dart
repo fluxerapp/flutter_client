@@ -54,19 +54,33 @@ class DesktopSettingsSidebarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = large ? 12 : 11;
+    if (!large) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: context.textStyles.bodyMedium.copyWith(
+            fontSize: 12,
+            height: 16 / 12,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0,
+            color: context.colors.textTertiary,
+          ),
+        ),
+      );
+    }
     return Padding(
-      padding: large
-          ? const EdgeInsets.fromLTRB(8, 6, 8, 10)
-          : const EdgeInsets.fromLTRB(10, 4, 10, 7),
+      padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
       child: Text(
         label.toUpperCase(),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: fluxerDesktopEyebrowStyle(context).copyWith(
-          fontSize: fontSize,
-          height: (large ? 18 : 16) / fontSize,
-          letterSpacing: fontSize * 0.02,
+          fontSize: 12,
+          height: 18 / 12,
+          letterSpacing: 12 * 0.02,
           color: context.colors.textTertiary,
         ),
       ),

@@ -12446,6 +12446,12 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get uiReset => 'Нулиране';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Отваряне на палитрата с цветове';
 
   @override

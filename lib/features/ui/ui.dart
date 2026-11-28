@@ -47,6 +47,11 @@ export 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_list.dar
 export 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 export 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_section_outline_anchor.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_section_outline_controller.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_section_outline_entry.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_section_outline_listener.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_section_outline_scope.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_compact_select_row.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
@@ -58,6 +63,11 @@ export 'package:fluxer_app/features/ui/settings/fluxer_settings_select_row.dart'
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_subsection.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_sheet_section_nav.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_banner.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_controller.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_entry.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_guard.dart';
+export 'package:fluxer_app/features/ui/settings/fluxer_unsaved_changes_scope.dart';
 export 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 export 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 export 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';

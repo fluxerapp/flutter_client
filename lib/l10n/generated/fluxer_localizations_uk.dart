@@ -12437,6 +12437,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get uiReset => 'Скинути';
 
   @override
+  String get uiUnsavedChangesCareful => 'Careful — you have unsaved changes';
+
+  @override
+  String get uiSaveChanges => 'Save changes';
+
+  @override
   String get uiOpenColorPicker => 'Відкрити палітру кольорів';
 
   @override

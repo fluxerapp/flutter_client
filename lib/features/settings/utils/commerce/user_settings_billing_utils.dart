@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 
 const Set<UserSettingsSection> userSettingsBillingSections = {
   UserSettingsSection.fluxerPlutonium,
+  UserSettingsSection.operatorPass,
   UserSettingsSection.giftsAndCodes,
 };
 

@@ -115,58 +115,93 @@ class FluxerSwitchControl extends StatelessWidget {
         child: SizedBox(
           width: 44,
           height: 24,
-          child: AnimatedContainer(
-            duration: duration,
-            curve: curve,
-            decoration: BoxDecoration(
-              color: trackColor,
-              borderRadius: BorderRadius.circular(9999),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: value ? 0.15 : 0.1),
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                AnimatedPositionedDirectional(
-                  duration: duration,
-                  curve: curve,
-                  start: value ? 22 : 2,
-                  top: 2,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: value ? colors.brandPrimaryFill : Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.15),
-                          offset: const Offset(0, 1),
-                        ),
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          offset: const Offset(0, 2),
-                          blurRadius: 4,
-                          spreadRadius: -1,
-                        ),
-                      ],
+          child: _SwitchHoverRegion(
+            enabled: enabled,
+            builder: (BuildContext context, bool hovered) => AnimatedContainer(
+              duration: duration,
+              curve: curve,
+              decoration: BoxDecoration(
+                color: trackColor,
+                borderRadius: BorderRadius.circular(9999),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withValues(
+                      alpha: value || hovered ? 0.15 : 0.1,
                     ),
-                    child: PhosphorIcon(
-                      value ? PhosphorIconsBold.check : PhosphorIconsBold.x,
-                      size: value ? 12 : 10,
-                      color: value ? colors.brandPrimary : uncheckedIcon,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  AnimatedPositionedDirectional(
+                    duration: duration,
+                    curve: curve,
+                    start: value ? 22 : 2,
+                    top: 2,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: value ? colors.brandPrimaryFill : Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.15),
+                            offset: const Offset(0, 1),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                            spreadRadius: -1,
+                          ),
+                        ],
+                      ),
+                      child: PhosphorIcon(
+                        value ? PhosphorIconsBold.check : PhosphorIconsBold.x,
+                        size: value ? 12 : 10,
+                        color: value ? colors.brandPrimary : uncheckedIcon,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SwitchHoverRegion extends StatefulWidget {
+  const _SwitchHoverRegion({required this.enabled, required this.builder});
+
+  final bool enabled;
+  final Widget Function(BuildContext context, bool hovered) builder;
+
+  @override
+  State<_SwitchHoverRegion> createState() => _SwitchHoverRegionState();
+}
+
+class _SwitchHoverRegionState extends State<_SwitchHoverRegion> {
+  bool _hovered = false;
+
+  void _setHovered(bool value) {
+    if (_hovered != value) {
+      setState(() => _hovered = value);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      opaque: false,
+      onEnter: (_) => _setHovered(true),
+      onExit: (_) => _setHovered(false),
+      child: widget.builder(context, widget.enabled && _hovered),
     );
   }
 }

@@ -250,6 +250,10 @@ const _userSettingsDesktopNavBilling = [
     icon: kPlutoniumProductIcon,
   ),
   UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.operatorPass,
+    icon: PhosphorIconsFill.ticket,
+  ),
+  UserSettingsDesktopNavEntry.link(
     UserSettingsSection.giftsAndCodes,
     icon: PhosphorIconsFill.gift,
   ),
