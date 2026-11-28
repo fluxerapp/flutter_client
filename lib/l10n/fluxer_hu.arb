@@ -8599,14 +8599,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Továbbfejlesztett",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Szokványos",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Nincs",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -8618,10 +8610,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Automatikus erősítésszabályozás",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Kiegyenlíti a mikrofonod hangerejét. Kikapcsolásra kerül, ha a fejlett zajcsökkentés aktív.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "Mikrofonteszt",
     "@audioAndVideoMicTestSectionTitle": {
@@ -8678,10 +8666,6 @@
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Ez a példány jelenleg legfeljebb 720p 30 FPS-t engedélyez.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "addGuildCreateTitle": "Közösség létrehozása",
     "@addGuildCreateTitle": {

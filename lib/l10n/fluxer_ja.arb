@@ -9887,10 +9887,6 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "このインスタンスでは現在、最大720p、30FPSで画面共有が可能です。",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
-    },
     "notificationsGeneralSectionTitle": "一般",
     "@notificationsGeneralSectionTitle": {
         "description": "Notifications settings section title for general notification controls."
@@ -10402,10 +10398,6 @@
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
     },
-    "audioAndVideoAutomaticGainControlDescription": "マイクの音量を均一にします。強化されたノイズ抑制がオンのときはオフになります。",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestSectionTitle": "マイクテスト",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -10493,14 +10485,6 @@
     "audioAndVideoNoiseSuppressionSectionTitle": "ノイズ抑制",
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
-    },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "強化",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "標準",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
     },
     "shareMediaPartialSuccessToast": "{count} 件先に共有しました",
     "@shareMediaPartialSuccessToast": {

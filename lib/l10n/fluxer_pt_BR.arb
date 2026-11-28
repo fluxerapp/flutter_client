@@ -9391,10 +9391,6 @@
     "@audioAndVideoUseSpeakerDescription": {
         "description": "Description for the speaker output toggle on mobile."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Aprimorado",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "languageAndTimeTimeFormatAuto": "Automático",
     "@languageAndTimeTimeFormatAuto": {
         "description": "Time format option that detects format from locale."
@@ -9579,10 +9575,6 @@
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Esta instância permite compartilhamento de tela de até 720p a 30 FPS no momento.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "guildSettingsRolesShowSeparatelyHelper": "Lista os membros com este cargo em uma seção própria da lista de membros.",
     "@guildSettingsRolesShowSeparatelyHelper": {
@@ -10198,10 +10190,6 @@
     "@audioAndVideoDirectInputDescription": {
         "description": "Description for the direct input voice processing profile."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Padrão",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMicTestStartLabel": "Iniciar teste do microfone",
     "@audioAndVideoMicTestStartLabel": {
         "description": "Button label to start the microphone test."
@@ -10520,10 +10508,6 @@
     "audioAndVideoUseSpeakerLabel": "Usar alto-falante",
     "@audioAndVideoUseSpeakerLabel": {
         "description": "Switch label to route voice call audio through the device speaker."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Nivelamento automático do volume do microfone. Desativado quando a supressão aprimorada estiver ativa.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoScreenShareQualitySectionTitle": "Qualidade do compartilhamento de tela",
     "@audioAndVideoScreenShareQualitySectionTitle": {

@@ -9545,14 +9545,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Enhanced",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "None",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10347,10 +10339,6 @@
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Evens out your mic volume. Off when enhanced suppression is on.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMirrorCameraLabel": "Mirror camera",
     "@audioAndVideoMirrorCameraLabel": {
         "description": "Switch label for flipping the local camera preview horizontally."
@@ -10362,10 +10350,6 @@
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "This instance currently allows screen share up to 720p at 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "Don't ask when hiding my screen share",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {

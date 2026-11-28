@@ -9608,14 +9608,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "ปรับปรุงแล้ว",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "มาตรฐาน",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoMicTestSectionTitle": "ทดสอบไมโครโฟน",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
@@ -9635,10 +9627,6 @@
     "audioAndVideoFrameRate15Label": "15 เฟรมต่อวินาที",
     "@audioAndVideoFrameRate15Label": {
         "description": "Screen share frame rate option for 15 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "อินสแตนซ์นี้ปัจจุบันอนุญาตให้แชร์หน้าจอได้สูงสุด 720p ที่ 30 FPS",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "notificationsGeneralSectionTitle": "ทั่วไป",
     "@notificationsGeneralSectionTitle": {
@@ -9760,10 +9748,6 @@
     "audioAndVideoInCallBehaviorSectionTitle": "การทำงานขณะอยู่ในสาย",
     "@audioAndVideoInCallBehaviorSectionTitle": {
         "description": "Settings section title for in-call behavior prompts."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "ปรับระดับเสียงไมโครโฟนให้สม่ำเสมอ ปิดเมื่อเปิดใช้งานการลดเสียงรบกวนขั้นสูง",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "ไม่ถามเมื่อซ่อนกล้องของฉัน",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

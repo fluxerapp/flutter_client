@@ -9487,14 +9487,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Mejorado",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Estándar",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Ninguna",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -9506,10 +9498,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Control automático de ganancia",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Nivela el volumen de tu micrófono. Se desactiva cuando la supresión mejorada está activada.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "Prueba de micrófono",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10337,10 +10325,6 @@
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Esta instancia permite actualmente compartir pantalla hasta 720p a 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "guildSettingsRolesSingleColumn": "Una columna",
     "@guildSettingsRolesSingleColumn": {

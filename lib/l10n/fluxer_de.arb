@@ -8637,10 +8637,6 @@
     "@audioAndVideoDirectInputLabel": {
         "description": "Voice processing profile that sends unprocessed audio."
     },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Standard",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Keine",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -9476,10 +9472,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Gleicht deine Mikrofonlautstärke aus. Aus, wenn die erweiterte Unterdrückung aktiviert ist.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "systemPermissionSettingsTitle": "Berechtigung aktivieren",
     "@systemPermissionSettingsTitle": {
         "description": "Title for the system permission settings prompt modal."
@@ -9812,10 +9804,6 @@
     "@audioAndVideoFocusedVoiceDescription": {
         "description": "Description for the focused voice processing profile."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Verbessert",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
     "audioAndVideoCameraQuality1080pLabel": "1080p",
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
@@ -9831,10 +9819,6 @@
     "audioAndVideoFrameRate15Label": "15 Bilder/Sek.",
     "@audioAndVideoFrameRate15Label": {
         "description": "Screen share frame rate option for 15 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Diese Instanz erlaubt derzeit Bildschirmfreigabe bis zu 720p bei 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "userSettingsNavNotifications": "Benachrichtigungen",
     "@userSettingsNavNotifications": {

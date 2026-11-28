@@ -8389,14 +8389,6 @@
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Mejorado",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Estándar",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "channelDetailsActionMore": "Más",
     "@channelDetailsActionMore": {
         "description": "More action button label in channel details."
@@ -14144,10 +14136,6 @@
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
     },
-    "audioAndVideoAutomaticGainControlDescription": "Ecualiza el volumen de tu micrófono. Desactivado cuando la supresión mejorada está activada.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
-    },
     "audioAndVideoMicTestStartLabel": "Iniciar prueba del micrófono",
     "@audioAndVideoMicTestStartLabel": {
         "description": "Button label to start the microphone test."
@@ -14159,10 +14147,6 @@
     "audioAndVideoScreenShareQualitySectionTitle": "Calidad de la pantalla compartida",
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Esta instancia actualmente permite compartir pantalla hasta 720p a 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "No preguntar al ocultar mi cámara",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

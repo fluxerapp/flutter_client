@@ -10886,14 +10886,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "बेहतर",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "सामान्य",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "कोई नहीं",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10905,10 +10897,6 @@
     "audioAndVideoAutomaticGainControlLabel": "ऑटोमैटिक गेन कंट्रोल",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "यह आपके माइक्रोफ़ोन की आवाज़ को एक समान करता है। जब एन्हांस्ड सप्रेशन चालू होता है तो यह बंद हो जाता है।",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "माइक टेस्ट",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10965,10 +10953,6 @@
     "audioAndVideoFrameRate60Label": "60 एफपीएस",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "यह इंस्टेंस वर्तमान में 30 FPS पर 720p तक स्क्रीन शेयर की अनुमति देता है।",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "कैमरा छिपाने पर न पूछें",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {

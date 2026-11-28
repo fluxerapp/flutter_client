@@ -10886,14 +10886,6 @@
     "@audioAndVideoNoiseSuppressionSectionTitle": {
         "description": "Subsection title for noise suppression tier selection."
     },
-    "audioAndVideoNoiseSuppressionEnhancedLabel": "Подобрено",
-    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
-        "description": "Enhanced noise suppression option using AI filtering."
-    },
-    "audioAndVideoNoiseSuppressionStandardLabel": "Стандартен",
-    "@audioAndVideoNoiseSuppressionStandardLabel": {
-        "description": "Standard browser or platform noise suppression option."
-    },
     "audioAndVideoNoiseSuppressionNoneLabel": "Няма",
     "@audioAndVideoNoiseSuppressionNoneLabel": {
         "description": "No noise suppression option."
@@ -10905,10 +10897,6 @@
     "audioAndVideoAutomaticGainControlLabel": "Автоматичен контрол на усилването",
     "@audioAndVideoAutomaticGainControlLabel": {
         "description": "Toggle label for automatic gain control."
-    },
-    "audioAndVideoAutomaticGainControlDescription": "Изравнява силата на звука на микрофона ви. Изключено, когато е включено подобрено потискане.",
-    "@audioAndVideoAutomaticGainControlDescription": {
-        "description": "Description for automatic gain control toggle."
     },
     "audioAndVideoMicTestSectionTitle": "Тест на микрофон",
     "@audioAndVideoMicTestSectionTitle": {
@@ -10965,10 +10953,6 @@
     "audioAndVideoFrameRate60Label": "60 кадъра в секунда",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Тази инстанция в момента позволява споделяне на екран до 720p при 30 FPS.",
-    "@audioAndVideoInstanceVideoQualityLimit": {
-        "description": "Note shown when instance limits block higher screen share quality."
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Не питай, когато скривам камерата си",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
