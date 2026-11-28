@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -225,6 +226,7 @@ List<Widget> categoryMenuGroupsToWidgets({
   required List<CategoryMenuGroup> groups,
   required CategoryMenuState menuState,
   required void Function(CategoryMenuAction action) onAction,
+  ValueChanged<int?>? onMuteFor,
 }) {
   final List<Widget> widgets = <Widget>[];
   for (int groupIndex = 0; groupIndex < groups.length; groupIndex++) {
@@ -232,6 +234,20 @@ List<Widget> categoryMenuGroupsToWidgets({
       widgets.add(const FluxerMenuDivider());
     }
     for (final CategoryMenuEntry entry in groups[groupIndex]) {
+      if (entry.action == CategoryMenuAction.mute &&
+          !menuState.isMuted &&
+          onMuteFor != null) {
+        widgets.add(
+          muteDurationSubmenuItem(
+            label: entry.label,
+            hint: entry.hint,
+            enabled: entry.enabled,
+            onPressed: () => onAction(entry.action),
+            onMute: onMuteFor,
+          ),
+        );
+        continue;
+      }
       widgets.add(
         FluxerMenuItem(
           label: entry.label,

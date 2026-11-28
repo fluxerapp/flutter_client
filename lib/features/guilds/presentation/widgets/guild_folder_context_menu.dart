@@ -5,16 +5,11 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_panel.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
-import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-
-const _kSubmenuGap = 3.0;
 
 Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
   BuildContext context,
@@ -71,371 +66,32 @@ Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
 Future<FolderMenuAction?> showFolderContextMenu(
   BuildContext context, {
   required Offset position,
-  required String folderName,
   required List<Guild> guilds,
   required bool hasUnread,
-  bool verticallyCenterAtPosition = false,
-}) async {
-  final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
-  if (overlay == null) {
-    return null;
-  }
-
-  final local = overlay.globalToLocal(position);
-  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  final groups = buildFolderMenuGroups(
-    l10n: l10n,
+}) {
+  final List<FolderMenuGroup> groups = buildFolderMenuGroups(
+    l10n: FluxerLocalizations.of(context),
     hasUnread: hasUnread,
     hasGuilds: guilds.isNotEmpty,
   );
-
-  return await Navigator.of(context).push<FolderMenuAction>(
-    _FolderContextMenuRoute(
-      animate: !usesDesktopPointerUi(context),
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      position: local,
-      overlaySize: overlay.size,
-      folderName: folderName,
-      groups: groups,
-      verticallyCenterAtPosition: verticallyCenterAtPosition,
-    ),
-  );
-}
-
-class _FolderContextMenuRoute extends PopupRoute<FolderMenuAction> {
-  _FolderContextMenuRoute({
-    required this.animate,
-    required this.barrierLabel,
-    required this.position,
-    required this.overlaySize,
-    required this.folderName,
-    required this.groups,
-    required this.verticallyCenterAtPosition,
-  });
-
-  final Offset position;
-  final Size overlaySize;
-  final String folderName;
-  final List<FolderMenuGroup> groups;
-  final bool verticallyCenterAtPosition;
-
-  final bool animate;
-
-  @override
-  Duration get transitionDuration =>
-      animate ? kContextMenuEntranceDuration : Duration.zero;
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Color? get barrierColor => Colors.transparent;
-
-  @override
-  final String barrierLabel;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) => _FolderContextMenuPage(
+  return pushFluxerDesktopMenu<FolderMenuAction>(
+    context,
     position: position,
-    overlaySize: overlaySize,
-    folderName: folderName,
-    animation: animation,
-    groups: groups,
-    verticallyCenterAtPosition: verticallyCenterAtPosition,
-  );
-}
-
-class _FolderContextMenuPage extends StatefulWidget {
-  const _FolderContextMenuPage({
-    required this.position,
-    required this.overlaySize,
-    required this.folderName,
-    required this.animation,
-    required this.groups,
-    required this.verticallyCenterAtPosition,
-  });
-
-  final Offset position;
-  final Size overlaySize;
-  final String folderName;
-  final Animation<double> animation;
-  final List<FolderMenuGroup> groups;
-  final bool verticallyCenterAtPosition;
-
-  @override
-  State<_FolderContextMenuPage> createState() => _FolderContextMenuPageState();
-}
-
-class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
-  String? _activeSubmenuKey;
-  final Map<String, GlobalKey> _submenuKeys = {};
-  Timer? _hideTimer;
-  bool _isSubmenuHovered = false;
-
-  @override
-  void dispose() {
-    _hideTimer?.cancel();
-    super.dispose();
-  }
-
-  void _activateSubmenu(String key) {
-    _hideTimer?.cancel();
-    if (_activeSubmenuKey != key) {
-      setState(() => _activeSubmenuKey = key);
-    }
-  }
-
-  void _requestDeactivate(String key) {
-    _hideTimer?.cancel();
-    _hideTimer = Timer(const Duration(milliseconds: 100), () {
-      if (_activeSubmenuKey == key && !_isSubmenuHovered) {
-        setState(() => _activeSubmenuKey = null);
-      }
-    });
-  }
-
-  void _onSubmenuPanelEnter() {
-    _hideTimer?.cancel();
-    _isSubmenuHovered = true;
-  }
-
-  void _onSubmenuPanelExit() {
-    _isSubmenuHovered = false;
-    if (_activeSubmenuKey != null) {
-      _requestDeactivate(_activeSubmenuKey!);
-    }
-  }
-
-  GlobalKey _keyFor(String submenuKey) {
-    return _submenuKeys.putIfAbsent(submenuKey, GlobalKey.new);
-  }
-
-  void _openFolderSubmenuBottomSheet(
-    BuildContext context,
-    FolderMenuSubmenu submenu,
-  ) {
-    final NavigatorState nav = Navigator.of(context);
-    unawaited(
-      showFolderSubmenuBottomSheet(context, submenu).then((
-        FolderMenuAction? result,
-      ) {
-        if (result != null) {
-          nav.pop(result);
-        }
-      }),
-    );
-  }
-
-  int _folderMenuRowCount() {
-    var count = 0;
-    for (final FolderMenuGroup group in widget.groups) {
-      count += group.length;
-    }
-    return count;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final bool useBottomSheetSubmenus = !usesDesktopPointerUi(context);
-    final double menuWidth = useBottomSheetSubmenus
-        ? kSidebarPeekMenuWidth
-        : kContextMenuWidth;
-    final double mainHeight = useBottomSheetSubmenus
-        ? estimateSidebarPeekMenuHeight(
-            context,
-            rowCount: _folderMenuRowCount(),
-          )
-        : estimateContextMenuHeight(
-            _buildItems(
-              context,
-              useBottomSheetSubmenus: useBottomSheetSubmenus,
+    builder: (BuildContext menuContext, VoidCallback _) =>
+        FluxerDesktopMenuPanel.fitContent(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: buildFolderContextMenuItems(
+                groups: groups,
+                onAction: (FolderMenuAction action) =>
+                    Navigator.of(menuContext).pop(action),
+              ),
             ),
-          );
-
-    final opensLeft = contextMenuOpensLeft(
-      context,
-      anchorX: widget.position.dx,
-      menuWidth: menuWidth,
-      overlayWidth: widget.overlaySize.width,
-    );
-    final opensUp =
-        widget.position.dy + mainHeight > widget.overlaySize.height - 8;
-
-    var mainLeft = opensLeft
-        ? widget.position.dx - menuWidth
-        : widget.position.dx;
-    var mainTop = opensUp
-        ? widget.position.dy - mainHeight
-        : widget.verticallyCenterAtPosition
-        ? widget.position.dy - mainHeight / 2
-        : widget.position.dy;
-    mainLeft = mainLeft.clamp(8.0, widget.overlaySize.width - menuWidth - 8);
-    mainTop = mainTop.clamp(8.0, widget.overlaySize.height - mainHeight - 8);
-
-    final alignment = Alignment(opensLeft ? 1.0 : -1.0, opensUp ? 1.0 : -1.0);
-
-    final Widget mainPanel;
-    if (useBottomSheetSubmenus) {
-      mainPanel = SidebarPeekMenuPanel(
-        title: widget.folderName,
-        sections: buildFolderSidebarPeekSections(
-          context: context,
-          groups: widget.groups,
-          onActionEntry: (FolderMenuActionEntry entry) {
-            if (!entry.isDisabled) {
-              Navigator.of(context).pop(entry.action);
-            }
-          },
-          onSubmenuEntry: (FolderMenuSubmenu entry) {
-            if (!entry.isDisabled) {
-              _openFolderSubmenuBottomSheet(context, entry);
-            }
-          },
-        ),
-      );
-    } else {
-      final items = _buildItems(
-        context,
-        useBottomSheetSubmenus: useBottomSheetSubmenus,
-      );
-      mainPanel = ContextMenuPanel(items: items);
-    }
-
-    Widget? submenuPanel;
-    if (!useBottomSheetSubmenus && _activeSubmenuKey != null) {
-      final subKey = _submenuKeys[_activeSubmenuKey];
-      if (subKey?.currentContext != null) {
-        final subItems = _buildSubmenuItems(_activeSubmenuKey!);
-        if (subItems.isNotEmpty) {
-          final box = subKey!.currentContext!.findRenderObject()! as RenderBox;
-          final RenderBox overlayBox =
-              Overlay.of(context).context.findRenderObject()! as RenderBox;
-          final Offset itemTopLeft = overlayBox.globalToLocal(
-            box.localToGlobal(Offset.zero),
-          );
-          final subHeight = estimateContextMenuHeight(subItems);
-
-          final rightX = mainLeft + kContextMenuWidth + _kSubmenuGap;
-          final leftX = mainLeft - kContextMenuWidth - _kSubmenuGap;
-          final fitsRight =
-              rightX + kContextMenuWidth < widget.overlaySize.width - 8;
-
-          final subLeft = fitsRight ? rightX : leftX;
-          final subTop = itemTopLeft.dy.clamp(
-            8.0,
-            widget.overlaySize.height - subHeight - 8,
-          );
-
-          submenuPanel = Positioned(
-            left: subLeft,
-            top: subTop,
-            child: MouseRegion(
-              onEnter: (_) => _onSubmenuPanelEnter(),
-              onExit: (_) => _onSubmenuPanelExit(),
-              child: ContextMenuPanel(items: subItems),
-            ),
-          );
-        }
-      }
-    }
-
-    return Stack(
-      children: [
-        Positioned(
-          left: mainLeft,
-          top: mainTop,
-          child: ContextMenuEntranceAnimation(
-            animation: widget.animation,
-            alignment: alignment,
-            child: mainPanel,
           ),
         ),
-        ?submenuPanel,
-      ],
-    );
-  }
-
-  List<Widget> _buildSubmenuItems(String key) {
-    void pop(FolderMenuAction action) => Navigator.of(context).pop(action);
-    final items = <Widget>[];
-
-    for (final group in widget.groups) {
-      for (final entry in group) {
-        if (entry is FolderMenuSubmenu && entry.key == key) {
-          for (final submenuGroup in entry.groups) {
-            if (submenuGroup.isEmpty) {
-              continue;
-            }
-            if (items.isNotEmpty) {
-              items.add(const ContextMenuDivider());
-            }
-            for (final child in submenuGroup) {
-              if (child is FolderMenuActionEntry) {
-                items.add(
-                  GuildFolderContextMenuItem(
-                    entry: child,
-                    onTap: child.isDisabled ? () {} : () => pop(child.action),
-                  ),
-                );
-              }
-            }
-          }
-          return items;
-        }
-      }
-    }
-    return [];
-  }
-
-  List<Widget> _buildItems(
-    BuildContext context, {
-    required bool useBottomSheetSubmenus,
-  }) {
-    void pop(FolderMenuAction action) => Navigator.of(context).pop(action);
-    final items = <Widget>[
-      ContextMenuTitle(title: widget.folderName),
-      const ContextMenuDivider(),
-    ];
-
-    for (final group in widget.groups) {
-      if (group.isEmpty) {
-        continue;
-      }
-      if (items.length > 2) {
-        items.add(const ContextMenuDivider());
-      }
-      for (final entry in group) {
-        switch (entry) {
-          case FolderMenuActionEntry():
-            items.add(
-              GuildFolderContextMenuItem(
-                entry: entry,
-                onTap: entry.isDisabled ? () {} : () => pop(entry.action),
-              ),
-            );
-          case FolderMenuSubmenu():
-            items.add(
-              GuildFolderContextSubmenuItem(
-                key: _keyFor(entry.key),
-                entry: entry,
-                isActive: _activeSubmenuKey == entry.key,
-                enableHoverSubmenu: !useBottomSheetSubmenus,
-                onActivate: useBottomSheetSubmenus
-                    ? () => _openFolderSubmenuBottomSheet(context, entry)
-                    : () => _activateSubmenu(entry.key),
-                onDeactivate: () => _requestDeactivate(entry.key),
-              ),
-            );
-        }
-      }
-    }
-
-    return items;
-  }
+  );
 }
 
 List<Widget> buildFolderSidebarPeekSections({

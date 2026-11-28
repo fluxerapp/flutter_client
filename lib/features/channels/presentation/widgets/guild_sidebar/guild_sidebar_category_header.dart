@@ -338,6 +338,9 @@ class _CategoryHeader extends ConsumerWidget {
         context: menuContext,
         groups: groups,
         menuState: menuState,
+        onMuteFor: (int? durationSeconds) => unawaited(
+          _muteCategory(ref, close: close, durationSeconds: durationSeconds),
+        ),
         onAction: (CategoryMenuAction action) => _handleCategoryMenuAction(
           action,
           menuContext: menuContext,
@@ -491,18 +494,31 @@ class _CategoryHeader extends ConsumerWidget {
     }
     final selection = await showMuteDurationSheet(
       context,
-      muteTitle: 'Mute Category',
+      muteTitle: FluxerLocalizations.of(context).categoryMuteCategory,
       useRootNavigator: isMobileLayout(context),
     );
     if (selection == null) {
       return;
     }
+    await _muteCategory(
+      ref,
+      close: close,
+      durationSeconds: selection.durationSeconds,
+    );
+  }
+
+  Future<void> _muteCategory(
+    WidgetRef ref, {
+    required VoidCallback close,
+    required int? durationSeconds,
+  }) async {
+    final repository = ref.read(guildUserSettingsRepositoryProvider);
     close();
     await repository.updateChannelOverride(
       guildId: guildId,
       channelId: category.id,
       muted: true,
-      durationSeconds: selection.durationSeconds,
+      durationSeconds: durationSeconds,
       collapsed: true,
     );
   }

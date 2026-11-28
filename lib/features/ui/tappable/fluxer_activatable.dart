@@ -12,6 +12,7 @@ class FluxerActivatable extends StatefulWidget {
     this.focusRingRadius,
     this.focusRingOutset = 0,
     this.onFocusChange,
+    this.focusNode,
     super.key,
   });
 
@@ -23,13 +24,18 @@ class FluxerActivatable extends StatefulWidget {
   final BorderRadius? focusRingRadius;
   final double focusRingOutset;
   final ValueChanged<bool>? onFocusChange;
+  final FocusNode? focusNode;
 
-  static const Map<ShortcutActivator, Intent> _kShortcuts =
-      <ShortcutActivator, Intent>{
-        SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-        SingleActivator(LogicalKeyboardKey.numpadEnter): ActivateIntent(),
-        SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-      };
+  static const Map<ShortcutActivator, Intent>
+  _kShortcuts = <ShortcutActivator, Intent>{
+    SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+    SingleActivator(LogicalKeyboardKey.numpadEnter): ActivateIntent(),
+    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+    SingleActivator(LogicalKeyboardKey.enter, shift: true): ActivateIntent(),
+    SingleActivator(LogicalKeyboardKey.numpadEnter, shift: true):
+        ActivateIntent(),
+    SingleActivator(LogicalKeyboardKey.space, shift: true): ActivateIntent(),
+  };
 
   @override
   State<FluxerActivatable> createState() => _FluxerActivatableState();
@@ -61,6 +67,7 @@ class _FluxerActivatableState extends State<FluxerActivatable> {
             ),
         },
         child: Focus(
+          focusNode: widget.focusNode,
           includeSemantics: false,
           canRequestFocus: widget.enabled && (widget.focusable ?? canActivate),
           onFocusChange: _handleFocusChange,

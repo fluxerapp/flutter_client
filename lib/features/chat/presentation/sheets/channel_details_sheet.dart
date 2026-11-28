@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/channel_follow_
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_notification_menu_content.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';

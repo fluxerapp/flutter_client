@@ -7539,6 +7539,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Přidat reakci';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint => 'Dvojitým klepnutím na zprávu reagujete';
 
   @override

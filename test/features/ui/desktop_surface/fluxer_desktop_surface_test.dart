@@ -186,7 +186,7 @@ void main() {
       expect(route.surface, FluxerDesktopSurface.menu);
       expect(find.byType(FluxerDesktopMenuPanel), findsOneWidget);
       expect(find.byType(FluxerDesktopMenuRow), findsOneWidget);
-      expect(find.text('SECTION'), findsOneWidget);
+      expect(find.text('Section'), findsOneWidget);
       expect(
         tester.getTopLeft(find.byType(FluxerDesktopMenuPanel)),
         press + const Offset(0, kFluxerDesktopMenuPointerOffset),

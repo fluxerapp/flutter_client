@@ -57,46 +57,55 @@ class StatusFlyoutMenu extends ConsumerWidget {
   ) {
     final String statusValue = status.json ?? 'online';
     final bool hasExpiryOptions = status != PresenceStatus.online;
-    final Widget row = FluxerDesktopMenuRow(
-      label: presenceStatusLabel(statusValue, l10n),
-      hint: presenceStatusDescription(statusValue, l10n),
-      hintColor: context.colors.textTertiary,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      leading: Padding(
-        padding: const EdgeInsets.only(top: 1),
-        child: SizedBox.square(
-          dimension: 18,
-          child: Center(
-            child: FluxerStatusIndicator(status: statusValue, size: 14),
+    Widget buildRow({FluxerDesktopSubmenuHandle? submenu}) {
+      return FluxerDesktopMenuRow(
+        label: presenceStatusLabel(statusValue, l10n),
+        hint: presenceStatusDescription(statusValue, l10n),
+        hintColor: context.colors.textTertiary,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        submenu: submenu,
+        highlighted: submenu?.isOpen ?? false,
+        expanded: submenu?.isOpen,
+        onHoverChange: submenu == null
+            ? null
+            : (bool inside) => submenu.hoverTrigger(inside: inside),
+        leading: Padding(
+          padding: const EdgeInsets.only(top: 1),
+          child: SizedBox.square(
+            dimension: 18,
+            child: Center(
+              child: FluxerStatusIndicator(status: statusValue, size: 14),
+            ),
           ),
         ),
-      ),
-      trailing: hasExpiryOptions
-          ? Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: SizedBox.square(
-                dimension: 16,
-                child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsBold.caretRight,
-                    size: kFluxerDesktopMenuCaretSize,
-                    color: context.colors.textSecondary,
+        trailing: submenu != null
+            ? Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: SizedBox.square(
+                  dimension: 16,
+                  child: Center(
+                    child: PhosphorIcon(
+                      PhosphorIconsBold.caretRight,
+                      size: kFluxerDesktopMenuCaretSize,
+                      color: context.colors.textTertiary,
+                    ),
                   ),
                 ),
-              ),
-            )
-          : null,
-      onTap: () => _select(ref, status),
-    );
+              )
+            : null,
+        onTap: () => _select(ref, status),
+      );
+    }
+
     if (!hasExpiryOptions) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 1),
-        child: row,
+        child: buildRow(),
       );
     }
-    return FluxerDesktopHoverFlyout(
+    return FluxerDesktopSubmenu(
       width: kStatusExpiryFlyoutWidth,
-      flyoutBuilder: (BuildContext flyoutContext) => Column(
+      builder: (BuildContext flyoutContext) => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -111,7 +120,8 @@ class StatusFlyoutMenu extends ConsumerWidget {
             ),
         ],
       ),
-      child: row,
+      triggerBuilder: (BuildContext _, FluxerDesktopSubmenuHandle submenu) =>
+          buildRow(submenu: submenu),
     );
   }
 }

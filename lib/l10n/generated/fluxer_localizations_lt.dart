@@ -7592,6 +7592,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Pridėti reakciją';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint =>
       'Dukart bakstelėkite žinutę, kad sureaguotumėte';
 

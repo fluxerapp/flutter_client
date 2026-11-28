@@ -14,10 +14,10 @@ class VoiceStreamQualitySubmenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FluxerDesktopHoverFlyout(
+    return FluxerDesktopSubmenuRow(
+      label: label,
       width: kVoiceHudMenuWidth,
-      flyoutBuilder: builder,
-      child: FluxerMenuSubmenuItem(label: label, onPressed: () {}),
+      builder: builder,
     );
   }
 }

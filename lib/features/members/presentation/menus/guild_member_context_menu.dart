@@ -54,6 +54,17 @@ class GuildMemberContextMenu {
           items.add(
             FluxerMenuSubmenuItem(
               label: l10n.userProfileRoles,
+              submenuBuilder: (BuildContext _) => <Widget>[
+                ManageMemberRolesMenuContent(
+                  guildId: guildId,
+                  userId: user.id,
+                  allGuildRoles: menuState.allGuildRoles,
+                  memberRoleIds: menuState.memberRoleIds,
+                  canManageRoles: menuState.canManageRoles,
+                  isGuildOwner: menuState.isGuildOwner,
+                  viewerHighestRole: menuState.viewerHighestRole,
+                ),
+              ],
               onPressed: () {
                 close();
                 unawaited(

@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -467,6 +468,7 @@ List<Widget> channelMenuGroupsToWidgets({
   required List<ChannelMenuGroup> groups,
   required ChannelMenuState menuState,
   required void Function(ChannelMenuAction action) onAction,
+  ValueChanged<int?>? onMuteFor,
 }) {
   final List<Widget> widgets = <Widget>[];
   for (int groupIndex = 0; groupIndex < groups.length; groupIndex++) {
@@ -474,6 +476,20 @@ List<Widget> channelMenuGroupsToWidgets({
       widgets.add(const FluxerMenuDivider());
     }
     for (final ChannelMenuEntry entry in groups[groupIndex]) {
+      if (entry.action == ChannelMenuAction.mute &&
+          !menuState.isMuted &&
+          onMuteFor != null) {
+        widgets.add(
+          muteDurationSubmenuItem(
+            label: entry.label,
+            hint: entry.hint,
+            enabled: entry.enabled,
+            onPressed: () => onAction(entry.action),
+            onMute: onMuteFor,
+          ),
+        );
+        continue;
+      }
       final Color? iconColor =
           entry.action == ChannelMenuAction.toggleFavorite &&
               menuState.isFavorite

@@ -7487,6 +7487,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Thêm cảm xúc';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint =>
       'Chạm hai lần vào tin nhắn để bày tỏ cảm xúc';
 

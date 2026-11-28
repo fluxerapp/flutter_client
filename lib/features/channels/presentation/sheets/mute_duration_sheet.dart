@@ -86,6 +86,28 @@ class MuteDurationSheetBody extends StatelessWidget {
   }
 }
 
+FluxerMenuSubmenuItem muteDurationSubmenuItem({
+  required String label,
+  required VoidCallback onPressed,
+  required ValueChanged<int?> onMute,
+  String? hint,
+  bool enabled = true,
+}) {
+  return FluxerMenuSubmenuItem(
+    label: label,
+    hint: hint,
+    enabled: enabled,
+    onPressed: onPressed,
+    onTriggerSelect: (_) => onMute(null),
+    submenuBuilder: (BuildContext _) => <Widget>[
+      MuteDurationSheetBody(
+        onSelected: (MuteSelection selection) =>
+            onMute(selection.durationSeconds),
+      ),
+    ],
+  );
+}
+
 Future<MuteSelection?> showMuteDurationSheet(
   BuildContext context, {
   required String muteTitle,

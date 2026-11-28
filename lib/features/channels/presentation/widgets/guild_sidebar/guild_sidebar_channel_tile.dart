@@ -504,6 +504,9 @@ class _ChannelTile extends ConsumerWidget {
         context: menuContext,
         groups: groups,
         menuState: menuState,
+        onMuteFor: (int? durationSeconds) => unawaited(
+          _muteChannel(ref, close: close, durationSeconds: durationSeconds),
+        ),
         onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
           action,
           hostContext: context,
@@ -723,9 +726,7 @@ class _ChannelTile extends ConsumerWidget {
     required VoidCallback close,
     required bool isMuted,
   }) async {
-    final String resolvedGuildId = guildId.isNotEmpty
-        ? guildId
-        : channel.guildId;
+    final String resolvedGuildId = _resolvedGuildId;
     if (resolvedGuildId.isEmpty) {
       close();
       return;
@@ -749,12 +750,31 @@ class _ChannelTile extends ConsumerWidget {
     if (selection == null) {
       return;
     }
+    await _muteChannel(
+      ref,
+      close: close,
+      durationSeconds: selection.durationSeconds,
+    );
+  }
+
+  String get _resolvedGuildId => guildId.isNotEmpty ? guildId : channel.guildId;
+
+  Future<void> _muteChannel(
+    WidgetRef ref, {
+    required VoidCallback close,
+    required int? durationSeconds,
+  }) async {
+    final String resolvedGuildId = _resolvedGuildId;
+    final repository = ref.read(guildUserSettingsRepositoryProvider);
     close();
+    if (resolvedGuildId.isEmpty) {
+      return;
+    }
     await repository.updateChannelOverride(
       guildId: resolvedGuildId,
       channelId: channel.id,
       muted: true,
-      durationSeconds: selection.durationSeconds,
+      durationSeconds: durationSeconds,
     );
   }
 

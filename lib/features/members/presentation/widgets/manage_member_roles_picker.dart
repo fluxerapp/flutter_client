@@ -115,6 +115,41 @@ class ManageMemberRolesSheet {
   }
 }
 
+class ManageMemberRolesMenuContent extends StatelessWidget {
+  const ManageMemberRolesMenuContent({
+    required this.guildId,
+    required this.userId,
+    required this.allGuildRoles,
+    required this.memberRoleIds,
+    required this.canManageRoles,
+    required this.isGuildOwner,
+    required this.viewerHighestRole,
+    super.key,
+  });
+
+  final String guildId;
+  final String userId;
+  final List<MemberRole> allGuildRoles;
+  final Set<String> memberRoleIds;
+  final bool canManageRoles;
+  final bool isGuildOwner;
+  final MemberRole? viewerHighestRole;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ManageMemberRolesPickerContent(
+      guildId: guildId,
+      userId: userId,
+      allGuildRoles: allGuildRoles,
+      memberRoleIds: memberRoleIds,
+      canManageRoles: canManageRoles,
+      isGuildOwner: isGuildOwner,
+      viewerHighestRole: viewerHighestRole,
+      isBottomSheet: false,
+    );
+  }
+}
+
 class _ManageMemberRolesPickerContent extends ConsumerStatefulWidget {
   const _ManageMemberRolesPickerContent({
     required this.guildId,

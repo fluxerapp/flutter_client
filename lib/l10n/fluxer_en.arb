@@ -9501,6 +9501,10 @@
   "@chatMessageAddReaction": {
     "description": "Action label for opening reaction picker for a message."
   },
+  "chatMessageOtherReaction": "Other reaction…",
+  "@chatMessageOtherReaction": {
+    "description": "Last item in the Add reaction submenu that opens the full emoji picker."
+  },
   "doubleTapReactionHint": "Double tap a message to",
   "@doubleTapReactionHint": {
     "description": "Hint under quick reactions explaining double-tap to react."

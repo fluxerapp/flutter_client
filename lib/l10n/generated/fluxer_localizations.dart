@@ -12043,6 +12043,12 @@ abstract class FluxerLocalizations {
   /// **'Add reaction'**
   String get chatMessageAddReaction;
 
+  /// Last item in the Add reaction submenu that opens the full emoji picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Other reaction…'**
+  String get chatMessageOtherReaction;
+
   /// Hint under quick reactions explaining double-tap to react.
   ///
   /// In en, this message translates to:

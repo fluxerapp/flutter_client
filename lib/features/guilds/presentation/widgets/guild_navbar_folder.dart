@@ -811,8 +811,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     return names.join(', ');
   }
 
-  String get _folderDisplayName => widget.folder.name ?? _derivedFolderName;
-
   bool _folderHasUnread() {
     final bool guildUnreadReady = ref.read(guildReadStateReadyProvider);
     if (!guildUnreadReady) {
@@ -850,16 +848,13 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
 
   Future<void> _showFolderContextMenu(
     BuildContext context,
-    Offset position, {
-    bool verticallyCenterAtPosition = false,
-  }) async {
+    Offset position,
+  ) async {
     final FolderMenuAction? action = await showFolderContextMenu(
       context,
       position: position,
-      folderName: _folderDisplayName,
       guilds: widget.folder.guilds,
       hasUnread: _folderHasUnread(),
-      verticallyCenterAtPosition: verticallyCenterAtPosition,
     );
     if (action != null && context.mounted) {
       await _handleFolderMenuAction(action);

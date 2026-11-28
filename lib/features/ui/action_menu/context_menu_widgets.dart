@@ -4,8 +4,6 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
-const double kContextMenuWidth = kFluxerDesktopMenuMinWidth;
-const kContextMenuTitleHeight = 40.0;
 const kContextMenuEntranceDuration = Duration(milliseconds: 120);
 
 class ContextMenuEntranceAnimation extends StatelessWidget {
@@ -81,60 +79,15 @@ class _ContextMenuEntranceAnimationHostState
   }
 }
 
-class ContextMenuTitle extends StatelessWidget {
-  const ContextMenuTitle({required this.title, super.key});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    return SizedBox(
-      height: kContextMenuTitleHeight,
-      child: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s1),
-          child: Text(
-            title,
-            style: context.textStyles.label.copyWith(
-              color: context.colors.textPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ContextMenuPanel extends StatelessWidget {
-  final List<Widget> items;
-
-  const ContextMenuPanel({required this.items, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FluxerDesktopMenuPanel(
-      width: kContextMenuWidth,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: items,
-      ),
-    );
-  }
-}
-
 class ContextMenuItem extends StatelessWidget {
   final String label;
   final String? hint;
   final IconData? icon;
   final bool isDanger;
   final bool isDisabled;
+  final String? shortcut;
   final VoidCallback onTap;
+  final FluxerSelectCallback? onSelect;
 
   const ContextMenuItem({
     required this.label,
@@ -143,6 +96,8 @@ class ContextMenuItem extends StatelessWidget {
     this.icon,
     this.isDanger = false,
     this.isDisabled = false,
+    this.shortcut,
+    this.onSelect,
     super.key,
   });
 
@@ -152,6 +107,8 @@ class ContextMenuItem extends StatelessWidget {
       label: label,
       hint: hint,
       onTap: onTap,
+      onSelect: onSelect,
+      shortcut: shortcut,
       isDanger: isDanger,
       enabled: !isDisabled,
       trailing: icon == null
@@ -178,24 +135,14 @@ class ContextMenuDivider extends StatelessWidget {
   }
 }
 
-@FluxerWidgetPreview(name: 'Panel', group: 'ContextMenu')
-Widget contextMenuPanelPreview() {
-  return ContextMenuPanel(
-    items: [
-      ContextMenuItem(
-        label: 'Reply',
-        icon: PhosphorIconsBold.arrowBendUpLeft,
-        onTap: () {},
-      ),
-      const ContextMenuDivider(),
-      ContextMenuItem(
-        label: 'Delete',
-        hint: 'Remove for everyone',
-        icon: PhosphorIconsBold.trash,
-        isDanger: true,
-        onTap: () {},
-      ),
-    ],
+@FluxerWidgetPreview(name: 'Item', group: 'ContextMenu')
+Widget contextMenuItemPreview() {
+  return ContextMenuItem(
+    label: 'Delete',
+    hint: 'Remove for everyone',
+    icon: PhosphorIconsBold.trash,
+    isDanger: true,
+    onTap: () {},
   );
 }
 
@@ -219,18 +166,4 @@ Offset contextMenuPositionAtPointer(
   final Offset origin = box.localToGlobal(Offset.zero);
   return origin +
       Offset(box.size.width * horizontalFactor, box.size.height / 2);
-}
-
-double estimateContextMenuHeight(List<Widget> items) {
-  var height = kFluxerDesktopMenuPadding * 2 + 2;
-  for (final item in items) {
-    if (item is ContextMenuDivider) {
-      height += 9;
-    } else if (item is ContextMenuTitle) {
-      height += kContextMenuTitleHeight;
-    } else {
-      height += kFluxerDesktopMenuRowMinHeight;
-    }
-  }
-  return height;
 }

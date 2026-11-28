@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/add_reaction_submenu.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
@@ -21,7 +22,12 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
-Future<MessageAction?> showMessageContextMenu(
+typedef MessageMenuSelection = ({
+  MessageAction action,
+  FluxerKeyModifiers modifiers,
+});
+
+Future<MessageMenuSelection?> showMessageContextMenu(
   BuildContext context, {
   required Offset position,
   required Message message,
@@ -33,7 +39,7 @@ Future<MessageAction?> showMessageContextMenu(
   String? quickReactionChannelId,
   String? quickReactionGuildId,
 }) {
-  return pushFluxerDesktopMenu<MessageAction>(
+  return pushFluxerDesktopMenu<MessageMenuSelection>(
     context,
     position: position,
     anchorRect: anchorRect,
@@ -93,7 +99,12 @@ class _MessageContextMenuItems extends ConsumerWidget {
 
   List<List<Widget>> _buildGroups(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    void pop(MessageAction action) => Navigator.of(context).pop(action);
+    void select(MessageAction action, FluxerKeyModifiers modifiers) =>
+        Navigator.of(
+          context,
+        ).pop<MessageMenuSelection>((action: action, modifiers: modifiers));
+    void pop(MessageAction action) =>
+        select(action, FluxerKeyModifiers.current());
     if (message.hasFailed) {
       return <List<Widget>>[
         <Widget>[
@@ -166,14 +177,16 @@ class _MessageContextMenuItems extends ConsumerWidget {
           label: label,
           shortcut: shortcut,
           isDanger: isDanger,
-          onTap: () => pop(action),
+          onSelect: (FluxerKeyModifiers modifiers) => select(action, modifiers),
         );
       }
       return ContextMenuItem(
         label: label,
         icon: icon,
         isDanger: isDanger,
+        shortcut: shortcut,
         onTap: () => pop(action),
+        onSelect: (FluxerKeyModifiers modifiers) => select(action, modifiers),
       );
     }
 
@@ -201,6 +214,21 @@ class _MessageContextMenuItems extends ConsumerWidget {
           FluxerMenuSubmenuItem(
             label: l10n.chatMessageAddReaction,
             onPressed: () => pop(MessageAction.addReaction),
+            onTriggerSelect: (_) => pop(MessageAction.addReaction),
+            submenuBuilder: switch (quickReactionChannelId) {
+              final String channelId => (BuildContext _) => <Widget>[
+                AddReactionSubmenuItems(
+                  channelId: channelId,
+                  guildId: quickReactionGuildId,
+                  onReaction: (QuickReactionItem item) {
+                    onQuickReaction?.call(item);
+                    Navigator.of(context).pop();
+                  },
+                  onOpenPicker: () => pop(MessageAction.addReaction),
+                ),
+              ],
+              null => null,
+            },
           ),
         if (hasReactions)
           item(
@@ -409,13 +437,13 @@ class _ShortcutMenuItem extends StatelessWidget {
   const _ShortcutMenuItem({
     required this.label,
     required this.shortcut,
-    required this.onTap,
+    required this.onSelect,
     this.isDanger = false,
   });
 
   final String label;
   final String shortcut;
-  final VoidCallback onTap;
+  final FluxerSelectCallback onSelect;
   final bool isDanger;
 
   @override
@@ -423,7 +451,8 @@ class _ShortcutMenuItem extends StatelessWidget {
     final colors = context.colors;
     return FluxerDesktopMenuRow(
       label: label,
-      onTap: onTap,
+      onSelect: onSelect,
+      shortcut: shortcut,
       isDanger: isDanger,
       trailing: Padding(
         padding: const EdgeInsetsDirectional.only(start: 8),

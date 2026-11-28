@@ -7210,6 +7210,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageAddReaction => '반응 추가';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint => '메시지를 두 번 탭하여 반응:';
 
   @override

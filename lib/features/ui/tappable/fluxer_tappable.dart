@@ -11,6 +11,7 @@ class FluxerTappable extends StatefulWidget {
   const FluxerTappable({
     required this.builder,
     this.onTap,
+    this.onKeyboardActivate,
     this.onLongPress,
     this.onSecondaryTapUp,
     this.enabled = true,
@@ -30,11 +31,14 @@ class FluxerTappable extends StatefulWidget {
     this.showFocusRing = true,
     this.focusRingRadius,
     this.focusRingOutset = 0,
+    this.focusNode,
+    this.onHoverChange,
     super.key,
   });
 
   final FluxerTappableBuilder builder;
   final VoidCallback? onTap;
+  final VoidCallback? onKeyboardActivate;
   final VoidCallback? onLongPress;
   final GestureTapUpCallback? onSecondaryTapUp;
   final bool enabled;
@@ -54,6 +58,8 @@ class FluxerTappable extends StatefulWidget {
   final bool showFocusRing;
   final BorderRadius? focusRingRadius;
   final double focusRingOutset;
+  final FocusNode? focusNode;
+  final ValueChanged<bool>? onHoverChange;
 
   @override
   State<FluxerTappable> createState() => _FluxerTappableState();
@@ -127,20 +133,25 @@ class _FluxerTappableState extends State<FluxerTappable> {
         cursor: widget.enabled
             ? SystemMouseCursors.click
             : SystemMouseCursors.basic,
-        onEnter: (_) => setState(() => _isHovered = true),
+        onEnter: (_) {
+          setState(() => _isHovered = true);
+          widget.onHoverChange?.call(true);
+        },
         onExit: (_) {
           setState(() {
             _isHovered = false;
             _isPressed = false;
           });
+          widget.onHoverChange?.call(false);
         },
         child: FluxerActivatable(
-          onActivate: widget.onTap,
+          onActivate: widget.onKeyboardActivate ?? widget.onTap,
           enabled: widget.enabled,
           focusable: isInteractive,
           showFocusRing: widget.showFocusRing,
           focusRingRadius: widget.focusRingRadius,
           focusRingOutset: widget.focusRingOutset,
+          focusNode: widget.focusNode,
           onFocusChange: (focused) => setState(() => _isFocused = focused),
           child: GestureDetector(
             behavior: widget.hitTestBehavior,

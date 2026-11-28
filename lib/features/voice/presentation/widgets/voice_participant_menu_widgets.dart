@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class VoiceParticipantContextMenuVolumeItem extends StatefulWidget {
+class VoiceParticipantContextMenuVolumeItem extends StatelessWidget {
   const VoiceParticipantContextMenuVolumeItem({
     required this.label,
     required this.value,
@@ -18,46 +18,14 @@ class VoiceParticipantContextMenuVolumeItem extends StatefulWidget {
   final ValueChanged<int> onChanged;
 
   @override
-  State<VoiceParticipantContextMenuVolumeItem> createState() =>
-      _VoiceParticipantContextMenuVolumeItemState();
-}
-
-class _VoiceParticipantContextMenuVolumeItemState
-    extends State<VoiceParticipantContextMenuVolumeItem> {
-  bool _hovered = false;
-
-  @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final TextStyle labelStyle = fluxerDesktopMenuLabelStyle(
-      context,
-    ).copyWith(color: colors.textPrimary);
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 7),
-        decoration: BoxDecoration(
-          color: _hovered
-              ? colors.surfaceInteractiveHoverBg
-              : Colors.transparent,
-          borderRadius: context.layout.radiusMd,
-        ),
-        child: VoiceParticipantVolumeSlider(
-          label: widget.label,
-          value: widget.value,
-          onChanged: widget.onChanged,
-          mini: true,
-          gap: 4,
-          headerInset: 8,
-          labelStyle: labelStyle,
-          valueStyle: labelStyle.copyWith(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: colors.textTertiaryMuted,
-          ),
-        ),
-      ),
+    return FluxerDesktopMenuSlider(
+      label: label,
+      value: value.toDouble(),
+      minValue: kMinVoiceVolumePercent.toDouble(),
+      maxValue: kMaxVoiceVolumePercent.toDouble(),
+      factoryDefaultValue: kDefaultVoiceVolumePercent.toDouble(),
+      onChangeEnd: (double next) => onChanged(next.round()),
     );
   }
 }

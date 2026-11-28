@@ -1954,11 +1954,13 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
   final Color? labelColor;
   final bool dense;
   final Widget? labelBadge;
+  final FluxerSelectCallback? onSelect;
 
   const FluxerBottomSheetMenuItem({
     required this.label,
     required this.onTap,
     super.key,
+    this.onSelect,
     this.hint,
     this.leading,
     this.icon,
@@ -1985,7 +1987,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
 
     return FluxerTappable(
       enabled: enabled,
-      onTap: onTap,
+      onTap: _activate,
       selected: isSelected,
       toggled: toggled,
       semanticLabel: hint != null ? '$label. $hint' : label,
@@ -2105,6 +2107,15 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
     );
   }
 
+  void _activate() {
+    final FluxerSelectCallback? onSelect = this.onSelect;
+    if (onSelect != null) {
+      onSelect(FluxerKeyModifiers.current());
+      return;
+    }
+    onTap();
+  }
+
   Widget _buildDesktopRow(BuildContext context) {
     final colors = context.colors;
     final Color baseColor =
@@ -2125,6 +2136,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
       label: label,
       hint: hint,
       onTap: onTap,
+      onSelect: onSelect,
       isDanger: isDanger,
       enabled: enabled,
       selected: isSelected,
@@ -2145,6 +2157,10 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
   final IconData? icon;
   final Widget? leading;
   final VoidCallback onTap;
+  final WidgetBuilder? submenuBuilder;
+  final FluxerSelectCallback? onTriggerSelect;
+  final bool enabled;
+  final bool isDanger;
 
   const FluxerBottomSheetSubmenuItem({
     required this.label,
@@ -2152,18 +2168,37 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
     this.hint,
     this.icon,
     this.leading,
+    this.submenuBuilder,
+    this.onTriggerSelect,
+    this.enabled = true,
+    this.isDanger = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool inMenu = FluxerDesktopSurfaceScope.isMenu(context);
+    final WidgetBuilder? submenuBuilder = this.submenuBuilder;
+    if (inMenu && submenuBuilder != null) {
+      return FluxerDesktopSubmenuRow(
+        label: label,
+        hint: hint,
+        leading: leading,
+        isDanger: isDanger,
+        enabled: enabled,
+        onTriggerSelect: onTriggerSelect,
+        builder: submenuBuilder,
+      );
+    }
     return FluxerBottomSheetMenuItem(
       label: label,
       hint: hint,
       icon: icon,
       leading: leading,
+      enabled: enabled,
+      isDanger: isDanger,
       onTap: onTap,
-      trailing: FluxerDesktopSurfaceScope.isMenu(context)
+      trailing: inMenu
           ? PhosphorIcon(
               PhosphorIconsBold.caretRight,
               size: kFluxerDesktopMenuCaretSize,

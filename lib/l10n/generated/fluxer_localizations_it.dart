@@ -7543,6 +7543,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Aggiungi reazione';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint => 'Tocca due volte un messaggio per';
 
   @override

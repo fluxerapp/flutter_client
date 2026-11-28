@@ -41,7 +41,8 @@ class MessageActionBarButton extends StatelessWidget {
   const MessageActionBarButton({
     required this.label,
     required this.child,
-    required this.onTap,
+    this.onTap,
+    this.onSelect,
     this.active = false,
     this.danger = false,
     this.disabled = false,
@@ -51,9 +52,19 @@ class MessageActionBarButton extends StatelessWidget {
   final String label;
   final Widget child;
   final VoidCallback? onTap;
+  final FluxerSelectCallback? onSelect;
   final bool active;
   final bool danger;
   final bool disabled;
+
+  void _activate() {
+    final FluxerSelectCallback? onSelect = this.onSelect;
+    if (onSelect != null) {
+      onSelect(FluxerKeyModifiers.current());
+      return;
+    }
+    onTap?.call();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +72,8 @@ class MessageActionBarButton extends StatelessWidget {
     return FluxerTooltip(
       message: label,
       child: FluxerTappable(
-        enabled: !disabled && onTap != null,
-        onTap: onTap,
+        enabled: !disabled && (onTap != null || onSelect != null),
+        onTap: _activate,
         selected: active,
         semanticLabel: label,
         excludeChildSemantics: true,

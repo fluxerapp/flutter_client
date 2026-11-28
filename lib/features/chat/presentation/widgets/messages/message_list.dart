@@ -108,6 +108,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_key_modifiers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
@@ -3815,6 +3816,14 @@ class _MessageListState extends ConsumerState<MessageList> {
         isDmChannel: isDmChannel,
         channelPermissionBits: channelPermissionBits,
       );
+      void confirmDelete() => unawaited(
+        showDeleteMessageConfirmSheet(
+          this.context,
+          ref,
+          message: message,
+          guildId: guildId,
+        ),
+      );
       return _withMessageSeparators(
         leadingGroupSpacing: leading,
         showUnreadOverlay: showUnreadOverlay,
@@ -3846,14 +3855,14 @@ class _MessageListState extends ConsumerState<MessageList> {
               messageId: message.id,
             ),
           ),
-          onDelete: () => unawaited(
-            showDeleteMessageConfirmSheet(
-              this.context,
-              ref,
-              message: message,
-              guildId: guildId,
-            ),
-          ),
+          onDelete: confirmDelete,
+          onDeleteSelect: (FluxerKeyModifiers modifiers) => modifiers.shift
+              ? unawaited(
+                  ref
+                      .read(chatViewModelProvider.notifier)
+                      .deleteMessage(message.id),
+                )
+              : confirmDelete(),
           onRetry: () => ref
               .read(chatViewModelProvider.notifier)
               .retryMessageSend(message.id),

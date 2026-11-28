@@ -71,6 +71,7 @@ class GuildMenuSubmenu extends GuildMenuEntry {
   final IconData? icon;
   final String? hint;
   final List<GuildMenuEntry> children;
+  final GuildAction? triggerAction;
 
   const GuildMenuSubmenu({
     required this.key,
@@ -78,6 +79,7 @@ class GuildMenuSubmenu extends GuildMenuEntry {
     required this.children,
     this.icon,
     this.hint,
+    this.triggerAction,
   });
 }
 
@@ -159,6 +161,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           key: 'communitySettings',
           label: l10n.guildMenuCommunitySettings,
           icon: PhosphorIconsFill.gear,
+          triggerAction: GuildAction.settingsOverview,
           children: _buildSettingsSubmenu(l10n, p),
         ),
       if (canManageChannels) ...[
@@ -209,6 +212,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         GuildMenuSubmenu(
           key: 'mute',
           label: l10n.guildMenuMuteCommunity,
+          triggerAction: GuildAction.muteForever,
           children: buildMuteSubmenuItems(l10n),
         ),
       GuildMenuCheckbox(

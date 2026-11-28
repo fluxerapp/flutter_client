@@ -223,7 +223,22 @@ Future<void> muteThreadWithDuration(
   if (selection == null || !context.mounted) {
     return;
   }
-  final int? seconds = selection.durationSeconds;
+  await muteThread(
+    context,
+    ref,
+    thread,
+    durationSeconds: selection.durationSeconds,
+  );
+}
+
+Future<void> muteThread(
+  BuildContext context,
+  WidgetRef ref,
+  Channel thread, {
+  int? durationSeconds,
+}) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final int? seconds = durationSeconds;
   await runThreadAction(
     context,
     ref,

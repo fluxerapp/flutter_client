@@ -79,6 +79,7 @@ export 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 export 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_activatable.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+export 'package:fluxer_app/features/ui/tappable/fluxer_key_modifiers.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 export 'package:fluxer_app/features/ui/text/fluxer_field_label.dart';
 export 'package:fluxer_app/features/ui/text/fluxer_hint_text.dart';

@@ -99,6 +99,7 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
   WidgetRef ref, {
   required String channelId,
   required String? guildId,
+  int count = kQuickReactionCount,
 }) async {
   try {
     final db = ref.read(fluxerDatabaseProvider);
@@ -121,6 +122,7 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
       },
       canUseCustomEmoji: (emoji) =>
           hasGlobalEmojiAccess || emoji.guildId == guildId,
+      count: count,
     );
   } on Object catch (e, st) {
     talker.error('Failed to load quick reaction items', e, st);

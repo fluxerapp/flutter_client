@@ -7067,6 +7067,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageAddReaction => '添加反应';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint => '双击消息即可回应';
 
   @override

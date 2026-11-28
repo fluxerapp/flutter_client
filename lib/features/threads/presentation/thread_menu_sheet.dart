@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -160,6 +161,12 @@ List<List<Widget>> buildThreadMenuGroups({
         onTap: () => run(
           () => showThreadNotificationSheet(hostContext, hostRef, thread),
         ),
+        submenuBuilder: (BuildContext _) => ThreadNotificationOptions(
+          threadId: thread.id,
+          hostContext: hostContext,
+          hostRef: hostRef,
+          run: run,
+        ),
       ),
       if (member.muted)
         FluxerBottomSheetMenuItem(
@@ -173,6 +180,18 @@ List<List<Widget>> buildThreadMenuGroups({
           icon: PhosphorIconsFill.bellSlash,
           onTap: () =>
               run(() => muteThreadWithDuration(hostContext, hostRef, thread)),
+          onTriggerSelect: (_) =>
+              run(() => muteThread(hostContext, hostRef, thread)),
+          submenuBuilder: (BuildContext _) => MuteDurationSheetBody(
+            onSelected: (MuteSelection selection) => run(
+              () => muteThread(
+                hostContext,
+                hostRef,
+                thread,
+                durationSeconds: selection.durationSeconds,
+              ),
+            ),
+          ),
         ),
     ],
   ];
@@ -259,7 +278,7 @@ List<List<Widget>> buildThreadMenuGroups({
   return <List<Widget>>[readGroup, memberGroup, moderationGroup, copyGroup];
 }
 
-class _ThreadNotificationBody extends ConsumerWidget {
+class _ThreadNotificationBody extends StatelessWidget {
   const _ThreadNotificationBody({
     required this.threadId,
     required this.hostContext,
@@ -271,6 +290,36 @@ class _ThreadNotificationBody extends ConsumerWidget {
   final BuildContext hostContext;
   final WidgetRef hostRef;
   final VoidCallback close;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerBottomSheetContent(
+      child: ThreadNotificationOptions(
+        threadId: threadId,
+        hostContext: hostContext,
+        hostRef: hostRef,
+        run: (Future<void> Function() action) {
+          close();
+          unawaited(action());
+        },
+      ),
+    );
+  }
+}
+
+class ThreadNotificationOptions extends ConsumerWidget {
+  const ThreadNotificationOptions({
+    required this.threadId,
+    required this.hostContext,
+    required this.hostRef,
+    required this.run,
+    super.key,
+  });
+
+  final String threadId;
+  final BuildContext hostContext;
+  final WidgetRef hostRef;
+  final void Function(Future<void> Function() action) run;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -289,47 +338,42 @@ class _ThreadNotificationBody extends ConsumerWidget {
       return FluxerBottomSheetMenuRadioItem(
         label: label,
         isSelected: selected == setting,
-        onTap: () {
-          close();
-          unawaited(
-            setThreadNotificationSetting(
-              hostContext,
-              hostRef,
-              thread,
-              currentFlags: member.flags,
-              setting: setting,
-            ),
-          );
-        },
+        onTap: () => run(
+          () => setThreadNotificationSetting(
+            hostContext,
+            hostRef,
+            thread,
+            currentFlags: member.flags,
+            setting: setting,
+          ),
+        ),
       );
     }
 
-    return FluxerBottomSheetContent(
-      child: FluxerBottomSheetGroupColumn(
-        children: <Widget>[
-          FluxerMenuGroup(
-            children: <Widget>[
-              option(
-                ThreadNotificationSetting.parentDefault,
-                l10n.threadNotificationParentDefault,
-              ),
-            ],
-          ),
-          FluxerMenuGroup(
-            children: <Widget>[
-              option(
-                ThreadNotificationSetting.allMessages,
-                l10n.notificationAllMessages,
-              ),
-              option(
-                ThreadNotificationSetting.onlyMentions,
-                l10n.notificationOnlyAtMentions,
-              ),
-              option(ThreadNotificationSetting.none, l10n.notificationNothing),
-            ],
-          ),
-        ],
-      ),
+    return FluxerBottomSheetGroupColumn(
+      children: <Widget>[
+        FluxerMenuGroup(
+          children: <Widget>[
+            option(
+              ThreadNotificationSetting.parentDefault,
+              l10n.threadNotificationParentDefault,
+            ),
+          ],
+        ),
+        FluxerMenuGroup(
+          children: <Widget>[
+            option(
+              ThreadNotificationSetting.allMessages,
+              l10n.notificationAllMessages,
+            ),
+            option(
+              ThreadNotificationSetting.onlyMentions,
+              l10n.notificationOnlyAtMentions,
+            ),
+            option(ThreadNotificationSetting.none, l10n.notificationNothing),
+          ],
+        ),
+      ],
     );
   }
 }

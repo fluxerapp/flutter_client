@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_role_color_dot.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -66,55 +67,15 @@ class _MenuRoleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s1),
-      child: FluxerTappable(
-        enabled: enabled,
-        onTap: onTap,
-        semanticLabel: label,
-        checked: isChecked,
-        excludeChildSemantics: true,
-        builder: (BuildContext context, Set<WidgetState> states) {
-          final bool isHovered = states.contains(WidgetState.hovered);
-
-          return AnimatedContainer(
-            duration: context.motion.fast,
-            curve: context.motion.curve,
-            decoration: BoxDecoration(
-              color: isHovered
-                  ? colors.backgroundModifierHover
-                  : Colors.transparent,
-              borderRadius: layout.radiusSm,
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s3,
-              vertical: layout.s2,
-            ),
-            child: Row(
-              children: <Widget>[
-                MemberRoleColorDot(color: roleColor),
-                SizedBox(width: layout.s3),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: context.textStyles.bodyMedium.copyWith(
-                      color: enabled ? colors.textPrimary : colors.textTertiary,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (showCheckbox) ...<Widget>[
-                  SizedBox(width: layout.s3),
-                  _RoleMenuCheckbox(isChecked: isChecked),
-                ],
-              ],
-            ),
-          );
-        },
-      ),
+    return FluxerDesktopMenuRow(
+      label: label,
+      enabled: enabled,
+      onTap: onTap,
+      checked: isChecked,
+      leading: MemberRoleColorDot(color: roleColor),
+      trailing: showCheckbox
+          ? FluxerDesktopMenuCheckbox(isChecked: isChecked)
+          : null,
     );
   }
 }

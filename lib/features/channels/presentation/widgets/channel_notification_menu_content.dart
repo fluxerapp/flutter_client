@@ -130,11 +130,15 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
       ];
     }
 
+    void mute(int? durationSeconds) =>
+        unawaited(_mute(context, ref, durationSeconds: durationSeconds));
+
     if (_isActionMenu) {
       return <Widget>[
-        FluxerMenuSubmenuItem(
+        muteDurationSubmenuItem(
           label: l10n.notificationMuteChannel,
           onPressed: () => unawaited(_openMuteSheet(context, ref)),
+          onMute: mute,
         ),
       ];
     }
@@ -142,6 +146,11 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
       FluxerBottomSheetSubmenuItem(
         label: l10n.notificationMuteChannel,
         onTap: () => unawaited(_openMuteSheet(context, ref)),
+        onTriggerSelect: (_) => mute(null),
+        submenuBuilder: (BuildContext _) => MuteDurationSheetBody(
+          onSelected: (MuteSelection selection) =>
+              mute(selection.durationSeconds),
+        ),
       ),
     ];
   }
@@ -290,25 +299,34 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
       muteTitle: l10n.notificationMuteChannel,
       useRootNavigator: isMobileLayout(context),
     );
-    if (selection == null) {
+    if (selection == null || !context.mounted) {
       return;
     }
+    await _mute(context, ref, durationSeconds: selection.durationSeconds);
+  }
+
+  Future<void> _mute(
+    BuildContext context,
+    WidgetRef ref, {
+    required int? durationSeconds,
+  }) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final GuildUserSettingsRepository repository = ref.read(
+      guildUserSettingsRepositoryProvider,
+    );
+    final Toast toasts = ref.read(toastProvider.notifier);
     onClose();
-    await ref
-        .read(guildUserSettingsRepositoryProvider)
-        .updateChannelOverride(
-          guildId: channel.guildId,
-          channelId: channel.id,
-          muted: true,
-          durationSeconds: selection.durationSeconds,
-        );
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(
-            message: l10n.channelDetailsMutedChannel,
-            variant: FluxerToastVariant.success,
-          ),
-        );
+    await repository.updateChannelOverride(
+      guildId: channel.guildId,
+      channelId: channel.id,
+      muted: true,
+      durationSeconds: durationSeconds,
+    );
+    toasts.show(
+      FluxerToast(
+        message: l10n.channelDetailsMutedChannel,
+        variant: FluxerToastVariant.success,
+      ),
+    );
   }
 }

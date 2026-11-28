@@ -148,6 +148,11 @@ Future<void> _showDetailsMoreSheet(
                 showChannelNotificationSettingsSheet(context, channel: channel),
               );
             },
+            submenuBuilder: (BuildContext _) => ChannelNotificationMenuContent(
+              channel: channel,
+              onClose: close,
+              layout: ChannelNotificationMenuLayout.actionMenu,
+            ),
           ),
       ];
 

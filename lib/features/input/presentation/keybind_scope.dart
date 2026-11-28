@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_
 import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
 import 'package:fluxer_app/features/input/services/keybind_handlers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_list.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
@@ -219,7 +220,8 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       return _handleTabKey();
     }
 
-    if (FluxerRovingFocusList.claimsKeyEvent(event)) {
+    if (FluxerRovingFocusList.claimsKeyEvent(event) ||
+        FluxerDesktopMenuNavigator.claimsKeyEvent(event)) {
       return false;
     }
 

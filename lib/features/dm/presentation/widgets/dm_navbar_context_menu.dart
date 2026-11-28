@@ -1,6 +1,6 @@
-import 'package:fluxer_app/features/ui/action_menu/context_menu_placement.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -43,25 +43,29 @@ Future<DmNavbarAction?> showDmNavbarContextMenu(
     );
   }
 
-  final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
-  if (overlay == null) {
-    return null;
-  }
-
-  final local = overlay.globalToLocal(position);
-
-  return await Navigator.of(context).push<DmNavbarAction>(
-    _DmNavbarContextMenuRoute(
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      position: local,
-      overlaySize: overlay.size,
-      hasUnread: hasUnread,
-      isMuted: isMuted,
-      isPinned: isPinned,
-      isCollapsed: isCollapsed,
-      isAllowlisted: isAllowlisted,
-      isGroupDm: isGroupDm,
-    ),
+  return await pushFluxerDesktopMenu<DmNavbarAction>(
+    context,
+    position: position,
+    builder: (BuildContext menuContext, VoidCallback _) =>
+        FluxerDesktopMenuPanel.fitContent(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _buildMenuItems(
+                context: menuContext,
+                pop: (DmNavbarAction action) =>
+                    Navigator.of(menuContext).pop(action),
+                hasUnread: hasUnread,
+                isMuted: isMuted,
+                isPinned: isPinned,
+                isCollapsed: isCollapsed,
+                isAllowlisted: isAllowlisted,
+                isGroupDm: isGroupDm,
+              ),
+            ),
+          ),
+        ),
   );
 }
 
@@ -163,133 +167,6 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
   ];
 }
 
-class _DmNavbarContextMenuRoute extends PopupRoute<DmNavbarAction> {
-  final Offset position;
-  final Size overlaySize;
-  final bool hasUnread;
-  final bool isMuted;
-  final bool isPinned;
-  final bool isCollapsed;
-  final bool isAllowlisted;
-  final bool isGroupDm;
-
-  _DmNavbarContextMenuRoute({
-    required this.barrierLabel,
-    required this.position,
-    required this.overlaySize,
-    required this.hasUnread,
-    required this.isMuted,
-    required this.isPinned,
-    required this.isCollapsed,
-    required this.isAllowlisted,
-    required this.isGroupDm,
-  });
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 120);
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Color? get barrierColor => Colors.transparent;
-
-  @override
-  final String barrierLabel;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) => _ContextMenuPage(
-    position: position,
-    overlaySize: overlaySize,
-    animation: animation,
-    hasUnread: hasUnread,
-    isMuted: isMuted,
-    isPinned: isPinned,
-    isCollapsed: isCollapsed,
-    isAllowlisted: isAllowlisted,
-    isGroupDm: isGroupDm,
-  );
-}
-
-class _ContextMenuPage extends StatelessWidget {
-  final Offset position;
-  final Size overlaySize;
-  final Animation<double> animation;
-  final bool hasUnread;
-  final bool isMuted;
-  final bool isPinned;
-  final bool isCollapsed;
-  final bool isAllowlisted;
-  final bool isGroupDm;
-
-  const _ContextMenuPage({
-    required this.position,
-    required this.overlaySize,
-    required this.animation,
-    required this.hasUnread,
-    required this.isMuted,
-    required this.isPinned,
-    required this.isCollapsed,
-    required this.isAllowlisted,
-    required this.isGroupDm,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    void pop(DmNavbarAction action) => Navigator.of(context).pop(action);
-
-    final items = _buildMenuItems(
-      context: context,
-      pop: pop,
-      hasUnread: hasUnread,
-      isMuted: isMuted,
-      isPinned: isPinned,
-      isCollapsed: isCollapsed,
-      isAllowlisted: isAllowlisted,
-      isGroupDm: isGroupDm,
-    );
-
-    final menuHeight = estimateContextMenuHeight(items);
-    final opensLeft = contextMenuOpensLeft(
-      context,
-      anchorX: position.dx,
-      menuWidth: kContextMenuWidth,
-      overlayWidth: overlaySize.width,
-    );
-    final opensUp = position.dy + menuHeight > overlaySize.height - 8;
-
-    var left = opensLeft ? position.dx - kContextMenuWidth : position.dx;
-    var top = opensUp ? position.dy - menuHeight : position.dy;
-    left = left.clamp(8.0, overlaySize.width - kContextMenuWidth - 8);
-    top = top.clamp(8.0, overlaySize.height - menuHeight - 8);
-
-    final alignment = Alignment(opensLeft ? 1.0 : -1.0, opensUp ? 1.0 : -1.0);
-
-    return Stack(
-      children: [
-        Positioned(
-          left: left,
-          top: top,
-          child: FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 0.92, end: 1).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-              ),
-              alignment: alignment,
-              child: ContextMenuPanel(items: items),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 List<Widget> _buildMenuItems({
   required BuildContext context,
   required void Function(DmNavbarAction) pop,
@@ -304,60 +181,61 @@ List<Widget> _buildMenuItems({
 
   return [
     if (hasUnread)
-      ContextMenuItem(
+      FluxerMenuItem(
         icon: PhosphorIconsBold.checkCircle,
         label: l10n.dmMarkAsRead,
-        onTap: () => pop(DmNavbarAction.markAsRead),
+        onPressed: () => pop(DmNavbarAction.markAsRead),
       ),
-    ContextMenuItem(
+    FluxerMenuItem(
       icon: isMuted ? PhosphorIconsBold.bell : PhosphorIconsBold.bellSlash,
       label: isMuted ? l10n.dmUnmuteConversation : l10n.dmMuteConversation,
-      onTap: () => pop(isMuted ? DmNavbarAction.unmute : DmNavbarAction.mute),
+      onPressed: () =>
+          pop(isMuted ? DmNavbarAction.unmute : DmNavbarAction.mute),
     ),
-    ContextMenuItem(
+    FluxerMenuItem(
       icon: PhosphorIconsBold.pushPin,
       label: isPinned ? l10n.dmUnpinDm : l10n.dmPinDm,
-      onTap: () =>
+      onPressed: () =>
           pop(isPinned ? DmNavbarAction.unpinDm : DmNavbarAction.pinDm),
     ),
     if (isCollapsed)
-      ContextMenuItem(
+      FluxerMenuItem(
         icon: isAllowlisted
             ? PhosphorIconsBold.eyeSlash
             : PhosphorIconsBold.eye,
         label: isAllowlisted
             ? l10n.dmRemoveFromAlwaysShown
             : l10n.dmAlwaysShowInSidebar,
-        onTap: () => pop(
+        onPressed: () => pop(
           isAllowlisted
               ? DmNavbarAction.removeAlwaysShow
               : DmNavbarAction.alwaysShow,
         ),
       ),
-    const ContextMenuDivider(),
+    const FluxerMenuDivider(),
     if (!isGroupDm)
-      ContextMenuItem(
+      FluxerMenuItem(
         icon: PhosphorIconsBold.userCircle,
         label: l10n.dmCopyUserId,
-        onTap: () => pop(DmNavbarAction.copyUserId),
+        onPressed: () => pop(DmNavbarAction.copyUserId),
       ),
-    ContextMenuItem(
+    FluxerMenuItem(
       icon: PhosphorIconsBold.hash,
       label: l10n.dmCopyChannelId,
-      onTap: () => pop(DmNavbarAction.copyChannelId),
+      onPressed: () => pop(DmNavbarAction.copyChannelId),
     ),
-    const ContextMenuDivider(),
-    ContextMenuItem(
+    const FluxerMenuDivider(),
+    FluxerMenuItem(
       icon: PhosphorIconsBold.trash,
       label: l10n.channelMenuDeleteMyMessagesConfirm,
       isDanger: true,
-      onTap: () => pop(DmNavbarAction.deleteMyMessages),
+      onPressed: () => pop(DmNavbarAction.deleteMyMessages),
     ),
-    ContextMenuItem(
+    FluxerMenuItem(
       icon: PhosphorIconsBold.x,
       label: isGroupDm ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
-      onTap: () => pop(DmNavbarAction.closeDm),
+      onPressed: () => pop(DmNavbarAction.closeDm),
     ),
   ];
 }

@@ -7551,6 +7551,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Reakció hozzáadása';
 
   @override
+  String get chatMessageOtherReaction => 'Other reaction…';
+
+  @override
   String get doubleTapReactionHint =>
       'Koppints duplán egy üzenetre, hogy reagálj ezzel:';
 

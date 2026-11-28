@@ -124,9 +124,9 @@ class _DesktopUserAreaCardState extends ConsumerState<_DesktopUserAreaCard> {
           children: <Widget>[
             _ActionGroup(
               children: <Widget>[
-                FluxerDesktopHoverFlyout(
+                FluxerDesktopSubmenu.hover(
                   width: _kStatusFlyoutWidth,
-                  flyoutBuilder: (BuildContext _) =>
+                  builder: (BuildContext _) =>
                       StatusFlyoutMenu(onClose: widget.onClose),
                   child: _ActionRow(
                     icon: FluxerStatusIndicator(status: status, size: 14),
@@ -134,9 +134,9 @@ class _DesktopUserAreaCardState extends ConsumerState<_DesktopUserAreaCard> {
                     showChevron: true,
                   ),
                 ),
-                FluxerDesktopHoverFlyout(
+                FluxerDesktopSubmenu.hover(
                   width: _kAccountFlyoutWidth,
-                  flyoutBuilder: (BuildContext _) =>
+                  builder: (BuildContext _) =>
                       AccountSwitcherSheetBody(onClose: widget.onClose),
                   child: _ActionRow(
                     icon: const PhosphorIcon(

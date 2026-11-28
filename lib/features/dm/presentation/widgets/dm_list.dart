@@ -2069,6 +2069,17 @@ class _DmBottomSheet extends ConsumerWidget {
           FluxerBottomSheetSubmenuItem(
             label: l10n.dmInviteToCommunity,
             onTap: () => _openInviteSheet(context),
+            submenuBuilder: (BuildContext _) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                for (final _InviteCandidate candidate in inviteCandidates)
+                  FluxerBottomSheetMenuItem(
+                    label: candidate.guildName,
+                    onTap: () => pop(candidate),
+                  ),
+              ],
+            ),
           ),
       ];
 
@@ -2147,6 +2158,11 @@ class _DmBottomSheet extends ConsumerWidget {
             FluxerBottomSheetSubmenuItem(
               label: l10n.dmMuteConversation,
               onTap: () => _openMuteSheet(context),
+              onTriggerSelect: (_) => pop(_DmAction.muteForever),
+              submenuBuilder: (BuildContext _) => MuteDurationSheetBody(
+                onSelected: (MuteSelection selection) =>
+                    pop(_dmActionForMuteSelection(selection)),
+              ),
             ),
         ],
       ),

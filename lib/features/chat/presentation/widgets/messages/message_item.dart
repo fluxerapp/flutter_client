@@ -188,6 +188,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final VoidCallback? onForward;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final FluxerSelectCallback? onDeleteSelect;
   final VoidCallback? onRemoveAllReactions;
   final bool canDelete;
   final bool canAddReactions;
@@ -225,6 +226,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.onForward,
     this.onEdit,
     this.onDelete,
+    this.onDeleteSelect,
     this.onRemoveAllReactions,
     this.canDelete = false,
     this.canAddReactions = true,
@@ -603,7 +605,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ? fluxerMarkdownLinkHrefAt(renderObject, globalPosition)
           : null;
       FluxerHaptics.medium();
-      final VoidCallback? onDelete = widget.onDelete;
       final String? guildId = _guildIdForMessageActions();
       final MessageAction? action = await showMessageBottomSheet(
         context,
@@ -627,7 +628,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         attachmentCallbacks: _videoActionScope.callbacks,
         linkUrl: linkUrl,
       );
-      _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
+      _dispatchMenuAction(
+        action,
+        modifiers: FluxerKeyModifiers.none,
+        isMobile: true,
+      );
     } finally {
       if (mounted) {
         _pressHighlight.value = false;
@@ -641,12 +646,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     Rect? anchorRect,
   }) async {
     final String? guildId = _guildIdForMessageActions();
-    final VoidCallback? onDelete = widget.onDelete;
     final ValueNotifier<bool> openFlag =
         (anchorRect == null ? _contextMenuOpen : _moreMenuOpen)..value = true;
-    MessageAction? action;
+    MessageMenuSelection? selection;
     try {
-      action = await showMessageContextMenu(
+      selection = await showMessageContextMenu(
         context,
         position: position,
         anchorRect: anchorRect,
@@ -666,7 +670,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     if (!mounted) {
       return;
     }
-    _dispatchMenuAction(action, onDelete: onDelete, isMobile: false);
+    _dispatchMenuAction(
+      selection?.action,
+      modifiers: selection?.modifiers ?? FluxerKeyModifiers.none,
+      isMobile: false,
+    );
   }
 
   void _openMoreMenu(BuildContext buttonContext) {
@@ -681,14 +689,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     unawaited(_showContextMenu(context, anchor.topLeft, anchorRect: anchor));
   }
 
+  void _requestDelete(FluxerKeyModifiers modifiers) {
+    final FluxerSelectCallback? onDeleteSelect = widget.onDeleteSelect;
+    if (onDeleteSelect != null) {
+      onDeleteSelect(modifiers);
+      return;
+    }
+    widget.onDelete?.call();
+  }
+
   void _dispatchMenuAction(
     MessageAction? action, {
-    required VoidCallback? onDelete,
+    required FluxerKeyModifiers modifiers,
     required bool isMobile,
   }) {
     if (action == MessageAction.delete) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        onDelete?.call();
+        if (mounted) {
+          _requestDelete(modifiers);
+        }
       });
       return;
     }
@@ -2466,7 +2485,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         msg.isUserMessage &&
         interactive &&
         widget.canSendMessages;
-    final bool canDelete = widget.canDelete && widget.onDelete != null;
+    final bool canDelete =
+        widget.canDelete &&
+        (widget.onDelete != null || widget.onDeleteSelect != null);
     final bool canPublish = interactive && _canPublish(msg);
     final Widget? replyButton = canReply
         ? MessageActionBarButton(
@@ -2592,7 +2613,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         MessageActionBarButton(
           label: l10n.chatMessageDelete,
           danger: true,
-          onTap: widget.onDelete,
+          onSelect: _requestDelete,
           child: const PhosphorIcon(PhosphorIconsFill.trash),
         )
       else
