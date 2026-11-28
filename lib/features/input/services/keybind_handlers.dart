@@ -479,8 +479,11 @@ void registerKeybindHandlers({
     })
     ..register(KeybindAction.messageEdit, () {
       return withFocusedMessage((Message message) {
-        ref.read(chatViewModelProvider.notifier).startEdit(message);
-        composerFocus.requestComposerFocus();
+        final ChatViewModel chat = ref.read(chatViewModelProvider.notifier)
+          ..startEdit(message);
+        if (!chat.isInlineEditActive) {
+          composerFocus.requestComposerFocus();
+        }
         return true;
       });
     })

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -58,6 +59,7 @@ class AttachmentMediaViewerItem {
     this.contentHash,
     this.description,
     this.animated = false,
+    this.localPath,
   });
 
   factory AttachmentMediaViewerItem.fromAttachment(Attachment attachment) {
@@ -101,6 +103,7 @@ class AttachmentMediaViewerItem {
   final String? contentHash;
   final String? description;
   final bool animated;
+  final String? localPath;
 }
 
 bool _mayBeAnimated(AttachmentMediaViewerItem item) {
@@ -1067,7 +1070,14 @@ class _AttachmentMediaViewerShellState
                       _pageDecodeScreenFactor)
                   .ceil();
     final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
-    final Widget image = imageUrl.isEmpty
+    final String? localPath = item.localPath;
+    final Widget image = localPath != null
+        ? Image.file(
+            File(localPath),
+            fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => errorPlaceholder,
+          )
+        : imageUrl.isEmpty
         ? errorPlaceholder
         : AllowImageFrameAnimation(
             child: ChatNetworkImage(
@@ -1354,10 +1364,20 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
       mode: hdrDisplayMode,
       contentType: item.contentType,
     );
-    if (imageUrl.isEmpty) {
-      return const MediaLoadErrorPlaceholder(showLabel: false);
-    }
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
+    final String? localPath = item.localPath;
+    if (localPath != null) {
+      return Image.file(
+        File(localPath),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (_, _, _) => errorPlaceholder,
+      );
+    }
+    if (imageUrl.isEmpty) {
+      return errorPlaceholder;
+    }
     final int? decodeCap = _mayBeAnimated(item) ? null : decodeSide;
     final bool isLandscape = (item.width ?? 0) > (item.height ?? 0);
     return ChatNetworkImage(

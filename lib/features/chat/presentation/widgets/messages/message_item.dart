@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
+import 'package:fluxer_app/features/chat/domain/inline_message_edit.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_media_menu_target.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
@@ -41,6 +42,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/crosspost
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/inline_edit/message_editor.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_action_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_long_press_highlight.dart';
@@ -55,6 +57,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/inline_message_edit_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
@@ -1497,8 +1500,26 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     final attachmentSize = chatPreferences.attachmentMediaDimensionSize;
 
+    final bool inlineEditing =
+        !widget.inboxPreviewMode &&
+        ref.watch(
+          inlineMessageEditProvider.select(
+            (Map<String, InlineMessageEdit> edits) =>
+                edits[msg.channelId]?.messageId == msg.id,
+          ),
+        );
+
     return [
-      if ((msg.content.isNotEmpty || msg.isCrosspostSourceDeleted) &&
+      if (inlineEditing)
+        Listener(
+          onPointerDown: (PointerDownEvent event) =>
+              _doubleTapExemption.pointer = event.pointer,
+          child: InlineMessageEditor(
+            key: ValueKey<String>('inline-edit-${msg.id}'),
+            message: msg,
+          ),
+        )
+      else if ((msg.content.isNotEmpty || msg.isCrosspostSourceDeleted) &&
           !msg.shouldHideContent(renderEmbeds: renderEmbeds))
         wrapPart(
           _buildMessageTextWithEditedTag(

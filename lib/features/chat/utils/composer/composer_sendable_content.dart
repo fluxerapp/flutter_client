@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/pending_composer_sticker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
@@ -12,10 +13,13 @@ bool composerHasSendableContent(
       .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
       .items
       .isNotEmpty;
+  final bool hasPendingSticker = ref
+      .read(pendingComposerStickerProvider)
+      .containsKey(channelId);
   return composerHasSendableContentFromParts(
     channelId: channelId,
     wireText: wireText,
-    hasPendingUploads: hasPendingUploads,
+    hasPendingUploads: hasPendingUploads || hasPendingSticker,
   );
 }
 

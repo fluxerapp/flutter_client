@@ -76,7 +76,8 @@ bool stepAdjacentEdit(WidgetRef ref, {required int direction}) {
   if (state.channelId.isEmpty || currentUserId == null) {
     return false;
   }
-  final String? editingId = state.editingMessage?.id;
+  final ChatViewModel chat = ref.read(chatViewModelProvider.notifier);
+  final String? editingId = chat.currentEditMessageId;
   final Message? target = adjacentMessage(
     messages: state.messages,
     currentMessageId: editingId,
@@ -86,12 +87,13 @@ bool stepAdjacentEdit(WidgetRef ref, {required int direction}) {
         message.authorId == currentUserId &&
         message.messageSnapshots.isEmpty,
   );
-  final ChatViewModel chat = ref.read(chatViewModelProvider.notifier);
   if (target == null) {
     if (editingId == null) {
       return false;
     }
-    chat.cancelEdit();
+    chat
+      ..cancelEdit()
+      ..cancelInlineEdit();
     return true;
   }
   chat

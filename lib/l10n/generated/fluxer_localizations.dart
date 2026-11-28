@@ -30767,6 +30767,126 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Member list unavailable at this screen width'**
   String get channelHeaderMembersUnavailable;
+
+  /// Footer hint under the inline message editor. {action} is a clickable word that cancels the edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Escape to {action}'**
+  String chatInlineEditEscapeHint(String action);
+
+  /// Footer hint under the inline message editor. {action} is a clickable word that saves the edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter to {action}'**
+  String chatInlineEditEnterHint(String action);
+
+  /// Clickable word in the inline message editor footer that cancels the edit.
+  ///
+  /// In en, this message translates to:
+  /// **'cancel'**
+  String get chatInlineEditCancelAction;
+
+  /// Clickable word in the inline message editor footer that saves the edit.
+  ///
+  /// In en, this message translates to:
+  /// **'save'**
+  String get chatInlineEditSaveAction;
+
+  /// Accessible label for the reply bar target that scrolls to the replied message.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to the message from {authorName}'**
+  String chatReplyJumpToMessage(String authorName);
+
+  /// Tooltip and label for the composer plus button that opens the upload and customization menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Open menu'**
+  String get composerPlusMenuOpen;
+
+  /// Composer plus menu item that opens the file picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload file'**
+  String get composerPlusUploadFile;
+
+  /// Composer plus menu item that turns the typed message into a .txt attachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your message as a file'**
+  String get composerPlusUploadAsFile;
+
+  /// Composer plus menu item that opens the gift purchase flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Send gift'**
+  String get composerPlusSendGift;
+
+  /// Composer plus menu item that starts recording a voice message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send voice message'**
+  String get composerPlusSendVoiceMessage;
+
+  /// Composer plus menu submenu with toggles for the composer buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize'**
+  String get composerPlusCustomize;
+
+  /// Hint on disabled composer plus menu items when the user can't attach files.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t upload files in this channel.'**
+  String get composerPlusCannotUploadFiles;
+
+  /// Tooltip and label for the button that removes the sticker staged in the composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove sticker'**
+  String get composerPendingStickerRemove;
+
+  /// Title of the file drop overlay. {destination} is the channel or conversation name.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload to {destination}'**
+  String uploadDropTitle(String destination);
+
+  /// Title of the file drop overlay while Shift is held. {destination} is the channel or conversation name.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload directly to {destination}'**
+  String uploadDropDirectTitle(String destination);
+
+  /// Helper text in the file drop overlay.
+  ///
+  /// In en, this message translates to:
+  /// **'You can add comments before uploading. Hold Shift to upload directly.'**
+  String get uploadDropDescription;
+
+  /// Helper text in the file drop overlay while Shift is held.
+  ///
+  /// In en, this message translates to:
+  /// **'Files will be sent immediately without preview.'**
+  String get uploadDropDirectDescription;
+
+  /// Helper text in the file drop overlay during slowmode.
+  ///
+  /// In en, this message translates to:
+  /// **'You can add comments before uploading. Direct upload is disabled during slowmode.'**
+  String get uploadDropSlowmodeDescription;
+
+  /// Status line in the file drop overlay while Shift is held.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct upload active'**
+  String get uploadDropDirectActive;
+
+  /// Status line in the file drop overlay explaining Shift for direct upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold for instant upload'**
+  String get uploadDropHoldHint;
 }
 
 class _FluxerLocalizationsDelegate

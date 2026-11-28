@@ -172,6 +172,7 @@ class WideComposerMouseButton extends StatelessWidget {
     required this.onPressed,
     this.keybindAction,
     this.keybindCombo,
+    this.active = false,
     super.key,
   });
 
@@ -180,6 +181,7 @@ class WideComposerMouseButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final KeybindAction? keybindAction;
   final KeybindCombo? keybindCombo;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +195,7 @@ class WideComposerMouseButton extends StatelessWidget {
       extent: WideComposerLayout.actionButtonExtent,
       iconSize: WideComposerLayout.mouseButtonIconSize,
       borderRadius: WideComposerLayout.mouseButtonRadius,
+      active: active,
     );
   }
 }

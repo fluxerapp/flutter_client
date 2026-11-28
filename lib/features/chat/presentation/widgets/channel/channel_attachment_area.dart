@@ -1,17 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_attachment_preview.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_upload/upload_card.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_upload/upload_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/attachment_edit_modal.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/media/alt_text_badge.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/pending_attachment_actions.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/pending_upload_icon.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class ChannelAttachmentArea extends ConsumerWidget {
   const ChannelAttachmentArea({
@@ -23,7 +26,7 @@ class ChannelAttachmentArea extends ConsumerWidget {
   final String channelId;
   final bool animateSize;
 
-  static const Key uploadProgressKey = Key('composer-attachment-progress');
+  static const Key uploadProgressKey = PendingUploadMedia.progressKey;
   static const Key stripKey = Key('composer-attachment-strip');
   static const double _kAttachmentListHeight = 150;
 
@@ -55,22 +58,32 @@ class _AttachmentAreaBody extends ConsumerWidget {
     required this.attachments,
   });
 
+  static const EdgeInsetsDirectional _kDesktopStripPadding =
+      EdgeInsetsDirectional.only(start: 10, top: 8, bottom: 10);
+
   final String channelId;
   final List<PendingAttachment> attachments;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool desktopCards = usesDesktopPointerUi(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
           key: ChannelAttachmentArea.stripKey,
-          margin: const EdgeInsets.symmetric(vertical: 6),
-          height: ChannelAttachmentArea._kAttachmentListHeight,
+          margin: desktopCards
+              ? EdgeInsets.zero
+              : const EdgeInsets.symmetric(vertical: 6),
+          height: desktopCards
+              ? PendingUploadCard.slotHeight + _kDesktopStripPadding.vertical
+              : ChannelAttachmentArea._kAttachmentListHeight,
           child: ReorderableListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: desktopCards
+                ? _kDesktopStripPadding.resolve(Directionality.of(context))
+                : const EdgeInsets.symmetric(horizontal: 8),
             buildDefaultDragHandles: false,
             itemCount: attachments.length,
             onReorderItem: (int oldIndex, int newIndex) {
@@ -101,6 +114,16 @@ class _AttachmentAreaBody extends ConsumerWidget {
                 },
             itemBuilder: (BuildContext context, int index) {
               final PendingAttachment att = attachments[index];
+              if (desktopCards) {
+                return ReorderableDragStartListener(
+                  key: ValueKey<int>(att.id),
+                  index: index,
+                  child: PendingUploadCard(
+                    channelId: channelId,
+                    attachment: att,
+                  ),
+                );
+              }
               return ReorderableDelayedDragStartListener(
                 key: ValueKey<int>(att.id),
                 index: index,
@@ -127,13 +150,15 @@ class _AttachmentChip extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isVideo = _isVideoFilename(attachment.filename);
-    final bool isSpoiler = (attachment.flags & attachmentFlagIsSpoiler) != 0;
+    final bool isSpoiler = pendingAttachmentIsSpoiler(attachment);
     final String? byteSizeLabel = formatAttachmentByteSize(attachment.size);
-    final String? altText = resolvedMediaAltText(attachment.description);
     final Widget fallbackIcon = Center(
       child: Icon(
-        isVideo ? PhosphorIconsFill.filmStrip : _fileIcon(attachment.filename),
+        isVideo
+            ? PhosphorIconsFill.filmStrip
+            : pendingUploadFileIcon(attachment.filename),
         size: 44,
         color: colors.textPrimaryMuted,
       ),
@@ -153,133 +178,50 @@ class _AttachmentChip extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      ColoredBox(color: colors.backgroundTertiary),
-                      if (isSpoiler)
-                        fallbackIcon
-                      else
-                        PendingAttachmentPreview(
-                          attachment: attachment,
-                          fallback: fallbackIcon,
-                        ),
-                      if (isSpoiler)
-                        ColoredBox(
-                          color: colors.backgroundPrimary.withValues(
-                            alpha: 0.72,
-                          ),
-                          child: Center(
-                            child: Text(
-                              FluxerLocalizations.of(
-                                context,
-                              ).chatAttachmentSpoiler,
-                              style: context.textStyles.smallText.copyWith(
-                                color: colors.textPrimary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                child: PendingUploadMedia(
+                  attachment: attachment,
+                  fallback: fallbackIcon,
+                  borderRadius: 6,
+                  overlay: PositionedDirectional(
+                    top: 4,
+                    end: 4,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _RoundIconButton(
+                          tooltip: l10n.chatAttachmentSpoilerLabel,
+                          icon: isSpoiler
+                              ? PhosphorIconsFill.eyeSlash
+                              : PhosphorIconsFill.eye,
+                          onPressed: () => togglePendingAttachmentSpoiler(
+                            ref,
+                            channelId: channelId,
+                            attachment: attachment,
                           ),
                         ),
-                      if (altText != null && !isSpoiler)
-                        PositionedDirectional(
-                          end: 6,
-                          bottom: 6,
-                          child: IgnorePointer(
-                            child: AltTextBadge(altText: altText),
+                        _RoundIconButton(
+                          tooltip: l10n.chatAttachmentEditTitle,
+                          icon: PhosphorIconsFill.pencilSimple,
+                          onPressed: () => AttachmentEditModal.show(
+                            context,
+                            channelId: channelId,
+                            attachment: attachment,
                           ),
                         ),
-                      if (attachment.status ==
-                          PendingAttachmentStatus.uploading)
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: LinearProgressIndicator(
-                            key: ChannelAttachmentArea.uploadProgressKey,
-                            minHeight: 3,
-                            value: attachment.uploadProgress.clamp(0, 1),
-                            backgroundColor: colors.backgroundTertiary,
-                            color: colors.brandPrimary,
-                          ),
-                        ),
-                      if (attachment.status == PendingAttachmentStatus.failed)
-                        ColoredBox(
-                          color: colors.statusDanger.withValues(alpha: 0.35),
-                          child: Center(
-                            child: Icon(
-                              PhosphorIconsFill.warningCircle,
-                              color: colors.statusDanger,
-                              size: 40,
+                        _RoundIconButton(
+                          tooltip: l10n.chatAttachmentRemove,
+                          icon: PhosphorIconsFill.trash,
+                          onPressed: () => unawaited(
+                            removePendingAttachment(
+                              ref,
+                              channelId: channelId,
+                              attachment: attachment,
                             ),
                           ),
+                          danger: true,
                         ),
-                      PositionedDirectional(
-                        top: 4,
-                        end: 4,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _RoundIconButton(
-                              tooltip: FluxerLocalizations.of(
-                                context,
-                              ).chatAttachmentSpoilerLabel,
-                              icon: isSpoiler
-                                  ? PhosphorIconsFill.eyeSlash
-                                  : PhosphorIconsFill.eye,
-                              onPressed: () {
-                                final int next = isSpoiler
-                                    ? attachment.flags &
-                                          ~attachmentFlagIsSpoiler
-                                    : attachment.flags |
-                                          attachmentFlagIsSpoiler;
-                                ref
-                                    .read(
-                                      cloudUploadControllerProvider(
-                                        readAccountUserId(ref),
-                                        channelId,
-                                      ).notifier,
-                                    )
-                                    .updateAttachment(
-                                      attachment.id,
-                                      filename: attachment.filename,
-                                      description: attachment.description,
-                                      flags: next,
-                                    );
-                              },
-                            ),
-                            _RoundIconButton(
-                              tooltip: FluxerLocalizations.of(
-                                context,
-                              ).chatAttachmentEditTitle,
-                              icon: PhosphorIconsFill.pencilSimple,
-                              onPressed: () => AttachmentEditModal.show(
-                                context,
-                                channelId: channelId,
-                                attachment: attachment,
-                              ),
-                            ),
-                            _RoundIconButton(
-                              tooltip: FluxerLocalizations.of(
-                                context,
-                              ).chatAttachmentRemove,
-                              icon: PhosphorIconsFill.trash,
-                              onPressed: () => ref
-                                  .read(
-                                    cloudUploadControllerProvider(
-                                      readAccountUserId(ref),
-                                      channelId,
-                                    ).notifier,
-                                  )
-                                  .removeAttachment(attachment.id),
-                              danger: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -312,29 +254,6 @@ class _AttachmentChip extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  static IconData _fileIcon(String filename) {
-    final String lower = filename.toLowerCase();
-    if (lower.endsWith('.pdf')) {
-      return PhosphorIconsFill.filePdf;
-    }
-    if (lower.endsWith('.zip') ||
-        lower.endsWith('.rar') ||
-        lower.endsWith('.7z')) {
-      return PhosphorIconsFill.fileZip;
-    }
-    final RegExp audio = RegExp(r'\.(mp3|wav|ogg|m4a|flac)$');
-    if (audio.hasMatch(lower)) {
-      return PhosphorIconsFill.fileAudio;
-    }
-    final RegExp code = RegExp(
-      r'\.(js|ts|tsx|jsx|dart|py|rs|go|html|css|json|md)$',
-    );
-    if (code.hasMatch(lower)) {
-      return PhosphorIconsFill.fileCode;
-    }
-    return PhosphorIconsFill.file;
   }
 
   static bool _isVideoFilename(String name) {

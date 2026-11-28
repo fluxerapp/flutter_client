@@ -87,10 +87,16 @@ class MutableChatViewModel extends ChatViewModel {
   }
 
   final List<String?> sentTexts = <String?>[];
+  final List<List<String>> sentStickerIds = <List<String>>[];
 
   @override
-  Future<void> sendMessage({String? text, bool tts = false}) async {
+  Future<void> sendMessage({
+    String? text,
+    bool tts = false,
+    List<String> stickerIds = const <String>[],
+  }) async {
     sentTexts.add(text);
+    sentStickerIds.add(stickerIds);
   }
 }
 

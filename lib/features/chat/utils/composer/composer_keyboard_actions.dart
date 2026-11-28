@@ -1,6 +1,24 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_code_block.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_markdown_wrap.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+
+bool composerValueIsComposing(TextEditingValue value) =>
+    value.composing.isValid &&
+    !value.composing.isCollapsed &&
+    !InlineTokenTextEditingController.isInlinePrediction(value);
+
+String? composerMarkdownWrapperFor(TextEditingValue value, KeyEvent event) {
+  final TextSelection selection = value.selection;
+  if (event is! KeyDownEvent ||
+      !selection.isValid ||
+      selection.isCollapsed ||
+      composerValueIsComposing(value)) {
+    return null;
+  }
+  return composerMarkdownShortcutWrapper(event);
+}
 
 bool composerSelectionInCodeBlock(TextEditingValue value) {
   final TextSelection selection = value.selection;

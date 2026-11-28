@@ -8,6 +8,8 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_bar/mention_pill.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_bar/reply_target.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_context_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_tap_target.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
@@ -24,6 +26,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart'
     show GuildUserDisplay, messagePrefersPersistedAuthorDisplay;
@@ -602,6 +605,17 @@ class ReplyInputBar extends ConsumerWidget {
             ),
           )
         : null;
+    if (wideComposerAction && usesDesktopPointerUi(context)) {
+      return _buildDesktopBar(
+        context: context,
+        ref: ref,
+        l10n: l10n,
+        replyingToParts: replyingToParts,
+        authorName: replyAuthorDisplay.displayName,
+        canMention: canMention,
+        shouldMention: shouldMention,
+      );
+    }
     if (!wideComposerAction) {
       return MobileComposerHeader(
         title: title,
@@ -625,6 +639,65 @@ class ReplyInputBar extends ConsumerWidget {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktopBar({
+    required BuildContext context,
+    required WidgetRef ref,
+    required FluxerLocalizations l10n,
+    required List<String> replyingToParts,
+    required String authorName,
+    required bool canMention,
+    required bool shouldMention,
+  }) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(start: 12, end: 4),
+      child: Row(
+        spacing: 2,
+        children: <Widget>[
+          Expanded(
+            child: ReplyBarTarget(
+              prefix: replyingToParts.first,
+              authorName: authorName,
+              suffix: replyingToParts.length > 1 ? replyingToParts[1] : '',
+              semanticLabel: l10n.chatReplyJumpToMessage(authorName),
+              onPressed: () => ref
+                  .read(chatViewModelProvider.notifier)
+                  .scrollToMessage(replyTo.id),
+            ),
+          ),
+          if (canMention)
+            ReplyMentionPill(
+              mentioning: shouldMention,
+              label: shouldMention
+                  ? l10n.chatReplyMentionOn
+                  : l10n.chatReplyMentionOff,
+              tooltip: shouldMention
+                  ? l10n.chatReplyMentionDisableTooltip
+                  : l10n.chatReplyMentionEnableTooltip,
+              semanticLabel: l10n.chatReplyMentionAccessibilityLabel,
+              onPressed: () => unawaited(
+                _toggleMention(
+                  context: context,
+                  ref: ref,
+                  shouldMention: shouldMention,
+                  authorNickname: authorName,
+                  onToggleMention: onToggleMention,
+                ),
+              ),
+            ),
+          FluxerButton.desktop(
+            icon: PhosphorIconsRegular.xCircle,
+            semanticLabel: l10n.chatReplyCancel,
+            showTooltip: true,
+            extent: 32,
+            borderRadius: 6,
+            hoverBackground: Colors.transparent,
+            onPressed: onCancel,
           ),
         ],
       ),

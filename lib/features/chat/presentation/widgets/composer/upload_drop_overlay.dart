@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop/drop_card.dart';
+import 'package:fluxer_app/features/chat/providers/composer/composer_watch_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
@@ -38,7 +40,44 @@ class UploadDropOverlay extends ConsumerStatefulWidget {
 }
 
 class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
+  final OverlayPortalController _portal = OverlayPortalController();
   bool _isDragging = false;
+  bool _shiftHeld = false;
+
+  @override
+  void dispose() {
+    HardwareKeyboard.instance.removeHandler(_handleKey);
+    super.dispose();
+  }
+
+  bool _handleKey(KeyEvent event) {
+    _syncShift();
+    return false;
+  }
+
+  void _syncShift() {
+    final bool held = HardwareKeyboard.instance.isShiftPressed;
+    if (held != _shiftHeld && mounted) {
+      setState(() => _shiftHeld = held);
+    }
+  }
+
+  void _setDragging(bool dragging) {
+    if (dragging == _isDragging) {
+      return;
+    }
+    if (dragging) {
+      HardwareKeyboard.instance.addHandler(_handleKey);
+      _portal.show();
+    } else {
+      HardwareKeyboard.instance.removeHandler(_handleKey);
+      _portal.hide();
+    }
+    setState(() {
+      _isDragging = dragging;
+      _shiftHeld = HardwareKeyboard.instance.isShiftPressed;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +85,11 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
       return widget.child;
     }
     return DropTarget(
-      onDragEntered: (_) {
-        setState(() => _isDragging = true);
-      },
-      onDragExited: (_) {
-        setState(() => _isDragging = false);
-      },
+      onDragEntered: (_) => _setDragging(true),
+      onDragUpdated: (_) => _syncShift(),
+      onDragExited: (_) => _setDragging(false),
       onDragDone: (DropDoneDetails details) async {
-        setState(() => _isDragging = false);
+        _setDragging(false);
         if (details.files.isEmpty) {
           return;
         }
@@ -83,15 +119,16 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
           await ref.read(chatViewModelProvider.notifier).sendMessage();
         }
       },
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          widget.child,
-          if (_isDragging)
-            Positioned.fill(
-              child: _UploadDropHint(channelId: widget.channelId),
-            ),
-        ],
+      child: OverlayPortal(
+        controller: _portal,
+        overlayLocation: OverlayChildLocation.rootOverlay,
+        overlayChildBuilder: (BuildContext overlayContext) => Positioned.fill(
+          child: _UploadDropScrim(
+            channelId: widget.channelId,
+            shiftHeld: _shiftHeld,
+          ),
+        ),
+        child: widget.child,
       ),
     );
   }
@@ -114,40 +151,46 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
   }
 }
 
-class _UploadDropHint extends ConsumerWidget {
-  const _UploadDropHint({required this.channelId});
+class _UploadDropScrim extends ConsumerWidget {
+  const _UploadDropScrim({required this.channelId, required this.shiftHeld});
+
+  static const double _kScrimOpacity = 0.7;
 
   final String channelId;
+  final bool shiftHeld;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool slowBlocked =
         ref.watch(isSlowmodeBlockedProvider(channelId)).value ?? false;
-    final bool shiftHeld = HardwareKeyboard.instance.isShiftPressed;
-    return Material(
-      color: colors.backgroundPrimary.withValues(alpha: 0.72),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.upload_file, size: 56, color: colors.interactiveNormal),
-            const SizedBox(height: 12),
-            Text(
-              slowBlocked && shiftHeld
-                  ? l10n.chatAttachmentDropSlowmodeDisabled
-                  : shiftHeld
-                  ? l10n.chatAttachmentDropToSend
-                  : l10n.chatAttachmentDropToUpload,
-              style: context.textStyles.channelName.copyWith(
-                color: colors.textPrimary,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+    return IgnorePointer(
+      child: ColoredBox(
+        color: Colors.black.withValues(alpha: _kScrimOpacity),
+        child: Center(
+          child: UploadDropCard(
+            destination: _destination(context, ref),
+            shiftHeld: shiftHeld && !slowBlocked,
+            slowmodeBlocked: slowBlocked,
+          ),
         ),
       ),
     );
+  }
+
+  String _destination(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ComposerWatch? dm = ref.watch(composerWatchProvider(channelId));
+    if (dm != null) {
+      final String? groupName = dm.name?.trim();
+      if (dm.isGroup && groupName != null && groupName.isNotEmpty) {
+        return groupName;
+      }
+      return dm.recipientDisplayName;
+    }
+    final String? name = ref.watch(channelByIdProvider(channelId)).value?.name;
+    if (name == null || name.isEmpty) {
+      return l10n.guildSettingsUnknownChannel;
+    }
+    return '#$name';
   }
 }

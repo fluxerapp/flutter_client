@@ -57,7 +57,7 @@ void _expectFieldAlignedWithAttach(
     matching: find.byWidgetPredicate(
       (Widget widget) =>
           widget is WideComposerMouseButton &&
-          widget.tooltip == FluxerLocalizationsEn().chatAttachmentSourceBrowse,
+          widget.tooltip == FluxerLocalizationsEn().composerPlusMenuOpen,
     ),
   );
   expect(attachButton, findsOneWidget);
@@ -143,8 +143,7 @@ void main() {
         matching: find.byWidgetPredicate(
           (Widget widget) =>
               widget is WideComposerMouseButton &&
-              widget.tooltip ==
-                  FluxerLocalizationsEn().chatAttachmentSourceBrowse,
+              widget.tooltip == FluxerLocalizationsEn().composerPlusMenuOpen,
         ),
       );
       final double singleLineTop = tester.getRect(attachButton).top;
@@ -192,7 +191,7 @@ void main() {
       await _pumpWideComposer(
         tester,
         extraOverrides: <Override>[
-          inputModalityProvider.overrideWith(_MousePrimaryModality.new),
+          inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
         ],
       );
       await _clearComposerDraft(tester);
@@ -212,8 +211,8 @@ void main() {
         tester.getRect(recordingBar).height,
         closeTo(
           VoiceMessageRecordingBar.heightFor(
-            FluxerButtonSize.compact,
-            touchPrimary: false,
+            FluxerButtonSize.small,
+            touchPrimary: true,
           ),
           1,
         ),

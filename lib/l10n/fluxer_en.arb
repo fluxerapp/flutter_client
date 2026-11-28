@@ -22398,5 +22398,110 @@
   "channelHeaderMembersUnavailable": "Member list unavailable at this screen width",
   "@channelHeaderMembersUnavailable": {
     "description": "Tooltip on the disabled member list button when the window is too narrow."
+  },
+  "chatInlineEditEscapeHint": "Escape to {action}",
+  "@chatInlineEditEscapeHint": {
+    "description": "Footer hint under the inline message editor. {action} is a clickable word that cancels the edit.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "chatInlineEditEnterHint": "Enter to {action}",
+  "@chatInlineEditEnterHint": {
+    "description": "Footer hint under the inline message editor. {action} is a clickable word that saves the edit.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "chatInlineEditCancelAction": "cancel",
+  "@chatInlineEditCancelAction": {
+    "description": "Clickable word in the inline message editor footer that cancels the edit."
+  },
+  "chatInlineEditSaveAction": "save",
+  "@chatInlineEditSaveAction": {
+    "description": "Clickable word in the inline message editor footer that saves the edit."
+  },
+  "chatReplyJumpToMessage": "Jump to the message from {authorName}",
+  "@chatReplyJumpToMessage": {
+    "description": "Accessible label for the reply bar target that scrolls to the replied message.",
+    "placeholders": {
+      "authorName": {
+        "type": "String"
+      }
+    }
+  },
+  "composerPlusMenuOpen": "Open menu",
+  "@composerPlusMenuOpen": {
+    "description": "Tooltip and label for the composer plus button that opens the upload and customization menu."
+  },
+  "composerPlusUploadFile": "Upload file",
+  "@composerPlusUploadFile": {
+    "description": "Composer plus menu item that opens the file picker."
+  },
+  "composerPlusUploadAsFile": "Upload your message as a file",
+  "@composerPlusUploadAsFile": {
+    "description": "Composer plus menu item that turns the typed message into a .txt attachment."
+  },
+  "composerPlusSendGift": "Send gift",
+  "@composerPlusSendGift": {
+    "description": "Composer plus menu item that opens the gift purchase flow."
+  },
+  "composerPlusSendVoiceMessage": "Send voice message",
+  "@composerPlusSendVoiceMessage": {
+    "description": "Composer plus menu item that starts recording a voice message."
+  },
+  "composerPlusCustomize": "Customize",
+  "@composerPlusCustomize": {
+    "description": "Composer plus menu submenu with toggles for the composer buttons."
+  },
+  "composerPlusCannotUploadFiles": "You can't upload files in this channel.",
+  "@composerPlusCannotUploadFiles": {
+    "description": "Hint on disabled composer plus menu items when the user can't attach files."
+  },
+  "composerPendingStickerRemove": "Remove sticker",
+  "@composerPendingStickerRemove": {
+    "description": "Tooltip and label for the button that removes the sticker staged in the composer."
+  },
+  "uploadDropTitle": "Upload to {destination}",
+  "@uploadDropTitle": {
+    "description": "Title of the file drop overlay. {destination} is the channel or conversation name.",
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadDropDirectTitle": "Upload directly to {destination}",
+  "@uploadDropDirectTitle": {
+    "description": "Title of the file drop overlay while Shift is held. {destination} is the channel or conversation name.",
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadDropDescription": "You can add comments before uploading. Hold Shift to upload directly.",
+  "@uploadDropDescription": {
+    "description": "Helper text in the file drop overlay."
+  },
+  "uploadDropDirectDescription": "Files will be sent immediately without preview.",
+  "@uploadDropDirectDescription": {
+    "description": "Helper text in the file drop overlay while Shift is held."
+  },
+  "uploadDropSlowmodeDescription": "You can add comments before uploading. Direct upload is disabled during slowmode.",
+  "@uploadDropSlowmodeDescription": {
+    "description": "Helper text in the file drop overlay during slowmode."
+  },
+  "uploadDropDirectActive": "Direct upload active",
+  "@uploadDropDirectActive": {
+    "description": "Status line in the file drop overlay while Shift is held."
+  },
+  "uploadDropHoldHint": "Hold for instant upload",
+  "@uploadDropHoldHint": {
+    "description": "Status line in the file drop overlay explaining Shift for direct upload."
   }
 }

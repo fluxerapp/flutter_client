@@ -40,6 +40,7 @@ import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
+import 'package:fluxer_app/features/chat/domain/inline_message_edit.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
@@ -56,6 +57,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/inline_message_edit_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_frame_batcher.dart';
@@ -4898,11 +4900,16 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  Future<void> sendMessage({String? text, bool tts = false}) async {
+  Future<void> sendMessage({
+    String? text,
+    bool tts = false,
+    List<String> stickerIds = const <String>[],
+  }) async {
     await _sendContent(
       text ?? state.messageText.trim(),
       clearMessageText: true,
       tts: tts,
+      stickerIds: stickerIds,
     );
   }
 
@@ -7259,7 +7266,22 @@ class ChatViewModel extends _$ChatViewModel {
     return null;
   }
 
+  String? get currentEditMessageId =>
+      ref.read(inlineMessageEditProvider)[state.channelId]?.messageId ??
+      state.editingMessage?.id;
+
+  bool get isInlineEditActive =>
+      ref.read(inlineMessageEditProvider)[state.channelId] != null;
+
   void startEdit(Message message) {
+    if (readInlineMessageEditEnabled(ref)) {
+      final Message? composerEdit = state.editingMessage;
+      if (composerEdit != null) {
+        unawaited(_endEditRestoringDraft(composerEdit));
+      }
+      ref.read(inlineMessageEditProvider.notifier).start(message);
+      return;
+    }
     _endingEdit = null;
     unawaited(_flushComposerDraftSave());
     state = state.copyWith(
@@ -7277,14 +7299,58 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  void cancelInlineEdit() {
+    final InlineMessageEdit? active = ref.read(
+      inlineMessageEditProvider,
+    )[state.channelId];
+    if (active == null) {
+      return;
+    }
+    ref
+        .read(inlineMessageEditProvider.notifier)
+        .end(active.channelId, active.messageId);
+  }
+
   Future<void> saveEditedMessage({String? text}) async {
     final Message? editingMessage = state.editingMessage;
     if (editingMessage == null || identical(editingMessage, _endingEdit)) {
       return;
     }
-    final String sanitized = _maybeSanitizeOutgoing(
-      (text ?? state.messageText).trim(),
+    await _commitMessageEdit(
+      editingMessage: editingMessage,
+      text: text ?? state.messageText,
+      inline: false,
     );
+  }
+
+  Future<void> saveInlineEdit({
+    required Message message,
+    required String text,
+  }) async {
+    if (!ref
+        .read(inlineMessageEditProvider.notifier)
+        .isEditing(message.channelId, message.id)) {
+      return;
+    }
+    await _commitMessageEdit(editingMessage: message, text: text, inline: true);
+  }
+
+  Future<bool> _endEdit(Message editing, {required bool inline}) {
+    if (!inline) {
+      return _endEditRestoringDraft(editing);
+    }
+    ref
+        .read(inlineMessageEditProvider.notifier)
+        .end(editing.channelId, editing.id);
+    return Future<bool>.value(true);
+  }
+
+  Future<void> _commitMessageEdit({
+    required Message editingMessage,
+    required String text,
+    required bool inline,
+  }) async {
+    final String sanitized = _maybeSanitizeOutgoing(text.trim());
     final String editedContent = hasVisibleContent(sanitized) ? sanitized : '';
     final bool keepAttachmentsOnly =
         editedContent.isEmpty &&
@@ -7307,7 +7373,7 @@ class ChatViewModel extends _$ChatViewModel {
               variant: FluxerToastVariant.warning,
             ),
           );
-      await _endEditRestoringDraft(editingMessage);
+      await _endEdit(editingMessage, inline: inline);
       return;
     }
     final int maxMessageLength = ref.read(maxMessageLengthProvider);
@@ -7350,7 +7416,7 @@ class ChatViewModel extends _$ChatViewModel {
         ),
       );
     }
-    final Future<bool> editEnded = _endEditRestoringDraft(editingMessage);
+    final Future<bool> editEnded = _endEdit(editingMessage, inline: inline);
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
@@ -7411,6 +7477,7 @@ class ChatViewModel extends _$ChatViewModel {
       await editEnded;
       _recoverFailedEdit(
         channelId: channelId,
+        inline: inline,
         messageId: messageId,
         editedContent: editedContent,
         announce: !explained,
@@ -7426,6 +7493,7 @@ class ChatViewModel extends _$ChatViewModel {
       await editEnded;
       _recoverFailedEdit(
         channelId: channelId,
+        inline: inline,
         messageId: messageId,
         editedContent: editedContent,
       );
@@ -7444,16 +7512,18 @@ class ChatViewModel extends _$ChatViewModel {
     required String channelId,
     required String messageId,
     required String editedContent,
+    required bool inline,
     bool announce = true,
   }) {
     final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
     final bool inChannel =
         state.channelId == channelId &&
         state.messages.any((Message m) => m.id == messageId);
-    final bool composerEmpty =
-        state.editingMessage == null &&
-        state.replyingTo == null &&
-        state.messageText.trim().isEmpty;
+    final bool composerEmpty = inline
+        ? ref.read(inlineMessageEditProvider)[channelId] == null
+        : state.editingMessage == null &&
+              state.replyingTo == null &&
+              state.messageText.trim().isEmpty;
     final FluxerToastAction? action;
     if (!inChannel) {
       action = FluxerToastAction(
@@ -7461,7 +7531,7 @@ class ChatViewModel extends _$ChatViewModel {
         onPressed: () => unawaited(_copyFailedEdit(editedContent)),
       );
     } else if (composerEmpty) {
-      _resumeFailedEdit(channelId, messageId, editedContent);
+      _resumeFailedEdit(channelId, messageId, editedContent, inline: inline);
       if (!announce) {
         return;
       }
@@ -7471,7 +7541,12 @@ class ChatViewModel extends _$ChatViewModel {
     } else {
       action = FluxerToastAction(
         label: l10n.chatEditFailedEditAgain,
-        onPressed: () => _resumeFailedEdit(channelId, messageId, editedContent),
+        onPressed: () => _resumeFailedEdit(
+          channelId,
+          messageId,
+          editedContent,
+          inline: inline,
+        ),
       );
     }
     ref
@@ -7488,8 +7563,9 @@ class ChatViewModel extends _$ChatViewModel {
   void _resumeFailedEdit(
     String channelId,
     String messageId,
-    String editedContent,
-  ) {
+    String editedContent, {
+    required bool inline,
+  }) {
     if (state.channelId != channelId) {
       return;
     }
@@ -7499,8 +7575,16 @@ class ChatViewModel extends _$ChatViewModel {
     if (message == null) {
       return;
     }
-    startEdit(message);
-    state = state.copyWith(messageText: editedContent);
+    if (!inline) {
+      startEdit(message);
+      if (state.editingMessage?.id == messageId) {
+        state = state.copyWith(messageText: editedContent);
+        return;
+      }
+    }
+    ref
+        .read(inlineMessageEditProvider.notifier)
+        .start(message, text: editedContent);
   }
 
   Future<void> _copyFailedEdit(String editedContent) async {

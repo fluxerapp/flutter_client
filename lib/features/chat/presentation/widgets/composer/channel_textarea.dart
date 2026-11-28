@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/menus/composer_attach_source_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/menus/composer_plus_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/announcement_follow_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_user_composer_barrier.dart';
@@ -34,6 +35,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_input_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_send_and_voice_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/pending_sticker_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_clear_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_composer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/system_dm_composer_barrier.dart';
@@ -51,7 +54,9 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/pending_composer_sticker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -73,6 +78,7 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_emoji_resolutio
 import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_keyboard_actions.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_limit_toast.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_markdown_wrap.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_scroll.dart';
@@ -87,20 +93,25 @@ import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
+import 'package:fluxer_app/features/input/utils/keybind_menu_shortcut.dart';
+import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -111,10 +122,17 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart' show hasVisibleContent;
 
 const double _kComposerDisabledOpacity = 0.6;
 
 const double _kWideComposerIconSize = 24;
+
+const double _kComposerShowAllButtonsMinWidth = 500;
+
+const double _kComposerMaxViewportFraction = 0.5;
+
+const int _kComposerDesktopMaxLines = 1000;
 
 Widget _composerOpacity({
   required BuildContext context,
@@ -278,6 +296,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   final _stickerPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
 
   bool _composerFocused = false;
+  ExpressionPickerTab? _openPickerTab;
   final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _buildComposerActionButton({
@@ -289,6 +308,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     double iconSize = _kWideComposerIconSize,
     FluxerButtonSize touchSize = FluxerButtonSize.small,
     bool leadingTouchGap = false,
+    bool active = false,
   }) {
     final Widget button = isTouchPrimaryInput(ref)
         ? FluxerButton.circleAlt(
@@ -302,6 +322,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             icon: icon,
             tooltip: tooltip,
             keybindAction: keybindAction,
+            active: active,
             onPressed: onPressed,
           );
     final Widget wrapped = _composerOpacity(
@@ -552,6 +573,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (ref.read(chatViewModelProvider).editingMessage != null) {
       chatNotifier.cancelEdit();
     }
+    ref
+        .read(pendingComposerStickerProvider.notifier)
+        .clear(ref.read(chatViewModelProvider).channelId);
     ref.read(expressionPanelProvider.notifier).close();
     ref.read(attachmentPanelProvider.notifier).close();
   }
@@ -808,12 +832,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return KeyEventResult.ignored;
   }
 
-  bool _isImeComposing() {
-    final TextEditingValue value = _controller.value;
-    return value.composing.isValid &&
-        !value.composing.isCollapsed &&
-        !InlineTokenTextEditingController.isInlinePrediction(value);
-  }
+  bool _isImeComposing() => composerValueIsComposing(_controller.value);
 
   bool _slashSlotHasFocus() {
     final BuildContext? focusContext =
@@ -842,16 +861,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return _focusNode.hasFocus && _markdownWrapper(event) != null;
   }
 
-  String? _markdownWrapper(KeyEvent event) {
-    final TextSelection selection = _controller.selection;
-    if (event is! KeyDownEvent ||
-        !selection.isValid ||
-        selection.isCollapsed ||
-        _isImeComposing()) {
-      return null;
-    }
-    return composerMarkdownShortcutWrapper(event);
-  }
+  String? _markdownWrapper(KeyEvent event) =>
+      composerMarkdownWrapperFor(_controller.value, event);
 
   bool _applyMarkdownShortcut(KeyEvent event) {
     final String? wrapper = _markdownWrapper(event);
@@ -1232,11 +1243,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
       ),
     );
+    final bool hasPendingSticker = _watchHasPendingSticker(channelId);
     final bool hasWideActionStack =
         !mobileComposer &&
         (replyTo != null ||
             editingMessage != null ||
             hasAttachments ||
+            hasPendingSticker ||
             _slashSession.focusedSlot != null);
     final bool slashParamBarVisible = _slashSession.focusedSlot != null;
     Widget buildComposerInput({double mobileMaxHeight = double.infinity}) =>
@@ -1252,7 +1265,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   (slashParamBarVisible ||
                       replyTo != null ||
                       editingMessage != null ||
-                      hasAttachments)
+                      hasAttachments ||
+                      hasPendingSticker)
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -1277,6 +1291,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         channelId: channelId,
                         animateSize: false,
                       ),
+                    if (hasPendingSticker)
+                      ComposerPendingStickerBar(channelId: channelId),
                   ],
                 )
               : null,
@@ -1427,10 +1443,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               ),
             ),
           ChannelAttachmentArea(channelId: channelId),
+          ComposerPendingStickerBar(channelId: channelId),
         ],
       ),
     );
   }
+
+  bool _watchHasPendingSticker(String channelId) => ref.watch(
+    pendingComposerStickerProvider.select(
+      (Map<String, StickerEntry> staged) => staged.containsKey(channelId),
+    ),
+  );
 
   String _resolveHintText() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -1515,10 +1538,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (ChatViewState state) => state.editingMessage,
       ),
     );
+    final bool hasPendingSticker = _watchHasPendingSticker(channelId);
     final bool hasWideActionStack =
         replyTo != null ||
         editingMessage != null ||
         hasAttachments ||
+        hasPendingSticker ||
         _slashSession.focusedSlot != null;
     final int maxMessageLength = ref.watch(maxMessageLengthProvider);
     final int premiumMaxLength = ref.watch(premiumMaxMessageLengthProvider);
@@ -1565,6 +1590,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final String hintText = perms.showsNoSendPermissionHint
         ? l10n.channelNoSendPermissionHint
         : _resolveHintText();
+    final bool plusAvailable = touchActions
+        ? perms.canShowAttachControls
+        : perms.isComposerEnabled;
     final InputDecoration inputDecoration = _composerDesktopInputDecoration(
       context: context,
       hintText: hintText,
@@ -1607,114 +1635,228 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               onNoSendPermission: _showNoSendPermissionToast,
             ),
           ),
-          idleChild: Padding(
-            padding: wideRowPadding,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: actionSize.height),
-              child: Row(
-                crossAxisAlignment: touchActions
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
-                children: <Widget>[
-                  _composerSlot(
-                    context: context,
-                    visible: perms.canShowAttachControls,
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Builder(
-                          builder: (BuildContext attachContext) {
-                            return _buildComposerActionButton(
-                              context: context,
-                              icon: PhosphorIconsBold.plus,
-                              iconSize: 20,
-                              tooltip: l10n.chatAttachmentSourceBrowse,
-                              onPressed: perms.isAttachEnabled
-                                  ? () => unawaited(
-                                      _onAttachPressed(attachContext),
-                                    )
-                                  : null,
-                            );
-                          },
+          idleChild: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints rowConstraints) {
+              final bool showAllButtons =
+                  touchActions ||
+                  rowConstraints.maxWidth - wideRowPadding.horizontal >
+                      _kComposerShowAllButtonsMinWidth;
+              return Padding(
+                padding: wideRowPadding,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: actionSize.height),
+                  child: Row(
+                    crossAxisAlignment: touchActions
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _composerSlot(
+                        context: context,
+                        visible: plusAvailable,
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Builder(
+                              builder: (BuildContext attachContext) {
+                                if (!touchActions && _slashSession.isActive) {
+                                  return ComposerSlashClearButton(
+                                    tooltip: l10n.composerCommandClear,
+                                    onPressed: () {
+                                      _clearSlashSession();
+                                      _refocusComposerAfterSlashClear();
+                                    },
+                                  );
+                                }
+                                return _buildComposerActionButton(
+                                  context: context,
+                                  icon: PhosphorIconsBold.plus,
+                                  iconSize: 20,
+                                  tooltip: touchActions
+                                      ? l10n.chatAttachmentSourceBrowse
+                                      : l10n.composerPlusMenuOpen,
+                                  onPressed: plusAvailable
+                                      ? () => unawaited(
+                                          _onAttachPressed(attachContext),
+                                        )
+                                      : null,
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              width: touchActions
+                                  ? WideComposerLayout.actionGap
+                                  : WideComposerLayout.mouseContentGap,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: touchActions
-                              ? WideComposerLayout.actionGap
-                              : WideComposerLayout.mouseContentGap,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildComposerField(
-                      context: context,
-                      channelId: channelId,
-                      perms: perms,
-                      maxMessageLength: maxMessageLength,
-                      premiumMaxLength: premiumMaxLength,
-                      minLines: 1,
-                      maxLines: 5,
-                      decoration: inputDecoration,
-                    ),
-                  ),
-                  SizedBox(
-                    width: touchActions
-                        ? WideComposerLayout.actionGap
-                        : WideComposerLayout.mouseContentGap,
-                  ),
-                  ListenableBuilder(
-                    listenable: _controller,
-                    builder: (BuildContext context, Widget? child) {
-                      final String sendableWire = _sendableWireText();
-                      final bool hasSendable =
-                          composerHasSendableContent(
-                            ref,
-                            channelId,
-                            sendableWire,
-                          ) ||
-                          _slashSession.isActive;
-                      final bool isOverCharacterLimit =
-                          _composerContentLength(sendableWire) >
-                          maxMessageLength;
-                      return Wrap(
-                        alignment: WrapAlignment.end,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: WideComposerLayout.actionGap,
-                        children: <Widget>[
-                          if (!hasSendable)
-                            _composerSlot(
-                              context: context,
-                              visible: composerButtonTabs.isNotEmpty,
-                              alignment: AlignmentDirectional.centerEnd,
-                              child: _buildLargeExpressionPickerActions(
+                      ),
+                      Expanded(
+                        child: touchActions
+                            ? _buildComposerField(
                                 context: context,
                                 channelId: channelId,
                                 perms: perms,
-                                composerButtonTabs: composerButtonTabs,
-                                popoutTabs: popoutTabs,
+                                maxMessageLength: maxMessageLength,
+                                premiumMaxLength: premiumMaxLength,
+                                minLines: 1,
+                                maxLines: 5,
+                                decoration: inputDecoration,
+                              )
+                            : ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight:
+                                      MediaQuery.sizeOf(context).height *
+                                      _kComposerMaxViewportFraction,
+                                ),
+                                child: _buildComposerField(
+                                  context: context,
+                                  channelId: channelId,
+                                  perms: perms,
+                                  maxMessageLength: maxMessageLength,
+                                  premiumMaxLength: premiumMaxLength,
+                                  minLines: 1,
+                                  maxLines: _kComposerDesktopMaxLines,
+                                  decoration: inputDecoration,
+                                  fitLinesToHeight: true,
+                                ),
                               ),
-                            ),
-                          if (!touchActions) const WideComposerVoiceSeparator(),
-                          ComposerSendAndVoiceButton(
-                            perms: perms,
-                            hasSendable: hasSendable,
-                            isOverCharacterLimit: isOverCharacterLimit,
-                            useHoldToRecord: false,
-                            voiceRecording: _voiceRecording,
-                            onSend: () => unawaited(_onSendPressed()),
-                            onNoSendPermission: _showNoSendPermissionToast,
-                          ),
-                        ],
-                      );
-                    },
+                      ),
+                      SizedBox(
+                        width: touchActions
+                            ? WideComposerLayout.actionGap
+                            : WideComposerLayout.mouseContentGap,
+                      ),
+                      ListenableBuilder(
+                        listenable: _controller,
+                        builder: (BuildContext context, Widget? child) {
+                          final String sendableWire = _sendableWireText();
+                          final bool hasSendable =
+                              composerHasSendableContent(
+                                ref,
+                                channelId,
+                                sendableWire,
+                              ) ||
+                              _slashSession.isActive;
+                          final bool isOverCharacterLimit =
+                              _composerContentLength(sendableWire) >
+                              maxMessageLength;
+                          if (!touchActions) {
+                            return _buildDesktopTrailingActions(
+                              context: context,
+                              channelId: channelId,
+                              perms: perms,
+                              composerButtonTabs: showAllButtons
+                                  ? composerButtonTabs
+                                  : <ExpressionPickerTab>[
+                                      for (final ExpressionPickerTab tab
+                                          in composerButtonTabs)
+                                        if (tab == ExpressionPickerTab.emojis)
+                                          tab,
+                                    ],
+                              popoutTabs: popoutTabs,
+                              hasSendable: hasSendable,
+                              isOverCharacterLimit: isOverCharacterLimit,
+                            );
+                          }
+                          return Wrap(
+                            alignment: WrapAlignment.end,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: WideComposerLayout.actionGap,
+                            children: <Widget>[
+                              if (!hasSendable)
+                                _composerSlot(
+                                  context: context,
+                                  visible: composerButtonTabs.isNotEmpty,
+                                  alignment: AlignmentDirectional.centerEnd,
+                                  child: _buildLargeExpressionPickerActions(
+                                    context: context,
+                                    channelId: channelId,
+                                    perms: perms,
+                                    composerButtonTabs: composerButtonTabs,
+                                    popoutTabs: popoutTabs,
+                                  ),
+                                ),
+                              if (!touchActions)
+                                const WideComposerVoiceSeparator(),
+                              ComposerSendAndVoiceButton(
+                                perms: perms,
+                                hasSendable: hasSendable,
+                                isOverCharacterLimit: isOverCharacterLimit,
+                                useHoldToRecord: false,
+                                voiceRecording: _voiceRecording,
+                                onSend: () => unawaited(_onSendPressed()),
+                                onNoSendPermission: _showNoSendPermissionToast,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },
+    );
+  }
+
+  Widget _buildDesktopTrailingActions({
+    required BuildContext context,
+    required String channelId,
+    required ChannelMessagePermissions perms,
+    required List<ExpressionPickerTab> composerButtonTabs,
+    required List<ExpressionPickerTab> popoutTabs,
+    required bool hasSendable,
+    required bool isOverCharacterLimit,
+  }) {
+    final bool showSendButton = ref.watch(
+      advancedPreferencesProvider.select(
+        (AdvancedPreferencesState s) => s.showMessageSendButton,
+      ),
+    );
+    final bool slowmodeBlocked = ref.watch(
+      isSlowmodeBlockedProvider(
+        channelId,
+      ).select((AsyncValue<bool> value) => value.value ?? false),
+    );
+    final bool sendEnabled =
+        perms.isComposerEnabled &&
+        hasSendable &&
+        !isOverCharacterLimit &&
+        !slowmodeBlocked;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: WideComposerLayout.actionGap,
+      children: <Widget>[
+        _composerSlot(
+          context: context,
+          visible: composerButtonTabs.isNotEmpty,
+          alignment: AlignmentDirectional.centerEnd,
+          child: _buildLargeExpressionPickerActions(
+            context: context,
+            channelId: channelId,
+            perms: perms,
+            composerButtonTabs: composerButtonTabs,
+            popoutTabs: popoutTabs,
+          ),
+        ),
+        if (showSendButton && perms.isComposerEnabled) ...<Widget>[
+          const WideComposerVoiceSeparator(),
+          _composerOpacity(
+            context: context,
+            enabled: sendEnabled,
+            child: WideComposerMouseButton(
+              icon: PhosphorIconsRegular.paperPlaneRight,
+              tooltip: FluxerLocalizations.of(context).composerSendMessage,
+              keybindCombo: const KeybindCombo(key: 'Enter'),
+              onPressed: sendEnabled ? () => unawaited(_onSendPressed()) : null,
+            ),
+          ),
+        ],
+      ],
     );
   }
 
@@ -1726,143 +1868,109 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required List<ExpressionPickerTab> popoutTabs,
   }) {
     final bool touchActions = isTouchPrimaryInput(ref);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    Widget picker({
+      required GlobalKey<FluxerEmojiPickerPopoutState> key,
+      required ExpressionPickerTab tab,
+      required IconData touchIcon,
+      required IconData mouseIcon,
+      required String tooltip,
+      required KeybindAction keybindAction,
+    }) {
+      return FluxerEmojiPickerPopout(
+        key: key,
+        initialTab: tab,
+        visibleTabs: popoutTabs,
+        channelId: channelId,
+        onEmojiSelected: (emoji) => _insertEmoji(emoji.name, emoji.surrogates),
+        onGifSelected: _handleGifSelection,
+        onStickerSelected: (sticker) {
+          _handleStickerSelection(sticker);
+          key.currentState?.close();
+        },
+        onFavoriteMemeSelected: (selection) {
+          _handleFavoriteMemeSelection(selection);
+          if (selection.autoSend) {
+            key.currentState?.close();
+          }
+        },
+        onClose: () {
+          if (mounted && _openPickerTab == tab) {
+            setState(() => _openPickerTab = null);
+          }
+        },
+        child: _buildComposerActionButton(
+          context: context,
+          icon: touchActions ? touchIcon : mouseIcon,
+          tooltip: tooltip,
+          keybindAction: keybindAction,
+          active: !touchActions && _openPickerTab == tab,
+          leadingTouchGap: _touchGapBeforeWideExpressionButton(
+            composerButtonTabs,
+            tab,
+          ),
+          onPressed: perms.isComposerEnabled
+              ? () => _toggleExpressionPicker(key, tab)
+              : null,
+        ),
+      );
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       spacing: touchActions ? 0 : WideComposerLayout.mouseActionGap,
       children: [
         if (composerButtonTabs.contains(ExpressionPickerTab.gifs))
-          FluxerEmojiPickerPopout(
+          picker(
             key: _gifPickerKey,
-            initialTab: ExpressionPickerTab.gifs,
-            visibleTabs: popoutTabs,
-            channelId: channelId,
-            onEmojiSelected: (emoji) =>
-                _insertEmoji(emoji.name, emoji.surrogates),
-            onGifSelected: _handleGifSelection,
-            onStickerSelected: (sticker) {
-              _handleStickerSelection(sticker);
-              _gifPickerKey.currentState?.close();
-            },
-            onFavoriteMemeSelected: (selection) {
-              _handleFavoriteMemeSelection(selection);
-              if (selection.autoSend) {
-                _gifPickerKey.currentState?.close();
-              }
-            },
-            child: _buildComposerActionButton(
-              context: context,
-              icon: PhosphorIconsFill.gif,
-              tooltip: FluxerLocalizations.of(context).emojiTabGifs,
-              keybindAction: KeybindAction.chatToggleGif,
-              leadingTouchGap: _touchGapBeforeWideExpressionButton(
-                composerButtonTabs,
-                ExpressionPickerTab.gifs,
-              ),
-              onPressed: perms.isComposerEnabled
-                  ? () => _gifPickerKey.currentState?.toggle()
-                  : null,
-            ),
+            tab: ExpressionPickerTab.gifs,
+            touchIcon: PhosphorIconsFill.gif,
+            mouseIcon: PhosphorIconsRegular.gif,
+            tooltip: l10n.emojiTabGifs,
+            keybindAction: KeybindAction.chatToggleGif,
           ),
         if (composerButtonTabs.contains(ExpressionPickerTab.memes))
-          FluxerEmojiPickerPopout(
+          picker(
             key: _mediaPickerKey,
-            initialTab: ExpressionPickerTab.memes,
-            visibleTabs: popoutTabs,
-            channelId: channelId,
-            onEmojiSelected: (emoji) =>
-                _insertEmoji(emoji.name, emoji.surrogates),
-            onGifSelected: _handleGifSelection,
-            onStickerSelected: (sticker) {
-              _handleStickerSelection(sticker);
-              _mediaPickerKey.currentState?.close();
-            },
-            onFavoriteMemeSelected: (selection) {
-              _handleFavoriteMemeSelection(selection);
-              if (selection.autoSend) {
-                _mediaPickerKey.currentState?.close();
-              }
-            },
-            child: _buildComposerActionButton(
-              context: context,
-              icon: PhosphorIconsFill.imageSquare,
-              tooltip: FluxerLocalizations.of(context).emojiTabMedia,
-              keybindAction: KeybindAction.chatToggleSavedMedia,
-              leadingTouchGap: _touchGapBeforeWideExpressionButton(
-                composerButtonTabs,
-                ExpressionPickerTab.memes,
-              ),
-              onPressed: perms.isComposerEnabled
-                  ? () => _mediaPickerKey.currentState?.toggle()
-                  : null,
-            ),
+            tab: ExpressionPickerTab.memes,
+            touchIcon: PhosphorIconsFill.imageSquare,
+            mouseIcon: PhosphorIconsRegular.imageSquare,
+            tooltip: l10n.emojiTabMedia,
+            keybindAction: KeybindAction.chatToggleSavedMedia,
           ),
         if (composerButtonTabs.contains(ExpressionPickerTab.stickers))
-          FluxerEmojiPickerPopout(
+          picker(
             key: _stickerPickerKey,
-            initialTab: ExpressionPickerTab.stickers,
-            visibleTabs: popoutTabs,
-            channelId: channelId,
-            onEmojiSelected: (emoji) =>
-                _insertEmoji(emoji.name, emoji.surrogates),
-            onGifSelected: _handleGifSelection,
-            onStickerSelected: (sticker) {
-              _handleStickerSelection(sticker);
-              _stickerPickerKey.currentState?.close();
-            },
-            onFavoriteMemeSelected: (selection) {
-              _handleFavoriteMemeSelection(selection);
-              if (selection.autoSend) {
-                _stickerPickerKey.currentState?.close();
-              }
-            },
-            child: _buildComposerActionButton(
-              context: context,
-              icon: PhosphorIconsFill.sticker,
-              tooltip: FluxerLocalizations.of(context).emojiTabStickers,
-              keybindAction: KeybindAction.chatToggleSticker,
-              leadingTouchGap: _touchGapBeforeWideExpressionButton(
-                composerButtonTabs,
-                ExpressionPickerTab.stickers,
-              ),
-              onPressed: perms.isComposerEnabled
-                  ? () => _stickerPickerKey.currentState?.toggle()
-                  : null,
-            ),
+            tab: ExpressionPickerTab.stickers,
+            touchIcon: PhosphorIconsFill.sticker,
+            mouseIcon: PhosphorIconsRegular.sticker,
+            tooltip: l10n.emojiTabStickers,
+            keybindAction: KeybindAction.chatToggleSticker,
           ),
         if (composerButtonTabs.contains(ExpressionPickerTab.emojis))
-          FluxerEmojiPickerPopout(
+          picker(
             key: _expressionPickerKey,
-            visibleTabs: popoutTabs,
-            channelId: channelId,
-            onEmojiSelected: (emoji) =>
-                _insertEmoji(emoji.name, emoji.surrogates),
-            onGifSelected: _handleGifSelection,
-            onStickerSelected: (sticker) {
-              _handleStickerSelection(sticker);
-              _expressionPickerKey.currentState?.close();
-            },
-            onFavoriteMemeSelected: (selection) {
-              _handleFavoriteMemeSelection(selection);
-              if (selection.autoSend) {
-                _expressionPickerKey.currentState?.close();
-              }
-            },
-            child: _buildComposerActionButton(
-              context: context,
-              icon: PhosphorIconsFill.smiley,
-              tooltip: FluxerLocalizations.of(context).emojiTabEmojis,
-              keybindAction: KeybindAction.chatToggleEmoji,
-              leadingTouchGap: _touchGapBeforeWideExpressionButton(
-                composerButtonTabs,
-                ExpressionPickerTab.emojis,
-              ),
-              onPressed: perms.isComposerEnabled
-                  ? () => _expressionPickerKey.currentState?.toggle()
-                  : null,
-            ),
+            tab: ExpressionPickerTab.emojis,
+            touchIcon: PhosphorIconsFill.smiley,
+            mouseIcon: PhosphorIconsFill.smiley,
+            tooltip: l10n.emojiTabEmojis,
+            keybindAction: KeybindAction.chatToggleEmoji,
           ),
       ],
     );
+  }
+
+  void _toggleExpressionPicker(
+    GlobalKey<FluxerEmojiPickerPopoutState> key,
+    ExpressionPickerTab tab,
+  ) {
+    final FluxerEmojiPickerPopoutState? picker = key.currentState;
+    if (picker == null) {
+      return;
+    }
+    final bool opening = !picker.isOpen;
+    picker.toggle();
+    setState(() => _openPickerTab = opening ? tab : null);
   }
 
   Widget _buildComposerInput({
@@ -2130,12 +2238,26 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _handleStickerSelection(StickerEntry sticker) {
-    _clearSlashSession();
-    _controller.clear();
-    ref.read(chatViewModelProvider.notifier).updateMessageText('');
-    unawaited(
-      ref.read(chatViewModelProvider.notifier).sendStickerMessage(sticker),
-    );
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    final String channelId = chatState.channelId;
+    final bool hasDraft =
+        _slashSession.isActive ||
+        chatState.editingMessage != null ||
+        hasVisibleContent(_sendableWireText());
+    final bool hasAttachments = ref
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
+        .items
+        .isNotEmpty;
+    if (hasDraft || hasAttachments) {
+      ref
+          .read(pendingComposerStickerProvider.notifier)
+          .stage(channelId, sticker);
+    } else {
+      ref.read(pendingComposerStickerProvider.notifier).clear(channelId);
+      unawaited(
+        ref.read(chatViewModelProvider.notifier).sendStickerMessage(sticker),
+      );
+    }
     ref.read(expressionPanelProvider.notifier).close();
     _focusNode.requestFocus();
   }
@@ -2254,19 +2376,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         );
   }
 
-  void _showOverCharacterLimitToast() {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(
-            message: l10n.characterCounterTooLongToast(
-              ref.read(maxMessageLengthProvider),
-            ),
-            variant: FluxerToastVariant.warning,
-          ),
-        );
-  }
+  void _showOverCharacterLimitToast() =>
+      showComposerTooLongToast(ref, FluxerLocalizations.of(context));
 
   Future<void> _onSendPressed() async {
     final String channelId = ref.read(
@@ -2418,8 +2529,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
+    final StickerEntry? pendingSticker = ref
+        .read(pendingComposerStickerProvider.notifier)
+        .take(channelId);
     _resetComposerInputAfterSend();
-    unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
+    unawaited(
+      vm.sendMessage(
+        text: baseContent.trim(),
+        tts: tts,
+        stickerIds: <String>[?pendingSticker?.id],
+      ),
+    );
   }
 
   Future<bool> _tryReactionShorthand(
@@ -2638,6 +2758,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     ref.read(attachmentPanelProvider.notifier).close();
+    if (!isTouchPrimaryInput(ref)) {
+      await _showDesktopPlusMenu(context);
+      return;
+    }
     final ComposerAttachSource? source = await showComposerAttachSourceMenu(
       context,
     );
@@ -2645,6 +2769,76 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     await _pickAttachments(source: source);
+  }
+
+  Future<void> _showDesktopPlusMenu(BuildContext anchorContext) async {
+    final String channelId = ref.read(chatViewModelProvider).channelId;
+    final ChannelMessagePermissions perms =
+        readChannelMessagePermissionsForComposer(ref, channelId);
+    final String wireText = _slashSession.isActive ? '' : _sendableWireText();
+    final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
+    final bool canCreateThread =
+        channel != null &&
+        canStartThreadIn(
+          channel,
+          ref.read(parentThreadActorProvider(channel.guildId, channel.id)),
+        );
+    final bool canSendGift = ref.read(premiumGiftBillingNavVisibleProvider);
+    final KeybindMenuShortcut? voiceShortcut = watchKeybindMenuShortcuts(
+      ref,
+    )[KeybindAction.chatSendVoiceMessage];
+    await showComposerPlusMenu(
+      anchorContext,
+      actions: ComposerPlusMenuActions(
+        canSendMessages: perms.isComposerEnabled,
+        canAttachFiles: perms.isAttachEnabled,
+        voiceMessageShortcut: voiceShortcut?.label,
+        onUploadFile: () =>
+            unawaited(_pickAttachments(source: ComposerAttachSource.files)),
+        onUploadAsFile: hasVisibleContent(wireText)
+            ? () => unawaited(_uploadMessageAsFile(channelId, wireText))
+            : null,
+        onCreateThread: canCreateThread
+            ? () => unawaited(
+                showCreateThreadSheet(context, ref, parent: channel),
+              )
+            : null,
+        onSendGift: canSendGift
+            ? () => unawaited(
+                openUserBillingSettings(
+                  context,
+                  UserSettingsSection.fluxerPlutonium,
+                ),
+              )
+            : null,
+        onSendVoiceMessage: perms.isVoiceEnabled
+            ? () => unawaited(
+                _voiceRecording.startLocked(
+                  context: context,
+                  channelId: channelId,
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+
+  Future<void> _uploadMessageAsFile(String channelId, String wireText) async {
+    final FileUploadValidationResult result = await addPastedTextAsAttachment(
+      ref: ref,
+      channelId: channelId,
+      text: wireText,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (!result.isValid) {
+      _toastUploadValidation(result);
+      return;
+    }
+    _controller.clear();
+    ref.read(chatViewModelProvider.notifier).updateMessageText('');
+    _focusNode.requestFocus();
   }
 
   void _focusComposerAfterReplyOrEdit({required bool forEdit}) {

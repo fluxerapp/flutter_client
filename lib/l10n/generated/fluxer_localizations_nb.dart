@@ -18801,4 +18801,78 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get channelHeaderMembersUnavailable =>
       'Member list unavailable at this screen width';
+
+  @override
+  String chatInlineEditEscapeHint(String action) {
+    return 'Escape to $action';
+  }
+
+  @override
+  String chatInlineEditEnterHint(String action) {
+    return 'Enter to $action';
+  }
+
+  @override
+  String get chatInlineEditCancelAction => 'cancel';
+
+  @override
+  String get chatInlineEditSaveAction => 'save';
+
+  @override
+  String chatReplyJumpToMessage(String authorName) {
+    return 'Jump to the message from $authorName';
+  }
+
+  @override
+  String get composerPlusMenuOpen => 'Open menu';
+
+  @override
+  String get composerPlusUploadFile => 'Upload file';
+
+  @override
+  String get composerPlusUploadAsFile => 'Upload your message as a file';
+
+  @override
+  String get composerPlusSendGift => 'Send gift';
+
+  @override
+  String get composerPlusSendVoiceMessage => 'Send voice message';
+
+  @override
+  String get composerPlusCustomize => 'Customize';
+
+  @override
+  String get composerPlusCannotUploadFiles =>
+      'You can\'t upload files in this channel.';
+
+  @override
+  String get composerPendingStickerRemove => 'Remove sticker';
+
+  @override
+  String uploadDropTitle(String destination) {
+    return 'Upload to $destination';
+  }
+
+  @override
+  String uploadDropDirectTitle(String destination) {
+    return 'Upload directly to $destination';
+  }
+
+  @override
+  String get uploadDropDescription =>
+      'You can add comments before uploading. Hold Shift to upload directly.';
+
+  @override
+  String get uploadDropDirectDescription =>
+      'Files will be sent immediately without preview.';
+
+  @override
+  String get uploadDropSlowmodeDescription =>
+      'You can add comments before uploading. Direct upload is disabled during slowmode.';
+
+  @override
+  String get uploadDropDirectActive => 'Direct upload active';
+
+  @override
+  String get uploadDropHoldHint => 'Hold for instant upload';
 }
