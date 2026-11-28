@@ -111,13 +111,31 @@ class AppBuildConfig {
   static bool get isWebCheckout => resolveWebCheckout(
     pushProvider: pushProvider,
     distribution: distribution,
+    desktopOs: _isDesktopTarget,
   );
+
+  static bool get _isDesktopTarget {
+    if (kIsWeb) {
+      return false;
+    }
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.linux ||
+      TargetPlatform.macOS ||
+      TargetPlatform.windows => true,
+      TargetPlatform.android ||
+      TargetPlatform.iOS ||
+      TargetPlatform.fuchsia => false,
+    };
+  }
 
   static bool resolveWebCheckout({
     required PushProviderKind pushProvider,
     required String? distribution,
+    bool desktopOs = false,
   }) {
-    return pushProvider == PushProviderKind.unifiedPush || distribution != null;
+    return desktopOs ||
+        pushProvider == PushProviderKind.unifiedPush ||
+        distribution != null;
   }
 
   static bool get isBlueskyEnabled => _blueskyEnabled;

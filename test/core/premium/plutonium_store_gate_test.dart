@@ -4,7 +4,15 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 
-enum _Build { ios, iosMarketplace, androidFcm, androidOss }
+enum _Build {
+  ios,
+  iosMarketplace,
+  androidFcm,
+  androidOss,
+  linux,
+  windows,
+  macos,
+}
 
 enum _Instance { official, selfHosted, selfHostedWithoutCheckout }
 
@@ -22,7 +30,7 @@ class _Cell {
   final bool webCheckout;
 }
 
-const List<_Cell> _matrix = <_Cell>[
+const List<_Cell> _fixedCells = <_Cell>[
   _Cell(
     build: _Build.ios,
     instance: _Instance.official,
@@ -97,11 +105,48 @@ const List<_Cell> _matrix = <_Cell>[
   ),
 ];
 
+final List<_Cell> _matrix = <_Cell>[
+  ..._fixedCells,
+  for (final _Build build in <_Build>[
+    _Build.linux,
+    _Build.windows,
+    _Build.macos,
+  ]) ...<_Cell>[
+    _Cell(
+      build: build,
+      instance: _Instance.official,
+      inAppPurchase: false,
+      webCheckout: true,
+    ),
+    _Cell(
+      build: build,
+      instance: _Instance.selfHosted,
+      inAppPurchase: false,
+      webCheckout: true,
+    ),
+    _Cell(
+      build: build,
+      instance: _Instance.selfHostedWithoutCheckout,
+      inAppPurchase: false,
+      webCheckout: false,
+    ),
+  ],
+];
+
+bool _isDesktop(_Build build) {
+  return build == _Build.linux ||
+      build == _Build.windows ||
+      build == _Build.macos;
+}
+
 PushProviderKind _pushProvider(_Build build) {
   return switch (build) {
-    _Build.ios || _Build.iosMarketplace => PushProviderKind.apple,
+    _Build.ios ||
+    _Build.iosMarketplace ||
+    _Build.macos => PushProviderKind.apple,
     _Build.androidFcm => PushProviderKind.firebaseMessaging,
     _Build.androidOss => PushProviderKind.unifiedPush,
+    _Build.linux || _Build.windows => PushProviderKind.none,
   };
 }
 
@@ -261,17 +306,19 @@ void main() {
     for (final _Cell cell in _matrix) {
       test('${cell.build.name} on ${cell.instance.name}', () {
         final PushProviderKind pushProvider = _pushProvider(cell.build);
+        final bool desktop = _isDesktop(cell.build);
         final bool webCheckout = AppBuildConfig.resolveWebCheckout(
           pushProvider: pushProvider,
           distribution: cell.build == _Build.iosMarketplace
               ? 'ios_marketplace'
               : null,
+          desktopOs: desktop,
         );
         final bool official = cell.instance == _Instance.official;
         final bool ios =
             cell.build == _Build.ios || cell.build == _Build.iosMarketplace;
         final bool inAppPurchase = resolvePremiumStorePurchasesEnabled(
-          isAndroid: !ios,
+          isAndroid: !ios && !desktop,
           isIOS: ios,
           pushProvider: pushProvider,
           webCheckout: webCheckout,
@@ -291,7 +338,7 @@ void main() {
           webCheckout: webCheckout,
           storePage: resolvePremiumStorePage(
             webCheckout: webCheckout,
-            desktopOs: false,
+            desktopOs: desktop,
             pushProvider: pushProvider,
           ),
           officialInstance: official,
