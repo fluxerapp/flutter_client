@@ -47,6 +47,7 @@ import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_prov
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -71,6 +72,15 @@ void registerKeybindHandlers({
   final ComposerFocusCoordinator composerFocus = ref.read(
     composerFocusCoordinatorProvider,
   );
+
+  bool toggleExpressionPicker(ExpressionPickerTab tab) {
+    if (!isMobileLayout(context)) {
+      return composerFocus.toggleExpressionPicker(tab);
+    }
+    ref.read(expressionPanelTabProvider.notifier).setTab(tab);
+    ref.read(expressionPanelProvider.notifier).open();
+    return true;
+  }
 
   Message? focusedMessage() {
     return lookupFocusedMessage(
@@ -227,27 +237,22 @@ void registerKeybindHandlers({
           .toggleMemberList(channelId: channelId, channelType: channel?.type);
       return true;
     })
-    ..register(KeybindAction.chatToggleEmoji, () async {
-      ref
-          .read(expressionPanelTabProvider.notifier)
-          .setTab(ExpressionPickerTab.emojis);
-      ref.read(expressionPanelProvider.notifier).open();
-      return true;
-    })
-    ..register(KeybindAction.chatToggleGif, () async {
-      ref
-          .read(expressionPanelTabProvider.notifier)
-          .setTab(ExpressionPickerTab.gifs);
-      ref.read(expressionPanelProvider.notifier).open();
-      return true;
-    })
-    ..register(KeybindAction.chatToggleSticker, () async {
-      ref
-          .read(expressionPanelTabProvider.notifier)
-          .setTab(ExpressionPickerTab.stickers);
-      ref.read(expressionPanelProvider.notifier).open();
-      return true;
-    })
+    ..register(
+      KeybindAction.chatToggleEmoji,
+      () async => toggleExpressionPicker(ExpressionPickerTab.emojis),
+    )
+    ..register(
+      KeybindAction.chatToggleGif,
+      () async => toggleExpressionPicker(ExpressionPickerTab.gifs),
+    )
+    ..register(
+      KeybindAction.chatToggleSticker,
+      () async => toggleExpressionPicker(ExpressionPickerTab.stickers),
+    )
+    ..register(
+      KeybindAction.chatToggleSavedMedia,
+      () async => toggleExpressionPicker(ExpressionPickerTab.memes),
+    )
     ..register(KeybindAction.chatTogglePins, () async {
       ref
           .read(chatKeybindEffectsProvider.notifier)

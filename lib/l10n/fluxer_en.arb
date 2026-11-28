@@ -22214,6 +22214,154 @@
   "@emojiMenuCopyId": {
     "description": "Developer-mode emoji context menu action that copies the emoji ID."
   },
+  "stickerMenuFavorite": "Favorite sticker",
+  "@stickerMenuFavorite": {
+    "description": "Sticker context menu action that adds the sticker to favorites."
+  },
+  "stickerMenuUnfavorite": "Unfavorite sticker",
+  "@stickerMenuUnfavorite": {
+    "description": "Sticker context menu action that removes the sticker from favorites."
+  },
+  "stickerMenuCopyId": "Copy sticker ID",
+  "@stickerMenuCopyId": {
+    "description": "Sticker context menu action that copies the sticker ID."
+  },
+  "stickerMenuCopyUrl": "Copy sticker URL",
+  "@stickerMenuCopyUrl": {
+    "description": "Sticker context menu action that copies the sticker image URL."
+  },
+  "stickerMenuOpenInBrowser": "Open sticker in browser",
+  "@stickerMenuOpenInBrowser": {
+    "description": "Sticker context menu action that opens the sticker image URL in a browser."
+  },
+  "emojiMenuCloneTo": "Clone emoji to…",
+  "@emojiMenuCloneTo": {
+    "description": "Submenu label listing communities the emoji can be cloned to."
+  },
+  "stickerMenuCloneTo": "Clone sticker to…",
+  "@stickerMenuCloneTo": {
+    "description": "Submenu label listing communities the sticker can be cloned to."
+  },
+  "expressionMenuEmojiSlotsFull": "Emoji slots full",
+  "@expressionMenuEmojiSlotsFull": {
+    "description": "Hint on a clone target community that has no free emoji slots."
+  },
+  "expressionMenuStickerSlotsFull": "Sticker slots full",
+  "@expressionMenuStickerSlotsFull": {
+    "description": "Hint on a clone target community that has no free sticker slots."
+  },
+  "emojiClonedToast": "Cloned :{sourceName}: to {targetName}",
+  "@emojiClonedToast": {
+    "description": "Toast confirming an emoji was cloned to another community.",
+    "placeholders": {
+      "sourceName": {
+        "type": "String"
+      },
+      "targetName": {
+        "type": "String"
+      }
+    }
+  },
+  "stickerClonedToast": "Cloned sticker {stickerName} to {targetName}",
+  "@stickerClonedToast": {
+    "description": "Toast confirming a sticker was cloned to another community.",
+    "placeholders": {
+      "stickerName": {
+        "type": "String"
+      },
+      "targetName": {
+        "type": "String"
+      }
+    }
+  },
+  "gifPickerImportFavorites": "Import GIFs",
+  "@gifPickerImportFavorites": {
+    "description": "Tooltip on the button in the favorite GIFs header that opens the GIF import modal."
+  },
+  "gifPickerExportFavorites": "Export GIF URLs",
+  "@gifPickerExportFavorites": {
+    "description": "Tooltip on the button in the favorite GIFs header that saves favorite GIF URLs to a text file."
+  },
+  "gifExportFailed": "Couldn't export GIF URLs",
+  "@gifExportFailed": {
+    "description": "Toast shown when saving the favorite GIF URL list fails."
+  },
+  "gifImportTitle": "Import favorite GIFs",
+  "@gifImportTitle": {
+    "description": "Title of the favorite GIF import modal."
+  },
+  "gifImportUrlsLabel": "GIF URLs",
+  "@gifImportUrlsLabel": {
+    "description": "Label of the text area in the favorite GIF import modal."
+  },
+  "gifImportInstructions": "Paste GIF URLs below, one per line.",
+  "@gifImportInstructions": {
+    "description": "Instruction text in the favorite GIF import modal."
+  },
+  "gifImportLimitReached": "You're at the favorite GIF limit.",
+  "@gifImportLimitReached": {
+    "description": "Shown in the favorite GIF import modal when no more favorites can be added."
+  },
+  "gifImportStart": "Import",
+  "@gifImportStart": {
+    "description": "Primary button in the favorite GIF import modal that starts the import."
+  },
+  "gifImportCancel": "Cancel import",
+  "@gifImportCancel": {
+    "description": "Danger button in the favorite GIF import modal that stops the running import."
+  },
+  "gifImportClose": "Close",
+  "@gifImportClose": {
+    "description": "Button that closes the favorite GIF import modal while the import keeps running."
+  },
+  "gifImportDone": "Done",
+  "@gifImportDone": {
+    "description": "Button that closes the favorite GIF import modal after the import finished."
+  },
+  "gifImportMore": "Import more",
+  "@gifImportMore": {
+    "description": "Button in the favorite GIF import modal after a completed import."
+  },
+  "gifImportBackground": "You can close this modal. The import will continue in the background.",
+  "@gifImportBackground": {
+    "description": "Informational text in the favorite GIF import modal while the import is running."
+  },
+  "gifImportProgress": "Importing… {processedCount} / {totalCount} processed, {importedCount} added.",
+  "@gifImportProgress": {
+    "description": "Progress text in the favorite GIF import modal.",
+    "placeholders": {
+      "processedCount": {
+        "type": "int"
+      },
+      "totalCount": {
+        "type": "int"
+      },
+      "importedCount": {
+        "type": "int"
+      }
+    }
+  },
+  "gifImportComplete": "{importedCount, plural, =1{Import complete. Added 1 GIF.} other{Import complete. Added {importedCount} GIFs.}}",
+  "@gifImportComplete": {
+    "description": "Completion text in the favorite GIF import modal.",
+    "placeholders": {
+      "importedCount": {
+        "type": "int"
+      }
+    }
+  },
+  "gifImportCompleteWithSkipped": "{importedCount, plural, =1{Import complete. Added 1 GIF, skipped {skippedCount} (duplicates or over the limit).} other{Import complete. Added {importedCount} GIFs, skipped {skippedCount} (duplicates or over the limit).}}",
+  "@gifImportCompleteWithSkipped": {
+    "description": "Completion text in the favorite GIF import modal when some URLs were skipped.",
+    "placeholders": {
+      "importedCount": {
+        "type": "int"
+      },
+      "skippedCount": {
+        "type": "int"
+      }
+    }
+  },
   "mediaViewerDownload": "Download media",
   "@mediaViewerDownload": {
     "description": "Tooltip on the media download button in the media viewer and on inline media."

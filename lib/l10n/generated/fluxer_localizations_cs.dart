@@ -18698,6 +18698,116 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get emojiMenuCopyId => 'Copy emoji ID';
 
   @override
+  String get stickerMenuFavorite => 'Favorite sticker';
+
+  @override
+  String get stickerMenuUnfavorite => 'Unfavorite sticker';
+
+  @override
+  String get stickerMenuCopyId => 'Copy sticker ID';
+
+  @override
+  String get stickerMenuCopyUrl => 'Copy sticker URL';
+
+  @override
+  String get stickerMenuOpenInBrowser => 'Open sticker in browser';
+
+  @override
+  String get emojiMenuCloneTo => 'Clone emoji to…';
+
+  @override
+  String get stickerMenuCloneTo => 'Clone sticker to…';
+
+  @override
+  String get expressionMenuEmojiSlotsFull => 'Emoji slots full';
+
+  @override
+  String get expressionMenuStickerSlotsFull => 'Sticker slots full';
+
+  @override
+  String emojiClonedToast(String sourceName, String targetName) {
+    return 'Cloned :$sourceName: to $targetName';
+  }
+
+  @override
+  String stickerClonedToast(String stickerName, String targetName) {
+    return 'Cloned sticker $stickerName to $targetName';
+  }
+
+  @override
+  String get gifPickerImportFavorites => 'Import GIFs';
+
+  @override
+  String get gifPickerExportFavorites => 'Export GIF URLs';
+
+  @override
+  String get gifExportFailed => 'Couldn\'t export GIF URLs';
+
+  @override
+  String get gifImportTitle => 'Import favorite GIFs';
+
+  @override
+  String get gifImportUrlsLabel => 'GIF URLs';
+
+  @override
+  String get gifImportInstructions => 'Paste GIF URLs below, one per line.';
+
+  @override
+  String get gifImportLimitReached => 'You\'re at the favorite GIF limit.';
+
+  @override
+  String get gifImportStart => 'Import';
+
+  @override
+  String get gifImportCancel => 'Cancel import';
+
+  @override
+  String get gifImportClose => 'Close';
+
+  @override
+  String get gifImportDone => 'Done';
+
+  @override
+  String get gifImportMore => 'Import more';
+
+  @override
+  String get gifImportBackground =>
+      'You can close this modal. The import will continue in the background.';
+
+  @override
+  String gifImportProgress(
+    int processedCount,
+    int totalCount,
+    int importedCount,
+  ) {
+    return 'Importing… $processedCount / $totalCount processed, $importedCount added.';
+  }
+
+  @override
+  String gifImportComplete(int importedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      importedCount,
+      locale: localeName,
+      other: 'Import complete. Added $importedCount GIFs.',
+      one: 'Import complete. Added 1 GIF.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gifImportCompleteWithSkipped(int importedCount, int skippedCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      importedCount,
+      locale: localeName,
+      other:
+          'Import complete. Added $importedCount GIFs, skipped $skippedCount (duplicates or over the limit).',
+      one:
+          'Import complete. Added 1 GIF, skipped $skippedCount (duplicates or over the limit).',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get mediaViewerDownload => 'Download media';
 
   @override

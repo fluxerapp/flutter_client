@@ -178,8 +178,8 @@ class _SystemMessageDesktopFrameState
     _hovered.value = true;
     _pickerOpen.value = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && !(_pickerKey.currentState?.isOpen ?? false)) {
-        _pickerKey.currentState?.toggle();
+      if (mounted) {
+        _pickerKey.currentState?.open();
       }
     });
   }
@@ -391,23 +391,21 @@ class _SystemMessageDesktopFrameState
       if (_canReact)
         FluxerEmojiPickerPopout(
           key: _pickerKey,
-          closeOnEmojiSelect: true,
           visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
           channelId: message.channelId,
           placement: FluxerEmojiPickerPlacement.leftStart,
-          onClose: () {
-            _pickerOpen.value = false;
-            _hovered.value = false;
+          onOpenChanged: (bool open) {
+            _pickerOpen.value = open;
+            if (!open) {
+              _hovered.value = false;
+            }
           },
           onEmojiSelected: (FluxerSelectedEmoji emoji) =>
               toggleSystemMessageReactionFromEmoji(ref, message, emoji),
           child: MessageActionBarButton(
             label: l10n.chatMessageAddReaction,
             active: _pickerOpen.value,
-            onTap: () {
-              _pickerKey.currentState?.toggle();
-              _pickerOpen.value = _pickerKey.currentState?.isOpen ?? false;
-            },
+            onTap: () => _pickerKey.currentState?.toggle(),
             child: const PhosphorIcon(PhosphorIconsFill.smiley),
           ),
         ),

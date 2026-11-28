@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
+import 'package:fluxer_app/features/chat/domain/picker_grid_metrics.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/saved_media/saved_media_form_content.dart';
@@ -30,9 +31,6 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 
-const _kGridGap = 8.0;
-const _kGridHorizontalPadding = 10.0;
-const _kMaxColumnWidth = 227.0;
 const _kMinTileHeight = 96.0;
 const _kMinNonImageTileHeight = 128.0;
 const _kMaxTileHeight = 320.0;
@@ -53,6 +51,8 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
     this.onSearchActivated,
     this.searchFocusNode,
     this.sheetDragHandlers,
+    this.searchHeaderDecorator,
+    this.desktopPopout = false,
     this.scrollController,
     super.key,
   });
@@ -64,6 +64,8 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
+  final Widget Function(Widget child)? searchHeaderDecorator;
+  final bool desktopPopout;
   final ScrollController? scrollController;
 
   @override
@@ -161,23 +163,31 @@ class _FavoriteMediaPickerContentState
     final memes = ref.watch(favoriteMemesProvider);
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool desktop = widget.desktopPopout;
+    final Widget search = PickerSearchInput(
+      controller: _searchController,
+      hintText: l10n.savedMediaSearchHint,
+      horizontalPadding: widget.searchHorizontalPadding ?? 12,
+      topPadding: widget.searchTopPadding ?? 12,
+      bottomPadding: widget.searchBottomPadding ?? (desktop ? 12 : 8),
+      focusNode: widget.searchFocusNode,
+      onActivated: widget.onSearchActivated,
+    );
+    final Widget pills = _FilterPills(
+      selected: _filter,
+      wrap: desktop,
+      onSelected: (filter) => setState(() => _filter = filter),
+    );
     return Column(
       children: [
-        _wrapSearchHeader(
-          PickerSearchInput(
-            controller: _searchController,
-            hintText: l10n.savedMediaSearchHint,
-            horizontalPadding: widget.searchHorizontalPadding ?? 12,
-            topPadding: widget.searchTopPadding ?? 12,
-            bottomPadding: widget.searchBottomPadding ?? 8,
-            focusNode: widget.searchFocusNode,
-            onActivated: widget.onSearchActivated,
-          ),
-        ),
-        _FilterPills(
-          selected: _filter,
-          onSelected: (filter) => setState(() => _filter = filter),
-        ),
+        if (desktop)
+          _wrapSearchHeader(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[search, pills],
+            ),
+          )
+        else ...<Widget>[_wrapSearchHeader(search), pills],
         Expanded(
           child: memes.when(
             data: _buildBody,
@@ -194,11 +204,14 @@ class _FavoriteMediaPickerContentState
   }
 
   Widget _wrapSearchHeader(Widget child) {
+    final Widget Function(Widget child)? decorator =
+        widget.searchHeaderDecorator;
+    final Widget decorated = decorator == null ? child : decorator(child);
     final ExpandableSheetDragHandlers? handlers = widget.sheetDragHandlers;
     if (handlers == null) {
-      return child;
+      return decorated;
     }
-    return handlers.wrapChrome(child);
+    return handlers.wrapChrome(decorated);
   }
 
   Widget _buildBody(List<FavoriteMeme> allMemes) {
@@ -232,6 +245,9 @@ class _FavoriteMediaPickerContentState
     }
 
     return _FavoriteMediaMasonryGrid(
+      metrics: widget.desktopPopout
+          ? PickerGridMetrics.popout
+          : PickerGridMetrics.media,
       scrollController: widget.scrollController,
       memes: filtered,
       onTap: _select,
@@ -241,66 +257,71 @@ class _FavoriteMediaPickerContentState
 }
 
 class _FilterPills extends StatelessWidget {
-  const _FilterPills({required this.selected, required this.onSelected});
+  const _FilterPills({
+    required this.selected,
+    required this.onSelected,
+    this.wrap = false,
+  });
 
   final FavoriteMemeMediaFilter selected;
   final ValueChanged<FavoriteMemeMediaFilter> onSelected;
+  final bool wrap;
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final options =
-        <({FavoriteMemeMediaFilter filter, String label, IconData? icon})>[
-          (
-            filter: FavoriteMemeMediaFilter.all,
-            label: l10n.savedMediaFilterAll,
-            icon: null,
-          ),
-          (
-            filter: FavoriteMemeMediaFilter.images,
-            label: l10n.savedMediaFilterImages,
-            icon: PhosphorIconsFill.image,
-          ),
-          (
-            filter: FavoriteMemeMediaFilter.videos,
-            label: l10n.savedMediaFilterVideos,
-            icon: PhosphorIconsFill.videoCamera,
-          ),
-          (
-            filter: FavoriteMemeMediaFilter.audio,
-            label: l10n.savedMediaFilterAudio,
-            icon: PhosphorIconsFill.musicNote,
-          ),
-          (
-            filter: FavoriteMemeMediaFilter.gifs,
-            label: l10n.savedMediaFilterGifs,
-            icon: PhosphorIconsFill.gif,
-          ),
-        ];
-
+    final List<Widget> pills = <Widget>[
+      for (final (FavoriteMemeMediaFilter filter, String label, IconData? icon)
+          in <(FavoriteMemeMediaFilter, String, IconData?)>[
+            (FavoriteMemeMediaFilter.all, l10n.savedMediaFilterAll, null),
+            (
+              FavoriteMemeMediaFilter.images,
+              l10n.savedMediaFilterImages,
+              PhosphorIconsFill.image,
+            ),
+            (
+              FavoriteMemeMediaFilter.videos,
+              l10n.savedMediaFilterVideos,
+              PhosphorIconsFill.videoCamera,
+            ),
+            (
+              FavoriteMemeMediaFilter.audio,
+              l10n.savedMediaFilterAudio,
+              PhosphorIconsFill.musicNote,
+            ),
+            (
+              FavoriteMemeMediaFilter.gifs,
+              l10n.savedMediaFilterGifs,
+              PhosphorIconsFill.gif,
+            ),
+          ])
+        _FilterPill(
+          label: label,
+          icon: icon,
+          active: filter == selected,
+          onTap: () => onSelected(filter),
+        ),
+    ];
+    if (wrap) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        child: Wrap(spacing: 8, runSpacing: 8, children: pills),
+      );
+    }
     return SizedBox(
-      height: 38,
+      height: 36,
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final option = options[index];
-          final active = option.filter == selected;
-          return _FilterPill(
-            label: option.label,
-            icon: option.icon,
-            active: active,
-            onTap: () => onSelected(option.filter),
-          );
-        },
+        itemBuilder: (BuildContext context, int index) => pills[index],
         separatorBuilder: (_, _) => const SizedBox(width: 8),
-        itemCount: options.length,
+        itemCount: pills.length,
       ),
     );
   }
 }
 
-class _FilterPill extends StatelessWidget {
+class _FilterPill extends StatefulWidget {
   const _FilterPill({
     required this.label,
     required this.active,
@@ -314,33 +335,57 @@ class _FilterPill extends StatelessWidget {
   final IconData? icon;
 
   @override
+  State<_FilterPill> createState() => _FilterPillState();
+}
+
+class _FilterPillState extends State<_FilterPill> {
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return FluxerGestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: context.motion.normal,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: active
-              ? colors.backgroundModifierSelected
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon case final iconData?) ...[
-              PhosphorIcon(iconData, size: 14, color: colors.textPrimaryMuted),
-              const SizedBox(width: 4),
-            ],
-            Text(
-              label,
-              style: context.textStyles.smallText.copyWith(
-                color: active ? colors.textPrimary : colors.textPrimaryMuted,
-              ),
+    final Color foreground = widget.active || _hovered
+        ? colors.textPrimary
+        : colors.textPrimaryMuted;
+    final Color background = widget.active
+        ? colors.backgroundModifierSelected
+        : _hovered
+        ? colors.backgroundModifierHover
+        : Colors.transparent;
+    return Semantics(
+      button: true,
+      selected: widget.active,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: FluxerGestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: context.layout.radiusMd,
             ),
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 4,
+              children: [
+                if (widget.icon case final IconData icon)
+                  PhosphorIcon(icon, size: 14, color: foreground),
+                Text(
+                  widget.label,
+                  style: context.textStyles.smallText.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    height: 20 / 12,
+                    color: foreground,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -483,9 +528,11 @@ class _FavoriteMediaMasonryGrid extends StatefulWidget {
     required this.memes,
     required this.onTap,
     required this.onLongPress,
+    required this.metrics,
     this.scrollController,
   });
 
+  final PickerGridMetrics metrics;
   final List<FavoriteMeme> memes;
   final ValueChanged<FavoriteMeme> onTap;
   final ValueChanged<FavoriteMeme> onLongPress;
@@ -502,6 +549,7 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
   int? _layoutItemsVersion;
   double? _layoutColumnWidth;
   int? _layoutColumnCount;
+  PickerGridMetrics? _layoutMetrics;
   List<_FavoriteMediaPosition> _layoutPositions =
       const <_FavoriteMediaPosition>[];
   var _layoutContentHeight = 0.0;
@@ -604,10 +652,8 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
         return const SizedBox.shrink();
       }
 
-      final columns = _columnsForWidth(width);
-      final availableWidth = width - (_kGridHorizontalPadding * 2);
-      final columnWidth =
-          (availableWidth - (columns - 1) * _kGridGap) / columns;
+      final columns = widget.metrics.columnsFor(width);
+      final columnWidth = widget.metrics.laneWidth(width, columns);
       final positions = _positionsForLayout(
         columnWidth: columnWidth,
         columnCount: columns,
@@ -733,7 +779,8 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
   }) {
     if (_layoutItemsVersion == _itemsVersion &&
         _layoutColumnWidth == columnWidth &&
-        _layoutColumnCount == columnCount) {
+        _layoutColumnCount == columnCount &&
+        _layoutMetrics == widget.metrics) {
       return _layoutPositions;
     }
 
@@ -744,10 +791,11 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
     _layoutItemsVersion = _itemsVersion;
     _layoutColumnWidth = columnWidth;
     _layoutColumnCount = columnCount;
+    _layoutMetrics = widget.metrics;
     _layoutPositions = positions;
     _layoutContentHeight = positions.isEmpty
         ? 0.0
-        : positions.map((p) => p.bottom).reduce(max) + _kGridHorizontalPadding;
+        : positions.map((p) => p.bottom).reduce(max) + widget.metrics.padding;
     return positions;
   }
 
@@ -755,7 +803,8 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
     required double columnWidth,
     required int columnCount,
   }) {
-    final columnHeights = List<double>.filled(columnCount, 0);
+    final PickerGridMetrics metrics = widget.metrics;
+    final columnHeights = List<double>.filled(columnCount, metrics.top);
     final positions = <_FavoriteMediaPosition>[];
 
     for (var i = 0; i < widget.memes.length; i++) {
@@ -768,7 +817,7 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
 
       final meme = widget.memes[i];
       final itemHeight = _tileHeight(columnWidth, meme);
-      final left = _kGridHorizontalPadding + column * (columnWidth + _kGridGap);
+      final left = metrics.laneLeft(column, columnWidth);
       final top = columnHeights[column];
       positions.add(
         _FavoriteMediaPosition(
@@ -779,15 +828,10 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
           height: itemHeight,
         ),
       );
-      columnHeights[column] += itemHeight + _kGridGap;
+      columnHeights[column] += itemHeight + metrics.gap;
     }
 
     return positions;
-  }
-
-  int _columnsForWidth(double width) {
-    final availableWidth = width - (_kGridHorizontalPadding * 2);
-    return max(2, (availableWidth / _kMaxColumnWidth).floor());
   }
 }
 

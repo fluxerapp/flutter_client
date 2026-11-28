@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 
 class _ComposerFocusRegistration {
   const _ComposerFocusRegistration({
@@ -11,6 +12,7 @@ class _ComposerFocusRegistration {
     this.claimsKeyEvent,
     this.handleArrowUpEmpty,
     this.insertUserMention,
+    this.toggleExpressionPicker,
   });
 
   final VoidCallback requestFocus;
@@ -20,6 +22,7 @@ class _ComposerFocusRegistration {
   final bool Function(KeyEvent event)? claimsKeyEvent;
   final bool Function()? handleArrowUpEmpty;
   final bool Function(String userId)? insertUserMention;
+  final bool Function(ExpressionPickerTab tab)? toggleExpressionPicker;
 }
 
 class ComposerFocusCoordinator {
@@ -34,6 +37,7 @@ class ComposerFocusCoordinator {
     bool Function(KeyEvent event)? claimsKeyEvent,
     bool Function()? handleArrowUpEmpty,
     bool Function(String userId)? insertUserMention,
+    bool Function(ExpressionPickerTab tab)? toggleExpressionPicker,
   }) {
     unregister(requestFocus);
     _stack.add(
@@ -45,8 +49,30 @@ class ComposerFocusCoordinator {
         claimsKeyEvent: claimsKeyEvent,
         handleArrowUpEmpty: handleArrowUpEmpty,
         insertUserMention: insertUserMention,
+        toggleExpressionPicker: toggleExpressionPicker,
       ),
     );
+  }
+
+  final List<bool Function()> _editEmojiPickerToggles = <bool Function()>[];
+
+  void registerEditEmojiPicker(bool Function() toggle) {
+    _editEmojiPickerToggles
+      ..remove(toggle)
+      ..add(toggle);
+  }
+
+  void unregisterEditEmojiPicker(bool Function() toggle) {
+    _editEmojiPickerToggles.remove(toggle);
+  }
+
+  bool toggleExpressionPicker(ExpressionPickerTab tab) {
+    if (tab == ExpressionPickerTab.emojis &&
+        _editEmojiPickerToggles.isNotEmpty &&
+        _editEmojiPickerToggles.last()) {
+      return true;
+    }
+    return _active?.toggleExpressionPicker?.call(tab) ?? false;
   }
 
   void unregister(VoidCallback requestFocus) {

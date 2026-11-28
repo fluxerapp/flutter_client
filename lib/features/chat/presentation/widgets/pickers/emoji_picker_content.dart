@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_category_rail_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker_chrome.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
@@ -17,11 +17,13 @@ import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_layout_inde
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_visibility.dart';
+import 'package:fluxer_app/features/chat/utils/composer/expression_grid_navigation.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/menus/expression_context_menu.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/expression_picker_geometry.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -75,10 +77,14 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
     this.roleIconGuildId,
     this.scrollController,
     this.onBackspace,
+    this.gridKeyboard,
+    this.columnsFromWidth = false,
     super.key,
   });
 
   final OnEmojiSelect? onSelect;
+  final ExpressionGridKeyboard? gridKeyboard;
+  final bool columnsFromWidth;
   final VoidCallback? onBackspace;
   final ValueChanged<String?>? onHoveredEmojiChanged;
   final String searchQuery;
@@ -149,7 +155,8 @@ class _HoverState {
   int get hashCode => Object.hash(name, customEmoji);
 }
 
-class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
+class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent>
+    with ExpressionGridKeyboardBinding<EmojiPickerContent> {
   ScrollController? _ownedScrollController;
   final _hoverState = ValueNotifier<_HoverState>(const _HoverState());
   final _visibilityNotifier = ValueNotifier<EmojiPickerVisibilityState>(
@@ -205,6 +212,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   static EmojiPickerLayoutIndex? _cachedLayoutIndex;
 
   late final int _upsellPreviewSeed;
+  int _widthColumns = _kGridColumns;
+  final ExpressionGridNavigator<Object> _nav =
+      ExpressionGridNavigator<Object>();
+  EmojiPickerLayoutIndex? _navRowsSource;
 
   @override
   void initState() {
@@ -239,6 +250,76 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (oldWidget.skinTone != widget.skinTone) {
       _preloadSkinToneSpriteSheet();
     }
+    if (oldWidget.searchQuery != widget.searchQuery) {
+      _nav.reset();
+    }
+  }
+
+  @override
+  ExpressionGridKeyboard? gridKeyboardOf(EmojiPickerContent widget) =>
+      widget.gridKeyboard;
+
+  @override
+  KeyEventResult handleGridKey(KeyEvent event) => _nav.handleKey(
+    event,
+    scrollController: _scrollController,
+    onHighlight: _highlightNavItem,
+    onPick: _pickNavItem,
+  );
+
+  void _highlightNavItem(Object item) {
+    if (item is GuildEmojiEntry) {
+      _setHoveredEmoji(item.name, customEmoji: item);
+    } else if (item is EmojiEntry) {
+      _setHoveredEmoji(item.primaryName);
+    }
+  }
+
+  void _pickNavItem(Object item) {
+    if (item is GuildEmojiEntry) {
+      _onCustomEmojiSelected(item);
+    } else if (item is EmojiEntry) {
+      _onEmojiSelected(item);
+    }
+  }
+
+  List<ExpressionGridRow<Object>> _navRowsForLayout(
+    EmojiPickerLayoutIndex index,
+  ) {
+    final List<ExpressionGridRow<Object>> rows = <ExpressionGridRow<Object>>[];
+    for (var i = 0; i < index.entries.length; i++) {
+      final EmojiPickerLayoutEntry entry = index.entries[i];
+      final List<Object>? items = switch (entry) {
+        EmojiPickerCustomEmojiRowEntry(:final emojis) => emojis,
+        EmojiPickerUnicodeEmojiRowEntry(:final emojis) => emojis,
+        EmojiPickerFavoriteEmojiRowEntry(:final items) => <Object>[
+          for (final EmojiPickerFavoriteRowItem item in items)
+            switch (item) {
+              EmojiPickerFavoriteUnicodeRowItem(:final emoji) => emoji,
+              EmojiPickerFavoriteCustomRowItem(:final emoji) => emoji,
+            },
+        ],
+        EmojiPickerFrecentEmojiRowEntry(:final items) => <Object>[
+          for (final FrecentEmojiItem item in items)
+            switch (item) {
+              FrecentUnicodeEmoji(:final emoji) => emoji,
+              FrecentCustomEmoji(:final emoji) => emoji,
+            },
+        ],
+        _ => null,
+      };
+      if (items == null || items.isEmpty) {
+        continue;
+      }
+      rows.add(
+        ExpressionGridRow<Object>(
+          top: index.entryTop(i),
+          height: entry.height,
+          items: items,
+        ),
+      );
+    }
+    return rows;
   }
 
   void _preloadSkinToneSpriteSheet() {
@@ -259,7 +340,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     super.dispose();
   }
 
-  int get _columns => widget.isMobile ? _kMobileGridColumns : _kGridColumns;
+  int get _columns => widget.isMobile
+      ? _kMobileGridColumns
+      : widget.columnsFromWidth
+      ? _widthColumns
+      : _kGridColumns;
 
   EmojiPickerGridMetrics get _metrics => widget.isMobile
       ? EmojiPickerGridMetrics.mobile
@@ -435,6 +520,16 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     _cachedCollapsedGuilds = guildEmojisByGuild;
     _cachedCollapsedSectionKeys = keys;
     return keys;
+  }
+
+  void _showEmojiMenu(EmojiInfoData emoji, TapUpDetails details) {
+    unawaited(
+      showEmojiContextMenu(
+        context,
+        position: details.globalPosition,
+        emoji: emoji,
+      ),
+    );
   }
 
   void _showUnicodeEmojiActions(EmojiEntry emoji) {
@@ -819,16 +914,25 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       children: [
         _buildDesktopCategorySidebar(context, colors, data),
         Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: RepaintBoundary(
-                  child: _buildEmojiGrid(context, colors, data),
-                ),
-              ),
-              if (widget.roleIconGuildId == null)
-                _buildInspector(context, colors),
-            ],
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (widget.columnsFromWidth) {
+                _widthColumns = expressionPickerGridColumns(
+                  constraints.maxWidth - _gridHorizontalPadding * 2,
+                );
+              }
+              return Column(
+                children: [
+                  Expanded(
+                    child: RepaintBoundary(
+                      child: _buildEmojiGrid(context, colors, data),
+                    ),
+                  ),
+                  if (widget.roleIconGuildId == null)
+                    _buildInspector(context, colors),
+                ],
+              );
+            },
           ),
         ),
       ],
@@ -928,6 +1032,13 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
 
     final totalCount = customResults.length + unicodeResults.length;
+    _navRowsSource = null;
+    _nav.rows = chunkExpressionGridRows<Object>(
+      <Object>[...customResults, ...unicodeResults],
+      columns: _columns,
+      top: widget.isMobile ? 12 : 4,
+      rowHeight: _rowHeight,
+    );
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         _trackEmojiGrid(
@@ -981,6 +1092,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       data: data,
       includeUpsell: shouldBuildUpsell,
     );
+    if (!identical(_navRowsSource, layoutIndex)) {
+      _navRowsSource = layoutIndex;
+      _nav.rows = _navRowsForLayout(layoutIndex);
+    }
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -1182,7 +1297,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final isCollapsed = collapsedCategories.contains(category);
     final label = _sectionLabel(category, labelOverride: labelOverride);
     final leadingIcon = guild != null
-        ? _GuildIcon(guild: guild, size: 16)
+        ? ExpressionGuildIcon(guild: guild, size: 16)
         : category == 'favorites'
         ? PhosphorIcon(
             PhosphorIconsFill.star,
@@ -1277,6 +1392,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       semanticLabel: surrogates,
       onTap: () => _onEmojiSelected(emoji),
       onLongPress: () => _showUnicodeEmojiActions(emoji),
+      onSecondaryTapUp: (TapUpDetails details) =>
+          _showEmojiMenu(EmojiInfoData.fromEmojiEntry(emoji), details),
       child: MouseRegion(
         onEnter: (_) => _setHoveredEmoji(emoji.primaryName),
         onExit: (_) => _setHoveredEmoji(null),
@@ -1356,6 +1473,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       semanticLabel: emoji.name,
       onTap: () => _onCustomEmojiSelected(emoji),
       onLongPress: () => _showCustomEmojiActions(emoji),
+      onSecondaryTapUp: (TapUpDetails details) =>
+          _showEmojiMenu(EmojiInfoData.fromGuildEmoji(emoji), details),
       child: MouseRegion(
         onEnter: (_) => _setHoveredEmoji(emoji.name, customEmoji: emoji),
         onExit: (_) => _setHoveredEmoji(null),
@@ -1403,26 +1522,26 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             children: [
               if (data.favoriteItems.isNotEmpty)
-                _CategoryButton(
+                ExpressionCategoryRailIconButton(
                   key: _keyForCategoryButton('favorites'),
                   icon: PhosphorIconsFill.star,
                   tooltip: l10n.favoritesTitle,
-                  isActive: activeCategory == 'favorites',
+                  selected: activeCategory == 'favorites',
                   onTap: () => _scrollToCategory('favorites'),
                 ),
               if (data.frecent.isNotEmpty)
-                _CategoryButton(
+                ExpressionCategoryRailIconButton(
                   key: _keyForCategoryButton('frequently-used'),
                   icon: PhosphorIconsFill.clock,
                   tooltip: l10n.emojiFrequentlyUsed,
-                  isActive: activeCategory == 'frequently-used',
+                  selected: activeCategory == 'frequently-used',
                   onTap: () => _scrollToCategory('frequently-used'),
                 ),
               ...data.guildEmojisByGuild.keys.map(
-                (Guild guild) => _GuildCategoryButton(
+                (Guild guild) => ExpressionCategoryRailGuildButton(
                   key: _keyForCategoryButton('guild-${guild.id}'),
                   guild: guild,
-                  isActive: activeCategory == 'guild-${guild.id}',
+                  selected: activeCategory == 'guild-${guild.id}',
                   onTap: () => _scrollToCategory('guild-${guild.id}'),
                 ),
               ),
@@ -1431,11 +1550,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                 if (icon == null) {
                   return const SizedBox.shrink();
                 }
-                return _CategoryButton(
+                return ExpressionCategoryRailIconButton(
                   key: _keyForCategoryButton(cat),
                   icon: icon,
                   tooltip: _categoryLabel(cat, l10n),
-                  isActive: activeCategory == cat,
+                  selected: activeCategory == cat,
                   onTap: () => _scrollToCategory(cat),
                 );
               }),
@@ -1490,7 +1609,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                       (Guild guild) => ExpressionRailButton(
                         key: _keyForCategoryButton('guild-${guild.id}'),
                         label: guild.name,
-                        image: _GuildIcon(
+                        image: ExpressionGuildIcon(
                           guild: guild,
                           size: kExpressionRailGuildIconSize,
                         ),
@@ -1605,12 +1724,14 @@ class _PressableEmojiCell extends StatefulWidget {
     this.semanticLabel,
     this.onTap,
     this.onLongPress,
+    this.onSecondaryTapUp,
   });
 
   final Widget child;
   final String? semanticLabel;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final GestureTapUpCallback? onSecondaryTapUp;
 
   @override
   State<_PressableEmojiCell> createState() => _PressableEmojiCellState();
@@ -1643,6 +1764,7 @@ class _PressableEmojiCellState extends State<_PressableEmojiCell> {
       key: widget.key,
       onTap: widget.onTap,
       onLongPress: widget.onLongPress == null ? null : _handleLongPress,
+      onSecondaryTapUp: widget.onSecondaryTapUp,
       onTapDown: _handleTapDown,
       onTapUp: _handleTapUp,
       onTapCancel: _handleTapCancel,
@@ -1662,53 +1784,6 @@ class _PressableEmojiCellState extends State<_PressableEmojiCell> {
       label: widget.semanticLabel,
       excludeSemantics: true,
       child: cell,
-    );
-  }
-}
-
-class _CategoryButton extends StatelessWidget {
-  const _CategoryButton({
-    required this.icon,
-    required this.tooltip,
-    required this.onTap,
-    this.isActive = false,
-    super.key,
-  });
-
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback onTap;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Semantics(
-      button: true,
-      label: tooltip,
-      selected: isActive,
-      child: Tooltip(
-        message: tooltip,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(6),
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: Center(
-              child: ExcludeSemantics(
-                child: PhosphorIcon(
-                  icon,
-                  size: 24,
-                  color: isActive
-                      ? colors.textPrimary
-                      : colors.textPrimaryMuted,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -1740,110 +1815,4 @@ class _MobileBackspaceButton extends StatelessWidget {
       ),
     );
   }
-}
-
-class _GuildCategoryButton extends StatelessWidget {
-  const _GuildCategoryButton({
-    required this.guild,
-    required this.onTap,
-    this.isActive = false,
-    super.key,
-  });
-
-  final Guild guild;
-  final VoidCallback onTap;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final String label = guild.name;
-    return Semantics(
-      button: true,
-      label: label,
-      selected: isActive,
-      child: Tooltip(
-        message: label,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(6),
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: Center(
-              child: ExcludeSemantics(
-                child: DecoratedBox(
-                  decoration: isActive
-                      ? BoxDecoration(
-                          border: Border.all(
-                            color: colors.textPrimary,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        )
-                      : const BoxDecoration(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: _GuildIcon(guild: guild, size: isActive ? 20 : 24),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GuildIcon extends StatelessWidget {
-  const _GuildIcon({required this.guild, required this.size});
-
-  final Guild guild;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final iconUrl = guild.iconUrl;
-
-    if (iconUrl == null) {
-      return _GuildInitial(name: guild.name, colors: colors, size: size);
-    }
-
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: iconUrl,
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) =>
-            _GuildInitial(name: guild.name, colors: colors, size: size),
-      ),
-    );
-  }
-}
-
-class _GuildInitial extends StatelessWidget {
-  const _GuildInitial({
-    required this.name,
-    required this.colors,
-    required this.size,
-  });
-
-  final String name;
-  final FluxerColorTheme colors;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: size,
-    height: size,
-    decoration: BoxDecoration(
-      color: colors.backgroundSecondary,
-      shape: BoxShape.circle,
-    ),
-    clipBehavior: Clip.antiAlias,
-    child: FluxerGuildAcronym(name: name, color: colors.textPrimaryMuted),
-  );
 }

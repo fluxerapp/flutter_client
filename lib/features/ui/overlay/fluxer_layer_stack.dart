@@ -52,6 +52,8 @@ class FluxerLayerStack {
         closeTop();
   }
 
+  static bool isTopmost(BuildContext context) => _isTopmost(context);
+
   static bool _isTopmost(BuildContext context) {
     BuildContext current = context;
     while (true) {

@@ -111,6 +111,7 @@ import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dar
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_title.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/expression_picker_geometry.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -279,6 +280,30 @@ class ChannelTextarea extends ConsumerStatefulWidget {
   ConsumerState<ChannelTextarea> createState() => _ChannelTextareaState();
 }
 
+const List<(ExpressionPickerTab, IconData, KeybindAction)>
+_kComposerPickerButtons = <(ExpressionPickerTab, IconData, KeybindAction)>[
+  (
+    ExpressionPickerTab.gifs,
+    PhosphorIconsFill.gif,
+    KeybindAction.chatToggleGif,
+  ),
+  (
+    ExpressionPickerTab.memes,
+    PhosphorIconsFill.imageSquare,
+    KeybindAction.chatToggleSavedMedia,
+  ),
+  (
+    ExpressionPickerTab.stickers,
+    PhosphorIconsFill.sticker,
+    KeybindAction.chatToggleSticker,
+  ),
+  (
+    ExpressionPickerTab.emojis,
+    PhosphorIconsFill.smiley,
+    KeybindAction.chatToggleEmoji,
+  ),
+];
+
 class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     with WidgetsBindingObserver {
   late final ComposerMentionController _controller;
@@ -291,9 +316,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       GlobalKey<ComposerAutocompleteFieldState>();
   late final VoiceMessageRecordingController _voiceRecording;
   final _expressionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
-  final _gifPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
-  final _mediaPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
-  final _stickerPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
+  bool _lastComposerEnabled = false;
 
   bool _composerFocused = false;
   ExpressionPickerTab? _openPickerTab;
@@ -385,6 +408,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       claimsKeyEvent: _composerClaimsKeyEvent,
       handleArrowUpEmpty: _handleArrowUpOnEmptyComposer,
       insertUserMention: _insertUserMentionAtCursor,
+      toggleExpressionPicker: _toggleExpressionPickerFromKeybind,
     );
     _chatKeybindEffectsSubscription = listenChatKeybindEffects(
       ref,
@@ -1833,7 +1857,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       children: <Widget>[
         _composerSlot(
           context: context,
-          visible: composerButtonTabs.isNotEmpty,
+          visible: composerButtonTabs.isNotEmpty || popoutTabs.isNotEmpty,
           alignment: AlignmentDirectional.centerEnd,
           child: _buildLargeExpressionPickerActions(
             context: context,
@@ -1869,109 +1893,84 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }) {
     final bool touchActions = isTouchPrimaryInput(ref);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    Widget picker({
-      required GlobalKey<FluxerEmojiPickerPopoutState> key,
+    _lastComposerEnabled = perms.isComposerEnabled;
+    Widget pickerButton({
       required ExpressionPickerTab tab,
-      required IconData touchIcon,
-      required IconData mouseIcon,
+      required IconData icon,
       required String tooltip,
       required KeybindAction keybindAction,
     }) {
-      return FluxerEmojiPickerPopout(
-        key: key,
-        initialTab: tab,
-        visibleTabs: popoutTabs,
-        channelId: channelId,
-        onEmojiSelected: (emoji) => _insertEmoji(emoji.name, emoji.surrogates),
-        onGifSelected: _handleGifSelection,
-        onStickerSelected: (sticker) {
-          _handleStickerSelection(sticker);
-          key.currentState?.close();
-        },
-        onFavoriteMemeSelected: (selection) {
-          _handleFavoriteMemeSelection(selection);
-          if (selection.autoSend) {
-            key.currentState?.close();
-          }
-        },
-        onClose: () {
-          if (mounted && _openPickerTab == tab) {
-            setState(() => _openPickerTab = null);
-          }
-        },
-        child: _buildComposerActionButton(
-          context: context,
-          icon: touchActions ? touchIcon : mouseIcon,
-          tooltip: tooltip,
-          keybindAction: keybindAction,
-          active: !touchActions && _openPickerTab == tab,
-          leadingTouchGap: _touchGapBeforeWideExpressionButton(
-            composerButtonTabs,
-            tab,
-          ),
-          onPressed: perms.isComposerEnabled
-              ? () => _toggleExpressionPicker(key, tab)
-              : null,
+      return _buildComposerActionButton(
+        context: context,
+        icon: icon,
+        tooltip: tooltip,
+        keybindAction: keybindAction,
+        active: !touchActions && _openPickerTab == tab,
+        leadingTouchGap: _touchGapBeforeWideExpressionButton(
+          composerButtonTabs,
+          tab,
         ),
+        onPressed: perms.isComposerEnabled
+            ? () => _toggleExpressionPickerTab(tab)
+            : null,
       );
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      spacing: touchActions ? 0 : WideComposerLayout.mouseActionGap,
-      children: [
-        if (composerButtonTabs.contains(ExpressionPickerTab.gifs))
-          picker(
-            key: _gifPickerKey,
-            tab: ExpressionPickerTab.gifs,
-            touchIcon: PhosphorIconsFill.gif,
-            mouseIcon: PhosphorIconsRegular.gif,
-            tooltip: l10n.emojiTabGifs,
-            keybindAction: KeybindAction.chatToggleGif,
-          ),
-        if (composerButtonTabs.contains(ExpressionPickerTab.memes))
-          picker(
-            key: _mediaPickerKey,
-            tab: ExpressionPickerTab.memes,
-            touchIcon: PhosphorIconsFill.imageSquare,
-            mouseIcon: PhosphorIconsRegular.imageSquare,
-            tooltip: l10n.emojiTabMedia,
-            keybindAction: KeybindAction.chatToggleSavedMedia,
-          ),
-        if (composerButtonTabs.contains(ExpressionPickerTab.stickers))
-          picker(
-            key: _stickerPickerKey,
-            tab: ExpressionPickerTab.stickers,
-            touchIcon: PhosphorIconsFill.sticker,
-            mouseIcon: PhosphorIconsRegular.sticker,
-            tooltip: l10n.emojiTabStickers,
-            keybindAction: KeybindAction.chatToggleSticker,
-          ),
-        if (composerButtonTabs.contains(ExpressionPickerTab.emojis))
-          picker(
-            key: _expressionPickerKey,
-            tab: ExpressionPickerTab.emojis,
-            touchIcon: PhosphorIconsFill.smiley,
-            mouseIcon: PhosphorIconsFill.smiley,
-            tooltip: l10n.emojiTabEmojis,
-            keybindAction: KeybindAction.chatToggleEmoji,
-          ),
-      ],
+    return FluxerEmojiPickerPopout(
+      key: _expressionPickerKey,
+      visibleTabs: popoutTabs,
+      channelId: channelId,
+      crossAxisOffset: kExpressionPickerComposerCrossOffset,
+      onEmojiSelected: (emoji) => _insertEmoji(emoji.name, emoji.surrogates),
+      onGifSelected: _handleGifSelection,
+      onStickerSelected: _handleStickerSelection,
+      onFavoriteMemeSelected: (selection) {
+        _handleFavoriteMemeSelection(selection);
+        if (selection.autoSend) {
+          _expressionPickerKey.currentState?.close();
+        }
+      },
+      onTabChanged: (_) => _syncOpenPickerTab(),
+      onOpenChanged: (_) => _syncOpenPickerTab(),
+      returnFocusNode: _focusNode,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: touchActions ? 0 : WideComposerLayout.mouseActionGap,
+        children: [
+          for (final (
+                ExpressionPickerTab tab,
+                IconData icon,
+                KeybindAction keybindAction,
+              )
+              in _kComposerPickerButtons)
+            if (composerButtonTabs.contains(tab))
+              pickerButton(
+                tab: tab,
+                icon: icon,
+                tooltip: expressionTabLabel(tab, l10n),
+                keybindAction: keybindAction,
+              ),
+        ],
+      ),
     );
   }
 
-  void _toggleExpressionPicker(
-    GlobalKey<FluxerEmojiPickerPopoutState> key,
-    ExpressionPickerTab tab,
-  ) {
-    final FluxerEmojiPickerPopoutState? picker = key.currentState;
-    if (picker == null) {
-      return;
+  void _syncOpenPickerTab() {
+    final FluxerEmojiPickerPopoutState? picker =
+        _expressionPickerKey.currentState;
+    final ExpressionPickerTab? tab = picker != null && picker.isOpen
+        ? picker.selectedTab
+        : null;
+    if (mounted && tab != _openPickerTab) {
+      setState(() => _openPickerTab = tab);
     }
-    final bool opening = !picker.isOpen;
-    picker.toggle();
-    setState(() => _openPickerTab = opening ? tab : null);
   }
+
+  bool _toggleExpressionPickerTab(ExpressionPickerTab tab) =>
+      _expressionPickerKey.currentState?.toggleTab(tab) ?? false;
+
+  bool _toggleExpressionPickerFromKeybind(ExpressionPickerTab tab) =>
+      mounted && _lastComposerEnabled && _toggleExpressionPickerTab(tab);
 
   Widget _buildComposerInput({
     required BuildContext context,

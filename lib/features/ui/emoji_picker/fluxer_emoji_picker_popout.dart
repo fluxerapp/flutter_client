@@ -1,27 +1,34 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_size_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/domain/expression_picker_resize_edge.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/expression_picker_geometry.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/expression_picker_resize_handles.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer_stack.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 enum FluxerEmojiPickerPlacement { verticalEnd, leftStart, rightStart }
 
-class FluxerEmojiPickerPopout extends StatefulWidget {
+class FluxerEmojiPickerPopout extends ConsumerStatefulWidget {
   const FluxerEmojiPickerPopout({
     required this.child,
-    this.onClose,
+    this.onOpenChanged,
+    this.onTabChanged,
     this.onEmojiSelected,
     this.onGifSelected,
     this.onStickerSelected,
     this.onFavoriteMemeSelected,
-    this.closeOnEmojiSelect = false,
+    this.closeOnEmojiSelect = true,
     this.visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -31,11 +38,15 @@ class FluxerEmojiPickerPopout extends StatefulWidget {
     this.initialTab = ExpressionPickerTab.emojis,
     this.channelId,
     this.placement = FluxerEmojiPickerPlacement.verticalEnd,
+    this.crossAxisOffset = 0,
+    this.resizable = true,
+    this.returnFocusNode,
     super.key,
   });
 
   final Widget child;
-  final VoidCallback? onClose;
+  final ValueChanged<bool>? onOpenChanged;
+  final ValueChanged<ExpressionPickerTab>? onTabChanged;
   final ValueChanged<FluxerSelectedEmoji>? onEmojiSelected;
   final ValueChanged<FluxerSelectedGif>? onGifSelected;
   final ValueChanged<StickerEntry>? onStickerSelected;
@@ -45,23 +56,36 @@ class FluxerEmojiPickerPopout extends StatefulWidget {
   final ExpressionPickerTab initialTab;
   final String? channelId;
   final FluxerEmojiPickerPlacement placement;
+  final double crossAxisOffset;
+  final bool resizable;
+  final FocusNode? returnFocusNode;
 
   @override
-  State<FluxerEmojiPickerPopout> createState() =>
+  ConsumerState<FluxerEmojiPickerPopout> createState() =>
       FluxerEmojiPickerPopoutState();
 }
 
-class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
+class FluxerEmojiPickerPopoutState
+    extends ConsumerState<FluxerEmojiPickerPopout>
     with SingleTickerProviderStateMixin {
-  static const _kWidth = 498.0;
-  static const _kHeight = 498.0;
-  static const _kSideGap = 8.0;
-  static const _kEdgePadding = 8.0;
-
-  final _layerLink = LayerLink();
-  final _overlayController = OverlayPortalController();
+  final LayerLink _layerLink = LayerLink();
+  final OverlayPortalController _overlayController = OverlayPortalController();
+  final Object _tapRegionGroup = Object();
+  final FocusNode _panelFocus = FocusNode(
+    canRequestFocus: false,
+    skipTraversal: true,
+  );
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
+  late ExpressionPickerTab _tab = widget.initialTab;
+
+  bool _closing = false;
+  Size _storedSize = kExpressionPickerDefaultSize;
+  Offset _shift = Offset.zero;
+  _ResizeSession? _drag;
+  Rect? _lastRect;
+  Rect _lastAnchor = Rect.zero;
+  Size _lastViewport = Size.zero;
 
   @override
   void initState() {
@@ -83,199 +107,382 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   }
 
   @override
+  void didUpdateWidget(FluxerEmojiPickerPopout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.visibleTabs.contains(_tab) && widget.visibleTabs.isNotEmpty) {
+      _tab = widget.visibleTabs.contains(widget.initialTab)
+          ? widget.initialTab
+          : widget.visibleTabs.last;
+    }
+  }
+
+  @override
   void dispose() {
     _animationController.dispose();
+    _panelFocus.dispose();
     super.dispose();
   }
 
-  bool get isOpen => _overlayController.isShowing;
+  bool get isOpen => _overlayController.isShowing && !_closing;
 
-  bool _openUpward = true;
-  double _sideShift = 0;
+  ExpressionPickerTab get selectedTab => _tab;
 
-  bool _openEnd = false;
-
-  bool get _isSideStart =>
+  bool get _isSidePlacement =>
       widget.placement == FluxerEmojiPickerPlacement.leftStart ||
       widget.placement == FluxerEmojiPickerPlacement.rightStart;
 
-  void toggle() {
-    if (_overlayController.isShowing) {
+  bool get _animates =>
+      !_isSidePlacement && !MediaQuery.disableAnimationsOf(context);
+
+  void toggle() => toggleTab(_tab);
+
+  bool toggleTab(ExpressionPickerTab tab) {
+    if (!widget.visibleTabs.contains(tab)) {
+      return false;
+    }
+    if (!isOpen) {
+      open(tab: tab);
+    } else if (_tab == tab) {
       close();
     } else {
-      _computeDirection();
-      _overlayController.show();
-      if (!_isSideStart) {
-        _animationController.forward();
-      } else {
-        _animationController.value = 1;
-      }
+      _selectTab(tab);
     }
+    return true;
   }
 
-  void _computeDirection() {
-    final renderBox = context.findRenderObject() as RenderBox?;
-    if (renderBox == null || !renderBox.hasSize) {
-      _openUpward = true;
+  void open({ExpressionPickerTab? tab}) {
+    if (tab != null && widget.visibleTabs.contains(tab)) {
+      _selectTab(tab);
+    }
+    if (isOpen) {
       return;
     }
-    final screenHeight = MediaQuery.sizeOf(context).height;
-    if (_isSideStart) {
-      final Offset origin = renderBox.localToGlobal(Offset.zero);
-      final double screenWidth = MediaQuery.sizeOf(context).width;
-      final bool rtl = Directionality.of(context) == TextDirection.rtl;
-      final double spaceEnd = rtl
-          ? origin.dx
-          : screenWidth - origin.dx - renderBox.size.width;
-      final double spaceStart = rtl
-          ? screenWidth - origin.dx - renderBox.size.width
-          : origin.dx;
-      const double needed = _kWidth + _kSideGap + _kEdgePadding;
-      _openEnd = widget.placement == FluxerEmojiPickerPlacement.rightStart
-          ? spaceEnd >= needed || spaceEnd >= spaceStart
-          : spaceStart < needed && spaceEnd > spaceStart;
-      final double anchorTop = origin.dy;
-      final double overflow =
-          anchorTop + _kHeight - (screenHeight - _kEdgePadding);
-      final double maxShift = anchorTop - _kEdgePadding;
-      _sideShift = overflow > 0
-          ? -overflow.clamp(0.0, maxShift < 0 ? 0.0 : maxShift)
-          : 0;
-      return;
+    _closing = false;
+    _shift = Offset.zero;
+    _drag = null;
+    if (!_overlayController.isShowing) {
+      _overlayController.show();
     }
-    final anchorBottom = renderBox
-        .localToGlobal(Offset(0, renderBox.size.height))
-        .dy;
-    final spaceBelow = screenHeight - anchorBottom;
-    _openUpward = spaceBelow < _kHeight + 8;
+    if (_animates) {
+      _animationController.forward();
+    } else {
+      _animationController.value = 1;
+    }
+    widget.onOpenChanged?.call(true);
   }
 
   void close() {
-    if (_isSideStart) {
-      _animationController.value = 0;
-      if (_overlayController.isShowing) {
-        _overlayController.hide();
-      }
-      widget.onClose?.call();
+    if (!_overlayController.isShowing || _closing) {
       return;
     }
-    unawaited(
-      _animationController.reverse().then((_) {
-        if (mounted && _overlayController.isShowing) {
-          _overlayController.hide();
-        }
-        widget.onClose?.call();
-      }),
-    );
+    _closing = true;
+    _drag = null;
+    final bool restoreFocus = _panelFocus.hasFocus;
+    widget.onOpenChanged?.call(false);
+    if (restoreFocus) {
+      widget.returnFocusNode?.requestFocus();
+    }
+    if (!_animates) {
+      _hideOverlay();
+      return;
+    }
+    unawaited(_animationController.reverse().then((_) => _hideOverlay()));
   }
+
+  void _hideOverlay() {
+    if (!mounted || !_closing) {
+      return;
+    }
+    _closing = false;
+    _animationController.value = 0;
+    if (_overlayController.isShowing) {
+      _overlayController.hide();
+    }
+  }
+
+  void _selectTab(ExpressionPickerTab tab) {
+    if (_tab == tab) {
+      return;
+    }
+    setState(() => _tab = tab);
+    widget.onTabChanged?.call(tab);
+  }
+
+  bool get _multiPick => HardwareKeyboard.instance.isShiftPressed;
 
   void _handleEmojiSelect(String name, String surrogates) {
     widget.onEmojiSelected?.call(
       FluxerSelectedEmoji.fromSelection(name, surrogates),
     );
-    if (widget.closeOnEmojiSelect) {
+    if (widget.closeOnEmojiSelect && !_multiPick) {
       close();
     }
   }
 
-  Alignment _targetAnchor(TextDirection direction) {
-    if (_isSideStart) {
-      return (_openEnd
-              ? AlignmentDirectional.topEnd
-              : AlignmentDirectional.topStart)
-          .resolve(direction);
+  void _handleStickerSelect(StickerEntry sticker) {
+    widget.onStickerSelected?.call(sticker);
+    if (!_multiPick) {
+      close();
     }
-    return _openUpward
-        ? AlignmentDirectional.topEnd.resolve(direction)
-        : AlignmentDirectional.bottomEnd.resolve(direction);
   }
 
-  Alignment _followerAnchor(TextDirection direction) {
-    if (_isSideStart) {
-      return (_openEnd
-              ? AlignmentDirectional.topStart
-              : AlignmentDirectional.topEnd)
-          .resolve(direction);
+  void _handleTapOutside(PointerDownEvent event) {
+    if (_drag != null || !FluxerLayerStack.isTopmost(context)) {
+      return;
     }
-    return _openUpward
-        ? AlignmentDirectional.bottomEnd.resolve(direction)
-        : AlignmentDirectional.topEnd.resolve(direction);
+    close();
   }
 
-  Widget _buildOverlay(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final TextDirection direction = Directionality.of(context);
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.escape &&
+        isOpen) {
+      close();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
 
+  Rect? _anchorRect(BuildContext overlayContext) {
+    final RenderBox? anchor = context.findRenderObject() as RenderBox?;
+    final RenderBox? overlay =
+        Overlay.maybeOf(
+              overlayContext,
+              rootOverlay: true,
+            )?.context.findRenderObject()
+            as RenderBox?;
+    if (anchor == null || !anchor.hasSize || !anchor.attached) {
+      return null;
+    }
+    final Offset origin = anchor.localToGlobal(Offset.zero, ancestor: overlay);
+    return origin & anchor.size;
+  }
+
+  Rect _placementRect(Rect anchor, Size size, Size viewport) {
+    const double pad = kExpressionPickerViewportPadding;
+    const double gap = kExpressionPickerAnchorGap;
+    final bool ltr = Directionality.of(context) == TextDirection.ltr;
+    if (_isSidePlacement) {
+      final double spaceRight = viewport.width - anchor.right;
+      final double spaceLeft = anchor.left;
+      final double spaceEnd = ltr ? spaceRight : spaceLeft;
+      final double spaceStart = ltr ? spaceLeft : spaceRight;
+      final double needed = size.width + gap + pad;
+      final bool openEnd =
+          widget.placement == FluxerEmojiPickerPlacement.rightStart
+          ? spaceEnd >= needed || spaceEnd >= spaceStart
+          : spaceStart < needed && spaceEnd > spaceStart;
+      final bool openRight = ltr ? openEnd : !openEnd;
+      final double left = openRight
+          ? anchor.right + gap
+          : anchor.left - gap - size.width;
+      return Rect.fromLTWH(left, anchor.top, size.width, size.height);
+    }
+    final double left = ltr
+        ? anchor.right + widget.crossAxisOffset - size.width
+        : anchor.left - widget.crossAxisOffset;
+    final double above = anchor.top - gap - size.height;
+    final double spaceAbove = anchor.top - pad;
+    final double spaceBelow = viewport.height - pad - anchor.bottom;
+    final double top = above >= pad || spaceAbove >= spaceBelow
+        ? above
+        : anchor.bottom + gap;
+    return Rect.fromLTWH(left, top, size.width, size.height);
+  }
+
+  Size _resolvedSize(Rect anchor, Size viewport) {
+    final Size available = expressionPickerAvailableSize(viewport);
+    return clampExpressionPickerSize(
+      widget.resizable ? _storedSize : kExpressionPickerDefaultSize,
+      _isSidePlacement
+          ? available
+          : Size(
+              available.width,
+              expressionPickerVerticalSpace(anchor: anchor, viewport: viewport),
+            ),
+    );
+  }
+
+  Rect _resolveRect(Rect anchor, Size viewport) {
+    final Rect placed = _placementRect(
+      anchor,
+      _resolvedSize(anchor, viewport),
+      viewport,
+    );
+    return clampExpressionPickerRect(placed.shift(_shift), viewport);
+  }
+
+  void _handleResizeStart(ExpressionPickerResizeEdge edge) {
+    final Rect? rect = _lastRect;
+    if (rect != null) {
+      setState(() => _drag = _ResizeSession(edge, rect));
+    }
+  }
+
+  void _handleResizeUpdate(Offset delta) {
+    final _ResizeSession? drag = _drag;
+    if (drag == null) {
+      return;
+    }
+    drag.delta += delta;
+    setState(() {
+      drag.rect = resizeExpressionPickerRect(
+        edge: drag.edge,
+        startRect: drag.startRect,
+        delta: drag.delta,
+        viewport: _lastViewport,
+      );
+    });
+  }
+
+  void _handleResizeEnd() {
+    final Rect? rect = _drag?.rect;
+    if (rect == null) {
+      return;
+    }
+    final Rect placed = _placementRect(_lastAnchor, rect.size, _lastViewport);
+    setState(() {
+      _shift = rect.topLeft - placed.topLeft;
+      _storedSize = rect.size;
+      _drag = null;
+    });
+    ref
+        .read(expressionPickerSizeProvider.notifier)
+        .setSize(rect.size, persist: true);
+  }
+
+  void _handleResizeReset() {
+    setState(() {
+      _drag = null;
+      _shift = Offset.zero;
+    });
+    ref.read(expressionPickerSizeProvider.notifier).reset();
+  }
+
+  Widget _buildPanel(BuildContext context) {
+    const double border = kExpressionPickerBorderWidth;
+    const Radius radius = Radius.circular(8);
     return Stack(
-      children: [
+      children: <Widget>[
         Positioned.fill(
-          child: FluxerGestureDetector(
-            onTap: close,
-            behavior: HitTestBehavior.opaque,
-            child: const ColoredBox(color: Colors.transparent),
-          ),
-        ),
-        FadeTransition(
-          opacity: _fadeAnimation,
-          child: CompositedTransformFollower(
-            link: _layerLink,
-            targetAnchor: _targetAnchor(direction),
-            followerAnchor: _followerAnchor(direction),
-            offset: _isSideStart
-                ? Offset(
-                    (direction == TextDirection.ltr) == _openEnd
-                        ? _kSideGap
-                        : -_kSideGap,
-                    _sideShift,
-                  )
-                : Offset(0, _openUpward ? -4 : 4),
-            child: Align(
-              alignment: _followerAnchor(direction),
-              child: SizedBox(
-                width: _kWidth,
-                height: _kHeight,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.backgroundTertiary,
-                    borderRadius: layout.radiusXl,
-                    border: Border.all(color: colors.backgroundModifierAccent),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: layout.radiusXl,
-                    child: ExpressionPicker(
-                      onClose: close,
-                      onEmojiSelect: _handleEmojiSelect,
-                      onGifSelect: widget.onGifSelected,
-                      onStickerSelect: widget.onStickerSelected,
-                      onFavoriteMemeSelect: widget.onFavoriteMemeSelected,
-                      visibleTabs: widget.visibleTabs,
-                      initialTab: widget.initialTab,
-                      channelId: widget.channelId,
-                    ),
-                  ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: expressionPickerSurfaceColor(context),
+              borderRadius: const BorderRadius.all(radius),
+              border: Border.all(
+                color: context.colors.backgroundModifierAccent,
+              ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.24),
+                  blurRadius: 16,
+                  offset: Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(border),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  radius - const Radius.circular(border),
+                ),
+                child: ExpressionPicker(
+                  onClose: close,
+                  onEmojiSelect: _handleEmojiSelect,
+                  onGifSelect: widget.onGifSelected,
+                  onStickerSelect: widget.onStickerSelected == null
+                      ? null
+                      : _handleStickerSelect,
+                  onFavoriteMemeSelect: widget.onFavoriteMemeSelected,
+                  visibleTabs: widget.visibleTabs,
+                  initialTab: _tab,
+                  onTabChanged: _selectTab,
+                  channelId: widget.channelId,
+                  autofocusSearch: true,
+                  desktopPopout: true,
                 ),
               ),
             ),
           ),
         ),
+        if (widget.resizable)
+          Positioned.fill(
+            child: ExpressionPickerResizeHandles(
+              onResizeStart: _handleResizeStart,
+              onResizeUpdate: _handleResizeUpdate,
+              onResizeEnd: _handleResizeEnd,
+              onReset: _handleResizeReset,
+            ),
+          ),
       ],
     );
   }
 
+  Widget _buildOverlay(BuildContext overlayContext) {
+    return LayoutBuilder(
+      builder: (BuildContext layoutContext, BoxConstraints constraints) {
+        final Size viewport = constraints.biggest;
+        final Rect anchor = _anchorRect(layoutContext) ?? _lastAnchor;
+        final Rect rect = _drag?.rect ?? _resolveRect(anchor, viewport);
+        _lastAnchor = anchor;
+        _lastViewport = viewport;
+        _lastRect = rect;
+        return Stack(
+          children: <Widget>[
+            Positioned(
+              left: 0,
+              top: 0,
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                showWhenUnlinked: false,
+                offset: rect.topLeft - anchor.topLeft,
+                child: TapRegion(
+                  groupId: _tapRegionGroup,
+                  onTapOutside: _handleTapOutside,
+                  child: Focus(
+                    focusNode: _panelFocus,
+                    onKeyEvent: _handleKeyEvent,
+                    child: FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: SizedBox.fromSize(
+                        size: rect.size,
+                        child: _buildPanel(layoutContext),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
-  Widget build(BuildContext context) => OverlayPortal(
-    controller: _overlayController,
-    overlayLocation: OverlayChildLocation.rootOverlay,
-    overlayChildBuilder: (BuildContext context) =>
-        FluxerLayer(onClose: close, child: _buildOverlay(context)),
-    child: CompositedTransformTarget(link: _layerLink, child: widget.child),
-  );
+  Widget build(BuildContext context) {
+    final Size watchedSize = ref.watch(expressionPickerSizeProvider);
+    if (_drag == null) {
+      _storedSize = watchedSize;
+    }
+    return OverlayPortal(
+      controller: _overlayController,
+      overlayLocation: OverlayChildLocation.rootOverlay,
+      overlayChildBuilder: (BuildContext overlayContext) =>
+          FluxerLayer(onClose: close, child: _buildOverlay(overlayContext)),
+      child: TapRegion(
+        groupId: _tapRegionGroup,
+        child: CompositedTransformTarget(link: _layerLink, child: widget.child),
+      ),
+    );
+  }
+}
+
+class _ResizeSession {
+  _ResizeSession(this.edge, this.startRect) : rect = startRect;
+
+  final ExpressionPickerResizeEdge edge;
+  final Rect startRect;
+  Rect rect;
+  Offset delta = Offset.zero;
 }

@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_category_rail_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker_chrome.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
@@ -18,9 +19,10 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/expression_grid_navigation.dart';
+import 'package:fluxer_app/features/emoji/presentation/menus/expression_context_menu.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -56,6 +58,8 @@ class StickerPickerContent extends ConsumerStatefulWidget {
     this.onSearchActivated,
     this.searchFocusNode,
     this.sheetDragHandlers,
+    this.searchHeaderDecorator,
+    this.gridKeyboard,
     this.channelId,
     this.scrollController,
     super.key,
@@ -69,6 +73,8 @@ class StickerPickerContent extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
+  final Widget Function(Widget child)? searchHeaderDecorator;
+  final ExpressionGridKeyboard? gridKeyboard;
   final String? channelId;
   final ScrollController? scrollController;
 
@@ -103,7 +109,8 @@ class _StickerPickerData {
   final Map<Guild, List<StickerEntry>> stickersByGuild;
 }
 
-class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
+class _StickerPickerContentState extends ConsumerState<StickerPickerContent>
+    with ExpressionGridKeyboardBinding<StickerPickerContent> {
   ScrollController? _ownedScrollController;
   final _searchController = TextEditingController();
   String _searchQuery = '';
@@ -125,6 +132,68 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     _searchController.addListener(
       () => setState(() => _searchQuery = _searchController.text),
     );
+  }
+
+  final ExpressionGridNavigator<StickerEntry> _nav =
+      ExpressionGridNavigator<StickerEntry>();
+  Map<String, double> _categoryTops = const <String, double>{};
+  String _navQuery = '';
+
+  @override
+  ExpressionGridKeyboard? gridKeyboardOf(StickerPickerContent widget) =>
+      widget.gridKeyboard;
+
+  @override
+  KeyEventResult handleGridKey(KeyEvent event) => _nav.handleKey(
+    event,
+    scrollController: _scrollController,
+    onHighlight: _setHoveredSticker,
+    onPick: (StickerEntry sticker) => unawaited(_selectSticker(sticker)),
+  );
+
+  List<ExpressionGridRow<StickerEntry>> _gridRows(
+    List<StickerEntry> stickers,
+    double top,
+  ) => chunkExpressionGridRows<StickerEntry>(
+    stickers,
+    columns: _columns,
+    top: top,
+    rowHeight: _cellHeight,
+    rowGap: _kStickerGridGap,
+  );
+
+  void _layoutCategories(_StickerPickerData data) {
+    final List<ExpressionGridRow<StickerEntry>> rows =
+        <ExpressionGridRow<StickerEntry>>[];
+    final Map<String, double> tops = <String, double>{};
+    double offset = widget.isMobile ? 0 : 4;
+    void section(
+      String key,
+      List<StickerEntry> stickers, {
+      String? collapseKey,
+    }) {
+      if (stickers.isEmpty) {
+        return;
+      }
+      tops[key] = offset;
+      if (tops.length > 1 || (!widget.isMobile && key.startsWith('guild-'))) {
+        offset += _kCategoryGap;
+      }
+      offset += _headerHeight;
+      if (!data.collapsedCategories.contains(collapseKey ?? key)) {
+        rows.addAll(_gridRows(stickers, offset));
+        offset += _gridHeightForItemCount(stickers.length);
+      }
+    }
+
+    section('favorites', data.favoriteStickers);
+    section('frequently-used', data.frecent);
+    for (final MapEntry<Guild, List<StickerEntry>> entry
+        in data.stickersByGuild.entries) {
+      section('guild-${entry.key.id}', entry.value, collapseKey: entry.key.id);
+    }
+    _nav.rows = rows;
+    _categoryTops = tops;
   }
 
   @override
@@ -262,109 +331,16 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     ).canUseExternalStickers;
   }
 
-  Map<Guild, List<StickerEntry>> _readStickersByGuild() {
-    final activeGuildId = ref.read(contextualGuildIdProvider);
-    final guilds = guildsForExpressionPicker(
-      organized: ref.read(organizedGuildListProvider),
-      activeGuildId: activeGuildId,
-    );
-    final hasGlobalExpressions = ref.read(
-      instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-    );
-    final canUseExternalStickers = _readCanUseExternalStickers();
-    final stickers = ref.read(allGuildStickersForPickerProvider).value ?? [];
-    return _groupedStickersFor(
-      guilds: guilds,
-      activeGuildId: activeGuildId,
-      isPremium: hasGlobalExpressions,
-      canUseExternalStickers: canUseExternalStickers,
-      allStickers: stickers,
-    );
-  }
-
-  bool _readCanUseExternalStickers() {
-    final channelId = widget.channelId;
-    if (channelId == null || channelId.isEmpty) {
-      return true;
-    }
-    return readChannelMessagePermissionsForComposer(
-      ref,
-      channelId,
-    ).canUseExternalStickers;
-  }
-
   void _scrollToCategory(String category) {
-    final collapsedCategories =
-        ref.read(collapsedStickerPickerCategoriesProvider).value ??
-        const <String>[];
-    final stickersByGuild = _readStickersByGuild();
-    final visibleStickers = stickersByGuild.values
-        .expand((stickers) => stickers)
-        .toList(growable: false);
-    final visibleStickerIds = visibleStickers
-        .map((sticker) => sticker.id)
-        .toSet();
-    final frecent = (ref.read(frecentStickersProvider).value ?? const [])
-        .where((sticker) => visibleStickerIds.contains(sticker.id))
-        .toList(growable: false);
-    final favoriteStickers = _favoriteStickers(
-      ref.read(favoriteStickerKeysProvider).value ?? const <String>[],
-      visibleStickers,
+    final double? top = category == 'favorites' ? 0 : _categoryTops[category];
+    if (top == null || !_scrollController.hasClients) {
+      return;
+    }
+    _scrollController.animateTo(
+      top.clamp(0, _scrollController.position.maxScrollExtent),
+      duration: context.motion.panel,
+      curve: Curves.easeOut,
     );
-
-    if (category == 'favorites') {
-      _scrollController.animateTo(
-        0,
-        duration: context.motion.panel,
-        curve: Curves.easeOut,
-      );
-      return;
-    }
-
-    var offset = 0.0;
-    if (favoriteStickers.isNotEmpty) {
-      offset += _headerHeight;
-      if (!collapsedCategories.contains('favorites')) {
-        offset += _gridHeightForItemCount(favoriteStickers.length);
-      }
-      offset += _kCategoryGap;
-    }
-    if (category == 'frequently-used') {
-      _scrollController.animateTo(
-        offset.clamp(0, _scrollController.position.maxScrollExtent),
-        duration: context.motion.panel,
-        curve: Curves.easeOut,
-      );
-      return;
-    }
-    if (frecent.isNotEmpty) {
-      offset += _headerHeight;
-      if (!collapsedCategories.contains('frequently-used')) {
-        offset += _gridHeightForItemCount(frecent.length);
-      }
-      offset += _kCategoryGap;
-    }
-
-    for (final entry in stickersByGuild.entries) {
-      final key = 'guild-${entry.key.id}';
-      if (key == category) {
-        _scrollController.animateTo(
-          offset.clamp(0, _scrollController.position.maxScrollExtent),
-          duration: context.motion.panel,
-          curve: Curves.easeOut,
-        );
-        return;
-      }
-      final bool hasLeadingGap =
-          !widget.isMobile ||
-          offset > 0 ||
-          favoriteStickers.isNotEmpty ||
-          frecent.isNotEmpty;
-      offset += (hasLeadingGap ? _kCategoryGap : 0) + _headerHeight;
-      if (!collapsedCategories.contains(entry.key.id)) {
-        offset += _gridHeightForItemCount(entry.value.length);
-      }
-    }
   }
 
   Future<void> _selectSticker(StickerEntry sticker) async {
@@ -448,11 +424,14 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   }
 
   Widget _wrapSearchHeader(Widget child) {
+    final Widget Function(Widget child)? decorator =
+        widget.searchHeaderDecorator;
+    final Widget decorated = decorator == null ? child : decorator(child);
     final ExpandableSheetDragHandlers? handlers = widget.sheetDragHandlers;
     if (handlers == null) {
-      return child;
+      return decorated;
     }
-    return handlers.wrapChrome(child);
+    return handlers.wrapChrome(decorated);
   }
 
   Widget _buildBody(
@@ -477,13 +456,19 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         description: l10n.stickerPickerEmptyHereBody,
       );
     }
-    if (_searchQuery.trim().isNotEmpty) {
-      return _buildSearchResults(
-        context,
-        colors,
-        searchStickerEntries(visibleStickers, _searchQuery),
-      );
+    if (_navQuery != _searchQuery) {
+      _navQuery = _searchQuery;
+      _nav.reset();
     }
+    if (_searchQuery.trim().isNotEmpty) {
+      final List<StickerEntry> results = searchStickerEntries(
+        visibleStickers,
+        _searchQuery,
+      );
+      _nav.rows = _gridRows(results, widget.isMobile ? 14 : 0);
+      return _buildSearchResults(context, colors, results);
+    }
+    _layoutCategories(data);
 
     final content = _buildCategoryGrid(context, colors, data);
     if (widget.isMobile) {
@@ -684,7 +669,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         const <String>[];
     final isCollapsed = collapsedCategories.contains(category);
     final leadingIcon = guild != null
-        ? _StickerGuildIcon(guild: guild, size: 16)
+        ? ExpressionGuildIcon(guild: guild, size: 16)
         : category == 'favorites'
         ? PhosphorIcon(
             PhosphorIconsFill.star,
@@ -781,6 +766,15 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     return FluxerGestureDetector(
       onTap: () => unawaited(_selectSticker(sticker)),
       onLongPress: () => _showStickerActions(sticker),
+      onSecondaryTapUp: widget.isMobile
+          ? null
+          : (TapUpDetails details) => unawaited(
+              showStickerContextMenu(
+                context,
+                position: details.globalPosition,
+                sticker: sticker,
+              ),
+            ),
       child: widget.isMobile
           ? content
           : MouseRegion(
@@ -807,17 +801,17 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
         if (data.favoriteStickers.isNotEmpty)
-          _StickerCategoryButton(
+          ExpressionCategoryRailIconButton(
             icon: PhosphorIconsFill.star,
             onTap: () => _scrollToCategory('favorites'),
           ),
         if (data.frecent.isNotEmpty)
-          _StickerCategoryButton(
+          ExpressionCategoryRailIconButton(
             icon: PhosphorIconsFill.clock,
             onTap: () => _scrollToCategory('frequently-used'),
           ),
         ...data.stickersByGuild.keys.map(
-          (guild) => _StickerGuildCategoryButton(
+          (guild) => ExpressionCategoryRailGuildButton(
             guild: guild,
             onTap: () => _scrollToCategory('guild-${guild.id}'),
           ),
@@ -853,7 +847,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         ...data.stickersByGuild.keys.map(
           (guild) => ExpressionRailButton(
             label: guild.name,
-            image: _StickerGuildIcon(
+            image: ExpressionGuildIcon(
               guild: guild,
               size: kExpressionRailGuildIconSize,
             ),
@@ -898,100 +892,6 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       ),
     );
   }
-}
-
-class _StickerCategoryButton extends StatelessWidget {
-  const _StickerCategoryButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(6),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: Center(
-        child: PhosphorIcon(
-          icon,
-          size: 24,
-          color: context.colors.textPrimaryMuted,
-        ),
-      ),
-    ),
-  );
-}
-
-class _StickerGuildCategoryButton extends StatelessWidget {
-  const _StickerGuildCategoryButton({required this.guild, required this.onTap});
-
-  final Guild guild;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(6),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: Center(child: _StickerGuildIcon(guild: guild, size: 24)),
-    ),
-  );
-}
-
-class _StickerGuildIcon extends StatelessWidget {
-  const _StickerGuildIcon({required this.guild, required this.size});
-
-  final Guild guild;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final iconUrl = guild.iconUrl;
-
-    if (iconUrl == null) {
-      return _StickerGuildInitial(name: guild.name, colors: colors, size: size);
-    }
-
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: iconUrl,
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) =>
-            _StickerGuildInitial(name: guild.name, colors: colors, size: size),
-      ),
-    );
-  }
-}
-
-class _StickerGuildInitial extends StatelessWidget {
-  const _StickerGuildInitial({
-    required this.name,
-    required this.colors,
-    required this.size,
-  });
-
-  final String name;
-  final FluxerColorTheme colors;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: size,
-    height: size,
-    decoration: BoxDecoration(
-      color: colors.backgroundSecondary,
-      shape: BoxShape.circle,
-    ),
-    clipBehavior: Clip.antiAlias,
-    child: FluxerGuildAcronym(name: name, color: colors.textPrimaryMuted),
-  );
 }
 
 class _StickerEmptyState extends StatelessWidget {

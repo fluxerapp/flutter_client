@@ -181,6 +181,8 @@ class EmojiPickerLayoutIndex {
     return i < 0 ? 0 : i;
   }
 
+  double entryTop(int index) => _tops[index];
+
   double? headerTop(String categoryKey) {
     final int i = _headerKeys.indexOf(categoryKey);
     return i < 0 ? null : _headerTops[i];

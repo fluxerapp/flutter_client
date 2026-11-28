@@ -583,9 +583,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         if (!mounted) {
           return;
         }
-        if (!(_reactionPickerKey.currentState?.isOpen ?? false)) {
-          _reactionPickerKey.currentState?.toggle();
-        }
+        _reactionPickerKey.currentState?.open();
       });
       return;
     }
@@ -2692,25 +2690,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       if (canAddReactions)
         FluxerEmojiPickerPopout(
           key: _reactionPickerKey,
-          closeOnEmojiSelect: true,
           visibleTabs: const [ExpressionPickerTab.emojis],
           channelId: msg.channelId,
           placement: usesDesktopPointerUi(context)
               ? FluxerEmojiPickerPlacement.leftStart
               : FluxerEmojiPickerPlacement.verticalEnd,
-          onClose: () {
-            _reactionPickerOpen.value = false;
-            _hovered.value = false;
+          onOpenChanged: (bool open) {
+            _reactionPickerOpen.value = open;
+            if (!open) {
+              _hovered.value = false;
+            }
           },
           onEmojiSelected: _addReactionFromPicker,
           child: MessageActionBarButton(
             label: l10n.chatMessageAddReaction,
             active: _reactionPickerOpen.value,
-            onTap: () {
-              _reactionPickerKey.currentState?.toggle();
-              _reactionPickerOpen.value =
-                  _reactionPickerKey.currentState?.isOpen ?? false;
-            },
+            onTap: () => _reactionPickerKey.currentState?.toggle(),
             child: const PhosphorIcon(PhosphorIconsFill.smiley),
           ),
         ),

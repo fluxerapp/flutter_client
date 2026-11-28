@@ -79,6 +79,19 @@ abstract final class LocalSettingKeys {
         codec: StringListSettingCodec(),
       );
 
+  static const DeviceSettingKey<double?> expressionPickerWidth =
+      DeviceSettingKey<double?>(
+        'ui_expression_picker_width',
+        defaultValue: null,
+        codec: NullableDoubleSettingCodec(),
+      );
+  static const DeviceSettingKey<double?> expressionPickerHeight =
+      DeviceSettingKey<double?>(
+        'ui_expression_picker_height',
+        defaultValue: null,
+        codec: NullableDoubleSettingCodec(),
+      );
+
   static const DeviceFlag desktopShowTrayIcon = DeviceFlag(
     'desktop_show_tray_icon',
     defaultValue: true,

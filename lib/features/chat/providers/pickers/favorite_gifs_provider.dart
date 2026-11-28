@@ -44,18 +44,7 @@ class FavoriteGifs extends _$FavoriteGifs {
   }
 
   void addFromGif(GifPickerGif gif) {
-    final url = favoriteGifUrl(gif);
-    if (hasUrl(url)) {
-      return;
-    }
-    state = FavoriteGifsState(
-      entries: [
-        ...state.entries,
-        stripFavoriteGifEntrySignatures(favoriteGifEntryFromPickerGif(gif)),
-      ],
-      seenFirstTimePrompt: state.seenFirstTimePrompt,
-    );
-    _markDirty();
+    addEntries(<FavoriteGifEntry>[favoriteGifEntryFromPickerGif(gif)]);
   }
 
   void removeByUrl(String url) {
@@ -78,22 +67,38 @@ class FavoriteGifs extends _$FavoriteGifs {
     int width = 0,
     int height = 0,
   }) {
-    if (hasUrl(url)) {
-      return;
+    addEntries(<FavoriteGifEntry>[
+      FavoriteGifEntry(
+        url: url,
+        proxyUrl: proxyUrl,
+        width: width,
+        height: height,
+      ),
+    ]);
+  }
+
+  int addEntries(List<FavoriteGifEntry> entries) {
+    final Set<String> seen = <String>{
+      for (final FavoriteGifEntry entry in state.entries)
+        stripAttachmentSignature(entry.url),
+    };
+    final List<FavoriteGifEntry> added = <FavoriteGifEntry>[
+      for (final FavoriteGifEntry entry in entries)
+        if (seen.add(stripAttachmentSignature(entry.url)))
+          stripFavoriteGifEntrySignatures(entry),
+    ];
+    if (added.isEmpty) {
+      return 0;
     }
     state = FavoriteGifsState(
-      entries: [
+      entries: List.unmodifiable(<FavoriteGifEntry>[
         ...state.entries,
-        FavoriteGifEntry(
-          url: stripAttachmentSignature(url),
-          proxyUrl: stripAttachmentSignature(proxyUrl),
-          width: width,
-          height: height,
-        ),
-      ],
+        ...added,
+      ]),
       seenFirstTimePrompt: state.seenFirstTimePrompt,
     );
     _markDirty();
+    return added.length;
   }
 
   void markFirstTimePromptSeen() {

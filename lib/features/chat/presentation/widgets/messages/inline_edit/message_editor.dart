@@ -69,6 +69,7 @@ class _InlineMessageEditorState extends ConsumerState<InlineMessageEditor> {
   bool _focused = false;
   bool _pickerOpen = false;
   bool _ending = false;
+  late final ComposerFocusCoordinator _composerFocus;
 
   String get _channelId => widget.message.channelId;
   String get _messageId => widget.message.id;
@@ -76,6 +77,8 @@ class _InlineMessageEditorState extends ConsumerState<InlineMessageEditor> {
   @override
   void initState() {
     super.initState();
+    _composerFocus = ref.read(composerFocusCoordinatorProvider)
+      ..registerEditEmojiPicker(_toggleFromKeybind);
     _controller = ComposerMentionController(ref: ref);
     _focusNode
       ..onKeyEvent = _handleKeyEvent
@@ -101,6 +104,7 @@ class _InlineMessageEditorState extends ConsumerState<InlineMessageEditor> {
 
   @override
   void dispose() {
+    _composerFocus.unregisterEditEmojiPicker(_toggleFromKeybind);
     _controller
       ..removeListener(_onTextChanged)
       ..dispose();
@@ -242,14 +246,11 @@ class _InlineMessageEditorState extends ConsumerState<InlineMessageEditor> {
     }
   }
 
-  void _togglePicker() {
-    final FluxerEmojiPickerPopoutState? picker = _pickerKey.currentState;
-    if (picker == null) {
-      return;
-    }
-    picker.toggle();
-    setState(() => _pickerOpen = picker.isOpen);
-  }
+  bool _toggleFromKeybind() =>
+      mounted &&
+      (_pickerKey.currentState?.toggleTab(ExpressionPickerTab.emojis) ?? false);
+
+  void _togglePicker() => _pickerKey.currentState?.toggle();
 
   ChannelMessagePermissions _editPermissions() {
     final ChannelMessagePermissions base =
@@ -382,11 +383,12 @@ class _InlineMessageEditorState extends ConsumerState<InlineMessageEditor> {
                     ExpressionPickerTab.emojis,
                   ],
                   channelId: _channelId,
+                  returnFocusNode: _focusNode,
                   onEmojiSelected: (emoji) =>
                       _insertEmoji(emoji.name, emoji.surrogates),
-                  onClose: () {
-                    if (mounted && _pickerOpen) {
-                      setState(() => _pickerOpen = false);
+                  onOpenChanged: (bool open) {
+                    if (mounted) {
+                      setState(() => _pickerOpen = open);
                     }
                   },
                   child: WideComposerMouseButton(

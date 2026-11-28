@@ -13,7 +13,10 @@ import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/domain/picker_grid_metrics.dart';
+import 'package:fluxer_app/features/chat/presentation/modals/import_favorite_gifs_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/favorite_gif_first_time_prompt_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
@@ -44,8 +47,6 @@ import 'package:fluxer_dart/export.dart' as sdk;
 
 const _kSearchDebounce = Duration(milliseconds: 400);
 const _kMaxSearchLength = 100;
-const _kMasonryMinColumnWidth = 227.0;
-const _kMasonryHorizontalPadding = 8.0;
 const _kMasonryCacheExtent = 700.0;
 const _kGifTileFadeInDuration = Duration(milliseconds: 100);
 const _kGifCategoryPressHold = Duration(milliseconds: 60);
@@ -64,6 +65,22 @@ const List<double> _kSkeletonAspectRatios = <double>[
   1.5,
   0.75,
 ];
+
+class _PickerGridMetricsScope extends InheritedWidget {
+  const _PickerGridMetricsScope({required this.metrics, required super.child});
+
+  final PickerGridMetrics metrics;
+
+  static PickerGridMetrics of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<_PickerGridMetricsScope>()
+          ?.metrics ??
+      PickerGridMetrics.gif;
+
+  @override
+  bool updateShouldNotify(_PickerGridMetricsScope oldWidget) =>
+      oldWidget.metrics != metrics;
+}
 
 enum _GifPickerView { landing, trending, favorites }
 
@@ -123,6 +140,8 @@ class GifPickerContent extends ConsumerStatefulWidget {
     this.onSearchActivated,
     this.searchFocusNode,
     this.sheetDragHandlers,
+    this.searchHeaderDecorator,
+    this.desktopPopout = false,
     this.scrollController,
     super.key,
   });
@@ -136,6 +155,8 @@ class GifPickerContent extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
+  final Widget Function(Widget child)? searchHeaderDecorator;
+  final bool desktopPopout;
   final ScrollController? scrollController;
 
   @override
@@ -285,11 +306,20 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
     return ColoredBox(
       key: const ValueKey<String>('gif-picker-content-surface'),
-      color: context.colors.chatInputBackground,
+      color: widget.desktopPopout
+          ? context.colors.backgroundPrimary
+          : context.colors.chatInputBackground,
       child: Column(
         children: [
           _buildHeader(context, provider),
-          Expanded(child: _buildBody(context, locale)),
+          Expanded(
+            child: _PickerGridMetricsScope(
+              metrics: widget.desktopPopout
+                  ? PickerGridMetrics.popout
+                  : PickerGridMetrics.gif,
+              child: _buildBody(context, locale),
+            ),
+          ),
         ],
       ),
     );
@@ -318,16 +348,41 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
                   ),
                 ),
               ),
-              Text(
-                _view == _GifPickerView.trending
-                    ? l10n.gifPickerTrending
-                    : l10n.gifPickerFavorites,
-                style: context.textStyles.channelName.copyWith(
-                  color: colors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  _view == _GifPickerView.trending
+                      ? l10n.gifPickerTrending
+                      : l10n.gifPickerFavorites,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textStyles.channelName.copyWith(
+                    color: colors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
+              if (_view == _GifPickerView.favorites) ...<Widget>[
+                WideComposerMouseButton(
+                  icon: PhosphorIconsRegular.uploadSimple,
+                  tooltip: l10n.gifPickerImportFavorites,
+                  onPressed: () =>
+                      unawaited(showImportFavoriteGifsModal(context)),
+                ),
+                WideComposerMouseButton(
+                  icon: PhosphorIconsRegular.downloadSimple,
+                  tooltip: l10n.gifPickerExportFavorites,
+                  onPressed: ref.watch(favoriteGifsProvider).entries.isEmpty
+                      ? null
+                      : () => unawaited(
+                          exportFavoriteGifUrls(
+                            context,
+                            ref.read(favoriteGifsProvider).entries,
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ],
           ),
         ),
@@ -357,11 +412,14 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
   }
 
   Widget _wrapSearchHeader(Widget child) {
+    final Widget Function(Widget child)? decorator =
+        widget.searchHeaderDecorator;
+    final Widget decorated = decorator == null ? child : decorator(child);
     final ExpandableSheetDragHandlers? handlers = widget.sheetDragHandlers;
     if (handlers == null) {
-      return child;
+      return decorated;
     }
-    return handlers.wrapChrome(child);
+    return handlers.wrapChrome(decorated);
   }
 
   Widget _buildBody(BuildContext context, sdk.Locale locale) {
@@ -835,8 +893,8 @@ class _CategoryGridState extends State<_CategoryGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final layout = context.layout;
-    final gap = layout.s2;
+    final PickerGridMetrics metrics = _PickerGridMetricsScope.of(context);
+    final gap = metrics.gap;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -845,19 +903,15 @@ class _CategoryGridState extends State<_CategoryGrid> {
           return const SizedBox.shrink();
         }
 
-        final columnCount = _masonryColumnCountForWidth(width);
-        final tileWidth =
-            (width -
-                (_kMasonryHorizontalPadding * 2) -
-                gap * (columnCount - 1)) /
-            columnCount;
+        final columnCount = metrics.columnsFor(width, maxColumns: 4);
+        final tileWidth = metrics.laneWidth(width, columnCount);
         final tileHeight = tileWidth / _categoryTileAspectRatioFor(context);
         final viewportHeight = constraints.maxHeight.isFinite
             ? constraints.maxHeight
             : MediaQuery.sizeOf(context).height;
-        final scrollOffset = _scrollController.hasClients
-            ? _scrollController.offset
-            : 0.0;
+        final scrollOffset =
+            (_scrollController.hasClients ? _scrollController.offset : 0.0) -
+            metrics.top;
         final visibleIndexes = visibleGifCategoryIndexes(
           itemCount: widget.categories.length,
           columnCount: columnCount,
@@ -870,17 +924,19 @@ class _CategoryGridState extends State<_CategoryGrid> {
           tileWidth: tileWidth,
           tileHeight: tileHeight,
           columnCount: columnCount,
-          gap: gap,
+          metrics: metrics,
           scrollOffset: scrollOffset,
           viewportHeight: viewportHeight,
         );
-        final contentHeight = gifCategoryGridContentHeight(
-          itemCount: widget.categories.length,
-          columnCount: columnCount,
-          tileHeight: tileHeight,
-          gap: gap,
-          bottomPadding: _kMasonryHorizontalPadding,
-        );
+        final contentHeight =
+            metrics.top +
+            gifCategoryGridContentHeight(
+              itemCount: widget.categories.length,
+              columnCount: columnCount,
+              tileHeight: tileHeight,
+              gap: gap,
+              bottomPadding: metrics.padding,
+            );
 
         return SingleChildScrollView(
           controller: _scrollController,
@@ -890,11 +946,11 @@ class _CategoryGridState extends State<_CategoryGrid> {
               children: [
                 for (final index in visibleIndexes)
                   _buildPositionedCategoryTile(
+                    metrics: metrics,
                     index: index,
                     tileWidth: tileWidth,
                     tileHeight: tileHeight,
                     columnCount: columnCount,
-                    gap: gap,
                     allowAnimatedImagePlayback: animatedImagePlaybackIndexes
                         .contains(index),
                   ),
@@ -907,18 +963,18 @@ class _CategoryGridState extends State<_CategoryGrid> {
   }
 
   Widget _buildPositionedCategoryTile({
+    required PickerGridMetrics metrics,
     required int index,
     required double tileWidth,
     required double tileHeight,
     required int columnCount,
-    required double gap,
     required bool allowAnimatedImagePlayback,
   }) {
     final category = widget.categories[index];
     final row = index ~/ columnCount;
     final column = index % columnCount;
-    final top = row * (tileHeight + gap);
-    final left = _kMasonryHorizontalPadding + column * (tileWidth + gap);
+    final top = metrics.top + row * (tileHeight + metrics.gap);
+    final left = metrics.laneLeft(column, tileWidth);
 
     return PositionedDirectional(
       key: ValueKey<String>('${category.title}:${category.previewUrl}'),
@@ -946,11 +1002,11 @@ class _CategoryGridState extends State<_CategoryGrid> {
     required double tileWidth,
     required double tileHeight,
     required int columnCount,
-    required double gap,
+    required PickerGridMetrics metrics,
     required double scrollOffset,
     required double viewportHeight,
   }) {
-    final rowStride = tileHeight + gap;
+    final rowStride = tileHeight + metrics.gap;
     final viewportBottom = scrollOffset + viewportHeight;
 
     return gifAnimatedImagePreviewPlaybackPolicy.allowedVideoIndexes(
@@ -959,7 +1015,7 @@ class _CategoryGridState extends State<_CategoryGrid> {
         tileHeight: tileHeight,
         rowStride: rowStride,
         columnCount: columnCount,
-        gap: gap,
+        metrics: metrics,
       ),
       viewportTop: scrollOffset,
       viewportBottom: viewportBottom,
@@ -972,7 +1028,7 @@ class _CategoryGridState extends State<_CategoryGrid> {
     required double tileHeight,
     required double rowStride,
     required int columnCount,
-    required double gap,
+    required PickerGridMetrics metrics,
   }) sync* {
     for (var index = 0; index < widget.categories.length; index++) {
       final category = widget.categories[index];
@@ -982,7 +1038,7 @@ class _CategoryGridState extends State<_CategoryGrid> {
       final row = index ~/ columnCount;
       final column = index % columnCount;
       final top = row * rowStride;
-      final left = _kMasonryHorizontalPadding + column * (tileWidth + gap);
+      final left = metrics.laneLeft(column, tileWidth);
       yield GifPreviewPlaybackCandidate(
         index: index,
         top: top,
@@ -1024,7 +1080,7 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
   int? _layoutItemsVersion;
   double? _layoutColumnWidth;
   int? _layoutColumnCount;
-  double? _layoutGap;
+  PickerGridMetrics? _layoutMetrics;
   List<_MasonryPosition> _layoutPositions = const <_MasonryPosition>[];
   var _layoutContentHeight = 0.0;
   var _scrollUpdateScheduled = false;
@@ -1102,8 +1158,7 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final layout = context.layout;
-    final gap = layout.s2;
+    final PickerGridMetrics metrics = _PickerGridMetricsScope.of(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -1112,16 +1167,12 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
           return const SizedBox.shrink();
         }
 
-        final columnCount = _columnCountForWidth(width);
-        final columnWidth =
-            (width -
-                (_kMasonryHorizontalPadding * 2) -
-                gap * (columnCount - 1)) /
-            columnCount;
+        final columnCount = metrics.columnsFor(width, maxColumns: 4);
+        final columnWidth = metrics.laneWidth(width, columnCount);
         final positions = _positionsForLayout(
           columnWidth: columnWidth,
           columnCount: columnCount,
-          gap: gap,
+          metrics: metrics,
         );
         final contentHeight = _layoutContentHeight;
         final scrollOffset = _scrollController.hasClients
@@ -1207,38 +1258,39 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
   List<_MasonryPosition> _positionsForLayout({
     required double columnWidth,
     required int columnCount,
-    required double gap,
+    required PickerGridMetrics metrics,
   }) {
     if (_layoutItemsVersion == _itemsVersion &&
         _layoutColumnWidth == columnWidth &&
         _layoutColumnCount == columnCount &&
-        _layoutGap == gap) {
+        _layoutMetrics == metrics) {
       return _layoutPositions;
     }
 
     final positions = _computeMasonryPositions(
       columnWidth: columnWidth,
       columnCount: columnCount,
-      gap: gap,
+      metrics: metrics,
     );
     _layoutItemsVersion = _itemsVersion;
     _layoutColumnWidth = columnWidth;
     _layoutColumnCount = columnCount;
-    _layoutGap = gap;
+    _layoutMetrics = metrics;
     _layoutPositions = positions;
     _layoutContentHeight = positions.isEmpty
         ? 0.0
         : positions.map((p) => p.bottom).reduce((a, b) => a > b ? a : b) +
-              _kMasonryHorizontalPadding;
+              metrics.padding;
     return positions;
   }
 
   List<_MasonryPosition> _computeMasonryPositions({
     required double columnWidth,
     required int columnCount,
-    required double gap,
+    required PickerGridMetrics metrics,
   }) {
-    final columnHeights = List<double>.filled(columnCount, 0);
+    final double gap = metrics.gap;
+    final columnHeights = List<double>.filled(columnCount, metrics.top);
     final positions = <_MasonryPosition>[];
 
     for (var i = 0; i < widget.items.length; i++) {
@@ -1253,7 +1305,7 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
       final itemHeight = aspectRatio > 0
           ? columnWidth / aspectRatio
           : columnWidth;
-      final left = _kMasonryHorizontalPadding + column * (columnWidth + gap);
+      final left = metrics.laneLeft(column, columnWidth);
       final top = columnHeights[column];
       positions.add(
         _MasonryPosition(
@@ -1269,14 +1321,6 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
 
     return positions;
   }
-
-  int _columnCountForWidth(double width) => _masonryColumnCountForWidth(width);
-}
-
-int _masonryColumnCountForWidth(double width) {
-  final availableWidth = width - (_kMasonryHorizontalPadding * 2);
-  final count = (availableWidth / _kMasonryMinColumnWidth).floor();
-  return count.clamp(2, 4);
 }
 
 double _categoryTileAspectRatioFor(BuildContext context) {

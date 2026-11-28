@@ -99,19 +99,34 @@ FavoriteGifEntry favoriteGifEntryFromPickerGif(GifPickerGif gif) {
       : gif.src.trim().isNotEmpty
       ? gif.src
       : gif.url;
-  final media = gif.media;
   return FavoriteGifEntry(
     url: favoriteGifUrl(gif),
     proxyUrl: proxyUrl,
     width: gif.width,
     height: gif.height,
-    media: {
-      for (final entry
-          in (media ?? const <String, sdk.GifMediaFormat>{}).entries)
-        entry.key: FavoriteGifMediaFormat.fromSdk(entry.value),
-    },
+    media: favoriteGifMediaFromSdk(gif.media),
   );
 }
+
+FavoriteGifEntry favoriteGifEntryFromResolved(
+  sdk.ResolvedGifEntrySchema entry,
+) => FavoriteGifEntry(
+  url: entry.url,
+  proxyUrl: entry.proxyUrl,
+  width: entry.width,
+  height: entry.height,
+  contentType: entry.contentType,
+  placeholder: entry.placeholder,
+  media: favoriteGifMediaFromSdk(entry.media),
+);
+
+Map<String, FavoriteGifMediaFormat> favoriteGifMediaFromSdk(
+  Map<String, sdk.GifMediaFormat>? media,
+) => <String, FavoriteGifMediaFormat>{
+  for (final MapEntry<String, sdk.GifMediaFormat> entry
+      in (media ?? const <String, sdk.GifMediaFormat>{}).entries)
+    entry.key: FavoriteGifMediaFormat.fromSdk(entry.value),
+};
 
 Map<String, sdk.GifMediaFormat>? sdkMediaFromFavoriteGif(
   Map<String, FavoriteGifMediaFormat> media,

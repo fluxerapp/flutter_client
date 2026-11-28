@@ -1,0 +1,1 @@
+enum ExpressionKind { emoji, sticker }

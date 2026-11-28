@@ -30528,6 +30528,172 @@ abstract class FluxerLocalizations {
   /// **'Copy emoji ID'**
   String get emojiMenuCopyId;
 
+  /// Sticker context menu action that adds the sticker to favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite sticker'**
+  String get stickerMenuFavorite;
+
+  /// Sticker context menu action that removes the sticker from favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfavorite sticker'**
+  String get stickerMenuUnfavorite;
+
+  /// Sticker context menu action that copies the sticker ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy sticker ID'**
+  String get stickerMenuCopyId;
+
+  /// Sticker context menu action that copies the sticker image URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy sticker URL'**
+  String get stickerMenuCopyUrl;
+
+  /// Sticker context menu action that opens the sticker image URL in a browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open sticker in browser'**
+  String get stickerMenuOpenInBrowser;
+
+  /// Submenu label listing communities the emoji can be cloned to.
+  ///
+  /// In en, this message translates to:
+  /// **'Clone emoji to…'**
+  String get emojiMenuCloneTo;
+
+  /// Submenu label listing communities the sticker can be cloned to.
+  ///
+  /// In en, this message translates to:
+  /// **'Clone sticker to…'**
+  String get stickerMenuCloneTo;
+
+  /// Hint on a clone target community that has no free emoji slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji slots full'**
+  String get expressionMenuEmojiSlotsFull;
+
+  /// Hint on a clone target community that has no free sticker slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker slots full'**
+  String get expressionMenuStickerSlotsFull;
+
+  /// Toast confirming an emoji was cloned to another community.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloned :{sourceName}: to {targetName}'**
+  String emojiClonedToast(String sourceName, String targetName);
+
+  /// Toast confirming a sticker was cloned to another community.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloned sticker {stickerName} to {targetName}'**
+  String stickerClonedToast(String stickerName, String targetName);
+
+  /// Tooltip on the button in the favorite GIFs header that opens the GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Import GIFs'**
+  String get gifPickerImportFavorites;
+
+  /// Tooltip on the button in the favorite GIFs header that saves favorite GIF URLs to a text file.
+  ///
+  /// In en, this message translates to:
+  /// **'Export GIF URLs'**
+  String get gifPickerExportFavorites;
+
+  /// Toast shown when saving the favorite GIF URL list fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export GIF URLs'**
+  String get gifExportFailed;
+
+  /// Title of the favorite GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Import favorite GIFs'**
+  String get gifImportTitle;
+
+  /// Label of the text area in the favorite GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'GIF URLs'**
+  String get gifImportUrlsLabel;
+
+  /// Instruction text in the favorite GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste GIF URLs below, one per line.'**
+  String get gifImportInstructions;
+
+  /// Shown in the favorite GIF import modal when no more favorites can be added.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at the favorite GIF limit.'**
+  String get gifImportLimitReached;
+
+  /// Primary button in the favorite GIF import modal that starts the import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get gifImportStart;
+
+  /// Danger button in the favorite GIF import modal that stops the running import.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel import'**
+  String get gifImportCancel;
+
+  /// Button that closes the favorite GIF import modal while the import keeps running.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get gifImportClose;
+
+  /// Button that closes the favorite GIF import modal after the import finished.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get gifImportDone;
+
+  /// Button in the favorite GIF import modal after a completed import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import more'**
+  String get gifImportMore;
+
+  /// Informational text in the favorite GIF import modal while the import is running.
+  ///
+  /// In en, this message translates to:
+  /// **'You can close this modal. The import will continue in the background.'**
+  String get gifImportBackground;
+
+  /// Progress text in the favorite GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing… {processedCount} / {totalCount} processed, {importedCount} added.'**
+  String gifImportProgress(
+    int processedCount,
+    int totalCount,
+    int importedCount,
+  );
+
+  /// Completion text in the favorite GIF import modal.
+  ///
+  /// In en, this message translates to:
+  /// **'{importedCount, plural, =1{Import complete. Added 1 GIF.} other{Import complete. Added {importedCount} GIFs.}}'**
+  String gifImportComplete(int importedCount);
+
+  /// Completion text in the favorite GIF import modal when some URLs were skipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{importedCount, plural, =1{Import complete. Added 1 GIF, skipped {skippedCount} (duplicates or over the limit).} other{Import complete. Added {importedCount} GIFs, skipped {skippedCount} (duplicates or over the limit).}}'**
+  String gifImportCompleteWithSkipped(int importedCount, int skippedCount);
+
   /// Tooltip on the media download button in the media viewer and on inline media.
   ///
   /// In en, this message translates to:

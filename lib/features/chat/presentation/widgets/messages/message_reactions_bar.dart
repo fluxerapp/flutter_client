@@ -5,10 +5,11 @@ import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_count_text.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_emoji_context_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_tooltip_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/menus/expression_context_menu.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -147,10 +148,14 @@ class _ReactionChip extends StatelessWidget {
         onLongPress: desktopInteractive ? null : onLongPress,
         onSecondaryTapUp: desktopInteractive && reaction.isCustom
             ? (TapUpDetails details) => unawaited(
-                showReactionEmojiContextMenu(
+                showEmojiContextMenu(
                   context,
                   position: details.globalPosition,
-                  reaction: reaction,
+                  emoji: EmojiInfoData.fromMarkdownLongPress(
+                    emojiId: reaction.emojiId,
+                    name: reaction.emoji,
+                    animated: reaction.animated,
+                  ),
                 ),
               )
             : null,
@@ -365,20 +370,14 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
     }
     return FluxerEmojiPickerPopout(
       key: _pickerKey,
-      closeOnEmojiSelect: true,
       visibleTabs: const [ExpressionPickerTab.emojis],
       channelId: widget.channelId,
       placement: FluxerEmojiPickerPlacement.rightStart,
-      onClose: () => setState(() => _isPickerOpen = false),
+      onOpenChanged: (bool open) => setState(() => _isPickerOpen = open),
       onEmojiSelected: _handleEmojiSelected,
       child: _buildButton(
         context,
-        onTap: () {
-          _pickerKey.currentState?.toggle();
-          setState(() {
-            _isPickerOpen = _pickerKey.currentState?.isOpen ?? false;
-          });
-        },
+        onTap: () => _pickerKey.currentState?.toggle(),
       ),
     );
   }
