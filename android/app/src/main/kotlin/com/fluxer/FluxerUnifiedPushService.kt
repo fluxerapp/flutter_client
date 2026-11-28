@@ -3,6 +3,7 @@ package com.fluxer
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.job.JobParameters
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
@@ -128,6 +129,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
         private var dartBackgroundReady = false
         private var serviceStartRequested = false
         private var activeService: FluxerUnifiedPushService? = null
+        private var activeJob: FluxerUnifiedPushJobService? = null
+        private var activeJobParams: JobParameters? = null
 
         fun onDartBackgroundReady() {
             dartBackgroundReady = true
@@ -180,6 +183,27 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             }
         }
 
+        fun attachJob(
+            job: FluxerUnifiedPushJobService,
+            params: JobParameters,
+        ): Boolean {
+            if (!backgroundSessionOpen) {
+                return false
+            }
+            activeJob = job
+            activeJobParams = params
+            return true
+        }
+
+        fun detachJob(job: FluxerUnifiedPushJobService) {
+            if (activeJob !== job) {
+                return
+            }
+            activeJob = null
+            activeJobParams = null
+            closeBackgroundSession()
+        }
+
         private fun requestServiceStart(context: Context) {
             if (serviceStartRequested) {
                 return
@@ -190,7 +214,34 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                         context,
                         Intent(context, FluxerUnifiedPushService::class.java),
                     )
-                }.isSuccess
+                }.onFailure { error ->
+                    onForegroundStartFailed(context, error)
+                }.isSuccess || FluxerUnifiedPushJobService.schedule(context)
+        }
+
+        private fun onForegroundStartFailed(
+            context: Context,
+            error: Throwable,
+        ) {
+            val refused = UnifiedPushBackgroundDeliveryStore.isForegroundStartRefusal(error)
+            if (refused) {
+                UnifiedPushBackgroundDeliveryStore.markForegroundStartRefused(context)
+            }
+            FluxerNativeMeasure.reportHandled(
+                error,
+                source = "unified_push",
+                context = if (refused) "start foreground refused" else "start foreground",
+            )
+        }
+
+        private fun finishActiveJob() {
+            val job = activeJob
+            val params = activeJobParams
+            activeJob = null
+            activeJobParams = null
+            if (job != null && params != null) {
+                job.jobFinished(params, false)
+            }
         }
 
         private fun createBackgroundEngine(context: Context): FlutterEngine {
@@ -239,6 +290,7 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             engine?.destroy()
             serviceStartRequested = false
             activeService?.stopPushWork()
+            finishActiveJob()
             wakeLock?.takeIf { it.isHeld }?.release()
         }
 

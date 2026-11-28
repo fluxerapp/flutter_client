@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
@@ -5,6 +6,7 @@ import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart
 import 'package:fluxer_app/core/push/delivery/display.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_background_delivery.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_functions.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_instance_id.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,6 +21,7 @@ class PushDeliveryDetailsState {
     this.selectedDistributorPackageId,
     this.availableDistributors = const <String>[],
     this.gatewayHost,
+    this.backgroundDeliveryRestricted = false,
   });
 
   final PushProviderKind pushProvider;
@@ -26,6 +29,7 @@ class PushDeliveryDetailsState {
   final String? selectedDistributorPackageId;
   final List<String> availableDistributors;
   final String? gatewayHost;
+  final bool backgroundDeliveryRestricted;
 
   bool get canPickDistributor => availableDistributors.length > 1;
 
@@ -37,6 +41,7 @@ class PushDeliveryDetailsState {
 class PushDeliveryDetails extends _$PushDeliveryDetails {
   final FluxerUnifiedPushFunctions _unifiedPushFunctions =
       FluxerUnifiedPushFunctions();
+  AppLifecycleListener? _exemptionResumeListener;
 
   @override
   Future<PushDeliveryDetailsState> build() async {
@@ -71,6 +76,8 @@ class PushDeliveryDetails extends _$PushDeliveryDetails {
       );
       gatewayHost = unifiedPushGatewayHost(endpoint?.url);
     }
+    final bool backgroundDeliveryRestricted =
+        await isUnifiedPushBackgroundDeliveryRestricted();
 
     return PushDeliveryDetailsState(
       pushProvider: pushProvider,
@@ -78,6 +85,21 @@ class PushDeliveryDetails extends _$PushDeliveryDetails {
       selectedDistributorPackageId: selectedDistributor,
       availableDistributors: availableDistributors,
       gatewayHost: gatewayHost,
+      backgroundDeliveryRestricted: backgroundDeliveryRestricted,
+    );
+  }
+
+  Future<void> requestBackgroundDeliveryExemption() async {
+    final bool launched = await requestUnifiedPushBackgroundDeliveryExemption();
+    if (!launched || _exemptionResumeListener != null) {
+      return;
+    }
+    _exemptionResumeListener = AppLifecycleListener(
+      onResume: () {
+        _exemptionResumeListener?.dispose();
+        _exemptionResumeListener = null;
+        ref.invalidateSelf();
+      },
     );
   }
 }

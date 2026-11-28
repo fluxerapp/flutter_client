@@ -113,6 +113,23 @@ class _PushDeliveryRows extends ConsumerWidget {
           ),
         );
       }
+      if (details.backgroundDeliveryRestricted) {
+        rowData.add(
+          _PushDeliveryRowData(
+            label: l10n.notificationsPushDeliveryBackgroundLabel,
+            value: l10n.notificationsPushDeliveryBackgroundRestricted,
+            valueColor: context.colors.textWarning,
+            showCaret: true,
+            onTap: () => unawaited(
+              ref
+                  .read(pushDeliveryDetailsProvider.notifier)
+                  .requestBackgroundDeliveryExemption(),
+            ),
+            semanticLabel:
+                l10n.notificationsPushDeliveryBackgroundAllowAccessibility,
+          ),
+        );
+      }
     }
 
     if (isMobileLayout(context)) {

@@ -11193,6 +11193,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get notificationsPushDeliveryGatewayLabel => 'เกตเวย์';
 
   @override
+  String get notificationsPushDeliveryBackgroundLabel => 'Background delivery';
+
+  @override
+  String get notificationsPushDeliveryBackgroundRestricted => 'Restricted';
+
+  @override
+  String get notificationsPushDeliveryBackgroundAllowAccessibility =>
+      'Background delivery restricted. Allow Fluxer to run in the background so notifications arrive on time';
+
+  @override
   String get notificationsPushDeliveryRelayLabel => 'ตัวส่งต่อ Fluxer Push';
 
   @override

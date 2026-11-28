@@ -18429,6 +18429,24 @@ abstract class FluxerLocalizations {
   /// **'Gateway'**
   String get notificationsPushDeliveryGatewayLabel;
 
+  /// Label for the UnifiedPush background delivery status row on notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Background delivery'**
+  String get notificationsPushDeliveryBackgroundLabel;
+
+  /// Shown when Android blocked Fluxer from handling a push in the background because of battery restrictions.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted'**
+  String get notificationsPushDeliveryBackgroundRestricted;
+
+  /// Accessibility label for the row that opens the system prompt to lift battery restrictions.
+  ///
+  /// In en, this message translates to:
+  /// **'Background delivery restricted. Allow Fluxer to run in the background so notifications arrive on time'**
+  String get notificationsPushDeliveryBackgroundAllowAccessibility;
+
   /// Label for Fluxer Push relay status on notification settings.
   ///
   /// In en, this message translates to:

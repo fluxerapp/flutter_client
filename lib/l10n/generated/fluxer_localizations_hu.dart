@@ -11382,6 +11382,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationsPushDeliveryGatewayLabel => 'Átjáró';
 
   @override
+  String get notificationsPushDeliveryBackgroundLabel => 'Background delivery';
+
+  @override
+  String get notificationsPushDeliveryBackgroundRestricted => 'Restricted';
+
+  @override
+  String get notificationsPushDeliveryBackgroundAllowAccessibility =>
+      'Background delivery restricted. Allow Fluxer to run in the background so notifications arrive on time';
+
+  @override
   String get notificationsPushDeliveryRelayLabel => 'Fluxer Push-továbbító';
 
   @override

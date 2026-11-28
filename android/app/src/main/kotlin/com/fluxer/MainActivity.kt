@@ -114,6 +114,7 @@ class MainActivity : AudioServiceFragmentActivity() {
         appLockBridge.register(flutterEngine)
         PlayAgeRangeBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
+        UnifiedPushBackgroundDeliveryBridge(this).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)
         MeasureReporting.register(flutterEngine, application)
         val launchIntent = intent
